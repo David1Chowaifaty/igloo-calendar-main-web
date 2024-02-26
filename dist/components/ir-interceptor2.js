@@ -60,7 +60,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '2eea57ca43cf9a73fbb78fa17691436f71b3cc58' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loadingContainer" }, h("ir-loading-screen", null))))));
+        return (h(Host, { key: '2a7a6013c7ae3cbfee7c1609ac2de3a9e6eedb46' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loadingContainer" }, h("ir-loading-screen", null))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {

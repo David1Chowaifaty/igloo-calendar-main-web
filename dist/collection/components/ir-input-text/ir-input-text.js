@@ -47,7 +47,7 @@ export class IrInputText {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '5277b53bc73b3f5a480bfe079693cc84259e2e9d', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '41203cf60f38a00e8896e878af074f0dcdf25643', class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '83953b973e846976c35b5cdc8fddfbe4686ef5eb', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '9017e7bf2bb699089c741a5664fb670854f92fa9', class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (!this.LabelAvailable) {
             label = '';
         }
@@ -57,7 +57,7 @@ export class IrInputText {
         if (this.required && !this.valid && !this.initial) {
             className = `${className} border-danger`;
         }
-        return (h("div", { key: 'e4d9a24dadcdb6a3109d3bfcc8d30114ebe6e92a', class: "form-group" }, h("div", { key: 'a598f0ba78d7c39a7abbfddf15835f91fadf9903', class: "input-group row m-0" }, label, h("input", { key: 'ecfa3c5a8c25f702a87842d14164dd7324e55a05', readOnly: this.readonly, type: this.type, class: `${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required }))));
+        return (h("div", { key: 'ee97cd12d936d83ba63b99acce67834546c62707', class: "form-group" }, h("div", { key: 'ab3e011ae539874a8e2f517066f220d7016f6283', class: "input-group row m-0" }, label, h("input", { key: '755412338dfe3e87128a4a02dcbe201437237065', readOnly: this.readonly, type: this.type, class: `${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required }))));
     }
     static get is() { return "ir-input-text"; }
     static get encapsulation() { return "scoped"; }

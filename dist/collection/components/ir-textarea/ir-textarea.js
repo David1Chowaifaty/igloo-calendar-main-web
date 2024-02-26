@@ -10,7 +10,7 @@ export class IrTextArea {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '25efe3cb8cb9ef08d42d286bb8bd0c231701873f', class: "form-group" }, h("label", { key: '15f2a41bdc4df0c98138451846f227074827b06b' }, this.label), h("textarea", { key: 'ca05308bfebd4012fc08aa12e65b81f94822b17e', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
+        return (h("div", { key: '90ace70e7e16fefb047884fae240adccacea9bad', class: "form-group" }, h("label", { key: '8081b54620a4baf45eb16c17a6b3f82a7631c268' }, this.label), h("textarea", { key: '4e5a5f6942952ec34bf1bb0888c45dede92c00b2', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
     }
     static get is() { return "ir-textarea"; }
     static get properties() {

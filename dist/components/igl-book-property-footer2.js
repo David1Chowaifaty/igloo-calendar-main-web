@@ -34,7 +34,7 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');
     }
     render() {
-        return (h(Host, { key: '6f18477a58ede2ac0e3907c1eed878d6692d1c5c' }, h("div", { key: '0b86d90dc6f2f38ec1fc58c89710fec316c9da05', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, isRequestPending('/Get_Exposed_Booking_Availability')))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, this.disabled))))));
+        return (h(Host, { key: '8f8a39fa75bbb55a4c206a8a843dfce946de3f41' }, h("div", { key: '5a8db95ddf58f7ab005e44efe5551b69a4291a36', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, isRequestPending('/Get_Exposed_Booking_Availability')))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, this.disabled))))));
     }
     static get style() { return IglBookPropertyFooterStyle0; }
 }, [2, "igl-book-property-footer", {

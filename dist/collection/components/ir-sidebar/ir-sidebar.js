@@ -49,12 +49,12 @@ export class IrSidebar {
             className = '';
         }
         return [
-            h("div", { key: 'd34764a749dbbbf00b1c82080cfeea43e4512ad6', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: 'b0effea026f0877c6ef59b053cc4208004f71959', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'ed5961019f50ee325618a83948884c92de29836a', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { class: "close", onIconClickHandler: () => {
+            h("div", { key: '78e69a299e3c7525c6202329a24013d0ade62239', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { class: "close", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '734796bc9d6d003739ce26d711d3cc6573e576ee' })),
+                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '470ca6e2d117fba1fd997c5971248615be3172eb' })),
         ];
     }
     static get is() { return "ir-sidebar"; }

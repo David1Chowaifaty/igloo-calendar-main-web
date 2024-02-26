@@ -11494,7 +11494,7 @@ const MyComponent = /*@__PURE__*/ proxyCustomElement(class MyComponent extends H
     }
     render() {
         //console.log('Props', this.value);
-        return h("input", { key: '007226f9a4b2670ec84f4537f68d048b88176e5d', type: "checkbox", id: this.componentId });
+        return h("input", { key: '2824f386d3215c1091158b93771bf387c765b675', type: "checkbox", id: this.componentId });
     }
 }, [0, "ir-jquery-switch", {
         "value": [1028],

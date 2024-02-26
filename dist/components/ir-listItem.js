@@ -160,7 +160,7 @@ const IrListItem = /*@__PURE__*/ proxyCustomElement(class IrListItem extends HTM
     render() {
         return [
             this.listData !== null && this.listData.length > 0 ? this._renderItem() : this._renderEmptyState(),
-            h("ir-modal", { key: 'f867c2fdf55e40084ec5b12648f861e8b66c20fc', modalTitle: this.type === 'delete' ? 'Are you sure you want to delete?' : `Would you like to ${this.type} this channel?`, modalBody: this.type === 'delete' ? 'What you delete here will be permanently deleted.' : `This channel will be ${this.type}d.`, icon: "ft-trash warning h1", iconAvailable: true }),
+            h("ir-modal", { key: '981bee9d93464c089eb858ae4e546b5ff72e7c8d', modalTitle: this.type === 'delete' ? 'Are you sure you want to delete?' : `Would you like to ${this.type} this channel?`, modalBody: this.type === 'delete' ? 'What you delete here will be permanently deleted.' : `This channel will be ${this.type}d.`, icon: "ft-trash warning h1", iconAvailable: true }),
         ];
     }
 }, [0, "ir-list-item", {
