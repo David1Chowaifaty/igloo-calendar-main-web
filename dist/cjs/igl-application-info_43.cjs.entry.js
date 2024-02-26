@@ -1936,7 +1936,7 @@ const IglBookingEventHover = class {
 };
 IglBookingEventHover.style = IglBookingEventHoverStyle0;
 
-const iglBookingOverviewPageCss = ".sc-igl-booking-overview-page-h{display:block}.sc-igl-booking-overview-page-h>*.sc-igl-booking-overview-page{margin:0;padding:auto}.scrollContent.sc-igl-booking-overview-page{height:calc(100% - 79px);overflow:auto;position:relative}.loading-container.sc-igl-booking-overview-page{display:flex;align-items:center;justify-content:center;height:60vh}.loader.sc-igl-booking-overview-page{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}";
+const iglBookingOverviewPageCss = ".sc-igl-booking-overview-page-h{display:block}.sc-igl-booking-overview-page-h>*.sc-igl-booking-overview-page{margin:0;padding:auto}.scrollContent.sc-igl-booking-overview-page{height:calc(100% - 79px);overflow:auto;position:relative}.loading-container.sc-igl-booking-overview-page{display:flex;align-items:center;justify-content:center;height:100%;background:white;position:absolute;inset:0}.loader.sc-igl-booking-overview-page{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}";
 const IglBookingOverviewPageStyle0 = iglBookingOverviewPageCss;
 
 const IglBookingOverviewPage = class {
@@ -8957,7 +8957,7 @@ const IrButton = class {
     }
     render() {
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (index.h("button", { key: '6f2c03c00d7a30ceb6d4fe55f23a60e25a19b6f1', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, index.h("span", { key: 'f38060e9c2c690e127c4a9b1393729e3920e9d7e', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, index.h("slot", { key: 'c2848945fb5cc4fc969dba3f3b4a9c93c394ec96', name: "icon" })), this.isLoading && index.h("div", { class: "loader m-0 p-0" }), this.text && index.h("span", { class: "button-text m-0" }, this.text)));
+        return (index.h("button", { key: '6f2c03c00d7a30ceb6d4fe55f23a60e25a19b6f1', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, index.h("span", { key: 'f38060e9c2c690e127c4a9b1393729e3920e9d7e', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, index.h("slot", { key: 'c2848945fb5cc4fc969dba3f3b4a9c93c394ec96', name: "icon" })), this.text && index.h("span", { class: "button-text m-0" }, this.text), this.isLoading && index.h("div", { class: "loader m-0 p-0" })));
     }
 };
 IrButton.style = IrButtonStyle0;

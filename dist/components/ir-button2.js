@@ -33,7 +33,7 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
     }
     render() {
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { key: '6f2c03c00d7a30ceb6d4fe55f23a60e25a19b6f1', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { key: 'f38060e9c2c690e127c4a9b1393729e3920e9d7e', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { key: 'c2848945fb5cc4fc969dba3f3b4a9c93c394ec96', name: "icon" })), this.isLoading && h("div", { class: "loader m-0 p-0" }), this.text && h("span", { class: "button-text m-0" }, this.text)));
+        return (h("button", { key: '6f2c03c00d7a30ceb6d4fe55f23a60e25a19b6f1', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { key: 'f38060e9c2c690e127c4a9b1393729e3920e9d7e', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { key: 'c2848945fb5cc4fc969dba3f3b4a9c93c394ec96', name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
     }
     static get style() { return IrButtonStyle0; }
 }, [6, "ir-button", {
