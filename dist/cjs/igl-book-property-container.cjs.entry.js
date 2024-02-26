@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-07a1d3e6.js');
-const booking_service = require('./booking.service-cffb4120.js');
+const booking_service = require('./booking.service-a2fa2de9.js');
 const room_service = require('./room.service-79250dca.js');
 const calendarData = require('./calendar-data-cb82ecd2.js');
 const locales_store = require('./locales.store-671d2e33.js');

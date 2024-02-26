@@ -1,5 +1,6 @@
 import { Fragment, Host, h } from "@stencil/core";
 import locales from "../../../../stores/locales.store";
+import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 export class IglBookPropertyFooter {
     constructor() {
         this.eventType = undefined;
@@ -26,7 +27,7 @@ export class IglBookPropertyFooter {
         return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');
     }
     render() {
-        return (h(Host, { key: '7fde33badb121c56d69cc2ce72462142feac685b' }, h("div", { key: '0edb5d06b27c3d578fa85f9d035e6af082c1d3a1', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, this.disabled))))));
+        return (h(Host, { key: '6f18477a58ede2ac0e3907c1eed878d6692d1c5c' }, h("div", { key: '0b86d90dc6f2f38ec1fc58c89710fec316c9da05', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, isRequestPending('/Get_Exposed_Booking_Availability')))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next} >>`, this.disabled))))));
     }
     static get is() { return "igl-book-property-footer"; }
     static get encapsulation() { return "scoped"; }

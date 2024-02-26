@@ -350,6 +350,7 @@ export class IglBookProperty {
     }
     async bookUser(check_in) {
         this.setLoadingState(check_in);
+        console.log('edit save clicked');
         if (this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM')) {
             if (this.isGuestDataIncomplete()) {
                 this.isLoading = '';
@@ -363,6 +364,7 @@ export class IglBookProperty {
             }
         }
         try {
+            console.log('clicked');
             if (['003', '002', '004'].includes(this.defaultData.STATUS_CODE)) {
                 this.eventsService.deleteEvent(this.defaultData.POOL);
             }
@@ -407,9 +409,9 @@ export class IglBookProperty {
     }
     render() {
         //console.log('render');
-        return (h(Host, { key: 'bc791a55e7a5e095911fc818ba8d60faee5b0eaf' }, h("div", { key: '6de102457148d81563450328466b98ae26a33c9e', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '1c8139369d8bc21ed641d60b6ebe7d3cfa1a0814', class: 'sideWindow ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: '6d1a000992f10aa9fb03b16083ae45987d4b0d6e', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '4f6554c4fe1f9bba52e44753adc23d81875319be', class: "d-flex mt-2 align-items-center justify-content-between  " }, h("h3", { key: 'd786b1575f5ef20ed3487e9bebe56268debcda88', class: "card-title text-left pb-1 font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: '1aeb5617064c392093efa1686d867573f142cbcf', class: "close close-icon", onIconClickHandler: () => {
+        return (h(Host, { key: '170596dbc75b876b3d718ef519793594eee7901b' }, h("div", { key: '9479f6d9e85383e7f3a6fa716b70f1c59728c1a3', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: 'c3b51bdac628f3f227b81848be6a967d016e1fa3', class: 'sideWindow ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: '0c88d557e94256dad79cda54b519bd8e8f9d2303', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '8b0664737576cd6aacf4c3867aec3920f0dffbfa', class: "d-flex mt-2 align-items-center justify-content-between  " }, h("h3", { key: 'bdb620884f3790cc7fd706315e2e5f6aba53e4e4', class: "card-title text-left pb-1 font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: '1d4a7512be3d4343abd229b741badf49b684e10e', class: "close close-icon", onIconClickHandler: () => {
                 this.closeWindow();
-            } }, h("svg", { key: 'da2248bf185e29f4af783b389afda9bf40694126', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'c52ac7db81a6ab5d8ec9c8472de5796f47b621ec', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '4aea86967f817f6e471560644c7eb9229d256cb0', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData,
+            } }, h("svg", { key: '400fc98cf996bd6e95bc117e9c91a05b7b1fd799', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '20078dc1d359dcfdcf83fd6e3e8a7fd26e1aaf41', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '423e660db8317751c83a4b109871b9d1a5a619e3', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData,
             // bookingDataDefaultDateRange={this.dateRangeData}
             adultChildConstraints: this.adultChildConstraints, onRoomsDataUpdate: evt => {
                 this.onRoomDataUpdate(evt);
