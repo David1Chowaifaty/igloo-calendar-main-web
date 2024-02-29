@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-07a1d3e6.js');
+const index = require('./index-009c7daa.js');
 
 const IrSpan = class {
     constructor(hostRef) {
@@ -12,7 +12,7 @@ const IrSpan = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (index.h("span", { key: '354f37fdf400ebc4b58f3d316c44e885a8687a52' }, this.text));
+        return (index.h("span", { key: 'a54e9400996093b2556d30ff42918744618f33c5' }, this.text));
     }
 };
 

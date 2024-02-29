@@ -10,7 +10,7 @@ export class IrDatePicker {
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         this.format = 'MMM DD, YYYY';
-        this.separator = '       ';
+        this.separator = ' - ';
         this.applyLabel = 'Apply';
         this.cancelLabel = 'Cancel';
         this.fromLabel = 'Form';
@@ -54,7 +54,7 @@ export class IrDatePicker {
         });
     }
     render() {
-        return (h(Host, { key: '3d3d89e5b087602e42d5c46296731d99016d84c2' }, !this.singleDatePicker && (h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "icon", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" }))), h("input", { key: 'bd726704958ac1ad246924da16f0ae7c822fd110', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'dffa5037bf389650937110772e295f6e36584c22' }, h("input", { key: 'c101a6ba7168b9969f6b021b0e5820025d4288d1', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     static get is() { return "ir-date-picker"; }
     static get encapsulation() { return "scoped"; }
@@ -228,7 +228,7 @@ export class IrDatePicker {
                 },
                 "attribute": "separator",
                 "reflect": false,
-                "defaultValue": "'       '"
+                "defaultValue": "' - '"
             },
             "applyLabel": {
                 "type": "string",

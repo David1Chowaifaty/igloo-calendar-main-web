@@ -7,28 +7,26 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints, TIglBookPropertyPayload, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
 import { ICountry, RoomBlockDetails, RoomBookingDetails } from "./models/IBooking";
-import { IToast, TPositions } from "./components/ir-toast/toast";
+import { IToast } from "./components/ir-toast/toast";
+import { IToast as IToast1, TPositions } from "./components/ir-toast/toast";
 import { IReallocationPayload, IRoomNightsData } from "./models/property-types";
-import { IToast as IToast1 } from "./components/ir-toast/toast";
 import { IPageTwoDataUpdateProps } from "./models/models";
-import { ChannelManager, RoomType } from "./sample/channel/data";
-import { checkboxes, selectOption } from "./common/models";
+import { checkboxes, selectOption as selectOption1 } from "./common/models";
 import { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
-import { selectOption as selectOption1 } from "./common/models";
+import { selectOption } from "./common/models";
 import { ILocale } from "./stores/locales.store";
 import { Booking, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 import { Booking as Booking1 } from "./models/booking.dto";
 import { IRoomNightsDataEventPayload } from "./models/property-types";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints, TIglBookPropertyPayload, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
 export { ICountry, RoomBlockDetails, RoomBookingDetails } from "./models/IBooking";
-export { IToast, TPositions } from "./components/ir-toast/toast";
+export { IToast } from "./components/ir-toast/toast";
+export { IToast as IToast1, TPositions } from "./components/ir-toast/toast";
 export { IReallocationPayload, IRoomNightsData } from "./models/property-types";
-export { IToast as IToast1 } from "./components/ir-toast/toast";
 export { IPageTwoDataUpdateProps } from "./models/models";
-export { ChannelManager, RoomType } from "./sample/channel/data";
-export { checkboxes, selectOption } from "./common/models";
+export { checkboxes, selectOption as selectOption1 } from "./common/models";
 export { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
-export { selectOption as selectOption1 } from "./common/models";
+export { selectOption } from "./common/models";
 export { ILocale } from "./stores/locales.store";
 export { Booking, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 export { Booking as Booking1 } from "./models/booking.dto";
@@ -158,28 +156,31 @@ export namespace Components {
         "calendarData": { [key: string]: any };
         "countryNodeList": any;
         "currency": any;
+        "highlightedDate": string;
         "isScrollViewDragging": boolean;
         "language": string;
-        "toBeAssignedDate": string;
         "today": String;
     }
     interface IglCalFooter {
         "calendarData": { [key: string]: any };
+        "highlightedDate": string;
         "today": String;
     }
     interface IglCalHeader {
         "calendarData": { [key: string]: any };
+        "highlightedDate": string;
         "propertyid": number;
         "to_date": string;
         "today": String;
         "unassignedDates": any;
     }
     interface IglDateRange {
-        "dateLabel": any;
+        "dateLabel": string;
         "defaultData": { [key: string]: any };
         "disabled": boolean;
         "maxDate": string;
         "minDate": string;
+        "withDateDifference": boolean;
     }
     interface IglLegends {
         "legendData": { [key: string]: any };
@@ -274,6 +275,12 @@ export namespace Components {
         "propertyid": number;
         "ticket": string;
     }
+    interface IrBookingListing {
+        "baseurl": string;
+        "language": string;
+        "propertyid": number;
+        "ticket": string;
+    }
     interface IrButton {
         "btn_block": boolean;
         "btn_color": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
@@ -303,22 +310,6 @@ export namespace Components {
     }
     interface IrChannelHeader {
         "headerTitles": { id: string; name: string; disabled: boolean }[];
-    }
-    interface IrChannelManager {
-        "allowed_MinStayTypes": selectOption[];
-        "allowed_channels": selectOption[];
-        "allowed_properties": selectOption[];
-        "dropdownData": {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "hostRoom": RoomType[];
-        "listData": ChannelManager[];
-        "mapReference": RoomType[];
     }
     interface IrChannelMapping {
     }
@@ -367,6 +358,12 @@ export namespace Components {
         "toLabel": string;
         "weekLabel": string;
     }
+    interface IrDateView {
+        "dateOption": string;
+        "from_date": string | Date | moment.Moment;
+        "showDateDifference": boolean;
+        "to_date": string | Date | moment.Moment;
+    }
     interface IrDropdown {
         "data": {
     name: string;
@@ -377,14 +374,6 @@ export namespace Components {
     }[];
   };
         "object": any;
-    }
-    interface IrGeneralSettings {
-        "allowed_MinStayTypes": selectOption[];
-        "allowed_channels": selectOption[];
-        "allowed_properties": selectOption[];
-        "connectionStatus": string;
-        "data": ChannelManager;
-        "mode": string;
     }
     interface IrGuestInfo {
         "booking_nbr": string;
@@ -399,6 +388,8 @@ export namespace Components {
     }
     interface IrInputText {
         "LabelAvailable": boolean;
+        "disabled": boolean;
+        "error": boolean;
         "inputStyle": boolean;
         "inputStyles": string;
         "label": string;
@@ -416,30 +407,10 @@ export namespace Components {
         "textSize": 'sm' | 'md' | 'lg';
         "type": string;
         "value": any;
+        "variant": 'default' | 'icon';
     }
     interface IrInterceptor {
         "handledEndpoints": string[];
-    }
-    interface IrJquerySwitch {
-        "baseClass"?: string;
-        "classOn"?: string;
-        "colorOn"?: string;
-        "disabled"?: boolean;
-        "handleWidth"?: string | 'auto';
-        "indeterminate"?: boolean;
-        "inverse"?: boolean;
-        "labelOff": string;
-        "labelOn": string;
-        "labelText"?: string;
-        "labelWidth"?: string | 'auto';
-        "offClass"?: string;
-        "offColor"?: string;
-        "radioAllOff"?: boolean;
-        "readonly"?: boolean;
-        "size"?: string | 'mini' | 'small' | 'normal' | 'large';
-        "switch_animate"?: boolean;
-        "value": boolean;
-        "wrapperClass"?: string;
     }
     interface IrLabel {
         "iconShown": boolean;
@@ -447,36 +418,19 @@ export namespace Components {
         "label": string;
         "value": string;
     }
-    interface IrListItem {
-        "dropdownData": {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "dropdownDataDisable": {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "listData": ChannelManager[];
+    interface IrListingHeader {
+    }
+    interface IrListingModal {
+        "closeModal": () => Promise<void>;
+        "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
+        "modalTitle": string;
+        "openModal": () => Promise<void>;
     }
     interface IrLoader {
         "size": string;
     }
     interface IrLoadingScreen {
         "message": string;
-    }
-    interface IrMapping {
-        "_onSaveMapping": () => Promise<void>;
-        "hostRoom": RoomType[];
-        "map": RoomType[];
-        "mapReference": RoomType[];
     }
     interface IrModal {
         "btnPosition": 'left' | 'right' | 'center';
@@ -536,7 +490,7 @@ export namespace Components {
     }
     interface IrSelect {
         "LabelAvailable": boolean;
-        "data": selectOption[];
+        "data": selectOption1[];
         "firstOption": string;
         "label": string;
         "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
@@ -549,7 +503,9 @@ export namespace Components {
         "selectContainerStyle": string;
         "selectStyle": boolean;
         "selectStyles": string;
+        "select_id": string;
         "selectedValue": any;
+        "showFirstOption": boolean;
         "size": 'sm' | 'md' | 'lg';
         "submited": boolean;
         "textSize": 'sm' | 'md' | 'lg';
@@ -582,8 +538,6 @@ export namespace Components {
     }
     interface IrTooltip {
         "message": string;
-    }
-    interface IrTopbar {
     }
     interface OtaLabel {
         "label": string;
@@ -698,10 +652,6 @@ export interface IrChannelHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrChannelHeaderElement;
 }
-export interface IrChannelManagerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrChannelManagerElement;
-}
 export interface IrCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCheckboxElement;
@@ -722,10 +672,6 @@ export interface IrDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDropdownElement;
 }
-export interface IrGeneralSettingsCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrGeneralSettingsElement;
-}
 export interface IrGuestInfoCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoElement;
@@ -742,21 +688,13 @@ export interface IrInterceptorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrInterceptorElement;
 }
-export interface IrJquerySwitchCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrJquerySwitchElement;
-}
 export interface IrLabelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrLabelElement;
 }
-export interface IrListItemCustomEvent<T> extends CustomEvent<T> {
+export interface IrListingModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLIrListItemElement;
-}
-export interface IrMappingCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrMappingElement;
+    target: HTMLIrListingModalElement;
 }
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -789,10 +727,6 @@ export interface IrSidebarCustomEvent<T> extends CustomEvent<T> {
 export interface IrSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrSwitchElement;
-}
-export interface IrTopbarCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrTopbarElement;
 }
 declare global {
     interface HTMLIglApplicationInfoElementEventMap {
@@ -834,6 +768,9 @@ declare global {
         "bookingCreated": { pool?: string; data: RoomBookingDetails[] };
         "blockedCreated": RoomBlockDetails;
         "resetBookingData": null;
+        "animateIrButton": string;
+        "animateIrSelect": string;
+        "toast": IToast;
     }
     interface HTMLIglBookPropertyElement extends Components.IglBookProperty, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglBookPropertyElementEventMap>(type: K, listener: (this: HTMLIglBookPropertyElement, ev: IglBookPropertyCustomEvent<HTMLIglBookPropertyElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -889,9 +826,10 @@ declare global {
         "adultChild": any;
         "checkClicked": any;
         "buttonClicked": { key: TPropertyButtonsTypes };
-        "toast": IToast;
+        "toast": IToast1;
         "spiltBookingSelected": { key: string; data: unknown };
         "animateIrButton": string;
+        "animateIrSelect": string;
     }
     interface HTMLIglBookPropertyHeaderElement extends Components.IglBookPropertyHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglBookPropertyHeaderElementEventMap>(type: K, listener: (this: HTMLIglBookPropertyHeaderElement, ev: IglBookPropertyHeaderCustomEvent<HTMLIglBookPropertyHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1063,7 +1001,7 @@ declare global {
     };
     interface HTMLIglDateRangeElementEventMap {
         "dateSelectEvent": { [key: string]: any };
-        "toast": IToast;
+        "toast": IToast1;
     }
     interface HTMLIglDateRangeElement extends Components.IglDateRange, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglDateRangeElementEventMap>(type: K, listener: (this: HTMLIglDateRangeElement, ev: IglDateRangeCustomEvent<HTMLIglDateRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1216,7 +1154,7 @@ declare global {
     interface HTMLIrAutocompleteElementEventMap {
         "comboboxValue": { key: string; data: unknown };
         "inputCleared": null;
-        "toast": IToast;
+        "toast": IToast1;
     }
     interface HTMLIrAutocompleteElement extends Components.IrAutocomplete, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAutocompleteElementEventMap>(type: K, listener: (this: HTMLIrAutocompleteElement, ev: IrAutocompleteCustomEvent<HTMLIrAutocompleteElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1233,7 +1171,7 @@ declare global {
         new (): HTMLIrAutocompleteElement;
     };
     interface HTMLIrBookingDetailsElementEventMap {
-        "toast": IToast;
+        "toast": IToast1;
     }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1248,6 +1186,12 @@ declare global {
     var HTMLIrBookingDetailsElement: {
         prototype: HTMLIrBookingDetailsElement;
         new (): HTMLIrBookingDetailsElement;
+    };
+    interface HTMLIrBookingListingElement extends Components.IrBookingListing, HTMLStencilElement {
+    }
+    var HTMLIrBookingListingElement: {
+        prototype: HTMLIrBookingListingElement;
+        new (): HTMLIrBookingListingElement;
     };
     interface HTMLIrButtonElementEventMap {
         "clickHanlder": any;
@@ -1312,25 +1256,6 @@ declare global {
     var HTMLIrChannelHeaderElement: {
         prototype: HTMLIrChannelHeaderElement;
         new (): HTMLIrChannelHeaderElement;
-    };
-    interface HTMLIrChannelManagerElementEventMap {
-        "fetchApi": ChannelManager[];
-        "requestApiDelete": any;
-        "requestApiDestinationHierarchy": string;
-    }
-    interface HTMLIrChannelManagerElement extends Components.IrChannelManager, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrChannelManagerElementEventMap>(type: K, listener: (this: HTMLIrChannelManagerElement, ev: IrChannelManagerCustomEvent<HTMLIrChannelManagerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrChannelManagerElementEventMap>(type: K, listener: (this: HTMLIrChannelManagerElement, ev: IrChannelManagerCustomEvent<HTMLIrChannelManagerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrChannelManagerElement: {
-        prototype: HTMLIrChannelManagerElement;
-        new (): HTMLIrChannelManagerElement;
     };
     interface HTMLIrChannelMappingElement extends Components.IrChannelMapping, HTMLStencilElement {
     }
@@ -1417,6 +1342,12 @@ declare global {
         prototype: HTMLIrDatePickerElement;
         new (): HTMLIrDatePickerElement;
     };
+    interface HTMLIrDateViewElement extends Components.IrDateView, HTMLStencilElement {
+    }
+    var HTMLIrDateViewElement: {
+        prototype: HTMLIrDateViewElement;
+        new (): HTMLIrDateViewElement;
+    };
     interface HTMLIrDropdownElementEventMap {
         "dropdownItemCLicked": { name: string; object: any };
     }
@@ -1433,24 +1364,6 @@ declare global {
     var HTMLIrDropdownElement: {
         prototype: HTMLIrDropdownElement;
         new (): HTMLIrDropdownElement;
-    };
-    interface HTMLIrGeneralSettingsElementEventMap {
-        "sendToParent": any;
-        "connectionOff": any;
-    }
-    interface HTMLIrGeneralSettingsElement extends Components.IrGeneralSettings, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrGeneralSettingsElementEventMap>(type: K, listener: (this: HTMLIrGeneralSettingsElement, ev: IrGeneralSettingsCustomEvent<HTMLIrGeneralSettingsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrGeneralSettingsElementEventMap>(type: K, listener: (this: HTMLIrGeneralSettingsElement, ev: IrGeneralSettingsCustomEvent<HTMLIrGeneralSettingsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrGeneralSettingsElement: {
-        prototype: HTMLIrGeneralSettingsElement;
-        new (): HTMLIrGeneralSettingsElement;
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
@@ -1504,7 +1417,7 @@ declare global {
         new (): HTMLIrInputTextElement;
     };
     interface HTMLIrInterceptorElementEventMap {
-        "toast": IToast;
+        "toast": IToast1;
     }
     interface HTMLIrInterceptorElement extends Components.IrInterceptor, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrInterceptorElementEventMap>(type: K, listener: (this: HTMLIrInterceptorElement, ev: IrInterceptorCustomEvent<HTMLIrInterceptorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1519,23 +1432,6 @@ declare global {
     var HTMLIrInterceptorElement: {
         prototype: HTMLIrInterceptorElement;
         new (): HTMLIrInterceptorElement;
-    };
-    interface HTMLIrJquerySwitchElementEventMap {
-        "valueChange": boolean;
-    }
-    interface HTMLIrJquerySwitchElement extends Components.IrJquerySwitch, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrJquerySwitchElementEventMap>(type: K, listener: (this: HTMLIrJquerySwitchElement, ev: IrJquerySwitchCustomEvent<HTMLIrJquerySwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrJquerySwitchElementEventMap>(type: K, listener: (this: HTMLIrJquerySwitchElement, ev: IrJquerySwitchCustomEvent<HTMLIrJquerySwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrJquerySwitchElement: {
-        prototype: HTMLIrJquerySwitchElement;
-        new (): HTMLIrJquerySwitchElement;
     };
     interface HTMLIrLabelElementEventMap {
         "editSidebar": any;
@@ -1554,25 +1450,29 @@ declare global {
         prototype: HTMLIrLabelElement;
         new (): HTMLIrLabelElement;
     };
-    interface HTMLIrListItemElementEventMap {
-        "sendDelete": any;
-        "openSidebar": any;
-        "createNew": any;
-        "changeStatus": any;
+    interface HTMLIrListingHeaderElement extends Components.IrListingHeader, HTMLStencilElement {
     }
-    interface HTMLIrListItemElement extends Components.IrListItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrListItemElementEventMap>(type: K, listener: (this: HTMLIrListItemElement, ev: IrListItemCustomEvent<HTMLIrListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    var HTMLIrListingHeaderElement: {
+        prototype: HTMLIrListingHeaderElement;
+        new (): HTMLIrListingHeaderElement;
+    };
+    interface HTMLIrListingModalElementEventMap {
+        "modalClosed": null;
+        "resetData": null;
+    }
+    interface HTMLIrListingModalElement extends Components.IrListingModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrListingModalElementEventMap>(type: K, listener: (this: HTMLIrListingModalElement, ev: IrListingModalCustomEvent<HTMLIrListingModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrListItemElementEventMap>(type: K, listener: (this: HTMLIrListItemElement, ev: IrListItemCustomEvent<HTMLIrListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrListingModalElementEventMap>(type: K, listener: (this: HTMLIrListingModalElement, ev: IrListingModalCustomEvent<HTMLIrListingModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLIrListItemElement: {
-        prototype: HTMLIrListItemElement;
-        new (): HTMLIrListItemElement;
+    var HTMLIrListingModalElement: {
+        prototype: HTMLIrListingModalElement;
+        new (): HTMLIrListingModalElement;
     };
     interface HTMLIrLoaderElement extends Components.IrLoader, HTMLStencilElement {
     }
@@ -1585,23 +1485,6 @@ declare global {
     var HTMLIrLoadingScreenElement: {
         prototype: HTMLIrLoadingScreenElement;
         new (): HTMLIrLoadingScreenElement;
-    };
-    interface HTMLIrMappingElementEventMap {
-        "sendMappingToParent": any;
-    }
-    interface HTMLIrMappingElement extends Components.IrMapping, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrMappingElementEventMap>(type: K, listener: (this: HTMLIrMappingElement, ev: IrMappingCustomEvent<HTMLIrMappingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrMappingElementEventMap>(type: K, listener: (this: HTMLIrMappingElement, ev: IrMappingCustomEvent<HTMLIrMappingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrMappingElement: {
-        prototype: HTMLIrMappingElement;
-        new (): HTMLIrMappingElement;
     };
     interface HTMLIrModalElementEventMap {
         "confirmModal": any;
@@ -1775,23 +1658,6 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
-    interface HTMLIrTopbarElementEventMap {
-        "openSidebar": any;
-    }
-    interface HTMLIrTopbarElement extends Components.IrTopbar, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrTopbarElementEventMap>(type: K, listener: (this: HTMLIrTopbarElement, ev: IrTopbarCustomEvent<HTMLIrTopbarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrTopbarElementEventMap>(type: K, listener: (this: HTMLIrTopbarElement, ev: IrTopbarCustomEvent<HTMLIrTopbarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrTopbarElement: {
-        prototype: HTMLIrTopbarElement;
-        new (): HTMLIrTopbarElement;
-    };
     interface HTMLOtaLabelElement extends Components.OtaLabel, HTMLStencilElement {
     }
     var HTMLOtaLabelElement: {
@@ -1823,30 +1689,29 @@ declare global {
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-autocomplete": HTMLIrAutocompleteElement;
         "ir-booking-details": HTMLIrBookingDetailsElement;
+        "ir-booking-listing": HTMLIrBookingListingElement;
         "ir-button": HTMLIrButtonElement;
         "ir-channel": HTMLIrChannelElement;
         "ir-channel-editor": HTMLIrChannelEditorElement;
         "ir-channel-general": HTMLIrChannelGeneralElement;
         "ir-channel-header": HTMLIrChannelHeaderElement;
-        "ir-channel-manager": HTMLIrChannelManagerElement;
         "ir-channel-mapping": HTMLIrChannelMappingElement;
         "ir-checkbox": HTMLIrCheckboxElement;
         "ir-checkboxes": HTMLIrCheckboxesElement;
         "ir-combobox": HTMLIrComboboxElement;
         "ir-common": HTMLIrCommonElement;
         "ir-date-picker": HTMLIrDatePickerElement;
+        "ir-date-view": HTMLIrDateViewElement;
         "ir-dropdown": HTMLIrDropdownElement;
-        "ir-general-settings": HTMLIrGeneralSettingsElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
         "ir-icon": HTMLIrIconElement;
         "ir-input-text": HTMLIrInputTextElement;
         "ir-interceptor": HTMLIrInterceptorElement;
-        "ir-jquery-switch": HTMLIrJquerySwitchElement;
         "ir-label": HTMLIrLabelElement;
-        "ir-list-item": HTMLIrListItemElement;
+        "ir-listing-header": HTMLIrListingHeaderElement;
+        "ir-listing-modal": HTMLIrListingModalElement;
         "ir-loader": HTMLIrLoaderElement;
         "ir-loading-screen": HTMLIrLoadingScreenElement;
-        "ir-mapping": HTMLIrMappingElement;
         "ir-modal": HTMLIrModalElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
         "ir-pickup": HTMLIrPickupElement;
@@ -1860,7 +1725,6 @@ declare global {
         "ir-textarea": HTMLIrTextareaElement;
         "ir-toast": HTMLIrToastElement;
         "ir-tooltip": HTMLIrTooltipElement;
-        "ir-topbar": HTMLIrTopbarElement;
         "ota-label": HTMLOtaLabelElement;
     }
 }
@@ -1896,10 +1760,13 @@ declare namespace LocalJSX {
         "countryNodeList"?: any;
         "currency"?: { id: number; code: string };
         "language"?: string;
+        "onAnimateIrButton"?: (event: IglBookPropertyCustomEvent<string>) => void;
+        "onAnimateIrSelect"?: (event: IglBookPropertyCustomEvent<string>) => void;
         "onBlockedCreated"?: (event: IglBookPropertyCustomEvent<RoomBlockDetails>) => void;
         "onBookingCreated"?: (event: IglBookPropertyCustomEvent<{ pool?: string; data: RoomBookingDetails[] }>) => void;
         "onCloseBookingWindow"?: (event: IglBookPropertyCustomEvent<{ [key: string]: any }>) => void;
         "onResetBookingData"?: (event: IglBookPropertyCustomEvent<null>) => void;
+        "onToast"?: (event: IglBookPropertyCustomEvent<IToast>) => void;
         "propertyid"?: number;
         "showPaymentDetails"?: boolean;
     }
@@ -1929,12 +1796,13 @@ declare namespace LocalJSX {
         "minDate"?: string;
         "onAdultChild"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "onAnimateIrButton"?: (event: IglBookPropertyHeaderCustomEvent<string>) => void;
+        "onAnimateIrSelect"?: (event: IglBookPropertyHeaderCustomEvent<string>) => void;
         "onButtonClicked"?: (event: IglBookPropertyHeaderCustomEvent<{ key: TPropertyButtonsTypes }>) => void;
         "onCheckClicked"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "onSourceDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<string>) => void;
         "onSpiltBookingSelected"?: (event: IglBookPropertyHeaderCustomEvent<{ key: string; data: unknown }>) => void;
         "onSplitBookingDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
-        "onToast"?: (event: IglBookPropertyHeaderCustomEvent<IToast>) => void;
+        "onToast"?: (event: IglBookPropertyHeaderCustomEvent<IToast1>) => void;
         "propertyId"?: number;
         "showSplitBookingOption"?: boolean;
         "sourceOptions"?: TSourceOptions[];
@@ -2020,21 +1888,23 @@ declare namespace LocalJSX {
         "calendarData"?: { [key: string]: any };
         "countryNodeList"?: any;
         "currency"?: any;
+        "highlightedDate"?: string;
         "isScrollViewDragging"?: boolean;
         "language"?: string;
         "onAddBookingDatasEvent"?: (event: IglCalBodyCustomEvent<any[]>) => void;
         "onScrollPageToRoom"?: (event: IglCalBodyCustomEvent<any>) => void;
         "onShowBookingPopup"?: (event: IglCalBodyCustomEvent<any>) => void;
-        "toBeAssignedDate"?: string;
         "today"?: String;
     }
     interface IglCalFooter {
         "calendarData"?: { [key: string]: any };
+        "highlightedDate"?: string;
         "onOptionEvent"?: (event: IglCalFooterCustomEvent<{ [key: string]: any }>) => void;
         "today"?: String;
     }
     interface IglCalHeader {
         "calendarData"?: { [key: string]: any };
+        "highlightedDate"?: string;
         "onGotoRoomEvent"?: (event: IglCalHeaderCustomEvent<{
     [key: string]: any;
   }>) => void;
@@ -2048,13 +1918,14 @@ declare namespace LocalJSX {
         "unassignedDates"?: any;
     }
     interface IglDateRange {
-        "dateLabel"?: any;
+        "dateLabel"?: string;
         "defaultData"?: { [key: string]: any };
         "disabled"?: boolean;
         "maxDate"?: string;
         "minDate"?: string;
         "onDateSelectEvent"?: (event: IglDateRangeCustomEvent<{ [key: string]: any }>) => void;
-        "onToast"?: (event: IglDateRangeCustomEvent<IToast>) => void;
+        "onToast"?: (event: IglDateRangeCustomEvent<IToast1>) => void;
+        "withDateDifference"?: boolean;
     }
     interface IglLegends {
         "legendData"?: { [key: string]: any };
@@ -2149,7 +2020,7 @@ declare namespace LocalJSX {
         "name"?: string;
         "onComboboxValue"?: (event: IrAutocompleteCustomEvent<{ key: string; data: unknown }>) => void;
         "onInputCleared"?: (event: IrAutocompleteCustomEvent<null>) => void;
-        "onToast"?: (event: IrAutocompleteCustomEvent<IToast>) => void;
+        "onToast"?: (event: IrAutocompleteCustomEvent<IToast1>) => void;
         "placeholder"?: string;
         "propertyId"?: number;
         "required"?: boolean;
@@ -2171,7 +2042,13 @@ declare namespace LocalJSX {
         "hasRoomEdit"?: boolean;
         "is_from_front_desk"?: boolean;
         "language"?: string;
-        "onToast"?: (event: IrBookingDetailsCustomEvent<IToast>) => void;
+        "onToast"?: (event: IrBookingDetailsCustomEvent<IToast1>) => void;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrBookingListing {
+        "baseurl"?: string;
+        "language"?: string;
         "propertyid"?: number;
         "ticket"?: string;
     }
@@ -2208,25 +2085,6 @@ declare namespace LocalJSX {
     interface IrChannelHeader {
         "headerTitles"?: { id: string; name: string; disabled: boolean }[];
         "onTabChanged"?: (event: IrChannelHeaderCustomEvent<string>) => void;
-    }
-    interface IrChannelManager {
-        "allowed_MinStayTypes"?: selectOption[];
-        "allowed_channels"?: selectOption[];
-        "allowed_properties"?: selectOption[];
-        "dropdownData"?: {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "hostRoom"?: RoomType[];
-        "listData"?: ChannelManager[];
-        "mapReference"?: RoomType[];
-        "onFetchApi"?: (event: IrChannelManagerCustomEvent<ChannelManager[]>) => void;
-        "onRequestApiDelete"?: (event: IrChannelManagerCustomEvent<any>) => void;
-        "onRequestApiDestinationHierarchy"?: (event: IrChannelManagerCustomEvent<string>) => void;
     }
     interface IrChannelMapping {
     }
@@ -2284,6 +2142,12 @@ declare namespace LocalJSX {
         "toLabel"?: string;
         "weekLabel"?: string;
     }
+    interface IrDateView {
+        "dateOption"?: string;
+        "from_date"?: string | Date | moment.Moment;
+        "showDateDifference"?: boolean;
+        "to_date"?: string | Date | moment.Moment;
+    }
     interface IrDropdown {
         "data"?: {
     name: string;
@@ -2295,16 +2159,6 @@ declare namespace LocalJSX {
   };
         "object"?: any;
         "onDropdownItemCLicked"?: (event: IrDropdownCustomEvent<{ name: string; object: any }>) => void;
-    }
-    interface IrGeneralSettings {
-        "allowed_MinStayTypes"?: selectOption[];
-        "allowed_channels"?: selectOption[];
-        "allowed_properties"?: selectOption[];
-        "connectionStatus"?: string;
-        "data"?: ChannelManager;
-        "mode"?: string;
-        "onConnectionOff"?: (event: IrGeneralSettingsCustomEvent<any>) => void;
-        "onSendToParent"?: (event: IrGeneralSettingsCustomEvent<any>) => void;
     }
     interface IrGuestInfo {
         "booking_nbr"?: string;
@@ -2321,6 +2175,8 @@ declare namespace LocalJSX {
     }
     interface IrInputText {
         "LabelAvailable"?: boolean;
+        "disabled"?: boolean;
+        "error"?: boolean;
         "inputStyle"?: boolean;
         "inputStyles"?: string;
         "label"?: string;
@@ -2339,32 +2195,11 @@ declare namespace LocalJSX {
         "textSize"?: 'sm' | 'md' | 'lg';
         "type"?: string;
         "value"?: any;
+        "variant"?: 'default' | 'icon';
     }
     interface IrInterceptor {
         "handledEndpoints"?: string[];
-        "onToast"?: (event: IrInterceptorCustomEvent<IToast>) => void;
-    }
-    interface IrJquerySwitch {
-        "baseClass"?: string;
-        "classOn"?: string;
-        "colorOn"?: string;
-        "disabled"?: boolean;
-        "handleWidth"?: string | 'auto';
-        "indeterminate"?: boolean;
-        "inverse"?: boolean;
-        "labelOff"?: string;
-        "labelOn"?: string;
-        "labelText"?: string;
-        "labelWidth"?: string | 'auto';
-        "offClass"?: string;
-        "offColor"?: string;
-        "onValueChange"?: (event: IrJquerySwitchCustomEvent<boolean>) => void;
-        "radioAllOff"?: boolean;
-        "readonly"?: boolean;
-        "size"?: string | 'mini' | 'small' | 'normal' | 'large';
-        "switch_animate"?: boolean;
-        "value"?: boolean;
-        "wrapperClass"?: string;
+        "onToast"?: (event: IrInterceptorCustomEvent<IToast1>) => void;
     }
     interface IrLabel {
         "iconShown"?: boolean;
@@ -2373,40 +2208,19 @@ declare namespace LocalJSX {
         "onEditSidebar"?: (event: IrLabelCustomEvent<any>) => void;
         "value"?: string;
     }
-    interface IrListItem {
-        "dropdownData"?: {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "dropdownDataDisable"?: {
-    name: string;
-    icon: string;
-    children: {
-      name: string;
-      icon: string;
-    }[];
-  };
-        "listData"?: ChannelManager[];
-        "onChangeStatus"?: (event: IrListItemCustomEvent<any>) => void;
-        "onCreateNew"?: (event: IrListItemCustomEvent<any>) => void;
-        "onOpenSidebar"?: (event: IrListItemCustomEvent<any>) => void;
-        "onSendDelete"?: (event: IrListItemCustomEvent<any>) => void;
+    interface IrListingHeader {
+    }
+    interface IrListingModal {
+        "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
+        "modalTitle"?: string;
+        "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
+        "onResetData"?: (event: IrListingModalCustomEvent<null>) => void;
     }
     interface IrLoader {
         "size"?: string;
     }
     interface IrLoadingScreen {
         "message"?: string;
-    }
-    interface IrMapping {
-        "hostRoom"?: RoomType[];
-        "map"?: RoomType[];
-        "mapReference"?: RoomType[];
-        "onSendMappingToParent"?: (event: IrMappingCustomEvent<any>) => void;
     }
     interface IrModal {
         "btnPosition"?: 'left' | 'right' | 'center';
@@ -2475,7 +2289,7 @@ declare namespace LocalJSX {
     }
     interface IrSelect {
         "LabelAvailable"?: boolean;
-        "data"?: selectOption[];
+        "data"?: selectOption1[];
         "firstOption"?: string;
         "label"?: string;
         "labelBackground"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
@@ -2489,7 +2303,9 @@ declare namespace LocalJSX {
         "selectContainerStyle"?: string;
         "selectStyle"?: boolean;
         "selectStyles"?: string;
+        "select_id"?: string;
         "selectedValue"?: any;
+        "showFirstOption"?: boolean;
         "size"?: 'sm' | 'md' | 'lg';
         "submited"?: boolean;
         "textSize"?: 'sm' | 'md' | 'lg';
@@ -2524,9 +2340,6 @@ declare namespace LocalJSX {
     interface IrTooltip {
         "message"?: string;
     }
-    interface IrTopbar {
-        "onOpenSidebar"?: (event: IrTopbarCustomEvent<any>) => void;
-    }
     interface OtaLabel {
         "label"?: string;
         "remarks"?: IOtaNotes[];
@@ -2556,30 +2369,29 @@ declare namespace LocalJSX {
         "igloo-calendar": IglooCalendar;
         "ir-autocomplete": IrAutocomplete;
         "ir-booking-details": IrBookingDetails;
+        "ir-booking-listing": IrBookingListing;
         "ir-button": IrButton;
         "ir-channel": IrChannel;
         "ir-channel-editor": IrChannelEditor;
         "ir-channel-general": IrChannelGeneral;
         "ir-channel-header": IrChannelHeader;
-        "ir-channel-manager": IrChannelManager;
         "ir-channel-mapping": IrChannelMapping;
         "ir-checkbox": IrCheckbox;
         "ir-checkboxes": IrCheckboxes;
         "ir-combobox": IrCombobox;
         "ir-common": IrCommon;
         "ir-date-picker": IrDatePicker;
+        "ir-date-view": IrDateView;
         "ir-dropdown": IrDropdown;
-        "ir-general-settings": IrGeneralSettings;
         "ir-guest-info": IrGuestInfo;
         "ir-icon": IrIcon;
         "ir-input-text": IrInputText;
         "ir-interceptor": IrInterceptor;
-        "ir-jquery-switch": IrJquerySwitch;
         "ir-label": IrLabel;
-        "ir-list-item": IrListItem;
+        "ir-listing-header": IrListingHeader;
+        "ir-listing-modal": IrListingModal;
         "ir-loader": IrLoader;
         "ir-loading-screen": IrLoadingScreen;
-        "ir-mapping": IrMapping;
         "ir-modal": IrModal;
         "ir-payment-details": IrPaymentDetails;
         "ir-pickup": IrPickup;
@@ -2593,7 +2405,6 @@ declare namespace LocalJSX {
         "ir-textarea": IrTextarea;
         "ir-toast": IrToast;
         "ir-tooltip": IrTooltip;
-        "ir-topbar": IrTopbar;
         "ota-label": OtaLabel;
     }
 }
@@ -2625,30 +2436,29 @@ declare module "@stencil/core" {
             "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-autocomplete": LocalJSX.IrAutocomplete & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
             "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
+            "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
             "ir-button": LocalJSX.IrButton & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
             "ir-channel": LocalJSX.IrChannel & JSXBase.HTMLAttributes<HTMLIrChannelElement>;
             "ir-channel-editor": LocalJSX.IrChannelEditor & JSXBase.HTMLAttributes<HTMLIrChannelEditorElement>;
             "ir-channel-general": LocalJSX.IrChannelGeneral & JSXBase.HTMLAttributes<HTMLIrChannelGeneralElement>;
             "ir-channel-header": LocalJSX.IrChannelHeader & JSXBase.HTMLAttributes<HTMLIrChannelHeaderElement>;
-            "ir-channel-manager": LocalJSX.IrChannelManager & JSXBase.HTMLAttributes<HTMLIrChannelManagerElement>;
             "ir-channel-mapping": LocalJSX.IrChannelMapping & JSXBase.HTMLAttributes<HTMLIrChannelMappingElement>;
             "ir-checkbox": LocalJSX.IrCheckbox & JSXBase.HTMLAttributes<HTMLIrCheckboxElement>;
             "ir-checkboxes": LocalJSX.IrCheckboxes & JSXBase.HTMLAttributes<HTMLIrCheckboxesElement>;
             "ir-combobox": LocalJSX.IrCombobox & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;
             "ir-common": LocalJSX.IrCommon & JSXBase.HTMLAttributes<HTMLIrCommonElement>;
             "ir-date-picker": LocalJSX.IrDatePicker & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;
+            "ir-date-view": LocalJSX.IrDateView & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
             "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
-            "ir-general-settings": LocalJSX.IrGeneralSettings & JSXBase.HTMLAttributes<HTMLIrGeneralSettingsElement>;
             "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
             "ir-icon": LocalJSX.IrIcon & JSXBase.HTMLAttributes<HTMLIrIconElement>;
             "ir-input-text": LocalJSX.IrInputText & JSXBase.HTMLAttributes<HTMLIrInputTextElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
-            "ir-jquery-switch": LocalJSX.IrJquerySwitch & JSXBase.HTMLAttributes<HTMLIrJquerySwitchElement>;
             "ir-label": LocalJSX.IrLabel & JSXBase.HTMLAttributes<HTMLIrLabelElement>;
-            "ir-list-item": LocalJSX.IrListItem & JSXBase.HTMLAttributes<HTMLIrListItemElement>;
+            "ir-listing-header": LocalJSX.IrListingHeader & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
+            "ir-listing-modal": LocalJSX.IrListingModal & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
             "ir-loader": LocalJSX.IrLoader & JSXBase.HTMLAttributes<HTMLIrLoaderElement>;
             "ir-loading-screen": LocalJSX.IrLoadingScreen & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
-            "ir-mapping": LocalJSX.IrMapping & JSXBase.HTMLAttributes<HTMLIrMappingElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
@@ -2662,7 +2472,6 @@ declare module "@stencil/core" {
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
-            "ir-topbar": LocalJSX.IrTopbar & JSXBase.HTMLAttributes<HTMLIrTopbarElement>;
             "ota-label": LocalJSX.OtaLabel & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
         }
     }

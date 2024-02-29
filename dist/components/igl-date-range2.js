@@ -1,8 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$1 } from './ir-date-picker2.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
+import { h as hooks } from './moment.js';
+import { d as defineCustomElement$2 } from './ir-date-picker2.js';
+import { d as defineCustomElement$1 } from './ir-date-view2.js';
 
-const iglDateRangeCss = ".sc-igl-date-range-h{display:flex;text-align:left;align-items:center}.date-range-input.sc-igl-date-range{margin:0;padding:0;display:flex;flex:1}.iglRangeNights.sc-igl-date-range{margin:0;padding:0}.iglRangePicker[data-state='disabled'].sc-igl-date-range{border:0;padding-left:0;padding-right:0;width:198px;margin:0}.iglRangePicker.sc-igl-date-range{margin:0;border:1px solid #379ff2;box-sizing:border-box !important;width:220px;display:flex;align-items:center}.calendarPickerContainer.sc-igl-date-range{display:flex}";
+const iglDateRangeCss = ".sc-igl-date-range-h{display:flex;align-items:center !important}.date-range-input.sc-igl-date-range{margin:0;padding:0;display:flex;flex:1;cursor:pointer;width:220px !important;opacity:0;user-select:none}.iglRangeNights.sc-igl-date-range{margin:0;padding:0}.date-view.sc-igl-date-range{position:absolute;background:white;pointer-events:none;cursor:pointer;display:block;margin-left:1rem;margin-right:1rem;font-size:0.975rem !important;display:flex;align-items:center}.date-view.sc-igl-date-range svg.sc-igl-date-range{padding:0 !important;margin:0;margin-right:10px}.calendarPickerContainer.sc-igl-date-range{display:flex !important;position:relative !important;text-align:left;align-items:center !important;padding:0 !important;margin:0;border:1px solid var(--ir-date-range-border, #379ff2);width:var(--ir-date-range-width, 250px);transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.calendarPickerContainer.sc-igl-date-range:focus-within{border-color:#379ff2}.calendarPickerContainer[data-state='disabled'].sc-igl-date-range{border:0px;width:280px}.date-view[data-state='disabled'].sc-igl-date-range,.date-range-input[data-state='disabled'].sc-igl-date-range{margin:0;cursor:default}";
 const IglDateRangeStyle0 = iglDateRangeCss;
 
 const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends HTMLElement {
@@ -19,6 +22,7 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         this.minDate = undefined;
         this.dateLabel = undefined;
         this.maxDate = undefined;
+        this.withDateDifference = true;
         this.renderAgain = false;
     }
     getStringDateFormat(dt) {
@@ -52,7 +56,7 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         }
     }
     calculateTotalNights() {
-        this.totalNights = Math.floor((this.toDate.getTime() - this.fromDate.getTime()) / 86400000);
+        this.totalNights = calculateDaysBetweenDates(hooks(this.fromDate).format('YYYY-MM-DD'), hooks(this.toDate).format('YYYY-MM-DD'));
     }
     getFormattedDateString(dt) {
         return dt.getDate() + ' ' + dt.toLocaleString('default', { month: 'short' }).toLowerCase() + ' ' + dt.getFullYear();
@@ -75,24 +79,25 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '6fc7709c20c1f4da820404672ee707d262eeb75f' }, h("div", { key: 'fcc943aa8ee24b1d7779c9cd0b6220feeadc0ef6', class: "calendarPickerContainer ml-0 d-flex flex-column flex-lg-row align-items-lg-center " }, h("div", { key: '50dcd8be213c3c3d05d129d517750fa269a79ec9', class: 'd-flex align-items-center mr-lg-1' }, h("div", { key: 'd23273296da7bb46ec1567d5a3515b14de7e8d07', class: "iglRangePicker form-control input-sm ", "data-state": this.disabled ? 'disabled' : 'active' }, h("ir-date-picker", { key: '54b5894dbe3d101982a85992a4cc5c4c9d2a0f77', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, onDateChanged: evt => {
+        return (h(Host, { key: '08b031f1270928054754d5724239962f8d84980a' }, h("div", { key: 'ad9336e567c4fae3da5fcb067590b133f983cf60', class: "calendarPickerContainer form-control input-sm", "data-state": this.disabled ? 'disabled' : 'active' }, h("ir-date-picker", { key: 'e200404269561cb3671f26763ecb959292441e80', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
                 this.handleDateChange(evt);
-            } })), this.totalNights ? (h("span", { class: "iglRangeNights ml-1" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`))) : ('')))));
+            } }), h("div", { key: '3eeff6228abf401183b24015d8d44c3ed0cd2315', "data-state": this.disabled ? 'disabled' : 'active', class: "date-view" }, h("svg", { key: '0d1a55d1af8ee2a5315e65fca2fbb3e07f35775a', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "10.5", viewBox: "0 0 448 512" }, h("path", { key: 'f497eb6696ac2119f29223068a3284930e65df64', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("ir-date-view", { key: '0d1c643020220c26fa100338d448edc79a1a0239', showDateDifference: this.disabled, from_date: this.fromDate, to_date: this.toDate }))), this.withDateDifference && (h("span", null, this.totalNights && !this.disabled ? (h("span", { class: "iglRangeNights mx-1" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`))) : ('')))));
     }
     static get style() { return IglDateRangeStyle0; }
 }, [2, "igl-date-range", {
         "defaultData": [16],
         "disabled": [516],
         "minDate": [1, "min-date"],
-        "dateLabel": [8, "date-label"],
+        "dateLabel": [1, "date-label"],
         "maxDate": [1, "max-date"],
+        "withDateDifference": [4, "with-date-difference"],
         "renderAgain": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-date-range", "ir-date-picker"];
+    const components = ["igl-date-range", "ir-date-picker", "ir-date-view"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-date-range":
             if (!customElements.get(tagName)) {
@@ -100,6 +105,11 @@ function defineCustomElement() {
             }
             break;
         case "ir-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-date-view":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

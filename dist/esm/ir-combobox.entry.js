@@ -1,5 +1,5 @@
-import { r as registerInstance, c as createEvent, h, g as getElement } from './index-31d07507.js';
-import { l as locales } from './locales.store-6053bf5b.js';
+import { r as registerInstance, c as createEvent, h, g as getElement } from './index-e7294bf2.js';
+import { l as locales } from './locales.store-ed047ebc.js';
 
 const irComboboxCss = ".sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0}ul.sc-ir-combobox{position:absolute;margin:0;margin-top:2px;width:100%;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}";
 const IrComboboxStyle0 = irComboboxCss;
@@ -208,7 +208,7 @@ const IrCombobox = class {
         this.selectItem(this.selectedIndex === -1 ? 0 : this.selectedIndex);
     }
     render() {
-        return (h("form", { key: '1f37268720cdd081729cabdc95c190603de075dd', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '199e8288a934b8b065794fe075f83036e45db5fe', id: this.input_id, ref: el => (this.inputRef = el), type: "text", disabled: this.disabled, value: this.value, placeholder: this.placeholder, class: "form-control bg-white", onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
+        return (h("form", { key: 'bb42041e3c4c7cb1d792473799103683782516af', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '1bf97c967a2fe9703d0a2072e613800d96f12482', id: this.input_id, ref: el => (this.inputRef = el), type: "text", disabled: this.disabled, value: this.value, placeholder: this.placeholder, class: "form-control bg-white", onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

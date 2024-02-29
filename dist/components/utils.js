@@ -104,6 +104,6 @@ function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
 
-export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, getReleaseHoursString as e, formatDate as f, getCurrencySymbol as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, convertDatePrice as p, renderTime as r };
+export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, getReleaseHoursString as e, findCountry as f, getCurrencySymbol as g, formatLegendColors as h, isBlockUnit as i, getNextDay as j, addTwoMonthToDate as k, convertDMYToISO as l, computeEndDate as m, getDaysArray as n, convertDatePrice as o, formatDate as p, renderTime as r };
 
 //# sourceMappingURL=utils.js.map

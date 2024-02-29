@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-07a1d3e6.js');
+const index = require('./index-009c7daa.js');
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
@@ -27,7 +27,7 @@ const IrCheckBoxes = class {
         }
     }
     render() {
-        return (index.h("div", { key: '61f4237656ac8ed048ec8f8ccc7ef393e8795e94' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, value: checkbox.value, checked: checkbox.checked || false })))));
+        return (index.h("div", { key: 'a5ff308e54c043bd4d5e1f572b8cad8cf682f4b5' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, value: checkbox.value, checked: checkbox.checked || false })))));
     }
 };
 

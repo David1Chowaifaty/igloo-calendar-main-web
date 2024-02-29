@@ -14,7 +14,7 @@ export class IglCalBody {
         this.countryNodeList = undefined;
         this.dragOverElement = '';
         this.renderAgain = false;
-        this.toBeAssignedDate = undefined;
+        this.highlightedDate = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -213,12 +213,12 @@ export class IglCalBody {
     }
     getGeneralCategoryDayColumns(addClass, isCategory = false, index) {
         return calendar_dates.days.map(dayInfo => {
-            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today ? 'currentDay' : ''}` }, isCategory ? (h("span", { class: 'categoryName' }, dayInfo.rate[index].exposed_inventory.rts)) : ('')));
+            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h("span", { class: 'categoryName' }, dayInfo.rate[index].exposed_inventory.rts)) : ('')));
         });
     }
     getGeneralRoomDayColumns(roomId, roomCategory) {
         // onDragOver={event => this.handleDragOver(event)} onDrop={event => this.handleDrop(event, addClass+"_"+dayInfo.day)}
-        return this.calendarData.days.map(dayInfo => (h("div", { class: `cellData ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => this.clickCell(roomId, dayInfo, roomCategory) })));
+        return this.calendarData.days.map(dayInfo => (h("div", { class: `cellData ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => this.clickCell(roomId, dayInfo, roomCategory) })));
     }
     toggleCategory(roomCategory) {
         roomCategory.expanded = !roomCategory.expanded;
@@ -251,7 +251,7 @@ export class IglCalBody {
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'c82f5cd95be3745b8717208f6c230c5a21fe90ae' }, h("div", { key: 'ceee0eb5d5306a76914c2caf6ce6b02a63042ace', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '6f41ede6e4d5533289d27d96726ad956fe1b57d9', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: 'da3cdbf47dedadebc485c0fafe9757f0072728f0' }, h("div", { key: 'baed55ec9fc13d80b4dc01e10129c89c3dd1a3dc', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '5bd1c7ce1da4442f7fecef9910b49108b0eb38f9', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
@@ -370,7 +370,7 @@ export class IglCalBody {
                 "attribute": "country-node-list",
                 "reflect": false
             },
-            "toBeAssignedDate": {
+            "highlightedDate": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -384,7 +384,7 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "to-be-assigned-date",
+                "attribute": "highlighted-date",
                 "reflect": false
             }
         };

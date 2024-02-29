@@ -1,5 +1,5 @@
 import { h, Host } from "@stencil/core";
-import { formatDate, getCurrencySymbol } from "../../../utils/utils";
+import { getCurrencySymbol } from "../../../utils/utils";
 import locales from "../../../stores/locales.store";
 export class IglPagetwo {
     constructor() {
@@ -115,7 +115,7 @@ export class IglPagetwo {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h(Host, { key: 'fd5c6ff5b2bac756f06aa4cdeed636d2d2161f12' }, h("div", { key: '508f127547a873fa7624b3b8832cb34ed15e4bc8', class: "d-flex flex-wrap" }, h("div", { key: '441af964e292c8dd7ba06451a75675d04f939998', class: "flex-fill text-left p-0" }, h("span", { key: '0d95d98a6b63c5002880f1a4e922cd757a7f56e4', class: "mr-1 font-weight-bold font-medium-1" }, formatDate(this.dateRangeData.fromDateStr), " - ", formatDate(this.dateRangeData.toDateStr)), this.dateRangeData.dateDifference, " ", +this.dateRangeData.dateDifference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`), this.guestData.length > 1 && (h("div", { class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { class: "font-weight-bold font-medium-1" }, getCurrencySymbol(this.currency.code) + this.bookingData.TOTAL_PRICE || '$0.00')))), this.guestData.map((roomInfo, index) => {
+        return (h(Host, { key: '3be99d421de587713db7e2819673a9989590320d' }, h("div", { key: 'e27e659368c64f5d321e096f4c7853865afeb5d9', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'b7158047058c40c84a8623003cbba252fc093deb', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDateStr, to_date: this.dateRangeData.toDateStr, dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { class: "font-weight-bold font-medium-1" }, getCurrencySymbol(this.currency.code) + this.bookingData.TOTAL_PRICE || '$0.00')))), this.guestData.map((roomInfo, index) => {
             return (h("igl-application-info", { dateDifference: this.dateRangeData.dateDifference, defaultGuestPreference: this.defaultGuestData.bed_preference, defaultGuestRoomId: this.defaultGuestData.PR_ID, currency: this.currency, bedPreferenceType: this.bedPreferenceType, index: index, selectedUnits: this.selectedUnits[`c_${roomInfo.roomCategoryId}`], guestInfo: roomInfo, guestRefKey: index, bookingType: this.bookingData.event_type, roomsList: roomInfo.physicalRooms, onDataUpdateEvent: event => this.handleEventData(event, 'application-info', index) }));
         }), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => 
             // this.dataUpdateEvent.emit({

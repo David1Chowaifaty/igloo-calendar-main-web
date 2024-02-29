@@ -14,7 +14,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
-        this.handledEndpoints = ['/ReAllocate_Exposed_Room', '/Do_Payment'];
+        this.handledEndpoints = ['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -60,7 +60,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '2a7a6013c7ae3cbfee7c1609ac2de3a9e6eedb46' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loadingContainer" }, h("ir-loading-screen", null))))));
+        return (h(Host, { key: '23dea28b6e5c0466bfa0115c723f8e2cd95d4388' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loadingContainer" }, h("ir-loading-screen", null))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {

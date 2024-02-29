@@ -6,8 +6,9 @@ export declare class IglDateRange {
     };
     disabled: boolean;
     minDate: string;
-    dateLabel: any;
+    dateLabel: string;
     maxDate: string;
+    withDateDifference: boolean;
     dateSelectEvent: EventEmitter<{
         [key: string]: any;
     }>;
@@ -19,7 +20,7 @@ export declare class IglDateRange {
     private fromDateStr;
     private toDateStr;
     dateRangeInput: HTMLElement;
-    getStringDateFormat(dt: any): string;
+    getStringDateFormat(dt: Date): string;
     componentWillLoad(): void;
     calculateTotalNights(): void;
     getFormattedDateString(dt: any): string;

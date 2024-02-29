@@ -3,10 +3,12 @@ import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$4 } from './igl-date-range2.js';
-import { d as defineCustomElement$3 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$2 } from './ir-button2.js';
-import { d as defineCustomElement$1 } from './ir-date-picker2.js';
+import { d as defineCustomElement$6 } from './igl-date-range2.js';
+import { d as defineCustomElement$5 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$4 } from './ir-button2.js';
+import { d as defineCustomElement$3 } from './ir-date-picker2.js';
+import { d as defineCustomElement$2 } from './ir-date-view2.js';
+import { d as defineCustomElement$1 } from './ir-select2.js';
 
 const iglBookPropertyHeaderCss = ".sc-igl-book-property-header-h{display:block}.row.sc-igl-book-property-header{padding:0 0 0 15px;margin:0}.sourceContainer.sc-igl-book-property-header{max-width:350px}.message-label.sc-igl-book-property-header{font-size:80%}";
 const IglBookPropertyHeaderStyle0 = iglBookPropertyHeaderCss;
@@ -23,6 +25,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         this.toast = createEvent(this, "toast", 7);
         this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
+        this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
         this.sourceOption = {
             code: '',
             description: '',
@@ -57,8 +60,8 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             return (h("option", { value: option.id, selected: this.sourceOption.code === option.id }, option.value));
         })))));
     }
-    handleAdultChildChange(key, event) {
-        const value = event.target.value;
+    handleAdultChildChange(key, value) {
+        //const value = (event.target as HTMLSelectElement).value;
         let obj = {};
         if (value === '') {
             obj = Object.assign(Object.assign({}, this.adultChildCount), { [key]: 0 });
@@ -69,7 +72,13 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         this.adultChild.emit(obj);
     }
     getAdultChildConstraints() {
-        return (h("div", { class: 'mt-1 mt-lg-0 d-flex flex-column text-left' }, h("label", { class: "mb-1 d-lg-none" }, locales.entries.Lcz_NumberOfGuests, " "), h("div", { class: "form-group my-lg-0 text-left d-flex align-items-center justify-content-between justify-content-sm-start" }, h("fieldset", null, h("div", { class: "btn-group " }, h("select", { class: "form-control input-sm", id: "xAdultSmallSelect", onChange: evt => this.handleAdultChildChange('adult', evt) }, h("option", { value: "" }, locales.entries.Lcz_AdultsCaption), Array.from(Array(this.adultChildConstraints.adult_max_nbr), (_, i) => i + 1).map(option => (h("option", { value: option }, option)))))), this.adultChildConstraints.child_max_nbr > 0 && (h("fieldset", null, h("div", { class: "btn-group ml-1" }, h("select", { class: "form-control input-sm", id: "xChildrenSmallSelect", onChange: evt => this.handleAdultChildChange('child', evt) }, h("option", { value: '' }, this.renderChildCaption()), Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => (h("option", { value: option }, option))))))), h("ir-button", { btn_id: "check_availability", isLoading: isRequestPending('/Get_Exposed_Booking_Availability'), icon: "", size: "sm", class: "ml-2", text: locales.entries.Lcz_Check, onClickHanlder: () => this.handleButtonClicked() }))));
+        return (h("div", { class: 'mt-1 mt-lg-0 d-flex flex-column text-left' }, h("label", { class: "mb-1 d-lg-none" }, locales.entries.Lcz_NumberOfGuests, " "), h("div", { class: "form-group my-lg-0 text-left d-flex align-items-center justify-content-between justify-content-sm-start" }, h("fieldset", null, h("div", { class: "btn-group " }, h("ir-select", { onSelectChange: e => this.handleAdultChildChange('adult', e.detail), select_id: "adult_child_select", firstOption: locales.entries.Lcz_AdultsCaption, LabelAvailable: false, data: Array.from(Array(this.adultChildConstraints.adult_max_nbr), (_, i) => i + 1).map(option => ({
+                text: option.toString(),
+                value: option.toString(),
+            })) }))), this.adultChildConstraints.child_max_nbr > 0 && (h("fieldset", null, h("div", { class: "btn-group ml-1" }, h("ir-select", { onSelectChange: e => this.handleAdultChildChange('child', e.detail), select_id: "child_select", firstOption: this.renderChildCaption(), LabelAvailable: false, data: Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => ({
+                text: option.toString(),
+                value: option.toString(),
+            })) })))), h("ir-button", { btn_id: "check_availability", isLoading: isRequestPending('/Get_Exposed_Booking_Availability'), icon: "", size: "sm", class: "ml-2", text: locales.entries.Lcz_Check, onClickHanlder: () => this.handleButtonClicked() }))));
     }
     renderChildCaption() {
         const maxAge = this.adultChildConstraints.child_max_age;
@@ -104,6 +113,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             }
             else if (this.adultChildCount.adult === 0) {
                 this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
+                this.animateIrSelect.emit('adult_child_select');
             }
             else {
                 this.buttonClicked.emit({ key: 'check' });
@@ -118,6 +128,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             });
         }
         else if (this.adultChildCount.adult === 0) {
+            this.animateIrSelect.emit('adult_child_select');
             this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
         }
         else {
@@ -129,7 +140,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'f828fad666aeb120b98af3b78fa47c4e8eb8722e' }, showSourceNode && this.getSourceNode(), h("div", { key: 'a81b47c013d7fccf6b6bef3ba278e2b813e69df6', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'bab091cc7e629eaed84534a3be382ece7ab5a759', class: "mt-lg-0  " }, h("igl-date-range", { key: '3df93149ff7c10bc490da3f1aa80428735bf08e5', dateLabel: locales.entries.Lcz_Dates, minDate: this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'cef8fc5f8424436aa71f893532e12c829cc51f94', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '429cc5c3276d563593c2db9de958837887f60be9' }, showSourceNode && this.getSourceNode(), h("div", { key: 'fc81cbd29561d7181814d67ce946c84134aea701', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'db932ec47484c68c61bfde1e124d4c864677c22a', class: "mt-lg-0  " }, h("igl-date-range", { key: 'a4a822dfb1900aeba8bfef633eea7a0cd891ed3f', dateLabel: locales.entries.Lcz_Dates, minDate: this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'b38fc5bb6d992ba1bc4ed163c977d18f132e34ca', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get style() { return IglBookPropertyHeaderStyle0; }
 }, [2, "igl-book-property-header", {
@@ -152,7 +163,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker"];
+    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-view", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
@@ -161,20 +172,30 @@ function defineCustomElement() {
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$4();
             }
             break;
         case "ir-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

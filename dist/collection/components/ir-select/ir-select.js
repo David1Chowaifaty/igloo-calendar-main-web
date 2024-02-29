@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { v4 } from "uuid";
 export class IrSelect {
     constructor() {
         this.count = 0;
@@ -12,6 +13,7 @@ export class IrSelect {
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
+        this.showFirstOption = true;
         this.submited = false;
         this.size = 'md';
         this.textSize = 'md';
@@ -20,6 +22,7 @@ export class IrSelect {
         this.labelColor = 'dark';
         this.labelBorder = 'theme';
         this.labelWidth = 3;
+        this.select_id = v4();
         this.initial = true;
         this.valid = false;
     }
@@ -33,9 +36,20 @@ export class IrSelect {
             this.initial = false;
         }
     }
+    handleButtonAnimation(e) {
+        console.log(e.detail, this.select_id, e.detail === this.select_id);
+        if (!this.selectEl || e.detail !== this.select_id) {
+            return;
+        }
+        console.log('first1');
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectEl.classList.add('border-danger');
+    }
     componentwillload() { }
     disconnectedCallback() { }
     handleSelectChange(event) {
+        this.selectEl.classList.remove('border-danger');
         if (this.required) {
             this.initial = false;
             this.valid = event.target.checkValidity();
@@ -49,7 +63,7 @@ export class IrSelect {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: 'c807a13086b875261b0ab1206b9863166999b0fe', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'f9308e7d456140d88079642e2d4af4b758f68679', class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '0bfbfa3e4803f83e958e021bc23bb8d2c464c5a0', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '8be25331cf56342055fcb00818c981e3bd88201d', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -59,7 +73,7 @@ export class IrSelect {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '64dd00ce797c762dde752c91b5a57a7d5f43ee95', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '4c55e616c5eb959f4f32743f9eb6abbff73ada1e', class: "input-group row m-0" }, label, h("select", { key: 'a4e3e0f2a5f2d203d4f815f68b8e4acc23d7312c', class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, h("option", { key: '2368bab4084ddeecd6581f4b01f7f667ce3adf36', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '9fda8ae37ce800ae08c28e4528023842c5c04ef2', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '2cd6407fcf94b0d7cef2c290fd9661e8c7e2366c', class: "input-group row m-0" }, label, h("select", { key: '052e2b423ff6e260ee312af4d766cfc7e5c668ce', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -261,6 +275,24 @@ export class IrSelect {
                 "reflect": false,
                 "defaultValue": "true"
             },
+            "showFirstOption": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "show-first-option",
+                "reflect": false,
+                "defaultValue": "true"
+            },
             "submited": {
                 "type": "boolean",
                 "mutable": false,
@@ -404,6 +436,24 @@ export class IrSelect {
                 "attribute": "label-width",
                 "reflect": false,
                 "defaultValue": "3"
+            },
+            "select_id": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "select_id",
+                "reflect": false,
+                "defaultValue": "v4()"
             }
         };
     }
@@ -438,6 +488,15 @@ export class IrSelect {
             }, {
                 "propName": "submited",
                 "methodName": "watchHandler2"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "animateIrSelect",
+                "method": "handleButtonAnimation",
+                "target": "body",
+                "capture": false,
+                "passive": false
             }];
     }
 }
