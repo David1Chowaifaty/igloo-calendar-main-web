@@ -103,7 +103,11 @@ function getDaysArray(date1, date2) {
 function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
+function formatAmount(currency, amount) {
+    const symbol = getCurrencySymbol(currency);
+    return symbol + amount.toFixed(2);
+}
 
-export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, getReleaseHoursString as e, findCountry as f, getCurrencySymbol as g, formatLegendColors as h, isBlockUnit as i, getNextDay as j, addTwoMonthToDate as k, convertDMYToISO as l, computeEndDate as m, getDaysArray as n, convertDatePrice as o, formatDate as p, renderTime as r };
+export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, getReleaseHoursString as e, findCountry as f, getCurrencySymbol as g, formatLegendColors as h, isBlockUnit as i, getNextDay as j, addTwoMonthToDate as k, convertDMYToISO as l, computeEndDate as m, getDaysArray as n, convertDatePrice as o, formatDate as p, formatAmount as q, renderTime as r };
 
 //# sourceMappingURL=utils.js.map

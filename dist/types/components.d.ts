@@ -11,12 +11,12 @@ import { IToast } from "./components/ir-toast/toast";
 import { IToast as IToast1, TPositions } from "./components/ir-toast/toast";
 import { IReallocationPayload, IRoomNightsData } from "./models/property-types";
 import { IPageTwoDataUpdateProps } from "./models/models";
+import { Booking } from "./models/booking.dto";
 import { checkboxes, selectOption as selectOption1 } from "./common/models";
 import { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
 import { selectOption } from "./common/models";
 import { ILocale } from "./stores/locales.store";
-import { Booking, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
-import { Booking as Booking1 } from "./models/booking.dto";
+import { Booking as Booking1, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 import { IRoomNightsDataEventPayload } from "./models/property-types";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints, TIglBookPropertyPayload, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
 export { ICountry, RoomBlockDetails, RoomBookingDetails } from "./models/IBooking";
@@ -24,12 +24,12 @@ export { IToast } from "./components/ir-toast/toast";
 export { IToast as IToast1, TPositions } from "./components/ir-toast/toast";
 export { IReallocationPayload, IRoomNightsData } from "./models/property-types";
 export { IPageTwoDataUpdateProps } from "./models/models";
+export { Booking } from "./models/booking.dto";
 export { checkboxes, selectOption as selectOption1 } from "./common/models";
 export { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
 export { selectOption } from "./common/models";
 export { ILocale } from "./stores/locales.store";
-export { Booking, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
-export { Booking as Booking1 } from "./models/booking.dto";
+export { Booking as Booking1, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 export { IRoomNightsDataEventPayload } from "./models/property-types";
 export namespace Components {
     interface IglApplicationInfo {
@@ -71,6 +71,7 @@ export namespace Components {
         "propertyid": number;
         "ticket": string;
         "to_date": string;
+        "withIrToastAndInterceptor": boolean;
     }
     interface IglBookPropertyFooter {
         "disabled": boolean;
@@ -419,15 +420,15 @@ export namespace Components {
         "value": string;
     }
     interface IrListingHeader {
+        "baseurl": string;
+        "language": string;
+        "propertyId": number;
     }
     interface IrListingModal {
         "closeModal": () => Promise<void>;
         "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
         "modalTitle": string;
         "openModal": () => Promise<void>;
-    }
-    interface IrLoader {
-        "size": string;
     }
     interface IrLoadingScreen {
         "message": string;
@@ -462,7 +463,7 @@ export namespace Components {
         "popoverTitle": string;
     }
     interface IrRoom {
-        "bookingEvent": Booking1;
+        "bookingEvent": Booking;
         "bookingIndex": number;
         "currency": string;
         "defaultTexts": ILocale;
@@ -537,7 +538,9 @@ export namespace Components {
         "position": TPositions;
     }
     interface IrTooltip {
+        "customSlot": boolean;
         "message": string;
+        "withHtml": boolean;
     }
     interface OtaLabel {
         "label": string;
@@ -1172,6 +1175,7 @@ declare global {
     };
     interface HTMLIrBookingDetailsElementEventMap {
         "toast": IToast1;
+        "bookingChanged": Booking;
     }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1367,6 +1371,7 @@ declare global {
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
+        "resetBookingData": null;
     }
     interface HTMLIrGuestInfoElement extends Components.IrGuestInfo, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestInfoElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoElement, ev: IrGuestInfoCustomEvent<HTMLIrGuestInfoElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1458,7 +1463,7 @@ declare global {
     };
     interface HTMLIrListingModalElementEventMap {
         "modalClosed": null;
-        "resetData": null;
+        "resetData": string;
     }
     interface HTMLIrListingModalElement extends Components.IrListingModal, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrListingModalElementEventMap>(type: K, listener: (this: HTMLIrListingModalElement, ev: IrListingModalCustomEvent<HTMLIrListingModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1473,12 +1478,6 @@ declare global {
     var HTMLIrListingModalElement: {
         prototype: HTMLIrListingModalElement;
         new (): HTMLIrListingModalElement;
-    };
-    interface HTMLIrLoaderElement extends Components.IrLoader, HTMLStencilElement {
-    }
-    var HTMLIrLoaderElement: {
-        prototype: HTMLIrLoaderElement;
-        new (): HTMLIrLoaderElement;
     };
     interface HTMLIrLoadingScreenElement extends Components.IrLoadingScreen, HTMLStencilElement {
     }
@@ -1710,7 +1709,6 @@ declare global {
         "ir-label": HTMLIrLabelElement;
         "ir-listing-header": HTMLIrListingHeaderElement;
         "ir-listing-modal": HTMLIrListingModalElement;
-        "ir-loader": HTMLIrLoaderElement;
         "ir-loading-screen": HTMLIrLoadingScreenElement;
         "ir-modal": HTMLIrModalElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
@@ -1778,6 +1776,7 @@ declare namespace LocalJSX {
         "propertyid"?: number;
         "ticket"?: string;
         "to_date"?: string;
+        "withIrToastAndInterceptor"?: boolean;
     }
     interface IglBookPropertyFooter {
         "disabled"?: boolean;
@@ -2042,6 +2041,7 @@ declare namespace LocalJSX {
         "hasRoomEdit"?: boolean;
         "is_from_front_desk"?: boolean;
         "language"?: string;
+        "onBookingChanged"?: (event: IrBookingDetailsCustomEvent<Booking>) => void;
         "onToast"?: (event: IrBookingDetailsCustomEvent<IToast1>) => void;
         "propertyid"?: number;
         "ticket"?: string;
@@ -2166,6 +2166,7 @@ declare namespace LocalJSX {
         "email"?: string;
         "language"?: string;
         "onCloseSideBar"?: (event: IrGuestInfoCustomEvent<null>) => void;
+        "onResetBookingData"?: (event: IrGuestInfoCustomEvent<null>) => void;
         "setupDataCountries"?: selectOption[];
         "setupDataCountriesCode"?: selectOption[];
     }
@@ -2209,15 +2210,15 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IrListingHeader {
+        "baseurl"?: string;
+        "language"?: string;
+        "propertyId"?: number;
     }
     interface IrListingModal {
         "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
         "modalTitle"?: string;
         "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
-        "onResetData"?: (event: IrListingModalCustomEvent<null>) => void;
-    }
-    interface IrLoader {
-        "size"?: string;
+        "onResetData"?: (event: IrListingModalCustomEvent<string>) => void;
     }
     interface IrLoadingScreen {
         "message"?: string;
@@ -2256,7 +2257,7 @@ declare namespace LocalJSX {
         "popoverTitle"?: string;
     }
     interface IrRoom {
-        "bookingEvent"?: Booking1;
+        "bookingEvent"?: Booking;
         "bookingIndex"?: number;
         "currency"?: string;
         "defaultTexts"?: ILocale;
@@ -2338,7 +2339,9 @@ declare namespace LocalJSX {
         "position"?: TPositions;
     }
     interface IrTooltip {
+        "customSlot"?: boolean;
         "message"?: string;
+        "withHtml"?: boolean;
     }
     interface OtaLabel {
         "label"?: string;
@@ -2390,7 +2393,6 @@ declare namespace LocalJSX {
         "ir-label": IrLabel;
         "ir-listing-header": IrListingHeader;
         "ir-listing-modal": IrListingModal;
-        "ir-loader": IrLoader;
         "ir-loading-screen": IrLoadingScreen;
         "ir-modal": IrModal;
         "ir-payment-details": IrPaymentDetails;
@@ -2457,7 +2459,6 @@ declare module "@stencil/core" {
             "ir-label": LocalJSX.IrLabel & JSXBase.HTMLAttributes<HTMLIrLabelElement>;
             "ir-listing-header": LocalJSX.IrListingHeader & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
             "ir-listing-modal": LocalJSX.IrListingModal & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
-            "ir-loader": LocalJSX.IrLoader & JSXBase.HTMLAttributes<HTMLIrLoaderElement>;
             "ir-loading-screen": LocalJSX.IrLoadingScreen & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;

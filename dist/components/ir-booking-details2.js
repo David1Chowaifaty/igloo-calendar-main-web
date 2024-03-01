@@ -46,6 +46,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
+        this.bookingChanged = createEvent(this, "bookingChanged", 7);
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.language = '';
@@ -238,6 +239,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         try {
             const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
             this.bookingData = Object.assign({}, booking);
+            this.bookingChanged.emit(this.bookingData);
         }
         catch (error) {
             console.log(error);

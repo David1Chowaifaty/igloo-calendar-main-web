@@ -21,7 +21,7 @@ const IrCheckBox = class {
         this.labelPosition = 'after';
     }
     render() {
-        return (h("label", { key: '0a090d749e09d0d78c1f1720d76874fc07e3cf4f', class: `check-container ${this.labelPosition}` }, this.labelPosition === 'before' && h("span", null, this.label), h("input", { key: 'ca4363f5e7f0bc983b14a759f7911af8ce58e438', type: "checkbox", name: this.name, value: this.value, checked: this.checked, disabled: this.disabled, onInput: this.handleInputChange }), h("span", { key: '18f9419cf135442adc0e1cc2046a865b78cb9443', class: "checkmark" }), this.labelPosition === 'after' && h("span", null, this.label)));
+        return (h("label", { key: '885fe8a7a901bfb1268234cd58534e91ff18772d', class: `check-container ${this.labelPosition}` }, this.labelPosition === 'before' && h("span", null, this.label), h("input", { key: 'bb7d0593a614d541872c2878073673f069947a2d', type: "checkbox", name: this.name, value: this.value, checked: this.checked, disabled: this.disabled, onInput: this.handleInputChange }), h("span", { key: '15bbe1f918804336de633532d0d0bc53f3d0928e', class: "checkmark" }), this.labelPosition === 'after' && h("span", null, this.label)));
     }
 };
 IrCheckBox.style = IrCheckboxStyle0;

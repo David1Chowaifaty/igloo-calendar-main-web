@@ -49,7 +49,6 @@
     "components/ir-input-text/ir-input-text.js",
     "components/ir-interceptor/ir-interceptor.js",
     "components/ir-label/ir-label.js",
-    "components/ir-loader/ir-loader.js",
     "components/ir-loading-screen/ir-loading-screen.js",
     "components/ir-popover/ir-popover.js",
     "components/ir-room-nights/ir-room-nights.js",

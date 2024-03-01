@@ -188,6 +188,11 @@ export type BookingListingCodes = {
     Lcz_ExportToExcel: string;
     Lcz_Erase: string;
     Lcz_Search: string;
+    Lcz_PaymentStatus: string;
+    Lcz_FindBookNbrorName: string;
+    Lcz_ClickToSettle: string;
+    Lcz_BookingBalance: string;
+    Lcz_NoDataAvailable: string;
 };
 export type LocalizationChannelFrontEntries = {
     Lcz_Actions: string;
