@@ -45,6 +45,7 @@
     "components/ir-date-view/ir-date-view.js",
     "components/ir-dropdown/ir-dropdown.js",
     "components/ir-guest-info/ir-guest-info.js",
+    "components/ir-housekeeping/ir-housekeeping.js",
     "components/ir-icon/ir-icon.js",
     "components/ir-input-text/ir-input-text.js",
     "components/ir-interceptor/ir-interceptor.js",
