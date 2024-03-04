@@ -104,15 +104,10 @@ const IrListingModal = /*@__PURE__*/ proxyCustomElement(class IrListingModal ext
         }
     }
     renderConfirmationTitle() {
-        if (this.editBooking.cause === 'payment') {
-            return locales.entries.Lcz_Confirm;
-        }
-        else {
-            if (this.deletionStage === 1) {
-                return locales.entries.Lcz_OK;
-            }
+        if (this.deletionStage === 2) {
             return locales.entries.Lcz_RecoverAndDelete;
         }
+        return locales.entries.Lcz_Confirm;
     }
     renderCancelationTitle() {
         if (this.deletionStage === 2) {
