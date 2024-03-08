@@ -1,10 +1,11 @@
 import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-e7294bf2.js';
-import { R as RoomService } from './room.service-d7ff7893.js';
+import { R as RoomService } from './room.service-ff409a82.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-8ecf1752.js';
 import { l as locales } from './locales.store-ed047ebc.js';
-import { a as axios } from './Token-919197e3.js';
-import { C as ChannelService } from './channel.service-8bd1cb23.js';
-import { c as calendar_data } from './calendar-data-46cc7189.js';
+import { a as axios } from './axios-4c36144d.js';
+import { C as ChannelService } from './channel.service-093685a8.js';
+import { c as calendar_data } from './calendar-data-a54ec959.js';
+import './Token-692eae02.js';
 
 const actions = (entries) => [
     {
@@ -249,7 +250,7 @@ const IrChannel = class {
             //   width: '60rem',
             // }}
             showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null
-        }, this.channel_status && (h("ir-channel-editor", { ticket: this.ticket, class: "p-1", channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), h("ir-modal", { modalTitle: (_h = this.modal_cause) === null || _h === void 0 ? void 0 : _h.title, modalBody: (_j = this.modal_cause) === null || _j === void 0 ? void 0 : _j.message, ref: el => (this.irModalRef = el), rightBtnText: (_k = locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Confirm, leftBtnText: (_l = locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: (_o = (_m = this.modal_cause) === null || _m === void 0 ? void 0 : _m.main_color) !== null && _o !== void 0 ? _o : 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
+        }, this.channel_status && (h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, class: "p-1", channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), h("ir-modal", { modalTitle: (_h = this.modal_cause) === null || _h === void 0 ? void 0 : _h.title, modalBody: (_j = this.modal_cause) === null || _j === void 0 ? void 0 : _j.message, ref: el => (this.irModalRef = el), rightBtnText: (_k = locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Confirm, leftBtnText: (_l = locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: (_o = (_m = this.modal_cause) === null || _m === void 0 ? void 0 : _m.main_color) !== null && _o !== void 0 ? _o : 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

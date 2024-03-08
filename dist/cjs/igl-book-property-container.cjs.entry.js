@@ -3,13 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-009c7daa.js');
-const booking_service = require('./booking.service-574f2b6c.js');
-const room_service = require('./room.service-eb1355a7.js');
-const calendarData = require('./calendar-data-1c653406.js');
+const booking_service = require('./booking.service-92151b15.js');
+const room_service = require('./room.service-73df37e1.js');
+const calendarData = require('./calendar-data-061200a9.js');
 const locales_store = require('./locales.store-605dafc4.js');
-const Token = require('./Token-0b5ba7e4.js');
+const axios = require('./axios-e9313b88.js');
 require('./utils-ddcad063.js');
 require('./moment-1780b03a.js');
+require('./booking-fc13e042.js');
+require('./Token-c9908564.js');
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
 const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
@@ -67,7 +69,7 @@ const IglBookPropertyContainer = class {
     }
     componentWillLoad() {
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;

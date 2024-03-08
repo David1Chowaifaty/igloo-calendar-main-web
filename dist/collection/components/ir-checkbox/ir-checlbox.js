@@ -15,7 +15,7 @@ export class IrCheckBox {
         this.labelPosition = 'after';
     }
     render() {
-        return (h("label", { key: '6a75c7783816a2fb15545f7175bf96adf2ae8bab', class: `check-container ${this.labelPosition}` }, this.labelPosition === 'before' && h("span", null, this.label), h("input", { key: 'a54f70662feab5a0023904ed1581b2f06fe3a8fd', type: "checkbox", name: this.name, value: this.value, checked: this.checked, disabled: this.disabled, onInput: this.handleInputChange }), h("span", { key: '26e08181f222323eca936ed55813d7125d6d5ec4', class: "checkmark" }), this.labelPosition === 'after' && h("span", null, this.label)));
+        return (h("label", { key: 'c07840fac7f45ea8669ec33871e2fa8e2d37649c', class: `check-container ${this.labelPosition}` }, this.labelPosition === 'before' && h("span", null, this.label), h("input", { key: '4f83a4655152d64e14e25fbdf494eb58b3e6d9ff', type: "checkbox", name: this.name, value: this.value, checked: this.checked, disabled: this.disabled, onInput: this.handleInputChange }), h("span", { key: '0773ec115701df761c6513a686d29ed6c83eac16', class: "checkmark" }), this.labelPosition === 'after' && h("span", null, this.label)));
     }
     static get is() { return "ir-checkbox"; }
     static get originalStyleUrls() {
