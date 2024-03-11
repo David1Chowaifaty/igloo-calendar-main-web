@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-e7294bf2.js';
-import { B as BookingService } from './booking.service-6ed48232.js';
-import { a as transformNewBooking } from './booking-78fff52e.js';
-import { i as isBlockUnit, q as findCountry, n as getCurrencySymbol } from './utils-5687c75d.js';
+import { B as BookingService } from './booking.service-e53150da.js';
+import { a as transformNewBooking } from './booking-87de502f.js';
+import { i as isBlockUnit, q as findCountry, n as getCurrencySymbol } from './utils-096d5f7a.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-8b76d2dd.js';
+import { E as EventsService } from './events.service-4310804c.js';
 import { l as locales } from './locales.store-ed047ebc.js';
 import { c as calendar_data } from './calendar-data-a54ec959.js';
 import './axios-4c36144d.js';
@@ -963,7 +963,7 @@ const IrPopover = class {
         });
     }
     render() {
-        return (h(Host, { key: 'e7ee6690aed1cbddeb1d74ac7a02d2292b6f245c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ec8250ab7bbab11b246b43d5a5871796bfc09ff0', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (h(Host, { key: '8de8d1f53502d63a37e52b98137d58b7f65a2664', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '0883c65500dc3b99a8a44746be9965471675a152', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return getElement(this); }
 };

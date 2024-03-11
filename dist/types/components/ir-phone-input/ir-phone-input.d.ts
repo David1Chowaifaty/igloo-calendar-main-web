@@ -10,6 +10,7 @@ export declare class IrPhoneInput {
     language: string;
     default_country: number;
     phone_prefix: string | null;
+    placeholder: string;
     textChange: EventEmitter<{
         phone_prefix: string;
         mobile: string;

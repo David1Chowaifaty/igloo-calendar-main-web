@@ -12,7 +12,7 @@ const IrTextArea = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '5110dcf4e9e0897ff7782d333a17118c81c3880b', class: "form-group" }, h("label", { key: 'a6e3a377d9a2aa5f9e24ccee7b31474435dcb83f' }, this.label), h("textarea", { key: '8f05b1750d452699d661fbe48cdb83bbf00c8a6e', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
+        return (h("div", { key: '7152ff8bd71b7087da62fed62d2d70c0185f0fcf', class: "form-group" }, h("label", { key: 'bd0841d578374d992466530a36604d490386997e' }, this.label), h("textarea", { key: '803c2e469c344af5120fcb4c69825d7e7c687671', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
     }
 };
 

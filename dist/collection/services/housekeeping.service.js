@@ -13,6 +13,17 @@ export class HouseKeepingService extends Token {
         updateHKStore('hk_criteria', data['My_Result']);
         return data['My_Result'];
     }
+    async getExposedHKStatusCriteria(property_id) {
+        const token = this.getToken();
+        if (!token) {
+            throw new Error('Missing token');
+        }
+        const { data } = await axios.post(`/Get_Exposed_HK_Status_Criteria?Ticket=${token}`, {
+            property_id,
+        });
+        updateHKStore('hk_tasks', data['My_Result']);
+        return data['My_Result'];
+    }
     async setExposedInspectionMode(property_id, mode) {
         const token = this.getToken();
         if (!token) {
@@ -42,6 +53,22 @@ export class HouseKeepingService extends Token {
         }
         const { data } = await axios.post(`/Edit_Exposed_HKM?Ticket=${token}`, Object.assign(Object.assign({}, params), { is_to_remove }));
         return data['My_Result'];
+    }
+    async getHKPendingActions(params) {
+        const token = this.getToken();
+        if (!token) {
+            throw new Error('Missing token');
+        }
+        const { data } = await axios.post(`/Get_HK_Pending_Actions?Ticket=${token}`, Object.assign({}, params));
+        updateHKStore('pending_housekeepers', [...data['My_Result']]);
+        return data['My_Result'];
+    }
+    async executeHKAction(params) {
+        const token = this.getToken();
+        if (!token) {
+            throw new Error('Missing token');
+        }
+        await axios.post(`/Execute_HK_Action?Ticket=${token}`, Object.assign({}, params));
     }
 }
 //# sourceMappingURL=housekeeping.service.js.map

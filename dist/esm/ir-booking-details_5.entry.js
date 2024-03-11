@@ -2,13 +2,13 @@ import { r as registerInstance, c as createEvent, h, F as Fragment, g as getElem
 import { h as hooks } from './moment-ab846cee.js';
 import { a as _formatDate, _ as _formatTime, b as _formatAmount, c as _getDay } from './functions-bd560fb7.js';
 import { a as axios } from './axios-4c36144d.js';
-import { B as BookingService } from './booking.service-6ed48232.js';
+import { B as BookingService } from './booking.service-e53150da.js';
 import { R as RoomService } from './room.service-ff409a82.js';
 import { l as locales } from './locales.store-ed047ebc.js';
 import { c as calendar_data } from './calendar-data-a54ec959.js';
 import { P as PaymentService } from './payment.service-6cbfa2ef.js';
-import { r as renderTime } from './utils-5687c75d.js';
-import { f as formatName } from './booking-78fff52e.js';
+import { r as renderTime } from './utils-096d5f7a.js';
+import { f as formatName } from './booking-87de502f.js';
 import './Token-692eae02.js';
 
 const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden}.confirmed.sc-ir-booking-details{color:#fff;display:flex;align-items:center}.bg-ir-green.sc-ir-booking-details{background:#629a4c;height:28px;padding-top:0 !important;padding-bottom:0 !important}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.bg-ir-red.sc-ir-booking-details{background:#ff4961;height:28px;padding-top:0 !important;padding-bottom:0 !important}.bg-ir-orange.sc-ir-booking-details{background:#ff9149;height:28px;padding-top:0 !important;padding-bottom:0 !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0rem 0.1rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}";

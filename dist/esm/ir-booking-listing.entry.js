@@ -2,7 +2,7 @@ import { r as registerInstance, h, H as Host, g as getElement } from './index-e7
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service-c3257f61.js';
 import { R as RoomService } from './room.service-ff409a82.js';
 import { l as locales } from './locales.store-ed047ebc.js';
-import { l as formatAmount } from './utils-5687c75d.js';
+import { l as formatAmount } from './utils-096d5f7a.js';
 import { a as axios } from './axios-4c36144d.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-bd560fb7.js';

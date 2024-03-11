@@ -2,6 +2,8 @@ import { createStore } from "@stencil/store";
 const initialValue = {
     default_properties: undefined,
     hk_criteria: undefined,
+    hk_tasks: undefined,
+    pending_housekeepers: [],
 };
 export const { state: housekeeping_store } = createStore(initialValue);
 export function updateHKStore(key, value) {

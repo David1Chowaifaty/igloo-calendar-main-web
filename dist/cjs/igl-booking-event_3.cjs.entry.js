@@ -967,7 +967,7 @@ const IrPopover = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: 'e7ee6690aed1cbddeb1d74ac7a02d2292b6f245c', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'ec8250ab7bbab11b246b43d5a5871796bfc09ff0', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (index.h("div", { "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (index.h(index.Host, { key: '8de8d1f53502d63a37e52b98137d58b7f65a2664', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '0883c65500dc3b99a8a44746be9965471675a152', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (index.h("div", { "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return index.getElement(this); }
 };

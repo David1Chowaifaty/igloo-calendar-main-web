@@ -318,12 +318,11 @@ export namespace Components {
     interface IrChannelMapping {
     }
     interface IrCheckbox {
+        "checkboxId": string;
         "checked": boolean;
         "disabled": boolean;
         "label": string;
-        "labelPosition": 'before' | 'after';
         "name": string;
-        "value": string;
     }
     interface IrCheckboxes {
         "checkboxes": checkboxes[];
@@ -391,6 +390,12 @@ export namespace Components {
         "language": string;
         "setupDataCountries": selectOption[];
         "setupDataCountriesCode": selectOption[];
+    }
+    interface IrHkTasks {
+        "baseurl": string;
+        "language": string;
+        "propertyid": number;
+        "ticket": string;
     }
     interface IrHkTeam {
     }
@@ -483,6 +488,7 @@ export namespace Components {
         "label": string;
         "language": string;
         "phone_prefix": string | null;
+        "placeholder": string;
         "token": string;
         "value": string;
     }
@@ -566,6 +572,24 @@ export namespace Components {
         "placeholder": string;
         "rows": number;
         "text": string;
+    }
+    interface IrTitle {
+        "displayContext": 'default' | 'sidebar';
+        "justifyContent": | 'center'
+    | 'start'
+    | 'end'
+    | 'flex-start'
+    | 'flex-end'
+    | 'left'
+    | 'right'
+    | 'normal'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'stretch'
+    | 'safe center'
+    | 'unsafe center';
+        "label": string;
     }
     interface IrToast {
         "position": TPositions;
@@ -782,6 +806,14 @@ export interface IrSidebarCustomEvent<T> extends CustomEvent<T> {
 export interface IrSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrSwitchElement;
+}
+export interface IrTitleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTitleElement;
+}
+export interface IrUnitStatusCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUnitStatusElement;
 }
 declare global {
     interface HTMLIglApplicationInfoElementEventMap {
@@ -1320,7 +1352,7 @@ declare global {
         new (): HTMLIrChannelMappingElement;
     };
     interface HTMLIrCheckboxElementEventMap {
-        "checkboxChange": { name: string; value: string; checked: boolean };
+        "checkChange": boolean;
     }
     interface HTMLIrCheckboxElement extends Components.IrCheckbox, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCheckboxElementEventMap>(type: K, listener: (this: HTMLIrCheckboxElement, ev: IrCheckboxCustomEvent<HTMLIrCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1456,6 +1488,12 @@ declare global {
     var HTMLIrGuestInfoElement: {
         prototype: HTMLIrGuestInfoElement;
         new (): HTMLIrGuestInfoElement;
+    };
+    interface HTMLIrHkTasksElement extends Components.IrHkTasks, HTMLStencilElement {
+    }
+    var HTMLIrHkTasksElement: {
+        prototype: HTMLIrHkTasksElement;
+        new (): HTMLIrHkTasksElement;
     };
     interface HTMLIrHkTeamElement extends Components.IrHkTeam, HTMLStencilElement {
     }
@@ -1780,6 +1818,23 @@ declare global {
         prototype: HTMLIrTextareaElement;
         new (): HTMLIrTextareaElement;
     };
+    interface HTMLIrTitleElementEventMap {
+        "closeSideBar": null;
+    }
+    interface HTMLIrTitleElement extends Components.IrTitle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTitleElementEventMap>(type: K, listener: (this: HTMLIrTitleElement, ev: IrTitleCustomEvent<HTMLIrTitleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTitleElementEventMap>(type: K, listener: (this: HTMLIrTitleElement, ev: IrTitleCustomEvent<HTMLIrTitleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTitleElement: {
+        prototype: HTMLIrTitleElement;
+        new (): HTMLIrTitleElement;
+    };
     interface HTMLIrToastElement extends Components.IrToast, HTMLStencilElement {
     }
     var HTMLIrToastElement: {
@@ -1792,7 +1847,18 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrUnitStatusElementEventMap {
+        "resetData": null;
+    }
     interface HTMLIrUnitStatusElement extends Components.IrUnitStatus, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUnitStatusElementEventMap>(type: K, listener: (this: HTMLIrUnitStatusElement, ev: IrUnitStatusCustomEvent<HTMLIrUnitStatusElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUnitStatusElementEventMap>(type: K, listener: (this: HTMLIrUnitStatusElement, ev: IrUnitStatusCustomEvent<HTMLIrUnitStatusElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrUnitStatusElement: {
         prototype: HTMLIrUnitStatusElement;
@@ -1845,6 +1911,7 @@ declare global {
         "ir-delete-modal": HTMLIrDeleteModalElement;
         "ir-dropdown": HTMLIrDropdownElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
+        "ir-hk-tasks": HTMLIrHkTasksElement;
         "ir-hk-team": HTMLIrHkTeamElement;
         "ir-hk-unassigned-units": HTMLIrHkUnassignedUnitsElement;
         "ir-hk-user": HTMLIrHkUserElement;
@@ -1868,6 +1935,7 @@ declare global {
         "ir-span": HTMLIrSpanElement;
         "ir-switch": HTMLIrSwitchElement;
         "ir-textarea": HTMLIrTextareaElement;
+        "ir-title": HTMLIrTitleElement;
         "ir-toast": HTMLIrToastElement;
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
@@ -2238,13 +2306,12 @@ declare namespace LocalJSX {
     interface IrChannelMapping {
     }
     interface IrCheckbox {
+        "checkboxId"?: string;
         "checked"?: boolean;
         "disabled"?: boolean;
         "label"?: string;
-        "labelPosition"?: 'before' | 'after';
         "name"?: string;
-        "onCheckboxChange"?: (event: IrCheckboxCustomEvent<{ name: string; value: string; checked: boolean }>) => void;
-        "value"?: string;
+        "onCheckChange"?: (event: IrCheckboxCustomEvent<boolean>) => void;
     }
     interface IrCheckboxes {
         "checkboxes"?: checkboxes[];
@@ -2323,6 +2390,12 @@ declare namespace LocalJSX {
         "onResetBookingData"?: (event: IrGuestInfoCustomEvent<null>) => void;
         "setupDataCountries"?: selectOption[];
         "setupDataCountriesCode"?: selectOption[];
+    }
+    interface IrHkTasks {
+        "baseurl"?: string;
+        "language"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
     }
     interface IrHkTeam {
     }
@@ -2426,6 +2499,7 @@ declare namespace LocalJSX {
         "language"?: string;
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;
         "phone_prefix"?: string | null;
+        "placeholder"?: string;
         "token"?: string;
         "value"?: string;
     }
@@ -2519,6 +2593,25 @@ declare namespace LocalJSX {
         "rows"?: number;
         "text"?: string;
     }
+    interface IrTitle {
+        "displayContext"?: 'default' | 'sidebar';
+        "justifyContent"?: | 'center'
+    | 'start'
+    | 'end'
+    | 'flex-start'
+    | 'flex-end'
+    | 'left'
+    | 'right'
+    | 'normal'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'stretch'
+    | 'safe center'
+    | 'unsafe center';
+        "label"?: string;
+        "onCloseSideBar"?: (event: IrTitleCustomEvent<null>) => void;
+    }
     interface IrToast {
         "position"?: TPositions;
     }
@@ -2528,6 +2621,7 @@ declare namespace LocalJSX {
         "withHtml"?: boolean;
     }
     interface IrUnitStatus {
+        "onResetData"?: (event: IrUnitStatusCustomEvent<null>) => void;
     }
     interface OtaLabel {
         "label"?: string;
@@ -2575,6 +2669,7 @@ declare namespace LocalJSX {
         "ir-delete-modal": IrDeleteModal;
         "ir-dropdown": IrDropdown;
         "ir-guest-info": IrGuestInfo;
+        "ir-hk-tasks": IrHkTasks;
         "ir-hk-team": IrHkTeam;
         "ir-hk-unassigned-units": IrHkUnassignedUnits;
         "ir-hk-user": IrHkUser;
@@ -2598,6 +2693,7 @@ declare namespace LocalJSX {
         "ir-span": IrSpan;
         "ir-switch": IrSwitch;
         "ir-textarea": IrTextarea;
+        "ir-title": IrTitle;
         "ir-toast": IrToast;
         "ir-tooltip": IrTooltip;
         "ir-unit-status": IrUnitStatus;
@@ -2648,6 +2744,7 @@ declare module "@stencil/core" {
             "ir-delete-modal": LocalJSX.IrDeleteModal & JSXBase.HTMLAttributes<HTMLIrDeleteModalElement>;
             "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
             "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
+            "ir-hk-tasks": LocalJSX.IrHkTasks & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;
             "ir-hk-team": LocalJSX.IrHkTeam & JSXBase.HTMLAttributes<HTMLIrHkTeamElement>;
             "ir-hk-unassigned-units": LocalJSX.IrHkUnassignedUnits & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsElement>;
             "ir-hk-user": LocalJSX.IrHkUser & JSXBase.HTMLAttributes<HTMLIrHkUserElement>;
@@ -2671,6 +2768,7 @@ declare module "@stencil/core" {
             "ir-span": LocalJSX.IrSpan & JSXBase.HTMLAttributes<HTMLIrSpanElement>;
             "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
+            "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
