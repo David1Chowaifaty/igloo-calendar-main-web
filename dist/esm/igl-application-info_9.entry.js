@@ -1,14 +1,16 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-e7294bf2.js';
-import { n as getCurrencySymbol, a as dateToFormattedString, k as getReleaseHoursString } from './utils-ee545df7.js';
-import { l as locales } from './locales.store-ed047ebc.js';
-import { c as calendar_data } from './calendar-data-a54ec959.js';
+import { n as getCurrencySymbol, d as dateToFormattedString, j as getReleaseHoursString } from './utils-096d5f7a.js';
+import { l as locales } from './locales.store-b58ad4e8.js';
+import { c as calendar_data } from './calendar-data-f19e562d.js';
 import { v as v4 } from './v4-964634d6.js';
-import { B as BookingService } from './booking.service-76a58746.js';
-import { t as transformNewBLockedRooms } from './booking-ac9e2832.js';
-import { E as EventsService } from './events.service-258d6fce.js';
-import { a as isRequestPending } from './ir-interceptor.store-3d684c99.js';
+import { B as BookingService } from './booking.service-7fefc734.js';
+import { t as transformNewBLockedRooms } from './booking-7733969c.js';
+import { E as EventsService } from './events.service-4f960de0.js';
+import { a as isRequestPending } from './ir-interceptor.store-6828f6a4.js';
 import { h as hooks } from './moment-ab846cee.js';
-import './Token-919197e3.js';
+import './index-7d0cd903.js';
+import './axios-4c36144d.js';
+import './Token-692eae02.js';
 
 const iglApplicationInfoCss = ".sc-igl-application-info-h{display:block}@media only screen and (min-width: 908px){.aplicationInfoContainer.sc-igl-application-info{max-width:80%}.guest-info-container.sc-igl-application-info{max-width:300px}.preference-select-container.sc-igl-application-info{max-width:250px}}";
 const IglApplicationInfoStyle0 = iglApplicationInfoCss;

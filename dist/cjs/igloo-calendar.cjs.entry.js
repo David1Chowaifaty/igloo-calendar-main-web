@@ -3,17 +3,19 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-009c7daa.js');
-const room_service = require('./room.service-f9708782.js');
-const booking_service = require('./booking.service-246f7bff.js');
+const room_service = require('./room.service-d315495c.js');
+const booking_service = require('./booking.service-e6825208.js');
 const utils = require('./utils-ddcad063.js');
-const Token = require('./Token-0b5ba7e4.js');
-const events_service = require('./events.service-8ff267e7.js');
+const axios = require('./axios-e9313b88.js');
+const events_service = require('./events.service-c679ecac.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-415bbc16.js');
-const booking = require('./booking-a96d8a11.js');
-const unassigned_dates_store = require('./unassigned_dates.store-523e2c26.js');
-const locales_store = require('./locales.store-605dafc4.js');
-const calendarData = require('./calendar-data-061200a9.js');
+const toBeAssigned_service = require('./toBeAssigned.service-65932977.js');
+const booking = require('./booking-69f8521b.js');
+const unassigned_dates_store = require('./unassigned_dates.store-e1140c42.js');
+const locales_store = require('./locales.store-c5736986.js');
+const calendarData = require('./calendar-data-3ac2e8ab.js');
+require('./Token-c9908564.js');
+require('./index-5dfb1468.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -3945,7 +3947,7 @@ const IglooCalendar = class {
     componentWillLoad() {
         console.info('without session storage');
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;

@@ -5,14 +5,16 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-009c7daa.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-c20a8dc4.js');
-const Token = require('./Token-0b5ba7e4.js');
-const booking_service = require('./booking.service-246f7bff.js');
-const room_service = require('./room.service-f9708782.js');
-const locales_store = require('./locales.store-605dafc4.js');
-const calendarData = require('./calendar-data-061200a9.js');
-const payment_service = require('./payment.service-0d797bcf.js');
+const axios = require('./axios-e9313b88.js');
+const booking_service = require('./booking.service-e6825208.js');
+const room_service = require('./room.service-d315495c.js');
+const locales_store = require('./locales.store-c5736986.js');
+const calendarData = require('./calendar-data-3ac2e8ab.js');
+const payment_service = require('./payment.service-333de305.js');
 const utils = require('./utils-ddcad063.js');
-const booking = require('./booking-a96d8a11.js');
+const booking = require('./booking-69f8521b.js');
+require('./Token-c9908564.js');
+require('./index-5dfb1468.js');
 
 const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden}.confirmed.sc-ir-booking-details{color:#fff;display:flex;align-items:center}.bg-ir-green.sc-ir-booking-details{background:#629a4c;height:28px;padding-top:0 !important;padding-bottom:0 !important}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.bg-ir-red.sc-ir-booking-details{background:#ff4961;height:28px;padding-top:0 !important;padding-bottom:0 !important}.bg-ir-orange.sc-ir-booking-details{background:#ff9149;height:28px;padding-top:0 !important;padding-bottom:0 !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0rem 0.1rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}";
 const IrBookingDetailsStyle0 = irBookingDetailsCss;
@@ -54,7 +56,7 @@ const IrBookingDetails = class {
     }
     componentDidLoad() {
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;
@@ -173,7 +175,7 @@ const IrBookingDetails = class {
         if (this.tempStatus !== '' && this.tempStatus !== null) {
             try {
                 this.isUpdateClicked = true;
-                await Token.axios.post(`/Change_Exposed_Booking_Status?Ticket=${this.ticket}`, {
+                await axios.axios.post(`/Change_Exposed_Booking_Status?Ticket=${this.ticket}`, {
                     book_nbr: this.bookingNumber,
                     status: this.tempStatus,
                 });
@@ -517,7 +519,7 @@ class PickupService {
     async savePickup(params, booking_nbr, is_remove) {
         try {
             const splitTime = params.arrival_time.split(':');
-            await Token.axios.post(`/Do_Pickup?Ticket=${calendarData.calendar_data.token}`, {
+            await axios.axios.post(`/Do_Pickup?Ticket=${calendarData.calendar_data.token}`, {
                 booking_nbr,
                 is_remove,
                 currency: params.currency,
@@ -942,7 +944,7 @@ const IrRoom = class {
                 },
             };
             console.log('body:', body);
-            const { data } = await Token.axios.post(`/DoReservation?Ticket=${this.ticket}`, body);
+            const { data } = await axios.axios.post(`/DoReservation?Ticket=${this.ticket}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

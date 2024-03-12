@@ -3,18 +3,13 @@ import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store }
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { a as axios } from './axios.js';
-import { d as defineCustomElement$f } from './igl-date-range2.js';
-import { d as defineCustomElement$e } from './ir-button2.js';
-import { d as defineCustomElement$d } from './ir-checkbox2.js';
-import { d as defineCustomElement$c } from './ir-date-picker2.js';
-import { d as defineCustomElement$b } from './ir-date-view2.js';
-import { d as defineCustomElement$a } from './ir-hk-archive2.js';
-import { d as defineCustomElement$9 } from './ir-icon2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
-import { d as defineCustomElement$7 } from './ir-loading-screen2.js';
-import { d as defineCustomElement$6 } from './ir-modal2.js';
-import { d as defineCustomElement$5 } from './ir-select2.js';
-import { d as defineCustomElement$4 } from './ir-sidebar2.js';
+import { d as defineCustomElement$a } from './ir-button2.js';
+import { d as defineCustomElement$9 } from './ir-checkbox2.js';
+import { d as defineCustomElement$8 } from './ir-icon2.js';
+import { d as defineCustomElement$7 } from './ir-interceptor2.js';
+import { d as defineCustomElement$6 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$5 } from './ir-modal2.js';
+import { d as defineCustomElement$4 } from './ir-select2.js';
 import { d as defineCustomElement$3 } from './ir-title2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 
@@ -163,7 +158,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
             ], showFirstOption: false, LabelAvailable: false, class: "ml-sm-2 w-100" })), h("div", { class: "card p-1" }, h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Unit), h("th", { class: "text-left" }, locales.entries.Lcz_Status), h("th", { class: "text-left" }, locales.entries.Lcz_Arrivaldate), h("th", { class: "text-left" }, locales.entries.Lcz_ArrivalTime), h("th", { class: "text-left" }, locales.entries.Lcz_Housekeeper), h("th", { class: "text-center" }, locales.entries.Lcz_Done))), h("tbody", null, (_a = housekeeping_store.pending_housekeepers) === null || _a === void 0 ? void 0 : _a.map(action => {
             var _a;
             return (h("tr", { key: action.housekeeper.id }, h("td", { class: "text-left" }, action.unit.name), h("td", { class: "text-left" }, action.status.description), h("td", { class: "text-left" }, action.arrival), h("td", { class: "text-left" }, action.arrival_time), h("td", { class: "text-left" }, action.housekeeper.name), h("td", null, h("div", { class: "checkbox-container" }, h("ir-checkbox", { onCheckChange: e => this.handleCheckChange(e, action), checked: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.unit.id) === action.unit.id })))));
-        })))))), this.selectedRoom && (h("ir-modal", { leftBtnText: locales.entries.Lcz_No, rightBtnText: locales.entries.Lcz_Yes, onConfirmModal: this.handleConfirm.bind(this), onCancelModal: () => (this.selectedRoom = null), modalBody: `Is ${this.selectedRoom.unit.name} cleaned?` })), h("ir-sidebar", { open: this.archiveOpened, showCloseButton: false, onIrSidebarToggle: () => (this.archiveOpened = false) }, this.archiveOpened && h("ir-hk-archive", { slot: "sidebar-body" }))));
+        })))))), this.selectedRoom && (h("ir-modal", { leftBtnText: locales.entries.Lcz_No, rightBtnText: locales.entries.Lcz_Yes, onConfirmModal: this.handleConfirm.bind(this), onCancelModal: () => (this.selectedRoom = null), modalBody: `Is ${this.selectedRoom.unit.name} cleaned?` }))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -187,69 +182,44 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-date-picker", "ir-date-view", "ir-hk-archive", "ir-icon", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-sidebar", "ir-title", "ir-toast"];
+    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icon", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-tasks":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrHkTasks$1);
             }
             break;
-        case "igl-date-range":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$f();
-            }
-            break;
         case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$e();
-            }
-            break;
-        case "ir-checkbox":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$d();
-            }
-            break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$c();
-            }
-            break;
-        case "ir-date-view":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$b();
-            }
-            break;
-        case "ir-hk-archive":
             if (!customElements.get(tagName)) {
                 defineCustomElement$a();
             }
             break;
-        case "ir-icon":
+        case "ir-checkbox":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-interceptor":
+        case "ir-icon":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-loading-screen":
+        case "ir-interceptor":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-modal":
+        case "ir-loading-screen":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-select":
+        case "ir-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-sidebar":
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

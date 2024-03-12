@@ -1,12 +1,14 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-e7294bf2.js';
-import { B as BookingService } from './booking.service-76a58746.js';
-import { a as transformNewBooking } from './booking-ac9e2832.js';
-import { i as isBlockUnit, q as findCountry, n as getCurrencySymbol } from './utils-ee545df7.js';
+import { B as BookingService } from './booking.service-7fefc734.js';
+import { a as transformNewBooking } from './booking-7733969c.js';
+import { i as isBlockUnit, q as findCountry, n as getCurrencySymbol } from './utils-096d5f7a.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-258d6fce.js';
-import { l as locales } from './locales.store-ed047ebc.js';
-import { c as calendar_data } from './calendar-data-a54ec959.js';
-import './Token-919197e3.js';
+import { E as EventsService } from './events.service-4f960de0.js';
+import { l as locales } from './locales.store-b58ad4e8.js';
+import { c as calendar_data } from './calendar-data-f19e562d.js';
+import './axios-4c36144d.js';
+import './Token-692eae02.js';
+import './index-7d0cd903.js';
 
 const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;transform:skewX(-22deg);border-radius:4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
 const IglBookingEventStyle0 = iglBookingEventCss;
