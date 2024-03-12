@@ -61,7 +61,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         });
     }
     render() {
-        return (h(Host, { key: '67036880af3e3fda8a270584117e58866550d3c3' }, h("input", { key: '70014db0b84464fa2131cdbdf5f487354941d2ff', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: '0d6cf5576729c597cac56179683a2123e579b781' }, h("input", { key: 'ce33ffd58b812fbb8eb89ba851a1eb2512b0e1b0', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
     static get style() { return IrDatePickerStyle0; }

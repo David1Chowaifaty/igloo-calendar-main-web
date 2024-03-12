@@ -3,10 +3,9 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-009c7daa.js');
-const housekeeping_service = require('./housekeeping.service-134e6995.js');
-const room_service = require('./room.service-73df37e1.js');
-const axios = require('./axios-e9313b88.js');
-require('./Token-c9908564.js');
+const housekeeping_service = require('./housekeeping.service-6601d7f3.js');
+const room_service = require('./room.service-f9708782.js');
+const Token = require('./Token-0b5ba7e4.js');
 require('./locales.store-605dafc4.js');
 require('./calendar-data-061200a9.js');
 
@@ -26,7 +25,7 @@ const IrHousekeeping = class {
     }
     componentWillLoad() {
         if (this.baseurl) {
-            axios.axios.defaults.baseURL = this.baseurl;
+            Token.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);

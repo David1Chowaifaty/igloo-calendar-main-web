@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './ir-icon2.js';
 
-const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:10px;display:flex;align-items:center;width:100%}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
+const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
 const IrTitleStyle0 = irTitleCss;
 
 const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLElement {
@@ -22,7 +22,7 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
         }
     }
     render() {
-        return (h(Host, { key: 'b1e7db0ac7cce60d53ada2cb7a3f4fb54466d8cd' }, h("h4", { key: '3adb8796b89c9945b901bff8f965b24efff4253b', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '7a475b5d998fdd5242984369d2f838f3483ab92d' }, h("h4", { key: '0e517b3d4bd062abe308ef8a0f43f9c358a3e4b7', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
             } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { class: 'title-body' }, h("slot", { name: "title-body" })))));
     }

@@ -1,15 +1,14 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-e7294bf2.js';
 import { c as calendar_dates, h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-d724b3e4.js';
 import { l as locales } from './locales.store-ed047ebc.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-f808a902.js';
-import { d as dateToFormattedString, m as getDaysArray, n as getCurrencySymbol, o as convertDatePrice, p as formatDate } from './utils-096d5f7a.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-2d0de7ee.js';
+import { a as dateToFormattedString, m as getDaysArray, n as getCurrencySymbol, o as convertDatePrice, p as formatDate } from './utils-ee545df7.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { c as calendar_data } from './calendar-data-a54ec959.js';
-import { a as axios } from './axios-4c36144d.js';
-import { B as BookingService } from './booking.service-e53150da.js';
+import { a as axios } from './Token-919197e3.js';
+import { B as BookingService } from './booking.service-76a58746.js';
 import { v as v4 } from './v4-964634d6.js';
-import './Token-692eae02.js';
-import './booking-87de502f.js';
+import './booking-ac9e2832.js';
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid #e0e0e0}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 const IglCalBodyStyle0 = iglCalBodyCss;
@@ -289,7 +288,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: '075d50146c3f63298fb44812b78d825dc0d9c79b', class: "footerContainer" }, h("div", { key: 'e7f66892eb43591eeb99f2156d8ae95008dbb329', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: 'e5bcc7f0dab8b3dba5998e6bb0a0bd7cdd88ce4d', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: 'ef68f8cf92ac228bb1627e3c4d0c2a795edbb090', class: "la la-square" }), h("u", { key: 'b4a4d3925fb96c51b8bdc3e8c5b4cd9fb578cdf1' }, locales.entries.Lcz_Legend), h("span", { key: 'e8a3962cde3dbc3594eb747b21e55bc19ef6b336' }, " - v24"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: '075d50146c3f63298fb44812b78d825dc0d9c79b', class: "footerContainer" }, h("div", { key: 'e7f66892eb43591eeb99f2156d8ae95008dbb329', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: 'e5bcc7f0dab8b3dba5998e6bb0a0bd7cdd88ce4d', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: 'ef68f8cf92ac228bb1627e3c4d0c2a795edbb090', class: "la la-square" }), h("u", { key: 'b4a4d3925fb96c51b8bdc3e8c5b4cd9fb578cdf1' }, locales.entries.Lcz_Legend), h("span", { key: 'e8a3962cde3dbc3594eb747b21e55bc19ef6b336' }, " - v26"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;

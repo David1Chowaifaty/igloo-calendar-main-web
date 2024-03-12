@@ -48,6 +48,7 @@
     "components/ir-housekeeping/ir-housekeeping.js",
     "components/ir-housekeeping/ir-delete-modal/ir-delete-modal.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-hk-tasks.js",
+    "components/ir-housekeeping/ir-hk-tasks/ir-hk-archive/ir-hk-archive.js",
     "components/ir-housekeeping/ir-hk-team/ir-hk-team.js",
     "components/ir-housekeeping/ir-hk-unassigned-units/ir-hk-unassigned-units.js",
     "components/ir-housekeeping/ir-hk-user/ir-hk-user.js",

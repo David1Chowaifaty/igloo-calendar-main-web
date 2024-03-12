@@ -3,13 +3,12 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-009c7daa.js');
-const room_service = require('./room.service-73df37e1.js');
+const room_service = require('./room.service-f9708782.js');
 const channel_store = require('./channel.store-565ead09.js');
 const locales_store = require('./locales.store-605dafc4.js');
-const axios = require('./axios-e9313b88.js');
-const channel_service = require('./channel.service-34f10f1c.js');
+const Token = require('./Token-0b5ba7e4.js');
+const channel_service = require('./channel.service-b498eddd.js');
 const calendarData = require('./calendar-data-061200a9.js');
-require('./Token-c9908564.js');
 
 const actions = (entries) => [
     {
@@ -122,7 +121,7 @@ const IrChannel = class {
     componentWillLoad() {
         this.isLoading = true;
         if (this.baseurl) {
-            axios.axios.defaults.baseURL = this.baseurl;
+            Token.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;

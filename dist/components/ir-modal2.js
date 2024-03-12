@@ -46,10 +46,11 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
     }
     render() {
         return [
-            h("div", { key: '2e914d35698b1bc29b831551b26ff94141e8e5bb', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '63ccb5807316a725da9594ac1ac1b8f6b6eefe2b', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+                    this.cancelModal.emit();
                     this.closeModal();
                 } }),
-            h("div", { key: 'ae9565c91be924b67ba8743eb2eee9d7870b3d08', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'aec49c2f3d97214087a1c7a7ab742e93cf0f9310', class: `ir-alert-content p-2` }, h("div", { key: 'ec2db674f55fbbfa753a458c5027e0076bf42751', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: 'beeb9750f5939876ae1d69bd09db23f39e2d02fe', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'bcdcf658567e4d013067de61d2123f2a1425e2eb' }, this.modalBody)), h("div", { key: 'f4a63bc98ba97f85b2c5d02b1fc0e9547f8e03cf', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && h("ir-button", { icon: '', btn_color: this.rightBtnColor, btn_block: true, text: this.rightBtnText, name: this.rightBtnText })))),
+            h("div", { key: 'c0d9e34db337b3272bdab94e33670813f005762b', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '769160a7c83be7ee71b310fcf0a126135dba5a52', class: `ir-alert-content p-2` }, h("div", { key: '582cc95892d47931dbd1f4d7aa95587b4ad7a47f', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '298b917758a67829cf9b2b11c38979c47b644543', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'e27311ca992e5539f7a59647dc0cc151658f64cd' }, this.modalBody)), h("div", { key: 'baced0caee5b4bfdddd444aef4d406689790bff7', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && h("ir-button", { icon: '', btn_color: this.rightBtnColor, btn_block: true, text: this.rightBtnText, name: this.rightBtnText })))),
         ];
     }
     static get style() { return IrModalStyle0; }

@@ -1,13 +1,12 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-e7294bf2.js';
-import { B as BookingService } from './booking.service-e53150da.js';
+import { B as BookingService } from './booking.service-76a58746.js';
 import { l as locales } from './locales.store-ed047ebc.js';
 import { c as calendar_data } from './calendar-data-a54ec959.js';
 import { v as v4 } from './v4-964634d6.js';
-import './axios-4c36144d.js';
-import './utils-096d5f7a.js';
+import './Token-919197e3.js';
+import './utils-ee545df7.js';
 import './moment-ab846cee.js';
-import './booking-87de502f.js';
-import './Token-692eae02.js';
+import './booking-ac9e2832.js';
 
 const iglBlockDatesViewCss = ".sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}";
 const IglBlockDatesViewStyle0 = iglBlockDatesViewCss;
