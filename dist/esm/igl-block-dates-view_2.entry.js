@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-e7294bf2.js';
-import { B as BookingService } from './booking.service-7fefc734.js';
+import { B as BookingService } from './booking.service-49fb3664.js';
 import { l as locales } from './locales.store-b58ad4e8.js';
 import { c as calendar_data } from './calendar-data-f19e562d.js';
 import { v as v4 } from './v4-964634d6.js';
 import './axios-4c36144d.js';
-import './utils-096d5f7a.js';
+import './utils-5687c75d.js';
 import './moment-ab846cee.js';
-import './booking-7733969c.js';
+import './booking-1c9cc422.js';
 import './Token-692eae02.js';
 import './index-7d0cd903.js';
 

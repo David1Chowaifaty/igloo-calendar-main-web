@@ -16,7 +16,7 @@ const IrTextArea = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (index.h("div", { key: '07e7a42b4e07a39c3a06e0342e7b6cb11182a3af', class: "form-group" }, index.h("label", { key: '0e1336de2ec8abd7b1a13d97ed9b3ddb3ae7bad6' }, this.label), index.h("textarea", { key: 'be9c4bced786e6f12f0a91d9c7ec7014898e366f', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
+        return (index.h("div", { key: '5110dcf4e9e0897ff7782d333a17118c81c3880b', class: "form-group" }, index.h("label", { key: 'a6e3a377d9a2aa5f9e24ccee7b31474435dcb83f' }, this.label), index.h("textarea", { key: '8f05b1750d452699d661fbe48cdb83bbf00c8a6e', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
     }
 };
 

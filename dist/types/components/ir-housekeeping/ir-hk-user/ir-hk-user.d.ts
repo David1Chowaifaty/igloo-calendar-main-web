@@ -15,5 +15,6 @@ export declare class IrHkUser {
     componentWillLoad(): Promise<void>;
     updateUserField(key: keyof THKUser, value: any): void;
     addUser(): Promise<void>;
+    handleBlur(e: CustomEvent): Promise<void>;
     render(): any;
 }

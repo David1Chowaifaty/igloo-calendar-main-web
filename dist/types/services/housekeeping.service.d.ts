@@ -8,4 +8,5 @@ export declare class HouseKeepingService extends Token {
     editExposedHKM(params: THKUser, is_to_remove?: boolean): Promise<any>;
     getHKPendingActions(params: TPendingHkSetupParams): Promise<any>;
     executeHKAction(params: any): Promise<void>;
+    generateUserName(name: string): Promise<any>;
 }

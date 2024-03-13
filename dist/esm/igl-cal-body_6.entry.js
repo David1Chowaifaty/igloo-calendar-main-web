@@ -1,16 +1,16 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-e7294bf2.js';
 import { c as calendar_dates, h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-d0ad76c3.js';
 import { l as locales } from './locales.store-b58ad4e8.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-f808a902.js';
-import { d as dateToFormattedString, m as getDaysArray, n as getCurrencySymbol, o as convertDatePrice, p as formatDate } from './utils-096d5f7a.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-07186722.js';
+import { d as dateToFormattedString, m as getDaysArray, n as getCurrencySymbol, o as convertDatePrice, p as formatDate } from './utils-5687c75d.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { c as calendar_data } from './calendar-data-f19e562d.js';
 import { a as axios } from './axios-4c36144d.js';
-import { B as BookingService } from './booking.service-7fefc734.js';
+import { B as BookingService } from './booking.service-49fb3664.js';
 import { v as v4 } from './v4-964634d6.js';
 import './index-7d0cd903.js';
 import './Token-692eae02.js';
-import './booking-7733969c.js';
+import './booking-1c9cc422.js';
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid #e0e0e0}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 const IglCalBodyStyle0 = iglCalBodyCss;

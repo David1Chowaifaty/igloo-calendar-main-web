@@ -70,5 +70,13 @@ export class HouseKeepingService extends Token {
         }
         await axios.post(`/Execute_HK_Action?Ticket=${token}`, Object.assign({}, params));
     }
+    async generateUserName(name) {
+        const token = this.getToken();
+        if (!token) {
+            throw new Error('Missing token');
+        }
+        const { data } = await axios.post(`/Generate_UserName?Ticket=${token}`, { name });
+        return data.My_Result;
+    }
 }
 //# sourceMappingURL=housekeeping.service.js.map

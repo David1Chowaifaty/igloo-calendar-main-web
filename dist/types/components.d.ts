@@ -266,6 +266,7 @@ export namespace Components {
         "bookingNumber": string;
         "hasCheckIn": boolean;
         "hasCheckOut": boolean;
+        "hasCloseButton": boolean;
         "hasDelete": boolean;
         "hasMenu": boolean;
         "hasPrint": boolean;
@@ -1262,6 +1263,7 @@ declare global {
     interface HTMLIrBookingDetailsElementEventMap {
         "toast": IToast1;
         "bookingChanged": Booking;
+        "closeSidebar": null;
     }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1570,6 +1572,7 @@ declare global {
     };
     interface HTMLIrInputTextElementEventMap {
         "textChange": any;
+        "inputBlur": FocusEvent;
     }
     interface HTMLIrInputTextElement extends Components.IrInputText, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrInputTextElementEventMap>(type: K, listener: (this: HTMLIrInputTextElement, ev: IrInputTextCustomEvent<HTMLIrInputTextElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2257,6 +2260,7 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
         "hasCheckIn"?: boolean;
         "hasCheckOut"?: boolean;
+        "hasCloseButton"?: boolean;
         "hasDelete"?: boolean;
         "hasMenu"?: boolean;
         "hasPrint"?: boolean;
@@ -2267,6 +2271,7 @@ declare namespace LocalJSX {
         "is_from_front_desk"?: boolean;
         "language"?: string;
         "onBookingChanged"?: (event: IrBookingDetailsCustomEvent<Booking>) => void;
+        "onCloseSidebar"?: (event: IrBookingDetailsCustomEvent<null>) => void;
         "onToast"?: (event: IrBookingDetailsCustomEvent<IToast1>) => void;
         "propertyid"?: number;
         "ticket"?: string;
@@ -2444,6 +2449,7 @@ declare namespace LocalJSX {
         "labelPosition"?: 'left' | 'right' | 'center';
         "labelWidth"?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         "name"?: string;
+        "onInputBlur"?: (event: IrInputTextCustomEvent<FocusEvent>) => void;
         "onTextChange"?: (event: IrInputTextCustomEvent<any>) => void;
         "placeholder"?: string;
         "readonly"?: boolean;

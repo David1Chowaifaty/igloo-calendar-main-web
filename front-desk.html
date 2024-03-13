@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>Igloo Calendar</title>
+    <script src="dist/collection/assets/scripts/jquery.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/moment.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/daterangepicker.js"></script>
+    <script src="dist/collection/assets/scripts/bootstrap.bundle.min.js"></script>
+    <script src="dist/collection/assets/scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="dist/collection/assets/scripts/toastr/toastr.min.js"></script>
+    <script type="module" src="dist/ir-webcmp/ir-webcmp.esm.js"></script>
+    <link rel="stylesheet" href="dist/collection/assets/scripts/daterangepicker/daterangepicker.css">
+    <script src="index.js"></script>
+    <style>
+        .active a {
+            color: var(--blue) !important
+        }
+    </style>
+</head>
+
+<body>
+    <ir-common></ir-common>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Housekeeping first page <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="tasks.html">Housekeeping tasks</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="front-desk.html">Front desk</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="booking-details.html">Booking details</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="booking-listing.html">booking listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="channel.html">Channel</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <igloo-calendar currency-name="USD" propertyid="42" language="en"
+        baseurl="https://gateway.igloorooms.com/IR"></igloo-calendar>
+    <link rel="stylesheet" href="assets/scripts/toastr/toastr.css" type="text/css">
+
+    <script>
+        var today = new Date();
+        today.setDate(today.getDate() - 1);
+        var _FROM_DATE = today.toISOString().substring(0, 10)
+        today.setDate(today.getDate() + 60);
+        var _TO_DATE = today.toISOString().substring(0, 10)
+        const calendar = document.querySelector("igloo-calendar");
+        calendar.from_date = _FROM_DATE;
+        calendar.to_date = _TO_DATE;
+        setTimeout(() => {
+            const ticket = getToken();
+            calendar.propertyid = getId();
+            calendar.ticket = ticket;
+        }, 300)
+    </script>
+</body>
+
+</html>

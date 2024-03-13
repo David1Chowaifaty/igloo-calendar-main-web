@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>Igloo Calendar</title>
+    <script src="dist/collection/assets/scripts/jquery.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/moment.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/daterangepicker.js"></script>
+    <script src="dist/collection/assets/scripts/bootstrap.bundle.min.js"></script>
+    <script src="dist/collection/assets/scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="dist/collection/assets/scripts/toastr/toastr.min.js"></script>
+    <script type="module" src="dist/ir-webcmp/ir-webcmp.esm.js"></script>
+    <link rel="stylesheet" href="dist/collection/assets/scripts/daterangepicker/daterangepicker.css">
+    <script src="index.js"></script>
+    <style>
+        .active a {
+            color: var(--blue) !important
+        }
+    </style>
+</head>
+
+<body>
+    <ir-common></ir-common>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Housekeeping first page <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="tasks.html">Housekeeping tasks</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="front-desk.html">Front desk</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="booking-details.html">Booking details</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="booking-listing.html">booking listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="channel.html">Channel</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <ir-booking-listing baseurl="https://gateway.igloorooms.com/IR" language="en"></ir-booking-listing>
+    <link rel="stylesheet" href="assets/scripts/toastr/toastr.css" type="text/css">
+
+    <script>
+        const booking_listing = document.querySelector("ir-booking-listing");
+        if (booking_listing) {
+            booking_listing.propertyid = getId();
+            booking_listing.ticket = getToken();
+        } 
+    </script>
+</body>
+
+</html>

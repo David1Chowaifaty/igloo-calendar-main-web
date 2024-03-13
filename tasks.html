@@ -15,12 +15,17 @@
     <script type="module" src="dist/ir-webcmp/ir-webcmp.esm.js"></script>
     <link rel="stylesheet" href="dist/collection/assets/scripts/daterangepicker/daterangepicker.css">
     <script src="index.js"></script>
+    <style>
+        .active a {
+            color: var(--blue) !important
+        }
+    </style>
 </head>
 
 <body>
     <ir-common></ir-common>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">IglooRooms</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,12 +33,24 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">housekeeping first page <span
+                <li class="nav-item ">
+                    <a class="nav-link " href="index.html">Housekeeping first page <span
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="tasks.html">housekeeping tasks</a>
+                    <a class="nav-link" href="tasks.html">Housekeeping tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="front-desk.html">Front desk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="booking-details.html">Booking details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="booking-listing.html">booking listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="channel.html">Channel</a>
                 </li>
             </ul>
 
