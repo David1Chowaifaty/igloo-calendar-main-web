@@ -2,14 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-009c7daa.js');
-const channel_service = require('./channel.service-08dba8ce.js');
-const channel_store = require('./channel.store-1bf486a4.js');
-const locales_store = require('./locales.store-c5736986.js');
-require('./Token-c9908564.js');
-require('./calendar-data-3ac2e8ab.js');
-require('./index-5dfb1468.js');
-require('./axios-e9313b88.js');
+const index = require('./index-3eb932d8.js');
+const channel_service = require('./channel.service-450f7511.js');
+const channel_store = require('./channel.store-0e6099ce.js');
+const locales_store = require('./locales.store-f7b9ca3b.js');
+require('./Token-0b5ba7e4.js');
+require('./calendar-data-0b8b4f1c.js');
+require('./index-c1e3243e.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 const IrChannelEditorStyle0 = irChannelEditorCss;
@@ -88,9 +87,9 @@ const IrChannelEditor = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: '8be65661be5ba3ea850c4a85dfbf55fe7d447a70', class: " d-flex flex-column h-100" }, index.h("nav", { key: '1ad1d3720798be908e0dca3bdd8fc33ea121492b', class: "px-1 position-sticky sticky-top pb-1 top-0 bg-white" }, index.h("div", { key: '4062ec3290ed64e4251708a351a1d826cbee41af', class: "d-flex align-items-center  justify-content-between" }, index.h("h3", { key: 'decc170aee9605bc2546cb37a1e7c9c67c5dc040', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: 'fe8d154a771c41d795de8246df47760b39266b0f', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (index.h(index.Host, { key: '30f9d0fd189a4ea48997dcf110a5fc09945420c6', class: " d-flex flex-column h-100" }, index.h("nav", { key: '04c0cf7c9b29b376abfddb37a06f7354e6391b09', class: "px-1 position-sticky sticky-top pb-1 top-0 bg-white" }, index.h("div", { key: 'fa8ed2ae08fb354a957909b3d900307218ee9714', class: "d-flex align-items-center  justify-content-between" }, index.h("h3", { key: '3d89bd4d769d96ee7283376ee93d6496c63f7f95', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: 'd9d5f0f6f19aa70ab2fd7518f123a791e3809683', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, index.h("svg", { key: 'f20e57b9addba1d5a9c84d45fad0630187ee3a63', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'b50a94bd4b258a291650cc055ce05bb9068f0dd3', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: 'ddd905dc9a0af7c03e0aef3e05a4349f1ed801ab', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: 'cfdaa23e3247e83157c57580c05ba87a0bf8e7c1', class: "py-1 flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: '72905c00352bd73d1a21586200a8e159e9dd8592', isLoading: this.isLoading, onClickHanlder: () => this.saveConnectedChannel(), class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save })));
+            } }, index.h("svg", { key: 'b590fea1b751bce765c39976b04b3ac3711b328d', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '54f32e49a61a1672269da16709bb4e54a8fb685e', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: 'ebb2626eeb49ca5bd8ee96e1dc0ca19765cc897a', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: '46426bcf46b5c95a268b2840c1ec1dd30c1b3bf5', class: "py-1 flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: 'eb3552eeccf3bc695c74d7b7958163b886633e0c', isLoading: this.isLoading, onClickHanlder: () => this.saveConnectedChannel(), class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save })));
     }
 };
 IrChannelEditor.style = IrChannelEditorStyle0;

@@ -256,6 +256,7 @@ class BookingService extends Token {
             days.push({
                 date: startDate.toISOString().split('T')[0],
                 amount: amount,
+                cost: null,
             });
             startDate.setDate(startDate.getDate() + 1);
         }
@@ -335,7 +336,6 @@ class BookingService extends Token {
         }
     }
     async bookUser(bookedByInfoData, check_in, fromDate, toDate, guestData, totalNights, source, propertyid, rooms, currency, bookingNumber, defaultGuest, arrivalTime, pr_id, identifier) {
-        console.log(arrivalTime);
         try {
             const token = this.getToken();
             if (token) {
@@ -378,9 +378,7 @@ class BookingService extends Token {
                         },
                         source,
                         currency,
-                        arrival: arrivalTime
-                            ? { code: arrivalTime }
-                            : Object.assign({}, bookedByInfoData.selectedArrivalTime),
+                        arrival: { code: arrivalTime ? arrivalTime : bookedByInfoData.selectedArrivalTime },
                         guest: defaultGuest || guest,
                         rooms: [
                             ...guestData.map(data => ({

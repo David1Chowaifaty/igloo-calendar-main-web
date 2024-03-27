@@ -1,5 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { i as isRequestPending } from './ir-interceptor.store.js';
+import { h as hooks } from './moment.js';
 import { d as defineCustomElement$b } from './igl-book-property-footer2.js';
 import { d as defineCustomElement$a } from './igl-book-property-header2.js';
 import { d as defineCustomElement$9 } from './igl-booking-room-rate-plan2.js';
@@ -42,15 +43,26 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
     isEventType(event) {
         return event === this.eventType;
     }
+    setMinDate() {
+        if (!this.isEventType('EDIT_BOOKING')) {
+            return;
+        }
+        const from_date = hooks(this.bookingData.FROM_DATE, 'YYYY-MM-DD');
+        const today = hooks();
+        if (from_date.isAfter(today)) {
+            return today.add(-2, 'weeks').format('YYYY-MM-DD');
+        }
+        return from_date.add(-2, 'weeks').format('YYYY-MM-DD');
+    }
     render() {
         var _a, _b;
         //console.log(this.bookingData);
-        return (h(Host, { key: '06a79a0c2b97870bf9bfe0d1fc872e6fb347322d' }, h("igl-book-property-header", { key: '5c4bc6d489f1df89355567ad2502f95a01b5e3aa', bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData,
+        return (h(Host, { key: '0084d8e5888665e7e0b415df79fc6be3ac9f1cce' }, h("igl-book-property-header", { key: 'e88f8e74190aa662b15b90d82c2cad407458b5f4', bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
             // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
-            adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: '0ea7b03e1cac9f3f8278ed2f3c87752b587a9cde', class: " text-left" }, isRequestPending('/Get_Exposed_Booking_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_b = (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.roomsInfo) === null || _b === void 0 ? void 0 : _b.map(roomInfo => {
+            adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'fc40218873522cd677a3521b525fdfa981aff75e', class: " text-left" }, isRequestPending('/Get_Exposed_Booking_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_b = (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.roomsInfo) === null || _b === void 0 ? void 0 : _b.map(roomInfo => {
             //console.log(this.selectedRooms);
             return (h("igl-booking-rooms", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-info-${roomInfo.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomTypeData: roomInfo, class: "mt-2 mb-1 p-0", roomInfoId: this.selectedRooms.has(`c_${roomInfo.id}`) ? roomInfo.id : null, defaultData: this.selectedRooms.get(`c_${roomInfo.id}`), onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }));
-        })))), h("igl-book-property-footer", { key: 'bbf18f64bd60a0d85f6207b09208c1250de883ae', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type, disabled: this.selectedRooms.size === 0 })));
+        })))), h("igl-book-property-footer", { key: '586fe4e4ac2fa61b392ab4c3adef9a7678069d88', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type, disabled: this.selectedRooms.size === 0 })));
     }
     static get style() { return IglBookingOverviewPageStyle0; }
 }, [2, "igl-booking-overview-page", {

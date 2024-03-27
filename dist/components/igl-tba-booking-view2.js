@@ -2,9 +2,11 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { i as isRequestPending } from './ir-interceptor.store.js';
+import { d as defineCustomElement$1 } from './ir-button2.js';
 import { v as v4 } from './v4.js';
 
-const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{padding:5px !important;padding-right:0px !important}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{width:100px}.btn-secondary.sc-igl-tba-booking-view{margin-right:8px !important}";
+const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box}.btn-secondary.sc-igl-tba-booking-view{margin-right:8px !important}";
 const IglTbaBookingViewStyle0 = iglTbaBookingViewCss;
 
 const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingView extends HTMLElement {
@@ -88,7 +90,7 @@ const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingVi
     handleHighlightAvailability() {
         this.highlightToBeAssignedBookingEvent.emit({
             key: 'highlightBookingId',
-            data: { bookingId: this.eventData.ID },
+            data: { bookingId: this.eventData.ID, fromDate: this.eventData.FROM_DATE },
         });
         if (!this.selectedDate) {
             return;
@@ -126,6 +128,7 @@ const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingVi
             data: { bookingId: '----' },
         });
         this.onSelectRoom({ target: { value: '' } });
+        this.selectedRoom = -1;
         this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: [] });
         this.renderView();
     }
@@ -146,7 +149,7 @@ const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingVi
         // this.initializeToolTips();
     }
     render() {
-        return (h(Host, { key: '62db07bedbfd6fe0413b98fdd4519926039e54e9' }, h("div", { key: '31dbc5fc98d88c10777f3185e2ecf47e6c83ae80', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: 'a420988d3b1a25e12bb3bba7715b08f28ed60d69', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '9f89affaa39ec5013445d677d4df32a3c75c2329', class: "row m-0 p-0 actionsContainer" }, h("div", { key: '9deaaeceb76f20320708af8373d7847695f58193', class: "d-inline-block p-0 selectContainer" }, h("select", { key: 'd954506a1b0c52f60215fc9ff281513c20b82697', class: "form-control input-sm", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: 'f97cd42de19a1de0689064577e2148022e758861', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name))))), this.highlightSection ? (h("div", { class: "d-inline-block text-right buttonsContainer" }, h("button", { type: "button", class: "btn btn-secondary btn-sm", onClick: evt => this.handleCloseAssignment(evt) }, "X"), h("button", { type: "button", class: "btn btn-primary btn-sm", onClick: evt => this.handleAssignUnit(evt), disabled: this.selectedRoom === -1 }, locales.entries.Lcz_Assign))) : null), h("hr", { key: '98013eb58cbd257315ef8d7d11558f2c154997e2' }))));
+        return (h(Host, { key: '5ddeb4dd0cfc8f30101d9ded9b857bb674aa5043' }, h("div", { key: '9b884bc2147a2b0d89758b59609b9c14975c8bab', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '7c03cf96d5736185b71728d1d6ebe5fa44ad517b', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: 'b775c45a9345dd3b046033dd80cdf41dafabe9d3', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '6663d1a57aacf7aa3424f1f57be9aa5c17ba7638', class: "form-control input-sm room-select", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: 'bdb42a580307bdceca7df967e2aed8798fe2f973', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "d-flex buttonsContainer" }, h("button", { type: "button", class: "btn btn-secondary btn-sm", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("ir-button", { isLoading: isRequestPending('/Assign_Exposed_Room'), size: "sm", text: locales.entries.Lcz_Assign, onClickHanlder: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }))) : null), h("hr", { key: '18a421dc6fb1b1081667e8f8a95125713f2507f6' }))));
     }
     static get style() { return IglTbaBookingViewStyle0; }
 }, [2, "igl-tba-booking-view", {
@@ -164,11 +167,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-tba-booking-view"];
+    const components = ["igl-tba-booking-view", "ir-button"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-tba-booking-view":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglTbaBookingView);
+            }
+            break;
+        case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$1();
             }
             break;
     } });

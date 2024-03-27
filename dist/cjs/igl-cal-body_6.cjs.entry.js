@@ -2,19 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-009c7daa.js');
-const unassigned_dates_store = require('./unassigned_dates.store-e1140c42.js');
-const locales_store = require('./locales.store-c5736986.js');
-const toBeAssigned_service = require('./toBeAssigned.service-65932977.js');
+const index = require('./index-3eb932d8.js');
+const unassigned_dates_store = require('./unassigned_dates.store-e53109bc.js');
+const locales_store = require('./locales.store-f7b9ca3b.js');
+const toBeAssigned_service = require('./toBeAssigned.service-415bbc16.js');
 const utils = require('./utils-ddcad063.js');
 const moment = require('./moment-1780b03a.js');
-const calendarData = require('./calendar-data-3ac2e8ab.js');
-const axios = require('./axios-e9313b88.js');
-const booking_service = require('./booking.service-e6825208.js');
+const calendarData = require('./calendar-data-0b8b4f1c.js');
+const Token = require('./Token-0b5ba7e4.js');
+const booking_service = require('./booking.service-31250493.js');
 const v4 = require('./v4-9b297151.js');
-require('./index-5dfb1468.js');
-require('./Token-c9908564.js');
-require('./booking-69f8521b.js');
+require('./index-c1e3243e.js');
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid #e0e0e0}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 const IglCalBodyStyle0 = iglCalBodyCss;
@@ -294,7 +292,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (index.h(index.Host, { key: '075d50146c3f63298fb44812b78d825dc0d9c79b', class: "footerContainer" }, index.h("div", { key: 'e7f66892eb43591eeb99f2156d8ae95008dbb329', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, index.h("div", { key: 'e5bcc7f0dab8b3dba5998e6bb0a0bd7cdd88ce4d', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, index.h("i", { key: 'ef68f8cf92ac228bb1627e3c4d0c2a795edbb090', class: "la la-square" }), index.h("u", { key: 'b4a4d3925fb96c51b8bdc3e8c5b4cd9fb578cdf1' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: 'e8a3962cde3dbc3594eb747b21e55bc19ef6b336' }, " - v26"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (index.h(index.Host, { key: '075d50146c3f63298fb44812b78d825dc0d9c79b', class: "footerContainer" }, index.h("div", { key: 'e7f66892eb43591eeb99f2156d8ae95008dbb329', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, index.h("div", { key: 'e5bcc7f0dab8b3dba5998e6bb0a0bd7cdd88ce4d', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, index.h("i", { key: 'ef68f8cf92ac228bb1627e3c4d0c2a795edbb090', class: "la la-square" }), index.h("u", { key: 'b4a4d3925fb96c51b8bdc3e8c5b4cd9fb578cdf1' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: 'e8a3962cde3dbc3594eb747b21e55bc19ef6b336' }, " - v37"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;
@@ -353,13 +351,9 @@ const IglCalHeader = class {
         try {
             const { fromDate, toDate, data } = this.unassignedDates;
             let dt = new Date(fromDate);
-            dt.setHours(0);
-            dt.setMinutes(0);
-            dt.setSeconds(0);
+            dt.setHours(0, 0, 0, 0);
             let endDate = dt.getTime();
-            //console.log('unassigned Dates', this.unassignedDates);
             while (endDate <= new Date(toDate).getTime()) {
-                //console.log('end date:', endDate);
                 const selectedDate = moment.hooks(endDate).format('D_M_YYYY');
                 if (data[endDate]) {
                     const result = await this.toBeAssignedService.getUnassignedRooms(this.propertyid, utils.dateToFormattedString(new Date(endDate)), this.calendarData.roomsInfo, this.calendarData.formattedLegendData);
@@ -369,7 +363,9 @@ const IglCalHeader = class {
                     const res = this.unassignedRoomsNumber[selectedDate] - 1;
                     this.unassignedRoomsNumber[selectedDate] = res < 0 ? 0 : res;
                 }
-                endDate = moment.hooks(endDate).add(1, 'days').toDate().getTime();
+                const newEndDate = moment.hooks(endDate).add(1, 'days').toDate();
+                newEndDate.setHours(0, 0, 0, 0);
+                endDate = newEndDate.getTime();
                 this.renderView();
             }
         }
@@ -467,10 +463,10 @@ const IglCalHeader = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (index.h(index.Host, { key: '4f4a726e1522d7aef6a8947cc4a1b97296282888' }, index.h("div", { key: '450c93cff86440ff045d8954747d895c128d7e57', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: 'd0b099b3040da0842472a5b0cb88197c9cbfe4bd', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("div", { class: "caledarBtns", onClick: () => this.handleOptionEvent('showAssigned'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip }, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", class: "svg-icon" }, index.h("path", { fill: "#6b6f82", d: "M448 160H320V128H448v32zM48 64C21.5 64 0 85.5 0 112v64c0 26.5 21.5 48 48 48H464c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zM448 352v32H192V352H448zM48 288c-26.5 0-48 21.5-48 48v64c0 26.5 21.5 48 48 48H464c26.5 0 48-21.5 48-48V336c0-26.5-21.5-48-48-48H48z" })))), index.h("div", { key: 'ceb62d3ac92a7d62248d3fc9bb5d96a8599f1c82', class: "caledarBtns", onClick: () => this.handleOptionEvent('calendar'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Navigate }, index.h("svg", { key: '2693cad538cb3a0d8558d9eec6d72fd5836a1d5d', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", class: 'svg-icon' }, index.h("path", { key: '8c45ef82a7a4c6be8bedabca8bcc2a1be7f5adb9', fill: "#6b6f82", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), index.h("ir-date-picker", { key: '4e688140c4fbb2f23e3c482d293dcf223985d4e9', minDate: moment.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), autoApply: true, singleDatePicker: true, onDateChanged: evt => {
+        return (index.h(index.Host, { key: '26c4266349639a1bea3dc8671b76f4db9ff2effd' }, index.h("div", { key: 'a2ac4e13a7c1e1e3f0baa7560c013ad36f1e3fe4', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: '799dc5768fb6938447d7c764c26fade942fd3ab9', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("div", { class: "caledarBtns", onClick: () => this.handleOptionEvent('showAssigned'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip }, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", class: "svg-icon" }, index.h("path", { fill: "#6b6f82", d: "M448 160H320V128H448v32zM48 64C21.5 64 0 85.5 0 112v64c0 26.5 21.5 48 48 48H464c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zM448 352v32H192V352H448zM48 288c-26.5 0-48 21.5-48 48v64c0 26.5 21.5 48 48 48H464c26.5 0 48-21.5 48-48V336c0-26.5-21.5-48-48-48H48z" })))), index.h("div", { key: '5081e4c9e9f44df51a511c65401b553751e4afdc', class: "caledarBtns", onClick: () => this.handleOptionEvent('calendar'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Navigate }, index.h("svg", { key: 'b36b410797d99f9719bbbb5a472ca97b62fd5e24', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", class: 'svg-icon' }, index.h("path", { key: '6ef8fbe8d682cea9deb47db1166adddd75648dc5', fill: "#6b6f82", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), index.h("ir-date-picker", { key: '04fc57d1278d06fc76412c70cffd9227313cbe48', minDate: moment.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), autoApply: true, singleDatePicker: true, onDateChanged: evt => {
                 console.log('evt', evt);
                 this.handleDateSelect(evt);
-            }, class: "datePickerHidden" })), index.h("div", { key: 'c6d0c541721e2bc72dc07befb6b38244a08fd7d1', class: "caledarBtns", onClick: () => this.handleOptionEvent('gotoToday'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Today }, index.h("svg", { key: '281fc8a562b43bfd5415025731faff56f165b648', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", class: "svg-icon" }, index.h("path", { key: '132b142fa805416acc8ea64325cd208e1f2b262c', fill: "#6b6f82", d: "M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" }))), index.h("div", { key: '36e7354c12a7b9f3ea83aba7dff8bf21358745b1', class: "caledarBtns", onClick: () => this.handleOptionEvent('add', this.getNewBookingModel()), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_CreateNewBooking }, index.h("svg", { key: '2dfae86e391487b4854d0af51245ad28ccc65e59', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", class: "svg-icon" }, index.h("path", { key: 'd468ac33fbdfc673ddb6dd2fb144915b9d5af638', fill: "#6b6f82", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))), index.h("div", { key: 'cf487a484cfd5ab9f6d3f8ac9e3cf2e6699d31c3', class: "row justify-content-around no-gutters searchContiner" }, index.h("fieldset", { key: '79740126388922e43594ad4b340d66c31c5c7aa0', class: `form-group position-relative ${this.searchValue != '' ? 'show' : ''}` }, index.h("input", { key: 'bdc5ee971284e9da4d909e6b2f0dee016280eb0e', type: "text", class: "form-control form-control-sm input-sm", id: "iconLeft7", value: this.searchValue, placeholder: locales_store.locales.entries.Lcz_FindUnit, onInput: event => this.handleFilterRooms(event) }), this.searchValue !== '' ? (index.h("div", { class: "form-control-position pointer", onClick: () => this.handleClearSearch(), "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Clear Selection" }, index.h("i", { class: "la la-close font-small-4" }))) : null, this.searchList.length ? (index.h("div", { class: "position-absolute searchListContainer dropdown-menu dropdown-menu-left min-width-full" }, this.searchList.map(room => (index.h("div", { class: "searchListItem1 dropdown-item px-1 text-left pointer", onClick: () => this.handleScrollToRoom(room.id) }, room.name))))) : null))), index.h("div", { key: 'dc590e19d9fd4f73f69d4e795a148d7194d9e98e', class: "stickyCell headersContainer" }, index.h("div", { key: '3e51e2444fce29e042b5b811554f4a15e6e58f4d', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (index.h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, index.h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => (index.h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (index.h("div", { class: "preventPageScroll" }, index.h("span", { class: `badge badge-${this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? 'info pointer' : 'light'} badge-pill`, onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))), index.h("div", { class: "dayTitle" }, dayInfo.dayDisplayName), index.h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")))))));
+            }, class: "datePickerHidden" })), index.h("div", { key: '94019728141a4a8ef52f41b7fd4f6f4de0a11e59', class: "caledarBtns", onClick: () => this.handleOptionEvent('gotoToday'), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Today }, index.h("svg", { key: '877a98ecafc418cd828670c3aee8e1fbd5562881', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", class: "svg-icon" }, index.h("path", { key: '35f48090ca466dbfa659207088df847e89c54d93', fill: "#6b6f82", d: "M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" }))), index.h("div", { key: '0106889d70f0421cb31ce722e5c2d4929a1db97e', class: "caledarBtns", onClick: () => this.handleOptionEvent('add', this.getNewBookingModel()), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_CreateNewBooking }, index.h("svg", { key: '5cf5eca11e4ab9edb2c07b47e59ae68e813ebac1', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", class: "svg-icon" }, index.h("path", { key: '9654cfdbcc888acc1374ef91d8170fe1b2b937de', fill: "#6b6f82", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))), index.h("div", { key: '3c1208a826967faf1de23e8b4c1f7b208099154f', class: "row justify-content-around no-gutters searchContiner" }, index.h("fieldset", { key: '75cf60a3ee351716996947a8f136ce7c5bf88cb1', class: `form-group position-relative ${this.searchValue != '' ? 'show' : ''}` }, index.h("input", { key: '5078b81d0e9b43555c7df3ca71a10ca3c5e9b6e3', type: "text", class: "form-control form-control-sm input-sm", id: "iconLeft7", value: this.searchValue, placeholder: locales_store.locales.entries.Lcz_FindUnit, onInput: event => this.handleFilterRooms(event) }), this.searchValue !== '' ? (index.h("div", { class: "form-control-position pointer", onClick: () => this.handleClearSearch(), "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Clear Selection" }, index.h("i", { class: "la la-close font-small-4" }))) : null, this.searchList.length ? (index.h("div", { class: "position-absolute searchListContainer dropdown-menu dropdown-menu-left min-width-full" }, this.searchList.map(room => (index.h("div", { class: "searchListItem1 dropdown-item px-1 text-left pointer", onClick: () => this.handleScrollToRoom(room.id) }, room.name))))) : null))), index.h("div", { key: '9f4b6f7371d623d4ba85cef1526c9cc4f978dd86', class: "stickyCell headersContainer" }, index.h("div", { key: '7f2f3e8ff786ae492e4b40d18abd07390c748955', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (index.h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, index.h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => (index.h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (index.h("div", { class: "preventPageScroll" }, index.h("span", { class: `badge badge-${this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? 'info pointer' : 'light'} badge-pill`, onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))), index.h("div", { class: "dayTitle" }, dayInfo.dayDisplayName), index.h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")))))));
     }
     static get watchers() { return {
         "unassignedDates": ["handleCalendarDataChanged"]
@@ -518,11 +514,12 @@ const IglToBeAssigned = class {
         this.propertyid = undefined;
         this.from_date = undefined;
         this.to_date = undefined;
-        this.loadingMessage = undefined;
         this.calendarData = undefined;
+        this.loadingMessage = undefined;
         this.showDatesList = false;
         this.renderAgain = false;
         this.orderedDatesList = [];
+        this.noScroll = false;
     }
     componentWillLoad() {
         this.toBeAssignedService.setToken(calendarData.calendar_data.token);
@@ -566,6 +563,7 @@ const IglToBeAssigned = class {
         if (opt.key === 'assignUnit') {
             if (Object.keys(this.data[data.selectedDate].categories).length === 1) {
                 this.isLoading = true;
+                this.noScroll = true;
             }
             this.data[data.selectedDate].categories[data.RT_ID] = this.data[data.selectedDate].categories[data.RT_ID].filter(eventData => eventData.ID != data.assignEvent.ID);
             this.calendarData = data.calendarData;
@@ -643,6 +641,13 @@ const IglToBeAssigned = class {
         this.showDatesList = false;
         this.renderView();
     }
+    handleToBeAssignedDate(e) {
+        this.showBookingPopup.emit({
+            key: 'calendar',
+            data: new Date(e.detail.data.fromDate).getTime() - 86400000,
+            noScroll: false,
+        });
+    }
     async showForDate(dateStamp, withLoading = true) {
         try {
             if (withLoading) {
@@ -656,6 +661,7 @@ const IglToBeAssigned = class {
             this.showBookingPopup.emit({
                 key: 'calendar',
                 data: parseInt(dateStamp) - 86400000,
+                noScroll: this.noScroll,
             });
             if (this.isGotoToBeAssignedDate) {
                 this.isGotoToBeAssignedDate = false;
@@ -706,7 +712,7 @@ const IglToBeAssigned = class {
     }
     render() {
         var _a;
-        return (index.h(index.Host, { key: '84d7e618d010a9bd54fb12dca3884c96b6c62e7b', class: "tobeAssignedContainer pr-1 text-left" }, index.h("div", { key: '8dfa22bf3affb56422846a473e028e594970e0cc' }, index.h("div", { key: '562765c89db354228b77d1396bcde8a034eb17f9' }, index.h("div", { key: '61a270fc511cb36e7e2600f1b051826a23f61f58', class: "stickyHeader pt-1" }, index.h("p", { key: '367c42ff317dca9074f948b45e213d60462121f0', class: "tobeAssignedHeader " }, locales_store.locales.entries.Lcz_Assignments), index.h("ir-icon", { key: '48e343573dd2bcfdc9f5f9907736cc78acf56d2c', class: "closeBtn pt-2", onIconClickHandler: () => this.handleOptionEvent('closeSideMenu') }, index.h("svg", { key: '9a0f3ff072c8764a4263ec1bd9a894720de11385', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: '4ee2ddd0928a07f0539e06114a21b3a9b5b48377', fill: "#6b6f82", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" }))), index.h("hr", { key: 'cf9d25d099d214fa8a8e6cc6d9534f16aa6999b6' }), Object.keys(this.data).length === 0 ? (index.h("p", null, locales_store.locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (index.h("p", { class: "d-flex align-items-center" }, index.h("span", { class: "p-0" }, this.loadingMessage), index.h("div", { class: "dots" }, index.h("div", { class: "dot" }), index.h("div", { class: "dot" }), index.h("div", { class: "dot" })))) : (index.h(index.Fragment, null, this.orderedDatesList.length ? (index.h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("div", { class: 'dropdown-toggle' }, index.h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, (_a = this.orderedDatesList) === null || _a === void 0 ? void 0 : _a.map(ordDate => (index.h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales_store.locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (index.h("div", { class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (index.h("div", { class: "mt-1" }, locales_store.locales.entries.Lcz_AllAssignForThisDay))) : null))))));
+        return (index.h(index.Host, { key: '7b8292229b547bd8eb95a6325feae2a9d1226a46', class: "tobeAssignedContainer pr-1 text-left" }, index.h("div", { key: '6ff2729da28fea01e9a4d3ec782bf47481b2496c' }, index.h("div", { key: 'fc81023fbfdc31f8eadb73c09547c5e5eb506dd4' }, index.h("div", { key: '78e365fdac797f0901780b513f4c447b3743173f', class: "stickyHeader pt-1" }, index.h("p", { key: 'a6939123a5350a223cffa1e75157000ee43b276c', class: "tobeAssignedHeader " }, locales_store.locales.entries.Lcz_Assignments), index.h("ir-icon", { key: 'd4a1d6bfd3ee8deb43888bc4d6b24fdb2a683f75', class: "closeBtn pt-2", onIconClickHandler: () => this.handleOptionEvent('closeSideMenu') }, index.h("svg", { key: '8542d4ad23372e6df0c9834cf7f85d57326fce7e', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: 'f5ec1d97938cbf03b5a4ad5e93a86a0aa2a1c480', fill: "#6b6f82", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" }))), index.h("hr", { key: 'f0790a0aaa0c24939bfe447d624fcf210c67ee15' }), Object.keys(this.data).length === 0 ? (index.h("p", null, locales_store.locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (index.h("p", { class: "d-flex align-items-center" }, index.h("span", { class: "p-0" }, this.loadingMessage), index.h("div", { class: "dots" }, index.h("div", { class: "dot" }), index.h("div", { class: "dot" }), index.h("div", { class: "dot" })))) : (index.h(index.Fragment, null, this.orderedDatesList.length ? (index.h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("div", { class: 'dropdown-toggle' }, index.h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, (_a = this.orderedDatesList) === null || _a === void 0 ? void 0 : _a.map(ordDate => (index.h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales_store.locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (index.h("div", { class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (index.h("div", { class: "mt-1" }, locales_store.locales.entries.Lcz_AllAssignForThisDay))) : null))))));
     }
     static get watchers() { return {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]
@@ -714,7 +720,7 @@ const IglToBeAssigned = class {
 };
 IglToBeAssigned.style = IglToBeAssignedStyle0;
 
-const irRoomNightsCss = ".sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0}.close-icon.sc-ir-room-nights{position:absolute;top:18px;right:33px;outline:none}.close.sc-ir-room-nights{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-left:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-left:5px !important;padding-right:5px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}";
+const irRoomNightsCss = ".sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0;position:relative}.loading-container.sc-ir-room-nights{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.close-icon.sc-ir-room-nights{position:absolute;top:18px;right:33px;outline:none}.close.sc-ir-room-nights{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-left:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-left:5px !important;padding-right:5px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}";
 const IrRoomNightsStyle0 = irRoomNightsCss;
 
 const IrRoomNights = class {
@@ -744,7 +750,7 @@ const IrRoomNights = class {
     componentWillLoad() {
         this.bookingService.setToken(calendarData.calendar_data.token);
         if (this.baseUrl) {
-            axios.axios.defaults.baseURL = this.baseUrl;
+            Token.axios.defaults.baseURL = this.baseUrl;
         }
         this.init();
     }
@@ -768,6 +774,7 @@ const IrRoomNights = class {
                         ...newDatesArr.map(day => ({
                             amount,
                             date: day,
+                            cost: null,
                         })),
                         ...this.selectedRoom.days,
                     ];
@@ -780,6 +787,7 @@ const IrRoomNights = class {
                         ...newDatesArr.map(day => ({
                             amount,
                             date: day,
+                            cost: null,
                         })),
                     ];
                 }
@@ -885,7 +893,7 @@ const IrRoomNights = class {
                     rooms: oldRooms,
                 },
             };
-            const { data } = await axios.axios.post(`/DoReservation?Ticket=${this.ticket}`, body);
+            const { data } = await Token.axios.post(`/DoReservation?Ticket=${this.ticket}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -900,7 +908,7 @@ const IrRoomNights = class {
     render() {
         var _a, _b, _c;
         if (!this.bookingEvent) {
-            return index.h("ir-loading-screen", null);
+            return (index.h("div", { class: "loading-container" }, index.h("ir-loading-screen", null), ";"));
         }
         return (index.h(index.Host, null, index.h("div", { class: "card position-sticky mb-0 shadow-none p-0 " }, index.h("div", { class: "d-flex mt-2 align-items-center justify-content-between " }, index.h("h3", { class: "card-title text-left pb-1 font-medium-2 px-2" }, locales_store.locales.entries.Lcz_AddingRoomNightsTo, " ", (_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 :
             _b.name, " ", ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name), index.h("button", { type: "button", class: "close close-icon", onClick: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }, index.h("ir-icon", { icon: "ft-x", class: 'm-0' })))), index.h("section", { class: 'text-left px-2' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(this.fromDate, 'YYYY-MM-DD')} - ${utils.formatDate(this.toDate, 'YYYY-MM-DD')}`), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), index.h("section", { class: 'd-flex align-items-center mt-2 px-2' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHanlder: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "ml-1 full-width", btn_styles: "justify-content-center", onClickHanlder: this.handleRoomConfirmation.bind(this) })))));

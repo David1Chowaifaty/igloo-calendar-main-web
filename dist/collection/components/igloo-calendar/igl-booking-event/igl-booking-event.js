@@ -136,6 +136,7 @@ export class IglBookingEvent {
                     this.animationFrameId = requestAnimationFrame(() => {
                         this.resetBookingToInitialPosition();
                     });
+                    return;
                 }
             }
             else {
@@ -149,6 +150,12 @@ export class IglBookingEvent {
                 }
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
+                    if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
+                        this.animationFrameId = requestAnimationFrame(() => {
+                            this.resetBookingToInitialPosition();
+                        });
+                        throw new Error('Overlapping Dates');
+                    }
                     if (pool) {
                         if (isBlockUnit(this.bookingEvent.STATUS_CODE)) {
                             await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date).catch(() => {
@@ -157,6 +164,17 @@ export class IglBookingEvent {
                         }
                         else {
                             if (this.isShrinking || !this.isStreatch) {
+                                console.log(this.bookingEvent.PR_ID.toString() === toRoomId.toString(), this.bookingEvent.PR_ID.toString(), toRoomId.toString());
+                                try {
+                                    if (this.bookingEvent.PR_ID.toString() === toRoomId.toString()) {
+                                        await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date);
+                                        return;
+                                    }
+                                }
+                                catch (error) {
+                                    this.resetBookingToInitialPosition();
+                                    return;
+                                }
                                 const { description, status } = this.setModalDescription(toRoomId, from_date, to_date);
                                 let hideConfirmButton = false;
                                 if (status === '400') {
@@ -165,15 +183,14 @@ export class IglBookingEvent {
                                 this.showDialog.emit(Object.assign(Object.assign({}, event.detail), { description, title: '', hideConfirmButton }));
                             }
                             else {
-                                if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
-                                    this.animationFrameId = requestAnimationFrame(() => {
-                                        this.resetBookingToInitialPosition();
-                                    });
-                                    throw new Error('Overlapping Dates');
-                                }
-                                else {
-                                    this.showRoomNightsDialog.emit({ bookingNumber: this.bookingEvent.BOOKING_NUMBER, identifier: this.bookingEvent.IDENTIFIER, to_date, pool, from_date });
-                                }
+                                // if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
+                                //   this.animationFrameId = requestAnimationFrame(() => {
+                                //     this.resetBookingToInitialPosition();
+                                //   });
+                                //   throw new Error('Overlapping Dates');
+                                // } else {
+                                this.showRoomNightsDialog.emit({ bookingNumber: this.bookingEvent.BOOKING_NUMBER, identifier: this.bookingEvent.IDENTIFIER, to_date, pool, from_date });
+                                // }
                             }
                         }
                         this.isShrinking = null;
@@ -577,11 +594,11 @@ export class IglBookingEvent {
         let legend = this.getEventLegend();
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
-        return (h(Host, { key: '820c161e6dc52f0d916b41bdb714aaa371ef8aa3', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '45a6865fa4eb2678c16e5cd3ce14366459fc2d07', class: `bookingEventBase  ${!this.bookingEvent.is_direct &&
+        return (h(Host, { key: 'a1cf8c653b0ab850a32a5ccc2cb4bd2b3fca7d8d', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '447fec6eab42065973872aaa3154353120883c3f', class: `bookingEventBase  ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { backgroundColor: legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '553fe6ddf7f969ddd38b58e0875dc986771cd734', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'bf942132d7c21375a4590cb511e8a1d2ac1de61e' }, h("div", { key: 'd8dcfefc832fb40fe73af4ba475f996cd0933255', class: "bookingEventDragHandle leftSide", onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '0342beb871b79288c28e098cf15a940de5ef30a2', class: "bookingEventDragHandle rightSide", onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide })) : null));
+                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { backgroundColor: legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '1859bf2c59797ffc2351fe5041a0321b60fbf75d', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '4c074ed3eb646d83725d50890811cdccd21225cc' }, h("div", { key: '9d8ffcb4d56144d2147863dc42448c086ca5231f', class: "bookingEventDragHandle leftSide", onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '5f0ee37d3a25267c1fdd05d5ee0a3d08e6193c7d', class: "bookingEventDragHandle rightSide", onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide })) : null));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }
