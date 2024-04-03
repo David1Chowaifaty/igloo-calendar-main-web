@@ -33,6 +33,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li>v1</li>
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Housekeeping first page <span
                             class="sr-only">(current)</span></a>
@@ -61,8 +62,8 @@
     <script>
         const irchannel = document.querySelector('ir-channel')
         setTimeout(() => {
-            const ticket = getToken()
-            irchannel.propertyid = getId();
+            const ticket = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTMzNTU1NDYsIkNMQUlNLTAxIjoiVGgvejZUZ2toblU9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0Ijoiek5Gdzc1RThFVjdvOXEydXJuOUhtdz09In0.7h0INJ3ZcxanD5Nxv6ydSk83Dy8b4rn8cGDEwdaKIIM"
+            irchannel.propertyid = "341";
             irchannel.ticket = ticket
         }, 300)
     </script>
