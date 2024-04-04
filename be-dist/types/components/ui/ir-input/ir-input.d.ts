@@ -1,0 +1,33 @@
+import { EventEmitter } from '../../../stencil-public-runtime';
+export declare class IrInput {
+    inputId: string;
+    leftIcon: boolean;
+    inputStyles: Partial<CSSStyleDeclaration>;
+    value: string;
+    type: 'button' | 'checkbox' | 'color' | 'date' | 'datetime-local' | 'email' | 'file' | 'hidden' | 'image' | 'month' | 'number' | 'password' | 'radio' | 'range' | 'reset' | 'search' | 'submit' | 'tel' | 'text' | 'time' | 'url' | 'week';
+    name: string;
+    placeholder: string;
+    inputid: string;
+    class: string;
+    required: boolean;
+    disabled: boolean;
+    readonly: boolean;
+    maxlength: number;
+    min: string | number;
+    max: string | number;
+    step: string | number;
+    pattern: string;
+    autocomplete: string;
+    autofocus: boolean;
+    size: number;
+    multiple: boolean;
+    error: boolean;
+    textChanged: EventEmitter<string>;
+    inputFocus: EventEmitter<FocusEvent>;
+    inputBlur: EventEmitter<FocusEvent>;
+    private inputEl;
+    applyStyles(style: Partial<CSSStyleDeclaration>): void;
+    componentDidLoad(): void;
+    handleBlur(event: FocusEvent): void;
+    render(): any;
+}

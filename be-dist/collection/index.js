@@ -1,0 +1,6 @@
+function getToken() {
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTM0Mjk0MjQsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0Ijoiek5Gdzc1RThFVjdvOXEydXJuOUhtdz09In0.3Sy6VjkKR_oNyfUvVKOZv9JsDcRt2in4r8y3PSXH7gc"
+}
+function getPropertyId() {
+    return 42
+}

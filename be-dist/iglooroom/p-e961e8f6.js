@@ -1,0 +1,2 @@
+import{c as a}from"./p-aeec99cd.js";const{state:e,onChange:s}=a({activeOverlays:0});const t=()=>{console.log("first");e.activeOverlays++};const c=()=>{e.activeOverlays=Math.max(0,e.activeOverlays-1)};s("activeOverlays",(a=>{document.body.style.overflow=a>0?"hidden":""}));export{t as a,c as r};
+//# sourceMappingURL=p-e961e8f6.js.map
