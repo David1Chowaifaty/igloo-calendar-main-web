@@ -3,17 +3,18 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3eb932d8.js');
-const room_service = require('./room.service-368ec963.js');
-const booking_service = require('./booking.service-31250493.js');
+const room_service = require('./room.service-dccc71b1.js');
+const booking_service = require('./booking.service-0f3c93be.js');
 const utils = require('./utils-ddcad063.js');
-const Token = require('./Token-0b5ba7e4.js');
-const events_service = require('./events.service-1d0bd1bd.js');
+const axios = require('./axios-345bdc66.js');
+const events_service = require('./events.service-2ae18d18.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-415bbc16.js');
-const unassigned_dates_store = require('./unassigned_dates.store-e53109bc.js');
-const locales_store = require('./locales.store-f7b9ca3b.js');
-const calendarData = require('./calendar-data-0b8b4f1c.js');
-require('./index-c1e3243e.js');
+const toBeAssigned_service = require('./toBeAssigned.service-8eea3d53.js');
+const booking = require('./booking-f906c000.js');
+const unassigned_dates_store = require('./unassigned_dates.store-58eb94f7.js');
+const locales_store = require('./locales.store-976d2caf.js');
+const calendarData = require('./calendar-data-62fecae9.js');
+require('./Token-c9908564.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -3945,7 +3946,7 @@ const IglooCalendar = class {
     componentWillLoad() {
         console.info('without session storage');
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;
@@ -4030,10 +4031,10 @@ const IglooCalendar = class {
                         if (resasons.includes(REASON)) {
                             let transformedBooking;
                             if (REASON === 'BLOCK_EXPOSED_UNIT' || REASON === 'REALLOCATE_EXPOSED_ROOM_BLOCK') {
-                                transformedBooking = [await booking_service.transformNewBLockedRooms(result)];
+                                transformedBooking = [await booking.transformNewBLockedRooms(result)];
                             }
                             else {
-                                transformedBooking = booking_service.transformNewBooking(result);
+                                transformedBooking = booking.transformNewBooking(result);
                             }
                             this.AddOrUpdateRoomBookings(transformedBooking, undefined);
                         }
@@ -4098,7 +4099,7 @@ const IglooCalendar = class {
                             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
                                     ...this.calendarData.bookingEvents.map(event => {
                                         if (result.pools.includes(event.ID)) {
-                                            return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? booking_service.bookingStatus[result.status_code] : result.status_code === '001' ? booking_service.bookingStatus[result.status_code] : 'IN-HOUSE' });
+                                            return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? booking.bookingStatus[result.status_code] : result.status_code === '001' ? booking.bookingStatus[result.status_code] : 'IN-HOUSE' });
                                         }
                                         return event;
                                     }),
@@ -4169,16 +4170,16 @@ const IglooCalendar = class {
                 const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
                 if (bookingEvent.STATUS !== 'PENDING') {
                     if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
-                        bookingEvent.STATUS = booking_service.bookingStatus['000'];
+                        bookingEvent.STATUS = booking.bookingStatus['000'];
                     }
                     else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
-                        bookingEvent.STATUS = booking_service.bookingStatus['000'];
+                        bookingEvent.STATUS = booking.bookingStatus['000'];
                     }
                     else if (toDate.isSame(now, 'day') && now.hour() < 12) {
-                        bookingEvent.STATUS = booking_service.bookingStatus['000'];
+                        bookingEvent.STATUS = booking.bookingStatus['000'];
                     }
                     else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
-                        bookingEvent.STATUS = booking_service.bookingStatus['003'];
+                        bookingEvent.STATUS = booking.bookingStatus['003'];
                     }
                 }
             }
@@ -4347,7 +4348,7 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE = newBooking.FROM_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking_service.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
                     return false;
                 }
                 return true;
@@ -4369,7 +4370,7 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].TO_DATE = newBooking.TO_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking_service.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
                     return false;
                 }
                 return true;

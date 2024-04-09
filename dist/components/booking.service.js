@@ -342,7 +342,7 @@ class BookingService extends Token {
                 const fromDateStr = dateToFormattedString(fromDate);
                 const toDateStr = dateToFormattedString(toDate);
                 let guest = {
-                    email: bookedByInfoData.email || null,
+                    email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
                     first_name: bookedByInfoData.firstName,
                     last_name: bookedByInfoData.lastName,
                     country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
@@ -360,6 +360,9 @@ class BookingService extends Token {
                         }
                         : null,
                 };
+                if (defaultGuest) {
+                    guest = Object.assign(Object.assign({}, defaultGuest), { email: defaultGuest.email === '' ? null : defaultGuest.email });
+                }
                 if (bookedByInfoData.id) {
                     guest = Object.assign(Object.assign({}, guest), { id: bookedByInfoData.id });
                 }
@@ -379,7 +382,7 @@ class BookingService extends Token {
                         source,
                         currency,
                         arrival: { code: arrivalTime ? arrivalTime : bookedByInfoData.selectedArrivalTime },
-                        guest: defaultGuest || guest,
+                        guest,
                         rooms: [
                             ...guestData.map(data => ({
                                 identifier: identifier || null,

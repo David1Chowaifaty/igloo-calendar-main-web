@@ -1,15 +1,16 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-7f938890.js';
-import { R as RoomService } from './room.service-7afdc973.js';
-import { B as BookingService, t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, c as calculateDaysBetweenDates } from './booking.service-e5bfa235.js';
-import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils-f2863f4f.js';
-import { a as axios } from './Token-919197e3.js';
-import { E as EventsService } from './events.service-829ae873.js';
+import { R as RoomService } from './room.service-7dbd5c6b.js';
+import { B as BookingService } from './booking.service-09a9de7f.js';
+import { f as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, g as getNextDay, a as addTwoMonthToDate, c as convertDMYToISO, b as computeEndDate } from './utils-096d5f7a.js';
+import { a as axios } from './axios-d199a765.js';
+import { E as EventsService } from './events.service-ed991686.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-f2e41774.js';
-import { h as handleUnAssignedDatesChange, c as calendar_dates, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-c3dc7090.js';
-import { l as locales } from './locales.store-c41b21fc.js';
-import { c as calendar_data } from './calendar-data-43490890.js';
-import './index-e4733079.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-80c66331.js';
+import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, c as calculateDaysBetweenDates } from './booking-0ffd87de.js';
+import { h as handleUnAssignedDatesChange, c as calendar_dates, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-b0e641a4.js';
+import { l as locales } from './locales.store-1c6011e1.js';
+import { c as calendar_data } from './calendar-data-d7f55348.js';
+import './Token-692eae02.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";

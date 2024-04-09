@@ -27,7 +27,7 @@ export class IrButton {
     }
     render() {
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { key: 'c6ef3fc5a18150bc4a99da7d92a0d7b7ab6487db', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { key: '111d46d6384dfc37293c3f5b4d1b8f0f73728073', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { key: '279a656c5fb83bef6e10a1bba34860c749153d9d', name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
+        return (h("button", { key: 'c8c6dbd45633f748b412ec9758dd2c966e03a3fe', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { key: '4ada997e1d5c277109d818d21c9e1eeaca649fe8', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { key: 'bee8c3d2b47d2d58fff82236ede047b024e6cc3c', name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }

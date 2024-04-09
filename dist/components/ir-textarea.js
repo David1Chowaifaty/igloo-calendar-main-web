@@ -13,7 +13,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '07e7a42b4e07a39c3a06e0342e7b6cb11182a3af', class: "form-group" }, h("label", { key: '0e1336de2ec8abd7b1a13d97ed9b3ddb3ae7bad6' }, this.label), h("textarea", { key: 'be9c4bced786e6f12f0a91d9c7ec7014898e366f', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
+        return (h("div", { key: 'abcd9b930c15f3bee08bebf179a4af704cf4044c', class: "form-group" }, h("label", { key: 'e7848c65657296fc9bf8ae9773a40e1eefb99cbc' }, this.label), h("textarea", { key: 'aa8831310f414112cb166ff3164b6a04c5489d86', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
     }
 }, [0, "ir-textarea", {
         "rows": [2],

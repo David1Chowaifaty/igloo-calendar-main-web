@@ -3,12 +3,12 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3eb932d8.js');
-const housekeeping_service = require('./housekeeping.service-496ae06e.js');
-const room_service = require('./room.service-368ec963.js');
-const locales_store = require('./locales.store-f7b9ca3b.js');
-const Token = require('./Token-0b5ba7e4.js');
-require('./index-c1e3243e.js');
-require('./calendar-data-0b8b4f1c.js');
+const housekeeping_service = require('./housekeeping.service-94a24d7d.js');
+const room_service = require('./room.service-dccc71b1.js');
+const locales_store = require('./locales.store-976d2caf.js');
+const axios = require('./axios-345bdc66.js');
+require('./Token-c9908564.js');
+require('./calendar-data-62fecae9.js');
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}.checkbox-container.sc-ir-hk-tasks{display:flex;align-items:center;justify-content:center}.table-container.sc-ir-hk-tasks{overflow-x:auto;max-width:100%;width:max-content}.table.sc-ir-hk-tasks,th.sc-ir-hk-tasks,td.sc-ir-hk-tasks{border-color:white !important}.select-container.sc-ir-hk-tasks{max-width:500px}@media only screen and (min-width: 900px){td.sc-ir-hk-tasks{min-width:140px !important;width:max-content !important}}@media only screen and (max-width: 900px){td.sc-ir-hk-tasks{min-width:100px !important}.table-container.sc-ir-hk-tasks{width:max-content !important}}";
 const IrHkTasksStyle0 = irHkTasksCss;
@@ -30,7 +30,7 @@ const IrHkTasks = class {
     }
     componentWillLoad() {
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
