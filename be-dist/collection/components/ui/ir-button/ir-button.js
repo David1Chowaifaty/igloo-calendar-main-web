@@ -14,6 +14,7 @@ export class IrButton {
         this.isLoading = false;
         this.buttonStyles = undefined;
         this.buttonClassName = undefined;
+        this.haveRightIcon = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -21,6 +22,9 @@ export class IrButton {
                 this.buttonRef.style[property] = style[property];
             }
         }
+    }
+    handleButtonStylesChange(newValue) {
+        this.applyStyles(newValue);
     }
     componentDidLoad() {
         if (this.buttonStyles) {
@@ -31,7 +35,7 @@ export class IrButton {
         if (this.variants === 'icon') {
             return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, h("slot", { name: "btn-icon" })));
         }
-        return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.haveLeftIcon && !this.isLoading && (h("div", null, h("slot", { name: "left-icon" }))), this.isLoading && !['link', 'ghost'].includes(this.variants) && h("span", { class: "loader" }), this.label));
+        return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants} flex items-center justify-center`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.haveLeftIcon && !this.isLoading && (h("div", null, h("slot", { name: "left-icon" }))), this.isLoading && !['link', 'ghost'].includes(this.variants) && h("span", { class: "loader" }), this.label, this.haveRightIcon && !this.isLoading && (h("div", null, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }
@@ -247,6 +251,23 @@ export class IrButton {
                 },
                 "attribute": "button-class-name",
                 "reflect": false
+            },
+            "haveRightIcon": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "have-right-icon",
+                "reflect": false
             }
         };
     }
@@ -271,6 +292,12 @@ export class IrButton {
                         }
                     }
                 }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "buttonStyles",
+                "methodName": "handleButtonStylesChange"
             }];
     }
 }

@@ -71,6 +71,50 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    user: {
+        viewBox: string;
+        d: string;
+    };
+    heart: {
+        viewBox: string;
+        d: string;
+    };
+    dimensions: {
+        viewBox: string;
+        d: string;
+    };
+    user_group: {
+        viewBox: string;
+        d: string;
+    };
+    search: {
+        viewBox: string;
+        d: string;
+    };
+    smoking: {
+        viewBox: string;
+        d: string;
+    };
+    ban_smoking: {
+        viewBox: string;
+        d: string;
+    };
+    double_bed: {
+        viewBox: string;
+        d: string;
+    };
+    arrow_right: {
+        viewBox: string;
+        d: string;
+    };
+    arrow_left: {
+        viewBox: string;
+        d: string;
+    };
+    circle_info: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

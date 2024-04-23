@@ -69,7 +69,7 @@
 </head>
 
 <body>
-    <ir-common></ir-common>
+    <!-- <ir-common></ir-common> -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -102,6 +102,7 @@
                     <a class="nav-link" href="be-demo.html">BE Demo</a>
                 </li>
                 <li class="nav-item ">
+
                     <a class="nav-link" href="be-theo.html">BE Theo</a>
                 </li>
                 <li class="nav-item">
@@ -112,13 +113,21 @@
 
         </div>
     </nav>
-    <ir-testcmp base-url="https://gateway.igloorooms.com/IR"></ir-testcmp>
+    <ir-booking-engine base-url="https://gateway.igloorooms.com/IR"></ir-booking-engine>
     <!-- <ir-google-maps></ir-google-maps> -->
     <script>
-        const testCmp = document.querySelector('ir-testcmp');
-        testCmp.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTM0Mjk0MjQsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0Ijoiek5Gdzc1RThFVjdvOXEydXJuOUhtdz09In0.3Sy6VjkKR_oNyfUvVKOZv9JsDcRt2in4r8y3PSXH7gc";
-        testCmp.propertyId = "42"
+        const testCmp = document.querySelector('ir-booking-engine');
+        async function init() {
+            testCmp.propertyId = "42"
+            try {
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        init()
     </script>
+
 </body>
 
 </html>

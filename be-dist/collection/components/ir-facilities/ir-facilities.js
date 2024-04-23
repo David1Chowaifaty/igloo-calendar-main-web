@@ -8,7 +8,7 @@ export class IrFacilities {
         if (!this.properties) {
             return null;
         }
-        return (h(Host, null, h("div", { class: "bg-gray-50 rounded-md p-4 space-y-5" }, h("div", { class: "flex  items-center gap-4" }, h("ir-icons", { name: "clock" }), h("p", null, "Check-in: from ", (_a = this.properties) === null || _a === void 0 ? void 0 :
+        return (h(Host, null, h("div", { class: "bg-gray-100 rounded-md p-4 space-y-5" }, h("div", { class: "flex  items-center gap-4" }, h("ir-icons", { name: "clock" }), h("p", null, "Check-in: from ", (_a = this.properties) === null || _a === void 0 ? void 0 :
             _a.time_constraints.check_in_from, " until ", (_b = this.properties) === null || _b === void 0 ? void 0 :
             _b.time_constraints.check_in_till), h("p", null, "Check-out:", (_c = this.properties) === null || _c === void 0 ? void 0 :
             _c.time_constraints.check_out_till)), h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "wifi" }), h("p", null, "Public areas: ", h("span", { class: "text-green-500" }, (_d = this.properties) === null || _d === void 0 ? void 0 : _d.internet_offering.public_internet_statement)), h("p", null, "Rooms: ", h("span", { class: "text-green-500" }, ((_e = this.properties) === null || _e === void 0 ? void 0 : _e.internet_offering.is_room_internet_free) ? 'Free Internet' : 'Paid Internet'))), h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "car" }), h("p", null, (_f = this.properties) === null || _f === void 0 ? void 0 :

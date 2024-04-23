@@ -1,3 +1,4 @@
+import { ICurrency } from "../components";
 import { Assignableunit } from "../models/property";
 import { ClassValue } from 'clsx';
 import { Locale } from 'date-fns';
@@ -16,4 +17,9 @@ type HSLColor = {
 export declare function hexToHSL(hex: string): HSLColor;
 export declare function generateColorShades(baseHex: string): string[];
 export declare function getDateDifference(date1: Date, date2: Date): number;
+export declare function renderTime(time: number): string;
+export declare function getUserPrefernce(): void;
+export declare function setDefaultLocale({ currency }: {
+    currency: ICurrency;
+}): void;
 export {};

@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import IMask from "imask";
 export class IrInput {
     constructor() {
         this.inputId = v4();
@@ -23,7 +24,9 @@ export class IrInput {
         this.autofocus = undefined;
         this.size = undefined;
         this.multiple = undefined;
+        this.label = undefined;
         this.error = false;
+        this.mask = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -32,9 +35,47 @@ export class IrInput {
             }
         }
     }
+    initializeOrUpdateMask() {
+        const input = this.el.querySelector('input');
+        if (this.mask) {
+            if (this.maskInstance) {
+                this.maskInstance.updateOptions(this.mask);
+                this.maskInstance.updateValue();
+            }
+            else {
+                this.maskInstance = IMask(input, this.mask);
+                this.maskInstance.on('accept', () => {
+                    this.textChanged.emit(this.maskInstance.value);
+                });
+            }
+        }
+    }
     componentDidLoad() {
         if (this.inputStyles) {
             this.applyStyles(this.inputStyles);
+        }
+        if (this.mask) {
+            this.initializeOrUpdateMask();
+            const input = this.el.querySelector(`input`);
+            const mask = IMask(input, this.mask);
+            mask.on('accept', () => {
+                this.textChanged.emit(mask.value);
+            });
+            mask.updateValue();
+        }
+    }
+    maskPropChanged(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.initializeOrUpdateMask();
+        }
+    }
+    valueChanged(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            const input = this.el.querySelector('input');
+            input.value = newValue; // Directly set the new value on the input
+            if (this.maskInstance) {
+                this.maskInstance.updateValue(); // Synchronize the mask with the new input value
+            }
         }
     }
     handleBlur(event) {
@@ -45,12 +86,15 @@ export class IrInput {
         else {
             this.inputEl.classList.remove('has-value');
         }
-        this.inputFocus.emit(event);
+        this.inputBlur.emit(event);
+    }
+    disconnectedCallback() {
+        if (this.maskInstance) {
+            this.maskInstance.destroy();
+        }
     }
     render() {
-        return (h("div", { key: 'e4c999e0e43bc326e7d563db2d0fee152c2ba069', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: 'f333f259c6fa94677640665fba0192386fa64110', type: this.type, name: this.name,
-            // placeholder={this.placeholder}
-            id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onChange: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '4f027b09c0bdd53efc58995c2eab9f3a2588adee', class: "placeholder" }, this.placeholder)));
+        return (h("div", { key: '2da9587afde234ff810c5d9153228f3b6528fd98', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: 'f51d1e33f4669e79d1a107113137178f90416d4c', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '90270d762f8cca95f4f670d18f1528ac4306f369', class: "placeholder" }, this.label)));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }
@@ -148,7 +192,7 @@ export class IrInput {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'button'\r\n    | 'checkbox'\r\n    | 'color'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'email'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'image'\r\n    | 'month'\r\n    | 'number'\r\n    | 'password'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'reset'\r\n    | 'search'\r\n    | 'submit'\r\n    | 'tel'\r\n    | 'text'\r\n    | 'time'\r\n    | 'url'\r\n    | 'week'",
-                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"date\" | \"week\" | \"month\" | \"submit\" | \"reset\" | \"checkbox\" | \"datetime-local\" | \"email\" | \"file\" | \"password\" | \"radio\" | \"range\" | \"search\" | \"tel\" | \"url\"",
+                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"submit\" | \"reset\" | \"checkbox\" | \"datetime-local\" | \"file\" | \"radio\" | \"range\" | \"tel\"",
                     "references": {}
                 },
                 "required": false,
@@ -433,6 +477,23 @@ export class IrInput {
                 "attribute": "multiple",
                 "reflect": true
             },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "label",
+                "reflect": false
+            },
             "error": {
                 "type": "boolean",
                 "mutable": false,
@@ -450,6 +511,26 @@ export class IrInput {
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "mask": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Record<string, unknown>",
+                    "resolved": "{ [x: string]: unknown; }",
+                    "references": {
+                        "Record": {
+                            "location": "global",
+                            "id": "global::Record"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
             }
         };
     }
@@ -509,6 +590,16 @@ export class IrInput {
                         }
                     }
                 }
+            }];
+    }
+    static get elementRef() { return "el"; }
+    static get watchers() {
+        return [{
+                "propName": "mask",
+                "methodName": "maskPropChanged"
+            }, {
+                "propName": "value",
+                "methodName": "valueChanged"
             }];
     }
 }

@@ -1,7 +1,33 @@
+import { z } from 'zod';
+export declare const ZCurrency: z.ZodObject<{
+    code: z.ZodString;
+    name: z.ZodOptional<z.ZodString>;
+    symbol: z.ZodString;
+    id: z.ZodOptional<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    code?: string;
+    name?: string;
+    symbol?: string;
+    id?: number;
+}, {
+    code?: string;
+    name?: string;
+    symbol?: string;
+    id?: number;
+}>;
+export type TCurrency = z.infer<typeof ZCurrency>;
 export interface ICurrency {
-    code: string;
     id: number;
+    name: string;
     symbol: string;
+    code: string;
+}
+export interface ICountry {
+    cities: string[];
+    id: number;
+    name: string;
+    phone_prefix: string;
+    flag: string;
 }
 export type TDirection = 'LTR' | 'RTL';
 export interface IExposedLanguages {
@@ -18,3 +44,4 @@ export interface DataStructure {
     My_Params_Get_Exposed_Property: any;
     My_Result: any;
 }
+export type pages = 'booking' | 'checkout';

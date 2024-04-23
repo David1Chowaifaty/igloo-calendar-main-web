@@ -10,7 +10,8 @@ export declare class IrAvailibilityHeader {
     private propertyService;
     componentWillLoad(): void;
     componentDidLoad(): void;
-    handleCheckAvailability(e: CustomEvent): Promise<void>;
+    checkAvailability(): Promise<void>;
+    handleCheckAvailability(): Promise<void>;
     triggerToast(cause: 'date' | 'adult_child'): void;
     changeExposedAvailabilityParams(params: Partial<TExposedBookingAvailability>): void;
     handleDateChange(e: CustomEvent): void;

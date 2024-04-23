@@ -10,6 +10,7 @@ export declare class IrPopover {
     isVisible: boolean;
     isMobile: boolean;
     previousIsMobile: boolean;
+    isDialogOpen: boolean;
     popoverInstance: any;
     triggerElement: HTMLElement;
     contentElement: HTMLElement;

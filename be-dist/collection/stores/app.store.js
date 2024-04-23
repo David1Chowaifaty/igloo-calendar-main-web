@@ -12,6 +12,9 @@ const initialState = {
         token: '',
         property_id: null,
     },
+    property: undefined,
+    setup_entries: undefined,
+    currencies: [],
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 export function changeLocale(dir, locale) {

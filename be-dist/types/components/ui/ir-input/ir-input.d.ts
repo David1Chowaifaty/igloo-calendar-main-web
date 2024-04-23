@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrInput {
+    el: HTMLIrInputElement;
     inputId: string;
     leftIcon: boolean;
     inputStyles: Partial<CSSStyleDeclaration>;
@@ -21,13 +22,20 @@ export declare class IrInput {
     autofocus: boolean;
     size: number;
     multiple: boolean;
+    label: string;
     error: boolean;
+    mask: Record<string, unknown>;
     textChanged: EventEmitter<string>;
     inputFocus: EventEmitter<FocusEvent>;
     inputBlur: EventEmitter<FocusEvent>;
     private inputEl;
+    private maskInstance;
     applyStyles(style: Partial<CSSStyleDeclaration>): void;
+    private initializeOrUpdateMask;
     componentDidLoad(): void;
+    maskPropChanged(newValue: Record<string, unknown>, oldValue: Record<string, unknown>): void;
+    valueChanged(newValue: string, oldValue: string): void;
     handleBlur(event: FocusEvent): void;
+    disconnectedCallback(): void;
     render(): any;
 }

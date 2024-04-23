@@ -26,7 +26,6 @@ const IrAlertDialog$1 = /*@__PURE__*/ proxyCustomElement(class IrAlertDialog ext
         addOverlay();
         const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
         const focusableContent = this.el.querySelectorAll(focusableElements);
-        console.log(focusableContent);
         if (focusableContent.length === 0)
             return;
         this.firstFocusableElement = focusableContent[0];
@@ -56,7 +55,7 @@ const IrAlertDialog$1 = /*@__PURE__*/ proxyCustomElement(class IrAlertDialog ext
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '4406baa69051a40636561e1bcc819183cf9ebf50' }, h("div", { key: '2cc4ca89ef7c136a8b6d26122bd16fe83436503f', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+        return (h(Host, { key: '3a878990a5caa3c064b9db325c462a4e9b7f1834' }, h("div", { key: '8030c9ae3b7c21092f9ce810f37aa72d68fefc63', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     get el() { return this; }
     static get style() { return IrAlertDialogStyle0; }

@@ -25,7 +25,8 @@ export class IrDialog {
     }
     prepareFocusTrap() {
         const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-        const focusableContent = this.el.querySelectorAll(focusableElements);
+        const focusableContent = this.el.shadowRoot.querySelectorAll(focusableElements);
+        // console.log(focusableContent);
         if (focusableContent.length === 0)
             return;
         this.firstFocusableElement = focusableContent[0];
@@ -38,30 +39,27 @@ export class IrDialog {
         }
         let isTabPressed = ev.key === 'Tab';
         if (ev.key === 'Escape' && this.isOpen) {
-            ev.stopPropagation();
-            ev.stopImmediatePropagation();
             this.closeModal();
         }
-        if (!isTabPressed)
+        if (!isTabPressed) {
             return;
-        if (ev.shiftKey) {
-            if (document.activeElement === this.firstFocusableElement) {
-                this.lastFocusableElement.focus();
-                ev.preventDefault();
-            }
         }
-        else {
-            if (document.activeElement === this.lastFocusableElement) {
-                this.firstFocusableElement.focus();
-                ev.preventDefault();
-            }
+        // If focus is about to leave the last focusable element, redirect it to the first.
+        if (!ev.shiftKey && document.activeElement === this.lastFocusableElement) {
+            this.firstFocusableElement.focus();
+            ev.preventDefault();
+        }
+        // If focus is about to leave the first focusable element, redirect it to the last.
+        if (ev.shiftKey && document.activeElement === this.firstFocusableElement) {
+            this.lastFocusableElement.focus();
+            ev.preventDefault();
         }
     }
     disconnectedCallback() {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '8e9be08f346850ee114cf9a5ed06b5b40312b0ae' }, h("div", { key: '0d39d6bd090ed5fd1dae5aa7ce8c4a30a1b48090', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+        return (h(Host, { key: '472516aabcb6e64dd92d331a0b5c284be3f2da0d' }, h("div", { key: '4c6c021d37d35e79fb81df805bbc38cf8040cc91', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -141,7 +139,7 @@ export class IrDialog {
         return [{
                 "name": "keydown",
                 "method": "handleKeyDown",
-                "target": "body",
+                "target": "window",
                 "capture": false,
                 "passive": false
             }];

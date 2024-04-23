@@ -1,5 +1,6 @@
 import { c as createStore } from './index2.js';
-import { l as locale } from './locale.js';
+
+var locale = {};
 
 const initialState = {
     dir: 'LTR',
@@ -13,6 +14,9 @@ const initialState = {
         token: '',
         property_id: null,
     },
+    property: undefined,
+    setup_entries: undefined,
+    currencies: [],
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 function changeLocale(dir, locale) {
@@ -24,6 +28,6 @@ function updateUserPreference(params) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), params);
 }
 
-export { app_store as a, changeLocale as c, onAppDataChange as o, updateUserPreference as u };
+export { app_store as a, changeLocale as c, locale as l, onAppDataChange as o, updateUserPreference as u };
 
 //# sourceMappingURL=app.store.js.map

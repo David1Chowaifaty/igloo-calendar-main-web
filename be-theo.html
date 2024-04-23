@@ -112,13 +112,21 @@
 
         </div>
     </nav>
-    <ir-testcmp base-url="https://gateway.igloorooms.com/IR"></ir-testcmp>
+    <ir-booking-engine base-url="https://gateway.igloorooms.com/IR"></ir-booking-engine>
     <!-- <ir-google-maps></ir-google-maps> -->
     <script>
-        const testCmp = document.querySelector('ir-testcmp');
-        testCmp.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTM0MjkyMTAsIkNMQUlNLTAxIjoibk1nM0NIWDYzVjA9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0Ijoiek5Gdzc1RThFVjdvOXEydXJuOUhtdz09In0.fkKOWvp1-HyT2qeuNudR6pGlyRIkY7ANkfifX7Gy-Yg";
-        testCmp.propertyId = "235"
+        const testCmp = document.querySelector('ir-booking-engine');
+        async function init() {
+            testCmp.propertyId = "235"
+            try {
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        init()
     </script>
+
 </body>
 
 </html>

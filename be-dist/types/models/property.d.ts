@@ -21,7 +21,7 @@ export interface IExposedProperty {
     is_frontdesk_enabled: boolean;
     is_vacation_rental: boolean;
     location: Location;
-    loyalty_promotions: LoyaltyPromotion[];
+    promotions: LoyaltyPromotion[];
     max_nights: number;
     name: string;
     parking_offering: ParkingOffering;
@@ -35,6 +35,7 @@ export interface IExposedProperty {
     tax_statement: string;
     taxes: Tax[];
     time_constraints: TimeConstraints;
+    privacy_policy: string;
 }
 export interface AdultChildConstraints {
     adult_max_nbr: number;
@@ -196,6 +197,16 @@ export interface RoomType {
     rate: any;
     rateplans: RatePlan[];
     size: number;
+    smoking_option: ISmokingOption;
+}
+export interface AllowedSmokingOptions {
+    code: string;
+    description: string;
+}
+export interface ISmokingOption {
+    allowed_smoking_options: AllowedSmokingOptions[];
+    code: string;
+    description: string;
 }
 export interface BeddingSetup {
     code: string;
@@ -315,4 +326,33 @@ export interface TimeConstraints {
     check_in_from: string;
     check_in_till: string;
     check_out_till: string;
+}
+export interface IEntries {
+    CODE_NAME: string;
+    CODE_VALUE_AR: string;
+    CODE_VALUE_DE: string;
+    CODE_VALUE_EL: string;
+    CODE_VALUE_EN: string;
+    CODE_VALUE_FR: string;
+    CODE_VALUE_HE: string;
+    CODE_VALUE_PL: string;
+    CODE_VALUE_RU: string;
+    CODE_VALUE_UA: string;
+    DISPLAY_ORDER: number;
+    ENTRY_DATE: string;
+    ENTRY_USER_ID: number;
+    INVARIANT_VALUE: null;
+    ISDELETEABLE: boolean;
+    ISDELETED: boolean;
+    ISSYSTEM: boolean;
+    ISUPDATEABLE: boolean;
+    ISVISIBLE: boolean;
+    NOTES: string;
+    OWNER_ID: number;
+    TBL_NAME: string;
+}
+export interface ISetupEntries {
+    arrivalTime: IEntries[];
+    ratePricingMode: IEntries[];
+    bedPreferenceType: IEntries[];
 }

@@ -2,9 +2,9 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index$1 = require('./index-64d31e17.js');
+const index$1 = require('./index-64143048.js');
 const axios = require('./axios-bc0bd15c.js');
-const index = require('./index-ab6de843.js');
+const index = require('./index-d14ca154.js');
 
 const initialState = {};
 const { state: interceptor_requests, onChange: onCalendarDatesChange } = index.createStore(initialState);
@@ -65,7 +65,7 @@ const IrInterceptor = class {
         return Promise.reject(error);
     }
     render() {
-        return (index$1.h(index$1.Host, { key: '00b8b261d2860a90dbb658efcf76076d8509be46' }, this.isLoading && (index$1.h("div", { class: "loadingScreenContainer" }, index$1.h("div", { class: "loaderContainer" }, index$1.h("span", { class: "loader" }))))));
+        return (index$1.h(index$1.Host, { key: '3bf6619f94adb7f7f176ea70f6566b91fb47be0b' }, this.isLoading && (index$1.h("div", { class: "loadingScreenContainer" }, index$1.h("div", { class: "loaderContainer" }, index$1.h("span", { class: "loader" }))))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;

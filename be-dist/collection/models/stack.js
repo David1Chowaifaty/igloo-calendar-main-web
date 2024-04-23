@@ -10,6 +10,7 @@ export default class Stack {
         return this._topNode === undefined;
     }
     push(value) {
+        console.log(value);
         let node = new Node(value, this._topNode);
         this._topNode = node;
         this._count++;

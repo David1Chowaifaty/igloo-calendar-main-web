@@ -6,6 +6,5 @@ export declare class IrPropertyGallery {
     private irDialog;
     handleOpenGallery(): void;
     handleOpenCarouselGallery(): void;
-    renderAmeneties(): any;
     render(): any;
 }

@@ -22,13 +22,13 @@ export class IrLanguagePicker {
         e.stopImmediatePropagation();
         e.stopPropagation();
         const id = e.detail;
-        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { language: this.languages.find(l => l.id === Number(id)) });
+        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { language: this.languages.find(l => l.code === id) });
     }
     handleCurrencyChange(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         const id = e.detail;
-        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { currency: this.currencies.find(l => l.id === Number(id)) });
+        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { currency: this.currencies.find(l => l.code === id) });
     }
     handleConfirm(e) {
         e.stopImmediatePropagation();
@@ -38,16 +38,21 @@ export class IrLanguagePicker {
             currency_id: this.selectedOptions.currency.code,
             language_id: this.selectedOptions.language.code,
         });
+        localStorage.setItem('user_prefernce', JSON.stringify({
+            currency_id: this.selectedOptions.currency.code,
+            language_id: this.selectedOptions.language.code,
+            direction: this.selectedOptions.language.direction,
+        }));
         this.closeDialog.emit(null);
     }
     render() {
-        return (h("div", { key: 'a0391d424b8e696fc2508c8c082fa119a00b6b80', class: "p-4 sm:px-6 space-y-[0.75rem]" }, h("p", { key: 'a9b42ca75e61e1c1281d8c99cab4454e8ecbbe61', class: "mb-5 w-[30rem]  title" }, "Display settings"), h("ir-select", { key: 'd7fd78bbfbe1045fb8ec4a2bf058337c8add417f', value: app_store.userPreferences.language_id, onValueChange: this.handleLanguageChange.bind(this), label: "Language", select_id: "language_selector", data: this.languages.map(language => ({
-                id: language.id,
+        return (h("div", { key: 'eda1d14fb7a55c93cbf1620771f99763fa6c2138', class: "p-4 sm:px-6 space-y-[0.75rem]" }, h("p", { key: 'fe6965625b4385001010ca3014d1f29644edd92f', class: "mb-5 w-[30rem]  title" }, "Display settings"), h("ir-select", { key: 'b94d33899cffe64715deb20b607e0de0769e5396', variant: "double-line", value: app_store.userPreferences.language_id, onValueChange: this.handleLanguageChange.bind(this), label: "Language", select_id: "language_selector", data: this.languages.map(language => ({
+                id: language.code,
                 value: language.description,
-            })) }), h("ir-select", { key: 'a046fe286063f7b7024924b214acbcb2fd00b8e4', value: app_store.userPreferences.currency_id, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
-                id: currency.id,
+            })) }), h("ir-select", { key: 'a88f54c2e04771f3655cc76b97312790eb345b9d', variant: "double-line", value: app_store.userPreferences.currency_id, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
+                id: currency.code,
                 value: `${currency.code} ${currency.symbol}`,
-            })) }), h("div", { key: 'ddb93b9cca1a422f92a22afd3e68ae32034e9a85', class: "flex flex-col-reverse  w-full gap-4 justify-end sm:flex-row mt-8" }, h("ir-button", { key: 'cc26f55013d87664ef38ca9ce9b68c7f7751e2ea', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "w-full sm:w-fit" }), h("ir-button", { key: '1de1285e765c9ad54fe1692547d3b3eaf0580ef0', size: "md", label: "Confirm", class: "w-full sm:w-fit", onClick: this.handleConfirm.bind(this) }))));
+            })) }), h("div", { key: '0dd5e19d4d1e5869779a8d277c541863781fe46c', class: "flex flex-col-reverse  w-full gap-4 justify-end sm:flex-row mt-8" }, h("ir-button", { key: '84e47eff77e55f29a9494ab155ba3d1957e5f027', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "w-full sm:w-fit" }), h("ir-button", { key: '58f11a27fbd865c8e9cf914f744a8aafbc36ccd9', size: "md", label: "Confirm", class: "w-full sm:w-fit", onClick: this.handleConfirm.bind(this) }))));
     }
     static get is() { return "ir-language-picker"; }
     static get encapsulation() { return "shadow"; }

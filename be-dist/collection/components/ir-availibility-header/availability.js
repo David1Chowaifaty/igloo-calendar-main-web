@@ -8,5 +8,9 @@ export const ExposedBookingAvailability = z.object({
     child_nbr: z.number().min(0),
     language: z.string().default('en'),
     currency_ref: z.string(),
+    is_in_loyalty_mode: z.boolean().default(false),
+    promo_key: z.string(),
+    is_in_agent_mode: z.boolean().default(false),
+    agent_id: z.number().default(0).optional(),
 });
 //# sourceMappingURL=availability.js.map

@@ -12,36 +12,31 @@ export class IrPropertyGallery {
     handleOpenCarouselGallery() {
         this.irDialog.openModal();
     }
-    renderAmeneties() {
-        const checkAmenity = (code) => {
-            var _a;
-            return (_a = this.exposed_property) === null || _a === void 0 ? void 0 : _a.amenities.find(a => a.code === code);
-        };
-        const wifi = checkAmenity('freewifi');
-        const climatecontrol = checkAmenity('climatecontrol');
-        const balcony = checkAmenity('balcony');
-        return (h("ul", { class: "flex items-center text-xs text-green-500 gap-2 flex-wrap" }, wifi && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "wifi", svgClassName: "size-4" }), " ", h("span", null, wifi.description))), climatecontrol && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "snowflake", svgClassName: "size-4" }), " ", h("span", null, climatecontrol.description))), balcony && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "sun", svgClassName: "size-4" }), " ", h("span", null, balcony.description)))));
-    }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f;
         if (!this.exposed_property) {
             return null;
         }
-        return (h("div", null, this.property_state === 'gallery' ? (h("ir-gallery", { totalImages: this.exposed_property.images.length, images: (_a = this.exposed_property.images) === null || _a === void 0 ? void 0 : _a.map(i => i.url).slice(0, 5) })) : (h(Fragment, null, h("div", { class: "flex text-gray-700 flex-wrap items-center gap-2 font-normal md:hidden text-sm py-2" }, ((_b = this.roomType) === null || _b === void 0 ? void 0 : _b.bedding_setup.length) > 0 && (h(Fragment, null, h("ir-icons", { name: "bed" }), ' ', (_d = (_c = this.roomType) === null || _c === void 0 ? void 0 : _c.bedding_setup) === null || _d === void 0 ? void 0 :
-            _d.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.roomType.bedding_setup.length - 1 && h("span", null, " - ")))))), this.renderAmeneties()), h("div", { class: "relative md:hidden block w-full h-48 carousel-container   rounded-md" }, h("ir-carousel", { slides: (_f = (_e = this.roomType) === null || _e === void 0 ? void 0 : _e.images) === null || _f === void 0 ? void 0 : _f.map(img => ({
+        const images = this.property_state === 'carousel' ? this.roomType.images : this.exposed_property.images;
+        return (h("div", null, this.property_state === 'gallery' ? (h("ir-gallery", { totalImages: this.exposed_property.images.length, images: (_a = this.exposed_property.images) === null || _a === void 0 ? void 0 : _a.map(i => i.url).slice(0, 5) })) : (h(Fragment, null, h("div", { class: "flex text-gray-700 flex-wrap items-center gap-2 font-normal md:hidden text-sm py-2" }, h("ir-accomodations", { bookingAttributes: {
+                max_occupancy: this.roomType.occupancy_max.adult_nbr,
+                bedding_setup: this.roomType.bedding_setup,
+            }, amenities: this.exposed_property.amenities })), h("div", { class: "relative md:hidden w-full h-48 carousel-container   rounded-md" }, this.roomType.images.length === 1 ? (h("img", { onClick: () => this.irDialog.openModal(), class: "rounded-[var(--radius,8px)] cursor-pointer w-full h-full object-cover ", src: this.roomType.images[0].url, alt: this.roomType.images[0].tooltip })) : (h("ir-carousel", { slides: (_c = (_b = this.roomType) === null || _b === void 0 ? void 0 : _b.images) === null || _c === void 0 ? void 0 : _c.map(img => ({
                 alt: img.tooltip,
                 id: v4(),
                 image_uri: img.url,
-            })) })), h("div", { class: "relative hidden md:block py-2" }, h("div", { class: "w-full md:w-auto md:max-h-[150px] mb-1 lg:max-h-[250px]  carousel-container   rounded-md" }, h("ir-carousel", { slides: (_g = this.roomType.images) === null || _g === void 0 ? void 0 : _g.map(img => ({
+            })) }))), h("div", { class: "hidden md:block py-2" }, h("div", { class: "w-full relative md:w-auto md:max-h-[150px] mb-1 lg:max-h-[200px] xl:max-h-[250px]  carousel-container   rounded-md" }, ((_d = this.roomType.images) === null || _d === void 0 ? void 0 : _d.length) === 1 ? (h("img", { onClick: () => this.irDialog.openModal(), src: this.roomType.images[0].url, alt: this.roomType.images[0].tooltip, class: "w-full h-full cursor-pointer object-cover rounded-[var(--radius,8px)] " })) : (h("ir-carousel", { slides: (_e = this.roomType.images) === null || _e === void 0 ? void 0 : _e.map(img => ({
                 alt: img.tooltip,
                 id: v4(),
                 image_uri: img.url,
-            })) })), ((_j = (_h = this.roomType) === null || _h === void 0 ? void 0 : _h.bedding_setup) === null || _j === void 0 ? void 0 : _j.length) > 0 && (h("div", { class: " text-gray-700 items-center gap-2 font-normal hidden md:flex md:flex-wrap text-sm py-2" }, h("ir-icons", { name: "bed" }), ' ', (_l = (_k = this.roomType) === null || _k === void 0 ? void 0 : _k.bedding_setup) === null || _l === void 0 ? void 0 :
-            _l.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.roomType.bedding_setup.length - 1 && h("span", null, " - ")))))), this.renderAmeneties(), h("ir-button", { onButtonClick: () => this.irDialog.openModal(), variants: "ghost", label: "More details" })))), h("ir-dialog", { ref: el => (this.irDialog = el) }, h("div", { slot: "modal-body", class: "modal-container px-2 md:px-4 b-4 max-h-[80vh]" }, h("div", { class: " bg-white z-50 h-14 flex justify-between items-center w-full" }, h("h2", { class: "font-semibold text-lg md:text-xl" }, this.property_state === 'carousel' ? this.roomType.name : this.exposed_property.name), h("ir-button", { variants: "icon", onButtonClick: () => this.irDialog.closeModal() }, h("div", { slot: "btn-icon" }, h("ir-icons", { name: "xmark" })))), h("div", { class: "max-h-[70%] py-4" }, h("ir-carousel", { slides: this.exposed_property.images.map(img => ({
+            })) })), h("div", { class: "lg:hidden" }, h("ir-accomodations", { bookingAttributes: {
+                max_occupancy: this.roomType.occupancy_max.adult_nbr,
+                bedding_setup: this.roomType.bedding_setup,
+            }, amenities: this.exposed_property.amenities }))), h("ir-button", { onButtonClick: () => this.irDialog.openModal(), variants: "ghost", label: "More details" })))), h("ir-dialog", { ref: el => (this.irDialog = el) }, h("div", { slot: "modal-body", class: "modal-container pt-0 px-4 pb-4  md:p-4 md:pt-0" }, h("div", { class: " bg-white sticky top-0 z-50 py-2 md:pt-4  mb-2 flex justify-between items-center w-full" }, h("h2", { class: "font-semibold text-lg md:text-xl" }, this.property_state === 'carousel' ? this.roomType.name : this.exposed_property.name), h("ir-button", { variants: "icon", onButtonClick: () => this.irDialog.closeModal() }, h("div", { slot: "btn-icon" }, h("ir-icons", { name: "xmark" })))), h("section", { class: "max-h-[80vh]" }, h("div", { class: "coursel_gallery_container" }, h("ir-carousel", { slides: images.map(img => ({
                 alt: img.tooltip,
                 id: v4(),
                 image_uri: img.url,
-            })) })), this.property_state === 'carousel' && (h("section", { class: 'text-sm mt-4' }, h("h2", { class: "text-lg font-medium mb-5" }, "Facilities and services"), h("ir-facilities", { properties: this.exposed_property }), h("p", { innerHTML: (_m = this.exposed_property) === null || _m === void 0 ? void 0 : _m.description.location_and_intro, class: "py-2" })))))));
+            })) })), this.property_state === 'carousel' && (h("section", { class: 'text-sm mt-4 z-0' }, h("ir-room-type-amenities", { aminities: this.exposed_property.amenities, roomType: this.roomType }), h("p", { innerHTML: (_f = this.exposed_property) === null || _f === void 0 ? void 0 : _f.description.location_and_intro, class: "py-2" }))))))));
     }
     static get is() { return "ir-property-gallery"; }
     static get encapsulation() { return "shadow"; }

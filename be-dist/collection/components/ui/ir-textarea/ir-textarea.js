@@ -24,7 +24,7 @@ export class IrTextarea {
         this.error = false;
     }
     render() {
-        return (h("textarea", { key: 'e57bbbb215573ed1e0cdfb5c5d285ede12a2abdd', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }));
+        return (h("textarea", { key: '3a48fa9b5243758ffa3793811658e6db1f8a8b51', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }));
     }
     static get is() { return "ir-textarea"; }
     static get encapsulation() { return "shadow"; }

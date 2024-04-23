@@ -8,6 +8,10 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     child_nbr: z.ZodNumber;
     language: z.ZodDefault<z.ZodString>;
     currency_ref: z.ZodString;
+    is_in_loyalty_mode: z.ZodDefault<z.ZodBoolean>;
+    promo_key: z.ZodString;
+    is_in_agent_mode: z.ZodDefault<z.ZodBoolean>;
+    agent_id: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
     propertyid?: number;
     from_date?: string;
@@ -17,6 +21,10 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     child_nbr?: number;
     language?: string;
     currency_ref?: string;
+    is_in_loyalty_mode?: boolean;
+    promo_key?: string;
+    is_in_agent_mode?: boolean;
+    agent_id?: number;
 }, {
     propertyid?: number;
     from_date?: string;
@@ -26,5 +34,9 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     child_nbr?: number;
     language?: string;
     currency_ref?: string;
+    is_in_loyalty_mode?: boolean;
+    promo_key?: string;
+    is_in_agent_mode?: boolean;
+    agent_id?: number;
 }>;
 export type TExposedBookingAvailability = z.infer<typeof ExposedBookingAvailability>;

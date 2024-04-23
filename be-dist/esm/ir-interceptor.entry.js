@@ -1,6 +1,6 @@
-import { r as registerInstance, h, H as Host } from './index-9de449cb.js';
+import { r as registerInstance, h, H as Host } from './index-fb414cd0.js';
 import { a as axios } from './axios-2aba0cfc.js';
-import { c as createStore } from './index-614a82c1.js';
+import { c as createStore } from './index-4cb55da4.js';
 
 const initialState = {};
 const { state: interceptor_requests, onChange: onCalendarDatesChange } = createStore(initialState);
@@ -61,7 +61,7 @@ const IrInterceptor = class {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '00b8b261d2860a90dbb658efcf76076d8509be46' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
+        return (h(Host, { key: '3bf6619f94adb7f7f176ea70f6566b91fb47be0b' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;

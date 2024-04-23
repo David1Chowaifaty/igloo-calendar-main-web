@@ -3,7 +3,6 @@ const { state, onChange } = createStore({
     activeOverlays: 0,
 });
 const addOverlay = () => {
-    console.log('first');
     state.activeOverlays++;
 };
 const removeOverlay = () => {

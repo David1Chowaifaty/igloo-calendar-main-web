@@ -11,9 +11,11 @@ export declare class IrButton {
     isLoading: boolean;
     buttonStyles: Partial<CSSStyleDeclaration>;
     buttonClassName: string;
+    haveRightIcon: boolean;
     buttonClick: EventEmitter<MouseEvent>;
     private buttonRef;
     applyStyles(style: Partial<CSSStyleDeclaration>): void;
+    handleButtonStylesChange(newValue: Partial<CSSStyleDeclaration>): void;
     componentDidLoad(): void;
     render(): any;
 }

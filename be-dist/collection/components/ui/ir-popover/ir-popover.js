@@ -27,6 +27,7 @@ export class IrPopover {
         this.isVisible = false;
         this.isMobile = window.innerWidth < 640;
         this.previousIsMobile = window.innerWidth < 640;
+        this.isDialogOpen = undefined;
     }
     componentDidLoad() {
         this.initializePopover();
@@ -45,7 +46,6 @@ export class IrPopover {
             }
             if (!this.isMobile && this.isVisible) {
                 this.isVisible = false;
-                console.log('first');
                 this.popupInitializing = setTimeout(() => {
                     this.initializePopover();
                 }, 100);
@@ -74,7 +74,6 @@ export class IrPopover {
         }
     }
     async toggleVisibility() {
-        console.log('triggred');
         this.isVisible = !this.isVisible;
         if (this.dialogElement) {
             this.dialogElement.closeModal();
@@ -115,11 +114,12 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: '33f0d763149edc799698293e5770f7633ab2c2c7' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
+        return (h(Fragment, { key: 'e3e111f818219c3736ea285f7897dbc759bba133' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
             } }, h("slot", { name: "trigger" })), h("ir-dialog", { ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
+                this.isDialogOpen = e.detail;
                 this.openChange.emit(e.detail);
             } }, h("div", { slot: "modal-body" }, h("slot", { name: "popover-content" }))))), !this.isMobile && (h("div", { class: "hidden sm:block" }, h("div", { ref: el => (this.triggerElement = el), onClick: e => {
                 e.stopPropagation();
@@ -224,7 +224,8 @@ export class IrPopover {
         return {
             "isVisible": {},
             "isMobile": {},
-            "previousIsMobile": {}
+            "previousIsMobile": {},
+            "isDialogOpen": {}
         };
     }
     static get events() {
