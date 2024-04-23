@@ -8,6 +8,7 @@ export declare class IrBookingPage {
     currencies: ICurrency[];
     languages: IExposedLanguages[];
     routing: EventEmitter<pages>;
+    checkoutContainerRef: HTMLDivElement;
     componentWillLoad(): void;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     render(): any;

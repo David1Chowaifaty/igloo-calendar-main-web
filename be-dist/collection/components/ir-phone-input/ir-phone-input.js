@@ -25,6 +25,7 @@ export class IrPhoneInput {
             return;
         };
         this.error = undefined;
+        this.mobile_number = '';
         this.isVisible = false;
         this.currentHighlightedIndex = -1;
         this.selectedItem = undefined;
@@ -34,6 +35,7 @@ export class IrPhoneInput {
     async componentWillLoad() {
         this.commonService.setToken(app_store.app_data.token);
         await this.initializeCountries();
+        this.inputValue = this.mobile_number;
     }
     componentDidLoad() {
         this.initializePopover();
@@ -165,9 +167,9 @@ export class IrPhoneInput {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'fa4b407a8f2c0815416c166d5627ea7626e2ebb4', ref: el => (this.triggerElement = el), class: "w-full bg-white" }, h("div", { key: '48d9440bdc63aff72ad33f9dfc00b079cb5d2910', class: `input-trigger ${this.error ? 'error' : ''}  rounded-md border text-[var(--gray-600)] border-[var(--gray-300,#D0D5DD)] w-full bg-white flex  text-sm` }, h("div", { key: 'bbd1d48d3a9c1250e9fd4d0e17e72dc379dcd11c', class: 'flex flex-col px-4' }, h("label", { key: '08d1e3843b2ab569a1fffa4bd473fb61a2bc9d2d', htmlFor: "country_picker" }, "Country"), h("div", { key: 'bb833627122c9f231efa81e45ca33489d4977b49', id: "country_picker", onClick: () => {
+        return (h("div", { key: '6207f5cfca10c4b3174c35c9e2749ce06cd83599', ref: el => (this.triggerElement = el), class: "w-full bg-white" }, h("div", { key: '17f9fcfc5709995dc2ac10f628e5249c4082e86f', class: `input-trigger ${this.error ? 'error' : ''}  rounded-md border text-[var(--gray-600)] border-[var(--gray-300,#D0D5DD)] w-full bg-white flex  text-sm` }, h("div", { key: '72c0a5e6993f363e0ee05fb53f3ee2d7e44ca402', class: 'flex flex-col px-4' }, h("label", { key: '5a9b0d84b6a629e49f5f2a6a37b8f6314af1c2a0', htmlFor: "country_picker" }, "Country"), h("div", { key: 'dfa7042d4bd9e47a8c58d0f64847c2f7862ca8be', id: "country_picker", onClick: () => {
                 this.toggleVisibility();
-            }, class: "flex items-center gap-2  input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "h-4 rounded" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: '88b08eb38e9518265207e64a9b15d2a7ba647156', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'c6b472250eef1c2f8a612bb2823068f049378c57', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '24b111bfb1d8fa5a808e77f9eb733803b54a714a', class: 'flex flex-col flex-1' }, h("label", { key: '039f1643e5faabfca6e4c4e65de4da70de157575', htmlFor: "phone_number" }, "Mobile number"), h("input", { key: 'ae807e078a95624981aa0f28958dbf42f00677ce', type: "phone", ref: el => (this.phoneInput = el), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: '24baf997c01ba69507b8e27031c25f2339af2d44', ref: el => (this.contentElement = el), class: 'z-50' }, this.isVisible && (h("ul", { class: "dropdown-content w-full" }, h("li", { class: "filter-container" }, h("ir-icons", { name: "search", svgClassName: "h-4 w-4" }), h("input", { placeholder: "Search...", ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option",
+            }, class: "flex items-center gap-2  input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "h-4 rounded" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: '0a534129b3a7a1b6e85675f879e4febfaf14dadc', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'e66de352e6d92914c198dbb90a56f373723d1fc0', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '5a073fd3cd54cd0405aee7dd6c08231c9eabf743', class: 'flex flex-col flex-1' }, h("label", { key: '95a3b92bb12badf61af6b8a84ed008fc3f4ed35c', htmlFor: "phone_number" }, "Mobile number"), h("input", { key: '3ea3d5dbc77f6b35172e229eb9ba23f5e8483306', type: "phone", ref: el => (this.phoneInput = el), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: '22b611ae4618a904ab892e90237c28e84c8b8835', ref: el => (this.contentElement = el), class: 'z-50' }, this.isVisible && (h("ul", { class: "dropdown-content w-full" }, h("li", { class: "filter-container" }, h("ir-icons", { name: "search", svgClassName: "h-4 w-4" }), h("input", { placeholder: "Search...", ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option",
             // aria-disabled={item.disabled ? 'true' : 'false'}
             // aria-selected={this.selectedItemName === item.item ? 'true' : 'false'}
             onClick: () => {
@@ -207,6 +209,24 @@ export class IrPhoneInput {
                 },
                 "attribute": "error",
                 "reflect": false
+            },
+            "mobile_number": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "mobile_number",
+                "reflect": false,
+                "defaultValue": "''"
             }
         };
     }

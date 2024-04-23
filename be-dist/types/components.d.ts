@@ -232,6 +232,7 @@ export namespace Components {
     }
     interface IrPhoneInput {
         "error": boolean;
+        "mobile_number": string;
     }
     interface IrPickup {
         "errors": Record<string, ZodIssue>;
@@ -1293,6 +1294,7 @@ declare namespace LocalJSX {
     }
     interface IrPhoneInput {
         "error"?: boolean;
+        "mobile_number"?: string;
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;
     }
     interface IrPickup {

@@ -36,7 +36,11 @@ export class IrPropertyGallery {
                 alt: img.tooltip,
                 id: v4(),
                 image_uri: img.url,
-            })) })), this.property_state === 'carousel' && (h("section", { class: 'text-sm mt-4 z-0' }, h("ir-room-type-amenities", { aminities: this.exposed_property.amenities, roomType: this.roomType }), h("p", { innerHTML: (_f = this.exposed_property) === null || _f === void 0 ? void 0 : _f.description.location_and_intro, class: "py-2" }))))))));
+            })), onCarouselImageClicked: e => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+            } })), this.property_state === 'carousel' && (h("section", { class: 'text-sm mt-4 z-0' }, h("ir-room-type-amenities", { aminities: this.exposed_property.amenities, roomType: this.roomType }), h("p", { innerHTML: (_f = this.exposed_property) === null || _f === void 0 ? void 0 : _f.description.location_and_intro, class: "py-2" }))))))));
     }
     static get is() { return "ir-property-gallery"; }
     static get encapsulation() { return "shadow"; }

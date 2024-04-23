@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { ICountry } from "../../models/common";
 export declare class IrPhoneInput {
     error: boolean;
+    mobile_number: string;
     isVisible: boolean;
     currentHighlightedIndex: number;
     selectedItem: ICountry;

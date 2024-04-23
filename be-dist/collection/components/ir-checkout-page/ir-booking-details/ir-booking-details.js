@@ -13,7 +13,7 @@ export class IrBookingDetails {
             result[roomTypeId] = {};
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
-                if (r.reserved === 0 || r.checkoutVariations.length > 0) {
+                if (r.reserved === 0) {
                     result[roomTypeId][ratePlanId] = r;
                 }
                 else {
@@ -22,6 +22,7 @@ export class IrBookingDetails {
             });
         });
         booking_store.ratePlanSelections = Object.assign({}, result);
+        console.log(booking_store.ratePlanSelections);
     }
     calculateTotalRooms() {
         return Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
@@ -81,7 +82,7 @@ export class IrBookingDetails {
         var _a, _b, _c, _d, _e;
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         const total_rooms = this.calculateTotalRooms();
-        return (h(Host, { key: '2aed3bcae754761ffc1a191d91a6431545ec66a4' }, h("div", { key: '6c22c4b16c43ea157dae5d6000bd7821dfe1ccc5', class: "w-full" }, h("section", { key: '9682052ec6d0c83fd77dfe4a3a5d331fe92c442c', class: "bg-gray-100 py-2 px-4 rounded-md flex items-center gap-2 mb-5" }, h("ir-icons", { key: '5a0f0146adc8afcd1ee206468175a99a036ff87c', name: "bed" }), h("p", { key: '475aff0be0aad5367f603dfc77e50103c2e3b94f' }, total_nights, " ", total_nights > 1 ? 'nights' : 'night', " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? 'persons' : 'person', " - ", total_rooms, " ", total_rooms > 1 ? 'rooms' : 'room')), h("section", { key: 'a81dd91a6b3ffca169aa7cd171d98b9f49122d42', class: 'space-y-2' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+        return (h(Host, { key: '802b3de33d9f23a22a8e53c73c23e0eba815e55d' }, h("div", { key: '0bce264c725f1a52cc53eaf1f2eb3846a156d6d0', class: "w-full" }, h("section", { key: '442014ead3ae2a16ae04cca4a80ac36821a055e2', class: "bg-gray-100 py-2 px-4 rounded-md flex items-center gap-2 mb-5" }, h("ir-icons", { key: 'eaf361f9814b7fba1f256f27c3f118564223bc70', name: "bed" }), h("p", { key: '8e4ce72e83938b11d86b838fdf4d8756cf9cc24a' }, total_nights, " ", total_nights > 1 ? 'nights' : 'night', " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? 'persons' : 'person', " - ", total_rooms, " ", total_rooms > 1 ? 'rooms' : 'room')), h("section", { key: '9fc3c2f581d32a7c84eecc3248b65b7e8947a683', class: 'space-y-2' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
                 if (r.reserved === 0) {
@@ -100,12 +101,12 @@ export class IrBookingDetails {
                         })), class: "hidden md:block w-full", onValueChange: e => this.handleVariationChange(index, e, r.ratePlan.variations, Number(ratePlanId), Number(roomTypeId)) })), h("div", { class: "flex items-center gap-4" }, h("div", { class: "flex items-center gap-2.5 text-sm" }, h("ir-icons", { name: "utencils" }), h("span", null, r.ratePlan.short_name)), this.renderSmokingView(r.roomtype.smoking_option, index, ratePlanId, roomTypeId, r.checkoutSmokingSelection), r.is_bed_configuration_enabled && (h("ir-select", { value: r.checkoutBedSelection[index], onValueChange: e => this.handleBedConfiguration(roomTypeId, ratePlanId, e.detail, index), data: r.roomtype.bedding_setup.map(b => ({ id: b.code, value: b.name })), icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" }))))), h("div", { class: " hidden text-right text-xs ml-1 xl:block" }, h("p", { class: "font-medium text-xl" }, formatAmount(r.checkoutVariations[index].amount, app_store.userPreferences.currency_id)), h("p", { class: "text-gray-500 line-clamp-2" }, (_k = booking_store.tax_statement) === null || _k === void 0 ? void 0 : _k.message))));
                 });
             });
-        }))), h("ir-dialog", { key: '22057ebd4535005b05223d92e5798e714c441bb9', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: 'e5933249b6196be50a510b5b07b1e9b7f9d52f61', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: 'e6fb12f4a71c9b052a187c090fe3b9377b0b8ee6', slot: "modal-body", class: "p-4 md:p-6" }, h("h3", { key: '19a800bdddde2e12d17654a0c058a214c8a3d6cc', class: 'text-xl font-medium mb-4' }, (_c = this.currentRatePlan) === null || _c === void 0 ? void 0 :
-            _c.name, " Conditions"), h("p", { key: 'cf17c2539ba2c5403ff55ca09d0c16a825226c43', innerHTML: (_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.guarantee }), h("p", { key: '017be2c438e926e48f68b62f94052102bdcfaeb9', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.cancelation })))));
+            } }, h("div", { key: 'd102e002587b0e72c2bae5bbf74020e0c17d0af7', slot: "modal-body", class: "p-4 md:p-6" }, h("h3", { key: 'e9c2ee6ab52240ec54e30a0587e4f17dce0f3a09', class: 'text-xl font-medium mb-4' }, (_c = this.currentRatePlan) === null || _c === void 0 ? void 0 :
+            _c.name, " Conditions"), h("p", { key: '578d4753f6783f787834b5f68bad8225066c7c51', innerHTML: (_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.guarantee }), h("p", { key: '354395bd7b1b7361afdd7c781abc652f113644a8', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.cancelation })))));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "shadow"; }
