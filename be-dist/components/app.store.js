@@ -3,6 +3,7 @@ import { c as createStore } from './index2.js';
 var locale = {};
 
 const initialState = {
+    currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: locale.enUS,
     localizedWords: [],
@@ -17,6 +18,8 @@ const initialState = {
     property: undefined,
     setup_entries: undefined,
     currencies: [],
+    userDefaultCountry: undefined,
+    fetchedBooking: false,
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 function changeLocale(dir, locale) {

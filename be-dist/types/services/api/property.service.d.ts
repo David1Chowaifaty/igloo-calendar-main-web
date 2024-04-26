@@ -1,4 +1,4 @@
-import { TExposedBookingAvailability } from "../../components/ir-availibility-header/availability";
+import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availibility-header/availability";
 import { Token } from "../../models/Token";
 import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";

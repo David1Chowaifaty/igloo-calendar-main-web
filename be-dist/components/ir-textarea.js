@@ -34,7 +34,7 @@ const IrTextarea$1 = /*@__PURE__*/ proxyCustomElement(class IrTextarea extends H
         this.error = false;
     }
     render() {
-        return (h("textarea", { key: '3a48fa9b5243758ffa3793811658e6db1f8a8b51', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }));
+        return (h("textarea", { key: '8495668447a3ae5be6b93215df7dfd966f0bb976', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }));
     }
     static get style() { return IrTextareaStyle0; }
 }, [1, "ir-textarea", {

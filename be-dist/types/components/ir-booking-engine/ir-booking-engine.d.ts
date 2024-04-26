@@ -1,16 +1,15 @@
 import { Locale } from 'date-fns';
-import { ICurrency, IExposedLanguages, pages } from "../../models/common";
-import { IExposedProperty, Variation } from "../../models/property";
+import { ICurrency, IExposedLanguages } from "../../models/common";
+import { Variation } from "../../models/property";
 import Stack from "../../models/stack";
 export declare class IrBookingEngine {
     token: string;
     propertyId: number;
     baseUrl: string;
     selectedLocale: Locale;
-    property: IExposedProperty;
     currencies: ICurrency[];
     languages: IExposedLanguages[];
-    currentPage: pages;
+    isLoading: boolean;
     private commonService;
     private propertyService;
     router: Stack<HTMLElement>;
@@ -20,5 +19,8 @@ export declare class IrBookingEngine {
     initRequest(): Promise<void>;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     handleNavigation(e: CustomEvent): void;
+    handleResetBooking(e: CustomEvent): Promise<void>;
+    resetBooking(): Promise<void>;
+    checkAvailability(): Promise<void>;
     render(): any;
 }

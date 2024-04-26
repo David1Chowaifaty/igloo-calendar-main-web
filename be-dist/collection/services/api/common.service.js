@@ -55,6 +55,26 @@ export class CommonService extends Token {
             throw new Error(error);
         }
     }
+    async getExposedCountryByIp() {
+        try {
+            const token = this.getToken();
+            if (token) {
+                const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
+                    IP: '',
+                    lang: 'en',
+                });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                app_store.userDefaultCountry = data['My_Result'];
+                return data['My_Result'];
+            }
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
     async getBEToken() {
         try {
             const { data } = await axios.post(`/Get_BE_Token`, {});

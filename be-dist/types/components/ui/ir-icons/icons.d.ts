@@ -115,6 +115,14 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    calendar: {
+        viewBox: string;
+        d: string;
+    };
+    child: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

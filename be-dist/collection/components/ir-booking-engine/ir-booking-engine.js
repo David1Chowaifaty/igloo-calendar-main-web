@@ -1,8 +1,9 @@
 import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import { h } from "@stencil/core";
+import { format } from "date-fns";
 import axios from "axios";
-import { updateRoomParams } from "../../stores/booking";
+import booking_store, { updateRoomParams } from "../../stores/booking";
 import app_store from "../../stores/app.store";
 import { generateColorShades, getUserPrefernce, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
@@ -15,10 +16,9 @@ export class IrBookingEngine {
         this.propertyId = undefined;
         this.baseUrl = undefined;
         this.selectedLocale = undefined;
-        this.property = undefined;
         this.currencies = undefined;
         this.languages = undefined;
-        this.currentPage = 'booking';
+        this.isLoading = false;
         this.router = new Stack();
     }
     async componentWillLoad() {
@@ -46,22 +46,23 @@ export class IrBookingEngine {
     }
     async initRequest() {
         var _a;
+        this.isLoading = true;
+        const p = JSON.parse(localStorage.getItem('user_prefernce'));
         const [property, currencies, languages] = await Promise.all([
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
+            this.commonService.getExposedCountryByIp(),
         ]);
-        this.property = property;
         this.currencies = currencies;
         this.languages = languages;
-        const p = JSON.parse(localStorage.getItem('user_prefernce'));
         if (!p) {
-            setDefaultLocale({ currency: this.property.currency });
+            setDefaultLocale({ currency: app_store.userDefaultCountry.currency });
         }
         // booking_store.roomTypes = [...roomtypes];
-        if (this.property.space_theme) {
+        if (property.space_theme) {
             const root = document.documentElement;
-            const shades = generateColorShades(this.property.space_theme.button_bg_color);
+            const shades = generateColorShades(property.space_theme.button_bg_color);
             let shade_number = 900;
             shades.forEach((shade, index) => {
                 root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
@@ -76,6 +77,7 @@ export class IrBookingEngine {
                 }
             });
         }
+        this.isLoading = false;
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -92,15 +94,48 @@ export class IrBookingEngine {
         e.stopImmediatePropagation();
         e.stopPropagation();
         console.log(e.detail);
-        this.currentPage = e.detail;
+        app_store.currentPage = e.detail;
+    }
+    async handleResetBooking(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.resetBooking();
+    }
+    async resetBooking() {
+        var _a, _b;
+        if (app_store.fetchedBooking) {
+            await Promise.all([
+                this.checkAvailability(),
+                this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
+            ]);
+            // booking_store.roomTypes = [...p.My_Result.roomtypes];
+        }
+        else {
+            this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en' });
+        }
+    }
+    async checkAvailability() {
+        await this.propertyService.getExposedBookingAvailability({
+            propertyid: app_store.app_data.property_id,
+            from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+            to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+            room_type_ids: [],
+            adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
+            child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
+            language: app_store.userPreferences.language_id,
+            currency_ref: app_store.userPreferences.currency_id,
+            is_in_loyalty_mode: !!booking_store.bookingAvailabilityParams.coupon,
+            promo_key: booking_store.bookingAvailabilityParams.coupon || '',
+            is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
+            agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+        });
     }
     render() {
         var _a, _b, _c;
-        if (!this.property) {
+        if (this.isLoading) {
             return null;
         }
-        // const currentPage = this.router.peek();
-        return (h("main", { class: "relative  space-y-5 flex flex-col w-full" }, h("section", { class: "w-full z-50 sticky top-0 " }, h("ir-nav", { exposed_property: this.property, website: (_a = this.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = this.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, this.currentPage === 'booking' ? h("ir-booking-page", null) : h("ir-checkout-page", null)), h("ir-footer", { exposedProperty: this.property })));
+        return (h("main", { class: "relative  space-y-5 flex flex-col w-full" }, h("section", { class: "w-full z-50 sticky top-0 " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, app_store.currentPage === 'booking' ? (h("div", { class: "max-w-6xl mx-auto" }, h("ir-booking-page", null), ' ')) : (h("ir-checkout-page", null))), h("ir-footer", null)));
     }
     static get is() { return "ir-booking-engine"; }
     static get encapsulation() { return "shadow"; }
@@ -173,10 +208,9 @@ export class IrBookingEngine {
     static get states() {
         return {
             "selectedLocale": {},
-            "property": {},
             "currencies": {},
             "languages": {},
-            "currentPage": {},
+            "isLoading": {},
             "router": {}
         };
     }
@@ -190,6 +224,12 @@ export class IrBookingEngine {
         return [{
                 "name": "routing",
                 "method": "handleNavigation",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetBooking",
+                "method": "handleResetBooking",
                 "target": undefined,
                 "capture": false,
                 "passive": false

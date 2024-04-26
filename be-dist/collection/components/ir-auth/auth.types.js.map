@@ -1,1 +1,0 @@
-{"version":3,"file":"auth.types.js","sourceRoot":"","sources":["../../../src/components/ir-auth/auth.types.ts"],"names":[],"mappings":"","sourcesContent":["export type TAuthNavigation = 'register' | 'login';\n"]}

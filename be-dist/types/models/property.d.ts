@@ -198,6 +198,7 @@ export interface RoomType {
     rateplans: RatePlan[];
     size: number;
     smoking_option: ISmokingOption;
+    pre_payment_amount: number;
 }
 export interface AllowedSmokingOptions {
     code: string;

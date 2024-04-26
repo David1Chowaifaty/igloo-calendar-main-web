@@ -16,7 +16,9 @@ export class PropertyService extends Token {
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        booking_store.roomTypes = [...result.My_Result.roomtypes];
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...result.My_Result.roomtypes];
+        }
         app_store.property = Object.assign({}, result.My_Result);
         return result.My_Result;
     }

@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Locale } from 'date-fns';
-import { IDateModifierOptions, IDateModifiers } from "../../ir-date-range/ir-date-range.types";
+import { IDateModifierOptions, IDateModifiers } from '../ir-date-range/ir-date-range.types';
 export declare class IrCalendar {
     fromDate: Date | null;
     toDate: Date | null;

@@ -1,12 +1,19 @@
-import { IExposedProperty } from "../components";
-import { TCurrency, TDirection } from "../models/common";
-import { IEntries } from "../models/property";
+import { ICurrency, pages, TCurrency, TDirection } from "../models/common";
+import { IEntries, IExposedProperty } from "../models/property";
 import { Locale } from 'date-fns/locale';
 export type UserPreference = {
     language_id: string;
     currency_id: string;
 };
-export interface ILocalizationStore {
+interface IUserDefaultCountry {
+    cities: [];
+    currency: ICurrency;
+    flag: string;
+    id: number;
+    name: string;
+    phone_prefix: string;
+}
+export interface IAppStore {
     currencies: TCurrency[];
     localizedWords: string[];
     dir: TDirection;
@@ -22,8 +29,11 @@ export interface ILocalizationStore {
         ratePricingMode: IEntries[];
         bedPreferenceType: IEntries[];
     };
+    userDefaultCountry: IUserDefaultCountry;
+    fetchedBooking: boolean;
+    currentPage: pages;
 }
-declare const app_store: ILocalizationStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<ILocalizationStore>;
+declare const app_store: IAppStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<IAppStore>;
 export declare function changeLocale(dir: TDirection, locale: Locale): void;
 export declare function updateUserPreference(params: Partial<UserPreference>): void;
 export { onAppDataChange };

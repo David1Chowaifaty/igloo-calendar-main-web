@@ -19,6 +19,7 @@ export interface IRatePlanSelection {
         rate: number;
         smoking_option: ISmokingOption;
         bedding_setup: BeddingSetup[];
+        pre_payment_amount: number;
     };
 }
 export interface IRoomTypeSelection {
@@ -58,5 +59,8 @@ export declare function getVisibleInventory(roomTypeId: number, ratePlanId: numb
     selected_variation: any;
 };
 export declare function modifyBookingStore(key: keyof BookingStore, value: any): void;
-export declare function calculateTotalCost(): number;
+export declare function calculateTotalCost(): {
+    totalAmount: number;
+    prePaymentAmount: number;
+};
 export default booking_store;

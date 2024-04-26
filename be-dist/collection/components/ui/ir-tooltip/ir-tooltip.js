@@ -13,7 +13,7 @@ export class IrTooltip {
     createPopperInstance() {
         if (this.trigger && this.content) {
             this.popperInstance = createPopper(this.trigger, this.content, {
-                placement: 'bottom-start',
+                placement: 'auto',
                 modifiers: [
                     {
                         name: 'offset',
@@ -54,7 +54,7 @@ export class IrTooltip {
         }
     }
     render() {
-        return (h(Host, { key: 'ec163d165ea9c581e192e7eb90bcd44501f38b3a' }, h("button", { key: 'b6a8df8d3cb3c66de96b94002e053aeb164a44b7', ref: el => (this.trigger = el), onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (h("svg", { "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), h("div", { key: 'bfdc71793349ebeb26a4eb65948be6f787e063bf', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, null, h("div", { class: "tooltip-content px-3 py-2\n              text-sm rounded-lg max-w-72 " }, h("div", { innerHTML: this.message })))))));
+        return (h(Host, { key: 'af2b0c724b9f9198e75dec6a4e8a1fd18639c837' }, h("button", { key: '80de4a028fb50ab87843da7f79a4146c72665962', ref: el => (this.trigger = el), onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (h("svg", { "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), h("div", { key: 'b37973eccde3eec6f992c2240ad33884bf2c67f1', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, null, h("div", { class: "tooltip-content px-3 py-2\r\n              text-xs rounded-lg max-w-xs " }, h("div", { innerHTML: this.message })))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "shadow"; }

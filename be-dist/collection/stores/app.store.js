@@ -1,6 +1,7 @@
 import { createStore } from "@stencil/store";
 import { enUS } from "date-fns/locale";
 const initialState = {
+    currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: enUS,
     localizedWords: [],
@@ -15,6 +16,8 @@ const initialState = {
     property: undefined,
     setup_entries: undefined,
     currencies: [],
+    userDefaultCountry: undefined,
+    fetchedBooking: false,
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 export function changeLocale(dir, locale) {
