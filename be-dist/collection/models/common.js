@@ -5,4 +5,6 @@ export const ZCurrency = z.object({
     symbol: z.string(),
     id: z.coerce.number().optional(),
 });
+export class Identifier {
+}
 //# sourceMappingURL=common.js.map

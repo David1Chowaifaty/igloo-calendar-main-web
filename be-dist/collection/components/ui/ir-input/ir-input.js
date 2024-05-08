@@ -27,6 +27,7 @@ export class IrInput {
         this.label = undefined;
         this.error = false;
         this.mask = undefined;
+        this.labelBackground = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -94,7 +95,7 @@ export class IrInput {
         }
     }
     render() {
-        return (h("div", { key: 'f783bf8bc1e8501496e23438759f4721a81d9eee', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: '8a966a8dc4592a0ee8082629c1a7177f19d91932', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '0b827c1c611f1d8171e114fb6f0e7da675fd48c8', class: "placeholder" }, this.label)));
+        return (h("div", { key: '0cfe8bb90e242acfc38063fbfc638d651a1916dc', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: 'b9fce94fe6be0405b382059c0a8c686cebe5bec6', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '37052e30132471b072a526b46b6adb8cd0a4b69a', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label)));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }
@@ -531,6 +532,23 @@ export class IrInput {
                     "tags": [],
                     "text": ""
                 }
+            },
+            "labelBackground": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "label-background",
+                "reflect": false
             }
         };
     }

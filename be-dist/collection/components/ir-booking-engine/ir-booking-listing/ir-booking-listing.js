@@ -1,7 +1,31 @@
+import { BookingListingService } from "../../../services/api/booking_listing.service";
+import booking_listing from "../../../stores/booking_listing.store";
 import { Host, h } from "@stencil/core";
 export class IrBookingListing {
+    constructor() {
+        this.bookingListingService = new BookingListingService();
+        this.propertid = undefined;
+        this.isLoading = false;
+        this.token = undefined;
+    }
+    async initializeApp() {
+        try {
+            this.isLoading = true;
+            // await Promise.all([this.bookingListingService.getExposedBookingsCriteria(this.propertyid), this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT'])]);
+            await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
     render() {
-        return (h(Host, { key: 'aa631c4c5bbb66a01ff3a92603fb92d9c8067e08' }, h("div", { key: '3e069075b2c1650e9472c39e74898f36ef91b009', class: 'p-4' }, h("div", { key: 'f26ea66b437ae958d68d0c963448e93fe8790346', class: "table-container shadow-md" }, h("table", { key: '4c1748458287f12b7d3a7eabf264d3219585bef4', class: "table" }, h("thead", { key: 'f3273ae112d09221d52cdf9ef815a70785c3a885' }, h("tr", { key: 'c53131730ec82d132d8463f2687b7e443cd3f219', class: "table-header" }, h("th", { key: 'adf41951fc3dd2eff009b572a0f48ae477bbc8ad', class: "table-head" }, "ID"), h("th", { key: '143be7e90da790875c429d98a13a83cf0bfeffa9', class: "table-head" }, "Name"), h("th", { key: 'f039d4daae673f2cdab451848f24be780441e499', class: "table-head" }, "Email"), h("th", { key: '0715da436a310bc43de9f19cbd4fca80b3b380b1', class: "table-head" }, "City"), h("th", { key: '270d0bcca07bbbce776b80ca528821d7db42b098', class: "table-head" }, "Country"), h("th", { key: '5efd8b0e3f229dd66fdcde777618675f05a27c77', class: "table-head" }, "Zip Code"))), h("tbody", { key: 'a13c853ae017b53db7f8311f8bf32f2205cf3d19', class: 'table-body' }, [...new Array(10)].map((_, i) => (h("tr", { class: "table-row" }, h("td", { class: "table-cell" }, i), h("td", { class: "table-cell" }, "Name ", i), h("td", { class: "table-cell" }, "email", i, "@example.com"), h("td", { class: "table-cell" }, "City ", i), h("td", { class: "table-cell" }, "Country ", i), h("td", { class: "table-cell" }, "Zip", i)))))), h("div", { key: 'ac961c00e233ec8d753ded4d4ac402ceb0d75a95', class: "flex items-center justify-between px-[20px] py-[16px] " }, h("ir-button", { key: '7d90c98005d8e0c0c45eab06faab5089b29f3594', variants: "outline", label: "Previous", haveLeftIcon: true }, h("ir-icons", { key: '745ff6addbde19814439e3425c87cdf501e43f47', name: "arrow_left", slot: "left-icon", svgClassName: "size-3" })), h("ir-button", { key: 'add17c54802cf8ae38c8fef3304b8d64a49a05b0', variants: "outline", label: "Next", haveRightIcon: true }, h("ir-icons", { key: 'd812d3ab1ec639c5296a2b7f38f73ac133f931b0', name: "arrow_right", slot: "right-icon", svgClassName: "size-3" })))))));
+        if (!this.token) {
+            return (h("main", { class: "flex h-screen flex-col  justify-center" }, h("div", { class: "mx-auto w-full max-w-md px-4" }, h("ir-auth", { enableSignUp: false }))));
+        }
+        return (h(Host, null, h("div", { class: 'p-4' }, h("div", { class: "table-container overflow-x-hidden shadow-md" }, h("div", { class: "flex flex-col gap-2.5 px-[20px] py-[16px] md:flex-row md:items-center md:justify-between " }, h("h3", null, "Bookings"), h("input", { type: "text", placeholder: "Search...", class: "w-full max-w-sm rounded-md border border-solid border-gray-300 px-4 py-1.5 " })), h("div", { class: "max-w-full overflow-x-auto " }, h("table", { class: "table" }, h("thead", null, h("tr", { class: "table-header" }, h("th", { class: "table-head" }, "Status"), h("th", { class: "table-head" }, "Booking reference"), h("th", { class: "table-head" }, "Booking date"), h("th", { class: "table-head" }, "Check-in"), h("th", { class: "table-head" }, "Duration"), h("th", { class: "table-head" }, "Total price"), h("th", { class: "table-head sr-only" }, "pay now"))), h("tbody", null, [...new Array(10)].map((_, i) => (h("tr", { class: "table-row" }, h("td", { class: "table-cell" }, h("ir-badge", { label: "Pending", variant: "pending" })), h("td", { class: "table-cell" }, i), h("td", { class: "table-cell" }, "Name ", i), h("td", { class: "table-cell" }, "email", i, "@example.com"), h("td", { class: "table-cell" }, "City ", i), h("td", { class: "table-cell" }, "Country ", i), h("td", { class: "table-cell" }, "Zip", i))))))), h("div", { class: "flex items-center justify-between px-[20px] py-[16px] " }, h("ir-button", { variants: "outline", label: "Previous", haveLeftIcon: true }, h("ir-icons", { name: "arrow_left", slot: "left-icon", svgClassName: "size-3" })), h("ir-button", { variants: "outline", label: "Next", haveRightIcon: true }, h("ir-icons", { name: "arrow_right", slot: "right-icon", svgClassName: "size-3" })))))));
     }
     static get is() { return "ir-booking-listing"; }
     static get encapsulation() { return "shadow"; }
@@ -13,6 +37,33 @@ export class IrBookingListing {
     static get styleUrls() {
         return {
             "$": ["ir-booking-listing.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "propertid": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "propertid",
+                "reflect": false
+            }
+        };
+    }
+    static get states() {
+        return {
+            "isLoading": {},
+            "token": {}
         };
     }
 }

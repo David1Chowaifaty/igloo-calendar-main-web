@@ -2,10 +2,15 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TAuthNavigation } from './auth.types';
 export declare class IrAuth {
     el: HTMLElement;
+    enableSignUp: boolean;
     authState: TAuthNavigation;
     animationDirection: string;
-    closeDialog: EventEmitter<null>;
     signedIn: boolean;
+    closeDialog: EventEmitter<null>;
+    authFinish: EventEmitter<{
+        state: 'success' | 'failed';
+        token: string;
+    }>;
     private authService;
     componentWillLoad(): void;
     componentDidLoad(): void;

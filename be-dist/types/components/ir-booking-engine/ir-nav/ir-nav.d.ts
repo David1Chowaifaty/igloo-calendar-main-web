@@ -12,5 +12,6 @@ export declare class IrNav {
     handleCloseDialog(e: CustomEvent): void;
     renderDialogBody(): any;
     renderLocationField(fieled: string | null, withComma?: boolean): string;
+    renderLanguageTrigger(): any;
     render(): any;
 }

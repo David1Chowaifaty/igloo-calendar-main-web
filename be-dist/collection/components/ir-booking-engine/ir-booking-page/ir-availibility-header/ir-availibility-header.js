@@ -139,14 +139,14 @@ export class IrAvailibilityHeader {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'abd1b5999763d89a2d313e3e7cfd2c2bf68aaf30', class: "bg-gray-100 availability-container flex flex-col items-center gap-4 p-2 sm:flex-row sm:flex-wrap sm:justify-center " }, h("div", { key: '3420f0b26464a5bedbc8fa276922179b9e5a33cb', class: "flex flex-col w-full items-center gap-4 sm:flex-row sm:w-fit lg:mr-10" }, h("ir-date-popup", { key: '0dcb2608f6a3bda76d4d0819aac34d062153923e', ref: el => (this.datePopup = el), dates: {
+        return (h("div", { key: '84066ad50ad127952ef4c295989593d4658ed238', class: "availability-container flex flex-col items-center gap-4 bg-gray-100 p-2 sm:flex-row sm:flex-wrap sm:justify-center " }, h("div", { key: 'fbe16d562877db6eb03066f5c3a38fc2f623b4c4', class: "flex w-full flex-col items-center gap-4 sm:w-fit sm:flex-row lg:mr-10" }, h("ir-date-popup", { key: '3ca7eea77bd0ea6017c64c83b71b26d9696f3733', ref: el => (this.datePopup = el), dates: {
                 start: ((_a = this.exposedBookingAvailabiltyParams) === null || _a === void 0 ? void 0 : _a.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "w-full sm:w-auto" }), h("div", { key: 'a309222bc1f86f5d889e35eace646f55bc96d368', ref: el => (this.dateToast = el) }, this.errorCause === 'date' && h("p", { class: "text-sm bg-red-500 px-5 py-1 rounded-md text-white" }, " Select a date")), h("ir-adult-child-counter", { key: '6b473c7504f5b7a7f4ffb15e68ec412736121cd5', class: "w-full sm:w-auto" }), h("ir-button", { key: '818add1d7265e231c7ff3f2b62f1fd1a05769c27', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "w-full sm:w-auto" }), h("div", { key: '5ede6b9f5389f874853252e09ec10d164a58bb8e', ref: el => (this.dateToast = el) }, this.errorCause === 'date' && h("p", { class: "rounded-md bg-red-500 px-5 py-1 text-sm text-white" }, " Select a date")), h("ir-adult-child-counter", { key: 'd02ecf33dd574a28aa13cb3f9d3c4cdf18e3bc0a', class: "w-full sm:w-auto" }), h("ir-button", { key: '741addccc017d7ef779e081b8cd7f3b3be1e8ab8', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, label: "Search", size: "lg", class: "w-full sm:w-auto", buttonClassName: "justify-center" })), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: 'flex w-full gap-4  flex-wrap items-center sm:justify-center md:w-fit md:justify-start' }, h("ir-coupon-dialog", { class: "w-full sm:w-fit" }), h("ir-loyalty", { class: "w-full sm:w-fit" })))));
+            }, label: "Search", size: "lg", class: "w-full sm:w-auto", buttonClassName: "justify-center" })), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: 'flex w-full flex-wrap  items-center gap-4 sm:justify-center md:w-fit md:justify-start' }, h("ir-coupon-dialog", { class: "w-full sm:w-fit" }), h("ir-loyalty", { class: "w-full sm:w-fit" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }

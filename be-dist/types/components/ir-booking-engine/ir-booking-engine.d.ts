@@ -6,6 +6,8 @@ export declare class IrBookingEngine {
     token: string;
     propertyId: number;
     baseUrl: string;
+    injected: boolean;
+    roomtype_id: number;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];

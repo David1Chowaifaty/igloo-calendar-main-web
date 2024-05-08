@@ -5,17 +5,18 @@ export class IrBadgeGroup {
         this.message = '';
         this.variant = 'primary';
         this.clickable = undefined;
+        this.messagePosition = 'default';
     }
     render() {
-        return (h("div", { key: '351572a17dbf73cfa3bc78b1ffd7a8a2345b95b2', class: `badge-group ${this.variant}`, onClick: e => {
+        return (h("div", { key: '5c90b2de091be88353c886da4b2882296fd83537', class: `badge-group ${this.variant} position-${this.messagePosition} ${this.clickable ? 'clickable' : ''}`, onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }
-            } }, h("p", { key: 'e9cb0ca6fcb79a0407eb9872c2fe632ac1741584', class: "badge" }, this.badge), h("p", { key: '6112aac207092aff2196e6c2d7fe5ecb9fd74881', class: "message" }, this.message), this.clickable && (h("button", { onClick: e => {
+            } }, h("p", { key: '1b7f75a763b602bcbe184ec9731a60dac963b491', class: "badge" }, this.badge), h("p", { key: '71d30ab130f3746353244c0ffb10e7acc3588980', class: "message" }, this.message), this.clickable && (h("button", { onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }
-            } }, h("ir-icons", null)))));
+            } }, h("ir-icons", { name: "arrow_right" })))));
     }
     static get is() { return "ir-badge-group"; }
     static get encapsulation() { return "shadow"; }
@@ -101,6 +102,24 @@ export class IrBadgeGroup {
                 },
                 "attribute": "clickable",
                 "reflect": false
+            },
+            "messagePosition": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'default' | 'center'",
+                    "resolved": "\"center\" | \"default\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "message-position",
+                "reflect": false,
+                "defaultValue": "'default'"
             }
         };
     }

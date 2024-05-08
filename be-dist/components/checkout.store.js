@@ -3,6 +3,7 @@ import { d as dateFns } from './utils.js';
 
 const initialState = {
     userFormData: {},
+    modifiedGuestName: false,
     pickup: {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },

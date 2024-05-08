@@ -123,6 +123,34 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    globe: {
+        viewBox: string;
+        d: string;
+    };
+    facebook: {
+        viewBox: string;
+        d: string;
+    };
+    twitter: {
+        viewBox: string;
+        d: string;
+    };
+    whatsapp: {
+        viewBox: string;
+        d: string;
+    };
+    instagram: {
+        viewBox: string;
+        d: string;
+    };
+    youtube: {
+        viewBox: string;
+        d: string;
+    };
+    angle_left: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

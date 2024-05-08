@@ -2,6 +2,7 @@ import { createStore } from "@stencil/store";
 import { format } from "date-fns";
 const initialState = {
     userFormData: {},
+    modifiedGuestName: false,
     pickup: {
         arrival_date: format(new Date(), 'yyyy-MM-dd'),
     },

@@ -8,5 +8,6 @@ export declare class IrBookingSummary {
     routing: EventEmitter<pages>;
     bookingClicked: EventEmitter<null>;
     handleBooking(): void;
+    private expiry_mask;
     render(): any;
 }

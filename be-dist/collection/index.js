@@ -49,3 +49,10 @@ function checkBrowserValidity() {
         window.location.href = currentBrowser.redirectUrl;
     }
 }
+// let res: string = await new Promise(resolve => {
+//   setTimeout(() => {
+//     resolve('()=>{alert("hello")}');
+//   }, 1000);
+// });
+//  let func = eval(res);
+//  func();

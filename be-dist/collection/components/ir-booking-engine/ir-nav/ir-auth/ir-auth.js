@@ -49,6 +49,7 @@ export class IrAuth {
                 // this.onSignOut.emit();
             });
         };
+        this.enableSignUp = true;
         this.authState = 'login';
         this.animationDirection = '';
         this.signedIn = false;
@@ -165,7 +166,7 @@ export class IrAuth {
         }
     }
     render() {
-        return (h(Host, { key: '5b0d8aafb85e0bc0e90679bbc36f26a2acde8819' }, h("div", { key: 'b628c16a4ab4e76c5d0bbd600aba9e8159397bb3', class: `auth-container ${this.animationDirection} p-4 sm:p-6` }, this.authState === 'login' ? (h("ir-signin", { onSignIn: e => {
+        return (h(Host, { key: '2b6b336b109ce1c317a37309c1dec69ab71ab2c8' }, h("div", { key: 'b739a52a220ee01652c42e59e121c317c4d6650b', class: `auth-container ${this.animationDirection} p-4 sm:p-6` }, this.authState === 'login' ? (h("ir-signin", { enableSignUp: this.enableSignUp, onSignIn: e => {
                 if (e.detail.trigger === 'fb') {
                     return this.loginWithFacebook();
                 }
@@ -194,6 +195,28 @@ export class IrAuth {
             "$": ["ir-auth.css"]
         };
     }
+    static get properties() {
+        return {
+            "enableSignUp": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "enable-sign-up",
+                "reflect": false,
+                "defaultValue": "true"
+            }
+        };
+    }
     static get states() {
         return {
             "authState": {},
@@ -215,6 +238,21 @@ export class IrAuth {
                 "complexType": {
                     "original": "null",
                     "resolved": "null",
+                    "references": {}
+                }
+            }, {
+                "method": "authFinish",
+                "name": "authFinish",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ state: 'success' | 'failed'; token: string }",
+                    "resolved": "{ state: \"success\" | \"failed\"; token: string; }",
                     "references": {}
                 }
             }];

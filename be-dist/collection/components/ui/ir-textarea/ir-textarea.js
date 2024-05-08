@@ -22,9 +22,10 @@ export class IrTextarea {
         this.size = undefined;
         this.multiple = undefined;
         this.error = false;
+        this.label = undefined;
     }
     render() {
-        return (h("textarea", { key: '8495668447a3ae5be6b93215df7dfd966f0bb976', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }));
+        return (h("div", { key: '52cde53b2287492f29a82665a8e96e5b4c5ff5fd', class: `container ${this.value ? 'has-value' : ''}` }, h("label", { key: 'afc364ae359cb528d30cb2fdfa7df472bd3fa9ff', htmlFor: this.inputid }, this.label), h("textarea", { key: 'dfc3d5627cbdc35287ede4611614604b7345f46e', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, maxLength: this.maxlength, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) })));
     }
     static get is() { return "ir-textarea"; }
     static get encapsulation() { return "shadow"; }
@@ -382,6 +383,23 @@ export class IrTextarea {
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "label",
+                "reflect": false
             }
         };
     }

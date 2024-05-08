@@ -37,6 +37,7 @@ export interface IExposedLanguages {
     direction: TDirection;
     entries: null;
     id: number;
+    flag: string;
 }
 export interface DataStructure {
     ExceptionCode: any;
@@ -45,3 +46,7 @@ export interface DataStructure {
     My_Result: any;
 }
 export type pages = 'booking' | 'checkout';
+export declare class Identifier {
+    code: string;
+    name: string;
+}

@@ -39,12 +39,12 @@ export class IrCouponDialog {
         if (!showCoupon || booking_store.bookingAvailabilityParams.loyalty) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "flex items-center w-full gap-4 justify-center" }, h("ir-button", { class: cn('w-full', {
+        return (h(Fragment, null, h("div", { class: "flex w-full items-center justify-center gap-4" }, h("ir-button", { class: cn('w-full', {
                 'w-fit': this.validationMessage && !this.validationMessage.error,
             }), onButtonClick: () => this.dialogRef.openModal(), variants: "outline", label: "Have a coupon?", haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "heart" })), this.validationMessage && !this.validationMessage.error && (h("div", { class: "flex items-center  text-sm text-[hsl(var(--brand-600))]" }, h("p", { onClick: this.removeCoupon.bind(this) }, "Discount applied"), h("ir-button", { "aria-label": "remove coupon", variants: "icon", onButtonClick: this.removeCoupon.bind(this) }, h("ir-icons", { slot: "btn-icon", title: "remove coupon", name: "xmark", svgClassName: "text-[hsl(var(--brand-600))]" }))))), h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("form", { onSubmit: e => {
                 e.preventDefault();
                 this.activateCoupon();
-            }, class: "p-4 sm:p-6", slot: "modal-body" }, h("h1", { class: "title" }, "Have a coupon? "), h("p", { class: "Supporting-text mb-8" }, "If you have a coupon available, you can enter it below to unlock special discounts:"), h("ir-input", { error: (_c = this.validationMessage) === null || _c === void 0 ? void 0 : _c.error, onTextChanged: e => (this.coupon = e.detail), autofocus: true, inputId: "booking_code", label: "Enter your coupon code" }), ((_d = this.validationMessage) === null || _d === void 0 ? void 0 : _d.error) && h("p", { class: "text-red-500" }, this.validationMessage.message), h("div", { class: "flex flex-col-reverse items-center justify-end mt-8 gap-4 sm:flex-row" }, h("ir-button", { size: "md", onButtonClick: () => {
+            }, class: "p-4 sm:p-6", slot: "modal-body" }, h("h1", { class: "title" }, "Have a coupon? "), h("ir-input", { error: (_c = this.validationMessage) === null || _c === void 0 ? void 0 : _c.error, onTextChanged: e => (this.coupon = e.detail), autofocus: true, inputId: "booking_code", label: "Enter your coupon code" }), ((_d = this.validationMessage) === null || _d === void 0 ? void 0 : _d.error) && h("p", { class: "text-red-500" }, this.validationMessage.message), h("div", { class: "mt-8 flex flex-col-reverse items-center justify-end gap-4 sm:flex-row" }, h("ir-button", { size: "md", onButtonClick: () => {
                 this.dialogRef.closeModal();
             }, variants: "outline", label: "Cancel", class: 'w-full sm:w-fit' }), h("ir-button", { type: "submit", size: "md", label: "Apply", class: "w-full sm:w-fit" }))))));
     }

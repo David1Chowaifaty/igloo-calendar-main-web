@@ -1,4 +1,4 @@
-import { ICurrency, pages, TCurrency, TDirection } from "../models/common";
+import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/common";
 import { IEntries, IExposedProperty } from "../models/property";
 import { Locale } from 'date-fns/locale';
 export type UserPreference = {
@@ -22,6 +22,8 @@ export interface IAppStore {
     app_data: {
         token: string;
         property_id: number;
+        injected: boolean;
+        roomtype_id: number | null;
     };
     property: IExposedProperty;
     setup_entries: {
@@ -32,6 +34,7 @@ export interface IAppStore {
     userDefaultCountry: IUserDefaultCountry;
     fetchedBooking: boolean;
     currentPage: pages;
+    languages: IExposedLanguages[];
 }
 declare const app_store: IAppStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<IAppStore>;
 export declare function changeLocale(dir: TDirection, locale: Locale): void;

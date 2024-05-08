@@ -14,12 +14,15 @@ const initialState = {
     app_data: {
         token: '',
         property_id: null,
+        injected: false,
+        roomtype_id: null,
     },
     property: undefined,
     setup_entries: undefined,
     currencies: [],
     userDefaultCountry: undefined,
     fetchedBooking: false,
+    languages: [],
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 function changeLocale(dir, locale) {

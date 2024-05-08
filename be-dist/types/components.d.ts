@@ -48,13 +48,21 @@ export namespace Components {
         "openModal": () => Promise<void>;
     }
     interface IrAuth {
+        "enableSignUp": boolean;
     }
     interface IrAvailibilityHeader {
+    }
+    interface IrBadge {
+        "label": string;
+        "size": 'sm' | 'md' | 'lg';
+        "variant": 'default' | 'error' | 'pending' | 'success';
+        "withDot": '';
     }
     interface IrBadgeGroup {
         "badge": string;
         "clickable": boolean;
         "message": string;
+        "messagePosition": 'default' | 'center';
         "variant": 'error' | 'succes' | 'primary' | 'secondary';
     }
     interface IrBanner {
@@ -65,10 +73,13 @@ export namespace Components {
     }
     interface IrBookingEngine {
         "baseUrl": string;
+        "injected": boolean;
         "propertyId": number;
+        "roomtype_id": number;
         "token": string;
     }
     interface IrBookingListing {
+        "propertid": number;
     }
     interface IrBookingPage {
     }
@@ -169,6 +180,7 @@ export namespace Components {
         "inputStyles": Partial<CSSStyleDeclaration>;
         "inputid": string;
         "label": string;
+        "labelBackground": string;
         "leftIcon": boolean;
         "mask": Record<string, unknown>;
         "max": string | number;
@@ -240,6 +252,7 @@ export namespace Components {
         "trigger_label": string;
     }
     interface IrPrivacyPolicy {
+        "label": string;
     }
     interface IrPropertyGallery {
         "property_state": 'carousel' | 'gallery';
@@ -278,6 +291,7 @@ export namespace Components {
         "openSheet": () => Promise<void>;
     }
     interface IrSignin {
+        "enableSignUp": boolean;
     }
     interface IrSignup {
     }
@@ -294,6 +308,7 @@ export namespace Components {
         "error": boolean;
         "inputId": string;
         "inputid": string;
+        "label": string;
         "leftIcon": boolean;
         "max": string | number;
         "maxlength": number;
@@ -360,6 +375,10 @@ export interface IrCarouselCustomEvent<T> extends CustomEvent<T> {
 export interface IrCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCheckboxElement;
+}
+export interface IrCheckoutPageCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCheckoutPageElement;
 }
 export interface IrCouponDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -469,6 +488,7 @@ declare global {
     };
     interface HTMLIrAuthElementEventMap {
         "closeDialog": null;
+        "authFinish": { state: 'success' | 'failed'; token: string };
     }
     interface HTMLIrAuthElement extends Components.IrAuth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAuthElementEventMap>(type: K, listener: (this: HTMLIrAuthElement, ev: IrAuthCustomEvent<HTMLIrAuthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -500,6 +520,12 @@ declare global {
     var HTMLIrAvailibilityHeaderElement: {
         prototype: HTMLIrAvailibilityHeaderElement;
         new (): HTMLIrAvailibilityHeaderElement;
+    };
+    interface HTMLIrBadgeElement extends Components.IrBadge, HTMLStencilElement {
+    }
+    var HTMLIrBadgeElement: {
+        prototype: HTMLIrBadgeElement;
+        new (): HTMLIrBadgeElement;
     };
     interface HTMLIrBadgeGroupElementEventMap {
         "badgeClick": MouseEvent;
@@ -662,7 +688,18 @@ declare global {
         prototype: HTMLIrCheckboxElement;
         new (): HTMLIrCheckboxElement;
     };
+    interface HTMLIrCheckoutPageElementEventMap {
+        "routing": pages;
+    }
     interface HTMLIrCheckoutPageElement extends Components.IrCheckoutPage, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCheckoutPageElementEventMap>(type: K, listener: (this: HTMLIrCheckoutPageElement, ev: IrCheckoutPageCustomEvent<HTMLIrCheckoutPageElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCheckoutPageElementEventMap>(type: K, listener: (this: HTMLIrCheckoutPageElement, ev: IrCheckoutPageCustomEvent<HTMLIrCheckoutPageElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCheckoutPageElement: {
         prototype: HTMLIrCheckoutPageElement;
@@ -1093,6 +1130,7 @@ declare global {
         "ir-alert-dialog": HTMLIrAlertDialogElement;
         "ir-auth": HTMLIrAuthElement;
         "ir-availibility-header": HTMLIrAvailibilityHeaderElement;
+        "ir-badge": HTMLIrBadgeElement;
         "ir-badge-group": HTMLIrBadgeGroupElement;
         "ir-banner": HTMLIrBannerElement;
         "ir-booking-code": HTMLIrBookingCodeElement;
@@ -1161,15 +1199,24 @@ declare namespace LocalJSX {
     interface IrAlertDialog {
     }
     interface IrAuth {
+        "enableSignUp"?: boolean;
+        "onAuthFinish"?: (event: IrAuthCustomEvent<{ state: 'success' | 'failed'; token: string }>) => void;
         "onCloseDialog"?: (event: IrAuthCustomEvent<null>) => void;
     }
     interface IrAvailibilityHeader {
         "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
     }
+    interface IrBadge {
+        "label"?: string;
+        "size"?: 'sm' | 'md' | 'lg';
+        "variant"?: 'default' | 'error' | 'pending' | 'success';
+        "withDot"?: '';
+    }
     interface IrBadgeGroup {
         "badge"?: string;
         "clickable"?: boolean;
         "message"?: string;
+        "messagePosition"?: 'default' | 'center';
         "onBadgeClick"?: (event: IrBadgeGroupCustomEvent<MouseEvent>) => void;
         "variant"?: 'error' | 'succes' | 'primary' | 'secondary';
     }
@@ -1182,10 +1229,13 @@ declare namespace LocalJSX {
     }
     interface IrBookingEngine {
         "baseUrl"?: string;
+        "injected"?: boolean;
         "propertyId"?: number;
+        "roomtype_id"?: number;
         "token"?: string;
     }
     interface IrBookingListing {
+        "propertid"?: number;
     }
     interface IrBookingPage {
         "onRouting"?: (event: IrBookingPageCustomEvent<pages>) => void;
@@ -1234,6 +1284,7 @@ declare namespace LocalJSX {
         "onCheckChange"?: (event: IrCheckboxCustomEvent<boolean>) => void;
     }
     interface IrCheckoutPage {
+        "onRouting"?: (event: IrCheckoutPageCustomEvent<pages>) => void;
     }
     interface IrCouponDialog {
         "onResetBooking"?: (event: IrCouponDialogCustomEvent<null>) => void;
@@ -1316,6 +1367,7 @@ declare namespace LocalJSX {
         "inputStyles"?: Partial<CSSStyleDeclaration>;
         "inputid"?: string;
         "label"?: string;
+        "labelBackground"?: string;
         "leftIcon"?: boolean;
         "mask"?: Record<string, unknown>;
         "max"?: string | number;
@@ -1392,6 +1444,7 @@ declare namespace LocalJSX {
         "trigger_label"?: string;
     }
     interface IrPrivacyPolicy {
+        "label"?: string;
     }
     interface IrPropertyGallery {
         "property_state"?: 'carousel' | 'gallery';
@@ -1431,6 +1484,7 @@ declare namespace LocalJSX {
         "open"?: boolean;
     }
     interface IrSignin {
+        "enableSignUp"?: boolean;
         "onNavigate"?: (event: IrSigninCustomEvent<TAuthNavigation>) => void;
         "onSignIn"?: (event: IrSigninCustomEvent<TSignInAuthTrigger>) => void;
     }
@@ -1452,6 +1506,7 @@ declare namespace LocalJSX {
         "error"?: boolean;
         "inputId"?: string;
         "inputid"?: string;
+        "label"?: string;
         "leftIcon"?: boolean;
         "max"?: string | number;
         "maxlength"?: number;
@@ -1483,6 +1538,7 @@ declare namespace LocalJSX {
         "ir-alert-dialog": IrAlertDialog;
         "ir-auth": IrAuth;
         "ir-availibility-header": IrAvailibilityHeader;
+        "ir-badge": IrBadge;
         "ir-badge-group": IrBadgeGroup;
         "ir-banner": IrBanner;
         "ir-booking-code": IrBookingCode;
@@ -1540,6 +1596,7 @@ declare module "@stencil/core" {
             "ir-alert-dialog": LocalJSX.IrAlertDialog & JSXBase.HTMLAttributes<HTMLIrAlertDialogElement>;
             "ir-auth": LocalJSX.IrAuth & JSXBase.HTMLAttributes<HTMLIrAuthElement>;
             "ir-availibility-header": LocalJSX.IrAvailibilityHeader & JSXBase.HTMLAttributes<HTMLIrAvailibilityHeaderElement>;
+            "ir-badge": LocalJSX.IrBadge & JSXBase.HTMLAttributes<HTMLIrBadgeElement>;
             "ir-badge-group": LocalJSX.IrBadgeGroup & JSXBase.HTMLAttributes<HTMLIrBadgeGroupElement>;
             "ir-banner": LocalJSX.IrBanner & JSXBase.HTMLAttributes<HTMLIrBannerElement>;
             "ir-booking-code": LocalJSX.IrBookingCode & JSXBase.HTMLAttributes<HTMLIrBookingCodeElement>;

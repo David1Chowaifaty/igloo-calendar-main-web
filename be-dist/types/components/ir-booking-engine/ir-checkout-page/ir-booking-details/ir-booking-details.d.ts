@@ -1,7 +1,8 @@
 import { ISmokingOption, RatePlan, Variation } from "../../../../models/property";
 export declare class IrBookingDetails {
     currentRatePlan: RatePlan | null;
-    dialogRef: HTMLIrDialogElement;
+    private dialogRef;
+    private firstRoom;
     componentWillLoad(): void;
     calculateTotalRooms(): any;
     handleGuestNameChange(index: number, e: InputEvent, rateplanId: number, roomTypeId: number): void;

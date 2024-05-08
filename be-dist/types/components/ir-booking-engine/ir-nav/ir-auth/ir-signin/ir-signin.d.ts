@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../../stencil-public-runtime';
 import { TSignInAuthTrigger, TSignInValidator } from "../../../../../validators/auth.validator";
 import { TAuthNavigation } from '../auth.types';
 export declare class IrSignin {
+    enableSignUp: boolean;
     signInParams: TSignInValidator;
     formState: {
         cause: 'zod' | 'auth' | null;

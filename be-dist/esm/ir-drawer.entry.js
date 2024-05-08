@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, g as getElement } from './index-fb414cd0.js';
+import { r as registerInstance, c as createEvent, h, g as getElement } from './index-21632897.js';
 import { v as v4 } from './v4-964634d6.js';
 
 let activeModals = [];
@@ -191,7 +191,7 @@ const IrDrawer = class {
         this.open ? this.sixAfterShow.emit() : this.sixAfterHide.emit();
     }
     render() {
-        return (h("div", { key: '0882e8af83b786b4eaa995379b6f02ee62a489a9', ref: el => (this.drawer = el), part: "base", class: {
+        return (h("div", { key: '13285d42fe8cdd8b0da983c54aebbf7d5bc8775a', ref: el => (this.drawer = el), part: "base", class: {
                 'drawer': true,
                 'drawer--open': this.open,
                 'drawer--visible': this.isVisible,
@@ -202,7 +202,7 @@ const IrDrawer = class {
                 'drawer--contained': this.contained,
                 'drawer--fixed': !this.contained,
                 'drawer--has-footer': this.hasFooter,
-            }, onKeyDown: this.handleKeyDown, onTransitionEnd: this.handleTransitionEnd }, h("div", { key: '671a5dc5c73599085b3ff16e9ce32d06f23fc66c', part: "overlay", class: "drawer__overlay", onClick: this.handleOverlayClick, tabIndex: -1 }), h("div", { key: 'd5b2306cf2a95e4a54e2f6750c5275c5cd30effb', ref: el => (this.panel = el), part: "panel", class: "drawer__panel", role: "dialog", "aria-modal": "true", "aria-hidden": this.open ? 'false' : 'true', "aria-label": this.noHeader ? this.label : null, "aria-labelledby": !this.noHeader ? `${this.componentId}-title` : null, tabIndex: 0 }, !this.noHeader && (h("header", { part: "header", class: "drawer__header" }, h("span", { part: "title", class: "drawer__title", id: `${this.componentId}-title` }, h("slot", { name: "label" }, this.label || String.fromCharCode(65279))), h("six-icon-button", { exportparts: "base:close-button", class: "drawer__close", name: "close", onClick: this.handleCloseClick }))), h("div", { key: 'dafb997f983ee875a1386ae75e71f09cac3a4377', part: "body", class: "drawer__body" }, h("slot", { key: '3de477da20595e051829fb84d8578eadccd474f4' })), h("footer", { key: 'd586b34a69255f95aa901778f81b590dbab533f0', part: "footer", class: "drawer__footer" }, h("slot", { key: '41699b197206e9d162436e7ea30d06134c3c25c5', name: "footer", onSlotchange: this.handleSlotChange })))));
+            }, onKeyDown: this.handleKeyDown, onTransitionEnd: this.handleTransitionEnd }, h("div", { key: '52a4f21b7aac93a91c328a5b2f41cfd950e0cc69', part: "overlay", class: "drawer__overlay", onClick: this.handleOverlayClick, tabIndex: -1 }), h("div", { key: '514918c239080e61e5d21a03ae7bb77e2e5c07ce', ref: el => (this.panel = el), part: "panel", class: "drawer__panel", role: "dialog", "aria-modal": "true", "aria-hidden": this.open ? 'false' : 'true', "aria-label": this.noHeader ? this.label : null, "aria-labelledby": !this.noHeader ? `${this.componentId}-title` : null, tabIndex: 0 }, !this.noHeader && (h("header", { part: "header", class: "drawer__header" }, h("span", { part: "title", class: "drawer__title", id: `${this.componentId}-title` }, h("slot", { name: "label" }, this.label || String.fromCharCode(65279))), h("six-icon-button", { exportparts: "base:close-button", class: "drawer__close", name: "close", onClick: this.handleCloseClick }))), h("div", { key: 'c60074028d925dfe19c0230a1a2b66da5dbed316', part: "body", class: "drawer__body" }, h("slot", { key: '21e8675798241e0f8b343e9b81767d8821fde527' })), h("footer", { key: '60f547b6e078c7628c4b03340d3dfd1711a9bd6e', part: "footer", class: "drawer__footer" }, h("slot", { key: '740c45892c9f8175256a056f3b4e16d2bbde63a6', name: "footer", onSlotchange: this.handleSlotChange })))));
     }
     get host() { return getElement(this); }
     static get watchers() { return {

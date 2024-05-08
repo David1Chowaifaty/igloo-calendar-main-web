@@ -27,7 +27,12 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, params);
+        let roomtypeIds = [];
+        const { injected, roomtype_id } = app_store.app_data;
+        if (injected) {
+            roomtypeIds.push(roomtype_id);
+        }
+        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);

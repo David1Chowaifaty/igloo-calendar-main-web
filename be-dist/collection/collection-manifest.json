@@ -30,6 +30,7 @@
     "components/ir-booking-engine/ir-privacy-policy/ir-privacy-policy.js",
     "components/ir-interceptor/ir-interceptor.js",
     "components/ui/ir-alert-dialog/ir-alert-dialog.js",
+    "components/ui/ir-badge/ir-badge.js",
     "components/ui/ir-badge-group/ir-badge-group.js",
     "components/ui/ir-banner/ir-banner.js",
     "components/ui/ir-button/ir-button.js",

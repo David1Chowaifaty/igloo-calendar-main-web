@@ -17,6 +17,7 @@ export class CommonService extends Token {
             throw new MissingTokenError();
         }
         const { data } = await axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
+        app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
     async getCountries(language) {

@@ -20,6 +20,7 @@ export declare class IrTextarea {
     size: number;
     multiple: boolean;
     error: boolean;
+    label: string;
     textChanged: EventEmitter<string>;
     inputFocus: EventEmitter<FocusEvent>;
     inputBlur: EventEmitter<FocusEvent>;

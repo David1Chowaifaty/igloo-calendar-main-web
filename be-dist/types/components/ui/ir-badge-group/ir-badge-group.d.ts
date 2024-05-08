@@ -4,6 +4,7 @@ export declare class IrBadgeGroup {
     message: string;
     variant: 'error' | 'succes' | 'primary' | 'secondary';
     clickable: boolean;
+    messagePosition: 'default' | 'center';
     badgeClick: EventEmitter<MouseEvent>;
     render(): any;
 }

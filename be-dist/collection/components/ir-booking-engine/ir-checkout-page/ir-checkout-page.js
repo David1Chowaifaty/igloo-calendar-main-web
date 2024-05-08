@@ -63,7 +63,11 @@ export class IrCheckoutPage {
         this.isLoading = false;
     }
     render() {
-        return (h(Host, { key: '71913146b8895b3375105eab5e7063dd8f01de06' }, h("main", { key: 'f5164502297aced0e76688b6ea59306342aeae7e', class: "flex flex-col-reverse md:items-center lg:items-start lg:flex-row gap-4 justify-between" }, h("section", { key: '500976b97718a64f2038c3eba9467c966934dcf2', class: "w-full md:max-w-4xl space-y-12" }, h("ir-user-form", { key: 'e65e323f7d9bb23957ae414bd36b7549a0ec3d31', class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined }), h("ir-booking-details", { key: '10dbdf03ff9eb5bacc7c45ec7c1405874700b3bd' }), h("ir-pickup", { key: 'efec5059f8ea7508a2c4ddcc975c97f848cf289b', errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })), h("section", { key: 'c01e38e62272a8880d5df4187d23483012020591', class: "w-full flex  justify-end md:max-w-2xl lg:max-w-md lg:sticky lg:top-0" }, h("ir-booking-summary", { key: '26bbf2b58a4cc39ec59a9a0c3d784c37f712df05', isLoading: this.isLoading })))));
+        return (h(Host, { key: '1efa0702e4d7102078e49221e653798d5de37400' }, h("main", { key: '1d94c355515594f5f3187c5ce216b5406ab0b00c', class: "flex w-full  flex-col justify-between gap-4 md:items-center lg:flex-row lg:items-start" }, h("section", { key: '50a57453983c1a576ea9bca5c7f52625cbfe8b80', class: "w-full space-y-12 md:max-w-4xl" }, h("div", { key: '252b0e0c996c655c1428dc5b107d68ad510a9c51', class: "flex items-center gap-2.5" }, h("ir-button", { key: 'ea9bb7abbd0c15601575fc9adecfbb5111c31e7a', variants: "icon", onButtonClick: e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                this.routing.emit('booking');
+            } }, h("ir-icons", { key: '32cdedd587b2082f404c2fa2828eeaef3d5d2120', name: "angle_left", slot: "btn-icon" })), h("p", { key: '76ef141d229eccb6f9a79fc93aa5b5907a8813c0', class: "text-2xl font-semibold" }, "Complete your booking")), h("ir-user-form", { key: '7c553a6d694f16f7251d0d3bbb0ded506f6f5c4f', class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined }), h("ir-booking-details", { key: 'a4999418d88585e9b7bdce62a5badbc93373f6bf' }), h("ir-pickup", { key: '7e7be0562a4c57290dc318171e8708ef3fcd6d1b', errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })), h("section", { key: 'd6b20b09f780ab7f2892de5af88d7c21083f6895', class: "w-full md:flex  lg:sticky  lg:top-20 lg:max-w-md lg:justify-end" }, h("ir-booking-summary", { key: '801c27e27e1f095dcbee318e8ef157189a7d187a', isLoading: this.isLoading })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "shadow"; }
@@ -82,6 +86,30 @@ export class IrCheckoutPage {
             "isLoading": {},
             "error": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "routing",
+                "name": "routing",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "pages",
+                    "resolved": "\"booking\" | \"checkout\"",
+                    "references": {
+                        "pages": {
+                            "location": "import",
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::pages"
+                        }
+                    }
+                }
+            }];
     }
     static get listeners() {
         return [{

@@ -4,6 +4,6 @@ export declare class IrUserForm {
     private dialogRef;
     private propertyService;
     componentWillLoad(): Promise<void>;
-    handleButtonClick(e: CustomEvent): void;
+    handleButtonClick(): void;
     render(): any;
 }
