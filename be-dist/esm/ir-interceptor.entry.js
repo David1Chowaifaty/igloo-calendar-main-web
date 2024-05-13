@@ -61,7 +61,7 @@ const IrInterceptor = class {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '2f1659aa9b77abf2b2b8ea78e974e5e8b09c0d9c' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
+        return (h(Host, { key: '2303aa499b6b14cecb95e51932732850d1c1a651' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;

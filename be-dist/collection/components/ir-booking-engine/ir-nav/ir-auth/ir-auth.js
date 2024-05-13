@@ -6,48 +6,17 @@ export class IrAuth {
         // @Event() onSignIn: EventEmitter;
         // @Event() onSignOut: EventEmitter;
         this.authService = new AuthService();
-        this.initGoogleAuth = () => {
-            window.gapi.load('auth2', () => {
-                if (!window.gapi.auth2.getAuthInstance()) {
-                    window.gapi.auth2
-                        .init({
-                        client_id: process.env.GOOGLE_API_KEY,
-                    })
-                        .then(() => {
-                        console.log('Google Auth initialized');
-                    });
-                }
-            });
-        };
-        this.handleSignIn = () => {
-            // if (window.gapi && window.gapi.auth2) {
-            //   const auth2 = window.gapi.auth2.getAuthInstance();
-            //   if (auth2) {
-            //     this.signInDiv.style.display = 'block';
-            //     auth2
-            //       .signIn()
-            //       .then(googleUser => {
-            //         this.signedIn = true;
-            //         this.onSignIn.emit(googleUser.getBasicProfile());
-            //         this.signInDiv.style.display = 'none';
-            //       })
-            //       .catch(error => {
-            //         console.error('Error signing in', error);
-            //         this.signInDiv.style.display = 'none';
-            //       });
-            //   } else {
-            //     console.error('Google Auth instance not available.');
-            //   }
-            // } else {
-            //   console.error('Google API not loaded.');
-            // }
-        };
         this.handleSignOut = () => {
             const auth2 = window.gapi.auth2.getAuthInstance();
             auth2.signOut().then(() => {
                 this.signedIn = false;
                 // this.onSignOut.emit();
             });
+        };
+        this.onSignIn = googleUser => {
+            var profile = googleUser.getBasicProfile();
+            console.log(profile);
+            // Access profile information (e.g., profile.getId(), profile.getName(), etc.)
         };
         this.enableSignUp = true;
         this.authState = 'login';
@@ -60,74 +29,27 @@ export class IrAuth {
         this.authService.setToken(app_store.app_data.token);
     }
     componentDidLoad() {
-        this.loadGoogleApi();
-        // window.fbAsyncInit = () => {
-        //   FB.init({
-        //     appId: process.env.FB_APP_ID,
-        //     xfbml: true,
-        //     version: 'v19.0',
-        //   });
-        //   FB.AppEvents.logPageView();
-        // };
-        // (function (d, s, id) {
-        //   var js,
-        //     fjs = d.getElementsByTagName(s)[0];
-        //   if (d.getElementById(id)) {
-        //     return;
-        //   }
-        //   js = d.createElement(s);
-        //   js.id = id;
-        //   js.src = 'https://connect.facebook.net/en_US/sdk.js';
-        //   fjs.parentNode.insertBefore(js, fjs);
-        // })(document, 'script', 'facebook-jssdk');
-    }
-    loadGoogleApi() {
-        // const script = document.createElement('script');
-        // script.src = 'https://accounts.google.com/gsi/client';
-        // script.async;
-        // script.defer;
-        // script.onload = () => {
-        //   window.gapi.load('auth2', () => {
-        //     window.gapi.auth2
-        //       .init({
-        //         client_id: '1035240403483-60urt17notg4vmvjbq739p0soqup0o87.apps.googleusercontent.com',
-        //       })
-        //       .catch(error => {
-        //         console.error('Error initializing Google Auth:', error);
-        //       });
-        //   });
-        // };
-        // const div1 = document.createElement('div');
-        // div1.id = 'g_id_onload';
-        // div1.setAttribute('data-client_id', '1035240403483-60urt17notg4vmvjbq739p0soqup0o87.apps.googleusercontent.com');
-        // div1.setAttribute('data-callback', 'handleCredentialResponse');
-        // div1.setAttribute('data-auto_prompt', 'false');
-        // this.signInDiv = document.createElement('div');
-        // this.signInDiv.className = 'g_id_signin';
-        // // this.signInDiv.style.display = 'none'; // Initially hidden
-        // this.signInDiv.setAttribute('data-type', 'standard');
-        // this.el.appendChild(script);
-        // this.el.appendChild(div1);
-        // this.el.appendChild(this.signInDiv);
-        // (window as any).google.accounts.id.initialize({
-        //   client_id: '1035240403483-60urt17notg4vmvjbq739p0soqup0o87.apps.googleusercontent.com',
-        //   // callback: handleCredentialResponse
-        // });
-        // (window as any).google.accounts.id.renderButton(
-        //   this.googleTrigger,
-        //   { theme: 'outline', size: 'large' }, // customization attributes
-        // );
-        // (window as any).google.accounts.id.prompt();
-        window.onload = function () {
-            // also display the One Tap dialog
+        window.fbAsyncInit = () => {
+            FB.init({
+                appId: '1630011277802654',
+                xfbml: true,
+                version: 'v19.0',
+            });
+            FB.AppEvents.logPageView();
         };
-        // window.onload = function () {
-        //   google.accounts.id.initialize({
-        //     client_id: 'YOUR_GOOGLE_CLIENT_ID',
-        //     callback: handleCredentialResponse
-        //   });
-        //   google.accounts.id.prompt();
-        // };
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'facebook-jssdk');
+    }
+    handleCredentialResponse(response) {
+        console.log('Encoded JWT ID token: ' + response.credential);
     }
     async loginWithFacebook() {
         FB.login(response => {
@@ -166,21 +88,31 @@ export class IrAuth {
         }
     }
     render() {
-        return (h(Host, { key: '2b6b336b109ce1c317a37309c1dec69ab71ab2c8' }, h("div", { key: 'b739a52a220ee01652c42e59e121c317c4d6650b', class: `auth-container ${this.animationDirection} p-4 sm:p-6` }, this.authState === 'login' ? (h("ir-signin", { enableSignUp: this.enableSignUp, onSignIn: e => {
+        return (h(Host, { key: 'cf2370f66da633863463ade3cf8b0085e8e17afa' }, h("div", { key: '9b568c6fb3f525758c8e5f2d032acc1fbcedb397', class: `auth-container ${this.animationDirection} p-4 sm:p-6` }, this.authState === 'login' ? (h("ir-signin", {
+            // onAuthFinish={e => {
+            //   console.log(e.detail);
+            //   this.authFinish.emit(e.detail);
+            // }}
+            enableSignUp: this.enableSignUp, onSignIn: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
                 if (e.detail.trigger === 'fb') {
                     return this.loginWithFacebook();
                 }
                 else if (e.detail.trigger === 'google') {
-                    return this.handleSignIn();
+                    return;
                 }
-            } })) : (h("ir-signup", { onSignUp: e => {
+            }
+        })) : (h("ir-signup", { onSignUp: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
                 if (e.detail.trigger === 'be') {
                     return this.signUp(e.detail.params);
                 }
                 else if (e.detail.trigger === 'fb') {
                     return this.loginWithFacebook();
                 }
-                return this.handleSignIn();
+                return;
             } })))));
     }
     static get is() { return "ir-auth"; }

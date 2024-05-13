@@ -79,7 +79,10 @@ export namespace Components {
         "token": string;
     }
     interface IrBookingListing {
-        "propertid": number;
+        "baseUrl": string;
+        "footerShown": boolean;
+        "headerShown": boolean;
+        "propertyid": number;
     }
     interface IrBookingPage {
     }
@@ -166,6 +169,8 @@ export namespace Components {
         "images": string[];
         "totalImages": number;
     }
+    interface IrGoogleAuth {
+    }
     interface IrIcons {
         "name": TIcons;
         "svgClassName": string;
@@ -233,6 +238,7 @@ export namespace Components {
     }
     interface IrNav {
         "currencies": ICurrency[];
+        "isBookingListing": boolean;
         "languages": IExposedLanguages[];
         "logo": string;
         "website": string;
@@ -257,6 +263,10 @@ export namespace Components {
     interface IrPropertyGallery {
         "property_state": 'carousel' | 'gallery';
         "roomType": RoomType;
+    }
+    interface IrRadio {
+        "checked": boolean;
+        "radioId": string;
     }
     interface IrRateplan {
         "ratePlan": RatePlan;
@@ -284,6 +294,11 @@ export namespace Components {
         "value": string | number;
         "variant": 'double-line' | 'default';
     }
+    interface IrSeoInjector {
+        "pageDescription": string;
+        "pageKeywords": string;
+        "pageTitle": string;
+    }
     interface IrSheet {
         "closeSheet": () => Promise<void>;
         "hideCloseButton": boolean;
@@ -294,6 +309,9 @@ export namespace Components {
         "enableSignUp": boolean;
     }
     interface IrSignup {
+    }
+    interface IrSocialButton {
+        "label": string;
     }
     interface IrSwitch {
         "checked": boolean;
@@ -428,6 +446,10 @@ export interface IrPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPopoverElement;
 }
+export interface IrRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrRadioElement;
+}
 export interface IrRateplanCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrRateplanElement;
@@ -447,6 +469,10 @@ export interface IrSigninCustomEvent<T> extends CustomEvent<T> {
 export interface IrSignupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrSignupElement;
+}
+export interface IrSocialButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrSocialButtonElement;
 }
 export interface IrSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -847,6 +873,12 @@ declare global {
         prototype: HTMLIrGalleryElement;
         new (): HTMLIrGalleryElement;
     };
+    interface HTMLIrGoogleAuthElement extends Components.IrGoogleAuth, HTMLStencilElement {
+    }
+    var HTMLIrGoogleAuthElement: {
+        prototype: HTMLIrGoogleAuthElement;
+        new (): HTMLIrGoogleAuthElement;
+    };
     interface HTMLIrIconsElement extends Components.IrIcons, HTMLStencilElement {
     }
     var HTMLIrIconsElement: {
@@ -977,6 +1009,23 @@ declare global {
         prototype: HTMLIrPropertyGalleryElement;
         new (): HTMLIrPropertyGalleryElement;
     };
+    interface HTMLIrRadioElementEventMap {
+        "checkChange": boolean;
+    }
+    interface HTMLIrRadioElement extends Components.IrRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrRadioElementEventMap>(type: K, listener: (this: HTMLIrRadioElement, ev: IrRadioCustomEvent<HTMLIrRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrRadioElementEventMap>(type: K, listener: (this: HTMLIrRadioElement, ev: IrRadioCustomEvent<HTMLIrRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrRadioElement: {
+        prototype: HTMLIrRadioElement;
+        new (): HTMLIrRadioElement;
+    };
     interface HTMLIrRateplanElementEventMap {
         "animateBookingButton": null;
     }
@@ -1023,6 +1072,12 @@ declare global {
         prototype: HTMLIrSelectElement;
         new (): HTMLIrSelectElement;
     };
+    interface HTMLIrSeoInjectorElement extends Components.IrSeoInjector, HTMLStencilElement {
+    }
+    var HTMLIrSeoInjectorElement: {
+        prototype: HTMLIrSeoInjectorElement;
+        new (): HTMLIrSeoInjectorElement;
+    };
     interface HTMLIrSheetElementEventMap {
         "openChange": boolean;
     }
@@ -1041,6 +1096,7 @@ declare global {
         new (): HTMLIrSheetElement;
     };
     interface HTMLIrSigninElementEventMap {
+        "authFinish": { state: 'success' | 'failed'; token: string };
         "navigate": TAuthNavigation;
         "signIn": TSignInAuthTrigger;
     }
@@ -1075,6 +1131,23 @@ declare global {
     var HTMLIrSignupElement: {
         prototype: HTMLIrSignupElement;
         new (): HTMLIrSignupElement;
+    };
+    interface HTMLIrSocialButtonElementEventMap {
+        "socialButtonClick": MouseEvent;
+    }
+    interface HTMLIrSocialButtonElement extends Components.IrSocialButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrSocialButtonElementEventMap>(type: K, listener: (this: HTMLIrSocialButtonElement, ev: IrSocialButtonCustomEvent<HTMLIrSocialButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrSocialButtonElementEventMap>(type: K, listener: (this: HTMLIrSocialButtonElement, ev: IrSocialButtonCustomEvent<HTMLIrSocialButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrSocialButtonElement: {
+        prototype: HTMLIrSocialButtonElement;
+        new (): HTMLIrSocialButtonElement;
     };
     interface HTMLIrSwitchElementEventMap {
         "checkChange": boolean;
@@ -1154,6 +1227,7 @@ declare global {
         "ir-facilities": HTMLIrFacilitiesElement;
         "ir-footer": HTMLIrFooterElement;
         "ir-gallery": HTMLIrGalleryElement;
+        "ir-google-auth": HTMLIrGoogleAuthElement;
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
@@ -1166,13 +1240,16 @@ declare global {
         "ir-popover": HTMLIrPopoverElement;
         "ir-privacy-policy": HTMLIrPrivacyPolicyElement;
         "ir-property-gallery": HTMLIrPropertyGalleryElement;
+        "ir-radio": HTMLIrRadioElement;
         "ir-rateplan": HTMLIrRateplanElement;
         "ir-room-type-amenities": HTMLIrRoomTypeAmenitiesElement;
         "ir-roomtype": HTMLIrRoomtypeElement;
         "ir-select": HTMLIrSelectElement;
+        "ir-seo-injector": HTMLIrSeoInjectorElement;
         "ir-sheet": HTMLIrSheetElement;
         "ir-signin": HTMLIrSigninElement;
         "ir-signup": HTMLIrSignupElement;
+        "ir-social-button": HTMLIrSocialButtonElement;
         "ir-switch": HTMLIrSwitchElement;
         "ir-textarea": HTMLIrTextareaElement;
         "ir-tooltip": HTMLIrTooltipElement;
@@ -1235,7 +1312,10 @@ declare namespace LocalJSX {
         "token"?: string;
     }
     interface IrBookingListing {
-        "propertid"?: number;
+        "baseUrl"?: string;
+        "footerShown"?: boolean;
+        "headerShown"?: boolean;
+        "propertyid"?: number;
     }
     interface IrBookingPage {
         "onRouting"?: (event: IrBookingPageCustomEvent<pages>) => void;
@@ -1353,6 +1433,8 @@ declare namespace LocalJSX {
         "onOpenGallery"?: (event: IrGalleryCustomEvent<null>) => void;
         "totalImages"?: number;
     }
+    interface IrGoogleAuth {
+    }
     interface IrIcons {
         "name"?: TIcons;
         "svgClassName"?: string;
@@ -1424,6 +1506,7 @@ declare namespace LocalJSX {
     }
     interface IrNav {
         "currencies"?: ICurrency[];
+        "isBookingListing"?: boolean;
         "languages"?: IExposedLanguages[];
         "logo"?: string;
         "website"?: string;
@@ -1449,6 +1532,11 @@ declare namespace LocalJSX {
     interface IrPropertyGallery {
         "property_state"?: 'carousel' | 'gallery';
         "roomType"?: RoomType;
+    }
+    interface IrRadio {
+        "checked"?: boolean;
+        "onCheckChange"?: (event: IrRadioCustomEvent<boolean>) => void;
+        "radioId"?: string;
     }
     interface IrRateplan {
         "onAnimateBookingButton"?: (event: IrRateplanCustomEvent<null>) => void;
@@ -1478,6 +1566,11 @@ declare namespace LocalJSX {
         "value"?: string | number;
         "variant"?: 'double-line' | 'default';
     }
+    interface IrSeoInjector {
+        "pageDescription"?: string;
+        "pageKeywords"?: string;
+        "pageTitle"?: string;
+    }
     interface IrSheet {
         "hideCloseButton"?: boolean;
         "onOpenChange"?: (event: IrSheetCustomEvent<boolean>) => void;
@@ -1485,12 +1578,17 @@ declare namespace LocalJSX {
     }
     interface IrSignin {
         "enableSignUp"?: boolean;
+        "onAuthFinish"?: (event: IrSigninCustomEvent<{ state: 'success' | 'failed'; token: string }>) => void;
         "onNavigate"?: (event: IrSigninCustomEvent<TAuthNavigation>) => void;
         "onSignIn"?: (event: IrSigninCustomEvent<TSignInAuthTrigger>) => void;
     }
     interface IrSignup {
         "onNavigate"?: (event: IrSignupCustomEvent<TAuthNavigation>) => void;
         "onSignUp"?: (event: IrSignupCustomEvent<TSignUpAuthTrigger>) => void;
+    }
+    interface IrSocialButton {
+        "label"?: string;
+        "onSocialButtonClick"?: (event: IrSocialButtonCustomEvent<MouseEvent>) => void;
     }
     interface IrSwitch {
         "checked"?: boolean;
@@ -1562,6 +1660,7 @@ declare namespace LocalJSX {
         "ir-facilities": IrFacilities;
         "ir-footer": IrFooter;
         "ir-gallery": IrGallery;
+        "ir-google-auth": IrGoogleAuth;
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
@@ -1574,13 +1673,16 @@ declare namespace LocalJSX {
         "ir-popover": IrPopover;
         "ir-privacy-policy": IrPrivacyPolicy;
         "ir-property-gallery": IrPropertyGallery;
+        "ir-radio": IrRadio;
         "ir-rateplan": IrRateplan;
         "ir-room-type-amenities": IrRoomTypeAmenities;
         "ir-roomtype": IrRoomtype;
         "ir-select": IrSelect;
+        "ir-seo-injector": IrSeoInjector;
         "ir-sheet": IrSheet;
         "ir-signin": IrSignin;
         "ir-signup": IrSignup;
+        "ir-social-button": IrSocialButton;
         "ir-switch": IrSwitch;
         "ir-textarea": IrTextarea;
         "ir-tooltip": IrTooltip;
@@ -1620,6 +1722,7 @@ declare module "@stencil/core" {
             "ir-facilities": LocalJSX.IrFacilities & JSXBase.HTMLAttributes<HTMLIrFacilitiesElement>;
             "ir-footer": LocalJSX.IrFooter & JSXBase.HTMLAttributes<HTMLIrFooterElement>;
             "ir-gallery": LocalJSX.IrGallery & JSXBase.HTMLAttributes<HTMLIrGalleryElement>;
+            "ir-google-auth": LocalJSX.IrGoogleAuth & JSXBase.HTMLAttributes<HTMLIrGoogleAuthElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
@@ -1632,13 +1735,16 @@ declare module "@stencil/core" {
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
             "ir-privacy-policy": LocalJSX.IrPrivacyPolicy & JSXBase.HTMLAttributes<HTMLIrPrivacyPolicyElement>;
             "ir-property-gallery": LocalJSX.IrPropertyGallery & JSXBase.HTMLAttributes<HTMLIrPropertyGalleryElement>;
+            "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
             "ir-rateplan": LocalJSX.IrRateplan & JSXBase.HTMLAttributes<HTMLIrRateplanElement>;
             "ir-room-type-amenities": LocalJSX.IrRoomTypeAmenities & JSXBase.HTMLAttributes<HTMLIrRoomTypeAmenitiesElement>;
             "ir-roomtype": LocalJSX.IrRoomtype & JSXBase.HTMLAttributes<HTMLIrRoomtypeElement>;
             "ir-select": LocalJSX.IrSelect & JSXBase.HTMLAttributes<HTMLIrSelectElement>;
+            "ir-seo-injector": LocalJSX.IrSeoInjector & JSXBase.HTMLAttributes<HTMLIrSeoInjectorElement>;
             "ir-sheet": LocalJSX.IrSheet & JSXBase.HTMLAttributes<HTMLIrSheetElement>;
             "ir-signin": LocalJSX.IrSignin & JSXBase.HTMLAttributes<HTMLIrSigninElement>;
             "ir-signup": LocalJSX.IrSignup & JSXBase.HTMLAttributes<HTMLIrSignupElement>;
+            "ir-social-button": LocalJSX.IrSocialButton & JSXBase.HTMLAttributes<HTMLIrSocialButtonElement>;
             "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;

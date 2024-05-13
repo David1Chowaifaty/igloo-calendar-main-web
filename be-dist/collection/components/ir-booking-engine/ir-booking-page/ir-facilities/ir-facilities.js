@@ -3,7 +3,7 @@ import { formatAmount } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrFacilities {
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
         return (h(Host, { key: 'f47fa55cc468e6e06edbada67cdce13ff7040db1' }, h("div", { key: 'a2073e718026d7ed6d06753f2eab7ce5ca0a33c3', class: "space-y-5 rounded-md bg-gray-100 p-4" }, h("div", { key: 'e9aed2824b9ffce13596bf3d2ebfe4b70fd94375', class: "flex  items-center gap-4" }, h("ir-icons", { key: '3148dcfbaa271327b2505ca99337e230739513fe', name: "clock" }), h("p", { key: 'dbf8cbeb586efba151fcc2c312dcbf20b75a3a9d' }, "Check-in: from ", (_a = app_store.property) === null || _a === void 0 ? void 0 :
             _a.time_constraints.check_in_from, " until ", (_b = app_store.property) === null || _b === void 0 ? void 0 :
             _b.time_constraints.check_in_till), h("p", { key: '79362fe5e761760b7fcc34d18a3d1734cff40edf' }, "Check-out:", (_c = app_store.property) === null || _c === void 0 ? void 0 :
@@ -26,12 +26,12 @@ export class IrFacilities {
                     return null;
                 }
                 return h("li", { key: aminity.code }, aminity.description);
-            })))), h("div", { key: '35495aaab51ceac7785626993a3cdeb3233c97cd', class: "flex items-center gap-4" }, h("ir-icons", { key: '27317fc4d9f5316e69779408916964babe688be6', name: "utencils" }), h("p", { key: '27c55eda61a273d26e3ac2fdb073e1f68b579c14' }, h("span", { key: '3bde5a230f4a18c0b39f87198b5cc0ffaf1af31f', class: "font-medium" }, "Food and beverage: "), (_o = app_store.property) === null || _o === void 0 ? void 0 :
-            _o.description.food_and_beverage)), h("div", { key: 'b2458935dd3c369ad52c1d1a09b1ae5cd6fb84f0', class: "flex items-center gap-4" }, h("ir-icons", { key: '6b0fc795c8a8bf9a5b7e7bb8703b489e1bd4d28f', name: "credit_card" }), h("p", { key: 'd6c00de0aa98c9739a03b28055151af1b504bbc6' }, h("span", { key: '41b5c35d07c53829840847b51260cfaab54af5d0', class: "font-medium" }, "Accepted credit cards at the property: "), (_p = app_store.property) === null || _p === void 0 ? void 0 :
-            _p.allowed_cards.map((card, index) => {
+            })))), ((_o = app_store.property) === null || _o === void 0 ? void 0 : _o.description.food_and_beverage) && (h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "utencils" }), h("p", null, h("span", { class: "font-medium" }, "Food and beverage: "), (_p = app_store.property) === null || _p === void 0 ? void 0 :
+            _p.description.food_and_beverage))), h("div", { key: 'a35a51e805d55a20fa98d1b6e8103a7dae560601', class: "flex items-center gap-4" }, h("ir-icons", { key: '4bf3532fe4ccf512ef95ce7b853ac2460d591437', name: "credit_card" }), h("p", { key: 'c340b47ff5a081801c4ebec7d940628010fa94c0' }, h("span", { key: '21079d41bdd15c91b234a81526d5df76cad0e2f2', class: "font-medium" }, "Accepted credit cards at the property: "), (_q = app_store.property) === null || _q === void 0 ? void 0 :
+            _q.allowed_cards.map((card, index) => {
                 var _a;
                 return (h("span", { key: card.id }, card.name, index < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 && h("span", null, " - ")));
-            }))), ((_q = app_store.property) === null || _q === void 0 ? void 0 : _q.description.important_info) && (h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "danger", svgClassName: "text-red-500" }), h("div", null, h("p", null, (_r = app_store.property) === null || _r === void 0 ? void 0 : _r.description.important_info), h("p", null, (_s = app_store.property) === null || _s === void 0 ? void 0 : _s.description.non_standard_conditions)))))));
+            }))), ((_r = app_store.property) === null || _r === void 0 ? void 0 : _r.description.important_info) && (h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "danger", svgClassName: "text-red-500" }), h("div", null, h("p", null, (_s = app_store.property) === null || _s === void 0 ? void 0 : _s.description.important_info), h("p", null, (_t = app_store.property) === null || _t === void 0 ? void 0 : _t.description.non_standard_conditions)))))));
     }
     static get is() { return "ir-facilities"; }
     static get encapsulation() { return "shadow"; }

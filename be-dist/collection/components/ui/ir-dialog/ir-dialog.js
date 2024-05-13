@@ -59,7 +59,7 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: 'defd0501cc29714923d7038d0e9165b8485ad611' }, h("div", { key: 'be5ae833c2591a2a10f3047801399fb2870e7509', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+        return (h(Host, { key: '94e57cfe981b3437f5e3f68a25be66202937dea7' }, h("div", { key: 'a3f6781f65808a4ae276b119936895b90846852e', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

@@ -57,6 +57,7 @@ export class IrBookingEngine {
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
+            this.commonService.getExposedLanguage(),
         ]);
         this.currencies = currencies;
         this.languages = languages;
@@ -110,12 +111,16 @@ export class IrBookingEngine {
         if (app_store.fetchedBooking) {
             await Promise.all([
                 this.checkAvailability(),
+                this.commonService.getExposedLanguage(),
                 this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
             ]);
             // booking_store.roomTypes = [...p.My_Result.roomtypes];
         }
         else {
-            this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en' });
+            await Promise.all([
+                this.commonService.getExposedLanguage(),
+                this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en' }),
+            ]);
         }
     }
     async checkAvailability() {
@@ -142,7 +147,6 @@ export class IrBookingEngine {
         return (h("main", { class: "relative  flex w-full flex-col space-y-5" }, h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, app_store.currentPage === 'booking' ? (h("div", { class: "mx-auto max-w-6xl" }, h("ir-booking-page", null), ' ')) : (h("div", { class: "mx-auto max-w-6xl" }, h("ir-checkout-page", null)))), !this.injected && h("ir-footer", null)));
     }
     static get is() { return "ir-booking-engine"; }
-    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-booking-engine.css"]

@@ -9,6 +9,10 @@ export declare class IrSignin {
         status: 'empty' | 'valid' | 'invalid';
         errors: Record<keyof TSignInValidator, string> | null;
     };
+    authFinish: EventEmitter<{
+        state: 'success' | 'failed';
+        token: string;
+    }>;
     navigate: EventEmitter<TAuthNavigation>;
     signIn: EventEmitter<TSignInAuthTrigger>;
     private authService;

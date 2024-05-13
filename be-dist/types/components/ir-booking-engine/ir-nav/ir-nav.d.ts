@@ -5,6 +5,7 @@ export declare class IrNav {
     languages: IExposedLanguages[];
     logo: string;
     website: string;
+    isBookingListing: boolean;
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;

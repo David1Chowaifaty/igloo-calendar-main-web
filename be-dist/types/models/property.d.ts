@@ -65,6 +65,10 @@ export interface AllowedPaymentMethod {
     icon_class_name: any;
     img_url: any;
     notes: any;
+    data: {
+        key: string;
+        value: string;
+    }[];
 }
 export interface Amenity {
     amenity_type: string;

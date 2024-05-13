@@ -6,4 +6,9 @@ export declare class CommonService extends Token {
     getUserDefaultCountry(): Promise<any>;
     getExposedCountryByIp(): Promise<any>;
     getBEToken(): Promise<any>;
+    getExposedLanguage(): Promise<{
+        entries: any;
+        direction: any;
+    }>;
+    private transformArrayToObject;
 }

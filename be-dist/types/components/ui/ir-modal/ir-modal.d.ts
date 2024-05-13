@@ -3,6 +3,9 @@ export declare class IrModal {
     private firstFocusableElement;
     private lastFocusableElement;
     isOpen: boolean;
+    protal: HTMLDivElement;
+    overlay: HTMLDivElement;
+    componentWillLoad(): void;
     componentDidLoad(): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;

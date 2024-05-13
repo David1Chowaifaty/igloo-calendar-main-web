@@ -32,7 +32,7 @@ export class PropertyService extends Token {
         if (injected) {
             roomtypeIds.push(roomtype_id);
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds }));
+        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
