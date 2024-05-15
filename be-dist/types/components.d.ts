@@ -99,9 +99,9 @@ export namespace Components {
         "isLoading": boolean;
         "label": string;
         "name": string;
-        "size": 'sm' | 'md' | 'lg';
+        "size": 'sm' | 'md' | 'lg' | 'pill';
         "type": 'button' | 'submit' | 'reset' | 'menu';
-        "variants": 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary';
+        "variants": 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
     interface IrCalendar {
         "dateModifiers": IDateModifiers;
@@ -143,6 +143,7 @@ export namespace Components {
         "toDate": Date | null;
     }
     interface IrDialog {
+        "closeButton": boolean;
         "closeModal": () => Promise<void>;
         "openModal": () => Promise<void>;
     }
@@ -197,6 +198,7 @@ export namespace Components {
         "placeholder": string;
         "readonly": boolean;
         "required": boolean;
+        "rightIcon": boolean;
         "size": number;
         "step": string | number;
         "type": | 'button'
@@ -234,6 +236,7 @@ export namespace Components {
     }
     interface IrModal {
         "closeModal": () => Promise<void>;
+        "element": HTMLElement;
         "openModal": () => Promise<void>;
     }
     interface IrNav {
@@ -437,6 +440,10 @@ export interface IrLanguagePickerCustomEvent<T> extends CustomEvent<T> {
 export interface IrLoyaltyCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrLoyaltyElement;
+}
+export interface IrModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrModalElement;
 }
 export interface IrPhoneInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -945,7 +952,18 @@ declare global {
         prototype: HTMLIrLoyaltyElement;
         new (): HTMLIrLoyaltyElement;
     };
+    interface HTMLIrModalElementEventMap {
+        "openChange": boolean;
+    }
     interface HTMLIrModalElement extends Components.IrModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrModalElementEventMap>(type: K, listener: (this: HTMLIrModalElement, ev: IrModalCustomEvent<HTMLIrModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrModalElementEventMap>(type: K, listener: (this: HTMLIrModalElement, ev: IrModalCustomEvent<HTMLIrModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrModalElement: {
         prototype: HTMLIrModalElement;
@@ -1336,9 +1354,9 @@ declare namespace LocalJSX {
         "label"?: string;
         "name"?: string;
         "onButtonClick"?: (event: IrButtonCustomEvent<MouseEvent>) => void;
-        "size"?: 'sm' | 'md' | 'lg';
+        "size"?: 'sm' | 'md' | 'lg' | 'pill';
         "type"?: 'button' | 'submit' | 'reset' | 'menu';
-        "variants"?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary';
+        "variants"?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
     interface IrCalendar {
         "dateModifiers"?: IDateModifiers;
@@ -1387,6 +1405,7 @@ declare namespace LocalJSX {
         "toDate"?: Date | null;
     }
     interface IrDialog {
+        "closeButton"?: boolean;
         "onOpenChange"?: (event: IrDialogCustomEvent<boolean>) => void;
     }
     interface IrDrawer {
@@ -1464,6 +1483,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         "readonly"?: boolean;
         "required"?: boolean;
+        "rightIcon"?: boolean;
         "size"?: number;
         "step"?: string | number;
         "type"?: | 'button'
@@ -1503,6 +1523,8 @@ declare namespace LocalJSX {
         "onResetBooking"?: (event: IrLoyaltyCustomEvent<null>) => void;
     }
     interface IrModal {
+        "element"?: HTMLElement;
+        "onOpenChange"?: (event: IrModalCustomEvent<boolean>) => void;
     }
     interface IrNav {
         "currencies"?: ICurrency[];

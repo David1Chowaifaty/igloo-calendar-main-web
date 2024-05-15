@@ -14,9 +14,9 @@ export declare class IrAuth {
     private authService;
     googleButton: HTMLDivElement;
     componentWillLoad(): void;
-    componentDidLoad(): void;
-    handleCredentialResponse(response: any): void;
-    handleSignOut: () => void;
+    loadGoogleSignInScript(): void;
+    initializeGoogleSignIn(): void;
+    handleCredentialResponse(response: any): Promise<void>;
     loginWithFacebook(): Promise<void>;
     handleNavigation(e: CustomEvent): void;
     signUp(params: {

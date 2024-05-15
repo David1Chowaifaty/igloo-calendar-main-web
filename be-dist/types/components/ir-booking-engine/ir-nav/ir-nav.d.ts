@@ -9,6 +9,7 @@ export declare class IrNav {
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;
+    modalRef: HTMLIrModalElement;
     handleButtonClick(e: CustomEvent, page: TTabsState): void;
     handleCloseDialog(e: CustomEvent): void;
     renderDialogBody(): any;

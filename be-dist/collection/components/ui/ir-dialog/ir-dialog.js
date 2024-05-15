@@ -2,6 +2,7 @@ import { addOverlay, removeOverlay } from "../../../stores/overlay.store";
 import { Host, h } from "@stencil/core";
 export class IrDialog {
     constructor() {
+        this.closeButton = false;
         this.isOpen = false;
     }
     componentDidLoad() {
@@ -59,7 +60,11 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '94e57cfe981b3437f5e3f68a25be66202937dea7' }, h("div", { key: 'a3f6781f65808a4ae276b119936895b90846852e', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+        return (h(Host, { key: 'c721ad7d12327bce97e417c6abf1218f963010e6' }, h("div", { key: '29712fd97022962d4086296248f3fdd95625fb5d', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.closeModal();
+            }, variants: "icon", title: "close", class: "absolute right-3 top-3" }, h("p", { class: "sr-only" }, "close"), h("ir-icons", { slot: "btn-icon", name: "xmark", svgClassName: "size-4" }))), h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -71,6 +76,28 @@ export class IrDialog {
     static get styleUrls() {
         return {
             "$": ["ir-dialog.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "closeButton": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "close-button",
+                "reflect": false,
+                "defaultValue": "false"
+            }
         };
     }
     static get states() {

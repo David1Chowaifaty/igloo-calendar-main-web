@@ -69,39 +69,41 @@ export function cn(...inputs) {
 export const formatAmount = (amount, currency = 'USD') => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(amount);
 };
+function hexToRgb(hex) {
+    hex = hex.replace(/^#/, '');
+    var r = parseInt(hex.substring(0, 2), 16);
+    var g = parseInt(hex.substring(2, 4), 16);
+    var b = parseInt(hex.substring(4, 6), 16);
+    return { r, g, b };
+}
+function rgbToHsl(rgb) {
+    let r = parseInt(rgb.r);
+    let g = parseInt(rgb.g);
+    let b = parseInt(rgb.b);
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
+    if (delta == 0)
+        h = 0;
+    else if (cmax == r)
+        h = ((g - b) / delta) % 6;
+    else if (cmax == g)
+        h = (b - r) / delta + 2;
+    else
+        h = (r - g) / delta + 4;
+    h = Math.round(h * 60);
+    if (h < 0)
+        h += 360;
+    l = (cmax + cmin) / 2;
+    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+    return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
+}
 export function hexToHSL(hex) {
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    let r = parseInt(result[1], 16);
-    let g = parseInt(result[2], 16);
-    let b = parseInt(result[3], 16);
-    (r /= 255), (g /= 255), (b /= 255);
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
-    if (max == min) {
-        h = s = 0; // achromatic
-    }
-    else {
-        let d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r:
-                h = (g - b) / d + (g < b ? 6 : 0);
-                break;
-            case g:
-                h = (b - r) / d + 2;
-                break;
-            case b:
-                h = (r - g) / d + 4;
-                break;
-        }
-        h /= 6;
-    }
-    s = s * 100;
-    s = Math.round(s);
-    l = l * 100;
-    l = Math.round(l);
-    h = Math.round(360 * h);
-    return { h, s, l };
+    const rgb = hexToRgb(hex);
+    return rgbToHsl(rgb);
 }
 export function generateColorShades(baseHex) {
     const { h, s, l: baseL } = hexToHSL(baseHex);
@@ -129,5 +131,20 @@ export function getUserPrefernce() {
 export function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
+}
+export function getCookies() {
+    const cookies = {};
+    const cookiesArray = document.cookie.split('; ');
+    cookiesArray.forEach(cookie => {
+        const [name, value] = cookie.split('=');
+        if (name && value) {
+            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+        }
+    });
+    return cookies;
+}
+export function getCookie(name) {
+    const cookies = getCookies();
+    return cookies[name] || null;
 }
 //# sourceMappingURL=utils.js.map

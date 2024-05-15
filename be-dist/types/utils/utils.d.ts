@@ -22,4 +22,8 @@ export declare function getUserPrefernce(): void;
 export declare function setDefaultLocale({ currency }: {
     currency: ICurrency;
 }): void;
+export declare function getCookies(): {
+    [key: string]: string;
+};
+export declare function getCookie(name: string): string | null;
 export {};

@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrDialog {
+    closeButton: boolean;
     el: HTMLElement;
     private firstFocusableElement;
     private lastFocusableElement;

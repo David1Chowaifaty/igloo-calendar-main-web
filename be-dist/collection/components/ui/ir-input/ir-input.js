@@ -5,6 +5,7 @@ export class IrInput {
     constructor() {
         this.inputId = v4();
         this.leftIcon = false;
+        this.rightIcon = false;
         this.inputStyles = undefined;
         this.value = undefined;
         this.type = 'text';
@@ -56,9 +57,10 @@ export class IrInput {
             this.applyStyles(this.inputStyles);
         }
         if (this.mask) {
+            console.log('first');
             this.initializeOrUpdateMask();
-            const input = this.el.querySelector(`input`);
-            const mask = IMask(input, this.mask);
+            this.input = this.el.querySelector(`input`);
+            const mask = IMask(this.input, this.mask);
             mask.on('accept', () => {
                 this.textChanged.emit(mask.value);
             });
@@ -67,16 +69,20 @@ export class IrInput {
     }
     maskPropChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
+            if (this.maskInstance) {
+                this.maskInstance.destroy();
+            }
             this.initializeOrUpdateMask();
         }
     }
     valueChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
-            const input = this.el.querySelector('input');
-            input.value = newValue; // Directly set the new value on the input
-            if (this.maskInstance) {
-                this.maskInstance.updateValue(); // Synchronize the mask with the new input value
+            if (this.maskInstance && newValue !== '') {
+                this.maskInstance.value = newValue;
+                this.maskInstance.updateValue();
             }
+            // this.input.value = newValue;
+            console.log(this.maskInstance);
         }
     }
     handleBlur(event) {
@@ -95,7 +101,7 @@ export class IrInput {
         }
     }
     render() {
-        return (h("div", { key: 'd329dd8d1e28b493fc33b41d12f070dd04e2a774', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: '4dbfa4a9f99bef27f4b4ce4580e791276371a615', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '3b69d941a0b368301fae9da6d3d79a1bfd0c823d', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label)));
+        return (h("div", { key: '2b4c15e3f7f0eacee656363222e12f334ecf1cce', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId }, h("slot", { name: "left-icon" }))), h("input", { key: '28381c16f54366e9678a20ff587eec07b9ab3a24', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '67511c12b32347f8f9460a140d4c73ee1a8934df', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }
@@ -144,6 +150,24 @@ export class IrInput {
                     "text": ""
                 },
                 "attribute": "left-icon",
+                "reflect": true,
+                "defaultValue": "false"
+            },
+            "rightIcon": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "right-icon",
                 "reflect": true,
                 "defaultValue": "false"
             },

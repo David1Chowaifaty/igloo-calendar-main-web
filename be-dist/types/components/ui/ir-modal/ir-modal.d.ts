@@ -1,14 +1,22 @@
+import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrModal {
     el: HTMLElement;
+    element: HTMLElement;
     private firstFocusableElement;
     private lastFocusableElement;
     isOpen: boolean;
-    protal: HTMLDivElement;
-    overlay: HTMLDivElement;
+    private portal;
+    private overlay;
+    private modalContainer;
+    openChange: EventEmitter<boolean>;
     componentWillLoad(): void;
     componentDidLoad(): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
+    createOverlay(): void;
+    removeOverlay(): void;
+    insertModalContent(): void;
+    removeModalContent(): void;
     prepareFocusTrap(): void;
     handleKeyDown(ev: KeyboardEvent): void;
     disconnectedCallback(): void;

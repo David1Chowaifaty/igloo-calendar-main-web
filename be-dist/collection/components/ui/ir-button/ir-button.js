@@ -32,13 +32,13 @@ export class IrButton {
         }
     }
     render() {
-        if (this.variants === 'icon') {
-            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, h("slot", { name: "btn-icon" })));
+        if (['icon', 'icon-primary'].includes(this.variants)) {
+            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, 'flex items-center justify-center', this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.isLoading ? (h("span", { class: "loader" })) : (h("div", null, h("slot", { name: "btn-icon" })))));
         }
         return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants} flex items-center justify-center`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.haveLeftIcon && !this.isLoading && (h("div", null, h("slot", { name: "left-icon" }))), this.isLoading && !['link', 'ghost'].includes(this.variants) && h("span", { class: "loader" }), this.label, this.haveRightIcon && !this.isLoading && (h("div", null, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-button"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-button.css"]
@@ -55,8 +55,8 @@ export class IrButton {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'sm' | 'md' | 'lg'",
-                    "resolved": "\"lg\" | \"md\" | \"sm\"",
+                    "original": "'sm' | 'md' | 'lg' | 'pill'",
+                    "resolved": "\"lg\" | \"md\" | \"pill\" | \"sm\"",
                     "references": {}
                 },
                 "required": false,
@@ -179,8 +179,8 @@ export class IrButton {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary'",
-                    "resolved": "\"default\" | \"destructive\" | \"ghost\" | \"ghost-primary\" | \"icon\" | \"link\" | \"outline\" | \"outline-primary\" | \"secondary\"",
+                    "original": "'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary'",
+                    "resolved": "\"default\" | \"destructive\" | \"ghost\" | \"ghost-primary\" | \"icon\" | \"icon-primary\" | \"link\" | \"outline\" | \"outline-primary\" | \"secondary\"",
                     "references": {}
                 },
                 "required": false,

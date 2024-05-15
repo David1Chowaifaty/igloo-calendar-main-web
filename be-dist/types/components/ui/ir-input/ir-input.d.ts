@@ -3,6 +3,7 @@ export declare class IrInput {
     el: HTMLIrInputElement;
     inputId: string;
     leftIcon: boolean;
+    rightIcon: boolean;
     inputStyles: Partial<CSSStyleDeclaration>;
     value: string;
     type: 'button' | 'checkbox' | 'color' | 'date' | 'datetime-local' | 'email' | 'file' | 'hidden' | 'image' | 'month' | 'number' | 'password' | 'radio' | 'range' | 'reset' | 'search' | 'submit' | 'tel' | 'text' | 'time' | 'url' | 'week';
@@ -31,6 +32,7 @@ export declare class IrInput {
     inputBlur: EventEmitter<FocusEvent>;
     private inputEl;
     private maskInstance;
+    input: HTMLInputElement;
     applyStyles(style: Partial<CSSStyleDeclaration>): void;
     private initializeOrUpdateMask;
     componentDidLoad(): void;

@@ -49,7 +49,7 @@ const IrGoogleAuth = class {
         });
     }
     render() {
-        return (index.h("div", { key: 'df34cb6a6633787e4bc1b52f2e7173a96b78f31a' }, index.h("p", { key: 'ff8900792735413bde7c9c74dd80e1701331d72b' }, "Google auth"), index.h("div", { key: 'c58113fc3aedf33ae542c15bc3e998b9061d7ddf', id: "buttonDiv" })));
+        return (index.h("div", { key: '1b5011a1af4e8d29881d5bdda971e12128677e78' }, index.h("p", { key: 'bc8a56467450945af59582392d1fb24784f538eb' }, "Google auth"), index.h("div", { key: '2f0d3404a609723ad4743c1e65ecfafcb41d0790', id: "buttonDiv" })));
     }
 };
 IrGoogleAuth.style = IrGoogleAuthStyle0;
