@@ -18,6 +18,8 @@ export declare class IrPhoneInput {
         phone_prefix: string;
         mobile: string;
     }>;
+    phoneInputBlur: EventEmitter<FocusEvent>;
+    phoneInputFocus: EventEmitter<FocusEvent>;
     private countries;
     searchInput: HTMLInputElement;
     phoneInput: HTMLInputElement;

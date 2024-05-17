@@ -11,16 +11,16 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        // const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
-        const res = await fetch(`https://gateway.igloorooms.com/IR/Get_Exposed_Property?Ticket=${token}`, {
-            body: JSON.stringify(params),
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await res.json();
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
+        // const res = await fetch(`https://gateway.igloorooms.com/IR/Get_Exposed_Property?Ticket=${token}`, {
+        //   body: JSON.stringify(params),
+        //   method: 'POST',
+        //   credentials: 'include',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // });
+        // const data = await res.json();
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);

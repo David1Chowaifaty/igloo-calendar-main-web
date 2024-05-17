@@ -7,50 +7,58 @@ export class IrLanguagePicker {
         this.selectedIndex = 0;
         this.currencies = undefined;
         this.languages = undefined;
-        this.selectedOptions = undefined;
+        this.selectedCurrency = undefined;
+        this.selectedLanguage = undefined;
     }
     async componentWillLoad() {
-        await this.init();
+        this.init();
         onAppDataChange('userPreferences', newValue => {
-            this.selectedOptions = { language: this.languages.find(l => l.code === newValue.language_id), currency: this.currencies.find(l => l.code === newValue.currency_id) };
+            this.selectedLanguage = this.languages.find(l => l.code.toLowerCase() === newValue.language_id.toLowerCase());
+            this.selectedCurrency = this.currencies.find(c => c.code.toLowerCase() === newValue.currency_id.toLowerCase());
         });
     }
     componentDidLoad() {
         var _a;
-        const index = this.languages.findIndex(l => l.code === this.selectedOptions.language.code);
+        const index = this.languages.findIndex(l => l.code === this.selectedLanguage.code);
         if (index !== -1) {
             (_a = this.langEl[index]) === null || _a === void 0 ? void 0 : _a.focus();
         }
     }
-    async init() {
+    init() {
+        var _a;
         if (this.languages && this.currencies) {
-            this.selectedOptions = {
-                language: this.languages[0],
-                currency: this.currencies[0],
-            };
+            this.selectedLanguage = (_a = this.languages) === null || _a === void 0 ? void 0 : _a.find(l => l.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase());
+            this.selectedCurrency = this.currencies.find(c => c.code.toLowerCase() === app_store.userPreferences.currency_id.toLowerCase());
         }
     }
     handleLanguageChange(id) {
-        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { language: this.languages.find(l => l.code === id) });
+        const selectedLanguage = this.languages.find(l => l.code === id);
+        if (selectedLanguage) {
+            this.selectedLanguage = selectedLanguage;
+        }
     }
     handleCurrencyChange(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         const id = e.detail;
-        this.selectedOptions = Object.assign(Object.assign({}, this.selectedOptions), { currency: this.currencies.find(l => l.code === id) });
+        const selectedCurrency = this.currencies.find(c => c.code === id);
+        if (selectedCurrency) {
+            this.selectedCurrency = selectedCurrency;
+        }
     }
     handleConfirm(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        changeLocale(this.selectedOptions.language.direction, matchLocale(this.selectedOptions.language.code));
+        changeLocale(this.selectedLanguage.direction, matchLocale(this.selectedLanguage.code));
+        console.log(this.selectedCurrency);
         updateUserPreference({
-            currency_id: this.selectedOptions.currency.code,
-            language_id: this.selectedOptions.language.code,
+            currency_id: this.selectedCurrency.code,
+            language_id: this.selectedLanguage.code,
         });
-        localStorage.setItem('user_prefernce', JSON.stringify({
-            currency_id: this.selectedOptions.currency.code,
-            language_id: this.selectedOptions.language.code,
-            direction: this.selectedOptions.language.direction,
+        localStorage.setItem('user_preference', JSON.stringify({
+            currency_id: this.selectedCurrency.code,
+            language_id: this.selectedLanguage.code,
+            direction: this.selectedLanguage.direction,
         }));
         if (app_store.currentPage === 'checkout') {
             this.resetBooking.emit(null);
@@ -94,15 +102,16 @@ export class IrLanguagePicker {
         }
     }
     render() {
-        return (h("div", { key: '73220396b3bfbdb24f8fa2649a16ede06ee233e7', class: "p-4 sm:px-6" }, h("p", { key: '6d3fddaefa82388c9ba181cdac061ff5dc0b8206', class: "title mb-5" }, "Display settings"), h("div", { key: '7d0cdc90b1040ce07e0e4f99abc730b669030ae0', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "mb-6 grid grid-cols-3 gap-2.5 outline-none sm:grid-cols-4", tabIndex: 0 }, this.languages.map((language, i) => {
+        var _a;
+        return (h("div", { key: '5feba85d8d085bb7de19b6addb249ea25f10a268', class: "picker-container" }, h("p", { key: 'c0839a987393e6602e0e72b5ad78854a0cef501d', class: "picker-title" }, "Display settings"), h("div", { key: '26cd6b885bcdc3d8ad3ef22dab0c29d4d208739d', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "language-grid", tabIndex: 0 }, this.languages.map((language, i) => {
             var _a, _b, _c;
-            return (h("button", { ref: el => (this.langEl[i] = el), type: "button", role: "radio", tabIndex: 0, value: language.code, "aria-labelledby": language.description, "aria-checked": ((_a = this.selectedOptions) === null || _a === void 0 ? void 0 : _a.language.code) === language.code ? 'true' : 'false', onClick: () => this.handleLanguageChange(language.code), class: cn('flex items-center gap-3 rounded-sm px-2 py-2 pr-4 transition-colors duration-300 ease-in-out hover:bg-[hsla(var(--brand-100),13%)]', {
-                    'bg-[hsla(var(--brand-100),8%)]': ((_b = this.selectedOptions) === null || _b === void 0 ? void 0 : _b.language.code) === language.code,
-                }) }, h("img", { src: language['flag'], alt: language.code, class: 'size-4 rounded-full' }), h("span", null, " ", language.description), h("input", { type: "radio", "aria-hidden": "true", tabindex: "-1", checked: ((_c = this.selectedOptions) === null || _c === void 0 ? void 0 : _c.language.code) === language.code ? true : false, value: language.code, class: 'hidden' })));
-        })), h("ir-select", { key: 'bd568dfb41f2201a0ef0522589926c373f305a6e', variant: "double-line", value: app_store.userPreferences.currency_id, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
+            return (h("button", { ref: el => (this.langEl[i] = el), type: "button", role: "radio", tabIndex: 0, value: language.code, "aria-labelledby": language.description, "aria-checked": ((_a = this.selectedLanguage) === null || _a === void 0 ? void 0 : _a.code) === language.code ? 'true' : 'false', onClick: () => this.handleLanguageChange(language.code), class: cn('language-button', {
+                    'language-button-selected': ((_b = this.selectedLanguage) === null || _b === void 0 ? void 0 : _b.code) === language.code,
+                }) }, h("img", { src: language['flag'], alt: language.code, class: "language-flag" }), h("span", null, language.description), h("input", { type: "radio", "aria-hidden": "true", tabIndex: -1, checked: ((_c = this.selectedLanguage) === null || _c === void 0 ? void 0 : _c.code) === language.code, value: language.code, class: "hidden-radio" })));
+        })), h("ir-select", { key: 'f86f5bb34a8a02a3cf14626b731370c71625b9ad', variant: "double-line", value: (_a = this.selectedCurrency) === null || _a === void 0 ? void 0 : _a.code, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
                 id: currency.code,
                 value: `${currency.code} ${currency.symbol}`,
-            })) }), h("div", { key: 'fafdfed283e83ae2c794425b9370e788141cf2e1', class: "mt-8 flex w-full flex-col  gap-4 md:flex-row-reverse" }, h("ir-button", { key: 'f4423a1cadea77cc3f54014d63d79aac03b06310', size: "md", label: "Confirm", class: "w-full md:w-fit", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '47c049cf3d614a019066a00de3cc0cfeffe3e0b4', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "w-full md:w-fit" }))));
+            })) }), h("div", { key: 'ba3697fdafa15fd26c66ed5213d85fef488a2f76', class: "actions-container" }, h("ir-button", { key: 'ab08bb3884b349fa1ee05c5960426930bb500ba2', size: "md", label: "Confirm", class: "confirm-button", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '1ea22f06f019ed14b45d978718ed7a95bf7d1808', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "cancel-button" }))));
     }
     static get is() { return "ir-language-picker"; }
     static get encapsulation() { return "shadow"; }
@@ -164,7 +173,8 @@ export class IrLanguagePicker {
     }
     static get states() {
         return {
-            "selectedOptions": {}
+            "selectedCurrency": {},
+            "selectedLanguage": {}
         };
     }
     static get events() {

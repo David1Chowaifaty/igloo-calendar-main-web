@@ -16,7 +16,6 @@ const { state: booking_store, onChange: onRoomTypeChange } = createStore(initial
 onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
-    console.log(newValue);
     newValue.forEach(roomType => {
         if (roomType.is_active) {
             ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
@@ -62,7 +61,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
             });
         }
     });
-    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
 });
 function updateInventory(roomTypeId) {

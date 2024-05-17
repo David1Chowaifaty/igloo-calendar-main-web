@@ -11,5 +11,6 @@ export declare class IrBookingPage {
     checkoutContainerRef: HTMLDivElement;
     componentWillLoad(): void;
     handleBookingAnimation(e: CustomEvent): void;
+    renderTotalNights(): string;
     render(): any;
 }

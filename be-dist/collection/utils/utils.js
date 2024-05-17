@@ -1,16 +1,4 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-import app_store, { changeLocale } from "../stores/app.store";
+import app_store, { changeLocale, updateUserPreference } from "../stores/app.store";
 import clsx from "clsx";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { ar, es, fr, de, pl, uk, ru, el, enUS } from "date-fns/locale";
@@ -121,11 +109,13 @@ export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
 export function getUserPrefernce() {
-    const p = JSON.parse(localStorage.getItem('user_prefernce'));
+    const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
-        const { direction } = p, others = __rest(p, ["direction"]);
-        app_store.userPreferences = Object.assign({}, others);
+        const { direction, currency_id } = p;
         changeLocale(direction, matchLocale(p.language_id));
+        updateUserPreference({
+            currency_id,
+        });
     }
 }
 export function setDefaultLocale({ currency }) {

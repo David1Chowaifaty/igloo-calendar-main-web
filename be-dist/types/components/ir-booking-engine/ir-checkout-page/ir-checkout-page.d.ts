@@ -9,7 +9,12 @@ export declare class IrCheckoutPage {
     };
     private propertyService;
     routing: EventEmitter<pages>;
+    userForm: HTMLIrUserFormElement;
+    bookingDetails: HTMLIrBookingDetailsElement;
+    pickupForm: HTMLIrPickupElement;
+    errorElement: HTMLElement;
     componentWillLoad(): void;
     handleBooking(e: CustomEvent): Promise<void>;
+    scrollToError(): void;
     render(): any;
 }

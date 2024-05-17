@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import axios from "axios";
 import booking_store, { updateRoomParams } from "../../stores/booking";
 import app_store from "../../stores/app.store";
-import { generateColorShades, getCookie, getUserPrefernce, setDefaultLocale } from "../../utils/utils";
+import { generateColorShades, getUserPrefernce, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
 // import { roomtypes } from '@/data';
 export class IrBookingEngine {
@@ -25,15 +25,10 @@ export class IrBookingEngine {
     }
     async componentWillLoad() {
         axios.defaults.withCredentials = true;
-        const cookie = getCookie('token-x');
-        console.log(cookie);
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce();
         this.token = await this.commonService.getBEToken();
-        // if (this.token !== '') {
-        //   this.initializeApp();
-        // }
-        // this.router.push(<ir-booking-page></ir-booking-page>);
+        console.log(app_store.userPreferences);
     }
     handleTokenChange(newValue, oldValue) {
         if (newValue !== oldValue) {

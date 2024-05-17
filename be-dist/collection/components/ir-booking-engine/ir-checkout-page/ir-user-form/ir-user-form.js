@@ -22,7 +22,7 @@ export class IrUserForm {
         if (!app_store.setup_entries) {
             return null;
         }
-        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("ir-badge-group", { variant: "primary", clickable: true, badge: "Sign in", onClick: this.handleButtonClick.bind(this), message: "Sign in or create an account to book faster" }), h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, error: !!((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName), label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
+        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("ir-badge-group", { variant: "primary", clickable: true, badge: "Sign in", onClick: this.handleButtonClick.bind(this), message: "Sign in or create an account to book faster" }), h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName) ? 'error' : '', label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
                 var _a;
                 const firstNameSchema = IrUserFormData.pick({ firstName: true });
                 const firstNameValidation = firstNameSchema.safeParse({ firstName: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName });
@@ -34,7 +34,7 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { placeholder: "", value: (_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName, label: "Last name", onTextChanged: e => updateUserFormData('lastName', e.detail), error: !!((_d = this.errors) === null || _d === void 0 ? void 0 : _d.lastName), class: "user-form-input", onInputBlur: e => {
+            } }), h("ir-input", { placeholder: "", value: (_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName, label: "Last name", onTextChanged: e => updateUserFormData('lastName', e.detail), class: "user-form-input", "data-state": ((_d = this.errors) === null || _d === void 0 ? void 0 : _d.lastName) ? 'error' : '', onInputBlur: e => {
                 var _a;
                 const lastNameSchema = IrUserFormData.pick({ lastName: true });
                 const lastNameValidation = lastNameSchema.safeParse({ lastName: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.lastName });
@@ -46,7 +46,7 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_e = checkout_store.userFormData) === null || _e === void 0 ? void 0 : _e.email, label: "Email address", onTextChanged: e => updateUserFormData('email', e.detail), error: !!((_f = this.errors) === null || _f === void 0 ? void 0 : _f.email), class: "user-form-input", onInputBlur: e => {
+            } })), h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_e = checkout_store.userFormData) === null || _e === void 0 ? void 0 : _e.email, label: "Email address", onTextChanged: e => updateUserFormData('email', e.detail), "data-state": ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.email) ? 'error' : '', class: "user-form-input", onInputBlur: e => {
                 var _a;
                 const emailSchema = IrUserFormData.pick({ email: true });
                 const emailValidation = emailSchema.safeParse({ email: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.email });
@@ -58,13 +58,22 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-phone-input", {
-            // mobile_number={checkout_store.userFormData?.mobile_number.toString()}
-            error: !!((_g = this.errors) === null || _g === void 0 ? void 0 : _g.mobile_number), class: "user-form-input", onTextChange: e => {
+            } }), h("ir-phone-input", { "data-state": ((_g = this.errors) === null || _g === void 0 ? void 0 : _g.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
                 updateUserFormData('mobile_number', e.detail.mobile);
                 updateUserFormData('country_code', e.detail.phone_prefix);
-            }
-        })), h("div", { class: "user-form-row" }, h("ir-select", { label: `Your arrival time(check-in from ${(_h = app_store.property) === null || _h === void 0 ? void 0 : _h.time_constraints.check_in_from})`, variant: "double-line", value: (_j = checkout_store.userFormData) === null || _j === void 0 ? void 0 : _j.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
+            }, onPhoneInputBlur: e => {
+                var _a;
+                const emailSchema = IrUserFormData.pick({ mobile_number: true });
+                const emailValidation = emailSchema.safeParse({ mobile_number: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.mobile_number });
+                if (!emailValidation.success) {
+                    const target = e.target;
+                    target.setAttribute('data-state', 'error');
+                }
+            }, onPhoneInputFocus: e => {
+                const target = e.target;
+                if (target.hasAttribute('data-state'))
+                    target.removeAttribute('data-state');
+            } })), h("div", { class: "user-form-row" }, h("ir-select", { label: `Your arrival time(check-in from ${(_h = app_store.property) === null || _h === void 0 ? void 0 : _h.time_constraints.check_in_from})`, variant: "double-line", value: (_j = checkout_store.userFormData) === null || _j === void 0 ? void 0 : _j.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
                 id: entry.CODE_NAME,
                 value: entry.CODE_VALUE_EN,
             })), class: "user-form-input" })), h("ir-textarea", { value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.message, placeholder: "", label: "Any message for us?", maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.bookingForSomeoneElse, label: "I am booking for someone else", class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) })), h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("ir-auth", { slot: "modal-body" }), ";")));

@@ -31,6 +31,8 @@ export class IrCheckoutPage {
                     cause: 'user',
                     issues,
                 };
+                this.errorElement = this.userForm;
+                this.scrollToError();
             }
             this.isLoading = false;
             return;
@@ -50,6 +52,8 @@ export class IrCheckoutPage {
                     cause: 'pickup',
                     issues,
                 };
+                this.errorElement = this.pickupForm;
+                this.scrollToError();
             }
             this.isLoading = false;
             return;
@@ -62,12 +66,20 @@ export class IrCheckoutPage {
         }
         this.isLoading = false;
     }
+    scrollToError() {
+        if (this.errorElement) {
+            this.errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            window.setTimeout(() => {
+                window.scrollBy(0, -150);
+            }, 500);
+        }
+    }
     render() {
-        return (h(Host, { key: '38e4eea367a4bc84d66909736127870e2089e24c' }, h("ir-seo-injector", { key: '7e0281312fd85a98cd55feda4515ff3c6f76de95', pageTitle: 'checkout', pageKeywords: "checkout", pageDescription: "checkout page" }), h("main", { key: '9f4bc314c2f50df014bc0149b782910edfb66148', class: "flex w-full  flex-col justify-between gap-4 md:items-center lg:flex-row lg:items-start" }, h("section", { key: 'e68b068e8ad38d64c65321ff675b4ca84898ad41', class: "w-full space-y-12 md:max-w-4xl" }, h("div", { key: '12ce10afcb38a6dc70d81a7b3b5a30d72a66c41b', class: "flex items-center gap-2.5" }, h("ir-button", { key: 'fce507dfb86888df94d0a7f7488766ab4c224878', variants: "icon", onButtonClick: e => {
+        return (h(Host, { key: '4079198a501f6ca70cbb7f4cc4dfdd384b020367' }, h("ir-seo-injector", { key: '8dbafbe97d62ddfcaee31d2d5e7d9ef820ad1583', pageTitle: 'checkout', pageKeywords: "checkout", pageDescription: "checkout page" }), h("main", { key: '4e0176fb9c27c93b5f387940666964d05c57cd67', class: "flex w-full  flex-col justify-between gap-4 md:items-center lg:flex-row lg:items-start" }, h("section", { key: '301ea6111c0028c1ad95f45dc166c49ae5e8f68b', class: "w-full space-y-12 md:max-w-4xl" }, h("div", { key: '7c65ddcd0e0f0f512c42e7155ea0c20583d5cfc9', class: "flex items-center gap-2.5" }, h("ir-button", { key: 'a34a84933627055eb0f01f2ef1a2a4c0dcb77d38', variants: "icon", onButtonClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
-            } }, h("ir-icons", { key: 'acc6fb145793e101523eb39a2dbeb4d673c22a85', name: "angle_left", slot: "btn-icon" })), h("p", { key: '094ce31ddec92c29f1c4a9237e156d64eb7bd7f1', class: "text-2xl font-semibold" }, "Complete your booking")), h("ir-user-form", { key: '274a632236ce00ac61561194c7cb7a7c2704f0d4', class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined }), h("ir-booking-details", { key: '6b9d8b04fa9355846c906f1d6ce607e9c140ff61' }), h("ir-pickup", { key: '100b9863300bb9a785b936ed52915fe06d1f87aa', errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })), h("section", { key: 'e75471933ede19bee7b1ac6a5d048fdfb8e7c38f', class: "w-full md:flex  lg:sticky  lg:top-20 lg:max-w-md lg:justify-end" }, h("ir-booking-summary", { key: 'f28dc4ce2a0142e2009bd11e3e5e277c43391bf4', isLoading: this.isLoading })))));
+            } }, h("ir-icons", { key: '750784eb16595216e22b28bde01f5d3f4030a188', name: "angle_left", slot: "btn-icon" })), h("p", { key: '21d47dd6f7090e0c3067ddff22e3aef1a756031d', class: "text-2xl font-semibold" }, "Complete your booking")), h("ir-user-form", { key: '330cfdf4329f9be0307e7eb3c8483f8d14613284', ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined }), h("ir-booking-details", { key: '0e85011920cd1ae531f315ff1074ddbb194fd50d', ref: el => (this.bookingDetails = el) }), h("ir-pickup", { key: 'd4c8a3fbd11a071f9ca6135538ba0d0b8eaffa2e', ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })), h("section", { key: '5f73a3c8780ecbe1028f99c1ff6e3a8e6620dd69', class: "w-full md:flex  lg:sticky  lg:top-20 lg:max-w-md lg:justify-end" }, h("ir-booking-summary", { key: 'bda45933e11659b66e2ed49f5568e89ca4849de2', isLoading: this.isLoading })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "shadow"; }

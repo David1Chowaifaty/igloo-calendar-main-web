@@ -1,4 +1,4 @@
-import { l as locale, a as app_store, c as changeLocale } from './app.store.js';
+import { l as locale, c as changeLocale, u as updateUserPreference, a as app_store } from './app.store.js';
 
 var af = {};
 
@@ -71196,17 +71196,6 @@ exports.validators = validators;
 
 }(bundleCjs));
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 const localeMap = {
     en: locale.enUS,
     ar: locale.ar,
@@ -71288,33 +71277,20 @@ function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
 function getUserPrefernce() {
-    const p = JSON.parse(localStorage.getItem('user_prefernce'));
+    const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
-        const { direction } = p, others = __rest(p, ["direction"]);
-        app_store.userPreferences = Object.assign({}, others);
+        const { direction, currency_id } = p;
         changeLocale(direction, matchLocale(p.language_id));
+        updateUserPreference({
+            currency_id,
+        });
     }
 }
 function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
 }
-function getCookies() {
-    const cookies = {};
-    const cookiesArray = document.cookie.split('; ');
-    cookiesArray.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        if (name && value) {
-            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
-        }
-    });
-    return cookies;
-}
-function getCookie(name) {
-    const cookies = getCookies();
-    return cookies[name] || null;
-}
 
-export { getAbbreviatedWeekdays as a, getCookie as b, cn as c, dateFns as d, getUserPrefernce as e, formatAmount as f, getDateDifference as g, generateColorShades as h, matchLocale as m, renderTime as r, setDefaultLocale as s };
+export { getAbbreviatedWeekdays as a, getUserPrefernce as b, cn as c, dateFns as d, generateColorShades as e, formatAmount as f, getDateDifference as g, matchLocale as m, renderTime as r, setDefaultLocale as s };
 
 //# sourceMappingURL=utils.js.map

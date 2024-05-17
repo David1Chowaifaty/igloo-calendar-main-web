@@ -1,13 +1,11 @@
-'use strict';
-
-const index = require('./index-08156e03.js');
-const axios = require('./axios-bc0bd15c.js');
+import { c as createStore } from './index-a8bcd484.js';
+import { a as axios } from './axios-2aba0cfc.js';
 
 const initialState$3 = {
     entries: null,
     direction: 'ltr',
 };
-const { state: localizedWords, onChange: onCalendarDatesChange } = index.createStore(initialState$3);
+const { state: localizedWords, onChange: onCalendarDatesChange } = createStore(initialState$3);
 
 class Token {
     getToken() {
@@ -50248,7 +50246,7 @@ const initialState$2 = {
     fetchedBooking: false,
     languages: [],
 };
-const { state: app_store, onChange: onAppDataChange } = index.createStore(initialState$2);
+const { state: app_store, onChange: onAppDataChange } = createStore(initialState$2);
 function changeLocale(dir, locale) {
     document.body.dir = dir;
     app_store.dir = dir;
@@ -68665,11 +68663,10 @@ const initialState$1 = {
         child_nbr: 0,
     },
 };
-const { state: booking_store, onChange: onRoomTypeChange } = index.createStore(initialState$1);
+const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState$1);
 onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
-    console.log(newValue);
     newValue.forEach(roomType => {
         if (roomType.is_active) {
             ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
@@ -68715,7 +68712,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
             });
         }
     });
-    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
 });
 function updateInventory(roomTypeId) {
@@ -68831,7 +68827,7 @@ const initialState = {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = index.createStore(initialState);
+const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
@@ -71451,17 +71447,6 @@ exports.validators = validators;
 
 }(bundleCjs));
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 const localeMap = {
     en: locale.enUS,
     ar: locale.ar,
@@ -71543,31 +71528,18 @@ function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
 function getUserPrefernce() {
-    const p = JSON.parse(localStorage.getItem('user_prefernce'));
+    const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
-        const { direction } = p, others = __rest(p, ["direction"]);
-        app_store.userPreferences = Object.assign({}, others);
+        const { direction, currency_id } = p;
         changeLocale(direction, matchLocale(p.language_id));
+        updateUserPreference({
+            currency_id,
+        });
     }
 }
 function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
-}
-function getCookies() {
-    const cookies = {};
-    const cookiesArray = document.cookie.split('; ');
-    cookiesArray.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        if (name && value) {
-            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
-        }
-    });
-    return cookies;
-}
-function getCookie(name) {
-    const cookies = getCookies();
-    return cookies[name] || null;
 }
 
 class PropertyService extends Token {
@@ -71576,16 +71548,16 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        // const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
-        const res = await fetch(`https://gateway.igloorooms.com/IR/Get_Exposed_Property?Ticket=${token}`, {
-            body: JSON.stringify(params),
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await res.json();
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
+        // const res = await fetch(`https://gateway.igloorooms.com/IR/Get_Exposed_Property?Ticket=${token}`, {
+        //   body: JSON.stringify(params),
+        //   method: 'POST',
+        //   credentials: 'include',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // });
+        // const data = await res.json();
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -71606,7 +71578,7 @@ class PropertyService extends Token {
         if (injected) {
             roomtypeIds.push(roomtype_id);
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
+        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -71623,7 +71595,7 @@ class PropertyService extends Token {
                 if (app_store.setup_entries) {
                     return app_store.setup_entries;
                 }
-                const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
                     TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71763,7 +71735,7 @@ class PropertyService extends Token {
                 },
                 pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
             };
-            const { data } = await axios.axios.post(`/DoReservation?Ticket=${token}`, body);
+            const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -71782,7 +71754,7 @@ class CommonService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Currencies?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Currencies?Ticket=${token}`);
         app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
@@ -71791,7 +71763,7 @@ class CommonService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
         app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
@@ -71799,7 +71771,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Countries?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Exposed_Countries?Ticket=${token}`, {
                     language,
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71817,7 +71789,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Country_By_IP?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Country_By_IP?Ticket=${token}`, {
                     IP: '',
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71835,7 +71807,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
                     IP: '',
                     lang: 'en',
                 });
@@ -71853,7 +71825,7 @@ class CommonService extends Token {
     }
     async getBEToken() {
         try {
-            const { data } = await axios.axios.post(`/Get_BE_Token`, {});
+            const { data } = await axios.post(`/Get_BE_Token`, {});
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -71868,7 +71840,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token !== null) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+                const { data } = await axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }
@@ -71892,37 +71864,6 @@ class CommonService extends Token {
     }
 }
 
-exports.CommonService = CommonService;
-exports.MissingTokenError = MissingTokenError;
-exports.PropertyService = PropertyService;
-exports.Token = Token;
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateTotalCost = calculateTotalCost;
-exports.changeLocale = changeLocale;
-exports.checkout_store = checkout_store;
-exports.cn = cn;
-exports.dateFns = dateFns;
-exports.formatAmount = formatAmount;
-exports.generateColorShades = generateColorShades;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getCookie = getCookie;
-exports.getDateDifference = getDateDifference;
-exports.getUserPrefernce = getUserPrefernce;
-exports.getVisibleInventory = getVisibleInventory;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.onAppDataChange = onAppDataChange;
-exports.onCheckoutDataChange = onCheckoutDataChange;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.setDefaultLocale = setDefaultLocale;
-exports.updatePartialPickupFormData = updatePartialPickupFormData;
-exports.updatePickupFormData = updatePickupFormData;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserFormData = updateUserFormData;
-exports.updateUserPreference = updateUserPreference;
+export { getVisibleInventory as A, CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, app_store as a, booking_store as b, checkout_store as c, dateFns as d, onCheckoutDataChange as e, formatAmount as f, getDateDifference as g, getUserPrefernce as h, generateColorShades as i, calculateTotalCost as j, cn as k, localizedWords as l, locale as m, getAbbreviatedWeekdays as n, onAppDataChange as o, modifyBookingStore as p, changeLocale as q, matchLocale as r, setDefaultLocale as s, updateUserPreference as t, updateRoomParams as u, updateUserFormData as v, renderTime as w, updatePickupFormData as x, updatePartialPickupFormData as y, reserveRooms as z };
 
-//# sourceMappingURL=common.service-fca16f3c.js.map
+//# sourceMappingURL=common.service-335ae4c0.js.map

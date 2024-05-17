@@ -3,17 +3,15 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrLanguagePicker {
     currencies: ICurrency[];
     languages: IExposedLanguages[];
-    selectedOptions: {
-        currency: ICurrency;
-        language: IExposedLanguages;
-    };
+    selectedCurrency: ICurrency;
+    selectedLanguage: IExposedLanguages;
     closeDialog: EventEmitter<null>;
     resetBooking: EventEmitter<null>;
-    langEl: HTMLButtonElement[];
-    selectedIndex: number;
+    private langEl;
+    private selectedIndex;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
-    init(): Promise<void>;
+    init(): void;
     handleLanguageChange(id: string): void;
     handleCurrencyChange(e: CustomEvent): void;
     handleConfirm(e: MouseEvent): void;

@@ -977,6 +977,8 @@ declare global {
     };
     interface HTMLIrPhoneInputElementEventMap {
         "textChange": { phone_prefix: string; mobile: string };
+        "phoneInputBlur": FocusEvent;
+        "phoneInputFocus": FocusEvent;
     }
     interface HTMLIrPhoneInputElement extends Components.IrPhoneInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPhoneInputElementEventMap>(type: K, listener: (this: HTMLIrPhoneInputElement, ev: IrPhoneInputCustomEvent<HTMLIrPhoneInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1536,6 +1538,8 @@ declare namespace LocalJSX {
     interface IrPhoneInput {
         "error"?: boolean;
         "mobile_number"?: string;
+        "onPhoneInputBlur"?: (event: IrPhoneInputCustomEvent<FocusEvent>) => void;
+        "onPhoneInputFocus"?: (event: IrPhoneInputCustomEvent<FocusEvent>) => void;
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;
     }
     interface IrPickup {
