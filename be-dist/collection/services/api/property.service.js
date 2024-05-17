@@ -190,7 +190,7 @@ export class PropertyService extends Token {
                         id: app_store.app_data.property_id,
                     },
                     source: null,
-                    referrer_site: 'www.igloorooms.com',
+                    referrer_site: app_store.property.affiliates.includes(window.location.href) ? window.location.href : null,
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,

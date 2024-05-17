@@ -1,3 +1,4 @@
+import { IrUserFormData } from "../../../../models/user_form";
 import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
 import { checkout_store, updateUserFormData } from "../../../../stores/checkout.store";
@@ -21,7 +22,43 @@ export class IrUserForm {
         if (!app_store.setup_entries) {
             return null;
         }
-        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("ir-badge-group", { variant: "primary", clickable: true, badge: "Sign in", onClick: this.handleButtonClick.bind(this), message: "Sign in or create an account to book faster" }), h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, error: !!((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName), label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input" }), h("ir-input", { placeholder: "", value: (_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName, label: "Last name", onTextChanged: e => updateUserFormData('lastName', e.detail), error: !!((_d = this.errors) === null || _d === void 0 ? void 0 : _d.lastName), class: "user-form-input" })), h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_e = checkout_store.userFormData) === null || _e === void 0 ? void 0 : _e.email, label: "Email address", onTextChanged: e => updateUserFormData('email', e.detail), error: !!((_f = this.errors) === null || _f === void 0 ? void 0 : _f.email), class: "user-form-input" }), h("ir-phone-input", {
+        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("ir-badge-group", { variant: "primary", clickable: true, badge: "Sign in", onClick: this.handleButtonClick.bind(this), message: "Sign in or create an account to book faster" }), h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, error: !!((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName), label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
+                var _a;
+                const firstNameSchema = IrUserFormData.pick({ firstName: true });
+                const firstNameValidation = firstNameSchema.safeParse({ firstName: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName });
+                if (!firstNameValidation.success) {
+                    const target = e.target;
+                    target.setAttribute('data-state', 'error');
+                }
+            }, onInputFocus: e => {
+                const target = e.target;
+                if (target.hasAttribute('data-state'))
+                    target.removeAttribute('data-state');
+            } }), h("ir-input", { placeholder: "", value: (_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName, label: "Last name", onTextChanged: e => updateUserFormData('lastName', e.detail), error: !!((_d = this.errors) === null || _d === void 0 ? void 0 : _d.lastName), class: "user-form-input", onInputBlur: e => {
+                var _a;
+                const lastNameSchema = IrUserFormData.pick({ lastName: true });
+                const lastNameValidation = lastNameSchema.safeParse({ lastName: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.lastName });
+                if (!lastNameValidation.success) {
+                    const target = e.target;
+                    target.setAttribute('data-state', 'error');
+                }
+            }, onInputFocus: e => {
+                const target = e.target;
+                if (target.hasAttribute('data-state'))
+                    target.removeAttribute('data-state');
+            } })), h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_e = checkout_store.userFormData) === null || _e === void 0 ? void 0 : _e.email, label: "Email address", onTextChanged: e => updateUserFormData('email', e.detail), error: !!((_f = this.errors) === null || _f === void 0 ? void 0 : _f.email), class: "user-form-input", onInputBlur: e => {
+                var _a;
+                const emailSchema = IrUserFormData.pick({ email: true });
+                const emailValidation = emailSchema.safeParse({ email: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.email });
+                if (!emailValidation.success) {
+                    const target = e.target;
+                    target.setAttribute('data-state', 'error');
+                }
+            }, onInputFocus: e => {
+                const target = e.target;
+                if (target.hasAttribute('data-state'))
+                    target.removeAttribute('data-state');
+            } }), h("ir-phone-input", {
             // mobile_number={checkout_store.userFormData?.mobile_number.toString()}
             error: !!((_g = this.errors) === null || _g === void 0 ? void 0 : _g.mobile_number), class: "user-form-input", onTextChange: e => {
                 updateUserFormData('mobile_number', e.detail.mobile);

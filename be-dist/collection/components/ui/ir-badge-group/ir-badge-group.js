@@ -8,11 +8,11 @@ export class IrBadgeGroup {
         this.messagePosition = 'default';
     }
     render() {
-        return (h("div", { key: 'f46b0ef177f84967a6248231931409578570ed10', class: `badge-group ${this.variant} position-${this.messagePosition} ${this.clickable ? 'clickable' : ''}`, onClick: e => {
+        return (h("div", { key: '23c1226ee712f924f3f978ace5ea03fa1d752f5e', class: `badge-group ${this.variant} position-${this.messagePosition} ${this.clickable ? 'clickable' : ''}`, onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }
-            } }, h("p", { key: '5e23fe1ca02a2b47cf028da37b6ce9a8699ea14d', class: "badge" }, this.badge), h("p", { key: 'e7dbf74a08534e9ee23a022d95064a83762552e9', class: "message" }, this.message), this.clickable && (h("button", { onClick: e => {
+            } }, h("p", { key: 'f822475ae325886d2a339d5d54eb677083d9d650', class: "badge" }, this.badge), h("p", { key: '38604b4ba261b4431d7abaa28a5760883ad2cab2', class: "message" }, this.message), this.clickable && (h("button", { onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }

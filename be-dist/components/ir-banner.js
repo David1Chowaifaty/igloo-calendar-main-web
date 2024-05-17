@@ -10,7 +10,7 @@ const IrBanner$1 = /*@__PURE__*/ proxyCustomElement(class IrBanner extends HTMLE
         this.__attachShadow();
     }
     render() {
-        return h("div", { key: 'f6166b8f1331c70b16be0ac89edfaca61f51e641', class: "banner" });
+        return h("div", { key: '17d9873dfb64b68a79782f0a659bcbcaa6c58ab5', class: "banner" });
     }
     static get style() { return IrBannerStyle0; }
 }, [1, "ir-banner"]);

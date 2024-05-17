@@ -1,6 +1,9 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrGallery {
-    images: string[];
+    images: {
+        url: string;
+        alt: string;
+    }[];
     totalImages: number;
     openGallery: EventEmitter<null>;
     private swiperInstance;

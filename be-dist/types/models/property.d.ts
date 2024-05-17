@@ -36,6 +36,14 @@ export interface IExposedProperty {
     taxes: Tax[];
     time_constraints: TimeConstraints;
     privacy_policy: string;
+    contacts: IPropertyContact[];
+}
+interface IPropertyContact {
+    email: string;
+    mobile: null;
+    name: string;
+    phone: string;
+    type: string;
 }
 export interface AdultChildConstraints {
     adult_max_nbr: number;
@@ -361,3 +369,4 @@ export interface ISetupEntries {
     ratePricingMode: IEntries[];
     bedPreferenceType: IEntries[];
 }
+export {};

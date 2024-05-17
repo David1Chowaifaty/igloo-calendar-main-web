@@ -167,7 +167,7 @@ export namespace Components {
     interface IrFooter {
     }
     interface IrGallery {
-        "images": string[];
+        "images": { url: string; alt: string }[];
         "totalImages": number;
     }
     interface IrGoogleAuth {
@@ -1448,7 +1448,7 @@ declare namespace LocalJSX {
     interface IrFooter {
     }
     interface IrGallery {
-        "images"?: string[];
+        "images"?: { url: string; alt: string }[];
         "onOpenGallery"?: (event: IrGalleryCustomEvent<null>) => void;
         "totalImages"?: number;
     }

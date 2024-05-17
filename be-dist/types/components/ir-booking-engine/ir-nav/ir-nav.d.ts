@@ -13,7 +13,7 @@ export declare class IrNav {
     handleButtonClick(e: CustomEvent, page: TTabsState): void;
     handleCloseDialog(e: CustomEvent): void;
     renderDialogBody(): any;
-    renderLocationField(fieled: string | null, withComma?: boolean): string;
+    renderLocationField(field: string | null, withComma?: boolean): string;
     renderLanguageTrigger(): any;
     render(): any;
 }

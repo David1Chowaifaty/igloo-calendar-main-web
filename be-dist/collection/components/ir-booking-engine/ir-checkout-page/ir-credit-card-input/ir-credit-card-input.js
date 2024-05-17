@@ -3,6 +3,7 @@ import IMask from "imask";
 export class IrCreditCardInput {
     constructor() {
         this.cardType = '';
+        this.error = false;
     }
     detectCardType(value) {
         const startsWith = (prefixes) => prefixes.some(prefix => value.startsWith(prefix));
@@ -42,6 +43,7 @@ export class IrCreditCardInput {
         this.creditCardChange.emit(value);
         if (value === '') {
             this.cardType = '';
+            this.error = false;
         }
         else {
             const detectedCardType = this.detectCardType(value);
@@ -49,10 +51,20 @@ export class IrCreditCardInput {
                 this.cardType = detectedCardType;
                 this.applyMask(this.cardType);
             }
+            if ((value.startsWith('3') && value.length > 2) || (detectedCardType === '' && value.length > 1)) {
+                this.error = true;
+            }
+            else {
+                this.error = false;
+            }
         }
     }
     render() {
-        return (h(Host, { key: 'd1c88b27530f1a4c994356863e76af9dfa20771f' }, h("div", { key: 'b859e2241538c569a339da7dae5297f0ad9bdde0', class: "card-container" }, h("label", { key: '8520719fee1f8a88b88cf6712f4392921bebe5d0', htmlFor: "first_input", class: "card-number" }, "Card number"), h("div", { key: 'f8b6a3a2a872caa743085227d65cfdfcaa98e211', class: "input-container" }, h("input", { key: '227d0949aa810653b07b49cd1a1f3c4bdb689f6e', type: "text", class: "w-full", autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: 'd0dac71ade3d92eb59da0362b65c76847b675d06', class: "icon-container" }, this.renderIcon(this.cardType))))));
+        return (h(Host, { key: '233704c267af72ee9ad413464e2909ff924d7f0d' }, h("div", { key: 'c96ca6290c8f066571ee975cad91f5fcebaa07b5', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '13254a738f1d4d2dedc3f5babb19bae23fa065af', htmlFor: "first_input", class: "card-number" }, "Card number"), h("div", { key: '70514acbca2a0954e947091ad715288d2451149d', class: "input-container" }, h("input", { key: '8aa061a255e95c0cade1268dc1bd1ccdc68a1f51', type: "text", class: "w-full", onBlur: e => {
+                if (e.target.value.length === 0) {
+                    this.error = true;
+                }
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '031f25a57942566b30380bcb4d76caa7835f3bd9', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {
@@ -92,7 +104,8 @@ export class IrCreditCardInput {
     }
     static get states() {
         return {
-            "cardType": {}
+            "cardType": {},
+            "error": {}
         };
     }
     static get events() {

@@ -1,7 +1,11 @@
-'use strict';
+import { c as createStore } from './index-a8bcd484.js';
+import { a as axios } from './axios-2aba0cfc.js';
 
-const index = require('./index-08156e03.js');
-const axios = require('./axios-bc0bd15c.js');
+const initialState$3 = {
+    entries: null,
+    direction: 'ltr',
+};
+const { state: localizedWords, onChange: onCalendarDatesChange } = createStore(initialState$3);
 
 class Token {
     getToken() {
@@ -50220,7 +50224,7 @@ Object.keys(_index95).forEach(function (key) {
 });
 }(locale));
 
-const initialState$3 = {
+const initialState$2 = {
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: locale.enUS,
@@ -50242,7 +50246,7 @@ const initialState$3 = {
     fetchedBooking: false,
     languages: [],
 };
-const { state: app_store, onChange: onAppDataChange } = index.createStore(initialState$3);
+const { state: app_store, onChange: onAppDataChange } = createStore(initialState$2);
 function changeLocale(dir, locale) {
     document.body.dir = dir;
     app_store.dir = dir;
@@ -68647,7 +68651,7 @@ Object.keys(_index245).forEach(function (key) {
 });
 }(dateFns));
 
-const initialState$2 = {
+const initialState$1 = {
     tax_statement: null,
     roomTypes: undefined,
     enableBooking: false,
@@ -68659,7 +68663,7 @@ const initialState$2 = {
         child_nbr: 0,
     },
 };
-const { state: booking_store, onChange: onRoomTypeChange } = index.createStore(initialState$2);
+const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState$1);
 onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
@@ -68818,14 +68822,14 @@ function calculateTotalCost() {
     return { totalAmount, prePaymentAmount };
 }
 
-const initialState$1 = {
+const initialState = {
     userFormData: {},
     modifiedGuestName: false,
     pickup: {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = index.createStore(initialState$1);
+const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
@@ -71600,7 +71604,7 @@ class PropertyService extends Token {
         if (injected) {
             roomtypeIds.push(roomtype_id);
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
+        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -71617,7 +71621,7 @@ class PropertyService extends Token {
                 if (app_store.setup_entries) {
                     return app_store.setup_entries;
                 }
-                const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
                     TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71749,7 +71753,7 @@ class PropertyService extends Token {
                         id: app_store.app_data.property_id,
                     },
                     source: null,
-                    referrer_site: 'www.igloorooms.com',
+                    referrer_site: app_store.property.affiliates.includes(window.location.href) ? window.location.href : null,
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
@@ -71757,7 +71761,7 @@ class PropertyService extends Token {
                 },
                 pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
             };
-            const { data } = await axios.axios.post(`/DoReservation?Ticket=${token}`, body);
+            const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -71770,19 +71774,13 @@ class PropertyService extends Token {
     }
 }
 
-const initialState = {
-    entries: null,
-    direction: 'ltr',
-};
-const { state: localizedWords, onChange: onCalendarDatesChange } = index.createStore(initialState);
-
 class CommonService extends Token {
     async getCurrencies() {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Currencies?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Currencies?Ticket=${token}`);
         app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
@@ -71791,7 +71789,7 @@ class CommonService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
         app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
@@ -71799,7 +71797,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Countries?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Exposed_Countries?Ticket=${token}`, {
                     language,
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71817,7 +71815,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Country_By_IP?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Country_By_IP?Ticket=${token}`, {
                     IP: '',
                 });
                 if (data.ExceptionMsg !== '') {
@@ -71835,7 +71833,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
                     IP: '',
                     lang: 'en',
                 });
@@ -71853,7 +71851,7 @@ class CommonService extends Token {
     }
     async getBEToken() {
         try {
-            const { data } = await axios.axios.post(`/Get_BE_Token`, {});
+            const { data } = await axios.post(`/Get_BE_Token`, {});
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -71868,7 +71866,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token !== null) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+                const { data } = await axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }
@@ -71892,37 +71890,6 @@ class CommonService extends Token {
     }
 }
 
-exports.CommonService = CommonService;
-exports.MissingTokenError = MissingTokenError;
-exports.PropertyService = PropertyService;
-exports.Token = Token;
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateTotalCost = calculateTotalCost;
-exports.changeLocale = changeLocale;
-exports.checkout_store = checkout_store;
-exports.cn = cn;
-exports.dateFns = dateFns;
-exports.formatAmount = formatAmount;
-exports.generateColorShades = generateColorShades;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getCookie = getCookie;
-exports.getDateDifference = getDateDifference;
-exports.getUserPrefernce = getUserPrefernce;
-exports.getVisibleInventory = getVisibleInventory;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.onAppDataChange = onAppDataChange;
-exports.onCheckoutDataChange = onCheckoutDataChange;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.setDefaultLocale = setDefaultLocale;
-exports.updatePartialPickupFormData = updatePartialPickupFormData;
-exports.updatePickupFormData = updatePickupFormData;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserFormData = updateUserFormData;
-exports.updateUserPreference = updateUserPreference;
+export { reserveRooms as A, getVisibleInventory as B, CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, app_store as a, booking_store as b, checkout_store as c, dateFns as d, onCheckoutDataChange as e, formatAmount as f, getDateDifference as g, getCookie as h, getUserPrefernce as i, generateColorShades as j, calculateTotalCost as k, localizedWords as l, cn as m, locale as n, onAppDataChange as o, getAbbreviatedWeekdays as p, modifyBookingStore as q, changeLocale as r, setDefaultLocale as s, matchLocale as t, updateRoomParams as u, updateUserPreference as v, updateUserFormData as w, renderTime as x, updatePickupFormData as y, updatePartialPickupFormData as z };
 
-//# sourceMappingURL=common.service-4bb2e98e.js.map
+//# sourceMappingURL=common.service-e9c621c2.js.map
