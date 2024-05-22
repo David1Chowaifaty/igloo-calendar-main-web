@@ -54,7 +54,7 @@ export class IrPaymentView {
         return (h("div", { key: '2bacb043564f88aedeb1504a2c5ba74a9c097b03', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.length) > 1 && (h("ir-select", { variant: "double-line", label: "Select your payment method", data: (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.allowed_payment_methods.map(apm => ({
                 id: apm.code,
                 value: apm.description,
-            })), onValueChange: this.handlePaymentSelectionChange.bind(this) }))));
+            })), onValueChange: this.handlePaymentSelectionChange.bind(this) })), this.renderPaymentMethod()));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
