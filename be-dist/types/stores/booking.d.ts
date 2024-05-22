@@ -1,3 +1,4 @@
+import { Booking } from "../models/booking.dto";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 export interface IRatePlanSelection {
     reserved: number;
@@ -44,6 +45,7 @@ interface BookingStore {
         [roomTypeId: number]: IRoomTypeSelection;
     };
     bookingAvailabilityParams: IBookinAvailabilityParams;
+    booking: Booking;
 }
 export declare const booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>;
 export declare function updateInventory(roomTypeId: number): void;

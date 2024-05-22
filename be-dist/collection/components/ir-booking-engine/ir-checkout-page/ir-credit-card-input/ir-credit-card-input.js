@@ -1,3 +1,4 @@
+import localizedWords from "../../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
 import IMask from "imask";
 export class IrCreditCardInput {
@@ -60,11 +61,18 @@ export class IrCreditCardInput {
         }
     }
     render() {
-        return (h(Host, { key: '233704c267af72ee9ad413464e2909ff924d7f0d' }, h("div", { key: 'c96ca6290c8f066571ee975cad91f5fcebaa07b5', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '13254a738f1d4d2dedc3f5babb19bae23fa065af', htmlFor: "first_input", class: "card-number" }, "Card number"), h("div", { key: '70514acbca2a0954e947091ad715288d2451149d', class: "input-container" }, h("input", { key: '8aa061a255e95c0cade1268dc1bd1ccdc68a1f51', type: "text", class: "w-full", onBlur: e => {
-                if (e.target.value.length === 0) {
+        return (h(Host, { key: 'ead33b63be909cbca138dacd6df665dd9dadfe2c' }, h("div", { key: '875cf48812a8e2e1422b86198f94a4b1a21dfa21', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '6ec996dcb2b8f18e854c8a46efcf573609d47023', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '4979a40400ab4f30359254fd7f28250034c6d265', class: "input-container" }, h("input", { key: '337743e4e2c659e8d0512a1ffdb090df6520c9f0', type: "text", class: "w-full", onBlur: e => {
+                const target = e.target;
+                if (target.value.length === 0) {
                     this.error = true;
+                    target.setAttribute('aria-invalid', 'true');
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '031f25a57942566b30380bcb4d76caa7835f3bd9', class: "icon-container" }, this.renderIcon(this.cardType))))));
+                else {
+                    if (target.hasAttribute('aria-invalid')) {
+                        target.setAttribute('aria-invalid', 'false');
+                    }
+                }
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '4c75d9aaae142367e62fbc1cace60a6525a9749c', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {

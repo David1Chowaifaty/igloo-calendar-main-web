@@ -4,6 +4,7 @@ export declare class IrBookingDetails {
     private dialogRef;
     private firstRoom;
     componentWillLoad(): void;
+    updateGuestNames(isBookingForSomeoneElse: boolean, firstName: string, lastName: string): void;
     calculateTotalRooms(): any;
     handleGuestNameChange(index: number, e: InputEvent, rateplanId: number, roomTypeId: number): void;
     handleVariationChange(index: number, e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;

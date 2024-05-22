@@ -1,3 +1,4 @@
+import { PickupFormData } from "../../../../models/pickup";
 import { PickupService } from "../../../../services/app/pickup.service";
 import app_store, { onAppDataChange } from "../../../../stores/app.store";
 import { checkout_store, onCheckoutDataChange, updatePartialPickupFormData, updatePickupFormData } from "../../../../stores/checkout.store";
@@ -140,7 +141,25 @@ export class IrPickup {
     }
     render() {
         var _a;
-        return (h("section", { key: '3ba04a133334ffc97b400c108622541dabdd20e5', class: "space-y-5" }, h("div", { key: '79a66919a57e7e83efe233fb9e6c90e256d006dd', class: "flex items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { key: '44538898f6d157e0cb4f23d06b2f5384374b6e3f', name: "car" }), h("p", { key: 'd0c70c183845e90442b183bae8ebbebafb952596' }, "Need Pickup?"), h("ir-select", { key: '4b9852d961a19a4cb06bce29bc4c30522118e86d', value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: 'No thank you' }, ...this.pickupService.getAvailableLocations('yes from')] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'flex items-center gap-4' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", null))), h("ir-input", { onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: "Arrival hour", placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input" }), h("div", { class: "hidden flex-1 text-right md:block" }, h("p", { class: "text-base font-medium xl:text-xl" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id)))), h("div", null, h("ir-input", { label: "Flight details", placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
+        return (h("section", { key: '2400a58430e8ac5b6b8c3116180a5ba4e19cc4ac', class: "space-y-5" }, h("div", { key: 'da4863458acd9585a5566a0fff8a7b4dfc8662e6', class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { key: '93cbc9357d7f9c4f05296e75489dedb7a7a759ae', name: "car" }), h("p", { key: '9a8ff2cbec5c1dabd8ff68e815700ad8e4134c26' }, "Need Pickup?"), h("ir-select", { key: 'e085429aa2a8a498068d7bb545bd364e2a937a04', value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: 'No thank you' }, ...this.pickupService.getAvailableLocations('yes from')] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'flex items-center gap-4' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", null))), h("ir-input", { onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: "Arrival hour", placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", onInputBlur: e => {
+                var _a;
+                const firstNameSchema = PickupFormData.pick({ arrival_time: true });
+                const firstNameValidation = firstNameSchema.safeParse({ arrival_time: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.arrival_time });
+                const target = e.target;
+                if (!firstNameValidation.success) {
+                    target.setAttribute('data-state', 'error');
+                    target.setAttribute('aria-invalid', 'true');
+                }
+                else {
+                    if (target.hasAttribute('aria-invalid')) {
+                        target.setAttribute('aria-invalid', 'false');
+                    }
+                }
+            }, onInputFocus: e => {
+                const target = e.target;
+                if (target.hasAttribute('data-state'))
+                    target.removeAttribute('data-state');
+            } }), h("div", { class: "hidden flex-1  md:block" }, h("p", { class: "text-end text-base font-medium xl:text-xl" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id)))), h("div", null, h("ir-input", { label: "Flight details", placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
                 id: option.vehicle.code,
                 value: option.vehicle.description,
             })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: "Car model", variant: "double-line" }), h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({

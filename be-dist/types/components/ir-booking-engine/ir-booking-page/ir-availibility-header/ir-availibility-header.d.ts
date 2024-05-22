@@ -5,6 +5,7 @@ export declare class IrAvailibilityHeader {
     errorCause: 'date' | 'adult_child' | null;
     isLoading: boolean;
     resetBooking: EventEmitter<null>;
+    scrollToRoomType: EventEmitter<null>;
     private popoverInstance;
     private datePopup;
     private dateToast;

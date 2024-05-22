@@ -35,8 +35,10 @@ export class IrModal {
         this.portal.appendChild(this.overlay);
     }
     removeOverlay() {
-        this.overlay.removeEventListener('click', this.closeModal.bind(this));
-        this.portal.removeChild(this.overlay);
+        if (this.isOpen) {
+            this.overlay.removeEventListener('click', this.closeModal.bind(this));
+            this.portal.removeChild(this.overlay);
+        }
     }
     insertModalContent() {
         this.modalContainer = document.createElement('div');

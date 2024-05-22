@@ -68,13 +68,15 @@ export class IrAvailibilityHeader {
         const params = ExposedBookingAvailability.parse(this.exposedBookingAvailabiltyParams);
         await this.propertyService.getExposedBookingAvailability(Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { is_in_loyalty_mode: !!booking_store.bookingAvailabilityParams.coupon, promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: booking_store.bookingAvailabilityParams.agent || 0 }));
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr });
-        console.log(booking_store.bookingAvailabilityParams);
     }
     async handleCheckAvailability() {
         try {
             this.isLoading = true;
             await this.checkAvailability();
             app_store.fetchedBooking = true;
+            if (window.innerWidth < 640) {
+                this.scrollToRoomType.emit(null);
+            }
         }
         catch (error) {
             if (error instanceof ZodError) {
@@ -139,14 +141,14 @@ export class IrAvailibilityHeader {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'aa5ed4d263b76c9c8dc1eb8aa39b0432daf21543', class: "availability-container" }, h("div", { key: '430127ec984b4c8a9c5417318a501f396a02e2b5', class: "availability-inputs" }, h("ir-date-popup", { key: '3af01517e1f00b651574c041855ba422a6fe1202', ref: el => (this.datePopup = el), dates: {
+        return (h("div", { key: 'bb767e52db03af7fa07d55238a366eead6fccb44', class: "availability-container" }, h("div", { key: '92ea84344765e292f98a0a516c63ba307c9ab615', class: "availability-inputs" }, h("ir-date-popup", { key: 'af20fb8cb3c2d34e446541e3e0cdeee0264bb9bb', ref: el => (this.datePopup = el), dates: {
                 start: ((_a = this.exposedBookingAvailabiltyParams) === null || _a === void 0 ? void 0 : _a.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '12b0d565cc747ad4e9673aec67b6a18993f9b61c', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'f95320b0d9ea11f3a9e24ad27901288b480696f4', class: "adult-child-counter" }), h("ir-button", { key: '901c94cdab4e382bc45e98d0d45143928ce507b2', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: '7a662ce8d2864817eafc5e5fbaef9125a735105b', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'c7093412dfcb5f79ec8ddc2a4979dedb156ec66c', class: "adult-child-counter" }), h("ir-button", { key: '9a2c50a9299dee8c5eab39a13fd90ba4cbc3c25f', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary" }, h("ir-icons", { key: '3f8bbf317006e1151756bb23a3f4273a62017ce7', slot: "btn-icon", name: "search" })))), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: "promotions-container" }, h("ir-coupon-dialog", { class: "coupon-dialog" }), h("ir-loyalty", { class: "loyalty" })))));
+            }, size: "pill", variants: "icon-primary" }, h("ir-icons", { key: 'd0b9e6863c123e075aa780186da7308ba737c5a9', slot: "btn-icon", name: "search" })))), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: "promotions-container" }, h("ir-coupon-dialog", { class: "coupon-dialog" }), h("ir-loyalty", { class: "loyalty" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }
@@ -171,6 +173,21 @@ export class IrAvailibilityHeader {
         return [{
                 "method": "resetBooking",
                 "name": "resetBooking",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "null",
+                    "resolved": "null",
+                    "references": {}
+                }
+            }, {
+                "method": "scrollToRoomType",
+                "name": "scrollToRoomType",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

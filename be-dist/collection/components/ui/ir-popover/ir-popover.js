@@ -114,7 +114,7 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: '669ac67932bf7a1878e26fc0342783987ff467a6' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
+        return (h(Fragment, { key: 'e0516d55e39e7819070a0935ae35f6d70027c024' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
             } }, h("slot", { name: "trigger" })), h("ir-dialog", { ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();

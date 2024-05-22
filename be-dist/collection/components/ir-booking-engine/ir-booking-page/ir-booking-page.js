@@ -27,6 +27,14 @@ export class IrBookingPage {
             });
         }
     }
+    handleScrolling(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.roomTypeSectionRef.scrollIntoView({ behavior: 'smooth' });
+        window.setTimeout(() => {
+            window.scrollBy(0, -30);
+        }, 500);
+    }
     renderTotalNights() {
         var _a, _b;
         const diff = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
@@ -39,7 +47,7 @@ export class IrBookingPage {
         }
         const { totalAmount } = calculateTotalCost();
         const isInjected = app_store.app_data.injected;
-        return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", null, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", null)), h("section", { class: "relative justify-between gap-4 rounded-md " }, h("div", { class: " flex-1 py-2" }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
+        return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", null, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", null)), h("section", { class: "relative justify-between gap-4 rounded-md ", ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: " flex-1 py-2" }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
             if (!roomType.is_active ||
                 roomType.images.length <= 0 ||
                 (roomType.inventory <= 0 && booking_store.enableBooking) ||
@@ -89,7 +97,7 @@ export class IrBookingPage {
                 },
                 "complexType": {
                     "original": "pages",
-                    "resolved": "\"booking\" | \"checkout\"",
+                    "resolved": "\"booking\" | \"checkout\" | \"invoice\"",
                     "references": {
                         "pages": {
                             "location": "import",
@@ -104,6 +112,12 @@ export class IrBookingPage {
         return [{
                 "name": "animateBookingButton",
                 "method": "handleBookingAnimation",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "scrollToRoomType",
+                "method": "handleScrolling",
                 "target": undefined,
                 "capture": false,
                 "passive": false

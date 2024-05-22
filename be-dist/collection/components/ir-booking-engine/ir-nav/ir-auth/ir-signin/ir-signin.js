@@ -6,7 +6,7 @@ import app_store from "../../../../../stores/app.store";
 export class IrSignin {
     constructor() {
         this.authService = new AuthService();
-        this.enableSignUp = true;
+        this.enableSignUp = false;
         this.signInParams = {};
         this.formState = { cause: null, errors: null, status: 'empty' };
     }
@@ -21,7 +21,7 @@ export class IrSignin {
     }
     async login(params) {
         try {
-            const token = await this.authService.login(Object.assign(Object.assign({}, params), { password: '' }), params.password);
+            const token = await this.authService.login({ option: 'direct', bookingNumber: params.password, params });
             this.authFinish.emit({ state: 'success', token });
         }
         catch (error) {
@@ -60,7 +60,7 @@ export class IrSignin {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (h(Host, { key: 'ef43174f52e74d0810d1c4b52dd9a2ff5a75429e' }, h("h1", { key: '64a7626adbea1e07a34a3ddb312ed8a60487e0f8', class: "title mb-4" }, "Sign in to your booking"), h("form", { key: '901eb79974e9938b6174055db11d8c0d6222782d', onSubmit: this.handleSignIn.bind(this), class: "space-y-4 " }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "mx-auto" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '3accb1432ac6e4e0b033386a1a891b7587b5e44e', class: "mb-5" }, h("ir-input", { key: '26ebc1455cca81e4d9cc6e4c25bbbd062a2eaf54', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email" })), h("fieldset", { key: 'c47375b561df75c2effeca5c8775ce71cc03ad21' }, h("ir-input", { key: '55e7da3654dda087632cd46429342393521213ac', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.password), onTextChanged: e => this.modifySignInParams({ password: e.detail }), inputId: "password", type: "password", label: "Enter your booking number " })), h("ir-button", { key: '1a4474e4abdab9a72ee595e67eeb9d58e8f7a062', type: "submit", class: "w-full", label: "Sign in", size: "md" }), h("div", { key: '87970908f9136e8c7b6f11408151dc0ebf608492', class: "mb-4 flex items-center justify-center gap-4" }, h("div", { key: 'b32ff8f1c1f0f00433a6d861771d36d751086771', class: "h-[1px] w-[45%] bg-[var(--gray-200)]" }), h("span", { key: 'e613f4c77bd01e4c05a4f9f53f2bdb635be2f414', class: "text-[var(--gray-500)]" }, "OR"), h("div", { key: '6262e80138b7a93ec4d0c7ac2fbbe5b644fb1de7', class: "h-[1px] w-[45%] bg-[var(--gray-200)]" })))));
+        return (h(Host, { key: '0e2d4bceaa2b93491dd9b17fd9ccca79e31a7709' }, h("h1", { key: 'f4c397ab5238d4456fc287d4c6207e4fd897bc2f', class: "title" }, "Sign in to your booking"), h("form", { key: 'bf1b20398658f34d1dbfcdee45e379a4934a517b', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "error" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '9406bf7fe37ba2b1eb1e62932cfa80be9e2766ff' }, h("ir-input", { key: 'c8708fa7b6a1039c233d8fb3247d55b6471ae661', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email" })), h("fieldset", { key: '1d8067524e082c35ded2254a4b9a1f2636db0465' }, h("ir-input", { key: 'a95b10111382ac325d017764bb77b5682222efee', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.password), onTextChanged: e => this.modifySignInParams({ password: e.detail }), inputId: "password", type: "password", label: "Enter your booking number" })), h("ir-button", { key: '6705d93d29d57aef0d7b2c7b907d82d37832fd49', type: "submit", class: "ir-button", label: "Sign in", size: "md" }), h("div", { key: 'fb42a11fd0d5532b20bee67f2385886720d85251', class: "divider" }, h("div", { key: '8a7d8d93fc6168dd1c2b9597f9904a576b20caa3', class: "divider-line" }), h("span", { key: '22edeb0f57d7d25da360a1826cf6d7ebd2705613', class: "divider-text" }, "OR"), h("div", { key: '0a147c9316601b5be5fb124b7e12d968562a55fe', class: "divider-line" })))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }
@@ -92,7 +92,7 @@ export class IrSignin {
                 },
                 "attribute": "enable-sign-up",
                 "reflect": false,
-                "defaultValue": "true"
+                "defaultValue": "false"
             }
         };
     }

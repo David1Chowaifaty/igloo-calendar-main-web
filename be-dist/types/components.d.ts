@@ -125,6 +125,8 @@ export namespace Components {
     }
     interface IrCheckoutPage {
     }
+    interface IrCheckoutSkeleton {
+    }
     interface IrCouponDialog {
     }
     interface IrCreditCardInput {
@@ -228,6 +230,8 @@ export namespace Components {
     interface IrInterceptor {
         "handledEndpoints": string[];
     }
+    interface IrInvoice {
+    }
     interface IrLanguagePicker {
         "currencies": ICurrency[];
         "languages": IExposedLanguages[];
@@ -246,6 +250,8 @@ export namespace Components {
         "logo": string;
         "website": string;
     }
+    interface IrPaymentView {
+    }
     interface IrPhoneInput {
         "error": boolean;
         "mobile_number": string;
@@ -262,10 +268,13 @@ export namespace Components {
     }
     interface IrPrivacyPolicy {
         "label": string;
+        "policyTriggerStyle": Partial<CSSStyleDeclaration>;
     }
     interface IrPropertyGallery {
         "property_state": 'carousel' | 'gallery';
         "roomType": RoomType;
+    }
+    interface IrQuickAuth {
     }
     interface IrRadio {
         "checked": boolean;
@@ -489,6 +498,10 @@ export interface IrTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrTextareaElement;
 }
+export interface IrUserFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUserFormElement;
+}
 declare global {
     interface HTMLIrAccomodationsElement extends Components.IrAccomodations, HTMLStencilElement {
     }
@@ -539,6 +552,7 @@ declare global {
     };
     interface HTMLIrAvailibilityHeaderElementEventMap {
         "resetBooking": null;
+        "scrollToRoomType": null;
     }
     interface HTMLIrAvailibilityHeaderElement extends Components.IrAvailibilityHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAvailibilityHeaderElementEventMap>(type: K, listener: (this: HTMLIrAvailibilityHeaderElement, ev: IrAvailibilityHeaderCustomEvent<HTMLIrAvailibilityHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -738,6 +752,12 @@ declare global {
         prototype: HTMLIrCheckoutPageElement;
         new (): HTMLIrCheckoutPageElement;
     };
+    interface HTMLIrCheckoutSkeletonElement extends Components.IrCheckoutSkeleton, HTMLStencilElement {
+    }
+    var HTMLIrCheckoutSkeletonElement: {
+        prototype: HTMLIrCheckoutSkeletonElement;
+        new (): HTMLIrCheckoutSkeletonElement;
+    };
     interface HTMLIrCouponDialogElementEventMap {
         "resetBooking": null;
     }
@@ -917,6 +937,12 @@ declare global {
         prototype: HTMLIrInterceptorElement;
         new (): HTMLIrInterceptorElement;
     };
+    interface HTMLIrInvoiceElement extends Components.IrInvoice, HTMLStencilElement {
+    }
+    var HTMLIrInvoiceElement: {
+        prototype: HTMLIrInvoiceElement;
+        new (): HTMLIrInvoiceElement;
+    };
     interface HTMLIrLanguagePickerElementEventMap {
         "closeDialog": null;
         "resetBooking": null;
@@ -975,6 +1001,12 @@ declare global {
         prototype: HTMLIrNavElement;
         new (): HTMLIrNavElement;
     };
+    interface HTMLIrPaymentViewElement extends Components.IrPaymentView, HTMLStencilElement {
+    }
+    var HTMLIrPaymentViewElement: {
+        prototype: HTMLIrPaymentViewElement;
+        new (): HTMLIrPaymentViewElement;
+    };
     interface HTMLIrPhoneInputElementEventMap {
         "textChange": { phone_prefix: string; mobile: string };
         "phoneInputBlur": FocusEvent;
@@ -1028,6 +1060,12 @@ declare global {
     var HTMLIrPropertyGalleryElement: {
         prototype: HTMLIrPropertyGalleryElement;
         new (): HTMLIrPropertyGalleryElement;
+    };
+    interface HTMLIrQuickAuthElement extends Components.IrQuickAuth, HTMLStencilElement {
+    }
+    var HTMLIrQuickAuthElement: {
+        prototype: HTMLIrQuickAuthElement;
+        new (): HTMLIrQuickAuthElement;
     };
     interface HTMLIrRadioElementEventMap {
         "checkChange": boolean;
@@ -1211,7 +1249,18 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrUserFormElementEventMap {
+        "changePageLoading": 'remove' | 'add';
+    }
     interface HTMLIrUserFormElement extends Components.IrUserForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUserFormElementEventMap>(type: K, listener: (this: HTMLIrUserFormElement, ev: IrUserFormCustomEvent<HTMLIrUserFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUserFormElementEventMap>(type: K, listener: (this: HTMLIrUserFormElement, ev: IrUserFormCustomEvent<HTMLIrUserFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrUserFormElement: {
         prototype: HTMLIrUserFormElement;
@@ -1237,6 +1286,7 @@ declare global {
         "ir-carousel": HTMLIrCarouselElement;
         "ir-checkbox": HTMLIrCheckboxElement;
         "ir-checkout-page": HTMLIrCheckoutPageElement;
+        "ir-checkout-skeleton": HTMLIrCheckoutSkeletonElement;
         "ir-coupon-dialog": HTMLIrCouponDialogElement;
         "ir-credit-card-input": HTMLIrCreditCardInputElement;
         "ir-date-popup": HTMLIrDatePopupElement;
@@ -1251,15 +1301,18 @@ declare global {
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
+        "ir-invoice": HTMLIrInvoiceElement;
         "ir-language-picker": HTMLIrLanguagePickerElement;
         "ir-loyalty": HTMLIrLoyaltyElement;
         "ir-modal": HTMLIrModalElement;
         "ir-nav": HTMLIrNavElement;
+        "ir-payment-view": HTMLIrPaymentViewElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
         "ir-pickup": HTMLIrPickupElement;
         "ir-popover": HTMLIrPopoverElement;
         "ir-privacy-policy": HTMLIrPrivacyPolicyElement;
         "ir-property-gallery": HTMLIrPropertyGalleryElement;
+        "ir-quick-auth": HTMLIrQuickAuthElement;
         "ir-radio": HTMLIrRadioElement;
         "ir-rateplan": HTMLIrRateplanElement;
         "ir-room-type-amenities": HTMLIrRoomTypeAmenitiesElement;
@@ -1302,6 +1355,7 @@ declare namespace LocalJSX {
     }
     interface IrAvailibilityHeader {
         "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
+        "onScrollToRoomType"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
     }
     interface IrBadge {
         "label"?: string;
@@ -1385,6 +1439,8 @@ declare namespace LocalJSX {
     }
     interface IrCheckoutPage {
         "onRouting"?: (event: IrCheckoutPageCustomEvent<pages>) => void;
+    }
+    interface IrCheckoutSkeleton {
     }
     interface IrCouponDialog {
         "onResetBooking"?: (event: IrCouponDialogCustomEvent<null>) => void;
@@ -1515,6 +1571,8 @@ declare namespace LocalJSX {
     interface IrInterceptor {
         "handledEndpoints"?: string[];
     }
+    interface IrInvoice {
+    }
     interface IrLanguagePicker {
         "currencies"?: ICurrency[];
         "languages"?: IExposedLanguages[];
@@ -1535,6 +1593,8 @@ declare namespace LocalJSX {
         "logo"?: string;
         "website"?: string;
     }
+    interface IrPaymentView {
+    }
     interface IrPhoneInput {
         "error"?: boolean;
         "mobile_number"?: string;
@@ -1554,10 +1614,13 @@ declare namespace LocalJSX {
     }
     interface IrPrivacyPolicy {
         "label"?: string;
+        "policyTriggerStyle"?: Partial<CSSStyleDeclaration>;
     }
     interface IrPropertyGallery {
         "property_state"?: 'carousel' | 'gallery';
         "roomType"?: RoomType;
+    }
+    interface IrQuickAuth {
     }
     interface IrRadio {
         "checked"?: boolean;
@@ -1655,6 +1718,7 @@ declare namespace LocalJSX {
     }
     interface IrUserForm {
         "errors"?: Record<string, ZodIssue>;
+        "onChangePageLoading"?: (event: IrUserFormCustomEvent<'remove' | 'add'>) => void;
     }
     interface IntrinsicElements {
         "ir-accomodations": IrAccomodations;
@@ -1676,6 +1740,7 @@ declare namespace LocalJSX {
         "ir-carousel": IrCarousel;
         "ir-checkbox": IrCheckbox;
         "ir-checkout-page": IrCheckoutPage;
+        "ir-checkout-skeleton": IrCheckoutSkeleton;
         "ir-coupon-dialog": IrCouponDialog;
         "ir-credit-card-input": IrCreditCardInput;
         "ir-date-popup": IrDatePopup;
@@ -1690,15 +1755,18 @@ declare namespace LocalJSX {
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
+        "ir-invoice": IrInvoice;
         "ir-language-picker": IrLanguagePicker;
         "ir-loyalty": IrLoyalty;
         "ir-modal": IrModal;
         "ir-nav": IrNav;
+        "ir-payment-view": IrPaymentView;
         "ir-phone-input": IrPhoneInput;
         "ir-pickup": IrPickup;
         "ir-popover": IrPopover;
         "ir-privacy-policy": IrPrivacyPolicy;
         "ir-property-gallery": IrPropertyGallery;
+        "ir-quick-auth": IrQuickAuth;
         "ir-radio": IrRadio;
         "ir-rateplan": IrRateplan;
         "ir-room-type-amenities": IrRoomTypeAmenities;
@@ -1738,6 +1806,7 @@ declare module "@stencil/core" {
             "ir-carousel": LocalJSX.IrCarousel & JSXBase.HTMLAttributes<HTMLIrCarouselElement>;
             "ir-checkbox": LocalJSX.IrCheckbox & JSXBase.HTMLAttributes<HTMLIrCheckboxElement>;
             "ir-checkout-page": LocalJSX.IrCheckoutPage & JSXBase.HTMLAttributes<HTMLIrCheckoutPageElement>;
+            "ir-checkout-skeleton": LocalJSX.IrCheckoutSkeleton & JSXBase.HTMLAttributes<HTMLIrCheckoutSkeletonElement>;
             "ir-coupon-dialog": LocalJSX.IrCouponDialog & JSXBase.HTMLAttributes<HTMLIrCouponDialogElement>;
             "ir-credit-card-input": LocalJSX.IrCreditCardInput & JSXBase.HTMLAttributes<HTMLIrCreditCardInputElement>;
             "ir-date-popup": LocalJSX.IrDatePopup & JSXBase.HTMLAttributes<HTMLIrDatePopupElement>;
@@ -1752,15 +1821,18 @@ declare module "@stencil/core" {
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
+            "ir-invoice": LocalJSX.IrInvoice & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;
             "ir-language-picker": LocalJSX.IrLanguagePicker & JSXBase.HTMLAttributes<HTMLIrLanguagePickerElement>;
             "ir-loyalty": LocalJSX.IrLoyalty & JSXBase.HTMLAttributes<HTMLIrLoyaltyElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-nav": LocalJSX.IrNav & JSXBase.HTMLAttributes<HTMLIrNavElement>;
+            "ir-payment-view": LocalJSX.IrPaymentView & JSXBase.HTMLAttributes<HTMLIrPaymentViewElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
             "ir-privacy-policy": LocalJSX.IrPrivacyPolicy & JSXBase.HTMLAttributes<HTMLIrPrivacyPolicyElement>;
             "ir-property-gallery": LocalJSX.IrPropertyGallery & JSXBase.HTMLAttributes<HTMLIrPropertyGalleryElement>;
+            "ir-quick-auth": LocalJSX.IrQuickAuth & JSXBase.HTMLAttributes<HTMLIrQuickAuthElement>;
             "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
             "ir-rateplan": LocalJSX.IrRateplan & JSXBase.HTMLAttributes<HTMLIrRateplanElement>;
             "ir-room-type-amenities": LocalJSX.IrRoomTypeAmenities & JSXBase.HTMLAttributes<HTMLIrRoomTypeAmenitiesElement>;

@@ -45,7 +45,7 @@ export interface DataStructure {
     My_Params_Get_Exposed_Property: any;
     My_Result: any;
 }
-export type pages = 'booking' | 'checkout';
+export type pages = 'booking' | 'checkout' | 'invoice';
 export declare class Identifier {
     code: string;
     name: string;

@@ -5,40 +5,44 @@ import { a as axios } from './axios.js';
 import { u as updateRoomParams, b as booking_store } from './booking.js';
 import { a as app_store } from './app.store.js';
 import { b as getUserPrefernce, s as setDefaultLocale, e as generateColorShades, d as dateFns } from './utils.js';
-import { d as defineCustomElement$L } from './ir-accomodations2.js';
-import { d as defineCustomElement$K } from './ir-adult-child-counter2.js';
-import { d as defineCustomElement$J } from './ir-auth2.js';
-import { d as defineCustomElement$I } from './ir-availibility-header2.js';
-import { d as defineCustomElement$H } from './ir-badge-group2.js';
-import { d as defineCustomElement$G } from './ir-booking-code2.js';
-import { d as defineCustomElement$F } from './ir-booking-details2.js';
-import { d as defineCustomElement$E } from './ir-booking-page2.js';
-import { d as defineCustomElement$D } from './ir-booking-summary2.js';
-import { d as defineCustomElement$C } from './ir-button2.js';
-import { d as defineCustomElement$B } from './ir-calendar2.js';
-import { d as defineCustomElement$A } from './ir-carousel2.js';
-import { d as defineCustomElement$z } from './ir-checkbox2.js';
-import { d as defineCustomElement$y } from './ir-checkout-page2.js';
-import { d as defineCustomElement$x } from './ir-coupon-dialog2.js';
-import { d as defineCustomElement$w } from './ir-credit-card-input2.js';
-import { d as defineCustomElement$v } from './ir-date-popup2.js';
-import { d as defineCustomElement$u } from './ir-date-range2.js';
-import { d as defineCustomElement$t } from './ir-dialog2.js';
-import { d as defineCustomElement$s } from './ir-facilities2.js';
-import { d as defineCustomElement$r } from './ir-footer2.js';
-import { d as defineCustomElement$q } from './ir-gallery2.js';
-import { d as defineCustomElement$p } from './ir-icons2.js';
-import { d as defineCustomElement$o } from './ir-input2.js';
-import { d as defineCustomElement$n } from './ir-language-picker2.js';
-import { d as defineCustomElement$m } from './ir-loyalty2.js';
-import { d as defineCustomElement$l } from './ir-modal2.js';
-import { d as defineCustomElement$k } from './ir-nav2.js';
+import { d as defineCustomElement$P } from './ir-accomodations2.js';
+import { d as defineCustomElement$O } from './ir-adult-child-counter2.js';
+import { d as defineCustomElement$N } from './ir-auth2.js';
+import { d as defineCustomElement$M } from './ir-availibility-header2.js';
+import { d as defineCustomElement$L } from './ir-badge-group2.js';
+import { d as defineCustomElement$K } from './ir-booking-code2.js';
+import { d as defineCustomElement$J } from './ir-booking-details2.js';
+import { d as defineCustomElement$I } from './ir-booking-page2.js';
+import { d as defineCustomElement$H } from './ir-booking-summary2.js';
+import { d as defineCustomElement$G } from './ir-button2.js';
+import { d as defineCustomElement$F } from './ir-calendar2.js';
+import { d as defineCustomElement$E } from './ir-carousel2.js';
+import { d as defineCustomElement$D } from './ir-checkbox2.js';
+import { d as defineCustomElement$C } from './ir-checkout-page2.js';
+import { d as defineCustomElement$B } from './ir-checkout-skeleton2.js';
+import { d as defineCustomElement$A } from './ir-coupon-dialog2.js';
+import { d as defineCustomElement$z } from './ir-credit-card-input2.js';
+import { d as defineCustomElement$y } from './ir-date-popup2.js';
+import { d as defineCustomElement$x } from './ir-date-range2.js';
+import { d as defineCustomElement$w } from './ir-dialog2.js';
+import { d as defineCustomElement$v } from './ir-facilities2.js';
+import { d as defineCustomElement$u } from './ir-footer2.js';
+import { d as defineCustomElement$t } from './ir-gallery2.js';
+import { d as defineCustomElement$s } from './ir-icons2.js';
+import { d as defineCustomElement$r } from './ir-input2.js';
+import { d as defineCustomElement$q } from './ir-interceptor2.js';
+import { d as defineCustomElement$p } from './ir-invoice2.js';
+import { d as defineCustomElement$o } from './ir-language-picker2.js';
+import { d as defineCustomElement$n } from './ir-loyalty2.js';
+import { d as defineCustomElement$m } from './ir-modal2.js';
+import { d as defineCustomElement$l } from './ir-nav2.js';
+import { d as defineCustomElement$k } from './ir-payment-view2.js';
 import { d as defineCustomElement$j } from './ir-phone-input2.js';
 import { d as defineCustomElement$i } from './ir-pickup2.js';
 import { d as defineCustomElement$h } from './ir-popover2.js';
 import { d as defineCustomElement$g } from './ir-privacy-policy2.js';
 import { d as defineCustomElement$f } from './ir-property-gallery2.js';
-import { d as defineCustomElement$e } from './ir-radio2.js';
+import { d as defineCustomElement$e } from './ir-quick-auth2.js';
 import { d as defineCustomElement$d } from './ir-rateplan2.js';
 import { d as defineCustomElement$c } from './ir-room-type-amenities2.js';
 import { d as defineCustomElement$b } from './ir-roomtype2.js';
@@ -86,7 +90,7 @@ class Node {
     }
 }
 
-const irBookingEngineCss = "*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;border:0 solid #e5e7eb;box-sizing:border-box}:after,:before{--tw-content:\"\"}:host,html{-webkit-text-size-adjust:100%;font-feature-settings:normal;-webkit-tap-highlight-color:transparent;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;tab-size:4}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-feature-settings:normal;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em;font-variation-settings:normal}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{font-feature-settings:inherit;color:inherit;font-family:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,fieldset,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]{display:none}::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;}.block{display:block}:host{display:block;margin:0;padding:0}.static{position:static}.relative{position:relative}.sticky{position:sticky}.top-0{top:0}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.flex{display:flex}.w-full{width:100%}.max-w-6xl{max-width:72rem}.flex-1{flex:1 1 0%}.flex-col{flex-direction:column}.space-y-5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1.25rem*var(--tw-space-y-reverse));margin-top:calc(1.25rem*(1 - var(--tw-space-y-reverse)))}.px-4{padding-left:1rem;padding-right:1rem}@media (min-width:1024px){.lg\\:px-6{padding-left:1.5rem;padding-right:1.5rem}}.visible{visibility:visible}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}@media (min-width:1024px){.lg\\:size-7{height:1.75rem;width:1.75rem}}.sr-only{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.table{display:table}.grid{display:grid}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-2{gap:.5rem}.gap-2\\.5{gap:.625rem}.gap-4{gap:1rem}.space-y-12>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(3rem*var(--tw-space-y-reverse));margin-top:calc(3rem*(1 - var(--tw-space-y-reverse)))}.text-2xl{font-size:1.5rem;line-height:2rem}.font-semibold{font-weight:600}@media (min-width:768px){.md\\:flex{display:flex}.md\\:max-w-4xl{max-width:56rem}.md\\:items-center{align-items:center}}@media (min-width:1024px){.lg\\:sticky{position:sticky}.lg\\:top-20{top:5rem}.lg\\:max-w-md{max-width:28rem}.lg\\:flex-row{flex-direction:row}.lg\\:items-start{align-items:flex-start}.lg\\:justify-end{justify-content:flex-end}}.bottom-2{bottom:.5rem}.z-40{z-index:40}.mb-5{margin-bottom:1.25rem}.mt-14{margin-top:3.5rem}.w-auto{width:auto}.justify-end{justify-content:flex-end}.rounded-md{border-radius:.375rem}.bg-gray-700\\/80{background-color:rgba(55,65,81,.8)}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-bottom:.5rem;padding-top:.5rem}.py-8{padding-bottom:2rem;padding-top:2rem}.pb-5{padding-bottom:1.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.font-medium{font-weight:500}.text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235/var(--tw-text-opacity))}@media (min-width:768px){.md\\:text-lg{font-size:1.125rem;line-height:1.75rem}}@media (min-width:1024px){.lg\\:w-60{width:15rem}.lg\\:gap-10{gap:2.5rem}.lg\\:text-2xl{font-size:1.5rem;line-height:2rem}}.justify-center{justify-content:center}.absolute{position:absolute}.right-3{right:.75rem}.top-3{top:.75rem}.size-4{height:1rem;width:1rem}.h-5{height:1.25rem}.w-5{width:1.25rem}.justify-start{justify-content:flex-start}.hidden{display:none}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.mb-4{margin-bottom:1rem}.max-h-\\[83vh\\]{max-height:83vh}.overflow-y-auto{overflow-y:auto}.p-4{padding:1rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\\[var\\(--gray-600\\2c \\#475467\\)\\]{color:var(--gray-600,#475467)}.text-\\[var\\(--gray-700\\2c \\#344054\\)\\]{color:var(--gray-700,#344054)}@media (min-width:768px){.md\\:p-6{padding:1.5rem}}.resize{resize:both}@media (min-width:640px){.sm\\:block{display:block}}@media (min-width:768px){.md\\:hidden{display:none}}.pointer-events-none{pointer-events:none}.inset-y-0{bottom:0;top:0}.end-1{inset-inline-end:.25rem}.start-2{inset-inline-start:.5rem}.h-full{height:100%}.border{border-width:1px}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.px-\\[0\\.3rem\\]{padding-left:.3rem;padding-right:.3rem}.px-\\[0\\.875rem\\]{padding-left:.875rem;padding-right:.875rem}.py-1{padding-bottom:.25rem;padding-top:.25rem}.py-\\[0\\.625rem\\]{padding-bottom:.625rem;padding-top:.625rem}.pe-7{padding-inline-end:1.75rem}.ps-9{padding-inline-start:2.25rem}.pt-1{padding-top:.25rem}.text-\\[1rem\\]{font-size:1rem}.text-xs{font-size:.75rem;line-height:1rem}.text-\\[\\#667085\\]{--tw-text-opacity:1;color:rgb(102 112 133/var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39/var(--tw-text-opacity))}.fixed{position:fixed}.right-0{right:0}.right-4{right:1rem}.top-4{top:1rem}.mt-8{margin-top:2rem}.h-6{height:1.5rem}.h-screen{height:100vh}.w-6{width:1.5rem}.min-w-\\[70\\%\\]{min-width:70%}.max-w-full{max-width:100%}.translate-x-0{--tw-translate-x:0px}.translate-x-0,.translate-x-\\[100\\%\\]{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-\\[100\\%\\]{--tw-translate-x:100%}.shadow,.shadow-md{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.transition-transform{transition-duration:.15s;transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1)}.duration-300{transition-duration:.3s}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}.data-\\[state\\=\\'closed\\'\\]\\:translate-x-\\[100\\%\\][data-state=closed]{--tw-translate-x:100%}.data-\\[state\\=\\'closed\\'\\]\\:translate-x-\\[100\\%\\][data-state=closed],.data-\\[state\\=\\'opened\\'\\]\\:translate-x-0[data-state=opened]{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.data-\\[state\\=\\'opened\\'\\]\\:translate-x-0[data-state=opened]{--tw-translate-x:0px}.max-w-xs{max-width:20rem}.rounded-lg{border-radius:.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.flex-wrap{flex-wrap:wrap}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.5rem*var(--tw-space-y-reverse));margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)))}.pb-2{padding-bottom:.5rem}.font-normal{font-weight:400}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity))}.outline{outline-style:solid}@media (min-width:640px){.sm\\:p-6{padding:1.5rem}}@media (min-width:768px){.md\\:w-fit{width:fit-content}.md\\:flex-row-reverse{flex-direction:row-reverse}}.ml-1{margin-left:.25rem}.max-w-\\[60\\%\\]{max-width:60%}.flex-row{flex-direction:row}.gap-1{gap:.25rem}.gap-3{gap:.75rem}.space-y-6>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1.5rem*var(--tw-space-y-reverse));margin-top:calc(1.5rem*(1 - var(--tw-space-y-reverse)))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246/var(--tw-bg-opacity))}.pl-0{padding-left:0}.pt-0{padding-top:0}.pt-0\\.5{padding-top:.125rem}.text-right{text-align:right}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity))}@media (min-width:768px){.md\\:block{display:block}.md\\:inline-flex{display:inline-flex}.md\\:w-full{width:100%}.md\\:max-w-full{max-width:100%}.md\\:flex-row{flex-direction:row}.md\\:justify-end{justify-content:flex-end}.md\\:justify-center{justify-content:center}}@media (min-width:1280px){.xl\\:text-xl{font-size:1.25rem;line-height:1.75rem}}.size-\\[18px\\]{height:18px;width:18px}.h-\\[3rem\\]{height:3rem}.gap-0{gap:0}.gap-0\\.5{gap:.125rem}.border-0{border-width:0}.shadow,.shadow-none{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000}@media (min-width:640px){.sm\\:w-auto{width:auto}.sm\\:w-fit{width:fit-content}.sm\\:border{border-width:1px}.sm\\:shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}}.mt-4{margin-top:1rem}.aspect-\\[1\\/1\\]{aspect-ratio:1/1}.h-\\[1px\\]{height:1px}.max-h-32{max-height:8rem}.w-56{width:14rem}.min-w-\\[50px\\]{min-width:50px}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.25rem*var(--tw-space-y-reverse));margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)))}.space-y-1\\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.375rem*var(--tw-space-y-reverse));margin-top:calc(.375rem*(1 - var(--tw-space-y-reverse)))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1rem*var(--tw-space-y-reverse));margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)))}.divide-y>:not([hidden])~:not([hidden]){--tw-divide-y-reverse:0;border-bottom-width:calc(1px*var(--tw-divide-y-reverse));border-top-width:calc(1px*(1 - var(--tw-divide-y-reverse)))}.rounded-t-md{border-top-left-radius:.375rem;border-top-right-radius:.375rem}.border-solid{border-style:solid}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219/var(--tw-border-opacity))}.bg-gray-300{--tw-bg-opacity:1;background-color:rgb(209 213 219/var(--tw-bg-opacity))}.object-cover{object-fit:cover}.p-2{padding:.5rem}.text-center{text-align:center}@media (min-width:640px){.sm\\:flex-row{flex-direction:row}.sm\\:items-center{align-items:center}}@media (min-width:1024px){.lg\\:aspect-\\[16\\/9\\]{aspect-ratio:16/9}.lg\\:max-w-sm{max-width:24rem}.lg\\:p-6{padding:1.5rem}}.p-6{padding:1.5rem}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94/var(--tw-text-opacity))}@media (min-width:768px){.md\\:items-start{align-items:flex-start}.md\\:justify-between{justify-content:space-between}.md\\:gap-8{gap:2rem}}.-bottom-1{bottom:-.25rem}.z-0{z-index:0}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.size-3{height:.75rem;width:.75rem}.h-48{height:12rem}.max-h-\\[80vh\\]{max-height:80vh}.cursor-pointer{cursor:pointer}.items-end{align-items:flex-end}.rounded-\\[var\\(--radius\\2c 8px\\)\\]{border-radius:var(--radius,8px)}.bg-white\\/80{background-color:hsla(0,0%,100%,.8)}.px-2{padding-left:.5rem;padding-right:.5rem}.py-4{padding-top:1rem}.pb-4,.py-4{padding-bottom:1rem}.ordinal{--tw-ordinal:ordinal;font-variant-numeric:var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)}@media (min-width:768px){.md\\:max-h-\\[200px\\]{max-height:200px}.md\\:w-auto{width:auto}.md\\:p-4{padding:1rem}.md\\:pt-0{padding-top:0}.md\\:pt-4{padding-top:1rem}.md\\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width:1280px){.xl\\:max-h-\\[250px\\]{max-height:250px}}.w-72{width:18rem}.w-fit{width:fit-content}.ml-4{margin-left:1rem}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.75rem*var(--tw-space-y-reverse));margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)))}.pb-6{padding-bottom:1.5rem}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55/var(--tw-text-opacity))}@media (min-width:640px){.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width:1024px){.lg\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity))}.pb-0{padding-bottom:0}.text-\\[hsl\\(var\\(--brand-600\\)\\)\\]{color:hsl(var(--brand-600))}@media (min-width:640px){.sm\\:pb-0{padding-bottom:0}.sm\\:pt-0{padding-top:0}}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}@media (min-width:640px){.sm\\:p-4{padding:1rem}}.mb-2\\.5{margin-bottom:.625rem}.mb-6{margin-bottom:1.5rem}.w-\\[45\\%\\]{width:45%}.bg-\\[var\\(--gray-200\\)\\]{background-color:var(--gray-200)}.text-\\[var\\(--gray-500\\)\\]{color:var(--gray-500)}";
+const irBookingEngineCss = "*.sc-ir-booking-engine,.sc-ir-booking-engine:after,.sc-ir-booking-engine:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;border:0 solid #e5e7eb;box-sizing:border-box}.sc-ir-booking-engine:after,.sc-ir-booking-engine:before{--tw-content:\"\"}.sc-ir-booking-engine-h,html.sc-ir-booking-engine{-webkit-text-size-adjust:100%;font-feature-settings:normal;-webkit-tap-highlight-color:transparent;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;tab-size:4}body.sc-ir-booking-engine{line-height:inherit;margin:0}hr.sc-ir-booking-engine{border-top-width:1px;color:inherit;height:0}abbr.sc-ir-booking-engine:where([title]){text-decoration:underline dotted}h1.sc-ir-booking-engine,h2.sc-ir-booking-engine,h3.sc-ir-booking-engine,h4.sc-ir-booking-engine,h5.sc-ir-booking-engine,h6.sc-ir-booking-engine{font-size:inherit;font-weight:inherit}a.sc-ir-booking-engine{color:inherit;text-decoration:inherit}b.sc-ir-booking-engine,strong.sc-ir-booking-engine{font-weight:bolder}code.sc-ir-booking-engine,kbd.sc-ir-booking-engine,pre.sc-ir-booking-engine,samp.sc-ir-booking-engine{font-feature-settings:normal;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em;font-variation-settings:normal}small.sc-ir-booking-engine{font-size:80%}sub.sc-ir-booking-engine,sup.sc-ir-booking-engine{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub.sc-ir-booking-engine{bottom:-.25em}sup.sc-ir-booking-engine{top:-.5em}table.sc-ir-booking-engine{border-collapse:collapse;border-color:inherit;text-indent:0}button.sc-ir-booking-engine,input.sc-ir-booking-engine,optgroup.sc-ir-booking-engine,select.sc-ir-booking-engine,textarea.sc-ir-booking-engine{font-feature-settings:inherit;color:inherit;font-family:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0}button.sc-ir-booking-engine,select.sc-ir-booking-engine{text-transform:none}[type=button].sc-ir-booking-engine,[type=reset].sc-ir-booking-engine,[type=submit].sc-ir-booking-engine,button.sc-ir-booking-engine{-webkit-appearance:button;background-color:transparent;background-image:none}.sc-ir-booking-engine:-moz-focusring{outline:auto}.sc-ir-booking-engine:-moz-ui-invalid{box-shadow:none}progress.sc-ir-booking-engine{vertical-align:baseline}.sc-ir-booking-engine::-webkit-inner-spin-button,.sc-ir-booking-engine::-webkit-outer-spin-button{height:auto}[type=search].sc-ir-booking-engine{-webkit-appearance:textfield;outline-offset:-2px}.sc-ir-booking-engine::-webkit-search-decoration{-webkit-appearance:none}.sc-ir-booking-engine::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary.sc-ir-booking-engine{display:list-item}blockquote.sc-ir-booking-engine,dd.sc-ir-booking-engine,dl.sc-ir-booking-engine,fieldset.sc-ir-booking-engine,figure.sc-ir-booking-engine,h1.sc-ir-booking-engine,h2.sc-ir-booking-engine,h3.sc-ir-booking-engine,h4.sc-ir-booking-engine,h5.sc-ir-booking-engine,h6.sc-ir-booking-engine,hr.sc-ir-booking-engine,p.sc-ir-booking-engine,pre.sc-ir-booking-engine{margin:0}fieldset.sc-ir-booking-engine,legend.sc-ir-booking-engine{padding:0}menu.sc-ir-booking-engine,ol.sc-ir-booking-engine,ul.sc-ir-booking-engine{list-style:none;margin:0;padding:0}dialog.sc-ir-booking-engine{padding:0}textarea.sc-ir-booking-engine{resize:vertical}input.sc-ir-booking-engine::placeholder,textarea.sc-ir-booking-engine::placeholder{color:#9ca3af;opacity:1}[role=button].sc-ir-booking-engine,button.sc-ir-booking-engine{cursor:pointer}.sc-ir-booking-engine:disabled{cursor:default}audio.sc-ir-booking-engine,canvas.sc-ir-booking-engine,embed.sc-ir-booking-engine,iframe.sc-ir-booking-engine,img.sc-ir-booking-engine,object.sc-ir-booking-engine,svg.sc-ir-booking-engine,video.sc-ir-booking-engine{display:block;vertical-align:middle}img.sc-ir-booking-engine,video.sc-ir-booking-engine{height:auto;max-width:100%}[hidden].sc-ir-booking-engine{display:none}.sc-ir-booking-engine::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;}.block.sc-ir-booking-engine{display:block}.sc-ir-booking-engine-h{display:block;margin:0;padding:0}.static.sc-ir-booking-engine{position:static}.relative.sc-ir-booking-engine{position:relative}.sticky.sc-ir-booking-engine{position:sticky}.top-0.sc-ir-booking-engine{top:0}.z-50.sc-ir-booking-engine{z-index:50}.mx-auto.sc-ir-booking-engine{margin-left:auto;margin-right:auto}.flex.sc-ir-booking-engine{display:flex}.w-full.sc-ir-booking-engine{width:100%}.max-w-6xl.sc-ir-booking-engine{max-width:72rem}.flex-1.sc-ir-booking-engine{flex:1 1 0%}.flex-col.sc-ir-booking-engine{flex-direction:column}.space-y-5.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1.25rem*var(--tw-space-y-reverse));margin-top:calc(1.25rem*(1 - var(--tw-space-y-reverse)))}.px-4.sc-ir-booking-engine{padding-left:1rem;padding-right:1rem}@media (min-width:1024px){.lg\\:px-6.sc-ir-booking-engine{padding-left:1.5rem;padding-right:1.5rem}}.shadow.sc-ir-booking-engine{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.visible.sc-ir-booking-engine{visibility:visible}.bottom-2.sc-ir-booking-engine{bottom:.5rem}.z-40.sc-ir-booking-engine{z-index:40}.mb-5.sc-ir-booking-engine{margin-bottom:1.25rem}.mt-14.sc-ir-booking-engine{margin-top:3.5rem}.w-auto.sc-ir-booking-engine{width:auto}.items-center.sc-ir-booking-engine{align-items:center}.justify-end.sc-ir-booking-engine{justify-content:flex-end}.justify-between.sc-ir-booking-engine{justify-content:space-between}.gap-4.sc-ir-booking-engine{gap:1rem}.rounded-md.sc-ir-booking-engine{border-radius:.375rem}.bg-gray-700\\/80.sc-ir-booking-engine{background-color:rgba(55,65,81,.8)}.px-6.sc-ir-booking-engine{padding-left:1.5rem;padding-right:1.5rem}.py-2.sc-ir-booking-engine{padding-bottom:.5rem;padding-top:.5rem}.py-8.sc-ir-booking-engine{padding-bottom:2rem;padding-top:2rem}.pb-5.sc-ir-booking-engine{padding-bottom:1.25rem}.text-base.sc-ir-booking-engine{font-size:1rem;line-height:1.5rem}.text-lg.sc-ir-booking-engine{font-size:1.125rem;line-height:1.75rem}.text-sm.sc-ir-booking-engine{font-size:.875rem;line-height:1.25rem}.font-medium.sc-ir-booking-engine{font-weight:500}.text-gray-200.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(229 231 235/var(--tw-text-opacity))}@media (min-width:768px){.md\\:text-lg.sc-ir-booking-engine{font-size:1.125rem;line-height:1.75rem}}@media (min-width:1024px){.lg\\:w-60.sc-ir-booking-engine{width:15rem}.lg\\:gap-10.sc-ir-booking-engine{gap:2.5rem}.lg\\:text-2xl.sc-ir-booking-engine{font-size:1.5rem;line-height:2rem}.lg\\:size-7.sc-ir-booking-engine{height:1.75rem;width:1.75rem}}.sr-only.sc-ir-booking-engine{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.table.sc-ir-booking-engine{display:table}.grid.sc-ir-booking-engine{display:grid}.justify-center.sc-ir-booking-engine{justify-content:center}.absolute.sc-ir-booking-engine{position:absolute}.right-3.sc-ir-booking-engine{right:.75rem}.top-3.sc-ir-booking-engine{top:.75rem}.size-4.sc-ir-booking-engine{height:1rem;width:1rem}.h-5.sc-ir-booking-engine{height:1.25rem}.w-5.sc-ir-booking-engine{width:1.25rem}.flex-wrap.sc-ir-booking-engine{flex-wrap:wrap}.gap-1.sc-ir-booking-engine{gap:.25rem}.space-y-2.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.5rem*var(--tw-space-y-reverse));margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)))}.text-center.sc-ir-booking-engine{text-align:center}.text-green-500.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(34 197 94/var(--tw-text-opacity))}@media (min-width:768px){.md\\:text-right.sc-ir-booking-engine{text-align:right}}.gap-2.sc-ir-booking-engine{gap:.5rem}.gap-2\\.5.sc-ir-booking-engine{gap:.625rem}.space-y-4.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1rem*var(--tw-space-y-reverse));margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)))}.space-y-8.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(2rem*var(--tw-space-y-reverse));margin-top:calc(2rem*(1 - var(--tw-space-y-reverse)))}.text-2xl.sc-ir-booking-engine{font-size:1.5rem;line-height:2rem}.font-semibold.sc-ir-booking-engine{font-weight:600}@media (min-width:768px){.md\\:sticky.sc-ir-booking-engine{position:sticky}.md\\:top-20.sc-ir-booking-engine{top:5rem}.md\\:flex.sc-ir-booking-engine{display:flex}.md\\:max-w-4xl.sc-ir-booking-engine{max-width:56rem}.md\\:max-w-md.sc-ir-booking-engine{max-width:28rem}.md\\:flex-row.sc-ir-booking-engine{flex-direction:row}.md\\:items-start.sc-ir-booking-engine{align-items:flex-start}.md\\:justify-end.sc-ir-booking-engine{justify-content:flex-end}}.hidden.sc-ir-booking-engine{display:none}.filter.sc-ir-booking-engine{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.pointer-events-none.sc-ir-booking-engine{pointer-events:none}.inset-y-0.sc-ir-booking-engine{bottom:0;top:0}.end-1.sc-ir-booking-engine{inset-inline-end:.25rem}.start-2.sc-ir-booking-engine{inset-inline-start:.5rem}.h-full.sc-ir-booking-engine{height:100%}.bg-white.sc-ir-booking-engine{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.px-\\[0\\.3rem\\].sc-ir-booking-engine{padding-left:.3rem;padding-right:.3rem}.px-\\[0\\.875rem\\].sc-ir-booking-engine{padding-left:.875rem;padding-right:.875rem}.py-1.sc-ir-booking-engine{padding-bottom:.25rem;padding-top:.25rem}.py-\\[0\\.625rem\\].sc-ir-booking-engine{padding-bottom:.625rem;padding-top:.625rem}.pe-7.sc-ir-booking-engine{padding-inline-end:1.75rem}.ps-9.sc-ir-booking-engine{padding-inline-start:2.25rem}.pt-1.sc-ir-booking-engine{padding-top:.25rem}.text-\\[1rem\\].sc-ir-booking-engine{font-size:1rem}.text-xs.sc-ir-booking-engine{font-size:.75rem;line-height:1rem}.text-\\[\\#667085\\].sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(102 112 133/var(--tw-text-opacity))}.text-gray-900.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(17 24 39/var(--tw-text-opacity))}.mb-4.sc-ir-booking-engine{margin-bottom:1rem}.max-h-\\[83vh\\].sc-ir-booking-engine{max-height:83vh}.overflow-y-auto.sc-ir-booking-engine{overflow-y:auto}.p-4.sc-ir-booking-engine{padding:1rem}.text-xl.sc-ir-booking-engine{font-size:1.25rem;line-height:1.75rem}.text-\\[var\\(--gray-600\\2c \\#475467\\)\\].sc-ir-booking-engine{color:var(--gray-600,#475467)}.text-\\[var\\(--gray-700\\2c \\#344054\\)\\].sc-ir-booking-engine{color:var(--gray-700,#344054)}@media (min-width:768px){.md\\:p-6.sc-ir-booking-engine{padding:1.5rem}}.max-w-xs.sc-ir-booking-engine{max-width:20rem}.rounded-lg.sc-ir-booking-engine{border-radius:.5rem}.px-3.sc-ir-booking-engine{padding-left:.75rem;padding-right:.75rem}.fixed.sc-ir-booking-engine{position:fixed}.right-0.sc-ir-booking-engine{right:0}.right-4.sc-ir-booking-engine{right:1rem}.top-4.sc-ir-booking-engine{top:1rem}.mt-8.sc-ir-booking-engine{margin-top:2rem}.h-6.sc-ir-booking-engine{height:1.5rem}.h-screen.sc-ir-booking-engine{height:100vh}.w-6.sc-ir-booking-engine{width:1.5rem}.min-w-\\[70\\%\\].sc-ir-booking-engine{min-width:70%}.max-w-full.sc-ir-booking-engine{max-width:100%}.translate-x-0.sc-ir-booking-engine{--tw-translate-x:0px}.translate-x-0.sc-ir-booking-engine,.translate-x-\\[100\\%\\].sc-ir-booking-engine{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-\\[100\\%\\].sc-ir-booking-engine{--tw-translate-x:100%}.shadow.sc-ir-booking-engine,.shadow-md.sc-ir-booking-engine{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md.sc-ir-booking-engine{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.transition-transform.sc-ir-booking-engine{transition-duration:.15s;transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1)}.duration-300.sc-ir-booking-engine{transition-duration:.3s}.ease-in-out.sc-ir-booking-engine{transition-timing-function:cubic-bezier(.4,0,.2,1)}.data-\\[state\\=\\'closed\\'\\]\\:translate-x-\\[100\\%\\][data-state=closed].sc-ir-booking-engine{--tw-translate-x:100%}.data-\\[state\\=\\'closed\\'\\]\\:translate-x-\\[100\\%\\][data-state=closed].sc-ir-booking-engine,.data-\\[state\\=\\'opened\\'\\]\\:translate-x-0[data-state=opened].sc-ir-booking-engine{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.data-\\[state\\=\\'opened\\'\\]\\:translate-x-0[data-state=opened].sc-ir-booking-engine{--tw-translate-x:0px}.resize.sc-ir-booking-engine{resize:both}@media (min-width:640px){.sm\\:block.sc-ir-booking-engine{display:block}}@media (min-width:768px){.md\\:hidden.sc-ir-booking-engine{display:none}}.justify-start.sc-ir-booking-engine{justify-content:flex-start}.transform.sc-ir-booking-engine{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.ml-1.sc-ir-booking-engine{margin-left:.25rem}.max-w-\\[60\\%\\].sc-ir-booking-engine{max-width:60%}.flex-row.sc-ir-booking-engine{flex-direction:row}.gap-3.sc-ir-booking-engine{gap:.75rem}.space-y-6.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(1.5rem*var(--tw-space-y-reverse));margin-top:calc(1.5rem*(1 - var(--tw-space-y-reverse)))}.bg-gray-100.sc-ir-booking-engine{--tw-bg-opacity:1;background-color:rgb(243 244 246/var(--tw-bg-opacity))}.pl-0.sc-ir-booking-engine{padding-left:0}.pt-0.sc-ir-booking-engine{padding-top:0}.pt-0\\.5.sc-ir-booking-engine{padding-top:.125rem}.text-right.sc-ir-booking-engine{text-align:right}.text-end.sc-ir-booking-engine{text-align:end}.text-gray-500.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity))}@media (min-width:768px){.md\\:block.sc-ir-booking-engine{display:block}.md\\:inline-flex.sc-ir-booking-engine{display:inline-flex}.md\\:w-full.sc-ir-booking-engine{width:100%}.md\\:max-w-full.sc-ir-booking-engine{max-width:100%}.md\\:items-center.sc-ir-booking-engine{align-items:center}.md\\:justify-center.sc-ir-booking-engine{justify-content:center}}@media (min-width:1024px){.lg\\:flex-row.sc-ir-booking-engine{flex-direction:row}}@media (min-width:1280px){.xl\\:text-xl.sc-ir-booking-engine{font-size:1.25rem;line-height:1.75rem}}.text-red-500.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity))}.outline.sc-ir-booking-engine{outline-style:solid}@media (min-width:640px){.sm\\:p-6.sc-ir-booking-engine{padding:1.5rem}}@media (min-width:768px){.md\\:w-fit.sc-ir-booking-engine{width:fit-content}.md\\:flex-row-reverse.sc-ir-booking-engine{flex-direction:row-reverse}}.size-\\[18px\\].sc-ir-booking-engine{height:18px;width:18px}.h-\\[3rem\\].sc-ir-booking-engine{height:3rem}.gap-0.sc-ir-booking-engine{gap:0}.gap-0\\.5.sc-ir-booking-engine{gap:.125rem}.border-0.sc-ir-booking-engine{border-width:0}.shadow.sc-ir-booking-engine,.shadow-none.sc-ir-booking-engine{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-none.sc-ir-booking-engine{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000}@media (min-width:640px){.sm\\:w-auto.sc-ir-booking-engine{width:auto}.sm\\:w-fit.sc-ir-booking-engine{width:fit-content}.sm\\:border.sc-ir-booking-engine{border-width:1px}.sm\\:shadow-sm.sc-ir-booking-engine{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}}.pb-2.sc-ir-booking-engine{padding-bottom:.5rem}.font-normal.sc-ir-booking-engine{font-weight:400}.text-gray-700.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity))}.mt-4.sc-ir-booking-engine{margin-top:1rem}.aspect-\\[1\\/1\\].sc-ir-booking-engine{aspect-ratio:1/1}.h-\\[1px\\].sc-ir-booking-engine{height:1px}.max-h-32.sc-ir-booking-engine{max-height:8rem}.w-56.sc-ir-booking-engine{width:14rem}.min-w-\\[1rem\\].sc-ir-booking-engine{min-width:1rem}.rounded-t-md.sc-ir-booking-engine{border-top-left-radius:.375rem;border-top-right-radius:.375rem}.border.sc-ir-booking-engine{border-width:1px}.border-gray-300.sc-ir-booking-engine{--tw-border-opacity:1;border-color:rgb(209 213 219/var(--tw-border-opacity))}.bg-gray-300.sc-ir-booking-engine{--tw-bg-opacity:1;background-color:rgb(209 213 219/var(--tw-bg-opacity))}.object-cover.sc-ir-booking-engine{object-fit:cover}.p-2.sc-ir-booking-engine{padding:.5rem}@media (min-width:768px){.md\\:max-w-sm.sc-ir-booking-engine{max-width:24rem}}@media (min-width:1024px){.lg\\:aspect-\\[16\\/9\\].sc-ir-booking-engine{aspect-ratio:16/9}.lg\\:p-6.sc-ir-booking-engine{padding:1.5rem}}.h-10.sc-ir-booking-engine{height:2.5rem}.h-14.sc-ir-booking-engine{height:3.5rem}.h-24.sc-ir-booking-engine{height:6rem}.h-28.sc-ir-booking-engine{height:7rem}@keyframes pulse{50%{opacity:.5}}.animate-pulse.sc-ir-booking-engine{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}.gap-12.sc-ir-booking-engine{gap:3rem}.gap-8.sc-ir-booking-engine{gap:2rem}.bg-gray-200.sc-ir-booking-engine{--tw-bg-opacity:1;background-color:rgb(229 231 235/var(--tw-bg-opacity))}@media (min-width:1024px){.lg\\:max-w-sm.sc-ir-booking-engine{max-width:24rem}}.space-y-1.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.25rem*var(--tw-space-y-reverse));margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)))}.text-start.sc-ir-booking-engine{text-align:start}.text-slate-900.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity))}.p-6.sc-ir-booking-engine{padding:1.5rem}@media (min-width:768px){.md\\:justify-between.sc-ir-booking-engine{justify-content:space-between}.md\\:gap-8.sc-ir-booking-engine{gap:2rem}}.ml-4.sc-ir-booking-engine{margin-left:1rem}.size-3.sc-ir-booking-engine{height:.75rem;width:.75rem}.grid-cols-2.sc-ir-booking-engine{grid-template-columns:repeat(2,minmax(0,1fr))}.space-y-3.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.75rem*var(--tw-space-y-reverse));margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)))}.py-4.sc-ir-booking-engine{padding-bottom:1rem;padding-top:1rem}.pb-6.sc-ir-booking-engine{padding-bottom:1.5rem}.ordinal.sc-ir-booking-engine{--tw-ordinal:ordinal;font-variant-numeric:var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)}.text-gray-800.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(31 41 55/var(--tw-text-opacity))}@media (min-width:640px){.sm\\:flex-row.sc-ir-booking-engine{flex-direction:row}.sm\\:items-center.sc-ir-booking-engine{align-items:center}.sm\\:text-sm.sc-ir-booking-engine{font-size:.875rem;line-height:1.25rem}}@media (min-width:1024px){.lg\\:grid-cols-3.sc-ir-booking-engine{grid-template-columns:repeat(3,minmax(0,1fr))}}.-bottom-1.sc-ir-booking-engine{bottom:-.25rem}.z-0.sc-ir-booking-engine{z-index:0}.mb-1.sc-ir-booking-engine{margin-bottom:.25rem}.mb-2.sc-ir-booking-engine{margin-bottom:.5rem}.h-48.sc-ir-booking-engine{height:12rem}.max-h-\\[80vh\\].sc-ir-booking-engine{max-height:80vh}.cursor-pointer.sc-ir-booking-engine{cursor:pointer}.items-end.sc-ir-booking-engine{align-items:flex-end}.rounded-\\[var\\(--radius\\2c 8px\\)\\].sc-ir-booking-engine{border-radius:var(--radius,8px)}.bg-white\\/80.sc-ir-booking-engine{background-color:hsla(0,0%,100%,.8)}.px-2.sc-ir-booking-engine{padding-left:.5rem;padding-right:.5rem}.pb-4.sc-ir-booking-engine{padding-bottom:1rem}@media (min-width:768px){.md\\:max-h-\\[200px\\].sc-ir-booking-engine{max-height:200px}.md\\:w-auto.sc-ir-booking-engine{width:auto}.md\\:p-4.sc-ir-booking-engine{padding:1rem}.md\\:pt-0.sc-ir-booking-engine{padding-top:0}.md\\:pt-4.sc-ir-booking-engine{padding-top:1rem}.md\\:text-xl.sc-ir-booking-engine{font-size:1.25rem;line-height:1.75rem}}@media (min-width:1280px){.xl\\:max-h-\\[250px\\].sc-ir-booking-engine{max-height:250px}}.w-72.sc-ir-booking-engine{width:18rem}.w-fit.sc-ir-booking-engine{width:fit-content}.pb-0.sc-ir-booking-engine{padding-bottom:0}.text-\\[hsl\\(var\\(--brand-600\\)\\)\\].sc-ir-booking-engine{color:hsl(var(--brand-600))}@media (min-width:640px){.sm\\:pb-0.sc-ir-booking-engine{padding-bottom:0}.sm\\:pt-0.sc-ir-booking-engine{padding-top:0}}.text-slate-500.sc-ir-booking-engine{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}@media (min-width:640px){.sm\\:p-4.sc-ir-booking-engine{padding:1rem}}.space-y-1\\.5.sc-ir-booking-engine>.sc-ir-booking-engine:not([hidden])~.sc-ir-booking-engine:not([hidden]){--tw-space-y-reverse:0;margin-bottom:calc(.375rem*var(--tw-space-y-reverse));margin-top:calc(.375rem*(1 - var(--tw-space-y-reverse)))}.border-solid.sc-ir-booking-engine{border-style:solid}.mb-2\\.5.sc-ir-booking-engine{margin-bottom:.625rem}.mb-6.sc-ir-booking-engine{margin-bottom:1.5rem}.w-\\[45\\%\\].sc-ir-booking-engine{width:45%}.bg-\\[var\\(--gray-200\\)\\].sc-ir-booking-engine{background-color:var(--gray-200)}.text-\\[var\\(--gray-500\\)\\].sc-ir-booking-engine{color:var(--gray-500)}";
 const IrBookingEngineStyle0 = irBookingEngineCss;
 
 const IrBookingEngine$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingEngine extends HTMLElement {
@@ -164,6 +168,13 @@ const IrBookingEngine$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingEngine
             });
         }
         this.isLoading = false;
+        //new tab
+        // window.open(
+        //   'https://checkout.stripe.com/c/pay/cs_live_a1l2j0mneEassWNnZioZl1HRpP2VLeCZ8AgpV9GkdMN2tDZo6TvEOFapVU#fidkdWxOYHwnPyd1blppbHNgWjA0SDBKazxEVD19djA2YlxKSUtraHMwY24zQHBgdjdzYTdRSVMxdnZwaUlua2M0cDQ3UDB0dEtJdE9TY2xLR00zXWszZ1doYWhMRjw2SlBSRDN0Vzd0QkpyNTVMYjVnaEtCbCcpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl',
+        //   '_blank',
+        // );
+        //same window
+        // window.location.href = 'https://www.saferpay.com/VT2/mpp/PaymentSelection/Index/bisw2zufhcwwsd3tk01cillo';
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -220,18 +231,28 @@ const IrBookingEngine$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingEngine
             agent_id: booking_store.bookingAvailabilityParams.agent || 0,
         });
     }
+    renderScreens() {
+        switch (app_store.currentPage) {
+            case 'booking':
+                return h("ir-booking-page", null);
+            case 'checkout':
+                return h("ir-checkout-page", null);
+            case 'invoice':
+                return h("ir-invoice", null);
+        }
+    }
     render() {
         var _a, _b, _c;
         if (this.isLoading) {
             return null;
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5" }, h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, app_store.currentPage === 'booking' ? (h("div", { class: "mx-auto max-w-6xl" }, h("ir-booking-page", null), ' ')) : (h("div", { class: "mx-auto max-w-6xl" }, h("ir-checkout-page", null)))), !this.injected && h("ir-footer", null)));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", null)));
     }
     static get watchers() { return {
         "token": ["handleTokenChange"]
     }; }
     static get style() { return IrBookingEngineStyle0; }
-}, [0, "ir-booking-engine", {
+}, [2, "ir-booking-engine", {
         "token": [1025],
         "propertyId": [2, "property-id"],
         "baseUrl": [1, "base-url"],
@@ -249,7 +270,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-engine", "ir-accomodations", "ir-adult-child-counter", "ir-auth", "ir-availibility-header", "ir-badge-group", "ir-booking-code", "ir-booking-details", "ir-booking-page", "ir-booking-summary", "ir-button", "ir-calendar", "ir-carousel", "ir-checkbox", "ir-checkout-page", "ir-coupon-dialog", "ir-credit-card-input", "ir-date-popup", "ir-date-range", "ir-dialog", "ir-facilities", "ir-footer", "ir-gallery", "ir-icons", "ir-input", "ir-language-picker", "ir-loyalty", "ir-modal", "ir-nav", "ir-phone-input", "ir-pickup", "ir-popover", "ir-privacy-policy", "ir-property-gallery", "ir-radio", "ir-rateplan", "ir-room-type-amenities", "ir-roomtype", "ir-select", "ir-seo-injector", "ir-sheet", "ir-signin", "ir-signup", "ir-social-button", "ir-textarea", "ir-tooltip", "ir-user-form"];
+    const components = ["ir-booking-engine", "ir-accomodations", "ir-adult-child-counter", "ir-auth", "ir-availibility-header", "ir-badge-group", "ir-booking-code", "ir-booking-details", "ir-booking-page", "ir-booking-summary", "ir-button", "ir-calendar", "ir-carousel", "ir-checkbox", "ir-checkout-page", "ir-checkout-skeleton", "ir-coupon-dialog", "ir-credit-card-input", "ir-date-popup", "ir-date-range", "ir-dialog", "ir-facilities", "ir-footer", "ir-gallery", "ir-icons", "ir-input", "ir-interceptor", "ir-invoice", "ir-language-picker", "ir-loyalty", "ir-modal", "ir-nav", "ir-payment-view", "ir-phone-input", "ir-pickup", "ir-popover", "ir-privacy-policy", "ir-property-gallery", "ir-quick-auth", "ir-rateplan", "ir-room-type-amenities", "ir-roomtype", "ir-select", "ir-seo-injector", "ir-sheet", "ir-signin", "ir-signup", "ir-social-button", "ir-textarea", "ir-tooltip", "ir-user-form"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-engine":
             if (!customElements.get(tagName)) {
@@ -258,140 +279,160 @@ function defineCustomElement$1() {
             break;
         case "ir-accomodations":
             if (!customElements.get(tagName)) {
-                defineCustomElement$L();
+                defineCustomElement$P();
             }
             break;
         case "ir-adult-child-counter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$K();
+                defineCustomElement$O();
             }
             break;
         case "ir-auth":
             if (!customElements.get(tagName)) {
-                defineCustomElement$J();
+                defineCustomElement$N();
             }
             break;
         case "ir-availibility-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$M();
             }
             break;
         case "ir-badge-group":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$L();
             }
             break;
         case "ir-booking-code":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$K();
             }
             break;
         case "ir-booking-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
+                defineCustomElement$J();
             }
             break;
         case "ir-booking-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$I();
             }
             break;
         case "ir-booking-summary":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$H();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$G();
             }
             break;
         case "ir-calendar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$F();
             }
             break;
         case "ir-carousel":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$E();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$D();
             }
             break;
         case "ir-checkout-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$C();
+            }
+            break;
+        case "ir-checkout-skeleton":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$B();
             }
             break;
         case "ir-coupon-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$A();
             }
             break;
         case "ir-credit-card-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$z();
             }
             break;
         case "ir-date-popup":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$y();
             }
             break;
         case "ir-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$x();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$w();
             }
             break;
         case "ir-facilities":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$v();
             }
             break;
         case "ir-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$u();
             }
             break;
         case "ir-gallery":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$t();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$s();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$r();
+            }
+            break;
+        case "ir-interceptor":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$q();
+            }
+            break;
+        case "ir-invoice":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$p();
             }
             break;
         case "ir-language-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$o();
             }
             break;
         case "ir-loyalty":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$n();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-nav":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$l();
+            }
+            break;
+        case "ir-payment-view":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
@@ -421,7 +462,7 @@ function defineCustomElement$1() {
                 defineCustomElement$f();
             }
             break;
-        case "ir-radio":
+        case "ir-quick-auth":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }

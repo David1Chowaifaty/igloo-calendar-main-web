@@ -42,7 +42,8 @@ export class IrInput {
         if (this.mask) {
             if (this.maskInstance) {
                 this.maskInstance.updateOptions(this.mask);
-                this.maskInstance.updateValue();
+                if (this.value)
+                    this.maskInstance.updateValue();
             }
             else {
                 this.maskInstance = IMask(input, this.mask);
@@ -81,8 +82,6 @@ export class IrInput {
                 this.maskInstance.value = newValue;
                 this.maskInstance.updateValue();
             }
-            // this.input.value = newValue;
-            console.log(this.maskInstance);
         }
     }
     handleBlur(event) {
@@ -101,7 +100,7 @@ export class IrInput {
         }
     }
     render() {
-        return (h("div", { key: '2e028e33581090444ddf5c8c73e74a41879d9383', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: '70cdc6b379eaa2cb94c108054b48d97da4b1a50f', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: 'ccd33d6a80de1b558b3eb42908d3ab6bc355e7cc', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
+        return (h("div", { key: 'a863f6ddf84e4a2e51d9e30092d841eff750ff24', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: '9d1909c7b84fe5301a48e6076de1c164f2a809ee', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: 'dececad9959f25f4de1f13879348760e53ccc187', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }

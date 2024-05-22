@@ -9,8 +9,10 @@ export declare class IrBookingPage {
     languages: IExposedLanguages[];
     routing: EventEmitter<pages>;
     checkoutContainerRef: HTMLDivElement;
+    roomTypeSectionRef: HTMLElement;
     componentWillLoad(): void;
     handleBookingAnimation(e: CustomEvent): void;
+    handleScrolling(e: CustomEvent): void;
     renderTotalNights(): string;
     render(): any;
 }

@@ -115,6 +115,7 @@ export function getUserPrefernce() {
         changeLocale(direction, matchLocale(p.language_id));
         updateUserPreference({
             currency_id,
+            language_id: p.language_id,
         });
     }
 }

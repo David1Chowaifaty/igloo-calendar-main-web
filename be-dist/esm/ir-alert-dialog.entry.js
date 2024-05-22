@@ -54,7 +54,7 @@ const IrAlertDialog = class {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '8a6c3b16a54d41233175ecf3a791681fdddac1fc' }, h("div", { key: 'a1117722d1a0d9d2eb6b9f79b90f5689b614e86e', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+        return (h(Host, { key: '81c8e12f69703a9c920be2ee624e2ef487ff7611' }, h("div", { key: '7c944f091c82fbe41ffeeeba689df21f24bdbd8e', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     get el() { return getElement(this); }
 };

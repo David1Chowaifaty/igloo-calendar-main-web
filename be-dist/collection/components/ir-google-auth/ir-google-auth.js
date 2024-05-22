@@ -38,7 +38,7 @@ export class IrGoogleAuth {
         });
     }
     render() {
-        return (h("div", { key: 'a91ff84e649b2896f4327caa25bfcc8ec01f4caf' }, h("p", { key: '9cf27bf504bc28e81633dc82df5da2fbba2d35ab' }, "Google auth"), h("div", { key: 'e7455cba97f389f932a73c3e55a0e393a8bba961', id: "buttonDiv" })));
+        return (h("div", { key: '6997fdbc69f6793dd219c150d46cb12d83b89014' }, h("p", { key: '63414d4f7f71721f5297d0ee6a5e7eb6a95f1b81' }, "Google auth"), h("div", { key: '49be88ad16be840b45056a975cc8012777852f97', id: "buttonDiv" })));
     }
     static get is() { return "ir-google-auth"; }
     static get encapsulation() { return "scoped"; }

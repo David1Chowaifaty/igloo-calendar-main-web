@@ -24,5 +24,6 @@ export declare class IrBookingEngine {
     handleResetBooking(e: CustomEvent): Promise<void>;
     resetBooking(): Promise<void>;
     checkAvailability(): Promise<void>;
+    renderScreens(): any;
     render(): any;
 }

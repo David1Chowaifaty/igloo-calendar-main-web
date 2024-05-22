@@ -27,7 +27,7 @@ export const PickupFormData = z.object({
     due_upon_booking: z.string(),
     number_of_vehicles: z.number().min(1),
     currency: ZCurrency,
-    arrival_time: z.string(),
+    arrival_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Invalid time format. Please use HH:MM.'),
     arrival_date: z.string(),
     selected_option: ZAllowedOptions,
     vehicle_type_code: z.string(),

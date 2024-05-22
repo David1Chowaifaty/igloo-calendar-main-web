@@ -11,6 +11,7 @@ const initialState = {
         adult_nbr: 0,
         child_nbr: 0,
     },
+    booking: null,
 };
 const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
 onRoomTypeChange('roomTypes', (newValue) => {

@@ -103,15 +103,15 @@ export class IrLanguagePicker {
     }
     render() {
         var _a;
-        return (h("div", { key: '5feba85d8d085bb7de19b6addb249ea25f10a268', class: "picker-container" }, h("p", { key: 'c0839a987393e6602e0e72b5ad78854a0cef501d', class: "picker-title" }, "Display settings"), h("div", { key: '26cd6b885bcdc3d8ad3ef22dab0c29d4d208739d', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "language-grid", tabIndex: 0 }, this.languages.map((language, i) => {
+        return (h("div", { key: 'e78c93c02c951d015049ef6d2834eb5d11c354b1', class: "picker-container" }, h("p", { key: 'a8334a0cd1441ca9961e40f5f51ec9d9727be144', class: "picker-title" }, "Display settings"), h("div", { key: '0228a28a6b667fb1a9088d24f7c1cb303f47f90f', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "language-grid", tabIndex: 0 }, this.languages.map((language, i) => {
             var _a, _b, _c;
             return (h("button", { ref: el => (this.langEl[i] = el), type: "button", role: "radio", tabIndex: 0, value: language.code, "aria-labelledby": language.description, "aria-checked": ((_a = this.selectedLanguage) === null || _a === void 0 ? void 0 : _a.code) === language.code ? 'true' : 'false', onClick: () => this.handleLanguageChange(language.code), class: cn('language-button', {
                     'language-button-selected': ((_b = this.selectedLanguage) === null || _b === void 0 ? void 0 : _b.code) === language.code,
                 }) }, h("img", { src: language['flag'], alt: language.code, class: "language-flag" }), h("span", null, language.description), h("input", { type: "radio", "aria-hidden": "true", tabIndex: -1, checked: ((_c = this.selectedLanguage) === null || _c === void 0 ? void 0 : _c.code) === language.code, value: language.code, class: "hidden-radio" })));
-        })), h("ir-select", { key: 'f86f5bb34a8a02a3cf14626b731370c71625b9ad', variant: "double-line", value: (_a = this.selectedCurrency) === null || _a === void 0 ? void 0 : _a.code, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
+        })), h("ir-select", { key: 'fe5b31c0bfc92c9dbed82316944b11a89e574538', variant: "double-line", value: (_a = this.selectedCurrency) === null || _a === void 0 ? void 0 : _a.code, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
                 id: currency.code,
                 value: `${currency.code} ${currency.symbol}`,
-            })) }), h("div", { key: 'ba3697fdafa15fd26c66ed5213d85fef488a2f76', class: "actions-container" }, h("ir-button", { key: 'ab08bb3884b349fa1ee05c5960426930bb500ba2', size: "md", label: "Confirm", class: "confirm-button", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '1ea22f06f019ed14b45d978718ed7a95bf7d1808', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "cancel-button" }))));
+            })) }), h("div", { key: '0aa1bded8d3783f067944511fd7d0df63aa67a4f', class: "actions-container" }, h("ir-button", { key: 'f60b192b6c85941f2c96d8a2f6c3bae720b56fb2', size: "md", label: "Confirm", class: "confirm-button", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '4377b64749baaf272070ebc9de924f38b1b7e93d', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "cancel-button" }))));
     }
     static get is() { return "ir-language-picker"; }
     static get encapsulation() { return "shadow"; }

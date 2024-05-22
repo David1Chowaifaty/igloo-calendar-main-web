@@ -14,11 +14,6 @@ export declare class IrAuth {
     private authService;
     private googleButtonWrapper;
     componentWillLoad(): void;
-    loadGoogleSignInScript(): void;
-    initializeGoogleSignIn(): void;
-    initializeFacebookSignIn(): void;
-    handleCredentialResponse(response: any): Promise<void>;
-    loginWithFacebook(): Promise<void>;
     handleNavigation(e: CustomEvent): void;
     signUp(params: {
         email?: string;
@@ -26,8 +21,5 @@ export declare class IrAuth {
         first_name?: string;
         last_name?: string;
     }): void;
-    createFakeGoogleWrapper(): {
-        click: () => void;
-    };
     render(): any;
 }

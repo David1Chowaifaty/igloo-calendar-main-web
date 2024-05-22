@@ -81,6 +81,13 @@ export class IrBookingEngine {
             });
         }
         this.isLoading = false;
+        //new tab
+        // window.open(
+        //   'https://checkout.stripe.com/c/pay/cs_live_a1l2j0mneEassWNnZioZl1HRpP2VLeCZ8AgpV9GkdMN2tDZo6TvEOFapVU#fidkdWxOYHwnPyd1blppbHNgWjA0SDBKazxEVD19djA2YlxKSUtraHMwY24zQHBgdjdzYTdRSVMxdnZwaUlua2M0cDQ3UDB0dEtJdE9TY2xLR00zXWszZ1doYWhMRjw2SlBSRDN0Vzd0QkpyNTVMYjVnaEtCbCcpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl',
+        //   '_blank',
+        // );
+        //same window
+        // window.location.href = 'https://www.saferpay.com/VT2/mpp/PaymentSelection/Index/bisw2zufhcwwsd3tk01cillo';
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -137,14 +144,25 @@ export class IrBookingEngine {
             agent_id: booking_store.bookingAvailabilityParams.agent || 0,
         });
     }
+    renderScreens() {
+        switch (app_store.currentPage) {
+            case 'booking':
+                return h("ir-booking-page", null);
+            case 'checkout':
+                return h("ir-checkout-page", null);
+            case 'invoice':
+                return h("ir-invoice", null);
+        }
+    }
     render() {
         var _a, _b, _c;
         if (this.isLoading) {
             return null;
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5" }, h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, app_store.currentPage === 'booking' ? (h("div", { class: "mx-auto max-w-6xl" }, h("ir-booking-page", null), ' ')) : (h("div", { class: "mx-auto max-w-6xl" }, h("ir-checkout-page", null)))), !this.injected && h("ir-footer", null)));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", null)));
     }
     static get is() { return "ir-booking-engine"; }
+    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-booking-engine.css"]

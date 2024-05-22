@@ -148,6 +148,7 @@ export interface Room {
     ota_taxes: IOtaTax[];
     cost: number | null;
     gross_cost: number;
+    gross_total: number;
 }
 export interface IOtaTax {
     amount: number;

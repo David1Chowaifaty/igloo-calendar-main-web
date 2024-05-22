@@ -12,23 +12,24 @@ export class IrUserForm {
         this.propertyService.setToken(app_store.app_data.token);
         await this.propertyService.fetchSetupEntries();
     }
-    handleButtonClick() {
-        setTimeout(() => {
-            this.dialogRef.openModal();
-        }, 50);
-    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         if (!app_store.setup_entries) {
             return null;
         }
-        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("ir-badge-group", { variant: "primary", clickable: true, badge: "Sign in", onClick: this.handleButtonClick.bind(this), message: "Sign in or create an account to book faster" }), h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName) ? 'error' : '', label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
+        return (h(Fragment, null, h("section", { class: "user-form-section" }, h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName) ? 'error' : '', label: "First name", onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
                 var _a;
                 const firstNameSchema = IrUserFormData.pick({ firstName: true });
                 const firstNameValidation = firstNameSchema.safeParse({ firstName: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName });
+                const target = e.target;
                 if (!firstNameValidation.success) {
-                    const target = e.target;
                     target.setAttribute('data-state', 'error');
+                    target.setAttribute('aria-invalid', 'true');
+                }
+                else {
+                    if (target.hasAttribute('aria-invalid')) {
+                        target.setAttribute('aria-invalid', 'false');
+                    }
                 }
             }, onInputFocus: e => {
                 const target = e.target;
@@ -50,9 +51,15 @@ export class IrUserForm {
                 var _a;
                 const emailSchema = IrUserFormData.pick({ email: true });
                 const emailValidation = emailSchema.safeParse({ email: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.email });
+                const target = e.target;
                 if (!emailValidation.success) {
-                    const target = e.target;
                     target.setAttribute('data-state', 'error');
+                    target.setAttribute('aria-invalid', 'true');
+                }
+                else {
+                    if (target.hasAttribute('aria-invalid')) {
+                        target.setAttribute('aria-invalid', 'false');
+                    }
                 }
             }, onInputFocus: e => {
                 const target = e.target;
@@ -65,9 +72,15 @@ export class IrUserForm {
                 var _a;
                 const emailSchema = IrUserFormData.pick({ mobile_number: true });
                 const emailValidation = emailSchema.safeParse({ mobile_number: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.mobile_number });
+                const target = e.target;
                 if (!emailValidation.success) {
-                    const target = e.target;
                     target.setAttribute('data-state', 'error');
+                    target.setAttribute('aria-invalid', 'true');
+                }
+                else {
+                    if (target.hasAttribute('aria-invalid')) {
+                        target.setAttribute('aria-invalid', 'false');
+                    }
                 }
             }, onPhoneInputFocus: e => {
                 const target = e.target;
@@ -76,7 +89,7 @@ export class IrUserForm {
             } })), h("div", { class: "user-form-row" }, h("ir-select", { label: `Your arrival time(check-in from ${(_h = app_store.property) === null || _h === void 0 ? void 0 : _h.time_constraints.check_in_from})`, variant: "double-line", value: (_j = checkout_store.userFormData) === null || _j === void 0 ? void 0 : _j.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
                 id: entry.CODE_NAME,
                 value: entry.CODE_VALUE_EN,
-            })), class: "user-form-input" })), h("ir-textarea", { value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.message, placeholder: "", label: "Any message for us?", maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.bookingForSomeoneElse, label: "I am booking for someone else", class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) })), h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("ir-auth", { slot: "modal-body" }), ";")));
+            })), class: "user-form-input" })), h("ir-textarea", { value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.message, placeholder: "", label: "Any message for us?", maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.bookingForSomeoneElse, label: "I am booking for someone else", class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) }))));
     }
     static get is() { return "ir-user-form"; }
     static get encapsulation() { return "shadow"; }
@@ -118,6 +131,24 @@ export class IrUserForm {
                 }
             }
         };
+    }
+    static get events() {
+        return [{
+                "method": "changePageLoading",
+                "name": "changePageLoading",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "'remove' | 'add'",
+                    "resolved": "\"add\" | \"remove\"",
+                    "references": {}
+                }
+            }];
     }
 }
 //# sourceMappingURL=ir-user-form.js.map
