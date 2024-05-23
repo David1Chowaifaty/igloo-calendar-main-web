@@ -172,8 +172,6 @@ export namespace Components {
         "images": { url: string; alt: string }[];
         "totalImages": number;
     }
-    interface IrGoogleAuth {
-    }
     interface IrIcons {
         "name": TIcons;
         "svgClassName": string;
@@ -900,12 +898,6 @@ declare global {
         prototype: HTMLIrGalleryElement;
         new (): HTMLIrGalleryElement;
     };
-    interface HTMLIrGoogleAuthElement extends Components.IrGoogleAuth, HTMLStencilElement {
-    }
-    var HTMLIrGoogleAuthElement: {
-        prototype: HTMLIrGoogleAuthElement;
-        new (): HTMLIrGoogleAuthElement;
-    };
     interface HTMLIrIconsElement extends Components.IrIcons, HTMLStencilElement {
     }
     var HTMLIrIconsElement: {
@@ -1297,7 +1289,6 @@ declare global {
         "ir-facilities": HTMLIrFacilitiesElement;
         "ir-footer": HTMLIrFooterElement;
         "ir-gallery": HTMLIrGalleryElement;
-        "ir-google-auth": HTMLIrGoogleAuthElement;
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
@@ -1509,8 +1500,6 @@ declare namespace LocalJSX {
         "images"?: { url: string; alt: string }[];
         "onOpenGallery"?: (event: IrGalleryCustomEvent<null>) => void;
         "totalImages"?: number;
-    }
-    interface IrGoogleAuth {
     }
     interface IrIcons {
         "name"?: TIcons;
@@ -1751,7 +1740,6 @@ declare namespace LocalJSX {
         "ir-facilities": IrFacilities;
         "ir-footer": IrFooter;
         "ir-gallery": IrGallery;
-        "ir-google-auth": IrGoogleAuth;
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
@@ -1817,7 +1805,6 @@ declare module "@stencil/core" {
             "ir-facilities": LocalJSX.IrFacilities & JSXBase.HTMLAttributes<HTMLIrFacilitiesElement>;
             "ir-footer": LocalJSX.IrFooter & JSXBase.HTMLAttributes<HTMLIrFooterElement>;
             "ir-gallery": LocalJSX.IrGallery & JSXBase.HTMLAttributes<HTMLIrGalleryElement>;
-            "ir-google-auth": LocalJSX.IrGoogleAuth & JSXBase.HTMLAttributes<HTMLIrGoogleAuthElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;

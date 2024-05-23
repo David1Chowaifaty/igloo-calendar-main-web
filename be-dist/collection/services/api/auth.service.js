@@ -44,6 +44,7 @@ export class AuthService extends Token {
         window.fbAsyncInit = () => {
             FB.init({
                 appId: '1630011277802654',
+                cookie: true,
                 xfbml: true,
                 version: 'v19.0',
             });
@@ -71,11 +72,11 @@ export class AuthService extends Token {
         }
     }
     async loginWithFacebook() {
-        FB.login(response => {
+        FB.login(function (response) {
             if (response.authResponse) {
-                console.log(response);
-                FB.api('/me', userInfo => {
-                    console.log('Good to see you, ' + userInfo.name + '.', userInfo);
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me', { fields: 'name, email, id' }, function (response) {
+                    console.log(response);
                 });
             }
             else {
