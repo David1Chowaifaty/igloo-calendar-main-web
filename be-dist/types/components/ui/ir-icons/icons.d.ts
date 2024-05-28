@@ -155,6 +155,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    coupon: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

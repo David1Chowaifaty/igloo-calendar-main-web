@@ -24,6 +24,7 @@ export class IrPopover {
         this.trigger_label = '';
         this.placement = undefined;
         this.stopListeningForOutsideClicks = false;
+        this.showCloseButton = true;
         this.isVisible = false;
         this.isMobile = window.innerWidth < 640;
         this.previousIsMobile = window.innerWidth < 640;
@@ -114,9 +115,9 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: 'adbe30d861dead31a073795588be83be6cd03bec' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
+        return (h(Fragment, { key: 'c5c017a544e560015b6c508a1ee12657ad029dcf' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
-            } }, h("slot", { name: "trigger" })), h("ir-dialog", { ref: el => (this.dialogElement = el), onOpenChange: e => {
+            } }, h("slot", { name: "trigger" })), h("ir-dialog", { closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isDialogOpen = e.detail;
@@ -217,6 +218,24 @@ export class IrPopover {
                 "attribute": "stop-listening-for-outside-clicks",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "showCloseButton": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "show-close-button",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }

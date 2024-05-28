@@ -23,6 +23,8 @@ const initialState = {
     userDefaultCountry: undefined,
     fetchedBooking: false,
     languages: [],
+    is_signed_in: false,
+    email: null,
 };
 const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
 function changeLocale(dir, locale) {

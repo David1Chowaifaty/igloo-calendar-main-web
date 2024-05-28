@@ -12,15 +12,6 @@ class PropertyService extends Token {
             throw new MissingTokenError();
         }
         const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
-        // const res = await fetch(`https://gateway.igloorooms.com/IR/Get_Exposed_Property?Ticket=${token}`, {
-        //   body: JSON.stringify(params),
-        //   method: 'POST',
-        //   credentials: 'include',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // });
-        // const data = await res.json();
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -50,6 +41,18 @@ class PropertyService extends Token {
         booking_store.tax_statement = { message: result.My_Result.tax_statement };
         booking_store.enableBooking = true;
         return result;
+    }
+    async getExposedBooking(params) {
+        const token = this.getToken();
+        if (!token) {
+            throw new MissingTokenError();
+        }
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, params);
+        const result = data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result.My_Result;
     }
     async fetchSetupEntries() {
         try {
@@ -100,7 +103,7 @@ class PropertyService extends Token {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a, _b, _c;
+                        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -129,6 +132,15 @@ class PropertyService extends Token {
                                 address: null,
                                 dob: null,
                                 subscribe_to_news_letter: null,
+                                cci: ['001', '004'].includes((_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.code)
+                                    ? {
+                                        nbr: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.cardNumber,
+                                        holder_name: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardHolderName,
+                                        expiry_month: (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.expiry_month.split('/')[0],
+                                        expiry_year: (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.expiry_year.split('/')[1],
+                                        cvc: ((_j = checkout_store.payment) === null || _j === void 0 ? void 0 : _j.code) === '001' ? checkout_store.payment.cvc : null,
+                                    }
+                                    : null,
                             },
                         });
                     });
@@ -208,6 +220,23 @@ class PropertyService extends Token {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async getExposedGuest() {
+        const token = this.getToken();
+        if (!token) {
+            throw new MissingTokenError();
+        }
+        if (!app_store.is_signed_in) {
+            return null;
+        }
+        const { data } = await axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
+            email: '{{GUEST_EMAIL}}',
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = data.My_Result;
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.phone });
     }
 }
 

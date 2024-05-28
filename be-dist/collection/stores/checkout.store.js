@@ -6,6 +6,7 @@ const initialState = {
     pickup: {
         arrival_date: format(new Date(), 'yyyy-MM-dd'),
     },
+    payment: null,
 };
 export const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 export function updateUserFormData(key, value) {

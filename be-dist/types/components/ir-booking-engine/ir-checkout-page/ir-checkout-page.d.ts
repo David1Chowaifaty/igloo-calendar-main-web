@@ -1,13 +1,17 @@
 import { pages } from "../../../models/common";
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ZodIssue } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 export declare class IrCheckoutPage {
     isLoading: boolean;
     error: {
         cause: 'user' | 'pickup';
         issues: Record<string, ZodIssue>;
+    } | {
+        cause: 'booking-details';
+        issues: string;
     };
     private propertyService;
+    private paymentService;
     routing: EventEmitter<pages>;
     userForm: HTMLIrUserFormElement;
     bookingDetails: HTMLIrBookingDetailsElement;
@@ -15,6 +19,13 @@ export declare class IrCheckoutPage {
     errorElement: HTMLElement;
     componentWillLoad(): void;
     handleBooking(e: CustomEvent): Promise<void>;
+    private resetErrorState;
+    private validateUserForm;
+    private validateBookingDetails;
+    private validatePickupForm;
+    handleError(cause: 'pickup' | 'user', error: ZodError<any>): void;
+    private processBooking;
+    private processPayment;
     scrollToError(): void;
     render(): any;
 }

@@ -7,6 +7,7 @@ const initialState = {
     pickup: {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
+    payment: null,
 };
 const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 function updateUserFormData(key, value) {

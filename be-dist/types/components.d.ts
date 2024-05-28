@@ -70,6 +70,7 @@ export namespace Components {
     interface IrBookingCode {
     }
     interface IrBookingDetails {
+        "errors": string;
     }
     interface IrBookingEngine {
         "baseUrl": string;
@@ -130,6 +131,7 @@ export namespace Components {
     interface IrCouponDialog {
     }
     interface IrCreditCardInput {
+        "value": string;
     }
     interface IrDatePopup {
         "dates": { start: Date | null; end: Date | null };
@@ -229,6 +231,11 @@ export namespace Components {
         "handledEndpoints": string[];
     }
     interface IrInvoice {
+        "baseUrl": string;
+        "bookingNbr": string;
+        "language": string;
+        "propertyId": number;
+        "token": string;
     }
     interface IrLanguagePicker {
         "currencies": ICurrency[];
@@ -260,6 +267,7 @@ export namespace Components {
     interface IrPopover {
         "active": boolean;
         "placement": Placement;
+        "showCloseButton": boolean;
         "stopListeningForOutsideClicks": boolean;
         "toggleVisibility": () => Promise<void>;
         "trigger_label": string;
@@ -1368,6 +1376,7 @@ declare namespace LocalJSX {
         "onCloseDialog"?: (event: IrBookingCodeCustomEvent<null>) => void;
     }
     interface IrBookingDetails {
+        "errors"?: string;
     }
     interface IrBookingEngine {
         "baseUrl"?: string;
@@ -1438,6 +1447,7 @@ declare namespace LocalJSX {
     }
     interface IrCreditCardInput {
         "onCreditCardChange"?: (event: IrCreditCardInputCustomEvent<string>) => void;
+        "value"?: string;
     }
     interface IrDatePopup {
         "dates"?: { start: Date | null; end: Date | null };
@@ -1561,6 +1571,11 @@ declare namespace LocalJSX {
         "handledEndpoints"?: string[];
     }
     interface IrInvoice {
+        "baseUrl"?: string;
+        "bookingNbr"?: string;
+        "language"?: string;
+        "propertyId"?: number;
+        "token"?: string;
     }
     interface IrLanguagePicker {
         "currencies"?: ICurrency[];
@@ -1598,6 +1613,7 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "onOpenChange"?: (event: IrPopoverCustomEvent<boolean>) => void;
         "placement"?: Placement;
+        "showCloseButton"?: boolean;
         "stopListeningForOutsideClicks"?: boolean;
         "trigger_label"?: string;
     }

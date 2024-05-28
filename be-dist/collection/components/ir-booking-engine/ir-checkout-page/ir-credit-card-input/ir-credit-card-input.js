@@ -3,6 +3,7 @@ import { Host, h } from "@stencil/core";
 import IMask from "imask";
 export class IrCreditCardInput {
     constructor() {
+        this.value = undefined;
         this.cardType = '';
         this.error = false;
     }
@@ -52,16 +53,15 @@ export class IrCreditCardInput {
                 this.cardType = detectedCardType;
                 this.applyMask(this.cardType);
             }
-            if ((value.startsWith('3') && value.length > 2) || (detectedCardType === '' && value.length > 1)) {
-                this.error = true;
-            }
-            else {
-                this.error = false;
-            }
+            // if ((value.startsWith('3') && value.length > 2) || (detectedCardType === '' && value.length > 1)) {
+            //   this.error = true;
+            // } else {
+            //   this.error = false;
+            // }
         }
     }
     render() {
-        return (h(Host, { key: 'ead33b63be909cbca138dacd6df665dd9dadfe2c' }, h("div", { key: '875cf48812a8e2e1422b86198f94a4b1a21dfa21', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '6ec996dcb2b8f18e854c8a46efcf573609d47023', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '4979a40400ab4f30359254fd7f28250034c6d265', class: "input-container" }, h("input", { key: '337743e4e2c659e8d0512a1ffdb090df6520c9f0', type: "text", class: "w-full", onBlur: e => {
+        return (h(Host, { key: '656cb7f01284a3bfbf88fc4e1345ea16c76fbb5b' }, h("div", { key: '74d9fcc26cdfd9de025128590f732b1811985e4f', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: 'cb86909e5671f4c82947e9ce0442a74595689eda', htmlFor: "first_input", class: "card-number" }, 'Card number' || localizedWords.entries.Lcz_CardNumber), h("div", { key: 'aaf1a73ea701ef5bbb19868774d3813dc6c85e28', class: "input-container" }, h("input", { key: 'b39d16e068d19aa34da7e3e2048d34ab066ee23d', type: "text", class: "w-full", onBlur: e => {
                 const target = e.target;
                 if (target.value.length === 0) {
                     this.error = true;
@@ -72,7 +72,7 @@ export class IrCreditCardInput {
                         target.setAttribute('aria-invalid', 'false');
                     }
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '4c75d9aaae142367e62fbc1cace60a6525a9749c', class: "icon-container" }, this.renderIcon(this.cardType))))));
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '0ac6ce4dc75064f05cd4f1a6b6a97ebd25300a00', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {
@@ -108,6 +108,27 @@ export class IrCreditCardInput {
     static get styleUrls() {
         return {
             "$": ["ir-credit-card-input.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "value": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "value",
+                "reflect": false
+            }
         };
     }
     static get states() {

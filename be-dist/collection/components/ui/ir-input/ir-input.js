@@ -84,6 +84,18 @@ export class IrInput {
             }
         }
     }
+    onErrorChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            if (newValue) {
+                this.el.setAttribute('data-state', 'error');
+            }
+            else {
+                if (this.el.hasAttribute('data-state')) {
+                    this.el.removeAttribute('data-state');
+                }
+            }
+        }
+    }
     handleBlur(event) {
         this.inputEl.classList.remove('focused');
         if (event.target.value) {
@@ -100,7 +112,7 @@ export class IrInput {
         }
     }
     render() {
-        return (h("div", { key: '6f43e5d48ac8a89775367303b9e3658ce191fbb7', ref: el => (this.inputEl = el), class: `input-container ${this.error ? 'error' : ''} ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: 'b7150282cd1ddd317e3a4db89fb16586e0e2f4f6', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: 'ab08be88caed3e9eb9227bff1cd86ff2a15fb183', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
+        return (h("div", { key: 'c18c15f9f9a0e964838c7e18009fd10a9c85f80f', ref: el => (this.inputEl = el), class: `input-container  ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: '8613d527d824341c883a48d09a185f9e2d366051', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '818dc7a698bcc38aece0069b1ec0a6a21e2722be', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }
@@ -641,6 +653,9 @@ export class IrInput {
             }, {
                 "propName": "value",
                 "methodName": "valueChanged"
+            }, {
+                "propName": "error",
+                "methodName": "onErrorChange"
             }];
     }
 }

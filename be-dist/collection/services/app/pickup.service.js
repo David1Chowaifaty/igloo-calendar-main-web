@@ -37,8 +37,9 @@ export class PickupService {
         };
     }
     getAvailableLocations(message) {
+        var _a;
         let locationsMap = new Map();
-        app_store.property.pickup_service.allowed_options.forEach(option => {
+        (_a = app_store.property.pickup_service.allowed_options) === null || _a === void 0 ? void 0 : _a.forEach(option => {
             if (!locationsMap.has(option.location.id)) {
                 locationsMap.set(option.location.id, {
                     value: message + ' ' + option.location.description,

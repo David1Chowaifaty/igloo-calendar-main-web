@@ -65,4 +65,5 @@ export declare function calculateTotalCost(): {
     totalAmount: number;
     prePaymentAmount: number;
 };
+export declare function validateBooking(): boolean;
 export default booking_store;

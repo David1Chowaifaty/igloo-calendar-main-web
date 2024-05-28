@@ -26,6 +26,7 @@ export class AuthService extends Token {
         }
         localStorage.setItem('ir-token', data['My_Result']);
         app_store.app_data.token = data['My_Result'];
+        app_store.is_signed_in = true;
         return data['My_Result'];
     }
     async signUp(params) {

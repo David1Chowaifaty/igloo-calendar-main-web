@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrCreditCardInput {
+    value: string;
     cardType: '' | 'AMEX' | 'VISA' | 'Mastercard';
     error: boolean;
     creditCardChange: EventEmitter<string>;

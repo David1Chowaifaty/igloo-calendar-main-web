@@ -1,5 +1,6 @@
 import { ISmokingOption, RatePlan, Variation } from "../../../../models/property";
 export declare class IrBookingDetails {
+    errors: string;
     currentRatePlan: RatePlan | null;
     private dialogRef;
     private firstRoom;

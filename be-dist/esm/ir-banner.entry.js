@@ -8,7 +8,7 @@ const IrBanner = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return h("div", { key: 'caa93f881d363f004700e30dcb42642014c2cbe5', class: "banner" });
+        return h("div", { key: '3fae673e794df5a083813edb1862d6db71816e0f', class: "banner" });
     }
 };
 IrBanner.style = IrBannerStyle0;

@@ -17,49 +17,29 @@ onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
     newValue.forEach(roomType => {
-        if (roomType.is_active) {
-            ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
-            roomType.rateplans.forEach(ratePlan => {
-                if (ratePlan.is_active && ratePlan.variations && ratePlan.variations.length > 0) {
-                    const currentRatePlanSelection = currentSelections[roomType.id] && currentSelections[roomType.id][ratePlan.id];
-                    ratePlanSelections[roomType.id][ratePlan.id] = currentRatePlanSelection
-                        ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, visibleInventory: currentRatePlanSelection.visibleInventory, selected_variation: ratePlan.variations[ratePlan.variations.length - 1], guestName: currentRatePlanSelection.guestName, roomtype: {
-                                id: roomType.id,
-                                name: roomType.name,
-                                physicalrooms: null,
-                                rateplans: null,
-                                availabilities: null,
-                                inventory: roomType.inventory,
-                                rate: roomType.rate,
-                                smoking_option: roomType.smoking_option,
-                                bedding_setup: roomType.bedding_setup,
-                                pre_payment_amount: roomType.pre_payment_amount,
-                            } }) : {
-                        reserved: 0,
-                        visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
-                        selected_variation: ratePlan.variations[ratePlan.variations.length - 1],
-                        ratePlan,
-                        guestName: [],
-                        is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
-                        roomtype: {
-                            id: roomType.id,
-                            name: roomType.name,
-                            physicalrooms: null,
-                            rateplans: null,
-                            availabilities: null,
-                            inventory: roomType.inventory,
-                            rate: roomType.rate,
-                            smoking_option: roomType.smoking_option,
-                            bedding_setup: roomType.bedding_setup,
-                            pre_payment_amount: roomType.pre_payment_amount,
-                        },
-                        checkoutVariations: [],
-                        checkoutBedSelection: [],
-                        checkoutSmokingSelection: [],
-                    };
-                }
-            });
-        }
+        if (!roomType.is_active)
+            return;
+        ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
+        roomType.rateplans.forEach(ratePlan => {
+            var _a, _b;
+            if (!ratePlan.is_active || !((_a = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations) === null || _a === void 0 ? void 0 : _a.length))
+                return;
+            const lastVariation = ratePlan.variations[ratePlan.variations.length - 1];
+            const currentRatePlanSelection = (_b = currentSelections[roomType.id]) === null || _b === void 0 ? void 0 : _b[ratePlan.id];
+            ratePlanSelections[roomType.id][ratePlan.id] = currentRatePlanSelection
+                ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: lastVariation, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName }) : {
+                reserved: 0,
+                visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
+                selected_variation: lastVariation,
+                ratePlan,
+                guestName: [],
+                is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
+                roomtype: Object.assign(Object.assign({}, roomType), { physicalrooms: null, rateplans: null, availabilities: null }),
+                checkoutVariations: [],
+                checkoutBedSelection: [],
+                checkoutSmokingSelection: [],
+            };
+        });
     });
     booking_store.ratePlanSelections = ratePlanSelections;
 });
@@ -138,35 +118,26 @@ export function modifyBookingStore(key, value) {
 export function calculateTotalCost() {
     let prePaymentAmount = 0;
     let totalAmount = 0;
-    totalAmount = Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
-        return (total +
-            Object.values(value).reduce((innerTotal, ratePlan) => {
-                var _a;
-                let cost = 0;
-                if (ratePlan.checkoutVariations.length > 0) {
-                    cost = ratePlan.checkoutVariations.reduce((old, v) => old + v.amount, 0);
-                }
-                else {
-                    cost = ratePlan.reserved > 0 ? ratePlan.reserved * ((_a = ratePlan.selected_variation.amount) !== null && _a !== void 0 ? _a : 0) : 0;
-                }
-                return innerTotal + cost;
-            }, 0));
-    }, 0);
-    prePaymentAmount = Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
-        return (total +
-            Object.values(value).reduce((innerTotal, ratePlan) => {
-                var _a;
-                let cost = 0;
-                if (ratePlan.checkoutVariations.length > 0) {
-                    cost = ratePlan.checkoutVariations.reduce((old, v) => old + v.amount, 0);
-                }
-                else {
-                    cost = ratePlan.reserved > 0 ? ratePlan.reserved * ((_a = ratePlan.roomtype.pre_payment_amount) !== null && _a !== void 0 ? _a : 0) : 0;
-                }
-                return innerTotal + cost;
-            }, 0));
-    }, 0);
+    const calculateCost = (ratePlan, isPrePayment = false) => {
+        if (ratePlan.checkoutVariations.length > 0) {
+            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + variation.amount, 0);
+        }
+        else if (ratePlan.reserved > 0) {
+            const amount = isPrePayment ? ratePlan.roomtype.pre_payment_amount : ratePlan.selected_variation.amount;
+            return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
+        }
+        return 0;
+    };
+    Object.values(booking_store.ratePlanSelections).forEach(value => {
+        Object.values(value).forEach(ratePlan => {
+            totalAmount += calculateCost(ratePlan);
+            prePaymentAmount += calculateCost(ratePlan, true);
+        });
+    });
     return { totalAmount, prePaymentAmount };
+}
+export function validateBooking() {
+    return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')));
 }
 export default booking_store;
 //# sourceMappingURL=booking.js.map

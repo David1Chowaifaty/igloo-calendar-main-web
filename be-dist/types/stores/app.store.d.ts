@@ -35,6 +35,8 @@ export interface IAppStore {
     fetchedBooking: boolean;
     currentPage: pages;
     languages: IExposedLanguages[];
+    is_signed_in: boolean;
+    email: string | null;
 }
 declare const app_store: IAppStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<IAppStore>;
 export declare function changeLocale(dir: TDirection, locale: Locale): void;

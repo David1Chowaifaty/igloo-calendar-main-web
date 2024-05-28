@@ -38,6 +38,7 @@ export declare class IrInput {
     componentDidLoad(): void;
     maskPropChanged(newValue: Record<string, unknown>, oldValue: Record<string, unknown>): void;
     valueChanged(newValue: string, oldValue: string): void;
+    onErrorChange(newValue: boolean, oldValue: boolean): void;
     handleBlur(event: FocusEvent): void;
     disconnectedCallback(): void;
     render(): any;

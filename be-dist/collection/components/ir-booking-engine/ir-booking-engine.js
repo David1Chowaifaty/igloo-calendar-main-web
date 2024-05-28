@@ -87,7 +87,10 @@ export class IrBookingEngine {
         //   '_blank',
         // );
         //same window
-        // window.location.href = 'https://www.saferpay.com/VT2/mpp/PaymentSelection/Index/bisw2zufhcwwsd3tk01cillo';
+        // window.location.href = 'https://www.vivapayments.com/web2?ref=3205412746222813';
+        // window.eval(
+        //   `str_Checkout_Url = 'https://epayment.areeba.com/checkout/version/60/checkout.js';var js = document.createElement('script');js.src = str_Checkout_Url;js.setAttribute('data-error', ()=>{alert('Error')});js.setAttribute('data-cancel', ()=>{alert('Cancel')});js.setAttribute('data-complete', ()=>{alert('Complete')});js.onload = () => {var checkoutOptions = {merchant:'222206717001',order: {amount:'50',currency:'USD',description:'28252845',id:'Areeba-28252845-9f92ae52-7426-4b44-9add-44928a158bc6'},customer: {email:'soir.daou@gmail.com',firstName:'Soir',lastName:'Daou',mobilePhone:'03084767'},session: {id:'SESSION0002816619793M79905493M6'},interaction: {merchant: {name:'Beit Noun',logo:'https://dhl6m8m6g2w2j.cloudfront.net/ac/AcImage_330_10232.jpg'},displayControl: {billingAddress: 'HIDE',customerEmail: 'HIDE',orderSummary: 'HIDE',shipping: 'HIDE'}}};Checkout.configure(checkoutOptions);Checkout.showPaymentPage();};document.head.appendChild(js);`,
+        // );
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -152,6 +155,8 @@ export class IrBookingEngine {
                 return h("ir-checkout-page", null);
             case 'invoice':
                 return h("ir-invoice", null);
+            default:
+                return null;
         }
     }
     render() {

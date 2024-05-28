@@ -7,6 +7,7 @@ export declare class IrPopover {
     trigger_label: string;
     placement: Placement;
     stopListeningForOutsideClicks: boolean;
+    showCloseButton: boolean;
     isVisible: boolean;
     isMobile: boolean;
     previousIsMobile: boolean;
