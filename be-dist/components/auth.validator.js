@@ -2,7 +2,7 @@ import { z } from './index4.js';
 
 const SignInValidtor = z.object({
     email: z.string().email(),
-    password: z.string().min(4),
+    booking_nbr: z.string().min(4),
 });
 const SignUpValidtor = z.object({
     email: z.string().email(),

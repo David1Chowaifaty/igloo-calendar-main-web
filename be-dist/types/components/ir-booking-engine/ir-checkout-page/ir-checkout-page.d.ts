@@ -12,6 +12,7 @@ export declare class IrCheckoutPage {
     };
     private propertyService;
     private paymentService;
+    private authService;
     routing: EventEmitter<pages>;
     userForm: HTMLIrUserFormElement;
     bookingDetails: HTMLIrBookingDetailsElement;

@@ -1,8 +1,7 @@
 import { MissingTokenError, Token } from "../../models/Token";
 import axios from "axios";
 export class PaymentService extends Token {
-    async GeneratePaymentCaller(params) {
-        const token = this.getToken();
+    async GeneratePaymentCaller(token, params) {
         if (!token) {
             throw new MissingTokenError();
         }

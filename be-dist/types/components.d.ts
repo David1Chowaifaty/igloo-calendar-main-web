@@ -174,6 +174,8 @@ export namespace Components {
         "images": { url: string; alt: string }[];
         "totalImages": number;
     }
+    interface IrGoogleMaps {
+    }
     interface IrIcons {
         "name": TIcons;
         "svgClassName": string;
@@ -233,9 +235,10 @@ export namespace Components {
     interface IrInvoice {
         "baseUrl": string;
         "bookingNbr": string;
+        "email": string;
         "language": string;
         "propertyId": number;
-        "token": string;
+        "status": 0 | 1;
     }
     interface IrLanguagePicker {
         "currencies": ICurrency[];
@@ -906,6 +909,12 @@ declare global {
         prototype: HTMLIrGalleryElement;
         new (): HTMLIrGalleryElement;
     };
+    interface HTMLIrGoogleMapsElement extends Components.IrGoogleMaps, HTMLStencilElement {
+    }
+    var HTMLIrGoogleMapsElement: {
+        prototype: HTMLIrGoogleMapsElement;
+        new (): HTMLIrGoogleMapsElement;
+    };
     interface HTMLIrIconsElement extends Components.IrIcons, HTMLStencilElement {
     }
     var HTMLIrIconsElement: {
@@ -1297,6 +1306,7 @@ declare global {
         "ir-facilities": HTMLIrFacilitiesElement;
         "ir-footer": HTMLIrFooterElement;
         "ir-gallery": HTMLIrGalleryElement;
+        "ir-google-maps": HTMLIrGoogleMapsElement;
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
@@ -1511,6 +1521,8 @@ declare namespace LocalJSX {
         "onOpenGallery"?: (event: IrGalleryCustomEvent<null>) => void;
         "totalImages"?: number;
     }
+    interface IrGoogleMaps {
+    }
     interface IrIcons {
         "name"?: TIcons;
         "svgClassName"?: string;
@@ -1573,9 +1585,10 @@ declare namespace LocalJSX {
     interface IrInvoice {
         "baseUrl"?: string;
         "bookingNbr"?: string;
+        "email"?: string;
         "language"?: string;
         "propertyId"?: number;
-        "token"?: string;
+        "status"?: 0 | 1;
     }
     interface IrLanguagePicker {
         "currencies"?: ICurrency[];
@@ -1756,6 +1769,7 @@ declare namespace LocalJSX {
         "ir-facilities": IrFacilities;
         "ir-footer": IrFooter;
         "ir-gallery": IrGallery;
+        "ir-google-maps": IrGoogleMaps;
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
@@ -1821,6 +1835,7 @@ declare module "@stencil/core" {
             "ir-facilities": LocalJSX.IrFacilities & JSXBase.HTMLAttributes<HTMLIrFacilitiesElement>;
             "ir-footer": LocalJSX.IrFooter & JSXBase.HTMLAttributes<HTMLIrFooterElement>;
             "ir-gallery": LocalJSX.IrGallery & JSXBase.HTMLAttributes<HTMLIrGalleryElement>;
+            "ir-google-maps": LocalJSX.IrGoogleMaps & JSXBase.HTMLAttributes<HTMLIrGoogleMapsElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;

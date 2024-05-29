@@ -32,6 +32,7 @@
     "components/ir-booking-engine/ir-nav/ir-auth/ir-social-button/ir-social-button.js",
     "components/ir-booking-engine/ir-nav/ir-language-picker/ir-language-picker.js",
     "components/ir-booking-engine/ir-privacy-policy/ir-privacy-policy.js",
+    "components/ir-google-maps/ir-google-maps.js",
     "components/ir-interceptor/ir-interceptor.js",
     "components/ir-invoice/ir-invoice.js",
     "components/ir-seo-injector/ir-seo-injector.js",

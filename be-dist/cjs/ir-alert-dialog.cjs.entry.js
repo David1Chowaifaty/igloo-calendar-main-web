@@ -58,7 +58,7 @@ const IrAlertDialog = class {
         overlay_store.removeOverlay();
     }
     render() {
-        return (index.h(index.Host, { key: 'c75b7f039dc6186edaeffffd7907bff5a10b78b8' }, index.h("div", { key: 'e0b70450e66b44db8e4fabfe075f92c679862952', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (index.h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, index.h("div", { class: 'modal-title', id: "dialog1Title" }, index.h("slot", { name: "modal-title" })), index.h("div", { class: "modal-body", id: "dialog1Desc" }, index.h("slot", { name: "modal-body" })), index.h("div", { class: "modal-footer" }, index.h("slot", { name: "modal-footer" }))))));
+        return (index.h(index.Host, { key: '7ed52d9671a5859cb448d776101933528181cd02' }, index.h("div", { key: '774490f0d8bc2e8defeed0d7ec65c20fcfa2f1e5', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (index.h("div", { class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, index.h("div", { class: 'modal-title', id: "dialog1Title" }, index.h("slot", { name: "modal-title" })), index.h("div", { class: "modal-body", id: "dialog1Desc" }, index.h("slot", { name: "modal-body" })), index.h("div", { class: "modal-footer" }, index.h("slot", { name: "modal-footer" }))))));
     }
     get el() { return index.getElement(this); }
 };

@@ -68,6 +68,7 @@ function updateRoomParams({ ratePlanId, roomTypeId, params }) {
     booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [Number(roomTypeId)]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[Number(roomTypeId)]), { [ratePlanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][ratePlanId]), params) }) });
 }
 function reserveRooms(roomTypeId, ratePlanId, rooms) {
+    console.log(roomTypeId, ratePlanId, rooms);
     if (!booking_store.ratePlanSelections[roomTypeId]) {
         booking_store.ratePlanSelections[roomTypeId] = {};
     }
@@ -104,7 +105,7 @@ function reserveRooms(roomTypeId, ratePlanId, rooms) {
             },
         };
     }
-    booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [Number(roomTypeId)]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[Number(roomTypeId)]), { [ratePlanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][ratePlanId]), { reserved: rooms }) }) });
+    booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [Number(roomTypeId)]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[Number(roomTypeId)]), { [ratePlanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][ratePlanId]), { reserved: rooms, checkoutVariations: [] }) }) });
     updateInventory(roomTypeId);
 }
 function getVisibleInventory(roomTypeId, ratePlanId) {
@@ -120,7 +121,7 @@ function calculateTotalCost() {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        if (ratePlan.checkoutVariations.length > 0) {
+        if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
             return ratePlan.checkoutVariations.reduce((sum, variation) => sum + variation.amount, 0);
         }
         else if (ratePlan.reserved > 0) {

@@ -159,6 +159,14 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    location_dot: {
+        viewBox: string;
+        d: string;
+    };
+    image: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

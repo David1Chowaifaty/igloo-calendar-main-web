@@ -14,19 +14,21 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
     return t;
 };
 class AuthService extends Token {
-    async login(params) {
+    async login(params, signIn = true) {
         const token = this.getToken();
-        const rest = __rest(params, ["option"]);
+        const { option } = params, rest = __rest(params, ["option"]);
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Exposed_Guest_SignIn?Ticket=${token}`, Object.assign({}, rest));
+        const { data } = await axios.post(`/Exposed_Guest_SignIn?Ticket=${token}`, option === 'direct' ? rest.params : Object.assign({}, rest));
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data['ExceptionMsg']);
         }
-        localStorage.setItem('ir-token', data['My_Result']);
-        app_store.app_data.token = data['My_Result'];
-        app_store.is_signed_in = true;
+        if (signIn) {
+            localStorage.setItem('ir-token', data['My_Result']);
+            app_store.app_data.token = data['My_Result'];
+            app_store.is_signed_in = true;
+        }
         return data['My_Result'];
     }
     async signUp(params) {

@@ -18,5 +18,5 @@ export declare class PropertyService extends Token {
     filterRooms(): any[];
     private convertPickup;
     bookUser(): Promise<any>;
-    getExposedGuest(): Promise<any>;
+    getExposedGuest(): Promise<void>;
 }

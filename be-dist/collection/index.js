@@ -1,5 +1,6 @@
-function getId() {
-    return "42"
+function getId(index = 0) {
+    const ids = [42, 526, 235]
+    return ids[index]
 }
 
 function getBrowserInfo() {

@@ -20,7 +20,7 @@ export declare class IrSignin {
     modifySignInParams(params: Partial<TSignInValidator>): void;
     login(params: {
         email?: string;
-        password?: string;
+        booking_nbr?: string;
     }): Promise<void>;
     handleSignIn(e: Event): Promise<void>;
     render(): any;

@@ -7,7 +7,7 @@ export class IrBadge {
         this.withDot = undefined;
     }
     render() {
-        return h("p", { key: '03750b57789aa9ea8c2f440857c562342baca2a8', class: `size-${this.size} badge ${this.variant}` }, this.label);
+        return h("p", { key: 'f15e00d0f08a377737585970ec3baf6d586a534e', class: `size-${this.size} badge ${this.variant}` }, this.label);
     }
     static get is() { return "ir-badge"; }
     static get encapsulation() { return "shadow"; }

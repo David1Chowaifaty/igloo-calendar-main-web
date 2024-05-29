@@ -21,7 +21,7 @@ export class IrSignin {
     }
     async login(params) {
         try {
-            const token = await this.authService.login({ option: 'direct', bookingNumber: params.password, params });
+            const token = await this.authService.login({ option: 'direct', params });
             this.authFinish.emit({ state: 'success', token });
         }
         catch (error) {
@@ -29,7 +29,7 @@ export class IrSignin {
             this.formState = {
                 cause: 'auth',
                 status: 'invalid',
-                errors: { email: error.message, password: error.message },
+                errors: { email: error.message, booking_nbr: error.message },
             };
         }
     }
@@ -45,7 +45,7 @@ export class IrSignin {
         catch (error) {
             let newErrors = {
                 email: null,
-                password: null,
+                booking_nbr: null,
             };
             if (error instanceof ZodError) {
                 error.issues.map(e => {
@@ -62,7 +62,7 @@ export class IrSignin {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (h(Host, { key: '021a137fd1c798cde69d0597b05ef4ad91fd77b1' }, h("h1", { key: '80b423f9a0d952505b677ca827d95d4bb8808b4e', class: "title" }, "Sign in to your booking"), h("form", { key: 'df7d9a56235eb2dbf937ab72cac8200cf36cde37', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "error" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: 'd1ac9b39c8efec15f1144c1cd8aff43e82cc5fda' }, h("ir-input", { key: '4c577d9a3bb7a9af8f184de183a53a3f7256ae7f', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email", onInputBlur: e => {
+        return (h(Host, { key: '1672390f45530756daacfa9d33ea8c3351291348' }, h("h1", { key: 'dfebfee3261b560168b352c111f6891d6a18ef27', class: "title" }, "Sign in to your booking"), h("form", { key: '8a7329f5caa1817cf3ea6d544996330a6d90237d', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "error" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: 'cc368bac3396794f251b2cbc034d71b4c5af73cf' }, h("ir-input", { key: 'd263de4d3428458ec1b470ef51ffa24dedbbc5a5', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email", onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ email: true });
                 const firstNameValidation = firstNameSchema.safeParse({ email: this.signInParams.email });
                 const target = e.target;
@@ -79,9 +79,9 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("fieldset", { key: 'bf10c92b4ab9022884daeaad864bf967a0ad068f' }, h("ir-input", { key: 'cf873326b67b73245b96e9b84e9e8a599a54ab7c', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.password), onTextChanged: e => this.modifySignInParams({ password: e.detail }), inputId: "password", type: "password", label: "Enter your booking number", onInputBlur: e => {
-                const firstNameSchema = SignInValidtor.pick({ password: true });
-                const firstNameValidation = firstNameSchema.safeParse({ password: this.signInParams.password });
+            } })), h("fieldset", { key: '1dcf1625420e89adc0fbd75a4113e0f0a1c06b45' }, h("ir-input", { key: '70affecfcd04ebb6912c370518cd262eefbec6cf', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: "Enter your booking number", onInputBlur: e => {
+                const firstNameSchema = SignInValidtor.pick({ booking_nbr: true });
+                const firstNameValidation = firstNameSchema.safeParse({ booking_nbr: this.signInParams.booking_nbr });
                 const target = e.target;
                 if (!firstNameValidation.success) {
                     target.setAttribute('data-state', 'error');
@@ -96,7 +96,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("ir-button", { key: 'e4b125d16c44895979913afb348a6a91a5c829e2', type: "submit", class: "ir-button", onButtonClick: this.handleSignIn.bind(this), label: "Sign in", size: "md" }), h("div", { key: '9af482db03e79df1277550944c3da18533d15531', class: "divider" }, h("div", { key: '052258acbc7c6e6fc0a8ab61c89437b119160834', class: "divider-line" }), h("span", { key: 'c6f2a0d96a27e5d7d63f376a0bd1edcdc017c201', class: "divider-text" }, "OR"), h("div", { key: '0b09bd05f2940149752e98bb78248a6ab87ac0ff', class: "divider-line" })))));
+            } })), h("ir-button", { key: '370fda9507b969e5852c43c8309bf73188a9e9d0', type: "submit", class: "ir-button", onButtonClick: this.handleSignIn.bind(this), label: "Sign in", size: "md" }), h("div", { key: '2db0554a371221fb8ac8ef838be4ffad02b58140', class: "divider" }, h("div", { key: '9f37d8e560bfec13366e526aa39dca548ff4eb77', class: "divider-line" }), h("span", { key: 'bbf6b7c4ffecc73ddf995368f74beaa121f343eb', class: "divider-text" }, "OR"), h("div", { key: 'dc3f6eb77c9db0a5c6c99a1a5a17b840e853a5a0', class: "divider-line" })))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }

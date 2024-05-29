@@ -1,13 +1,13 @@
 import { z } from 'zod';
 export declare const SignInValidtor: z.ZodObject<{
     email: z.ZodString;
-    password: z.ZodString;
+    booking_nbr: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     email?: string;
-    password?: string;
+    booking_nbr?: string;
 }, {
     email?: string;
-    password?: string;
+    booking_nbr?: string;
 }>;
 export declare const SignUpValidtor: z.ZodObject<{
     email: z.ZodString;

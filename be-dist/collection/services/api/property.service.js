@@ -226,16 +226,20 @@ export class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        if (!app_store.is_signed_in) {
-            return null;
-        }
         const { data } = await axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
-            email: '{{GUEST_EMAIL}}',
+            email: null,
         });
+        console.log('d');
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         const res = data.My_Result;
+        console.log(res);
+        if (res === null) {
+            app_store.is_signed_in = false;
+            return;
+        }
+        app_store.is_signed_in = true;
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.phone });
     }
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 export const SignInValidtor = z.object({
     email: z.string().email(),
-    password: z.string().min(4),
+    booking_nbr: z.string().min(4),
 });
 export const SignUpValidtor = z.object({
     email: z.string().email(),

@@ -1,5 +1,6 @@
 import { PickupFormData } from "../../../models/pickup";
 import { IrUserFormData } from "../../../models/user_form";
+import { AuthService } from "../../../services/api/auth.service";
 import { PaymentService } from "../../../services/api/payment.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
@@ -12,13 +13,14 @@ export class IrCheckoutPage {
     constructor() {
         this.propertyService = new PropertyService();
         this.paymentService = new PaymentService();
+        this.authService = new AuthService();
         this.isLoading = false;
         this.error = undefined;
     }
     componentWillLoad() {
         this.propertyService.setToken(app_store.app_data.token);
         this.paymentService.setToken(app_store.app_data.token);
-        this.propertyService.getExposedGuest();
+        this.authService.setToken(app_store.app_data.token);
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -96,9 +98,23 @@ export class IrCheckoutPage {
         }
     }
     async processPayment(bookingResult) {
+        var _a;
+        if (['004', '001', '005'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)) {
+            return;
+        }
+        let token = app_store.app_data.token;
+        if (!app_store.is_signed_in) {
+            token = await this.authService.login({
+                option: 'direct',
+                params: {
+                    email: bookingResult.guest.email,
+                    booking_nbr: bookingResult.booking_nbr,
+                },
+            }, false);
+        }
         const { prePaymentAmount } = calculateTotalCost();
         if (prePaymentAmount > 0) {
-            const res = await this.paymentService.GeneratePaymentCaller({
+            const res = await this.paymentService.GeneratePaymentCaller(token, {
                 booking_nbr: bookingResult.booking_nbr,
                 amount: prePaymentAmount,
                 currency_id: bookingResult.currency.id,
@@ -123,7 +139,7 @@ export class IrCheckoutPage {
         if (isRequestPending('/Get_Exposed_Booking_Availability') || isRequestPending('/Get_Exposed_Countries') || isRequestPending('/Get_Country_By_IP')) {
             return h("ir-checkout-skeleton", null);
         }
-        return (h(Host, null, h("ir-seo-injector", { pageTitle: 'checkout', pageKeywords: "checkout", pageDescription: "checkout page" }), h("main", { class: "flex w-full  flex-col justify-between gap-4  md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
+        return (h(Host, null, h("main", { class: "flex w-full  flex-col justify-between gap-4  md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');

@@ -10,11 +10,10 @@ interface GoogleLoginParams extends BaseLoginParams {
 interface DirectLoginParams extends BaseLoginParams {
     option: 'direct';
     params: TSignInValidator;
-    bookingNumber: string;
 }
 type LoginParams = GoogleLoginParams | DirectLoginParams;
 export declare class AuthService extends Token {
-    login(params: LoginParams): Promise<any>;
+    login(params: LoginParams, signIn?: boolean): Promise<any>;
     signUp(params: TSignUpValidator): Promise<void>;
     initializeFacebookSignIn(): void;
     private handleCredentialResponse;

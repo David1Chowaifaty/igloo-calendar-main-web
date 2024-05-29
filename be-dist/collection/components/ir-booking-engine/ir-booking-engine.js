@@ -56,6 +56,7 @@ export class IrBookingEngine {
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
+            // this.propertyService.getExposedGuest(),
         ]);
         this.currencies = currencies;
         this.languages = languages;
