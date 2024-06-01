@@ -25,11 +25,18 @@ export class IrCheckoutPage {
     async handleBooking(e) {
         e.stopImmediatePropagation();
         this.resetErrorState();
-        if (!this.validateUserForm() || !this.validateBookingDetails() || !this.validatePickupForm()) {
+        if (!this.validateUserForm() || !this.validateBookingDetails() || !this.validatePickupForm() || this.validatePolicyAcceptance()) {
             this.isLoading = false;
             return;
         }
         await this.processBooking();
+    }
+    validatePolicyAcceptance() {
+        if (checkout_store.agreed_to_services) {
+            return false;
+        }
+        this.error = { cause: 'booking-summary', issues: 'unchecked aggreement' };
+        return true;
     }
     resetErrorState() {
         this.error = undefined;
@@ -83,6 +90,7 @@ export class IrCheckoutPage {
             issues,
         };
         this.errorElement = cause === 'pickup' ? this.pickupForm : this.userForm;
+        this.scrollToError();
     }
     async processBooking() {
         try {
@@ -99,7 +107,8 @@ export class IrCheckoutPage {
     }
     async processPayment(bookingResult) {
         var _a;
-        if (['004', '001', '005'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)) {
+        const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
+        if (!currentPayment || !(currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.is_payment_gateway)) {
             return;
         }
         let token = app_store.app_data.token;
@@ -118,6 +127,8 @@ export class IrCheckoutPage {
                 booking_nbr: bookingResult.booking_nbr,
                 amount: prePaymentAmount,
                 currency_id: bookingResult.currency.id,
+                email: bookingResult.guest.email,
+                pgw_id: (_a = currentPayment.data.find(d => d.key === 'id')) === null || _a === void 0 ? void 0 : _a.value,
             });
             if (res.type === 1) {
                 window.location.href = res.caller;
@@ -143,7 +154,7 @@ export class IrCheckoutPage {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
-            } }, h("ir-icons", { name: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left', slot: "btn-icon" })), h("p", { class: "text-2xl font-semibold" }, "Complete your booking")), h("div", null, h("ir-quick-auth", null)), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isLoading: this.isLoading })))));
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, "Complete your booking")), h("div", null, h("ir-quick-auth", null)), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { error: this.error && this.error.cause === 'booking-summary' ? true : false, isLoading: this.isLoading })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "scoped"; }

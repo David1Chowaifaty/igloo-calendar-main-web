@@ -1,21 +1,7 @@
 import { a as axios } from './axios.js';
+import { T as Token, M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
 import { l as localizedWords } from './localization.store.js';
-
-class Token {
-    getToken() {
-        return this.token;
-    }
-    setToken(token) {
-        this.token = token;
-    }
-}
-class MissingTokenError extends Error {
-    constructor(message = 'Missing token!!') {
-        super(message);
-        this.name = 'MissingTokenError';
-    }
-}
 
 class CommonService extends Token {
     async getCurrencies() {

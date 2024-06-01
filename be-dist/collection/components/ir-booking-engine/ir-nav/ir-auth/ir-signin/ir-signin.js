@@ -62,7 +62,7 @@ export class IrSignin {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (h(Host, { key: '1672390f45530756daacfa9d33ea8c3351291348' }, h("h1", { key: 'dfebfee3261b560168b352c111f6891d6a18ef27', class: "title" }, "Sign in to your booking"), h("form", { key: '8a7329f5caa1817cf3ea6d544996330a6d90237d', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "error" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: 'cc368bac3396794f251b2cbc034d71b4c5af73cf' }, h("ir-input", { key: 'd263de4d3428458ec1b470ef51ffa24dedbbc5a5', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email", onInputBlur: e => {
+        return (h(Host, { key: '207d18f3b35bf16d7c18ecc5ff83857476e0741d' }, h("h1", { key: 'c4862325a9de0d311d3089e855c73031869e7618', class: "title" }, "Sign in to your booking"), h("form", { key: 'e2ed99660eb6a50ac6a39da0ef55d3d48497e927', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { class: "error" }, h("ir-badge-group", { variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '51475cfdccc0c84ac5773b23715df0f245705cad' }, h("ir-input", { key: 'ceae3d504f906d5bb67d3d7e1019d91f089afa7f', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email", onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ email: true });
                 const firstNameValidation = firstNameSchema.safeParse({ email: this.signInParams.email });
                 const target = e.target;
@@ -79,7 +79,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("fieldset", { key: '1dcf1625420e89adc0fbd75a4113e0f0a1c06b45' }, h("ir-input", { key: '70affecfcd04ebb6912c370518cd262eefbec6cf', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: "Enter your booking number", onInputBlur: e => {
+            } })), h("fieldset", { key: 'fb7f876397b3f6fa5da5a72787229512de67b1ce' }, h("ir-input", { key: '6ec682095acd08cd91a6ab9c0651c55fed65bebf', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: "Enter your booking number", onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ booking_nbr: true });
                 const firstNameValidation = firstNameSchema.safeParse({ booking_nbr: this.signInParams.booking_nbr });
                 const target = e.target;
@@ -96,7 +96,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("ir-button", { key: '370fda9507b969e5852c43c8309bf73188a9e9d0', type: "submit", class: "ir-button", onButtonClick: this.handleSignIn.bind(this), label: "Sign in", size: "md" }), h("div", { key: '2db0554a371221fb8ac8ef838be4ffad02b58140', class: "divider" }, h("div", { key: '9f37d8e560bfec13366e526aa39dca548ff4eb77', class: "divider-line" }), h("span", { key: 'bbf6b7c4ffecc73ddf995368f74beaa121f343eb', class: "divider-text" }, "OR"), h("div", { key: 'dc3f6eb77c9db0a5c6c99a1a5a17b840e853a5a0', class: "divider-line" })))));
+            } })), h("ir-button", { key: '0c43e9c29b6c6b86d09415de323fa2c87e195662', type: "submit", class: "ir-button", onButtonClick: this.handleSignIn.bind(this), label: "Sign in", size: "md" }), h("div", { key: 'c6ed345d3dad40004951c17182f7a8cc8af58b1e', class: "divider" }, h("div", { key: '31d2ff8da1418375d3fe4de21a178ff2c9ce4e61', class: "divider-line" }), h("span", { key: '903b400a251113de28a7325ca42001960e0b6386', class: "divider-text" }, "OR"), h("div", { key: '60dcc350d0a7d7c6cb424ab9375523913d959e34', class: "divider-line" })))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }

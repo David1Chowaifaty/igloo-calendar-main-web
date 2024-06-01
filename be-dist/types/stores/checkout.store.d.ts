@@ -20,6 +20,7 @@ interface CheckoutStore {
     pickup: TPickupFormData;
     modifiedGuestName: boolean;
     payment: TPayment | null;
+    agreed_to_services: boolean;
 }
 export declare const checkout_store: CheckoutStore, onCheckoutDataChange: import("@stencil/store/dist/types").OnChangeHandler<CheckoutStore>;
 export declare function updateUserFormData(key: keyof TUserFormData, value: any): void;

@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
+import { TIcons } from '../ir-icons/icons';
 export declare class IrButton {
     size: 'sm' | 'md' | 'lg' | 'pill';
     disabled: boolean;
@@ -12,6 +13,8 @@ export declare class IrButton {
     buttonStyles: Partial<CSSStyleDeclaration>;
     buttonClassName: string;
     haveRightIcon: boolean;
+    iconName: TIcons;
+    svgClassName: string;
     buttonClick: EventEmitter<MouseEvent>;
     private buttonRef;
     applyStyles(style: Partial<CSSStyleDeclaration>): void;

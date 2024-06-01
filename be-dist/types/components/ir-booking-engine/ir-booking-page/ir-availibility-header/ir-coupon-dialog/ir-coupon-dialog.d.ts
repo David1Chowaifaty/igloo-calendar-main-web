@@ -5,7 +5,7 @@ export declare class IrCouponDialog {
         error: boolean;
         message: string;
     };
-    resetBooking: EventEmitter<null>;
+    resetBooking: EventEmitter<string>;
     dialogRef: HTMLIrDialogElement;
     activateCoupon(): {
         error: true;

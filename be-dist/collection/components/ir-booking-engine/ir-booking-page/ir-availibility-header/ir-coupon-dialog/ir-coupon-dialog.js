@@ -18,21 +18,16 @@ export class IrCouponDialog {
         if (isBefore(new Date(c.to), new Date())) {
             return (this.validationMessage = { error: true, message: 'Invalid coupon' });
         }
-        modifyBookingStore('bookingAvailabilityParams', {
-            coupon: this.coupon,
-            loyalty: false,
-        });
+        modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: this.coupon, loyalty: false }));
         this.validationMessage = { error: false, message: this.coupon };
-        this.resetBooking.emit(null);
+        this.resetBooking.emit('discountOnly');
+        this.coupon = null;
         this.dialogRef.closeModal();
     }
     removeCoupon() {
         this.validationMessage = null;
-        this.coupon = '';
-        modifyBookingStore('bookingAvailabilityParams', {
-            coupon: null,
-            loyalty: false,
-        });
+        modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: null, loyalty: false }));
+        this.resetBooking.emit('discountOnly');
     }
     render() {
         var _a, _b, _c, _d;
@@ -40,14 +35,14 @@ export class IrCouponDialog {
         if (!showCoupon || booking_store.bookingAvailabilityParams.loyalty) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "flex w-full items-center justify-center gap-4" }, h("ir-button", { class: cn('w-full', {
-                'w-fit': this.validationMessage && !this.validationMessage.error,
-            }), onButtonClick: () => this.dialogRef.openModal(), variants: "outline", label: localizedWords.entries.Lcz_HaveCoupon, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "coupon" })), this.validationMessage && !this.validationMessage.error && (h("div", { class: "flex items-center  text-sm text-[hsl(var(--brand-600))]" }, h("p", { onClick: this.removeCoupon.bind(this) }, "Discount applied"), h("ir-button", { "aria-label": "remove coupon", variants: "icon", onButtonClick: this.removeCoupon.bind(this) }, h("ir-icons", { slot: "btn-icon", title: "remove coupon", name: "xmark", svgClassName: "text-[hsl(var(--brand-600))]" }))))), h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("form", { onSubmit: e => {
+        return (h(Fragment, null, h("div", { class: "coupon-container" }, h("ir-button", { class: cn('coupon-button', {
+                'coupon-button-wide': this.validationMessage && !this.validationMessage.error,
+            }), onButtonClick: () => this.dialogRef.openModal(), variants: "outline", label: localizedWords.entries.Lcz_HaveCoupon, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "coupon" })), this.validationMessage && !this.validationMessage.error && (h("div", { class: "coupon-applied" }, h("p", { onClick: this.removeCoupon.bind(this) }, "Discount applied"), h("ir-button", { "aria-label": "remove coupon", iconName: "xmark", variants: "icon", class: "icon-remove", svgClassName: "text-[hsl(var(--brand-600))]", onButtonClick: this.removeCoupon.bind(this) })))), h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("form", { onSubmit: e => {
                 e.preventDefault();
                 this.activateCoupon();
-            }, class: "p-4 pb-0 sm:p-6 sm:pb-0", slot: "modal-body" }, h("h1", { class: "title" }, localizedWords.entries.Lcz_HaveCoupon), h("ir-input", { error: (_c = this.validationMessage) === null || _c === void 0 ? void 0 : _c.error, onTextChanged: e => (this.coupon = e.detail), autofocus: true, inputId: "booking_code", label: localizedWords.entries.Lcz_EnterYourCouponCode }), ((_d = this.validationMessage) === null || _d === void 0 ? void 0 : _d.error) && h("p", { class: "text-red-500" }, this.validationMessage.message)), h("div", { slot: "modal-footer", class: "p-4 pt-0 sm:p-6 sm:pt-0" }, h("ir-button", { size: "md", onButtonClick: () => {
+            }, class: "coupon-form", slot: "modal-body" }, h("h1", { class: "title" }, localizedWords.entries.Lcz_HaveCoupon), h("ir-input", { error: (_c = this.validationMessage) === null || _c === void 0 ? void 0 : _c.error, onTextChanged: e => (this.coupon = e.detail), autofocus: true, inputId: "booking_code", placeholder: localizedWords.entries.Lcz_EnterYourCouponCode, value: this.coupon, mode: "default" }), ((_d = this.validationMessage) === null || _d === void 0 ? void 0 : _d.error) && h("p", { class: "error-message" }, this.validationMessage.message), h("div", { class: "footer-buttons" }, h("ir-button", { size: "md", onButtonClick: () => {
                 this.dialogRef.closeModal();
-            }, variants: "outline", label: localizedWords.entries.Lcz_Cancel, class: 'w-full md:w-fit' }), h("ir-button", { type: "submit", size: "md", label: localizedWords.entries.Lcz_Apply, class: "w-full md:w-fit" })))));
+            }, variants: "outline", label: localizedWords.entries.Lcz_Cancel, class: "button-cancel" }), h("ir-button", { type: "submit", size: "md", label: localizedWords.entries.Lcz_Apply, class: "button-apply" }))))));
     }
     static get is() { return "ir-coupon-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -79,8 +74,8 @@ export class IrCouponDialog {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "null",
-                    "resolved": "null",
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 }
             }];

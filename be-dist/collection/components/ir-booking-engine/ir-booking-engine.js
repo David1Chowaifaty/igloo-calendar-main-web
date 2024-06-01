@@ -7,7 +7,6 @@ import booking_store, { updateRoomParams } from "../../stores/booking";
 import app_store from "../../stores/app.store";
 import { generateColorShades, getUserPrefernce, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
-// import { roomtypes } from '@/data';
 export class IrBookingEngine {
     constructor() {
         this.commonService = new CommonService();
@@ -28,7 +27,6 @@ export class IrBookingEngine {
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce();
         this.token = await this.commonService.getBEToken();
-        console.log(app_store.userPreferences);
     }
     handleTokenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -49,7 +47,7 @@ export class IrBookingEngine {
     async initRequest() {
         var _a;
         this.isLoading = true;
-        const p = JSON.parse(localStorage.getItem('user_prefernce'));
+        const p = JSON.parse(localStorage.getItem('user_preference'));
         const [property, currencies, languages] = await Promise.all([
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
             this.commonService.getCurrencies(),
@@ -82,16 +80,6 @@ export class IrBookingEngine {
             });
         }
         this.isLoading = false;
-        //new tab
-        // window.open(
-        //   'https://checkout.stripe.com/c/pay/cs_live_a1l2j0mneEassWNnZioZl1HRpP2VLeCZ8AgpV9GkdMN2tDZo6TvEOFapVU#fidkdWxOYHwnPyd1blppbHNgWjA0SDBKazxEVD19djA2YlxKSUtraHMwY24zQHBgdjdzYTdRSVMxdnZwaUlua2M0cDQ3UDB0dEtJdE9TY2xLR00zXWszZ1doYWhMRjw2SlBSRDN0Vzd0QkpyNTVMYjVnaEtCbCcpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl',
-        //   '_blank',
-        // );
-        //same window
-        // window.location.href = 'https://www.vivapayments.com/web2?ref=3205412746222813';
-        // window.eval(
-        //   `str_Checkout_Url = 'https://epayment.areeba.com/checkout/version/60/checkout.js';var js = document.createElement('script');js.src = str_Checkout_Url;js.setAttribute('data-error', ()=>{alert('Error')});js.setAttribute('data-cancel', ()=>{alert('Cancel')});js.setAttribute('data-complete', ()=>{alert('Complete')});js.onload = () => {var checkoutOptions = {merchant:'222206717001',order: {amount:'50',currency:'USD',description:'28252845',id:'Areeba-28252845-9f92ae52-7426-4b44-9add-44928a158bc6'},customer: {email:'soir.daou@gmail.com',firstName:'Soir',lastName:'Daou',mobilePhone:'03084767'},session: {id:'SESSION0002816619793M79905493M6'},interaction: {merchant: {name:'Beit Noun',logo:'https://dhl6m8m6g2w2j.cloudfront.net/ac/AcImage_330_10232.jpg'},displayControl: {billingAddress: 'HIDE',customerEmail: 'HIDE',orderSummary: 'HIDE',shipping: 'HIDE'}}};Checkout.configure(checkoutOptions);Checkout.showPaymentPage();};document.head.appendChild(js);`,
-        // );
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -111,28 +99,34 @@ export class IrBookingEngine {
         app_store.currentPage = e.detail;
     }
     async handleResetBooking(e) {
+        var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        await this.resetBooking();
+        console.log('reset Booking fetched', e.detail);
+        await this.resetBooking((_a = e.detail) !== null && _a !== void 0 ? _a : 'completeReset');
     }
-    async resetBooking() {
-        var _a, _b;
-        if (app_store.fetchedBooking) {
-            await Promise.all([
-                this.checkAvailability(),
-                this.commonService.getExposedLanguage(),
-                this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
-            ]);
-            // booking_store.roomTypes = [...p.My_Result.roomtypes];
+    async resetBooking(resetType = 'completeReset') {
+        var _a;
+        let queries = [];
+        if (resetType === 'discountOnly' && app_store.fetchedBooking) {
+            queries.push(this.checkAvailability());
         }
-        else {
-            await Promise.all([
-                this.commonService.getExposedLanguage(),
-                this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en' }),
-            ]);
+        else if (resetType === 'completeReset') {
+            queries = [
+                ...queries,
+                ...[
+                    this.commonService.getExposedLanguage(),
+                    this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
+                ],
+            ];
+            if (app_store.fetchedBooking) {
+                queries.push(this.checkAvailability());
+            }
         }
+        await Promise.all(queries);
     }
     async checkAvailability() {
+        console.log('booking availability', booking_store.bookingAvailabilityParams);
         await this.propertyService.getExposedBookingAvailability({
             propertyid: app_store.app_data.property_id,
             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -142,7 +136,7 @@ export class IrBookingEngine {
             child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
             language: app_store.userPreferences.language_id,
             currency_ref: app_store.userPreferences.currency_id,
-            is_in_loyalty_mode: !!booking_store.bookingAvailabilityParams.coupon,
+            is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
             promo_key: booking_store.bookingAvailabilityParams.coupon || '',
             is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
             agent_id: booking_store.bookingAvailabilityParams.agent || 0,

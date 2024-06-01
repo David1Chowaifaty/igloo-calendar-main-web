@@ -1,12 +1,14 @@
-import { c as createStore } from './index-a8bcd484.js';
+'use strict';
+
+const index = require('./index-08156e03.js');
 
 const initialState$3 = {
     entries: null,
     direction: 'ltr',
 };
-const { state: localizedWords, onChange: onCalendarDatesChange } = createStore(initialState$3);
+const { state: localizedWords, onChange: onCalendarDatesChange } = index.createStore(initialState$3);
 
-class Token$1 {
+class Token {
     getToken() {
         return this.token;
     }
@@ -14,7 +16,7 @@ class Token$1 {
         this.token = token;
     }
 }
-class MissingTokenError$1 extends Error {
+class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {
         super(message);
         this.name = 'MissingTokenError';
@@ -50247,7 +50249,7 @@ const initialState$2 = {
     is_signed_in: false,
     email: null,
 };
-const { state: app_store, onChange: onAppDataChange } = createStore(initialState$2);
+const { state: app_store, onChange: onAppDataChange } = index.createStore(initialState$2);
 function changeLocale(dir, locale) {
     document.body.dir = dir;
     app_store.dir = dir;
@@ -71921,7 +71923,7 @@ const initialState$1 = {
     },
     booking: null,
 };
-const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState$1);
+const { state: booking_store, onChange: onRoomTypeChange } = index.createStore(initialState$1);
 onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
@@ -72057,8 +72059,9 @@ const initialState = {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
     payment: null,
+    agreed_to_services: false,
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
+const { state: checkout_store, onChange: onCheckoutDataChange } = index.createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
@@ -74774,13 +74777,13 @@ function setDefaultLocale({ currency }) {
     // matchLocale(language_id)
 }
 
-class PropertyService extends Token$1 {
+class PropertyService extends Token {
     async getExposedProperty(params) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
-        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, params);
+        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { aname: null, currency: app_store.userPreferences.currency_id }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -74794,11 +74797,11 @@ class PropertyService extends Token$1 {
     async getExposedBookingAvailability(params) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         let roomtypeIds = [];
-        const { injected, roomtype_id } = app_store.app_data;
-        if (injected) {
+        const { roomtype_id } = app_store.app_data;
+        if (roomtype_id) {
             roomtypeIds.push(roomtype_id);
         }
         const { data } = await axios$1.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
@@ -74814,7 +74817,7 @@ class PropertyService extends Token$1 {
     async getExposedBooking(params) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Booking?Ticket=${token}`, params);
         const result = data;
@@ -74866,13 +74869,18 @@ class PropertyService extends Token$1 {
         }
         return days;
     }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
     filterRooms() {
         let rooms = [];
         Object.values(booking_store.ratePlanSelections).map(rt => {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+                        var _a, _b, _c, _d, _e, _f;
+                        const { first_name, last_name } = this.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -74891,23 +74899,21 @@ class PropertyService extends Token$1 {
                             days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
-                                first_name: ((_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.bookingForSomeoneElse)
-                                    ? rp.guestName[index]
-                                    : (((_b = checkout_store.userFormData) === null || _b === void 0 ? void 0 : _b.firstName) || '') + ' ' + (((_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName) || ''),
-                                last_name: null,
+                                first_name,
+                                last_name,
                                 country_id: null,
                                 city: null,
                                 mobile: null,
                                 address: null,
                                 dob: null,
                                 subscribe_to_news_letter: null,
-                                cci: ['001', '004'].includes((_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.code)
+                                cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
                                     ? {
-                                        nbr: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.cardNumber,
-                                        holder_name: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardHolderName,
-                                        expiry_month: (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.expiry_month.split('/')[0],
-                                        expiry_year: (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.expiry_year.split('/')[1],
-                                        cvc: ((_j = checkout_store.payment) === null || _j === void 0 ? void 0 : _j.code) === '001' ? checkout_store.payment.cvc : null,
+                                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber,
+                                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
+                                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
+                                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
+                                        cvc: ((_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.code) === '001' ? checkout_store.payment.cvc : null,
                                     }
                                     : null,
                             },
@@ -74940,7 +74946,7 @@ class PropertyService extends Token$1 {
         try {
             const token = this.getToken();
             if (!token) {
-                throw new MissingTokenError$1();
+                throw new MissingTokenError();
             }
             let guest = {
                 email: checkout_store.userFormData.email,
@@ -74993,7 +74999,7 @@ class PropertyService extends Token$1 {
     async getExposedGuest() {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
@@ -75010,21 +75016,6 @@ class PropertyService extends Token$1 {
         }
         app_store.is_signed_in = true;
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.phone });
-    }
-}
-
-class Token {
-    getToken() {
-        return this.token;
-    }
-    setToken(token) {
-        this.token = token;
-    }
-}
-class MissingTokenError extends Error {
-    constructor(message = 'Missing token!!') {
-        super(message);
-        this.name = 'MissingTokenError';
     }
 }
 
@@ -75144,6 +75135,38 @@ class CommonService extends Token {
     }
 }
 
-export { updatePartialPickupFormData as A, reserveRooms as B, CommonService as C, getVisibleInventory as D, MissingTokenError$1 as M, PropertyService as P, Token$1 as T, axios$1 as a, app_store as b, booking_store as c, dateFns as d, checkout_store as e, onCheckoutDataChange as f, getDateDifference as g, formatAmount as h, getUserPrefernce as i, generateColorShades as j, calculateTotalCost as k, localizedWords as l, cn as m, locale as n, onAppDataChange as o, getAbbreviatedWeekdays as p, modifyBookingStore as q, changeLocale as r, setDefaultLocale as s, matchLocale as t, updateRoomParams as u, validateBooking as v, updateUserPreference as w, updateUserFormData as x, renderTime as y, updatePickupFormData as z };
+exports.CommonService = CommonService;
+exports.MissingTokenError = MissingTokenError;
+exports.PropertyService = PropertyService;
+exports.Token = Token;
+exports.app_store = app_store;
+exports.axios = axios$1;
+exports.booking_store = booking_store;
+exports.calculateTotalCost = calculateTotalCost;
+exports.changeLocale = changeLocale;
+exports.checkout_store = checkout_store;
+exports.cn = cn;
+exports.dateFns = dateFns;
+exports.formatAmount = formatAmount;
+exports.generateColorShades = generateColorShades;
+exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getDateDifference = getDateDifference;
+exports.getUserPrefernce = getUserPrefernce;
+exports.getVisibleInventory = getVisibleInventory;
+exports.locale = locale;
+exports.localizedWords = localizedWords;
+exports.matchLocale = matchLocale;
+exports.modifyBookingStore = modifyBookingStore;
+exports.onAppDataChange = onAppDataChange;
+exports.onCheckoutDataChange = onCheckoutDataChange;
+exports.renderTime = renderTime;
+exports.reserveRooms = reserveRooms;
+exports.setDefaultLocale = setDefaultLocale;
+exports.updatePartialPickupFormData = updatePartialPickupFormData;
+exports.updatePickupFormData = updatePickupFormData;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserFormData = updateUserFormData;
+exports.updateUserPreference = updateUserPreference;
+exports.validateBooking = validateBooking;
 
-//# sourceMappingURL=common.service-73efc131.js.map
+//# sourceMappingURL=common.service-db1d19f9.js.map

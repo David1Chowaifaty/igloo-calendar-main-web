@@ -7,7 +7,7 @@ export declare class IrCheckoutPage {
         cause: 'user' | 'pickup';
         issues: Record<string, ZodIssue>;
     } | {
-        cause: 'booking-details';
+        cause: 'booking-details' | 'booking-summary';
         issues: string;
     };
     private propertyService;
@@ -20,6 +20,7 @@ export declare class IrCheckoutPage {
     errorElement: HTMLElement;
     componentWillLoad(): void;
     handleBooking(e: CustomEvent): Promise<void>;
+    validatePolicyAcceptance(): boolean;
     private resetErrorState;
     private validateUserForm;
     private validateBookingDetails;

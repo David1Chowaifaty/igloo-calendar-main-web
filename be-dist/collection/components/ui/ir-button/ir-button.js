@@ -15,6 +15,8 @@ export class IrButton {
         this.buttonStyles = undefined;
         this.buttonClassName = undefined;
         this.haveRightIcon = undefined;
+        this.iconName = undefined;
+        this.svgClassName = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -33,12 +35,12 @@ export class IrButton {
     }
     render() {
         if (['icon', 'icon-primary'].includes(this.variants)) {
-            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, 'flex items-center justify-center', this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.isLoading ? (h("span", { class: "loader" })) : (h("div", null, h("slot", { name: "btn-icon" })))));
+            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, 'flex items-center justify-center', this.isLoading ? 'is-loading' : '', this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.isLoading ? (h("span", { class: "loader" })) : (h("div", null, h("ir-icons", { name: this.iconName, svgClassName: this.svgClassName })))));
         }
         return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants} flex items-center justify-center`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.haveLeftIcon && !this.isLoading && (h("div", null, h("slot", { name: "left-icon" }))), this.isLoading && !['link', 'ghost'].includes(this.variants) && h("span", { class: "loader" }), this.label, this.haveRightIcon && !this.isLoading && (h("div", null, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-button"; }
-    static get encapsulation() { return "shadow"; }
+    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-button.css"]
@@ -267,6 +269,46 @@ export class IrButton {
                     "text": ""
                 },
                 "attribute": "have-right-icon",
+                "reflect": false
+            },
+            "iconName": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "TIcons",
+                    "resolved": "\"image\" | \"search\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"user\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\"",
+                    "references": {
+                        "TIcons": {
+                            "location": "import",
+                            "path": "../ir-icons/icons",
+                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "icon-name",
+                "reflect": false
+            },
+            "svgClassName": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "svg-class-name",
                 "reflect": false
             }
         };

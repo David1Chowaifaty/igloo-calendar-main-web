@@ -48,7 +48,7 @@ export class IrBookingPage {
         const { totalAmount } = calculateTotalCost();
         const isInjected = app_store.app_data.injected;
         return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", null, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", null)), h("section", { class: "relative justify-between gap-4 rounded-md ", ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: " flex-1 py-2" }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
-            if (!roomType.is_active || (isInjected && roomType.id !== app_store.app_data.roomtype_id)) {
+            if (!roomType.is_active || (app_store.app_data.roomtype_id && roomType.id !== app_store.app_data.roomtype_id)) {
                 return null;
             }
             return h("ir-roomtype", { roomtype: roomType, key: roomType.id });

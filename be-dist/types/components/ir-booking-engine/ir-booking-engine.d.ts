@@ -22,7 +22,7 @@ export declare class IrBookingEngine {
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
-    resetBooking(): Promise<void>;
+    resetBooking(resetType?: 'discountOnly' | 'completeReset'): Promise<void>;
     checkAvailability(): Promise<void>;
     renderScreens(): any;
     render(): any;

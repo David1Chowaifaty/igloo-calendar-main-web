@@ -11,7 +11,7 @@ export class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { aname: null, currency: app_store.userPreferences.currency_id }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -28,8 +28,8 @@ export class PropertyService extends Token {
             throw new MissingTokenError();
         }
         let roomtypeIds = [];
-        const { injected, roomtype_id } = app_store.app_data;
-        if (injected) {
+        const { roomtype_id } = app_store.app_data;
+        if (roomtype_id) {
             roomtypeIds.push(roomtype_id);
         }
         const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
@@ -97,13 +97,18 @@ export class PropertyService extends Token {
         }
         return days;
     }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
     filterRooms() {
         let rooms = [];
         Object.values(booking_store.ratePlanSelections).map(rt => {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+                        var _a, _b, _c, _d, _e, _f;
+                        const { first_name, last_name } = this.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -122,23 +127,21 @@ export class PropertyService extends Token {
                             days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
-                                first_name: ((_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.bookingForSomeoneElse)
-                                    ? rp.guestName[index]
-                                    : (((_b = checkout_store.userFormData) === null || _b === void 0 ? void 0 : _b.firstName) || '') + ' ' + (((_c = checkout_store.userFormData) === null || _c === void 0 ? void 0 : _c.lastName) || ''),
-                                last_name: null,
+                                first_name,
+                                last_name,
                                 country_id: null,
                                 city: null,
                                 mobile: null,
                                 address: null,
                                 dob: null,
                                 subscribe_to_news_letter: null,
-                                cci: ['001', '004'].includes((_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.code)
+                                cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
                                     ? {
-                                        nbr: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.cardNumber,
-                                        holder_name: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardHolderName,
-                                        expiry_month: (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.expiry_month.split('/')[0],
-                                        expiry_year: (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.expiry_year.split('/')[1],
-                                        cvc: ((_j = checkout_store.payment) === null || _j === void 0 ? void 0 : _j.code) === '001' ? checkout_store.payment.cvc : null,
+                                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber,
+                                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
+                                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
+                                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
+                                        cvc: ((_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.code) === '001' ? checkout_store.payment.cvc : null,
                                     }
                                     : null,
                             },

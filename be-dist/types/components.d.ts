@@ -7,10 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
 import { ICurrency, IExposedLanguages, pages } from "./models/common";
+import { TIcons } from "./components/ui/ir-icons/icons";
 import { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 import { Locale } from "date-fns";
 import { TCarouselSlides } from "./components/ui/ir-carousel/carousel";
-import { TIcons } from "./components/ui/ir-icons/icons";
 import { ZodIssue } from "zod";
 import { Placement } from "@popperjs/core";
 import { IRatePlanSelection } from "./stores/booking";
@@ -18,10 +18,10 @@ import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/a
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
 export { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
 export { ICurrency, IExposedLanguages, pages } from "./models/common";
+export { TIcons } from "./components/ui/ir-icons/icons";
 export { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 export { Locale } from "date-fns";
 export { TCarouselSlides } from "./components/ui/ir-carousel/carousel";
-export { TIcons } from "./components/ui/ir-icons/icons";
 export { ZodIssue } from "zod";
 export { Placement } from "@popperjs/core";
 export { IRatePlanSelection } from "./stores/booking";
@@ -88,6 +88,7 @@ export namespace Components {
     interface IrBookingPage {
     }
     interface IrBookingSummary {
+        "error": boolean;
         "isLoading": boolean;
     }
     interface IrButton {
@@ -97,10 +98,12 @@ export namespace Components {
         "disabled": boolean;
         "haveLeftIcon": boolean;
         "haveRightIcon": boolean;
+        "iconName": TIcons;
         "isLoading": boolean;
         "label": string;
         "name": string;
         "size": 'sm' | 'md' | 'lg' | 'pill';
+        "svgClassName": string;
         "type": 'button' | 'submit' | 'reset' | 'menu';
         "variants": 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
@@ -196,6 +199,7 @@ export namespace Components {
         "max": string | number;
         "maxlength": number;
         "min": string | number;
+        "mode": 'double-line' | 'default';
         "multiple": boolean;
         "name": string;
         "pattern": string;
@@ -768,7 +772,7 @@ declare global {
         new (): HTMLIrCheckoutSkeletonElement;
     };
     interface HTMLIrCouponDialogElementEventMap {
-        "resetBooking": null;
+        "resetBooking": string;
     }
     interface HTMLIrCouponDialogElement extends Components.IrCouponDialog, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCouponDialogElementEventMap>(type: K, listener: (this: HTMLIrCouponDialogElement, ev: IrCouponDialogCustomEvent<HTMLIrCouponDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -971,7 +975,7 @@ declare global {
         new (): HTMLIrLanguagePickerElement;
     };
     interface HTMLIrLoyaltyElementEventMap {
-        "resetBooking": null;
+        "resetBooking": string;
     }
     interface HTMLIrLoyaltyElement extends Components.IrLoyalty, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrLoyaltyElementEventMap>(type: K, listener: (this: HTMLIrLoyaltyElement, ev: IrLoyaltyCustomEvent<HTMLIrLoyaltyElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1405,6 +1409,7 @@ declare namespace LocalJSX {
         "onRouting"?: (event: IrBookingPageCustomEvent<pages>) => void;
     }
     interface IrBookingSummary {
+        "error"?: boolean;
         "isLoading"?: boolean;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
@@ -1416,11 +1421,13 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "haveLeftIcon"?: boolean;
         "haveRightIcon"?: boolean;
+        "iconName"?: TIcons;
         "isLoading"?: boolean;
         "label"?: string;
         "name"?: string;
         "onButtonClick"?: (event: IrButtonCustomEvent<MouseEvent>) => void;
         "size"?: 'sm' | 'md' | 'lg' | 'pill';
+        "svgClassName"?: string;
         "type"?: 'button' | 'submit' | 'reset' | 'menu';
         "variants"?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
@@ -1453,7 +1460,7 @@ declare namespace LocalJSX {
     interface IrCheckoutSkeleton {
     }
     interface IrCouponDialog {
-        "onResetBooking"?: (event: IrCouponDialogCustomEvent<null>) => void;
+        "onResetBooking"?: (event: IrCouponDialogCustomEvent<string>) => void;
     }
     interface IrCreditCardInput {
         "onCreditCardChange"?: (event: IrCreditCardInputCustomEvent<string>) => void;
@@ -1543,6 +1550,7 @@ declare namespace LocalJSX {
         "max"?: string | number;
         "maxlength"?: number;
         "min"?: string | number;
+        "mode"?: 'double-line' | 'default';
         "multiple"?: boolean;
         "name"?: string;
         "onInputBlur"?: (event: IrInputCustomEvent<FocusEvent>) => void;
@@ -1597,7 +1605,7 @@ declare namespace LocalJSX {
         "onResetBooking"?: (event: IrLanguagePickerCustomEvent<null>) => void;
     }
     interface IrLoyalty {
-        "onResetBooking"?: (event: IrLoyaltyCustomEvent<null>) => void;
+        "onResetBooking"?: (event: IrLoyaltyCustomEvent<string>) => void;
     }
     interface IrModal {
         "element"?: HTMLElement;

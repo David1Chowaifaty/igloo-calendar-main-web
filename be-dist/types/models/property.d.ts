@@ -77,6 +77,7 @@ export interface AllowedPaymentMethod {
         key: string;
         value: string;
     }[];
+    is_payment_gateway: boolean;
 }
 export interface Amenity {
     amenity_type: string;

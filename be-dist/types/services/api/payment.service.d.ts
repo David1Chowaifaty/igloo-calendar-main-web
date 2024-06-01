@@ -4,5 +4,7 @@ export declare class PaymentService extends Token {
         booking_nbr: string;
         amount: number;
         currency_id: string | number;
+        email: string;
+        pgw_id: string;
     }): Promise<any>;
 }

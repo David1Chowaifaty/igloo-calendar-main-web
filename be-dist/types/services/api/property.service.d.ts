@@ -15,6 +15,10 @@ export declare class PropertyService extends Token {
     }): Promise<Booking>;
     fetchSetupEntries(): Promise<ISetupEntries>;
     private generateDays;
+    extractFirstNameAndLastName(index: number, guestName: string[]): {
+        first_name: string;
+        last_name: string;
+    };
     filterRooms(): any[];
     private convertPickup;
     bookUser(): Promise<any>;

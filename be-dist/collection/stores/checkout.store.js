@@ -7,6 +7,7 @@ const initialState = {
         arrival_date: format(new Date(), 'yyyy-MM-dd'),
     },
     payment: null,
+    agreed_to_services: false,
 };
 export const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 export function updateUserFormData(key, value) {

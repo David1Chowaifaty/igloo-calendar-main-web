@@ -61,10 +61,10 @@ export class IrPaymentView {
     }
     render() {
         var _a, _b;
-        return (h("div", { key: '79bfa238e8c4acd3d1fd38cca43641bbe24274cc', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.length) > 1 && (h("ir-select", { variant: "double-line", label: "Select your payment method", data: (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.allowed_payment_methods.map(apm => ({
+        return (h("div", { key: '645951f1c1300bca6ed0ab557638cc0f443d4690', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.length) > 1 ? (h("ir-select", { variant: "double-line", label: "Select your payment method", data: (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.allowed_payment_methods.map(apm => ({
                 id: apm.code,
                 value: apm.description,
-            })), onValueChange: this.handlePaymentSelectionChange.bind(this) })), this.renderPaymentMethod()));
+            })), onValueChange: this.handlePaymentSelectionChange.bind(this) })) : (h("p", { class: "text-center" }, "No deposit required")), this.renderPaymentMethod()));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
