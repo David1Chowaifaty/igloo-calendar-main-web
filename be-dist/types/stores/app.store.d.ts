@@ -24,6 +24,7 @@ export interface IAppStore {
         property_id: number;
         injected: boolean;
         roomtype_id: number | null;
+        redirect_url: string;
     };
     property: IExposedProperty;
     setup_entries: {
@@ -37,6 +38,10 @@ export interface IAppStore {
     languages: IExposedLanguages[];
     is_signed_in: boolean;
     email: string | null;
+    invoice: {
+        booking_number: string;
+        email: string;
+    } | null;
 }
 declare const app_store: IAppStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<IAppStore>;
 export declare function changeLocale(dir: TDirection, locale: Locale): void;

@@ -16,6 +16,7 @@ export class IrBookingEngine {
         this.baseUrl = undefined;
         this.injected = undefined;
         this.roomtype_id = null;
+        this.redirect_url = null;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -41,6 +42,7 @@ export class IrBookingEngine {
             property_id: this.propertyId,
             injected: this.injected,
             roomtype_id: this.roomtype_id,
+            redirect_url: this.redirect_url,
         };
         this.initRequest();
     }
@@ -149,7 +151,7 @@ export class IrBookingEngine {
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
-                return h("ir-invoice", null);
+                return (h("ir-invoice", { baseUrl: this.baseUrl, lang: app_store.userPreferences.language_id, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1 }));
             default:
                 return null;
         }
@@ -159,7 +161,7 @@ export class IrBookingEngine {
         if (this.isLoading) {
             return null;
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 w-full " }, h("ir-nav", { website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", null)));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 m-0 w-full p-0 " }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", null)));
     }
     static get is() { return "ir-booking-engine"; }
     static get encapsulation() { return "scoped"; }
@@ -259,6 +261,24 @@ export class IrBookingEngine {
                     "text": ""
                 },
                 "attribute": "roomtype_id",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "redirect_url": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "redirect_url",
                 "reflect": false,
                 "defaultValue": "null"
             }

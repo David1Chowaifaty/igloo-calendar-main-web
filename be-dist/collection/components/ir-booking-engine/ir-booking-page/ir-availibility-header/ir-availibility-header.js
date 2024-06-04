@@ -23,6 +23,7 @@ export class IrAvailibilityHeader {
             is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
             agent_id: booking_store.bookingAvailabilityParams.agent || 0,
         };
+        this.target = null;
         this.errorCause = null;
         this.isLoading = false;
     }
@@ -52,17 +53,29 @@ export class IrAvailibilityHeader {
         });
     }
     componentDidLoad() {
-        createPopper(this.datePopup, this.dateToast, {
-            placement: localization_store.dir === 'LTR' ? 'bottom-start' : 'bottom-end',
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 3],
+        this.initPoper();
+    }
+    initPoper() {
+        if (!this.target) {
+            if (this.popoverInstance) {
+                this.popoverInstance.destroy();
+            }
+            return;
+        }
+        console.log(this.target);
+        if (this.target) {
+            this.popperInstance = createPopper(this.target, this.errorToast, {
+                placement: localization_store.dir === 'LTR' ? 'bottom-start' : 'bottom-end',
+                modifiers: [
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [0, 3],
+                        },
                     },
-                },
-            ],
-        });
+                ],
+            });
+        }
     }
     async checkAvailability() {
         const params = ExposedBookingAvailability.parse(this.exposedBookingAvailabiltyParams);
@@ -98,10 +111,12 @@ export class IrAvailibilityHeader {
         }
     }
     triggerToast(cause) {
+        this.target = cause === 'date' ? this.datePopup : this.personCounter;
+        setTimeout(() => this.initPoper(), 10);
         this.errorCause = cause;
-        setTimeout(() => {
-            this.errorCause = null;
-        }, 2000);
+        // setTimeout(() => {
+        //   this.errorCause = null;
+        // }, 2000);
     }
     changeExposedAvailabilityParams(params) {
         this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), params);
@@ -139,12 +154,23 @@ export class IrAvailibilityHeader {
             clearTimeout(this.toast_timeout);
         }
     }
+    shouldRenderErrorToast() {
+        if (this.errorCause === 'date') {
+            if (this.exposedBookingAvailabiltyParams.from_date && this.exposedBookingAvailabiltyParams.to_date) {
+                this.popperInstance.destroy();
+                this.errorCause = null;
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: '705b6833c0b4699dced31474063fe3430e765608', class: "availability-container" }, h("div", { key: '58279f5748f6d013d94d15ce89ca8c4cd5609307', class: "availability-inputs" }, h("ir-date-popup", { key: '25a9aeaba8b080cc92d3c9d55773d9e2276e0acd', ref: el => (this.datePopup = el), dates: {
+        return (h("div", { key: '2797075cabcc561de55745249368ff87030d44a2', class: "availability-container" }, h("div", { key: '8557eb841f14bed785ed24e62df55ce738d7163b', class: "availability-inputs" }, h("ir-date-popup", { key: '04c9f7e1f5ed323848e83f638e8dce3f2fbb9b21', ref: el => (this.datePopup = el), dates: {
                 start: ((_a = this.exposedBookingAvailabiltyParams) === null || _a === void 0 ? void 0 : _a.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '0a22d47368ff123d57d7792ff3aad4b0daf65cd8', class: "availability-controls" }, h("ir-adult-child-counter", { key: '48c4d93b281b755bd80f6d5da780bab471ceb295', class: "adult-child-counter" }), h("ir-button", { key: '405d24e1013708260ffce64564500cbd925b27fb', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: '4c61df3f03473c3849900e6cbf4a212f25e29829', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'de2c66f20f3d239dbcdb8315588aed839be33233', class: "adult-child-counter", ref: el => (this.personCounter = el) }), h("ir-button", { key: '15a893d9e7b5424f1e34975eda390e204290ab2b', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
@@ -165,6 +191,7 @@ export class IrAvailibilityHeader {
     static get states() {
         return {
             "exposedBookingAvailabiltyParams": {},
+            "target": {},
             "errorCause": {},
             "isLoading": {}
         };

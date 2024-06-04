@@ -96,7 +96,17 @@ export class IrCheckoutPage {
         try {
             const result = await this.propertyService.bookUser();
             booking_store.booking = result;
-            await this.processPayment(result);
+            const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
+            if (!currentPayment || !(currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.is_payment_gateway)) {
+                app_store.invoice = {
+                    email: booking_store.booking.guest.email,
+                    booking_number: booking_store.booking.booking_nbr,
+                };
+                this.routing.emit('invoice');
+            }
+            else {
+                await this.processPayment(result, currentPayment);
+            }
         }
         catch (error) {
             console.error('Booking process failed:', error);
@@ -105,12 +115,8 @@ export class IrCheckoutPage {
             this.isLoading = false;
         }
     }
-    async processPayment(bookingResult) {
+    async processPayment(bookingResult, currentPayment) {
         var _a;
-        const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
-        if (!currentPayment || !(currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.is_payment_gateway)) {
-            return;
-        }
         let token = app_store.app_data.token;
         if (!app_store.is_signed_in) {
             token = await this.authService.login({

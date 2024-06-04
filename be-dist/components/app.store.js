@@ -11,11 +11,13 @@ const initialState = {
         currency_id: 'usd',
         language_id: 'en',
     },
+    invoice: null,
     app_data: {
         token: '',
         property_id: null,
         injected: false,
         roomtype_id: null,
+        redirect_url: null,
     },
     property: undefined,
     setup_entries: undefined,

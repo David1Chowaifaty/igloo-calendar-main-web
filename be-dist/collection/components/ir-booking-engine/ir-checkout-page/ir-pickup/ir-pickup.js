@@ -2,6 +2,7 @@ import { PickupFormData } from "../../../../models/pickup";
 import { PickupService } from "../../../../services/app/pickup.service";
 import app_store, { onAppDataChange } from "../../../../stores/app.store";
 import { checkout_store, onCheckoutDataChange, updatePartialPickupFormData, updatePickupFormData } from "../../../../stores/checkout.store";
+import localizedWords from "../../../../stores/localization.store";
 import { formatAmount } from "../../../../utils/utils";
 import { h } from "@stencil/core";
 import { format } from "date-fns";
@@ -58,7 +59,7 @@ export class IrPickup {
         updatePickupFormData('currency', currency);
     }
     dateTrigger() {
-        return (h("div", { class: "popover-trigger w-full ", slot: "trigger" }, h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "18", width: "12.5", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z" })), h("div", null, h("p", { class: "trigger-label" }, "Arrival date"), h("p", { class: 'date' }, format(new Date(checkout_store.pickup.arrival_date), 'MMM dd, yyyy')))));
+        return (h("div", { class: "popover-trigger w-full ", slot: "trigger" }, h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "18", width: "12.5", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z" })), h("div", null, h("p", { class: "trigger-label" }, localizedWords.entries.Lcz_ArrivalDate), h("p", { class: 'date' }, format(new Date(checkout_store.pickup.arrival_date), 'MMM dd, yyyy')))));
     }
     handleChangeDate(e) {
         e.stopImmediatePropagation();
@@ -144,7 +145,7 @@ export class IrPickup {
         if (!app_store.property.pickup_service.allowed_options) {
             return null;
         }
-        return (h("section", { class: "space-y-5" }, h("div", { class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { name: "car" }), h("p", null, "Need Pickup?"), h("ir-select", { value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: 'No thank you' }, ...this.pickupService.getAvailableLocations('yes from')] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'flex items-center gap-4' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", null))), h("ir-input", { onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: 'Arrival hour', placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", onInputBlur: e => {
+        return (h("section", { class: "space-y-5" }, h("div", { class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { name: "car" }), h("p", null, localizedWords.entries.Lcz_NeedPickup), h("ir-select", { value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: localizedWords.entries.Lcz_NoThankYou }, ...this.pickupService.getAvailableLocations(localizedWords.entries.Lcz_YesFrom)] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'flex items-center gap-4' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", null))), h("ir-input", { onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: localizedWords.entries.Lcz_ArrivalHour, placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", onInputBlur: e => {
                 var _a;
                 const firstNameSchema = PickupFormData.pick({ arrival_time: true });
                 const firstNameValidation = firstNameSchema.safeParse({ arrival_time: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.arrival_time });
@@ -162,13 +163,13 @@ export class IrPickup {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("div", { class: "hidden flex-1  md:block" }, h("p", { class: "text-end text-base font-medium xl:text-xl" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id)))), h("div", null, h("ir-input", { label: 'Flight details', placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
+            } }), h("div", { class: "hidden flex-1  md:block" }, h("p", { class: "text-end text-base font-medium xl:text-xl" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id)))), h("div", null, h("ir-input", { label: localizedWords.entries.Lcz_FlightDetails, placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
                 id: option.vehicle.code,
                 value: option.vehicle.description,
-            })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: "Car model", variant: "double-line" }), h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({
+            })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: localizedWords.entries.Lcz_CarModel, variant: "double-line" }), h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({
                 id: i,
                 value: i.toString(),
-            })), label: "No. of vehicles", variant: "double-line" })))))));
+            })), label: localizedWords.entries.Lcz_NoOfVehicles, variant: "double-line" })))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "shadow"; }

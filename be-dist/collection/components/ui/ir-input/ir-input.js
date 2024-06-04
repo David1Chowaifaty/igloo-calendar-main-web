@@ -30,6 +30,7 @@ export class IrInput {
         this.mask = undefined;
         this.labelBackground = undefined;
         this.mode = 'double-line';
+        this.tooltip = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -112,7 +113,7 @@ export class IrInput {
         }
     }
     render() {
-        return (h("div", { key: 'f241f86722de0abfe71c287691974d9a90460479', ref: el => (this.inputEl = el), class: `input-container  ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: '741f28d7d1b60cc937448cbf7996091ef1677234', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: 'c3e28644b1bca2d5d3aa277c0275d88b3b8e4d4e', class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
+        return (h("div", { key: 'b3e76d63319919019fc8d837a8c7d9f6768c3abc', ref: el => (this.inputEl = el), class: `input-container  ${this.disabled ? 'disabled' : ''}`, "data-context": this.leftIcon ? 'icon' : '' }, this.leftIcon && (h("label", { htmlFor: this.inputId, class: "left-icon" }, h("slot", { name: "left-icon" }))), h("input", { key: 'd77c2481cea0f0138f554bf39a0c1d4afe30048f', type: this.type, name: this.name, placeholder: this.placeholder, id: this.inputId, class: this.class, required: this.required, disabled: this.disabled, readonly: this.readonly, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, pattern: this.pattern, autocomplete: this.autocomplete, autofocus: this.autofocus, size: this.size, multiple: this.multiple, value: this.value, onInput: e => this.textChanged.emit(e.target.value), onBlur: this.handleBlur.bind(this), onFocus: e => this.inputFocus.emit(e) }), h("p", { key: '19295fa32f80afeeb0a972a5036db224eebc9764', slot: "tooltip-trigger", title: this.tooltip, class: "placeholder", style: { '--label-background': this.labelBackground } }, this.label), this.rightIcon && (h("label", { htmlFor: this.inputId, class: "right-icon" }, h("slot", { name: "right-icon" })))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "scoped"; }
@@ -602,6 +603,23 @@ export class IrInput {
                 "attribute": "mode",
                 "reflect": false,
                 "defaultValue": "'double-line'"
+            },
+            "tooltip": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "tooltip",
+                "reflect": false
             }
         };
     }

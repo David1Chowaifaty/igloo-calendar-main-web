@@ -54,7 +54,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'b91acc18a1cb48ccfec7e0181dcf50bf14181f13' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
+        return (h(Host, { key: '8e0e8275a32f89a7fa8ab95145bf0a978ba7e260' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }

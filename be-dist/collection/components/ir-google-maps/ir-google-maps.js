@@ -20,7 +20,7 @@ export class IrGoogleMaps {
         });
     }
     render() {
-        return (h(Host, { key: '39ed5c4a5cbef0550724dcdd0d106ecc300e2300' }, h("div", { key: 'fde94f0d74b4d02401ca349ddadfa7e09ab85943', id: "map", class: "h-full w-full" })));
+        return (h(Host, { key: '86d0ab3f5aaabf1cccacb931d8aadfc2f3ebe1f7' }, h("div", { key: 'de819fd86c804b3a3814b69d6dd76638f8ceb44f', id: "map", class: "h-full w-full" })));
     }
     static get is() { return "ir-google-maps"; }
     static get encapsulation() { return "shadow"; }

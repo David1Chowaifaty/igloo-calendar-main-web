@@ -76,6 +76,7 @@ export namespace Components {
         "baseUrl": string;
         "injected": boolean;
         "propertyId": number;
+        "redirect_url": string;
         "roomtype_id": number;
         "token": string;
     }
@@ -209,6 +210,7 @@ export namespace Components {
         "rightIcon": boolean;
         "size": number;
         "step": string | number;
+        "tooltip": string;
         "type": | 'button'
     | 'checkbox'
     | 'color'
@@ -1396,6 +1398,7 @@ declare namespace LocalJSX {
         "baseUrl"?: string;
         "injected"?: boolean;
         "propertyId"?: number;
+        "redirect_url"?: string;
         "roomtype_id"?: number;
         "token"?: string;
     }
@@ -1563,6 +1566,7 @@ declare namespace LocalJSX {
         "rightIcon"?: boolean;
         "size"?: number;
         "step"?: string | number;
+        "tooltip"?: string;
         "type"?: | 'button'
     | 'checkbox'
     | 'color'

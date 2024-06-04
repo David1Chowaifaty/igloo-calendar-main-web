@@ -16,7 +16,7 @@ export class IrTooltip {
                 placement: 'auto',
                 modifiers: [
                     {
-                        name: 'offset',
+                        name: 'tooltip_' + this.message.substring(0, 10),
                         options: {
                             offset: [0, 8],
                         },
@@ -26,6 +26,7 @@ export class IrTooltip {
         }
     }
     toggleOpen(shouldOpen) {
+        console.log('tooltip open');
         if (this.tooltipTimeout) {
             clearTimeout(this.tooltipTimeout);
         }
@@ -54,7 +55,7 @@ export class IrTooltip {
         }
     }
     render() {
-        return (h(Host, { key: '25fa1aebcee6002c23a9fce2d0a709419bb0f8f2' }, h("button", { key: '50afdb9fe5fbac3baff7a0154a31756f23a38ed3', ref: el => (this.trigger = el), onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (h("svg", { "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), h("div", { key: '5a53710a1d2fa8cdddc4eac7f5aa701e5753c53a', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, null, h("div", { class: "tooltip-content px-3 py-2\r\n              text-xs rounded-lg max-w-xs " }, h("div", { innerHTML: this.message })))))));
+        return (h(Host, { key: 'bb9c034cb18789a8cc613a6000d873a42afcd031' }, h("button", { key: '02a2b469f6d88c6278bd1dfec9bac963dd8703ac', ref: el => (this.trigger = el), onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (h("svg", { "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), h("div", { key: '4ef7c533dffa3f0af3a26c558fe3f19fd132aad5', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, null, h("div", { class: "tooltip-content max-w-xs rounded-lg\r\n              px-3 py-2 text-xs " }, h("div", { innerHTML: this.message })))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "shadow"; }

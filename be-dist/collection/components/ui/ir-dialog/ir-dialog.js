@@ -1,3 +1,4 @@
+import localizedWords from "../../../stores/localization.store";
 import { addOverlay, removeOverlay } from "../../../stores/overlay.store";
 import { Host, h } from "@stencil/core";
 export class IrDialog {
@@ -60,11 +61,11 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '6a282cf53f8cf5b2dee02889699f4446fd502d88' }, h("div", { key: '205780466733619895b5d454f23f3b446b62895e', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
+        return (h(Host, { key: '6e855a6c3cf87beb3138f641e1f1ac66d0ea70c7' }, h("div", { key: 'f689134e1e5edd6c1c81c35e1818167c15b1a34a', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal();
-            }, variants: "icon", title: "close", class: "absolute right-3 top-3", iconName: "xmark" })), h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "absolute right-3 top-3", iconName: "xmark" })), h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

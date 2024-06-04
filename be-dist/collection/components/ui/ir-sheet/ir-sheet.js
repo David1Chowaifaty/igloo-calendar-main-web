@@ -1,3 +1,4 @@
+import localizedWords from "../../../stores/localization.store";
 import { addOverlay, removeOverlay } from "../../../stores/overlay.store";
 import { Host, h } from "@stencil/core";
 export class IrSheet {
@@ -41,7 +42,7 @@ export class IrSheet {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: 'd9fc21371c8310a4ec30bf48aefae515c8021a3b' }, h("div", { key: '71517f759136e460dce3e477bde15b615f9b6ca4', class: "backdrop", "data-state": this.isVisible ? 'opened' : 'closed', onClick: () => this.closeSheet() }), h("div", { key: 'a8db25131f3a4bceecbfa8c7b692cd0b63d7f6ce', class: "fixed right-0 top-0\r\n          z-50 h-screen\r\n          min-w-[70%] max-w-full bg-white shadow-md\r\n          transition-transform duration-300 ease-in-out\r\n        data-[state='closed']:translate-x-[100%] data-[state='opened']:translate-x-0", "data-state": this.isVisible ? 'opened' : 'closed' }, h("ir-button", { key: '67c31f83219981d0e70944ddf6ea420f9e829e47', variants: "icon", title: "close", iconName: "xmark", onButtonClick: () => this.closeSheet(), class: "absolute right-4 top-4" }), h("div", { key: '013e5ddbc63342909d0f407b62b7d5b7b2e18320', class: "mt-8 w-full" }, h("slot", { key: '5751221ae7cb5f36ad79aeccd130d58d9400b2c1', name: "sheet-content" })))));
+        return (h(Host, { key: 'bd11383f5fd5c76ac587f2a360ccf0dcfdc9dfa9' }, h("div", { key: '9ad4c31db42505f3fff597bd670345f9fe172e09', class: "backdrop", "data-state": this.isVisible ? 'opened' : 'closed', onClick: () => this.closeSheet() }), h("div", { key: 'b2f5feba2dd7b593280e1a74af7c5f46cb6214b8', class: "fixed right-0 top-0\r\n          z-50 h-screen\r\n          min-w-[70%] max-w-full bg-white shadow-md\r\n          transition-transform duration-300 ease-in-out\r\n        data-[state='closed']:translate-x-[100%] data-[state='opened']:translate-x-0", "data-state": this.isVisible ? 'opened' : 'closed' }, h("ir-button", { key: '8bcde8a1b8de457334f9ea0e36897333d6b83e62', variants: "icon", title: localizedWords.entries.Lcz_Close, iconName: "xmark", onButtonClick: () => this.closeSheet(), class: "absolute right-4 top-4" }), h("div", { key: '897085cc07f23dcd9376e0db160b354ec0a1ebcf', class: "mt-8 w-full" }, h("slot", { key: '35704926935377345d9dd2a9b55006f7579757c9', name: "sheet-content" })))));
     }
     static get is() { return "ir-sheet"; }
     static get encapsulation() { return "shadow"; }

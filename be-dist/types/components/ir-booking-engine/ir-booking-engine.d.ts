@@ -8,6 +8,7 @@ export declare class IrBookingEngine {
     baseUrl: string;
     injected: boolean;
     roomtype_id: number;
+    redirect_url: string;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];

@@ -42,7 +42,7 @@ export class PickupService {
         (_a = app_store.property.pickup_service.allowed_options) === null || _a === void 0 ? void 0 : _a.forEach(option => {
             if (!locationsMap.has(option.location.id)) {
                 locationsMap.set(option.location.id, {
-                    value: message + ' ' + option.location.description,
+                    value: message.replace('%1', option.location.description),
                     id: option.location.id,
                 });
             }

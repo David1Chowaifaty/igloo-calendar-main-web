@@ -12,10 +12,10 @@ export declare class IrInvoice {
     private commonService;
     private authService;
     componentWillLoad(): void;
-    handleTokenChange(): void;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
     fetchData(): Promise<void>;
     renderBookingDetailHeader(): string;
+    getPropertyEmail(): string;
     render(): any;
 }
