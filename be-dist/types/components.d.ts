@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
 import { ICurrency, IExposedLanguages, pages } from "./models/common";
+import { TContainerStyle } from "./components/ir-booking-widget/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 import { Locale } from "date-fns";
@@ -18,6 +19,7 @@ import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/a
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
 export { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
 export { ICurrency, IExposedLanguages, pages } from "./models/common";
+export { TContainerStyle } from "./components/ir-booking-widget/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 export { Locale } from "date-fns";
@@ -37,6 +39,7 @@ export namespace Components {
     }
     interface IrAdultChildCounter {
         "adultCount": number;
+        "childMaxAge": number;
         "childrenCount": number;
         "maxAdultCount": number;
         "maxChildrenCount": number;
@@ -51,8 +54,13 @@ export namespace Components {
         "enableSignUp": boolean;
     }
     interface IrAvailibilityHeader {
+        "adultCount": string;
+        "childrenCount": string;
+        "fromDate": string;
+        "toDate": string;
     }
     interface IrBadge {
+        "backgroundShown": boolean;
         "label": string;
         "size": 'sm' | 'md' | 'lg';
         "variant": 'default' | 'error' | 'pending' | 'success';
@@ -73,24 +81,47 @@ export namespace Components {
         "errors": string;
     }
     interface IrBookingEngine {
+        "aName": string;
+        "adultCount": string;
+        "aff": string;
         "baseUrl": string;
+        "childrenCount": string;
+        "cur": string;
+        "fromDate": string;
         "injected": boolean;
+        "language": string;
+        "perma_link": string;
         "propertyId": number;
         "redirect_url": string;
         "roomtype_id": number;
+        "stag": string | null;
+        "toDate": string;
         "token": string;
     }
     interface IrBookingListing {
         "baseUrl": string;
         "footerShown": boolean;
         "headerShown": boolean;
+        "language": string;
+        "maxPages": number;
         "propertyid": number;
     }
     interface IrBookingPage {
+        "adultCount": string;
+        "childrenCount": string;
+        "fromDate": string;
+        "toDate": string;
     }
     interface IrBookingSummary {
         "error": boolean;
         "isLoading": boolean;
+    }
+    interface IrBookingWidget {
+        "baseUrl": string;
+        "contentContainerStyle": TContainerStyle;
+        "language": string;
+        "position": 'sticky' | 'block';
+        "propertyId": number;
     }
     interface IrButton {
         "buttonClassName": string;
@@ -99,10 +130,13 @@ export namespace Components {
         "disabled": boolean;
         "haveLeftIcon": boolean;
         "haveRightIcon": boolean;
+        "iconHeight": number;
         "iconName": TIcons;
+        "iconWidth": number;
         "isLoading": boolean;
         "label": string;
         "name": string;
+        "removeIconClassName": boolean;
         "size": 'sm' | 'md' | 'lg' | 'pill';
         "svgClassName": string;
         "type": 'button' | 'submit' | 'reset' | 'menu';
@@ -164,12 +198,6 @@ export namespace Components {
         "placement": 'top' | 'right' | 'bottom' | 'left';
         "show": () => Promise<void>;
     }
-    interface IrDropdown {
-        "dropdownTitle": string;
-        "itemNames": IItems[];
-        "rtl": boolean;
-        "search": boolean;
-    }
     interface IrFacilities {
     }
     interface IrFooter {
@@ -180,9 +208,19 @@ export namespace Components {
     }
     interface IrGoogleMaps {
     }
+    interface IrGuestCounter {
+        "childMaxAge": number;
+        "maxAdultCount": number;
+        "maxChildrenCount": number;
+        "minAdultCount": number;
+        "minChildrenCount": number;
+    }
     interface IrIcons {
+        "height": number;
         "name": TIcons;
+        "removeClassName": boolean;
         "svgClassName": string;
+        "width": number;
     }
     interface IrInput {
         "autocomplete": string;
@@ -252,6 +290,10 @@ export namespace Components {
     }
     interface IrLoyalty {
     }
+    interface IrMenu {
+        "data": IItems[];
+        "menuItem": string;
+    }
     interface IrModal {
         "closeModal": () => Promise<void>;
         "element": HTMLElement;
@@ -263,6 +305,11 @@ export namespace Components {
         "languages": IExposedLanguages[];
         "logo": string;
         "website": string;
+    }
+    interface IrPagination {
+        "current": number;
+        "minPageShown": number;
+        "total": number;
     }
     interface IrPaymentView {
     }
@@ -445,13 +492,13 @@ export interface IrDrawerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDrawerElement;
 }
-export interface IrDropdownCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrDropdownElement;
-}
 export interface IrGalleryCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGalleryElement;
+}
+export interface IrGuestCounterCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrGuestCounterElement;
 }
 export interface IrInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -465,9 +512,17 @@ export interface IrLoyaltyCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrLoyaltyElement;
 }
+export interface IrMenuCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrMenuElement;
+}
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrModalElement;
+}
+export interface IrPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPaginationElement;
 }
 export interface IrPhoneInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -682,6 +737,12 @@ declare global {
         prototype: HTMLIrBookingSummaryElement;
         new (): HTMLIrBookingSummaryElement;
     };
+    interface HTMLIrBookingWidgetElement extends Components.IrBookingWidget, HTMLStencilElement {
+    }
+    var HTMLIrBookingWidgetElement: {
+        prototype: HTMLIrBookingWidgetElement;
+        new (): HTMLIrBookingWidgetElement;
+    };
     interface HTMLIrButtonElementEventMap {
         "buttonClick": MouseEvent;
     }
@@ -869,23 +930,6 @@ declare global {
         prototype: HTMLIrDrawerElement;
         new (): HTMLIrDrawerElement;
     };
-    interface HTMLIrDropdownElementEventMap {
-        "itemSelect": string;
-    }
-    interface HTMLIrDropdownElement extends Components.IrDropdown, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrDropdownElementEventMap>(type: K, listener: (this: HTMLIrDropdownElement, ev: IrDropdownCustomEvent<HTMLIrDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrDropdownElementEventMap>(type: K, listener: (this: HTMLIrDropdownElement, ev: IrDropdownCustomEvent<HTMLIrDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrDropdownElement: {
-        prototype: HTMLIrDropdownElement;
-        new (): HTMLIrDropdownElement;
-    };
     interface HTMLIrFacilitiesElement extends Components.IrFacilities, HTMLStencilElement {
     }
     var HTMLIrFacilitiesElement: {
@@ -920,6 +964,23 @@ declare global {
     var HTMLIrGoogleMapsElement: {
         prototype: HTMLIrGoogleMapsElement;
         new (): HTMLIrGoogleMapsElement;
+    };
+    interface HTMLIrGuestCounterElementEventMap {
+        "updateCounts": any;
+    }
+    interface HTMLIrGuestCounterElement extends Components.IrGuestCounter, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrGuestCounterElementEventMap>(type: K, listener: (this: HTMLIrGuestCounterElement, ev: IrGuestCounterCustomEvent<HTMLIrGuestCounterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrGuestCounterElementEventMap>(type: K, listener: (this: HTMLIrGuestCounterElement, ev: IrGuestCounterCustomEvent<HTMLIrGuestCounterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrGuestCounterElement: {
+        prototype: HTMLIrGuestCounterElement;
+        new (): HTMLIrGuestCounterElement;
     };
     interface HTMLIrIconsElement extends Components.IrIcons, HTMLStencilElement {
     }
@@ -993,6 +1054,23 @@ declare global {
         prototype: HTMLIrLoyaltyElement;
         new (): HTMLIrLoyaltyElement;
     };
+    interface HTMLIrMenuElementEventMap {
+        "itemSelect": string;
+    }
+    interface HTMLIrMenuElement extends Components.IrMenu, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuElement, ev: IrMenuCustomEvent<HTMLIrMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuElement, ev: IrMenuCustomEvent<HTMLIrMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrMenuElement: {
+        prototype: HTMLIrMenuElement;
+        new (): HTMLIrMenuElement;
+    };
     interface HTMLIrModalElementEventMap {
         "openChange": boolean;
     }
@@ -1015,6 +1093,23 @@ declare global {
     var HTMLIrNavElement: {
         prototype: HTMLIrNavElement;
         new (): HTMLIrNavElement;
+    };
+    interface HTMLIrPaginationElementEventMap {
+        "pageChange": number;
+    }
+    interface HTMLIrPaginationElement extends Components.IrPagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPaginationElementEventMap>(type: K, listener: (this: HTMLIrPaginationElement, ev: IrPaginationCustomEvent<HTMLIrPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPaginationElementEventMap>(type: K, listener: (this: HTMLIrPaginationElement, ev: IrPaginationCustomEvent<HTMLIrPaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrPaginationElement: {
+        prototype: HTMLIrPaginationElement;
+        new (): HTMLIrPaginationElement;
     };
     interface HTMLIrPaymentViewElement extends Components.IrPaymentView, HTMLStencilElement {
     }
@@ -1296,6 +1391,7 @@ declare global {
         "ir-booking-listing": HTMLIrBookingListingElement;
         "ir-booking-page": HTMLIrBookingPageElement;
         "ir-booking-summary": HTMLIrBookingSummaryElement;
+        "ir-booking-widget": HTMLIrBookingWidgetElement;
         "ir-button": HTMLIrButtonElement;
         "ir-calendar": HTMLIrCalendarElement;
         "ir-carousel": HTMLIrCarouselElement;
@@ -1308,19 +1404,21 @@ declare global {
         "ir-date-range": HTMLIrDateRangeElement;
         "ir-dialog": HTMLIrDialogElement;
         "ir-drawer": HTMLIrDrawerElement;
-        "ir-dropdown": HTMLIrDropdownElement;
         "ir-facilities": HTMLIrFacilitiesElement;
         "ir-footer": HTMLIrFooterElement;
         "ir-gallery": HTMLIrGalleryElement;
         "ir-google-maps": HTMLIrGoogleMapsElement;
+        "ir-guest-counter": HTMLIrGuestCounterElement;
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
         "ir-invoice": HTMLIrInvoiceElement;
         "ir-language-picker": HTMLIrLanguagePickerElement;
         "ir-loyalty": HTMLIrLoyaltyElement;
+        "ir-menu": HTMLIrMenuElement;
         "ir-modal": HTMLIrModalElement;
         "ir-nav": HTMLIrNavElement;
+        "ir-pagination": HTMLIrPaginationElement;
         "ir-payment-view": HTMLIrPaymentViewElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
         "ir-pickup": HTMLIrPickupElement;
@@ -1354,6 +1452,7 @@ declare namespace LocalJSX {
     }
     interface IrAdultChildCounter {
         "adultCount"?: number;
+        "childMaxAge"?: number;
         "childrenCount"?: number;
         "maxAdultCount"?: number;
         "maxChildrenCount"?: number;
@@ -1369,10 +1468,15 @@ declare namespace LocalJSX {
         "onCloseDialog"?: (event: IrAuthCustomEvent<null>) => void;
     }
     interface IrAvailibilityHeader {
+        "adultCount"?: string;
+        "childrenCount"?: string;
+        "fromDate"?: string;
         "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
         "onScrollToRoomType"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
+        "toDate"?: string;
     }
     interface IrBadge {
+        "backgroundShown"?: boolean;
         "label"?: string;
         "size"?: 'sm' | 'md' | 'lg';
         "variant"?: 'default' | 'error' | 'pending' | 'success';
@@ -1395,27 +1499,50 @@ declare namespace LocalJSX {
         "errors"?: string;
     }
     interface IrBookingEngine {
+        "aName"?: string;
+        "adultCount"?: string;
+        "aff"?: string;
         "baseUrl"?: string;
+        "childrenCount"?: string;
+        "cur"?: string;
+        "fromDate"?: string;
         "injected"?: boolean;
+        "language"?: string;
+        "perma_link"?: string;
         "propertyId"?: number;
         "redirect_url"?: string;
         "roomtype_id"?: number;
+        "stag"?: string | null;
+        "toDate"?: string;
         "token"?: string;
     }
     interface IrBookingListing {
         "baseUrl"?: string;
         "footerShown"?: boolean;
         "headerShown"?: boolean;
+        "language"?: string;
+        "maxPages"?: number;
         "propertyid"?: number;
     }
     interface IrBookingPage {
+        "adultCount"?: string;
+        "childrenCount"?: string;
+        "fromDate"?: string;
         "onRouting"?: (event: IrBookingPageCustomEvent<pages>) => void;
+        "toDate"?: string;
     }
     interface IrBookingSummary {
         "error"?: boolean;
         "isLoading"?: boolean;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
+    }
+    interface IrBookingWidget {
+        "baseUrl"?: string;
+        "contentContainerStyle"?: TContainerStyle;
+        "language"?: string;
+        "position"?: 'sticky' | 'block';
+        "propertyId"?: number;
     }
     interface IrButton {
         "buttonClassName"?: string;
@@ -1424,11 +1551,14 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "haveLeftIcon"?: boolean;
         "haveRightIcon"?: boolean;
+        "iconHeight"?: number;
         "iconName"?: TIcons;
+        "iconWidth"?: number;
         "isLoading"?: boolean;
         "label"?: string;
         "name"?: string;
         "onButtonClick"?: (event: IrButtonCustomEvent<MouseEvent>) => void;
+        "removeIconClassName"?: boolean;
         "size"?: 'sm' | 'md' | 'lg' | 'pill';
         "svgClassName"?: string;
         "type"?: 'button' | 'submit' | 'reset' | 'menu';
@@ -1515,13 +1645,6 @@ declare namespace LocalJSX {
         "open"?: boolean;
         "placement"?: 'top' | 'right' | 'bottom' | 'left';
     }
-    interface IrDropdown {
-        "dropdownTitle"?: string;
-        "itemNames"?: IItems[];
-        "onItemSelect"?: (event: IrDropdownCustomEvent<string>) => void;
-        "rtl"?: boolean;
-        "search"?: boolean;
-    }
     interface IrFacilities {
     }
     interface IrFooter {
@@ -1533,9 +1656,20 @@ declare namespace LocalJSX {
     }
     interface IrGoogleMaps {
     }
+    interface IrGuestCounter {
+        "childMaxAge"?: number;
+        "maxAdultCount"?: number;
+        "maxChildrenCount"?: number;
+        "minAdultCount"?: number;
+        "minChildrenCount"?: number;
+        "onUpdateCounts"?: (event: IrGuestCounterCustomEvent<any>) => void;
+    }
     interface IrIcons {
+        "height"?: number;
         "name"?: TIcons;
+        "removeClassName"?: boolean;
         "svgClassName"?: string;
+        "width"?: number;
     }
     interface IrInput {
         "autocomplete"?: string;
@@ -1611,6 +1745,11 @@ declare namespace LocalJSX {
     interface IrLoyalty {
         "onResetBooking"?: (event: IrLoyaltyCustomEvent<string>) => void;
     }
+    interface IrMenu {
+        "data"?: IItems[];
+        "menuItem"?: string;
+        "onItemSelect"?: (event: IrMenuCustomEvent<string>) => void;
+    }
     interface IrModal {
         "element"?: HTMLElement;
         "onOpenChange"?: (event: IrModalCustomEvent<boolean>) => void;
@@ -1621,6 +1760,12 @@ declare namespace LocalJSX {
         "languages"?: IExposedLanguages[];
         "logo"?: string;
         "website"?: string;
+    }
+    interface IrPagination {
+        "current"?: number;
+        "minPageShown"?: number;
+        "onPageChange"?: (event: IrPaginationCustomEvent<number>) => void;
+        "total"?: number;
     }
     interface IrPaymentView {
     }
@@ -1765,6 +1910,7 @@ declare namespace LocalJSX {
         "ir-booking-listing": IrBookingListing;
         "ir-booking-page": IrBookingPage;
         "ir-booking-summary": IrBookingSummary;
+        "ir-booking-widget": IrBookingWidget;
         "ir-button": IrButton;
         "ir-calendar": IrCalendar;
         "ir-carousel": IrCarousel;
@@ -1777,19 +1923,21 @@ declare namespace LocalJSX {
         "ir-date-range": IrDateRange;
         "ir-dialog": IrDialog;
         "ir-drawer": IrDrawer;
-        "ir-dropdown": IrDropdown;
         "ir-facilities": IrFacilities;
         "ir-footer": IrFooter;
         "ir-gallery": IrGallery;
         "ir-google-maps": IrGoogleMaps;
+        "ir-guest-counter": IrGuestCounter;
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
         "ir-invoice": IrInvoice;
         "ir-language-picker": IrLanguagePicker;
         "ir-loyalty": IrLoyalty;
+        "ir-menu": IrMenu;
         "ir-modal": IrModal;
         "ir-nav": IrNav;
+        "ir-pagination": IrPagination;
         "ir-payment-view": IrPaymentView;
         "ir-phone-input": IrPhoneInput;
         "ir-pickup": IrPickup;
@@ -1831,6 +1979,7 @@ declare module "@stencil/core" {
             "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
             "ir-booking-page": LocalJSX.IrBookingPage & JSXBase.HTMLAttributes<HTMLIrBookingPageElement>;
             "ir-booking-summary": LocalJSX.IrBookingSummary & JSXBase.HTMLAttributes<HTMLIrBookingSummaryElement>;
+            "ir-booking-widget": LocalJSX.IrBookingWidget & JSXBase.HTMLAttributes<HTMLIrBookingWidgetElement>;
             "ir-button": LocalJSX.IrButton & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
             "ir-calendar": LocalJSX.IrCalendar & JSXBase.HTMLAttributes<HTMLIrCalendarElement>;
             "ir-carousel": LocalJSX.IrCarousel & JSXBase.HTMLAttributes<HTMLIrCarouselElement>;
@@ -1843,19 +1992,21 @@ declare module "@stencil/core" {
             "ir-date-range": LocalJSX.IrDateRange & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
             "ir-dialog": LocalJSX.IrDialog & JSXBase.HTMLAttributes<HTMLIrDialogElement>;
             "ir-drawer": LocalJSX.IrDrawer & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
-            "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
             "ir-facilities": LocalJSX.IrFacilities & JSXBase.HTMLAttributes<HTMLIrFacilitiesElement>;
             "ir-footer": LocalJSX.IrFooter & JSXBase.HTMLAttributes<HTMLIrFooterElement>;
             "ir-gallery": LocalJSX.IrGallery & JSXBase.HTMLAttributes<HTMLIrGalleryElement>;
             "ir-google-maps": LocalJSX.IrGoogleMaps & JSXBase.HTMLAttributes<HTMLIrGoogleMapsElement>;
+            "ir-guest-counter": LocalJSX.IrGuestCounter & JSXBase.HTMLAttributes<HTMLIrGuestCounterElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
             "ir-invoice": LocalJSX.IrInvoice & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;
             "ir-language-picker": LocalJSX.IrLanguagePicker & JSXBase.HTMLAttributes<HTMLIrLanguagePickerElement>;
             "ir-loyalty": LocalJSX.IrLoyalty & JSXBase.HTMLAttributes<HTMLIrLoyaltyElement>;
+            "ir-menu": LocalJSX.IrMenu & JSXBase.HTMLAttributes<HTMLIrMenuElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-nav": LocalJSX.IrNav & JSXBase.HTMLAttributes<HTMLIrNavElement>;
+            "ir-pagination": LocalJSX.IrPagination & JSXBase.HTMLAttributes<HTMLIrPaginationElement>;
             "ir-payment-view": LocalJSX.IrPaymentView & JSXBase.HTMLAttributes<HTMLIrPaymentViewElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;

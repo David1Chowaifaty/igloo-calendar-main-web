@@ -42,8 +42,9 @@ export class IrModal {
     }
     insertModalContent() {
         this.modalContainer = document.createElement('div');
-        const auth = document.createElement('ir-auth');
-        this.modalContainer.appendChild(auth);
+        this.auth = document.createElement('ir-auth');
+        this.auth.addEventListener('closeDialog', () => this.closeModal());
+        this.modalContainer.appendChild(this.auth);
         this.modalContainer.className = 'modal-container';
         if (this.modalContainer) {
             this.portal.appendChild(this.modalContainer);
@@ -87,6 +88,7 @@ export class IrModal {
     disconnectedCallback() {
         this.removeOverlay();
         this.removeModalContent();
+        this.auth.removeEventListener('closeDialog', () => this.closeModal());
     }
     render() {
         return null;

@@ -1,6 +1,7 @@
 import { T as Token, M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
 import { a as axios } from './axios.js';
+import { P as PropertyService } from './property.service.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -29,6 +30,9 @@ class AuthService extends Token {
             app_store.app_data.token = data['My_Result'];
             app_store.is_signed_in = true;
         }
+        const propertyService = new PropertyService();
+        propertyService.setToken(data['My_Result']);
+        propertyService.getExposedGuest();
         return data['My_Result'];
     }
     async signUp(params) {

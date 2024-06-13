@@ -9,6 +9,7 @@ export declare class IrSignin {
         status: 'empty' | 'valid' | 'invalid';
         errors: Record<keyof TSignInValidator, string> | null;
     };
+    isLoading: boolean;
     authFinish: EventEmitter<{
         state: 'success' | 'failed';
         token: string;

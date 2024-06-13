@@ -1,6 +1,10 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TExposedBookingAvailability } from './availability';
 export declare class IrAvailibilityHeader {
+    fromDate: string;
+    toDate: string;
+    adultCount: string;
+    childrenCount: string;
     exposedBookingAvailabiltyParams: TExposedBookingAvailability;
     target: HTMLElement;
     errorCause: 'date' | 'adult_child' | null;
@@ -16,6 +20,10 @@ export declare class IrAvailibilityHeader {
     personCounter: HTMLIrAdultChildCounterElement;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    handleFromDateChange(newValue: string, oldValue: string): void;
+    handleToDateChange(newValue: string, oldValue: string): void;
+    handleChildrenCountChange(newValue: string, oldValue: string): void;
+    handleAdultCountChange(newValue: string, oldValue: string): void;
     initPoper(): void;
     checkAvailability(): Promise<void>;
     handleCheckAvailability(): Promise<void>;

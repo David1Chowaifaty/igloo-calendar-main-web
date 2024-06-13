@@ -5,13 +5,65 @@ import { u as updateUserFormData, c as checkout_store } from './checkout.store.j
 import { d as dateFns, g as getDateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 
+class Colors {
+    hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        var r = parseInt(hex.substring(0, 2), 16);
+        var g = parseInt(hex.substring(2, 4), 16);
+        var b = parseInt(hex.substring(4, 6), 16);
+        return { r, g, b };
+    }
+    rgbToHsl(rgb) {
+        let r = parseInt(rgb.r);
+        let g = parseInt(rgb.g);
+        let b = parseInt(rgb.b);
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
+        if (delta == 0)
+            h = 0;
+        else if (cmax == r)
+            h = ((g - b) / delta) % 6;
+        else if (cmax == g)
+            h = (b - r) / delta + 2;
+        else
+            h = (r - g) / delta + 4;
+        h = Math.round(h * 60);
+        if (h < 0)
+            h += 360;
+        l = (cmax + cmin) / 2;
+        s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        s = +(s * 100).toFixed(1);
+        l = +(l * 100).toFixed(1);
+        return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
+    }
+    hexToHSL(hex) {
+        const rgb = this.hexToRgb(hex);
+        return this.rgbToHsl(rgb);
+    }
+    generateColorShades(baseHex) {
+        const { h, s, l: baseL } = this.hexToHSL(baseHex);
+        let shades = [];
+        for (let i = -3; i <= 6; i++) {
+            let l = baseL + i * 4;
+            shades.push({ h, s, l: Math.min(Math.max(l, 0), 100) });
+        }
+        return shades;
+    }
+}
+
 class PropertyService extends Token {
-    async getExposedProperty(params) {
+    constructor() {
+        super(...arguments);
+        this.colors = new Colors();
+    }
+    async getExposedProperty(params, initTheme = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { aname: null, currency: app_store.userPreferences.currency_id }));
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -20,7 +72,29 @@ class PropertyService extends Token {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
         app_store.property = Object.assign({}, result.My_Result);
+        if (initTheme) {
+            this.initTheme(result.My_Result);
+        }
         return result.My_Result;
+    }
+    initTheme(property) {
+        if (property.space_theme) {
+            const root = document.documentElement;
+            const shades = this.colors.generateColorShades(property.space_theme.button_bg_color);
+            let shade_number = 900;
+            shades.forEach((shade, index) => {
+                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+                if (index === 9) {
+                    shade_number = 25;
+                }
+                else if (index === 8) {
+                    shade_number = 50;
+                }
+                else {
+                    shade_number = shade_number - 100;
+                }
+            });
+        }
     }
     async getExposedBookingAvailability(params) {
         const token = this.getToken();
@@ -42,12 +116,12 @@ class PropertyService extends Token {
         booking_store.enableBooking = true;
         return result;
     }
-    async getExposedBooking(params) {
+    async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? ['payment_code'] : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -205,11 +279,14 @@ class PropertyService extends Token {
                         id: app_store.app_data.property_id,
                     },
                     source: null,
-                    referrer_site: app_store.property.affiliates.includes(window.location.href) ? window.location.href : 'www.igloorooms.com',
+                    referrer_site: app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
+                },
+                extras: {
+                    payment_code: checkout_store.payment.code,
                 },
                 pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
             };
@@ -232,7 +309,6 @@ class PropertyService extends Token {
         const { data } = await axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
         });
-        console.log('d');
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -243,7 +319,8 @@ class PropertyService extends Token {
             return;
         }
         app_store.is_signed_in = true;
-        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.phone });
+        console.log(res);
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile });
     }
 }
 

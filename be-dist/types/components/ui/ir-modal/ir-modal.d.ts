@@ -9,6 +9,7 @@ export declare class IrModal {
     private overlay;
     private modalContainer;
     openChange: EventEmitter<boolean>;
+    auth: HTMLIrAuthElement;
     componentWillLoad(): void;
     componentDidLoad(): void;
     openModal(): Promise<void>;

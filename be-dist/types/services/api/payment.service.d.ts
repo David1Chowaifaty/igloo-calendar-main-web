@@ -7,4 +7,5 @@ export declare class PaymentService extends Token {
         email: string;
         pgw_id: string;
     }): Promise<any>;
+    RequestBookingCancelation(booking_nbr: string): Promise<any>;
 }

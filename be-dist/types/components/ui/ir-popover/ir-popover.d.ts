@@ -23,6 +23,7 @@ export declare class IrPopover {
     handleResize(): void;
     initializePopover(): void;
     toggleVisibility(): Promise<void>;
+    adjustPopoverPlacement(): void;
     handleOutsideClick: (event: MouseEvent) => void;
     disconnectedCallback(): void;
     render(): any;

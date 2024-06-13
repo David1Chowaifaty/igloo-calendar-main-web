@@ -5,13 +5,18 @@ import { checkout_store, updateUserFormData } from "../../stores/checkout.store"
 import { getDateDifference } from "../../utils/utils";
 import axios from "axios";
 import { addDays, format } from "date-fns";
+import { Colors } from "../app/colors.service";
 export class PropertyService extends Token {
-    async getExposedProperty(params) {
+    constructor() {
+        super(...arguments);
+        this.colors = new Colors();
+    }
+    async getExposedProperty(params, initTheme = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { aname: null, currency: app_store.userPreferences.currency_id }));
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -20,7 +25,29 @@ export class PropertyService extends Token {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
         app_store.property = Object.assign({}, result.My_Result);
+        if (initTheme) {
+            this.initTheme(result.My_Result);
+        }
         return result.My_Result;
+    }
+    initTheme(property) {
+        if (property.space_theme) {
+            const root = document.documentElement;
+            const shades = this.colors.generateColorShades(property.space_theme.button_bg_color);
+            let shade_number = 900;
+            shades.forEach((shade, index) => {
+                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+                if (index === 9) {
+                    shade_number = 25;
+                }
+                else if (index === 8) {
+                    shade_number = 50;
+                }
+                else {
+                    shade_number = shade_number - 100;
+                }
+            });
+        }
     }
     async getExposedBookingAvailability(params) {
         const token = this.getToken();
@@ -42,12 +69,12 @@ export class PropertyService extends Token {
         booking_store.enableBooking = true;
         return result;
     }
-    async getExposedBooking(params) {
+    async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? ['payment_code'] : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -205,11 +232,14 @@ export class PropertyService extends Token {
                         id: app_store.app_data.property_id,
                     },
                     source: null,
-                    referrer_site: app_store.property.affiliates.includes(window.location.href) ? window.location.href : 'www.igloorooms.com',
+                    referrer_site: app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
+                },
+                extras: {
+                    payment_code: checkout_store.payment.code,
                 },
                 pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
             };
@@ -232,7 +262,6 @@ export class PropertyService extends Token {
         const { data } = await axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
         });
-        console.log('d');
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -243,7 +272,8 @@ export class PropertyService extends Token {
             return;
         }
         app_store.is_signed_in = true;
-        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.phone });
+        console.log(res);
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile });
     }
 }
 //# sourceMappingURL=property.service.js.map

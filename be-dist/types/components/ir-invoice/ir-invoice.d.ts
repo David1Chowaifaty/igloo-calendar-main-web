@@ -11,6 +11,7 @@ export declare class IrInvoice {
     private propertyService;
     private commonService;
     private authService;
+    private paymentService;
     componentWillLoad(): void;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;

@@ -54,61 +54,22 @@ export function getAvailableRooms(assignable_units) {
 export function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
-export const formatAmount = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(amount);
+export const formatAmount = (amount, currency = 'USD', decimals = 2) => {
+    const numberFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+    });
+    return numberFormatter.format(amount);
 };
-function hexToRgb(hex) {
-    hex = hex.replace(/^#/, '');
-    var r = parseInt(hex.substring(0, 2), 16);
-    var g = parseInt(hex.substring(2, 4), 16);
-    var b = parseInt(hex.substring(4, 6), 16);
-    return { r, g, b };
-}
-function rgbToHsl(rgb) {
-    let r = parseInt(rgb.r);
-    let g = parseInt(rgb.g);
-    let b = parseInt(rgb.b);
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
-    if (delta == 0)
-        h = 0;
-    else if (cmax == r)
-        h = ((g - b) / delta) % 6;
-    else if (cmax == g)
-        h = (b - r) / delta + 2;
-    else
-        h = (r - g) / delta + 4;
-    h = Math.round(h * 60);
-    if (h < 0)
-        h += 360;
-    l = (cmax + cmin) / 2;
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-    s = +(s * 100).toFixed(1);
-    l = +(l * 100).toFixed(1);
-    return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
-}
-export function hexToHSL(hex) {
-    const rgb = hexToRgb(hex);
-    return rgbToHsl(rgb);
-}
-export function generateColorShades(baseHex) {
-    const { h, s, l: baseL } = hexToHSL(baseHex);
-    let shades = [];
-    for (let i = -3; i <= 6; i++) {
-        let l = baseL + i * 4;
-        shades.push({ h, s, l: Math.min(Math.max(l, 0), 100) });
-    }
-    return shades;
-}
 export function getDateDifference(date1, date2) {
     return differenceInCalendarDays(date2, date1);
 }
 export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
-export function getUserPrefernce() {
+export function getUserPrefernce(lang = undefined) {
     const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
         const { direction, currency_id } = p;
@@ -116,6 +77,11 @@ export function getUserPrefernce() {
         updateUserPreference({
             currency_id,
             language_id: p.language_id,
+        });
+    }
+    else {
+        updateUserPreference({
+            language_id: lang || 'en',
         });
     }
 }

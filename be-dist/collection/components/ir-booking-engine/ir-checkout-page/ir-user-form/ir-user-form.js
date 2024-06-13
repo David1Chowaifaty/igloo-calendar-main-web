@@ -14,7 +14,7 @@ export class IrUserForm {
         await this.propertyService.fetchSetupEntries();
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!app_store.setup_entries) {
             return null;
         }
@@ -66,7 +66,7 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-phone-input", { "data-state": ((_g = this.errors) === null || _g === void 0 ? void 0 : _g.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
+            } }), h("ir-phone-input", { mobile_number: (_g = checkout_store.userFormData) === null || _g === void 0 ? void 0 : _g.mobile_number.toString(), "data-state": ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
                 updateUserFormData('mobile_number', e.detail.mobile);
                 updateUserFormData('country_code', e.detail.phone_prefix);
             }, onPhoneInputBlur: e => {
@@ -87,10 +87,10 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("div", { class: "user-form-row" }, h("ir-select", { label: localizedWords.entries.Lcz_YourArrivalTime.replace('%1', (_h = app_store.property) === null || _h === void 0 ? void 0 : _h.time_constraints.check_in_from), variant: "double-line", value: (_j = checkout_store.userFormData) === null || _j === void 0 ? void 0 : _j.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
+            } })), h("div", { class: "user-form-row" }, h("ir-select", { label: localizedWords.entries.Lcz_YourArrivalTime.replace('%1', (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.time_constraints.check_in_from), variant: "double-line", value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
                 id: entry.CODE_NAME,
                 value: entry.CODE_VALUE_EN,
-            })), class: "user-form-input" })), h("ir-textarea", { value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.message, placeholder: "", label: localizedWords.entries.Lcz_AnyMessageForUs, maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.bookingForSomeoneElse, label: localizedWords.entries.Lcz_IAmBooklingForSomeoneElse, class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) }))));
+            })), class: "user-form-input" })), h("ir-textarea", { value: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.message, placeholder: "", label: localizedWords.entries.Lcz_AnyMessageForUs, maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_m = checkout_store.userFormData) === null || _m === void 0 ? void 0 : _m.bookingForSomeoneElse, label: localizedWords.entries.Lcz_IAmBooklingForSomeoneElse, class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) }))));
     }
     static get is() { return "ir-user-form"; }
     static get encapsulation() { return "shadow"; }

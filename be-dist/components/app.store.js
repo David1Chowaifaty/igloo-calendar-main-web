@@ -13,6 +13,7 @@ const initialState = {
     },
     invoice: null,
     app_data: {
+        affiliate: false,
         token: '',
         property_id: null,
         injected: false,

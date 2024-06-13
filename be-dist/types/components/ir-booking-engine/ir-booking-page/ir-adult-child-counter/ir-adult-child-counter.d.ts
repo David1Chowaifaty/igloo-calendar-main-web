@@ -6,6 +6,7 @@ export declare class IrAdultChildCounter {
     minChildrenCount: number;
     maxAdultCount: number;
     maxChildrenCount: number;
+    childMaxAge: number;
     addAdultsAndChildren: EventEmitter<{
         adult_nbr: number;
         child_nbr: number;

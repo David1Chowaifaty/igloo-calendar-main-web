@@ -9,6 +9,16 @@ export declare class IrBookingEngine {
     injected: boolean;
     roomtype_id: number;
     redirect_url: string;
+    perma_link: string;
+    aName: string;
+    fromDate: string;
+    language: string;
+    toDate: string;
+    adultCount: string;
+    childrenCount: string;
+    cur: string;
+    aff: string;
+    stag: string | null;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];
@@ -18,8 +28,11 @@ export declare class IrBookingEngine {
     router: Stack<HTMLElement>;
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;
+    modifyLanguage(code: string): void;
+    handleCurrencyChange(newValue: string, oldValue: string): void;
     initializeApp(): void;
     initRequest(): Promise<void>;
+    checkAffiliate(): boolean;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;

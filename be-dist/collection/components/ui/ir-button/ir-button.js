@@ -17,6 +17,9 @@ export class IrButton {
         this.haveRightIcon = undefined;
         this.iconName = undefined;
         this.svgClassName = undefined;
+        this.removeIconClassName = undefined;
+        this.iconHeight = undefined;
+        this.iconWidth = undefined;
     }
     applyStyles(style) {
         for (const property in style) {
@@ -35,7 +38,7 @@ export class IrButton {
     }
     render() {
         if (['icon', 'icon-primary'].includes(this.variants)) {
-            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, 'flex items-center justify-center', this.isLoading ? 'is-loading' : '', this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.isLoading ? (h("span", { class: "loader" })) : (h("div", null, h("ir-icons", { name: this.iconName, svgClassName: this.svgClassName })))));
+            return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants}`, 'flex items-center justify-center', this.isLoading ? 'is-loading' : '', this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.isLoading ? (h("span", { class: "loader" })) : (h("div", null, h("ir-icons", { height: this.iconHeight, width: this.iconWidth, removeClassName: this.removeIconClassName, name: this.iconName, svgClassName: this.svgClassName })))));
         }
         return (h("button", { ref: el => (this.buttonRef = el), onClick: e => this.buttonClick.emit(e), id: this.buttonId, class: cn(`button-${this.variants} flex items-center justify-center`, this.buttonClassName), "data-size": this.size, disabled: this.disabled }, this.haveLeftIcon && !this.isLoading && (h("div", null, h("slot", { name: "left-icon" }))), this.isLoading && !['link', 'ghost'].includes(this.variants) && h("span", { class: "loader" }), this.label, this.haveRightIcon && !this.isLoading && (h("div", null, h("slot", { name: "right-icon" })))));
     }
@@ -276,7 +279,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"image\" | \"search\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"user\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\"",
+                    "resolved": "\"image\" | \"search\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"user\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\" | \"elipse_vertical\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -309,6 +312,57 @@ export class IrButton {
                     "text": ""
                 },
                 "attribute": "svg-class-name",
+                "reflect": false
+            },
+            "removeIconClassName": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "remove-icon-class-name",
+                "reflect": false
+            },
+            "iconHeight": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "icon-height",
+                "reflect": false
+            },
+            "iconWidth": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "icon-width",
                 "reflect": false
             }
         };

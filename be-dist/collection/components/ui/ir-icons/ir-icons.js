@@ -5,13 +5,16 @@ export class IrIcons {
     constructor() {
         this.name = undefined;
         this.svgClassName = undefined;
+        this.height = undefined;
+        this.width = undefined;
+        this.removeClassName = undefined;
     }
     render() {
         const svgPath = icons[this.name] || null;
         if (!svgPath) {
             return null;
         }
-        return (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: svgPath.viewBox, class: cn('h-5 w-5', this.svgClassName) }, h("path", { fill: "currentColor", d: svgPath.d })));
+        return (h("svg", { height: this.height, width: this.width, xmlns: "http://www.w3.org/2000/svg", viewBox: svgPath.viewBox, class: this.removeClassName ? '' : cn('h-5 w-5', this.svgClassName) }, h("path", { fill: "currentColor", d: svgPath.d })));
     }
     static get is() { return "ir-icons"; }
     static get encapsulation() { return "scoped"; }
@@ -32,7 +35,7 @@ export class IrIcons {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"image\" | \"search\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"user\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\"",
+                    "resolved": "\"image\" | \"search\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"user\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\" | \"elipse_vertical\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -65,6 +68,57 @@ export class IrIcons {
                     "text": ""
                 },
                 "attribute": "svg-class-name",
+                "reflect": false
+            },
+            "height": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "height",
+                "reflect": false
+            },
+            "width": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "width",
+                "reflect": false
+            },
+            "removeClassName": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "remove-class-name",
                 "reflect": false
             }
         };

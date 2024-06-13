@@ -3,23 +3,25 @@ import { Token } from "../../models/Token";
 import { Booking } from "../../models/booking.dto";
 import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
+import { Colors } from '../app/colors.service';
 export declare class PropertyService extends Token {
+    colors: Colors;
     getExposedProperty(params: {
         id: number;
         language: string;
-    }): Promise<any>;
+        aname: string | null;
+        perma_link: string | null;
+    }, initTheme?: boolean): Promise<any>;
+    private initTheme;
     getExposedBookingAvailability(params: TExposedBookingAvailability): Promise<DataStructure>;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;
-    }): Promise<Booking>;
+    }, withExtras?: boolean): Promise<Booking>;
     fetchSetupEntries(): Promise<ISetupEntries>;
     private generateDays;
-    extractFirstNameAndLastName(index: number, guestName: string[]): {
-        first_name: string;
-        last_name: string;
-    };
-    filterRooms(): any[];
+    private extractFirstNameAndLastName;
+    private filterRooms;
     private convertPickup;
     bookUser(): Promise<any>;
     getExposedGuest(): Promise<void>;

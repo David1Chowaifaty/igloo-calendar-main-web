@@ -21,5 +21,6 @@ export declare class IrAuth {
         first_name?: string;
         last_name?: string;
     }): void;
+    onAuthFinish(e: CustomEvent): void;
     render(): any;
 }

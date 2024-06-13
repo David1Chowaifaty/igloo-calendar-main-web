@@ -4,5 +4,6 @@ export declare class IrPaymentView {
     private getExpiryMask;
     renderPaymentMethod(): any;
     handlePaymentSelectionChange(e: CustomEvent): void;
+    renderPaymentOptions(): any;
     render(): any;
 }

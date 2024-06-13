@@ -25,6 +25,7 @@ export interface IAppStore {
         injected: boolean;
         roomtype_id: number | null;
         redirect_url: string;
+        affiliate: boolean;
     };
     property: IExposedProperty;
     setup_entries: {

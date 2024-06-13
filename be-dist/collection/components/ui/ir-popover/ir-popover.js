@@ -102,7 +102,24 @@ export class IrPopover {
                 this.popoverInstance.update();
             }
         }
+        this.adjustPopoverPlacement();
         this.openChange.emit(this.isVisible);
+    }
+    adjustPopoverPlacement() {
+        requestAnimationFrame(() => {
+            const rect = this.contentElement.getBoundingClientRect();
+            if (rect.bottom > window.innerHeight) {
+                this.popoverInstance.setOptions({
+                    placement: 'top-end',
+                });
+            }
+            else if (rect.top < 0) {
+                this.popoverInstance.setOptions({
+                    placement: 'bottom-end',
+                });
+            }
+            this.popoverInstance.update();
+        });
     }
     disconnectedCallback() {
         document.removeEventListener('click', this.handleOutsideClick, true);
@@ -115,7 +132,7 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: '4ca3fd947bd27f47895b6e8be70e82464a0e0904' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
+        return (h(Fragment, { key: '4bb277c7bc464957626ec80e7dc039497ae2725a' }, this.isMobile && (h("div", { class: "w-full md:hidden" }, h("div", { class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
             } }, h("slot", { name: "trigger" })), h("ir-dialog", { closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();

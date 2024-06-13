@@ -1,4 +1,12 @@
 import { Token } from "../../models/Token";
 export declare class BookingListingService extends Token {
-    getExposedGuestToken(property_id: string | number): Promise<any>;
+    getExposedGuestBookings(params: {
+        property_id: string | number;
+        start_row: number;
+        end_row: number;
+        total_count: number;
+    }): Promise<{
+        bookings: any;
+        total_count: any;
+    }>;
 }

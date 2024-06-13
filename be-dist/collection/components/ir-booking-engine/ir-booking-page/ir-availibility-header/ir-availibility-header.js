@@ -1,4 +1,4 @@
-import { h } from "@stencil/core";
+import { Fragment, h } from "@stencil/core";
 import { ExposedBookingAvailability } from "./availability";
 import { format } from "date-fns";
 import { ZodError } from "zod";
@@ -11,8 +11,12 @@ export class IrAvailibilityHeader {
     constructor() {
         this.popoverInstance = null;
         this.propertyService = new PropertyService();
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.adultCount = undefined;
+        this.childrenCount = undefined;
         this.exposedBookingAvailabiltyParams = {
-            adult_nbr: 1,
+            adult_nbr: 0,
             child_nbr: 0,
             currency_ref: 'USD',
             language: 'en',
@@ -30,6 +34,7 @@ export class IrAvailibilityHeader {
     componentWillLoad() {
         const { token, property_id } = app_store.app_data;
         this.propertyService.setToken(token);
+        this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { adult_nbr: +this.adultCount || 0, child_nbr: +this.childrenCount || 0, from_date: this.fromDate, to_date: this.toDate });
         if (booking_store.bookingAvailabilityParams.from_date) {
             this.exposedBookingAvailabiltyParams.from_date = format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd');
             this.exposedBookingAvailabiltyParams.to_date = format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd');
@@ -51,9 +56,44 @@ export class IrAvailibilityHeader {
             }
             catch (error) { }
         });
+        if (this.fromDate && this.toDate && this.adultCount) {
+            this.checkAvailability();
+        }
     }
     componentDidLoad() {
         this.initPoper();
+    }
+    handleFromDateChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { from_date: newValue });
+            if (this.fromDate && this.toDate && this.adultCount) {
+                this.checkAvailability();
+            }
+        }
+    }
+    handleToDateChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { to_date: newValue });
+            if (this.fromDate && this.toDate && this.adultCount) {
+                this.checkAvailability();
+            }
+        }
+    }
+    handleChildrenCountChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { child_nbr: +newValue });
+            if (this.fromDate && this.toDate && this.adultCount) {
+                this.checkAvailability();
+            }
+        }
+    }
+    handleAdultCountChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { adult_nbr: +newValue });
+            if (this.fromDate && this.toDate && this.adultCount) {
+                this.checkAvailability();
+            }
+        }
     }
     initPoper() {
         if (!this.target) {
@@ -167,14 +207,14 @@ export class IrAvailibilityHeader {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: '2797075cabcc561de55745249368ff87030d44a2', class: "availability-container" }, h("div", { key: '8557eb841f14bed785ed24e62df55ce738d7163b', class: "availability-inputs" }, h("ir-date-popup", { key: '04c9f7e1f5ed323848e83f638e8dce3f2fbb9b21', ref: el => (this.datePopup = el), dates: {
+        return (h("div", { key: '94d76ed3d526286919636fc01edf419000d1cf8e', class: "availability-container" }, h("div", { key: '5a6dbaebe65c0be7dd95da341904d4e20f32b49a', class: "availability-inputs" }, h("ir-date-popup", { key: '7b7082f074c879792e0198e429fd885df2d96ba5', ref: el => (this.datePopup = el), dates: {
                 start: ((_a = this.exposedBookingAvailabiltyParams) === null || _a === void 0 ? void 0 : _a.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '4c61df3f03473c3849900e6cbf4a212f25e29829', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'de2c66f20f3d239dbcdb8315588aed839be33233', class: "adult-child-counter", ref: el => (this.personCounter = el) }), h("ir-button", { key: '15a893d9e7b5424f1e34975eda390e204290ab2b', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: '142185f9efec19295c2b07e40eb248bfb1a2cbd5', class: "availability-controls" }, h("ir-adult-child-counter", { key: '3380adc785757c4ae26d6ddce6304b78d569d1c3', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el) }), h("ir-button", { key: 'dd574ec68c09b0899d604b9a8e9f159ad79a72e9', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search" }))), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: "promotions-container" }, h("ir-coupon-dialog", { class: "coupon-dialog" }), h("ir-loyalty", { class: "loyalty" })))));
+            }, size: "pill", variants: "icon-primary", iconName: "search" }))), this.shouldRenderErrorToast() && (h("div", { ref: el => (this.errorToast = el), class: "w-fit" }, h(Fragment, null, h("div", { class: "date-toast" }, h("p", { class: "toast-message" }, " Select a date")), h("div", { class: "arrow-up" })))), ((_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) && (h("div", { class: "promotions-container" }, h("ir-coupon-dialog", { class: "coupon-dialog" }), h("ir-loyalty", { class: "loyalty" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }
@@ -186,6 +226,78 @@ export class IrAvailibilityHeader {
     static get styleUrls() {
         return {
             "$": ["ir-availibility-header.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "fromDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "from-date",
+                "reflect": false
+            },
+            "toDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "to-date",
+                "reflect": false
+            },
+            "adultCount": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "adult-count",
+                "reflect": false
+            },
+            "childrenCount": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "children-count",
+                "reflect": false
+            }
         };
     }
     static get states() {
@@ -227,6 +339,21 @@ export class IrAvailibilityHeader {
                     "resolved": "null",
                     "references": {}
                 }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "fromDate",
+                "methodName": "handleFromDateChange"
+            }, {
+                "propName": "toDate",
+                "methodName": "handleToDateChange"
+            }, {
+                "propName": "childrenCount",
+                "methodName": "handleChildrenCountChange"
+            }, {
+                "propName": "adultCount",
+                "methodName": "handleAdultCountChange"
             }];
     }
     static get listeners() {

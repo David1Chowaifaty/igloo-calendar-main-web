@@ -4,8 +4,8 @@ import { h } from "@stencil/core";
 import { format } from "date-fns";
 import axios from "axios";
 import booking_store, { updateRoomParams } from "../../stores/booking";
-import app_store from "../../stores/app.store";
-import { generateColorShades, getUserPrefernce, setDefaultLocale } from "../../utils/utils";
+import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
+import { getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
 export class IrBookingEngine {
     constructor() {
@@ -17,6 +17,16 @@ export class IrBookingEngine {
         this.injected = undefined;
         this.roomtype_id = null;
         this.redirect_url = null;
+        this.perma_link = null;
+        this.aName = null;
+        this.fromDate = undefined;
+        this.language = undefined;
+        this.toDate = undefined;
+        this.adultCount = undefined;
+        this.childrenCount = undefined;
+        this.cur = undefined;
+        this.aff = undefined;
+        this.stag = undefined;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -26,12 +36,46 @@ export class IrBookingEngine {
     async componentWillLoad() {
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
-        getUserPrefernce();
-        this.token = await this.commonService.getBEToken();
+        getUserPrefernce(this.language);
+        const isAuthenticated = false;
+        if (isAuthenticated) {
+            app_store.is_signed_in = true;
+            this.token =
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTg3MDk5NzIsIkNMQUlNLTAxIjoiYWs0Qk1ESm5WcjA9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThLUjJ3WThWTXhzNyJ9.MaXP1NQ-ggmjRO0u5hceELFDYnDO2B-hI-DJrHqQ9lM';
+        }
+        else {
+            this.token = await this.commonService.getBEToken();
+        }
     }
     handleTokenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.initializeApp();
+        }
+    }
+    // @Watch('language')
+    // handleLanguageChange(newValue: string, oldValue: string) {
+    //   if (!this.languages) {
+    //     return;
+    //   }
+    //   if (newValue !== oldValue) {
+    //     this.modifyLanguage(newValue);
+    //   }
+    // }
+    modifyLanguage(code) {
+        var _a;
+        if (!this.languages) {
+            return;
+        }
+        changeLocale(((_a = this.languages.find(l => l.code.toLowerCase() === code)) === null || _a === void 0 ? void 0 : _a.direction) || 'LTR', matchLocale(code));
+        updateUserPreference({
+            language_id: code,
+        });
+    }
+    handleCurrencyChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            updateUserPreference({
+                currency_id: newValue,
+            });
         }
     }
     initializeApp() {
@@ -43,6 +87,7 @@ export class IrBookingEngine {
             injected: this.injected,
             roomtype_id: this.roomtype_id,
             redirect_url: this.redirect_url,
+            affiliate: false,
         };
         this.initRequest();
     }
@@ -50,38 +95,33 @@ export class IrBookingEngine {
         var _a;
         this.isLoading = true;
         const p = JSON.parse(localStorage.getItem('user_preference'));
-        const [property, currencies, languages] = await Promise.all([
-            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
+        let requests = [
+            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }),
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
-            // this.propertyService.getExposedGuest(),
-        ]);
+            // ,
+        ];
+        if (app_store.is_signed_in) {
+            requests.push(this.propertyService.getExposedGuest());
+        }
+        const [_, currencies, languages] = await Promise.all(requests);
         this.currencies = currencies;
         this.languages = languages;
         if (!p) {
+            if (this.language) {
+                this.modifyLanguage(this.language);
+            }
             setDefaultLocale({ currency: app_store.userDefaultCountry.currency });
         }
+        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: this.checkAffiliate() });
         // booking_store.roomTypes = [...roomtypes];
-        if (property.space_theme) {
-            const root = document.documentElement;
-            const shades = generateColorShades(property.space_theme.button_bg_color);
-            let shade_number = 900;
-            shades.forEach((shade, index) => {
-                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
-                if (index === 9) {
-                    shade_number = 25;
-                }
-                else if (index === 8) {
-                    shade_number = 50;
-                }
-                else {
-                    shade_number = shade_number - 100;
-                }
-            });
-        }
         this.isLoading = false;
+    }
+    checkAffiliate() {
+        var _a;
+        return (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.includes(window.location.href);
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -118,7 +158,7 @@ export class IrBookingEngine {
                 ...queries,
                 ...[
                     this.commonService.getExposedLanguage(),
-                    this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en' }),
+                    this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }, false),
                 ],
             ];
             if (app_store.fetchedBooking) {
@@ -147,7 +187,7 @@ export class IrBookingEngine {
     renderScreens() {
         switch (app_store.currentPage) {
             case 'booking':
-                return h("ir-booking-page", null);
+                return h("ir-booking-page", { adultCount: this.adultCount, childrenCount: this.childrenCount, fromDate: this.fromDate, toDate: this.toDate });
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
@@ -281,6 +321,178 @@ export class IrBookingEngine {
                 "attribute": "redirect_url",
                 "reflect": false,
                 "defaultValue": "null"
+            },
+            "perma_link": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "perma_link",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "aName": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "a-name",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "fromDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "from-date",
+                "reflect": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "language",
+                "reflect": false
+            },
+            "toDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "to-date",
+                "reflect": false
+            },
+            "adultCount": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "adult-count",
+                "reflect": false
+            },
+            "childrenCount": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "children-count",
+                "reflect": false
+            },
+            "cur": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "cur",
+                "reflect": false
+            },
+            "aff": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "aff",
+                "reflect": false
+            },
+            "stag": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "stag",
+                "reflect": false
             }
         };
     }
@@ -297,6 +509,9 @@ export class IrBookingEngine {
         return [{
                 "propName": "token",
                 "methodName": "handleTokenChange"
+            }, {
+                "propName": "cur",
+                "methodName": "handleCurrencyChange"
             }];
     }
     static get listeners() {

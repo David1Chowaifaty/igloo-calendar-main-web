@@ -13,6 +13,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import axios from "axios";
+import { PropertyService } from "./property.service";
 export class AuthService extends Token {
     async login(params, signIn = true) {
         const token = this.getToken();
@@ -29,6 +30,9 @@ export class AuthService extends Token {
             app_store.app_data.token = data['My_Result'];
             app_store.is_signed_in = true;
         }
+        const propertyService = new PropertyService();
+        propertyService.setToken(data['My_Result']);
+        propertyService.getExposedGuest();
         return data['My_Result'];
     }
     async signUp(params) {

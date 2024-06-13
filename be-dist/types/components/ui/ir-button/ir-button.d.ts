@@ -15,6 +15,9 @@ export declare class IrButton {
     haveRightIcon: boolean;
     iconName: TIcons;
     svgClassName: string;
+    removeIconClassName: boolean;
+    iconHeight: number;
+    iconWidth: number;
     buttonClick: EventEmitter<MouseEvent>;
     private buttonRef;
     applyStyles(style: Partial<CSSStyleDeclaration>): void;

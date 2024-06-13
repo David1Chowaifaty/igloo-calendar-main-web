@@ -71222,61 +71222,22 @@ function getAbbreviatedWeekdays(locale) {
 function cn(...inputs) {
     return bundleCjs.twMerge(clsx(inputs));
 }
-const formatAmount = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(amount);
+const formatAmount = (amount, currency = 'USD', decimals = 2) => {
+    const numberFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+    });
+    return numberFormatter.format(amount);
 };
-function hexToRgb(hex) {
-    hex = hex.replace(/^#/, '');
-    var r = parseInt(hex.substring(0, 2), 16);
-    var g = parseInt(hex.substring(2, 4), 16);
-    var b = parseInt(hex.substring(4, 6), 16);
-    return { r, g, b };
-}
-function rgbToHsl(rgb) {
-    let r = parseInt(rgb.r);
-    let g = parseInt(rgb.g);
-    let b = parseInt(rgb.b);
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
-    if (delta == 0)
-        h = 0;
-    else if (cmax == r)
-        h = ((g - b) / delta) % 6;
-    else if (cmax == g)
-        h = (b - r) / delta + 2;
-    else
-        h = (r - g) / delta + 4;
-    h = Math.round(h * 60);
-    if (h < 0)
-        h += 360;
-    l = (cmax + cmin) / 2;
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-    s = +(s * 100).toFixed(1);
-    l = +(l * 100).toFixed(1);
-    return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
-}
-function hexToHSL(hex) {
-    const rgb = hexToRgb(hex);
-    return rgbToHsl(rgb);
-}
-function generateColorShades(baseHex) {
-    const { h, s, l: baseL } = hexToHSL(baseHex);
-    let shades = [];
-    for (let i = -3; i <= 6; i++) {
-        let l = baseL + i * 4;
-        shades.push({ h, s, l: Math.min(Math.max(l, 0), 100) });
-    }
-    return shades;
-}
 function getDateDifference(date1, date2) {
     return dateFns.differenceInCalendarDays(date2, date1);
 }
 function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
-function getUserPrefernce() {
+function getUserPrefernce(lang = undefined) {
     const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
         const { direction, currency_id } = p;
@@ -71286,12 +71247,17 @@ function getUserPrefernce() {
             language_id: p.language_id,
         });
     }
+    else {
+        updateUserPreference({
+            language_id: lang || 'en',
+        });
+    }
 }
 function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
 }
 
-export { getAbbreviatedWeekdays as a, getUserPrefernce as b, cn as c, dateFns as d, generateColorShades as e, formatAmount as f, getDateDifference as g, matchLocale as m, renderTime as r, setDefaultLocale as s };
+export { getAbbreviatedWeekdays as a, getUserPrefernce as b, cn as c, dateFns as d, formatAmount as f, getDateDifference as g, matchLocale as m, renderTime as r, setDefaultLocale as s };
 
 //# sourceMappingURL=utils.js.map

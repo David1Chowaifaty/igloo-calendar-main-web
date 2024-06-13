@@ -5,9 +5,10 @@ export class IrBadge {
         this.variant = 'default';
         this.size = 'sm';
         this.withDot = undefined;
+        this.backgroundShown = true;
     }
     render() {
-        return h("p", { key: '7f8fa937271672819a9f258273e1a20d0d17b7c1', class: `size-${this.size} badge ${this.variant}` }, this.label);
+        return h("p", { key: 'd4b55a26aff4d39f6be39d1fd3c52373a536a75b', class: `size-${this.size} badge ${this.variant} ${this.backgroundShown ? '' : 'transparent'}` }, this.label);
     }
     static get is() { return "ir-badge"; }
     static get encapsulation() { return "shadow"; }
@@ -92,6 +93,24 @@ export class IrBadge {
                 },
                 "attribute": "with-dot",
                 "reflect": false
+            },
+            "backgroundShown": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "background-shown",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }
