@@ -110,6 +110,16 @@ class CommonService extends Token {
             throw new Error(error);
         }
     }
+    checkUserAuthState() {
+        const anchor = JSON.parse(sessionStorage.getItem('anchor'));
+        if (anchor) {
+            if (anchor.login) {
+                app_store.is_signed_in = true;
+            }
+            return anchor.login || null;
+        }
+        return null;
+    }
     transformArrayToObject(data) {
         let object = {};
         for (const d of data) {

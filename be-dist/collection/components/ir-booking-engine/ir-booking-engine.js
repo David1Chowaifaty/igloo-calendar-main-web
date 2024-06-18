@@ -37,11 +37,11 @@ export class IrBookingEngine {
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
-        const isAuthenticated = false;
+        const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             app_store.is_signed_in = true;
-            this.token =
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTg3MDk5NzIsIkNMQUlNLTAxIjoiYWs0Qk1ESm5WcjA9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThLUjJ3WThWTXhzNyJ9.MaXP1NQ-ggmjRO0u5hceELFDYnDO2B-hI-DJrHqQ9lM';
+            this.token = isAuthenticated.token;
+            app_store.app_data.token = this.token;
         }
         else {
             this.token = await this.commonService.getBEToken();
@@ -87,7 +87,8 @@ export class IrBookingEngine {
             injected: this.injected,
             roomtype_id: this.roomtype_id,
             redirect_url: this.redirect_url,
-            affiliate: false,
+            affiliate: null,
+            tag: this.stag,
         };
         this.initRequest();
     }
@@ -121,7 +122,14 @@ export class IrBookingEngine {
     }
     checkAffiliate() {
         var _a;
-        return (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.includes(window.location.href);
+        if (this.aff) {
+            const affiliate = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.find(aff => aff.afname.toLowerCase().trim() === this.aff.toLowerCase().trim());
+            if (!affiliate) {
+                return null;
+            }
+            return affiliate;
+        }
+        return null;
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -131,7 +139,6 @@ export class IrBookingEngine {
         if (!selectedVariation) {
             return;
         }
-        console.log(selectedVariation);
         updateRoomParams({ params: { selected_variation: selectedVariation }, ratePlanId: rateplanId, roomTypeId });
     }
     handleNavigation(e) {

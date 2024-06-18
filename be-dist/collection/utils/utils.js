@@ -104,4 +104,13 @@ export function getCookie(name) {
     const cookies = getCookies();
     return cookies[name] || null;
 }
+export function manageAnchorSession(data) {
+    const anchor = JSON.parse(sessionStorage.getItem('anchor'));
+    if (anchor) {
+        sessionStorage.setItem('anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
+    }
+    else {
+        sessionStorage.setItem('anchor', JSON.stringify(Object.assign({}, data)));
+    }
+}
 //# sourceMappingURL=utils.js.map

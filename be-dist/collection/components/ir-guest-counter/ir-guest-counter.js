@@ -34,11 +34,11 @@ export class IrGuestCounter {
         }
     }
     addChildrenAndAdult() {
-        this.updateCounts.emit({ adultCount: this.adultCount, childrenCount: this.childrenCount });
+        this.closeGuestCounter.emit(null);
         console.log('Selection confirmed:', this.adultCount, 'adults and', this.childrenCount, 'children');
     }
     render() {
-        return (h("div", { key: '806d2f034b48e584b407fefe260aeced28616ff4', class: "counter-container" }, h("div", { key: 'ff397456d573febbc81c99e77fab0916af456ab7', class: "counter-item" }, h("div", { key: '9ad6ad624fc1231af8622255dda53be81c9f36b1' }, h("p", { key: '8151966d80f0871c565db267a7ad03691d3584e9', class: "main-text" }, "Adults"), h("p", { key: 'b58d3b26d1d1ebf36b4071d1756a33c738a2ac59', class: "secondary-text" }, "Age ", this.childMaxAge + 1, "+")), h("div", { key: '2e3e64437856cbbac3b5d8a07f57cd46b9a2dc68', class: "counter-buttons-group" }, h("ir-button", { key: '0f8804f6f97e22c074d4c628091bc322b1c2ad35', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '126575107c9c676fec7cc693bd2a96532af77de0' }, this.adultCount), h("ir-button", { key: '758fc70b077ac43f24b4a902f993eee38d7f7a01', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), h("div", { key: '6c9aa400750f21e4fc28051e1e65e0168fd12a4c', class: "counter-item" }, h("div", { key: '1c76c7ca56c75bffd23819b099f6c07d7b2a2eca' }, h("p", { key: 'c207276cadcc3ffc9c437ed5a086009bb520eb61', class: "main-text" }, "Children"), h("p", { key: 'af577c69be19315f73e50d81cd83ba92c46275d9', class: "secondary-text" }, "Ages 1-", this.childMaxAge)), h("div", { key: '239ba2c49ee26edf064e7474feb82ad7b392f939', class: "counter-buttons-group" }, h("ir-button", { key: '6d9830ad719fca82dd6a5232760c51db99b5aea7', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'a0ae15ea25a3d7e80e4f00242e2b50ce015199ee' }, this.childrenCount), h("ir-button", { key: '61c234c347dfd31c3732ab792c15a09d97747a1f', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" }))), h("ir-button", { key: '1dc412b2990d5d57e255b493c735edb7e0386faf', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
+        return (h("div", { key: 'ecec458be869a0be53614c50efc370556940a0b3', class: "counter-container" }, h("div", { key: '07f337c0f99f87f9d2f1f3e10f28c077cf18dfc4', class: "counter-item" }, h("div", { key: 'fa609e6e8f4e8ec06175d8a1803ce638f38bb130' }, h("p", { key: '734c56b034f4b09248eb26864a3e07141b5c8567', class: "main-text" }, "Adults"), h("p", { key: '99e7dec1c2f845ac5807dfbbd789816580e821dd', class: "secondary-text" }, "Age ", this.childMaxAge + 1, "+")), h("div", { key: '160b73868e8feefec5eee74b98daffb6a365f764', class: "counter-buttons-group" }, h("ir-button", { key: '848f88a601ab8693b5ce8bc1e009aa0826142021', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'f2674e60ec279245ee3abe68ca345175e2253173' }, this.adultCount), h("ir-button", { key: 'c0d585bed19a334ab326eee649a9be9527215e5d', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), h("div", { key: '619840061fd0efaefdb7cd1e1794aae650101284', class: "counter-item" }, h("div", { key: 'ee349de91b884d35adf5519aed92546dfe4c9901' }, h("p", { key: '31f3f89d9679b62e458002982760749438b58123', class: "main-text" }, "Children"), h("p", { key: '18006d5302f2cbcdbd1775789753f10e37f30527', class: "secondary-text" }, "Ages 1-", this.childMaxAge)), h("div", { key: 'dfad623f34ade0cebf313f053b15d8341add5aae', class: "counter-buttons-group" }, h("ir-button", { key: '9727282c81c77ec8bd7a86316cfcab784dc3cbb7', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'bb72d8569e9c5a7a6ccc91a48479ab74b0232d0a' }, this.childrenCount), h("ir-button", { key: 'ab578a0f4a0447b48a037d21722afb4a00fdbea5', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" }))), h("ir-button", { key: '39dc263606a522d490cfe35651747a2325c98cb3', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
             // label={localizedWords.entries.Lcz_Done}
             label: "Done", "aria-label": "Confirm selection" })));
     }
@@ -158,6 +158,21 @@ export class IrGuestCounter {
         return [{
                 "method": "updateCounts",
                 "name": "updateCounts",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "any",
+                    "resolved": "any",
+                    "references": {}
+                }
+            }, {
+                "method": "closeGuestCounter",
+                "name": "closeGuestCounter",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

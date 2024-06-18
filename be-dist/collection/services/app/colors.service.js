@@ -44,5 +44,24 @@ export class Colors {
         }
         return shades;
     }
+    initTheme(property) {
+        if (property.space_theme) {
+            const root = document.documentElement;
+            const shades = this.generateColorShades(property.space_theme.button_bg_color);
+            let shade_number = 900;
+            shades.forEach((shade, index) => {
+                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+                if (index === 9) {
+                    shade_number = 25;
+                }
+                else if (index === 8) {
+                    shade_number = 50;
+                }
+                else {
+                    shade_number = shade_number - 100;
+                }
+            });
+        }
+    }
 }
 //# sourceMappingURL=colors.service.js.map

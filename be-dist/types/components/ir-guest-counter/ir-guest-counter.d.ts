@@ -8,6 +8,7 @@ export declare class IrGuestCounter {
     adultCount: number;
     childrenCount: number;
     updateCounts: EventEmitter;
+    closeGuestCounter: EventEmitter;
     incrementAdultCount(): void;
     decrementAdultCount(): void;
     incrementChildrenCount(): void;

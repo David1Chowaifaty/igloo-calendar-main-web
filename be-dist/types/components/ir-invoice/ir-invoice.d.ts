@@ -6,13 +6,16 @@ export declare class IrInvoice {
     language: string;
     bookingNbr: string;
     status: 0 | 1;
+    perma_link: string;
+    aName: string;
     booking: Booking;
     token: string;
     private propertyService;
     private commonService;
     private authService;
     private paymentService;
-    componentWillLoad(): void;
+    alertDialog: HTMLIrAlertDialogElement;
+    componentWillLoad(): Promise<void>;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
     fetchData(): Promise<void>;

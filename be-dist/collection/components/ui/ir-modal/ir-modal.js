@@ -53,6 +53,9 @@ export class IrModal {
     removeModalContent() {
         if (this.modalContainer) {
             this.portal.removeChild(this.modalContainer);
+            if (this.auth) {
+                this.auth.removeEventListener('closeDialog', this.closeModal.bind(this));
+            }
         }
     }
     prepareFocusTrap() {
@@ -88,7 +91,9 @@ export class IrModal {
     disconnectedCallback() {
         this.removeOverlay();
         this.removeModalContent();
-        this.auth.removeEventListener('closeDialog', () => this.closeModal());
+        if (this.auth) {
+            this.auth.removeEventListener('closeDialog', this.closeModal.bind(this));
+        }
     }
     render() {
         return null;

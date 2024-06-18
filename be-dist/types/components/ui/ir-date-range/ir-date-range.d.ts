@@ -26,6 +26,8 @@ export declare class IrDateRange {
     weekdays: string[];
     componentWillLoad(): void;
     handleLocale(newValue: Locale, oldLocale: Locale): void;
+    handleFromDateChange(newValue: Date, oldValue: Date): void;
+    handleToDateChange(newValue: Date, oldValue: Date): void;
     getMonthDays(month: Date): {
         month: Date;
         days: Date[];

@@ -32,7 +32,7 @@ export declare class IrBookingEngine {
     handleCurrencyChange(newValue: string, oldValue: string): void;
     initializeApp(): void;
     initRequest(): Promise<void>;
-    checkAffiliate(): boolean;
+    checkAffiliate(): import("@/models/property").Affiliate;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;

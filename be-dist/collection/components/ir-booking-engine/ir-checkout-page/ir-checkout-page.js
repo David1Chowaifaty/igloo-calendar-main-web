@@ -18,9 +18,10 @@ export class IrCheckoutPage {
         this.error = undefined;
     }
     componentWillLoad() {
-        this.propertyService.setToken(app_store.app_data.token);
-        this.paymentService.setToken(app_store.app_data.token);
-        this.authService.setToken(app_store.app_data.token);
+        const token = app_store.app_data.token;
+        this.propertyService.setToken(token);
+        this.paymentService.setToken(token);
+        this.authService.setToken(token);
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();

@@ -6,6 +6,8 @@ export declare class IrNav {
     logo: string;
     website: string;
     isBookingListing: boolean;
+    showBookingCode: boolean;
+    showCurrency: boolean;
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;
@@ -14,6 +16,7 @@ export declare class IrNav {
     handleCloseDialog(e: CustomEvent): void;
     renderDialogBody(): any;
     renderLocationField(field: string | null, withComma?: boolean): string;
+    renderLocation(): string;
     renderLanguageTrigger(): any;
     render(): any;
 }

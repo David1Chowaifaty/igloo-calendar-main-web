@@ -4,7 +4,7 @@ import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import axios from "axios";
 import app_store from "../../stores/app.store";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import localizedWords from "../../stores/localization.store";
 export class IrBookingWidget {
     constructor() {
@@ -13,8 +13,11 @@ export class IrBookingWidget {
         this.position = 'sticky';
         this.contentContainerStyle = undefined;
         this.propertyId = 42;
+        this.perma_link = null;
+        this.aName = null;
         this.baseUrl = undefined;
         this.language = 'en';
+        this.roomTypeId = '110';
         this.isPopoverOpen = undefined;
         this.isLoading = undefined;
         this.dates = {
@@ -49,8 +52,8 @@ export class IrBookingWidget {
                 this.propertyService.getExposedProperty({
                     id: this.propertyId,
                     language: this.language,
-                    aname: '',
-                    perma_link: '',
+                    aname: this.aName,
+                    perma_link: this.perma_link,
                 }),
                 this.commonService.getExposedLanguage(),
             ]);
@@ -88,23 +91,31 @@ export class IrBookingWidget {
         const toDate = from_date ? `checkout=${format(to_date, 'yyyy-MM-dd')}` : '';
         const adults = adultCount > 0 ? `adults=${adultCount}` : '';
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
-        const queryParams = [fromDate, toDate, adults, children];
+        const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
+        const queryParams = [fromDate, toDate, adults, children, roomTypeId];
         const queryString = queryParams.filter(param => param !== '').join('&');
         window.open(`http://${currentDomain}?${queryString}`, '_blank');
     }
     renderDateTrigger() {
-        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), this.dates && this.dates.from_date && this.dates.to_date ? (h("div", null, h("p", null, h("span", null, format(this.dates.from_date, 'dd LLL yyyy')), h("span", null, "-"), h("span", null, format(this.dates.to_date, 'dd LLL yyyy'))))) : (h("div", null, h("p", null, "Your dates")))));
+        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), this.dates && this.dates.from_date && this.dates.to_date ? (h("div", null, h("p", null, h("span", null, format(this.dates.from_date, 'MMM dd')), h("span", null, " - "), h("span", null, format(this.dates.to_date, 'MMM dd'))))) : (h("div", null, h("p", null, "Your dates")))));
     }
     renderAdultChildTrigger() {
         const { adultCount, childrenCount } = this.guests;
-        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 && (h("span", null, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults)), childrenCount > 0 && (h("span", null, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)), adultCount === 0 && h("span", null, "number of guests"))));
+        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 && (h("span", null, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults)), childrenCount > 0 && (h("span", null, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)), adultCount === 0 && h("span", null, "Guests"))));
     }
     render() {
         var _a, _b, _c, _d, _e;
         if (this.isLoading) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("ir-popover", { class: 'ir-popover', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => (this.isPopoverOpen = e.detail) }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: 5, onDateChange: e => {
+        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("ir-popover", { class: 'ir-popover', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+                this.isPopoverOpen = e.detail;
+                if (!this.isPopoverOpen) {
+                    if (!this.dates.to_date && this.dates.from_date) {
+                        this.dates = Object.assign(Object.assign({}, this.dates), { to_date: addDays(this.dates.from_date, 1) });
+                    }
+                }
+            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: 5, onDateChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { end, start } = e.detail;
@@ -115,7 +126,7 @@ export class IrBookingWidget {
                     from_date: start,
                     to_date: end,
                 };
-            } }))), h("ir-popover", { class: 'ir-popover', showCloseButton: false, placement: "auto", onOpenChange: e => (this.isPopoverOpen = e.detail) }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", minAdultCount: 0, maxAdultCount: (_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_d = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _d === void 0 ? void 0 : _d.adult_child_constraints.child_max_nbr, childMaxAge: (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full' })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this), "data-back": "Book now", "data-front": "Book now" }))));
+            } }))), h("ir-popover", { ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: "auto" }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", minAdultCount: 0, maxAdultCount: (_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_d = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _d === void 0 ? void 0 : _d.adult_child_constraints.child_max_nbr, childMaxAge: (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.toggleVisibility() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this), "data-back": "Book now", "data-front": "Book now" }))));
     }
     static get is() { return "ir-booking-widget"; }
     static get encapsulation() { return "shadow"; }
@@ -188,6 +199,42 @@ export class IrBookingWidget {
                 "reflect": false,
                 "defaultValue": "42"
             },
+            "perma_link": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "perma_link",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "aName": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "a-name",
+                "reflect": false,
+                "defaultValue": "null"
+            },
             "baseUrl": {
                 "type": "string",
                 "mutable": false,
@@ -222,6 +269,24 @@ export class IrBookingWidget {
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
+            },
+            "roomTypeId": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "room-type-id",
+                "reflect": false,
+                "defaultValue": "'110'"
             }
         };
     }

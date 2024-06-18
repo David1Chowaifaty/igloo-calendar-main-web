@@ -15,7 +15,7 @@ export class IrAccomodations {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: '357c8c1e6bb7e050d71c362d39155aed4bedb4e7', class: "space-y-2 pb-2 text-xs font-normal text-gray-700" }, ((_a = this.bookingAttributes) === null || _a === void 0 ? void 0 : _a.bedding_setup.length) > 0 && (h("div", { class: "flex flex-wrap items-center gap-2.5" }, h("ir-icons", { name: "bed" }), h("div", { class: "flex items-center" }, (_c = (_b = this.bookingAttributes) === null || _b === void 0 ? void 0 : _b.bedding_setup) === null || _c === void 0 ? void 0 : _c.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.bookingAttributes.bedding_setup.length - 1 && h("span", null, "-\u00A0"))))))), this.renderAmeneties()));
+        return (h("div", { key: 'eb0a65e53ef9427342003439737c971e021f5cbf', class: "space-y-2 pb-2 text-xs font-normal text-gray-700" }, ((_a = this.bookingAttributes) === null || _a === void 0 ? void 0 : _a.bedding_setup.length) > 0 && (h("div", { class: "flex flex-wrap items-center gap-2.5" }, h("ir-icons", { name: "bed" }), h("div", { class: "flex items-center" }, (_c = (_b = this.bookingAttributes) === null || _b === void 0 ? void 0 : _b.bedding_setup) === null || _c === void 0 ? void 0 : _c.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.bookingAttributes.bedding_setup.length - 1 && h("span", null, "-\u00A0"))))))), this.renderAmeneties()));
     }
     static get is() { return "ir-accomodations"; }
     static get encapsulation() { return "shadow"; }

@@ -30,7 +30,6 @@ export class IrPagination {
         return pages;
     }
     render() {
-        console.log(this.total);
         if (this.total <= 1) {
             return;
         }

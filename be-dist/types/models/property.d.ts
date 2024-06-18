@@ -1,7 +1,7 @@
 import { ICurrency } from './common';
 export interface IExposedProperty {
     adult_child_constraints: AdultChildConstraints;
-    affiliates: any[];
+    affiliates: Affiliate[];
     agents: Agent[];
     allowed_booking_sources: AllowedBookingSource[];
     allowed_cards: AllowedCard[];
@@ -37,6 +37,26 @@ export interface IExposedProperty {
     time_constraints: TimeConstraints;
     privacy_policy: string;
     contacts: IPropertyContact[];
+}
+export interface Affiliate {
+    address: string;
+    afname: string;
+    city: string;
+    contact_name: string;
+    country: Country;
+    currency: ICurrency;
+    id: number;
+    name: string;
+    phone: string;
+    sites: Site[];
+}
+interface Site {
+    button_bg_color: string;
+    heading_bar_color: string;
+    heading_bar_font_color: string;
+    is_apply_theme: boolean;
+    logo: string;
+    url: string;
 }
 interface IPropertyContact {
     email: string;

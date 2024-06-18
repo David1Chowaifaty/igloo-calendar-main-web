@@ -14,7 +14,24 @@ import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import axios from "axios";
 import { PropertyService } from "./property.service";
+import { manageAnchorSession } from "../../utils/utils";
 export class AuthService extends Token {
+    constructor() {
+        super(...arguments);
+        this.subscribers = [];
+    }
+    // public onLoginCompleted(listener: (result: LoginEventPayload) => void) {
+    //   this.loginResylt.emit('loginCompleted', listener);
+    // }
+    subscribe(callback) {
+        this.subscribers.push(callback);
+    }
+    unsubscribe(callback) {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+    notifySubscribers(payload) {
+        this.subscribers.forEach(callback => callback(payload));
+    }
     async login(params, signIn = true) {
         const token = this.getToken();
         const { option } = params, rest = __rest(params, ["option"]);
@@ -23,16 +40,27 @@ export class AuthService extends Token {
         }
         const { data } = await axios.post(`/Exposed_Guest_SignIn?Ticket=${token}`, option === 'direct' ? rest.params : Object.assign({}, rest));
         if (data['ExceptionMsg'] !== '') {
+            this.notifySubscribers({
+                state: 'failed',
+                error: data['ExceptionMsg'],
+            });
             throw new Error(data['ExceptionMsg']);
         }
+        const loginToken = data['My_Result'];
         if (signIn) {
-            localStorage.setItem('ir-token', data['My_Result']);
-            app_store.app_data.token = data['My_Result'];
+            localStorage.setItem('ir-token', loginToken);
+            app_store.app_data.token = loginToken;
             app_store.is_signed_in = true;
         }
         const propertyService = new PropertyService();
-        propertyService.setToken(data['My_Result']);
+        propertyService.setToken(loginToken);
         propertyService.getExposedGuest();
+        manageAnchorSession({ login: Object.assign(Object.assign({ method: option }, rest), { isLoggedIn: true, token: loginToken }) });
+        this.notifySubscribers({
+            state: 'success',
+            token: loginToken,
+            payload: Object.assign({ method: option }, rest),
+        });
         return data['My_Result'];
     }
     async signUp(params) {

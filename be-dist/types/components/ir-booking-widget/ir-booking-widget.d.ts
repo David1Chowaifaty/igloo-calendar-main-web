@@ -4,8 +4,11 @@ export declare class IrBookingWidget {
     position: 'sticky' | 'block';
     contentContainerStyle: TContainerStyle;
     propertyId: number;
+    perma_link: string;
+    aName: string;
     baseUrl: string;
     language: string;
+    roomTypeId: string | null;
     isPopoverOpen: boolean;
     isLoading: boolean;
     dates: {
@@ -20,6 +23,7 @@ export declare class IrBookingWidget {
     private token;
     private commonService;
     private propertyService;
+    guestPopover: HTMLIrPopoverElement;
     private initApp;
     componentWillLoad(): Promise<void>;
     initProperty(): Promise<void>;

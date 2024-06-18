@@ -20,10 +20,15 @@ export class IrDatePopup {
         this.minDate.setHours(0, 0, 0, 0);
     }
     dateTrigger() {
-        return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
+        return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: 'ad8fd348ead6d8c09e3438228ad06072190b5b3d' }, h("ir-popover", { key: '9c07905e4d887accb5a78f2f1da98e899f4d2400', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => (this.isPopoverOpen = e.detail) }, this.dateTrigger(), h("div", { key: '5d7fc487401135addbfc4a9d88764e153f4318f3', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '51150f963efaa899b3fc100b7794269447cccde6', fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
+        return (h(Host, { key: '1d4ea540b94c0cef8c3d79d031d913887e0f8646' }, h("ir-popover", { key: 'de7e96a0f2efe4368a8ff92c22e652bd5b0a6319', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+                this.isPopoverOpen = e.detail;
+                if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
+                    this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
+                }
+            } }, this.dateTrigger(), h("div", { key: 'bd8b751f141d0e2cded37bef8cbb3e38d0187fda', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '603ad46812282e9504382fb5d9c5daa8b8c8ae89', fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
     }
     static get is() { return "ir-date-popup"; }
     static get encapsulation() { return "shadow"; }
@@ -66,6 +71,29 @@ export class IrDatePopup {
         return {
             "isPopoverOpen": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "dateChange",
+                "name": "dateChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ start: Date | null; end: Date | null }",
+                    "resolved": "{ start: Date; end: Date; }",
+                    "references": {
+                        "Date": {
+                            "location": "global",
+                            "id": "global::Date"
+                        }
+                    }
+                }
+            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {

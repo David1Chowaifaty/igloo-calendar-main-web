@@ -6,14 +6,21 @@ export declare class IrBookingListing {
     headerShown: boolean;
     footerShown: boolean;
     maxPages: number;
+    perma_link: string;
+    aName: string;
     isLoading: boolean;
     token: string;
     bookings: Booking[];
     currentPage: number;
     total_count: number;
+    bookingNumber: any;
+    page_mode: 'single' | 'multi';
+    activeLink: 'single_booking' | 'all_booking';
     private bookingListingService;
     private commonService;
     private propertyService;
+    private bookingListingAppService;
+    private booking;
     componentWillLoad(): Promise<void>;
     initializeServices(): void;
     initializeApp(): Promise<void>;
@@ -21,5 +28,6 @@ export declare class IrBookingListing {
     handleAuthFinish(e: CustomEvent): void;
     getBadgeVariant(code: string): "error" | "success" | "pending";
     handlePageChange(e: CustomEvent<number>): Promise<void>;
+    handleLinkChanged(e: CustomEvent): Promise<void>;
     render(): any;
 }

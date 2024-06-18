@@ -13,6 +13,11 @@ export declare class IrSignin {
     authFinish: EventEmitter<{
         state: 'success' | 'failed';
         token: string;
+        payload: {
+            method: 'direct' | 'google';
+            email?: string;
+            booking_nbr?: string;
+        };
     }>;
     navigate: EventEmitter<TAuthNavigation>;
     signIn: EventEmitter<TSignInAuthTrigger>;

@@ -12,7 +12,25 @@ interface DirectLoginParams extends BaseLoginParams {
     params: TSignInValidator;
 }
 type LoginParams = GoogleLoginParams | DirectLoginParams;
+interface LoginSuccessPayload {
+    state: 'success';
+    token: string;
+    payload: {
+        method: 'google' | 'direct';
+        token?: string;
+        params?: TSignInValidator;
+    };
+}
+interface LoginFailurePayload {
+    state: 'failed';
+    error: string;
+}
+type LoginEventPayload = LoginSuccessPayload | LoginFailurePayload;
 export declare class AuthService extends Token {
+    private subscribers;
+    subscribe(callback: (result: LoginEventPayload) => void): void;
+    unsubscribe(callback: (result: LoginEventPayload) => void): void;
+    private notifySubscribers;
     login(params: LoginParams, signIn?: boolean): Promise<any>;
     signUp(params: TSignUpValidator): Promise<void>;
     initializeFacebookSignIn(): void;

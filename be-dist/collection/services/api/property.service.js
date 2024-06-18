@@ -24,30 +24,14 @@ export class PropertyService extends Token {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
+        if (params.aname || params.perma_link) {
+            app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
+        }
         app_store.property = Object.assign({}, result.My_Result);
         if (initTheme) {
-            this.initTheme(result.My_Result);
+            this.colors.initTheme(result.My_Result);
         }
         return result.My_Result;
-    }
-    initTheme(property) {
-        if (property.space_theme) {
-            const root = document.documentElement;
-            const shades = this.colors.generateColorShades(property.space_theme.button_bg_color);
-            let shade_number = 900;
-            shades.forEach((shade, index) => {
-                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
-                if (index === 9) {
-                    shade_number = 25;
-                }
-                else if (index === 8) {
-                    shade_number = 50;
-                }
-                else {
-                    shade_number = shade_number - 100;
-                }
-            });
-        }
     }
     async getExposedBookingAvailability(params) {
         const token = this.getToken();
@@ -197,7 +181,7 @@ export class PropertyService extends Token {
         return res;
     }
     async bookUser() {
-        var _a;
+        var _a, _b;
         try {
             const token = this.getToken();
             if (!token) {
@@ -231,7 +215,7 @@ export class PropertyService extends Token {
                     property: {
                         id: app_store.app_data.property_id,
                     },
-                    source: null,
+                    source: (_b = app_store.app_data.tag) !== null && _b !== void 0 ? _b : 'webiste',
                     referrer_site: app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
@@ -266,13 +250,11 @@ export class PropertyService extends Token {
             throw new Error(data.ExceptionMsg);
         }
         const res = data.My_Result;
-        console.log(res);
         if (res === null) {
             app_store.is_signed_in = false;
             return;
         }
         app_store.is_signed_in = true;
-        console.log(res);
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile });
     }
 }

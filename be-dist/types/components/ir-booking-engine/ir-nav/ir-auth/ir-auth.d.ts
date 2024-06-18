@@ -7,20 +7,19 @@ export declare class IrAuth {
     animationDirection: string;
     signedIn: boolean;
     closeDialog: EventEmitter<null>;
-    authFinish: EventEmitter<{
-        state: 'success' | 'failed';
-        token: string;
-    }>;
     private authService;
     private googleButtonWrapper;
     componentWillLoad(): void;
+    handleLoginResult(e: CustomEvent): void;
     handleNavigation(e: CustomEvent): void;
+    handleAuthFinished(e: CustomEvent): void;
     signUp(params: {
         email?: string;
         password?: string;
         first_name?: string;
         last_name?: string;
     }): void;
-    onAuthFinish(e: CustomEvent): void;
+    private handleAuthStateChange;
+    disconnectedCallback(): void;
     render(): any;
 }

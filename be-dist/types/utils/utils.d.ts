@@ -19,3 +19,4 @@ export declare function getCookies(): {
     [key: string]: string;
 };
 export declare function getCookie(name: string): string | null;
+export declare function manageAnchorSession(data: Record<string, unknown>): void;

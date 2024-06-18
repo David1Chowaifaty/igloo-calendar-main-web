@@ -9,6 +9,8 @@ export class IrNav {
         this.logo = undefined;
         this.website = undefined;
         this.isBookingListing = false;
+        this.showBookingCode = true;
+        this.showCurrency = true;
         this.currentPage = null;
     }
     handleButtonClick(e = undefined, page) {
@@ -45,6 +47,14 @@ export class IrNav {
         }
         return withComma ? `, ${field}` : field;
     }
+    renderLocation() {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+        const affiliate = app_store.app_data.affiliate;
+        if (affiliate) {
+            return [(_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.city.name) !== null && _b !== void 0 ? _b : null, (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.country.name) !== null && _d !== void 0 ? _d : null].join(', ');
+        }
+        return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].join(', ');
+    }
     renderLanguageTrigger() {
         if (this.isBookingListing) {
             return;
@@ -57,20 +67,27 @@ export class IrNav {
         return (h("div", { class: "flex" }, h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, (0).toLocaleString('en-US', { style: 'currency', currency: currency.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim())), h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, country === null || country === void 0 ? void 0 : country.description))));
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const currentPage = app_store.currentPage;
         const isInjected = app_store.app_data.injected && currentPage === 'booking';
-        return (h(Fragment, { key: 'ddc51196c95da3438d7041e9c6c4021facfe1699' }, h("nav", { key: '53375b4d62c17c843a5091ef2f1d42ea8d2f8223', class: "ir-nav" }, h("div", { key: '492c1bf17cfb66b992d044c38a15077748e15aae', class: "ir-nav-container" }, !isInjected && (h("div", { class: "ir-nav-left" }, h("a", { "aria-label": "home", href: `${(_a = this.website) === null || _a === void 0 ? void 0 : _a.replace('www.', 'https://')}` }, h("img", { src: this.logo, alt: `${(_b = app_store.property) === null || _b === void 0 ? void 0 : _b.name}, ${(_c = app_store.property) === null || _c === void 0 ? void 0 : _c.country.name}`, class: "ir-nav-logo" })), h("div", { class: "ir-nav-property-details" }, h("h3", { class: "ir-property-name" }, (_d = app_store.property) === null || _d === void 0 ? void 0 : _d.name), h("button", { onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, this.renderLocationField((_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area, false), this.renderLocationField((_f = app_store.property) === null || _f === void 0 ? void 0 : _f.city.name), this.renderLocationField((_g = app_store.property) === null || _g === void 0 ? void 0 : _g.country.name), h("span", { class: 'mx-1' }), h("svg", { slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", null, "Location")))))), h("div", { key: '36ca36375e9284c34518d9ed95e8c21ad5a1ee82', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in && (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: e => {
+        console.log((_a = app_store.app_data) === null || _a === void 0 ? void 0 : _a.affiliate);
+        return (h(Fragment, { key: '628c2bb201e7ffc4b6ec33c147f2b85ffba08ffa' }, h("nav", { key: '69d68ea999630dc6797d5d33fa226b7ea66004ee', class: "ir-nav" }, h("div", { key: '379d7060e096d82336af3cd43d543dfcace1a105', class: "ir-nav-container" }, !isInjected && (h("div", { class: "ir-nav-left" }, h("a", { "aria-label": "home", href: `${(_b = this.website) === null || _b === void 0 ? void 0 : _b.replace('www.', 'https://')}` }, h("img", { src: ((_c = app_store.app_data) === null || _c === void 0 ? void 0 : _c.affiliate) ? (_e = (_d = app_store.app_data) === null || _d === void 0 ? void 0 : _d.affiliate.sites[0]) === null || _e === void 0 ? void 0 : _e.logo : this.logo, alt: `${(_f = app_store.property) === null || _f === void 0 ? void 0 : _f.name}, ${(_g = app_store.property) === null || _g === void 0 ? void 0 : _g.country.name}`, class: "ir-nav-logo" })), h("div", { class: "ir-nav-property-details" }, h("h3", { class: "ir-property-name" }, (_h = app_store.property) === null || _h === void 0 ? void 0 : _h.name), h("button", { onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, this.renderLocation(), h("span", { class: 'mx-1' }), h("svg", { slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", null, "Location")))))), h("div", { key: '05ac1435687c58df871befa9d1fb9eff28115224', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in ? (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentPage = 'auth';
                 this.modalRef.openModal();
-            } })), h("ir-button", { key: '519477eb6f52d9ca3b13152ff96fec63d363457e', variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() })), h("ul", { key: '676c8874f4edcaafeb41b737da332cb192bb46d8', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", null, h("ir-button", { variants: "ghost", haveLeftIcon: true, title: "home" }, h("p", { slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), h("li", { key: '0034073a44816430845e836b5b9e52bce3b9ec42' }, this.renderLanguageTrigger()), !this.isBookingListing && !app_store.is_signed_in && (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: e => {
+            } })) : (h("ir-menu", { data: [
+                { id: 1, item: 'View Bookings' },
+                { id: 2, item: 'Sign out' },
+            ] }, h("ir-user-avatar", { slot: "menu-trigger" }))), this.showBookingCode && this.showCurrency && (h("ir-button", { variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() }))), h("ul", { key: '0ecc8e0d2228897c8c5e315b89221f66ce51b062', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", null, h("ir-button", { variants: "ghost", haveLeftIcon: true, title: "home" }, h("p", { slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && this.showBookingCode && (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), this.showCurrency && h("li", null, this.renderLanguageTrigger()), !app_store.is_signed_in ? (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentPage = 'auth';
                 this.modalRef.openModal();
-            } })))))), h("ir-sheet", { key: 'd3f8c7a3b00b4de9d4306634dac2e981f4efdab5', ref: el => (this.sheetRef = el) }, h("ul", { key: '640a1f3d9fcc8b19016238b7c8dc8328c4ee2ec3', slot: "sheet-content", class: "ir-sheet-content" }, h("li", { key: 'b60806a78cdf9ee58dc3a6d54caab911cf57c857' }, this.renderLanguageTrigger()), !isInjected && (h("li", null, h("ir-button", { class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: '7c24d85be6acdbaeeedadc39e0da6bc48c8d594f' }, h("ir-button", { key: '12ce15566607c52f2ff1e0e94bbe0fcb9bc2ba01', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), h("ir-modal", { key: '16c00c8c6a50b64183156c87c88d41346825ced8', ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: 'd463069f2a86ccad919f61d40e2a3b0810577974', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
+            } }))) : (h("li", null, h("ir-menu", { data: [
+                { id: 1, item: 'View Bookings' },
+                { id: 2, item: 'Sign out' },
+            ] }, h("ir-user-avatar", { slot: "menu-trigger" }))))))), h("ir-sheet", { key: '909196e44383f7bc2374c23ce8258344bbbfd156', ref: el => (this.sheetRef = el) }, h("ul", { key: '917013e9fd1b82cf7243b9d5779dbd311ebaa983', slot: "sheet-content", class: "ir-sheet-content" }, h("li", { key: 'ecbc1c4b11b6cf69ffbaca9940bc1fd39fd21f29' }, this.renderLanguageTrigger()), !isInjected && (h("li", null, h("ir-button", { class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: '336fe1397aeb2de62053bca3e1e5e421d58e7af9' }, h("ir-button", { key: '7f535f5bd60db69a08246f7c2f4a31d708d1d1dc', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), !app_store.is_signed_in && h("ir-modal", { ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: 'a4e678a11276ba2b7472ead96ceb770faaf8349b', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
     }
     static get is() { return "ir-nav"; }
     static get encapsulation() { return "scoped"; }
@@ -179,6 +196,42 @@ export class IrNav {
                 "attribute": "is-booking-listing",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "showBookingCode": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "show-booking-code",
+                "reflect": false,
+                "defaultValue": "true"
+            },
+            "showCurrency": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "show-currency",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }

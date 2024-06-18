@@ -61,7 +61,7 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '30d293d91d6478c6237663b2641fc19f1606fa4b' }, h("div", { key: 'fb8ac7dff3059885792f19a0cea4945e0671173f', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
+        return (h(Host, { key: 'f4bc3abae6f879c4c7ecbc5a73484b00c68bf9c0' }, h("div", { key: '8316a076aea23992677df8f0d1c7dd8ef3bd15b7', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal();

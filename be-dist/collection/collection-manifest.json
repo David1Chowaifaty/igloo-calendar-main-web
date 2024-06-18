@@ -2,6 +2,8 @@
   "entries": [
     "components/ir-booking-engine/ir-booking-engine.js",
     "components/ir-booking-engine/ir-booking-listing/ir-booking-listing.js",
+    "components/ir-booking-engine/ir-booking-listing/ir-booking-card/ir-booking-card.js",
+    "components/ir-booking-engine/ir-booking-listing/ir-booking-header/ir-booking-header.js",
     "components/ir-booking-engine/ir-booking-listing/ir-pagination/ir-pagination.js",
     "components/ir-booking-engine/ir-booking-page/ir-booking-page.js",
     "components/ir-booking-engine/ir-booking-page/ir-accomodations/ir-accomodations.js",
@@ -39,6 +41,7 @@
     "components/ir-interceptor/ir-interceptor.js",
     "components/ir-invoice/ir-invoice.js",
     "components/ir-seo-injector/ir-seo-injector.js",
+    "components/ir-user-avatar/ir-user-avatar.js",
     "components/ui/ir-alert-dialog/ir-alert-dialog.js",
     "components/ui/ir-badge/ir-badge.js",
     "components/ui/ir-badge-group/ir-badge-group.js",

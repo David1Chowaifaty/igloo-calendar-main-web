@@ -10,5 +10,6 @@ export declare class CommonService extends Token {
         entries: any;
         direction: any;
     }>;
+    checkUserAuthState(): any;
     private transformArrayToObject;
 }

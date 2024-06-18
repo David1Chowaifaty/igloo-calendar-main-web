@@ -66,7 +66,7 @@ export class IrUserForm {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-phone-input", { mobile_number: (_g = checkout_store.userFormData) === null || _g === void 0 ? void 0 : _g.mobile_number.toString(), "data-state": ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
+            } }), h("ir-phone-input", { mobile_number: (((_g = checkout_store.userFormData) === null || _g === void 0 ? void 0 : _g.mobile_number) || '').toString(), "data-state": ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
                 updateUserFormData('mobile_number', e.detail.mobile);
                 updateUserFormData('country_code', e.detail.phone_prefix);
             }, onPhoneInputBlur: e => {

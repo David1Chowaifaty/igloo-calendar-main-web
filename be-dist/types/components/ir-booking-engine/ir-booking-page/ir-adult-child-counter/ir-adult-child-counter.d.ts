@@ -11,6 +11,7 @@ export declare class IrAdultChildCounter {
         adult_nbr: number;
         child_nbr: number;
     }>;
+    isPopoverOpen: boolean;
     private popover;
     addChildrenAndAdult(): void;
     incrementAdultCount(): void;
@@ -18,5 +19,6 @@ export declare class IrAdultChildCounter {
     incrementChildrenCount(): void;
     decrementChildrenCount(): void;
     guestTrigger(): any;
+    handlePopoverToggle(e: CustomEvent): void;
     render(): any;
 }

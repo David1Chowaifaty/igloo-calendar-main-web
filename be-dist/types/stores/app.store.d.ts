@@ -1,5 +1,5 @@
 import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/common";
-import { IEntries, IExposedProperty } from "../models/property";
+import { Affiliate, IEntries, IExposedProperty } from "../models/property";
 import { Locale } from 'date-fns/locale';
 export type UserPreference = {
     language_id: string;
@@ -25,7 +25,8 @@ export interface IAppStore {
         injected: boolean;
         roomtype_id: number | null;
         redirect_url: string;
-        affiliate: boolean;
+        affiliate: Affiliate;
+        tag: string | null;
     };
     property: IExposedProperty;
     setup_entries: {
