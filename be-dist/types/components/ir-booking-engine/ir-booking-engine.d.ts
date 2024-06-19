@@ -19,12 +19,17 @@ export declare class IrBookingEngine {
     cur: string;
     aff: string;
     stag: string | null;
+    source: {
+        code: string;
+        desciption: string;
+    } | null;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];
     isLoading: boolean;
     private commonService;
     private propertyService;
+    private identifier;
     router: Stack<HTMLElement>;
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;

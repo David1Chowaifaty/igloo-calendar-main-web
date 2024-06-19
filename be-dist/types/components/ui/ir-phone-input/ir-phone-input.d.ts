@@ -3,6 +3,7 @@ import { ICountry } from "../../../models/common";
 export declare class IrPhoneInput {
     error: boolean;
     mobile_number: string;
+    country_code: number;
     isVisible: boolean;
     currentHighlightedIndex: number;
     selectedItem: ICountry;
@@ -20,12 +21,14 @@ export declare class IrPhoneInput {
     }>;
     phoneInputBlur: EventEmitter<FocusEvent>;
     phoneInputFocus: EventEmitter<FocusEvent>;
-    private countries;
+    private user_country;
     searchInput: HTMLInputElement;
     phoneInput: HTMLInputElement;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     initializeCountries(): Promise<void>;
+    selectCountryByProperty(property: any, value: any): void;
+    setUpUserDefaultCountry(): Promise<void>;
     initializePopover(): void;
     handleOutsideClick: (event: MouseEvent) => void;
     handleKeyboardPress: (e: KeyboardEvent) => void;

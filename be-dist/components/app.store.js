@@ -20,6 +20,7 @@ const initialState = {
         roomtype_id: null,
         redirect_url: null,
         tag: null,
+        source: null,
     },
     property: undefined,
     setup_entries: undefined,

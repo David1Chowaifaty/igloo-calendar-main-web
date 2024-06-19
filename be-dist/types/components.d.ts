@@ -99,6 +99,10 @@ export namespace Components {
         "propertyId": number;
         "redirect_url": string;
         "roomtype_id": number;
+        "source": {
+    code: string;
+    desciption: string;
+  } | null;
         "stag": string | null;
         "toDate": string;
         "token": string;
@@ -333,6 +337,7 @@ export namespace Components {
     interface IrPaymentView {
     }
     interface IrPhoneInput {
+        "country_code": number;
         "error": boolean;
         "mobile_number": string;
     }
@@ -1594,6 +1599,10 @@ declare namespace LocalJSX {
         "propertyId"?: number;
         "redirect_url"?: string;
         "roomtype_id"?: number;
+        "source"?: {
+    code: string;
+    desciption: string;
+  } | null;
         "stag"?: string | null;
         "toDate"?: string;
         "token"?: string;
@@ -1869,6 +1878,7 @@ declare namespace LocalJSX {
     interface IrPaymentView {
     }
     interface IrPhoneInput {
+        "country_code"?: number;
         "error"?: boolean;
         "mobile_number"?: string;
         "onPhoneInputBlur"?: (event: IrPhoneInputCustomEvent<FocusEvent>) => void;

@@ -8,7 +8,7 @@ export declare const IrUserFormData: z.ZodObject<{
     message: z.ZodOptional<z.ZodString>;
     bookingForSomeoneElse: z.ZodDefault<z.ZodBoolean>;
     country_id: z.ZodNumber;
-    country_code: z.ZodString;
+    country_code: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     firstName?: string;
     lastName?: string;
@@ -18,7 +18,7 @@ export declare const IrUserFormData: z.ZodObject<{
     message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
-    country_code?: string;
+    country_code?: number;
 }, {
     firstName?: string;
     lastName?: string;
@@ -28,6 +28,6 @@ export declare const IrUserFormData: z.ZodObject<{
     message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
-    country_code?: string;
+    country_code?: number;
 }>;
 export type TUserFormData = z.infer<typeof IrUserFormData>;

@@ -51,11 +51,11 @@ class AuthService extends Token {
             localStorage.setItem('ir-token', loginToken);
             app_store.app_data.token = loginToken;
             app_store.is_signed_in = true;
+            manageAnchorSession({ login: Object.assign(Object.assign({ method: option }, rest), { isLoggedIn: true, token: loginToken }) });
         }
         const propertyService = new PropertyService();
         propertyService.setToken(loginToken);
         propertyService.getExposedGuest();
-        manageAnchorSession({ login: Object.assign(Object.assign({ method: option }, rest), { isLoggedIn: true, token: loginToken }) });
         this.notifySubscribers({
             state: 'success',
             token: loginToken,

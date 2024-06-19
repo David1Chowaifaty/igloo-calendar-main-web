@@ -15,6 +15,7 @@ const initialState = {
 };
 const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
 onRoomTypeChange('roomTypes', (newValue) => {
+    console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
     newValue.forEach(roomType => {

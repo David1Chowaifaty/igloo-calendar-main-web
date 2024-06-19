@@ -28,6 +28,12 @@ export interface ICountry {
     name: string;
     phone_prefix: string;
     flag: string;
+    code: string;
+    currency: {
+        code: string;
+        id: number;
+        symbol: string;
+    };
 }
 export type TDirection = 'LTR' | 'RTL';
 export interface IExposedLanguages {

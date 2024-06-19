@@ -27,6 +27,10 @@ export interface IAppStore {
         redirect_url: string;
         affiliate: Affiliate;
         tag: string | null;
+        source: {
+            code: string;
+            desciption: string;
+        } | null;
     };
     property: IExposedProperty;
     setup_entries: {

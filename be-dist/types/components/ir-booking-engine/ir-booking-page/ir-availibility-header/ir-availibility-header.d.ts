@@ -7,15 +7,15 @@ export declare class IrAvailibilityHeader {
     childrenCount: string;
     exposedBookingAvailabiltyParams: TExposedBookingAvailability;
     target: HTMLElement;
-    errorCause: 'date' | 'adult_child' | null;
+    errorCause: ('date' | 'adult_child')[] | null;
     isLoading: boolean;
     resetBooking: EventEmitter<null>;
     scrollToRoomType: EventEmitter<null>;
     private popoverInstance;
     private toast_timeout;
+    private identifier;
     private propertyService;
-    popperInstance: any;
-    personCounter: HTMLIrAdultChildCounterElement;
+    private availabiltyService;
     componentWillLoad(): void;
     handleFromDateChange(newValue: string, oldValue: string): void;
     handleToDateChange(newValue: string, oldValue: string): void;

@@ -1,12 +1,11 @@
 export declare class Queue<T> {
-    items: Record<number, T>;
-    rear: number;
-    front: number;
-    constructor();
+    private items;
+    private rear;
+    private front;
     enqueue(element: T): void;
-    dequeue(): T;
+    dequeue(): T | undefined;
     isEmpty(): boolean;
-    peek(): T;
+    peek(): T | undefined;
     size(): number;
     print(): void;
 }

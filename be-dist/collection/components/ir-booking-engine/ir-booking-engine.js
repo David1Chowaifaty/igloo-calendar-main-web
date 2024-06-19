@@ -7,6 +7,7 @@ import booking_store, { updateRoomParams } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
 import { getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
+import { v4 } from "uuid";
 export class IrBookingEngine {
     constructor() {
         this.commonService = new CommonService();
@@ -27,6 +28,7 @@ export class IrBookingEngine {
         this.cur = undefined;
         this.aff = undefined;
         this.stag = undefined;
+        this.source = null;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -89,6 +91,7 @@ export class IrBookingEngine {
             redirect_url: this.redirect_url,
             affiliate: null,
             tag: this.stag,
+            source: this.source,
         };
         this.initRequest();
     }
@@ -176,6 +179,7 @@ export class IrBookingEngine {
     }
     async checkAvailability() {
         console.log('booking availability', booking_store.bookingAvailabilityParams);
+        this.identifier = v4();
         await this.propertyService.getExposedBookingAvailability({
             propertyid: app_store.app_data.property_id,
             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -189,7 +193,7 @@ export class IrBookingEngine {
             promo_key: booking_store.bookingAvailabilityParams.coupon || '',
             is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
             agent_id: booking_store.bookingAvailabilityParams.agent || 0,
-        });
+        }, this.identifier);
     }
     renderScreens() {
         switch (app_store.currentPage) {
@@ -500,6 +504,22 @@ export class IrBookingEngine {
                 },
                 "attribute": "stag",
                 "reflect": false
+            },
+            "source": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{\r\n    code: string;\r\n    desciption: string;\r\n  } | null",
+                    "resolved": "{ code: string; desciption: string; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "defaultValue": "null"
             }
         };
     }

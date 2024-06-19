@@ -12,7 +12,7 @@ export const IrUserFormData = z.object({
     message: z.string().optional(),
     bookingForSomeoneElse: z.boolean().default(false),
     country_id: z.coerce.number(),
-    country_code: z.string().min(1),
+    country_code: z.coerce.number().min(1),
 });
 IrUserFormData.strip().parse;
 //# sourceMappingURL=user_form.js.map

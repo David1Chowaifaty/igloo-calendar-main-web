@@ -12,7 +12,7 @@ export declare class PropertyService extends Token {
         aname: string | null;
         perma_link: string | null;
     }, initTheme?: boolean): Promise<any>;
-    getExposedBookingAvailability(params: TExposedBookingAvailability): Promise<DataStructure>;
+    getExposedBookingAvailability(params: TExposedBookingAvailability, identifier: string): Promise<DataStructure>;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;

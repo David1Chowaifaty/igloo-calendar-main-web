@@ -33,7 +33,7 @@ export class PropertyService extends Token {
         }
         return result.My_Result;
     }
-    async getExposedBookingAvailability(params) {
+    async getExposedBookingAvailability(params, identifier) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
@@ -43,7 +43,7 @@ export class PropertyService extends Token {
         if (roomtype_id) {
             roomtypeIds.push(roomtype_id);
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
+        const { data } = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { identifier, room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -58,7 +58,7 @@ export class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? ['payment_code'] : null }));
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ payment_code: '' }] : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -118,7 +118,7 @@ export class PropertyService extends Token {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a, _b, _c, _d, _e, _f;
+                        var _a;
                         const { first_name, last_name } = this.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
@@ -147,12 +147,15 @@ export class PropertyService extends Token {
                                 dob: null,
                                 subscribe_to_news_letter: null,
                                 cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
-                                    ? {
-                                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber,
-                                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
-                                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
-                                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
-                                        cvc: ((_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.code) === '001' ? checkout_store.payment.cvc : null,
+                                    ? () => {
+                                        const payment = checkout_store.payment;
+                                        return {
+                                            nbr: payment === null || payment === void 0 ? void 0 : payment.cardNumber,
+                                            holder_name: payment === null || payment === void 0 ? void 0 : payment.cardHolderName,
+                                            expiry_month: payment === null || payment === void 0 ? void 0 : payment.expiry_month.split('/')[0],
+                                            expiry_year: payment === null || payment === void 0 ? void 0 : payment.expiry_year.split('/')[1],
+                                            cvc: (payment === null || payment === void 0 ? void 0 : payment.code) === '001' ? payment.cvc : null,
+                                        };
                                     }
                                     : null,
                             },
@@ -181,7 +184,7 @@ export class PropertyService extends Token {
         return res;
     }
     async bookUser() {
-        var _a, _b;
+        var _a;
         try {
             const token = this.getToken();
             if (!token) {
@@ -193,8 +196,9 @@ export class PropertyService extends Token {
                 last_name: checkout_store.userFormData.lastName,
                 country_id: checkout_store.userFormData.country_id,
                 city: null,
-                mobile: checkout_store.userFormData.country_code + checkout_store.userFormData.mobile_number,
+                mobile: checkout_store.userFormData.mobile_number,
                 address: '',
+                phone_prefix: checkout_store.userFormData.country_code,
                 dob: null,
                 subscribe_to_news_letter: true,
                 cci: null,
@@ -215,16 +219,19 @@ export class PropertyService extends Token {
                     property: {
                         id: app_store.app_data.property_id,
                     },
-                    source: (_b = app_store.app_data.tag) !== null && _b !== void 0 ? _b : 'webiste',
+                    source: app_store.app_data.source,
                     referrer_site: app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
                 },
-                extras: {
-                    payment_code: checkout_store.payment.code,
-                },
+                extras: [
+                    {
+                        key: 'payment_code',
+                        value: checkout_store.payment.code,
+                    },
+                ],
                 pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
             };
             const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
@@ -255,7 +262,7 @@ export class PropertyService extends Token {
             return;
         }
         app_store.is_signed_in = true;
-        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile });
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_code: res.country_id });
     }
 }
 //# sourceMappingURL=property.service.js.map
