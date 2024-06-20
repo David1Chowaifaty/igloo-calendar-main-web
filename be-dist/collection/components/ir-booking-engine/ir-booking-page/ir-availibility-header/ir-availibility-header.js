@@ -38,6 +38,7 @@ export class IrAvailibilityHeader {
     componentWillLoad() {
         const { token, property_id } = app_store.app_data;
         this.propertyService.setToken(token);
+        this.availabiltyService.subscribe(() => this.disableLoading());
         this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { adult_nbr: +this.adultCount || 0, child_nbr: +this.childrenCount || 0, from_date: this.fromDate, to_date: this.toDate });
         if (booking_store.bookingAvailabilityParams.from_date) {
             this.exposedBookingAvailabiltyParams.from_date = format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd');
@@ -66,6 +67,11 @@ export class IrAvailibilityHeader {
         });
         if (this.fromDate && this.toDate && this.adultCount) {
             this.checkAvailability();
+        }
+    }
+    disableLoading() {
+        if (this.isLoading) {
+            this.isLoading = false;
         }
     }
     handleFromDateChange(newValue, oldValue) {
@@ -173,6 +179,8 @@ export class IrAvailibilityHeader {
         if (this.toast_timeout) {
             clearTimeout(this.toast_timeout);
         }
+        this.availabiltyService.unsubscribe(() => this.disableLoading());
+        this.availabiltyService.disconnectSocket();
     }
     shouldRenderErrorToast() {
         var _a, _b, _c, _d, _e;
@@ -195,10 +203,10 @@ export class IrAvailibilityHeader {
     render() {
         var _a, _b, _c, _d, _e;
         this.shouldRenderErrorToast();
-        return (h("div", { key: '80ff587cf5c80bdc05acf8b74609169d357b1402', class: "availability-container" }, h("div", { key: '3e4cdbd56299797d88592002bb7879c66e4c302a', class: "availability-inputs" }, h("ir-date-popup", { key: '27c16c5508f57d2922a9dfc70a839f32d9462d22', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: '2754edd46f6d5b3e578fe133cd2f7b65d5adb793', class: "availability-container" }, h("div", { key: '60764f75c0f6530794f098e80044847ae0a7ca73', class: "availability-inputs" }, h("ir-date-popup", { key: '434577634c111e63562c958b8a2c04271534eb6e', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_c = this.exposedBookingAvailabiltyParams) === null || _c === void 0 ? void 0 : _c.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '9c13cc0141348e5cc56709d147560b6ad50dadfc', class: "availability-controls" }, h("ir-adult-child-counter", { key: '0389cc53708681aa564c585ec45ed7107f99256d', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: 'b097a7ed909a538b5210535d18fcac0c05601b7c', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: 'd547ec86841295d275651256806b0a75c57dec7e', class: "availability-controls" }, h("ir-adult-child-counter", { key: '1534d9cda139b2cd379f37ea15fc30c4b8bcdb93', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: '90c2b9b0a37dbfe13d65cdb22e25086ee626b3c1', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();

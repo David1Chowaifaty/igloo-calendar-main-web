@@ -8,10 +8,12 @@ import app_store, { changeLocale, updateUserPreference } from "../../stores/app.
 import { getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
 import { v4 } from "uuid";
+import { AvailabiltyService } from "../../services/app/availability.service";
 export class IrBookingEngine {
     constructor() {
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
+        this.availabiltyService = new AvailabiltyService();
         this.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTQ1NTQ5OTIsIkNMQUlNLTAxIjoiOGJpaUdjK21FQVE9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoicUxHWllZcVA3SzB5aENrRTFaY0tENm5TeFowNkEvQ2lPc1JrWUpYTHFhTEF5M3N0akltbU9CWkdDb080dDRyNVRiWjkxYnZQelFIQ2c1YlBGU2J3cm5HdjNsNjVVcjVLT3RnMmZQVWFnNHNEYmE3WTJkMDF4RGpDWUs2SFlGREhkcTFYTzBLdTVtd0NKeU5rWDFSeWZmSnhJdWdtZFBUeTZPWjk0RUVjYTJleWVSVzZFa0pYMnhCZzFNdnJ3aFRKRHF1cUxzaUxvZ3I0UFU5Y2x0MjdnQ2tJZlJzZ2lZbnpOK2szclZnTUdsQTUvWjRHekJWcHl3a0dqcWlpa0M5T0owWFUrdWJJM1dzNmNvSWEwSks4SWRqVjVaQ1VaZjZ1OGhBMytCUlpsUWlyWmFZVWZlVmpzU1FETFNwWFowYjVQY0FncE1EWVpmRGtWbGFscjRzZ1pRNVkwODkwcEp6dE16T0s2VTR5Z1FMQkdQbTlTSmRLY0ExSGU2MXl2YlhuIiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBcklIUzg2aEpCQSJ9.ySJjLhWwUDeP4X8LIJcbsjO74y_UgMHwRDpNrCClndc';
         this.propertyId = undefined;
         this.baseUrl = undefined;
@@ -180,6 +182,7 @@ export class IrBookingEngine {
     async checkAvailability() {
         console.log('booking availability', booking_store.bookingAvailabilityParams);
         this.identifier = v4();
+        this.availabiltyService.initSocket(this.identifier);
         await this.propertyService.getExposedBookingAvailability({
             propertyid: app_store.app_data.property_id,
             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -206,6 +209,9 @@ export class IrBookingEngine {
             default:
                 return null;
         }
+    }
+    disconnectedCallback() {
+        this.availabiltyService.disconnectSocket();
     }
     render() {
         var _a, _b, _c;

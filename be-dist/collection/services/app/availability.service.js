@@ -6,37 +6,45 @@ export class AvailabiltyService {
         this.queue = new Queue();
         this.intervalId = null;
         this.PROCESSING_INTERVAL = 400;
-    }
-    initSocket(id) {
+        this.subscribers = [];
         this.socket = io('https://realtime.igloorooms.com/', {
             reconnectionAttempts: 5,
             reconnectionDelay: 2000,
         });
         this.socket.on('connect', () => {
             console.log('Connected to the socket server');
-            this.intialDuration = new Date();
         });
-        this.socket.on('MSG', (msg) => {
-            try {
-                const message_obj = JSON.parse(msg);
-                console.log(new Date().getTime() - this.intialDuration.getTime());
-                this.intialDuration = new Date();
-                if (message_obj && message_obj.KEY && message_obj.KEY.toString() === id) {
-                    this.queue.enqueue(message_obj.PAYLOAD);
-                }
-            }
-            catch (error) {
-                console.error('Error parsing message:', error);
-            }
+        this.socket.on('connect_error', error => {
+            console.error('Connection error:', error);
         });
+    }
+    subscribe(callback) {
+        this.subscribers.push(callback);
+    }
+    unsubscribe(callback) {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+    disconnectSocket() {
         this.socket.on('disconnect', reason => {
             console.log('Disconnected:', reason);
             if (this.intervalId) {
                 clearInterval(this.intervalId);
             }
         });
-        this.socket.on('connect_error', error => {
-            console.error('Connection error:', error);
+        this.socket.close();
+    }
+    initSocket(id) {
+        this.socket.on('MSG', (msg) => {
+            try {
+                const message_obj = JSON.parse(msg);
+                if (message_obj && message_obj.KEY && message_obj.KEY.toString() === id) {
+                    this.notifySubscribers();
+                    this.queue.enqueue(message_obj.PAYLOAD);
+                }
+            }
+            catch (error) {
+                console.error('Error parsing message:', error);
+            }
         });
         this.startProcessingQueue();
     }
@@ -54,6 +62,9 @@ export class AvailabiltyService {
         if (payloads.length > 0) {
             await this.processPayloads(payloads);
         }
+    }
+    notifySubscribers() {
+        this.subscribers.forEach(callback => callback(false));
     }
     async processPayloads(payloads) {
         try {
@@ -91,7 +102,6 @@ export class AvailabiltyService {
                 roomtypes[selectedRoomTypeIndex] = Object.assign(Object.assign({}, roomType), { inventory: 1 });
             });
             booking_store.roomTypes = [...roomtypes];
-            //   console.log('Updated room types:', booking_store.roomTypes);
         }
         catch (error) {
             console.error('Error processing payloads:', error);

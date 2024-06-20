@@ -27,6 +27,8 @@ export declare class IrPhoneInput {
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     initializeCountries(): Promise<void>;
+    handleCountryCodeChange(newValue: number, oldValue: number): void;
+    handleMobileNumberChange(newValue: string, oldValue: string): void;
     selectCountryByProperty(property: any, value: any): void;
     setUpUserDefaultCountry(): Promise<void>;
     initializePopover(): void;

@@ -1,10 +1,12 @@
-import { c as createStore, d as dateFns, a as app_store, g as getDateDifference } from './utils-9a5c698f.js';
+'use strict';
+
+const utils$2 = require('./utils-c3bd5023.js');
 
 const initialState$2 = {
     entries: null,
     direction: 'ltr',
 };
-const { state: localizedWords, onChange: onCalendarDatesChange } = createStore(initialState$2);
+const { state: localizedWords, onChange: onCalendarDatesChange } = utils$2.createStore(initialState$2);
 
 class Token {
     getToken() {
@@ -3290,7 +3292,7 @@ const initialState$1 = {
     },
     booking: null,
 };
-const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState$1);
+const { state: booking_store, onChange: onRoomTypeChange } = utils$2.createStore(initialState$1);
 onRoomTypeChange('roomTypes', (newValue) => {
     console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
@@ -3424,19 +3426,19 @@ const initialState = {
     userFormData: {},
     modifiedGuestName: false,
     pickup: {
-        arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
+        arrival_date: utils$2.dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
     payment: null,
     agreed_to_services: false,
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
+const { state: checkout_store, onChange: onCheckoutDataChange } = utils$2.createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
 function updatePickupFormData(key, value) {
     if (key === 'location' && value === null) {
         checkout_store.pickup = {
-            arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
+            arrival_date: utils$2.dateFns.format(new Date(), 'yyyy-MM-dd'),
             location: null,
         };
     }
@@ -3525,18 +3527,18 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id }));
+        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: utils$2.app_store.userPreferences.currency_id }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        if (!app_store.fetchedBooking) {
+        if (!utils$2.app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
         if (params.aname || params.perma_link) {
-            app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
+            utils$2.app_store.app_data = Object.assign(Object.assign({}, utils$2.app_store.app_data), { property_id: result.My_Result.id });
         }
-        app_store.property = Object.assign({}, result.My_Result);
+        utils$2.app_store.property = Object.assign({}, result.My_Result);
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
         }
@@ -3548,11 +3550,11 @@ class PropertyService extends Token {
             throw new MissingTokenError();
         }
         let roomtypeIds = [];
-        const { roomtype_id } = app_store.app_data;
+        const { roomtype_id } = utils$2.app_store.app_data;
         if (roomtype_id) {
             roomtypeIds.push(roomtype_id);
         }
-        const { data } = await axios$1.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { identifier, room_type_ids: roomtypeIds, skip_getting_assignable_units: true }));
+        const { data } = await axios$1.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, params), { identifier, room_type_ids: roomtypeIds, skip_getting_assignable_units: true, is_specific_variation: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -3578,8 +3580,8 @@ class PropertyService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                if (app_store.setup_entries) {
-                    return app_store.setup_entries;
+                if (utils$2.app_store.setup_entries) {
+                    return utils$2.app_store.setup_entries;
                 }
                 const { data } = await axios$1.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
                     TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
@@ -3593,7 +3595,7 @@ class PropertyService extends Token {
                     ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
                     bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
                 };
-                app_store.setup_entries = setupEntries;
+                utils$2.app_store.setup_entries = setupEntries;
                 updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
                 return setupEntries;
             }
@@ -3609,11 +3611,11 @@ class PropertyService extends Token {
         const days = [];
         while (currentDate < endDate) {
             days.push({
-                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
+                date: utils$2.dateFns.format(currentDate, 'yyyy-MM-dd'),
                 amount: amount,
                 cost: null,
             });
-            currentDate = dateFns.addDays(currentDate, 1);
+            currentDate = utils$2.dateFns.addDays(currentDate, 1);
         }
         return days;
     }
@@ -3641,10 +3643,10 @@ class PropertyService extends Token {
                                 infant_nbr: null,
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
-                            from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                            to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                            from_date: utils$2.dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                            to_date: utils$2.dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / utils$2.getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
                                 first_name,
@@ -3722,15 +3724,15 @@ class PropertyService extends Token {
                 promo_key: (_a = booking_store.bookingAvailabilityParams.coupon) !== null && _a !== void 0 ? _a : null,
                 booking: {
                     booking_nbr: '',
-                    from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                    to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                    from_date: utils$2.dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                    to_date: utils$2.dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                     remark: checkout_store.userFormData.message || null,
                     property: {
-                        id: app_store.app_data.property_id,
+                        id: utils$2.app_store.app_data.property_id,
                     },
-                    source: app_store.app_data.source,
-                    referrer_site: app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
-                    currency: app_store.property.currency,
+                    source: utils$2.app_store.app_data.source,
+                    referrer_site: utils$2.app_store.app_data.affiliate ? window.location.href : 'www.igloorooms.com',
+                    currency: utils$2.app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
@@ -3767,10 +3769,10 @@ class PropertyService extends Token {
         }
         const res = data.My_Result;
         if (res === null) {
-            app_store.is_signed_in = false;
+            utils$2.app_store.is_signed_in = false;
             return;
         }
-        app_store.is_signed_in = true;
+        utils$2.app_store.is_signed_in = true;
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_code: res.country_id });
     }
 }
@@ -3782,7 +3784,7 @@ class CommonService extends Token {
             throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Currencies?Ticket=${token}`);
-        app_store.currencies = [...data['My_Result']];
+        utils$2.app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
     async getExposedLanguages() {
@@ -3791,7 +3793,7 @@ class CommonService extends Token {
             throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Languages?Ticket=${token}`);
-        app_store.languages = [...data.My_Result];
+        utils$2.app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
     async getCountries(language) {
@@ -3841,7 +3843,7 @@ class CommonService extends Token {
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }
-                app_store.userDefaultCountry = data['My_Result'];
+                utils$2.app_store.userDefaultCountry = data['My_Result'];
                 return data['My_Result'];
             }
         }
@@ -3867,7 +3869,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token !== null) {
-                const { data } = await axios$1.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+                const { data } = await axios$1.post(`/Get_Exposed_Language?Ticket=${token}`, { code: utils$2.app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }
@@ -3886,7 +3888,7 @@ class CommonService extends Token {
         const anchor = JSON.parse(sessionStorage.getItem('anchor'));
         if (anchor) {
             if (anchor.login) {
-                app_store.is_signed_in = true;
+                utils$2.app_store.is_signed_in = true;
             }
             return anchor.login || null;
         }
@@ -3901,6 +3903,23 @@ class CommonService extends Token {
     }
 }
 
-export { CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, axios$1 as a, booking_store as b, checkout_store as c, calculateTotalCost as d, updateUserFormData as e, updatePickupFormData as f, updatePartialPickupFormData as g, getVisibleInventory as h, localizedWords as l, modifyBookingStore as m, onCheckoutDataChange as o, reserveRooms as r, updateRoomParams as u, validateBooking as v };
+exports.CommonService = CommonService;
+exports.MissingTokenError = MissingTokenError;
+exports.PropertyService = PropertyService;
+exports.Token = Token;
+exports.axios = axios$1;
+exports.booking_store = booking_store;
+exports.calculateTotalCost = calculateTotalCost;
+exports.checkout_store = checkout_store;
+exports.getVisibleInventory = getVisibleInventory;
+exports.localizedWords = localizedWords;
+exports.modifyBookingStore = modifyBookingStore;
+exports.onCheckoutDataChange = onCheckoutDataChange;
+exports.reserveRooms = reserveRooms;
+exports.updatePartialPickupFormData = updatePartialPickupFormData;
+exports.updatePickupFormData = updatePickupFormData;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserFormData = updateUserFormData;
+exports.validateBooking = validateBooking;
 
-//# sourceMappingURL=common.service-9e05e91e.js.map
+//# sourceMappingURL=common.service-995efeb6.js.map

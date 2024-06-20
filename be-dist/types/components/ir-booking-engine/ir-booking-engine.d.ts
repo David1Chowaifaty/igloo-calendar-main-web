@@ -29,6 +29,7 @@ export declare class IrBookingEngine {
     isLoading: boolean;
     private commonService;
     private propertyService;
+    private availabiltyService;
     private identifier;
     router: Stack<HTMLElement>;
     componentWillLoad(): Promise<void>;
@@ -44,5 +45,6 @@ export declare class IrBookingEngine {
     resetBooking(resetType?: 'discountOnly' | 'completeReset'): Promise<void>;
     checkAvailability(): Promise<void>;
     renderScreens(): any;
+    disconnectedCallback(): void;
     render(): any;
 }

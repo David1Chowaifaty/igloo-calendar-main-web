@@ -59,6 +59,16 @@ export class IrPhoneInput {
         }
         this.filteredCountries = phone_input_store.countries;
     }
+    handleCountryCodeChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.selectCountryByProperty('id', this.country_code.toString());
+        }
+    }
+    handleMobileNumberChange(newValue, oldValue) {
+        if (newValue !== oldValue && newValue !== this.inputValue) {
+            this.inputValue = newValue;
+        }
+    }
     selectCountryByProperty(property, value) {
         const selectedCountry = phone_input_store.countries.find(c => c[property].toString() === value.toString());
         if (selectedCountry) {
@@ -189,9 +199,9 @@ export class IrPhoneInput {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'b8ecde7f3db8b72ebc638dc369a4218700715563', ref: el => (this.triggerElement = el), class: "phone-input-container" }, h("div", { key: '812cb41c4fb592a3ad1469ba6b5b5d21f6fee435', class: `input-trigger ${this.error ? 'error' : ''}` }, h("div", { key: 'b12684e324254ec31e30716bb0cf0ffb37f68a23', class: "input-section" }, h("label", { key: '3b5f9841afde24c6094a116ece21fe37f2c2f7d6', htmlFor: "country_picker" }, localizedWords.entries.Lcz_Country), h("div", { key: 'a176921352cd75b40e5c2c6aa4b943f7b13581c9', id: "country_picker", onClick: () => {
+        return (h("div", { key: 'e98f22e5fb68827a358057ceee32b35a8696e448', ref: el => (this.triggerElement = el), class: "phone-input-container" }, h("div", { key: '426c31143b9bac1dce11fbbed908cf04be42e160', class: `input-trigger ${this.error ? 'error' : ''}` }, h("div", { key: 'c58f6a93ac4b2ecca4d5d99cfdff9196717911fa', class: "input-section" }, h("label", { key: 'cb1ce9ec905fd8aca00d9507ae1cf82151532a04', htmlFor: "country_picker" }, localizedWords.entries.Lcz_Country), h("div", { key: 'd27830ec821033715b0714cdebae4e36e6499b3f', id: "country_picker", onClick: () => {
                 this.toggleVisibility();
-            }, class: "input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "flag-icon" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: 'b9450181112a067151d26dcd7802eee090fd7c39', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'e199ad65da923d37970c854ae4c87a7937a87db6', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '9577ed798f9751684880fba0d69af5d766f06657', class: "input-section" }, h("label", { key: 'ff18fb7a16e8004f6a9f55588dbb121d26c035a2', htmlFor: "phone_number" }, localizedWords.entries.Lcz_MobileNumber), h("input", { key: '7f7570e7a432a0154c2da10a842b4cdc61241c25', type: "phone", ref: el => (this.phoneInput = el), onBlur: e => this.phoneInputBlur.emit(e), onFocus: e => this.phoneInputFocus.emit(e), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: '7df51875efb2515b420a5e3e1b471434c46108c4', ref: el => (this.contentElement = el), class: "dropdown-container" }, this.isVisible && (h("ul", { class: "dropdown-content" }, h("li", { class: "filter-container" }, h("ir-icons", { name: "search", svgClassName: "filter-icon" }), h("input", { placeholder: localizedWords.entries.Lcz_Search, ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option", onClick: () => {
+            }, class: "input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "flag-icon" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: 'b82989769d58c435c9d83155bc8d17fe4fb16fec', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '51afe9e958d4c404d653348ddba90790d91ac47b', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '3c5011ea29eb8a92c1faf957816fd5cb713820b5', class: "input-section" }, h("label", { key: 'b8eeac4d3d3d5b1e5cdb4eefc682e1f68c115d5f', htmlFor: "phone_number" }, localizedWords.entries.Lcz_MobileNumber), h("input", { key: '2e0192f264f26c72c38b25d2468a81d05be6457d', type: "phone", ref: el => (this.phoneInput = el), onBlur: e => this.phoneInputBlur.emit(e), onFocus: e => this.phoneInputFocus.emit(e), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: 'c3990b61567f7e73c421d4176b43849d9cbf186b', ref: el => (this.contentElement = el), class: "dropdown-container" }, this.isVisible && (h("ul", { class: "dropdown-content" }, h("li", { class: "filter-container" }, h("ir-icons", { name: "search", svgClassName: "filter-icon" }), h("input", { placeholder: localizedWords.entries.Lcz_Search, ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option", onClick: () => {
                 this.selectItem(index);
             }, onMouseOver: () => {
                 this.currentHighlightedIndex = index;
@@ -332,5 +342,14 @@ export class IrPhoneInput {
             }];
     }
     static get elementRef() { return "el"; }
+    static get watchers() {
+        return [{
+                "propName": "country_code",
+                "methodName": "handleCountryCodeChange"
+            }, {
+                "propName": "mobile_number",
+                "methodName": "handleMobileNumberChange"
+            }];
+    }
 }
 //# sourceMappingURL=ir-phone-input.js.map
