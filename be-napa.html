@@ -70,7 +70,7 @@
 </head>
 
 <body>
-    <ir-common></ir-common>
+    <!-- <ir-common></ir-common> -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -80,9 +80,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <script>
-                document.addEventListener('DOMContentLoaded', () => renderNavbar("be-regency.html"));
+                document.addEventListener('DOMContentLoaded', () => renderNavbar("be-napa.html"));
             </script>
-
         </div>
     </nav>
     <ir-booking-engine base-url="https://gateway.igloorooms.com/IRBE"></ir-booking-engine>
@@ -90,7 +89,7 @@
     <script>
         const testCmp = document.querySelector('ir-booking-engine');
         async function init() {
-            testCmp.propertyId = "526"
+            testCmp.propertyId = "561"
             try {
             } catch (error) {
                 console.log(error)

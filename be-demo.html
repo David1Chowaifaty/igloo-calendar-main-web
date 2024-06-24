@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
         crossorigin="anonymous"></script>
-
+    <script src="index.js"></script>
     <style>
         .active a {
             color: var(--blue) !important
@@ -69,7 +69,7 @@
 </head>
 
 <body>
-    <!-- <ir-common></ir-common> -->
+    <ir-common></ir-common>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -78,47 +78,12 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Housekeeping first page <span
-                            class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="tasks.html">Housekeeping tasks</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="front-desk.html">Front desk</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="booking-details.html">Booking details</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="booking-listing.html">booking listing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="channel.html">Channel</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="be-demo.html">BE Demo</a>
-                </li>
-                <li class="nav-item ">
-
-                    <a class="nav-link" href="be-theo.html">BE Theo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="be-regency-palace.html">BE Regency Palace
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="booking-widget.html">BE Widget
-                    </a>
-                </li>
-            </ul>
-
+            <script>
+                document.addEventListener('DOMContentLoaded', () => renderNavbar("be-demo.html"));
+            </script>
         </div>
     </nav>
     <ir-booking-engine base-url="https://gateway.igloorooms.com/IRBE"></ir-booking-engine>
-    <!-- <ir-google-maps></ir-google-maps> -->
     <script>
         const testCmp = document.querySelector('ir-booking-engine');
         async function init() {
