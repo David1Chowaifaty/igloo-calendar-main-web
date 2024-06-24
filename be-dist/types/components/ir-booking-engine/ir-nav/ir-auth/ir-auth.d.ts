@@ -10,7 +10,6 @@ export declare class IrAuth {
     private authService;
     private googleButtonWrapper;
     componentWillLoad(): void;
-    handleLoginResult(e: CustomEvent): void;
     handleNavigation(e: CustomEvent): void;
     handleAuthFinished(e: CustomEvent): void;
     signUp(params: {

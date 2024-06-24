@@ -1,5 +1,5 @@
 interface IItems {
   item: string;
   disabled?: boolean;
-  id: number;
+  id: number | string;
 }

@@ -3,7 +3,10 @@ import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
-    selected_variation: Variation;
+    selected_variation: {
+        variation: Variation;
+        state: 'default' | 'modified';
+    };
     ratePlan: RatePlan;
     guestName: string[];
     is_bed_configuration_enabled: boolean;
@@ -26,6 +29,10 @@ export interface IRatePlanSelection {
 export interface IRoomTypeSelection {
     [ratePlanId: number]: IRatePlanSelection;
 }
+export interface ISelectedVariation {
+    variation: Variation;
+    state: 'default' | 'modified';
+}
 export interface IBookinAvailabilityParams {
     from_date: Date | null;
     to_date: Date | null;
@@ -46,6 +53,7 @@ interface BookingStore {
     };
     bookingAvailabilityParams: IBookinAvailabilityParams;
     booking: Booking;
+    resetBooking: boolean;
 }
 export declare const booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>;
 export declare function updateInventory(roomTypeId: number): void;

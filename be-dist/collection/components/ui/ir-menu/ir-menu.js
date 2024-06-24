@@ -30,7 +30,6 @@ export class IrMenu {
                 }
                 break;
             case 'Escape':
-                console.log('first');
                 event.preventDefault();
                 event.stopPropagation();
                 event.stopImmediatePropagation();
@@ -83,7 +82,7 @@ export class IrMenu {
         const item = this.data[index];
         if (item && !item.disabled) {
             this.selectedItemName = item.item;
-            this.itemSelect.emit(item.item);
+            this.itemSelect.emit(item.id);
             this.closeDropdown();
         }
     }
@@ -128,7 +127,7 @@ export class IrMenu {
         }
     }
     render() {
-        return (h(Fragment, { key: 'd0fe535cb9acd7d21783adfca05a3e30157cef89' }, h("button", { key: '9ad8928065f8ebc67900fd54610475d775ea38b2', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: '5612a3fc8f814cda7ea94bd1472827cac09baeca', name: "menu-trigger" }, h("div", { key: '8bf886729495658ad1e5b29e67311cd37f8800d9', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: 'e89977d8fb08939dd31e68097d59890f31cbcc42', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'fbe5a2f8f3649b283e7ac2a998299ec291b9ff87', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'cdc2df34e10ceab628c13617b1283a6333240996', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
+        return (h(Fragment, { key: '3093452774a53fd0e1ca66b59e8d65347dd5b110' }, h("button", { key: 'c9ebc6c9a0fefed4f1d6de6c9686935fea96ba12', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: 'fc17bea4270e1c7dbc29d0c7e0c49ac73635fec4', name: "menu-trigger" }, h("div", { key: '66688cfd8f8288a632726df9d14a7ea646c8646c', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: 'd36687c376a9cba1d9178e1556ab16cbb772aac6', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '4ffd36ffecd3cc14c4a65fd1efa5a0ef1082b664', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '3dd2930aab44ecf4d26b54414ddfaa2c8c8f4a5b', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
                 this.selectItem(index);
                 this.disableKeyboardPriority();
             }, onMouseOver: () => {
@@ -214,8 +213,8 @@ export class IrMenu {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
+                    "original": "string | number",
+                    "resolved": "number | string",
                     "references": {}
                 }
             }];

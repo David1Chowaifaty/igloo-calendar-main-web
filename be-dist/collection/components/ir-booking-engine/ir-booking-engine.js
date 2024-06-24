@@ -144,19 +144,17 @@ export class IrBookingEngine {
         if (!selectedVariation) {
             return;
         }
-        updateRoomParams({ params: { selected_variation: selectedVariation }, ratePlanId: rateplanId, roomTypeId });
+        updateRoomParams({ params: { selected_variation: { variation: selectedVariation, state: 'modified' } }, ratePlanId: rateplanId, roomTypeId });
     }
     handleNavigation(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        console.log(e.detail);
         app_store.currentPage = e.detail;
     }
     async handleResetBooking(e) {
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        console.log('reset Booking fetched', e.detail);
         await this.resetBooking((_a = e.detail) !== null && _a !== void 0 ? _a : 'completeReset');
     }
     async resetBooking(resetType = 'completeReset') {
@@ -180,23 +178,26 @@ export class IrBookingEngine {
         await Promise.all(queries);
     }
     async checkAvailability() {
-        console.log('booking availability', booking_store.bookingAvailabilityParams);
         this.identifier = v4();
         this.availabiltyService.initSocket(this.identifier);
         await this.propertyService.getExposedBookingAvailability({
-            propertyid: app_store.app_data.property_id,
-            from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-            to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
-            room_type_ids: [],
-            adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
-            child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
-            language: app_store.userPreferences.language_id,
-            currency_ref: app_store.userPreferences.currency_id,
-            is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
-            promo_key: booking_store.bookingAvailabilityParams.coupon || '',
-            is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
-            agent_id: booking_store.bookingAvailabilityParams.agent || 0,
-        }, this.identifier);
+            params: {
+                propertyid: app_store.app_data.property_id,
+                from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                room_type_ids: [],
+                adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
+                child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
+                language: app_store.userPreferences.language_id,
+                currency_ref: app_store.userPreferences.currency_id,
+                is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
+                promo_key: booking_store.bookingAvailabilityParams.coupon || '',
+                is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
+                agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+            },
+            identifier: this.identifier,
+            mode: 'default',
+        });
     }
     renderScreens() {
         switch (app_store.currentPage) {

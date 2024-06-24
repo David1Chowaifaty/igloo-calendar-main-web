@@ -1123,7 +1123,7 @@ declare global {
         new (): HTMLIrLoyaltyElement;
     };
     interface HTMLIrMenuElementEventMap {
-        "itemSelect": string;
+        "itemSelect": string | number;
     }
     interface HTMLIrMenuElement extends Components.IrMenu, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuElement, ev: IrMenuCustomEvent<HTMLIrMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1854,7 +1854,7 @@ declare namespace LocalJSX {
     interface IrMenu {
         "data"?: IItems[];
         "menuItem"?: string;
-        "onItemSelect"?: (event: IrMenuCustomEvent<string>) => void;
+        "onItemSelect"?: (event: IrMenuCustomEvent<string | number>) => void;
     }
     interface IrModal {
         "element"?: HTMLElement;

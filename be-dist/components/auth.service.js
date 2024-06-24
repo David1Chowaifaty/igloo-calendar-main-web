@@ -3,6 +3,7 @@ import { a as app_store } from './app.store.js';
 import { a as axios } from './axios.js';
 import { P as PropertyService } from './property.service.js';
 import { m as manageAnchorSession } from './utils.js';
+import { c as checkout_store } from './checkout.store.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -31,6 +32,17 @@ class AuthService extends Token {
     }
     notifySubscribers(payload) {
         this.subscribers.forEach(callback => callback(payload));
+    }
+    signOut() {
+        app_store.is_signed_in = false;
+        checkout_store.userFormData = {
+            firstName: null,
+            lastName: null,
+            email: null,
+            mobile_number: null,
+            country_code: null,
+        };
+        manageAnchorSession({ login: null }, 'remove');
     }
     async login(params, signIn = true) {
         const token = this.getToken();

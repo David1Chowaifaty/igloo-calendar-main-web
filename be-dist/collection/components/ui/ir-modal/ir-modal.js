@@ -5,13 +5,10 @@ export class IrModal {
         this.isOpen = false;
     }
     componentWillLoad() {
-        this.portal = document.createElement('div');
-        this.portal.className = 'ir-portal';
-        this.portal.style.position = 'relative';
-        document.body.appendChild(this.portal);
+        this.createPortal();
     }
-    componentDidLoad() {
-        this.prepareFocusTrap();
+    disconnectedCallback() {
+        this.cleanup();
     }
     async openModal() {
         this.isOpen = true;
@@ -22,40 +19,57 @@ export class IrModal {
         this.prepareFocusTrap();
     }
     async closeModal() {
-        removeOverlay();
-        this.removeOverlay();
         this.isOpen = false;
         this.openChange.emit(this.isOpen);
+        removeOverlay();
         this.removeModalContent();
+        this.removeOverlay();
+    }
+    createPortal() {
+        if (!this.portal) {
+            this.portal = document.createElement('div');
+            this.portal.className = 'ir-portal';
+            this.portal.style.position = 'relative';
+            document.body.appendChild(this.portal);
+        }
     }
     createOverlay() {
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'overlay';
-        this.overlay.addEventListener('click', this.closeModal.bind(this));
-        this.portal.appendChild(this.overlay);
+        if (!this.overlay) {
+            this.overlay = document.createElement('div');
+            this.overlay.className = 'overlay';
+            this.overlay.addEventListener('click', () => this.closeModal());
+            this.portal.appendChild(this.overlay);
+        }
     }
     removeOverlay() {
-        if (this.isOpen) {
-            this.overlay.removeEventListener('click', this.closeModal.bind(this));
-            this.portal.removeChild(this.overlay);
+        if (this.overlay) {
+            this.overlay.removeEventListener('click', () => this.closeModal());
+            if (this.overlay.parentNode === this.portal) {
+                this.portal.removeChild(this.overlay);
+            }
+            this.overlay = null;
         }
     }
     insertModalContent() {
-        this.modalContainer = document.createElement('div');
-        this.auth = document.createElement('ir-auth');
-        this.auth.addEventListener('closeDialog', () => this.closeModal());
-        this.modalContainer.appendChild(this.auth);
-        this.modalContainer.className = 'modal-container';
-        if (this.modalContainer) {
+        if (!this.modalContainer) {
+            this.modalContainer = document.createElement('div');
+            this.modalContainer.className = 'modal-container';
+            this.auth = document.createElement('ir-auth');
+            this.auth.addEventListener('closeDialog', () => this.closeModal());
+            this.modalContainer.appendChild(this.auth);
             this.portal.appendChild(this.modalContainer);
         }
     }
     removeModalContent() {
         if (this.modalContainer) {
-            this.portal.removeChild(this.modalContainer);
             if (this.auth) {
-                this.auth.removeEventListener('closeDialog', this.closeModal.bind(this));
+                this.auth.removeEventListener('closeDialog', () => this.closeModal());
             }
+            if (this.modalContainer.parentNode === this.portal) {
+                this.portal.removeChild(this.modalContainer);
+            }
+            this.modalContainer = null;
+            this.auth = null;
         }
     }
     prepareFocusTrap() {
@@ -68,6 +82,9 @@ export class IrModal {
         this.firstFocusableElement.focus();
     }
     handleKeyDown(ev) {
+        if (!this.isOpen) {
+            return;
+        }
         let isTabPressed = ev.key === 'Tab';
         if (ev.key === 'Escape') {
             ev.preventDefault();
@@ -88,11 +105,12 @@ export class IrModal {
             }
         }
     }
-    disconnectedCallback() {
+    cleanup() {
         this.removeOverlay();
         this.removeModalContent();
-        if (this.auth) {
-            this.auth.removeEventListener('closeDialog', this.closeModal.bind(this));
+        if (this.portal && this.portal.parentNode) {
+            document.body.removeChild(this.portal);
+            this.portal = null;
         }
     }
     render() {

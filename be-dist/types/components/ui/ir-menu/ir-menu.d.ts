@@ -8,7 +8,7 @@ export declare class IrMenu {
     currentHighlightedIndex: number;
     usingKeyboard: boolean;
     el: HTMLElement;
-    itemSelect: EventEmitter<string>;
+    itemSelect: EventEmitter<string | number>;
     private buttonRef;
     private listRef;
     private popoverInstance;

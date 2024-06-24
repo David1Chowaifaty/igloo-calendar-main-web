@@ -50,7 +50,6 @@ export class IrLanguagePicker {
         e.stopImmediatePropagation();
         e.stopPropagation();
         changeLocale(this.selectedLanguage.direction, matchLocale(this.selectedLanguage.code));
-        console.log(this.selectedCurrency);
         updateUserPreference({
             currency_id: this.selectedCurrency.code,
             language_id: this.selectedLanguage.code,
@@ -103,15 +102,15 @@ export class IrLanguagePicker {
     }
     render() {
         var _a;
-        return (h("div", { key: '886760bb46e946eca27a38f0f51200be0c408b77', class: "picker-container" }, h("p", { key: '50fbb84b8d73b1b70f2406303711a3ca0516018c', class: "picker-title" }, "Display settings"), h("div", { key: '28b35d087ecfdf8e518617c8c5a97d1d4e458234', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "language-grid", tabIndex: 0 }, this.languages.map((language, i) => {
+        return (h("div", { key: '919c52fffaa0612d50db02612b86370732630f5d', class: "picker-container" }, h("p", { key: '60476bdb32e92dfe993ea975296208233f978233', class: "picker-title" }, "Display settings"), h("div", { key: '544b483e66d01a083cbab06926099e0add500d36', role: "radiogroup", "aria-required": "false", "aria-label": "booking engine language", onKeyDown: e => this.handleKeyDown(e), class: "language-grid", tabIndex: 0 }, this.languages.map((language, i) => {
             var _a, _b, _c;
             return (h("button", { ref: el => (this.langEl[i] = el), type: "button", role: "radio", tabIndex: 0, value: language.code, "aria-labelledby": language.description, "aria-checked": ((_a = this.selectedLanguage) === null || _a === void 0 ? void 0 : _a.code) === language.code ? 'true' : 'false', onClick: () => this.handleLanguageChange(language.code), class: cn('language-button', {
                     'language-button-selected': ((_b = this.selectedLanguage) === null || _b === void 0 ? void 0 : _b.code) === language.code,
                 }) }, h("img", { src: language['flag'], alt: language.code, class: "language-flag" }), h("span", null, language.description), h("input", { type: "radio", "aria-hidden": "true", tabIndex: -1, checked: ((_c = this.selectedLanguage) === null || _c === void 0 ? void 0 : _c.code) === language.code, value: language.code, class: "hidden-radio" })));
-        })), h("ir-select", { key: '03f0e03d5d0c7931dce8892148cacbacde16b472', variant: "double-line", value: (_a = this.selectedCurrency) === null || _a === void 0 ? void 0 : _a.code, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
+        })), h("ir-select", { key: 'c792462c4afcabb91cc20d885a25b1a860459752', variant: "double-line", value: (_a = this.selectedCurrency) === null || _a === void 0 ? void 0 : _a.code, onValueChange: this.handleCurrencyChange.bind(this), label: "Currency", select_id: "currency_selector", data: this.currencies.map(currency => ({
                 id: currency.code,
                 value: `${currency.code} ${(0).toLocaleString('en-US', { style: 'currency', currency: currency.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim().replace(currency.code, '')}`,
-            })) }), h("div", { key: '2b98d65ae71b6860184d693918a9e87879bd4e05', class: "actions-container" }, h("ir-button", { key: '55129c0b4fc5f3013ad10d0c616d0dce9ce11645', size: "md", label: "Confirm", class: "confirm-button", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '1fda8bc96485ff821401c6a866abbce05ca7cb3f', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "cancel-button" }))));
+            })) }), h("div", { key: '3104281e3ebb6c5aa4085b99b735d171767976b4', class: "actions-container" }, h("ir-button", { key: '4971813a04e0457d4c262ac99cb5a03522521ecc', size: "md", label: "Confirm", class: "confirm-button", onClick: this.handleConfirm.bind(this) }), h("ir-button", { key: '9f7f8c6c54c7198b820b8cde06eb696db798f699', onButtonClick: () => this.closeDialog.emit(null), size: "md", label: "Cancel", variants: "outline", class: "cancel-button" }))));
     }
     static get is() { return "ir-language-picker"; }
     static get encapsulation() { return "shadow"; }

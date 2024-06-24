@@ -5,6 +5,8 @@ import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
 import { Colors } from '../app/colors.service';
 export declare class PropertyService extends Token {
+    private static readonly MODE_MODIFY_RT;
+    private static readonly MODE_DEFAULT;
     colors: Colors;
     getExposedProperty(params: {
         id: number;
@@ -12,7 +14,22 @@ export declare class PropertyService extends Token {
         aname: string | null;
         perma_link: string | null;
     }, initTheme?: boolean): Promise<any>;
-    getExposedBookingAvailability(params: TExposedBookingAvailability, identifier: string): Promise<DataStructure>;
+    getExposedBookingAvailability(props: {
+        params: TExposedBookingAvailability;
+        identifier: string;
+        rp_id?: number;
+        rt_id?: number;
+        mode: 'modify_rt' | 'default';
+        adultChildConstraint?: string;
+    }): Promise<DataStructure>;
+    private validateToken;
+    private validateModeProps;
+    private collectRoomTypeIds;
+    private collectRatePlanIds;
+    private fetchAvailabilityData;
+    private updateBookingStore;
+    private updateInventory;
+    private updateRoomTypeRatePlans;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;

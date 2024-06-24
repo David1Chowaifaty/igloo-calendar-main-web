@@ -10,7 +10,17 @@ export declare class IrRateplan {
     };
     roomTypeInventory: number;
     roomTypeId: number;
+    isLoading: boolean;
     animateBookingButton: EventEmitter<null>;
-    handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
+    private propertyService;
+    componentWillLoad(): void;
+    handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): Promise<void>;
+    updateVariation(params: {
+        adult_nbr: number;
+        child_nbr: number;
+        rt_id: number;
+        rp_id: number;
+        adultChildConstraint: string;
+    }): Promise<void>;
     render(): any;
 }

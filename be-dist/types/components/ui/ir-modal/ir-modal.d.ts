@@ -11,15 +11,16 @@ export declare class IrModal {
     openChange: EventEmitter<boolean>;
     auth: HTMLIrAuthElement;
     componentWillLoad(): void;
-    componentDidLoad(): void;
+    disconnectedCallback(): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
+    createPortal(): void;
     createOverlay(): void;
     removeOverlay(): void;
     insertModalContent(): void;
     removeModalContent(): void;
     prepareFocusTrap(): void;
     handleKeyDown(ev: KeyboardEvent): void;
-    disconnectedCallback(): void;
+    cleanup(): void;
     render(): any;
 }

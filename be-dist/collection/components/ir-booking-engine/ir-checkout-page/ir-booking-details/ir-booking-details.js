@@ -1,15 +1,29 @@
+import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
 import booking_store from "../../../../stores/booking";
 import { checkout_store, onCheckoutDataChange } from "../../../../stores/checkout.store";
 import localizedWords from "../../../../stores/localization.store";
 import { formatAmount, getDateDifference } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
+import { format } from "date-fns";
+import { v4 } from "uuid";
 export class IrBookingDetails {
     constructor() {
+        this.propertyService = new PropertyService();
         this.errors = undefined;
         this.currentRatePlan = null;
+        this.isLoading = null;
     }
     componentWillLoad() {
+        this.propertyService.setToken(app_store.app_data.token);
+        this.modifyBookings();
+        onCheckoutDataChange('userFormData', newValue => {
+            if (!checkout_store.modifiedGuestName) {
+                this.updateGuestNames(newValue.bookingForSomeoneElse, newValue === null || newValue === void 0 ? void 0 : newValue.firstName, newValue === null || newValue === void 0 ? void 0 : newValue.lastName);
+            }
+        });
+    }
+    modifyBookings() {
         const result = {};
         Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             result[roomTypeId] = {};
@@ -26,11 +40,11 @@ export class IrBookingDetails {
                             ratePlanId,
                         };
                     }
-                    result[roomTypeId][ratePlanId] = Object.assign(Object.assign({}, r), { checkoutVariations: Array(r.reserved).fill(r.selected_variation), checkoutBedSelection: r.is_bed_configuration_enabled ? Array(r.reserved).fill(r.roomtype.bedding_setup[0].code) : [], checkoutSmokingSelection: Array(r.reserved).fill(r.roomtype.smoking_option[0]) });
+                    result[roomTypeId][ratePlanId] = Object.assign(Object.assign({}, r), { checkoutVariations: Array(r.reserved).fill(r.selected_variation.variation), checkoutBedSelection: r.is_bed_configuration_enabled ? Array(r.reserved).fill(r.roomtype.bedding_setup[0].code) : [], checkoutSmokingSelection: Array(r.reserved).fill(r.roomtype.smoking_option[0]) });
                     if (!checkout_store.modifiedGuestName && ((_a = r.guestName) === null || _a === void 0 ? void 0 : _a.length) === 0) {
                         const name = [...new Array(r.reserved)].map((_, i) => {
                             var _a, _b, _c;
-                            if (i === 0 && !checkout_store.userFormData.bookingForSomeoneElse) {
+                            if (i === 0 && !checkout_store.userFormData.bookingForSomeoneElse && this.firstRoom.roomtypeId === roomTypeId && this.firstRoom.ratePlanId === ratePlanId) {
                                 return (_c = (((_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName) || '') + ' ' + (((_b = checkout_store.userFormData) === null || _b === void 0 ? void 0 : _b.lastName) || '')) !== null && _c !== void 0 ? _c : '';
                             }
                             return '';
@@ -41,11 +55,6 @@ export class IrBookingDetails {
             });
         });
         booking_store.ratePlanSelections = Object.assign({}, result);
-        onCheckoutDataChange('userFormData', newValue => {
-            if (!checkout_store.modifiedGuestName) {
-                this.updateGuestNames(newValue.bookingForSomeoneElse, newValue === null || newValue === void 0 ? void 0 : newValue.firstName, newValue === null || newValue === void 0 ? void 0 : newValue.lastName);
-            }
-        });
     }
     updateGuestNames(isBookingForSomeoneElse, firstName, lastName) {
         const result = {};
@@ -82,18 +91,67 @@ export class IrBookingDetails {
         oldVariations[index] = e.target.value;
         booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [roomTypeId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId]), { [rateplanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][rateplanId]), { guestName: oldVariations }) }) });
     }
-    handleVariationChange(index, e, variations, rateplanId, roomTypeId) {
+    async handleVariationChange(index, e, variations, rateplanId, roomTypeId) {
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
         const value = e.detail;
-        const selectedVariation = variations[value];
+        let selectedVariation = variations[value];
         if (!selectedVariation) {
             return;
         }
+        if (!selectedVariation.amount) {
+            this.isLoading = rateplanId;
+            const res = await this.updateVariation({
+                adult_nbr: selectedVariation.adult_nbr,
+                child_nbr: selectedVariation.child_nbr,
+                rp_id: rateplanId,
+                rt_id: roomTypeId,
+                adultChildConstraint: selectedVariation.adult_child_offering,
+            });
+            selectedVariation = this.getNewSelectedVariation(res.roomtypes, selectedVariation, roomTypeId, rateplanId);
+            this.isLoading = null;
+        }
         const oldVariations = [...(_a = booking_store.ratePlanSelections[roomTypeId][rateplanId]) === null || _a === void 0 ? void 0 : _a.checkoutVariations];
         oldVariations[index] = selectedVariation;
-        booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [roomTypeId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId]), { [rateplanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][rateplanId]), { checkoutVariations: oldVariations }) }) });
+        booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [roomTypeId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId]), { [rateplanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][rateplanId]), { selected_variation: { state: 'modified', variation: selectedVariation }, checkoutVariations: oldVariations }) }) });
+        console.log(booking_store.ratePlanSelections);
+    }
+    getNewSelectedVariation(roomtypes, oldVariation, roomTypeId, rateplanId) {
+        const roomType = roomtypes.find(rt => rt.id === roomTypeId);
+        if (!roomType) {
+            throw new Error('Invalid room type');
+        }
+        const rateplan = roomType.rateplans.find(rp => rp.id === rateplanId);
+        if (!rateplan) {
+            throw new Error('Invalid room type');
+        }
+        return rateplan.variations.find(v => v.adult_child_offering === oldVariation.adult_child_offering);
+    }
+    async updateVariation(params) {
+        const identifier = v4();
+        const res = await this.propertyService.getExposedBookingAvailability({
+            params: {
+                propertyid: app_store.app_data.property_id,
+                from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                room_type_ids: [],
+                adult_nbr: params.adult_nbr,
+                child_nbr: params.child_nbr,
+                language: app_store.userPreferences.language_id,
+                currency_ref: app_store.userPreferences.currency_id,
+                is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
+                promo_key: booking_store.bookingAvailabilityParams.coupon || '',
+                is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
+                agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+            },
+            identifier,
+            mode: 'modify_rt',
+            rp_id: params.rp_id,
+            rt_id: params.rt_id,
+            adultChildConstraint: params.adultChildConstraint,
+        });
+        return res.My_Result;
     }
     handleBedConfiguration(roomTypeId, rateplanId, detail, index) {
         var _a, _b;
@@ -121,15 +179,19 @@ export class IrBookingDetails {
     }
     render() {
         var _a, _b, _c, _d, _e;
+        console.log(this.firstRoom);
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         const total_rooms = this.calculateTotalRooms();
-        return (h(Host, { key: 'fb5f1949191ef483ec8032cd949d35ea74aa127c' }, h("div", { key: '69d745764051deed2cbf7f68ee4aa99d632b353d', class: "w-full" }, h("section", { key: 'c1ac4a67e39835039113c7b56adb19a76f9e0c62', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: '86b63966729e93b97270bb9f2a68c21856532136', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '8eadc09dc8bc4a370f9e2f126a3f4f73751fae97', name: "bed" }), h("p", { key: 'cd79721ef38a49314970a0edc6e38105e19ba4ab' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '1553de3b38992a3f35a1ebb472236d53f28b9691', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '8d1324cdc5dfec9ce62a4c9883dca1fafca98c0b', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+        return (h(Host, { key: '4d2ab5a9b2d686e23db6a3bc5db2a9e64358a4ff' }, h("div", { key: 'f6546a3e5498195cf48a5dbff5df88a9ba1d08f2', class: "w-full" }, h("section", { key: '307ef96161d4ff798af7364db8428fa2a2c2e429', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: 'd8cfd3b56665931fa5d3895f4c18ce32fe649c35', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '8f18ac82b65fedd781cfdb3ecc6c9225d0d9d510', name: "bed" }), h("p", { key: '54d4f25a9295f33fccf88ab5836cd9d6b7fd6d9e' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '0385163f2d6736e76e985fec5eaeb8a5f61b761c', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '557ce020950a254dfd4d006858a325544ffd7677', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
                 if (r.reserved === 0) {
                     return null;
                 }
                 return [...new Array(r.reserved)].map((_, index) => {
+                    if (this.isLoading === r.ratePlan.id) {
+                        return h("div", { class: "h-16 animate-pulse rounded-md bg-gray-200" });
+                    }
                     return (h("div", { class: "flex items-center justify-between" }, h("div", { class: "flex-1 space-y-2" }, h("div", null, h("div", { class: "flex items-center gap-3" }, h("div", { class: "flex flex-row items-center gap-3 " }, h("h3", { class: "font-semibold" }, r.roomtype.name), r.ratePlan.is_non_refundable && h("p", { class: "text-xs text-green-500" }, "Non refundable"), h("div", { class: 'inline-flex  h-6 items-center justify-center pt-0.5' }, h("ir-button", { haveRightIcon: true, variants: "link", class: "text-sm", buttonClassName: "pl-0", buttonStyles: { paddingLeft: '0', fontSize: '12px', paddingTop: '0', paddingBottom: '0' }, onButtonClick: () => {
                             this.currentRatePlan = r.ratePlan;
                             this.dialogRef.openModal();
@@ -163,11 +225,11 @@ export class IrBookingDetails {
                         })), class: "hidden w-full sm:block", onValueChange: e => this.handleVariationChange(index, e, r.ratePlan.variations, Number(ratePlanId), Number(roomTypeId)) })), h("div", { class: "flex items-center gap-4" }, h("div", { class: "flex items-center gap-1 text-xs" }, h("ir-icons", { name: "utencils", svgClassName: "size-4" }), h("p", { class: "line-clamp-3" }, h("span", null, r.ratePlan.short_name), r.ratePlan.custom_text && h("span", { class: "mx-1 max-w-[60%] text-right text-xs text-gray-500 md:w-full md:max-w-full" }, r.ratePlan.custom_text))), this.renderSmokingView(r.roomtype.smoking_option, index, ratePlanId, roomTypeId, r.checkoutSmokingSelection), r.is_bed_configuration_enabled && (h("ir-select", { value: r.checkoutBedSelection[index], onValueChange: e => this.handleBedConfiguration(roomTypeId, ratePlanId, e.detail, index), data: r.roomtype.bedding_setup.map(b => ({ id: b.code, value: b.name })), icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" })))))));
                 });
             });
-        }))), h("ir-dialog", { key: '8b815a6f34467d213f4242f6170b692cd7854428', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: '239c345e1c6a333fe09f254246e22d2053013b1e', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: '20ee09106ce8244ba45b9573013ba58f7f6ff7e7', slot: "modal-body", class: "p-4 md:p-6" }, h("p", { key: 'bd3dbf5483c7a8f589276002ab66c540fca7aafe', innerHTML: (_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation }), h("p", { key: 'dd412e68f5ec979d171939938717ae6693d4b289', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
+            } }, h("div", { key: 'f2d61a88d367adb64714ab134c55fe01630656de', slot: "modal-body", class: "p-4 md:p-6" }, h("p", { key: '441d08773c877378db1888c77fc3112665a208c3', innerHTML: (_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation }), h("p", { key: 'f82fbd6a9dd906e0d7bf584fe8f0e532b65e4fd4', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "shadow"; }
@@ -204,7 +266,8 @@ export class IrBookingDetails {
     }
     static get states() {
         return {
-            "currentRatePlan": {}
+            "currentRatePlan": {},
+            "isLoading": {}
         };
     }
 }

@@ -110,7 +110,11 @@ export class IrAvailibilityHeader {
         const params = ExposedBookingAvailability.parse(this.exposedBookingAvailabiltyParams);
         this.identifier = v4();
         this.availabiltyService.initSocket(this.identifier);
-        await this.propertyService.getExposedBookingAvailability(Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: booking_store.bookingAvailabilityParams.agent || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon }), this.identifier);
+        await this.propertyService.getExposedBookingAvailability({
+            params: Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: booking_store.bookingAvailabilityParams.agent || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon }),
+            identifier: this.identifier,
+            mode: 'default',
+        });
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr });
     }
     async handleCheckAvailability() {
@@ -165,7 +169,6 @@ export class IrAvailibilityHeader {
         else {
             this.changeExposedAvailabilityParams({ from_date: format(start, 'yyyy-MM-dd') });
         }
-        console.log(this.exposedBookingAvailabiltyParams);
     }
     handleAdultChildChange(e) {
         e.stopPropagation();
@@ -203,10 +206,10 @@ export class IrAvailibilityHeader {
     render() {
         var _a, _b, _c, _d, _e;
         this.shouldRenderErrorToast();
-        return (h("div", { key: '2754edd46f6d5b3e578fe133cd2f7b65d5adb793', class: "availability-container" }, h("div", { key: '60764f75c0f6530794f098e80044847ae0a7ca73', class: "availability-inputs" }, h("ir-date-popup", { key: '434577634c111e63562c958b8a2c04271534eb6e', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: '968a3de12cc88d99c036dd50aa8e0db336518e5e', class: "availability-container" }, h("div", { key: '9876f920b6172615b2e1ab78f92a7b928c487639', class: "availability-inputs" }, h("ir-date-popup", { key: 'c74df41ca25b3a3ef356b703d0a34d7a17305ee3', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_c = this.exposedBookingAvailabiltyParams) === null || _c === void 0 ? void 0 : _c.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: 'd547ec86841295d275651256806b0a75c57dec7e', class: "availability-controls" }, h("ir-adult-child-counter", { key: '1534d9cda139b2cd379f37ea15fc30c4b8bcdb93', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: '90c2b9b0a37dbfe13d65cdb22e25086ee626b3c1', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: 'df789677cbd8b607c1e0b3508ff82f8ef5ba1199', class: "availability-controls" }, h("ir-adult-child-counter", { key: '85d5f7afe027cb8f8f01d7e1f317159259860341', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: '26b182938f32dc90b8d74b3e8cff66f8ed84f4ef', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();

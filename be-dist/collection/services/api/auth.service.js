@@ -15,6 +15,7 @@ import app_store from "../../stores/app.store";
 import axios from "axios";
 import { PropertyService } from "./property.service";
 import { manageAnchorSession } from "../../utils/utils";
+import { checkout_store } from "../../stores/checkout.store";
 export class AuthService extends Token {
     constructor() {
         super(...arguments);
@@ -31,6 +32,17 @@ export class AuthService extends Token {
     }
     notifySubscribers(payload) {
         this.subscribers.forEach(callback => callback(payload));
+    }
+    signOut() {
+        app_store.is_signed_in = false;
+        checkout_store.userFormData = {
+            firstName: null,
+            lastName: null,
+            email: null,
+            mobile_number: null,
+            country_code: null,
+        };
+        manageAnchorSession({ login: null }, 'remove');
     }
     async login(params, signIn = true) {
         const token = this.getToken();

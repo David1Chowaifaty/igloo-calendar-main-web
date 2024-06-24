@@ -18,5 +18,6 @@ export declare class IrNav {
     renderLocationField(field: string | null, withComma?: boolean): string;
     renderLocation(): string;
     renderLanguageTrigger(): any;
+    handleItemSelect(e: CustomEvent): void;
     render(): any;
 }

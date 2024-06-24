@@ -52864,13 +52864,26 @@ function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
 }
-function manageAnchorSession(data) {
+function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('anchor'));
     if (anchor) {
-        sessionStorage.setItem('anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
+        if (mode === 'add') {
+            return sessionStorage.setItem('anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
+        }
+        else if (mode === 'remove') {
+            const keys = Object.keys(data);
+            keys.forEach(key => {
+                if (key in anchor) {
+                    delete anchor[key];
+                }
+            });
+            return sessionStorage.setItem('anchor', JSON.stringify(anchor));
+        }
     }
     else {
-        sessionStorage.setItem('anchor', JSON.stringify(Object.assign({}, data)));
+        if (mode === 'add') {
+            return sessionStorage.setItem('anchor', JSON.stringify(Object.assign({}, data)));
+        }
     }
 }
 
