@@ -219,7 +219,7 @@ export interface RoomType {
     exposed_inventory: any;
     id: number;
     images: Image[];
-    inventory: any;
+    inventory: number;
     is_active: boolean;
     is_bed_configuration_enabled: boolean;
     main_image: Image | null;

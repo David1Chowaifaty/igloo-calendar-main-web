@@ -2,7 +2,7 @@ export declare class IrTooltip {
     el: HTMLElement;
     message: string;
     withHtml: boolean;
-    customSlot: boolean;
+    label: string;
     open: boolean;
     private popperInstance;
     private tooltipTimeout;

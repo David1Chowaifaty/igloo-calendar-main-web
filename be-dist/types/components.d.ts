@@ -440,7 +440,7 @@ export namespace Components {
         "value": string;
     }
     interface IrTooltip {
-        "customSlot": boolean;
+        "label": string;
         "message": string;
         "withHtml": boolean;
     }
@@ -553,6 +553,10 @@ export interface IrMenuCustomEvent<T> extends CustomEvent<T> {
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrModalElement;
+}
+export interface IrNavCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrNavElement;
 }
 export interface IrPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1123,7 +1127,7 @@ declare global {
         new (): HTMLIrLoyaltyElement;
     };
     interface HTMLIrMenuElementEventMap {
-        "itemSelect": string | number;
+        "menuItemClick": string | number;
     }
     interface HTMLIrMenuElement extends Components.IrMenu, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuElement, ev: IrMenuCustomEvent<HTMLIrMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1156,7 +1160,18 @@ declare global {
         prototype: HTMLIrModalElement;
         new (): HTMLIrModalElement;
     };
+    interface HTMLIrNavElementEventMap {
+        "routing": pages;
+    }
     interface HTMLIrNavElement extends Components.IrNav, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrNavElementEventMap>(type: K, listener: (this: HTMLIrNavElement, ev: IrNavCustomEvent<HTMLIrNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrNavElementEventMap>(type: K, listener: (this: HTMLIrNavElement, ev: IrNavCustomEvent<HTMLIrNavElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrNavElement: {
         prototype: HTMLIrNavElement;
@@ -1854,7 +1869,7 @@ declare namespace LocalJSX {
     interface IrMenu {
         "data"?: IItems[];
         "menuItem"?: string;
-        "onItemSelect"?: (event: IrMenuCustomEvent<string | number>) => void;
+        "onMenuItemClick"?: (event: IrMenuCustomEvent<string | number>) => void;
     }
     interface IrModal {
         "element"?: HTMLElement;
@@ -1865,6 +1880,7 @@ declare namespace LocalJSX {
         "isBookingListing"?: boolean;
         "languages"?: IExposedLanguages[];
         "logo"?: string;
+        "onRouting"?: (event: IrNavCustomEvent<pages>) => void;
         "showBookingCode"?: boolean;
         "showCurrency"?: boolean;
         "website"?: string;
@@ -2004,7 +2020,7 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IrTooltip {
-        "customSlot"?: boolean;
+        "label"?: string;
         "message"?: string;
         "withHtml"?: boolean;
     }

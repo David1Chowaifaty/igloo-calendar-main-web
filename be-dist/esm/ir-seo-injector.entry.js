@@ -1,4 +1,4 @@
-import { r as registerInstance, g as getElement } from './index-21632897.js';
+import { r as registerInstance, g as getElement } from './index-3ddfa666.js';
 
 const IrSeoInjector = class {
     constructor(hostRef) {

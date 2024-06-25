@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-ad166e1c.js');
+const index = require('./index-380c61af.js');
 
 const IrSeoInjector = class {
     constructor(hostRef) {

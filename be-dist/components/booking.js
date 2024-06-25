@@ -34,11 +34,12 @@ onRoomTypeChange('roomTypes', (newValue) => {
             return;
         ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
         roomType.rateplans.forEach(ratePlan => {
-            var _a, _b;
+            var _a, _b, _c;
             if (!ratePlan.is_active || !((_a = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations) === null || _a === void 0 ? void 0 : _a.length))
                 return;
-            const lastVariation = ratePlan.variations[ratePlan.variations.length - 1];
-            const currentRatePlanSelection = (_b = currentSelections[roomType.id]) === null || _b === void 0 ? void 0 : _b[ratePlan.id];
+            let lastVariation = ratePlan.variations[ratePlan.variations.length - 1];
+            lastVariation = (_b = ratePlan.selected_variation) !== null && _b !== void 0 ? _b : lastVariation;
+            const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
                     ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName }) : {
@@ -55,6 +56,8 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
+    console.log(booking_store.roomTypes);
+    // console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });

@@ -15,7 +15,7 @@ export class IrAccomodations {
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'eb0a65e53ef9427342003439737c971e021f5cbf', class: "space-y-2 pb-2 text-xs font-normal text-gray-700" }, ((_a = this.bookingAttributes) === null || _a === void 0 ? void 0 : _a.bedding_setup.length) > 0 && (h("div", { class: "flex flex-wrap items-center gap-2.5" }, h("ir-icons", { name: "bed" }), h("div", { class: "flex items-center" }, (_c = (_b = this.bookingAttributes) === null || _b === void 0 ? void 0 : _b.bedding_setup) === null || _c === void 0 ? void 0 : _c.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.bookingAttributes.bedding_setup.length - 1 && h("span", null, "-\u00A0"))))))), this.renderAmeneties()));
+        return (h("div", { key: '8cd73e8d5e992975facd42866f79773473dcfa73', class: "space-y-2 pb-2 text-xs font-normal text-gray-700" }, ((_a = this.bookingAttributes) === null || _a === void 0 ? void 0 : _a.bedding_setup.length) > 0 && (h("div", { key: 'b0930898cfb303a3ece3220635a70b013f40819c', class: "flex flex-wrap items-center gap-2.5" }, h("ir-icons", { key: '5a1b47ece155724fabbf955be0fdc653e09465ed', name: "bed" }), h("div", { key: '9d3f288af8a652af44cd3dff15267d9235598ef3', class: "flex items-center" }, (_c = (_b = this.bookingAttributes) === null || _b === void 0 ? void 0 : _b.bedding_setup) === null || _c === void 0 ? void 0 : _c.map((bed_setup, index) => (h("p", { key: bed_setup.code }, bed_setup.name, " ", index < this.bookingAttributes.bedding_setup.length - 1 && h("span", null, "-\u00A0"))))))), this.renderAmeneties()));
     }
     static get is() { return "ir-accomodations"; }
     static get encapsulation() { return "shadow"; }

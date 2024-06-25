@@ -169,7 +169,7 @@ export class IrBookingPage {
                 },
                 "complexType": {
                     "original": "pages",
-                    "resolved": "\"booking\" | \"checkout\" | \"invoice\"",
+                    "resolved": "\"booking\" | \"booking-listing\" | \"checkout\" | \"invoice\"",
                     "references": {
                         "pages": {
                             "location": "import",

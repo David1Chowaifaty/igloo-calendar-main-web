@@ -81,11 +81,32 @@ export class PropertyService extends Token {
         }
         return result;
     }
+    sortRoomTypes(roomTypes, userCriteria) {
+        return roomTypes.sort((a, b) => {
+            // Move room types with zero inventory to the end
+            if (a.inventory === 0 && b.inventory !== 0)
+                return 1;
+            if (a.inventory !== 0 && b.inventory === 0)
+                return -1;
+            // Check for matching or close variations
+            const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            const matchB = b.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            if (matchA && !matchB)
+                return -1;
+            if (!matchA && matchB)
+                return 1;
+            return 0; // If none of the above conditions apply, maintain original order
+        });
+    }
     updateBookingStore(data, props) {
         let roomtypes = [...booking_store.roomTypes];
         const newRoomtypes = data.My_Result.roomtypes;
         if (props.mode === PropertyService.MODE_DEFAULT) {
             roomtypes = this.updateInventory(roomtypes, newRoomtypes);
+            roomtypes = this.sortRoomTypes(roomtypes, {
+                adult_nbr: props.params.adult_nbr,
+                child_nbr: props.params.child_nbr,
+            });
         }
         else {
             roomtypes = this.updateRoomTypeRatePlans(roomtypes, newRoomtypes, props);
@@ -96,17 +117,20 @@ export class PropertyService extends Token {
     }
     updateInventory(roomtypes, newRoomtypes) {
         const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
+        console.log(roomtypes);
         return roomtypes.reduce((updatedRoomtypes, rt) => {
             const newRoomtype = newRoomtypesMap.get(rt.id);
             if (!newRoomtype) {
                 return updatedRoomtypes;
             }
+            console.log(rt);
             const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, rateplans: rt.rateplans.reduce((updatedRatePlans, rp) => {
                     const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
-                    if (!newRatePlan || !(newRatePlan === null || newRatePlan === void 0 ? void 0 : newRatePlan.variations)) {
+                    if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations }));
+                    console.log(rp.variations);
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, selected_variation: newRatePlan.variations[0] }));
                     return updatedRatePlans;
                 }, []) });
             updatedRoomtypes.push(updatedRoomtype);
@@ -131,6 +155,7 @@ export class PropertyService extends Token {
             throw new Error('Invalid New Rateplan');
         }
         const newVariation = newRatePlan.variations.find(v => v.adult_child_offering === props.adultChildConstraint);
+        console.log(newRatePlan.variations, props.adultChildConstraint);
         if (!newVariation) {
             throw new Error('Missing variation');
         }

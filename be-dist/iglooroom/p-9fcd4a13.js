@@ -1,2 +1,0 @@
-import{d as e}from"./p-e8416026.js";class t{getBookingActions(t){const n=t.status.code!=="003"&&e.isBefore(new Date,new Date(t.to_date));const o=n&&t.financial.due_amount>0;return{cancel:n,payment:o}}}export{t as B};
-//# sourceMappingURL=p-9fcd4a13.js.map

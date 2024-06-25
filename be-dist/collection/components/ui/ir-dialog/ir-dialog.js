@@ -61,11 +61,11 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: 'f4bc3abae6f879c4c7ecbc5a73484b00c68bf9c0' }, h("div", { key: '8316a076aea23992677df8f0d1c7dd8ef3bd15b7', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { class: 'modal-title', id: "dialog1Title" }, h("slot", { name: "modal-title" })), h("div", { class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { onButtonClick: e => {
+        return (h(Host, { key: 'f59298deafee533fc3e39f73541dd6fc8d12a7d7' }, h("div", { key: '530b1b65a9382eb6fd2548baab4a250823568a0b', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '5c9e71b68c61724b218b93e70c72d004cfa239e7', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: '4bece23be30a2259d3aa23fe15f512cc6c74ac2e', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'e500b938c628ebbd33443786786295792095e387', name: "modal-title" })), h("div", { key: '227b3a860ec4b5b49bf9af71e95788810140bf85', class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { key: '4cb5705dfc5a3acd5de5c92aa6d8e579ea46606f', onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal();
-            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "absolute right-3 top-3", iconName: "xmark" })), h("slot", { name: "modal-body" })), h("div", { class: "modal-footer" }, h("slot", { name: "modal-footer" }))))));
+            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "absolute right-3 top-3", iconName: "xmark" })), h("slot", { key: '1b30877e9a880f7778584f467c95e2cdead554e6', name: "modal-body" })), h("div", { key: 'ffc6ee8885fdad64b7e40ea24996f58898668cac', class: "modal-footer" }, h("slot", { key: '0d5e8cfae6d57d3219ba1b7941a0ea140659cf68', name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

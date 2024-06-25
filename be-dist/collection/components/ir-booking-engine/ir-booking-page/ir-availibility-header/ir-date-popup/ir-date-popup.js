@@ -23,12 +23,12 @@ export class IrDatePopup {
         return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: '1d4ea540b94c0cef8c3d79d031d913887e0f8646' }, h("ir-popover", { key: 'de7e96a0f2efe4368a8ff92c22e652bd5b0a6319', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Host, { key: '83e38608f1fe27b4af5092a007f478569bd876f2' }, h("ir-popover", { key: '6622494ef3c71ff5786121b911872c8d0f6a9ac4', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
                     this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
                 }
-            } }, this.dateTrigger(), h("div", { key: 'bd8b751f141d0e2cded37bef8cbb3e38d0187fda', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '603ad46812282e9504382fb5d9c5daa8b8c8ae89', fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: '36fdc55e58a8783d08b1dd6f15ad03d754d1677e', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '4669a83e67ef8e1502bbc1ef10105b5c315be4df', fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
     }
     static get is() { return "ir-date-popup"; }
     static get encapsulation() { return "shadow"; }

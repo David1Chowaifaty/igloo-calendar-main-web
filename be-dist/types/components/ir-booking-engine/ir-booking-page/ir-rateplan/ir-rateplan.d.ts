@@ -13,6 +13,7 @@ export declare class IrRateplan {
     isLoading: boolean;
     animateBookingButton: EventEmitter<null>;
     private propertyService;
+    private availabilityService;
     componentWillLoad(): void;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): Promise<void>;
     updateVariation(params: {

@@ -1,6 +1,7 @@
 import { Queue } from "../../models/queue";
 import booking_store from "../../stores/booking";
 import { io } from "socket.io-client";
+import { z } from "zod";
 class SocketManager {
     constructor() {
         this.isConnected = false;
@@ -40,6 +41,7 @@ class SocketManager {
 }
 export default SocketManager;
 export class AvailabiltyService {
+    // private variationSorter = new VariationSorter();
     constructor() {
         this.queue = new Queue();
         this.intervalId = null;
@@ -63,15 +65,20 @@ export class AvailabiltyService {
         });
         this.socketManager.socket.close();
     }
-    initSocket(id) {
+    initSocket(id, view = false) {
         if (!this.socketManager.isConnected) {
             this.socketManager.reconnect();
         }
-        this.resetVariations();
+        if (!view) {
+            this.resetVariations();
+        }
         this.socketManager.socket.on('MSG', (msg) => {
             try {
                 const message_obj = JSON.parse(msg);
                 if (message_obj && message_obj.KEY && message_obj.KEY.toString() === id) {
+                    if (view) {
+                        return console.log(JSON.parse(message_obj.PAYLOAD));
+                    }
                     // console.log(currentTime - this.duration);
                     this.notifySubscribers();
                     this.queue.enqueue(message_obj.PAYLOAD);
@@ -108,13 +115,37 @@ export class AvailabiltyService {
             return Object.assign(Object.assign({}, rt), { rateplans: rt.rateplans.map(rp => (Object.assign(Object.assign({}, rp), { variations: [] }))) });
         });
     }
+    validateNumberString(input) {
+        const schema = z.string().refine(val => {
+            const numberString = val.replace(/,/g, '');
+            return !isNaN(Number(numberString));
+        }, {
+            message: 'Invalid number format',
+        });
+        const result = schema.safeParse(input);
+        if (!result.success) {
+            throw new Error(`${input} is an invalid number format`);
+        }
+        return Number(result.data.replace(/,/g, ''));
+    }
+    // private sortVariations(variations: Variation[]) {
+    //   return variations.sort((a, b) => {
+    //     const parsedA = { adults: a.adult_nbr, children: a.child_nbr };
+    //     const parsedB = { adults: b.adult_nbr, children: b.child_nbr };
+    //     if (parsedA.adults !== parsedB.adults) {
+    //       return parsedA.adults - parsedB.adults;
+    //     }
+    //     return parsedA.children - parsedB.children;
+    //   });
+    // }
     async processPayloads(payloads) {
         try {
+            console.log('payload', payloads);
             if (!booking_store.enableBooking) {
                 booking_store.enableBooking = true;
             }
             payloads.forEach(payload => {
-                var _a, _b, _c, _d, _e, _f, _g;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
                 const selectedRoomTypeIndex = this.roomTypes.findIndex(rt => rt.id === payload.ROOM_CATEGORY_ID);
                 if (selectedRoomTypeIndex === -1) {
                     console.error('Invalid room type');
@@ -123,21 +154,25 @@ export class AvailabiltyService {
                 let roomType = this.roomTypes[selectedRoomTypeIndex];
                 const selectedRatePlanIndex = roomType.rateplans.findIndex(rp => rp.id === payload.ROOM_TYPE_ID);
                 if (selectedRatePlanIndex === -1) {
-                    console.error('Invalid rate plan');
+                    // console.error('Invalid rate plan');
                     return;
                 }
                 let rateplan = roomType.rateplans[selectedRatePlanIndex];
-                const oldVariation = rateplan.variations || [];
+                let oldVariation = rateplan.variations || [];
                 const variation = {
                     adult_child_offering: payload.ADULT_CHILD_OFFERING,
-                    adult_nbr: (_a = payload.ADULTS_NBR) === null || _a === void 0 ? void 0 : _a.toString().replace(',', ''),
-                    amount: (_b = payload.ALLOT_RATE_V) === null || _b === void 0 ? void 0 : _b.toString().replace(',', ''),
-                    child_nbr: (_c = payload.CHILD_NBR) === null || _c === void 0 ? void 0 : _c.toString().replace(',', ''),
-                    amount_per_night: (_d = payload.AMOUNT_PER_NIGHT_VAL) === null || _d === void 0 ? void 0 : _d.toString().replace(',', ''),
-                    discount_pct: (_e = payload.DISCOUNT) === null || _e === void 0 ? void 0 : _e.toString().replace(',', ''),
+                    adult_nbr: Number((_a = payload.ADULTS_NBR) !== null && _a !== void 0 ? _a : 0),
+                    amount: (() => {
+                        var _a, _b, _c;
+                        const amount = (_c = this.validateNumberString((_b = ((_a = payload.ALLOT_RATE_V) !== null && _a !== void 0 ? _a : 0)) === null || _b === void 0 ? void 0 : _b.toString())) !== null && _c !== void 0 ? _c : 0;
+                        return amount === 0 ? null : amount;
+                    })(),
+                    child_nbr: Number((_b = payload.CHILD_NBR) !== null && _b !== void 0 ? _b : 0),
+                    amount_per_night: (_f = this.validateNumberString((_e = (_d = ((_c = payload.AMOUNT_PER_NIGHT_VAL) !== null && _c !== void 0 ? _c : 0)) === null || _d === void 0 ? void 0 : _d.toString()) !== null && _e !== void 0 ? _e : '').toString()) !== null && _f !== void 0 ? _f : '',
+                    discount_pct: (_j = this.validateNumberString((_h = ((_g = payload.DISCOUNT) !== null && _g !== void 0 ? _g : 0)) === null || _h === void 0 ? void 0 : _h.toString())) !== null && _j !== void 0 ? _j : 0,
                     is_lmd: payload.IS_LMD,
-                    nights_nbr: (_f = payload.NIGHTS_NBR) === null || _f === void 0 ? void 0 : _f.toString().replace(',', ''),
-                    total_before_discount: (_g = payload.TOTAL_BEFORE_DISCOUNT) === null || _g === void 0 ? void 0 : _g.toString().replace(',', ''),
+                    nights_nbr: (_m = this.validateNumberString((_l = ((_k = payload.NIGHTS_NBR) !== null && _k !== void 0 ? _k : 0)) === null || _l === void 0 ? void 0 : _l.toString())) !== null && _m !== void 0 ? _m : 0,
+                    total_before_discount: (_q = this.validateNumberString((_p = ((_o = payload.TOTAL_BEFORE_DISCOUNT) !== null && _o !== void 0 ? _o : 0)) === null || _p === void 0 ? void 0 : _p.toString())) !== null && _q !== void 0 ? _q : 0,
                 };
                 const variationIndex = oldVariation.findIndex(v => v.adult_child_offering === payload.ADULT_CHILD_OFFERING);
                 if (variationIndex === -1) {
@@ -146,6 +181,7 @@ export class AvailabiltyService {
                 else {
                     oldVariation[variationIndex] = variation;
                 }
+                // oldVariation = this.variationSorter.sortVariations(oldVariation);
                 rateplan = Object.assign(Object.assign({}, rateplan), { variations: oldVariation });
                 roomType.rateplans[selectedRatePlanIndex] = rateplan;
                 this.roomTypes[selectedRoomTypeIndex] = Object.assign(Object.assign({}, roomType), { inventory: 1 });

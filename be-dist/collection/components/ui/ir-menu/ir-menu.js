@@ -82,7 +82,8 @@ export class IrMenu {
         const item = this.data[index];
         if (item && !item.disabled) {
             this.selectedItemName = item.item;
-            this.itemSelect.emit(item.id);
+            console.log(item);
+            this.menuItemClick.emit(item.id);
             this.closeDropdown();
         }
     }
@@ -127,7 +128,7 @@ export class IrMenu {
         }
     }
     render() {
-        return (h(Fragment, { key: '3093452774a53fd0e1ca66b59e8d65347dd5b110' }, h("button", { key: 'c9ebc6c9a0fefed4f1d6de6c9686935fea96ba12', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: 'fc17bea4270e1c7dbc29d0c7e0c49ac73635fec4', name: "menu-trigger" }, h("div", { key: '66688cfd8f8288a632726df9d14a7ea646c8646c', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: 'd36687c376a9cba1d9178e1556ab16cbb772aac6', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '4ffd36ffecd3cc14c4a65fd1efa5a0ef1082b664', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '3dd2930aab44ecf4d26b54414ddfaa2c8c8f4a5b', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
+        return (h(Fragment, { key: 'fca1fcb8dee7547c3ec605ee9f5523da649404a6' }, h("button", { key: '8d80ae488a5a3fbf9d56004c30492c4e925b9b37', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: '82d629318097b400d2113c06dadc32008d2710ef', name: "menu-trigger" }, h("div", { key: 'd7736885eff7fd1f9bfcd18fc973927aa001e077', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: '4da447ab23d11148e3891b5dec558967ba2d2032', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'c75294403e3f9c653d0225876e60e9a69f6def60', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '088135e0e7cb119e53133c24adbe9bcdbcda05d3', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { key: 'ac96129e51dbfd648ea4096a04064a4a9dc494ee', role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
                 this.selectItem(index);
                 this.disableKeyboardPriority();
             }, onMouseOver: () => {
@@ -203,8 +204,8 @@ export class IrMenu {
     }
     static get events() {
         return [{
-                "method": "itemSelect",
-                "name": "itemSelect",
+                "method": "menuItemClick",
+                "name": "menuItemClick",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

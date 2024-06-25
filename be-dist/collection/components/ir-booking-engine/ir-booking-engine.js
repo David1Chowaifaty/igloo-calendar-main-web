@@ -207,6 +207,8 @@ export class IrBookingEngine {
                 return h("ir-checkout-page", null);
             case 'invoice':
                 return (h("ir-invoice", { baseUrl: this.baseUrl, lang: app_store.userPreferences.language_id, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1 }));
+            case 'booking-listing':
+                return (h("ir-booking-listing", { headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, "base-url": "https://gateway.igloorooms.com/IR" }));
             default:
                 return null;
         }

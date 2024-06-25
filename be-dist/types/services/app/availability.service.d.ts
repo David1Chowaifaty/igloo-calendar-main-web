@@ -21,10 +21,11 @@ export declare class AvailabiltyService {
     subscribe(callback: (b: boolean) => void): void;
     unsubscribe(callback: (b: boolean) => void): void;
     disconnectSocket(): void;
-    initSocket(id?: string): void;
+    initSocket(id?: string, view?: boolean): void;
     private startProcessingQueue;
     private processQueue;
     private notifySubscribers;
     private resetVariations;
+    private validateNumberString;
     private processPayloads;
 }

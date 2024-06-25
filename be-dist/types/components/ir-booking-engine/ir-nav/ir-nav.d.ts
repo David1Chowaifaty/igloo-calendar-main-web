@@ -1,5 +1,6 @@
+import { EventEmitter } from '../../../stencil-public-runtime';
 import { TTabsState } from './nav-types';
-import { ICurrency, IExposedLanguages } from "../../../models/common";
+import { ICurrency, IExposedLanguages, pages } from "../../../models/common";
 export declare class IrNav {
     currencies: ICurrency[];
     languages: IExposedLanguages[];
@@ -8,6 +9,7 @@ export declare class IrNav {
     isBookingListing: boolean;
     showBookingCode: boolean;
     showCurrency: boolean;
+    routing: EventEmitter<pages>;
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;
@@ -18,6 +20,6 @@ export declare class IrNav {
     renderLocationField(field: string | null, withComma?: boolean): string;
     renderLocation(): string;
     renderLanguageTrigger(): any;
-    handleItemSelect(e: CustomEvent): void;
+    handleItemSelect(e: CustomEvent): void | CustomEvent<pages>;
     render(): any;
 }

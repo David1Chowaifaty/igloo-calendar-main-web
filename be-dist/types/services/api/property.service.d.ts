@@ -4,6 +4,7 @@ import { Booking } from "../../models/booking.dto";
 import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
 import { Colors } from '../app/colors.service';
+import { RoomType } from "../../models/property";
 export declare class PropertyService extends Token {
     private static readonly MODE_MODIFY_RT;
     private static readonly MODE_DEFAULT;
@@ -27,6 +28,10 @@ export declare class PropertyService extends Token {
     private collectRoomTypeIds;
     private collectRatePlanIds;
     private fetchAvailabilityData;
+    sortRoomTypes(roomTypes: RoomType[], userCriteria: {
+        adult_nbr: number;
+        child_nbr: number;
+    }): RoomType[];
     private updateBookingStore;
     private updateInventory;
     private updateRoomTypeRatePlans;

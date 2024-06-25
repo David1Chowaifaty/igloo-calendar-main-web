@@ -51,9 +51,9 @@ export class IrNav {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         const affiliate = app_store.app_data.affiliate;
         if (affiliate) {
-            return [(_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.city.name) !== null && _b !== void 0 ? _b : null, (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.country.name) !== null && _d !== void 0 ? _d : null].join(', ');
+            return [(_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.city.name) !== null && _b !== void 0 ? _b : null, (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.country.name) !== null && _d !== void 0 ? _d : null].filter(f => f !== null).join(', ');
         }
-        return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].join(', ');
+        return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
     }
     renderLanguageTrigger() {
         if (this.isBookingListing) {
@@ -70,10 +70,10 @@ export class IrNav {
         e.stopImmediatePropagation();
         e.stopPropagation();
         const id = e.detail;
-        console.log(id);
+        console.log('id', id);
         switch (id) {
             case 1:
-                return alert('open booking listing');
+                return this.routing.emit('booking-listing');
             case 2:
                 return new AuthService().signOut();
             default:
@@ -84,7 +84,7 @@ export class IrNav {
         var _a, _b, _c, _d, _e, _f, _g;
         const currentPage = app_store.currentPage;
         const isInjected = app_store.app_data.injected && currentPage === 'booking';
-        return (h(Fragment, { key: '043fe72dd64f6b3a5ff8c8c66f80bcc7a97795ff' }, h("nav", { key: '446b90544958e1f13c2c1a45f4de80b95e2fb4e7', class: "ir-nav" }, h("div", { key: '75003e198ff3bd4f91a6b6cf59b267cb76b343ab', class: "ir-nav-container" }, !isInjected && (h("div", { class: "ir-nav-left" }, h("a", { "aria-label": "home", href: `${(_a = this.website) === null || _a === void 0 ? void 0 : _a.replace('www.', 'https://')}` }, h("img", { src: ((_b = app_store.app_data) === null || _b === void 0 ? void 0 : _b.affiliate) ? (_d = (_c = app_store.app_data) === null || _c === void 0 ? void 0 : _c.affiliate.sites[0]) === null || _d === void 0 ? void 0 : _d.logo : this.logo, alt: `${(_e = app_store.property) === null || _e === void 0 ? void 0 : _e.name}, ${(_f = app_store.property) === null || _f === void 0 ? void 0 : _f.country.name}`, class: "ir-nav-logo" })), h("div", { class: "ir-nav-property-details" }, h("h3", { class: "ir-property-name" }, (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.name), h("button", { onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, this.renderLocation(), h("span", { class: 'mx-1' }), h("svg", { slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", null, "Location")))))), h("div", { key: '52b2be99a0d68407a9991d9b24425dce6655bce8', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in ? (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: e => {
+        return (h(Fragment, { key: 'c6deef3ecbe77628122a83c433bc05598804cddd' }, h("nav", { key: '95bab813283f521aa1de2923b6f514f1a0dab1e9', class: "ir-nav" }, h("div", { key: 'e5330addbfd563f12805080492a60f6553fcafd4', class: "ir-nav-container" }, !isInjected && (h("div", { key: '5984e56e38030fadcf177232b5847a01688156a0', class: "ir-nav-left" }, h("a", { key: '3fe6eeed682202f8cb13e2439f7b9d5c914ae4a1', "aria-label": "home", href: `${(_a = this.website) === null || _a === void 0 ? void 0 : _a.replace('www.', 'https://')}` }, h("img", { key: '6a9e0f39741004f80a8ca2d39de7262ebf1a1946', src: ((_b = app_store.app_data) === null || _b === void 0 ? void 0 : _b.affiliate) ? (_d = (_c = app_store.app_data) === null || _c === void 0 ? void 0 : _c.affiliate.sites[0]) === null || _d === void 0 ? void 0 : _d.logo : this.logo, alt: `${(_e = app_store.property) === null || _e === void 0 ? void 0 : _e.name}, ${(_f = app_store.property) === null || _f === void 0 ? void 0 : _f.country.name}`, class: "ir-nav-logo" })), h("div", { key: '3a7d6d4f30224448bc325e889a65f3b9e5854664', class: "ir-nav-property-details" }, h("h3", { key: 'e4d8eedee783e6b48ca780bf95337048384165fc', class: "ir-property-name" }, (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.name), h("button", { key: 'fbc7d4c4945d0afc7b0c00084b950e4aa1f16059', onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, this.renderLocation(), h("span", { key: 'f9e2539d7f234402011f1a7796cc4430c15e34ed', class: 'mx-1' }), h("svg", { key: 'cccb42cc770b73441710bb7bf4a693d6420203e9', slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { key: '263591980c2cc8e11cb41b6a48f24b8ddd3b65e5', fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", { key: '6c9fa7f999b66c356f9f2247f9662cabd9d335c4' }, "Location")))))), h("div", { key: '378cb7cd133f9edfe8aa0fce47bfd08822396571', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in ? (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentPage = 'auth';
@@ -92,7 +92,7 @@ export class IrNav {
             } })) : (h("ir-menu", { data: [
                 { id: 1, item: 'View Bookings' },
                 { id: 2, item: 'Sign out' },
-            ] }, h("ir-user-avatar", { slot: "menu-trigger" }))), this.showBookingCode && this.showCurrency && (h("ir-button", { variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() }))), h("ul", { key: '14bedc63ef61a931330eeb937af86aa9f3d8f890', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", null, h("ir-button", { variants: "ghost", haveLeftIcon: true, title: "home" }, h("p", { slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && this.showBookingCode && (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), this.showCurrency && h("li", null, this.renderLanguageTrigger()), !app_store.is_signed_in ? (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: e => {
+            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" }))), this.showBookingCode && this.showCurrency && (h("ir-button", { key: '5105d7adf3359f2a5193bed28f9b5b229e83d484', variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() }))), h("ul", { key: 'ae26ebccf88bac3e7ebbe8676071a51ca101a718', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", { key: '0b9f7e94e1f054db1913bcf781c3a9b577a531a7' }, h("ir-button", { key: '9aadb68a40e3c8e19b23a19fa6362623842289d6', variants: "ghost", haveLeftIcon: true, title: "home" }, h("p", { key: 'f5d7a8dd5e53967cd1cb9e5f645de0c7ef233ad6', slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { key: '6368bd5d9a6c976d3e22ada83e7908b4c2923566', slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && this.showBookingCode && (h("li", { key: 'e0904c146a117bd95ccb25ea1bd9bb54d4e9266d' }, h("ir-button", { key: 'fa7de9b625fc4fdf519a44573659a912393fcbca', variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), this.showCurrency && h("li", { key: '6421d014a4affc07a72416328b1da0f8f65f5943' }, this.renderLanguageTrigger()), !app_store.is_signed_in ? (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentPage = 'auth';
@@ -100,7 +100,7 @@ export class IrNav {
             } }))) : (h("li", null, h("ir-menu", { data: [
                 { id: 1, item: 'View Bookings' },
                 { id: 2, item: 'Sign out' },
-            ], onItemSelect: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" }))))))), h("ir-sheet", { key: 'dd2e2fc6fa8c0aef19ca1f607dc0b928d078a59d', ref: el => (this.sheetRef = el) }, h("ul", { key: '81fc25c3d608f5f255971ff31139928181f44b46', slot: "sheet-content", class: "ir-sheet-content" }, h("li", { key: 'ef8b9ad79840ca073977d60e38faabdad0cd1a50' }, this.renderLanguageTrigger()), !isInjected && (h("li", null, h("ir-button", { class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: 'c26cf4bc401ed9dfc1f1dba03e6cb71cd55171e9' }, h("ir-button", { key: 'c5b7c504ee31169e416e50ee682ec03d04c83710', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), !app_store.is_signed_in && h("ir-modal", { ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: '65a11ecb3ab02aeeb2ade037167ff0b4d5e696a7', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
+            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" }))))))), h("ir-sheet", { key: 'c5bbdcafeaaa73c0a3b8e84dd1a81dd10200ca48', ref: el => (this.sheetRef = el) }, h("ul", { key: '5ca6ebc0c040e9035eafe08a7de4f19e0293c8cc', slot: "sheet-content", class: "ir-sheet-content" }, h("li", { key: 'ed3f55c8e943c94eab40c03852bdd9ba3aeb3fc0' }, this.renderLanguageTrigger()), !isInjected && (h("li", { key: '4b2c17c43f059ad46daaac33a8b87500b509c70d' }, h("ir-button", { key: 'd03c7c52235fd26d017530b472925931aec3fc5f', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: '82d6c3778f945fa27be84a7916c20262e5f045b8' }, h("ir-button", { key: '17c4f04adbfd3cc8823d1a0fea0e531c252d3503', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), !app_store.is_signed_in && h("ir-modal", { key: '2867ef5727691d1cf0e1daca154a5fb23a3e1032', ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: '391c9fb255f59316568328b3d098871f9be002a7', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
     }
     static get is() { return "ir-nav"; }
     static get encapsulation() { return "scoped"; }
@@ -252,6 +252,30 @@ export class IrNav {
         return {
             "currentPage": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "routing",
+                "name": "routing",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "pages",
+                    "resolved": "\"booking\" | \"booking-listing\" | \"checkout\" | \"invoice\"",
+                    "references": {
+                        "pages": {
+                            "location": "import",
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::pages"
+                        }
+                    }
+                }
+            }];
     }
     static get listeners() {
         return [{

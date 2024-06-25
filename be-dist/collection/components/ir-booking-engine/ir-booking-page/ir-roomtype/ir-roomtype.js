@@ -6,14 +6,11 @@ export class IrRoomtype {
         this.roomtype = undefined;
     }
     render() {
-        return (h("section", { key: 'da7441a9af3b483f28912c1d59668383edb0c5ca', class: "room-type-container" }, h("aside", { key: '2ed2743d66a6401843ac54a9ece7012fffd77ca9', class: "hidden md:block" }, h("ir-property-gallery", { key: 'fb9ef1565d83b68c708686e4bb0c870aa4b7883d', property_state: "carousel", roomType: this.roomtype })), h("div", { key: '697eb7593994cf3eec67a0762440e19601ccb0eb', class: "w-full flex-1 space-y-2" }, h("h3", { key: '38ce97ab460222a954dc41222ef41c1e8d98d0c0', class: "text-start text-lg  font-medium text-slate-900 " }, this.roomtype.name), h("div", { key: '0f304cf4ddb922b2f199f365f48ce3644c9e5ce9', class: "md:hidden" }, h("ir-property-gallery", { key: 'e2721171d241e3208b39318c6fc9dad9b5c679a5', property_state: "carousel", roomType: this.roomtype })), h("div", { key: 'b252731f73c23c77612c1741a9766178dd2b9d5a', class: "hidden md:block" }, h("ir-accomodations", { key: 'b0e51e9e7d2dc9e62d2f76c862683b4a6fdc1124', bookingAttributes: {
+        return (h("section", { key: 'b13c373e1cbd369579321989c5e12b0d5c176def', class: "room-type-container" }, h("aside", { key: '5c361aa15dee2ac1a744df8ec9d1c3b62f94d385', class: "hidden md:block" }, h("ir-property-gallery", { key: '81705d1de76e43a5b6a9dd6c7a2a618085ec6f3c', property_state: "carousel", roomType: this.roomtype })), h("div", { key: '8ac531343aebc1a13ff954bba4efc4dc19dafd4b', class: "w-full flex-1 space-y-2" }, h("h3", { key: '7fd284bddc4b03d6fe72037b70afa429672926fb', class: "text-start text-lg  font-medium text-slate-900 " }, this.roomtype.name), h("div", { key: '500dc000e620cc4f9c88539e75ce54c2169c7bee', class: "md:hidden" }, h("ir-property-gallery", { key: '1a362d86395da9d5b81ffb983817bbb4c9aaed4b', property_state: "carousel", roomType: this.roomtype })), h("div", { key: '2af106e3a8c6f7a8ae83cfbc43f1bf573aa1807f', class: "hidden md:block" }, h("ir-accomodations", { key: 'c8547ad49d356170f013f6f2cb14ecf33852fa9f', bookingAttributes: {
                 max_occupancy: this.roomtype.occupancy_max.adult_nbr,
                 bedding_setup: this.roomtype.bedding_setup,
             }, amenities: app_store.property.amenities })), booking_store.enableBooking ? (this.roomtype.rateplans.map(ratePlan => {
-            if (!ratePlan.is_active) {
-                return null;
-            }
-            if (!ratePlan.variations) {
+            if (!ratePlan.is_active || !ratePlan.is_booking_engine_enabled || !ratePlan.variations) {
                 return null;
             }
             const visibleInventory = getVisibleInventory(this.roomtype.id, ratePlan.id);
