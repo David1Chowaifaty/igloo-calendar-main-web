@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { ar, es, fr, de, pl, uk, ru, el, enUS } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
+// import DOMPurify from 'dompurify';
 const localeMap = {
     en: enUS,
     ar: ar,
@@ -124,6 +125,18 @@ export function manageAnchorSession(data, mode = 'add') {
         if (mode === 'add') {
             return sessionStorage.setItem('anchor', JSON.stringify(Object.assign({}, data)));
         }
+    }
+}
+export function injectHTML(htmlContent, target = 'body', position = 'last') {
+    // const safeContent = DOMPurify.sanitize(htmlContent);
+    // console.log(safeContent, htmlContent);
+    const element = document.createRange().createContextualFragment(htmlContent);
+    const destination = target === 'head' ? document.head : document.body;
+    if (position === 'first') {
+        destination.insertBefore(element, destination.firstChild);
+    }
+    else {
+        destination.appendChild(element);
     }
 }
 //# sourceMappingURL=utils.js.map

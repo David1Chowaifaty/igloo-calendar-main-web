@@ -7,6 +7,7 @@ import app_store from "../../../stores/app.store";
 import booking_store, { calculateTotalCost, validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { getDateDifference } from "../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import { ZodError } from "zod";
 export class IrCheckoutPage {
@@ -96,9 +97,14 @@ export class IrCheckoutPage {
         this.scrollToError();
     }
     async processBooking() {
+        var _a;
         try {
             const result = await this.propertyService.bookUser();
             booking_store.booking = result;
+            const conversionTag = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.tags.find(t => t.key === 'conversion');
+            if (conversionTag && conversionTag.value) {
+                this.modifyConversionTag(conversionTag.value);
+            }
             const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
             if (!currentPayment || !(currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.is_payment_gateway)) {
                 app_store.invoice = {
@@ -117,6 +123,14 @@ export class IrCheckoutPage {
         finally {
             this.isLoading = false;
         }
+    }
+    modifyConversionTag(tag) {
+        const booking = booking_store.booking;
+        tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
+        tag = tag.replace(/\$\$length_of_stay\$\$/g, getDateDifference(new Date(booking.from_date), new Date(booking.to_date)).toString());
+        tag = tag.replace(/\$\$booking_xref\$\$/g, booking.booking_nbr.toString());
+        tag = tag.replace(/\$\$curr\$\$/g, booking.currency.code.toString());
+        this.runScriptAndRemove(tag);
     }
     async processPayment(bookingResult, currentPayment) {
         var _a;
@@ -154,6 +168,12 @@ export class IrCheckoutPage {
                 window.scrollBy(0, -150);
             }, 500);
         }
+    }
+    runScriptAndRemove(scriptContent) {
+        const script = document.createElement('script');
+        script.textContent = scriptContent;
+        document.body.appendChild(script);
+        document.body.removeChild(script);
     }
     render() {
         console.log(isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') || isRequestPending('/Get_Exposed_Countries'));

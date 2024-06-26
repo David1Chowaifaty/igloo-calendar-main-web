@@ -27,7 +27,9 @@ export declare class IrCheckoutPage {
     private validatePickupForm;
     handleError(cause: 'pickup' | 'user', error: ZodError<any>): void;
     private processBooking;
+    private modifyConversionTag;
     private processPayment;
     scrollToError(): void;
+    runScriptAndRemove(scriptContent: string): void;
     render(): any;
 }

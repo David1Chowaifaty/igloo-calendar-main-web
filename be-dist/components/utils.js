@@ -52803,6 +52803,7 @@ exports.validators = validators;
 
 }(bundleCjs));
 
+// import DOMPurify from 'dompurify';
 const localeMap = {
     en: locale.enUS,
     ar: locale.ar,

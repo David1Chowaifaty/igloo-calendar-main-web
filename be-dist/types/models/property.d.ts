@@ -33,6 +33,10 @@ export interface IExposedProperty {
     social_media: SocialMedia[];
     space_theme: SpaceTheme;
     tax_statement: string;
+    tags: {
+        key: string;
+        value: string | null;
+    }[];
     taxes: Tax[];
     time_constraints: TimeConstraints;
     privacy_policy: string;

@@ -1,3 +1,4 @@
+import { PropertyHelpers } from "./../app/property-helpers.service";
 import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
@@ -9,6 +10,7 @@ import { Colors } from "../app/colors.service";
 export class PropertyService extends Token {
     constructor() {
         super(...arguments);
+        this.propertyHelpers = new PropertyHelpers();
         this.colors = new Colors();
     }
     async getExposedProperty(params, initTheme = true) {
@@ -26,14 +28,15 @@ export class PropertyService extends Token {
         //     if (!value) {
         //       return;
         //     }
-        //     const script = document.createElement('script');
-        //     script.innerHTML = value;
-        //     if (key === 'header') {
-        //       document.head.appendChild(script)
-        //     } else if (key === 'body') {
-        //       document.body.appendChild(script)
+        //     switch (key) {
+        //       case 'header':
+        //         return injectHTML(value, 'head', 'first');
+        //       case 'body':
+        //         return injectHTML(value, 'body', 'first');
+        //       case 'footer':
+        //         return injectHTML(value, 'body', 'last');
         //     }
-        //   })
+        //   });
         // }
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
@@ -50,21 +53,16 @@ export class PropertyService extends Token {
     async getExposedBookingAvailability(props) {
         const token = this.getToken();
         this.validateToken(token);
-        this.validateModeProps(props);
+        this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.collectRoomTypeIds(props);
         const rateplanIds = this.collectRatePlanIds(props);
         const data = await this.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
-        this.updateBookingStore(data, props);
+        this.propertyHelpers.updateBookingStore(data, props);
         return data;
     }
     validateToken(token) {
         if (!token) {
             throw new MissingTokenError();
-        }
-    }
-    validateModeProps(props) {
-        if (props.mode === PropertyService.MODE_MODIFY_RT && (!props.rp_id || !props.rt_id)) {
-            throw new Error('Missing property: rp_id or rt_id is required in modify_rt mode');
         }
     }
     collectRoomTypeIds(props) {
@@ -80,94 +78,6 @@ export class PropertyService extends Token {
             throw new Error(result.ExceptionMsg);
         }
         return result;
-    }
-    sortRoomTypes(roomTypes, userCriteria) {
-        return roomTypes.sort((a, b) => {
-            // Move room types with zero inventory to the end
-            if (a.inventory === 0 && b.inventory !== 0)
-                return 1;
-            if (a.inventory !== 0 && b.inventory === 0)
-                return -1;
-            // Check for matching or close variations
-            const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-            const matchB = b.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-            if (matchA && !matchB)
-                return -1;
-            if (!matchA && matchB)
-                return 1;
-            return 0; // If none of the above conditions apply, maintain original order
-        });
-    }
-    updateBookingStore(data, props) {
-        let roomtypes = [...booking_store.roomTypes];
-        const newRoomtypes = data.My_Result.roomtypes;
-        if (props.mode === PropertyService.MODE_DEFAULT) {
-            roomtypes = this.updateInventory(roomtypes, newRoomtypes);
-            roomtypes = this.sortRoomTypes(roomtypes, {
-                adult_nbr: props.params.adult_nbr,
-                child_nbr: props.params.child_nbr,
-            });
-        }
-        else {
-            roomtypes = this.updateRoomTypeRatePlans(roomtypes, newRoomtypes, props);
-        }
-        booking_store.roomTypes = roomtypes;
-        booking_store.tax_statement = { message: data.My_Result.tax_statement };
-        booking_store.enableBooking = true;
-    }
-    updateInventory(roomtypes, newRoomtypes) {
-        const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
-        console.log(roomtypes);
-        return roomtypes.reduce((updatedRoomtypes, rt) => {
-            const newRoomtype = newRoomtypesMap.get(rt.id);
-            if (!newRoomtype) {
-                return updatedRoomtypes;
-            }
-            console.log(rt);
-            const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, rateplans: rt.rateplans.reduce((updatedRatePlans, rp) => {
-                    const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
-                    if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
-                        return updatedRatePlans;
-                    }
-                    console.log(rp.variations);
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, selected_variation: newRatePlan.variations[0] }));
-                    return updatedRatePlans;
-                }, []) });
-            updatedRoomtypes.push(updatedRoomtype);
-            return updatedRoomtypes;
-        }, []);
-    }
-    updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
-        var _a;
-        const selectedRoomTypeIdx = roomtypes.findIndex(rt => rt.id === props.rt_id);
-        if (selectedRoomTypeIdx === -1) {
-            throw new Error('Invalid RoomType');
-        }
-        const selectednewRoomTypeIdx = newRoomtypes.findIndex(rt => rt.id === props.rt_id);
-        if (selectedRoomTypeIdx === -1) {
-            throw new Error('Invalid RoomType');
-        }
-        if (selectednewRoomTypeIdx === -1) {
-            throw new Error('Invalid New RoomType');
-        }
-        const newRatePlan = (_a = newRoomtypes[selectednewRoomTypeIdx].rateplans) === null || _a === void 0 ? void 0 : _a.find(rp => rp.id === props.rp_id);
-        if (!newRatePlan) {
-            throw new Error('Invalid New Rateplan');
-        }
-        const newVariation = newRatePlan.variations.find(v => v.adult_child_offering === props.adultChildConstraint);
-        console.log(newRatePlan.variations, props.adultChildConstraint);
-        if (!newVariation) {
-            throw new Error('Missing variation');
-        }
-        roomtypes[selectedRoomTypeIdx] = Object.assign(Object.assign({}, roomtypes[selectedRoomTypeIdx]), { rateplans: roomtypes[selectedRoomTypeIdx].rateplans.map(rp => {
-                return Object.assign(Object.assign({}, rp), { variations: rp.variations.map(v => {
-                        if (v.adult_child_offering === props.adultChildConstraint && rp.id === props.rp_id) {
-                            return newVariation;
-                        }
-                        return v;
-                    }) });
-            }) });
-        return roomtypes;
     }
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
@@ -381,6 +291,4 @@ export class PropertyService extends Token {
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_code: res.country_id });
     }
 }
-PropertyService.MODE_MODIFY_RT = 'modify_rt';
-PropertyService.MODE_DEFAULT = 'default';
 //# sourceMappingURL=property.service.js.map

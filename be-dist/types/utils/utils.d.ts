@@ -20,3 +20,4 @@ export declare function getCookies(): {
 };
 export declare function getCookie(name: string): string | null;
 export declare function manageAnchorSession(data: Record<string, unknown>, mode?: 'add' | 'remove'): void;
+export declare function injectHTML(htmlContent: string, target?: 'head' | 'body', position?: 'first' | 'last'): void;
