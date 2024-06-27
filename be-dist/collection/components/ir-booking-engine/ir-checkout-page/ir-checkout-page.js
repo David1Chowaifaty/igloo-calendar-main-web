@@ -157,7 +157,7 @@ export class IrCheckoutPage {
                 window.location.href = res.caller;
             }
             else {
-                eval(res.caller);
+                this.runScriptAndRemove(res.caller);
             }
         }
     }

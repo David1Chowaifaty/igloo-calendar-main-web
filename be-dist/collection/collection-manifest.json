@@ -42,6 +42,7 @@
     "components/ir-invoice/ir-invoice.js",
     "components/ir-seo-injector/ir-seo-injector.js",
     "components/ir-user-avatar/ir-user-avatar.js",
+    "components/ir-user-profile/ir-user-profile.js",
     "components/ui/ir-alert-dialog/ir-alert-dialog.js",
     "components/ui/ir-badge/ir-badge.js",
     "components/ui/ir-badge-group/ir-badge-group.js",

@@ -14,5 +14,21 @@ export const IrUserFormData = z.object({
     country_id: z.coerce.number(),
     country_code: z.coerce.number().min(1),
 });
-IrUserFormData.strip().parse;
+export const IrGuest = z.object({
+    address: z.string().nullable(),
+    city: z.string().nullable(),
+    country_id: z.number().min(1),
+    dob: z.string().nullable(),
+    email: z.string().email(),
+    first_name: z.string().min(2, {
+        message: 'FullNameCannotBeEmpty',
+    }),
+    password: z.string(),
+    id: z.string(),
+    last_name: z.string().min(3),
+    mobile: z.coerce.number().min(5),
+    subscribe_to_news_letter: z.boolean().default(false),
+    // cci?: ICCI | null;
+    alternative_email: z.string().email().optional().nullable(),
+});
 //# sourceMappingURL=user_form.js.map

@@ -31,3 +31,44 @@ export declare const IrUserFormData: z.ZodObject<{
     country_code?: number;
 }>;
 export type TUserFormData = z.infer<typeof IrUserFormData>;
+export declare const IrGuest: z.ZodObject<{
+    address: z.ZodNullable<z.ZodString>;
+    city: z.ZodNullable<z.ZodString>;
+    country_id: z.ZodNumber;
+    dob: z.ZodNullable<z.ZodString>;
+    email: z.ZodString;
+    first_name: z.ZodString;
+    password: z.ZodString;
+    id: z.ZodString;
+    last_name: z.ZodString;
+    mobile: z.ZodNumber;
+    subscribe_to_news_letter: z.ZodDefault<z.ZodBoolean>;
+    alternative_email: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    address?: string;
+    city?: string;
+    country_id?: number;
+    dob?: string;
+    email?: string;
+    first_name?: string;
+    password?: string;
+    id?: string;
+    last_name?: string;
+    mobile?: number;
+    subscribe_to_news_letter?: boolean;
+    alternative_email?: string;
+}, {
+    address?: string;
+    city?: string;
+    country_id?: number;
+    dob?: string;
+    email?: string;
+    first_name?: string;
+    password?: string;
+    id?: string;
+    last_name?: string;
+    mobile?: number;
+    subscribe_to_news_letter?: boolean;
+    alternative_email?: string;
+}>;
+export type TGuest = z.infer<typeof IrGuest>;

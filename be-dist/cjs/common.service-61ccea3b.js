@@ -53959,7 +53959,7 @@ class PropertyHelpers {
             if (maxVariationA < maxVariationB)
                 return 1;
             // If variations are equal, sort alphabetically by name
-            return a.name.localeCompare(b.name);
+            return 0;
         });
     }
     updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
@@ -75620,4 +75620,4 @@ exports.updateUserFormData = updateUserFormData;
 exports.updateUserPreference = updateUserPreference;
 exports.validateBooking = validateBooking;
 
-//# sourceMappingURL=common.service-6f80e86d.js.map
+//# sourceMappingURL=common.service-61ccea3b.js.map

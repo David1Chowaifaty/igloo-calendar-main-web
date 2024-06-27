@@ -50,10 +50,10 @@ export class IrUserForm {
                     target.removeAttribute('data-state');
             } })), h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_e = checkout_store.userFormData) === null || _e === void 0 ? void 0 : _e.email, label: localizedWords.entries.Lcz_EmailAddress, onTextChanged: e => updateUserFormData('email', e.detail), "data-state": ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.email) ? 'error' : '', class: "user-form-input", onInputBlur: e => {
                 var _a;
-                const emailSchema = IrUserFormData.pick({ email: true });
-                const emailValidation = emailSchema.safeParse({ email: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.email });
+                const schema = IrUserFormData.pick({ email: true });
+                const schemaValidation = schema.safeParse({ email: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.email });
                 const target = e.target;
-                if (!emailValidation.success) {
+                if (!schemaValidation.success) {
                     target.setAttribute('data-state', 'error');
                     target.setAttribute('aria-invalid', 'true');
                 }
@@ -71,10 +71,10 @@ export class IrUserForm {
                 updateUserFormData('country_code', e.detail.phone_prefix);
             }, country_code: checkout_store.userFormData.country_code || null, onPhoneInputBlur: e => {
                 var _a;
-                const emailSchema = IrUserFormData.pick({ mobile_number: true });
-                const emailValidation = emailSchema.safeParse({ mobile_number: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.mobile_number });
+                const schema = IrUserFormData.pick({ mobile_number: true });
+                const schemaValidation = schema.safeParse({ mobile_number: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.mobile_number });
                 const target = e.target;
-                if (!emailValidation.success) {
+                if (!schemaValidation.success) {
                     target.setAttribute('data-state', 'error');
                     target.setAttribute('aria-invalid', 'true');
                 }

@@ -18,6 +18,7 @@ import { Placement } from "@popperjs/core";
 import { IRatePlanSelection } from "./stores/booking";
 import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/auth.types";
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
+import { TGuest } from "./models/user_form";
 export { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
 export { Booking } from "./models/booking.dto";
 export { ICurrency, IExposedLanguages, pages } from "./models/common";
@@ -31,6 +32,7 @@ export { Placement } from "@popperjs/core";
 export { IRatePlanSelection } from "./stores/booking";
 export { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/auth.types";
 export { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
+export { TGuest } from "./models/user_form";
 export namespace Components {
     interface IrAccomodations {
         "amenities": Amenity[];
@@ -449,6 +451,9 @@ export namespace Components {
     interface IrUserForm {
         "errors": Record<string, ZodIssue>;
     }
+    interface IrUserProfile {
+        "user_data": TGuest;
+    }
 }
 export interface IrAdultChildCounterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -465,6 +470,10 @@ export interface IrAvailibilityHeaderCustomEvent<T> extends CustomEvent<T> {
 export interface IrBadgeGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBadgeGroupElement;
+}
+export interface IrBookingCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingCardElement;
 }
 export interface IrBookingCodeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -704,7 +713,18 @@ declare global {
         prototype: HTMLIrBannerElement;
         new (): HTMLIrBannerElement;
     };
+    interface HTMLIrBookingCardElementEventMap {
+        "cardOptionClicked": 'cancel' | 'view' | 'pay';
+    }
     interface HTMLIrBookingCardElement extends Components.IrBookingCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingCardElementEventMap>(type: K, listener: (this: HTMLIrBookingCardElement, ev: IrBookingCardCustomEvent<HTMLIrBookingCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingCardElementEventMap>(type: K, listener: (this: HTMLIrBookingCardElement, ev: IrBookingCardCustomEvent<HTMLIrBookingCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrBookingCardElement: {
         prototype: HTMLIrBookingCardElement;
@@ -1473,6 +1493,12 @@ declare global {
         prototype: HTMLIrUserFormElement;
         new (): HTMLIrUserFormElement;
     };
+    interface HTMLIrUserProfileElement extends Components.IrUserProfile, HTMLStencilElement {
+    }
+    var HTMLIrUserProfileElement: {
+        prototype: HTMLIrUserProfileElement;
+        new (): HTMLIrUserProfileElement;
+    };
     interface HTMLElementTagNameMap {
         "ir-accomodations": HTMLIrAccomodationsElement;
         "ir-adult-child-counter": HTMLIrAdultChildCounterElement;
@@ -1540,6 +1566,7 @@ declare global {
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-user-avatar": HTMLIrUserAvatarElement;
         "ir-user-form": HTMLIrUserFormElement;
+        "ir-user-profile": HTMLIrUserProfileElement;
     }
 }
 declare namespace LocalJSX {
@@ -1593,6 +1620,7 @@ declare namespace LocalJSX {
     }
     interface IrBookingCard {
         "booking"?: Booking;
+        "onCardOptionClicked"?: (event: IrBookingCardCustomEvent<'cancel' | 'view' | 'pay'>) => void;
     }
     interface IrBookingCode {
         "onCloseDialog"?: (event: IrBookingCodeCustomEvent<null>) => void;
@@ -2030,6 +2058,9 @@ declare namespace LocalJSX {
         "errors"?: Record<string, ZodIssue>;
         "onChangePageLoading"?: (event: IrUserFormCustomEvent<'remove' | 'add'>) => void;
     }
+    interface IrUserProfile {
+        "user_data"?: TGuest;
+    }
     interface IntrinsicElements {
         "ir-accomodations": IrAccomodations;
         "ir-adult-child-counter": IrAdultChildCounter;
@@ -2097,6 +2128,7 @@ declare namespace LocalJSX {
         "ir-tooltip": IrTooltip;
         "ir-user-avatar": IrUserAvatar;
         "ir-user-form": IrUserForm;
+        "ir-user-profile": IrUserProfile;
     }
 }
 export { LocalJSX as JSX };
@@ -2169,6 +2201,7 @@ declare module "@stencil/core" {
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-user-avatar": LocalJSX.IrUserAvatar & JSXBase.HTMLAttributes<HTMLIrUserAvatarElement>;
             "ir-user-form": LocalJSX.IrUserForm & JSXBase.HTMLAttributes<HTMLIrUserFormElement>;
+            "ir-user-profile": LocalJSX.IrUserProfile & JSXBase.HTMLAttributes<HTMLIrUserProfileElement>;
         }
     }
 }

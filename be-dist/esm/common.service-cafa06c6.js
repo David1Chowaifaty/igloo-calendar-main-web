@@ -53957,7 +53957,7 @@ class PropertyHelpers {
             if (maxVariationA < maxVariationB)
                 return 1;
             // If variations are equal, sort alphabetically by name
-            return a.name.localeCompare(b.name);
+            return 0;
         });
     }
     updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
@@ -75585,4 +75585,4 @@ class CommonService extends Token {
 
 export { updatePickupFormData as A, updatePartialPickupFormData as B, CommonService as C, reserveRooms as D, getVisibleInventory as E, MissingTokenError as M, PropertyService as P, Token as T, app_store as a, checkout_store as b, createStore as c, axios$1 as d, booking_store as e, dateFns as f, formatAmount as g, onCheckoutDataChange as h, getDateDifference as i, getUserPrefernce as j, changeLocale as k, localizedWords as l, manageAnchorSession as m, matchLocale as n, onAppDataChange as o, updateRoomParams as p, calculateTotalCost as q, cn as r, setDefaultLocale as s, locale as t, updateUserPreference as u, getAbbreviatedWeekdays as v, validateBooking as w, modifyBookingStore as x, updateUserFormData as y, renderTime as z };
 
-//# sourceMappingURL=common.service-7572d215.js.map
+//# sourceMappingURL=common.service-cafa06c6.js.map

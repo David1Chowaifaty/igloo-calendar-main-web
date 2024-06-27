@@ -93,7 +93,7 @@ class PropertyHelpers {
             if (maxVariationA < maxVariationB)
                 return 1;
             // If variations are equal, sort alphabetically by name
-            return a.name.localeCompare(b.name);
+            return 0;
         });
     }
     updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
