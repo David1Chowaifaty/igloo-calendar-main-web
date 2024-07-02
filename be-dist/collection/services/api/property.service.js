@@ -5,7 +5,7 @@ import booking_store from "../../stores/booking";
 import { checkout_store, updateUserFormData } from "../../stores/checkout.store";
 import { getDateDifference } from "../../utils/utils";
 import axios from "axios";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { Colors } from "../app/colors.service";
 export class PropertyService extends Token {
     constructor() {
@@ -52,39 +52,20 @@ export class PropertyService extends Token {
     }
     async getExposedBookingAvailability(props) {
         const token = this.getToken();
-        this.validateToken(token);
+        this.propertyHelpers.validateToken(token);
         this.propertyHelpers.validateModeProps(props);
-        const roomtypeIds = this.collectRoomTypeIds(props);
-        const rateplanIds = this.collectRatePlanIds(props);
-        const data = await this.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
+        const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
+        const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
+        const data = await this.propertyHelpers.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
         this.propertyHelpers.updateBookingStore(data, props);
         return data;
-    }
-    validateToken(token) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-    }
-    collectRoomTypeIds(props) {
-        return props.rt_id ? [props.rt_id] : [];
-    }
-    collectRatePlanIds(props) {
-        return props.rp_id ? [props.rp_id] : [];
-    }
-    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true }));
-        const result = response.data;
-        if (result.ExceptionMsg !== '') {
-            throw new Error(result.ExceptionMsg);
-        }
-        return result;
     }
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ payment_code: '' }] : null }));
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ key: 'payment_code', value: '' }] : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -120,24 +101,6 @@ export class PropertyService extends Token {
             throw new Error(error);
         }
     }
-    generateDays(from_date, to_date, amount) {
-        const endDate = to_date;
-        let currentDate = from_date;
-        const days = [];
-        while (currentDate < endDate) {
-            days.push({
-                date: format(currentDate, 'yyyy-MM-dd'),
-                amount: amount,
-                cost: null,
-            });
-            currentDate = addDays(currentDate, 1);
-        }
-        return days;
-    }
-    extractFirstNameAndLastName(index, guestName) {
-        const names = guestName[index].split(' ');
-        return { first_name: names[0] || null, last_name: names[1] || null };
-    }
     filterRooms() {
         let rooms = [];
         Object.values(booking_store.ratePlanSelections).map(rt => {
@@ -145,7 +108,7 @@ export class PropertyService extends Token {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
                         var _a;
-                        const { first_name, last_name } = this.extractFirstNameAndLastName(index, rp.guestName);
+                        const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -161,7 +124,7 @@ export class PropertyService extends Token {
                             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
                             to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
                                 first_name,
@@ -192,22 +155,21 @@ export class PropertyService extends Token {
         });
         return rooms;
     }
-    convertPickup(pickup) {
-        let res = {};
-        const [hour, minute] = pickup.arrival_time.split(':');
-        res = {
-            booking_nbr: null,
-            is_remove: false,
-            currency: pickup.currency,
-            date: pickup.arrival_date,
-            details: pickup.flight_details || null,
-            hour: Number(hour),
-            minute: Number(minute),
-            nbr_of_units: pickup.number_of_vehicles,
-            selected_option: pickup.selected_option,
-            total: Number(pickup.due_upon_booking),
-        };
-        return res;
+    async editExposedGuest(guest, book_nbr) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Edit_Exposed_Guest?Ticket=${token}`, Object.assign(Object.assign({}, guest), { book_nbr }));
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                return data.My_Result;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
     }
     async bookUser() {
         var _a;
@@ -258,7 +220,7 @@ export class PropertyService extends Token {
                         value: checkout_store.payment.code,
                     },
                 ],
-                pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
+                pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
             const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {

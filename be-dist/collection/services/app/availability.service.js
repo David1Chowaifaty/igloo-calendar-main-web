@@ -128,16 +128,6 @@ export class AvailabiltyService {
         }
         return Number(result.data.replace(/,/g, ''));
     }
-    // private sortVariations(variations: Variation[]) {
-    //   return variations.sort((a, b) => {
-    //     const parsedA = { adults: a.adult_nbr, children: a.child_nbr };
-    //     const parsedB = { adults: b.adult_nbr, children: b.child_nbr };
-    //     if (parsedA.adults !== parsedB.adults) {
-    //       return parsedA.adults - parsedB.adults;
-    //     }
-    //     return parsedA.children - parsedB.children;
-    //   });
-    // }
     async processPayloads(payloads) {
         try {
             console.log('payload', payloads);
@@ -173,6 +163,7 @@ export class AvailabiltyService {
                     is_lmd: payload.IS_LMD,
                     nights_nbr: (_m = this.validateNumberString((_l = ((_k = payload.NIGHTS_NBR) !== null && _k !== void 0 ? _k : 0)) === null || _l === void 0 ? void 0 : _l.toString())) !== null && _m !== void 0 ? _m : 0,
                     total_before_discount: (_q = this.validateNumberString((_p = ((_o = payload.TOTAL_BEFORE_DISCOUNT) !== null && _o !== void 0 ? _o : 0)) === null || _p === void 0 ? void 0 : _p.toString())) !== null && _q !== void 0 ? _q : 0,
+                    is_calculated: payload.IS_CALCULATED,
                 };
                 const variationIndex = oldVariation.findIndex(v => v.adult_child_offering === payload.ADULT_CHILD_OFFERING);
                 if (variationIndex === -1) {
@@ -181,7 +172,7 @@ export class AvailabiltyService {
                 else {
                     oldVariation[variationIndex] = variation;
                 }
-                // oldVariation = this.variationSorter.sortVariations(oldVariation);
+                oldVariation = oldVariation.filter(v => Number(v.adult_nbr) <= Number(booking_store.bookingAvailabilityParams.adult_nbr) && Number(v.child_nbr) <= Number(booking_store.bookingAvailabilityParams.child_nbr));
                 rateplan = Object.assign(Object.assign({}, rateplan), { variations: oldVariation });
                 roomType.rateplans[selectedRatePlanIndex] = rateplan;
                 this.roomTypes[selectedRoomTypeIndex] = Object.assign(Object.assign({}, roomType), { inventory: 1 });

@@ -1,9 +1,29 @@
+import { MissingTokenError } from "../../models/Token";
 import booking_store from "../../stores/booking";
+import axios from "axios";
+import { addDays, format } from "date-fns";
 export class PropertyHelpers {
     validateModeProps(props) {
         if (props.mode === PropertyHelpers.MODE_MODIFY_RT && (!props.rp_id || !props.rt_id)) {
             throw new Error('Missing property: rp_id or rt_id is required in modify_rt mode');
         }
+    }
+    convertPickup(pickup) {
+        let res = {};
+        const [hour, minute] = pickup.arrival_time.split(':');
+        res = {
+            booking_nbr: null,
+            is_remove: false,
+            currency: pickup.currency,
+            date: pickup.arrival_date,
+            details: pickup.flight_details || null,
+            hour: Number(hour),
+            minute: Number(minute),
+            nbr_of_units: pickup.number_of_vehicles,
+            selected_option: pickup.selected_option,
+            total: Number(pickup.due_upon_booking),
+        };
+        return res;
     }
     updateBookingStore(data, props) {
         try {
@@ -27,6 +47,43 @@ export class PropertyHelpers {
             console.error(error);
         }
     }
+    validateToken(token) {
+        if (!token) {
+            throw new MissingTokenError();
+        }
+    }
+    collectRoomTypeIds(props) {
+        return props.rt_id ? [props.rt_id] : [];
+    }
+    collectRatePlanIds(props) {
+        return props.rp_id ? [props.rp_id] : [];
+    }
+    generateDays(from_date, to_date, amount) {
+        const endDate = to_date;
+        let currentDate = from_date;
+        const days = [];
+        while (currentDate < endDate) {
+            days.push({
+                date: format(currentDate, 'yyyy-MM-dd'),
+                amount: amount,
+                cost: null,
+            });
+            currentDate = addDays(currentDate, 1);
+        }
+        return days;
+    }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
+    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
+        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true }));
+        const result = response.data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result;
+    }
     updateInventory(roomtypes, newRoomtypes) {
         const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
         return roomtypes.reduce((updatedRoomtypes, rt) => {
@@ -47,30 +104,20 @@ export class PropertyHelpers {
             return updatedRoomtypes;
         }, []);
     }
-    // private sortRoomTypes(roomTypes: RoomType[], userCriteria: { adult_nbr: number; child_nbr: number }): RoomType[] {
-    //   return roomTypes.sort((a, b) => {
-    //     // Move room types with zero inventory to the end
-    //     if (a.inventory === 0 && b.inventory !== 0) return 1;
-    //     if (a.inventory !== 0 && b.inventory === 0) return -1;
-    //     // Check for exact matching variations
-    //     const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-    //     const matchB = b.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-    //     if (matchA && !matchB) return -1;
-    //     if (!matchA && matchB) return 1;
-    //     // If no matches, sort by the highest variation in any attribute, let's use `amount` as an example
-    //     const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
-    //     const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
-    //     if (maxVariationA > maxVariationB) return -1;
-    //     if (maxVariationA < maxVariationB) return 1;
-    //     return 0; // If none of the above conditions apply, maintain original order
-    //   });
-    // }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
             // Move room types with zero inventory to the end
             if (a.inventory === 0 && b.inventory !== 0)
                 return 1;
             if (a.inventory !== 0 && b.inventory === 0)
+                return -1;
+            // Check for variations where is_calculated is true and amount is 0
+            const zeroCalculatedA = a.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            const zeroCalculatedB = b.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            // Prioritize these types to be before inventory 0 but after all others
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
                 return -1;
             // Check for exact matching variations
             const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
@@ -80,13 +127,12 @@ export class PropertyHelpers {
             if (!matchA && matchB)
                 return 1;
             // Sort by the highest variation in any attribute, for example `amount`
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.adult_nbr + variation.child_nbr)));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.adult_nbr + variation.child_nbr)));
-            if (maxVariationA > maxVariationB)
-                return -1;
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
             if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
                 return 1;
-            // If variations are equal, sort alphabetically by name
             return 0;
         });
     }

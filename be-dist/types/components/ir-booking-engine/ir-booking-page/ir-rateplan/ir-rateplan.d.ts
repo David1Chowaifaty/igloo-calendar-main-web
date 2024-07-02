@@ -14,7 +14,10 @@ export declare class IrRateplan {
     animateBookingButton: EventEmitter<null>;
     private propertyService;
     private availabilityService;
+    isRatePlanAvailable: boolean;
     componentWillLoad(): void;
+    handleRTICHange(newValue: number, oldValue: number): any;
+    checkAvailability(): void;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): Promise<void>;
     updateVariation(params: {
         adult_nbr: number;

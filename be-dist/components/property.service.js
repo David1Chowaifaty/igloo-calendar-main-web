@@ -1,15 +1,32 @@
+import { M as MissingTokenError, T as Token } from './Token.js';
 import { b as booking_store } from './booking.js';
-import { T as Token, M as MissingTokenError } from './Token.js';
+import { a as axios } from './axios.js';
+import { d as dateFns, g as getDateDifference } from './utils.js';
 import { a as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
-import { d as dateFns, g as getDateDifference } from './utils.js';
-import { a as axios } from './axios.js';
 
 class PropertyHelpers {
     validateModeProps(props) {
         if (props.mode === PropertyHelpers.MODE_MODIFY_RT && (!props.rp_id || !props.rt_id)) {
             throw new Error('Missing property: rp_id or rt_id is required in modify_rt mode');
         }
+    }
+    convertPickup(pickup) {
+        let res = {};
+        const [hour, minute] = pickup.arrival_time.split(':');
+        res = {
+            booking_nbr: null,
+            is_remove: false,
+            currency: pickup.currency,
+            date: pickup.arrival_date,
+            details: pickup.flight_details || null,
+            hour: Number(hour),
+            minute: Number(minute),
+            nbr_of_units: pickup.number_of_vehicles,
+            selected_option: pickup.selected_option,
+            total: Number(pickup.due_upon_booking),
+        };
+        return res;
     }
     updateBookingStore(data, props) {
         try {
@@ -33,6 +50,43 @@ class PropertyHelpers {
             console.error(error);
         }
     }
+    validateToken(token) {
+        if (!token) {
+            throw new MissingTokenError();
+        }
+    }
+    collectRoomTypeIds(props) {
+        return props.rt_id ? [props.rt_id] : [];
+    }
+    collectRatePlanIds(props) {
+        return props.rp_id ? [props.rp_id] : [];
+    }
+    generateDays(from_date, to_date, amount) {
+        const endDate = to_date;
+        let currentDate = from_date;
+        const days = [];
+        while (currentDate < endDate) {
+            days.push({
+                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
+                amount: amount,
+                cost: null,
+            });
+            currentDate = dateFns.addDays(currentDate, 1);
+        }
+        return days;
+    }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
+    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
+        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true }));
+        const result = response.data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result;
+    }
     updateInventory(roomtypes, newRoomtypes) {
         const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
         return roomtypes.reduce((updatedRoomtypes, rt) => {
@@ -53,30 +107,20 @@ class PropertyHelpers {
             return updatedRoomtypes;
         }, []);
     }
-    // private sortRoomTypes(roomTypes: RoomType[], userCriteria: { adult_nbr: number; child_nbr: number }): RoomType[] {
-    //   return roomTypes.sort((a, b) => {
-    //     // Move room types with zero inventory to the end
-    //     if (a.inventory === 0 && b.inventory !== 0) return 1;
-    //     if (a.inventory !== 0 && b.inventory === 0) return -1;
-    //     // Check for exact matching variations
-    //     const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-    //     const matchB = b.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
-    //     if (matchA && !matchB) return -1;
-    //     if (!matchA && matchB) return 1;
-    //     // If no matches, sort by the highest variation in any attribute, let's use `amount` as an example
-    //     const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
-    //     const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
-    //     if (maxVariationA > maxVariationB) return -1;
-    //     if (maxVariationA < maxVariationB) return 1;
-    //     return 0; // If none of the above conditions apply, maintain original order
-    //   });
-    // }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
             // Move room types with zero inventory to the end
             if (a.inventory === 0 && b.inventory !== 0)
                 return 1;
             if (a.inventory !== 0 && b.inventory === 0)
+                return -1;
+            // Check for variations where is_calculated is true and amount is 0
+            const zeroCalculatedA = a.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            const zeroCalculatedB = b.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            // Prioritize these types to be before inventory 0 but after all others
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
                 return -1;
             // Check for exact matching variations
             const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
@@ -86,13 +130,12 @@ class PropertyHelpers {
             if (!matchA && matchB)
                 return 1;
             // Sort by the highest variation in any attribute, for example `amount`
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.adult_nbr + variation.child_nbr)));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.adult_nbr + variation.child_nbr)));
-            if (maxVariationA > maxVariationB)
-                return -1;
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
             if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
                 return 1;
-            // If variations are equal, sort alphabetically by name
             return 0;
         });
     }
@@ -244,39 +287,20 @@ class PropertyService extends Token {
     }
     async getExposedBookingAvailability(props) {
         const token = this.getToken();
-        this.validateToken(token);
+        this.propertyHelpers.validateToken(token);
         this.propertyHelpers.validateModeProps(props);
-        const roomtypeIds = this.collectRoomTypeIds(props);
-        const rateplanIds = this.collectRatePlanIds(props);
-        const data = await this.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
+        const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
+        const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
+        const data = await this.propertyHelpers.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
         this.propertyHelpers.updateBookingStore(data, props);
         return data;
-    }
-    validateToken(token) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-    }
-    collectRoomTypeIds(props) {
-        return props.rt_id ? [props.rt_id] : [];
-    }
-    collectRatePlanIds(props) {
-        return props.rp_id ? [props.rp_id] : [];
-    }
-    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true }));
-        const result = response.data;
-        if (result.ExceptionMsg !== '') {
-            throw new Error(result.ExceptionMsg);
-        }
-        return result;
     }
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ payment_code: '' }] : null }));
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ key: 'payment_code', value: '' }] : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -312,24 +336,6 @@ class PropertyService extends Token {
             throw new Error(error);
         }
     }
-    generateDays(from_date, to_date, amount) {
-        const endDate = to_date;
-        let currentDate = from_date;
-        const days = [];
-        while (currentDate < endDate) {
-            days.push({
-                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
-                amount: amount,
-                cost: null,
-            });
-            currentDate = dateFns.addDays(currentDate, 1);
-        }
-        return days;
-    }
-    extractFirstNameAndLastName(index, guestName) {
-        const names = guestName[index].split(' ');
-        return { first_name: names[0] || null, last_name: names[1] || null };
-    }
     filterRooms() {
         let rooms = [];
         Object.values(booking_store.ratePlanSelections).map(rt => {
@@ -337,7 +343,7 @@ class PropertyService extends Token {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
                         var _a;
-                        const { first_name, last_name } = this.extractFirstNameAndLastName(index, rp.guestName);
+                        const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -353,7 +359,7 @@ class PropertyService extends Token {
                             from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
                             to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
                                 first_name,
@@ -384,22 +390,21 @@ class PropertyService extends Token {
         });
         return rooms;
     }
-    convertPickup(pickup) {
-        let res = {};
-        const [hour, minute] = pickup.arrival_time.split(':');
-        res = {
-            booking_nbr: null,
-            is_remove: false,
-            currency: pickup.currency,
-            date: pickup.arrival_date,
-            details: pickup.flight_details || null,
-            hour: Number(hour),
-            minute: Number(minute),
-            nbr_of_units: pickup.number_of_vehicles,
-            selected_option: pickup.selected_option,
-            total: Number(pickup.due_upon_booking),
-        };
-        return res;
+    async editExposedGuest(guest, book_nbr) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Edit_Exposed_Guest?Ticket=${token}`, Object.assign(Object.assign({}, guest), { book_nbr }));
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                return data.My_Result;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
     }
     async bookUser() {
         var _a;
@@ -450,7 +455,7 @@ class PropertyService extends Token {
                         value: checkout_store.payment.code,
                     },
                 ],
-                pickup_info: checkout_store.pickup.location ? this.convertPickup(checkout_store.pickup) : null,
+                pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
             const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {

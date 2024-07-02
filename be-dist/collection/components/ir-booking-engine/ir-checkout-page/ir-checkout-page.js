@@ -133,7 +133,6 @@ export class IrCheckoutPage {
         this.runScriptAndRemove(tag);
     }
     async processPayment(bookingResult, currentPayment) {
-        var _a;
         let token = app_store.app_data.token;
         if (!app_store.is_signed_in) {
             token = await this.authService.login({
@@ -146,19 +145,18 @@ export class IrCheckoutPage {
         }
         const { prePaymentAmount } = calculateTotalCost();
         if (prePaymentAmount > 0) {
-            const res = await this.paymentService.GeneratePaymentCaller(token, {
-                booking_nbr: bookingResult.booking_nbr,
-                amount: prePaymentAmount,
-                currency_id: bookingResult.currency.id,
-                email: bookingResult.guest.email,
-                pgw_id: (_a = currentPayment.data.find(d => d.key === 'id')) === null || _a === void 0 ? void 0 : _a.value,
+            await this.paymentService.GeneratePaymentCaller({
+                token,
+                params: {
+                    booking_nbr: bookingResult.booking_nbr,
+                    amount: prePaymentAmount,
+                    currency_id: bookingResult.currency.id,
+                    email: bookingResult.guest.email,
+                    pgw_id: currentPayment.id.toString(),
+                },
+                onRedirect: url => (window.location.href = url),
+                onScriptRun: script => this.runScriptAndRemove(script),
             });
-            if (res.type === 1) {
-                window.location.href = res.caller;
-            }
-            else {
-                this.runScriptAndRemove(res.caller);
-            }
         }
     }
     scrollToError() {

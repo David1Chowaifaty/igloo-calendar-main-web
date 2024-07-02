@@ -24,7 +24,6 @@ const IrGuest = z.object({
     first_name: z.string().min(2, {
         message: 'FullNameCannotBeEmpty',
     }),
-    password: z.string(),
     id: z.string(),
     last_name: z.string().min(3),
     mobile: z.coerce.number().min(5),

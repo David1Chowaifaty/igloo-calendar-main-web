@@ -2,7 +2,10 @@ import { Booking } from "../../../../models/booking.dto";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrBookingCard {
     booking: Booking;
-    cardOptionClicked: EventEmitter<'cancel' | 'view' | 'pay'>;
+    optionClicked: EventEmitter<{
+        tag: string;
+        id: number;
+    }>;
     private totalNights;
     private bookingListingAppService;
     componentWillLoad(): void;

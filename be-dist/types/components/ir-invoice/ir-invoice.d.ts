@@ -1,4 +1,5 @@
 import { Booking } from "../../models/booking.dto";
+import { AllowedPaymentMethod } from "../../models/property";
 export declare class IrInvoice {
     email: string;
     propertyId: number;
@@ -8,6 +9,8 @@ export declare class IrInvoice {
     status: 0 | 1;
     perma_link: string;
     aName: string;
+    headerShown: boolean;
+    footerShown: boolean;
     booking: Booking;
     token: string;
     private propertyService;
@@ -16,10 +19,12 @@ export declare class IrInvoice {
     private paymentService;
     alertDialog: HTMLIrAlertDialogElement;
     componentWillLoad(): Promise<void>;
+    private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
     fetchData(): Promise<void>;
     renderBookingDetailHeader(): string;
     getPropertyEmail(): string;
+    renderPaymentText(paymentOption: AllowedPaymentMethod): any;
     render(): any;
 }

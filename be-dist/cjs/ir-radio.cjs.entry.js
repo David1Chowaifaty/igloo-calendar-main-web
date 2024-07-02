@@ -16,9 +16,9 @@ const IrRadio = class {
         this.radioId = v4.v4();
     }
     render() {
-        return (index.h("button", { key: '2b5a75d7ba5e75d053bb3b47414993059d7e8463', role: "radio", class: "radio-button", onClick: () => {
+        return (index.h("button", { key: '1c61e271067522f773b092bf22852d72da041f18', role: "radio", class: "radio-button", onClick: () => {
                 this.checkChange.emit(!this.checked);
-            }, id: this.radioId, "data-state": this.checked ? 'checked' : 'unchecked', "aria-checked": this.checked ? 'true' : 'false' }, index.h("div", { key: '72bb8f1723a54d29c7835da72cdb0dc8f3c8c88a', class: "thumb", "data-state": this.checked ? 'checked' : 'unchecked' }), index.h("input", { key: '0c50caa2ee1805fe7954e7601a2c945e267fc04c', type: "radio", "aria-hidden": "true", tabindex: "-1", checked: this.checked, class: 'radio-input' })));
+            }, id: this.radioId, "data-state": this.checked ? 'checked' : 'unchecked', "aria-checked": this.checked ? 'true' : 'false' }, index.h("div", { key: '61bbb803b35407496750d783a6e4c66b030c833e', class: "thumb", "data-state": this.checked ? 'checked' : 'unchecked' }), index.h("input", { key: '2ba57f2d26f90977a930b4a024e5b79f3b58cbc1', type: "radio", "aria-hidden": "true", tabindex: "-1", checked: this.checked, class: 'radio-input' })));
     }
 };
 IrRadio.style = IrRadioStyle0;

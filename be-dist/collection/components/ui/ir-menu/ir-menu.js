@@ -10,6 +10,10 @@ export class IrMenu {
         this.currentHighlightedIndex = -1;
         this.usingKeyboard = false;
     }
+    componentWillLoad() {
+        var _a;
+        this.selectedItemName = (_a = this.data[0].item) !== null && _a !== void 0 ? _a : '';
+    }
     handleKeyDown(event) {
         if (!this.isDropdownVisible) {
             return;
@@ -43,6 +47,7 @@ export class IrMenu {
     componentDidLoad() {
         this.popoverInstance = createPopper(this.buttonRef, this.contentElement, {
             placement: 'bottom-end',
+            strategy: 'fixed',
             modifiers: [
                 {
                     name: 'offset',
@@ -128,7 +133,7 @@ export class IrMenu {
         }
     }
     render() {
-        return (h(Fragment, { key: '14f046345ecd1424360ff72b65cb72c775029d08' }, h("button", { key: '410209e7c4f4f547d8cd9b04779d71c108e21734', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: '5833207e927922ca84413cf7b2556bb815614cab', name: "menu-trigger" }, h("div", { key: 'bd4607698b0d0893dcfc995c9a204ac474e041b0', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: '494fd99b56eb7d88bad0cb0ce203fcaaf51facb9', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '32b5052a9bd42803336acfa38af9dd947adba2e6', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '59155d2d9f8ca820c2974e7e9ced3e1dd47e1832', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { key: '27d533f5aa0df9d165d25c8a23ea999319dd0411', role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
+        return (h(Fragment, { key: 'fef66144f31c1f1196fb5bcdc8a8d3cdc27202b7' }, h("button", { key: '56a5cb1bd23df127255b2fdb3eb95c773e3b202b', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: 'b6fe4eb93fa58361d202b066f7f6592cd7502e95', name: "menu-trigger" }, h("div", { key: '663addcfece8e3f8886a2402503a0023b1dd83d0', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: '248a76ec065cb18ab2becd4a592361b0bb6feee4', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'a1894ea89d29b67465f9b122f352d7b297fb9e99', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'd5c04c2cc504c8dd9886630f13c1ced88877f244', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { key: '76c1ce15dad0a5062a67ccef77f5bd14eb57cfac', role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
                 this.selectItem(index);
                 this.disableKeyboardPriority();
             }, onMouseOver: () => {

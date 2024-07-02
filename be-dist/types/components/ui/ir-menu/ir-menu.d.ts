@@ -13,6 +13,7 @@ export declare class IrMenu {
     private listRef;
     private popoverInstance;
     private contentElement;
+    componentWillLoad(): void;
     handleKeyDown(event: KeyboardEvent): void;
     componentDidLoad(): void;
     handleDocumentClick(event: MouseEvent): void;
