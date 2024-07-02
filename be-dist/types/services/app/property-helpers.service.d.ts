@@ -1,8 +1,23 @@
+import { TPickupFormData } from "../../models/pickup";
 export declare class PropertyHelpers {
     private static readonly MODE_MODIFY_RT;
     private static readonly MODE_DEFAULT;
     validateModeProps(props: any): void;
+    convertPickup(pickup: TPickupFormData): any;
     updateBookingStore(data: any, props: any): void;
+    validateToken(token: string | null): void;
+    collectRoomTypeIds(props: any): number[];
+    collectRatePlanIds(props: any): number[];
+    generateDays(from_date: Date, to_date: Date, amount: number): {
+        date: string;
+        amount: number;
+        cost: null;
+    }[];
+    extractFirstNameAndLastName(index: number, guestName: string[]): {
+        first_name: string;
+        last_name: string;
+    };
+    fetchAvailabilityData(token: string, props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
     private updateInventory;
     private sortRoomTypes;
     private updateRoomTypeRatePlans;

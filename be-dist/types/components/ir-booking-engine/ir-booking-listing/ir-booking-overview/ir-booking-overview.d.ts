@@ -1,0 +1,43 @@
+import { EventEmitter } from '../../../../stencil-public-runtime';
+import { Booking } from "../../../../models/booking.dto";
+export declare class IrBookingOverview {
+    token: string;
+    propertyid: number;
+    language: string;
+    maxPages: number;
+    showAllBookings: boolean;
+    be: boolean;
+    isLoading: boolean;
+    bookings: Booking[];
+    currentPage: number;
+    total_count: number;
+    bookingNumber: any;
+    page_mode: 'single' | 'multi';
+    activeLink: 'single_booking' | 'all_booking';
+    selectedBooking: Booking | null;
+    selectedMenuIds: Record<string, number>;
+    bl_routing: EventEmitter<{
+        route: 'booking' | 'booking-details';
+        params?: unknown;
+    }>;
+    private bookingListingService;
+    private commonService;
+    private propertyService;
+    private bookingListingAppService;
+    private booking;
+    private bookingCancelation;
+    componentWillLoad(): Promise<void>;
+    initializeServices(): void;
+    initializeApp(): Promise<void>;
+    getBookings(): Promise<any>;
+    modifyCancelBooking(booking_nbr: string): void;
+    handleAuthFinish(e: CustomEvent): void;
+    getBadgeVariant(code: string): "error" | "success" | "pending";
+    handlePageChange(e: CustomEvent<number>): Promise<void>;
+    handleLinkChanged(e: CustomEvent): Promise<void>;
+    private handleBookingCancelation;
+    private handleMenuItemChange;
+    private handleBlEvents;
+    renderMenuTrigger(): any;
+    render(): any;
+}

@@ -38,7 +38,6 @@ export declare const IrGuest: z.ZodObject<{
     dob: z.ZodNullable<z.ZodString>;
     email: z.ZodString;
     first_name: z.ZodString;
-    password: z.ZodString;
     id: z.ZodString;
     last_name: z.ZodString;
     mobile: z.ZodNumber;
@@ -51,7 +50,6 @@ export declare const IrGuest: z.ZodObject<{
     dob?: string;
     email?: string;
     first_name?: string;
-    password?: string;
     id?: string;
     last_name?: string;
     mobile?: number;
@@ -64,7 +62,6 @@ export declare const IrGuest: z.ZodObject<{
     dob?: string;
     email?: string;
     first_name?: string;
-    password?: string;
     id?: string;
     last_name?: string;
     mobile?: number;

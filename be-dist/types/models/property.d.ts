@@ -102,6 +102,7 @@ export interface AllowedPaymentMethod {
         value: string;
     }[];
     is_payment_gateway: boolean;
+    id: number;
 }
 export interface Amenity {
     amenity_type: string;
@@ -304,6 +305,7 @@ export interface Variation {
     is_lmd: boolean;
     nights_nbr: number;
     total_before_discount: number;
+    is_calculated?: boolean;
 }
 export interface Assignableunit {
     Is_Fully_Available: boolean;

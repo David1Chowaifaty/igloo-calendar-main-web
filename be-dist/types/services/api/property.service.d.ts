@@ -4,6 +4,7 @@ import { Booking } from "../../models/booking.dto";
 import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
 import { Colors } from '../app/colors.service';
+import { TGuest } from "../../models/user_form";
 export declare class PropertyService extends Token {
     private propertyHelpers;
     colors: Colors;
@@ -21,19 +22,13 @@ export declare class PropertyService extends Token {
         mode: 'modify_rt' | 'default';
         adultChildConstraint?: string;
     }): Promise<DataStructure>;
-    private validateToken;
-    private collectRoomTypeIds;
-    private collectRatePlanIds;
-    private fetchAvailabilityData;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;
     }, withExtras?: boolean): Promise<Booking>;
     fetchSetupEntries(): Promise<ISetupEntries>;
-    private generateDays;
-    private extractFirstNameAndLastName;
     private filterRooms;
-    private convertPickup;
+    editExposedGuest(guest: TGuest, book_nbr: string): Promise<any>;
     bookUser(): Promise<any>;
     getExposedGuest(): Promise<void>;
 }

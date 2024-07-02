@@ -32,6 +32,7 @@ export declare class IrPhoneInput {
     selectCountryByProperty(property: any, value: any): void;
     setUpUserDefaultCountry(): Promise<void>;
     initializePopover(): void;
+    adjustPopoverPlacement(): void;
     handleOutsideClick: (event: MouseEvent) => void;
     handleKeyboardPress: (e: KeyboardEvent) => void;
     toggleVisibility(): Promise<void>;
