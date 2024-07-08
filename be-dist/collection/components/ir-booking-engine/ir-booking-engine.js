@@ -41,8 +41,6 @@ export class IrBookingEngine {
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
-        console.log('v:2.0.2');
-        console.log(this.property);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
@@ -62,11 +60,6 @@ export class IrBookingEngine {
     handleTokenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.initializeApp();
-        }
-    }
-    handlePropertyChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            app_store.property = newValue;
         }
     }
     // @Watch('language')
@@ -119,11 +112,13 @@ export class IrBookingEngine {
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
+            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }),
             // ,
         ];
-        if (!this.property) {
-            requests.push(this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }));
-        }
+        // if (!this.property) {
+        //   requests.push(
+        //   );
+        // }
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
@@ -603,9 +598,6 @@ export class IrBookingEngine {
         return [{
                 "propName": "token",
                 "methodName": "handleTokenChange"
-            }, {
-                "propName": "property",
-                "methodName": "handlePropertyChange"
             }, {
                 "propName": "cur",
                 "methodName": "handleCurrencyChange"
