@@ -41,10 +41,14 @@ export class IrBookingEngine {
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
+        console.log('v:2.0.2');
         console.log(this.property);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
+        if (this.property) {
+            app_store.property = Object.assign({}, this.property);
+        }
         const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             app_store.is_signed_in = true;
