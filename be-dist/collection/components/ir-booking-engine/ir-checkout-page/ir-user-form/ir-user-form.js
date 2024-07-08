@@ -68,8 +68,8 @@ export class IrUserForm {
                     target.removeAttribute('data-state');
             } }), h("ir-phone-input", { mobile_number: (((_g = checkout_store.userFormData) === null || _g === void 0 ? void 0 : _g.mobile_number) || '').toString(), "data-state": ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.mobile_number) ? 'error' : '', class: "user-form-input", onTextChange: e => {
                 updateUserFormData('mobile_number', e.detail.mobile);
-                updateUserFormData('country_code', e.detail.phone_prefix);
-            }, country_code: checkout_store.userFormData.country_code || null, onPhoneInputBlur: e => {
+                updateUserFormData('country_phone_prefix', e.detail.phone_prefix);
+            }, country_code: checkout_store.userFormData.country_id || null, onPhoneInputBlur: e => {
                 var _a;
                 const schema = IrUserFormData.pick({ mobile_number: true });
                 const schemaValidation = schema.safeParse({ mobile_number: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.mobile_number });

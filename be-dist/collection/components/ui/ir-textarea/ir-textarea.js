@@ -25,7 +25,7 @@ export class IrTextarea {
         this.label = undefined;
     }
     render() {
-        return (h("div", { key: 'ac533d67a183c942de7d5f384ce469d722781b34', class: `textarea-container ${this.value ? 'has-value' : ''}` }, h("textarea", { key: '8f9a5b2de27426f405f3df2f53e766dde030cfc6', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, maxLength: this.maxlength, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }), h("label", { key: '488811c07a234e3643fc7c9f9f61d1fcb6fbf7e8', htmlFor: this.inputid }, this.label)));
+        return (h("div", { key: 'f76829059345374431c1cb3455e74176c43a23a0', class: `textarea-container ${this.value ? 'has-value' : ''}` }, h("textarea", { key: 'c261080793689bdb0327b3d81e92ee5710fcfbf0', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, maxLength: this.maxlength, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }), h("label", { key: 'a6e88b8779aecd227e21418920a9e6bc52fc48e2', htmlFor: this.inputid }, this.label)));
     }
     static get is() { return "ir-textarea"; }
     static get encapsulation() { return "shadow"; }

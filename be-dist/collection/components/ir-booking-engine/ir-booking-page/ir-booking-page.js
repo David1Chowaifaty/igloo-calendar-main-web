@@ -51,7 +51,9 @@ export class IrBookingPage {
         const { totalAmount } = calculateTotalCost();
         const isInjected = app_store.app_data.injected;
         return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", null, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", { fromDate: this.fromDate, toDate: this.toDate, adultCount: this.adultCount, childrenCount: this.childrenCount })), h("section", { class: "relative justify-between gap-4 rounded-md ", ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: " flex-1 py-2" }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
-            if (!roomType.is_active || (app_store.app_data.roomtype_id && roomType.id !== app_store.app_data.roomtype_id)) {
+            if (!roomType.is_active ||
+                (app_store.app_data.roomtype_id && roomType.id !== app_store.app_data.roomtype_id) ||
+                !roomType.rateplans.some(rp => rp.is_booking_engine_enabled)) {
                 return null;
             }
             return h("ir-roomtype", { roomtype: roomType, key: roomType.id });
@@ -169,7 +171,7 @@ export class IrBookingPage {
                 },
                 "complexType": {
                     "original": "pages",
-                    "resolved": "\"booking\" | \"booking-listing\" | \"checkout\" | \"invoice\"",
+                    "resolved": "\"booking\" | \"booking-listing\" | \"checkout\" | \"invoice\" | \"user-profile\"",
                     "references": {
                         "pages": {
                             "location": "import",

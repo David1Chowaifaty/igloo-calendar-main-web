@@ -3,7 +3,9 @@ import { ICountry } from "../../../models/common";
 export declare class IrPhoneInput {
     error: boolean;
     mobile_number: string;
+    country_phone_prefix: string;
     country_code: number;
+    mode: 'prefix_only' | 'country_code_and_prefix';
     isVisible: boolean;
     currentHighlightedIndex: number;
     selectedItem: ICountry;
@@ -28,6 +30,7 @@ export declare class IrPhoneInput {
     componentDidLoad(): void;
     initializeCountries(): Promise<void>;
     handleCountryCodeChange(newValue: number, oldValue: number): void;
+    handleCountryPhonePrefixChange(newValue: number, oldValue: number): void;
     handleMobileNumberChange(newValue: string, oldValue: string): void;
     selectCountryByProperty(property: any, value: any): void;
     setUpUserDefaultCountry(): Promise<void>;

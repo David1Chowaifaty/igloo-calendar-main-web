@@ -86,6 +86,12 @@ export function getUserPrefernce(lang = undefined) {
         });
     }
 }
+export function runScriptAndRemove(scriptContent) {
+    const script = document.createElement('script');
+    script.textContent = scriptContent;
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+}
 export function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
@@ -138,5 +144,23 @@ export function injectHTML(htmlContent, target = 'body', position = 'last') {
     else {
         destination.appendChild(element);
     }
+}
+export function checkAffiliate(afName) {
+    var _a;
+    if (afName) {
+        const affiliate = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.find(aff => aff.afname.toLowerCase().trim() === afName);
+        if (!affiliate) {
+            return null;
+        }
+        return affiliate;
+    }
+    return null;
+}
+export function formatFullLocation(property) {
+    var _a, _b, _c, _d, _e;
+    return [(_a = property === null || property === void 0 ? void 0 : property.area) !== null && _a !== void 0 ? _a : null, (_c = (_b = property === null || property === void 0 ? void 0 : property.city) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : null, (_e = (_d = property === null || property === void 0 ? void 0 : property.country) === null || _d === void 0 ? void 0 : _d.name) !== null && _e !== void 0 ? _e : null].filter(f => f !== null).join(', ');
+}
+export function formatImageAlt(alt, roomTypeName = null) {
+    return [roomTypeName, alt, `${app_store.property.name}, ${app_store.property.country.name}`].filter(f => f !== null).join(' - ');
 }
 //# sourceMappingURL=utils.js.map

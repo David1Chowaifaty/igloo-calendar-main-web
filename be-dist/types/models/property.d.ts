@@ -28,6 +28,7 @@ export interface IExposedProperty {
     pets_acceptance: PetsAcceptance;
     phone: string;
     postal: string;
+    perma_link: string;
     pickup_service: PickupService;
     roomtypes: RoomType[];
     social_media: SocialMedia[];

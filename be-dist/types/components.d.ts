@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
-import { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
+import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 import { Booking } from "./models/booking.dto";
 import { ICurrency, IExposedLanguages, pages } from "./models/common";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
@@ -19,7 +19,7 @@ import { IRatePlanSelection } from "./stores/booking";
 import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/auth.types";
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
 import { TGuest } from "./models/user_form";
-export { Amenity, BeddingSetup, RatePlan, RoomType } from "./models/property";
+export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 export { Booking } from "./models/booking.dto";
 export { ICurrency, IExposedLanguages, pages } from "./models/common";
 export { TContainerStyle } from "./components/ir-booking-widget/types";
@@ -85,6 +85,7 @@ export namespace Components {
         "openDialog": () => Promise<void>;
     }
     interface IrBookingCard {
+        "aff": boolean;
         "booking": Booking;
     }
     interface IrBookingCode {
@@ -106,6 +107,7 @@ export namespace Components {
         "injected": boolean;
         "language": string;
         "perma_link": string;
+        "property": IExposedProperty | null;
         "propertyId": number;
         "redirect_url": string;
         "roomtype_id": number;
@@ -124,6 +126,7 @@ export namespace Components {
     }
     interface IrBookingListing {
         "aName": string;
+        "aff": string;
         "baseUrl": string;
         "be": boolean;
         "footerShown": boolean;
@@ -133,8 +136,10 @@ export namespace Components {
         "perma_link": string;
         "propertyid": number;
         "showAllBookings": boolean;
+        "startScreen": { screen: 'bookings' | 'booking-details'; params: unknown };
     }
     interface IrBookingOverview {
+        "aff": boolean;
         "be": boolean;
         "language": string;
         "maxPages": number;
@@ -318,11 +323,13 @@ export namespace Components {
     interface IrInvoice {
         "aName": string;
         "baseUrl": string;
+        "be": boolean;
         "bookingNbr": string;
         "email": string;
         "footerShown": boolean;
         "headerShown": boolean;
         "language": string;
+        "locationShown": boolean;
         "perma_link": string;
         "propertyId": number;
         "status": 0 | 1;
@@ -347,6 +354,7 @@ export namespace Components {
         "isBookingListing": boolean;
         "languages": IExposedLanguages[];
         "logo": string;
+        "menuShown": boolean;
         "showBookingCode": boolean;
         "showCurrency": boolean;
         "website": string;
@@ -360,8 +368,10 @@ export namespace Components {
     }
     interface IrPhoneInput {
         "country_code": number;
+        "country_phone_prefix": string;
         "error": boolean;
         "mobile_number": string;
+        "mode": 'prefix_only' | 'country_code_and_prefix';
     }
     interface IrPickup {
         "errors": Record<string, ZodIssue>;
@@ -1255,6 +1265,15 @@ declare global {
     };
     interface HTMLIrModalElementEventMap {
         "openChange": boolean;
+        "authStatus": {
+    state: 'success' | 'failed';
+    token: string;
+    payload: {
+      method: 'direct' | 'google';
+      email?: string;
+      booking_nbr?: string;
+    };
+  };
     }
     interface HTMLIrModalElement extends Components.IrModal, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrModalElementEventMap>(type: K, listener: (this: HTMLIrModalElement, ev: IrModalCustomEvent<HTMLIrModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1272,6 +1291,7 @@ declare global {
     };
     interface HTMLIrNavElementEventMap {
         "routing": pages;
+        "signOut": null;
     }
     interface HTMLIrNavElement extends Components.IrNav, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrNavElementEventMap>(type: K, listener: (this: HTMLIrNavElement, ev: IrNavCustomEvent<HTMLIrNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1718,6 +1738,7 @@ declare namespace LocalJSX {
         "onOpenChange"?: (event: IrBookingCancelationCustomEvent<boolean>) => void;
     }
     interface IrBookingCard {
+        "aff"?: boolean;
         "booking"?: Booking;
         "onOptionClicked"?: (event: IrBookingCardCustomEvent<{ tag: string; id: number }>) => void;
     }
@@ -1745,6 +1766,7 @@ declare namespace LocalJSX {
         "injected"?: boolean;
         "language"?: string;
         "perma_link"?: string;
+        "property"?: IExposedProperty | null;
         "propertyId"?: number;
         "redirect_url"?: string;
         "roomtype_id"?: number;
@@ -1764,6 +1786,7 @@ declare namespace LocalJSX {
     }
     interface IrBookingListing {
         "aName"?: string;
+        "aff"?: string;
         "baseUrl"?: string;
         "be"?: boolean;
         "footerShown"?: boolean;
@@ -1773,8 +1796,10 @@ declare namespace LocalJSX {
         "perma_link"?: string;
         "propertyid"?: number;
         "showAllBookings"?: boolean;
+        "startScreen"?: { screen: 'bookings' | 'booking-details'; params: unknown };
     }
     interface IrBookingOverview {
+        "aff"?: boolean;
         "be"?: boolean;
         "language"?: string;
         "maxPages"?: number;
@@ -1998,11 +2023,13 @@ declare namespace LocalJSX {
     interface IrInvoice {
         "aName"?: string;
         "baseUrl"?: string;
+        "be"?: boolean;
         "bookingNbr"?: string;
         "email"?: string;
         "footerShown"?: boolean;
         "headerShown"?: boolean;
         "language"?: string;
+        "locationShown"?: boolean;
         "perma_link"?: string;
         "propertyId"?: number;
         "status"?: 0 | 1;
@@ -2023,6 +2050,15 @@ declare namespace LocalJSX {
     }
     interface IrModal {
         "element"?: HTMLElement;
+        "onAuthStatus"?: (event: IrModalCustomEvent<{
+    state: 'success' | 'failed';
+    token: string;
+    payload: {
+      method: 'direct' | 'google';
+      email?: string;
+      booking_nbr?: string;
+    };
+  }>) => void;
         "onOpenChange"?: (event: IrModalCustomEvent<boolean>) => void;
     }
     interface IrNav {
@@ -2030,7 +2066,9 @@ declare namespace LocalJSX {
         "isBookingListing"?: boolean;
         "languages"?: IExposedLanguages[];
         "logo"?: string;
+        "menuShown"?: boolean;
         "onRouting"?: (event: IrNavCustomEvent<pages>) => void;
+        "onSignOut"?: (event: IrNavCustomEvent<null>) => void;
         "showBookingCode"?: boolean;
         "showCurrency"?: boolean;
         "website"?: string;
@@ -2045,8 +2083,10 @@ declare namespace LocalJSX {
     }
     interface IrPhoneInput {
         "country_code"?: number;
+        "country_phone_prefix"?: string;
         "error"?: boolean;
         "mobile_number"?: string;
+        "mode"?: 'prefix_only' | 'country_code_and_prefix';
         "onPhoneInputBlur"?: (event: IrPhoneInputCustomEvent<FocusEvent>) => void;
         "onPhoneInputFocus"?: (event: IrPhoneInputCustomEvent<FocusEvent>) => void;
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;

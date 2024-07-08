@@ -1,9 +1,9 @@
 import { PropertyHelpers } from "./../app/property-helpers.service";
 import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
-import booking_store from "../../stores/booking";
+import booking_store, { calculateTotalCost } from "../../stores/booking";
 import { checkout_store, updateUserFormData } from "../../stores/checkout.store";
-import { getDateDifference } from "../../utils/utils";
+import { getDateDifference, injectHTML } from "../../utils/utils";
 import axios from "axios";
 import { format } from "date-fns";
 import { Colors } from "../app/colors.service";
@@ -23,21 +23,21 @@ export class PropertyService extends Token {
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        // if (result.My_Result.tags) {
-        //   result.My_Result.tags.map(({ key, value }) => {
-        //     if (!value) {
-        //       return;
-        //     }
-        //     switch (key) {
-        //       case 'header':
-        //         return injectHTML(value, 'head', 'first');
-        //       case 'body':
-        //         return injectHTML(value, 'body', 'first');
-        //       case 'footer':
-        //         return injectHTML(value, 'body', 'last');
-        //     }
-        //   });
-        // }
+        if (result.My_Result.tags) {
+            result.My_Result.tags.map(({ key, value }) => {
+                if (!value) {
+                    return;
+                }
+                switch (key) {
+                    case 'header':
+                        return injectHTML(value, 'head', 'first');
+                    case 'body':
+                        return injectHTML(value, 'body', 'first');
+                    case 'footer':
+                        return injectHTML(value, 'body', 'last');
+                }
+            });
+        }
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
@@ -65,7 +65,15 @@ export class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ key: 'payment_code', value: '' }] : null }));
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
+                ? [
+                    { key: 'payment_code', value: '' },
+                    {
+                        key: 'prepayment_amount',
+                        value: '',
+                    },
+                ]
+                : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -173,6 +181,7 @@ export class PropertyService extends Token {
     }
     async bookUser() {
         var _a;
+        const { prePaymentAmount } = calculateTotalCost();
         try {
             const token = this.getToken();
             if (!token) {
@@ -186,7 +195,7 @@ export class PropertyService extends Token {
                 city: null,
                 mobile: checkout_store.userFormData.mobile_number,
                 address: '',
-                phone_prefix: checkout_store.userFormData.country_code,
+                country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
                 cci: null,
@@ -219,6 +228,10 @@ export class PropertyService extends Token {
                         key: 'payment_code',
                         value: checkout_store.payment.code,
                     },
+                    {
+                        key: 'prepayment_amount',
+                        value: prePaymentAmount,
+                    },
                 ],
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
@@ -250,7 +263,7 @@ export class PropertyService extends Token {
             return;
         }
         app_store.is_signed_in = true;
-        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_code: res.country_id });
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
     }
 }
 //# sourceMappingURL=property.service.js.map

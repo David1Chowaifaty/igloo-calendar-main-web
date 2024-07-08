@@ -66,7 +66,7 @@ const IrPortal$1 = /*@__PURE__*/ proxyCustomElement(class IrPortal extends HTMLE
         });
     }
     render() {
-        return (h(Host, { key: 'dfcd535d7e649813400733006fba0f784687dec5' }, h("slot", { key: '0cb07e689e692f5b341701c6763d1794f6064dd7', name: "portal-body" })));
+        return (h(Host, { key: '4672a79f3c23a9cfac39196acf8b0116008d2258' }, h("slot", { key: '6890172384705e2f65a90b5aa5f50d3df8c3965e', name: "portal-body" })));
     }
     get hostElement() { return this; }
     static get style() { return IrPortalStyle0; }

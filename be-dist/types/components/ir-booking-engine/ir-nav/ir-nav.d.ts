@@ -9,7 +9,9 @@ export declare class IrNav {
     isBookingListing: boolean;
     showBookingCode: boolean;
     showCurrency: boolean;
+    menuShown: boolean;
     routing: EventEmitter<pages>;
+    signOut: EventEmitter<null>;
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;
@@ -20,6 +22,6 @@ export declare class IrNav {
     renderLocationField(field: string | null, withComma?: boolean): string;
     renderLocation(): string;
     renderLanguageTrigger(): any;
-    handleItemSelect(e: CustomEvent): void | CustomEvent<pages>;
+    handleItemSelect(e: CustomEvent): Promise<CustomEvent<pages>>;
     render(): any;
 }

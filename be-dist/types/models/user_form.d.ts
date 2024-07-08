@@ -8,7 +8,8 @@ export declare const IrUserFormData: z.ZodObject<{
     message: z.ZodOptional<z.ZodString>;
     bookingForSomeoneElse: z.ZodDefault<z.ZodBoolean>;
     country_id: z.ZodNumber;
-    country_code: z.ZodNumber;
+    country_phone_prefix: z.ZodString;
+    id: z.ZodDefault<z.ZodNullable<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
     firstName?: string;
     lastName?: string;
@@ -18,7 +19,8 @@ export declare const IrUserFormData: z.ZodObject<{
     message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
-    country_code?: number;
+    country_phone_prefix?: string;
+    id?: number;
 }, {
     firstName?: string;
     lastName?: string;
@@ -28,20 +30,22 @@ export declare const IrUserFormData: z.ZodObject<{
     message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
-    country_code?: number;
+    country_phone_prefix?: string;
+    id?: number;
 }>;
 export type TUserFormData = z.infer<typeof IrUserFormData>;
 export declare const IrGuest: z.ZodObject<{
-    address: z.ZodNullable<z.ZodString>;
-    city: z.ZodNullable<z.ZodString>;
+    address: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+    city: z.ZodDefault<z.ZodNullable<z.ZodString>>;
     country_id: z.ZodNumber;
-    dob: z.ZodNullable<z.ZodString>;
+    dob: z.ZodDefault<z.ZodNullable<z.ZodString>>;
     email: z.ZodString;
     first_name: z.ZodString;
-    id: z.ZodString;
+    id: z.ZodDefault<z.ZodNullable<z.ZodNumber>>;
     last_name: z.ZodString;
     mobile: z.ZodNumber;
     subscribe_to_news_letter: z.ZodDefault<z.ZodBoolean>;
+    country_phone_prefix: z.ZodString;
     alternative_email: z.ZodNullable<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     address?: string;
@@ -50,10 +54,11 @@ export declare const IrGuest: z.ZodObject<{
     dob?: string;
     email?: string;
     first_name?: string;
-    id?: string;
+    id?: number;
     last_name?: string;
     mobile?: number;
     subscribe_to_news_letter?: boolean;
+    country_phone_prefix?: string;
     alternative_email?: string;
 }, {
     address?: string;
@@ -62,10 +67,11 @@ export declare const IrGuest: z.ZodObject<{
     dob?: string;
     email?: string;
     first_name?: string;
-    id?: string;
+    id?: number;
     last_name?: string;
     mobile?: number;
     subscribe_to_news_letter?: boolean;
+    country_phone_prefix?: string;
     alternative_email?: string;
 }>;
 export type TGuest = z.infer<typeof IrGuest>;

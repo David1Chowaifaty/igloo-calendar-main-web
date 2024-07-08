@@ -54,7 +54,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'a70352b25bf7f99fe751813635a4ac960b0d5584' }, this.isLoading && (h("div", { key: '6528e36d2006205e5a7747111453ab8a8ee7281c', class: "loadingScreenContainer" }, h("div", { key: 'a05749a8d37cb82513a1a58b3c893c6fad91a977', class: "loaderContainer" }, h("span", { key: '939433fb1512e53d6dbf0f39c518386cd92ad817', class: "loader" }))))));
+        return (h(Host, { key: '8ebc272d9058651f3a954b2dc9d44e95b7c76868' }, this.isLoading && (h("div", { key: 'ff006489112f798978765f4b30524905d573db68', class: "loadingScreenContainer" }, h("div", { key: '5ac5d12e81d40cb402043b600602396988ccb76d', class: "loaderContainer" }, h("span", { key: '05e55b1c1a3e66184d3a8722529669c25598a2d6', class: "loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }

@@ -1,4 +1,3 @@
-import { Booking } from "../../../models/booking.dto";
 export declare class IrBookingListing {
     propertyid: number;
     baseUrl: string;
@@ -10,17 +9,29 @@ export declare class IrBookingListing {
     aName: string;
     showAllBookings: boolean;
     be: boolean;
+    startScreen: {
+        screen: 'bookings' | 'booking-details';
+        params: unknown;
+    };
+    aff: string;
     isLoading: boolean;
     token: string;
     bookingNumber: any;
     page_mode: 'single' | 'multi';
     currentPage: 'bookings' | 'booking-details';
-    selectedBooking: Booking | null;
+    selectedBooking: {
+        email: string;
+        booking_nbr: string;
+    } | null;
+    isAffiliate: boolean;
     private commonService;
     private propertyService;
     componentWillLoad(): Promise<void>;
+    handleAffiliateChange(newValue: string, oldValue: string): void;
     initializeApp(): Promise<void>;
     initializeServices(): void;
+    handleAuthFinish(e: CustomEvent): void;
+    handleSignout(): void;
     handleRouting(e: CustomEvent): void;
     private renderPages;
     render(): any;

@@ -9,6 +9,15 @@ export declare class IrModal {
     private overlay;
     private modalContainer;
     openChange: EventEmitter<boolean>;
+    authStatus: EventEmitter<{
+        state: 'success' | 'failed';
+        token: string;
+        payload: {
+            method: 'direct' | 'google';
+            email?: string;
+            booking_nbr?: string;
+        };
+    }>;
     auth: HTMLIrAuthElement;
     componentWillLoad(): void;
     disconnectedCallback(): void;

@@ -31,7 +31,7 @@ export declare class AuthService extends Token {
     subscribe(callback: (result: LoginEventPayload) => void): void;
     unsubscribe(callback: (result: LoginEventPayload) => void): void;
     private notifySubscribers;
-    signOut(): void;
+    signOut(): Promise<void>;
     login(params: LoginParams, signIn?: boolean): Promise<any>;
     signUp(params: TSignUpValidator): Promise<void>;
     initializeFacebookSignIn(): void;

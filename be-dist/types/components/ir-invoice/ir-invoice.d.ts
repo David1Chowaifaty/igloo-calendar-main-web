@@ -11,13 +11,18 @@ export declare class IrInvoice {
     aName: string;
     headerShown: boolean;
     footerShown: boolean;
+    locationShown: boolean;
+    be: boolean;
     booking: Booking;
     token: string;
+    isAuthenticated: boolean;
+    isLoading: boolean;
     private propertyService;
     private commonService;
     private authService;
     private paymentService;
-    alertDialog: HTMLIrAlertDialogElement;
+    private bookingListingAppService;
+    private alertDialog;
     componentWillLoad(): Promise<void>;
     private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
@@ -26,5 +31,6 @@ export declare class IrInvoice {
     renderBookingDetailHeader(): string;
     getPropertyEmail(): string;
     renderPaymentText(paymentOption: AllowedPaymentMethod): any;
+    private processPayment;
     render(): any;
 }

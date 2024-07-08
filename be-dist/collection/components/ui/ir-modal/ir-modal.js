@@ -56,6 +56,10 @@ export class IrModal {
             this.modalContainer.className = 'modal-container';
             this.auth = document.createElement('ir-auth');
             this.auth.addEventListener('closeDialog', () => this.closeModal());
+            this.auth.addEventListener('authFinish', (e) => {
+                console.log('auth finish');
+                this.authStatus.emit(e.detail);
+            });
             this.modalContainer.appendChild(this.auth);
             this.portal.appendChild(this.modalContainer);
         }
@@ -170,6 +174,21 @@ export class IrModal {
                 "complexType": {
                     "original": "boolean",
                     "resolved": "boolean",
+                    "references": {}
+                }
+            }, {
+                "method": "authStatus",
+                "name": "authStatus",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{\r\n    state: 'success' | 'failed';\r\n    token: string;\r\n    payload: {\r\n      method: 'direct' | 'google';\r\n      email?: string;\r\n      booking_nbr?: string;\r\n    };\r\n  }",
+                    "resolved": "{ state: \"success\" | \"failed\"; token: string; payload: { method: \"google\" | \"direct\"; email?: string; booking_nbr?: string; }; }",
                     "references": {}
                 }
             }];

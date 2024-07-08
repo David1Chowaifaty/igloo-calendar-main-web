@@ -5,10 +5,11 @@ import { format } from "date-fns";
 import axios from "axios";
 import booking_store, { updateRoomParams } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
-import { getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
+import { checkAffiliate, getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
 import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
+import { checkout_store } from "../../stores/checkout.store";
 export class IrBookingEngine {
     constructor() {
         this.commonService = new CommonService();
@@ -30,14 +31,17 @@ export class IrBookingEngine {
         this.cur = undefined;
         this.aff = undefined;
         this.stag = undefined;
+        this.property = null;
         this.source = null;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
         this.isLoading = false;
         this.router = new Stack();
+        this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
+        console.log(this.property);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
@@ -98,17 +102,19 @@ export class IrBookingEngine {
         this.initRequest();
     }
     async initRequest() {
-        var _a;
+        var _a, _b;
         this.isLoading = true;
         const p = JSON.parse(localStorage.getItem('user_preference'));
         let requests = [
-            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }),
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
             // ,
         ];
+        if (!this.property) {
+            requests.push(this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }));
+        }
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
@@ -121,20 +127,9 @@ export class IrBookingEngine {
             }
             setDefaultLocale({ currency: app_store.userDefaultCountry.currency });
         }
-        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: this.checkAffiliate() });
+        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) });
         // booking_store.roomTypes = [...roomtypes];
         this.isLoading = false;
-    }
-    checkAffiliate() {
-        var _a;
-        if (this.aff) {
-            const affiliate = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.find(aff => aff.afname.toLowerCase().trim() === this.aff.toLowerCase().trim());
-            if (!affiliate) {
-                return null;
-            }
-            return affiliate;
-        }
-        return null;
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -156,6 +151,27 @@ export class IrBookingEngine {
         e.stopImmediatePropagation();
         e.stopPropagation();
         await this.resetBooking((_a = e.detail) !== null && _a !== void 0 ? _a : 'completeReset');
+    }
+    handleAuthFinish(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        console.log('auth finish');
+        const { token, state, payload } = e.detail;
+        console.log(token, state, payload);
+        if (state === 'success') {
+            if (payload.method === 'direct') {
+                // this.bookingNumber = payload.booking_nbr;
+                // this.token = token;
+                this.bookingListingScreenOptions = {
+                    screen: 'booking-details',
+                    params: {
+                        booking_nbr: payload.booking_nbr,
+                        email: payload.email,
+                    },
+                };
+                app_store.currentPage = 'booking-listing';
+            }
+        }
     }
     async resetBooking(resetType = 'completeReset') {
         var _a;
@@ -206,9 +222,19 @@ export class IrBookingEngine {
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
-                return (h("ir-invoice", { headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1 }));
+                return (h("ir-invoice", { headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
             case 'booking-listing':
-                return (h("ir-booking-listing", { showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, be: true, baseUrl: this.baseUrl }));
+                return (h("ir-booking-listing", { startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, be: true, baseUrl: this.baseUrl, aff: this.aff }));
+            case 'user-profile':
+                return (h("ir-user-profile", { user_data: {
+                        id: checkout_store.userFormData.id,
+                        email: checkout_store.userFormData.email,
+                        first_name: checkout_store.userFormData.firstName,
+                        last_name: checkout_store.userFormData.lastName,
+                        country_id: checkout_store.userFormData.country_id,
+                        mobile: checkout_store.userFormData.mobile_number,
+                        country_phone_prefix: checkout_store.userFormData.country_phone_prefix.toString(),
+                    } }));
             default:
                 return null;
         }
@@ -514,6 +540,28 @@ export class IrBookingEngine {
                 "attribute": "stag",
                 "reflect": false
             },
+            "property": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "IExposedProperty | null",
+                    "resolved": "IExposedProperty",
+                    "references": {
+                        "IExposedProperty": {
+                            "location": "import",
+                            "path": "@/models/property",
+                            "id": "src/models/property.ts::IExposedProperty"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "defaultValue": "null"
+            },
             "source": {
                 "type": "unknown",
                 "mutable": false,
@@ -538,7 +586,8 @@ export class IrBookingEngine {
             "currencies": {},
             "languages": {},
             "isLoading": {},
-            "router": {}
+            "router": {},
+            "bookingListingScreenOptions": {}
         };
     }
     static get watchers() {
@@ -560,6 +609,12 @@ export class IrBookingEngine {
             }, {
                 "name": "resetBooking",
                 "method": "handleResetBooking",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "authStatus",
+                "method": "handleAuthFinish",
                 "target": undefined,
                 "capture": false,
                 "passive": false

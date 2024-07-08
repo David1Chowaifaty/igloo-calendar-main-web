@@ -7,6 +7,7 @@ export declare class IrBookingOverview {
     maxPages: number;
     showAllBookings: boolean;
     be: boolean;
+    aff: boolean;
     isLoading: boolean;
     bookings: Booking[];
     currentPage: number;
@@ -16,6 +17,7 @@ export declare class IrBookingOverview {
     activeLink: 'single_booking' | 'all_booking';
     selectedBooking: Booking | null;
     selectedMenuIds: Record<string, number>;
+    hoveredBooking: any;
     bl_routing: EventEmitter<{
         route: 'booking' | 'booking-details';
         params?: unknown;
@@ -24,6 +26,7 @@ export declare class IrBookingOverview {
     private commonService;
     private propertyService;
     private bookingListingAppService;
+    private paymentService;
     private booking;
     private bookingCancelation;
     componentWillLoad(): Promise<void>;
@@ -31,13 +34,13 @@ export declare class IrBookingOverview {
     initializeApp(): Promise<void>;
     getBookings(): Promise<any>;
     modifyCancelBooking(booking_nbr: string): void;
-    handleAuthFinish(e: CustomEvent): void;
     getBadgeVariant(code: string): "error" | "success" | "pending";
     handlePageChange(e: CustomEvent<number>): Promise<void>;
     handleLinkChanged(e: CustomEvent): Promise<void>;
     private handleBookingCancelation;
     private handleMenuItemChange;
     private handleBlEvents;
+    private processPayment;
     renderMenuTrigger(): any;
     render(): any;
 }

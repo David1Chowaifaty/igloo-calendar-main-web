@@ -1,6 +1,6 @@
 import { Locale } from 'date-fns';
 import { ICurrency, IExposedLanguages } from "../../models/common";
-import { Variation } from "../../models/property";
+import { IExposedProperty, Variation } from "../../models/property";
 import Stack from "../../models/stack";
 export declare class IrBookingEngine {
     token: string;
@@ -19,6 +19,7 @@ export declare class IrBookingEngine {
     cur: string;
     aff: string;
     stag: string | null;
+    property: IExposedProperty | null;
     source: {
         code: string;
         desciption: string;
@@ -32,16 +33,20 @@ export declare class IrBookingEngine {
     private availabiltyService;
     private identifier;
     router: Stack<HTMLElement>;
+    bookingListingScreenOptions: {
+        screen: 'bookings' | 'booking-details';
+        params: unknown;
+    };
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;
     modifyLanguage(code: string): void;
     handleCurrencyChange(newValue: string, oldValue: string): void;
     initializeApp(): void;
     initRequest(): Promise<void>;
-    checkAffiliate(): import("@/models/property").Affiliate;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
+    handleAuthFinish(e: CustomEvent): void;
     resetBooking(resetType?: 'discountOnly' | 'completeReset'): Promise<void>;
     checkAvailability(): Promise<void>;
     renderScreens(): any;

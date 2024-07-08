@@ -1,7 +1,7 @@
 import { M as MissingTokenError, T as Token } from './Token.js';
-import { b as booking_store } from './booking.js';
+import { b as booking_store, c as calculateTotalCost } from './booking.js';
 import { a as axios } from './axios.js';
-import { d as dateFns, g as getDateDifference } from './utils.js';
+import { d as dateFns, i as injectHTML, g as getDateDifference } from './utils.js';
 import { a as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
 
@@ -258,21 +258,21 @@ class PropertyService extends Token {
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        // if (result.My_Result.tags) {
-        //   result.My_Result.tags.map(({ key, value }) => {
-        //     if (!value) {
-        //       return;
-        //     }
-        //     switch (key) {
-        //       case 'header':
-        //         return injectHTML(value, 'head', 'first');
-        //       case 'body':
-        //         return injectHTML(value, 'body', 'first');
-        //       case 'footer':
-        //         return injectHTML(value, 'body', 'last');
-        //     }
-        //   });
-        // }
+        if (result.My_Result.tags) {
+            result.My_Result.tags.map(({ key, value }) => {
+                if (!value) {
+                    return;
+                }
+                switch (key) {
+                    case 'header':
+                        return injectHTML(value, 'head', 'first');
+                    case 'body':
+                        return injectHTML(value, 'body', 'first');
+                    case 'footer':
+                        return injectHTML(value, 'body', 'last');
+                }
+            });
+        }
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
@@ -300,7 +300,15 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras ? [{ key: 'payment_code', value: '' }] : null }));
+        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
+                ? [
+                    { key: 'payment_code', value: '' },
+                    {
+                        key: 'prepayment_amount',
+                        value: '',
+                    },
+                ]
+                : null }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -408,6 +416,7 @@ class PropertyService extends Token {
     }
     async bookUser() {
         var _a;
+        const { prePaymentAmount } = calculateTotalCost();
         try {
             const token = this.getToken();
             if (!token) {
@@ -421,7 +430,7 @@ class PropertyService extends Token {
                 city: null,
                 mobile: checkout_store.userFormData.mobile_number,
                 address: '',
-                phone_prefix: checkout_store.userFormData.country_code,
+                country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
                 cci: null,
@@ -454,6 +463,10 @@ class PropertyService extends Token {
                         key: 'payment_code',
                         value: checkout_store.payment.code,
                     },
+                    {
+                        key: 'prepayment_amount',
+                        value: prePaymentAmount,
+                    },
                 ],
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
@@ -485,7 +498,7 @@ class PropertyService extends Token {
             return;
         }
         app_store.is_signed_in = true;
-        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_code: res.country_id });
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
     }
 }
 

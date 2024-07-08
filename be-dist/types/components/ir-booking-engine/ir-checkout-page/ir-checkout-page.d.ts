@@ -30,6 +30,5 @@ export declare class IrCheckoutPage {
     private modifyConversionTag;
     private processPayment;
     scrollToError(): void;
-    runScriptAndRemove(scriptContent: string): void;
     render(): any;
 }

@@ -22,7 +22,7 @@ export declare class IrAvailibilityHeader {
     handleToDateChange(newValue: string, oldValue: string): void;
     handleChildrenCountChange(newValue: string, oldValue: string): void;
     handleAdultCountChange(newValue: string, oldValue: string): void;
-    checkAvailability(): Promise<void>;
+    checkAvailability(): Promise<string>;
     handleCheckAvailability(): Promise<void>;
     changeExposedAvailabilityParams(params: Partial<TExposedBookingAvailability>): void;
     handleDateChange(e: CustomEvent): void;

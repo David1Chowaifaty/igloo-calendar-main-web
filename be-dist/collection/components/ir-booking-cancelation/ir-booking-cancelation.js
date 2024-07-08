@@ -20,9 +20,9 @@ export class IrBookingCancelation {
         this.openChange.emit(false);
     }
     render() {
-        return (h("div", { key: '1bc0827159835ec245184748f7786169be077641' }, h("ir-alert-dialog", { key: 'f31fd95427ae39c8308badf0862b6a541fbbf4fa', ref: el => (this.alertDialog = el) }, h("h2", { key: 'cd87503d1b518b29afe042b15c7b87174e031ef2', slot: "modal-title" }, "Booking Cancellation"), h("p", { key: '4a6d095a6dc68e852230df93e8df034bbce4bc72', slot: "modal-body", class: "pt-2", innerHTML: this.cancelation }), h("div", { key: 'cb4df76f6ba6c873599d2db30b4b28d64732f7ff', slot: "modal-footer" }, h("ir-button", { key: '4867e54cc9a9ade426e7e0940e2465cdef882fdf', label: "Cancel", variants: "outline", onButtonClick: () => {
+        return (h("div", { key: '67a50fd158ed4fab82add59c1abba0a6827b3bb1' }, h("ir-alert-dialog", { key: '5866c1ac62ddb88bf1f9fbfae9b385cf75e7430d', ref: el => (this.alertDialog = el) }, h("h2", { key: 'a79856cf3c413f1b4223ab99791a79f95d7272c3', slot: "modal-title", class: "text-lg font-medium" }, "Booking Cancellation"), h("p", { key: '081ef994a32f6fed286be51686f23c41a48e0050', slot: "modal-body", class: "py-3", innerHTML: this.cancelation }), h("div", { key: '835b754396a21e2613dfb7c0a0e62396b7c16385', slot: "modal-footer" }, h("ir-button", { key: '91c84af5e5fdadc42e0a9ed8d236c9dc64e3a1c0', label: "Cancel", variants: "outline", onButtonClick: () => {
                 this.closeAlertDialog();
-            } }), h("ir-button", { key: '72bb1661efa51c2801346a4e1baafc8e678eae14', label: "Accept & Confirm", isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
+            }, size: "md" }), h("ir-button", { key: '52465ba37ba6ba319a4f8e42e5fceb24ee52c4e9', size: "md", label: "Accept & Confirm", isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
                 try {
                     await this.paymentService.RequestBookingCancelation(this.booking_nbr);
                     this.cancelationResult.emit({ state: 'success', booking_nbr: this.booking_nbr });

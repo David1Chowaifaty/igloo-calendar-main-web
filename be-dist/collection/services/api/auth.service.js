@@ -16,6 +16,7 @@ import axios from "axios";
 import { PropertyService } from "./property.service";
 import { manageAnchorSession } from "../../utils/utils";
 import { checkout_store } from "../../stores/checkout.store";
+import { CommonService } from "./common.service";
 export class AuthService extends Token {
     constructor() {
         super(...arguments);
@@ -33,16 +34,21 @@ export class AuthService extends Token {
     notifySubscribers(payload) {
         this.subscribers.forEach(callback => callback(payload));
     }
-    signOut() {
+    async signOut() {
         app_store.is_signed_in = false;
         checkout_store.userFormData = {
             firstName: null,
             lastName: null,
             email: null,
             mobile_number: null,
-            country_code: null,
+            country_phone_prefix: null,
         };
         manageAnchorSession({ login: null }, 'remove');
+        if (!['booking', 'checkout'].includes(app_store.currentPage)) {
+            app_store.currentPage = 'booking';
+        }
+        const token = await new CommonService().getBEToken();
+        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { token });
     }
     async login(params, signIn = true) {
         const token = this.getToken();
@@ -60,7 +66,6 @@ export class AuthService extends Token {
         }
         const loginToken = data['My_Result'];
         if (signIn) {
-            localStorage.setItem('ir-token', loginToken);
             app_store.app_data.token = loginToken;
             app_store.is_signed_in = true;
             manageAnchorSession({ login: Object.assign(Object.assign({ method: option }, rest), { isLoggedIn: true, token: loginToken }) });
@@ -84,7 +89,6 @@ export class AuthService extends Token {
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data['ExceptionMsg']);
         }
-        localStorage.setItem('ir-token', data['My_Result']);
         app_store.app_data.token = data['My_Result'];
     }
     initializeFacebookSignIn() {

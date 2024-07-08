@@ -112,7 +112,7 @@ export class IrBookingDetailsView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\n    route: 'booking' | 'booking-details';\n    params?: unknown;\n  }",
+                    "original": "{\r\n    route: 'booking' | 'booking-details';\r\n    params?: unknown;\r\n  }",
                     "resolved": "{ route: \"booking\" | \"booking-details\"; params?: unknown; }",
                     "references": {}
                 }
