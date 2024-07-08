@@ -64,6 +64,11 @@ export class IrBookingEngine {
             this.initializeApp();
         }
     }
+    handlePropertyChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            app_store.property = newValue;
+        }
+    }
     // @Watch('language')
     // handleLanguageChange(newValue: string, oldValue: string) {
     //   if (!this.languages) {
@@ -598,6 +603,9 @@ export class IrBookingEngine {
         return [{
                 "propName": "token",
                 "methodName": "handleTokenChange"
+            }, {
+                "propName": "property",
+                "methodName": "handlePropertyChange"
             }, {
                 "propName": "cur",
                 "methodName": "handleCurrencyChange"
