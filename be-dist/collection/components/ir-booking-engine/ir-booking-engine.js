@@ -64,6 +64,9 @@ export class IrBookingEngine {
             this.initializeApp();
         }
     }
+    handleSourceChange() {
+        console.log(this.source);
+    }
     // @Watch('language')
     // handleLanguageChange(newValue: string, oldValue: string) {
     //   if (!this.languages) {
@@ -626,6 +629,9 @@ export class IrBookingEngine {
         return [{
                 "propName": "token",
                 "methodName": "handleTokenChange"
+            }, {
+                "propName": "source",
+                "methodName": "handleSourceChange"
             }, {
                 "propName": "cur",
                 "methodName": "handleCurrencyChange"

@@ -40,6 +40,7 @@ export declare class IrBookingEngine {
     };
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;
+    handleSourceChange(): void;
     modifyLanguage(code: string): void;
     handleCurrencyChange(newValue: string, oldValue: string): void;
     initializeApp(): void;
