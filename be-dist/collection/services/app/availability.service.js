@@ -130,12 +130,15 @@ export class AvailabiltyService {
     }
     async processPayloads(payloads) {
         try {
-            console.log('payload', payloads);
+            // console.log('payload', payloads);
             if (!booking_store.enableBooking) {
                 booking_store.enableBooking = true;
             }
             payloads.forEach(payload => {
                 var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+                if (payload.ROOM_CATEGORY_ID === 2345) {
+                    console.log(payload);
+                }
                 const selectedRoomTypeIndex = this.roomTypes.findIndex(rt => rt.id === payload.ROOM_CATEGORY_ID);
                 if (selectedRoomTypeIndex === -1) {
                     console.error('Invalid room type');
@@ -164,6 +167,8 @@ export class AvailabiltyService {
                     nights_nbr: (_m = this.validateNumberString((_l = ((_k = payload.NIGHTS_NBR) !== null && _k !== void 0 ? _k : 0)) === null || _l === void 0 ? void 0 : _l.toString())) !== null && _m !== void 0 ? _m : 0,
                     total_before_discount: (_q = this.validateNumberString((_p = ((_o = payload.TOTAL_BEFORE_DISCOUNT) !== null && _o !== void 0 ? _o : 0)) === null || _p === void 0 ? void 0 : _p.toString())) !== null && _q !== void 0 ? _q : 0,
                     is_calculated: payload.IS_CALCULATED,
+                    MLS_ALERT: payload.MLS_ALERT,
+                    IS_MLS_VIOLATED: payload.IS_MLS_VIOLATED,
                 };
                 const variationIndex = oldVariation.findIndex(v => v.adult_child_offering === payload.ADULT_CHILD_OFFERING);
                 if (variationIndex === -1) {

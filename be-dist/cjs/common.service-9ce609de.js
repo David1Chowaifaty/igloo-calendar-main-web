@@ -1,8 +1,8 @@
 'use strict';
 
-const utils$3 = require('./utils-db6f248d.js');
+const utils$3 = require('./utils-85bf8473.js');
 
-class Token {
+class Token$1 {
     getToken() {
         return this.token;
     }
@@ -10,7 +10,7 @@ class Token {
         this.token = token;
     }
 }
-class MissingTokenError extends Error {
+class MissingTokenError$1 extends Error {
     constructor(message = 'Missing token!!') {
         super(message);
         this.name = 'MissingTokenError';
@@ -3289,6 +3289,7 @@ const initialState$1 = {
 };
 const { state: booking_store, onChange: onRoomTypeChange } = utils$3.createStore(initialState$1);
 function setSelectedVariation(lastVariation, variations, currentVariation) {
+    // console.log(lastVariation, variations, currentVariation);
     if ((currentVariation === null || currentVariation === void 0 ? void 0 : currentVariation.state) === 'default' || !currentVariation || booking_store.resetBooking) {
         return { state: 'default', variation: lastVariation };
     }
@@ -3329,8 +3330,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    console.log(booking_store.roomTypes);
-    // console.log(ratePlanSelections);
+    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -21873,7 +21873,7 @@ class PropertyHelpers {
     }
     validateToken(token) {
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
     }
     collectRoomTypeIds(props) {
@@ -21920,8 +21920,17 @@ class PropertyHelpers {
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    console.log(rp.variations);
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, 
+                        // variations: rp.variations.map(v => {
+                        //   if (!newRatePlan.variations) {
+                        //     return v;
+                        //   }
+                        //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
+                        //     return newRatePlan.variations[0];
+                        //   }
+                        //   return v;
+                        // }),
+                        selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
                     return updatedRatePlans;
                 }, []) });
             updatedRoomtypes.push(updatedRoomtype);
@@ -22091,7 +22100,22 @@ class Colors {
     }
 }
 
-class PropertyService extends Token {
+class Token {
+    getToken() {
+        return this.token;
+    }
+    setToken(token) {
+        this.token = token;
+    }
+}
+class MissingTokenError extends Error {
+    constructor(message = 'Missing token!!') {
+        super(message);
+        this.name = 'MissingTokenError';
+    }
+}
+
+class PropertyService extends Token$1 {
     constructor() {
         super(...arguments);
         this.propertyHelpers = new PropertyHelpers();
@@ -22100,7 +22124,7 @@ class PropertyService extends Token {
     async getExposedProperty(params, initTheme = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: utils$3.app_store.userPreferences.currency_id, include_sales_rate_plans: !!booking_store.bookingAvailabilityParams.agent }));
         const result = data;
@@ -22147,7 +22171,7 @@ class PropertyService extends Token {
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
                 ? [
@@ -22269,7 +22293,7 @@ class PropertyService extends Token {
         try {
             const token = this.getToken();
             if (!token) {
-                throw new MissingTokenError();
+                throw new MissingTokenError$1();
             }
             let guest = {
                 email: checkout_store.userFormData.email,
@@ -22333,7 +22357,7 @@ class PropertyService extends Token {
     async getExposedGuest() {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
@@ -22391,15 +22415,16 @@ class CommonService extends Token {
     async getUserDefaultCountry() {
         try {
             const token = this.getToken();
-            if (token) {
-                const { data } = await axios$1.post(`/Get_Country_By_IP?Ticket=${token}`, {
-                    IP: '',
-                });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                return data['My_Result'];
+            if (!token) {
+                throw new MissingTokenError();
             }
+            const { data } = await axios$1.post(`/Get_Country_By_IP?Ticket=${token}`, {
+                IP: '',
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
         }
         catch (error) {
             console.error(error);
@@ -22409,17 +22434,18 @@ class CommonService extends Token {
     async getExposedCountryByIp() {
         try {
             const token = this.getToken();
-            if (token) {
-                const { data } = await axios$1.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
-                    IP: '',
-                    lang: 'en',
-                });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                utils$3.app_store.userDefaultCountry = data['My_Result'];
-                return data['My_Result'];
+            if (!token) {
+                throw new MissingTokenError();
             }
+            const { data } = await axios$1.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
+                IP: '',
+                lang: 'en',
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            utils$3.app_store.userDefaultCountry = data['My_Result'];
+            return data['My_Result'];
         }
         catch (error) {
             console.error(error);
@@ -22442,16 +22468,17 @@ class CommonService extends Token {
     async getExposedLanguage() {
         try {
             const token = this.getToken();
-            if (token !== null) {
-                const { data } = await axios$1.post(`/Get_Exposed_Language?Ticket=${token}`, { code: utils$3.app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                let entries = this.transformArrayToObject(data.My_Result.entries);
-                utils$3.localizedWords.entries = Object.assign(Object.assign({}, utils$3.localizedWords.entries), entries);
-                utils$3.localizedWords.direction = data.My_Result.direction;
-                return { entries, direction: data.My_Result.direction };
+            if (!token) {
+                throw new MissingTokenError();
             }
+            const { data } = await axios$1.post(`/Get_Exposed_Language?Ticket=${token}`, { code: utils$3.app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            let entries = this.transformArrayToObject(data.My_Result.entries);
+            utils$3.localizedWords.entries = Object.assign(Object.assign({}, utils$3.localizedWords.entries), entries);
+            utils$3.localizedWords.direction = data.My_Result.direction;
+            return { entries, direction: data.My_Result.direction };
         }
         catch (error) {
             console.log(error);
@@ -22477,10 +22504,14 @@ class CommonService extends Token {
     }
 }
 
+exports.Colors = Colors;
 exports.CommonService = CommonService;
-exports.MissingTokenError = MissingTokenError;
+exports.MissingTokenError = MissingTokenError$1;
+exports.MissingTokenError$1 = MissingTokenError;
+exports.PropertyHelpers = PropertyHelpers;
 exports.PropertyService = PropertyService;
-exports.Token = Token;
+exports.Token = Token$1;
+exports.Token$1 = Token;
 exports.axios = axios$1;
 exports.booking_store = booking_store;
 exports.calculateTotalCost = calculateTotalCost;
@@ -22495,4 +22526,4 @@ exports.updateRoomParams = updateRoomParams;
 exports.updateUserFormData = updateUserFormData;
 exports.validateBooking = validateBooking;
 
-//# sourceMappingURL=common.service-e6da2784.js.map
+//# sourceMappingURL=common.service-9ce609de.js.map

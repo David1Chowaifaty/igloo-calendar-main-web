@@ -1,8 +1,9 @@
 import { CommonService } from "../../../services/api/common.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
+import { checkout_store } from "../../../stores/checkout.store";
 import { checkAffiliate, getUserPrefernce } from "../../../utils/utils";
-import { Host, h } from "@stencil/core";
+import { Fragment, Host, h } from "@stencil/core";
 import axios from "axios";
 export class IrBookingListing {
     constructor() {
@@ -23,7 +24,6 @@ export class IrBookingListing {
         this.isLoading = false;
         this.token = undefined;
         this.bookingNumber = null;
-        this.page_mode = 'multi';
         this.currentPage = 'bookings';
         this.selectedBooking = null;
         this.isAffiliate = false;
@@ -41,7 +41,7 @@ export class IrBookingListing {
         if (isAuthenticated) {
             this.bookingNumber = isAuthenticated.params ? isAuthenticated.params.booking_nbr : null;
             this.token = isAuthenticated.token;
-            this.page_mode = isAuthenticated.params ? 'single' : 'multi';
+            app_store.app_data.token = this.token;
         }
         else {
             const token = await this.commonService.getBEToken();
@@ -57,9 +57,15 @@ export class IrBookingListing {
             this.isAffiliate = checkAffiliate(this.aff.toLowerCase().trim()) !== null;
         }
     }
-    // @Listen("")
-    // handleNavMenuItemChange() {
-    // }
+    handleScreenChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const screen = e.detail;
+        if (!['booking-listing', 'user-profile'].includes(screen) || (this.currentPage === 'bookings' && screen === 'booking-listing')) {
+            return;
+        }
+        this.currentPage = screen === 'booking-listing' ? 'bookings' : 'user-profile';
+    }
     async initializeApp() {
         var _a, _b;
         try {
@@ -120,27 +126,46 @@ export class IrBookingListing {
         this.selectedBooking = params.booking ? { email: params === null || params === void 0 ? void 0 : params.booking.guest.email, booking_nbr: params.booking.booking_nbr } : null;
     }
     renderPages() {
-        if (this.currentPage === 'booking-details') {
-            // return <ir-booking-details-view booking={this.selectedBooking}></ir-booking-details-view>;
-            return (h("div", null, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    this.currentPage = 'bookings';
-                    this.selectedBooking = null;
-                    // this.bl_routing.emit({ route: 'booking' });
-                }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, "My bookings")), h("ir-invoice", { locationShown: false, headerShown: false, footerShown: false, propertyId: this.propertyid, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
+        switch (this.currentPage) {
+            case 'bookings':
+                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+            case 'booking-details':
+                return (h("div", null, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        this.currentPage = 'bookings';
+                        this.selectedBooking = null;
+                        // this.bl_routing.emit({ route: 'booking' });
+                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, "My bookings")), h("ir-invoice", { locationShown: false, headerShown: false, footerShown: false, propertyId: this.propertyid, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
+            case 'user-profile':
+                if (this.be) {
+                    return;
+                }
+                return (h("ir-user-profile", { be: this.be, user_data: {
+                        id: checkout_store.userFormData.id,
+                        email: checkout_store.userFormData.email,
+                        first_name: checkout_store.userFormData.firstName,
+                        last_name: checkout_store.userFormData.lastName,
+                        country_id: checkout_store.userFormData.country_id,
+                        mobile: checkout_store.userFormData.mobile_number,
+                        country_phone_prefix: checkout_store.userFormData.country_phone_prefix.toString(),
+                    } }));
+            default:
+                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
         }
-        return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+    }
+    renderAuthScreen() {
+        return (h("main", { class: "flex h-screen flex-col  justify-center" }, h("div", { class: "mx-auto w-full max-w-md px-4" }, h("ir-auth", { enableSignUp: false }))));
+    }
+    renderBookingsScreen() {
+        var _a, _b, _c;
+        if (this.isLoading) {
+            return (h("div", { class: "grid h-screen w-full place-content-center" }, !this.be && h("ir-interceptor", null), h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map(p => (h("div", { key: p, class: "block h-64 w-full animate-pulse rounded-md bg-gray-200" }))))));
+        }
+        return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", null)));
     }
     render() {
-        var _a, _b, _c;
-        if (!this.token) {
-            return (h(Host, null, h("main", { class: "flex h-screen flex-col  justify-center" }, h("div", { class: "mx-auto w-full max-w-md px-4" }, h("ir-auth", { enableSignUp: false })))));
-        }
-        if (this.isLoading) {
-            return (h("div", { class: "grid h-screen w-full place-content-center" }, h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map(p => (h("div", { key: p, class: "block h-64 w-full animate-pulse rounded-md bg-gray-200" }))))));
-        }
-        return (h(Host, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: "mx-auto max-w-6xl" }, this.renderPages()), this.footerShown && h("ir-footer", null)));
+        return (h(Host, { key: 'b146abaa0bfc704e8b1419c67ab579de908a2721' }, !this.be && h("ir-interceptor", { key: 'e392491c93e370e7ec0538fcd66419c87e4536d6' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -373,7 +398,6 @@ export class IrBookingListing {
             "isLoading": {},
             "token": {},
             "bookingNumber": {},
-            "page_mode": {},
             "currentPage": {},
             "selectedBooking": {},
             "isAffiliate": {}
@@ -387,6 +411,12 @@ export class IrBookingListing {
     }
     static get listeners() {
         return [{
+                "name": "screenChanged",
+                "method": "handleScreenChanged",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "authFinish",
                 "method": "handleAuthFinish",
                 "target": undefined,

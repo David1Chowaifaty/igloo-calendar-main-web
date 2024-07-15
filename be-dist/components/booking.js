@@ -16,6 +16,7 @@ const initialState = {
 };
 const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
 function setSelectedVariation(lastVariation, variations, currentVariation) {
+    // console.log(lastVariation, variations, currentVariation);
     if ((currentVariation === null || currentVariation === void 0 ? void 0 : currentVariation.state) === 'default' || !currentVariation || booking_store.resetBooking) {
         return { state: 'default', variation: lastVariation };
     }
@@ -56,8 +57,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    console.log(booking_store.roomTypes);
-    // console.log(ratePlanSelections);
+    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });

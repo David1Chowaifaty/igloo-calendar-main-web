@@ -109,6 +109,7 @@ export namespace Components {
         "perma_link": string;
         "property": IExposedProperty | null;
         "propertyId": number;
+        "rateplan_id": number;
         "redirect_url": string;
         "roomtype_id": number;
         "source": {
@@ -482,6 +483,7 @@ export namespace Components {
         "errors": Record<string, ZodIssue>;
     }
     interface IrUserProfile {
+        "be": boolean;
         "user_data": TGuest;
     }
 }
@@ -1292,6 +1294,7 @@ declare global {
     interface HTMLIrNavElementEventMap {
         "routing": pages;
         "signOut": null;
+        "screenChanged": pages;
     }
     interface HTMLIrNavElement extends Components.IrNav, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrNavElementEventMap>(type: K, listener: (this: HTMLIrNavElement, ev: IrNavCustomEvent<HTMLIrNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1768,6 +1771,7 @@ declare namespace LocalJSX {
         "perma_link"?: string;
         "property"?: IExposedProperty | null;
         "propertyId"?: number;
+        "rateplan_id"?: number;
         "redirect_url"?: string;
         "roomtype_id"?: number;
         "source"?: {
@@ -2068,6 +2072,7 @@ declare namespace LocalJSX {
         "logo"?: string;
         "menuShown"?: boolean;
         "onRouting"?: (event: IrNavCustomEvent<pages>) => void;
+        "onScreenChanged"?: (event: IrNavCustomEvent<pages>) => void;
         "onSignOut"?: (event: IrNavCustomEvent<null>) => void;
         "showBookingCode"?: boolean;
         "showCurrency"?: boolean;
@@ -2220,6 +2225,7 @@ declare namespace LocalJSX {
         "onChangePageLoading"?: (event: IrUserFormCustomEvent<'remove' | 'add'>) => void;
     }
     interface IrUserProfile {
+        "be"?: boolean;
         "user_data"?: TGuest;
     }
     interface IntrinsicElements {

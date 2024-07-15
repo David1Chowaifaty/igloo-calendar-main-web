@@ -7,6 +7,7 @@ export class IrInterceptor {
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
+        this.errorMessage = null;
         this.handledEndpoints = ['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
     }
     //@Event({ bubbles: true, composed: true }) toast: EventEmitter<IToast>;
@@ -33,6 +34,7 @@ export class IrInterceptor {
     }
     handleResponse(response) {
         var _a;
+        console.log('handleResponse');
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
@@ -45,16 +47,13 @@ export class IrInterceptor {
         return response;
     }
     handleError(error) {
-        // this.toast.emit({
-        //   type: 'error',
-        //   title: error,
-        //   description: '',
-        //   position: 'top-right',
-        // });
+        console.log('error', error);
+        this.errorMessage = error;
+        this.alertRef.openModal();
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '8ebc272d9058651f3a954b2dc9d44e95b7c76868' }, this.isLoading && (h("div", { key: 'ff006489112f798978765f4b30524905d573db68', class: "loadingScreenContainer" }, h("div", { key: '5ac5d12e81d40cb402043b600602396988ccb76d', class: "loaderContainer" }, h("span", { key: '05e55b1c1a3e66184d3a8722529669c25598a2d6', class: "loader" }))))));
+        return (h(Host, { key: 'd6f73776a3598f4eaa0b8c0b3ed00a52e2f8aac0' }, h("ir-alert-dialog", { key: '166d7b6b4f71252cc13121c69eff3653d30c0d82', ref: el => (this.alertRef = el) }, h("h1", { key: '9f15bcf2e597205964da99565b898de4e2d43eef', slot: "modal-title", class: 'flex items-center' }, ' ', h("ir-icons", { key: '6c28d31f28c74948495a2e0c3a9ef438e77e4af0', name: "danger" }), h("span", { key: 'd973b74f9786befc13c322e60580b849854e7c0c' }, "Something went wrong!")), h("div", { key: '397e45376241e608b5bcd82a50e0756bb2187142', slot: "modal-body" }, h("p", { key: '4436037536fd5375709ab14ac05cd2a639a384a0' }, this.errorMessage), h("button", { key: 'a2fd028fa27310fae6e9dfe8a2e8eff164687593' }, "Cancel"), h("button", { key: 'b19c78638b38a8d6d7a231ac2e19bafb542dbe45' }, "Ok")))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }
@@ -92,7 +91,8 @@ export class IrInterceptor {
         return {
             "isShown": {},
             "isLoading": {},
-            "isUnassignedUnit": {}
+            "isUnassignedUnit": {},
+            "errorMessage": {}
         };
     }
 }

@@ -12,6 +12,7 @@ export declare class IrNav {
     menuShown: boolean;
     routing: EventEmitter<pages>;
     signOut: EventEmitter<null>;
+    screenChanged: EventEmitter<pages>;
     currentPage: TTabsState;
     private dialogRef;
     private sheetRef;

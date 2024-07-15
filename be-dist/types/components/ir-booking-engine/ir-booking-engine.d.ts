@@ -8,6 +8,7 @@ export declare class IrBookingEngine {
     baseUrl: string;
     injected: boolean;
     roomtype_id: number;
+    rateplan_id: number;
     redirect_url: string;
     perma_link: string;
     aName: string;

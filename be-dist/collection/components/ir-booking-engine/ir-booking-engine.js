@@ -20,6 +20,7 @@ export class IrBookingEngine {
         this.baseUrl = undefined;
         this.injected = undefined;
         this.roomtype_id = null;
+        this.rateplan_id = null;
         this.redirect_url = null;
         this.perma_link = null;
         this.aName = null;
@@ -41,6 +42,7 @@ export class IrBookingEngine {
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
+        console.log('source:', this.source);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
@@ -122,14 +124,22 @@ export class IrBookingEngine {
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
-        const [_, currencies, languages] = await Promise.all(requests);
+        const [currencies, languages] = await Promise.all(requests);
+        console.log(currencies);
         this.currencies = currencies;
         this.languages = languages;
         if (!p) {
             if (this.language) {
                 this.modifyLanguage(this.language);
             }
-            setDefaultLocale({ currency: app_store.userDefaultCountry.currency });
+            let currency = app_store.userDefaultCountry.currency;
+            if (this.cur) {
+                const newCurr = this.currencies.find(c => c.code.toLowerCase() === this.cur.toLowerCase());
+                if (newCurr) {
+                    currency = newCurr;
+                }
+            }
+            setDefaultLocale({ currency });
         }
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) });
         // booking_store.roomTypes = [...roomtypes];
@@ -351,6 +361,24 @@ export class IrBookingEngine {
                     "text": ""
                 },
                 "attribute": "roomtype_id",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "rateplan_id": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "rateplan_id",
                 "reflect": false,
                 "defaultValue": "null"
             },

@@ -1,3 +1,4 @@
+import { pages } from "../../../components";
 export declare class IrBookingListing {
     propertyid: number;
     baseUrl: string;
@@ -17,8 +18,7 @@ export declare class IrBookingListing {
     isLoading: boolean;
     token: string;
     bookingNumber: any;
-    page_mode: 'single' | 'multi';
-    currentPage: 'bookings' | 'booking-details';
+    currentPage: 'bookings' | 'booking-details' | 'user-profile';
     selectedBooking: {
         email: string;
         booking_nbr: string;
@@ -28,11 +28,14 @@ export declare class IrBookingListing {
     private propertyService;
     componentWillLoad(): Promise<void>;
     handleAffiliateChange(newValue: string, oldValue: string): void;
+    handleScreenChanged(e: CustomEvent<pages>): void;
     initializeApp(): Promise<void>;
     initializeServices(): void;
     handleAuthFinish(e: CustomEvent): void;
     handleSignout(): void;
     handleRouting(e: CustomEvent): void;
     private renderPages;
+    private renderAuthScreen;
+    private renderBookingsScreen;
     render(): any;
 }

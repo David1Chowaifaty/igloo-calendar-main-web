@@ -96,8 +96,17 @@ export class PropertyHelpers {
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    console.log(rp.variations);
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations,
+                        // variations: rp.variations.map(v => {
+                        //   if (!newRatePlan.variations) {
+                        //     return v;
+                        //   }
+                        //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
+                        //     return newRatePlan.variations[0];
+                        //   }
+                        //   return v;
+                        // }),
+                        selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
                     return updatedRatePlans;
                 }, []) });
             updatedRoomtypes.push(updatedRoomtype);

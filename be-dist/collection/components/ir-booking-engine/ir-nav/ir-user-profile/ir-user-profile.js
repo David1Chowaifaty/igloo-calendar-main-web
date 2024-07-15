@@ -5,16 +5,30 @@ import { checkout_store } from "../../../../stores/checkout.store";
 import { ZodError } from "zod";
 import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
+import { CommonService } from "../../../../services/api/common.service";
+import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 export class IrUserProfile {
     constructor() {
         this.propertyService = new PropertyService();
+        this.commonService = new CommonService();
         this.user_data = {};
+        this.be = true;
         this.user = {};
         this.isLoading = false;
+        this.isPageLoading = false;
     }
-    componentWillLoad() {
+    async componentWillLoad() {
         this.propertyService.setToken(app_store.app_data.token);
+        console.log('token', app_store.app_data.token);
+        this.commonService.setToken(app_store.app_data.token);
+        await this.fetchData();
         this.user = Object.assign({}, this.user_data);
+    }
+    async fetchData() {
+        if (this.be) {
+            return;
+        }
+        await this.commonService.getExposedCountryByIp();
     }
     updateUserData(key, value) {
         console.log(key, value);
@@ -40,8 +54,11 @@ export class IrUserProfile {
     }
     render() {
         var _a;
-        console.log(JSON.stringify(this.user, null, 2));
-        return (h("section", { key: '69e88a3ac7b668dd4bd392a9217ab99e36aee787', class: "mx-auto h-full min-h-[80vh] max-w-xl" }, h("h1", { key: 'e8dbc13fa6aa91cccaef15714520fdd57a136d77', class: "mb-6 text-lg font-medium" }, "Personal profile"), h("form", { key: '34847c5d50179c4cc9d6c531e224dde8754c057c', onSubmit: this.handleSubmit.bind(this) }, h("div", { key: 'dcc31f41b10f699830899e8821409611009247be', class: "relative  flex flex-col gap-4 md:grid md:grid-cols-2 " }, h("ir-input", { key: '5a17a6aa98ced1c5792f1cab0565f67be9e63d96', label: "First name", onTextChanged: e => this.updateUserData('first_name', e.detail), value: this.user.first_name, placeholder: "", onInputBlur: e => {
+        console.log(isRequestPending('/Get_Exposed_Country_By_IP'));
+        if (isRequestPending('/Get_Exposed_Country_By_IP')) {
+            return null;
+        }
+        return (h("section", { class: `mx-auto h-full min-h-[80vh] max-w-xl ${!this.be ? 'p-4 md:p-6' : ''}` }, h("h1", { class: "mb-6 text-lg font-medium" }, "Personal profile"), h("form", { onSubmit: this.handleSubmit.bind(this) }, h("div", { class: "relative  flex flex-col gap-4 md:grid md:grid-cols-2 " }, h("ir-input", { label: "First name", onTextChanged: e => this.updateUserData('first_name', e.detail), value: this.user.first_name, placeholder: "", onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ first_name: true });
                 const schemaValidation = emailSchema.safeParse({ first_name: (_a = this.user) === null || _a === void 0 ? void 0 : _a.first_name });
@@ -59,7 +76,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { key: 'a6c93de358dfaee242093a91c8df240fef8eb037', value: this.user.last_name, label: "Last name", placeholder: "", onTextChanged: e => this.updateUserData('last_name', e.detail), onInputBlur: e => {
+            } }), h("ir-input", { value: this.user.last_name, label: "Last name", placeholder: "", onTextChanged: e => this.updateUserData('last_name', e.detail), onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ last_name: true });
                 const schemaValidation = emailSchema.safeParse({ last_name: (_a = this.user) === null || _a === void 0 ? void 0 : _a.last_name });
@@ -77,7 +94,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { key: '2121b9b69a8f2a762259cb226fb78638c2259a30', label: "Email", placeholder: "", value: this.user.email, onInputBlur: e => {
+            } }), h("ir-input", { label: "Email", placeholder: "", value: this.user.email, onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ email: true });
                 const schemaValidation = emailSchema.safeParse({ email: (_a = this.user) === null || _a === void 0 ? void 0 : _a.email });
@@ -95,10 +112,10 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { key: 'e64433ac2ecea99e4221a44c8e1c341f42bb3158', value: 2, label: "Country", variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
+            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { value: 2, label: "Country", variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
                 id: country.id,
                 value: country.name,
-            })), onValueChange: e => this.updateUserData('country_id', e.detail) }), h("ir-phone-input", { key: 'c9668e6826cfaaf5c9384d8d2f64380c7b4ba2e6', class: "col-span-2 w-full", country_code: this.user.country_id || null, mode: "prefix_only", country_phone_prefix: this.user.country_phone_prefix || null, onTextChange: e => {
+            })), onValueChange: e => this.updateUserData('country_id', e.detail) }), h("ir-phone-input", { class: "col-span-2 w-full", country_code: this.user.country_id || null, mode: "prefix_only", country_phone_prefix: this.user.country_phone_prefix || null, onTextChange: e => {
                 this.updateUserData('mobile', e.detail.mobile);
                 this.updateUserData('country_phone_prefix', e.detail.phone_prefix);
             }, mobile_number: (this.user.mobile || '').toString(), onPhoneInputBlur: e => {
@@ -118,7 +135,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("div", { key: '6921c3646e7a1d26d2d4c300dffc50f44071ef13', class: "mt-4" }, h("ir-checkbox", { key: 'cccd8a4c02742ad3d0441aab00b58d476f8435ff', onCheckChange: e => this.updateUserData('subscribe_to_news_letter', e.detail), label: "Register for exclusive deals" })), h("div", { key: '41c9a0ac8346544dc24aaccfd1a75b608f147427', class: "flex items-center justify-end" }, h("ir-button", { key: '9ebb8360ec6166db2a2d4726b1f4ffcb5fbc61c8', type: "submit", isLoading: this.isLoading, label: "Save", class: "mt-6 w-full md:w-fit" })))));
+            } })), h("div", { class: "mt-4" }, h("ir-checkbox", { onCheckChange: e => this.updateUserData('subscribe_to_news_letter', e.detail), label: "Register for exclusive deals" })), h("div", { class: "flex items-center justify-end" }, h("ir-button", { type: "submit", isLoading: this.isLoading, label: "Save", class: "mt-6 w-full md:w-fit" })))));
     }
     static get is() { return "ir-user-profile"; }
     static get encapsulation() { return "shadow"; }
@@ -155,13 +172,32 @@ export class IrUserProfile {
                     "text": ""
                 },
                 "defaultValue": "{}"
+            },
+            "be": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "be",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }
     static get states() {
         return {
             "user": {},
-            "isLoading": {}
+            "isLoading": {},
+            "isPageLoading": {}
         };
     }
 }

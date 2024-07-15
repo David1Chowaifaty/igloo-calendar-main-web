@@ -3,7 +3,9 @@ export declare class IrInterceptor {
     isShown: boolean;
     isLoading: boolean;
     isUnassignedUnit: boolean;
+    errorMessage: string | null;
     handledEndpoints: string[];
+    alertRef: HTMLIrAlertDialogElement;
     componentWillLoad(): void;
     setupAxiosInterceptors(): void;
     extractEndpoint(url: string): string;

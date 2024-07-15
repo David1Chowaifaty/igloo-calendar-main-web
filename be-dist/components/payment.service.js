@@ -1,4 +1,5 @@
 import { T as Token, M as MissingTokenError } from './Token.js';
+import { a as app_store } from './app.store.js';
 import { a as axios } from './axios.js';
 
 class PaymentService extends Token {
@@ -6,7 +7,7 @@ class PaymentService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Generate_Payment_Caller?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Generate_Payment_Caller?Ticket=${token}`, Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }));
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }

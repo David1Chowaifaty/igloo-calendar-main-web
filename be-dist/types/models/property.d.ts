@@ -307,6 +307,8 @@ export interface Variation {
     nights_nbr: number;
     total_before_discount: number;
     is_calculated?: boolean;
+    IS_MLS_VIOLATED?: boolean;
+    MLS_ALERT?: string;
 }
 export interface Assignableunit {
     Is_Fully_Available: boolean;

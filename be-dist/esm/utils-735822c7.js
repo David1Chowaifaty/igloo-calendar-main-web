@@ -1,6 +1,4 @@
-'use strict';
-
-const index = require('./index-380c61af.js');
+import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -40,7 +38,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof index.getRenderingRef !== 'function') {
+    if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -49,7 +47,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = index.getRenderingRef();
+            const elm = getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -57,12 +55,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -53164,32 +53162,6 @@ function formatImageAlt(alt, roomTypeName = null) {
     return [roomTypeName, alt, `${app_store.property.name}, ${app_store.property.country.name}`].filter(f => f !== null).join(' - ');
 }
 
-exports.app_store = app_store;
-exports.changeLocale = changeLocale;
-exports.checkAffiliate = checkAffiliate;
-exports.cn = cn;
-exports.createStore = createStore;
-exports.dateFns = dateFns;
-exports.defaultOptions = defaultOptions$1;
-exports.enUS = enUS;
-exports.formatAmount = formatAmount;
-exports.formatFullLocation = formatFullLocation;
-exports.formatImageAlt = formatImageAlt;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getDateDifference = getDateDifference;
-exports.getUserPrefernce = getUserPrefernce;
-exports.injectHTML = injectHTML;
-exports.isSameWeek = isSameWeek$1;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.manageAnchorSession = manageAnchorSession;
-exports.matchLocale = matchLocale;
-exports.onAppDataChange = onAppDataChange;
-exports.renderTime = renderTime;
-exports.runScriptAndRemove = runScriptAndRemove;
-exports.setDefaultLocale = setDefaultLocale;
-exports.startOfWeek = startOfWeek$1;
-exports.toDate = toDate$1;
-exports.updateUserPreference = updateUserPreference;
+export { isSameWeek$1 as A, app_store as a, formatFullLocation as b, createStore as c, dateFns as d, getUserPrefernce as e, formatAmount as f, getDateDifference as g, changeLocale as h, injectHTML as i, matchLocale as j, checkAffiliate as k, localizedWords as l, manageAnchorSession as m, cn as n, onAppDataChange as o, locale as p, getAbbreviatedWeekdays as q, runScriptAndRemove as r, setDefaultLocale as s, renderTime as t, updateUserPreference as u, formatImageAlt as v, toDate$1 as w, startOfWeek$1 as x, defaultOptions$1 as y, enUS as z };
 
-//# sourceMappingURL=utils-db6f248d.js.map
+//# sourceMappingURL=utils-735822c7.js.map
