@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 import { Booking } from "./models/booking.dto";
+import { TSource } from "./stores/app.store";
 import { ICurrency, IExposedLanguages, pages } from "./models/common";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
@@ -21,6 +22,7 @@ import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.valida
 import { TGuest } from "./models/user_form";
 export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 export { Booking } from "./models/booking.dto";
+export { TSource } from "./stores/app.store";
 export { ICurrency, IExposedLanguages, pages } from "./models/common";
 export { TContainerStyle } from "./components/ir-booking-widget/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
@@ -112,13 +114,11 @@ export namespace Components {
         "rateplan_id": number;
         "redirect_url": string;
         "roomtype_id": number;
-        "source": {
-    code: string;
-    desciption: string;
-  } | null;
+        "source": TSource | null;
         "stag": string | null;
         "toDate": string;
         "token": string;
+        "version": string;
     }
     interface IrBookingHeader {
         "activeLink": 'single_booking' | 'all_booking';
@@ -138,6 +138,7 @@ export namespace Components {
         "propertyid": number;
         "showAllBookings": boolean;
         "startScreen": { screen: 'bookings' | 'booking-details'; params: unknown };
+        "version": string;
     }
     interface IrBookingOverview {
         "aff": boolean;
@@ -246,6 +247,7 @@ export namespace Components {
     interface IrFacilities {
     }
     interface IrFooter {
+        "version": string;
     }
     interface IrGallery {
         "images": { url: string; alt: string }[];
@@ -334,6 +336,7 @@ export namespace Components {
         "perma_link": string;
         "propertyId": number;
         "status": 0 | 1;
+        "version": string;
     }
     interface IrLanguagePicker {
         "currencies": ICurrency[];
@@ -1774,13 +1777,11 @@ declare namespace LocalJSX {
         "rateplan_id"?: number;
         "redirect_url"?: string;
         "roomtype_id"?: number;
-        "source"?: {
-    code: string;
-    desciption: string;
-  } | null;
+        "source"?: TSource | null;
         "stag"?: string | null;
         "toDate"?: string;
         "token"?: string;
+        "version"?: string;
     }
     interface IrBookingHeader {
         "activeLink"?: 'single_booking' | 'all_booking';
@@ -1801,6 +1802,7 @@ declare namespace LocalJSX {
         "propertyid"?: number;
         "showAllBookings"?: boolean;
         "startScreen"?: { screen: 'bookings' | 'booking-details'; params: unknown };
+        "version"?: string;
     }
     interface IrBookingOverview {
         "aff"?: boolean;
@@ -1943,6 +1945,7 @@ declare namespace LocalJSX {
     interface IrFacilities {
     }
     interface IrFooter {
+        "version"?: string;
     }
     interface IrGallery {
         "images"?: { url: string; alt: string }[];
@@ -2037,6 +2040,7 @@ declare namespace LocalJSX {
         "perma_link"?: string;
         "propertyId"?: number;
         "status"?: 0 | 1;
+        "version"?: string;
     }
     interface IrLanguagePicker {
         "currencies"?: ICurrency[];

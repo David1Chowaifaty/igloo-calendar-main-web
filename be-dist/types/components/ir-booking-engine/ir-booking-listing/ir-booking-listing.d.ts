@@ -15,6 +15,7 @@ export declare class IrBookingListing {
         params: unknown;
     };
     aff: string;
+    version: string;
     isLoading: boolean;
     token: string;
     bookingNumber: any;

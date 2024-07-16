@@ -13,6 +13,7 @@ export declare class IrInvoice {
     footerShown: boolean;
     locationShown: boolean;
     be: boolean;
+    version: string;
     booking: Booking;
     token: string;
     isAuthenticated: boolean;

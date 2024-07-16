@@ -34,6 +34,7 @@ export class IrBookingEngine {
         this.stag = undefined;
         this.property = null;
         this.source = null;
+        this.version = '2.0';
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -42,7 +43,6 @@ export class IrBookingEngine {
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
-        console.log('source:', this.source);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
@@ -64,18 +64,21 @@ export class IrBookingEngine {
             this.initializeApp();
         }
     }
-    handleSourceChange() {
-        console.log(this.source);
+    handleSourceChange(newSource, oldSource) {
+        if (newSource && (!oldSource || oldSource.code !== newSource.code)) {
+            this.setSource(newSource);
+        }
     }
-    // @Watch('language')
-    // handleLanguageChange(newValue: string, oldValue: string) {
-    //   if (!this.languages) {
-    //     return;
-    //   }
-    //   if (newValue !== oldValue) {
-    //     this.modifyLanguage(newValue);
-    //   }
-    // }
+    handleCurrencyChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            updateUserPreference({
+                currency_id: newValue,
+            });
+        }
+    }
+    setSource(newSource) {
+        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { source: newSource });
+    }
     modifyLanguage(code) {
         var _a;
         if (!this.languages) {
@@ -85,13 +88,6 @@ export class IrBookingEngine {
         updateUserPreference({
             language_id: code,
         });
-    }
-    handleCurrencyChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            updateUserPreference({
-                currency_id: newValue,
-            });
-        }
     }
     initializeApp() {
         this.commonService.setToken(this.token);
@@ -118,17 +114,11 @@ export class IrBookingEngine {
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }),
-            // ,
         ];
-        // if (!this.property) {
-        //   requests.push(
-        //   );
-        // }
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
         const [currencies, languages] = await Promise.all(requests);
-        console.log(currencies);
         this.currencies = currencies;
         this.languages = languages;
         if (!p) {
@@ -145,7 +135,6 @@ export class IrBookingEngine {
             setDefaultLocale({ currency });
         }
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) });
-        // booking_store.roomTypes = [...roomtypes];
         this.isLoading = false;
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
@@ -177,8 +166,6 @@ export class IrBookingEngine {
         console.log(token, state, payload);
         if (state === 'success') {
             if (payload.method === 'direct') {
-                // this.bookingNumber = payload.booking_nbr;
-                // this.token = token;
                 this.bookingListingScreenOptions = {
                     screen: 'booking-details',
                     params: {
@@ -239,9 +226,9 @@ export class IrBookingEngine {
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
-                return (h("ir-invoice", { headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
+                return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
             case 'booking-listing':
-                return (h("ir-booking-listing", { startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, be: true, baseUrl: this.baseUrl, aff: this.aff }));
+                return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, be: true, baseUrl: this.baseUrl, aff: this.aff }));
             case 'user-profile':
                 return (h("ir-user-profile", { user_data: {
                         id: checkout_store.userFormData.id,
@@ -264,7 +251,7 @@ export class IrBookingEngine {
         if (this.isLoading) {
             return null;
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 m-0 w-full p-0 " }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", null)));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 m-0 w-full p-0 " }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
     }
     static get is() { return "ir-booking-engine"; }
     static get encapsulation() { return "scoped"; }
@@ -601,9 +588,15 @@ export class IrBookingEngine {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{\r\n    code: string;\r\n    desciption: string;\r\n  } | null",
-                    "resolved": "{ code: string; desciption: string; }",
-                    "references": {}
+                    "original": "TSource | null",
+                    "resolved": "{ code: string; description: string; }",
+                    "references": {
+                        "TSource": {
+                            "location": "import",
+                            "path": "@/stores/app.store",
+                            "id": "src/stores/app.store.ts::TSource"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
@@ -612,6 +605,24 @@ export class IrBookingEngine {
                     "text": ""
                 },
                 "defaultValue": "null"
+            },
+            "version": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "version",
+                "reflect": false,
+                "defaultValue": "'2.0'"
             }
         };
     }

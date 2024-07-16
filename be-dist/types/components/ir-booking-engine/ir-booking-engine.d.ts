@@ -1,6 +1,7 @@
 import { Locale } from 'date-fns';
 import { ICurrency, IExposedLanguages } from "../../models/common";
 import { IExposedProperty, Variation } from "../../models/property";
+import { TSource } from "../../stores/app.store";
 import Stack from "../../models/stack";
 export declare class IrBookingEngine {
     token: string;
@@ -21,28 +22,27 @@ export declare class IrBookingEngine {
     aff: string;
     stag: string | null;
     property: IExposedProperty | null;
-    source: {
-        code: string;
-        desciption: string;
-    } | null;
+    source: TSource | null;
+    version: string;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];
     isLoading: boolean;
-    private commonService;
-    private propertyService;
-    private availabiltyService;
-    private identifier;
     router: Stack<HTMLElement>;
     bookingListingScreenOptions: {
         screen: 'bookings' | 'booking-details';
         params: unknown;
     };
+    private commonService;
+    private propertyService;
+    private availabiltyService;
+    private identifier;
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;
-    handleSourceChange(): void;
-    modifyLanguage(code: string): void;
+    handleSourceChange(newSource: TSource, oldSource: TSource): void;
     handleCurrencyChange(newValue: string, oldValue: string): void;
+    setSource(newSource: TSource): void;
+    modifyLanguage(code: string): void;
     initializeApp(): void;
     initRequest(): Promise<void>;
     handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;

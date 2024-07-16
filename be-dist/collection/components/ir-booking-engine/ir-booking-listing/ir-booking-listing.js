@@ -21,6 +21,7 @@ export class IrBookingListing {
         this.be = false;
         this.startScreen = { screen: 'bookings', params: null };
         this.aff = null;
+        this.version = '2.0';
         this.isLoading = false;
         this.token = undefined;
         this.bookingNumber = null;
@@ -162,10 +163,10 @@ export class IrBookingListing {
         if (this.isLoading) {
             return (h("div", { class: "grid h-screen w-full place-content-center" }, !this.be && h("ir-interceptor", null), h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map(p => (h("div", { key: p, class: "block h-64 w-full animate-pulse rounded-md bg-gray-200" }))))));
         }
-        return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", null)));
+        return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: 'b146abaa0bfc704e8b1419c67ab579de908a2721' }, !this.be && h("ir-interceptor", { key: 'e392491c93e370e7ec0538fcd66419c87e4536d6' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '28530c72fabf7621a34a62568d194cc1cdac8ba6' }, !this.be && h("ir-interceptor", { key: 'ad54c9d7d1fd131de41b41670fef1e9e635f6bc9' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -390,6 +391,24 @@ export class IrBookingListing {
                 "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "null"
+            },
+            "version": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "version",
+                "reflect": false,
+                "defaultValue": "'2.0'"
             }
         };
     }

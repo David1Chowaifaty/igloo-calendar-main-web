@@ -1,6 +1,6 @@
-import { c as createStore, w as toDate, x as startOfWeek, y as defaultOptions, z as enUS, A as isSameWeek, d as dateFns, a as app_store, i as injectHTML, g as getDateDifference, l as localizedWords } from './utils-735822c7.js';
+import { c as createStore, v as toDate, w as startOfWeek, x as defaultOptions, y as enUS, z as isSameWeek, d as dateFns, a as app_store, A as injectHTML, g as getDateDifference, l as localizedWords } from './utils-402f3439.js';
 
-class Token$1 {
+class Token {
     getToken() {
         return this.token;
     }
@@ -8,7 +8,7 @@ class Token$1 {
         this.token = token;
     }
 }
-class MissingTokenError$1 extends Error {
+class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {
         super(message);
         this.name = 'MissingTokenError';
@@ -21871,7 +21871,7 @@ class PropertyHelpers {
     }
     validateToken(token) {
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
     }
     collectRoomTypeIds(props) {
@@ -22098,22 +22098,7 @@ class Colors {
     }
 }
 
-class Token {
-    getToken() {
-        return this.token;
-    }
-    setToken(token) {
-        this.token = token;
-    }
-}
-class MissingTokenError extends Error {
-    constructor(message = 'Missing token!!') {
-        super(message);
-        this.name = 'MissingTokenError';
-    }
-}
-
-class PropertyService extends Token$1 {
+class PropertyService extends Token {
     constructor() {
         super(...arguments);
         this.propertyHelpers = new PropertyHelpers();
@@ -22122,7 +22107,7 @@ class PropertyService extends Token$1 {
     async getExposedProperty(params, initTheme = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: !!booking_store.bookingAvailabilityParams.agent }));
         const result = data;
@@ -22169,7 +22154,7 @@ class PropertyService extends Token$1 {
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
                 ? [
@@ -22291,7 +22276,7 @@ class PropertyService extends Token$1 {
         try {
             const token = this.getToken();
             if (!token) {
-                throw new MissingTokenError$1();
+                throw new MissingTokenError();
             }
             let guest = {
                 email: checkout_store.userFormData.email,
@@ -22355,7 +22340,7 @@ class PropertyService extends Token$1 {
     async getExposedGuest() {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError$1();
+            throw new MissingTokenError();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
@@ -22502,6 +22487,6 @@ class CommonService extends Token {
     }
 }
 
-export { Colors as C, MissingTokenError$1 as M, PropertyHelpers as P, Token$1 as T, axios$1 as a, booking_store as b, checkout_store as c, calculateTotalCost as d, Token as e, MissingTokenError as f, PropertyService as g, CommonService as h, updateRoomParams as i, updatePickupFormData as j, updatePartialPickupFormData as k, getVisibleInventory as l, modifyBookingStore as m, onCheckoutDataChange as o, reserveRooms as r, updateUserFormData as u, validateBooking as v };
+export { CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, axios$1 as a, booking_store as b, checkout_store as c, calculateTotalCost as d, updateUserFormData as e, updatePickupFormData as f, updatePartialPickupFormData as g, getVisibleInventory as h, modifyBookingStore as m, onCheckoutDataChange as o, reserveRooms as r, updateRoomParams as u, validateBooking as v };
 
-//# sourceMappingURL=common.service-c86c5901.js.map
+//# sourceMappingURL=common.service-07cd733f.js.map

@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { T as Token, M as MissingTokenError } from './Token2.js';
+import { T as Token, M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
 import { l as localizedWords } from './localization.store.js';
 

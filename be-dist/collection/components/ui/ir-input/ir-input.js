@@ -229,7 +229,7 @@ export class IrInput {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'button'\r\n    | 'checkbox'\r\n    | 'color'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'email'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'image'\r\n    | 'month'\r\n    | 'number'\r\n    | 'password'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'reset'\r\n    | 'search'\r\n    | 'submit'\r\n    | 'tel'\r\n    | 'text'\r\n    | 'time'\r\n    | 'url'\r\n    | 'week'",
-                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"reset\" | \"password\" | \"submit\" | \"checkbox\" | \"datetime-local\" | \"file\" | \"radio\" | \"range\" | \"tel\"",
+                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"reset\" | \"week\" | \"month\" | \"password\" | \"submit\" | \"checkbox\" | \"datetime-local\" | \"file\" | \"radio\" | \"range\" | \"tel\"",
                     "references": {}
                 },
                 "required": false,
