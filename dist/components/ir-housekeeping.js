@@ -2,13 +2,14 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { a as axios } from './axios.js';
-import { d as defineCustomElement$i } from './ir-button2.js';
-import { d as defineCustomElement$h } from './ir-combobox2.js';
-import { d as defineCustomElement$g } from './ir-delete-modal2.js';
-import { d as defineCustomElement$f } from './ir-hk-team2.js';
-import { d as defineCustomElement$e } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$d } from './ir-hk-user2.js';
-import { d as defineCustomElement$c } from './ir-icon2.js';
+import { d as defineCustomElement$j } from './ir-button2.js';
+import { d as defineCustomElement$i } from './ir-combobox2.js';
+import { d as defineCustomElement$h } from './ir-delete-modal2.js';
+import { d as defineCustomElement$g } from './ir-hk-team2.js';
+import { d as defineCustomElement$f } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$e } from './ir-hk-user2.js';
+import { d as defineCustomElement$d } from './ir-icon2.js';
+import { d as defineCustomElement$c } from './ir-icons2.js';
 import { d as defineCustomElement$b } from './ir-input-text2.js';
 import { d as defineCustomElement$a } from './ir-interceptor2.js';
 import { d as defineCustomElement$9 } from './ir-loading-screen2.js';
@@ -98,7 +99,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast", "ir-unit-status"];
+    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast", "ir-unit-status"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -107,35 +108,40 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }

@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { d as defineCustomElement$1 } from './ir-icons2.js';
 import { v as v4 } from './v4.js';
 
-const irButtonCss = ".button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}";
+const irButtonCss = ".sc-ir-button-h{--icon-button-color:#104064;--icon-button-hover-color:#1a6aa7}.button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.icon-button.sc-ir-button{all:unset;border-radius:0.25rem;display:inline-flex;align-items:center;justify-content:center;color:var(--icon-button-color);transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.icon-button.sc-ir-button:hover{color:var(--icon-button-hover-color)}.icon-button.sc-ir-button:disabled{pointer-events:none}.icon-loader.sc-ir-button{margin-top:10px;width:1.25rem;height:1.25rem;aspect-ratio:1;border-radius:50%;background:radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));-webkit-mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);animation:l13 1s infinite linear}@keyframes l13{100%{transform:rotate(1turn)}}.loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}";
 const IrButtonStyle0 = irButtonCss;
 
 const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLElement {
@@ -21,6 +22,8 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.isLoading = false;
         this.btn_styles = undefined;
         this.btn_id = v4();
+        this.variant = 'default';
+        this.icon_name = undefined;
     }
     handleButtonAnimation(e) {
         if (!this.buttonEl || e.detail !== this.btn_id) {
@@ -32,8 +35,11 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.buttonEl.classList.add('bounce-3');
     }
     render() {
+        if (this.variant === 'icon') {
+            return (h("button", { id: this.btn_id, class: "icon-button", ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { name: this.icon_name })));
+        }
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { key: 'c8c6dbd45633f748b412ec9758dd2c966e03a3fe', id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { key: '4ada997e1d5c277109d818d21c9e1eeaca649fe8', class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { key: 'bee8c3d2b47d2d58fff82236ede047b024e6cc3c', name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
+        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
     }
     static get style() { return IrButtonStyle0; }
 }, [6, "ir-button", {
@@ -48,17 +54,24 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         "btn_type": [1],
         "isLoading": [4, "is-loading"],
         "btn_styles": [1],
-        "btn_id": [1]
+        "btn_id": [1],
+        "variant": [1],
+        "icon_name": [1]
     }, [[16, "animateIrButton", "handleButtonAnimation"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-button"];
+    const components = ["ir-button", "ir-icons"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-button":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrButton);
+            }
+            break;
+        case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$1();
             }
             break;
     } });

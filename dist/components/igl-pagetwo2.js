@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { g as getCurrencySymbol } from './utils.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$6 } from './igl-application-info2.js';
-import { d as defineCustomElement$5 } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$4 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$3 } from './ir-button2.js';
-import { d as defineCustomElement$2 } from './ir-date-view2.js';
+import { d as defineCustomElement$7 } from './igl-application-info2.js';
+import { d as defineCustomElement$6 } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$5 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$4 } from './ir-button2.js';
+import { d as defineCustomElement$3 } from './ir-date-view2.js';
+import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const iglPagetwoCss = ".sc-igl-pagetwo-h{display:block}.card-title.sc-igl-pagetwo{border-bottom:1px solid #e4e5ec}.scrollContent.sc-igl-pagetwo{height:calc(100% - 79px);overflow:auto;position:relative}.background-overlay.sc-igl-pagetwo{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-pagetwo{height:calc(100% - 79px);overflow:auto}.sideWindow.sc-igl-pagetwo{position:absolute;top:0;right:0;height:100%;background-color:#ffffff}.close.sc-igl-pagetwo{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-pagetwo{position:absolute;top:18px;right:33px;outline:none}button.sc-igl-pagetwo:not(:disabled),[type='button'].sc-igl-pagetwo:not(:disabled){cursor:pointer}.row.sc-igl-pagetwo{padding:0 0 0 15px;margin:0}";
@@ -129,7 +130,7 @@ const IglPagetwo = /*@__PURE__*/ proxyCustomElement(class IglPagetwo extends HTM
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h(Host, { key: 'b516e02fa566130472810b0c1458dbf2e3eb7be4' }, h("div", { key: 'e8ab891fbb31bcf43a71d78935121a68b1534e38', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '2f17bd9995e43ea9f47684b5fd20b977555e9519', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDateStr, to_date: this.dateRangeData.toDateStr, dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { class: "font-weight-bold font-medium-1" }, getCurrencySymbol(this.currency.code) + this.bookingData.TOTAL_PRICE || '$0.00')))), this.guestData.map((roomInfo, index) => {
+        return (h(Host, { key: '4aea22e31590eac6fb50bf804d37b9e3ae0b6da3' }, h("div", { key: 'cd28bb34c6367a565aa2fddce122ed1a28d518e1', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '6715bb375527bbb72c0acffb4e07b6f2e78ecd73', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDateStr, to_date: this.dateRangeData.toDateStr, dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'a210097d08feba4f69581299a9bc3057ea3cfb69', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'e3dbc56e10ffdd71176eaebf9e9a8e3b5865ffdc', class: "font-weight-bold font-medium-1" }, getCurrencySymbol(this.currency.code) + this.bookingData.TOTAL_PRICE || '$0.00')))), this.guestData.map((roomInfo, index) => {
             return (h("igl-application-info", { dateDifference: this.dateRangeData.dateDifference, defaultGuestPreference: this.defaultGuestData.bed_preference, defaultGuestRoomId: this.defaultGuestData.PR_ID, currency: this.currency, bedPreferenceType: this.bedPreferenceType, index: index, selectedUnits: this.selectedUnits[`c_${roomInfo.roomCategoryId}`], guestInfo: roomInfo, guestRefKey: index, bookingType: this.bookingData.event_type, roomsList: roomInfo.physicalRooms, onDataUpdateEvent: event => this.handleEventData(event, 'application-info', index) }));
         }), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => 
             // this.dataUpdateEvent.emit({
@@ -163,7 +164,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-pagetwo", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-date-view", "ir-tooltip"];
+    const components = ["igl-pagetwo", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-date-view", "ir-icons", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-pagetwo":
             if (!customElements.get(tagName)) {
@@ -172,25 +173,30 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

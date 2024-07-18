@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-7f938890.js';
+import { r as registerInstance, h } from './index-d2ec0a5d.js';
 
 const IrTextArea = class {
     constructor(hostRef) {
@@ -12,7 +12,7 @@ const IrTextArea = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: 'abcd9b930c15f3bee08bebf179a4af704cf4044c', class: "form-group" }, h("label", { key: 'e7848c65657296fc9bf8ae9773a40e1eefb99cbc' }, this.label), h("textarea", { key: 'aa8831310f414112cb166ff3164b6a04c5489d86', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
+        return (h("div", { key: '6e95ed5924220ad553b17b00f7945d6d9f9b40ee', class: "form-group" }, h("label", { key: '6d6774aeb9f50ee77678aad31c9cd9c103d5e47f' }, this.label), h("textarea", { key: 'cdb1e104eb19e2a59a393de5ccde6389319b6a06', rows: this.rows, class: "form-control", placeholder: this.placeholder })));
     }
 };
 

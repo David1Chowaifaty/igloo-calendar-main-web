@@ -1,8 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.service2.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
-import { d as defineCustomElement$3 } from './ir-icon2.js';
+import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$4 } from './ir-icon2.js';
+import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-input-text2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
@@ -72,9 +73,9 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
                         value: item.id.toString(),
                         text: item.name,
                     };
-                }), firstOption: '...', onSelectChange: e => this.handleInputChange('country_id', e.detail) }), h("ir-input-text", { placeholder: "", label: this.defaultTexts.entries.Lcz_City, name: "city", value: this.guest.city, onTextChange: e => this.handleInputChange('city', e.detail) }), h("ir-input-text", { placeholder: "", label: this.defaultTexts.entries.Lcz_Address, name: "address", value: this.guest.address, onTextChange: e => this.handleInputChange('address', e.detail) }), h("div", { class: "form-group mr-0" }, h("div", { class: "input-group row m-0 p-0" }, h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.defaultTexts.entries.Lcz_MobilePhone, '*')), h("select", { class: ` form-control text-md  col-2 py-0 mobilePrefixSelect`, onInput: e => this.handleInputChange('country_id', e.target.value), required: true }, h("option", { value: null }, "..."), this.countries.map(item => {
+                }), firstOption: '...', onSelectChange: e => this.handleInputChange('country_id', e.detail) }), h("div", { class: "form-group mr-0" }, h("div", { class: "input-group row m-0 p-0" }, h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.defaultTexts.entries.Lcz_MobilePhone, '*')), h("select", { class: ` form-control text-md  col-2 py-0 mobilePrefixSelect`, onInput: e => this.handleInputChange('country_phone_prefix', e.target.value), required: true }, h("option", { value: null }, "..."), this.countries.map(item => {
                 var _a;
-                return (h("option", { selected: ((_a = this.guest.country_id) === null || _a === void 0 ? void 0 : _a.toString()) === item.id.toString(), value: item.id }, item.phone_prefix));
+                return (h("option", { selected: ((_a = this.guest.country_phone_prefix) === null || _a === void 0 ? void 0 : _a.toString()) === item.phone_prefix.toString(), value: item.phone_prefix }, item.phone_prefix));
             })), h("input", { type: "text", required: true, value: this.guest.mobile, class: 'form-control flex-fill mobilePrefixInput', onInput: e => this.handleInputChange('mobile', e.target.value) }))), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange('subscribe_to_news_letter', e.target.checked) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, this.defaultTexts.entries.Lcz_Newsletter))), h("hr", null), h("ir-button", { isLoading: this.isLoading, btn_disabled: this.isLoading, btn_styles: "d-flex align-items-center justify-content-center", text: this.defaultTexts.entries.Lcz_Save, onClickHanlder: this.editGuest.bind(this), color: "btn-primary" })))),
         ];
     }
@@ -95,7 +96,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info", "ir-button", "ir-icon", "ir-input-text", "ir-select"];
+    const components = ["ir-guest-info", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
@@ -104,10 +105,15 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

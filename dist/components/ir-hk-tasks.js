@@ -3,9 +3,10 @@ import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store }
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { a as axios } from './axios.js';
-import { d as defineCustomElement$a } from './ir-button2.js';
-import { d as defineCustomElement$9 } from './ir-checkbox2.js';
-import { d as defineCustomElement$8 } from './ir-icon2.js';
+import { d as defineCustomElement$b } from './ir-button2.js';
+import { d as defineCustomElement$a } from './ir-checkbox2.js';
+import { d as defineCustomElement$9 } from './ir-icon2.js';
+import { d as defineCustomElement$8 } from './ir-icons2.js';
 import { d as defineCustomElement$7 } from './ir-interceptor2.js';
 import { d as defineCustomElement$6 } from './ir-loading-screen2.js';
 import { d as defineCustomElement$5 } from './ir-modal2.js';
@@ -182,7 +183,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icon", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-title", "ir-toast"];
+    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icon", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-tasks":
             if (!customElements.get(tagName)) {
@@ -191,15 +192,20 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

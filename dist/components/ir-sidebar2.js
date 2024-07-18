@@ -58,12 +58,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: 'f03a70b686f318a8b6af1f2198e299d9fd2f9624', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '844ad56378cd7b22a65ace6e53071efad024ecf4', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'a6409cb637c040fbb8b9098e60323e2e67fa1eb9', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { class: "close", onIconClickHandler: () => {
+            h("div", { key: 'fb4e5fa7c078dd9658aa661174b262449881e2d3', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { key: 'f4f91845c72e0afadaad313c1b5c7c3fdc2978a3', class: "close", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '92baffe57cb746f63897f20ca1c9fcabbf591091', name: "sidebar-body" })),
+                } }, h("svg", { key: '937a51a6bee5deb5239f7e8e7016f9cd2e8c820b', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'af5a36e4dee28473afc4f5f59c99af581e13e1b6', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '1bd0adb7b86d4f81530c1b2839cccdf7486bc726', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

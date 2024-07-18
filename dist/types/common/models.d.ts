@@ -1,4 +1,4 @@
-import { Guest } from '../models/booking.dto';
+import { Guest, ICCI } from '../models/booking.dto';
 export interface IrOnlineResource {
     isJS?: boolean;
     isCSS?: boolean;
@@ -29,6 +29,9 @@ export declare class guestInfo {
     language: string;
 }
 export declare class guestInfoValidation implements Guest {
+    country_phone_prefix: string;
+    cci?: ICCI;
+    alternative_email?: string;
     address: string;
     city: string;
     country_id: number;

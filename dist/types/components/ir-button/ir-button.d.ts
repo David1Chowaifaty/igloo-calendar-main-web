@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
+import { TIcons } from '../ui/ir-icons/icons';
 export declare class IrButton {
     name: string;
     text: any;
@@ -12,6 +13,8 @@ export declare class IrButton {
     isLoading: boolean;
     btn_styles: string;
     btn_id: string;
+    variant: 'default' | 'icon';
+    icon_name: TIcons;
     clickHanlder: EventEmitter<any>;
     private buttonEl;
     handleButtonAnimation(e: CustomEvent): void;

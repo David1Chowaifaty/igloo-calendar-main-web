@@ -4,6 +4,7 @@ export interface ILocale {
 }
 export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords) | null;
 export type LocalizationStrings = {
+    Lcz_BookingCode: string;
     Lcz_Adding: string;
     Lcz_AddingRoomNightsTo: string;
     Lcz_AddingUnitToBooking: string;
@@ -158,6 +159,17 @@ export type LocalizationStrings = {
     Lcz_ShowMore: string;
     Lcz_TotalCost: string;
     Lcz_Cost: string;
+    Lcz_pms: string;
+    Lcz_YES: string;
+    Lcz_NO: string;
+    Lcz_Acknowledged: string;
+    Lcz_SentAt: string;
+    Lcz_PMS_Logs: string;
+    Lcz_LoyaltyDiscountApplied: string;
+    Lcz_Coupon: string;
+    Lcz_ConfrmModiication: string;
+    Lcz_EnteringAmountGreaterThanDue: string;
+    Lcz_IfDeletedPermantlyLost: string;
 };
 export type BookingListingCodes = {
     Lcz_TotalCost: string;
@@ -201,6 +213,7 @@ export type BookingListingCodes = {
     Lcz_BookingBalance: string;
     Lcz_NoDataAvailable: string;
     Lcz_All: string;
+    Lcz_AgentCode: string;
 };
 export type HousekeepingLocalizedWords = {
     Lcz_Action: string;
@@ -281,6 +294,7 @@ export type LocalizationChannelFrontEntries = {
     Lcz_ViewLogs: string;
     Lcz_TestConnection: string;
     Lcz_NoChannelsAreConnected: string;
+    Lcz_InvalidCredentials: string;
 };
 export declare const locales: ILocale, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<ILocale>;
 export default locales;

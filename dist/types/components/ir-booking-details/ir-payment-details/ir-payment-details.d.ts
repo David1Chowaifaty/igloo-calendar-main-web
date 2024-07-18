@@ -13,6 +13,7 @@ export declare class IrPaymentDetails {
     toBeDeletedItem: IPayment;
     paymentDetailsUrl: string;
     paymentExceptionMessage: string;
+    modal_mode: 'delete' | 'save' | null;
     resetBookingData: EventEmitter<null>;
     toast: EventEmitter<IToast>;
     private itemToBeAdded;
@@ -20,9 +21,13 @@ export declare class IrPaymentDetails {
     private bookingService;
     componentWillLoad(): Promise<void>;
     initializeItemToBeAdded(): void;
+    _processPaymentSave(): Promise<void>;
     _handleSave(): Promise<void>;
     handlePaymentInputChange(key: keyof IPayment, value: any, event?: InputEvent): void;
+    cancelPayment(): Promise<void>;
     handleConfirmModal(e: CustomEvent): Promise<void>;
+    openModal(): void;
+    handleCancelModal(e: CustomEvent): Promise<void>;
     handleBookingDetails(): void;
     handleDateChange(e: CustomEvent<{
         start: moment.Moment;

@@ -37,11 +37,11 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: '63ccb5807316a725da9594ac1ac1b8f6b6eefe2b', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '175e689d9d6516e04992e1e54346567545d24b4c', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     this.closeModal();
                 } }),
-            h("div", { key: 'c0d9e34db337b3272bdab94e33670813f005762b', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '769160a7c83be7ee71b310fcf0a126135dba5a52', class: `ir-alert-content p-2` }, h("div", { key: '582cc95892d47931dbd1f4d7aa95587b4ad7a47f', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '298b917758a67829cf9b2b11c38979c47b644543', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'e27311ca992e5539f7a59647dc0cc151658f64cd' }, this.modalBody)), h("div", { key: 'baced0caee5b4bfdddd444aef4d406689790bff7', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && h("ir-button", { icon: '', btn_color: this.rightBtnColor, btn_block: true, text: this.rightBtnText, name: this.rightBtnText })))),
+            h("div", { key: '668e1a70677104e667af379c05361d223b5a2436', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'ec5046674b198d0a6fab0f6a4de3e5239eaa4556', class: `ir-alert-content p-2` }, h("div", { key: 'c5a95932bfd740387b18e86a071c2625fa50934b', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '56f6a1d0ef91697741a843d75d90c49856ffa9b3', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'ec5eb461f380a8c56d88bc227d18c4c069e461e3' }, this.modalBody)), h("div", { key: '0a6074c420eee9ff810f397ebebce5e1f3bc04aa', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '28ac786d594397700cc2daf000f4d6fda3c91702', icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && h("ir-button", { key: '23528cafa311de92a0ca42e4104699158d41b4ad', icon: '', btn_color: this.rightBtnColor, btn_block: true, text: this.rightBtnText, name: this.rightBtnText })))),
         ];
     }
     static get is() { return "ir-modal"; }

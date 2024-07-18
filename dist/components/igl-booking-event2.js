@@ -1,17 +1,90 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service.js';
-import { a as transformNewBooking } from './booking.js';
-import { i as isBlockUnit } from './utils.js';
+import { B as BookingService$1 } from './booking.service2.js';
+import { t as transformNewBooking, d as defineCustomElement$2 } from './ir-date-view2.js';
+import { i as isBlockUnit } from './utils2.js';
 import { h as hooks } from './moment.js';
-import { E as EventsService } from './events.service.js';
+import { a as axios } from './axios.js';
+import { B as BookingService } from './booking.service.js';
+import { e as getReleaseHoursString } from './utils.js';
+import { T as Token } from './Token.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$4 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$3 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$2 } from './ir-date-view2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
 
-const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;transform:skewX(-22deg);border-radius:4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
+class EventsService extends Token {
+    constructor() {
+        super(...arguments);
+        this.bookingService = new BookingService();
+    }
+    async reallocateEvent(pool, destination_pr_id, from_date, to_date) {
+        try {
+            const token = this.getToken();
+            if (token) {
+                console.log(pool, destination_pr_id, from_date, to_date);
+                const { data } = await axios.post(`/ReAllocate_Exposed_Room?Ticket=${token}`, { pool, destination_pr_id, from_date, to_date });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                console.log(data);
+                return data;
+            }
+            else {
+                throw new Error('Invalid Token');
+            }
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async deleteEvent(POOL) {
+        try {
+            const token = this.getToken();
+            if (token) {
+                const { data } = await axios.post(`/UnBlock_Exposed_Unit?Ticket=${token}`, {
+                    POOL,
+                });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                return data.My_Result;
+            }
+            else {
+                throw new Error('Invalid Token');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async updateBlockedEvent(bookingEvent) {
+        try {
+            const token = this.getToken();
+            if (token) {
+                const releaseData = getReleaseHoursString(+bookingEvent.RELEASE_AFTER_HOURS);
+                await this.deleteEvent(bookingEvent.POOL);
+                this.bookingService.setToken(token);
+                const result = await this.bookingService.blockUnit(Object.assign({ from_date: this.formatDate(bookingEvent.FROM_DATE), to_date: this.formatDate(bookingEvent.TO_DATE), pr_id: bookingEvent.PR_ID, STAY_STATUS_CODE: bookingEvent.OUT_OF_SERVICE ? '004' : bookingEvent.RELEASE_AFTER_HOURS === 0 ? '002' : '003', DESCRIPTION: bookingEvent.RELEASE_AFTER_HOURS || '', NOTES: bookingEvent.OPTIONAL_REASON || '' }, releaseData));
+                return result;
+            }
+            else {
+                throw new Error('Invalid Token');
+            }
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    formatDate(date) {
+        return date.split('/').join('-');
+    }
+}
+
+const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;border-radius:4px;transform:skewX(-22deg)}.bookingEventBase.skewedLeft.sc-igl-booking-event::before{content:'';position:absolute;top:0px;bottom:0;left:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:right;transform:skewX(22deg);border-radius:4px;border-top-left-radius:0;border-bottom-left-radius:0}.bookingEventBase.skewedRight.sc-igl-booking-event::before{content:'';position:absolute;top:0;bottom:0;right:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:left;transform:skewX(22deg);border-radius:4px;border-top-right-radius:0;border-bottom-right-radius:0}.bookingEventBase.border.skewedLeft.sc-igl-booking-event::before{border:1px solid #424242;border-right:0;border-left:0;border-top-right-radius:0;border-bottom-right-radius:0;top:-1px;height:20px;left:-4px}.bookingEventBase.border.skewedRight.sc-igl-booking-event::before{border:1px solid #424242;border-left:0;border-right:0;border-top-left-radius:0;border-bottom-left-radius:0;top:-1px;height:20px;right:-4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.leftSide.skewedLeft.sc-igl-booking-event{transform:skewX(0)}.rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
 const IglBookingEventStyle0 = iglBookingEventCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
@@ -37,6 +110,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         this.showDialog = createEvent(this, "showDialog", 7);
         this.resetStreachedBooking = createEvent(this, "resetStreachedBooking", 7);
         this.toast = createEvent(this, "toast", 7);
+        this.updateBookingEvent = createEvent(this, "updateBookingEvent", 7);
         this.dayWidth = 0;
         this.eventSpace = 8;
         this.vertSpace = 10;
@@ -46,7 +120,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         this.isStreatch = false;
         /*Services */
         this.eventsService = new EventsService();
-        this.bookingService = new BookingService();
+        this.bookingService = new BookingService$1();
         /* Resize props */
         this.resizeSide = '';
         this.isDragging = false;
@@ -72,25 +146,28 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
     async fetchAndAssignBookingData() {
         try {
             console.log('clicked on book#', this.bookingEvent.BOOKING_NUMBER);
-            if (['IN-HOUSE', 'CONFIRMED', 'PENDING-CONFIRMATION', 'CHECKED-OUT'].includes(this.bookingEvent.STATUS)) {
-                const data = await this.bookingService.getExposedBooking(this.bookingEvent.BOOKING_NUMBER, 'en');
-                let dataForTransformation = data.rooms.filter(d => d['assigned_units_pool'] === this.bookingEvent.ID);
-                data.rooms = dataForTransformation;
-                if (data.rooms.length === 0) {
-                    throw new Error(`"booking#${this.bookingEvent.BOOKING_NUMBER} have empty array"`);
-                }
-                else {
-                    if (data.rooms.some(r => r['assigned_units_pool'] === null)) {
-                        throw new Error(`"booking#${this.bookingEvent.BOOKING_NUMBER} have empty pool"`);
-                    }
-                }
-                const _a = transformNewBooking(data)[0], others = __rest(_a, ["ID", "TO_DATE", "FROM_DATE", "NO_OF_DAYS", "STATUS", "NAME", "IDENTIFIER", "PR_ID", "POOL", "BOOKING_NUMBER", "NOTES", "is_direct", "BALANCE"]);
-                this.bookingEvent = Object.assign(Object.assign({}, this.bookingEvent), others);
-                this.showEventInfo(true);
+            const validStatuses = ['IN-HOUSE', 'CONFIRMED', 'PENDING-CONFIRMATION', 'CHECKED-OUT'];
+            if (!validStatuses.includes(this.bookingEvent.STATUS)) {
+                return;
             }
+            const data = await this.bookingService.getExposedBooking(this.bookingEvent.BOOKING_NUMBER, 'en');
+            const filteredRooms = data.rooms.filter(room => room['assigned_units_pool'] === this.bookingEvent.ID);
+            if (filteredRooms.length === 0) {
+                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty array`);
+            }
+            if (filteredRooms.some(room => room['assigned_units_pool'] === null)) {
+                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty pool`);
+            }
+            data.rooms = filteredRooms;
+            const transformedBooking = transformNewBooking(data)[0];
+            const otherBookingData = __rest(transformedBooking, ["ID", "TO_DATE", "FROM_DATE", "NO_OF_DAYS", "STATUS", "NAME", "IDENTIFIER", "PR_ID", "POOL", "BOOKING_NUMBER", "NOTES", "is_direct", "BALANCE"]);
+            console.log(otherBookingData.PHONE_PREFIX);
+            this.bookingEvent = Object.assign(Object.assign(Object.assign({}, otherBookingData), this.bookingEvent), { PHONE_PREFIX: otherBookingData.PHONE_PREFIX });
+            this.updateBookingEvent.emit(this.bookingEvent);
+            this.showEventInfo(true);
         }
         catch (error) {
-            console.error(error);
+            console.error(error.message);
         }
     }
     componentDidLoad() {
@@ -182,16 +259,15 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                         else {
                             if (this.isShrinking || !this.isStreatch) {
                                 console.log(this.bookingEvent.PR_ID.toString() === toRoomId.toString(), this.bookingEvent.PR_ID.toString(), toRoomId.toString());
-                                try {
-                                    if (this.bookingEvent.PR_ID.toString() === toRoomId.toString()) {
-                                        await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date);
-                                        return;
-                                    }
-                                }
-                                catch (error) {
-                                    this.resetBookingToInitialPosition();
-                                    return;
-                                }
+                                // try {
+                                //   if (this.bookingEvent.PR_ID.toString() === toRoomId.toString()) {
+                                //     await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date);
+                                //     return;
+                                //   }
+                                // } catch (error) {
+                                //   this.resetBookingToInitialPosition();
+                                //   return;
+                                // }
                                 const { description, status } = this.setModalDescription(toRoomId, from_date, to_date);
                                 let hideConfirmButton = false;
                                 if (status === '400') {
@@ -273,7 +349,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                     };
                 }
             }
-            return { description: locales.entries.Lcz_BalanceWillBeCalculated, status: '200' };
+            return { description: locales.entries.Lcz_ConfrmModiication, status: '200' };
         }
     }
     resetBookingToInitialPosition() {
@@ -363,7 +439,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         return null;
     }
     getBalanceNode() {
-        if (this.bookingEvent.BALANCE !== null && this.bookingEvent.BALANCE > 0) {
+        if (this.bookingEvent.BALANCE !== null && this.bookingEvent.BALANCE >= 1) {
             return this.getLegendOfStatus('OUTSTANDING-BALANCE');
         }
         return null;
@@ -387,10 +463,22 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
             let boundingRect = startingCell.getBoundingClientRect();
             this.dayWidth = this.dayWidth || boundingRect.width;
             pos.top = boundingRect.top + boundingRect.height / 2 - this.vertSpace - bodyContainerRect.top + 'px';
-            pos.left = boundingRect.left + this.dayWidth / 2 + this.eventSpace / 2 - bodyContainerRect.left + 'px';
-            pos.width = this.getStayDays() * this.dayWidth - this.eventSpace + 'px';
+            // pos.left = boundingRect.left + this.dayWidth / 2 + this.eventSpace / 2 - bodyContainerRect.left + 'px';
+            // pos.width = this.getStayDays() * this.dayWidth - this.eventSpace + 'px';
+            pos.left =
+                boundingRect.left +
+                    (!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0 : this.dayWidth / 2) +
+                    this.eventSpace / 2 -
+                    bodyContainerRect.left +
+                    'px';
+            pos.width =
+                (this.getStayDays() + (!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0.5 : 0)) *
+                    this.dayWidth -
+                    this.eventSpace +
+                    'px';
         }
         else {
+            console.log(this.bookingEvent);
             console.log('Locating event cell failed ', startingCellClass);
         }
         //console.log(pos);
@@ -611,11 +699,16 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         let legend = this.getEventLegend();
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
-        return (h(Host, { key: 'a1cf8c653b0ab850a32a5ccc2cb4bd2b3fca7d8d', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '447fec6eab42065973872aaa3154353120883c3f', class: `bookingEventBase  ${!this.bookingEvent.is_direct &&
+        // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
+        return (h(Host, { key: 'd34dd2d51054cb15456b55dd0b5b4bbfe4b0475e', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '6e6460cb872f72ee42f3535616a7db628cb8caa3', class: `bookingEventBase ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+          ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
+          ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { backgroundColor: legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '1859bf2c59797ffc2351fe5041a0321b60fbf75d', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '4c074ed3eb646d83725d50890811cdccd21225cc' }, h("div", { key: '9d8ffcb4d56144d2147863dc42448c086ca5231f', class: "bookingEventDragHandle leftSide", onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '5f0ee37d3a25267c1fdd05d5ee0a3d08e6193c7d', class: "bookingEventDragHandle rightSide", onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide })) : null));
+                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: 'a9dfeba0191d7a0f56da4469ad09a3f179b6fa34', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'e04aed3e78fc7aa34db660c76b06c9c3619a0dba' }, h("div", { key: 'e234a2666307f4b408a8ec7f3a301533987ad00c', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'e57649d68afa77adfb8990323bc570e820f2bb13', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+              ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide })) : null));
     }
     get element() { return this; }
     static get style() { return IglBookingEventStyle0; }

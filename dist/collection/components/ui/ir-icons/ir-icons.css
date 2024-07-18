@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+.icon {
+  height: var(--icon-size, 1.25rem);
+  width: var(--icon-size, 1.25rem);
+  margin: 0;
+  padding: 0;
+}

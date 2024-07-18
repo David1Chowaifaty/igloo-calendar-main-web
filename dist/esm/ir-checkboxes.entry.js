@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-7f938890.js';
+import { r as registerInstance, c as createEvent, h } from './index-d2ec0a5d.js';
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
@@ -23,7 +23,7 @@ const IrCheckBoxes = class {
         }
     }
     render() {
-        return (h("div", { key: 'af7bcaaf56c50efcacb3593d8cf25dde49e840bb' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (h("div", { key: '4a72c2af6f2d14b1f288a21e860229323f4b2417' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 };
 

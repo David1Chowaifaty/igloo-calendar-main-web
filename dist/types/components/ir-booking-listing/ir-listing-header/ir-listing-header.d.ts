@@ -3,6 +3,7 @@ export declare class IrListingHeader {
     language: string;
     baseurl: string;
     inputValue: string;
+    isLoading: 'search' | 'excel';
     private bookingListingService;
     componentWillLoad(): void;
     private downloadUrlTag;

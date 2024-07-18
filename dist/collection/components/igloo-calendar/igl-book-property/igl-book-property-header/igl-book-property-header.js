@@ -9,6 +9,8 @@ export class IglBookPropertyHeader {
             code: '',
             description: '',
             tag: '',
+            id: '',
+            type: '',
         };
         this.splitBookingId = '';
         this.bookingData = '';
@@ -120,7 +122,7 @@ export class IglBookPropertyHeader {
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '326c9af68abfe4944e04a290cd168f18af9e1073' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'e90a4ca13a188e9181d2f0036ae40c4200846919', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '1bd3aa3e963f829be792eb797fa9c00bc69d5f15', class: "mt-lg-0  " }, h("igl-date-range", { key: 'cd79a559beb441cf7e905c0ba308b6e49a719624', dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? moment().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '0873dd27b465e3ada2f4ad71279297b4107c7e80', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '55b62ea25933b51ecf1a7052d24a843643a2e8f2' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'f14db7d62fa5aefeb952a523380dc24673302092', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'ffb400ea8577bd6142702c5b65f120cabb34598f', class: "mt-lg-0  " }, h("igl-date-range", { key: '85df3428f3d308a04ec291741744fdd78e6a669f', dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? moment().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'ff20b95b2fc9723cd256c2b8ffaf798fb18f7940', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }

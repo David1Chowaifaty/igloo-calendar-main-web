@@ -32,7 +32,7 @@ export declare class IglBookingEventHover {
     getTotalOccupants(): any;
     getPhoneNumber(): any;
     getCountry(): string;
-    getPhoneCode(): string;
+    getPhoneCode(): any;
     renderPhone(): any;
     getGuestNote(): any;
     getInternalNote(): any;

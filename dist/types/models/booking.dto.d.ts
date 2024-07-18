@@ -1,5 +1,11 @@
 import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
 export interface Booking {
+    agent: {
+        code: string;
+        id: number;
+        name: string;
+        verification_mode: null;
+    } | null;
     arrival: Arrival;
     allowed_actions: IAllowedActions[];
     system_id: number;
@@ -25,6 +31,9 @@ export interface Booking {
     financial: IFinancials;
     pickup_info: IBookingPickupInfo | null;
     cost: number | null;
+    is_pms_enabled: boolean;
+    promo_key: string | null;
+    is_in_loyalty_mode: boolean;
 }
 export interface IOtaNotes {
     statement: string;
@@ -93,6 +102,7 @@ export interface Guest {
     id: number;
     last_name: string | null;
     mobile: string | null;
+    country_phone_prefix: string | null;
     subscribe_to_news_letter: boolean | null;
     cci?: ICCI | null;
     alternative_email?: string;
@@ -196,4 +206,11 @@ export interface Source {
 export interface Status {
     code: string;
     description: string;
+}
+export interface IPmsLog {
+    is_acknowledged: boolean;
+    is_sent: boolean;
+    sent_date: string;
+    sent_hour: number;
+    sent_minute: number;
 }

@@ -43,6 +43,7 @@
     "components/ir-common/ir-common.js",
     "components/ir-date-picker/ir-date-picker.js",
     "components/ir-date-view/ir-date-view.js",
+    "components/ir-dialog/ir-dialog.js",
     "components/ir-dropdown/ir-dropdown.js",
     "components/ir-guest-info/ir-guest-info.js",
     "components/ir-housekeeping/ir-housekeeping.js",
@@ -69,12 +70,13 @@
     "components/ir-title/ir-title.js",
     "components/ir-toast/ir-toast.js",
     "components/ir-tooltip/ir-tooltip.js",
-    "components/ota-label/ota-label.js"
+    "components/ota-label/ota-label.js",
+    "components/ui/ir-icons/ir-icons.js"
   ],
   "compiler": {
     "name": "@stencil/core",
-    "version": "4.12.6",
-    "typescriptVersion": "5.3.3"
+    "version": "4.18.3",
+    "typescriptVersion": "5.4.5"
   },
   "collections": [],
   "bundles": []

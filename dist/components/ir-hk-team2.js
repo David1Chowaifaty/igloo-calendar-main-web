@@ -1,12 +1,13 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { h as housekeeping_store } from './housekeeping.service.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$c } from './ir-button2.js';
-import { d as defineCustomElement$b } from './ir-combobox2.js';
-import { d as defineCustomElement$a } from './ir-delete-modal2.js';
-import { d as defineCustomElement$9 } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$8 } from './ir-hk-user2.js';
-import { d as defineCustomElement$7 } from './ir-icon2.js';
+import { d as defineCustomElement$d } from './ir-button2.js';
+import { d as defineCustomElement$c } from './ir-combobox2.js';
+import { d as defineCustomElement$b } from './ir-delete-modal2.js';
+import { d as defineCustomElement$a } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$9 } from './ir-hk-user2.js';
+import { d as defineCustomElement$8 } from './ir-icon2.js';
+import { d as defineCustomElement$7 } from './ir-icons2.js';
 import { d as defineCustomElement$6 } from './ir-input-text2.js';
 import { d as defineCustomElement$5 } from './ir-phone-input2.js';
 import { d as defineCustomElement$4 } from './ir-select2.js';
@@ -72,22 +73,22 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
     render() {
         var _a;
         const { assigned, total, un_assigned } = housekeeping_store.hk_criteria.units_assignments;
-        return (h(Host, { key: '9b2620fd2952fcccfe60c0b1f74d0d6a20ed1044', class: "card p-1" }, h("section", { key: 'ac24e8647a5b75f8a8b37f47c451d88f58dcf6c7' }, h("ir-title", { key: 'c9ea85c59e84f629e44e2a1ca9f474520094e18c', label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { key: '17132ab77b861b5bf3fd230964aebc4ef49b6b0d', slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { key: '271a75ed3448db3f01c0545245ce431d93b135be', class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { key: '329af5278fb257cdba9af875df543cf2facca913', class: 'm-0 p-0' }, assigned, " ", h("span", { key: 'a746ed5535bba3a30ee1c5b486a71256a864612a' }, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { key: 'c1b77c2df3a8c64b0a9305c65a7c4376bdd789fc', class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { key: '6920c93b12baef2332d5bc82d07b82d9f3ffcb13', class: "table-container" }, h("table", { key: 'ef0d307a8b449a13cee7552ca68174c34b46b242', class: "table" }, h("thead", { key: '9dda7d6be7edec49c57d09cc15aebbf2ec53ba42' }, h("tr", { key: 'b8f5f623e608ef90d5e4d69fc45b130c555b1aea' }, h("th", { key: '2a70b5eca762eedccf573a61b6a1440d7ffafe22', class: "text-left" }, locales.entries.Lcz_Name), h("th", { key: '90685acdf1a43796d5897b6b0c0ebd0e8e151463' }, locales.entries.Lcz_Mobile), h("th", { key: '241454f66278be59a2927cb77ea17b5458b23269' }, locales.entries.Lcz_Username), h("th", { key: '76cf084b7b6579860d823caa6afcc9432418bbda' }, locales.entries.Lcz_Note), h("th", { key: 'dee2973b159d27d5de7ad3257c0f432572f76d0b' }, locales.entries.Lcz_UnitsAssigned), h("th", { key: '83bdf8c1bfbaeef4d800fa2ded18ff479dcf772d', class: "text-center" }, h("ir-icon", { key: '3e0b14225ae43b4709ce898c643a6fb216ac2134', title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { key: 'b192ee9dfd25656f72f090546176f6a321a8414c', class: "card p-1" }, h("section", { key: '323b81ac9142597718a45cbf2601818b79cc4aec' }, h("ir-title", { key: 'b234f6c755095fa7ad50077aa292d45e12addb75', label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { key: '1487347ab60c144faaa3542acb267095aa734261', slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { key: '5614cbc112a0e94420a53189feaf1ac911842e45', class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { key: '7a4689b0bc1848e5b3ff8b71906ff6c1f7a6cb21', class: 'm-0 p-0' }, assigned, " ", h("span", { key: 'bbc478fb39d03f63400803aa9a254839cdc659aa' }, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { key: '99cc5c4ed464dd605285479e9a8b2d4b2dbceeea', class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { key: '467012beca03c976b4141de61e55182d36ef287f', class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { key: '2f1124d8ebcd6daee976ac5bcaca00b9cd5c61e7', class: "table-container" }, h("table", { key: 'd1c161dcccb6dc47c8fd318d9120896a5d7f842d', class: "table" }, h("thead", { key: 'd5bee410a9297c9792a34a9dc5132e2eb163b91d' }, h("tr", { key: 'ac61ae36ef42794bf8753045f9ce1c52f2d243cb' }, h("th", { key: 'b8a73b568a5383bef3a2781640e610cb484af5f6', class: "text-left" }, locales.entries.Lcz_Name), h("th", { key: 'd911329106d096854b4f9694e5442a903d92c244' }, locales.entries.Lcz_Mobile), h("th", { key: '565c8f6208dd640f72b2f5c5811cecfaa0bafdd5' }, locales.entries.Lcz_Username), h("th", { key: 'ef1382fad675d056b00e215b73e2d8dbe92fac42' }, locales.entries.Lcz_Note), h("th", { key: 'd29fa70f79e7f40713b4212fd1cbd45f40099382' }, locales.entries.Lcz_UnitsAssigned), h("th", { key: '6ca764a6e896f7b8b1d65af30392d6b7f44cdc38', class: "text-center" }, h("ir-icon", { key: '89b73f98e4d429b28e5d90f10357538778372d4f', title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
                     user: null,
                 };
-            } }, h("svg", { key: '138f7086f0d86eecba31e6ba57773bb726179af8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '8c960ddaf66330baa9313444ddfd838e1c8576f1', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", { key: 'f5f244cb4ddd51c4d76835a919e9afac7d1489c0' }, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id }, h("td", { class: "text-left" }, hk.name), h("td", null, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, hk.note), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "text-center" }, h("div", { class: "icons-container" }, h("ir-icon", { title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
+            } }, h("svg", { key: '2d2087780835a58801d58727b1b6e3fd58da03eb', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: 'a84f41831e85216bc25b656bb6a7b0f55a0d83c1', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", { key: '7d9519c2410cf49762217ee4eb835b1259b9567c' }, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id }, h("td", { class: "text-left" }, hk.name), h("td", null, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, hk.note), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "text-center" }, h("div", { class: "icons-container" }, h("ir-icon", { title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                 const user = __rest(hk, ["assigned_units", "is_soft_deleted", "is_active"]);
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: true,
                     user,
                 };
-            }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))), h("span", null, " \u00A0"), h("ir-icon", { title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => this.handleDeletion(hk) }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))))))))))), h("ir-sidebar", { key: 'd208b9e611bd20f5256a1ba3b30922fd39cb327e', showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
+            }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))), h("span", null, " \u00A0"), h("ir-icon", { title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => this.handleDeletion(hk) }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))))))))))), h("ir-sidebar", { key: 'ff568cc61d39536a1d45cb02ab5b1a2fe381b50d', showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
                 '--sidebar-width': this.currentTrigger ? (this.currentTrigger.type === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), ((_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.type) === 'delete' && h("ir-delete-modal", { user: this.currentTrigger.user })));
+            } }, this.renderCurrentTrigger()), ((_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.type) === 'delete' && h("ir-delete-modal", { key: '14fb37fd8b9f7126b745c538087f1cb0bdc5680e', user: this.currentTrigger.user })));
     }
     get el() { return this; }
     static get style() { return IrHkTeamStyle0; }
@@ -98,7 +99,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-team", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-input-text", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title"];
+    const components = ["ir-hk-team", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
@@ -107,30 +108,35 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

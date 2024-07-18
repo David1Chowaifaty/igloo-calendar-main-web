@@ -33,7 +33,7 @@ export class IrPopover {
         });
     }
     render() {
-        return (h(Host, { key: '812f1a4a33727a83e767959c7ab842720d0ab793', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ced34ae33ca4b784bbe3825e84b034b78c8d7574', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (h(Host, { key: 'd71b3d4b1b5552d1b10feb7ff1c3e6c89cea24ac', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '2f8e57eb6b4c2ad27f0ecdee84ac9ba596ee482d', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: 'afd6ab076b9f5c07381cc07b95298f187f06889c', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     static get is() { return "ir-popover"; }
     static get encapsulation() { return "scoped"; }

@@ -1,9 +1,109 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
+import './calendar-data.js';
 
-const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
+const bookingStatus = {
+    '000': 'IN-HOUSE',
+    '001': 'PENDING-CONFIRMATION',
+    '002': 'CONFIRMED',
+    '003': 'CHECKED-OUT',
+};
+function formatName(firstName, lastName) {
+    if (firstName === null && lastName === null)
+        return '';
+    if (lastName !== null && lastName !== '') {
+        return `${firstName !== null && firstName !== void 0 ? firstName : ''} , ${lastName !== null && lastName !== void 0 ? lastName : ''}`;
+    }
+    return firstName;
+}
+function transformNewBooking(data) {
+    let bookings = [];
+    //console.log(data);
+    const renderStatus = room => {
+        const now = hooks();
+        const toDate = hooks(room.to_date, 'YYYY-MM-DD');
+        const fromDate = hooks(room.from_date, 'YYYY-MM-DD');
+        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+            return bookingStatus['000'];
+        }
+        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+            return bookingStatus['000'];
+        }
+        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+            return bookingStatus['000'];
+        }
+        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+            return bookingStatus['003'];
+        }
+        else {
+            return bookingStatus[(data === null || data === void 0 ? void 0 : data.status.code) || '001'];
+        }
+        // if (toDate.isBefore(now, 'day') || (toDate.isSame(now, 'day') && now.hour() >= 12)) {
+        //   return bookingStatus['003'];
+        // } else {
+        //   return bookingStatus[fromDate.isSameOrBefore(now, 'day') ? '000' : data?.status.code || '001'];
+        // }
+    };
+    const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
+    rooms.forEach(room => {
+        var _a, _b;
+        bookings.push({
+            ID: room['assigned_units_pool'],
+            TO_DATE: room.to_date,
+            FROM_DATE: room.from_date,
+            NO_OF_DAYS: room.days.length,
+            ARRIVAL: data.arrival,
+            IS_EDITABLE: true,
+            BALANCE: (_a = data.financial) === null || _a === void 0 ? void 0 : _a.due_amount,
+            STATUS: renderStatus(room),
+            NAME: formatName(room.guest.first_name, room.guest.last_name),
+            PHONE: (_b = data.guest.mobile) !== null && _b !== void 0 ? _b : '',
+            ENTRY_DATE: '12-12-2023',
+            PHONE_PREFIX: data.guest.country_phone_prefix,
+            RATE: room.total,
+            RATE_PLAN: room.rateplan.name,
+            SPLIT_BOOKING: false,
+            RATE_PLAN_ID: room.rateplan.id,
+            IDENTIFIER: room.identifier,
+            RATE_TYPE: room.roomtype.id,
+            ADULTS_COUNT: room.occupancy.adult_nbr,
+            CHILDREN_COUNT: room.occupancy.children_nbr,
+            PR_ID: +room.unit.id,
+            POOL: room['assigned_units_pool'],
+            GUEST: data.guest,
+            ROOMS: data.rooms,
+            BOOKING_NUMBER: data.booking_nbr,
+            cancelation: room.rateplan.cancelation,
+            guarantee: room.rateplan.guarantee,
+            TOTAL_PRICE: room.gross_total,
+            COUNTRY: data.guest.country_id,
+            FROM_DATE_STR: data.format.from_date,
+            TO_DATE_STR: data.format.to_date,
+            adult_child_offering: room.rateplan.selected_variation.adult_child_offering,
+            ARRIVAL_TIME: data.arrival.description,
+            origin: data.origin,
+            channel_booking_nbr: data.channel_booking_nbr,
+            is_direct: data.is_direct,
+            NOTES: data.is_direct ? data.remark : null,
+            SOURCE: { code: data.source.code, description: data.source.description, tag: data.source.tag },
+            ota_notes: data.ota_notes,
+            defaultDates: {
+                from_date: room.from_date,
+                to_date: room.to_date,
+            },
+        });
+    });
+    return bookings;
+}
+function calculateDaysBetweenDates(from_date, to_date) {
+    const startDate = hooks(from_date, 'YYYY-MM-DD');
+    const endDate = hooks(to_date, 'YYYY-MM-DD');
+    const daysDiff = endDate.diff(startDate, 'days');
+    return daysDiff || 1;
+}
+
+const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
 const IrDateViewStyle0 = irDateViewCss;
 
 const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTMLElement {
@@ -56,7 +156,7 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         }
     }
     render() {
-        return (h(Host, { key: '5e12bdddd06843041e04a4a031dcf7a19272693e', class: "d-flex align-items-center" }, h("span", { key: 'd2fc3f9a0af7bb33d7e727712afe7174df3a4813' }, this.dates.from_date), ' ', h("svg", { key: '4150efedde2d31ed70635d94e59093cfd6e76686', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '26b22e0de12db94abc5c4328e59d12af06563986', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '3aef9f76e9eab80d4021270ea381bf367408b99d' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { class: "mx-01" }, this.dates.date_diffrence, '   ', this.dates.date_diffrence > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: 'b709fb38a0d54ca2692d2ac6a9625049f87afc4a', class: "d-flex align-items-center" }, h("span", { key: 'd390bd1a1abf29b0001df5a51fa1cd1f7cc16828' }, this.dates.from_date), ' ', h("svg", { key: 'bf85b671f6777381f49b350e278c1557cab315f9', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '41288358cdb7a410cca6bdcb69c13f87b0f36e5b', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '599b223af4d16099eb252ca8925f9e76b3562501' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: 'de4961c0c3f0df380b5369be3e9a083eb9e79be7', class: "mx-01" }, this.dates.date_diffrence, '   ', this.dates.date_diffrence > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],
@@ -87,6 +187,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrDateView as I, defineCustomElement as d };
+export { IrDateView as I, calculateDaysBetweenDates as c, defineCustomElement as d, transformNewBooking as t };
 
 //# sourceMappingURL=ir-date-view2.js.map

@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$2 } from './igl-tba-booking-view2.js';
-import { d as defineCustomElement$1 } from './ir-button2.js';
+import { d as defineCustomElement$3 } from './igl-tba-booking-view2.js';
+import { d as defineCustomElement$2 } from './ir-button2.js';
+import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}";
 const IglTbaCategoryViewStyle0 = iglTbaCategoryViewCss;
@@ -48,7 +49,7 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: 'b50e22358bbb59a9ff3a2a891bb1ad7d3936f5f6' }, h("div", { key: '2752f1876fa68ce8075c62ad2cf8fc3ec54ff5ee', class: "sectionContainer" }, h("div", { key: '7703d29bd88daa603944d6e9200f66082aa3e4d6', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId].name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '6214dcd8aea4a88e167572af893ee2426c9c5d50' }, h("div", { key: '6d397c36d830ad8398bd3ccbcbb575e67e6d2879', class: "sectionContainer" }, h("div", { key: 'd138369cf6d6ed0770bee2140404007b9fcfa45c', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId].name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get style() { return IglTbaCategoryViewStyle0; }
 }, [2, "igl-tba-category-view", {
@@ -64,7 +65,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-tba-category-view", "igl-tba-booking-view", "ir-button"];
+    const components = ["igl-tba-category-view", "igl-tba-booking-view", "ir-button", "ir-icons"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-tba-category-view":
             if (!customElements.get(tagName)) {
@@ -73,10 +74,15 @@ function defineCustomElement() {
             break;
         case "igl-tba-booking-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

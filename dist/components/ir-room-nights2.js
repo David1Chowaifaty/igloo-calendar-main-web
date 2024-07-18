@@ -5,8 +5,9 @@ import { n as getDaysArray, g as getCurrencySymbol, o as convertDatePrice, p as 
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$3 } from './ir-button2.js';
-import { d as defineCustomElement$2 } from './ir-icon2.js';
+import { d as defineCustomElement$4 } from './ir-button2.js';
+import { d as defineCustomElement$3 } from './ir-icon2.js';
+import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-loading-screen2.js';
 import { v as v4 } from './v4.js';
 
@@ -50,6 +51,7 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
     }
     async init() {
         var _a;
+        console.log(this.fromDate, this.toDate);
         try {
             this.bookingEvent = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
             if (this.bookingEvent) {
@@ -63,12 +65,13 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
                     this.isEndDateBeforeFromDate = true;
                     this.rates = [
                         ...newDatesArr.map(day => ({
-                            amount,
+                            amount: amount / newDatesArr.length,
                             date: day,
                             cost: null,
                         })),
                         ...this.selectedRoom.days,
                     ];
+                    this.defaultTotalNights = this.rates.length - this.selectedRoom.days.length;
                 }
                 else {
                     const amount = await this.fetchBookingAvailability(lastDay.date, hooks(this.toDate, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id, this.selectedRoom.rateplan.selected_variation.adult_child_offering);
@@ -76,13 +79,12 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
                     this.rates = [
                         ...this.selectedRoom.days,
                         ...newDatesArr.map(day => ({
-                            amount,
+                            amount: amount / newDatesArr.length,
                             date: day,
                             cost: null,
                         })),
                     ];
                 }
-                this.defaultTotalNights = this.rates.length - this.selectedRoom.days.length;
             }
         }
         catch (error) {
@@ -115,15 +117,28 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         console.log(this.rates);
     }
     async fetchBookingAvailability(from_date, to_date, rate_plan_id, selected_variation) {
+        var _a;
         try {
             this.initialLoading = true;
-            const bookingAvailability = await this.bookingService.getBookingAvailability(from_date, to_date, this.propertyId, {
-                adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
-                child: this.selectedRoom.rateplan.selected_variation.child_nbr,
-            }, this.language, [this.selectedRoom.roomtype.id], this.bookingEvent.currency);
+            const bookingAvailability = await this.bookingService.getBookingAvailability({
+                from_date,
+                to_date,
+                propertyid: this.propertyId,
+                adultChildCount: {
+                    adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
+                    child: this.selectedRoom.rateplan.selected_variation.child_nbr,
+                },
+                language: this.language,
+                currency: this.bookingEvent.currency,
+                room_type_ids: [this.selectedRoom.roomtype.id],
+            });
             this.inventory = bookingAvailability.roomtypes[0].inventory;
             const rate_plan_index = bookingAvailability.roomtypes[0].rateplans.find(rate => rate.id === rate_plan_id);
-            const { amount } = rate_plan_index.variations.find(variation => variation.adult_child_offering === selected_variation);
+            if (!rate_plan_index || !rate_plan_index.variations) {
+                this.inventory = null;
+                return null;
+            }
+            const { amount } = (_a = rate_plan_index.variations) === null || _a === void 0 ? void 0 : _a.find(variation => variation.adult_child_offering === selected_variation);
             return amount;
         }
         catch (error) {
@@ -199,7 +214,7 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
     render() {
         var _a, _b, _c;
         if (!this.bookingEvent) {
-            return (h("div", { class: "loading-container" }, h("ir-loading-screen", null), ";"));
+            return (h("div", { class: "loading-container" }, h("ir-loading-screen", null)));
         }
         return (h(Host, null, h("div", { class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { class: "d-flex mt-2 align-items-center justify-content-between " }, h("h3", { class: "card-title text-left pb-1 font-medium-2 px-2" }, locales.entries.Lcz_AddingRoomNightsTo, " ", (_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 :
             _b.name, " ", ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name), h("button", { type: "button", class: "close close-icon", onClick: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }, h("ir-icon", { icon: "ft-x", class: 'm-0' })))), h("section", { class: 'text-left px-2' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(this.fromDate, 'YYYY-MM-DD')} - ${formatDate(this.toDate, 'YYYY-MM-DD')}`), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), h("section", { class: 'd-flex align-items-center mt-2 px-2' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHanlder: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "ml-1 full-width", btn_styles: "justify-content-center", onClickHanlder: this.handleRoomConfirmation.bind(this) })))));
@@ -229,7 +244,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-room-nights", "ir-button", "ir-icon", "ir-loading-screen"];
+    const components = ["ir-room-nights", "ir-button", "ir-icon", "ir-icons", "ir-loading-screen"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-room-nights":
             if (!customElements.get(tagName)) {
@@ -238,10 +253,15 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

@@ -1,18 +1,29 @@
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
-import { Booking, Guest } from '../models/booking.dto';
+import { Booking, Guest, IPmsLog } from '../models/booking.dto';
 import { Token } from "../models/Token";
 export declare class BookingService extends Token {
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;
     }>;
     fetchGuest(email: string): Promise<Guest>;
+    fetchPMSLogs(booking_nbr: string | number): Promise<IPmsLog>;
     editExposedGuest(guest: Guest, book_nbr: string): Promise<any>;
-    getBookingAvailability(from_date: string, to_date: string, propertyid: number, adultChildCount: {
-        adult: number;
-        child: number;
-    }, language: string, room_type_ids: number[], currency: {
-        id: number;
-        code: string;
+    getBookingAvailability(props: {
+        from_date: string;
+        to_date: string;
+        propertyid: number;
+        adultChildCount: {
+            adult: number;
+            child: number;
+        };
+        language: string;
+        room_type_ids: number[];
+        currency: {
+            id: number;
+            code: string;
+        };
+        is_in_agent_mode?: boolean;
+        agent_id?: string | number;
     }): Promise<BookingDetails>;
     getCountries(language: string): Promise<ICountry[]>;
     fetchSetupEntries(): Promise<ISetupEntries>;

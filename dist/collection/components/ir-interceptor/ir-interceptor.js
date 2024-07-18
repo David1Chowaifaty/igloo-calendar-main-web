@@ -6,7 +6,8 @@ export class IrInterceptor {
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
-        this.handledEndpoints = ['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
+        this.endpointsCount = 0;
+        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -25,7 +26,17 @@ export class IrInterceptor {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
         if (this.isHandledEndpoint(extractedUrl)) {
-            this.isLoading = true;
+            if (extractedUrl === '/Do_Payment') {
+                this.isLoading = true;
+            }
+            else {
+                if (this.endpointsCount > 0) {
+                    this.isLoading = true;
+                }
+            }
+        }
+        if (extractedUrl === '/Get_Exposed_Calendar') {
+            this.endpointsCount = this.endpointsCount + 1;
         }
         return config;
     }
@@ -52,7 +63,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '46eb8e52d3177a2a896d6d890c1c02b607236bd2' }, this.isLoading && (h("div", { class: "loadingScreenContainer" }, h("div", { class: "loaderContainer" }, h("span", { class: "loader" }))))));
+        return (h(Host, { key: 'b0cc13c93b9031d0913a2252929d4712aad97101' }, this.isLoading && (h("div", { key: '9fe1226257d8fc283aec51ea8cd17b6f54e33c53', class: "loadingScreenContainer" }, h("div", { key: '6001ab34228ae72000f2d7829f5584659bbe2476', class: "loaderContainer" }, h("span", { key: '5a5f9aef136fae06bd03fbfcc353c3fe7461e77a', class: "loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -82,7 +93,7 @@ export class IrInterceptor {
                     "tags": [],
                     "text": ""
                 },
-                "defaultValue": "['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings']"
+                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings']"
             }
         };
     }
@@ -90,7 +101,8 @@ export class IrInterceptor {
         return {
             "isShown": {},
             "isLoading": {},
-            "isUnassignedUnit": {}
+            "isUnassignedUnit": {},
+            "endpointsCount": {}
         };
     }
     static get events() {

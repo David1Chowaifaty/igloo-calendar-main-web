@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { R as RoomService } from './room.service.js';
+import { R as RoomService, d as defineCustomElement$p } from './ir-booking-details2.js';
 import { B as BookingService } from './booking.service.js';
 import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils.js';
 import { a as axios } from './axios.js';
@@ -7,36 +7,37 @@ import { E as EventsService } from './events.service.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
 import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, c as calculateDaysBetweenDates } from './booking.js';
-import { c as calendar_dates, d as defineCustomElement$y } from './igl-cal-body2.js';
+import { c as calendar_dates, d as defineCustomElement$A } from './igl-cal-body2.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
-import { d as defineCustomElement$I } from './igl-application-info2.js';
-import { d as defineCustomElement$H } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$G } from './igl-book-property2.js';
-import { d as defineCustomElement$F } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$E } from './igl-book-property-header2.js';
-import { d as defineCustomElement$D } from './igl-booking-event2.js';
-import { d as defineCustomElement$C } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$B } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$A } from './igl-booking-room-rate-plan2.js';
-import { d as defineCustomElement$z } from './igl-booking-rooms2.js';
-import { d as defineCustomElement$x } from './igl-cal-footer2.js';
-import { d as defineCustomElement$w } from './igl-cal-header2.js';
-import { d as defineCustomElement$v } from './igl-date-range2.js';
-import { d as defineCustomElement$u } from './igl-legends2.js';
-import { d as defineCustomElement$t } from './igl-pagetwo2.js';
-import { d as defineCustomElement$s } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$r } from './igl-tba-booking-view2.js';
-import { d as defineCustomElement$q } from './igl-tba-category-view2.js';
-import { d as defineCustomElement$p } from './igl-to-be-assigned2.js';
-import { d as defineCustomElement$o } from './ir-autocomplete2.js';
-import { d as defineCustomElement$n } from './ir-booking-details2.js';
-import { d as defineCustomElement$m } from './ir-button2.js';
-import { d as defineCustomElement$l } from './ir-date-picker2.js';
-import { d as defineCustomElement$k } from './ir-date-view2.js';
-import { d as defineCustomElement$j } from './ir-guest-info2.js';
-import { d as defineCustomElement$i } from './ir-icon2.js';
+import { d as defineCustomElement$K } from './igl-application-info2.js';
+import { d as defineCustomElement$J } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$I } from './igl-book-property2.js';
+import { d as defineCustomElement$H } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$G } from './igl-book-property-header2.js';
+import { d as defineCustomElement$F } from './igl-booking-event2.js';
+import { d as defineCustomElement$E } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$D } from './igl-booking-overview-page2.js';
+import { d as defineCustomElement$C } from './igl-booking-room-rate-plan2.js';
+import { d as defineCustomElement$B } from './igl-booking-rooms2.js';
+import { d as defineCustomElement$z } from './igl-cal-footer2.js';
+import { d as defineCustomElement$y } from './igl-cal-header2.js';
+import { d as defineCustomElement$x } from './igl-date-range2.js';
+import { d as defineCustomElement$w } from './igl-legends2.js';
+import { d as defineCustomElement$v } from './igl-pagetwo2.js';
+import { d as defineCustomElement$u } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$t } from './igl-tba-booking-view2.js';
+import { d as defineCustomElement$s } from './igl-tba-category-view2.js';
+import { d as defineCustomElement$r } from './igl-to-be-assigned2.js';
+import { d as defineCustomElement$q } from './ir-autocomplete2.js';
+import { d as defineCustomElement$o } from './ir-button2.js';
+import { d as defineCustomElement$n } from './ir-date-picker2.js';
+import { d as defineCustomElement$m } from './ir-date-view2.js';
+import { d as defineCustomElement$l } from './ir-dialog2.js';
+import { d as defineCustomElement$k } from './ir-guest-info2.js';
+import { d as defineCustomElement$j } from './ir-icon2.js';
+import { d as defineCustomElement$i } from './ir-icons2.js';
 import { d as defineCustomElement$h } from './ir-input-text2.js';
 import { d as defineCustomElement$g } from './ir-interceptor2.js';
 import { d as defineCustomElement$f } from './ir-label2.js';
@@ -2701,6 +2702,29 @@ class Socket extends Emitter {
          */
         this._queueSeq = 0;
         this.ids = 0;
+        /**
+         * A map containing acknowledgement handlers.
+         *
+         * The `withError` attribute is used to differentiate handlers that accept an error as first argument:
+         *
+         * - `socket.emit("test", (err, value) => { ... })` with `ackTimeout` option
+         * - `socket.timeout(5000).emit("test", (err, value) => { ... })`
+         * - `const value = await socket.emitWithAck("test")`
+         *
+         * From those that don't:
+         *
+         * - `socket.emit("test", (value) => { ... });`
+         *
+         * In the first case, the handlers will be called with an error when:
+         *
+         * - the timeout is reached
+         * - the socket gets disconnected
+         *
+         * In the second case, the handlers will be simply discarded upon disconnection, since the client will never receive
+         * an acknowledgement from the server.
+         *
+         * @private
+         */
         this.acks = {};
         this.flags = {};
         this.io = io;
@@ -2885,11 +2909,13 @@ class Socket extends Emitter {
             }
             ack.call(this, new Error("operation has timed out"));
         }, timeout);
-        this.acks[id] = (...args) => {
+        const fn = (...args) => {
             // @ts-ignore
             this.io.clearTimeoutFn(timer);
-            ack.apply(this, [null, ...args]);
+            ack.apply(this, args);
         };
+        fn.withError = true;
+        this.acks[id] = fn;
     }
     /**
      * Emits an event and waits for an acknowledgement
@@ -2908,17 +2934,12 @@ class Socket extends Emitter {
      * @return a Promise that will be fulfilled when the server acknowledges the event
      */
     emitWithAck(ev, ...args) {
-        // the timeout flag is optional
-        const withErr = this.flags.timeout !== undefined || this._opts.ackTimeout !== undefined;
         return new Promise((resolve, reject) => {
-            args.push((arg1, arg2) => {
-                if (withErr) {
-                    return arg1 ? reject(arg1) : resolve(arg2);
-                }
-                else {
-                    return resolve(arg1);
-                }
-            });
+            const fn = (arg1, arg2) => {
+                return arg1 ? reject(arg1) : resolve(arg2);
+            };
+            fn.withError = true;
+            args.push(fn);
             this.emit(ev, ...args);
         });
     }
@@ -3045,6 +3066,26 @@ class Socket extends Emitter {
         this.connected = false;
         delete this.id;
         this.emitReserved("disconnect", reason, description);
+        this._clearAcks();
+    }
+    /**
+     * Clears the acknowledgement handlers upon disconnection, since the client will never receive an acknowledgement from
+     * the server.
+     *
+     * @private
+     */
+    _clearAcks() {
+        Object.keys(this.acks).forEach((id) => {
+            const isBuffered = this.sendBuffer.some((packet) => String(packet.id) === id);
+            if (!isBuffered) {
+                // note: handlers that do not accept an error as first argument are ignored here
+                const ack = this.acks[id];
+                delete this.acks[id];
+                if (ack.withError) {
+                    ack.call(this, new Error("socket has been disconnected"));
+                }
+            }
+        });
     }
     /**
      * Called with socket packet.
@@ -3136,17 +3177,23 @@ class Socket extends Emitter {
         };
     }
     /**
-     * Called upon a server acknowlegement.
+     * Called upon a server acknowledgement.
      *
      * @param packet
      * @private
      */
     onack(packet) {
         const ack = this.acks[packet.id];
-        if ("function" === typeof ack) {
-            ack.apply(this, packet.data);
-            delete this.acks[packet.id];
+        if (typeof ack !== "function") {
+            return;
         }
+        delete this.acks[packet.id];
+        // @ts-ignore FIXME ack is incorrectly inferred as 'never'
+        if (ack.withError) {
+            packet.data.unshift(null);
+        }
+        // @ts-ignore
+        ack.apply(this, packet.data);
     }
     /**
      * Called upon server connect.
@@ -3973,6 +4020,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.showBookProperty = false;
         this.totalAvailabilityQueue = [];
         this.highlightedDate = undefined;
+        this.calDates = undefined;
     }
     ticketChanged() {
         calendar_data.token = this.ticket;
@@ -3984,6 +4032,10 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     }
     componentWillLoad() {
         console.info('without session storage');
+        this.calDates = {
+            from: this.from_date,
+            to: this.to_date,
+        };
         if (this.baseurl) {
             axios.defaults.baseURL = this.baseurl;
         }
@@ -4008,6 +4060,8 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.calendarData.adultChildConstraints = roomResp['My_Result'].adult_child_constraints;
         this.calendarData.legendData = this.getLegendData(roomResp);
         this.calendarData.is_vacation_rental = roomResp['My_Result'].is_vacation_rental;
+        this.calendarData.from_date = bookingResp.My_Params_Get_Rooming_Data.FROM;
+        this.calendarData.to_date = bookingResp.My_Params_Get_Rooming_Data.TO;
         this.calendarData.startingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.FROM).getTime();
         this.calendarData.endingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.TO).getTime();
         this.calendarData.formattedLegendData = formatLegendColors(this.calendarData.legendData);
@@ -4188,6 +4242,99 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             //toastr.error(error);
         }
     }
+    scrollPageToRoom(event) {
+        let targetScrollClass = event.detail.refClass;
+        this.scrollContainer = this.scrollContainer || this.element.querySelector('.calendarScrollContainer');
+        const topLeftCell = this.element.querySelector('.topLeftCell');
+        const gotoRoom = this.element.querySelector('.' + targetScrollClass);
+        if (gotoRoom) {
+            this.scrollContainer.scrollTo({ top: 0 });
+            const gotoRect = gotoRoom.getBoundingClientRect();
+            const containerRect = this.scrollContainer.getBoundingClientRect();
+            const topLeftCellRect = topLeftCell.getBoundingClientRect();
+            this.scrollContainer.scrollTo({
+                top: gotoRect.top - containerRect.top - topLeftCellRect.height - gotoRect.height,
+            });
+        }
+    }
+    handleShowDialog(event) {
+        this.dialogData = event.detail;
+        let modal = this.element.querySelector('ir-modal');
+        if (modal) {
+            modal.openModal();
+        }
+    }
+    handleShowRoomNightsDialog(event) {
+        this.roomNightsData = event.detail;
+    }
+    handleBookingDatasChange(event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        let bookings = [...this.calendarData.bookingEvents];
+        bookings = bookings.filter(bookingEvent => bookingEvent.ID !== 'NEW_TEMP_EVENT');
+        bookings.push(...event.detail.filter(ev => ev.STATUS === 'PENDING-CONFIRMATION'));
+        this.updateBookingEventsDateRange(event.detail);
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
+    }
+    handleUpdateBookingEvent(e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        const newBookingEvent = e.detail;
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (newBookingEvent.ID === event.ID) {
+                    return newBookingEvent;
+                }
+                return event;
+            }) });
+    }
+    showBookingPopupEventDataHandler(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.onOptionSelect(event);
+        //console.log("show booking event", event);
+    }
+    updateEventDataHandler(event) {
+        let bookedData = this.calendarData.bookingEvents.find(bookedEvent => bookedEvent.id === event.detail.id);
+        if (bookedData && event.detail && event.detail.data) {
+            Object.entries(event.detail.data).forEach(([key, value]) => {
+                bookedData[key] = value;
+            });
+        }
+    }
+    dragOverEventDataHandler(event) {
+        if (event.detail.id === 'CALCULATE_DRAG_OVER_BOUNDS') {
+            let topLeftCell = document.querySelector('igl-cal-header .topLeftCell');
+            let containerDays = document.querySelectorAll('.headersContainer .headerCell');
+            let containerRooms = document.querySelectorAll('.bodyContainer .roomRow .roomTitle');
+            this.visibleCalendarCells = { x: [], y: [] };
+            containerDays.forEach(element => {
+                const htmlElement = element;
+                this.visibleCalendarCells.x.push({
+                    left: htmlElement.offsetLeft + topLeftCell.offsetWidth,
+                    width: htmlElement.offsetWidth,
+                    id: htmlElement.getAttribute('data-day'),
+                });
+            });
+            containerRooms.forEach(element => {
+                const htmlElement = element;
+                this.visibleCalendarCells.y.push({
+                    top: htmlElement.offsetTop,
+                    height: htmlElement.offsetHeight,
+                    id: htmlElement.getAttribute('data-room'),
+                });
+            });
+            this.highlightDragOver(true, event.detail.data);
+        }
+        else if (event.detail.id === 'DRAG_OVER') {
+            this.highlightDragOver(true, event.detail.data);
+        }
+        else if (event.detail.id === 'DRAG_OVER_END') {
+            this.highlightDragOver(false, event.detail.data);
+        }
+        else if (event.detail.id === 'STRETCH_OVER_END') {
+            this.highlightDragOver(false, event.detail.data);
+        }
+    }
     checkBookingAvailability(data) {
         return this.calendarData.bookingEvents.some(booking => booking.ID === data.ID || (booking.FROM_DATE === data.FROM_DATE && booking.TO_DATE === data.TO_DATE && booking.PR_ID === data.PR_ID));
     }
@@ -4277,40 +4424,6 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     transformDateForScroll(date) {
         return hooks(date).format('D_M_YYYY');
     }
-    scrollPageToRoom(event) {
-        let targetScrollClass = event.detail.refClass;
-        this.scrollContainer = this.scrollContainer || this.element.querySelector('.calendarScrollContainer');
-        const topLeftCell = this.element.querySelector('.topLeftCell');
-        const gotoRoom = this.element.querySelector('.' + targetScrollClass);
-        if (gotoRoom) {
-            this.scrollContainer.scrollTo({ top: 0 });
-            const gotoRect = gotoRoom.getBoundingClientRect();
-            const containerRect = this.scrollContainer.getBoundingClientRect();
-            const topLeftCellRect = topLeftCell.getBoundingClientRect();
-            this.scrollContainer.scrollTo({
-                top: gotoRect.top - containerRect.top - topLeftCellRect.height - gotoRect.height,
-            });
-        }
-    }
-    handleShowDialog(event) {
-        this.dialogData = event.detail;
-        let modal = this.element.querySelector('ir-modal');
-        if (modal) {
-            modal.openModal();
-        }
-    }
-    handleShowRoomNightsDialog(event) {
-        this.roomNightsData = event.detail;
-    }
-    handleBookingDatasChange(event) {
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        let bookings = [...this.calendarData.bookingEvents];
-        bookings = bookings.filter(bookingEvent => bookingEvent.ID !== 'NEW_TEMP_EVENT');
-        bookings.push(...event.detail.filter(ev => ev.STATUS === 'PENDING-CONFIRMATION'));
-        this.updateBookingEventsDateRange(event.detail);
-        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
-    }
     shouldRenderCalendarView() {
         // console.log("rendering...")
         return this.calendarData && this.calendarData.days && this.calendarData.days.length;
@@ -4376,6 +4489,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.updateBookingEventsDateRange(newBookings);
         if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
             this.calendarData.startingDate = new Date(fromDate).getTime();
+            this.calendarData.from_date = fromDate;
             this.days = [...results.days, ...this.days];
             let newMonths = [...results.months];
             if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
@@ -4386,6 +4500,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             bookings = bookings.filter(newBooking => {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
+                    console.log(this.calendarData.bookingEvents[existingBookingIndex]);
                     this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE = newBooking.FROM_DATE;
                     this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
                     return false;
@@ -4397,6 +4512,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         }
         else {
             this.calendarData.endingDate = new Date(toDate).getTime();
+            this.calendarData.to_date = toDate;
             let newMonths = [...results.months];
             this.days = [...this.days, ...results.days];
             if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
@@ -4429,11 +4545,12 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     }
     async handleDateSearch(dates) {
         const startDate = hooks(dates.start).toDate();
-        const defaultFromDate = hooks(this.from_date).toDate();
+        const defaultFromDate = hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
-        if (startDate.getTime() < new Date(this.from_date).getTime()) {
-            await this.addDatesToCalendar(hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), hooks(this.from_date).add(-1, 'days').format('YYYY-MM-DD'));
+        if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
+            await this.addDatesToCalendar(hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
         else if (startDate.getTime() > defaultFromDate.getTime() && startDate.getTime() < defaultToDate && endDate.getTime() < defaultToDate) {
@@ -4528,54 +4645,6 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         }
         return false;
     }
-    showBookingPopupEventDataHandler(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        this.onOptionSelect(event);
-        //console.log("show booking event", event);
-    }
-    updateEventDataHandler(event) {
-        let bookedData = this.calendarData.bookingEvents.find(bookedEvent => bookedEvent.id === event.detail.id);
-        if (bookedData && event.detail && event.detail.data) {
-            Object.entries(event.detail.data).forEach(([key, value]) => {
-                bookedData[key] = value;
-            });
-        }
-    }
-    dragOverEventDataHandler(event) {
-        if (event.detail.id === 'CALCULATE_DRAG_OVER_BOUNDS') {
-            let topLeftCell = document.querySelector('igl-cal-header .topLeftCell');
-            let containerDays = document.querySelectorAll('.headersContainer .headerCell');
-            let containerRooms = document.querySelectorAll('.bodyContainer .roomRow .roomTitle');
-            this.visibleCalendarCells = { x: [], y: [] };
-            containerDays.forEach(element => {
-                const htmlElement = element;
-                this.visibleCalendarCells.x.push({
-                    left: htmlElement.offsetLeft + topLeftCell.offsetWidth,
-                    width: htmlElement.offsetWidth,
-                    id: htmlElement.getAttribute('data-day'),
-                });
-            });
-            containerRooms.forEach(element => {
-                const htmlElement = element;
-                this.visibleCalendarCells.y.push({
-                    top: htmlElement.offsetTop,
-                    height: htmlElement.offsetHeight,
-                    id: htmlElement.getAttribute('data-room'),
-                });
-            });
-            this.highlightDragOver(true, event.detail.data);
-        }
-        else if (event.detail.id === 'DRAG_OVER') {
-            this.highlightDragOver(true, event.detail.data);
-        }
-        else if (event.detail.id === 'DRAG_OVER_END') {
-            this.highlightDragOver(false, event.detail.data);
-        }
-        else if (event.detail.id === 'STRETCH_OVER_END') {
-            this.highlightDragOver(false, event.detail.data);
-        }
-    }
     async highlightDragOver(hightLightElement, currentPosition) {
         let xElement, yElement;
         if (currentPosition) {
@@ -4644,11 +4713,11 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'ce5f725cb6b93c659463ac57ffc4810b8c553452' }, h("ir-toast", { key: '1c1e34c526ffb1df596f4570127b3a6a02d83726' }), h("ir-interceptor", { key: '657d3af9a5e40b9404bdce3aee76b34ba90f17f7' }), h("div", { key: '4a255b5400f2f754fe322b1cf10d95867eb931c0', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
+        return (h(Host, { key: '190d10fbf2c4d862f6ec2c72da5f4962003f95fa' }, h("ir-toast", { key: 'e46d270295cc2a77c7b9590205db01a5c88f3caf' }), h("ir-interceptor", { key: '68d59ed80eb4c3b6ac563da6c112cf3c261681b1' }), h("div", { key: '895360d368378eb88e68aab63d008d07bdad829c', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
             this.showToBeAssigned ? (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.propertyid, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             this.showLegend ? (h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.propertyid, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
-        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'c5c137b560f586857ebf0b94fda6d2cb20c00cb9', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, ticket: this.ticket, propertyId: this.propertyid })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, baseurl: this.baseurl, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '1c1fc50ab30ea2440c599dd621258e3e640156c1', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '6ba1a43eab7b4269b42d6dd8aaba421a338bb36f', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'eec9c444e8bd38f1973d236c405fa2404b0f9e01', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '931752d15cf0ab1800cd21435764103043c41ad0', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, ticket: this.ticket, propertyId: this.propertyid })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'b43d51ce0f248e9f1da564db5df7534359fde0d7', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, baseurl: this.baseurl, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: 'cb2f7b50b6981f6c46a9263dac044382a579ae77', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return this; }
     static get watchers() { return {
@@ -4678,15 +4747,16 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         "renderAgain": [32],
         "showBookProperty": [32],
         "totalAvailabilityQueue": [32],
-        "highlightedDate": [32]
-    }, [[0, "deleteButton", "handleDeleteEvent"], [8, "scrollPageToRoom", "scrollPageToRoom"], [0, "showDialog", "handleShowDialog"], [0, "showRoomNightsDialog", "handleShowRoomNightsDialog"], [0, "addBookingDatasEvent", "handleBookingDatasChange"], [8, "showBookingPopup", "showBookingPopupEventDataHandler"], [0, "updateEventData", "updateEventDataHandler"], [0, "dragOverEventData", "dragOverEventDataHandler"]], {
+        "highlightedDate": [32],
+        "calDates": [32]
+    }, [[0, "deleteButton", "handleDeleteEvent"], [8, "scrollPageToRoom", "scrollPageToRoom"], [0, "showDialog", "handleShowDialog"], [0, "showRoomNightsDialog", "handleShowRoomNightsDialog"], [0, "addBookingDatasEvent", "handleBookingDatasChange"], [0, "updateBookingEvent", "handleUpdateBookingEvent"], [8, "showBookingPopup", "showBookingPopupEventDataHandler"], [0, "updateEventData", "updateEventDataHandler"], [0, "dragOverEventData", "dragOverEventDataHandler"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igloo-calendar", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-event", "igl-booking-event-hover", "igl-booking-overview-page", "igl-booking-room-rate-plan", "igl-booking-rooms", "igl-cal-body", "igl-cal-footer", "igl-cal-header", "igl-date-range", "igl-legends", "igl-pagetwo", "igl-property-booked-by", "igl-tba-booking-view", "igl-tba-category-view", "igl-to-be-assigned", "ir-autocomplete", "ir-booking-details", "ir-button", "ir-date-picker", "ir-date-view", "ir-guest-info", "ir-icon", "ir-input-text", "ir-interceptor", "ir-label", "ir-loading-screen", "ir-modal", "ir-payment-details", "ir-pickup", "ir-popover", "ir-room", "ir-room-nights", "ir-select", "ir-sidebar", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
+    const components = ["igloo-calendar", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-event", "igl-booking-event-hover", "igl-booking-overview-page", "igl-booking-room-rate-plan", "igl-booking-rooms", "igl-cal-body", "igl-cal-footer", "igl-cal-header", "igl-date-range", "igl-legends", "igl-pagetwo", "igl-property-booked-by", "igl-tba-booking-view", "igl-tba-category-view", "igl-to-be-assigned", "ir-autocomplete", "ir-booking-details", "ir-button", "ir-date-picker", "ir-date-view", "ir-dialog", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-loading-screen", "ir-modal", "ir-payment-details", "ir-pickup", "ir-popover", "ir-room", "ir-room-nights", "ir-select", "ir-sidebar", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igloo-calendar":
             if (!customElements.get(tagName)) {
@@ -4695,135 +4765,145 @@ function defineCustomElement$1() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$K();
             }
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$J();
             }
             break;
         case "igl-book-property":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$I();
             }
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
+                defineCustomElement$H();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$G();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$F();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$E();
             }
             break;
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$D();
             }
             break;
         case "igl-booking-room-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$C();
             }
             break;
         case "igl-booking-rooms":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$B();
             }
             break;
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$A();
             }
             break;
         case "igl-cal-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$z();
             }
             break;
         case "igl-cal-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$y();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$x();
             }
             break;
         case "igl-legends":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$w();
             }
             break;
         case "igl-pagetwo":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$v();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$u();
             }
             break;
         case "igl-tba-booking-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$t();
             }
             break;
         case "igl-tba-category-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$s();
             }
             break;
         case "igl-to-be-assigned":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$r();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$q();
             }
             break;
         case "ir-booking-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$p();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$o();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$n();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$m();
+            }
+            break;
+        case "ir-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$l();
             }
             break;
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }

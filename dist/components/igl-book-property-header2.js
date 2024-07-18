@@ -3,11 +3,12 @@ import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$6 } from './igl-date-range2.js';
-import { d as defineCustomElement$5 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
-import { d as defineCustomElement$3 } from './ir-date-picker2.js';
-import { d as defineCustomElement$2 } from './ir-date-view2.js';
+import { d as defineCustomElement$7 } from './igl-date-range2.js';
+import { d as defineCustomElement$6 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$4 } from './ir-date-picker2.js';
+import { d as defineCustomElement$3 } from './ir-date-view2.js';
+import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
 const iglBookPropertyHeaderCss = ".sc-igl-book-property-header-h{display:block}.row.sc-igl-book-property-header{padding:0 0 0 15px;margin:0}.sourceContainer.sc-igl-book-property-header{max-width:350px}.message-label.sc-igl-book-property-header{font-size:80%}";
@@ -30,6 +31,8 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             code: '',
             description: '',
             tag: '',
+            id: '',
+            type: '',
         };
         this.splitBookingId = '';
         this.bookingData = '';
@@ -140,7 +143,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '326c9af68abfe4944e04a290cd168f18af9e1073' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'e90a4ca13a188e9181d2f0036ae40c4200846919', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '1bd3aa3e963f829be792eb797fa9c00bc69d5f15', class: "mt-lg-0  " }, h("igl-date-range", { key: 'cd79a559beb441cf7e905c0ba308b6e49a719624', dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '0873dd27b465e3ada2f4ad71279297b4107c7e80', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '55b62ea25933b51ecf1a7052d24a843643a2e8f2' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'f14db7d62fa5aefeb952a523380dc24673302092', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'ffb400ea8577bd6142702c5b65f120cabb34598f', class: "mt-lg-0  " }, h("igl-date-range", { key: '85df3428f3d308a04ec291741744fdd78e6a669f', dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'ff20b95b2fc9723cd256c2b8ffaf798fb18f7940', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get style() { return IglBookPropertyHeaderStyle0; }
 }, [2, "igl-book-property-header", {
@@ -163,7 +166,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-view", "ir-select"];
+    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-view", "ir-icons", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
@@ -172,25 +175,30 @@ function defineCustomElement() {
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

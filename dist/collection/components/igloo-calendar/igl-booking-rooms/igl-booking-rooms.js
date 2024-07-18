@@ -95,7 +95,7 @@ export class IglBookingRooms {
     }
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '1e9103475269676900d929810f166f211e84cfc5' }, isValidBookingType && this.roomTypeData.rateplans.length > 0 && h("div", { class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomTypeData.name), this.roomTypeData.rateplans.map((ratePlan, index) => {
+        return (h(Host, { key: '5b769fac02363d59dc7ed4e0400b97badb0f25f0' }, isValidBookingType && this.roomTypeData.rateplans.length > 0 && h("div", { key: '3d05bb856afb15ce606d093428f24aa24d066505', class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomTypeData.name), this.roomTypeData.rateplans.map((ratePlan, index) => {
             if (ratePlan.variations !== null) {
                 let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomTypeData.id;
                 let roomId = -1;

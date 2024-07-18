@@ -1,10 +1,10 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-7f938890.js';
-import { C as ChannelService } from './channel.service-98119df1.js';
-import { o as onChannelChange } from './channel.store-8d08b57e.js';
-import { l as locales } from './locales.store-c41b21fc.js';
-import './Token-919197e3.js';
-import './calendar-data-43490890.js';
-import './index-e4733079.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-d2ec0a5d.js';
+import { C as ChannelService } from './channel.service-321f72fe.js';
+import { o as onChannelChange, c as channels_data } from './channel.store-c51f4270.js';
+import { l as locales } from './locales.store-91c051f0.js';
+import './Token-81a651a8.js';
+import './calendar-data-956fa3f1.js';
+import './index-a32c4342.js';
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 const IrChannelEditorStyle0 = irChannelEditorCss;
@@ -14,12 +14,14 @@ const IrChannelEditor = class {
         registerInstance(this, hostRef);
         this.saveChannelFinished = createEvent(this, "saveChannelFinished", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        this.toast = createEvent(this, "toast", 7);
         var _a, _b, _c;
         this.channelService = new ChannelService();
         this.channel_status = null;
         this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
+        this.status = false;
         this.headerTitles = [
             {
                 id: 'general_settings',
@@ -43,6 +45,9 @@ const IrChannelEditor = class {
             if (!!newValue) {
                 this.enableAllHeaders();
             }
+            else {
+                this.disableNonFirstTabs();
+            }
         });
     }
     handleTabChange(e) {
@@ -53,7 +58,7 @@ const IrChannelEditor = class {
     renderTabScreen() {
         switch (this.selectedTab) {
             case 'general_settings':
-                return h("ir-channel-general", { channel_status: this.channel_status });
+                return h("ir-channel-general", { channel_status: this.channel_status, onConnectionStatus: e => (this.status = e.detail) });
             case 'mapping':
                 return h("ir-channel-mapping", null);
             case 'channel_booking':
@@ -83,9 +88,19 @@ const IrChannelEditor = class {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '5d178eea91e2223e8437ca4874f7e4e6c58006cd', class: " d-flex flex-column h-100" }, h("nav", { key: '54a482f4d79e572689540dda48a43969d60f9885', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: '1e9c8ed2e8f0ca233d43b45ee7ebb1590df172bb', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: '56814492933f79c6fbf150f4d8e3ae8436097b7c', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: 'd84b1f2de453046ba5a041e4a20032522bdbfe97', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (h(Host, { key: '72568b67916e59ca4550c2d325eaf84f929cd42c', class: " d-flex flex-column h-100" }, h("nav", { key: '5a7501bc3f80cb05314a81325a424a1f901af999', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: 'cd3403c13f2b78d599e506b0eb879d5f37481035', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: 'aea625d45d28a0820f64472fe3f43099f2838994', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: '6cdd948465c4b4a1001f4cf77fa5eca24f1542f1', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'daadefa823d9a50c147ebe9b978ecad9e9e1bce8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'f1653aa0fb0a461a9ea95f2ac46dede03097e584', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '07b97ee0d36d6f6a247a38d85521c33ebf3c0991', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: 'ccffab63d8ef0edddd662bc6ce1dfda7a623b9b7', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: '29a7a22288061255f9ce6997d4a88bb956b5abcb', isLoading: this.isLoading, onClickHanlder: () => this.saveConnectedChannel(), class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
+            } }, h("svg", { key: '01124a4a4359c2a7c2410f14dfef5429e3d00104', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '59bcdb05848f492f039fae2062f390e3c26e25ba', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '9c73b362303a0f3411c0040689d5af5fc235d8ca', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: '7b9e1be171f6de182428d3e526cba221a05f4102', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: '34905318cdec1a9cff320ddaf5924d9f8ddfac8a', isLoading: this.isLoading, onClickHanlder: () => {
+                if (!channels_data.isConnectedToChannel) {
+                    this.toast.emit({
+                        type: 'error',
+                        description: locales.entries.Lcz_InvalidCredentials,
+                        title: locales.entries.Lcz_InvalidCredentials,
+                    });
+                    return;
+                }
+                this.saveConnectedChannel();
+            }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
     }
 };
 IrChannelEditor.style = IrChannelEditorStyle0;
