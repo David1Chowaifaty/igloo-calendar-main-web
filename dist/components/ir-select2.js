@@ -70,7 +70,7 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: 'e0b868e60c4f9257cb34d41b7b0783e286329a84', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'cf80ffe4935a7093bf2c55c59f4223602316fe85', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '85ae06cc111c5571eade0da5c24ddf94e5add925', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '864937bb26bedb5fa0d14c5c242c883705ce25c2', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -80,7 +80,7 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '37fee39d1f7618f48306dc718ee491c2d0b4cbd9', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '44dc8ec3144499a8b1f0e5c7c645a64c5c5b887f', class: "input-group row m-0" }, label, h("select", { key: '093ef6f290fa41d31bea1756acdcdbfed7ada4bf', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: 'dd85cdc5bf3116e6b54abeb5baec04bb2c44ab40', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '1650aaf8c9a14933417b3bc83858be877cbf6ac6', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'ffe8e81353b53803ab338847b3425bc66b72579a', class: "input-group row m-0" }, label, h("select", { key: 'f668fbdf1d110e1c401020349cc28f8ceba6f8d1', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '8cdf2afc72402154ef916e693351379b751eb70c', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }

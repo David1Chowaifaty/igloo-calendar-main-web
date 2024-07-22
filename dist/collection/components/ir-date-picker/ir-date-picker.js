@@ -54,7 +54,7 @@ export class IrDatePicker {
         });
     }
     render() {
-        return (h(Host, { key: 'b5ab438fcb29b695432392e3e89503013887bb74' }, h("input", { key: 'bf3f7c8dee838289237fbff8bd68569d93a68d81', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'aa1404be039b2d249a5821b9c8cc60e1c5debffe' }, h("input", { key: '1ae34b45d325a2bca653aa1b77f0dcaf75fc7f6f', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     static get is() { return "ir-date-picker"; }
     static get encapsulation() { return "scoped"; }

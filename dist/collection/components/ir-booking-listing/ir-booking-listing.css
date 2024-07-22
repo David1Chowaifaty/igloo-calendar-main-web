@@ -23,6 +23,15 @@
   height: 100%;
   overflow-y: auto;
 }
+.yellow_dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background: rgb(244, 213, 82);
+  margin-left: 0.5rem;
+}
 .bg-ir-red {
   background: #ff4961;
   height: 28px;
@@ -66,4 +75,10 @@ td {
 }
 .booking-label-gap {
   gap: 5px;
+}
+@media (min-width: 1024px) {
+  .yellow_dot {
+    height: 0.5rem;
+    width: 0.5rem;
+  }
 }

@@ -4,7 +4,10 @@ export interface ILocale {
 }
 export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords) | null;
 export type LocalizationStrings = {
+    Lcz_PrivateNote: string;
     Lcz_BookingCode: string;
+    Lcz_Single_Adult: string;
+    Lcz_Single_Child: string;
     Lcz_Adding: string;
     Lcz_AddingRoomNightsTo: string;
     Lcz_AddingUnitToBooking: string;

@@ -143,6 +143,14 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    server: {
+        viewBox: string;
+        d: string;
+    };
+    double_caret_left: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

@@ -9,7 +9,6 @@ export declare class IglBookPropertyService {
     private cleanupEmptyData;
     private applyBookingEditToSelectedRoom;
     prepareBookUserServiceParams(context: any, check_in: any, sourceOption: any): Promise<BookUserParams>;
-    private getBookingPreferenceRoomId;
     private getRoomCategoryByRoomId;
     setEditingRoomInfo(bookingData: any, selectedUnits: any): void;
 }

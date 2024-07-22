@@ -28,6 +28,7 @@
     "components/ir-booking-details/ir-pickup/ir-pickup.js",
     "components/ir-modal/ir-modal.js",
     "components/ir-booking-details/ir-room/ir-room.js",
+    "components/ir-booking-extra-note/ir-booking-extra-note.js",
     "components/ir-booking-listing/ir-booking-listing.js",
     "components/ir-booking-listing/ir-listing-header/ir-listing-header.js",
     "components/ir-booking-listing/ir-listing-modal/ir-listing-modal.js",
@@ -75,7 +76,7 @@
   ],
   "compiler": {
     "name": "@stencil/core",
-    "version": "4.18.3",
+    "version": "4.19.2",
     "typescriptVersion": "5.4.5"
   },
   "collections": [],

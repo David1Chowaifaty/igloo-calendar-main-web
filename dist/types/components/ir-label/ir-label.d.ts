@@ -13,6 +13,7 @@ export declare class IrLabel {
     imageStyle: string;
     icon_name: TIcons;
     icon_style: string;
+    ignore_value: boolean;
     editSidebar: EventEmitter;
     openEditSidebar(): void;
     render(): any;

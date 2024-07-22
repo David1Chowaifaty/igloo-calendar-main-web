@@ -1,55 +1,58 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { R as RoomService, d as defineCustomElement$p } from './ir-booking-details2.js';
+import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
 import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils.js';
 import { a as axios } from './axios.js';
 import { E as EventsService } from './events.service.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
-import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, c as calculateDaysBetweenDates } from './booking.js';
-import { c as calendar_dates, d as defineCustomElement$A } from './igl-cal-body2.js';
+import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, d as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
+import { c as calendar_dates, d as defineCustomElement$C } from './igl-cal-body2.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
-import { d as defineCustomElement$K } from './igl-application-info2.js';
-import { d as defineCustomElement$J } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$I } from './igl-book-property2.js';
-import { d as defineCustomElement$H } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$G } from './igl-book-property-header2.js';
-import { d as defineCustomElement$F } from './igl-booking-event2.js';
-import { d as defineCustomElement$E } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$D } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$C } from './igl-booking-room-rate-plan2.js';
-import { d as defineCustomElement$B } from './igl-booking-rooms2.js';
-import { d as defineCustomElement$z } from './igl-cal-footer2.js';
-import { d as defineCustomElement$y } from './igl-cal-header2.js';
-import { d as defineCustomElement$x } from './igl-date-range2.js';
-import { d as defineCustomElement$w } from './igl-legends2.js';
-import { d as defineCustomElement$v } from './igl-pagetwo2.js';
-import { d as defineCustomElement$u } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$t } from './igl-tba-booking-view2.js';
-import { d as defineCustomElement$s } from './igl-tba-category-view2.js';
-import { d as defineCustomElement$r } from './igl-to-be-assigned2.js';
-import { d as defineCustomElement$q } from './ir-autocomplete2.js';
-import { d as defineCustomElement$o } from './ir-button2.js';
-import { d as defineCustomElement$n } from './ir-date-picker2.js';
-import { d as defineCustomElement$m } from './ir-date-view2.js';
-import { d as defineCustomElement$l } from './ir-dialog2.js';
-import { d as defineCustomElement$k } from './ir-guest-info2.js';
-import { d as defineCustomElement$j } from './ir-icon2.js';
-import { d as defineCustomElement$i } from './ir-icons2.js';
-import { d as defineCustomElement$h } from './ir-input-text2.js';
-import { d as defineCustomElement$g } from './ir-interceptor2.js';
-import { d as defineCustomElement$f } from './ir-label2.js';
-import { d as defineCustomElement$e } from './ir-loading-screen2.js';
-import { d as defineCustomElement$d } from './ir-modal2.js';
-import { d as defineCustomElement$c } from './ir-payment-details2.js';
-import { d as defineCustomElement$b } from './ir-pickup2.js';
-import { d as defineCustomElement$a } from './ir-popover2.js';
-import { d as defineCustomElement$9 } from './ir-room2.js';
-import { d as defineCustomElement$8 } from './ir-room-nights2.js';
-import { d as defineCustomElement$7 } from './ir-select2.js';
-import { d as defineCustomElement$6 } from './ir-sidebar2.js';
+import { d as defineCustomElement$M } from './igl-application-info2.js';
+import { d as defineCustomElement$L } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$K } from './igl-book-property2.js';
+import { d as defineCustomElement$J } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$I } from './igl-book-property-header2.js';
+import { d as defineCustomElement$H } from './igl-booking-event2.js';
+import { d as defineCustomElement$G } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$F } from './igl-booking-overview-page2.js';
+import { d as defineCustomElement$E } from './igl-booking-room-rate-plan2.js';
+import { d as defineCustomElement$D } from './igl-booking-rooms2.js';
+import { d as defineCustomElement$B } from './igl-cal-footer2.js';
+import { d as defineCustomElement$A } from './igl-cal-header2.js';
+import { d as defineCustomElement$z } from './igl-date-range2.js';
+import { d as defineCustomElement$y } from './igl-legends2.js';
+import { d as defineCustomElement$x } from './igl-pagetwo2.js';
+import { d as defineCustomElement$w } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$v } from './igl-tba-booking-view2.js';
+import { d as defineCustomElement$u } from './igl-tba-category-view2.js';
+import { d as defineCustomElement$t } from './igl-to-be-assigned2.js';
+import { d as defineCustomElement$s } from './ir-autocomplete2.js';
+import { d as defineCustomElement$r } from './ir-booking-details2.js';
+import { d as defineCustomElement$q } from './ir-booking-extra-note2.js';
+import { d as defineCustomElement$p } from './ir-button2.js';
+import { d as defineCustomElement$o } from './ir-date-picker2.js';
+import { d as defineCustomElement$n } from './ir-date-view2.js';
+import { d as defineCustomElement$m } from './ir-dialog2.js';
+import { d as defineCustomElement$l } from './ir-guest-info2.js';
+import { d as defineCustomElement$k } from './ir-icon2.js';
+import { d as defineCustomElement$j } from './ir-icons2.js';
+import { d as defineCustomElement$i } from './ir-input-text2.js';
+import { d as defineCustomElement$h } from './ir-interceptor2.js';
+import { d as defineCustomElement$g } from './ir-label2.js';
+import { d as defineCustomElement$f } from './ir-loading-screen2.js';
+import { d as defineCustomElement$e } from './ir-modal2.js';
+import { d as defineCustomElement$d } from './ir-payment-details2.js';
+import { d as defineCustomElement$c } from './ir-pickup2.js';
+import { d as defineCustomElement$b } from './ir-popover2.js';
+import { d as defineCustomElement$a } from './ir-room2.js';
+import { d as defineCustomElement$9 } from './ir-room-nights2.js';
+import { d as defineCustomElement$8 } from './ir-select2.js';
+import { d as defineCustomElement$7 } from './ir-sidebar2.js';
+import { d as defineCustomElement$6 } from './ir-textarea2.js';
 import { d as defineCustomElement$5 } from './ir-title2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
 import { d as defineCustomElement$3 } from './ir-tooltip2.js';
@@ -254,7 +257,6 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
-    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -314,15 +316,14 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* READ_HEADER */;
+    let state = 0 /* State.READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
-    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* READ_HEADER */) {
+                if (state === 0 /* State.READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -330,24 +331,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* READ_PAYLOAD */;
+                        state = 3 /* State.READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
-                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -360,7 +361,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -368,7 +369,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* READ_HEADER */;
+                    state = 0 /* State.READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);
@@ -3960,7 +3961,7 @@ Object.assign(lookup, {
     connect: lookup,
 });
 
-const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar div.sc-igloo-calendar{position:relative}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}div.sc-igloo-calendar{position:relative}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
+const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
 const IglooCalendarStyle0 = iglooCalendarCss;
 
 const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar extends HTMLElement {
@@ -4193,6 +4194,17 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
                                     ...this.calendarData.bookingEvents.map(event => {
                                         if (result.pools.includes(event.ID)) {
                                             return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? bookingStatus[result.status_code] : result.status_code === '001' ? bookingStatus[result.status_code] : 'IN-HOUSE' });
+                                        }
+                                        return event;
+                                    }),
+                                ] });
+                        }
+                        else if (REASON === 'NON_TECHNICAL_CHANGE_IN_BOOKING') {
+                            console.log('result for change in booking', result, this.calendarData.bookingEvents);
+                            this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
+                                    ...this.calendarData.bookingEvents.map(event => {
+                                        if (event.BOOKING_NUMBER === result.booking_nbr) {
+                                            return Object.assign(Object.assign({}, event), { PRIVATE_NOTE: getPrivateNote(result.extras) });
                                         }
                                         return event;
                                     }),
@@ -4713,11 +4725,11 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '190d10fbf2c4d862f6ec2c72da5f4962003f95fa' }, h("ir-toast", { key: 'e46d270295cc2a77c7b9590205db01a5c88f3caf' }), h("ir-interceptor", { key: '68d59ed80eb4c3b6ac563da6c112cf3c261681b1' }), h("div", { key: '895360d368378eb88e68aab63d008d07bdad829c', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
+        return (h(Host, { key: '51f2ce271479cbc199117b1391fa905d5d6c9de4' }, h("ir-toast", { key: '812431bed78344eb405e79f183571e48ffa8f9c9' }), h("ir-interceptor", { key: '21fb38fc4f655f930e78f1115511355ba5606847' }), h("div", { key: '6d7acef6fb2c17b3c8f42555daa740b95a38c1f6', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
             this.showToBeAssigned ? (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.propertyid, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             this.showLegend ? (h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.propertyid, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
-        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '6ba1a43eab7b4269b42d6dd8aaba421a338bb36f', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'eec9c444e8bd38f1973d236c405fa2404b0f9e01', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '931752d15cf0ab1800cd21435764103043c41ad0', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, ticket: this.ticket, propertyId: this.propertyid })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'b43d51ce0f248e9f1da564db5df7534359fde0d7', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, baseurl: this.baseurl, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: 'cb2f7b50b6981f6c46a9263dac044382a579ae77', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '972a1db463360dd19afa2c8b29be0717d9cd7722', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '51de1c0d29e88d1ac1c4f7d3e0b50b5abe3736db', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '8ac7587431a32e501d724afd7e39a55a11fd9c9c', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, ticket: this.ticket, propertyId: this.propertyid })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'b0f8498e0e665090abd132b42d8806776ed3ca4b', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, baseurl: this.baseurl, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '9ea176ec3dad28f7a9cbbf697ed5e72ddf97b8b6', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return this; }
     static get watchers() { return {
@@ -4756,7 +4768,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igloo-calendar", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-event", "igl-booking-event-hover", "igl-booking-overview-page", "igl-booking-room-rate-plan", "igl-booking-rooms", "igl-cal-body", "igl-cal-footer", "igl-cal-header", "igl-date-range", "igl-legends", "igl-pagetwo", "igl-property-booked-by", "igl-tba-booking-view", "igl-tba-category-view", "igl-to-be-assigned", "ir-autocomplete", "ir-booking-details", "ir-button", "ir-date-picker", "ir-date-view", "ir-dialog", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-loading-screen", "ir-modal", "ir-payment-details", "ir-pickup", "ir-popover", "ir-room", "ir-room-nights", "ir-select", "ir-sidebar", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
+    const components = ["igloo-calendar", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-event", "igl-booking-event-hover", "igl-booking-overview-page", "igl-booking-room-rate-plan", "igl-booking-rooms", "igl-cal-body", "igl-cal-footer", "igl-cal-header", "igl-date-range", "igl-legends", "igl-pagetwo", "igl-property-booked-by", "igl-tba-booking-view", "igl-tba-category-view", "igl-to-be-assigned", "ir-autocomplete", "ir-booking-details", "ir-booking-extra-note", "ir-button", "ir-date-picker", "ir-date-view", "ir-dialog", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-loading-screen", "ir-modal", "ir-payment-details", "ir-pickup", "ir-popover", "ir-room", "ir-room-nights", "ir-select", "ir-sidebar", "ir-textarea", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igloo-calendar":
             if (!customElements.get(tagName)) {
@@ -4765,205 +4777,215 @@ function defineCustomElement$1() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$K();
+                defineCustomElement$M();
             }
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$J();
+                defineCustomElement$L();
             }
             break;
         case "igl-book-property":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$K();
             }
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$J();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$I();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
+                defineCustomElement$H();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$G();
             }
             break;
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$F();
             }
             break;
         case "igl-booking-room-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$E();
             }
             break;
         case "igl-booking-rooms":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$D();
             }
             break;
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$C();
             }
             break;
         case "igl-cal-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$B();
             }
             break;
         case "igl-cal-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$A();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$z();
             }
             break;
         case "igl-legends":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$y();
             }
             break;
         case "igl-pagetwo":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$x();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$w();
             }
             break;
         case "igl-tba-booking-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$v();
             }
             break;
         case "igl-tba-category-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$u();
             }
             break;
         case "igl-to-be-assigned":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$t();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$s();
             }
             break;
         case "ir-booking-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$r();
+            }
+            break;
+        case "ir-booking-extra-note":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$q();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$p();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$o();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$n();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-pickup":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-popover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-room":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-room-nights":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-sidebar":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-textarea":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

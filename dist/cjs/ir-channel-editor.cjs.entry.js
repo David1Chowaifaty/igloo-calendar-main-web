@@ -2,13 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
-const channel_service = require('./channel.service-c3fca434.js');
-const channel_store = require('./channel.store-2ec5694c.js');
-const locales_store = require('./locales.store-ec208203.js');
+const index = require('./index-d0d7c4d0.js');
+const channel_service = require('./channel.service-7a311676.js');
+const channel_store = require('./channel.store-9da77951.js');
+const locales_store = require('./locales.store-4301bbe8.js');
 require('./Token-fac1282b.js');
-require('./calendar-data-3ed3cfd1.js');
-require('./index-104877f7.js');
+require('./calendar-data-fbe7f62b.js');
+require('./index-5e99a1fe.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 const IrChannelEditorStyle0 = irChannelEditorCss;
@@ -92,9 +92,9 @@ const IrChannelEditor = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: '72568b67916e59ca4550c2d325eaf84f929cd42c', class: " d-flex flex-column h-100" }, index.h("nav", { key: '5a7501bc3f80cb05314a81325a424a1f901af999', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, index.h("div", { key: 'cd3403c13f2b78d599e506b0eb879d5f37481035', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, index.h("h3", { key: 'aea625d45d28a0820f64472fe3f43099f2838994', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: '6cdd948465c4b4a1001f4cf77fa5eca24f1542f1', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (index.h(index.Host, { key: '33e4bc9f8f19ab321f5f0181e8baadc3b225616a', class: " d-flex flex-column h-100" }, index.h("nav", { key: '455a327c416158985f2fa8c0afb642daf485d5d2', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, index.h("div", { key: 'b768d88c9eaf37b75eba8c1bea3207d2d4e38858', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, index.h("h3", { key: '3f469ffbc1c0d468ad26e94be8eb02247b0d9a1d', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: 'e24a13a3c8ce98844799d1bccd7a6c27ed7061ba', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, index.h("svg", { key: '01124a4a4359c2a7c2410f14dfef5429e3d00104', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '59bcdb05848f492f039fae2062f390e3c26e25ba', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: '9c73b362303a0f3411c0040689d5af5fc235d8ca', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: '7b9e1be171f6de182428d3e526cba221a05f4102', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: '34905318cdec1a9cff320ddaf5924d9f8ddfac8a', isLoading: this.isLoading, onClickHanlder: () => {
+            } }, index.h("svg", { key: '98cc99520e6b84a7b0ce03243c39ce321cf559f2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'e60e062a4bd5aef7c5b7c8d0583db00893cb55d5', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: '3b3886834f6477b12f812cc136ac61f69a4a0bc3', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: '4c84275c52d2f83562b1594f51cdf401ac67f1fc', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: '77a7ec4010da6ce856e347398268025fbf1cb82b', isLoading: this.isLoading, onClickHanlder: () => {
                 if (!channel_store.channels_data.isConnectedToChannel) {
                     this.toast.emit({
                         type: 'error',

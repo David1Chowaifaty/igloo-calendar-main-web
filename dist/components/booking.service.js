@@ -23,6 +23,7 @@ class BookingService extends Token {
                     propertyid,
                     from_date,
                     to_date,
+                    extras: [{ key: 'private_note', value: '' }],
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
@@ -246,13 +247,14 @@ class BookingService extends Token {
             throw new Error(error);
         }
     }
-    async getExposedBooking(booking_nbr, language) {
+    async getExposedBooking(booking_nbr, language, extras = null) {
         try {
             const token = this.getToken();
             if (token) {
                 const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, {
                     booking_nbr,
                     language,
+                    extras,
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
@@ -354,7 +356,19 @@ class BookingService extends Token {
             throw new Error(error);
         }
     }
-    async bookUser(bookedByInfoData, check_in, fromDate, toDate, guestData, totalNights, source, propertyid, rooms, currency, bookingNumber, defaultGuest, arrivalTime, pr_id, identifier) {
+    async doReservation(body) {
+        const token = this.getToken();
+        if (!token) {
+            throw new Error('Missing token');
+        }
+        const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        console.log(data['My_Result']);
+        return data['My_Result'];
+    }
+    async bookUser(bookedByInfoData, check_in, fromDate, toDate, guestData, totalNights, source, propertyid, rooms, currency, bookingNumber, defaultGuest, arrivalTime, pr_id, identifier, extras = null) {
         try {
             const token = this.getToken();
             if (token) {
@@ -393,6 +407,7 @@ class BookingService extends Token {
                     is_direct: true,
                     is_in_loyalty_mode: false,
                     promo_key: null,
+                    extras,
                     booking: {
                         booking_nbr: bookingNumber || '',
                         from_date: fromDateStr,
@@ -453,12 +468,8 @@ class BookingService extends Token {
                     },
                 };
                 console.log('book user payload', body);
-                const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                console.log(data['My_Result']);
-                return data['My_Result'];
+                const result = await this.doReservation(body);
+                return result;
             }
             else {
                 throw new Error('Invalid token');

@@ -10,15 +10,16 @@ export class IrLabel {
         this.imageStyle = '';
         this.icon_name = 'edit';
         this.icon_style = undefined;
+        this.ignore_value = false;
     }
     openEditSidebar() {
         this.editSidebar.emit();
     }
     render() {
-        if (!this.value) {
+        if (!this.value && !this.ignore_value) {
             return null;
         }
-        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("strong", null, this.label), this.image && h("img", { src: this.image.src, class: `p-0 m-0 ${this.country ? 'country' : 'logo'} ${this.image.style}`, alt: this.image.src }), h("p", null, this.value), this.iconShown && (h("div", { class: "icon-container" }, h("ir-button", { variant: "icon", icon_name: this.icon_name, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHanlder: e => {
+        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("strong", { class: "label_title" }, this.label), this.image && h("img", { src: this.image.src, class: `p-0 m-0 ${this.country ? 'country' : 'logo'} ${this.image.style}`, alt: this.image.src }), h("p", { class: 'label_message' }, this.value), this.iconShown && (h("div", { class: "icon-container" }, h("ir-button", { variant: "icon", icon_name: this.icon_name, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHanlder: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openEditSidebar();
@@ -146,7 +147,7 @@ export class IrLabel {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\"",
+                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -181,6 +182,24 @@ export class IrLabel {
                 },
                 "attribute": "icon_style",
                 "reflect": false
+            },
+            "ignore_value": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "ignore_value",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }

@@ -15,6 +15,7 @@ export declare class IrButton {
     btn_id: string;
     variant: 'default' | 'icon';
     icon_name: TIcons;
+    visibleBackgroundOnHover: boolean;
     clickHanlder: EventEmitter<any>;
     private buttonEl;
     handleButtonAnimation(e: CustomEvent): void;

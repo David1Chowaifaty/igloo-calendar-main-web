@@ -16,6 +16,7 @@ export class IrButton {
         this.btn_id = v4();
         this.variant = 'default';
         this.icon_name = undefined;
+        this.visibleBackgroundOnHover = false;
     }
     handleButtonAnimation(e) {
         if (!this.buttonEl || e.detail !== this.btn_id) {
@@ -29,10 +30,10 @@ export class IrButton {
     }
     render() {
         if (this.variant === 'icon') {
-            return (h("button", { id: this.btn_id, class: "icon-button", ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { name: this.icon_name })));
+            return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { name: this.icon_name })));
         }
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} d-flex align-items-center btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled }, h("span", { class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "loader m-0 p-0" })));
+        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, h("span", { class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "btn_loader m-0 p-0" })));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }
@@ -284,7 +285,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\"",
+                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -301,6 +302,24 @@ export class IrButton {
                 },
                 "attribute": "icon_name",
                 "reflect": false
+            },
+            "visibleBackgroundOnHover": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "visible-background-on-hover",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }

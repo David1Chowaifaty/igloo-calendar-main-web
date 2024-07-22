@@ -29,7 +29,7 @@ export declare class IglBookingEventHover {
     componentDidLoad(): void;
     disconnectedCallback(): void;
     getBookingId(): any;
-    getTotalOccupants(): any;
+    getTotalOccupants(): string;
     getPhoneNumber(): any;
     getCountry(): string;
     getPhoneCode(): any;

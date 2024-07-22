@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-import { Booking, Guest, IPmsLog } from '../../models/booking.dto';
-import { TIglBookPropertyPayload } from '../../models/igl-book-property';
+import { Booking, Guest, IPmsLog } from "../../models/booking.dto";
+import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { ILocale } from "../../stores/locales.store";
 import { IToast } from '../ir-toast/toast';
 import { ICountry } from "../../models/IBooking";
@@ -32,7 +32,7 @@ export declare class IrBookingDetails {
     guestData: Guest;
     defaultTexts: ILocale;
     rerenderFlag: boolean;
-    sidebarState: 'guest' | 'pickup' | null;
+    sidebarState: 'guest' | 'pickup' | 'extra_note' | null;
     isUpdateClicked: boolean;
     pms_status: IPmsLog;
     isPMSLogLoading: boolean;
@@ -57,7 +57,8 @@ export declare class IrBookingDetails {
     handleCloseBookingWindow(): void;
     handleDeleteFinish(e: CustomEvent): void;
     resetBookingData(): Promise<void>;
-    handleResetBookingData(e: CustomEvent): Promise<void>;
+    handleResetBookingData(e: CustomEvent<Booking | null>): Promise<Booking>;
     renderPhoneNumber(): string;
     render(): any[];
+    renderSidbarContent(): any;
 }

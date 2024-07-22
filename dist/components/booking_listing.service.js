@@ -62,7 +62,7 @@ class BookingListingService extends Token {
         if (!token) {
             throw new Error('Invalid token');
         }
-        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: [{ key: 'private_note', value: '' }] }));
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];

@@ -146,9 +146,9 @@ export class IglBookPropertyService {
             console.log(error);
         }
     }
-    getBookingPreferenceRoomId(bookingData) {
-        return (bookingData.hasOwnProperty('PR_ID') && bookingData.PR_ID) || null;
-    }
+    // private getBookingPreferenceRoomId(bookingData) {
+    //   return (bookingData.hasOwnProperty('PR_ID') && bookingData.PR_ID) || null;
+    // }
     getRoomCategoryByRoomId(bookingData) {
         var _a;
         return (_a = bookingData.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(roomCategory => {
@@ -156,8 +156,6 @@ export class IglBookPropertyService {
         });
     }
     setEditingRoomInfo(bookingData, selectedUnits) {
-        console.log(bookingData, bookingData.roomsInfo);
-        console.log(this.getBookingPreferenceRoomId(bookingData));
         const category = this.getRoomCategoryByRoomId(bookingData);
         const room_id = !category ? '' : `c_${category === null || category === void 0 ? void 0 : category.id}`;
         const ratePlanId = `p_${bookingData.RATE_PLAN_ID}`;

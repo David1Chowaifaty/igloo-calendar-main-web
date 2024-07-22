@@ -104,7 +104,9 @@ function getDefaultData(cell, stayStatus) {
             },
         };
     }
-    // console.log('booking', cell);
+    if (cell.booking.booking_nbr.toString() === '23080178267') {
+        console.log('booking', cell);
+    }
     // if (cell.booking.booking_nbr === '61249849') {
     //   console.log('cell');
     //   console.log(moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE);
@@ -124,6 +126,7 @@ function getDefaultData(cell, stayStatus) {
         POOL: cell.POOL,
         BOOKING_NUMBER: cell.booking.booking_nbr,
         NOTES: cell.booking.is_direct ? cell.booking.remark : null,
+        PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
         is_direct: cell.booking.is_direct,
         BALANCE: (_b = cell.booking.financial) === null || _b === void 0 ? void 0 : _b.due_amount,
         channel_booking_nbr: cell.booking.channel_booking_nbr,
@@ -183,6 +186,13 @@ function addOrUpdateBooking(cell, myBookings, stayStatus) {
     //   myBookings[index] = updatedData;
     // }
 }
+export function getPrivateNote(extras) {
+    var _a;
+    if (!extras) {
+        return null;
+    }
+    return ((_a = extras.find(e => e.key === 'private_note')) === null || _a === void 0 ? void 0 : _a.value) || null;
+}
 export function transformNewBooking(data) {
     let bookings = [];
     //console.log(data);
@@ -218,6 +228,7 @@ export function transformNewBooking(data) {
             ID: room['assigned_units_pool'],
             TO_DATE: room.to_date,
             FROM_DATE: room.from_date,
+            PRIVATE_NOTE: getPrivateNote(data.extras),
             NO_OF_DAYS: room.days.length,
             ARRIVAL: data.arrival,
             IS_EDITABLE: true,
