@@ -1,6 +1,7 @@
 import { T as Token } from './Token.js';
 import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
+import { e as extras } from './utils2.js';
 import { a as axios } from './axios.js';
 
 const initialState = {
@@ -62,7 +63,7 @@ class BookingListingService extends Token {
         if (!token) {
             throw new Error('Invalid token');
         }
-        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: [{ key: 'private_note', value: '' }] }));
+        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras }));
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];

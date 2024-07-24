@@ -1,5 +1,5 @@
 import axios from "axios";
-import { dateDifference, dateToFormattedString } from "../utils/utils";
+import { dateDifference, dateToFormattedString, extras } from "../utils/utils";
 import { Token } from "../models/Token";
 import moment from "moment";
 export class ToBeAssignedService extends Token {
@@ -56,6 +56,7 @@ export class ToBeAssignedService extends Token {
                     booking_nbr,
                     identifier,
                     pr_id,
+                    extras,
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);

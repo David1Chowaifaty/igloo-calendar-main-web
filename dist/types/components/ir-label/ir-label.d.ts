@@ -14,6 +14,7 @@ export declare class IrLabel {
     icon_name: TIcons;
     icon_style: string;
     ignore_value: boolean;
+    placeholder: string;
     editSidebar: EventEmitter;
     openEditSidebar(): void;
     render(): any;

@@ -68,7 +68,7 @@ export declare class IglBookingEvent {
     handleClickOutside(event: Event): void;
     hideBubbleInfoPopup(event: CustomEvent): void;
     moveBookingToHandler(event: CustomEvent): Promise<void>;
-    private setModalDescription;
+    private getModalDescription;
     private resetBookingToInitialPosition;
     handleRevertBooking(event: CustomEvent<string>): void;
     checkIfSlotOccupied(toRoomId: any, from_date: any, to_date: any): any;

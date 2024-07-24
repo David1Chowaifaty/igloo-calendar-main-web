@@ -1,5 +1,6 @@
 import { Token } from "../models/Token";
 import booking_listing, { initializeUserSelection } from "../stores/booking_listing.store";
+import { extras } from "../utils/utils";
 import axios from "axios";
 export class BookingListingService extends Token {
     async getExposedBookingsCriteria(property_id) {
@@ -22,7 +23,7 @@ export class BookingListingService extends Token {
         if (!token) {
             throw new Error('Invalid token');
         }
-        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: [{ key: 'private_note', value: '' }] }));
+        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras }));
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];

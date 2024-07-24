@@ -1,18 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { c as createStore } from './index2.js';
+import { c as calendar_dates } from './calendar-dates.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$6 } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$5 } from './igl-booking-event2.js';
-import { d as defineCustomElement$4 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$3 } from './ir-date-view2.js';
+import { d as defineCustomElement$7 } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$6 } from './igl-booking-event2.js';
+import { d as defineCustomElement$5 } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$4 } from './ir-date-view2.js';
+import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-popover2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
-
-const initialState = {
-    days: [],
-    months: [],
-};
-const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid #e0e0e0}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 const IglCalBodyStyle0 = iglCalBodyCss;
@@ -290,7 +285,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-date-view", "ir-popover", "ota-label"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-date-view", "ir-icons", "ir-popover", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -299,20 +294,25 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
@@ -330,6 +330,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IglCalBody as I, calendar_dates as c, defineCustomElement as d };
+export { IglCalBody as I, defineCustomElement as d };
 
 //# sourceMappingURL=igl-cal-body2.js.map

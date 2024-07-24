@@ -1,4 +1,3 @@
-import { Extras } from './../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, Guest, IPmsLog } from '../models/booking.dto';
 import { Token } from "../models/Token";
@@ -32,7 +31,7 @@ export declare class BookingService extends Token {
     getUserDefaultCountry(): Promise<any>;
     blockUnit(params: IBlockUnit): Promise<any>;
     getUserInfo(email: string): Promise<any>;
-    getExposedBooking(booking_nbr: string, language: string, extras?: Extras[] | null): Promise<Booking>;
+    getExposedBooking(booking_nbr: string, language: string, withExtras?: boolean): Promise<Booking>;
     private generateDays;
     private calculateTotalRate;
     fetchExposedGuest(email: string, property_id: number): Promise<any>;

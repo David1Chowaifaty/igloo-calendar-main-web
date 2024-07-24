@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { c as colorVariants, d as defineCustomElement$1 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 
-const irLabelCss = ".logo.sc-ir-label{height:1.5rem;width:1.5rem}.sc-ir-label-h{display:flex;margin-bottom:5px;gap:5px}.icon.sc-ir-label{margin-left:3px;padding:0;margin-top:0;display:flex;align-items:center}.label_message.sc-ir-label{margin:0 3px;padding:0}.label_title.sc-ir-label{min-width:max-content}.icon-container.sc-ir-label{margin:0;padding:0}.country.sc-ir-label{height:16px;width:23px;border-radius:3px}svg.sc-ir-label{margin:0;padding:0}";
+const irLabelCss = ".logo.sc-ir-label{height:1.5rem;width:1.5rem}.sc-ir-label-h{display:flex;margin-bottom:5px;gap:5px;align-items:center}.icon.sc-ir-label{margin-left:3px;padding:0;margin-top:0;display:flex;align-items:center}.label_message.sc-ir-label{margin:0 3px;padding:0}.label_title.sc-ir-label{min-width:max-content}.label_placeholder.sc-ir-label{color:#cacfe7}.icon-container.sc-ir-label{margin:0;padding:0}.country.sc-ir-label{height:16px;width:23px;border-radius:3px}svg.sc-ir-label{margin:0;padding:0}";
 const IrLabelStyle0 = irLabelCss;
 
 const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLElement {
@@ -19,15 +19,16 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
         this.icon_name = 'edit';
         this.icon_style = undefined;
         this.ignore_value = false;
+        this.placeholder = undefined;
     }
     openEditSidebar() {
         this.editSidebar.emit();
     }
     render() {
-        if (!this.value && !this.ignore_value) {
+        if (!this.placeholder && !this.value && !this.ignore_value) {
             return null;
         }
-        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("strong", { class: "label_title" }, this.label), this.image && h("img", { src: this.image.src, class: `p-0 m-0 ${this.country ? 'country' : 'logo'} ${this.image.style}`, alt: this.image.src }), h("p", { class: 'label_message' }, this.value), this.iconShown && (h("div", { class: "icon-container" }, h("ir-button", { variant: "icon", icon_name: this.icon_name, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHanlder: e => {
+        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("strong", { class: "label_title" }, this.label), this.image && h("img", { src: this.image.src, class: `p-0 m-0 ${this.country ? 'country' : 'logo'} ${this.image.style}`, alt: this.image.src }), this.value ? h("p", { class: 'label_message' }, this.value) : h("p", { class: 'label_placeholder' }, this.placeholder), this.iconShown && (h("div", { class: "icon-container" }, h("ir-button", { variant: "icon", icon_name: this.icon_name, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHanlder: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openEditSidebar();
@@ -43,7 +44,8 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
         "imageStyle": [1, "image-style"],
         "icon_name": [1],
         "icon_style": [1],
-        "ignore_value": [4]
+        "ignore_value": [4],
+        "placeholder": [1]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

@@ -7,7 +7,7 @@ export class IrInterceptor {
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
-        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
+        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings'];
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -26,13 +26,8 @@ export class IrInterceptor {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
         if (this.isHandledEndpoint(extractedUrl)) {
-            if (extractedUrl === '/Do_Payment') {
+            if (this.endpointsCount > 0) {
                 this.isLoading = true;
-            }
-            else {
-                if (this.endpointsCount > 0) {
-                    this.isLoading = true;
-                }
             }
         }
         if (extractedUrl === '/Get_Exposed_Calendar') {
@@ -63,7 +58,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '93e26ed9b9ca12b66226df37d66a07a410b27619' }, this.isLoading && (h("div", { key: '01cbbffcb7c3072622ce4d9e61c26f074d0b1af0', class: "loadingScreenContainer" }, h("div", { key: '5e2c05987f427fa6b5d980dab58847687b915a0e', class: "loaderContainer" }, h("span", { key: 'a49361aa173b24f9d8471c5e0cd82dd68add8edd', class: "loader" }))))));
+        return (h(Host, { key: 'de952b3bbf1d94d8ebb0857ad99023bd9400b7d7' }, this.isLoading && (h("div", { key: 'bf743e71f1e679e6b0633358bb865cbaa3fe30b7', class: "loadingScreenContainer" }, h("div", { key: 'bba6778a7558085c4b5d7c9fddaa0f42a6b9be22', class: "loaderContainer" }, h("span", { key: '80a93e11411fea61de8ae28d8c3390f7e1ac0680', class: "loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -93,7 +88,7 @@ export class IrInterceptor {
                     "tags": [],
                     "text": ""
                 },
-                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings']"
+                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings']"
             }
         };
     }

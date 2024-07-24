@@ -20,6 +20,10 @@ export declare class IrRoomNights {
     isEndDateBeforeFromDate: boolean;
     defaultTotalNights: number;
     isInputFocused: number;
+    dates: {
+        from_date: Date;
+        to_date: Date;
+    };
     closeRoomNightsDialog: EventEmitter<IRoomNightsDataEventPayload>;
     private bookingService;
     componentWillLoad(): void;

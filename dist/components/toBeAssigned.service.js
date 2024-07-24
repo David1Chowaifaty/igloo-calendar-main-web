@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { d as dateToFormattedString, b as dateDifference } from './utils.js';
+import { e as extras, d as dateToFormattedString, b as dateDifference } from './utils.js';
 import { T as Token } from './Token.js';
 import { h as hooks } from './moment.js';
 
@@ -57,6 +57,7 @@ class ToBeAssignedService extends Token {
                     booking_nbr,
                     identifier,
                     pr_id,
+                    extras,
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);

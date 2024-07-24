@@ -291,6 +291,14 @@ export namespace Components {
         "rowCount": number;
         "ticket": string;
     }
+    interface IrBookingPrinting {
+        "baseurl": string;
+        "bookingNumber": string;
+        "language": string;
+        "mode": 'invoice' | 'default';
+        "propertyid": number;
+        "ticket": string;
+    }
     interface IrButton {
         "btn_block": boolean;
         "btn_color": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
@@ -299,7 +307,9 @@ export namespace Components {
         "btn_styles": string;
         "btn_type": string;
         "icon": string;
+        "iconPostion": 'left' | 'right';
         "icon_name": TIcons;
+        "icon_style": any;
         "isLoading": boolean;
         "name": string;
         "size": 'sm' | 'md' | 'lg';
@@ -470,6 +480,7 @@ export namespace Components {
         "image": { src: string; alt: string; style?: string } | null;
         "imageStyle": string;
         "label": string;
+        "placeholder": string;
         "value": string;
     }
     interface IrListingHeader {
@@ -1345,6 +1356,12 @@ declare global {
         prototype: HTMLIrBookingListingElement;
         new (): HTMLIrBookingListingElement;
     };
+    interface HTMLIrBookingPrintingElement extends Components.IrBookingPrinting, HTMLStencilElement {
+    }
+    var HTMLIrBookingPrintingElement: {
+        prototype: HTMLIrBookingPrintingElement;
+        new (): HTMLIrBookingPrintingElement;
+    };
     interface HTMLIrButtonElementEventMap {
         "clickHanlder": any;
     }
@@ -2014,6 +2031,7 @@ declare global {
         "ir-booking-details": HTMLIrBookingDetailsElement;
         "ir-booking-extra-note": HTMLIrBookingExtraNoteElement;
         "ir-booking-listing": HTMLIrBookingListingElement;
+        "ir-booking-printing": HTMLIrBookingPrintingElement;
         "ir-button": HTMLIrButtonElement;
         "ir-channel": HTMLIrChannelElement;
         "ir-channel-editor": HTMLIrChannelEditorElement;
@@ -2398,6 +2416,14 @@ declare namespace LocalJSX {
         "rowCount"?: number;
         "ticket"?: string;
     }
+    interface IrBookingPrinting {
+        "baseurl"?: string;
+        "bookingNumber"?: string;
+        "language"?: string;
+        "mode"?: 'invoice' | 'default';
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
     interface IrButton {
         "btn_block"?: boolean;
         "btn_color"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
@@ -2406,7 +2432,9 @@ declare namespace LocalJSX {
         "btn_styles"?: string;
         "btn_type"?: string;
         "icon"?: string;
+        "iconPostion"?: 'left' | 'right';
         "icon_name"?: TIcons;
+        "icon_style"?: any;
         "isLoading"?: boolean;
         "name"?: string;
         "onClickHanlder"?: (event: IrButtonCustomEvent<any>) => void;
@@ -2603,6 +2631,7 @@ declare namespace LocalJSX {
         "imageStyle"?: string;
         "label"?: string;
         "onEditSidebar"?: (event: IrLabelCustomEvent<any>) => void;
+        "placeholder"?: string;
         "value"?: string;
     }
     interface IrListingHeader {
@@ -2809,6 +2838,7 @@ declare namespace LocalJSX {
         "ir-booking-details": IrBookingDetails;
         "ir-booking-extra-note": IrBookingExtraNote;
         "ir-booking-listing": IrBookingListing;
+        "ir-booking-printing": IrBookingPrinting;
         "ir-button": IrButton;
         "ir-channel": IrChannel;
         "ir-channel-editor": IrChannelEditor;
@@ -2888,6 +2918,7 @@ declare module "@stencil/core" {
             "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
             "ir-booking-extra-note": LocalJSX.IrBookingExtraNote & JSXBase.HTMLAttributes<HTMLIrBookingExtraNoteElement>;
             "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
+            "ir-booking-printing": LocalJSX.IrBookingPrinting & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
             "ir-button": LocalJSX.IrButton & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
             "ir-channel": LocalJSX.IrChannel & JSXBase.HTMLAttributes<HTMLIrChannelElement>;
             "ir-channel-editor": LocalJSX.IrChannelEditor & JSXBase.HTMLAttributes<HTMLIrChannelEditorElement>;

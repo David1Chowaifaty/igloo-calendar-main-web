@@ -1,6 +1,6 @@
 :host {
-  --icon-button-color: #104064;
-  --icon-button-hover-color: #1a6aa7;
+  --icon-button-color: #6b6f82;
+  --icon-button-hover-color: #104064;
 }
 
 .button-icon {
@@ -24,15 +24,18 @@
   display: inline-flex !important;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .icon-button {
   all: unset;
+  box-sizing: border-box;
   border-radius: 0.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--icon-button-color);
+  padding: 0.2rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 .icon-button:hover {
@@ -46,10 +49,10 @@
 }
 
 .icon-loader {
-  margin-top: 10px;
-  width: 1.25rem;
-  height: 1.25rem;
-  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  width: var(--icon-size, 1.25rem);
+  height: var(--icon-size, 1.25rem);
   border-radius: 50%;
   background: radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);

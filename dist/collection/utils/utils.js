@@ -126,4 +126,10 @@ export function formatAmount(currency, amount) {
     const symbol = getCurrencySymbol(currency);
     return symbol + amount.toFixed(2);
 }
+export const extras = [
+    {
+        key: 'private_note',
+        value: '',
+    },
+];
 //# sourceMappingURL=utils.js.map

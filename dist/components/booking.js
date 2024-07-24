@@ -3,6 +3,7 @@ import { i as isBlockUnit, b as dateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { c as calendar_dates } from './calendar-dates.store.js';
 
 async function getMyBookings(months) {
     const myBookings = [];
@@ -71,7 +72,7 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${hooks(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatus) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = hooks(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = hooks(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -154,7 +155,7 @@ function getDefaultData(cell, stayStatus) {
         ROOMS: cell.booking.rooms,
         cancelation: cell.room.rateplan.cancelation,
         guarantee: cell.room.rateplan.guarantee,
-        TOTAL_PRICE: cell.room.total,
+        TOTAL_PRICE: (_d = cell.booking.financial) === null || _d === void 0 ? void 0 : _d.gross_total,
         COUNTRY: cell.booking.guest.country_id,
         FROM_DATE_STR: cell.booking.format.from_date,
         TO_DATE_STR: cell.booking.format.to_date,
@@ -224,11 +225,14 @@ function transformNewBooking(data) {
     };
     const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
     rooms.forEach(room => {
-        var _a, _b;
+        var _a, _b, _c;
+        const bookingFromDate = hooks(room.from_date, 'YYYY-MM-DD').isAfter(calendar_dates.fromDate) ? room.from_date : calendar_dates.fromDate;
+        const bookingToDate = hooks(room.to_date, 'YYYY-MM-DD').isAfter(calendar_dates.toDate) ? room.to_date : calendar_dates.toDate;
+        console.log(bookingToDate, bookingFromDate, room.from_date, room.to_date);
         bookings.push({
             ID: room['assigned_units_pool'],
-            TO_DATE: room.to_date,
-            FROM_DATE: room.from_date,
+            TO_DATE: bookingToDate,
+            FROM_DATE: bookingFromDate,
             PRIVATE_NOTE: getPrivateNote(data.extras),
             NO_OF_DAYS: room.days.length,
             ARRIVAL: data.arrival,
@@ -254,7 +258,7 @@ function transformNewBooking(data) {
             BOOKING_NUMBER: data.booking_nbr,
             cancelation: room.rateplan.cancelation,
             guarantee: room.rateplan.guarantee,
-            TOTAL_PRICE: room.gross_total,
+            TOTAL_PRICE: (_c = data.financial) === null || _c === void 0 ? void 0 : _c.gross_total,
             COUNTRY: data.guest.country_id,
             FROM_DATE_STR: data.format.from_date,
             TO_DATE_STR: data.format.to_date,
@@ -313,6 +317,6 @@ function calculateDaysBetweenDates(from_date, to_date) {
     return daysDiff || 1;
 }
 
-export { transformNewBooking as a, bookingStatus as b, calculateDaysBetweenDates as c, getPrivateNote as d, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
+export { transformNewBooking as a, bookingStatus as b, getPrivateNote as c, calculateDaysBetweenDates as d, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
 
 //# sourceMappingURL=booking.js.map

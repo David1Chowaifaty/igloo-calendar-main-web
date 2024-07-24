@@ -17,6 +17,8 @@ export class IrButton {
         this.variant = 'default';
         this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
+        this.iconPostion = 'left';
+        this.icon_style = undefined;
     }
     handleButtonAnimation(e) {
         if (!this.buttonEl || e.detail !== this.btn_id) {
@@ -33,7 +35,7 @@ export class IrButton {
             return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { name: this.icon_name })));
         }
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, h("span", { class: "button-icon", "data-state": this.isLoading ? 'loading' : '' }, h("slot", { name: "icon" })), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "btn_loader m-0 p-0" })));
+        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading && h("div", { class: "btn_loader m-0 p-0" })));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }
@@ -285,7 +287,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\"",
+                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -320,6 +322,41 @@ export class IrButton {
                 "attribute": "visible-background-on-hover",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "iconPostion": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'left' | 'right'",
+                    "resolved": "\"left\" | \"right\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "icon-postion",
+                "reflect": false,
+                "defaultValue": "'left'"
+            },
+            "icon_style": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "any",
+                    "resolved": "any",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "icon_style",
+                "reflect": false
             }
         };
     }

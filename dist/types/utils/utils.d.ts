@@ -23,3 +23,7 @@ export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];
 export declare function renderTime(time: number): string;
 export declare function formatAmount(currency: string, amount: number): string;
+export declare const extras: {
+    key: string;
+    value: string;
+}[];

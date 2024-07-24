@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
+import { e as extras, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { g as getMyBookings } from './booking.js';
 import { T as Token } from './Token.js';
 
@@ -23,7 +23,7 @@ class BookingService extends Token {
                     propertyid,
                     from_date,
                     to_date,
-                    extras: [{ key: 'private_note', value: '' }],
+                    extras,
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
@@ -247,14 +247,14 @@ class BookingService extends Token {
             throw new Error(error);
         }
     }
-    async getExposedBooking(booking_nbr, language, extras = null) {
+    async getExposedBooking(booking_nbr, language, withExtras = true) {
         try {
             const token = this.getToken();
             if (token) {
                 const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, {
                     booking_nbr,
                     language,
-                    extras,
+                    extras: withExtras ? extras : null,
                 });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
@@ -361,7 +361,7 @@ class BookingService extends Token {
         if (!token) {
             throw new Error('Missing token');
         }
-        const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
+        const { data } = await axios.post(`/DoReservation?Ticket=${token}`, Object.assign(Object.assign({}, body), { extras: body.extras ? body.extras : extras }));
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

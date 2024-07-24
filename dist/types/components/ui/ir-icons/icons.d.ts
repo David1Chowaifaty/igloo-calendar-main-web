@@ -151,6 +151,22 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    square_plus: {
+        viewBox: string;
+        d: string;
+    };
+    angles_left: {
+        viewBox: string;
+        d: string;
+    };
+    angle_right: {
+        viewBox: string;
+        d: string;
+    };
+    angles_right: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {
