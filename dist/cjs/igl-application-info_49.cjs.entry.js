@@ -1848,7 +1848,7 @@ const IglBookingEvent = class {
         }
     }
     getModalDescription(toRoomId, from_date, to_date) {
-        console.log(`toRoomId: ${toRoomId}`, '\n', `new from_date: ${from_date}`, '\n', `new to_date: ${to_date}`, '\n', `old from_date: ${this.bookingEvent.FROM_DATE}`, '\n', `old to_date: ${this.bookingEvent.TO_DATE}`);
+        console.log(`toRoomId: ${toRoomId}`, '\n', `new from_date: ${from_date}`, '\n', `old from_date: ${this.bookingEvent.FROM_DATE}`, '\n', `new to_date: ${to_date}`, '\n', `old to_date: ${this.bookingEvent.TO_DATE}`);
         const findRoomType = (roomId) => {
             let roomType = this.bookingEvent.roomsInfo.filter(room => room.physicalrooms.some(r => r.id === +roomId));
             if (roomType.length) {
