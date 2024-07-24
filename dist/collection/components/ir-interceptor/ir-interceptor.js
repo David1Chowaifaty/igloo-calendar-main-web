@@ -26,8 +26,13 @@ export class IrInterceptor {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
         if (this.isHandledEndpoint(extractedUrl)) {
-            if (this.endpointsCount > 0) {
+            if (extractedUrl !== '/Get_Exposed_Calendar') {
                 this.isLoading = true;
+            }
+            else {
+                if (this.endpointsCount > 0) {
+                    this.isLoading = true;
+                }
             }
         }
         if (extractedUrl === '/Get_Exposed_Calendar') {
@@ -58,7 +63,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'de952b3bbf1d94d8ebb0857ad99023bd9400b7d7' }, this.isLoading && (h("div", { key: 'bf743e71f1e679e6b0633358bb865cbaa3fe30b7', class: "loadingScreenContainer" }, h("div", { key: 'bba6778a7558085c4b5d7c9fddaa0f42a6b9be22', class: "loaderContainer" }, h("span", { key: '80a93e11411fea61de8ae28d8c3390f7e1ac0680', class: "loader" }))))));
+        return (h(Host, { key: 'b309275316fa9f37055fc1fb43993c090fa93174' }, this.isLoading && (h("div", { key: '275abd728d48b03c545a5d28c169c76ddf8305b6', class: "loadingScreenContainer" }, h("div", { key: '4c2b1068f47ef3aee6c43c673f2525680527fb5b', class: "loaderContainer" }, h("span", { key: '6a9c1b4cabac68f320664a6950167809481db1ed', class: "loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
