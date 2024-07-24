@@ -112,7 +112,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { value: 2, label: "Country", variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
+            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { value: this.user.country_id, label: "Country", variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
                 id: country.id,
                 value: country.name,
             })), onValueChange: e => this.updateUserData('country_id', e.detail) }), h("ir-phone-input", { class: "col-span-2 w-full", country_code: this.user.country_id || null, mode: "prefix_only", country_phone_prefix: this.user.country_phone_prefix || null, onTextChange: e => {

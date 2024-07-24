@@ -1,5 +1,6 @@
 import { Token } from "../../models/Token";
 export declare class PaymentService extends Token {
+    processBookingPayment(): void;
     GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }: {
         token: string;
         params: {
@@ -13,4 +14,20 @@ export declare class PaymentService extends Token {
         onScriptRun: (script: string) => void;
     }): Promise<any>;
     RequestBookingCancelation(booking_nbr: string): Promise<any>;
+    GetExposedApplicablePolicies({ token, params, book_date, }: {
+        token: string;
+        params: {
+            booking_nbr: string;
+            property_id: number;
+            room_type_id: number;
+            rate_plan_id: number;
+            currency_id: number;
+            language: number | string;
+        };
+        book_date: Date;
+    }): Promise<{
+        data: any;
+        amount: number;
+    }>;
+    private processAlicablePolicies;
 }

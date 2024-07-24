@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, ZodIssue } from 'zod';
 export declare const ZCurrency: z.ZodObject<{
     code: z.ZodString;
     name: z.ZodOptional<z.ZodString>;
@@ -56,3 +56,10 @@ export declare class Identifier {
     code: string;
     name: string;
 }
+export type CheckoutErrors = {
+    cause: 'user' | 'pickup' | 'payment';
+    issues: Record<string, ZodIssue>;
+} | {
+    cause: 'booking-details' | 'booking-summary';
+    issues: string;
+};

@@ -8,7 +8,7 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 import { Booking } from "./models/booking.dto";
 import { TSource } from "./stores/app.store";
-import { ICurrency, IExposedLanguages, pages } from "./models/common";
+import { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
@@ -23,7 +23,7 @@ import { TGuest } from "./models/user_form";
 export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 export { Booking } from "./models/booking.dto";
 export { TSource } from "./stores/app.store";
-export { ICurrency, IExposedLanguages, pages } from "./models/common";
+export { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 export { TContainerStyle } from "./components/ir-booking-widget/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
@@ -106,6 +106,7 @@ export namespace Components {
         "childrenCount": string;
         "cur": string;
         "fromDate": string;
+        "hideGoogleSignIn": boolean;
         "injected": boolean;
         "language": string;
         "perma_link": string;
@@ -132,6 +133,7 @@ export namespace Components {
         "be": boolean;
         "footerShown": boolean;
         "headerShown": boolean;
+        "hideGoogleSignIn": boolean;
         "language": string;
         "maxPages": number;
         "perma_link": string;
@@ -156,7 +158,7 @@ export namespace Components {
         "toDate": string;
     }
     interface IrBookingSummary {
-        "error": boolean;
+        "error": CheckoutErrors;
         "isLoading": boolean;
     }
     interface IrBookingWidget {
@@ -369,6 +371,7 @@ export namespace Components {
         "total": number;
     }
     interface IrPaymentView {
+        "errors": Record<string, ZodIssue>;
     }
     interface IrPhoneInput {
         "country_code": number;
@@ -1769,6 +1772,7 @@ declare namespace LocalJSX {
         "childrenCount"?: string;
         "cur"?: string;
         "fromDate"?: string;
+        "hideGoogleSignIn"?: boolean;
         "injected"?: boolean;
         "language"?: string;
         "perma_link"?: string;
@@ -1796,6 +1800,7 @@ declare namespace LocalJSX {
         "be"?: boolean;
         "footerShown"?: boolean;
         "headerShown"?: boolean;
+        "hideGoogleSignIn"?: boolean;
         "language"?: string;
         "maxPages"?: number;
         "perma_link"?: string;
@@ -1825,7 +1830,7 @@ declare namespace LocalJSX {
         "toDate"?: string;
     }
     interface IrBookingSummary {
-        "error"?: boolean;
+        "error"?: CheckoutErrors;
         "isLoading"?: boolean;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
@@ -2089,6 +2094,7 @@ declare namespace LocalJSX {
         "total"?: number;
     }
     interface IrPaymentView {
+        "errors"?: Record<string, ZodIssue>;
     }
     interface IrPhoneInput {
         "country_code"?: number;

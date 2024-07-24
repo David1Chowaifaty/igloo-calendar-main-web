@@ -1,4 +1,5 @@
 import localizedWords from "../../../../stores/localization.store";
+import { ZCreditCardSchemaWithCvc } from "../../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import IMask from "imask";
 export class IrCreditCardInput {
@@ -61,18 +62,24 @@ export class IrCreditCardInput {
         }
     }
     render() {
-        return (h(Host, { key: '523a5223e1b5f75a7d20cc4cf3d9e9fe4ec67b68' }, h("div", { key: 'aaff9f3e7f4ad1e9bb56d20556911961921dcc52', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '1b882ca7f57d9659e8ccfd3fdc2001043559a845', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '0c8e14bf04cb0a2376344addb786555c1d5d3b6b', class: "input-container" }, h("input", { key: 'b97d8c530a73661b88e41ac8e1e78c756afaceb6', type: "text", class: "w-full", onBlur: e => {
+        return (h(Host, { key: 'ea56fead5af3a8ebcd59e1899198ab93d28cc619' }, h("div", { key: '9c019c18d1c0965e39f68364dbe476695cd554bf', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: 'a8e0234b338de695b34d3cf530fa379be91e6ca2', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: 'd768013ff457e8ce5e02f5a279be6099971028ee', class: "input-container" }, h("input", { key: '9992cd2e258e81e6c7be49e0e94abf5f4a4612b7', type: "text", class: "w-full", onFocus: () => {
+                if (this.el.hasAttribute('data-state'))
+                    this.el.removeAttribute('data-state');
+            }, onBlur: e => {
+                var _a;
                 const target = e.target;
-                if (target.value.length === 0) {
-                    this.error = true;
-                    target.setAttribute('aria-invalid', 'true');
+                const cardNumberSchema = ZCreditCardSchemaWithCvc.pick({ cardNumber: true });
+                const cardNumberValidation = cardNumberSchema.safeParse({ cardNumber: (_a = target.value) === null || _a === void 0 ? void 0 : _a.replace(/ /g, '') });
+                if (!cardNumberValidation.success) {
+                    this.el.setAttribute('data-state', 'error');
+                    this.el.setAttribute('aria-invalid', 'true');
                 }
                 else {
-                    if (target.hasAttribute('aria-invalid')) {
-                        target.setAttribute('aria-invalid', 'false');
+                    if (this.el.hasAttribute('aria-invalid')) {
+                        this.el.setAttribute('aria-invalid', 'false');
                     }
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '400dc03ee1a2b060140f626de0ecfd07d57f0d12', class: "icon-container" }, this.renderIcon(this.cardType))))));
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '844e814275053647c7337161328d9ea7e56e37f5', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {

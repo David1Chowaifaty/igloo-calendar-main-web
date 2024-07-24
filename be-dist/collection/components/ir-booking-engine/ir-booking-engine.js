@@ -35,6 +35,7 @@ export class IrBookingEngine {
         this.property = null;
         this.source = null;
         this.version = '2.0';
+        this.hideGoogleSignIn = true;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -101,6 +102,7 @@ export class IrBookingEngine {
             affiliate: null,
             tag: this.stag,
             source: this.source,
+            hideGoogleSignIn: this.hideGoogleSignIn,
         };
         this.initRequest();
     }
@@ -623,6 +625,24 @@ export class IrBookingEngine {
                 "attribute": "version",
                 "reflect": false,
                 "defaultValue": "'2.0'"
+            },
+            "hideGoogleSignIn": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "hide-google-sign-in",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }

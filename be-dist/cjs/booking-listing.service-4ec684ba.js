@@ -1,16 +1,18 @@
-import { d as dateFns, a as app_store, f as formatAmount } from './utils-402f3439.js';
+'use strict';
+
+const utils = require('./utils-4a6b53b7.js');
 
 class BookingListingAppService {
     getBookingActions(booking) {
         // const canView = booking.status.code !== '003';
         const canView = true;
-        const canCancel = booking.status.code !== '003' && dateFns.isBefore(new Date(), new Date(booking.to_date));
-        const canMakePayment = booking.status.code === '001' && app_store.property.allowed_payment_methods.some(paymentMethod => paymentMethod.is_payment_gateway);
+        const canCancel = booking.status.code !== '003' && utils.dateFns.isBefore(new Date(), new Date(booking.to_date));
+        const canMakePayment = booking.status.code === '001' && utils.app_store.property.allowed_payment_methods.some(paymentMethod => paymentMethod.is_payment_gateway);
         let makePaymentLabel = '';
         if (canMakePayment) {
             const prepayment_amount = booking.extras.find(e => e.key === 'prepayment_amount');
             if (prepayment_amount) {
-                makePaymentLabel = `Pay ${formatAmount(prepayment_amount.value || 0, booking.currency.code)} to guarentee`;
+                makePaymentLabel = `Pay ${utils.formatAmount(prepayment_amount.value || 0, booking.currency.code)} to guarentee`;
             }
         }
         return {
@@ -21,6 +23,6 @@ class BookingListingAppService {
     }
 }
 
-export { BookingListingAppService as B };
+exports.BookingListingAppService = BookingListingAppService;
 
-//# sourceMappingURL=booking-listing.service-8bf599b2.js.map
+//# sourceMappingURL=booking-listing.service-4ec684ba.js.map

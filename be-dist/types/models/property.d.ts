@@ -399,4 +399,16 @@ export interface ISetupEntries {
     ratePricingMode: IEntries[];
     bedPreferenceType: IEntries[];
 }
+export interface IExposedApplicablePolicies {
+    type: 'guarantee' | 'cancelation';
+    brackets: IBrackets[];
+}
+export interface IBrackets {
+    due_on: string;
+    code: string;
+    statement: string;
+    amount: number;
+    currency_id: number;
+    gross_amount: number;
+}
 export {};

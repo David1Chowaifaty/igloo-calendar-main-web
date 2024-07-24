@@ -112,7 +112,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("button", { key: 'a37bef42f1c540210152b3121424b49d1e0d92a6', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: '2b6df35d29a7f06ec17bfc13d9d6ec3d63c87ae3', class: "loader" }), "Sign in"), h("div", { key: '1851ebff51e45d76cba7a7a3587a3359f0012057', class: "divider" }, h("div", { key: '0d91bfe04a03b52d3cae96f80bd4f2c7288d6e5d', class: "divider-line" }), h("span", { key: 'c2384ef78f6a0d80c7e68fe44333d581a19cba79', class: "divider-text" }, "OR"), h("div", { key: '73ecd519b70c55527a0d007b8898054015e9fc14', class: "divider-line" })))));
+            } })), h("button", { key: 'a37bef42f1c540210152b3121424b49d1e0d92a6', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: '2b6df35d29a7f06ec17bfc13d9d6ec3d63c87ae3', class: "loader" }), "Sign in"), !app_store.app_data.hideGoogleSignIn && (h("div", { key: '6f3b580feeb63f234729eb91c993a58cf72baaf9', class: "divider" }, h("div", { key: '368c58162bd31479003260569c4d3ba81f49feb9', class: "divider-line" }), h("span", { key: 'b5c67b06d39cfcc80c813171a68ae1d8689be236', class: "divider-text" }, "OR"), h("div", { key: 'bd72ab5c81cd8e1732ccb5bf6cbee74223223372', class: "divider-line" }))))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }

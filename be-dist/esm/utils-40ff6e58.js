@@ -50418,6 +50418,7 @@ const initialState = {
         redirect_url: null,
         tag: null,
         source: null,
+        hideGoogleSignIn: false,
     },
     property: undefined,
     setup_entries: undefined,
@@ -53162,6 +53163,6 @@ function formatImageAlt(alt, roomTypeName = null) {
     return [roomTypeName, alt, `${app_store.property.name}, ${app_store.property.country.name}`].filter(f => f !== null).join(' - ');
 }
 
-export { injectHTML as A, app_store as a, formatFullLocation as b, createStore as c, dateFns as d, getUserPrefernce as e, formatAmount as f, getDateDifference as g, changeLocale as h, matchLocale as i, checkAffiliate as j, cn as k, localizedWords as l, manageAnchorSession as m, locale as n, onAppDataChange as o, getAbbreviatedWeekdays as p, renderTime as q, runScriptAndRemove as r, setDefaultLocale as s, formatImageAlt as t, updateUserPreference as u, toDate$1 as v, startOfWeek$1 as w, defaultOptions$1 as x, enUS as y, isSameWeek$1 as z };
+export { isSameWeek$1 as A, app_store as a, formatFullLocation as b, createStore as c, dateFns as d, getUserPrefernce as e, formatAmount as f, getDateDifference as g, changeLocale as h, injectHTML as i, matchLocale as j, checkAffiliate as k, localizedWords as l, manageAnchorSession as m, cn as n, onAppDataChange as o, locale as p, getAbbreviatedWeekdays as q, runScriptAndRemove as r, setDefaultLocale as s, renderTime as t, updateUserPreference as u, formatImageAlt as v, toDate$1 as w, startOfWeek$1 as x, defaultOptions$1 as y, enUS as z };
 
-//# sourceMappingURL=utils-402f3439.js.map
+//# sourceMappingURL=utils-40ff6e58.js.map

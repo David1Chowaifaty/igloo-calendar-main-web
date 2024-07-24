@@ -1,8 +1,8 @@
 'use strict';
 
-const utils$3 = require('./utils-db6f248d.js');
+const utils$3 = require('./utils-4a6b53b7.js');
 
-class Token {
+class Token$1 {
     getToken() {
         return this.token;
     }
@@ -10,7 +10,7 @@ class Token {
         this.token = token;
     }
 }
-class MissingTokenError extends Error {
+class MissingTokenError$1 extends Error {
     constructor(message = 'Missing token!!') {
         super(message);
         this.name = 'MissingTokenError';
@@ -21873,7 +21873,7 @@ class PropertyHelpers {
     }
     validateToken(token) {
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
     }
     collectRoomTypeIds(props) {
@@ -22100,7 +22100,22 @@ class Colors {
     }
 }
 
-class PropertyService extends Token {
+class Token {
+    getToken() {
+        return this.token;
+    }
+    setToken(token) {
+        this.token = token;
+    }
+}
+class MissingTokenError extends Error {
+    constructor(message = 'Missing token!!') {
+        super(message);
+        this.name = 'MissingTokenError';
+    }
+}
+
+class PropertyService extends Token$1 {
     constructor() {
         super(...arguments);
         this.propertyHelpers = new PropertyHelpers();
@@ -22109,7 +22124,7 @@ class PropertyService extends Token {
     async getExposedProperty(params, initTheme = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: utils$3.app_store.userPreferences.currency_id, include_sales_rate_plans: !!booking_store.bookingAvailabilityParams.agent }));
         const result = data;
@@ -22156,7 +22171,7 @@ class PropertyService extends Token {
     async getExposedBooking(params, withExtras = true) {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
                 ? [
@@ -22278,7 +22293,7 @@ class PropertyService extends Token {
         try {
             const token = this.getToken();
             if (!token) {
-                throw new MissingTokenError();
+                throw new MissingTokenError$1();
             }
             let guest = {
                 email: checkout_store.userFormData.email,
@@ -22342,7 +22357,7 @@ class PropertyService extends Token {
     async getExposedGuest() {
         const token = this.getToken();
         if (!token) {
-            throw new MissingTokenError();
+            throw new MissingTokenError$1();
         }
         const { data } = await axios$1.post(`/Get_Exposed_Guest?Ticket=${token}`, {
             email: null,
@@ -22489,10 +22504,14 @@ class CommonService extends Token {
     }
 }
 
+exports.Colors = Colors;
 exports.CommonService = CommonService;
-exports.MissingTokenError = MissingTokenError;
+exports.MissingTokenError = MissingTokenError$1;
+exports.MissingTokenError$1 = MissingTokenError;
+exports.PropertyHelpers = PropertyHelpers;
 exports.PropertyService = PropertyService;
-exports.Token = Token;
+exports.Token = Token$1;
+exports.Token$1 = Token;
 exports.axios = axios$1;
 exports.booking_store = booking_store;
 exports.calculateTotalCost = calculateTotalCost;
@@ -22507,4 +22526,4 @@ exports.updateRoomParams = updateRoomParams;
 exports.updateUserFormData = updateUserFormData;
 exports.validateBooking = validateBooking;
 
-//# sourceMappingURL=common.service-1d2b7976.js.map
+//# sourceMappingURL=common.service-e383e021.js.map

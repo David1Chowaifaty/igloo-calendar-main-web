@@ -16,7 +16,8 @@ const links = [
     { href: "be-theo.html", name: "BE Theo", current: false },
     { href: "be-regency-palace.html", name: "BE Regency Palace", current: false },
     { href: "booking-widget.html", name: "BE Widget", current: false },
-    { href: "be-napa.html", name: "Napa City", current: false }
+    { href: "be-napa.html", name: "Napa City", current: false },
+    { href: "be-demo-injected.html", name: "Demo injected", current: false }
 ];
 
 function renderNavbar(active_link) {

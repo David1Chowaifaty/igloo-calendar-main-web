@@ -5,7 +5,7 @@ interface BaseLoginParams {
 }
 interface GoogleLoginParams extends BaseLoginParams {
     option: 'google';
-    token: string;
+    google_token: string;
 }
 interface DirectLoginParams extends BaseLoginParams {
     option: 'direct';

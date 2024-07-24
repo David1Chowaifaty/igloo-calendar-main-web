@@ -114,7 +114,7 @@ export class AuthService extends Token {
     }
     async handleCredentialResponse(response) {
         try {
-            const token = await this.login({ option: 'google', token: response.credential });
+            const token = await this.login({ option: 'google', google_token: response.credential });
             return { state: 'success', token };
         }
         catch (error) {

@@ -24,6 +24,7 @@ export declare class IrBookingEngine {
     property: IExposedProperty | null;
     source: TSource | null;
     version: string;
+    hideGoogleSignIn: boolean;
     selectedLocale: Locale;
     currencies: ICurrency[];
     languages: IExposedLanguages[];

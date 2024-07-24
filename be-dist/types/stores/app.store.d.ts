@@ -32,6 +32,7 @@ export interface IAppStore {
         affiliate: Affiliate;
         tag: string | null;
         source: TSource | null;
+        hideGoogleSignIn: boolean;
     };
     property: IExposedProperty;
     setup_entries: {

@@ -19,6 +19,7 @@ const initialState = {
         redirect_url: null,
         tag: null,
         source: null,
+        hideGoogleSignIn: false,
     },
     property: undefined,
     setup_entries: undefined,

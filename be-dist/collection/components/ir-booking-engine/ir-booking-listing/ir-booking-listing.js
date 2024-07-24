@@ -22,6 +22,7 @@ export class IrBookingListing {
         this.startScreen = { screen: 'bookings', params: null };
         this.aff = null;
         this.version = '2.0';
+        this.hideGoogleSignIn = true;
         this.isLoading = false;
         this.token = undefined;
         this.bookingNumber = null;
@@ -32,6 +33,7 @@ export class IrBookingListing {
     async componentWillLoad() {
         var _a;
         axios.defaults.baseURL = this.baseUrl;
+        app_store.app_data.hideGoogleSignIn = this.hideGoogleSignIn;
         if (!this.propertyid) {
             throw new Error('missing property id');
         }
@@ -166,7 +168,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: '28530c72fabf7621a34a62568d194cc1cdac8ba6' }, !this.be && h("ir-interceptor", { key: 'ad54c9d7d1fd131de41b41670fef1e9e635f6bc9' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '7fe78261bdca36dbad2aea84c232b48c4c227b5e' }, !this.be && h("ir-interceptor", { key: '13a4e2fa80f4261f905c587cd62776b60f5a677a' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -363,7 +365,7 @@ export class IrBookingListing {
                 "mutable": false,
                 "complexType": {
                     "original": "{ screen: 'bookings' | 'booking-details'; params: unknown }",
-                    "resolved": "{ screen: \"bookings\" | \"booking-details\"; params: unknown; }",
+                    "resolved": "{ screen: \"booking-details\" | \"bookings\"; params: unknown; }",
                     "references": {}
                 },
                 "required": false,
@@ -409,6 +411,24 @@ export class IrBookingListing {
                 "attribute": "version",
                 "reflect": false,
                 "defaultValue": "'2.0'"
+            },
+            "hideGoogleSignIn": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "hide-google-sign-in",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }

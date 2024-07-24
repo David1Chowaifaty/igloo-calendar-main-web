@@ -16,6 +16,7 @@ export declare class IrBookingListing {
     };
     aff: string;
     version: string;
+    hideGoogleSignIn: boolean;
     isLoading: boolean;
     token: string;
     bookingNumber: any;

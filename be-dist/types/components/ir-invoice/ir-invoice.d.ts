@@ -23,12 +23,15 @@ export declare class IrInvoice {
     private authService;
     private paymentService;
     private bookingListingAppService;
+    private payment_option;
+    private amount;
     private alertDialog;
     componentWillLoad(): Promise<void>;
     private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
     fetchData(): Promise<void>;
+    setAmount(): Promise<void>;
     renderBookingDetailHeader(): string;
     getPropertyEmail(): string;
     renderPaymentText(paymentOption: AllowedPaymentMethod): any;

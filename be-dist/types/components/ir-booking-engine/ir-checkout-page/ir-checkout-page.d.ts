@@ -1,32 +1,30 @@
-import { pages } from "../../../models/common";
+import { CheckoutErrors, pages } from "../../../models/common";
+import { AllowedPaymentMethod } from "../../../models/property";
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ZodError, ZodIssue } from 'zod';
+import { ZodError } from 'zod';
 export declare class IrCheckoutPage {
     isLoading: boolean;
-    error: {
-        cause: 'user' | 'pickup';
-        issues: Record<string, ZodIssue>;
-    } | {
-        cause: 'booking-details' | 'booking-summary';
-        issues: string;
-    };
+    error: CheckoutErrors;
+    selectedPaymentMethod: AllowedPaymentMethod | null;
+    routing: EventEmitter<pages>;
     private propertyService;
     private paymentService;
     private authService;
-    routing: EventEmitter<pages>;
-    userForm: HTMLIrUserFormElement;
-    bookingDetails: HTMLIrBookingDetailsElement;
-    pickupForm: HTMLIrPickupElement;
-    errorElement: HTMLElement;
+    private userForm;
+    private bookingDetails;
+    private pickupForm;
+    private errorElement;
     componentWillLoad(): void;
     handleBooking(e: CustomEvent): Promise<void>;
-    validatePolicyAcceptance(): boolean;
+    private validatePolicyAcceptance;
+    private validatePayment;
     private resetErrorState;
     private validateUserForm;
     private validateBookingDetails;
     private validatePickupForm;
-    handleError(cause: 'pickup' | 'user', error: ZodError<any>): void;
+    handleError(cause: 'pickup' | 'user' | 'payment', error: ZodError<any>): void;
     private processBooking;
+    private checkPaymentOption;
     private modifyConversionTag;
     private processPayment;
     scrollToError(): void;

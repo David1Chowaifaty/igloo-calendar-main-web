@@ -1,10 +1,10 @@
-import { pages } from "../../../../models/common";
+import { CheckoutErrors, pages } from "../../../../models/common";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrBookingSummary {
     isLoading: boolean;
     routing: EventEmitter<pages>;
     bookingClicked: EventEmitter<null>;
-    error: boolean;
+    error: CheckoutErrors;
     handleBooking(): void;
     render(): any;
 }

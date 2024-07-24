@@ -50420,6 +50420,7 @@ const initialState = {
         redirect_url: null,
         tag: null,
         source: null,
+        hideGoogleSignIn: false,
     },
     property: undefined,
     setup_entries: undefined,
@@ -53192,4 +53193,4 @@ exports.startOfWeek = startOfWeek$1;
 exports.toDate = toDate$1;
 exports.updateUserPreference = updateUserPreference;
 
-//# sourceMappingURL=utils-db6f248d.js.map
+//# sourceMappingURL=utils-4a6b53b7.js.map
