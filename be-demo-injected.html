@@ -83,7 +83,7 @@
             </script>
         </div>
     </nav>
-    <ir-booking-engine injected base-url="https://gateway.igloorooms.com/IRBE"></ir-booking-engine>
+    <ir-be injected></ir-be>
     <script>
         const testCmp = document.querySelector('ir-booking-engine');
         async function init() {
@@ -92,7 +92,6 @@
             } catch (error) {
                 console.log(error)
             }
-
         }
         init()
     </script>
