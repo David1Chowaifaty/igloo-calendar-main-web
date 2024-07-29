@@ -41,18 +41,19 @@ export class PaymentService extends Token {
             throw new Error(data.ExceptionMsg);
         }
         const result = data['My_Result'];
-        return { data: result, amount: this.processAlicablePolicies(result, book_date) };
+        return { data: result, amount: this.processAlicablePolicies(result, book_date).amount };
     }
     processAlicablePolicies(policies, book_date) {
         var _a, _b, _c, _d;
+        let isInFreeCancelationZone = false;
         const guarenteeAmount = ((_b = (_a = policies.find(po => po.type === 'guarantee')) === null || _a === void 0 ? void 0 : _a.brackets[0]) === null || _b === void 0 ? void 0 : _b.gross_amount) || 0;
-        let cancelation = policies.find(po => po.type === 'cancelation' && po.brackets.some(b => isBefore(new Date(b.due_on), book_date)));
-        console.log('cancelation', cancelation);
+        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(book_date, new Date(b.due_on)), book_date)); });
         if (cancelation) {
+            isInFreeCancelationZone = true;
             const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => isBefore(new Date(b.due_on), book_date))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
-            return cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount;
+            return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount, isInFreeCancelationZone };
         }
-        return guarenteeAmount;
+        return { amount: guarenteeAmount, isInFreeCancelationZone };
     }
 }
 //# sourceMappingURL=payment.service.js.map

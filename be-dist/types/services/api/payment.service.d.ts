@@ -1,3 +1,4 @@
+import { IExposedApplicablePolicies } from "../../models/property";
 import { Token } from "../../models/Token";
 export declare class PaymentService extends Token {
     processBookingPayment(): void;
@@ -29,5 +30,8 @@ export declare class PaymentService extends Token {
         data: any;
         amount: number;
     }>;
-    private processAlicablePolicies;
+    processAlicablePolicies(policies: IExposedApplicablePolicies[], book_date: Date): {
+        amount: number;
+        isInFreeCancelationZone: boolean;
+    };
 }

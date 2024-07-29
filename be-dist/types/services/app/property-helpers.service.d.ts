@@ -2,6 +2,7 @@ import { TPickupFormData } from "../../models/pickup";
 export declare class PropertyHelpers {
     private static readonly MODE_MODIFY_RT;
     private static readonly MODE_DEFAULT;
+    private paymentService;
     validateModeProps(props: any): void;
     convertPickup(pickup: TPickupFormData): any;
     updateBookingStore(data: any, props: any): void;
@@ -18,6 +19,7 @@ export declare class PropertyHelpers {
         last_name: string;
     };
     fetchAvailabilityData(token: string, props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
+    private validateFreeCancelationZone;
     private updateInventory;
     private sortRoomTypes;
     private updateRoomTypeRatePlans;

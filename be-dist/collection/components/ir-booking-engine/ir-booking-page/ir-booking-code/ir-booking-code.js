@@ -1,6 +1,5 @@
-import app_store from "../../../../stores/app.store";
-import booking_store from "../../../../stores/booking";
 import localizedWords from "../../../../stores/localization.store";
+import { validateAgentCode } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBookingCode {
     constructor() {
@@ -8,20 +7,17 @@ export class IrBookingCode {
         this.validationMessage = undefined;
     }
     handleSubmit(e) {
-        var _a;
         e.preventDefault();
         this.validationMessage = null;
-        const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code === this.code.trim());
-        if (!agent) {
+        if (!validateAgentCode(this.code)) {
             return (this.validationMessage = { error: true, message: localizedWords.entries.Lcz_InvalidAgentCode });
         }
-        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id });
         this.validationMessage = { error: false, message: this.code };
         this.closeDialog.emit(null);
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'f30386b8cc6de836e7715675a5635146599d9626' }, h("form", { key: '7681b69d6b3e90adbcf5343bed822eda7554e806', onSubmit: this.handleSubmit.bind(this), class: "p-4 sm:p-6" }, h("h1", { key: '0ba9345c63e2273ce74b833cdfe508adda9e91f8', class: "title" }, localizedWords.entries.Lcz_HaveAgentorCoporate, " "), h("ir-input", { key: 'ca72995cf0d7c92bdb8bcd07250993b6361493b2', error: (_a = this.validationMessage) === null || _a === void 0 ? void 0 : _a.error, onTextChanged: e => (this.code = e.detail), autofocus: true, inputId: "booking_code", placeholder: localizedWords.entries.Lcz_BookingCode, mode: "default" }), ((_b = this.validationMessage) === null || _b === void 0 ? void 0 : _b.error) && h("p", { key: '2b93bcbad71c03e29900759893477de417361c34', class: "text-red-500" }, this.validationMessage.message), h("div", { key: '936e1af94c9bd1be974990c1cbdf852a94427a0e', class: "mt-8 flex w-full flex-col items-center gap-4 md:flex-row-reverse" }, h("ir-button", { key: '799a34fafe37bbeeae7071dcb221da63bf9e2f51', size: "md", label: localizedWords.entries.Lcz_Apply, class: "w-full md:w-fit" }), h("ir-button", { key: '7b81af2e46c76abde7e61d1de2187bee97d41bc8', size: "md", onButtonClick: () => this.closeDialog.emit(null), variants: "outline", label: localizedWords.entries.Lcz_Cancel, class: 'w-full md:w-fit' })))));
+        return (h(Host, { key: 'b9fbcdd6dafa07520b230f0b8ea7a5c5bfa8878f' }, h("form", { key: '2cd1475bd8ab6833b95959fed5710e448011f866', onSubmit: this.handleSubmit.bind(this), class: "p-4 sm:p-6" }, h("h1", { key: '55ff0d1a580631395f7c989c801b7abf7afe4b51', class: "title" }, localizedWords.entries.Lcz_HaveAgentorCoporate, " "), h("ir-input", { key: '89567c415867e0126f7c57795788b93e038b30e6', error: (_a = this.validationMessage) === null || _a === void 0 ? void 0 : _a.error, onTextChanged: e => (this.code = e.detail), autofocus: true, inputId: "booking_code", placeholder: localizedWords.entries.Lcz_BookingCode, mode: "default" }), ((_b = this.validationMessage) === null || _b === void 0 ? void 0 : _b.error) && h("p", { key: '9890b125744132f6fb9aed0125d79982177816e0', class: "text-red-500" }, this.validationMessage.message), h("div", { key: '0f6dbb45471ff9ee6e5f43a9f47161f253c20dbb', class: "mt-8 flex w-full flex-col items-center gap-4 md:flex-row-reverse" }, h("ir-button", { key: '71b341af83723584cf1e6ecc44878eca53047292', size: "md", label: localizedWords.entries.Lcz_Apply, class: "w-full md:w-fit" }), h("ir-button", { key: '3fb39bc29b300ffe036345d1bcd5ae3dba268571', size: "md", onButtonClick: () => this.closeDialog.emit(null), variants: "outline", label: localizedWords.entries.Lcz_Cancel, class: 'w-full md:w-fit' })))));
     }
     static get is() { return "ir-booking-code"; }
     static get encapsulation() { return "shadow"; }

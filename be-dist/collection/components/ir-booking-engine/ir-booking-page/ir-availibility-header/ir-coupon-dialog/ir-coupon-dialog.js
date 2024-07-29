@@ -1,9 +1,8 @@
 import app_store from "../../../../../stores/app.store";
 import booking_store, { modifyBookingStore } from "../../../../../stores/booking";
 import localizedWords from "../../../../../stores/localization.store";
-import { cn } from "../../../../../utils/utils";
+import { cn, validateCoupon } from "../../../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
-import { isBefore } from "date-fns";
 export class IrCouponDialog {
     constructor() {
         this.coupon = undefined;
@@ -11,17 +10,11 @@ export class IrCouponDialog {
         this.isValid = false;
     }
     activateCoupon() {
-        alert('hello world');
         this.validationMessage = null;
-        const c = app_store.property.promotions.find(p => p.key === this.coupon.trim());
-        if (!c) {
-            return (this.validationMessage = { error: true, message: 'Invalid coupon' });
-        }
-        if (isBefore(new Date(c.to), new Date())) {
+        if (!validateCoupon(this.coupon)) {
             return (this.validationMessage = { error: true, message: 'Invalid coupon' });
         }
         this.isValid = true;
-        modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: this.coupon, loyalty: false }));
         this.validationMessage = { error: false, message: this.coupon };
         this.resetBooking.emit('discountOnly');
         this.coupon = null;

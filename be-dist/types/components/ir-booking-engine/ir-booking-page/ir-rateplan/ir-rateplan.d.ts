@@ -11,10 +11,12 @@ export declare class IrRateplan {
     roomTypeInventory: number;
     roomTypeId: number;
     isLoading: boolean;
+    cancelationMessage: string;
+    isRatePlanAvailable: boolean;
     animateBookingButton: EventEmitter<null>;
     private propertyService;
     private availabilityService;
-    isRatePlanAvailable: boolean;
+    private paymentService;
     componentWillLoad(): void;
     handleRTICHange(newValue: number, oldValue: number): any;
     checkAvailability(): void;
@@ -27,4 +29,5 @@ export declare class IrRateplan {
         adultChildConstraint: string;
     }): Promise<void>;
     render(): any;
+    fetchCancelationMessage(id: number, roomTypeId: number): Promise<void>;
 }

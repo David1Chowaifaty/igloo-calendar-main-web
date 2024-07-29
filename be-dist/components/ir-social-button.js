@@ -11,7 +11,7 @@ const IrSocialButton$1 = /*@__PURE__*/ proxyCustomElement(class IrSocialButton e
         this.label = undefined;
     }
     render() {
-        return (h("button", { key: '6c65faace8bbc3fbdfbed5373530b1d4bde76865', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: '896227dc6fa1b82c5d9fb9ca692c7d3df8fb7fdf', class: "icon" }, h("slot", { key: '5fd621b12fdbd37f5409d99704b80076946e99b7', name: "icon" })), h("span", { key: '26059c0d635e77cd9efee8ebfba02d9629b2fc8a' }, this.label)));
+        return (h("button", { key: '156b9619c7bb6ec603e464591c92d7b68a1fd9bc', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: 'b2094a875e73309e35c54ea935fa8ab9d0190e48', class: "icon" }, h("slot", { key: '390da1733b68cde2322789986c24852d167022ff', name: "icon" })), h("span", { key: '3e3baa77adff4a9ac1dc4c2f823ef05fa7b4a817' }, this.label)));
     }
     static get style() { return IrSocialButtonStyle0; }
 }, [4, "ir-social-button", {

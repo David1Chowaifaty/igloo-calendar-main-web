@@ -3,32 +3,31 @@ import { PropertyService } from "../../services/api/property.service";
 import { h } from "@stencil/core";
 import { format } from "date-fns";
 import axios from "axios";
-import booking_store, { updateRoomParams } from "../../stores/booking";
+import booking_store, { modifyBookingStore, updateRoomParams } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
-import { checkAffiliate, getUserPrefernce, matchLocale, setDefaultLocale } from "../../utils/utils";
+import { checkAffiliate, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
 import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
 export class IrBookingEngine {
     constructor() {
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.availabiltyService = new AvailabiltyService();
         this.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTQ1NTQ5OTIsIkNMQUlNLTAxIjoiOGJpaUdjK21FQVE9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoicUxHWllZcVA3SzB5aENrRTFaY0tENm5TeFowNkEvQ2lPc1JrWUpYTHFhTEF5M3N0akltbU9CWkdDb080dDRyNVRiWjkxYnZQelFIQ2c1YlBGU2J3cm5HdjNsNjVVcjVLT3RnMmZQVWFnNHNEYmE3WTJkMDF4RGpDWUs2SFlGREhkcTFYTzBLdTVtd0NKeU5rWDFSeWZmSnhJdWdtZFBUeTZPWjk0RUVjYTJleWVSVzZFa0pYMnhCZzFNdnJ3aFRKRHF1cUxzaUxvZ3I0UFU5Y2x0MjdnQ2tJZlJzZ2lZbnpOK2szclZnTUdsQTUvWjRHekJWcHl3a0dqcWlpa0M5T0owWFUrdWJJM1dzNmNvSWEwSks4SWRqVjVaQ1VaZjZ1OGhBMytCUlpsUWlyWmFZVWZlVmpzU1FETFNwWFowYjVQY0FncE1EWVpmRGtWbGFscjRzZ1pRNVkwODkwcEp6dE16T0s2VTR5Z1FMQkdQbTlTSmRLY0ExSGU2MXl2YlhuIiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBcklIUzg2aEpCQSJ9.ySJjLhWwUDeP4X8LIJcbsjO74y_UgMHwRDpNrCClndc';
         this.propertyId = undefined;
-        this.baseUrl = undefined;
         this.injected = undefined;
-        this.roomtype_id = null;
-        this.rateplan_id = null;
-        this.redirect_url = null;
+        this.rt_id = null;
+        this.rp_id = null;
         this.perma_link = null;
-        this.aName = null;
-        this.fromDate = undefined;
+        this.p = null;
+        this.checkin = undefined;
+        this.checkout = undefined;
         this.language = undefined;
-        this.toDate = undefined;
-        this.adultCount = undefined;
-        this.childrenCount = undefined;
+        this.adults = undefined;
+        this.child = undefined;
         this.cur = undefined;
         this.aff = undefined;
         this.stag = undefined;
@@ -36,6 +35,9 @@ export class IrBookingEngine {
         this.source = null;
         this.version = '2.0';
         this.hideGoogleSignIn = true;
+        this.coupon = undefined;
+        this.loyalty = undefined;
+        this.agent_code = undefined;
         this.selectedLocale = undefined;
         this.currencies = undefined;
         this.languages = undefined;
@@ -77,6 +79,21 @@ export class IrBookingEngine {
             });
         }
     }
+    handleCouponChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            validateCoupon(newValue);
+        }
+    }
+    handleLoyaltyChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.modifyLoyalty();
+        }
+    }
+    handleAgentCodeChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            validateAgentCode(newValue);
+        }
+    }
     setSource(newSource) {
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { source: newSource });
     }
@@ -97,8 +114,7 @@ export class IrBookingEngine {
             token: this.token,
             property_id: this.propertyId,
             injected: this.injected,
-            roomtype_id: this.roomtype_id,
-            redirect_url: this.redirect_url,
+            roomtype_id: this.rt_id,
             affiliate: null,
             tag: this.stag,
             source: this.source,
@@ -115,7 +131,7 @@ export class IrBookingEngine {
             this.commonService.getExposedLanguages(),
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
-            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }),
+            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
         ];
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
@@ -129,6 +145,7 @@ export class IrBookingEngine {
             }
             let currency = app_store.userDefaultCountry.currency;
             if (this.cur) {
+                console.log(this.cur);
                 const newCurr = this.currencies.find(c => c.code.toLowerCase() === this.cur.toLowerCase());
                 if (newCurr) {
                     currency = newCurr;
@@ -136,8 +153,20 @@ export class IrBookingEngine {
             }
             setDefaultLocale({ currency });
         }
+        this.checkAndApplyDiscounts();
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) });
         this.isLoading = false;
+    }
+    checkAndApplyDiscounts() {
+        if (this.coupon) {
+            validateCoupon(this.coupon);
+        }
+        if (this.loyalty) {
+            this.modifyLoyalty();
+        }
+        if (this.agent_code) {
+            validateAgentCode(this.agent_code);
+        }
     }
     handleVariationChange(e, variations, rateplanId, roomTypeId) {
         e.stopImmediatePropagation();
@@ -148,6 +177,9 @@ export class IrBookingEngine {
             return;
         }
         updateRoomParams({ params: { selected_variation: { variation: selectedVariation, state: 'modified' } }, ratePlanId: rateplanId, roomTypeId });
+    }
+    modifyLoyalty() {
+        modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: null, loyalty: this.loyalty }));
     }
     handleNavigation(e) {
         e.stopImmediatePropagation();
@@ -190,7 +222,7 @@ export class IrBookingEngine {
                 ...queries,
                 ...[
                     this.commonService.getExposedLanguage(),
-                    this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.aName, perma_link: this.perma_link }, false),
+                    this.propertyService.getExposedProperty({ id: app_store.app_data.property_id, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.p, perma_link: this.perma_link }, false),
                 ],
             ];
             if (app_store.fetchedBooking) {
@@ -224,13 +256,13 @@ export class IrBookingEngine {
     renderScreens() {
         switch (app_store.currentPage) {
             case 'booking':
-                return h("ir-booking-page", { adultCount: this.adultCount, childrenCount: this.childrenCount, fromDate: this.fromDate, toDate: this.toDate });
+                return h("ir-booking-page", { adultCount: this.adults, childrenCount: this.child, fromDate: this.checkin, toDate: this.checkout });
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
-                return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
+                return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.p, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
             case 'booking-listing':
-                return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.aName, be: true, baseUrl: this.baseUrl, aff: this.aff }));
+                return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.p, be: true, baseUrl: this.baseUrl, aff: this.aff }));
             case 'user-profile':
                 return (h("ir-user-profile", { user_data: {
                         id: checkout_store.userFormData.id,
@@ -253,9 +285,9 @@ export class IrBookingEngine {
         if (this.isLoading) {
             return null;
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: "sticky top-0 z-50 m-0 w-full p-0 " }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: `${this.injected ? '' : 'sticky top-0 z-50'}  m-0 w-full p-0 ` }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
     }
-    static get is() { return "ir-booking-engine"; }
+    static get is() { return "ir-be"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
@@ -304,23 +336,6 @@ export class IrBookingEngine {
                 "attribute": "property-id",
                 "reflect": false
             },
-            "baseUrl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "base-url",
-                "reflect": false
-            },
             "injected": {
                 "type": "boolean",
                 "mutable": false,
@@ -338,7 +353,7 @@ export class IrBookingEngine {
                 "attribute": "injected",
                 "reflect": false
             },
-            "roomtype_id": {
+            "rt_id": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
@@ -352,11 +367,11 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "roomtype_id",
+                "attribute": "rt_id",
                 "reflect": false,
                 "defaultValue": "null"
             },
-            "rateplan_id": {
+            "rp_id": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
@@ -370,25 +385,7 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "rateplan_id",
-                "reflect": false,
-                "defaultValue": "null"
-            },
-            "redirect_url": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "redirect_url",
+                "attribute": "rp_id",
                 "reflect": false,
                 "defaultValue": "null"
             },
@@ -410,7 +407,7 @@ export class IrBookingEngine {
                 "reflect": false,
                 "defaultValue": "null"
             },
-            "aName": {
+            "p": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -424,11 +421,11 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "a-name",
+                "attribute": "p",
                 "reflect": false,
                 "defaultValue": "null"
             },
-            "fromDate": {
+            "checkin": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -442,7 +439,24 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "from-date",
+                "attribute": "checkin",
+                "reflect": false
+            },
+            "checkout": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "checkout",
                 "reflect": false
             },
             "language": {
@@ -462,7 +476,7 @@ export class IrBookingEngine {
                 "attribute": "language",
                 "reflect": false
             },
-            "toDate": {
+            "adults": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -476,10 +490,10 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "to-date",
+                "attribute": "adults",
                 "reflect": false
             },
-            "adultCount": {
+            "child": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -493,24 +507,7 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "adult-count",
-                "reflect": false
-            },
-            "childrenCount": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "children-count",
+                "attribute": "child",
                 "reflect": false
             },
             "cur": {
@@ -643,6 +640,57 @@ export class IrBookingEngine {
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
                 "defaultValue": "true"
+            },
+            "coupon": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "coupon",
+                "reflect": false
+            },
+            "loyalty": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "loyalty",
+                "reflect": false
+            },
+            "agent_code": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "agent_code",
+                "reflect": false
             }
         };
     }
@@ -666,6 +714,15 @@ export class IrBookingEngine {
             }, {
                 "propName": "cur",
                 "methodName": "handleCurrencyChange"
+            }, {
+                "propName": "coupon",
+                "methodName": "handleCouponChange"
+            }, {
+                "propName": "loyalty",
+                "methodName": "handleLoyaltyChange"
+            }, {
+                "propName": "agent_code",
+                "methodName": "handleAgentCodeChange"
             }];
     }
     static get listeners() {

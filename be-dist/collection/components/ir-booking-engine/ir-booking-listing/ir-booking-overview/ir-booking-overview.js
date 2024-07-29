@@ -3,7 +3,7 @@ import { BookingListingService } from "../../../../services/api/booking_listing.
 import { CommonService } from "../../../../services/api/common.service";
 import { PropertyService } from "../../../../services/api/property.service";
 import { BookingListingAppService } from "../../../../services/app/booking-listing.service";
-import { cn, formatAmount, runScriptAndRemove } from "../../../../utils/utils";
+import { cn, formatAmount, formatFullLocation, runScriptAndRemove } from "../../../../utils/utils";
 import { differenceInCalendarDays, format } from "date-fns";
 import app_store from "../../../../stores/app.store";
 import { PaymentService } from "../../../../services/api/payment.service";
@@ -228,13 +228,13 @@ export class IrBookingOverview {
             this.selectedMenuIds[booking.booking_nbr] = (_a = menuItems[0]) === null || _a === void 0 ? void 0 : _a.id;
             return (h(Fragment, null, this.aff && (h("tr", { class: "ir-table-row group-hover", onMouseEnter: () => {
                     this.hoveredBooking = booking.booking_nbr;
-                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("th", { class: "ir-table-cell", colSpan: 7 }, booking.property.name))), h("tr", { class: "ir-table-row group-hover", onMouseEnter: () => {
+                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("th", { class: "ir-table-cell", "data-state": "affiliate", colSpan: 7 }, booking.property.name, " ", h("span", { class: 'property-location' }, formatFullLocation(booking.property))))), h("tr", { class: "ir-table-row group-hover", onMouseEnter: () => {
                     this.hoveredBooking = booking.booking_nbr;
-                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("td", { class: "ir-table-cell" }, h("ir-badge", { label: booking.status.description, variant: this.getBadgeVariant(booking.status.code) })), h("td", { class: "ir-table-cell" }, booking.booking_nbr), h("td", { class: "ir-table-cell md:hidden lg:table-cell" }, format(new Date(booking.booked_on.date), 'dd-MMM-yyyy')), h("td", { class: "ir-table-cell" }, format(new Date(booking.from_date), 'dd-MMM-yyyy')), h("td", { class: "ir-table-cell" }, totalNights, " ", totalNights > 1 ? 'nights' : 'night'), h("td", { class: "ir-table-cell" }, formatAmount(booking.total, booking.currency.code)), h("td", { class: "ir-table-cell" }, payment.show || cancel.show ? (h("div", { class: 'ct-menu-container' }, h("button", { onClick: () => {
+                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, h("ir-badge", { label: booking.status.description, variant: this.getBadgeVariant(booking.status.code) })), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, booking.booking_nbr), h("td", { class: "ir-table-cell  md:hidden lg:table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, format(new Date(booking.booked_on.date), 'dd-MMM-yyyy')), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, format(new Date(booking.from_date), 'dd-MMM-yyyy')), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, totalNights, " ", totalNights > 1 ? 'nights' : 'night'), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, formatAmount(booking.total, booking.currency.code)), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, payment.show || cancel.show ? (h("div", { class: 'ct-menu-container' }, h("button", { onClick: () => {
                     var _a;
                     this.selectedBooking = booking;
                     this.handleBlEvents((_a = this.selectedMenuIds[booking.booking_nbr]) !== null && _a !== void 0 ? _a : menuItems[0].id);
-                }, class: "ct-menu-button" }, (_b = menuItems.find(p => { var _a; return (_a = p.id === this.selectedMenuIds[booking.booking_nbr]) !== null && _a !== void 0 ? _a : menuItems[0].id; })) === null || _b === void 0 ? void 0 : _b.item), h("ir-menu", { onMenuItemClick: e => {
+                }, class: "ct-menu-button" }, (_b = menuItems.find(p => p.id === this.selectedMenuIds[booking.booking_nbr])) === null || _b === void 0 ? void 0 : _b.item), h("ir-menu", { onMenuItemClick: e => {
                     this.selectedBooking = booking;
                     this.handleMenuItemChange(e);
                 }, data: menuItems }, this.renderMenuTrigger()))) : (view.show && (h("button", { class: "booking-details-btn", onClick: () => {

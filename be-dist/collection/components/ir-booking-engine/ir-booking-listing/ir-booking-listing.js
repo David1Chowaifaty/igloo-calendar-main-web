@@ -133,7 +133,7 @@ export class IrBookingListing {
             case 'bookings':
                 return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
             case 'booking-details':
-                return (h("div", null, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
+                return (h("div", { class: this.be ? '' : 'mx-auto px-4 lg:px-6' }, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                         e.stopPropagation();
                         e.stopImmediatePropagation();
                         this.currentPage = 'bookings';
@@ -168,7 +168,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: '7fe78261bdca36dbad2aea84c232b48c4c227b5e' }, !this.be && h("ir-interceptor", { key: '13a4e2fa80f4261f905c587cd62776b60f5a677a' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '6cbbdffa51b16b0217fe392a8f2de4b28e2d2527' }, !this.be && h("ir-interceptor", { key: '92f2249144ddc952c0c135a1f5ca3ae168a6ead9' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

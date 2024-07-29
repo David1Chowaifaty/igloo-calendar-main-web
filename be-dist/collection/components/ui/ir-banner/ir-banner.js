@@ -1,7 +1,7 @@
 import { h } from "@stencil/core";
 export class IrBanner {
     render() {
-        return h("div", { key: '5f8c3e798987e5e705b637d633fe938d0d0e2046', class: "banner" });
+        return h("div", { key: 'd290e06dedb7851947fe2b26a371174b31545be7', class: "banner" });
     }
     static get is() { return "ir-banner"; }
     static get encapsulation() { return "shadow"; }

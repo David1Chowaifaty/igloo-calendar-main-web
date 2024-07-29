@@ -358,6 +358,7 @@ export interface SpaceTheme {
     heading_font_color: string;
     logo: string;
     website: string;
+    button_border_radius: string;
 }
 export interface Tax {
     is_exlusive: boolean;

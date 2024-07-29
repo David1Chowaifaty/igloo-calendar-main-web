@@ -4,11 +4,13 @@ import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 export class IrInterceptor {
     constructor() {
+        this.ignoredErrorRoutes = ['/Exposed_Guest_SignIn', '/Exposed_Guest_SignUp'];
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.errorMessage = null;
-        this.handledEndpoints = ['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings'];
+        this.lastFailedRequest = null;
+        this.handledEndpoints = [];
     }
     //@Event({ bubbles: true, composed: true }) toast: EventEmitter<IToast>;
     componentWillLoad() {
@@ -41,7 +43,10 @@ export class IrInterceptor {
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            this.handleError(response.data.ExceptionMsg);
+            if (!this.ignoredErrorRoutes.includes(extractedUrl)) {
+                this.handleError(response.data.ExceptionMsg);
+                this.lastFailedRequest = response.config;
+            }
             throw new Error(response.data.ExceptionMsg);
         }
         return response;
@@ -52,8 +57,15 @@ export class IrInterceptor {
         this.alertRef.openModal();
         return Promise.reject(error);
     }
+    retryLastRequest() {
+        this.alertRef.closeModal();
+        this.errorMessage = null;
+        if (this.lastFailedRequest) {
+            return axios(this.lastFailedRequest);
+        }
+    }
     render() {
-        return (h(Host, { key: 'd6f73776a3598f4eaa0b8c0b3ed00a52e2f8aac0' }, h("ir-alert-dialog", { key: '166d7b6b4f71252cc13121c69eff3653d30c0d82', ref: el => (this.alertRef = el) }, h("h1", { key: '9f15bcf2e597205964da99565b898de4e2d43eef', slot: "modal-title", class: 'flex items-center' }, ' ', h("ir-icons", { key: '6c28d31f28c74948495a2e0c3a9ef438e77e4af0', name: "danger" }), h("span", { key: 'd973b74f9786befc13c322e60580b849854e7c0c' }, "Something went wrong!")), h("div", { key: '397e45376241e608b5bcd82a50e0756bb2187142', slot: "modal-body" }, h("p", { key: '4436037536fd5375709ab14ac05cd2a639a384a0' }, this.errorMessage), h("button", { key: 'a2fd028fa27310fae6e9dfe8a2e8eff164687593' }, "Cancel"), h("button", { key: 'b19c78638b38a8d6d7a231ac2e19bafb542dbe45' }, "Ok")))));
+        return (h(Host, { key: '045e9f479ed55debaf107dc1e7f6a39dab6f3e2a' }, h("ir-alert-dialog", { key: '13b53d10adab2a2e31f26b963d94b470cef68938', ref: el => (this.alertRef = el) }, h("div", { key: 'ce38fbeb8f350729280ec3028163d58d3f39f0c3', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: '28dd2d537d922ef4ad873ba9504908948f791a35', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: '79756aa1c1d89614bf774e34cf911b514e0167a6', class: 'text-lg font-semibold' }, "Something went wrong!")), h("p", { key: '3027b647861ceea2935946717f05e6fa6c6ac03f', slot: "modal-body" }, this.errorMessage), h("div", { key: '0c11a5475259b8f6ad9f9cda113774ec077a2e7b', slot: "modal-footer" }, h("ir-button", { key: '00a455378ae62063d54d312347e813d3d5f33594', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: '193d8c3d1a64060019c272e82ca17b8e7e74a2b7', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }
@@ -73,8 +85,8 @@ export class IrInterceptor {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "string[]",
-                    "resolved": "string[]",
+                    "original": "any[]",
+                    "resolved": "any[]",
                     "references": {}
                 },
                 "required": false,
@@ -83,7 +95,7 @@ export class IrInterceptor {
                     "tags": [],
                     "text": ""
                 },
-                "defaultValue": "['/ReAllocate_Exposed_Room', '/Do_Payment', '/Get_Exposed_Bookings']"
+                "defaultValue": "[]"
             }
         };
     }
@@ -92,7 +104,8 @@ export class IrInterceptor {
             "isShown": {},
             "isLoading": {},
             "isUnassignedUnit": {},
-            "errorMessage": {}
+            "errorMessage": {},
+            "lastFailedRequest": {}
         };
     }
 }

@@ -18,7 +18,6 @@ const initialState = {
         property_id: null,
         injected: false,
         roomtype_id: null,
-        redirect_url: null,
         tag: null,
         source: null,
         hideGoogleSignIn: false,

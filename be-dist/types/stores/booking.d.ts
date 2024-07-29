@@ -54,6 +54,10 @@ interface BookingStore {
     bookingAvailabilityParams: IBookinAvailabilityParams;
     booking: Booking;
     resetBooking: boolean;
+    isInFreeCancelationZone: boolean;
+    fictus_booking_nbr: {
+        nbr: string | null;
+    };
 }
 export declare const booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>;
 export declare function updateInventory(roomTypeId: number): void;

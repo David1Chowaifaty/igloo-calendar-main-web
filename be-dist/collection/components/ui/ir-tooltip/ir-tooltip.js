@@ -2,9 +2,17 @@ import { createPopper } from "@popperjs/core";
 import { Fragment, Host, h } from "@stencil/core";
 export class IrTooltip {
     constructor() {
+        this.handleOutsideClick = (event) => {
+            const outsideClick = typeof event.composedPath === 'function' && !event.composedPath().includes(this.el);
+            if (outsideClick && this.open) {
+                this.open = false;
+            }
+        };
         this.message = undefined;
         this.withHtml = true;
         this.label = undefined;
+        this.labelColors = 'default';
+        this.open_behavior = 'hover';
         this.open = undefined;
     }
     componentDidLoad() {
@@ -26,6 +34,12 @@ export class IrTooltip {
         }
     }
     toggleOpen(shouldOpen) {
+        if (shouldOpen) {
+            document.addEventListener('click', this.handleOutsideClick, true);
+        }
+        else {
+            document.removeEventListener('click', this.handleOutsideClick, true);
+        }
         if (this.tooltipTimeout) {
             clearTimeout(this.tooltipTimeout);
         }
@@ -47,14 +61,27 @@ export class IrTooltip {
                 this.popperInstance = null;
             }
         }
+        this.tooltipOpenChange.emit(shouldOpen);
     }
     disconnectedCallback() {
         if (this.popperInstance) {
             this.popperInstance.destroy();
         }
+        document.removeEventListener('click', this.handleOutsideClick, true);
     }
     render() {
-        return (h(Host, { key: '8b4302fa85c9bb57d30b8d9012f8420019f59752' }, h("button", { key: '1f545e9996a0f22c9f06b4072082a4af12c5bcb5', ref: el => (this.trigger = el), onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, h("slot", { key: '35fdfb0e9d05d441d2436f85db270607c9be167a', name: "tooltip-trigger" }, h("div", { key: 'acca2815913b3e7f231b9ebc75eaa55f21b671fc', class: "tooltip-container" }, h("p", { key: '39304f46177b6b858dcde81870815d46070f1d33', class: "tooltip-label" }, this.label), h("svg", { key: '297438f08c8314cb25efcadc410547db5230af8d', "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { key: 'bbeaba95920cb48503e9a4762dcdf9c9419ae798', fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))))), h("div", { key: '86086e6e6054e7e236eb85b579f495b638e5955a', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, { key: '542c07bea6065cc1b0ffb79a1f149aacb789cf47' }, h("div", { key: '7dae2340b0ec034b0f6801449cae9a74fbbe7aab', class: "tooltip-content max-w-xs rounded-lg\r\n              px-3 py-2 text-xs " }, h("div", { key: 'fd1621be7c1acf28c9cb5b089ee17afc1219852b', innerHTML: this.message })))))));
+        return (h(Host, { key: '9162570dbed84fea7995bb9c5c78a843884cd624' }, h("button", { key: '00ab5dec9be866a3e5d032114f0abb1f57e5b6b0', ref: el => (this.trigger = el), onMouseEnter: () => {
+                if (this.open_behavior === 'hover') {
+                    this.toggleOpen(true);
+                }
+            }, onMouseLeave: () => {
+                if (this.open_behavior === 'hover')
+                    this.toggleOpen(false);
+            }, onClick: () => {
+                if (this.open_behavior === 'click') {
+                    this.toggleOpen(!this.open);
+                }
+            } }, h("slot", { key: 'cb55c45a1142ed9ae506e26b7f989ac1f206fea2', name: "tooltip-trigger" }, h("div", { key: 'ad49639dd7961152f9acee56b4d65ae02a176068', class: "tooltip-container" }, h("p", { key: '5c6cac59d71b7b9c2bd0b36e7c16b1ed815c1dcc', class: `tooltip-label label-${this.labelColors}` }, this.label), h("svg", { key: 'dc14879cc04209f9fd9f37d836c28a5c61b19e4c', "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { key: '4342231df5aad4c284850b2a171558ee18156535', fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))))), h("div", { key: '7b645ed1ba067d2a5a7f6dcf689a7963e2c75155', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, { key: '273075cf5efe4b9bbb47edb0d47c9ec50097959a' }, h("div", { key: 'c8e567fc999a123e6eaf7b6c3b09b86002a719d3', class: "tooltip-content max-w-xs rounded-lg\r\n              px-3 py-2 text-xs " }, h("div", { key: '2792db3916dba76fad503bb8bf238c792e4b6835', innerHTML: this.message })))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "shadow"; }
@@ -121,6 +148,42 @@ export class IrTooltip {
                 },
                 "attribute": "label",
                 "reflect": false
+            },
+            "labelColors": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'default' | 'green' | 'red'",
+                    "resolved": "\"default\" | \"green\" | \"red\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "label-colors",
+                "reflect": false,
+                "defaultValue": "'default'"
+            },
+            "open_behavior": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'hover' | 'click'",
+                    "resolved": "\"click\" | \"hover\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "open_behavior",
+                "reflect": false,
+                "defaultValue": "'hover'"
             }
         };
     }
@@ -128,6 +191,24 @@ export class IrTooltip {
         return {
             "open": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "tooltipOpenChange",
+                "name": "tooltipOpenChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                }
+            }];
     }
     static get elementRef() { return "el"; }
 }

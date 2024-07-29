@@ -18,6 +18,8 @@ export declare class IrInvoice {
     token: string;
     isAuthenticated: boolean;
     isLoading: boolean;
+    cancelation_message: string;
+    guarantee_message: string;
     private propertyService;
     private commonService;
     private authService;
@@ -31,7 +33,7 @@ export declare class IrInvoice {
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
     fetchData(): Promise<void>;
-    setAmount(): Promise<void>;
+    setAmountAndCancelationPolicy(): Promise<void>;
     renderBookingDetailHeader(): string;
     getPropertyEmail(): string;
     renderPaymentText(paymentOption: AllowedPaymentMethod): any;

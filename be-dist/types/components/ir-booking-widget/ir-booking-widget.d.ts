@@ -1,12 +1,11 @@
 import { TContainerStyle } from './types';
 export declare class IrBookingWidget {
-    el: HTMLIrBookingWidgetElement;
+    el: HTMLIrWidgetElement;
     position: 'sticky' | 'block';
     contentContainerStyle: TContainerStyle;
     propertyId: number;
     perma_link: string;
-    aName: string;
-    baseUrl: string;
+    p: string;
     language: string;
     roomTypeId: string | null;
     isPopoverOpen: boolean;
@@ -19,11 +18,12 @@ export declare class IrBookingWidget {
         adultCount: number;
         childrenCount: number;
     };
+    private baseUrl;
     private popover;
     private token;
     private commonService;
     private propertyService;
-    guestPopover: HTMLIrPopoverElement;
+    private guestPopover;
     private initApp;
     componentWillLoad(): Promise<void>;
     initProperty(): Promise<void>;

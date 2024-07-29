@@ -23,6 +23,7 @@ export declare class IrNav {
     renderLocationField(field: string | null, withComma?: boolean): string;
     renderLocation(): string;
     renderLanguageTrigger(): any;
+    private handleSignIn;
     handleItemSelect(e: CustomEvent): Promise<CustomEvent<pages>>;
     render(): any;
 }

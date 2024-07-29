@@ -25,3 +25,5 @@ export declare function injectHTML(htmlContent: string, target?: 'head' | 'body'
 export declare function checkAffiliate(afName: string): import("@/models/property").Affiliate;
 export declare function formatFullLocation(property: IExposedProperty): string;
 export declare function formatImageAlt(alt: string | null, roomTypeName?: string | null): string;
+export declare function validateCoupon(coupon: string): boolean;
+export declare function validateAgentCode(code: string): boolean;

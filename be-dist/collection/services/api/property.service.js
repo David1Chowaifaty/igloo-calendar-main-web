@@ -262,7 +262,7 @@ export class PropertyService extends Token {
             app_store.is_signed_in = false;
             return;
         }
-        app_store.is_signed_in = true;
+        // app_store.is_signed_in = true;
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
     }
 }

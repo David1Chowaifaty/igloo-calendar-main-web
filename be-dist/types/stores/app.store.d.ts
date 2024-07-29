@@ -28,7 +28,6 @@ export interface IAppStore {
         property_id: number;
         injected: boolean;
         roomtype_id: number | null;
-        redirect_url: string;
         affiliate: Affiliate;
         tag: string | null;
         source: TSource | null;

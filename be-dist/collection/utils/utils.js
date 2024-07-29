@@ -1,6 +1,7 @@
 import app_store, { changeLocale, updateUserPreference } from "../stores/app.store";
+import booking_store, { modifyBookingStore } from "../stores/booking";
 import clsx from "clsx";
-import { addDays, differenceInCalendarDays, format } from "date-fns";
+import { addDays, differenceInCalendarDays, format, isBefore } from "date-fns";
 import { ar, es, fr, de, pl, uk, ru, el, enUS } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
 // import DOMPurify from 'dompurify';
@@ -162,5 +163,33 @@ export function formatFullLocation(property) {
 }
 export function formatImageAlt(alt, roomTypeName = null) {
     return [roomTypeName, alt, `${app_store.property.name}, ${app_store.property.country.name}`].filter(f => f !== null).join(' - ');
+}
+export function validateCoupon(coupon) {
+    if (!coupon) {
+        return false;
+    }
+    let isValidCoupon = false;
+    const c = app_store.property.promotions.find(p => p.key === coupon.trim());
+    if (c) {
+        if (isBefore(new Date(c.to), new Date())) {
+            return false;
+        }
+        isValidCoupon = true;
+        modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon, loyalty: false }));
+    }
+    return isValidCoupon;
+}
+export function validateAgentCode(code) {
+    var _a;
+    if (!code) {
+        return false;
+    }
+    let isValidCode = false;
+    const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code === this.code.trim());
+    if (agent) {
+        isValidCode = true;
+        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id });
+    }
+    return isValidCode;
 }
 //# sourceMappingURL=utils.js.map

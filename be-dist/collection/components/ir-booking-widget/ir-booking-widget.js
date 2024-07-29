@@ -8,16 +8,16 @@ import { addDays, format } from "date-fns";
 import localizedWords from "../../stores/localization.store";
 export class IrBookingWidget {
     constructor() {
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.position = 'sticky';
         this.contentContainerStyle = undefined;
         this.propertyId = 42;
         this.perma_link = null;
-        this.aName = null;
-        this.baseUrl = undefined;
+        this.p = null;
         this.language = 'en';
-        this.roomTypeId = '110';
+        this.roomTypeId = null;
         this.isPopoverOpen = undefined;
         this.isLoading = undefined;
         this.dates = {
@@ -52,7 +52,7 @@ export class IrBookingWidget {
                 this.propertyService.getExposedProperty({
                     id: this.propertyId,
                     language: this.language,
-                    aname: this.aName,
+                    aname: this.p,
                     perma_link: this.perma_link,
                 }),
                 this.commonService.getExposedLanguage(),
@@ -77,14 +77,8 @@ export class IrBookingWidget {
         if (this.guests.adultCount === 0) {
             return;
         }
-        let currentDomain = window.location.hostname;
-        let subdomainURL = `bookingdirect.com`;
-        if (currentDomain === 'localhost') {
-            currentDomain = `localhost:7742`;
-        }
-        else {
-            currentDomain = `${subdomainURL}`;
-        }
+        let subdomainURL = `bookingmystay.com`;
+        const currentDomain = `${app_store.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
         const fromDate = from_date ? `checkin=${format(from_date, 'yyyy-MM-dd')}` : '';
@@ -94,7 +88,7 @@ export class IrBookingWidget {
         const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
         const queryParams = [fromDate, toDate, adults, children, roomTypeId];
         const queryString = queryParams.filter(param => param !== '').join('&');
-        window.open(`http://${currentDomain}?${queryString}`, '_blank');
+        window.open(`https://${currentDomain}?${queryString}`, '_blank');
     }
     renderDateTrigger() {
         return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), this.dates && this.dates.from_date && this.dates.to_date ? (h("div", null, h("p", null, h("span", null, format(this.dates.from_date, 'MMM dd')), h("span", null, " - "), h("span", null, format(this.dates.to_date, 'MMM dd'))))) : (h("div", null, h("p", null, "Your dates")))));
@@ -128,7 +122,7 @@ export class IrBookingWidget {
                 };
             } }))), h("ir-popover", { ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: "auto" }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", minAdultCount: 0, maxAdultCount: (_c = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _c === void 0 ? void 0 : _c.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_d = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _d === void 0 ? void 0 : _d.adult_child_constraints.child_max_nbr, childMaxAge: (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.toggleVisibility() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this), "data-back": "Book now", "data-front": "Book now" }))));
     }
-    static get is() { return "ir-booking-widget"; }
+    static get is() { return "ir-widget"; }
     static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
@@ -217,7 +211,7 @@ export class IrBookingWidget {
                 "reflect": false,
                 "defaultValue": "null"
             },
-            "aName": {
+            "p": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -231,26 +225,9 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "a-name",
+                "attribute": "p",
                 "reflect": false,
                 "defaultValue": "null"
-            },
-            "baseUrl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "base-url",
-                "reflect": false
             },
             "language": {
                 "type": "string",
@@ -286,7 +263,7 @@ export class IrBookingWidget {
                 },
                 "attribute": "room-type-id",
                 "reflect": false,
-                "defaultValue": "'110'"
+                "defaultValue": "null"
             }
         };
     }

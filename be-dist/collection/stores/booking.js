@@ -5,6 +5,7 @@ const initialState = {
     enableBooking: false,
     resetBooking: false,
     ratePlanSelections: {},
+    isInFreeCancelationZone: false,
     bookingAvailabilityParams: {
         from_date: null,
         to_date: null,
@@ -12,6 +13,7 @@ const initialState = {
         child_nbr: 0,
     },
     booking: null,
+    fictus_booking_nbr: null,
 };
 export const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
 function setSelectedVariation(lastVariation, variations, currentVariation) {
