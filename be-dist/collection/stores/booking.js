@@ -58,7 +58,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -99,6 +98,7 @@ export function reserveRooms(roomTypeId, ratePlanId, rooms) {
         throw new Error('Invalid rate plan');
     }
     if (!booking_store.ratePlanSelections[roomTypeId][ratePlanId]) {
+        console.log('prepayment_amount', roomType.pre_payment_amount);
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
@@ -139,12 +139,15 @@ export function calculateTotalCost() {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b;
+        var _a, _b, _c, _d;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
+            if (isPrePayment) {
+                return (_a = ratePlan.roomtype.pre_payment_amount) !== null && _a !== void 0 ? _a : 0;
+            }
             return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation.amount), 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? ratePlan.roomtype.pre_payment_amount : (_b = (_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a.variation) === null || _b === void 0 ? void 0 : _b.amount;
+            const amount = isPrePayment ? (_b = ratePlan.roomtype.pre_payment_amount) !== null && _b !== void 0 ? _b : 0 : (_d = (_c = ratePlan.selected_variation) === null || _c === void 0 ? void 0 : _c.variation) === null || _d === void 0 ? void 0 : _d.amount;
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;

@@ -74,9 +74,6 @@ export class IrBookingWidget {
         }
     }
     handleBooknow() {
-        if (this.guests.adultCount === 0) {
-            return;
-        }
         let subdomainURL = `bookingmystay.com`;
         const currentDomain = `${app_store.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;

@@ -1,4 +1,6 @@
-import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
+'use strict';
+
+const index = require('./index-380c61af.js');
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -38,7 +40,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof getRenderingRef !== 'function') {
+    if (typeof index.getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -47,7 +49,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = getRenderingRef();
+            const elm = index.getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -55,12 +57,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -50497,7 +50499,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -50538,6 +50539,7 @@ function reserveRooms(roomTypeId, ratePlanId, rooms) {
         throw new Error('Invalid rate plan');
     }
     if (!booking_store.ratePlanSelections[roomTypeId][ratePlanId]) {
+        console.log('prepayment_amount', roomType.pre_payment_amount);
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
@@ -50578,12 +50580,15 @@ function calculateTotalCost() {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b;
+        var _a, _b, _c, _d;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
+            if (isPrePayment) {
+                return (_a = ratePlan.roomtype.pre_payment_amount) !== null && _a !== void 0 ? _a : 0;
+            }
             return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation.amount), 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? ratePlan.roomtype.pre_payment_amount : (_b = (_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a.variation) === null || _b === void 0 ? void 0 : _b.amount;
+            const amount = isPrePayment ? (_b = ratePlan.roomtype.pre_payment_amount) !== null && _b !== void 0 ? _b : 0 : (_d = (_c = ratePlan.selected_variation) === null || _c === void 0 ? void 0 : _c.variation) === null || _d === void 0 ? void 0 : _d.amount;
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;
@@ -53352,6 +53357,41 @@ function validateAgentCode(code) {
     return isValidCode;
 }
 
-export { renderTime as A, formatImageAlt as B, reserveRooms as C, getVisibleInventory as D, toDate$1 as E, startOfWeek$1 as F, defaultOptions$1 as G, enUS as H, isSameWeek$1 as I, injectHTML as J, app_store as a, booking_store as b, createStore as c, dateFns as d, validateAgentCode as e, changeLocale as f, getUserPrefernce as g, matchLocale as h, checkAffiliate as i, updateRoomParams as j, modifyBookingStore as k, localizedWords as l, manageAnchorSession as m, formatAmount as n, onAppDataChange as o, formatFullLocation as p, getDateDifference as q, runScriptAndRemove as r, setDefaultLocale as s, cn as t, updateUserPreference as u, validateCoupon as v, calculateTotalCost as w, locale as x, getAbbreviatedWeekdays as y, validateBooking as z };
+exports.app_store = app_store;
+exports.booking_store = booking_store;
+exports.calculateTotalCost = calculateTotalCost;
+exports.changeLocale = changeLocale;
+exports.checkAffiliate = checkAffiliate;
+exports.cn = cn;
+exports.createStore = createStore;
+exports.dateFns = dateFns;
+exports.defaultOptions = defaultOptions$1;
+exports.enUS = enUS;
+exports.formatAmount = formatAmount;
+exports.formatFullLocation = formatFullLocation;
+exports.formatImageAlt = formatImageAlt;
+exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getDateDifference = getDateDifference;
+exports.getUserPrefernce = getUserPrefernce;
+exports.getVisibleInventory = getVisibleInventory;
+exports.injectHTML = injectHTML;
+exports.isSameWeek = isSameWeek$1;
+exports.locale = locale;
+exports.localizedWords = localizedWords;
+exports.manageAnchorSession = manageAnchorSession;
+exports.matchLocale = matchLocale;
+exports.modifyBookingStore = modifyBookingStore;
+exports.onAppDataChange = onAppDataChange;
+exports.renderTime = renderTime;
+exports.reserveRooms = reserveRooms;
+exports.runScriptAndRemove = runScriptAndRemove;
+exports.setDefaultLocale = setDefaultLocale;
+exports.startOfWeek = startOfWeek$1;
+exports.toDate = toDate$1;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserPreference = updateUserPreference;
+exports.validateAgentCode = validateAgentCode;
+exports.validateBooking = validateBooking;
+exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-6ec5ca4f.js.map
+//# sourceMappingURL=utils-067ca545.js.map

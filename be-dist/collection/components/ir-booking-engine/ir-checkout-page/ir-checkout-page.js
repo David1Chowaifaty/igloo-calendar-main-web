@@ -4,7 +4,7 @@ import { AuthService } from "../../../services/api/auth.service";
 import { PaymentService } from "../../../services/api/payment.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
-import booking_store, { calculateTotalCost, validateBooking } from "../../../stores/booking";
+import booking_store, { validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { getDateDifference, runScriptAndRemove } from "../../../utils/utils";
@@ -192,10 +192,6 @@ export class IrCheckoutPage {
     }
     async processPayment(bookingResult, currentPayment, paymentAmount, token) {
         let amountToBePayed = paymentAmount;
-        if (!paymentAmount) {
-            const { prePaymentAmount } = calculateTotalCost();
-            amountToBePayed = prePaymentAmount;
-        }
         if (amountToBePayed > 0) {
             await this.paymentService.GeneratePaymentCaller({
                 token,
