@@ -11,7 +11,7 @@ export class IrAccomodations {
         const wifi = this.checkAmenity('freewifi');
         const climatecontrol = this.checkAmenity('climatecontrol');
         const balcony = this.checkAmenity('balcony');
-        return (h("ul", { class: "flex flex-wrap items-center  gap-2 text-xs" }, wifi && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "wifi", svgClassName: "size-4" }), " ", h("span", null, wifi.description))), climatecontrol && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "snowflake", svgClassName: "size-4" }), " ", h("span", null, climatecontrol.description))), balcony && (h("li", { class: "flex items-center gap-2" }, h("ir-icons", { name: "sun", svgClassName: "size-4" }), " ", h("span", null, balcony.description)))));
+        return (h("ul", { class: "flex flex-wrap items-center  gap-3 text-xs" }, wifi && (h("li", { class: "flex items-center gap-1" }, h("ir-icons", { name: "wifi", svgClassName: "size-4" }), " ", h("span", null, wifi.description))), climatecontrol && (h("li", { class: "flex items-center gap-1" }, h("ir-icons", { name: "snowflake", svgClassName: "size-4" }), " ", h("span", null, climatecontrol.description))), balcony && (h("li", { class: "flex items-center gap-1" }, h("ir-icons", { name: "sun", svgClassName: "size-4" }), " ", h("span", null, balcony.description)))));
     }
     render() {
         var _a, _b, _c;
