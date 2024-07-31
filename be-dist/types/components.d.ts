@@ -490,7 +490,7 @@ export namespace Components {
         "language": string;
         "p": string;
         "perma_link": string;
-        "position": 'sticky' | 'block';
+        "position": 'fixed' | 'block';
         "propertyId": number;
         "roomTypeId": string | null;
     }
@@ -2254,7 +2254,7 @@ declare namespace LocalJSX {
         "language"?: string;
         "p"?: string;
         "perma_link"?: string;
-        "position"?: 'sticky' | 'block';
+        "position"?: 'fixed' | 'block';
         "propertyId"?: number;
         "roomTypeId"?: string | null;
     }

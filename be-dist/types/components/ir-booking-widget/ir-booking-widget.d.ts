@@ -1,7 +1,7 @@
 import { TContainerStyle } from './types';
 export declare class IrBookingWidget {
     el: HTMLIrWidgetElement;
-    position: 'sticky' | 'block';
+    position: 'fixed' | 'block';
     contentContainerStyle: TContainerStyle;
     propertyId: number;
     perma_link: string;

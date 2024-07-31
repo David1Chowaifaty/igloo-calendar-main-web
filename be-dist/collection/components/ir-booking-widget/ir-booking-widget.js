@@ -11,7 +11,7 @@ export class IrBookingWidget {
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
-        this.position = 'sticky';
+        this.position = 'fixed';
         this.contentContainerStyle = undefined;
         this.propertyId = 42;
         this.perma_link = null;
@@ -137,8 +137,8 @@ export class IrBookingWidget {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'sticky' | 'block'",
-                    "resolved": "\"block\" | \"sticky\"",
+                    "original": "'fixed' | 'block'",
+                    "resolved": "\"block\" | \"fixed\"",
                     "references": {}
                 },
                 "required": false,
@@ -149,7 +149,7 @@ export class IrBookingWidget {
                 },
                 "attribute": "position",
                 "reflect": true,
-                "defaultValue": "'sticky'"
+                "defaultValue": "'fixed'"
             },
             "contentContainerStyle": {
                 "type": "unknown",

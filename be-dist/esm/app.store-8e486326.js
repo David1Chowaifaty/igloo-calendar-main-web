@@ -1,0 +1,46 @@
+import { c as createStore } from './index-6014a5e7.js';
+
+var locale = {};
+
+const initialState = {
+    currentPage: 'booking',
+    dir: 'LTR',
+    selectedLocale: locale.enUS,
+    localizedWords: [],
+    userPreferences: {
+        currency_id: 'usd',
+        language_id: 'en',
+    },
+    invoice: null,
+    app_data: {
+        affiliate: null,
+        token: '',
+        property_id: null,
+        injected: false,
+        roomtype_id: null,
+        tag: null,
+        source: null,
+        hideGoogleSignIn: false,
+    },
+    property: undefined,
+    setup_entries: undefined,
+    currencies: [],
+    userDefaultCountry: undefined,
+    fetchedBooking: false,
+    languages: [],
+    is_signed_in: false,
+    email: null,
+};
+const { state: app_store, onChange: onAppDataChange } = createStore(initialState);
+function changeLocale(dir, locale) {
+    document.body.dir = dir;
+    app_store.dir = dir;
+    app_store.selectedLocale = locale;
+}
+function updateUserPreference(params) {
+    app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), params);
+}
+
+export { app_store as a, changeLocale as c, locale as l, onAppDataChange as o, updateUserPreference as u };
+
+//# sourceMappingURL=app.store-8e486326.js.map
