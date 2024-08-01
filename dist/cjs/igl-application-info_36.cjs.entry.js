@@ -2189,7 +2189,6 @@ const IrBookingDetails = class {
         const bookingJson = JSON.stringify(this.bookingData);
         const propertyJson = JSON.stringify(this.property);
         const countriesJson = JSON.stringify(this.countryNodeList);
-        console.log(propertyJson, countriesJson);
         var htmlContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -2207,7 +2206,13 @@ const IrBookingDetails = class {
                 </style>
             </head>
             <body>
-                <ir-booking-printing booking='${bookingJson}' property='${propertyJson}' countries='${countriesJson}'></ir-booking-printing>
+                <ir-booking-printing></ir-booking-printing>
+                <script>
+                   const bookingDetail = document.querySelector("ir-booking-printing");
+                   bookingDetail.booking=${bookingJson};
+                   bookingDetail.property=${propertyJson};
+                   bookingDetail.countries=${countriesJson};
+                </script>
             </body>
             </html>
             `;

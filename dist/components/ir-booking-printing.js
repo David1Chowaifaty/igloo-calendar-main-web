@@ -87,9 +87,9 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
             //   locales.direction = languageTexts.direction;
             // }
             console.log(this.property, this.booking, this.countries);
-            const countries = JSON.parse(this.countries);
-            this.convertedProperty = JSON.parse(this.property);
-            this.convertedBooking = JSON.parse(this.booking);
+            const countries = this.countries;
+            this.convertedProperty = this.property;
+            this.convertedBooking = this.booking;
             console.log(countries, this.convertedBooking, this.convertedProperty, countries);
             this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.currency = this.convertedBooking.currency.code;
@@ -172,9 +172,9 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
     static get style() { return IrBookingPrintingStyle0; }
 }, [1, "ir-booking-printing", {
         "mode": [1],
-        "property": [1],
-        "booking": [1],
-        "countries": [1],
+        "property": [8],
+        "booking": [8],
+        "countries": [8],
         "convertedBooking": [32],
         "convertedProperty": [32],
         "guestCountryName": [32],

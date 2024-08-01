@@ -94,9 +94,9 @@ const IrBookingPrinting = class {
             //   locales.direction = languageTexts.direction;
             // }
             console.log(this.property, this.booking, this.countries);
-            const countries = JSON.parse(this.countries);
-            this.convertedProperty = JSON.parse(this.property);
-            this.convertedBooking = JSON.parse(this.booking);
+            const countries = this.countries;
+            this.convertedProperty = this.property;
+            this.convertedBooking = this.booking;
             console.log(countries, this.convertedBooking, this.convertedProperty, countries);
             this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.currency = this.convertedBooking.currency.code;

@@ -2,9 +2,9 @@ import { Booking } from "../../models/booking.dto";
 import { IProperty } from "../../models/property";
 export declare class IrBookingPrinting {
     mode: 'invoice' | 'default';
-    property: string;
-    booking: string;
-    countries: string;
+    property: any;
+    booking: any;
+    countries: any;
     convertedBooking: Booking;
     convertedProperty: IProperty;
     guestCountryName: string;
