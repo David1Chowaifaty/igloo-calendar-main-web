@@ -1,13 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { _ as _formatDate, a as _formatTime } from './functions.js';
+import { a as _formatDate, b as _formatTime } from './functions.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service2.js';
+import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$f } from './ir-icons2.js';
-import { g as getPrivateNote } from './booking2.js';
+import { e as getPrivateNote } from './booking.js';
 import { d as defineCustomElement$y } from './igl-application-info2.js';
 import { d as defineCustomElement$x } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$w } from './igl-book-property2.js';
@@ -209,6 +209,38 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     openEditSidebar() {
         const sidebar = document.querySelector('ir-sidebar#editGuestInfo');
         sidebar.open = true;
+    }
+    printBooking() {
+        var htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Generated Page</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+                <p>This is a generated HTML page.</p>
+            </body>
+            </html>
+            `;
+        try {
+            // Create a Blob from the HTML string
+            var blob = new Blob([htmlContent], { type: 'text/html' });
+            // Create an object URL from the Blob
+            var url = URL.createObjectURL(blob);
+            // Open the URL in a new window or tab
+            window.open(url);
+            // Optionally, you can revoke the object URL after some time to free up memory
+            setTimeout(function () {
+                URL.revokeObjectURL(url);
+            }, 10000); // Adjust the timeout as needed
+        }
+        catch (error) {
+            console.error('Error creating or opening the generated HTML page:', error);
+            alert('Failed to generate and open the HTML page. Check the console for details.');
+        }
     }
     async updateStatus() {
         if (this.tempStatus !== '' && this.tempStatus !== null) {

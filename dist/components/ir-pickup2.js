@@ -3,7 +3,7 @@ import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { a as axios } from './axios.js';
-import { r as renderTime } from './utils2.js';
+import { r as renderTime } from './utils.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-picker2.js';
 import { d as defineCustomElement$5 } from './ir-icon2.js';

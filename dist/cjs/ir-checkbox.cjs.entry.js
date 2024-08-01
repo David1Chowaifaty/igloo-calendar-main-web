@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
-const v4 = require('./v4-9b297151.js');
+const index = require('./index-d0d7c4d0.js');
+const v4 = require('./v4-078aedb1.js');
 
 const irCheckboxCss = ".sc-ir-checkbox-h{display:flex;align-items:center;width:fit-content}button.sc-ir-checkbox{all:unset}.CheckboxRoot.sc-ir-checkbox{background-color:white;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.CheckboxRoot.sc-ir-checkbox:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3);pointer-events:none}.CheckboxRoot[data-state='checked'].sc-ir-checkbox{background-color:#1e9ff2;color:white;border-color:#1e9ff2}input[type='checkbox'].sc-ir-checkbox{background-color:initial;cursor:default;appearance:auto;box-sizing:border-box;margin:3px 3px 3px 4px;padding:initial;border:initial}.checkbox.sc-ir-checkbox{transform:translateX(-100%);position:absolute;pointer-events:none;opacity:0;margin:0px;width:20px;height:20px}";
 const IrCheckboxStyle0 = irCheckboxCss;
@@ -41,7 +41,7 @@ const IrCheckbox = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h(index.Host, { key: '40ff89529d90d533af2c118e250ca6604d88ed89' }, index.h("button", { key: '0e38521c6c5df2b696925fdb5d709e9cfc685f5d', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (index.h("svg", { key: 'b663195439e9221fcff52f2a02e5572cda31b4e2', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '8bf4bd8cd958af8319e5652a64ff4ef90e49332e', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), index.h("input", { key: '39f61211af0ec17abe9ba1468aa9226b00c08861', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && index.h("label", { key: '9476efd68f433f0115e45c078810ef178cb0bef9', htmlFor: this.checkboxId }, this.label)));
+        return (index.h(index.Host, { key: '5a480b74d47ab1b3fc2956d036dc2881988cb0e0' }, index.h("button", { key: '3a8d4e1ce80e596b665218d4408a0989aa996ca6', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (index.h("svg", { key: 'ccf4013b17e358c96871808eafcd8630a47b11a9', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '4c8c7f9b22763216b55ccbc89fc2487734045877', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), index.h("input", { key: '5468a7846a08aadea6e7f80f490db4e3ca546574', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && index.h("label", { key: 'acea81110154e514ceb72f1afdc8ef17fbbc6ff2', htmlFor: this.checkboxId }, this.label)));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]

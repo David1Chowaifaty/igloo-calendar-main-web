@@ -3,7 +3,15 @@ import { i as isBlockUnit, b as dateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { c as calendar_dates } from './calendar-dates.store.js';
+import { c as createStore } from './index2.js';
+
+const initialState = {
+    days: [],
+    months: [],
+    fromDate: '',
+    toDate: '',
+};
+const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
 
 async function getMyBookings(months) {
     const myBookings = [];
@@ -226,13 +234,13 @@ function transformNewBooking(data) {
     const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
     rooms.forEach(room => {
         var _a, _b, _c;
-        const bookingFromDate = hooks(room.from_date, 'YYYY-MM-DD').isAfter(calendar_dates.fromDate) ? room.from_date : calendar_dates.fromDate;
-        const bookingToDate = hooks(room.to_date, 'YYYY-MM-DD').isAfter(calendar_dates.toDate) ? room.to_date : calendar_dates.toDate;
+        const bookingFromDate = hooks(room.from_date, 'YYYY-MM-DD').isAfter(hooks(calendar_dates.fromDate, 'YYYY-MM-DD')) ? room.from_date : calendar_dates.fromDate;
+        const bookingToDate = hooks(room.to_date, 'YYYY-MM-DD').isAfter(hooks(calendar_dates.toDate, 'YYYY-MM-DD')) ? room.to_date : calendar_dates.toDate;
         console.log(bookingToDate, bookingFromDate, room.from_date, room.to_date);
         bookings.push({
             ID: room['assigned_units_pool'],
-            TO_DATE: bookingToDate,
-            FROM_DATE: bookingFromDate,
+            TO_DATE: room.to_date,
+            FROM_DATE: room.from_date,
             PRIVATE_NOTE: getPrivateNote(data.extras),
             NO_OF_DAYS: room.days.length,
             ARRIVAL: data.arrival,
@@ -317,6 +325,6 @@ function calculateDaysBetweenDates(from_date, to_date) {
     return daysDiff || 1;
 }
 
-export { transformNewBooking as a, bookingStatus as b, getPrivateNote as c, calculateDaysBetweenDates as d, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
+export { transformNewBooking as a, calendar_dates as b, calculateDaysBetweenDates as c, bookingStatus as d, getPrivateNote as e, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
 
 //# sourceMappingURL=booking.js.map

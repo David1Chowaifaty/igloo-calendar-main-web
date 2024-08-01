@@ -16,7 +16,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '8725aae3af7652c5ae8934fba341d097f169d684', class: "form-group" }, h("label", { key: '768eff0873c578eed5e445d40b3dfd4c44f30c34' }, this.label), h("textarea", { key: 'fe4752b7bdac1ca880be3f03110f2184645888bb', maxLength: this.maxLength, rows: this.rows, value: this.value, class: "form-control", placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
+        return (h("div", { key: '7a5d81612aa2e276ba575b930b847da6fcd5010e', class: "form-group" }, h("label", { key: 'd9e93366dc4d4955b99c017c6e038d7bce0140d7' }, this.label), h("textarea", { key: '314015129ccec896db19314e39e331bdc516fffc', maxLength: this.maxLength, rows: this.rows, value: this.value, class: "form-control", placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
 }, [0, "ir-textarea", {
         "rows": [2],
