@@ -2092,6 +2092,7 @@ const IrBookingDetails = class {
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
             ]);
+            this.property = roomResponse.My_Result;
             if (!locales.entries) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
@@ -2124,7 +2125,8 @@ const IrBookingDetails = class {
                 this.closeSidebar.emit(null);
                 return;
             case 'print':
-                window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=B&TK=${this.ticket}`);
+                this.printBooking();
+                // window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=B&TK=${this.ticket}`);
                 return;
             case 'receipt':
                 window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=I&TK=${this.ticket}`);
@@ -2180,6 +2182,10 @@ const IrBookingDetails = class {
         sidebar.open = true;
     }
     printBooking() {
+        const bookingJson = JSON.stringify(this.bookingData);
+        const propertyJson = JSON.stringify(this.property);
+        const countriesJson = JSON.stringify(this.countryNodeList);
+        console.log(propertyJson, countriesJson);
         var htmlContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -2187,10 +2193,17 @@ const IrBookingDetails = class {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Generated Page</title>
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+                <script type="module" src="https://david1chowaifaty.github.io/igloo-calendar-main-web/dist/ir-webcmp/ir-webcmp.esm.js"></script>
+                <style>
+                body{
+                 font-family: "Roboto", sans-serif;}
+                </style>
             </head>
             <body>
-                <h1>Hello, World!</h1>
-                <p>This is a generated HTML page.</p>
+                <ir-booking-printing booking='${bookingJson}' property='${propertyJson}' countries='${countriesJson}'></ir-booking-printing>
             </body>
             </html>
             `;
@@ -2201,10 +2214,6 @@ const IrBookingDetails = class {
             var url = URL.createObjectURL(blob);
             // Open the URL in a new window or tab
             window.open(url);
-            // Optionally, you can revoke the object URL after some time to free up memory
-            setTimeout(function () {
-                URL.revokeObjectURL(url);
-            }, 10000); // Adjust the timeout as needed
         }
         catch (error) {
             console.error('Error creating or opening the generated HTML page:', error);

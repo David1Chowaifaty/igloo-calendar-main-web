@@ -42,6 +42,7 @@ export declare class IrBookingDetails {
     closeSidebar: EventEmitter<null>;
     private bookingService;
     private roomService;
+    private property;
     private dialogRef;
     componentDidLoad(): void;
     ticketChanged(): Promise<void>;

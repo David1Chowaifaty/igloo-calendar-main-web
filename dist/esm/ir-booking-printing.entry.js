@@ -90,9 +90,9 @@ const IrBookingPrinting = class {
             //   locales.direction = languageTexts.direction;
             // }
             const countries = JSON.parse(this.countries);
-            this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.convertedProperty = JSON.parse(this.property);
             this.convertedBooking = JSON.parse(this.booking);
+            this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.currency = this.convertedBooking.currency.code;
             this.totalPersons = ((_a = this.convertedBooking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.convertedBooking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
             this.totalNights = calculateDaysBetweenDates(this.convertedBooking.from_date, this.convertedBooking.to_date);
