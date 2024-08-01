@@ -2133,7 +2133,8 @@ const IrBookingDetails = class {
                 // window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=B&TK=${this.ticket}`);
                 return;
             case 'receipt':
-                window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=I&TK=${this.ticket}`);
+                this.printBooking('invoice');
+                // window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=I&TK=${this.ticket}`);
                 return;
             case 'book-delete':
                 return;
@@ -2185,7 +2186,7 @@ const IrBookingDetails = class {
         const sidebar = document.querySelector('ir-sidebar#editGuestInfo');
         sidebar.open = true;
     }
-    printBooking() {
+    printBooking(mode = 'default') {
         const bookingJson = JSON.stringify(this.bookingData);
         const propertyJson = JSON.stringify(this.property);
         const countriesJson = JSON.stringify(this.countryNodeList);
@@ -2212,6 +2213,7 @@ const IrBookingDetails = class {
                    bookingDetail.booking=${bookingJson};
                    bookingDetail.property=${propertyJson};
                    bookingDetail.countries=${countriesJson};
+                   bookingDetail.mode='${mode}'
                 </script>
             </body>
             </html>
