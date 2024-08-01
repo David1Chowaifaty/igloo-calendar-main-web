@@ -96,6 +96,7 @@ const IrBookingPrinting = class {
             const countries = JSON.parse(this.countries);
             this.convertedProperty = JSON.parse(this.property);
             this.convertedBooking = JSON.parse(this.booking);
+            console.log(countries, this.convertedBooking, this.convertedProperty, this.property, this.booking, countries);
             this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.currency = this.convertedBooking.currency.code;
             this.totalPersons = ((_a = this.convertedBooking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.convertedBooking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
