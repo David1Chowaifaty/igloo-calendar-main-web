@@ -46,7 +46,9 @@ export class IrBookingWidget {
         this.initProperty();
     }
     componentDidLoad() {
+        console.log('the widget is loaded');
         if (this.position === 'fixed') {
+            console.log('widget appended to body');
             document.body.appendChild(this.el);
         }
     }
