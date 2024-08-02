@@ -136,8 +136,8 @@ export class IrLanguagePicker {
                     "references": {
                         "ICurrency": {
                             "location": "import",
-                            "path": "@/models/common",
-                            "id": "src/models/common.ts::ICurrency"
+                            "path": "@/models/commun",
+                            "id": "src/models/commun.ts::ICurrency"
                         }
                     }
                 },
@@ -157,8 +157,8 @@ export class IrLanguagePicker {
                     "references": {
                         "IExposedLanguages": {
                             "location": "import",
-                            "path": "@/models/common",
-                            "id": "src/models/common.ts::IExposedLanguages"
+                            "path": "@/models/commun",
+                            "id": "src/models/commun.ts::IExposedLanguages"
                         }
                     }
                 },

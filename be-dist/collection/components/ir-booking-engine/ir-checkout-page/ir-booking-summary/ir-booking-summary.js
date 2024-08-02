@@ -63,8 +63,8 @@ export class IrBookingSummary {
                     "references": {
                         "CheckoutErrors": {
                             "location": "import",
-                            "path": "@/models/common",
-                            "id": "src/models/common.ts::CheckoutErrors"
+                            "path": "@/models/commun",
+                            "id": "src/models/commun.ts::CheckoutErrors"
                         }
                     }
                 },
@@ -94,8 +94,8 @@ export class IrBookingSummary {
                     "references": {
                         "pages": {
                             "location": "import",
-                            "path": "@/models/common",
-                            "id": "src/models/common.ts::pages"
+                            "path": "@/models/commun",
+                            "id": "src/models/commun.ts::pages"
                         }
                     }
                 }

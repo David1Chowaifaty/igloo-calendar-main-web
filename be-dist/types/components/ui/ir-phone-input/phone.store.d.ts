@@ -1,4 +1,4 @@
-import { ICountry } from "../../../models/common";
+import { ICountry } from "../../../models/commun";
 interface PhoneInputStore {
     countries: ICountry[];
 }

@@ -23,7 +23,6 @@ export interface IRatePlanSelection {
         rate: number;
         smoking_option: ISmokingOption;
         bedding_setup: BeddingSetup[];
-        pre_payment_amount: number;
     };
 }
 export interface IRoomTypeSelection {

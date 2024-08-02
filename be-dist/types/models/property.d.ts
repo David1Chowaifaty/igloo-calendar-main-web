@@ -1,4 +1,4 @@
-import { ICurrency } from './common';
+import { ICurrency } from './commun';
 export interface IExposedProperty {
     adult_child_constraints: AdultChildConstraints;
     affiliates: Affiliate[];
@@ -295,6 +295,8 @@ export interface RatePlan {
     sell_mode: SellMode;
     variations: Variation[];
     short_name: string;
+    pre_payment_amount: number;
+    pre_payment_amount_gross: number;
 }
 export interface Variation {
     adult_child_offering: string;

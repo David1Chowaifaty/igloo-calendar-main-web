@@ -1,4 +1,4 @@
-import { ICurrency, IExposedLanguages } from "../../../../models/common";
+import { ICurrency, IExposedLanguages } from "../../../../models/commun";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrLanguagePicker {
     currencies: ICurrency[];

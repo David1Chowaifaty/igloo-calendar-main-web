@@ -1,4 +1,4 @@
-import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/common";
+import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/commun";
 import { Affiliate, IEntries, IExposedProperty } from "../models/property";
 import { Locale } from 'date-fns/locale';
 export type UserPreference = {

@@ -175,8 +175,8 @@ export class IrBookingPage {
                     "references": {
                         "pages": {
                             "location": "import",
-                            "path": "@/models/common",
-                            "id": "src/models/common.ts::pages"
+                            "path": "@/models/commun",
+                            "id": "src/models/commun.ts::pages"
                         }
                     }
                 }

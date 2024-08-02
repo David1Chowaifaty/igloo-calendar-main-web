@@ -45,6 +45,11 @@ export class IrBookingWidget {
         this.propertyService.setToken(this.token);
         this.initProperty();
     }
+    componentDidLoad() {
+        if (this.position === 'fixed') {
+            document.body.appendChild(this.el);
+        }
+    }
     async initProperty() {
         try {
             this.isLoading = true;

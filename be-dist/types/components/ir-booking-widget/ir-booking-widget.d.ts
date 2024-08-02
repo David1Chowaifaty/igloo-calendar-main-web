@@ -26,6 +26,7 @@ export declare class IrBookingWidget {
     private guestPopover;
     private initApp;
     componentWillLoad(): Promise<void>;
+    componentDidLoad(): void;
     initProperty(): Promise<void>;
     handleContentContainerStyle(): void;
     private modifyContainerStyle;

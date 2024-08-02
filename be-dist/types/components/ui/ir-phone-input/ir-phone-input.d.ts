@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ICountry } from "../../../models/common";
+import { ICountry } from "../../../models/commun";
 export declare class IrPhoneInput {
     error: boolean;
     mobile_number: string;

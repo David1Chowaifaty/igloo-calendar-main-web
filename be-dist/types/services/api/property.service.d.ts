@@ -1,7 +1,7 @@
 import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availibility-header/availability";
 import { Token } from "../../models/Token";
 import { Booking } from "../../models/booking.dto";
-import { DataStructure } from "../../models/common";
+import { DataStructure } from "../../models/commun";
 import { ISetupEntries } from "../../models/property";
 import { Colors } from '../app/colors.service';
 import { TGuest } from "../../models/user_form";

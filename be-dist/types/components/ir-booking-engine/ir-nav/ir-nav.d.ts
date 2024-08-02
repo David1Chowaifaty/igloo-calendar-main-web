@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { TTabsState } from './nav-types';
-import { ICurrency, IExposedLanguages, pages } from "../../../models/common";
+import { ICurrency, IExposedLanguages, pages } from "../../../models/commun";
 export declare class IrNav {
     currencies: ICurrency[];
     languages: IExposedLanguages[];

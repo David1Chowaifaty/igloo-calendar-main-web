@@ -127,7 +127,7 @@ export class PropertyHelpers {
             if (!newRoomtype) {
                 return updatedRoomtypes;
             }
-            const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, rateplans: rt.rateplans.reduce((updatedRatePlans, rp) => {
+            const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: rt.rateplans.reduce((updatedRatePlans, rp) => {
                     const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;

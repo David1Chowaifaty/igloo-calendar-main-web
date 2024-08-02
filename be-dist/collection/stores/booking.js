@@ -44,7 +44,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
             const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
-                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName }) : {
+                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection === null || currentRatePlanSelection === void 0 ? void 0 : currentRatePlanSelection.selected_variation),
@@ -119,7 +119,6 @@ export function reserveRooms(roomTypeId, ratePlanId, rooms) {
                 rate: roomType.rate,
                 bedding_setup: roomType.bedding_setup,
                 smoking_option: roomType.smoking_option,
-                pre_payment_amount: roomType.pre_payment_amount,
             },
         };
     }
@@ -139,15 +138,16 @@ export function calculateTotalCost() {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
             if (isPrePayment) {
-                return (_a = ratePlan.roomtype.pre_payment_amount) !== null && _a !== void 0 ? _a : 0;
+                console.log(ratePlan.ratePlan.pre_payment_amount);
+                return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
             return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation.amount), 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_b = ratePlan.roomtype.pre_payment_amount) !== null && _b !== void 0 ? _b : 0 : (_d = (_c = ratePlan.selected_variation) === null || _c === void 0 ? void 0 : _c.variation) === null || _d === void 0 ? void 0 : _d.amount;
+            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_c = (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation) === null || _c === void 0 ? void 0 : _c.amount;
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;

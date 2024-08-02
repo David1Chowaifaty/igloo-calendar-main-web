@@ -1,5 +1,5 @@
 import { Locale } from 'date-fns';
-import { ICurrency, IExposedLanguages } from "../../models/common";
+import { ICurrency, IExposedLanguages } from "../../models/commun";
 import { IExposedProperty, Variation } from "../../models/property";
 import { TSource } from "../../stores/app.store";
 import Stack from "../../models/stack";
