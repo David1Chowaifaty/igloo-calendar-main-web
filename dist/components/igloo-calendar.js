@@ -1,14 +1,15 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { R as RoomService } from './room.service.js';
+import { T as Token } from './Token.js';
+import { c as calendar_data } from './calendar-data.js';
+import { l as locales } from './locales.store.js';
+import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
 import { j as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, k as getNextDay, l as addTwoMonthToDate, m as convertDMYToISO, n as computeEndDate } from './utils.js';
-import { a as axios } from './axios.js';
 import { E as EventsService } from './events.service.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
-import { b as calendar_dates, t as transformNewBLockedRooms, a as transformNewBooking, d as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
-import { l as locales } from './locales.store.js';
-import { c as calendar_data } from './calendar-data.js';
+import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, c as getPrivateNote, d as calculateDaysBetweenDates } from './booking.js';
+import { c as calendar_dates } from './calendar-dates.store.js';
 import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
 import { d as defineCustomElement$M } from './igl-application-info2.js';
 import { d as defineCustomElement$L } from './igl-block-dates-view2.js';
@@ -57,6 +58,67 @@ import { d as defineCustomElement$5 } from './ir-title2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
 import { d as defineCustomElement$3 } from './ir-tooltip2.js';
 import { d as defineCustomElement$2 } from './ota-label2.js';
+
+class RoomService extends Token {
+    async fetchData(id, language) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, { id, language });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                const results = data.My_Result;
+                calendar_data.adultChildConstraints = results.adult_child_constraints;
+                calendar_data.allowedBookingSources = results.allowed_booking_sources;
+                calendar_data.allowed_payment_methods = results.allowed_booking_methods;
+                calendar_data.currency = results.currency;
+                calendar_data.is_vacation_rental = results.is_vacation_rental;
+                calendar_data.pickup_service = results.pickup_service;
+                calendar_data.max_nights = results.max_nights;
+                calendar_data.roomsInfo = results.roomtypes;
+                calendar_data.taxes = results.taxes;
+                calendar_data.id = results.id;
+                calendar_data.country = results.country;
+                calendar_data.name = results.name;
+                calendar_data.tax_statement = results.tax_statement;
+                calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
+                calendar_data.is_pms_enabled = results.is_pms_enabled;
+                return data;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async fetchLanguage(code, sections = ['_PMS_FRONT']) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code, sections });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                let entries = this.transformArrayToObject(data.My_Result.entries);
+                locales.entries = Object.assign(Object.assign({}, locales.entries), entries);
+                locales.direction = data.My_Result.direction;
+                return { entries, direction: data.My_Result.direction };
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    transformArrayToObject(data) {
+        let object = {};
+        for (const d of data) {
+            object[d.code] = d.description;
+        }
+        return object;
+    }
+}
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -257,6 +319,7 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
+    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -316,14 +379,15 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* State.READ_HEADER */;
+    let state = 0 /* READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
+    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* State.READ_HEADER */) {
+                if (state === 0 /* READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -331,24 +395,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* State.READ_PAYLOAD */;
+                        state = 3 /* READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
-                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -361,7 +425,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -369,7 +433,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* State.READ_HEADER */;
+                    state = 0 /* READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);

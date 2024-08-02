@@ -1,11 +1,10 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { C as ChannelService } from './channel.service-bf75de13.js';
-import { o as onChannelChange, c as channels_data } from './channel.store-a03c634b.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import './Token-692eae02.js';
-import './calendar-data-666acc1f.js';
-import './index-1d7b1ff2.js';
-import './axios-ab377903.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-d2ec0a5d.js';
+import { C as ChannelService } from './channel.service-321f72fe.js';
+import { o as onChannelChange, c as channels_data } from './channel.store-c51f4270.js';
+import { l as locales } from './locales.store-91c051f0.js';
+import './Token-81a651a8.js';
+import './calendar-data-956fa3f1.js';
+import './index-a32c4342.js';
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 const IrChannelEditorStyle0 = irChannelEditorCss;

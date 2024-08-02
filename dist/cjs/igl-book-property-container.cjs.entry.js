@@ -2,17 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
-const booking_service = require('./booking.service-fca657e8.js');
-const room_service = require('./room.service-f03156c9.js');
-const calendarData = require('./calendar-data-fbe7f62b.js');
-const locales_store = require('./locales.store-4301bbe8.js');
-const axios = require('./axios-b86c5465.js');
-require('./utils-16607e0a.js');
+const index = require('./index-caa79d4b.js');
+const booking_service = require('./booking.service-b58c93b9.js');
+const room_service = require('./room.service-cab6996c.js');
+const calendarData = require('./calendar-data-3ed3cfd1.js');
+const locales_store = require('./locales.store-ec208203.js');
+const Token = require('./Token-fac1282b.js');
 require('./moment-1780b03a.js');
-require('./booking-9bb0b166.js');
-require('./index-5e99a1fe.js');
-require('./Token-c9908564.js');
+require('./calendar-dates.store-55347731.js');
+require('./index-104877f7.js');
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
 const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
@@ -70,7 +68,7 @@ const IglBookPropertyContainer = class {
     }
     componentWillLoad() {
         if (this.baseurl) {
-            axios.axios.defaults.baseURL = this.baseurl;
+            Token.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;

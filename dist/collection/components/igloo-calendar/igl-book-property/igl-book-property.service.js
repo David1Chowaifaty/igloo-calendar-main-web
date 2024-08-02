@@ -123,23 +123,25 @@ export class IglBookPropertyService {
             else if (context.isEventType('EDIT_BOOKING')) {
                 rooms = context.defaultData.ROOMS.filter(room => room.identifier !== context.bookingData.IDENTIFIER);
             }
-            return [
-                context.bookedByInfoData,
+            return {
+                bookedByInfoData: context.bookedByInfoData,
                 check_in,
-                new Date(context.dateRangeData.fromDate),
-                new Date(context.dateRangeData.toDate),
-                context.guestData,
-                context.dateRangeData.dateDifference,
-                sourceOption,
-                context.propertyid,
+                fromDate: new Date(context.dateRangeData.fromDate),
+                toDate: new Date(context.dateRangeData.toDate),
+                guestData: context.guestData,
+                totalNights: context.dateRangeData.dateDifference,
+                source: sourceOption,
+                propertyid: context.propertyid,
                 rooms,
-                context.currency,
+                pickup_info: context.bookingData.PICKUP_INFO || null,
+                currency: context.currency,
                 bookingNumber,
-                context.bookingData.GUEST,
+                defaultGuest: context.bookingData.GUEST,
                 arrivalTime,
                 pr_id,
-                context.bookingData.IDENTIFIER,
-            ];
+                identifier: context.bookingData.IDENTIFIER,
+                extras: null,
+            };
         }
         catch (error) {
             console.error(error);

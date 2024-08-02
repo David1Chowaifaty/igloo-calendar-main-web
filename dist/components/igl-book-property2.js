@@ -149,23 +149,25 @@ class IglBookPropertyService {
             else if (context.isEventType('EDIT_BOOKING')) {
                 rooms = context.defaultData.ROOMS.filter(room => room.identifier !== context.bookingData.IDENTIFIER);
             }
-            return [
-                context.bookedByInfoData,
+            return {
+                bookedByInfoData: context.bookedByInfoData,
                 check_in,
-                new Date(context.dateRangeData.fromDate),
-                new Date(context.dateRangeData.toDate),
-                context.guestData,
-                context.dateRangeData.dateDifference,
-                sourceOption,
-                context.propertyid,
+                fromDate: new Date(context.dateRangeData.fromDate),
+                toDate: new Date(context.dateRangeData.toDate),
+                guestData: context.guestData,
+                totalNights: context.dateRangeData.dateDifference,
+                source: sourceOption,
+                propertyid: context.propertyid,
                 rooms,
-                context.currency,
+                pickup_info: context.bookingData.PICKUP_INFO || null,
+                currency: context.currency,
                 bookingNumber,
-                context.bookingData.GUEST,
+                defaultGuest: context.bookingData.GUEST,
                 arrivalTime,
                 pr_id,
-                context.bookingData.IDENTIFIER,
-            ];
+                identifier: context.bookingData.IDENTIFIER,
+                extras: null,
+            };
         }
         catch (error) {
             console.error(error);
@@ -255,6 +257,7 @@ const IglBookProperty = /*@__PURE__*/ proxyCustomElement(class IglBookProperty e
             return;
     }
     componentDidLoad() {
+        console.log('booking_data', this.bookingData);
         document.addEventListener('keydown', this.handleKeyDown);
     }
     disconnectedCallback() {
@@ -609,7 +612,7 @@ const IglBookProperty = /*@__PURE__*/ proxyCustomElement(class IglBookProperty e
                 this.bookedByInfoData.message = this.defaultData.NOTES;
             }
             const serviceParams = await this.bookPropertyService.prepareBookUserServiceParams(this, check_in, this.sourceOption);
-            await this.bookingService.bookUser(...serviceParams);
+            await this.bookingService.bookUser(serviceParams);
             this.resetBookingData.emit(null);
         }
         catch (error) {
@@ -646,13 +649,13 @@ const IglBookProperty = /*@__PURE__*/ proxyCustomElement(class IglBookProperty e
     }
     render() {
         //console.log('render');
-        return (h(Host, { key: '8117abdfaf7ea013c3ddca6e4eaed2835ef3c0f0' }, h("div", { key: 'e263b57fdd4afdf1fff39f7ab2ff3883ff5d560e', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: 'b93952caaa6848540aa5cf3347f2b415416b74bf', class: 'sideWindow pb-5 pb-md-0 ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: 'b68bbfef584974fb79f6cf4ba3b10721dbf432b0', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '6fb333d05f0225b6f27e2b805d0ea82b2fc814b7', class: "d-flex mt-2 align-items-center justify-content-between  " }, h("h3", { key: '3d300f2627d48ddbb3c465a2a2194e8967c4bf6d', class: "card-title text-left pb-1 font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: '74fbe216f3231e5ecd2fd58ddeaee9825d61c8c4', class: "close close-icon", onIconClickHandler: () => {
+        return (h(Host, { key: '60717c325aa2820652f3e747b1ba0fcb737917e8' }, h("div", { key: '3091e1e3fdebb4fd2fd32c715f808b239caa009c', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '4da635db9eb8774a74f3fd0326d4994002771e1a', class: 'sideWindow pb-5 pb-md-0 ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: 'fe85e06262208263aa3f321f868e6e1e68062a3f', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: 'ad49940d4e1a1c8e0b0a788e776b370ab587bf06', class: "d-flex mt-2 align-items-center justify-content-between  " }, h("h3", { key: '7489e9a86a128d744179fb0a854d8814fef2aae5', class: "card-title text-left pb-1 font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: 'ee1d599c099759d9697ded82789e3c77007487a9', class: "close close-icon", onIconClickHandler: () => {
                 this.closeWindow();
-            } }, h("svg", { key: '497bf12d71434fe8b6bcf5d95787ed53c2766a33', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '1290b2980aa79f62bbb76e52fd5795c29f801174', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '43a1452d5203be10cd9ecb76ec5d060916066c63', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: '0a893b21cd18695319b8f5821cc4c9792573656f', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData,
+            } }, h("svg", { key: 'ed207a0a3aeda8bddb3058cd59e05e12e968ac65', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'f60c15453e5cc49fa4ef449e8b10d9b0d7806f44', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: 'fb48929a59be80e8b335295630e9f0b748df0640', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: '30f283de116d184761c53e7a2dc9e7dd27d11547', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData,
             // bookingDataDefaultDateRange={this.dateRangeData}
             adultChildConstraints: this.adultChildConstraints, onRoomsDataUpdate: evt => {
                 this.onRoomDataUpdate(evt);
-            }, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-pagetwo", { key: '4f65a3f58b1662aa11a98101f51a7a7599f48372', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countryNodeList: this.countryNodeList, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
+            }, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-pagetwo", { key: '5b031195408a63b0edf501bb67d2f50d15bd7e2d', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countryNodeList: this.countryNodeList, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
     }
     static get style() { return IglBookPropertyStyle0; }
 }, [2, "igl-book-property", {

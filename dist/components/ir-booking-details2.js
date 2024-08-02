@@ -1,13 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { a as _formatDate, b as _formatTime } from './functions.js';
+import { _ as _formatDate, a as _formatTime } from './functions.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.service2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$f } from './ir-icons2.js';
-import { e as getPrivateNote } from './booking.js';
+import { g as getPrivateNote } from './booking2.js';
 import { d as defineCustomElement$y } from './igl-application-info2.js';
 import { d as defineCustomElement$x } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$w } from './igl-book-property2.js';

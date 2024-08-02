@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { b as calendar_dates } from './booking.js';
+import { c as calendar_dates } from './calendar-dates.store.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$7 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$6 } from './igl-booking-event2.js';

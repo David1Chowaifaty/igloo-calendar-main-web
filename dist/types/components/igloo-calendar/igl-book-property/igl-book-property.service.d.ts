@@ -1,4 +1,4 @@
-import { BookUserParams } from '../../../models/igl-book-property';
+import { IBookingParams } from "../../../services/booking.service";
 export declare class IglBookPropertyService {
     setBookingInfoFromAutoComplete(context: any, res: any): void;
     resetRoomsInfoAndMessage(context: any): void;
@@ -8,7 +8,7 @@ export declare class IglBookPropertyService {
     private setSelectedRoomData;
     private cleanupEmptyData;
     private applyBookingEditToSelectedRoom;
-    prepareBookUserServiceParams(context: any, check_in: any, sourceOption: any): Promise<BookUserParams>;
+    prepareBookUserServiceParams(context: any, check_in: any, sourceOption: any): Promise<IBookingParams>;
     private getRoomCategoryByRoomId;
     setEditingRoomInfo(bookingData: any, selectedUnits: any): void;
 }

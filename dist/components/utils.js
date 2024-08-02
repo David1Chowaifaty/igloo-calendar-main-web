@@ -100,13 +100,6 @@ function getDaysArray(date1, date2) {
     }
     return dates;
 }
-function renderTime(time) {
-    return time < 10 ? time.toString().padStart(2, '0') : time.toString();
-}
-function formatAmount(currency, amount) {
-    const symbol = getCurrencySymbol(currency);
-    return symbol + amount.toFixed(2);
-}
 const extras = [
     {
         key: 'private_note',
@@ -114,6 +107,6 @@ const extras = [
     },
 ];
 
-export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, getReleaseHoursString as f, getCurrencySymbol as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, convertDatePrice as p, formatDate as q, renderTime as r, formatAmount as s };
+export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, getReleaseHoursString as f, getCurrencySymbol as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, convertDatePrice as p, formatDate as q };
 
 //# sourceMappingURL=utils.js.map

@@ -368,7 +368,7 @@ class BookingService extends Token {
         console.log(data['My_Result']);
         return data['My_Result'];
     }
-    async bookUser(bookedByInfoData, check_in, fromDate, toDate, guestData, totalNights, source, propertyid, rooms, currency, bookingNumber, defaultGuest, arrivalTime, pr_id, identifier, extras = null) {
+    async bookUser({ bookedByInfoData, check_in, currency, extras = null, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }) {
         try {
             const token = this.getToken();
             if (token) {
@@ -466,6 +466,7 @@ class BookingService extends Token {
                             ...rooms,
                         ],
                     },
+                    pickup_info,
                 };
                 console.log('book user payload', body);
                 const result = await this.doReservation(body);

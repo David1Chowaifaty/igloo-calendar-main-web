@@ -1,6 +1,34 @@
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
-import { Booking, Guest, IPmsLog } from '../models/booking.dto';
+import { Booking, Guest, IBookingPickupInfo, IPmsLog } from '../models/booking.dto';
 import { Token } from "../models/Token";
+export interface IBookingParams {
+    bookedByInfoData: any;
+    check_in: boolean;
+    fromDate: Date;
+    toDate: Date;
+    guestData: any;
+    totalNights: number;
+    source: {
+        code: string;
+        description: string;
+    };
+    propertyid: number;
+    rooms: any[];
+    currency: {
+        id: number;
+        code: string;
+    };
+    pickup_info: IBookingPickupInfo | null;
+    bookingNumber?: string;
+    defaultGuest?: any;
+    arrivalTime?: any;
+    pr_id?: number;
+    identifier?: string;
+    extras: {
+        key: string;
+        value: string;
+    }[] | null;
+}
 export declare class BookingService extends Token {
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;
@@ -38,14 +66,5 @@ export declare class BookingService extends Token {
     fetchExposedBookings(booking_nbr: string, property_id: number, from_date: string, to_date: string): Promise<any>;
     getPCICardInfoURL(BOOK_NBR: string): Promise<any>;
     doReservation(body: any): Promise<any>;
-    bookUser(bookedByInfoData: any, check_in: boolean, fromDate: Date, toDate: Date, guestData: any, totalNights: number, source: {
-        code: string;
-        description: string;
-    }, propertyid: number, rooms: any[], currency: {
-        id: number;
-        code: string;
-    }, bookingNumber?: string, defaultGuest?: any, arrivalTime?: any, pr_id?: number, identifier?: string, extras?: {
-        key: string;
-        value: string;
-    }[] | null): Promise<any>;
+    bookUser({ bookedByInfoData, check_in, currency, extras, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }: IBookingParams): Promise<any>;
 }
