@@ -106,7 +106,7 @@ export class IrBookingWidget {
         if (this.isLoading) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("ir-popover", { class: 'ir-popover', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { class: 'ir-popover', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen) {
                     if (!this.dates.to_date && this.dates.from_date) {
