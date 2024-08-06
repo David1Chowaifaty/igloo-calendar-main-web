@@ -1,6 +1,6 @@
 import { Fragment, h } from "@stencil/core";
 import app_store from "../../../stores/app.store";
-import { cn } from "../../../utils/utils";
+import { cn, renderPropertyLocation } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 import { AuthService } from "../../../services/api/auth.service";
 import { checkout_store } from "../../../stores/checkout.store";
@@ -15,6 +15,17 @@ export class IrNav {
         this.showCurrency = true;
         this.menuShown = true;
         this.currentPage = null;
+        this.preferences = { currency: null, language: null };
+    }
+    componentWillLoad() {
+        var _a;
+        this.website = app_store.app_data.affiliate ? (_a = app_store.app_data.affiliate.sites[0]) === null || _a === void 0 ? void 0 : _a.url : this.website;
+    }
+    handleWebsiteChange(newValue, oldValue) {
+        var _a;
+        if (newValue !== oldValue) {
+            this.website = app_store.app_data.affiliate ? (_a = app_store.app_data.affiliate.sites[0]) === null || _a === void 0 ? void 0 : _a.url : newValue;
+        }
     }
     handleButtonClick(e = undefined, page) {
         if (e) {
@@ -52,20 +63,6 @@ export class IrNav {
                 return null;
         }
     }
-    renderLocationField(field, withComma = true) {
-        if (!field) {
-            return '';
-        }
-        return withComma ? `, ${field}` : field;
-    }
-    renderLocation() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-        const affiliate = app_store.app_data.affiliate;
-        if (affiliate) {
-            return [(_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.city.name) !== null && _b !== void 0 ? _b : null, (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.country.name) !== null && _d !== void 0 ? _d : null].filter(f => f !== null).join(', ');
-        }
-        return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
-    }
     renderLanguageTrigger() {
         if (this.isBookingListing) {
             return;
@@ -75,7 +72,12 @@ export class IrNav {
         if (!currency || !country) {
             return null;
         }
-        return (h("div", { class: "flex" }, h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, (0).toLocaleString('en-US', { style: 'currency', currency: currency.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim())), h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, country === null || country === void 0 ? void 0 : country.description))));
+        const c = (0).toLocaleString('en-US', { style: 'currency', currency: currency.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
+        this.preferences = {
+            currency: `${currency.code} ${c}`,
+            language: country === null || country === void 0 ? void 0 : country.description,
+        };
+        return (h("div", { class: "flex" }, h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, c)), h("button", { type: "button", class: "ir-language-trigger", onClick: () => this.handleButtonClick(undefined, 'language') }, h("p", null, country === null || country === void 0 ? void 0 : country.description))));
     }
     handleSignIn(e) {
         e.stopImmediatePropagation();
@@ -110,15 +112,15 @@ export class IrNav {
         var _a, _b, _c, _d, _e, _f;
         const currentPage = app_store.currentPage;
         const isInjected = app_store.app_data.injected && currentPage === 'booking';
-        return (h(Fragment, { key: 'e5f93cdf17bba28ba675e2d25cb02bac2641a0e6' }, h("nav", { key: 'ab3f03522f3365b1c7cbd677f51c743dfa171256', class: "ir-nav" }, h("div", { key: '47a3cf3f53b98807b46fc36bcd3e7976bc344913', class: "ir-nav-container" }, !isInjected && (h("div", { key: '3e9c2b1d54a64eae8a2d1207d61a8f97589fbc77', class: "ir-nav-left" }, h("a", { key: 'b36cab4c0137b3cea5e7d7ac86ff0533544c3a9d', "aria-label": "home", target: "_blank", href: `https://${this.website}` }, h("img", { key: '4990d79ac5473d59f1dc88de0f02e89162cdaed2', src: ((_a = app_store.app_data) === null || _a === void 0 ? void 0 : _a.affiliate) ? (_c = (_b = app_store.app_data) === null || _b === void 0 ? void 0 : _b.affiliate.sites[0]) === null || _c === void 0 ? void 0 : _c.logo : this.logo, alt: `${(_d = app_store.property) === null || _d === void 0 ? void 0 : _d.name}, ${(_e = app_store.property) === null || _e === void 0 ? void 0 : _e.country.name}`, class: "ir-nav-logo" })), h("div", { key: 'f2dc6b45ddf3c0eebd14258332045c55a06f3026', class: "ir-nav-property-details" }, h("h3", { key: 'bdb3ea4233f1a99ffaa9451c7a09ffcf3dff083f', class: "ir-property-name" }, (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.name), h("button", { key: 'ca071de43da467cf76bb785754b2072b02798e73', onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, this.renderLocation(), h("span", { key: 'e6d1dfb5e99fd5642203d22cf824329f0dbe1598', class: 'mx-1' }), h("svg", { key: 'ae5d090725a7cd8313f3bc6421de0ce2253ea1df', slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { key: '1495f3a2b6f8327eaa6e093db9c0d35ecf90d123', fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", { key: 'a3f1e8a580e0fd3cfe3a82166cec0f0cd08f8f65' }, "Location")))))), h("div", { key: '42a211108559b972c102548ad639f2bc32ff2c4c', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in ? (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: this.handleSignIn.bind(this) })) : (this.menuShown && (h("ir-menu", { data: [
+        return (h(Fragment, { key: '6586c784e7f6b70f1dd135b605de36957baaa777' }, h("nav", { key: '6f958d0b0ec2a3fd3e518251c83bc496e0bfad7b', class: "ir-nav" }, h("div", { key: 'a86037003e0c817264e293075ac0b112624d29fb', class: "ir-nav-container" }, !isInjected && (h("div", { key: '946dac5d42bf8ff5aa801aec40eb1ad039b0c82c', class: "ir-nav-left" }, h("a", { key: 'b16ff55b76ebffb1297de56f264e997495e72a9c', "aria-label": "home", target: "_blank", href: `https://${this.website}` }, h("img", { key: 'e8e00b85e10407dd4c6cb59526865710424fdda7', src: ((_a = app_store.app_data) === null || _a === void 0 ? void 0 : _a.affiliate) ? (_c = (_b = app_store.app_data) === null || _b === void 0 ? void 0 : _b.affiliate.sites[0]) === null || _c === void 0 ? void 0 : _c.logo : this.logo, alt: `${(_d = app_store.property) === null || _d === void 0 ? void 0 : _d.name}, ${(_e = app_store.property) === null || _e === void 0 ? void 0 : _e.country.name}`, class: "ir-nav-logo" })), h("div", { key: 'd96b582e48843921b555f80264979ea36724c58a', class: "ir-nav-property-details" }, h("h3", { key: 'e9e47fc70012dc2ff9955e15dc27dba167451c95', class: "ir-property-name" }, (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.name), h("button", { key: '8c512740a706aaa90cc415ae65582fbb381aba56', onClick: () => this.handleButtonClick(undefined, 'map'), class: "ir-property-location" }, renderPropertyLocation(), h("span", { key: '8f1de7e2add4e103da7d27c947d4c86ee58ec862', class: 'mx-1' }), h("svg", { key: '471e27bb6073159266d35c27692e1ec21869c23b', slot: "btn-icon", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 384 512" }, h("path", { key: '03c58954923c69e2325644d7cd83673db9c6bcae', fill: "currentColor", d: "M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" }), h("title", { key: '2a7da63574d5ed778850e273b9512b8d67724381' }, "Location")))))), h("div", { key: '46036939717e28c21b15d77b04cbbe66f5907493', class: `ir-burger-menu ${isInjected ? 'ir-nav-injected' : ''}` }, !app_store.is_signed_in ? (h("ir-button", { class: "ir-sheet-button", variants: "ghost", label: "Sign in", name: "auth", onButtonClick: this.handleSignIn.bind(this) })) : (this.menuShown && (h("ir-menu", { data: [
                 { id: 1, item: 'My bookings' },
                 { id: 3, item: 'Personal profile' },
                 { id: 2, item: 'Sign out' },
-            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" })))), this.showBookingCode && this.showCurrency && h("ir-button", { key: '0bbf1e2beacacf95c2aa06485f108b593956e5c4', variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() })), h("ul", { key: 'c47383e12075b6df0eee3afbe2f0efb04b7f050c', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", { key: '6687cac9c1202687c2067eaf9e3039146f948fe4' }, h("ir-button", { key: '1791a58cbc164bd9daa9fbb215692625e4eca478', variants: "ghost", haveLeftIcon: true, title: "home", onButtonClick: () => window.open(`https://${this.website}`, '_blank') }, h("p", { key: '8eb6567f29812963700a6db45fce14bab24949c8', slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { key: '4b8dc88e08b41211c5b357c23fc7ad3e59894551', slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && this.showBookingCode && (h("li", { key: 'a0fa33c28f9ef13968dfb87ea8e0837761fddd6a' }, h("ir-button", { key: '34bcdb5ce493ea42f533ae950862ed77ea4cdaaa', variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), this.showCurrency && h("li", { key: 'e398319facc98ee96c9a2493dd6db6d1cd9d9ac3' }, this.renderLanguageTrigger()), !app_store.is_signed_in ? (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: this.handleSignIn.bind(this) }))) : (this.menuShown && (h("li", null, h("ir-menu", { data: [
+            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" })))), this.showBookingCode && this.showCurrency && h("ir-button", { key: '0127ee1b2e8757e4ca6689cf725c3df277696e58', variants: "icon", iconName: "burger_menu", onClick: () => this.sheetRef.openSheet() })), h("ul", { key: 'ab7612e9932fb729c80fd223d01b06ae942e022e', class: cn('ir-nav-links', { 'ir-nav-links-injected': isInjected }) }, !isInjected && currentPage !== 'checkout' && (h("li", { key: '6974aa2da4b6785ae085e5fc42bd4bd413be645c' }, h("ir-button", { key: 'ed4494b0090c0f63b54447d1bd4758a432175753', variants: "ghost", haveLeftIcon: true, title: "home", onButtonClick: () => window.open(`https://${this.website}`, '_blank') }, h("p", { key: '08b6070f9889cd35c4f9610d258439219d6f5987', slot: "left-icon", class: "sr-only" }, "home"), h("ir-icons", { key: '80584d4739c15c6cd84949fceeee7e84d9836bc1', slot: "left-icon", name: "home", svgClassName: "ir-icon-size" })))), currentPage === 'booking' && this.showBookingCode && (h("li", { key: '9f58e2062aa3d153c5a646442d94b89a112ce782' }, h("ir-button", { key: 'd812c530ae762d47379346eac8bae984b1fe3eea', variants: "ghost", label: localizedWords.entries.Lcz_BookingCode, name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') }))), this.showCurrency && h("li", { key: '87e0cedfcfc74bf3416f083d1af754624007a930' }, this.renderLanguageTrigger()), !app_store.is_signed_in ? (h("li", null, h("ir-button", { variants: "ghost", label: localizedWords.entries.Lcz_SignIn, name: "auth", onButtonClick: this.handleSignIn.bind(this) }))) : (this.menuShown && (h("li", null, h("ir-menu", { data: [
                 { id: 1, item: 'My bookings' },
                 { id: 3, item: 'Personal profile' },
                 { id: 2, item: 'Sign out' },
-            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" })))))))), h("ir-sheet", { key: '74c0d4c0a9afd58927a10a68728053c5f2a907f5', ref: el => (this.sheetRef = el) }, h("ul", { key: 'fc80a5045921f74f524b7663143b2b1cdc4e5b71', slot: "sheet-content", class: "ir-sheet-content" }, h("li", { key: 'c11028ad3e25d736611797ceaabe1a56faeca8fd' }, this.renderLanguageTrigger()), !isInjected && (h("li", { key: 'f7cd2efcbcf9f4f1fefe1dd614f8a23f28d6d0e0' }, h("ir-button", { key: 'ef9caf33544225a8091adb0907713be1c8f04058', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: '4f9e8d04cdcd29ec7ece11d2e2a39a9ca2fa0fea' }, h("ir-button", { key: 'f403a5d7ac52d3a4348e65f20943c9bff3b52289', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), !app_store.is_signed_in && h("ir-modal", { key: '410487b8fb1ab9711f14bfe2fd8e5391f58f7c85', ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: '681cccb0247a3f15f158f6acf94c2b467e9b1688', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
+            ], onMenuItemClick: this.handleItemSelect.bind(this) }, h("ir-user-avatar", { slot: "menu-trigger" })))))))), h("ir-sheet", { key: '99471e46c356c00b8d630d2e4576949931f7a652', ref: el => (this.sheetRef = el) }, h("ul", { key: 'ac5f506e91c9bb458b48ec2af60cf9b2ef33a9b3', slot: "sheet-content", class: "ir-sheet-content" }, !isInjected && (h("li", { key: '0f2e9c5bfdfe028cde180fdd21e17e5d8887791d' }, h("ir-button", { key: 'e609ad5f29c06338dc6bcc7c8a7149b608d50a1d', onButtonClick: () => window.open(`https://${this.website}`), class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Home", name: "home" }))), h("li", { key: 'e7d31f2d6bcf5423d6722304f152a8019fdc7e76' }, h("ir-button", { key: '61cce12f3f8d36954c42affeb7981d4fc2262a16', class: "ir-sheet-button", onButtonClick: () => this.handleButtonClick(undefined, 'language'), buttonClassName: "justify-start", variants: "ghost", label: this.preferences.currency, name: "home" })), h("li", { key: '4839dc4ca42ca8a6fab726330ff1f337ed6815f1' }, h("ir-button", { key: 'cf6b3936163da081c797816140df3fb20067a4bc', class: "ir-sheet-button", onButtonClick: () => this.handleButtonClick(undefined, 'language'), buttonClassName: "justify-start", variants: "ghost", label: this.preferences.language, name: "home" })), h("li", { key: '8c6ab9e2350377bee1b9636d28133c6ea3d272d5' }, h("ir-button", { key: '0782f5f449b55f5cf551f0cd96e54aa704459e53', class: "ir-sheet-button", buttonClassName: "justify-start", variants: "ghost", label: "Booking code", name: "booking_code", onButtonClick: e => this.handleButtonClick(e, 'booking_code') })))), !app_store.is_signed_in && h("ir-modal", { key: 'd44a2f142fd711840839172c1c7abf76c731c43b', ref: el => (this.modalRef = el), style: { '--ir-modal-max-width': '32rem' } }), h("ir-dialog", { key: '6d66e89b7ddb9226cb8ade43bc5f301375038eae', ref: el => (this.dialogRef = el), style: { '--ir-dialog-max-width': this.currentPage === 'map' ? '80%' : '32rem' } }, this.renderDialogBody())));
     }
     static get is() { return "ir-nav"; }
     static get encapsulation() { return "scoped"; }
@@ -208,7 +210,7 @@ export class IrNav {
                     "text": ""
                 },
                 "attribute": "website",
-                "reflect": false
+                "reflect": true
             },
             "isBookingListing": {
                 "type": "boolean",
@@ -286,7 +288,8 @@ export class IrNav {
     }
     static get states() {
         return {
-            "currentPage": {}
+            "currentPage": {},
+            "preferences": {}
         };
     }
     static get events() {
@@ -347,6 +350,12 @@ export class IrNav {
                         }
                     }
                 }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "website",
+                "methodName": "handleWebsiteChange"
             }];
     }
     static get listeners() {

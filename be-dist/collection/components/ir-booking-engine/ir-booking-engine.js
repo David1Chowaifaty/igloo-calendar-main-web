@@ -248,6 +248,8 @@ export class IrBookingEngine {
                 promo_key: booking_store.bookingAvailabilityParams.coupon || '',
                 is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
                 agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+                is_in_affiliate_mode: !!app_store.app_data.affiliate,
+                affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
             },
             identifier: this.identifier,
             mode: 'default',
@@ -262,7 +264,7 @@ export class IrBookingEngine {
             case 'invoice':
                 return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.p, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
             case 'booking-listing':
-                return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: this.propertyId, perma_link: this.perma_link, aName: this.p, be: true, baseUrl: this.baseUrl, aff: this.aff }));
+                return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.p, be: true, baseUrl: this.baseUrl, aff: this.aff }));
             case 'user-profile':
                 return (h("ir-user-profile", { user_data: {
                         id: checkout_store.userFormData.id,

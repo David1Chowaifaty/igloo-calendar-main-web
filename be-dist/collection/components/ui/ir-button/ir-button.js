@@ -279,7 +279,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"image\" | \"search\" | \"user\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\" | \"elipse_vertical\"",
+                    "resolved": "\"image\" | \"search\" | \"user\" | \"clock\" | \"wifi\" | \"car\" | \"pets\" | \"bed\" | \"hotel\" | \"utencils\" | \"credit_card\" | \"check\" | \"danger\" | \"bell\" | \"football\" | \"burger_menu\" | \"home\" | \"xmark\" | \"snowflake\" | \"sun\" | \"minus\" | \"heart\" | \"dimensions\" | \"user_group\" | \"smoking\" | \"ban_smoking\" | \"double_bed\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"child\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"angle_right\" | \"coupon\" | \"location_dot\" | \"plus\" | \"elipse_vertical\" | \"taxi\"",
                     "references": {
                         "TIcons": {
                             "location": "import",

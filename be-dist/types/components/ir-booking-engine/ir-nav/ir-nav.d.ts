@@ -14,14 +14,18 @@ export declare class IrNav {
     signOut: EventEmitter<null>;
     screenChanged: EventEmitter<pages>;
     currentPage: TTabsState;
+    preferences: {
+        currency: string | null;
+        language: string | null;
+    };
     private dialogRef;
     private sheetRef;
     modalRef: HTMLIrModalElement;
+    componentWillLoad(): void;
+    handleWebsiteChange(newValue: string, oldValue: string): void;
     handleButtonClick(e: CustomEvent, page: TTabsState): void;
     handleCloseDialog(e: CustomEvent): void;
     renderDialogBody(): any;
-    renderLocationField(field: string | null, withComma?: boolean): string;
-    renderLocation(): string;
     renderLanguageTrigger(): any;
     private handleSignIn;
     handleItemSelect(e: CustomEvent): Promise<CustomEvent<pages>>;

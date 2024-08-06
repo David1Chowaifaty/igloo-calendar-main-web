@@ -12,5 +12,7 @@ export const ExposedBookingAvailability = z.object({
     promo_key: z.string(),
     is_in_agent_mode: z.boolean().default(false),
     agent_id: z.number().default(0).optional(),
+    is_in_affiliate_mode: z.boolean().default(false),
+    affiliate_id: z.number().default(0).optional(),
 });
 //# sourceMappingURL=availability.js.map

@@ -4,5 +4,6 @@ export declare class IrFooter {
     contactDialog: HTMLIrDialogElement;
     renderLocationField(field: string | null, withComma?: boolean): string;
     renderPropertyEmail(): any;
+    getPhoneNumber(): any[];
     render(): any;
 }

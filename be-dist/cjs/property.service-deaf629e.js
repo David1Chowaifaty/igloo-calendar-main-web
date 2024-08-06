@@ -1,0 +1,585 @@
+'use strict';
+
+const payment_service = require('./payment.service-cc0881b8.js');
+const utils = require('./utils-a25582f0.js');
+const app_store = require('./app.store-52efa6e0.js');
+const index = require('./index-505d795c.js');
+const index$1 = require('./index-10c552bd.js');
+
+class PropertyHelpers {
+    constructor() {
+        this.paymentService = new payment_service.PaymentService();
+    }
+    validateModeProps(props) {
+        if (props.mode === PropertyHelpers.MODE_MODIFY_RT && (!props.rp_id || !props.rt_id)) {
+            throw new Error('Missing property: rp_id or rt_id is required in modify_rt mode');
+        }
+    }
+    convertPickup(pickup) {
+        let res = {};
+        const [hour, minute] = pickup.arrival_time.split(':');
+        res = {
+            booking_nbr: null,
+            is_remove: false,
+            currency: pickup.currency,
+            date: pickup.arrival_date,
+            details: pickup.flight_details || null,
+            hour: Number(hour),
+            minute: Number(minute),
+            nbr_of_units: pickup.number_of_vehicles,
+            selected_option: pickup.selected_option,
+            total: Number(pickup.due_upon_booking),
+        };
+        return res;
+    }
+    updateBookingStore(data, props) {
+        try {
+            let roomtypes = [...utils.booking_store.roomTypes];
+            const newRoomtypes = data.My_Result.roomtypes;
+            if (props.mode === PropertyHelpers.MODE_DEFAULT) {
+                roomtypes = this.updateInventory(roomtypes, newRoomtypes);
+                roomtypes = this.sortRoomTypes(roomtypes, {
+                    adult_nbr: props.params.adult_nbr,
+                    child_nbr: props.params.child_nbr,
+                });
+            }
+            else {
+                roomtypes = this.updateRoomTypeRatePlans(roomtypes, newRoomtypes, props);
+            }
+            utils.booking_store.roomTypes = roomtypes;
+            utils.booking_store.tax_statement = { message: data.My_Result.tax_statement };
+            utils.booking_store.enableBooking = true;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    validateToken(token) {
+        if (!token) {
+            throw new payment_service.MissingTokenError();
+        }
+    }
+    collectRoomTypeIds(props) {
+        return props.rt_id ? [props.rt_id] : [];
+    }
+    collectRatePlanIds(props) {
+        return props.rp_id ? [props.rp_id] : [];
+    }
+    generateDays(from_date, to_date, amount) {
+        const endDate = to_date;
+        let currentDate = from_date;
+        const days = [];
+        while (currentDate < endDate) {
+            days.push({
+                date: index.dateFns.format(currentDate, 'yyyy-MM-dd'),
+                amount: amount,
+                cost: null,
+            });
+            currentDate = index.dateFns.addDays(currentDate, 1);
+        }
+        return days;
+    }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
+    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
+        const response = await payment_service.axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+        const result = response.data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        if (result.My_Result.booking_nbr) {
+            utils.modifyBookingStore('fictus_booking_nbr', {
+                nbr: result.My_Result.booking_nbr,
+            });
+            this.validateFreeCancelationZone(token, result.My_Result.booking_nbr);
+        }
+        return result;
+    }
+    async validateFreeCancelationZone(token, booking_nbr) {
+        this.paymentService.setToken(token);
+        console.log(app_store.app_store.currencies.find(c => { var _a; return c.code.toLowerCase() === ((_a = app_store.app_store.userPreferences.currency_id) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }));
+        const result = await this.paymentService.GetExposedApplicablePolicies({
+            book_date: new Date(),
+            params: {
+                booking_nbr,
+                currency_id: app_store.app_store.currencies.find(c => c.code.toLowerCase() === (app_store.app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+                language: app_store.app_store.userPreferences.language_id,
+                property_id: app_store.app_store.app_data.property_id,
+                rate_plan_id: 0,
+                room_type_id: 0,
+            },
+            token,
+        });
+        console.log('applicable policies', result);
+        if (!result) {
+            utils.booking_store.isInFreeCancelationZone = true;
+        }
+        if (result) {
+            const { isInFreeCancelationZone } = this.paymentService.processAlicablePolicies(result.data, new Date());
+            console.log(result, isInFreeCancelationZone);
+            utils.booking_store.isInFreeCancelationZone = isInFreeCancelationZone;
+        }
+    }
+    updateInventory(roomtypes, newRoomtypes) {
+        const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
+        return roomtypes.reduce((updatedRoomtypes, rt) => {
+            const newRoomtype = newRoomtypesMap.get(rt.id);
+            if (!newRoomtype) {
+                return updatedRoomtypes;
+            }
+            const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: rt.rateplans.reduce((updatedRatePlans, rp) => {
+                    const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
+                    if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+                        return updatedRatePlans;
+                    }
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, 
+                        // variations: rp.variations.map(v => {
+                        //   if (!newRatePlan.variations) {
+                        //     return v;
+                        //   }
+                        //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
+                        //     return newRatePlan.variations[0];
+                        //   }
+                        //   return v;
+                        // }),
+                        selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+                    return updatedRatePlans;
+                }, []) });
+            updatedRoomtypes.push(updatedRoomtype);
+            return updatedRoomtypes;
+        }, []);
+    }
+    sortRoomTypes(roomTypes, userCriteria) {
+        return roomTypes.sort((a, b) => {
+            // Move room types with zero inventory to the end
+            if (a.inventory === 0 && b.inventory !== 0)
+                return 1;
+            if (a.inventory !== 0 && b.inventory === 0)
+                return -1;
+            // Check for variations where is_calculated is true and amount is 0
+            const zeroCalculatedA = a.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            const zeroCalculatedB = b.rateplans.some(plan => plan.variations.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+            // Prioritize these types to be before inventory 0 but after all others
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
+                return -1;
+            // Check for exact matching variations
+            const matchA = a.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            const matchB = b.rateplans.some(plan => plan.variations.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            if (matchA && !matchB)
+                return -1;
+            if (!matchA && matchB)
+                return 1;
+            // Sort by the highest variation in any attribute, for example `amount`
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations.map(variation => variation.amount)));
+            if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
+                return 1;
+            return 0;
+        });
+    }
+    updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
+        var _a;
+        const selectedRoomTypeIdx = roomtypes.findIndex(rt => rt.id === props.rt_id);
+        if (selectedRoomTypeIdx === -1) {
+            throw new Error('Invalid RoomType');
+        }
+        const selectednewRoomTypeIdx = newRoomtypes.findIndex(rt => rt.id === props.rt_id);
+        if (selectedRoomTypeIdx === -1) {
+            throw new Error('Invalid RoomType');
+        }
+        if (selectednewRoomTypeIdx === -1) {
+            throw new Error('Invalid New RoomType');
+        }
+        const newRatePlan = (_a = newRoomtypes[selectednewRoomTypeIdx].rateplans) === null || _a === void 0 ? void 0 : _a.find(rp => rp.id === props.rp_id);
+        if (!newRatePlan) {
+            throw new Error('Invalid New Rateplan');
+        }
+        const newVariation = newRatePlan.variations.find(v => v.adult_child_offering === props.adultChildConstraint);
+        console.log(newRatePlan.variations, props.adultChildConstraint);
+        if (!newVariation) {
+            throw new Error('Missing variation');
+        }
+        roomtypes[selectedRoomTypeIdx] = Object.assign(Object.assign({}, roomtypes[selectedRoomTypeIdx]), { rateplans: roomtypes[selectedRoomTypeIdx].rateplans.map(rp => {
+                return Object.assign(Object.assign({}, rp), { variations: rp.variations.map(v => {
+                        if (v.adult_child_offering === props.adultChildConstraint && rp.id === props.rp_id) {
+                            return newVariation;
+                        }
+                        return v;
+                    }) });
+            }) });
+        return roomtypes;
+    }
+}
+PropertyHelpers.MODE_MODIFY_RT = 'modify_rt';
+PropertyHelpers.MODE_DEFAULT = 'default';
+
+const initialState = {
+    userFormData: {},
+    modifiedGuestName: false,
+    pickup: {
+        arrival_date: index.dateFns.format(new Date(), 'yyyy-MM-dd'),
+    },
+    payment: null,
+    agreed_to_services: false,
+};
+const { state: checkout_store, onChange: onCheckoutDataChange } = index$1.createStore(initialState);
+function updateUserFormData(key, value) {
+    checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
+}
+function updatePickupFormData(key, value) {
+    if (key === 'location' && value === null) {
+        checkout_store.pickup = {
+            arrival_date: index.dateFns.format(new Date(), 'yyyy-MM-dd'),
+            location: null,
+        };
+    }
+    else {
+        checkout_store.pickup = Object.assign(Object.assign({}, checkout_store.pickup), { [key]: value });
+    }
+}
+function updatePartialPickupFormData(params) {
+    checkout_store.pickup = Object.assign(Object.assign({}, checkout_store.pickup), params);
+}
+
+class Colors {
+    hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        var r = parseInt(hex.substring(0, 2), 16);
+        var g = parseInt(hex.substring(2, 4), 16);
+        var b = parseInt(hex.substring(4, 6), 16);
+        return { r, g, b };
+    }
+    rgbToHsl(rgb) {
+        let r = parseInt(rgb.r);
+        let g = parseInt(rgb.g);
+        let b = parseInt(rgb.b);
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
+        if (delta == 0)
+            h = 0;
+        else if (cmax == r)
+            h = ((g - b) / delta) % 6;
+        else if (cmax == g)
+            h = (b - r) / delta + 2;
+        else
+            h = (r - g) / delta + 4;
+        h = Math.round(h * 60);
+        if (h < 0)
+            h += 360;
+        l = (cmax + cmin) / 2;
+        s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        s = +(s * 100).toFixed(1);
+        l = +(l * 100).toFixed(1);
+        return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
+    }
+    hexToHSL(hex) {
+        const rgb = this.hexToRgb(hex);
+        return this.rgbToHsl(rgb);
+    }
+    generateColorShades(baseHex) {
+        const { h, s, l: baseL } = this.hexToHSL(baseHex);
+        let shades = [];
+        for (let i = -3; i <= 6; i++) {
+            let l = baseL + i * 4;
+            shades.push({ h, s, l: Math.min(Math.max(l, 0), 100) });
+        }
+        return shades;
+    }
+    initTheme(property) {
+        if (property.space_theme) {
+            const root = document.documentElement;
+            const shades = this.generateColorShades(property.space_theme.button_bg_color);
+            let shade_number = 900;
+            shades.forEach((shade, index) => {
+                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+                if (index === 9) {
+                    shade_number = 25;
+                }
+                else if (index === 8) {
+                    shade_number = 50;
+                }
+                else {
+                    shade_number = shade_number - 100;
+                }
+            });
+            root.style.setProperty('--radius', property.space_theme.button_border_radius + 'px');
+        }
+    }
+}
+
+class PropertyService extends payment_service.Token {
+    constructor() {
+        super(...arguments);
+        this.propertyHelpers = new PropertyHelpers();
+        this.colors = new Colors();
+    }
+    async getExposedProperty(params, initTheme = true) {
+        const token = this.getToken();
+        if (!token) {
+            throw new payment_service.MissingTokenError();
+        }
+        const { data } = await payment_service.axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.app_store.userPreferences.currency_id, include_sales_rate_plans: !!utils.booking_store.bookingAvailabilityParams.agent }));
+        const result = data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        if (result.My_Result.tags) {
+            result.My_Result.tags.map(({ key, value }) => {
+                if (!value) {
+                    return;
+                }
+                switch (key) {
+                    case 'header':
+                        return utils.injectHTML(value, 'head', 'first');
+                    case 'body':
+                        return utils.injectHTML(value, 'body', 'first');
+                    case 'footer':
+                        return utils.injectHTML(value, 'body', 'last');
+                }
+            });
+        }
+        if (!app_store.app_store.fetchedBooking) {
+            utils.booking_store.roomTypes = [...result.My_Result.roomtypes];
+        }
+        if (params.aname || params.perma_link) {
+            app_store.app_store.app_data = Object.assign(Object.assign({}, app_store.app_store.app_data), { property_id: result.My_Result.id });
+        }
+        app_store.app_store.property = Object.assign({}, result.My_Result);
+        if (initTheme) {
+            this.colors.initTheme(result.My_Result);
+        }
+        return result.My_Result;
+    }
+    async getExposedBookingAvailability(props) {
+        const token = this.getToken();
+        this.propertyHelpers.validateToken(token);
+        this.propertyHelpers.validateModeProps(props);
+        const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
+        const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
+        const data = await this.propertyHelpers.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
+        this.propertyHelpers.updateBookingStore(data, props);
+        return data;
+    }
+    async getExposedBooking(params, withExtras = true) {
+        const token = this.getToken();
+        if (!token) {
+            throw new payment_service.MissingTokenError();
+        }
+        const { data } = await payment_service.axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
+                ? [
+                    { key: 'payment_code', value: '' },
+                    {
+                        key: 'prepayment_amount',
+                        value: '',
+                    },
+                ]
+                : null }));
+        const result = data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result.My_Result;
+    }
+    async fetchSetupEntries() {
+        try {
+            const token = this.getToken();
+            if (token) {
+                if (app_store.app_store.setup_entries) {
+                    return app_store.app_store.setup_entries;
+                }
+                const { data } = await payment_service.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
+                    TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
+                });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                const res = data.My_Result;
+                const setupEntries = {
+                    arrivalTime: res.filter(e => e.TBL_NAME === '_ARRIVAL_TIME'),
+                    ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
+                    bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
+                };
+                app_store.app_store.setup_entries = setupEntries;
+                updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
+                return setupEntries;
+            }
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    filterRooms() {
+        let rooms = [];
+        Object.values(utils.booking_store.ratePlanSelections).map(rt => {
+            Object.values(rt).map((rp) => {
+                if (rp.reserved > 0) {
+                    [...new Array(rp.reserved)].map((_, index$1) => {
+                        var _a;
+                        const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index$1, rp.guestName);
+                        rooms.push({
+                            identifier: null,
+                            roomtype: rp.roomtype,
+                            rateplan: rp.ratePlan,
+                            unit: null,
+                            smoking_option: rp.checkoutSmokingSelection[index$1],
+                            occupancy: {
+                                adult_nbr: rp.checkoutVariations[index$1].adult_nbr,
+                                children_nbr: rp.checkoutVariations[index$1].child_nbr,
+                                infant_nbr: null,
+                            },
+                            bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index$1] : null,
+                            from_date: index.dateFns.format(utils.booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                            to_date: index.dateFns.format(utils.booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                            notes: null,
+                            days: this.propertyHelpers.generateDays(utils.booking_store.bookingAvailabilityParams.from_date, utils.booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index$1].amount / utils.getDateDifference(utils.booking_store.bookingAvailabilityParams.from_date, utils.booking_store.bookingAvailabilityParams.to_date)),
+                            guest: {
+                                email: null,
+                                first_name,
+                                last_name,
+                                country_id: null,
+                                city: null,
+                                mobile: null,
+                                address: null,
+                                dob: null,
+                                subscribe_to_news_letter: null,
+                                cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
+                                    ? () => {
+                                        const payment = checkout_store.payment;
+                                        return {
+                                            nbr: payment === null || payment === void 0 ? void 0 : payment.cardNumber,
+                                            holder_name: payment === null || payment === void 0 ? void 0 : payment.cardHolderName,
+                                            expiry_month: payment === null || payment === void 0 ? void 0 : payment.expiry_month.split('/')[0],
+                                            expiry_year: payment === null || payment === void 0 ? void 0 : payment.expiry_year.split('/')[1],
+                                            cvc: (payment === null || payment === void 0 ? void 0 : payment.code) === '001' ? payment.cvc : null,
+                                        };
+                                    }
+                                    : null,
+                            },
+                        });
+                    });
+                }
+            });
+        });
+        return rooms;
+    }
+    async editExposedGuest(guest, book_nbr) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await payment_service.axios.post(`/Edit_Exposed_Guest?Ticket=${token}`, Object.assign(Object.assign({}, guest), { book_nbr }));
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                return data.My_Result;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async bookUser() {
+        var _a;
+        const { prePaymentAmount } = utils.calculateTotalCost();
+        try {
+            const token = this.getToken();
+            if (!token) {
+                throw new payment_service.MissingTokenError();
+            }
+            let guest = {
+                email: checkout_store.userFormData.email,
+                first_name: checkout_store.userFormData.firstName,
+                last_name: checkout_store.userFormData.lastName,
+                country_id: checkout_store.userFormData.country_id,
+                city: null,
+                mobile: checkout_store.userFormData.mobile_number,
+                address: '',
+                country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
+                dob: null,
+                subscribe_to_news_letter: true,
+                cci: null,
+            };
+            const body = {
+                assign_units: false,
+                check_in: false,
+                is_pms: false,
+                is_direct: true,
+                agent: utils.booking_store.bookingAvailabilityParams.agent ? { id: utils.booking_store.bookingAvailabilityParams.agent } : null,
+                is_in_loyalty_mode: utils.booking_store.bookingAvailabilityParams.loyalty,
+                promo_key: (_a = utils.booking_store.bookingAvailabilityParams.coupon) !== null && _a !== void 0 ? _a : null,
+                booking: {
+                    booking_nbr: '',
+                    from_date: index.dateFns.format(utils.booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                    to_date: index.dateFns.format(utils.booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                    remark: checkout_store.userFormData.message || null,
+                    property: {
+                        id: app_store.app_store.app_data.property_id,
+                    },
+                    source: app_store.app_store.app_data.source,
+                    referrer_site: app_store.app_store.app_data.affiliate ? `https://${app_store.app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
+                    currency: app_store.app_store.property.currency,
+                    arrival: { code: checkout_store.userFormData.arrival_time },
+                    guest,
+                    rooms: this.filterRooms(),
+                },
+                extras: [
+                    {
+                        key: 'payment_code',
+                        value: checkout_store.payment.code,
+                    },
+                    {
+                        key: 'prepayment_amount',
+                        value: prePaymentAmount,
+                    },
+                ],
+                pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
+            };
+            const { data } = await payment_service.axios.post(`/DoReservation?Ticket=${token}`, body);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async getExposedGuest() {
+        const token = this.getToken();
+        if (!token) {
+            throw new payment_service.MissingTokenError();
+        }
+        const { data } = await payment_service.axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
+            email: null,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = data.My_Result;
+        if (res === null) {
+            app_store.app_store.is_signed_in = false;
+            return;
+        }
+        // app_store.is_signed_in = true;
+        checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
+    }
+}
+
+exports.PropertyService = PropertyService;
+exports.checkout_store = checkout_store;
+exports.onCheckoutDataChange = onCheckoutDataChange;
+exports.updatePartialPickupFormData = updatePartialPickupFormData;
+exports.updatePickupFormData = updatePickupFormData;
+exports.updateUserFormData = updateUserFormData;
+
+//# sourceMappingURL=property.service-deaf629e.js.map

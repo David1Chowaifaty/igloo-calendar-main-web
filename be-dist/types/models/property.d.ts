@@ -54,6 +54,7 @@ export interface Affiliate {
     name: string;
     phone: string;
     sites: Site[];
+    email: string;
 }
 interface Site {
     button_bg_color: string;

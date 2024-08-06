@@ -486,6 +486,7 @@ export namespace Components {
         "user_data": TGuest;
     }
     interface IrWidget {
+        "aff": string;
         "contentContainerStyle": TContainerStyle;
         "language": string;
         "p": string;
@@ -2250,6 +2251,7 @@ declare namespace LocalJSX {
         "user_data"?: TGuest;
     }
     interface IrWidget {
+        "aff"?: string;
         "contentContainerStyle"?: TContainerStyle;
         "language"?: string;
         "p"?: string;

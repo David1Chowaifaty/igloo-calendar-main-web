@@ -18,6 +18,7 @@ export class IrBookingWidget {
         this.p = null;
         this.language = 'en';
         this.roomTypeId = null;
+        this.aff = null;
         this.isPopoverOpen = undefined;
         this.isLoading = undefined;
         this.dates = {
@@ -90,7 +91,8 @@ export class IrBookingWidget {
         const adults = adultCount > 0 ? `adults=${adultCount}` : '';
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
         const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
-        const queryParams = [fromDate, toDate, adults, children, roomTypeId];
+        const affiliate = this.aff ? `aff=${this.aff}` : '';
+        const queryParams = [fromDate, toDate, adults, children, roomTypeId, affiliate];
         const queryString = queryParams.filter(param => param !== '').join('&');
         window.open(`https://${currentDomain}?${queryString}`, '_blank');
     }
@@ -266,6 +268,24 @@ export class IrBookingWidget {
                     "text": ""
                 },
                 "attribute": "room-type-id",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "aff": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "null"
             }

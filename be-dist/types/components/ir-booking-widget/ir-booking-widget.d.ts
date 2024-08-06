@@ -8,6 +8,7 @@ export declare class IrBookingWidget {
     p: string;
     language: string;
     roomTypeId: string | null;
+    aff: string;
     isPopoverOpen: boolean;
     isLoading: boolean;
     dates: {

@@ -4,7 +4,7 @@ export class IrSocialButton {
         this.label = undefined;
     }
     render() {
-        return (h("button", { key: '156b9619c7bb6ec603e464591c92d7b68a1fd9bc', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: 'b2094a875e73309e35c54ea935fa8ab9d0190e48', class: "icon" }, h("slot", { key: '390da1733b68cde2322789986c24852d167022ff', name: "icon" })), h("span", { key: '3e3baa77adff4a9ac1dc4c2f823ef05fa7b4a817' }, this.label)));
+        return (h("button", { key: 'd624db1beab34217a6408cbd198e137d43ab345e', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: '89c6efa742890d78769055695dce8e59aca0acdb', class: "icon" }, h("slot", { key: 'f8a6256c062438975c9ffadb624350be3114fcc9', name: "icon" })), h("span", { key: '525d2c4d0ca190bd0405809a48f3e38c338ce75c' }, this.label)));
     }
     static get is() { return "ir-social-button"; }
     static get originalStyleUrls() {

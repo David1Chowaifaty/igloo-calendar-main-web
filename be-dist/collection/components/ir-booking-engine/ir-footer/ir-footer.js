@@ -1,5 +1,6 @@
 import BeLogoFooter from "../../../assets/be_logo_footer";
 import app_store from "../../../stores/app.store";
+import { renderPropertyLocation } from "../../../utils/utils";
 import { h } from "@stencil/core";
 export class IrFooter {
     constructor() {
@@ -21,15 +22,28 @@ export class IrFooter {
     }
     renderPropertyEmail() {
         var _a, _b;
-        const { email } = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.contacts) === null || _b === void 0 ? void 0 : _b.find(c => c.type === 'booking');
+        let { email } = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.contacts) === null || _b === void 0 ? void 0 : _b.find(c => c.type === 'booking');
         if (!email) {
             return null;
         }
+        if (app_store.app_data.affiliate) {
+            email = app_store.app_data.affiliate.email;
+        }
         return (h("div", { class: "contact-info" }, h("label", null, "Email:"), h("a", { href: `mailto:${email}`, class: "contact-link" }, email)));
     }
+    getPhoneNumber() {
+        var _a, _b, _c;
+        let country_prefix = ((_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.country) === null || _b === void 0 ? void 0 : _b.phone_prefix) || '';
+        let mobile = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.phone;
+        if (app_store.app_data.affiliate) {
+            country_prefix = app_store.app_data.affiliate.country.phone_prefix;
+            mobile = app_store.app_data.affiliate.phone;
+        }
+        return [country_prefix, mobile];
+    }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-        return (h("footer", { key: '3ecea117a7466f034b3158880698e84c194303d0', class: "footer" }, h("ul", { key: 'f621b08f58b8b34eb670cb7ba35b492b870d1f01', class: "footer-list" }, h("li", { key: '5a86e06724752b3500a6ce88e3c5b32d62d3bdd0', class: "footer-item" }, h("p", { key: '1734525d2fd98e053ddf6c7678f84bcca8ff22b8', class: "footer-text" }, (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.name), h("span", { key: '03bdb0fffae88df30af288f3de0c988d9d35eb5d' }, "-"), h("ir-button", { key: 'cd371a8000b464ecec4a4862b6eca72a25a0d224', onButtonClick: () => this.contactDialog.openModal(), buttonStyles: { padding: '0' }, variants: "link", label: "Contact" }), h("span", { key: 'b68e21683e5f20c6352c5d9d82ee2c308495d596' }, "-"), h("ir-privacy-policy", { key: '80b4c7c015e72f69e973bcb1fb173ca7e78d8bbd', label: "Policy" })), h("li", { key: 'a22c6cd1f5137bd2d25aa71bc2de45551f02e208', class: "social-media" }, (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.social_media.map(media => {
+        var _a, _b;
+        return (h("footer", { key: '9996c38198ddd025eb4bb583b6ab77b1f20f3a2f', class: "footer" }, h("ul", { key: '208a735c9524d0fd521106df208f35da08ad2c51', class: "footer-list" }, h("li", { key: '0f5d16f575821fc686dfa624d629afdfdb701473', class: "footer-item" }, h("p", { key: '4fbd442d84f7e50917c9a6ad99ab5afcebbde65f', class: "footer-text" }, app_store.app_data.affiliate ? app_store.app_data.affiliate.name : (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.name), h("span", { key: '0dffd5f960bff0ad928ff55de7f3996008ffb2c9' }, "-"), h("ir-button", { key: 'c12b0215d8c1ec5e42bba2b998eecd6f38e6e297', onButtonClick: () => this.contactDialog.openModal(), buttonStyles: { padding: '0' }, variants: "link", label: "Contact" }), h("span", { key: '66f66822c455483ba7c76c2dec9c8917e70bba1f' }, "-"), h("ir-privacy-policy", { key: '997fb11c406f5b2840e94ed29813fe30178f3973', label: "Policy" })), h("li", { key: '2bf520a3b4bb3e46b23a53291b302ad709b1ac8c', class: "social-media" }, (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.social_media.map(media => {
             if (media.link === '') {
                 return null;
             }
@@ -38,8 +52,7 @@ export class IrFooter {
                 return null;
             }
             return (h("a", { target: "_blank", href: href, title: media === null || media === void 0 ? void 0 : media.name, class: "social-link" }, h("ir-icons", { name: this.socials[media.code] })));
-        })), h("li", { key: 'f44b5cd70070073e0869ec1af764725e786a2c3c' }, h("p", { key: 'a4d4776d4a28933a245bc57bd4e879893c692054', class: "text-end text-xs text-gray-400" }, "V", this.version, " - Powered by"), h("a", { key: '284b1aa8a195325ef8626928697709276e0201fa', href: "https://info.igloorooms.com/", target: "_blank", title: "igloorooms cloud booking solutions for hotels" }, h(BeLogoFooter, { key: '4171835660815c8495ff6787c207dbeaf2687ed3', width: 120, height: 30 })))), h("ir-dialog", { key: '1a4632826ceb9efeb621d4622b3c3715a37d772c', closeButton: true, ref: el => (this.contactDialog = el), style: { '--ir-dialog-max-width': '25rem' } }, h("div", { key: '1b279d52c4d9e635f99d5d7fb66dd7c50a1d14cf', class: "dialog-body", slot: "modal-body" }, h("h1", { key: 'b4d68e0c34b94dd54923087597d5e2c16cccfa97', class: "dialog-title" }, "Contact information"), h("div", { key: 'a4b175c056fb96106252ade6035a1e3589ecdc1c', class: "contact-info" }, h("span", { key: '337371dd8b53ec43e041efa7017c7eb352b243b6' }, h("label", { key: '0d4743e84c4a6f827f1c67b677ed61b3d025e6fa' }, "Address:")), h("div", { key: '7ba72048d7f7095a367c9a24cc85cb145ea6bc3d' }, this.renderLocationField((_c = app_store.property) === null || _c === void 0 ? void 0 : _c.city.name, false), this.renderLocationField((_d = app_store.property) === null || _d === void 0 ? void 0 : _d.area), this.renderLocationField((_e = app_store.property) === null || _e === void 0 ? void 0 : _e.postal), this.renderLocationField((_f = app_store.property) === null || _f === void 0 ? void 0 : _f.country.name))), h("div", { key: 'fd0a697f28fba426b376e04b6305b462ac40ffc9', class: "contact-info" }, h("span", { key: 'ee94a2dd39142d4246e828dc22ab24487366af9e' }, h("label", { key: 'b28e3f2952e6a336e1e2774f1a8a8cbe682cb964' }, "Phone:")), h("a", { key: '390c3daf86c3a5ad10c0af13f1f8ea0bfd8305f1', class: "contact-link", href: `tel:${(_g = app_store.property) === null || _g === void 0 ? void 0 : _g.phone}` }, ((_j = (_h = app_store.property) === null || _h === void 0 ? void 0 : _h.country) === null || _j === void 0 ? void 0 : _j.phone_prefix) || '', " ", (_k = app_store.property) === null || _k === void 0 ? void 0 :
-            _k.phone)), this.renderPropertyEmail()))));
+        })), h("li", { key: '776dd9c0414c043da6cd5b832fdf71117a99c6ed' }, h("p", { key: '3cd85a24d4af442571f8292a9ccbd1679697a99b', class: "text-end text-xs text-gray-400" }, "V", this.version, " - Powered by"), h("a", { key: '3f6754ddb8c127d59cf2ab14359a6d830cf47add', href: "https://info.igloorooms.com/", target: "_blank", title: "igloorooms cloud booking solutions for hotels" }, h(BeLogoFooter, { key: 'ab7ad66b0a2a44a1a17a172eb9f842a3f8b15ffd', width: 120, height: 30 })))), h("ir-dialog", { key: '46521b0e5a2900ab61395e54b4ba95d7e18377ed', closeButton: true, ref: el => (this.contactDialog = el), style: { '--ir-dialog-max-width': '25rem' } }, h("div", { key: '53604c19e72d51e57ac46a573209e8dbd0c13fb2', class: "dialog-body", slot: "modal-body" }, h("h1", { key: '84322297360c3081a030af66697aac242316b739', class: "dialog-title" }, "Contact information"), h("div", { key: 'bdfac504808d91772af7ce97c22582fc85c82929', class: "contact-info" }, h("span", { key: 'e457decbe65157bba8aa8b099ac16f6bd6493ffc' }, h("label", { key: '9d984bb9aa765ff63a8764a6467d95154f89fd72' }, "Address:")), h("div", { key: 'eaa2e7e28164389717ecda00b582ebb3609afb5f' }, renderPropertyLocation())), h("div", { key: 'ee172e7a66d1947f70088a32a6c527d434402c69', class: "contact-info" }, h("span", { key: '233654c76823b6fbc6fce6de03e96d19bd42db01' }, h("label", { key: '604466d5079a1451b9b5e02ec47915a25dfeacca' }, "Phone:")), h("a", { key: 'b300675e2f2515a2c06b02cf3eb2546136d4d96a', class: "contact-link", href: `tel:${this.getPhoneNumber().join('')}` }, this.getPhoneNumber().join(' '))), this.renderPropertyEmail()))));
     }
     static get is() { return "ir-footer"; }
     static get encapsulation() { return "shadow"; }

@@ -148,14 +148,15 @@ export function injectHTML(htmlContent, target = 'body', position = 'last') {
 }
 export function checkAffiliate(afName) {
     var _a;
-    if (afName) {
-        const affiliate = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.find(aff => aff.afname.toLowerCase().trim() === afName);
-        if (!affiliate) {
-            return null;
-        }
-        return affiliate;
+    if (!afName) {
+        return null;
     }
-    return null;
+    const affiliate = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.affiliates.find(aff => aff.afname.toLowerCase().trim() === afName);
+    if (!affiliate) {
+        return null;
+    }
+    console.log(affiliate);
+    return affiliate;
 }
 export function formatFullLocation(property) {
     var _a, _b, _c, _d, _e;
@@ -191,5 +192,15 @@ export function validateAgentCode(code) {
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id });
     }
     return isValidCode;
+}
+export function renderPropertyLocation() {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    const affiliate = app_store.app_data.affiliate;
+    if (affiliate) {
+        return [(_b = (_a = app_store.app_data.affiliate) === null || _a === void 0 ? void 0 : _a.address) !== null && _b !== void 0 ? _b : null, (_c = app_store.app_data.affiliate.city) !== null && _c !== void 0 ? _c : null, (_d = app_store.app_data.affiliate.country.name) !== null && _d !== void 0 ? _d : null]
+            .filter(f => f !== null)
+            .join(', ');
+    }
+    return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
 }
 //# sourceMappingURL=utils.js.map

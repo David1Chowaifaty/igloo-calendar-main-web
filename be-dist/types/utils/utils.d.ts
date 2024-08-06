@@ -27,3 +27,4 @@ export declare function formatFullLocation(property: IExposedProperty): string;
 export declare function formatImageAlt(alt: string | null, roomTypeName?: string | null): string;
 export declare function validateCoupon(coupon: string): boolean;
 export declare function validateAgentCode(code: string): boolean;
+export declare function renderPropertyLocation(): string;
