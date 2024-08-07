@@ -1,7 +1,7 @@
 import { T as Token, M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
+import { d as dateFns, b as booking_store } from './utils.js';
 import { a as axios } from './axios.js';
-import { d as dateFns } from './utils.js';
 
 class PaymentService extends Token {
     processBookingPayment() { }
@@ -55,6 +55,26 @@ class PaymentService extends Token {
             return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount, isInFreeCancelationZone };
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
+    }
+    async fetchCancelationMessage(id, roomTypeId, booking_nbr, showCancelation) {
+        var _a, _b;
+        if (booking_nbr === void 0) { booking_nbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr; }
+        if (showCancelation === void 0) { showCancelation = true; }
+        console.log(id, roomTypeId);
+        const result = await this.GetExposedApplicablePolicies({
+            book_date: new Date(),
+            params: {
+                booking_nbr,
+                currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+                language: app_store.userPreferences.language_id,
+                property_id: app_store.app_data.property_id,
+                rate_plan_id: id,
+                room_type_id: roomTypeId,
+            },
+            token: app_store.app_data.token,
+        });
+        const message = (_b = result.data.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+        return message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>';
     }
 }
 

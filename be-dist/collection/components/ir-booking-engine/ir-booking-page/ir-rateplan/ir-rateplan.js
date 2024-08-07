@@ -94,8 +94,8 @@ export class IrRateplan {
             }, data: this.ratePlan.variations.map((v, i) => ({
                 id: i.toString(),
                 value: v.adult_child_offering,
-            })) })), h("div", { class: "rateplan-cancellation gap-2.5" }, this.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-green-500" }, "Non refundable")) : (h("div", { class: "flex items-center gap-[2px] " }, h("ir-tooltip", { labelColors: booking_store.isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip `, open_behavior: "click", label: booking_store.isInFreeCancelationZone ? 'Free cancellation' : 'If I cancel?', message: (this.cancelationMessage || this.ratePlan.cancelation) + this.ratePlan.guarantee, onTooltipOpenChange: e => {
-                if (e.detail && !this.cancelationMessage) {
+            })) })), h("div", { class: "rateplan-cancellation gap-2.5" }, this.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-green-600" }, "Non refundable")) : (h("div", { class: "flex items-center gap-[2px] " }, h("ir-tooltip", { labelColors: booking_store.isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip `, open_behavior: "click", label: booking_store.isInFreeCancelationZone ? 'Free cancellation' : 'If I cancel?', message: (this.cancelationMessage || this.ratePlan.cancelation) + this.ratePlan.guarantee, onTooltipOpenChange: e => {
+                if (e.detail) {
                     this.fetchCancelationMessage(this.ratePlan.id, this.roomTypeId);
                 }
             } }))))), !((_q = (_p = (_o = this.visibleInventory) === null || _o === void 0 ? void 0 : _o.selected_variation) === null || _p === void 0 ? void 0 : _p.variation) === null || _q === void 0 ? void 0 : _q.IS_MLS_VIOLATED) ? (h(Fragment, null, ((_t = (_s = (_r = this.visibleInventory) === null || _r === void 0 ? void 0 : _r.selected_variation) === null || _s === void 0 ? void 0 : _s.variation) === null || _t === void 0 ? void 0 : _t.discount_pct) > 0 && (h("div", { class: "rateplan-pricing" }, h("p", { class: "rateplan-discounted-amount" }, formatAmount((_w = (_v = (_u = this.visibleInventory) === null || _u === void 0 ? void 0 : _u.selected_variation) === null || _v === void 0 ? void 0 : _v.variation) === null || _w === void 0 ? void 0 : _w.total_before_discount, app_store.userPreferences.currency_id, 0)), h("p", { class: "rateplan-discount" }, `-${(_z = (_y = (_x = this.visibleInventory) === null || _x === void 0 ? void 0 : _x.selected_variation) === null || _y === void 0 ? void 0 : _y.variation) === null || _z === void 0 ? void 0 : _z.discount_pct}%`))), h("div", { class: "rateplan-final-pricing" }, h("p", { class: "rateplan-amount" }, formatAmount((_2 = (_1 = (_0 = this.visibleInventory) === null || _0 === void 0 ? void 0 : _0.selected_variation) === null || _1 === void 0 ? void 0 : _1.variation) === null || _2 === void 0 ? void 0 : _2.amount, app_store.userPreferences.currency_id, 0)), getDateDifference((_3 = booking_store.bookingAvailabilityParams.from_date) !== null && _3 !== void 0 ? _3 : new Date(), (_4 = booking_store.bookingAvailabilityParams.to_date) !== null && _4 !== void 0 ? _4 : new Date()) > 1 && (h("p", { class: "rateplan-amount-per-night" }, `${formatAmount((_7 = (_6 = (_5 = this.visibleInventory) === null || _5 === void 0 ? void 0 : _5.selected_variation) === null || _6 === void 0 ? void 0 : _6.variation) === null || _7 === void 0 ? void 0 : _7.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`))), h("ir-select", { onValueChange: e => {
@@ -114,22 +114,7 @@ export class IrRateplan {
             }) }))) : (h("p", { class: "mls_alert" }, (_11 = (_10 = this.visibleInventory.selected_variation) === null || _10 === void 0 ? void 0 : _10.variation) === null || _11 === void 0 ? void 0 : _11.MLS_ALERT))))))));
     }
     async fetchCancelationMessage(id, roomTypeId) {
-        var _a, _b;
-        const result = await this.paymentService.GetExposedApplicablePolicies({
-            book_date: new Date(),
-            params: {
-                booking_nbr: (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr,
-                currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
-                language: app_store.userPreferences.language_id,
-                property_id: app_store.app_data.property_id,
-                rate_plan_id: id,
-                room_type_id: roomTypeId,
-            },
-            token: app_store.app_data.token,
-        });
-        const message = (_b = result.data.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-        this.cancelationMessage = message ? `<b><u>Cancellation:</u></b>${message}<br/>` : '<span></span>';
-        console.log(result);
+        this.cancelationMessage = await this.paymentService.fetchCancelationMessage(id, roomTypeId);
     }
     static get is() { return "ir-rateplan"; }
     static get encapsulation() { return "shadow"; }

@@ -1,3 +1,4 @@
+import { PaymentService } from "../../../../services/api/payment.service";
 import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
 import booking_store from "../../../../stores/booking";
@@ -10,12 +11,15 @@ import { v4 } from "uuid";
 export class IrBookingDetails {
     constructor() {
         this.propertyService = new PropertyService();
+        this.paymentService = new PaymentService();
         this.errors = undefined;
         this.currentRatePlan = null;
         this.isLoading = null;
+        this.cancelationMessage = undefined;
     }
     componentWillLoad() {
         this.propertyService.setToken(app_store.app_data.token);
+        this.paymentService.setToken(app_store.app_data.token);
         this.modifyBookings();
         onCheckoutDataChange('userFormData', newValue => {
             if (!checkout_store.modifiedGuestName) {
@@ -168,6 +172,9 @@ export class IrBookingDetails {
         oldSmokingConfiguration[index] = detail;
         booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [roomTypeId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId]), { [rateplanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][rateplanId]), { checkoutSmokingSelection: oldSmokingConfiguration }) }) });
     }
+    async fetchCancelationMessage(id, roomTypeId) {
+        this.cancelationMessage = await this.paymentService.fetchCancelationMessage(id, roomTypeId);
+    }
     renderSmokingView(smoking_option, index, ratePlanId, roomTypeId, checkoutSmokingSelection) {
         if (smoking_option.code === '002') {
             return null;
@@ -182,7 +189,7 @@ export class IrBookingDetails {
         console.log(this.firstRoom);
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         const total_rooms = this.calculateTotalRooms();
-        return (h(Host, { key: '4f6b1b54093eb175bbcb0816a4087364b119b56e' }, h("div", { key: '3adc7e4bf421e8999f43a254bab478e73e7bb377', class: "w-full" }, h("section", { key: '3af93809a0851da2052979c48cd8508e7ec25efd', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: '5033b8a33f758d8b04d654e43711dda933b9edd9', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: 'a8fc9c93069979fcd659f14fb22ab4f124c5c3f2', name: "bed" }), h("p", { key: 'bdf0bbf6bd30b72d7a6459384d2320443081668d' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '915000dfef1af22549c603e27b3ea198daff4152', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '61ffbc441b5e25caaf682c5f19f73f9fae5ba149', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+        return (h(Host, { key: 'aec8cea1f4931758fee18badfdd1235afe894e41' }, h("div", { key: '30e9ae4d1239ffef5c84291dd0a61c395bf28016', class: "w-full" }, h("section", { key: 'bf930350ac19fe8b78a2ba56a3f41066aefc9d42', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: 'f4752f3e7b845f7d0e0ebfdd54a4a9e8ef5fa9b0', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: 'a97d02b8e1ee88b24d2a8c36cd2a3a17a2ce7529', name: "bed" }), h("p", { key: '3cf9f438e59b9441e8a5796744ade990ce775358' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", booking_store.bookingAvailabilityParams.adult_nbr, ' ', booking_store.bookingAvailabilityParams.adult_nbr > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '3b2abd739f6eaa9eb4fe0e11b0132266da7d5a3d', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: 'ac935a55eb30686619c89cc133eb7775576d8675', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
                 if (r.reserved === 0) {
@@ -192,8 +199,9 @@ export class IrBookingDetails {
                     if (this.isLoading === r.ratePlan.id) {
                         return h("div", { class: "h-16 animate-pulse rounded-md bg-gray-200" });
                     }
-                    return (h("div", { class: "flex items-center justify-between" }, h("div", { class: "flex-1 space-y-2" }, h("div", null, h("div", { class: "flex items-center gap-3" }, h("div", { class: "flex flex-row items-center gap-3 " }, h("h3", { class: "font-semibold" }, r.roomtype.name), r.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-green-500" }, "Non refundable")) : (h("div", { class: 'inline-flex  h-6 items-center justify-center pt-0.5' }, h("ir-button", { haveRightIcon: true, variants: "link", class: "text-sm", buttonClassName: "pl-0", buttonStyles: { paddingLeft: '0', fontSize: '12px', paddingTop: '0', paddingBottom: '0' }, onButtonClick: () => {
+                    return (h("div", { class: "flex items-center justify-between" }, h("div", { class: "flex-1 space-y-2" }, h("div", null, h("div", { class: "flex items-center gap-3" }, h("div", { class: "flex flex-row items-center gap-3 " }, h("h3", { class: "font-semibold" }, r.roomtype.name), r.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-green-600" }, "Non refundable")) : (h("div", { class: 'inline-flex  h-6 items-center justify-center pt-0.5' }, h("ir-button", { haveRightIcon: true, variants: "link", class: "text-sm", buttonClassName: "pl-0", buttonStyles: { paddingLeft: '0', fontSize: '12px', paddingTop: '0', paddingBottom: '0' }, onButtonClick: async () => {
                             this.currentRatePlan = r.ratePlan;
+                            await this.fetchCancelationMessage(r.ratePlan.id, r.roomtype.id);
                             this.dialogRef.openModal();
                         }, label: localizedWords.entries.Lcz_IfICancel }, h("ir-icons", { svgClassName: "size-4", slot: "right-icon", name: "circle_info" }))))), h("div", { class: "ml-1 flex-1 " }, h("p", { class: "text-end text-base font-medium xl:text-xl" }, formatAmount(r.checkoutVariations[index].amount, app_store.userPreferences.currency_id))))), h("div", { class: "flex items-center gap-2.5" }, h("ir-input", { onInput: e => {
                             if (index === 0 && !checkout_store.modifiedGuestName && this.firstRoom.ratePlanId === ratePlanId && this.firstRoom.roomtypeId === roomTypeId) {
@@ -225,11 +233,11 @@ export class IrBookingDetails {
                         })), class: "hidden w-full sm:block", onValueChange: e => this.handleVariationChange(index, e, r.ratePlan.variations, Number(ratePlanId), Number(roomTypeId)) })), h("div", { class: "flex items-center gap-4" }, h("div", { class: "flex items-center gap-1 text-xs" }, h("ir-icons", { name: "utencils", svgClassName: "size-4" }), h("p", { class: "line-clamp-3" }, h("span", null, r.ratePlan.short_name), r.ratePlan.custom_text && h("span", { class: "mx-1 max-w-[60%] text-right text-xs text-gray-500 md:w-full md:max-w-full" }, r.ratePlan.custom_text))), this.renderSmokingView(r.roomtype.smoking_option, index, ratePlanId, roomTypeId, r.checkoutSmokingSelection), r.is_bed_configuration_enabled && (h("ir-select", { value: r.checkoutBedSelection[index], onValueChange: e => this.handleBedConfiguration(roomTypeId, ratePlanId, e.detail, index), data: r.roomtype.bedding_setup.map(b => ({ id: b.code, value: b.name })), icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" })))))));
                 });
             });
-        }))), h("ir-dialog", { key: 'e90d317e5ac462db64607ac3fef074f47bfd376a', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: 'ad1d261fa11690c1097741a2341a02124c6d7f6c', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: 'a4bd167b2da42365d6f405eb349e57b6bd60fe57', slot: "modal-body", class: "p-4 md:p-6" }, h("p", { key: 'db3e34cd7d1179f50d86fa7629b043af1bb783d5', innerHTML: (_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation }), h("p", { key: 'd7fff5252ccff0d23f8a63a3dce078bdf575462e', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
+            } }, h("div", { key: '435b9b95bc7aafe52b1659e5cc9c18ac92cfb885', slot: "modal-body", class: "p-6 " }, h("p", { key: 'cede08fe5aae904010e3c7c16374d8489a54afbf', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '9bd17ab3f5e728537efb8b2f48ccadcc2a558e9c', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "shadow"; }
@@ -267,7 +275,8 @@ export class IrBookingDetails {
     static get states() {
         return {
             "currentRatePlan": {},
-            "isLoading": {}
+            "isLoading": {},
+            "cancelationMessage": {}
         };
     }
 }

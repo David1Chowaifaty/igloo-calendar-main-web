@@ -31,6 +31,7 @@ export class IrBookingOverview {
         this.selectedBooking = undefined;
         this.selectedMenuIds = {};
         this.hoveredBooking = null;
+        this.cancelationMessage = undefined;
     }
     async componentWillLoad() {
         if (!this.propertyid) {
@@ -131,7 +132,11 @@ export class IrBookingOverview {
             }
         }
     }
-    handleBookingCancelation() {
+    async fetchCancelationMessage(id, roomTypeId) {
+        this.cancelationMessage = await this.paymentService.fetchCancelationMessage(id, roomTypeId, this.selectedBooking.booking_nbr, false);
+    }
+    async handleBookingCancelation() {
+        await this.fetchCancelationMessage(0, 0);
         this.bookingCancelation.openDialog();
     }
     handleMenuItemChange(e) {
@@ -253,7 +258,7 @@ export class IrBookingOverview {
                     const { id } = e.detail;
                     console.log(id);
                     this.handleBlEvents(id);
-                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, cancelation: (_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.rooms[0].rateplan.cancelation, onCancelationResult: e => {
+                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, cancelation: this.cancelationMessage || ((_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.rooms[0].rateplan.cancelation), onCancelationResult: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { state, booking_nbr } = e.detail;
@@ -412,7 +417,8 @@ export class IrBookingOverview {
             "activeLink": {},
             "selectedBooking": {},
             "selectedMenuIds": {},
-            "hoveredBooking": {}
+            "hoveredBooking": {},
+            "cancelationMessage": {}
         };
     }
     static get events() {

@@ -1,5 +1,5 @@
 import { a as app_store } from './app.store.js';
-import { d as dateFns, w as formatAmount } from './utils.js';
+import { d as dateFns, x as formatAmount } from './utils.js';
 
 class BookingListingAppService {
     getBookingActions(booking) {
@@ -17,7 +17,7 @@ class BookingListingAppService {
         return {
             cancel: { show: canCancel, label: 'Cancel booking' },
             payment: { show: canMakePayment, label: makePaymentLabel },
-            view: { show: canView, label: 'Booking Details' },
+            view: { show: canView, label: 'Booking details' },
         };
     }
 }

@@ -323,6 +323,7 @@ export namespace Components {
         "bookingNbr": string;
         "email": string;
         "footerShown": boolean;
+        "headerMessageShown": boolean;
         "headerShown": boolean;
         "language": string;
         "locationShown": boolean;
@@ -2048,6 +2049,7 @@ declare namespace LocalJSX {
         "bookingNbr"?: string;
         "email"?: string;
         "footerShown"?: boolean;
+        "headerMessageShown"?: boolean;
         "headerShown"?: boolean;
         "language"?: string;
         "locationShown"?: boolean;

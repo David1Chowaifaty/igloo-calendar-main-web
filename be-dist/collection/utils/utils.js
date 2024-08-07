@@ -203,4 +203,30 @@ export function renderPropertyLocation() {
     }
     return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
 }
+function setBookingCookie() {
+    const cookieName = 'ghs_booking';
+    const cookieValue = 'true';
+    const daysToExpire = 30;
+    const currentDate = new Date();
+    currentDate.setTime(currentDate.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
+    const expires = 'expires=' + currentDate.toUTCString();
+    document.cookie = `${cookieName}=${cookieValue};${expires};path=/`;
+}
+export function destroyBookingCookie() {
+    const cookieName = 'ghs_booking';
+    const pastDate = new Date(0).toUTCString();
+    document.cookie = `${cookieName}=; expires=${pastDate}; path=/`;
+}
+export function checkGhs(source_code, stag) {
+    const ghsCookie = getCookie('ghs_booking');
+    if (source_code === 'ghs' || stag === 'ghs') {
+        destroyBookingCookie();
+        setBookingCookie();
+        return true;
+    }
+    if (ghsCookie) {
+        return true;
+    }
+    return false;
+}
 //# sourceMappingURL=utils.js.map

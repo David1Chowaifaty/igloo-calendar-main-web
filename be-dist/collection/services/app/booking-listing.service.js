@@ -17,7 +17,7 @@ export class BookingListingAppService {
         return {
             cancel: { show: canCancel, label: 'Cancel booking' },
             payment: { show: canMakePayment, label: makePaymentLabel },
-            view: { show: canView, label: 'Booking Details' },
+            view: { show: canView, label: 'Booking details' },
         };
     }
 }

@@ -7,7 +7,7 @@ import app_store from "../../../stores/app.store";
 import booking_store, { validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
-import { getDateDifference, runScriptAndRemove } from "../../../utils/utils";
+import { destroyBookingCookie, getDateDifference, runScriptAndRemove } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import { ZodError } from "zod";
@@ -192,6 +192,9 @@ export class IrCheckoutPage {
     }
     async processPayment(bookingResult, currentPayment, paymentAmount, token) {
         let amountToBePayed = paymentAmount;
+        if (app_store.app_data.isFromGhs) {
+            destroyBookingCookie();
+        }
         if (amountToBePayed > 0) {
             await this.paymentService.GeneratePaymentCaller({
                 token,

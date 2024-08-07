@@ -28,3 +28,5 @@ export declare function formatImageAlt(alt: string | null, roomTypeName?: string
 export declare function validateCoupon(coupon: string): boolean;
 export declare function validateAgentCode(code: string): boolean;
 export declare function renderPropertyLocation(): string;
+export declare function destroyBookingCookie(): void;
+export declare function checkGhs(source_code: string, stag: string): boolean;

@@ -1,4 +1,5 @@
-import { addOverlay, removeOverlay } from "../../../stores/overlay.store";
+// import { addOverlay, removeOverlay } from '@/stores/overlay.store';
+import { h } from "@stencil/core";
 export class IrModal {
     constructor() {
         this.element = undefined;
@@ -13,17 +14,19 @@ export class IrModal {
     async openModal() {
         this.isOpen = true;
         this.openChange.emit(this.isOpen);
-        addOverlay();
-        this.createOverlay();
-        this.insertModalContent();
-        this.prepareFocusTrap();
+        // addOverlay();
+        // this.createOverlay();
+        // this.insertModalContent();
+        // this.prepareFocusTrap();
+        this.dialogRef.openModal();
     }
     async closeModal() {
         this.isOpen = false;
         this.openChange.emit(this.isOpen);
-        removeOverlay();
-        this.removeModalContent();
-        this.removeOverlay();
+        // removeOverlay();
+        // this.removeModalContent();
+        // this.removeOverlay();
+        this.dialogRef.closeModal();
     }
     createPortal() {
         if (!this.portal) {
@@ -118,7 +121,7 @@ export class IrModal {
         }
     }
     render() {
-        return null;
+        return (h("ir-dialog", { key: 'a94b82e74f36324701a39d1833055eef61d3cf09', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: 'a1d17ad91592dfc14297a7a7afeb5186b22f64b5', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
     }
     static get is() { return "ir-modal"; }
     static get originalStyleUrls() {

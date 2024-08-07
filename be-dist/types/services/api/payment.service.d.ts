@@ -34,4 +34,5 @@ export declare class PaymentService extends Token {
         amount: number;
         isInFreeCancelationZone: boolean;
     };
+    fetchCancelationMessage(id: number, roomTypeId: number, booking_nbr?: string, showCancelation?: boolean): Promise<string>;
 }

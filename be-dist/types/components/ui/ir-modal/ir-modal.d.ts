@@ -19,6 +19,7 @@ export declare class IrModal {
         };
     }>;
     auth: HTMLIrAuthElement;
+    dialogRef: HTMLIrDialogElement;
     componentWillLoad(): void;
     disconnectedCallback(): void;
     openModal(): Promise<void>;

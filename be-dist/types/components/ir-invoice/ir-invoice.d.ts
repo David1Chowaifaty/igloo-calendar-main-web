@@ -11,6 +11,7 @@ export declare class IrInvoice {
     aName: string;
     headerShown: boolean;
     footerShown: boolean;
+    headerMessageShown: boolean;
     locationShown: boolean;
     be: boolean;
     version: string;
@@ -20,6 +21,7 @@ export declare class IrInvoice {
     isLoading: boolean;
     cancelation_message: string;
     guarantee_message: string;
+    cancelationMessage: string;
     private propertyService;
     private commonService;
     private authService;

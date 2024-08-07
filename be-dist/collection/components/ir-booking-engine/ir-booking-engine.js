@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import axios from "axios";
 import booking_store, { modifyBookingStore, updateRoomParams } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
-import { checkAffiliate, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
+import { checkAffiliate, checkGhs, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
 import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
@@ -34,7 +34,7 @@ export class IrBookingEngine {
         this.property = null;
         this.source = null;
         this.version = '2.0';
-        this.hideGoogleSignIn = true;
+        this.hideGoogleSignIn = false;
         this.coupon = undefined;
         this.loyalty = undefined;
         this.agent_code = undefined;
@@ -108,9 +108,11 @@ export class IrBookingEngine {
         });
     }
     initializeApp() {
+        var _a;
         this.commonService.setToken(this.token);
         this.propertyService.setToken(this.token);
         app_store.app_data = {
+            isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
             token: this.token,
             property_id: this.propertyId,
             injected: this.injected,
@@ -290,7 +292,7 @@ export class IrBookingEngine {
         return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: `${this.injected ? '' : 'sticky top-0 z-50'}  m-0 w-full p-0 ` }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
     }
     static get is() { return "ir-be"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-booking-engine.css"]
@@ -641,7 +643,7 @@ export class IrBookingEngine {
                 },
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
-                "defaultValue": "true"
+                "defaultValue": "false"
             },
             "coupon": {
                 "type": "string",

@@ -50,7 +50,7 @@ export class IrPaymentView {
         }
         const method = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.find(apm => apm.code === this.selectedPaymentMethod);
         if (this.selectedPaymentMethod === '001' || this.selectedPaymentMethod === '004')
-            return (h("div", { class: "flex w-full gap-4", key: method.code }, h("div", { class: 'flex-1 space-y-4' }, h("fieldset", null, h("ir-input", { placeholder: "", onTextChanged: e => {
+            return (h("form", { class: "flex w-full gap-4", key: method.code }, h("div", { class: 'flex-1 space-y-4' }, h("fieldset", null, h("ir-input", { placeholder: "", onTextChanged: e => {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cardHolderName: e.detail });
                 }, autocomplete: "cc-name", "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.cardHolderName) ? 'error' : '', label: localizedWords.entries.Lcz_NameOnCard, class: "w-full", onInputBlur: e => {
                     var _a;
@@ -143,7 +143,7 @@ export class IrPaymentView {
         return null;
     }
     render() {
-        return (h("div", { key: 'd69b6fec3383e3ee75c8697c3d8e75b16da3a99d', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
+        return (h("div", { key: 'dacaa3adbc9f22beda59c2b4489361364c75678e', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }

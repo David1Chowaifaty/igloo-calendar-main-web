@@ -14,10 +14,7 @@ export declare class IrNav {
     signOut: EventEmitter<null>;
     screenChanged: EventEmitter<pages>;
     currentPage: TTabsState;
-    preferences: {
-        currency: string | null;
-        language: string | null;
-    };
+    private preferences;
     private dialogRef;
     private sheetRef;
     modalRef: HTMLIrModalElement;

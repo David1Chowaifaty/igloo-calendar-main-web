@@ -53037,6 +53037,21 @@ function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
 }
+function getCookies() {
+    const cookies = {};
+    const cookiesArray = document.cookie.split('; ');
+    cookiesArray.forEach(cookie => {
+        const [name, value] = cookie.split('=');
+        if (name && value) {
+            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+        }
+    });
+    return cookies;
+}
+function getCookie(name) {
+    const cookies = getCookies();
+    return cookies[name] || null;
+}
 function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('anchor'));
     if (anchor) {
@@ -53128,7 +53143,33 @@ function renderPropertyLocation() {
     }
     return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
 }
+function setBookingCookie() {
+    const cookieName = 'ghs_booking';
+    const cookieValue = 'true';
+    const daysToExpire = 30;
+    const currentDate = new Date();
+    currentDate.setTime(currentDate.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
+    const expires = 'expires=' + currentDate.toUTCString();
+    document.cookie = `${cookieName}=${cookieValue};${expires};path=/`;
+}
+function destroyBookingCookie() {
+    const cookieName = 'ghs_booking';
+    const pastDate = new Date(0).toUTCString();
+    document.cookie = `${cookieName}=; expires=${pastDate}; path=/`;
+}
+function checkGhs(source_code, stag) {
+    const ghsCookie = getCookie('ghs_booking');
+    if (source_code === 'ghs' || stag === 'ghs') {
+        destroyBookingCookie();
+        setBookingCookie();
+        return true;
+    }
+    if (ghsCookie) {
+        return true;
+    }
+    return false;
+}
 
-export { renderTime as A, formatImageAlt as B, reserveRooms as C, getVisibleInventory as D, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, calculateTotalCost as e, defaultOptions$1 as f, getDateDifference as g, enUS as h, injectHTML as i, isSameWeek$1 as j, getAbbreviatedWeekdays as k, getUserPrefernce as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, setDefaultLocale as p, checkAffiliate as q, formatFullLocation as r, startOfWeek$1 as s, toDate$1 as t, updateRoomParams as u, validateCoupon as v, formatAmount as w, runScriptAndRemove as x, validateBooking as y, renderPropertyLocation as z };
+export { destroyBookingCookie as A, renderPropertyLocation as B, renderTime as C, formatImageAlt as D, reserveRooms as E, getVisibleInventory as F, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, calculateTotalCost as e, defaultOptions$1 as f, getDateDifference as g, enUS as h, injectHTML as i, isSameWeek$1 as j, getAbbreviatedWeekdays as k, getUserPrefernce as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, updateRoomParams as u, validateCoupon as v, formatFullLocation as w, formatAmount as x, runScriptAndRemove as y, validateBooking as z };
 
 //# sourceMappingURL=utils.js.map

@@ -18,6 +18,7 @@ export declare class IrBookingOverview {
     selectedBooking: Booking | null;
     selectedMenuIds: Record<string, number>;
     hoveredBooking: any;
+    cancelationMessage: string;
     bl_routing: EventEmitter<{
         route: 'booking' | 'booking-details';
         params?: unknown;
@@ -37,6 +38,7 @@ export declare class IrBookingOverview {
     getBadgeVariant(code: string): "error" | "success" | "pending";
     handlePageChange(e: CustomEvent<number>): Promise<void>;
     handleLinkChanged(e: CustomEvent): Promise<void>;
+    fetchCancelationMessage(id: number, roomTypeId: number): Promise<void>;
     private handleBookingCancelation;
     private handleMenuItemChange;
     private handleBlEvents;

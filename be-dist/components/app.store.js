@@ -21,6 +21,7 @@ const initialState = {
         tag: null,
         source: null,
         hideGoogleSignIn: false,
+        isFromGhs: false,
     },
     property: undefined,
     setup_entries: undefined,
