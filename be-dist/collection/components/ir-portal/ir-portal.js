@@ -59,7 +59,7 @@ export class IrPortal {
         });
     }
     render() {
-        return (h(Host, { key: 'f1bad9553a6237c5a7d21e418a2b9dd35c639ea9' }, h("slot", { key: 'aa0e004746d0f589a4c7efc89ea284d0f57ddab8', name: "portal-body" })));
+        return (h(Host, { key: 'f65c14e26378d5c922fbb69805e5813488f36f0f' }, h("slot", { key: 'da1be99285f869604a5ba713cda287b769ebc7e6', name: "portal-body" })));
     }
     static get is() { return "ir-portal"; }
     static get encapsulation() { return "shadow"; }

@@ -22,6 +22,7 @@ export declare class IrModal {
     dialogRef: HTMLIrDialogElement;
     componentWillLoad(): void;
     disconnectedCallback(): void;
+    handleAuthFinish(e: CustomEvent): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
     createPortal(): void;

@@ -130,7 +130,7 @@ export class AvailabiltyService {
     }
     async processPayloads(payloads) {
         try {
-            // console.log('payload', payloads);
+            console.log('payload', payloads);
             if (!booking_store.enableBooking) {
                 booking_store.enableBooking = true;
             }
@@ -158,6 +158,11 @@ export class AvailabiltyService {
                     amount: (() => {
                         var _a, _b, _c;
                         const amount = (_c = this.validateNumberString((_b = ((_a = payload.ALLOT_RATE_V) !== null && _a !== void 0 ? _a : 0)) === null || _b === void 0 ? void 0 : _b.toString())) !== null && _c !== void 0 ? _c : 0;
+                        return amount === 0 ? null : amount;
+                    })(),
+                    amount_gross: (() => {
+                        var _a, _b, _c;
+                        const amount = (_c = this.validateNumberString((_b = ((_a = payload.ALLOT_RATE_V_GROSS) !== null && _a !== void 0 ? _a : 0)) === null || _b === void 0 ? void 0 : _b.toString())) !== null && _c !== void 0 ? _c : 0;
                         return amount === 0 ? null : amount;
                     })(),
                     child_nbr: Number((_b = payload.CHILD_NBR) !== null && _b !== void 0 ? _b : 0),

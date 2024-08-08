@@ -121,6 +121,7 @@ export class IrBookingEngine {
             tag: this.stag,
             source: this.source,
             hideGoogleSignIn: this.hideGoogleSignIn,
+            stag: this.stag,
         };
         this.initRequest();
     }
@@ -287,7 +288,7 @@ export class IrBookingEngine {
     render() {
         var _a, _b, _c;
         if (this.isLoading) {
-            return null;
+            return h("ir-home-loader", null);
         }
         return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: `${this.injected ? '' : 'sticky top-0 z-50'}  m-0 w-full p-0 ` }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
     }

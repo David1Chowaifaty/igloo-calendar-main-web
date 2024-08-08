@@ -76,6 +76,34 @@ class PaymentService extends Token {
         const message = (_b = result.data.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
         return message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>';
     }
+    async getBookingPrepaymentAmount(booking) {
+        var _a, _b;
+        const token = this.getToken();
+        if (!token) {
+            throw new MissingTokenError();
+        }
+        const list = this.setUpBooking(booking);
+        let requests = await Promise.all(list.map(l => this.GetExposedApplicablePolicies({
+            token,
+            book_date: new Date(booking.booked_on.date),
+            params: {
+                booking_nbr: l.booking_nbr,
+                currency_id: booking.currency.id,
+                language: app_store.userPreferences.language_id,
+                rate_plan_id: l.ratePlanId,
+                room_type_id: l.roomTypeId,
+                property_id: app_store.property.id,
+            },
+        })));
+        const cancelation_message = (_a = requests[0].data.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
+        const guarantee_message = (_b = requests[0].data.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+        return { amount: requests.reduce((prev, curr) => prev + curr.amount, 0), cancelation_message, guarantee_message };
+    }
+    setUpBooking(booking) {
+        let list = [];
+        booking.rooms.map(r => list.push({ booking_nbr: booking.booking_nbr, ratePlanId: r.rateplan.id, roomTypeId: r.roomtype.id }));
+        return list;
+    }
 }
 
 export { PaymentService as P };

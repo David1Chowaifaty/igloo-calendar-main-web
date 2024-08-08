@@ -66,8 +66,12 @@ export class IrMenu {
         });
     }
     handleDocumentClick(event) {
-        const target = event.target;
-        if (!this.el.contains(target)) {
+        // const target = event.target as HTMLElement;
+        // if (!this.el.contains(target)) {
+        //   this.isDropdownVisible = false;
+        // }
+        const outsideClick = typeof event.composedPath === 'function' && !event.composedPath().includes(this.el);
+        if (outsideClick && this.isDropdownVisible) {
             this.isDropdownVisible = false;
         }
     }
@@ -98,6 +102,7 @@ export class IrMenu {
     }
     toggleDropdown() {
         this.isDropdownVisible = !this.isDropdownVisible;
+        console.log(this.isDropdownVisible);
         if (this.isDropdownVisible) {
             this.currentHighlightedIndex = -1;
             this.adjustPopoverPlacement();
@@ -133,7 +138,9 @@ export class IrMenu {
         }
     }
     render() {
-        return (h(Fragment, { key: 'd394d681616f0e393bd27c99aee119df2d2fd719' }, h("button", { key: 'e76359fb4ccb6efeac6e920631dc20a1573e5725', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible.toString(), onClick: () => this.toggleDropdown() }, h("slot", { key: '3449050378ba3bad9f809d059cf25a0e446ff23e', name: "menu-trigger" }, h("div", { key: '0b8f437849df82559f25234ebaaca8ec9beccaad', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: 'a98259f9262b033123ff666871bd9aa08bfcef50', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '2d26b27749050ac7f3b727d9556caa1506770bb8', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'a9eca6dc9cfc7221a1180e8702d7ad6140f62076', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { key: 'fa2ab3ac8d00eaf81e92fb149cb8b5000e407000', role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
+        return (h(Fragment, { key: '290d87f3eb712a3f318774317cf968a578c45305' }, h("button", { key: 'ca79036b34a269f6a60278afccd8b5b1586185a5', ref: el => (this.buttonRef = el), type: "button", "aria-haspopup": "listbox", "aria-expanded": this.isDropdownVisible ? "true" : "false", onClick: () => {
+                this.toggleDropdown();
+            } }, h("slot", { key: 'f2973ee378e61bb6872de97c534daf0b038cf87f', name: "menu-trigger" }, h("div", { key: 'fa7601780b052d0e81ce659335edc883fb5b9e3c', class: "SelectTrigger" }, this.selectedItemName || this.menuItem, h("svg", { key: 'f547f85c88563268bdfe2083681db90f506e1ed7', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'f240f593e1d132fb8ad4877b4031959760a90932', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '6f010a716fafa8f0069044468811aaa7c2d3c072', ref: el => (this.contentElement = el), class: "SelectContent", "data-state": this.isDropdownVisible ? 'open' : 'closed' }, this.isDropdownVisible && (h("ul", { key: 'a04633a998dd8cc603c85c1ecd7aeb3c7de98fe9', role: "menu", ref: el => (this.listRef = el), tabindex: "-1" }, this.data.map((item, index) => (h("li", { "data-disabled": item.disabled, "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: 'menu-item', tabindex: -1, role: "menuitem", "aria-disabled": item.disabled ? 'true' : 'false', "aria-selected": this.selectedItemName === item.item ? 'true' : 'false', onClick: () => {
                 this.selectItem(index);
                 this.disableKeyboardPriority();
             }, onMouseOver: () => {
@@ -144,7 +151,7 @@ export class IrMenu {
             } }, item.item, this.selectedItemName === item.item && (h("svg", { width: "20", height: "20", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z", fill: "var(--brand-600)", "fill-rule": "evenodd", "clip-rule": "evenodd" })))))))))));
     }
     static get is() { return "ir-menu"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-menu.css"]

@@ -16,7 +16,7 @@ export class IrUserForm {
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!app_store.setup_entries) {
-            return null;
+            return (h("div", null, h("p", null, "Loading")));
         }
         return (h(Fragment, null, h("section", { class: "user-form-section" }, h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName) ? 'error' : '', label: localizedWords.entries.Lcz_FirstName, onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
                 var _a;

@@ -11,6 +11,9 @@ export class IrModal {
     disconnectedCallback() {
         this.cleanup();
     }
+    handleAuthFinish(e) {
+        this.authStatus.emit(e.detail);
+    }
     async openModal() {
         this.isOpen = true;
         this.openChange.emit(this.isOpen);
@@ -121,7 +124,7 @@ export class IrModal {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'a94b82e74f36324701a39d1833055eef61d3cf09', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: 'a1d17ad91592dfc14297a7a7afeb5186b22f64b5', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
+        return (h("ir-dialog", { key: 'dacb1c2563529848d3bdcbba29b99795d5dca8f5', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: 'b21b8134743bd0f3145ad7c949a2b6a4d3d47ef0', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
     }
     static get is() { return "ir-modal"; }
     static get originalStyleUrls() {
@@ -237,6 +240,12 @@ export class IrModal {
     static get elementRef() { return "el"; }
     static get listeners() {
         return [{
+                "name": "authFinish",
+                "method": "handleAuthFinish",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "keydown",
                 "method": "handleKeyDown",
                 "target": "document",

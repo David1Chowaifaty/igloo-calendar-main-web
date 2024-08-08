@@ -43,6 +43,7 @@
     "components/ir-booking-widget/ir-booking-widget.js",
     "components/ir-google-maps/ir-google-maps.js",
     "components/ir-guest-counter/ir-guest-counter.js",
+    "components/ir-home-loader/ir-home-loader.js",
     "components/ir-interceptor/ir-interceptor.js",
     "components/ir-invoice/ir-invoice.js",
     "components/ir-portal/ir-portal.js",

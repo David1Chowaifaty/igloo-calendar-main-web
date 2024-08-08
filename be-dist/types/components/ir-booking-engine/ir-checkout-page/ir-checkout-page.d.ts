@@ -6,6 +6,7 @@ export declare class IrCheckoutPage {
     isLoading: boolean;
     error: CheckoutErrors;
     selectedPaymentMethod: AllowedPaymentMethod | null;
+    prepaymentAmount: number;
     routing: EventEmitter<pages>;
     private propertyService;
     private paymentService;
@@ -14,7 +15,8 @@ export declare class IrCheckoutPage {
     private bookingDetails;
     private pickupForm;
     private errorElement;
-    componentWillLoad(): void;
+    componentWillLoad(): Promise<void>;
+    private calculateTotalPrepaymentAmount;
     handleBooking(e: CustomEvent): Promise<void>;
     private validatePolicyAcceptance;
     private validatePayment;
@@ -24,7 +26,6 @@ export declare class IrCheckoutPage {
     private validatePickupForm;
     handleError(cause: 'pickup' | 'user' | 'payment', error: ZodError<any>): void;
     private processBooking;
-    private checkPaymentOption;
     private modifyConversionTag;
     private processPayment;
     scrollToError(): void;

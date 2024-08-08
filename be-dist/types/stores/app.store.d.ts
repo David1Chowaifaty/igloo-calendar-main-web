@@ -33,6 +33,7 @@ export interface IAppStore {
         source: TSource | null;
         hideGoogleSignIn: boolean;
         isFromGhs: boolean;
+        stag: string | null;
     };
     property: IExposedProperty;
     setup_entries: {

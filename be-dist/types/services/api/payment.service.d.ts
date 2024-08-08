@@ -1,3 +1,4 @@
+import { Booking } from "../../models/booking.dto";
 import { IExposedApplicablePolicies } from "../../models/property";
 import { Token } from "../../models/Token";
 export declare class PaymentService extends Token {
@@ -35,4 +36,10 @@ export declare class PaymentService extends Token {
         isInFreeCancelationZone: boolean;
     };
     fetchCancelationMessage(id: number, roomTypeId: number, booking_nbr?: string, showCancelation?: boolean): Promise<string>;
+    getBookingPrepaymentAmount(booking: Booking): Promise<{
+        amount: number;
+        cancelation_message: any;
+        guarantee_message: any;
+    }>;
+    private setUpBooking;
 }

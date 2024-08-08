@@ -19,12 +19,49 @@ export class IrCheckoutPage {
         this.isLoading = false;
         this.error = undefined;
         this.selectedPaymentMethod = null;
+        this.prepaymentAmount = undefined;
     }
-    componentWillLoad() {
-        const token = app_store.app_data.token;
-        this.propertyService.setToken(token);
-        this.paymentService.setToken(token);
-        this.authService.setToken(token);
+    async componentWillLoad() {
+        try {
+            this.isLoading = true;
+            const token = app_store.app_data.token;
+            this.propertyService.setToken(token);
+            this.paymentService.setToken(token);
+            this.authService.setToken(token);
+            await this.calculateTotalPrepaymentAmount();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    async calculateTotalPrepaymentAmount() {
+        let list = [];
+        Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+            return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
+                const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
+                if (r.reserved === 0) {
+                    return null;
+                }
+                list.push({ booking_nbr: booking_store.fictus_booking_nbr.nbr, ratePlanId: r.ratePlan.id, roomTypeId: r.roomtype.id });
+            });
+        });
+        let requests = await Promise.all(list.map(l => this.paymentService.GetExposedApplicablePolicies({
+            token: app_store.app_data.token,
+            book_date: new Date(),
+            params: {
+                booking_nbr: l.booking_nbr,
+                currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+                language: app_store.userPreferences.language_id,
+                rate_plan_id: l.ratePlanId,
+                room_type_id: l.roomTypeId,
+                property_id: app_store.property.id,
+            },
+        })));
+        this.prepaymentAmount = requests.reduce((prev, curr) => prev + curr.amount, 0);
+        console.log(requests);
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -156,7 +193,7 @@ export class IrCheckoutPage {
                         },
                     }, false);
                 }
-                const paymentAmount = await this.checkPaymentOption(result, token);
+                const paymentAmount = this.prepaymentAmount;
                 await this.processPayment(result, this.selectedPaymentMethod, paymentAmount, token);
             }
         }
@@ -167,21 +204,21 @@ export class IrCheckoutPage {
             this.isLoading = false;
         }
     }
-    async checkPaymentOption(booking, token) {
-        const { amount } = await this.paymentService.GetExposedApplicablePolicies({
-            token,
-            params: {
-                booking_nbr: booking.booking_nbr,
-                property_id: app_store.app_data.property_id,
-                room_type_id: 0,
-                rate_plan_id: 0,
-                currency_id: booking.currency.id,
-                language: app_store.userPreferences.language_id,
-            },
-            book_date: new Date(),
-        });
-        return amount;
-    }
+    // private async checkPaymentOption(booking: Booking, token: string) {
+    //   const { amount } = await this.paymentService.GetExposedApplicablePolicies({
+    //     token,
+    //     params: {
+    //       booking_nbr: booking.booking_nbr,
+    //       property_id: app_store.app_data.property_id,
+    //       room_type_id: 0,
+    //       rate_plan_id: 0,
+    //       currency_id: booking.currency.id,
+    //       language: app_store.userPreferences.language_id,
+    //     },
+    //     book_date: new Date(),
+    //   });
+    //   return amount;
+    // }
     modifyConversionTag(tag) {
         const booking = booking_store.booking;
         tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
@@ -219,14 +256,15 @@ export class IrCheckoutPage {
         }
     }
     render() {
-        if (isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') || isRequestPending('/Get_Exposed_Countries')) {
-            return h("ir-checkout-skeleton", null);
+        console.log(isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI'));
+        if (this.isLoading) {
+            return (h("div", { class: 'flex min-h-screen flex-col' }, h("ir-checkout-skeleton", null)));
         }
-        return (h(Host, null, h("main", { class: "flex w-full  flex-col justify-between gap-4  md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
+        return (h(Host, null, h("main", { class: "flex min-h-screen w-full  flex-col justify-between gap-4  md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
-            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, "Complete your booking")), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { error: this.error, isLoading: this.isLoading })))));
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, "Complete your booking")), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { prepaymentAmount: this.prepaymentAmount, error: this.error, isLoading: this.isLoading })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "scoped"; }
@@ -244,7 +282,8 @@ export class IrCheckoutPage {
         return {
             "isLoading": {},
             "error": {},
-            "selectedPaymentMethod": {}
+            "selectedPaymentMethod": {},
+            "prepaymentAmount": {}
         };
     }
     static get events() {

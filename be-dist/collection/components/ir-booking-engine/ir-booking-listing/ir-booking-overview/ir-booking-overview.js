@@ -175,18 +175,19 @@ export class IrBookingOverview {
             console.error('Invalid payment method');
             return;
         }
-        const { amount } = await this.paymentService.GetExposedApplicablePolicies({
-            book_date: new Date(this.selectedBooking.booked_on.date),
-            token: app_store.app_data.token,
-            params: {
-                booking_nbr: this.selectedBooking.booking_nbr,
-                property_id: app_store.app_data.property_id,
-                room_type_id: 0,
-                rate_plan_id: 0,
-                currency_id: this.selectedBooking.currency.id,
-                language: app_store.userPreferences.language_id,
-            },
-        });
+        // const { amount } = await this.paymentService.GetExposedApplicablePolicies({
+        //   book_date: new Date(this.selectedBooking.booked_on.date),
+        //   token: app_store.app_data.token,
+        //   params: {
+        //     booking_nbr: this.selectedBooking.booking_nbr,
+        //     property_id: app_store.app_data.property_id,
+        //     room_type_id: 0,
+        //     rate_plan_id: 0,
+        //     currency_id: this.selectedBooking.currency.id,
+        //     language: app_store.userPreferences.language_id,
+        //   },
+        // });
+        const { amount } = await this.paymentService.getBookingPrepaymentAmount(this.selectedBooking);
         if (amount || Number(prePaymentAmount.value) > 0) {
             await this.paymentService.GeneratePaymentCaller({
                 token: app_store.app_data.token,

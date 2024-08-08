@@ -50336,20 +50336,19 @@ function getVisibleInventory(roomTypeId, ratePlanId) {
 function modifyBookingStore(key, value) {
     booking_store[key] = value;
 }
-function calculateTotalCost() {
+function calculateTotalCost(gross = false) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b, _c;
+        var _a, _b;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
             if (isPrePayment) {
-                console.log(ratePlan.ratePlan.pre_payment_amount);
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
-            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation.amount), 0);
+            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + (Number(variation[gross ? "amount_gross" : "amount"])), 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_c = (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation) === null || _c === void 0 ? void 0 : _c.amount;
+            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? "amount_gross" : "amount"];
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;

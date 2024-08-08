@@ -10,6 +10,7 @@ import { AuthService } from "../../services/api/auth.service";
 import { PaymentService } from "../../services/api/payment.service";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { BookingListingAppService } from "../../services/app/booking-listing.service";
+import InvoiceSkeleton from "./InvoiceSkeleton";
 export class IrInvoice {
     constructor() {
         this.propertyService = new PropertyService();
@@ -107,24 +108,27 @@ export class IrInvoice {
         this.isLoading = false;
     }
     async setAmountAndCancelationPolicy() {
-        var _a, _b;
         if (this.amount || isBefore(new Date(this.booking.to_date), new Date())) {
             return;
         }
-        const { amount, data } = await this.paymentService.GetExposedApplicablePolicies({
-            book_date: new Date(this.booking.booked_on.date),
-            token: this.token,
-            params: {
-                booking_nbr: this.bookingNbr,
-                property_id: this.booking.property.id,
-                room_type_id: 0,
-                rate_plan_id: 0,
-                currency_id: this.booking.currency.id,
-                language: this.language,
-            },
-        });
-        this.cancelation_message = (_a = data.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
-        this.guarantee_message = (_b = data.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+        // const { amount, data } = await this.paymentService.GetExposedApplicablePolicies({
+        //   book_date: new Date(this.booking.booked_on.date),
+        //   token: this.token,
+        //   params: {
+        //     booking_nbr: this.bookingNbr,
+        //     property_id: this.booking.property.id,
+        //     room_type_id: 0,
+        //     rate_plan_id: 0,
+        //     currency_id: this.booking.currency.id,
+        //     language: this.language,
+        //   },
+        // });
+        // this.cancelation_message = data.find(t => t.type === 'cancelation')?.combined_statement;
+        // this.guarantee_message = data.find(t => t.type === 'guarantee')?.combined_statement;
+        // this.amount = amount;
+        const { amount, cancelation_message, guarantee_message } = await this.paymentService.getBookingPrepaymentAmount(this.booking);
+        this.cancelation_message = cancelation_message;
+        this.guarantee_message = guarantee_message;
         this.amount = amount;
     }
     renderBookingDetailHeader() {
@@ -188,11 +192,17 @@ export class IrInvoice {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
-        if (!this.booking) {
+        if (!this.booking && !this.isLoading) {
             return null;
         }
         if (this.isLoading) {
-            return (h("div", { class: "flex h-[80vh] flex-col gap-4 " }, [...Array(10)].map((_, i) => (h("div", { key: i, class: "max-h-52 w-full animate-pulse bg-gray-200" })))));
+            return (
+            // <div >
+            //   {[...new Array(10)].map((_, i) => (
+            //     <div key={i} class="h-72 w-full animate-pulse rounded-md bg-gray-200"></div>
+            //   ))}
+            // </div>
+            h("div", { class: "flex  flex-col gap-4 " }, h(InvoiceSkeleton, null)));
         }
         const google_maps_url = `http://maps.google.com/maps?q=${app_store.property.location.latitude},${app_store.property.location.longitude}`;
         const { cancel } = this.bookingListingAppService.getBookingActions(this.booking);

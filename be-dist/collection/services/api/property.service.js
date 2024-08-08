@@ -216,7 +216,7 @@ export class PropertyService extends Token {
                     property: {
                         id: app_store.app_data.property_id,
                     },
-                    source: app_store.app_data.source,
+                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : window.location.href, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
                     currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },

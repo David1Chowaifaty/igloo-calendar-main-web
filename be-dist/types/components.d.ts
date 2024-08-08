@@ -161,6 +161,7 @@ export namespace Components {
     interface IrBookingSummary {
         "error": CheckoutErrors;
         "isLoading": boolean;
+        "prepaymentAmount": any;
     }
     interface IrButton {
         "buttonClassName": string;
@@ -254,6 +255,8 @@ export namespace Components {
         "maxChildrenCount": number;
         "minAdultCount": number;
         "minChildrenCount": number;
+    }
+    interface IrHomeLoader {
     }
     interface IrIcons {
         "height": number;
@@ -1184,6 +1187,12 @@ declare global {
         prototype: HTMLIrGuestCounterElement;
         new (): HTMLIrGuestCounterElement;
     };
+    interface HTMLIrHomeLoaderElement extends Components.IrHomeLoader, HTMLStencilElement {
+    }
+    var HTMLIrHomeLoaderElement: {
+        prototype: HTMLIrHomeLoaderElement;
+        new (): HTMLIrHomeLoaderElement;
+    };
     interface HTMLIrIconsElement extends Components.IrIcons, HTMLStencilElement {
     }
     var HTMLIrIconsElement: {
@@ -1674,6 +1683,7 @@ declare global {
         "ir-gallery": HTMLIrGalleryElement;
         "ir-google-maps": HTMLIrGoogleMapsElement;
         "ir-guest-counter": HTMLIrGuestCounterElement;
+        "ir-home-loader": HTMLIrHomeLoaderElement;
         "ir-icons": HTMLIrIconsElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
@@ -1854,6 +1864,7 @@ declare namespace LocalJSX {
         "isLoading"?: boolean;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
+        "prepaymentAmount"?: any;
     }
     interface IrButton {
         "buttonClassName"?: string;
@@ -1977,6 +1988,8 @@ declare namespace LocalJSX {
         "minChildrenCount"?: number;
         "onCloseGuestCounter"?: (event: IrGuestCounterCustomEvent<any>) => void;
         "onUpdateCounts"?: (event: IrGuestCounterCustomEvent<any>) => void;
+    }
+    interface IrHomeLoader {
     }
     interface IrIcons {
         "height"?: number;
@@ -2299,6 +2312,7 @@ declare namespace LocalJSX {
         "ir-gallery": IrGallery;
         "ir-google-maps": IrGoogleMaps;
         "ir-guest-counter": IrGuestCounter;
+        "ir-home-loader": IrHomeLoader;
         "ir-icons": IrIcons;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
@@ -2375,6 +2389,7 @@ declare module "@stencil/core" {
             "ir-gallery": LocalJSX.IrGallery & JSXBase.HTMLAttributes<HTMLIrGalleryElement>;
             "ir-google-maps": LocalJSX.IrGoogleMaps & JSXBase.HTMLAttributes<HTMLIrGoogleMapsElement>;
             "ir-guest-counter": LocalJSX.IrGuestCounter & JSXBase.HTMLAttributes<HTMLIrGuestCounterElement>;
+            "ir-home-loader": LocalJSX.IrHomeLoader & JSXBase.HTMLAttributes<HTMLIrHomeLoaderElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;

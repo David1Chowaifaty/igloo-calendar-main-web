@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-booking-widget/types.ts"],"names":[],"mappings":"","sourcesContent":["export type TContainerStyle = Pick<Partial<CSSStyleDeclaration>, 'color' | 'borderColor' | 'background' | 'height' | 'width'>;\n"]}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-booking-widget/types.ts"],"names":[],"mappings":"","sourcesContent":["export type TContainerStyle = Pick<Partial<CSSStyleDeclaration>, 'color' | 'borderColor' | 'background' | 'height' | 'width'>;\r\n"]}
