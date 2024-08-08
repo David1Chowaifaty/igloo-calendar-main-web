@@ -53,7 +53,9 @@ export class IrBookingListing {
             }
         }
         this.initializeServices();
-        this.initializeApp();
+        if (!this.be) {
+            this.initializeApp();
+        }
     }
     handleAffiliateChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -103,6 +105,9 @@ export class IrBookingListing {
     handleAuthFinish(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
+        if (this.be) {
+            return;
+        }
         const { token, state, payload } = e.detail;
         if (state === 'success') {
             if (payload.method === 'direct') {
@@ -168,7 +173,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: 'c129ae5a73adb859a79f01178e49f46288c8b8f5' }, !this.be && h("ir-interceptor", { key: '419b7c82e8b34d1935a75f253d3c65c6cf7010d9' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: 'a670b73398a79499e16f742ae30b178b9dbf4b1c' }, !this.be && h("ir-interceptor", { key: '0b2a4997410929419bcc80df0f93022e19e6ac5d' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

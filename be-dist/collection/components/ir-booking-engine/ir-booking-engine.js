@@ -34,7 +34,7 @@ export class IrBookingEngine {
         this.property = null;
         this.source = null;
         this.version = '2.0';
-        this.hideGoogleSignIn = false;
+        this.hideGoogleSignIn = true;
         this.coupon = undefined;
         this.loyalty = undefined;
         this.agent_code = undefined;
@@ -644,7 +644,7 @@ export class IrBookingEngine {
                 },
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
-                "defaultValue": "false"
+                "defaultValue": "true"
             },
             "coupon": {
                 "type": "string",

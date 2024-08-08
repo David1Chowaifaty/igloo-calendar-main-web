@@ -193,6 +193,7 @@ export namespace Components {
         "toDate": Date | null;
     }
     interface IrCarousel {
+        "activeIndex": number;
         "slides": TCarouselSlides[];
     }
     interface IrCheckbox {
@@ -244,7 +245,10 @@ export namespace Components {
         "version": string;
     }
     interface IrGallery {
+        "disableCarouselClick": boolean;
+        "enableCarouselSwipe": boolean;
         "images": { url: string; alt: string }[];
+        "maxLength": number;
         "totalImages": number;
     }
     interface IrGoogleMaps {
@@ -972,6 +976,7 @@ declare global {
     };
     interface HTMLIrCarouselElementEventMap {
         "carouselImageClicked": null;
+        "carouselImageIndexChange": number;
     }
     interface HTMLIrCarouselElement extends Components.IrCarousel, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCarouselElementEventMap>(type: K, listener: (this: HTMLIrCarouselElement, ev: IrCarouselCustomEvent<HTMLIrCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1147,7 +1152,7 @@ declare global {
         new (): HTMLIrFooterElement;
     };
     interface HTMLIrGalleryElementEventMap {
-        "openGallery": null;
+        "openGallery": number;
     }
     interface HTMLIrGalleryElement extends Components.IrGallery, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGalleryElementEventMap>(type: K, listener: (this: HTMLIrGalleryElement, ev: IrGalleryCustomEvent<HTMLIrGalleryElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1898,7 +1903,9 @@ declare namespace LocalJSX {
         "toDate"?: Date | null;
     }
     interface IrCarousel {
+        "activeIndex"?: number;
         "onCarouselImageClicked"?: (event: IrCarouselCustomEvent<null>) => void;
+        "onCarouselImageIndexChange"?: (event: IrCarouselCustomEvent<number>) => void;
         "slides"?: TCarouselSlides[];
     }
     interface IrCheckbox {
@@ -1974,8 +1981,11 @@ declare namespace LocalJSX {
         "version"?: string;
     }
     interface IrGallery {
+        "disableCarouselClick"?: boolean;
+        "enableCarouselSwipe"?: boolean;
         "images"?: { url: string; alt: string }[];
-        "onOpenGallery"?: (event: IrGalleryCustomEvent<null>) => void;
+        "maxLength"?: number;
+        "onOpenGallery"?: (event: IrGalleryCustomEvent<number>) => void;
         "totalImages"?: number;
     }
     interface IrGoogleMaps {

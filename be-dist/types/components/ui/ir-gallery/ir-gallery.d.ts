@@ -5,7 +5,10 @@ export declare class IrGallery {
         alt: string;
     }[];
     totalImages: number;
-    openGallery: EventEmitter<null>;
+    maxLength: number;
+    disableCarouselClick: boolean;
+    enableCarouselSwipe: boolean;
+    openGallery: EventEmitter<number>;
     private swiperInstance;
     carouselEl: HTMLDivElement;
     nextEl: HTMLElement;
@@ -14,5 +17,6 @@ export declare class IrGallery {
     componentDidLoad(): void;
     initializeSwiper(): void;
     reinitializeSwiper(): void;
+    private handleOpenGallery;
     render(): any;
 }
