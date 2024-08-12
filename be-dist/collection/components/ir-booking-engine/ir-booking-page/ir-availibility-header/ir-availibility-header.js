@@ -109,7 +109,20 @@ export class IrAvailibilityHeader {
     async checkAvailability() {
         const params = ExposedBookingAvailability.parse(this.exposedBookingAvailabiltyParams);
         if (app_store.app_data.injected) {
-            return (location.href = `https://${app_store.property.perma_link}.bookingmystay.com?checkin=${params.from_date}&checkout=${params.to_date}&adults=${params.adult_nbr}&children=${params.child_nbr}&cur=${params.currency_ref}`);
+            const { from_date, to_date, adult_nbr, child_nbr } = params;
+            const fromDate = `checkin=${from_date}`;
+            const toDate = `checkout=${to_date}`;
+            const adults = `adults=${adult_nbr}`;
+            const children = child_nbr > 0 ? `children=${child_nbr}` : '';
+            const affiliate = app_store.app_data.affiliate ? `aff=${app_store.app_data.affiliate.afname}` : '';
+            const currency = `cur=${app_store.userPreferences.currency_id}`;
+            const language = `lang=${app_store.userPreferences.language_id}`;
+            const loyalty = booking_store.bookingAvailabilityParams.loyalty ? 'loyalty=true' : '';
+            const promo_key = booking_store.bookingAvailabilityParams.coupon ? `promo=${booking_store.bookingAvailabilityParams.coupon}` : '';
+            const agent = booking_store.bookingAvailabilityParams.agent ? `agent=${booking_store.bookingAvailabilityParams.agent}` : '';
+            const queryParams = [fromDate, toDate, adults, children, affiliate, language, currency, loyalty, promo_key, agent];
+            const queryString = queryParams.filter(param => param !== '').join('&');
+            return (location.href = `https://${app_store.property.perma_link}.bookingmystay.com?${queryString}`);
         }
         this.identifier = v4();
         this.availabiltyService.initSocket(this.identifier);
@@ -209,14 +222,14 @@ export class IrAvailibilityHeader {
     render() {
         var _a, _b, _c, _d, _e;
         this.shouldRenderErrorToast();
-        return (h("div", { key: '074eb8aa2b44cea336a3caec5fe1b3330954af92', class: "availability-container" }, h("div", { key: '8f3e3ac5e6b8ea9941d6225481dc4adad26b396b', class: "availability-inputs" }, h("ir-date-popup", { key: '49bf44463dc2e124ebd63765fb03a98ac80d81c7', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: 'b071067fe8875a954ed9b1a1f4604ccdcc296d41', class: "availability-container" }, h("div", { key: '8a041b6aaf8d7ad267c78b80fe2cb8f83d6db850', class: "availability-inputs" }, h("ir-date-popup", { key: '33a9c30f6f4959a62425a0aad035689c871612b1', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_c = this.exposedBookingAvailabiltyParams) === null || _c === void 0 ? void 0 : _c.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '3748da1859ed13bf2e996823cb087c2d348470d9', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'ad69d21b9efcf1c1463770a800871814da10be3a', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: '9f5867e1a174d92088d50085933713a5709f4a0e', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("div", { key: 'ed945e1687e36fea2273889297d26b857a1464d3', class: "availability-controls" }, h("ir-adult-child-counter", { key: '1bc4840573cf5249f0a6c65d0786dc4ce959eec2', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: '5ca3d54e4b3b87da742711a7a4aa20cf066daaec', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" }))), ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (h("div", { key: '9d6a81a12a056b660bbfa2a83572a295008ab536', class: "promotions-container" }, h("ir-coupon-dialog", { key: '69f4bd83b354f24bb3a8d8138ecf72bc7626d6ed', class: "coupon-dialog" }), h("ir-loyalty", { key: '12d03ff239839268d088170f6a3380d54cbc24bf', class: "loyalty" })))));
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" }))), ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (h("div", { key: '0fb232156a1ffca55b97497c503b9577cc48457e', class: "promotions-container" }, h("ir-coupon-dialog", { key: '96d29db991538b675fb54babd468361026960f03', class: "coupon-dialog" }), h("ir-loyalty", { key: '78209af15eafa37706387271ec06ca5712b42d67', class: "loyalty" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }

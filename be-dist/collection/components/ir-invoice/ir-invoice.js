@@ -132,7 +132,7 @@ export class IrInvoice {
         this.amount = amount;
         let cancelation = null;
         let guarantee = null;
-        const { message } = await this.paymentService.fetchCancelationMessage(0, 0, '', false, newPrepayment.data);
+        const { message } = await this.paymentService.fetchCancelationMessage({ data: newPrepayment.data });
         this.cancelationMessage = message;
         const cancelationBrackets = newPrepayment.data.find(t => t.type === 'cancelation');
         if (cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets) {

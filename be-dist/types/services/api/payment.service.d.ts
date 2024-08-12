@@ -5,6 +5,18 @@ type TExposedApplicablePolicies = {
     data: IExposedApplicablePolicies[];
     amount: number;
 };
+interface FetchCancelationMessageWithData {
+    data: IExposedApplicablePolicies[];
+    showCancelation?: boolean;
+}
+interface FetchCancelationMessageWithoutData {
+    id: number;
+    roomTypeId: number;
+    bookingNbr?: string;
+    showCancelation?: boolean;
+    data?: null;
+}
+type FetchCancelationMessageParams = FetchCancelationMessageWithData | FetchCancelationMessageWithoutData;
 export declare class PaymentService extends Token {
     processBookingPayment(): void;
     GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }: {
@@ -36,7 +48,7 @@ export declare class PaymentService extends Token {
         amount: number;
         isInFreeCancelationZone: boolean;
     };
-    fetchCancelationMessage(id: number, roomTypeId: number, booking_nbr?: string, showCancelation?: boolean, data?: IExposedApplicablePolicies[] | null): Promise<{
+    fetchCancelationMessage(params: FetchCancelationMessageParams): Promise<{
         message: string;
         data: IExposedApplicablePolicies[];
     }>;

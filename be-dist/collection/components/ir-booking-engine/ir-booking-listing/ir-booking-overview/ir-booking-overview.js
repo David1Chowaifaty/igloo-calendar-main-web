@@ -135,7 +135,7 @@ export class IrBookingOverview {
     }
     async fetchCancelationMessage(id, roomTypeId) {
         var _a;
-        const { data, message } = await this.paymentService.fetchCancelationMessage(id, roomTypeId, this.selectedBooking.booking_nbr, false);
+        const { data, message } = await this.paymentService.fetchCancelationMessage({ id, roomTypeId, bookingNbr: this.selectedBooking.booking_nbr, showCancelation: false });
         const cancelationBrackets = data.find(d => d.type === 'cancelation' && d.brackets);
         if (cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets) {
             this.amountToBePayed = ((_a = this.paymentService.findClosestDate(cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets)) === null || _a === void 0 ? void 0 : _a.gross_amount) || null;

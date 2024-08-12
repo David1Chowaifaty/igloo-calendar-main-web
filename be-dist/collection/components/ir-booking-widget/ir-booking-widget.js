@@ -87,7 +87,7 @@ export class IrBookingWidget {
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
         const fromDate = from_date ? `checkin=${format(from_date, 'yyyy-MM-dd')}` : '';
-        const toDate = from_date ? `checkout=${format(to_date, 'yyyy-MM-dd')}` : '';
+        const toDate = to_date ? `checkout=${format(to_date, 'yyyy-MM-dd')}` : '';
         const adults = adultCount > 0 ? `adults=${adultCount}` : '';
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
         const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';

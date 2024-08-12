@@ -136,7 +136,7 @@ export class IrBookingListing {
     renderPages() {
         switch (this.currentPage) {
             case 'bookings':
-                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
             case 'booking-details':
                 return (h("div", { class: this.be ? '' : 'mx-auto px-4 lg:px-6' }, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                         e.stopPropagation();
@@ -144,7 +144,7 @@ export class IrBookingListing {
                         this.currentPage = 'bookings';
                         this.selectedBooking = null;
                         // this.bl_routing.emit({ route: 'booking' });
-                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, "My bookings")), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: this.propertyid, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
+                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, "My bookings")), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
             case 'user-profile':
                 if (this.be) {
                     return;
@@ -159,7 +159,7 @@ export class IrBookingListing {
                         country_phone_prefix: checkout_store.userFormData.country_phone_prefix.toString(),
                     } }));
             default:
-                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: this.propertyid, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
         }
     }
     renderAuthScreen() {
@@ -173,7 +173,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: '25620ce7e9a994e40b6af776b7319a0e8e8e2496' }, !this.be && h("ir-interceptor", { key: '8f5d909af77f1266da31784cdcc63d3370325cd4' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '235aa3c7fb4c089c5115ccc7b78649e661ebc20d' }, !this.be && h("ir-interceptor", { key: '92c4a2c333eb4d6bd318b6ea5dcefa74aab9491f' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

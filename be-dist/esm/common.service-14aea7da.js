@@ -21717,17 +21717,18 @@ class PaymentService extends Token {
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
     }
-    async fetchCancelationMessage(id, roomTypeId, booking_nbr, showCancelation, data) {
+    async fetchCancelationMessage(params) {
         var _a, _b;
-        if (booking_nbr === void 0) { booking_nbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr; }
-        if (showCancelation === void 0) { showCancelation = true; }
-        if (data === void 0) { data = null; }
-        let result = data;
-        if (!result) {
-            const t = await this.GetExposedApplicablePolicies({
+        let applicablePolicies;
+        if ('data' in params && params.data) {
+            applicablePolicies = params.data;
+        }
+        else {
+            const { id, roomTypeId, bookingNbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr } = params;
+            const result = await this.GetExposedApplicablePolicies({
                 book_date: new Date(),
                 params: {
-                    booking_nbr,
+                    booking_nbr: bookingNbr,
                     currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
                     language: app_store.userPreferences.language_id,
                     property_id: app_store.app_data.property_id,
@@ -21736,10 +21737,10 @@ class PaymentService extends Token {
                 },
                 token: app_store.app_data.token,
             });
-            result = t.data;
+            applicablePolicies = result.data;
         }
-        const message = (_b = result.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-        return { message: message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>', data: result };
+        const message = (_b = applicablePolicies.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+        return { message: message ? `${params.showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>', data: applicablePolicies };
     }
     async getBookingPrepaymentAmount(booking) {
         var _a, _b;
@@ -22128,6 +22129,7 @@ class PropertyService extends Token {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
         app_store.property = Object.assign({}, result.My_Result);
+        app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
         }
@@ -22481,4 +22483,4 @@ class CommonService extends Token {
 
 export { CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, axios$1 as a, PaymentService as b, checkout_store as c, updatePickupFormData as d, updatePartialPickupFormData as e, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=common.service-29303aa5.js.map
+//# sourceMappingURL=common.service-14aea7da.js.map

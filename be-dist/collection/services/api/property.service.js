@@ -45,6 +45,7 @@ export class PropertyService extends Token {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
         app_store.property = Object.assign({}, result.My_Result);
+        app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
         }

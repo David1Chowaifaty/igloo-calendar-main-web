@@ -114,7 +114,7 @@ export class IrRateplan {
             }) }))) : (h("p", { class: "mls_alert" }, (_11 = (_10 = this.visibleInventory.selected_variation) === null || _10 === void 0 ? void 0 : _10.variation) === null || _11 === void 0 ? void 0 : _11.MLS_ALERT))))))));
     }
     async fetchCancelationMessage(id, roomTypeId) {
-        this.cancelationMessage = (await this.paymentService.fetchCancelationMessage(id, roomTypeId)).message;
+        this.cancelationMessage = (await this.paymentService.fetchCancelationMessage({ id, roomTypeId })).message;
     }
     static get is() { return "ir-rateplan"; }
     static get encapsulation() { return "shadow"; }
