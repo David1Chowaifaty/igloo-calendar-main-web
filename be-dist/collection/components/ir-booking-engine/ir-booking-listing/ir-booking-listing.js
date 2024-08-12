@@ -34,9 +34,6 @@ export class IrBookingListing {
         var _a;
         axios.defaults.baseURL = this.baseUrl;
         app_store.app_data.hideGoogleSignIn = this.hideGoogleSignIn;
-        if (!this.propertyid) {
-            throw new Error('missing property id');
-        }
         this.currentPage = this.startScreen.screen;
         this.selectedBooking = (_a = this.startScreen.params) !== null && _a !== void 0 ? _a : null;
         getUserPrefernce();
@@ -80,6 +77,7 @@ export class IrBookingListing {
                 requests = [
                     ...requests,
                     this.commonService.getExposedLanguage(),
+                    this.commonService.getCurrencies(),
                     this.propertyService.getExposedProperty({
                         id: this.propertyid,
                         language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en',
@@ -173,7 +171,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: '235aa3c7fb4c089c5115ccc7b78649e661ebc20d' }, !this.be && h("ir-interceptor", { key: '92c4a2c333eb4d6bd318b6ea5dcefa74aab9491f' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: 'eb9c2cc32b062af08336b5815930b9581c8ccd6e' }, !this.be && h("ir-interceptor", { key: 'd625f42e4f5fa4964443a0716a2caff9235a42d2' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
