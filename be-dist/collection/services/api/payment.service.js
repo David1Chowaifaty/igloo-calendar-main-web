@@ -2,7 +2,7 @@ import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
 import axios from "axios";
-import { isBefore } from "date-fns";
+import { isBefore, parseISO } from "date-fns";
 export class PaymentService extends Token {
     processBookingPayment() { }
     async GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }) {
@@ -56,7 +56,7 @@ export class PaymentService extends Token {
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
     }
-    async fetchCancelationMessage(id, roomTypeId, booking_nbr, showCancelation) {
+    async fetchCancelationMessage(id, roomTypeId, booking_nbr, showCancelation, data) {
         var _a, _b;
         if (booking_nbr === void 0) {
             booking_nbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr;
@@ -64,21 +64,27 @@ export class PaymentService extends Token {
         if (showCancelation === void 0) {
             showCancelation = true;
         }
-        console.log(id, roomTypeId);
-        const result = await this.GetExposedApplicablePolicies({
-            book_date: new Date(),
-            params: {
-                booking_nbr,
-                currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
-                language: app_store.userPreferences.language_id,
-                property_id: app_store.app_data.property_id,
-                rate_plan_id: id,
-                room_type_id: roomTypeId,
-            },
-            token: app_store.app_data.token,
-        });
-        const message = (_b = result.data.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-        return message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>';
+        if (data === void 0) {
+            data = null;
+        }
+        let result = data;
+        if (!result) {
+            const t = await this.GetExposedApplicablePolicies({
+                book_date: new Date(),
+                params: {
+                    booking_nbr,
+                    currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+                    language: app_store.userPreferences.language_id,
+                    property_id: app_store.app_data.property_id,
+                    rate_plan_id: id,
+                    room_type_id: roomTypeId,
+                },
+                token: app_store.app_data.token,
+            });
+            result = t.data;
+        }
+        const message = (_b = result.find(t => t.type === 'cancelation')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+        return { message: message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>', data: result };
     }
     async getBookingPrepaymentAmount(booking) {
         var _a, _b;
@@ -107,6 +113,16 @@ export class PaymentService extends Token {
         let list = [];
         booking.rooms.map(r => list.push({ booking_nbr: booking.booking_nbr, ratePlanId: r.rateplan.id, roomTypeId: r.roomtype.id }));
         return list;
+    }
+    findClosestDate(data) {
+        let closestDateObj = null;
+        for (const item of data) {
+            const currentDueDate = parseISO(item.due_on);
+            if (!closestDateObj || isBefore(currentDueDate, parseISO(closestDateObj.due_on))) {
+                closestDateObj = item;
+            }
+        }
+        return closestDateObj;
     }
 }
 //# sourceMappingURL=payment.service.js.map

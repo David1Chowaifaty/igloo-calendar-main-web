@@ -1,6 +1,10 @@
 import { Booking } from "../../models/booking.dto";
-import { IExposedApplicablePolicies } from "../../models/property";
+import { IBrackets, IExposedApplicablePolicies } from "../../models/property";
 import { Token } from "../../models/Token";
+type TExposedApplicablePolicies = {
+    data: IExposedApplicablePolicies[];
+    amount: number;
+};
 export declare class PaymentService extends Token {
     processBookingPayment(): void;
     GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }: {
@@ -27,19 +31,21 @@ export declare class PaymentService extends Token {
             language: number | string;
         };
         book_date: Date;
-    }): Promise<{
-        data: any;
-        amount: number;
-    }>;
+    }): Promise<TExposedApplicablePolicies>;
     processAlicablePolicies(policies: IExposedApplicablePolicies[], book_date: Date): {
         amount: number;
         isInFreeCancelationZone: boolean;
     };
-    fetchCancelationMessage(id: number, roomTypeId: number, booking_nbr?: string, showCancelation?: boolean): Promise<string>;
+    fetchCancelationMessage(id: number, roomTypeId: number, booking_nbr?: string, showCancelation?: boolean, data?: IExposedApplicablePolicies[] | null): Promise<{
+        message: string;
+        data: IExposedApplicablePolicies[];
+    }>;
     getBookingPrepaymentAmount(booking: Booking): Promise<{
         amount: number;
-        cancelation_message: any;
-        guarantee_message: any;
+        cancelation_message: string;
+        guarantee_message: string;
     }>;
     private setUpBooking;
+    findClosestDate(data: IBrackets[]): IBrackets;
 }
+export {};

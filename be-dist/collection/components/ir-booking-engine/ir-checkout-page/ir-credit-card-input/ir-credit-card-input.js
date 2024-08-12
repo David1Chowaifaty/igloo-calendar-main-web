@@ -62,7 +62,7 @@ export class IrCreditCardInput {
         }
     }
     render() {
-        return (h(Host, { key: '3a0d53b09f5ca2456e5007a0055551d9054244cf' }, h("div", { key: 'afcbb6a7e448526898ee6fac7deff57f6b39c251', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '8f428e3beab6c8b8252a98b785c360010cfa2d41', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '54a72816cdc1237137bea6ddb292f846ecf63c5a', class: "input-container" }, h("input", { key: '59aca224515f189056ede0d5beda5a7c01ef7fc4', type: "text", class: "w-full", onFocus: () => {
+        return (h(Host, { key: 'a89f206c9fad6cccd48d6602ff78b0972f5c6e2e' }, h("div", { key: '803916547c565045e8cb18dadcdf0c827c046fd7', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '172f4e646df85df821178e15d4f9d391d1e6bcb8', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: 'bdee428a9314482fd872e5be2cd64fe6061df260', class: "input-container" }, h("input", { key: '49ef37de84672cbf46c08798d54cf12b416f7408', type: "text", class: "w-full", onFocus: () => {
                 if (this.el.hasAttribute('data-state'))
                     this.el.removeAttribute('data-state');
             }, onBlur: e => {
@@ -79,7 +79,7 @@ export class IrCreditCardInput {
                         this.el.setAttribute('aria-invalid', 'false');
                     }
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '8e1a006d0e3184809a85dba355c8f25bc66193c0', class: "icon-container" }, this.renderIcon(this.cardType))))));
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '0c9cb3ecd042b26760570f18685dce95a248767d', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {

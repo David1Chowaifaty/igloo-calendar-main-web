@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IrBookingCancelation {
     booking_nbr: string;
     cancelation: string;
+    paymentMessage: string;
     openChange: EventEmitter<boolean>;
     cancelationResult: EventEmitter<{
         state: 'failed' | 'success';

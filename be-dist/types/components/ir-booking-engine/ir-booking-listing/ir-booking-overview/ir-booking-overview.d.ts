@@ -19,6 +19,7 @@ export declare class IrBookingOverview {
     selectedMenuIds: Record<string, number>;
     hoveredBooking: any;
     cancelationMessage: string;
+    amountToBePayed: number;
     bl_routing: EventEmitter<{
         route: 'booking' | 'booking-details';
         params?: unknown;

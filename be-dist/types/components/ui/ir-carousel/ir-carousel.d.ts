@@ -3,6 +3,7 @@ import { TCarouselSlides } from './carousel';
 export declare class IrCarousel {
     slides: TCarouselSlides[];
     activeIndex: number;
+    enableCarouselSwipe: boolean;
     carouselImageClicked: EventEmitter<null>;
     carouselImageIndexChange: EventEmitter<number>;
     private swiperInstance;

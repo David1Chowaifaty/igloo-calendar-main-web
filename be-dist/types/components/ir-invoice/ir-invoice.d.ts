@@ -22,6 +22,7 @@ export declare class IrInvoice {
     cancelation_message: string;
     guarantee_message: string;
     cancelationMessage: string;
+    amountToBePayed: number;
     private propertyService;
     private commonService;
     private authService;
@@ -29,7 +30,7 @@ export declare class IrInvoice {
     private bookingListingAppService;
     private payment_option;
     private amount;
-    private alertDialog;
+    bookingCancelation: HTMLIrBookingCancelationElement;
     componentWillLoad(): Promise<void>;
     private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;

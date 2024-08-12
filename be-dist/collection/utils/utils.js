@@ -206,10 +206,8 @@ export function renderPropertyLocation() {
 function setBookingCookie() {
     const cookieName = 'ghs_booking';
     const cookieValue = 'true';
-    const daysToExpire = 30;
-    const currentDate = new Date();
-    currentDate.setTime(currentDate.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
-    const expires = 'expires=' + currentDate.toUTCString();
+    const date = addDays(new Date(), 30);
+    const expires = 'expires=' + date.toUTCString();
     document.cookie = `${cookieName}=${cookieValue};${expires};path=/`;
 }
 export function destroyBookingCookie() {

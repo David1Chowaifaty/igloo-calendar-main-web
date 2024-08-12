@@ -173,7 +173,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: 'a670b73398a79499e16f742ae30b178b9dbf4b1c' }, !this.be && h("ir-interceptor", { key: '0b2a4997410929419bcc80df0f93022e19e6ac5d' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '25620ce7e9a994e40b6af776b7319a0e8e8e2496' }, !this.be && h("ir-interceptor", { key: '8f5d909af77f1266da31784cdcc63d3370325cd4' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

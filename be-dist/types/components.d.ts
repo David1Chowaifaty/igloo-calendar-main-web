@@ -109,6 +109,7 @@ export namespace Components {
         "booking_nbr": string;
         "cancelation": string;
         "openDialog": () => Promise<void>;
+        "paymentMessage": string;
     }
     interface IrBookingCard {
         "aff": boolean;
@@ -160,7 +161,6 @@ export namespace Components {
     }
     interface IrBookingSummary {
         "error": CheckoutErrors;
-        "isLoading": boolean;
         "prepaymentAmount": any;
     }
     interface IrButton {
@@ -194,6 +194,7 @@ export namespace Components {
     }
     interface IrCarousel {
         "activeIndex": number;
+        "enableCarouselSwipe": boolean;
         "slides": TCarouselSlides[];
     }
     interface IrCheckbox {
@@ -1803,6 +1804,7 @@ declare namespace LocalJSX {
         "cancelation"?: string;
         "onCancelationResult"?: (event: IrBookingCancelationCustomEvent<{ state: 'failed' | 'success'; booking_nbr: string }>) => void;
         "onOpenChange"?: (event: IrBookingCancelationCustomEvent<boolean>) => void;
+        "paymentMessage"?: string;
     }
     interface IrBookingCard {
         "aff"?: boolean;
@@ -1866,7 +1868,6 @@ declare namespace LocalJSX {
     }
     interface IrBookingSummary {
         "error"?: CheckoutErrors;
-        "isLoading"?: boolean;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
         "prepaymentAmount"?: any;
@@ -1904,6 +1905,7 @@ declare namespace LocalJSX {
     }
     interface IrCarousel {
         "activeIndex"?: number;
+        "enableCarouselSwipe"?: boolean;
         "onCarouselImageClicked"?: (event: IrCarouselCustomEvent<null>) => void;
         "onCarouselImageIndexChange"?: (event: IrCarouselCustomEvent<number>) => void;
         "slides"?: TCarouselSlides[];

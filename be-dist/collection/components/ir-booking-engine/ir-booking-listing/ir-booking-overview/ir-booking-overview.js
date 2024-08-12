@@ -32,6 +32,7 @@ export class IrBookingOverview {
         this.selectedMenuIds = {};
         this.hoveredBooking = null;
         this.cancelationMessage = undefined;
+        this.amountToBePayed = undefined;
     }
     async componentWillLoad() {
         if (!this.propertyid) {
@@ -133,7 +134,13 @@ export class IrBookingOverview {
         }
     }
     async fetchCancelationMessage(id, roomTypeId) {
-        this.cancelationMessage = await this.paymentService.fetchCancelationMessage(id, roomTypeId, this.selectedBooking.booking_nbr, false);
+        var _a;
+        const { data, message } = await this.paymentService.fetchCancelationMessage(id, roomTypeId, this.selectedBooking.booking_nbr, false);
+        const cancelationBrackets = data.find(d => d.type === 'cancelation' && d.brackets);
+        if (cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets) {
+            this.amountToBePayed = ((_a = this.paymentService.findClosestDate(cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets)) === null || _a === void 0 ? void 0 : _a.gross_amount) || null;
+        }
+        this.cancelationMessage = message;
     }
     async handleBookingCancelation() {
         await this.fetchCancelationMessage(0, 0);
@@ -259,7 +266,7 @@ export class IrBookingOverview {
                     const { id } = e.detail;
                     console.log(id);
                     this.handleBlEvents(id);
-                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, cancelation: this.cancelationMessage || ((_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.rooms[0].rateplan.cancelation), onCancelationResult: e => {
+                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, paymentMessage: this.amountToBePayed ? `If you cancel now, the penalty will be ${formatAmount(this.amountToBePayed, this.selectedBooking.currency.code)}` : null, cancelation: this.cancelationMessage || ((_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.rooms[0].rateplan.cancelation), onCancelationResult: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { state, booking_nbr } = e.detail;
@@ -419,7 +426,8 @@ export class IrBookingOverview {
             "selectedBooking": {},
             "selectedMenuIds": {},
             "hoveredBooking": {},
-            "cancelationMessage": {}
+            "cancelationMessage": {},
+            "amountToBePayed": {}
         };
     }
     static get events() {

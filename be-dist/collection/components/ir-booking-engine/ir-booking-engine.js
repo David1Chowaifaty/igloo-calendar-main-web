@@ -12,7 +12,7 @@ import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
 export class IrBookingEngine {
     constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.baseUrl = 'https://yarp.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.availabiltyService = new AvailabiltyService();

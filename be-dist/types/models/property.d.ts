@@ -407,6 +407,7 @@ export interface ISetupEntries {
 export interface IExposedApplicablePolicies {
     type: 'guarantee' | 'cancelation';
     brackets: IBrackets[];
+    combined_statement: string;
 }
 export interface IBrackets {
     due_on: string;
