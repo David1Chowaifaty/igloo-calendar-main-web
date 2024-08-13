@@ -17,10 +17,11 @@ const links = [
     { href: "channel.html", name: "Channel", current: false, subroutes: null },
     {
         href: "be-demo.html", name: "BE", current: false, subroutes: [
-            { href: "be-theo.html", name: "Theo sunset", current: false, subroutes: null },
-            { href: "be-regency-palace.html", name: "Regency Palace", current: false, subroutes: null },
-            { href: "be-napa.html", name: "Napa City", current: false, subroutes: null },
-            { href: "be-demo-injected.html", name: "Demo injected", current: false, subroutes: null }
+            { href: "be-casa-mespilea.html", name: "Casa Mespilea", current: false, subroutes: null },
+            { href: "be-napa.html", name: "Napa City Apartments", current: false, subroutes: null },
+            { href: "be-regency-palace.html", name: "Regency Palace Hotel", current: false, subroutes: null },
+            { href: "be-theo.html", name: "Theo Sunset Bay Hotel", current: false, subroutes: null },
+            { href: "be-demo-injected.html", name: "Demo injected", current: false, subroutes: null },
         ]
     },
     { href: "booking-widget.html", name: "BE Widget", current: false, subroutes: null },
