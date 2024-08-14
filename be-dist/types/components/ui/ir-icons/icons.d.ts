@@ -179,6 +179,18 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    angle_down: {
+        viewBox: string;
+        d: string;
+    };
+    angle_up: {
+        viewBox: string;
+        d: string;
+    };
+    ellipsis: {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

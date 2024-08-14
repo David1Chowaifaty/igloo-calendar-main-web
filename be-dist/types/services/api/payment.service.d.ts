@@ -17,8 +17,16 @@ interface FetchCancelationMessageWithoutData {
     data?: null;
 }
 type FetchCancelationMessageParams = FetchCancelationMessageWithData | FetchCancelationMessageWithoutData;
+export type TBookingInfo = {
+    statement: string;
+    rp_name: string;
+    rt_name: string;
+};
 export declare class PaymentService extends Token {
-    processBookingPayment(): void;
+    getExposedCancelationDueAmount(params: {
+        booking_nbr: string;
+        currency_id: number;
+    }): Promise<any>;
     GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }: {
         token: string;
         params: {
@@ -56,6 +64,11 @@ export declare class PaymentService extends Token {
         amount: number;
         cancelation_message: string;
         guarantee_message: string;
+        cancelation_policies: {
+            statement: string;
+            rp_name: string;
+            rt_name: string;
+        }[];
     }>;
     private setUpBooking;
     findClosestDate(data: IBrackets[]): IBrackets;

@@ -1,29 +1,53 @@
-import { h } from "@stencil/core";
+import { Fragment, h } from "@stencil/core";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { PaymentService } from "../../services/api/payment.service";
 import app_store from "../../stores/app.store";
+import { formatAmount } from "../../utils/utils";
 export class IrBookingCancelation {
     constructor() {
         this.paymentService = new PaymentService();
         this.booking_nbr = undefined;
         this.cancelation = undefined;
-        this.paymentMessage = undefined;
+        this.cancelation_policies = [];
+        this.currency = undefined;
+        this.paymentAmount = undefined;
+        this.isOpen = false;
     }
     componentWillLoad() {
         this.paymentService.setToken(app_store.app_data.token);
     }
+    async setOverdueAmount() {
+        try {
+            const res = await this.paymentService.getExposedCancelationDueAmount({
+                booking_nbr: this.booking_nbr,
+                currency_id: this.currency.id,
+            });
+            const overdueResult = res.find(f => f.type === 'overdue');
+            if (overdueResult) {
+                this.paymentAmount = overdueResult.amount;
+            }
+        }
+        catch (error) {
+            console.error('Error fetching overdue amount:', error);
+        }
+    }
     async openDialog() {
         this.openChange.emit(true);
         this.alertDialog.openModal();
+        await this.setOverdueAmount();
     }
     closeAlertDialog() {
         this.alertDialog.closeModal();
         this.openChange.emit(false);
     }
     render() {
-        return (h("div", { key: '5d37e1f2f893daf89cb9abafb80b3067b277d28c' }, h("ir-alert-dialog", { key: 'a934360f0ba538133c74fa886bca84062a60e05f', ref: el => (this.alertDialog = el) }, h("h2", { key: 'f10c53cd817f177ec2f9a8234ae7d1651a6e76a3', slot: "modal-title", class: "text-lg font-medium" }, "Booking Cancellation"), h("div", { key: 'addaf3f2393fc1c1633921d7b424a8b138c51d4e', class: "py-3", slot: "modal-body" }, h("p", { key: '2931c4f28bfc55c6e845e8acb1c0b864861f9695', innerHTML: this.cancelation }), this.paymentMessage && h("p", { key: '8eb401d82b06645915ad79140db57d35b894bd0c', class: "mt-2.5 font-semibold" }, this.paymentMessage)), h("div", { key: '47a6b3247aa6a413ee0db4e9031ef3240f79f2cc', slot: "modal-footer" }, h("ir-button", { key: '8597e13610bcbfa82748ceb3b3b5a58f26cff464', label: "Cancel", variants: "outline", onButtonClick: () => {
+        var _a;
+        const isPending = isRequestPending('/Get_Exposed_Cancelation_Due_Amount');
+        return (h("div", { key: 'd6d283e2bece4a7a0ec4d0df5fc9f107757619d9' }, h("ir-alert-dialog", { key: '97793c67731bc69ed253a64777ab70e2828d7199', ref: el => (this.alertDialog = el) }, h("h2", { key: '215934cabdaba082f67cf5487538a2a797c773a2', slot: "modal-title", class: "text-lg font-medium" }, "Booking Cancellation"), h("div", { key: '2e74a1baf699b65199338233ba6104e9ecaf4dfa', class: "py-3", slot: "modal-body" }, isPending ? (h(Fragment, null, h("ir-skeleton", { class: "mb-2.5 h-5 w-60" }), h("ir-skeleton", { class: "mb-2.5 h-6 w-full" }))) : (h(Fragment, null, this.paymentAmount ? (h("p", { class: "mb-2.5 font-semibold" }, `If you cancel now, the penalty will be ${formatAmount(this.paymentAmount, ((_a = this.currency) === null || _a === void 0 ? void 0 : _a.code) || 'usd')}.`)) : (h("p", { class: "mb-2.5 font-semibold" }, "No penalty is applied if you cancel now.")), h("button", { onClick: () => {
+                this.isOpen = !this.isOpen;
+            }, class: "flex w-full items-center justify-between rounded-md  py-1 " }, h("p", null, "More details"), h("ir-icons", { name: this.isOpen ? 'angle_up' : 'angle_down', svgClassName: "h-3" })), this.isOpen && (h(Fragment, null, h("div", { class: 'divide-y py-2' }, this.cancelation_policies.map(d => (h("div", { class: "space-y-1.5 py-2.5" }, h("p", { class: 'font-medium' }, d.rt_name, " ", d.rp_name), h("p", { class: "text-xs text-gray-500" }, d.statement)))))))))), h("div", { key: 'f57b987d37a1eeacba9c5930d908d36870332b96', slot: "modal-footer" }, h("ir-button", { key: '5256c390c45c00593b132954e2c900c288c6080d', label: "Cancel", variants: "outline", onButtonClick: () => {
                 this.closeAlertDialog();
-            }, size: "md" }), h("ir-button", { key: 'a8cf18f8e8142d24d1f250ecb5da7ea81cd6bf36', size: "md", label: "Accept & Confirm", isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
+            }, size: "md" }), h("ir-button", { key: 'ff6e0ef6ab193623d05e8a2ef64f0c973fd7500f', disabled: isPending, size: "md", label: "Accept & Confirm", isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
                 try {
                     await this.paymentService.RequestBookingCancelation(this.booking_nbr);
                     this.cancelationResult.emit({ state: 'success', booking_nbr: this.booking_nbr });
@@ -83,13 +107,19 @@ export class IrBookingCancelation {
                 "attribute": "cancelation",
                 "reflect": false
             },
-            "paymentMessage": {
-                "type": "string",
+            "cancelation_policies": {
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
+                    "original": "TBookingInfo[]",
+                    "resolved": "TBookingInfo[]",
+                    "references": {
+                        "TBookingInfo": {
+                            "location": "import",
+                            "path": "@/services/api/payment.service",
+                            "id": "src/services/api/payment.service.ts::TBookingInfo"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
@@ -97,9 +127,29 @@ export class IrBookingCancelation {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "payment-message",
-                "reflect": false
+                "defaultValue": "[]"
+            },
+            "currency": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{ code: string; id: number }",
+                    "resolved": "{ code: string; id: number; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
             }
+        };
+    }
+    static get states() {
+        return {
+            "paymentAmount": {},
+            "isOpen": {}
         };
     }
     static get events() {

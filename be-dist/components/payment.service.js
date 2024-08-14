@@ -5,7 +5,18 @@ import { a as axios } from './axios.js';
 import './index5.js';
 
 class PaymentService extends Token {
-    processBookingPayment() { }
+    async getExposedCancelationDueAmount(params) {
+        const token = this.getToken();
+        if (!token) {
+            throw new MissingTokenError();
+        }
+        const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount?Ticket=${token}`, Object.assign({}, params));
+        if (data['ExceptionMsg'] !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = data['My_Result'];
+        return res;
+    }
     async GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }) {
         if (!token) {
             throw new MissingTokenError();
@@ -38,6 +49,7 @@ class PaymentService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
+        console.log('here');
         const { data } = await axios.post(`/Get_Exposed_Applicable_Policies?Ticket=${token}`, params);
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
@@ -64,6 +76,7 @@ class PaymentService extends Token {
             applicablePolicies = params.data;
         }
         else {
+            console.log('fetching cancelation message');
             const { id, roomTypeId, bookingNbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr } = params;
             const result = await this.GetExposedApplicablePolicies({
                 book_date: new Date(),
@@ -103,11 +116,21 @@ class PaymentService extends Token {
         })));
         const cancelation_message = (_a = requests[0].data.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
         const guarantee_message = (_b = requests[0].data.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-        return { amount: requests.reduce((prev, curr) => prev + curr.amount, 0), cancelation_message, guarantee_message };
+        const cancelation_policies = requests
+            .map((r, idx) => {
+            const c_data = r.data.find(f => f.type === 'cancelation');
+            const { rp_name, rt_name } = list[idx];
+            if (c_data) {
+                return { statement: c_data.combined_statement, rp_name, rt_name };
+            }
+            return null;
+        })
+            .filter(f => f !== null);
+        return { amount: requests.reduce((prev, curr) => prev + curr.amount, 0), cancelation_message, guarantee_message, cancelation_policies };
     }
     setUpBooking(booking) {
         let list = [];
-        booking.rooms.map(r => list.push({ booking_nbr: booking.booking_nbr, ratePlanId: r.rateplan.id, roomTypeId: r.roomtype.id }));
+        booking.rooms.map(r => list.push({ booking_nbr: booking.booking_nbr, ratePlanId: r.rateplan.id, roomTypeId: r.roomtype.id, rp_name: r.rateplan.name, rt_name: r.roomtype.name }));
         return list;
     }
     findClosestDate(data) {

@@ -10,9 +10,11 @@ import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
+// import { PaymentService } from '@/services/api/payment.service';
+// import { isRequestPending } from '@/stores/ir-interceptor.store';
 export class IrBookingEngine {
     constructor() {
-        this.baseUrl = 'https://yarp.igloorooms.com/IRBE';
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.availabiltyService = new AvailabiltyService();

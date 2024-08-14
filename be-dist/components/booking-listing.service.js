@@ -1,5 +1,5 @@
 import { a as app_store } from './app.store.js';
-import { d as dateFns, x as formatAmount } from './utils.js';
+import { d as dateFns, w as formatAmount } from './utils.js';
 
 class BookingListingAppService {
     getBookingActions(booking) {

@@ -10,7 +10,7 @@ export class IrBookingListing {
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.propertyid = undefined;
-        this.baseUrl = undefined;
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.language = undefined;
         this.headerShown = true;
         this.footerShown = true;
@@ -171,7 +171,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: 'eb9c2cc32b062af08336b5815930b9581c8ccd6e' }, !this.be && h("ir-interceptor", { key: 'd625f42e4f5fa4964443a0716a2caff9235a42d2' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '6f7184867d1a4760f66a34a690ec24b6af35eb1d' }, !this.be && h("ir-interceptor", { key: '81d925c3c4fe8dd3d1e9b2b7826b74aee7c2560b' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -218,7 +218,8 @@ export class IrBookingListing {
                     "text": ""
                 },
                 "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "defaultValue": "'https://gateway.igloorooms.com/IRBE'"
             },
             "language": {
                 "type": "string",

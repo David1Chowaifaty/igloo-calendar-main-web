@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 import { TSource } from "./stores/app.store";
+import { TBookingInfo } from "./services/api/payment.service";
 import { Booking } from "./models/booking.dto";
 import { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/commun";
 import { TIcons } from "./components/ui/ir-icons/icons";
@@ -22,6 +23,7 @@ import { TGuest } from "./models/user_form";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
 export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 export { TSource } from "./stores/app.store";
+export { TBookingInfo } from "./services/api/payment.service";
 export { Booking } from "./models/booking.dto";
 export { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/commun";
 export { TIcons } from "./components/ui/ir-icons/icons";
@@ -108,8 +110,9 @@ export namespace Components {
     interface IrBookingCancelation {
         "booking_nbr": string;
         "cancelation": string;
+        "cancelation_policies": TBookingInfo[];
+        "currency": { code: string; id: number };
         "openDialog": () => Promise<void>;
-        "paymentMessage": string;
     }
     interface IrBookingCard {
         "aff": boolean;
@@ -446,6 +449,12 @@ export namespace Components {
         "enableSignUp": boolean;
     }
     interface IrSignup {
+    }
+    interface IrSkeleton {
+        "customClasses": string;
+        "styles": {
+    [className: string]: boolean;
+  };
     }
     interface IrSocialButton {
         "label": string;
@@ -1547,6 +1556,12 @@ declare global {
         prototype: HTMLIrSignupElement;
         new (): HTMLIrSignupElement;
     };
+    interface HTMLIrSkeletonElement extends Components.IrSkeleton, HTMLStencilElement {
+    }
+    var HTMLIrSkeletonElement: {
+        prototype: HTMLIrSkeletonElement;
+        new (): HTMLIrSkeletonElement;
+    };
     interface HTMLIrSocialButtonElementEventMap {
         "socialButtonClick": MouseEvent;
     }
@@ -1716,6 +1731,7 @@ declare global {
         "ir-sheet": HTMLIrSheetElement;
         "ir-signin": HTMLIrSigninElement;
         "ir-signup": HTMLIrSignupElement;
+        "ir-skeleton": HTMLIrSkeletonElement;
         "ir-social-button": HTMLIrSocialButtonElement;
         "ir-switch": HTMLIrSwitchElement;
         "ir-textarea": HTMLIrTextareaElement;
@@ -1802,9 +1818,10 @@ declare namespace LocalJSX {
     interface IrBookingCancelation {
         "booking_nbr"?: string;
         "cancelation"?: string;
+        "cancelation_policies"?: TBookingInfo[];
+        "currency"?: { code: string; id: number };
         "onCancelationResult"?: (event: IrBookingCancelationCustomEvent<{ state: 'failed' | 'success'; booking_nbr: string }>) => void;
         "onOpenChange"?: (event: IrBookingCancelationCustomEvent<boolean>) => void;
-        "paymentMessage"?: string;
     }
     interface IrBookingCard {
         "aff"?: boolean;
@@ -2223,6 +2240,12 @@ declare namespace LocalJSX {
         "onNavigate"?: (event: IrSignupCustomEvent<TAuthNavigation>) => void;
         "onSignUp"?: (event: IrSignupCustomEvent<TSignUpAuthTrigger>) => void;
     }
+    interface IrSkeleton {
+        "customClasses"?: string;
+        "styles"?: {
+    [className: string]: boolean;
+  };
+    }
     interface IrSocialButton {
         "label"?: string;
         "onSocialButtonClick"?: (event: IrSocialButtonCustomEvent<MouseEvent>) => void;
@@ -2351,6 +2374,7 @@ declare namespace LocalJSX {
         "ir-sheet": IrSheet;
         "ir-signin": IrSignin;
         "ir-signup": IrSignup;
+        "ir-skeleton": IrSkeleton;
         "ir-social-button": IrSocialButton;
         "ir-switch": IrSwitch;
         "ir-textarea": IrTextarea;
@@ -2428,6 +2452,7 @@ declare module "@stencil/core" {
             "ir-sheet": LocalJSX.IrSheet & JSXBase.HTMLAttributes<HTMLIrSheetElement>;
             "ir-signin": LocalJSX.IrSignin & JSXBase.HTMLAttributes<HTMLIrSigninElement>;
             "ir-signup": LocalJSX.IrSignup & JSXBase.HTMLAttributes<HTMLIrSignupElement>;
+            "ir-skeleton": LocalJSX.IrSkeleton & JSXBase.HTMLAttributes<HTMLIrSkeletonElement>;
             "ir-social-button": LocalJSX.IrSocialButton & JSXBase.HTMLAttributes<HTMLIrSocialButtonElement>;
             "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;

@@ -68,6 +68,7 @@
     "components/ui/ir-radio/ir-radio.js",
     "components/ui/ir-select/ir-select.js",
     "components/ui/ir-sheet/ir-sheet.js",
+    "components/ui/ir-skeleton/ir-skeleton.js",
     "components/ui/ir-switch/ir-switch.js",
     "components/ui/ir-textarea/ir-textarea.js",
     "components/ui/ir-tooltip/ir-tooltip.js"

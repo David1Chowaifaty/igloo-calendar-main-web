@@ -1,4 +1,5 @@
 import { Booking } from "../../models/booking.dto";
+import { TBookingInfo } from "../../services/api/payment.service";
 import { AllowedPaymentMethod } from "../../models/property";
 export declare class IrInvoice {
     email: string;
@@ -23,6 +24,7 @@ export declare class IrInvoice {
     guarantee_message: string;
     cancelationMessage: string;
     amountToBePayed: number;
+    cancelation_policies: TBookingInfo[];
     private propertyService;
     private commonService;
     private authService;

@@ -84,17 +84,94 @@ export class IrRateplan {
             adultChildConstraint: params.adultChildConstraint,
         });
     }
+    async fetchCancelationMessage(id, roomTypeId) {
+        this.cancelationMessage = (await this.paymentService.fetchCancelationMessage({ id, roomTypeId })).message;
+    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11;
+        // return (
+        //   <div class="grid grid-cols-12 py-2">
+        //     <div class="rateplan-name col-span-5  ">
+        //       <div class={'flex items-center gap-2.5'}>
+        //         <p class="rateplan-short-name">{this.ratePlan.short_name}</p>
+        //         <div>
+        //           <ir-tooltip
+        //             labelColors={booking_store.isInFreeCancelationZone ? 'green' : 'default'}
+        //             class={`rateplan-tooltip`}
+        //             open_behavior="click"
+        //             label={booking_store.isInFreeCancelationZone ? 'Free cancellation' : 'If I cancel?'}
+        //             message={(this.cancelationMessage || this.ratePlan.cancelation) + this.ratePlan.guarantee}
+        //             onTooltipOpenChange={e => {
+        //               if (e.detail) {
+        //                 this.fetchCancelationMessage(this.ratePlan.id, this.roomTypeId);
+        //               }
+        //             }}
+        //           ></ir-tooltip>
+        //         </div>
+        //       </div>
+        //     </div>
+        //     <div class="col-span-7 flex gap-4">
+        //       {this.ratePlan.variations && (
+        //         <ir-select
+        //           class="rateplan-select-travelers"
+        //           label={localizedWords.entries.Lcz_Travelers}
+        //           value={this.ratePlan.variations.findIndex(f => f.adult_child_offering === this.visibleInventory?.selected_variation?.variation.adult_child_offering).toString()}
+        //           onValueChange={e => {
+        //             this.handleVariationChange(e, this.ratePlan.variations, this.ratePlan.id, this.roomTypeId);
+        //           }}
+        //           data={this.ratePlan.variations.map((v, i) => ({
+        //             id: i.toString(),
+        //             value: v.adult_child_offering,
+        //           }))}
+        //         ></ir-select>
+        //       )}
+        //       {this.visibleInventory?.selected_variation?.variation?.discount_pct > 0 && (
+        //         <div class="rateplan-pricing">
+        //           <p class="rateplan-discounted-amount">
+        //             {formatAmount(this.visibleInventory?.selected_variation?.variation?.total_before_discount, app_store.userPreferences.currency_id, 0)}
+        //           </p>
+        //           <p class="rateplan-discount">{`-${this.visibleInventory?.selected_variation?.variation?.discount_pct}%`}</p>
+        //         </div>
+        //       )}
+        //       <div class="rateplan-final-pricing">
+        //         <p class="rateplan-amount">{formatAmount(this.visibleInventory?.selected_variation?.variation?.amount, app_store.userPreferences.currency_id, 0)}</p>
+        //         {getDateDifference(booking_store.bookingAvailabilityParams.from_date ?? new Date(), booking_store.bookingAvailabilityParams.to_date ?? new Date()) > 1 && (
+        //           <p class="rateplan-amount-per-night">{`${formatAmount(this.visibleInventory?.selected_variation?.variation?.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`}</p>
+        //         )}
+        //       </div>
+        //       <ir-select
+        //         onValueChange={e => {
+        //           reserveRooms(this.roomTypeId, this.ratePlan.id, Number(e.detail));
+        //           this.animateBookingButton.emit(null);
+        //         }}
+        //         label={localizedWords.entries.Lcz_Rooms}
+        //         value={this.visibleInventory?.reserved}
+        //         class="rateplan-select-rooms"
+        //         data={[...new Array(this.roomTypeInventory + 1)]?.map((_, i) => ({
+        //           id: i,
+        //           value:
+        //             i === 0
+        //               ? `${localizedWords.entries.Lcz_Select}`
+        //               : `${i}&nbsp;&nbsp;&nbsp;${i === 0 ? '' : formatAmount(this.visibleInventory?.selected_variation?.variation?.amount * i, app_store.userPreferences.currency_id, 0)}`,
+        //           disabled: i >= this.visibleInventory?.visibleInventory + 1,
+        //           html: true,
+        //         }))}
+        //       ></ir-select>
+        //     </div>
+        //     <p class="col-span-7 text-xs font-normal text-gray-600">
+        //       {this.ratePlan.custom_text} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente, accusantium! Aperiam eligendi earum fugit provident tempora molestiae
+        //     </p>
+        //   </div>
+        // );
         // console.log('ratePlan', this.ratePlan);
-        return (h("div", { key: 'fbea6176604ee1ed86e55fae92e4c8d1c7516841', class: "rateplan-container" }, h("div", { key: '5fce57f3d9f928f7c70557efd0aace03887c1bb4', class: `rateplan-header ${this.isRatePlanAvailable ? 'available' : 'not-available'}` }, h("p", { key: 'b12879dc29db19df02565bb72d6a215a960c3bd4', class: "rateplan-name" }, h("span", { key: 'a6e13b5e4d48d8bc070c443149a2f774b2ff65cc', class: "rateplan-short-name" }, this.ratePlan.short_name), h("span", { key: '23877baf441828a7ec5318fee4c3b9e0961bea13', class: "rateplan-custom-text rateplan-custom-text-hidden" }, this.ratePlan.custom_text)), this.isLoading ? (h("div", { class: "grid place-items-center md:hidden" }, h("div", { class: "h-4 w-12 animate-pulse rounded-md bg-gray-300" }))) : (h(Fragment, null, this.isRatePlanAvailable ? (!((_c = (_b = (_a = this.visibleInventory) === null || _a === void 0 ? void 0 : _a.selected_variation) === null || _b === void 0 ? void 0 : _b.variation) === null || _c === void 0 ? void 0 : _c.IS_MLS_VIOLATED) && (h("div", { class: "rateplan-pricing-mobile" }, h("p", { class: "rateplan-amount" }, formatAmount((_f = (_e = (_d = this.visibleInventory) === null || _d === void 0 ? void 0 : _d.selected_variation) === null || _e === void 0 ? void 0 : _e.variation) === null || _f === void 0 ? void 0 : _f.amount, app_store.userPreferences.currency_id, 0)), ((_j = (_h = (_g = this.visibleInventory) === null || _g === void 0 ? void 0 : _g.selected_variation) === null || _h === void 0 ? void 0 : _h.variation) === null || _j === void 0 ? void 0 : _j.discount_pct) > 0 && (h("p", { class: "rateplan-discounted-amount" }, formatAmount((_m = (_l = (_k = this.visibleInventory) === null || _k === void 0 ? void 0 : _k.selected_variation) === null || _l === void 0 ? void 0 : _l.variation) === null || _m === void 0 ? void 0 : _m.total_before_discount, app_store.userPreferences.currency_id, 0)))))) : (h("p", { class: "no-availability" }, "Not available"))))), h("p", { key: 'bc458d315c06c48513a7e2c057f3384e43e6e97f', class: "rateplan-custom-text rateplan-custom-text-mobile" }, this.ratePlan.custom_text), this.isRatePlanAvailable && (h("div", { key: '94d80ed3957538f874e63563f8cca3a46a7db09a', class: `rateplan-details ${this.ratePlan.custom_text ? 'rateplan-details-no-custom-text' : ''}` }, this.isLoading ? (h("div", { class: "col-span-6 w-full " }, h("div", { class: "h-8 w-full animate-pulse rounded-md  bg-gray-300" }))) : (h(Fragment, null, h("div", { class: "rateplan-travelers" }, this.ratePlan.variations && (h("ir-select", { class: "rateplan-select-travelers", label: localizedWords.entries.Lcz_Travelers, value: this.ratePlan.variations
+        return (h("div", { key: '4fd780909dd4cdd4be12f14fc0c6b0d3ff25e592', class: "rateplan-container" }, h("div", { key: 'd9d2cbe8acf378c38610b630bddcec117182633b', class: `rateplan-header ${this.isRatePlanAvailable ? 'available' : 'not-available'}` }, h("p", { key: '03be7bb72a2f940b28d2f840e6b4ee332872b963', class: "rateplan-name" }, h("span", { key: '5df32f1396323f52c9b9fac3fcaf315e4126b954', class: "rateplan-short-name" }, this.ratePlan.short_name), h("span", { key: 'f751adaf681381706ab2ce2c0423acd9a311b4c5', class: "rateplan-custom-text rateplan-custom-text-hidden" }, this.ratePlan.custom_text)), this.isLoading ? (h("div", { class: "grid place-items-center md:hidden" }, h("ir-skeleton", { class: "h-4 w-12" }))) : (h(Fragment, null, this.isRatePlanAvailable ? (!((_c = (_b = (_a = this.visibleInventory) === null || _a === void 0 ? void 0 : _a.selected_variation) === null || _b === void 0 ? void 0 : _b.variation) === null || _c === void 0 ? void 0 : _c.IS_MLS_VIOLATED) && (h("div", { class: "rateplan-pricing-mobile" }, h("p", { class: "rateplan-amount" }, formatAmount((_f = (_e = (_d = this.visibleInventory) === null || _d === void 0 ? void 0 : _d.selected_variation) === null || _e === void 0 ? void 0 : _e.variation) === null || _f === void 0 ? void 0 : _f.amount, app_store.userPreferences.currency_id, 0)), ((_j = (_h = (_g = this.visibleInventory) === null || _g === void 0 ? void 0 : _g.selected_variation) === null || _h === void 0 ? void 0 : _h.variation) === null || _j === void 0 ? void 0 : _j.discount_pct) > 0 && (h("p", { class: "rateplan-discounted-amount" }, formatAmount((_m = (_l = (_k = this.visibleInventory) === null || _k === void 0 ? void 0 : _k.selected_variation) === null || _l === void 0 ? void 0 : _l.variation) === null || _m === void 0 ? void 0 : _m.total_before_discount, app_store.userPreferences.currency_id, 0)))))) : (h("p", { class: "no-availability" }, "Not available"))))), h("p", { key: '7f5f1e0a542900ec73bbd4f7672e96e52e256970', class: "rateplan-custom-text rateplan-custom-text-mobile" }, this.ratePlan.custom_text), this.isRatePlanAvailable && (h("div", { key: '5544e224d58c4fac7bbc9fe0aa4a81c25d52f6d4', class: `rateplan-details ${this.ratePlan.custom_text ? 'rateplan-details-no-custom-text' : ''}` }, this.isLoading ? (h("div", { class: "col-span-6 w-full " }, h("ir-skeleton", { class: "block h-12 w-full" }))) : (h(Fragment, null, h("div", { class: "rateplan-travelers" }, this.ratePlan.variations && (h("ir-select", { class: "rateplan-select-travelers", label: localizedWords.entries.Lcz_Travelers, value: this.ratePlan.variations
                 .findIndex(f => { var _a, _b; return f.adult_child_offering === ((_b = (_a = this.visibleInventory) === null || _a === void 0 ? void 0 : _a.selected_variation) === null || _b === void 0 ? void 0 : _b.variation.adult_child_offering); })
                 .toString(), onValueChange: e => {
                 this.handleVariationChange(e, this.ratePlan.variations, this.ratePlan.id, this.roomTypeId);
             }, data: this.ratePlan.variations.map((v, i) => ({
                 id: i.toString(),
                 value: v.adult_child_offering,
-            })) })), h("div", { class: "rateplan-cancellation gap-2.5" }, this.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-green-600" }, "Non refundable")) : (h("div", { class: "flex items-center gap-[2px] " }, h("ir-tooltip", { labelColors: booking_store.isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip `, open_behavior: "click", label: booking_store.isInFreeCancelationZone ? 'Free cancellation' : 'If I cancel?', message: (this.cancelationMessage || this.ratePlan.cancelation) + this.ratePlan.guarantee, onTooltipOpenChange: e => {
+            })) })), h("div", { class: "rateplan-cancellation gap-2.5" }, this.ratePlan.is_non_refundable ? (h("p", { class: "text-xs", style: { color: 'var(--ir-green)' } }, "Non refundable")) : (h("div", { class: "flex items-center gap-[2px]" }, h("ir-tooltip", { labelColors: booking_store.isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip `, open_behavior: "click", label: booking_store.isInFreeCancelationZone ? 'Free cancellation' : 'If I cancel?', message: (this.cancelationMessage || this.ratePlan.cancelation) + this.ratePlan.guarantee, onTooltipOpenChange: e => {
                 if (e.detail) {
                     this.fetchCancelationMessage(this.ratePlan.id, this.roomTypeId);
                 }
@@ -112,9 +189,6 @@ export class IrRateplan {
                     html: true,
                 });
             }) }))) : (h("p", { class: "mls_alert" }, (_11 = (_10 = this.visibleInventory.selected_variation) === null || _10 === void 0 ? void 0 : _10.variation) === null || _11 === void 0 ? void 0 : _11.MLS_ALERT))))))));
-    }
-    async fetchCancelationMessage(id, roomTypeId) {
-        this.cancelationMessage = (await this.paymentService.fetchCancelationMessage({ id, roomTypeId })).message;
     }
     static get is() { return "ir-rateplan"; }
     static get encapsulation() { return "shadow"; }
