@@ -58,12 +58,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: 'd9ef4927d4d58c2bb81a3a225c15b7070d3a1cc0', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: 'fa8a4c9f99e40a939142c815e063eea19e200171', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '3e32072b04717a397484888c5d26e1722b3e1b47', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { key: 'ec5a2fcbe9f8392153be4f8defb3710b0d1806ff', class: "close", onIconClickHandler: () => {
+            h("div", { key: '115b811da8dca5aea27119f784ea964114395d3d', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("ir-icon", { key: '82ceade4e60db964dbdc59072d24e2c8a2c9e8ce', class: "close", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '511145936d4d3f09f6852b5ffa13739eee200220', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '32fcff594d133f7a9cc1609dad0795208686158f', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '524b1fb4834112811c45f9ef27456faaa9286ed2', name: "sidebar-body" })),
+                } }, h("svg", { key: '9fb53f3221044fb864de003cb88745c9f66d9f60', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '0909d5e2de56a15863402ccecd9222f4f01c813d', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("slot", { key: '3f3834da43abaa28aa548e577067c4d4acd30041', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

@@ -1,13 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { _ as _formatDate, a as _formatTime } from './functions.js';
+import { a as _formatDate, b as _formatTime } from './functions.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service2.js';
+import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$f } from './ir-icons2.js';
-import { g as getPrivateNote } from './booking2.js';
+import { e as getPrivateNote } from './booking.js';
 import { d as defineCustomElement$y } from './igl-application-info2.js';
 import { d as defineCustomElement$x } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$w } from './igl-book-property2.js';
@@ -156,12 +156,12 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                 this.closeSidebar.emit(null);
                 return;
             case 'print':
-                this.printBooking();
-                // window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=B&TK=${this.ticket}`);
+                // this.printBooking();
+                window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=B&TK=${this.ticket}`);
                 return;
             case 'receipt':
-                this.printBooking('invoice');
-                // window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=I&TK=${this.ticket}`);
+                // this.printBooking('invoice');
+                window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.bookingData.system_id}&&PM=I&TK=${this.ticket}`);
                 return;
             case 'book-delete':
                 return;
@@ -217,20 +217,24 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         const bookingJson = JSON.stringify(this.bookingData);
         const propertyJson = JSON.stringify(this.property);
         const countriesJson = JSON.stringify(this.countryNodeList);
-        var htmlContent = `
+        const pageTitle = `Booking#${this.bookingNumber} | igloorooms`;
+        const src = 'https://david1chowaifaty.github.io/igloo-calendar-main-web/dist/ir-webcmp/ir-webcmp.esm.js';
+        const htmlContent = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Generated Page</title>
+                <title>${pageTitle}</title>
+                <link rel="shortcut icon" type="image/x-icon" href="https://x.igloorooms.com/app-assets/images/ico/favicon.ico">
                 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-                <script type="module" src="https://david1chowaifaty.github.io/igloo-calendar-main-web/dist/ir-webcmp/ir-webcmp.esm.js"></script>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+                <script type="module" src='${src}'></script>
                 <style>
-                body{
-                 font-family: "Roboto", sans-serif;}
+                   body{
+                      font-family: "Roboto", sans-serif;
+                      }
                 </style>
             </head>
             <body>
@@ -246,11 +250,8 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             </html>
             `;
         try {
-            // Create a Blob from the HTML string
-            var blob = new Blob([htmlContent], { type: 'text/html' });
-            // Create an object URL from the Blob
-            var url = URL.createObjectURL(blob);
-            // Open the URL in a new window or tab
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
             window.open(url);
         }
         catch (error) {

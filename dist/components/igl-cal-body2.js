@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { c as calendar_dates } from './calendar-dates.store.js';
+import { b as calendar_dates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$7 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$6 } from './igl-booking-event2.js';
@@ -169,7 +169,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             },
         };
         let popupTitle = roomCategory.name + ' ' + this.getRoomName(this.getRoomById(this.getCategoryRooms(roomCategory), this.selectedRooms[keys[0]].roomId));
-        this.newEvent.BLOCK_DATES_TITLE = locales.entries.Lcz_BlockDatesFor + popupTitle;
+        this.newEvent.BLOCK_DATES_TITLE = `${locales.entries.Lcz_BlockDatesFor} ${popupTitle}`;
         this.newEvent.TITLE += popupTitle;
         this.newEvent.defaultDateRange.toDate = new Date(this.newEvent.TO_DATE + 'T00:00:00');
         this.newEvent.defaultDateRange.fromDate = new Date(this.newEvent.FROM_DATE + 'T00:00:00');
@@ -267,7 +267,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '05fee2fe5a3601c037d7f2681232dbb69cf35921' }, h("div", { key: '26cdb3997a0757d2568aa8b38ea6f1fde78ac005', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '8d62e0e9c5b4e8552ebbaee13d06cfa9d4852a74', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: 'f7f0ecef6742bbc0b93ce5aa11089df7e0128ffd' }, h("div", { key: '73c1c77b73e557be0d45af51186323618529f42a', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1bdc75826394776aef5f4364a0c2a5207f0a091a', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get style() { return IglCalBodyStyle0; }
 }, [2, "igl-cal-body", {

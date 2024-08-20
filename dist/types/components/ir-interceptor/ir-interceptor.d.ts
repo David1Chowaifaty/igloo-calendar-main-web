@@ -6,8 +6,10 @@ export declare class IrInterceptor {
     isLoading: boolean;
     isUnassignedUnit: boolean;
     endpointsCount: number;
+    isPageLoadingStoped: string | null;
     handledEndpoints: string[];
     toast: EventEmitter<IToast>;
+    handleStopPageLoading(e: CustomEvent): void;
     componentWillLoad(): void;
     setupAxiosInterceptors(): void;
     extractEndpoint(url: string): string;

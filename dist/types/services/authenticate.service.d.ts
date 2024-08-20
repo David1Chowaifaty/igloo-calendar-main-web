@@ -1,5 +1,6 @@
 export declare class AuthService {
-    private data;
-    constructor();
-    authenticate(baseurl: string, userName: string, password: string): Promise<void>;
+    authenticate(params: {
+        username: string;
+        password: string;
+    }): Promise<any>;
 }

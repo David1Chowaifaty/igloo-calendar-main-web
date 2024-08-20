@@ -7,7 +7,12 @@ export class IrInterceptor {
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
+        this.isPageLoadingStoped = null;
         this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings'];
+    }
+    handleStopPageLoading(e) {
+        this.isLoading = false;
+        this.isPageLoadingStoped = e.detail;
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -25,7 +30,7 @@ export class IrInterceptor {
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
-        if (this.isHandledEndpoint(extractedUrl)) {
+        if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStoped !== extractedUrl) {
             if (extractedUrl !== '/Get_Exposed_Calendar') {
                 this.isLoading = true;
             }
@@ -45,6 +50,7 @@ export class IrInterceptor {
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
+            this.isPageLoadingStoped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
@@ -63,7 +69,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '686727f01760a1c54b5fd2b0718f2674c8f94095' }, this.isLoading && (h("div", { key: '8120f2715781e3ef1f0e4015c352d3478408cf53', class: "loadingScreenContainer" }, h("div", { key: 'bd8a3b3661a016ff48873b77d346aadab15bdec2', class: "loaderContainer" }, h("span", { key: 'c4f6d370657b647405927769d7399e43644c504a', class: "loader" }))))));
+        return (h(Host, { key: 'bd77863fb2417b421303fd3328da5cfd962a647e' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'ef121919a3a9775c6591a0efa2a70c9d404248df', class: "loadingScreenContainer" }, h("div", { key: '3797ab7cfc106f2479dd40542f4b8f9923b3a8e5', class: "loaderContainer" }, h("span", { key: 'f6eccea51dc2ddd0431b016e0e12c409838c5abc', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -102,7 +108,8 @@ export class IrInterceptor {
             "isShown": {},
             "isLoading": {},
             "isUnassignedUnit": {},
-            "endpointsCount": {}
+            "endpointsCount": {},
+            "isPageLoadingStoped": {}
         };
     }
     static get events() {
@@ -127,6 +134,15 @@ export class IrInterceptor {
                         }
                     }
                 }
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "preventPageLoad",
+                "method": "handleStopPageLoading",
+                "target": "body",
+                "capture": false,
+                "passive": false
             }];
     }
 }

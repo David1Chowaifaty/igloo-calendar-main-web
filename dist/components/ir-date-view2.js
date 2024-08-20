@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { c as calculateDaysBetweenDates } from './booking2.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
 
 const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";

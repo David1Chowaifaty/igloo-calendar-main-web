@@ -2,13 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
+const index = require('./index-d0d7c4d0.js');
 const moment = require('./moment-1780b03a.js');
-const functions = require('./functions-ea8d4e95.js');
-require('./locales.store-ec208203.js');
-require('./index-104877f7.js');
-require('./calendar-data-3ed3cfd1.js');
-require('./calendar-dates.store-55347731.js');
+const functions = require('./functions-c20a8dc4.js');
+const booking = require('./booking-d0553c54.js');
+require('./utils-c6be7144.js');
+require('./axios-b86c5465.js');
+require('./locales.store-4301bbe8.js');
+require('./index-5e99a1fe.js');
+require('./calendar-data-fbe7f62b.js');
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -99,7 +101,7 @@ const IrBookingPrinting = class {
             this.setUserCountry(countries, this.convertedBooking.guest.country_id);
             this.currency = this.convertedBooking.currency.code;
             this.totalPersons = ((_a = this.convertedBooking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.convertedBooking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
-            this.totalNights = functions.calculateDaysBetweenDates(this.convertedBooking.from_date, this.convertedBooking.to_date);
+            this.totalNights = booking.calculateDaysBetweenDates(this.convertedBooking.from_date, this.convertedBooking.to_date);
         }
         catch (error) {
             console.error(error);

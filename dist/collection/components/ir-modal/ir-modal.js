@@ -7,6 +7,8 @@ export class IrModal {
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
         this.leftBtnText = 'Close';
+        this.isLoading = false;
+        this.autoClose = true;
         this.rightBtnColor = 'primary';
         this.leftBtnColor = 'secondary';
         this.btnPosition = 'right';
@@ -32,16 +34,20 @@ export class IrModal {
         else if (name === this.rightBtnText) {
             this.confirmModal.emit(this.item);
             this.item = {};
-            this.closeModal();
+            if (this.autoClose) {
+                this.closeModal();
+            }
         }
     }
     render() {
         return [
-            h("div", { key: '392e75fe8a5e5c78d53dca906ce5bc48a248c6bd', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '130124304297bc09b796db247e20ffefcfd2c3f7', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
-                    this.closeModal();
+                    if (this.autoClose && !this.isLoading) {
+                        this.closeModal();
+                    }
                 } }),
-            h("div", { key: '0d67369f127078631c3498abb48040b938f62a87', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'e60a8d548a83523c672ec8a29e074bf61db100b8', class: `ir-alert-content p-2` }, h("div", { key: '20819a1e86d48c32e0aea725295f34d726c5dec6', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: 'c7e23c1e0a4eba5797c0d2a305f0c5aba26d2187', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '088c53f027ad8856ed644b0ad97ff7092f66f91e' }, this.modalBody)), h("div", { key: 'e047ef305345834b913a0b191516092804a2b55c', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '2ad6ed54958da4254662faafed0d12ea226144d7', icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && h("ir-button", { key: '1d00126ca69a9be1f2ffb74ff896076c5be252f9', icon: '', btn_color: this.rightBtnColor, btn_block: true, text: this.rightBtnText, name: this.rightBtnText })))),
+            h("div", { key: 'bb6f41f6bed14750a0504cfc36f21c57af59f539', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'ff6a36544c3761f9a764ce768df75a390a9e5fcf', class: `ir-alert-content p-2` }, h("div", { key: 'f2a7812a000e8de0e22d2565dd5f54c0ce15c48b', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: 'c22522fdcc0467e0b21e861761d986420f551b67', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '91db085ec405f09be503d505cbe4f2a27a31a3a7' }, this.modalBody)), h("div", { key: 'c70f96fad1062114739b080c93b31df5e7648e1e', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '72d59527320ca4a5cdfdcd1ce0b9a664f00b1a12', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'c3469c111c94b44ef3cef440cb7ac8624c7bd03a', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -165,6 +171,42 @@ export class IrModal {
                 "attribute": "left-btn-text",
                 "reflect": false,
                 "defaultValue": "'Close'"
+            },
+            "isLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "is-loading",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "autoClose": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "auto-close",
+                "reflect": false,
+                "defaultValue": "true"
             },
             "rightBtnColor": {
                 "type": "string",

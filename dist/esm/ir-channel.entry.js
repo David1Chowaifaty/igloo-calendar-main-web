@@ -1,11 +1,12 @@
-import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-d2ec0a5d.js';
-import { R as RoomService } from './room.service-e20228c9.js';
-import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-c51f4270.js';
-import { l as locales } from './locales.store-91c051f0.js';
-import { a as axios } from './Token-81a651a8.js';
-import { C as ChannelService } from './channel.service-321f72fe.js';
-import { c as calendar_data } from './calendar-data-956fa3f1.js';
-import './index-a32c4342.js';
+import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-c553b3dc.js';
+import { R as RoomService } from './room.service-10dcbd4a.js';
+import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-a03c634b.js';
+import { l as locales } from './locales.store-a1e3db22.js';
+import { a as axios } from './axios-ab377903.js';
+import { C as ChannelService } from './channel.service-bf75de13.js';
+import { c as calendar_data } from './calendar-data-666acc1f.js';
+import './Token-692eae02.js';
+import './index-1d7b1ff2.js';
 
 const actions = (entries) => [
     {

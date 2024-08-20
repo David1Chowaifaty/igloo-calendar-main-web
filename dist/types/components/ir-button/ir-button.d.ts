@@ -4,7 +4,7 @@ export declare class IrButton {
     name: string;
     text: any;
     icon: string;
-    btn_color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+    btn_color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline';
     size: 'sm' | 'md' | 'lg';
     textSize: 'sm' | 'md' | 'lg';
     btn_block: boolean;

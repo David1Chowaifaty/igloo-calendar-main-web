@@ -167,6 +167,18 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    outline_user: {
+        viewBox: string;
+        d: string;
+    };
+    key: {
+        viewBox: string;
+        d: string;
+    };
+    unlock: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

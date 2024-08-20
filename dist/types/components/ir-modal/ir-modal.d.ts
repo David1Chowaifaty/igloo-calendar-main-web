@@ -6,6 +6,8 @@ export declare class IrModal {
     leftBtnActive: boolean;
     rightBtnText: string;
     leftBtnText: string;
+    isLoading: boolean;
+    autoClose: boolean;
     rightBtnColor: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
     leftBtnColor: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
     btnPosition: 'left' | 'right' | 'center';

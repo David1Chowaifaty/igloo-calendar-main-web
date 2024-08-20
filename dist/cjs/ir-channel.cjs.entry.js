@@ -2,14 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
-const room_service = require('./room.service-cab6996c.js');
-const channel_store = require('./channel.store-2ec5694c.js');
-const locales_store = require('./locales.store-ec208203.js');
-const Token = require('./Token-fac1282b.js');
-const channel_service = require('./channel.service-c3fca434.js');
-const calendarData = require('./calendar-data-3ed3cfd1.js');
-require('./index-104877f7.js');
+const index = require('./index-d0d7c4d0.js');
+const room_service = require('./room.service-f03156c9.js');
+const channel_store = require('./channel.store-9da77951.js');
+const locales_store = require('./locales.store-4301bbe8.js');
+const axios = require('./axios-b86c5465.js');
+const channel_service = require('./channel.service-770f1fcb.js');
+const calendarData = require('./calendar-data-fbe7f62b.js');
+require('./Token-c9908564.js');
+require('./index-5e99a1fe.js');
 
 const actions = (entries) => [
     {
@@ -122,7 +123,7 @@ const IrChannel = class {
     componentWillLoad() {
         this.isLoading = true;
         if (this.baseurl) {
-            Token.axios.defaults.baseURL = this.baseurl;
+            axios.axios.defaults.baseURL = this.baseurl;
         }
         if (this.ticket !== '') {
             calendarData.calendar_data.token = this.ticket;

@@ -28,6 +28,7 @@ export declare class IrRoom {
     isLoading: boolean;
     isModelOpen: boolean;
     private modal;
+    irModalRef: HTMLIrModalElement;
     componentWillLoad(): void;
     handleBookingEventChange(): void;
     componentDidLoad(): void;

@@ -53,7 +53,7 @@ export class IrInputText {
     render() {
         const id = v4();
         if (this.variant === 'icon') {
-            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${this.error && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { type: "text", onFocus: () => (this.inputFocused = true), required: this.required, onBlur: e => {
+            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${this.error && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { type: this.type, onFocus: () => (this.inputFocused = true), required: this.required, onBlur: e => {
                     this.inputFocused = false;
                     this.inputBlur.emit(e);
                 }, disabled: this.disabled, class: `form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${this.error && 'danger-border'}`, id: id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));

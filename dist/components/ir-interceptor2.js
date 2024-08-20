@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { a as axios } from './axios.js';
 import { a as interceptor_requests } from './ir-interceptor.store.js';
 
-const irInterceptorCss = ".loader.sc-ir-interceptor{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-interceptor{padding:20px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:white}.loadingScreenContainer.sc-ir-interceptor{position:fixed;top:0;left:0;height:100vh;width:100vw;z-index:100000;background:rgba(0, 0, 0, 0.2);pointer-events:all;display:flex;align-items:center;justify-content:center}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
+const irInterceptorCss = ".page-loader.sc-ir-interceptor{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-interceptor{padding:20px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:white}.loadingScreenContainer.sc-ir-interceptor{position:fixed;top:0;left:0;height:100vh;width:100vw;z-index:100000;background:rgba(0, 0, 0, 0.2);pointer-events:all;display:flex;align-items:center;justify-content:center}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrInterceptorStyle0 = irInterceptorCss;
 
 const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor extends HTMLElement {
@@ -14,7 +14,12 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
+        this.isPageLoadingStoped = null;
         this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings'];
+    }
+    handleStopPageLoading(e) {
+        this.isLoading = false;
+        this.isPageLoadingStoped = e.detail;
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -32,7 +37,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
-        if (this.isHandledEndpoint(extractedUrl)) {
+        if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStoped !== extractedUrl) {
             if (extractedUrl !== '/Get_Exposed_Calendar') {
                 this.isLoading = true;
             }
@@ -52,6 +57,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
+            this.isPageLoadingStoped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
@@ -70,7 +76,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '686727f01760a1c54b5fd2b0718f2674c8f94095' }, this.isLoading && (h("div", { key: '8120f2715781e3ef1f0e4015c352d3478408cf53', class: "loadingScreenContainer" }, h("div", { key: 'bd8a3b3661a016ff48873b77d346aadab15bdec2', class: "loaderContainer" }, h("span", { key: 'c4f6d370657b647405927769d7399e43644c504a', class: "loader" }))))));
+        return (h(Host, { key: 'bd77863fb2417b421303fd3328da5cfd962a647e' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'ef121919a3a9775c6591a0efa2a70c9d404248df', class: "loadingScreenContainer" }, h("div", { key: '3797ab7cfc106f2479dd40542f4b8f9923b3a8e5', class: "loaderContainer" }, h("span", { key: 'f6eccea51dc2ddd0431b016e0e12c409838c5abc', class: "page-loader" }))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
@@ -78,8 +84,9 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         "isShown": [32],
         "isLoading": [32],
         "isUnassignedUnit": [32],
-        "endpointsCount": [32]
-    }]);
+        "endpointsCount": [32],
+        "isPageLoadingStoped": [32]
+    }, [[16, "preventPageLoad", "handleStopPageLoading"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;

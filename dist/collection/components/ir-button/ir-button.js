@@ -107,8 +107,8 @@ export class IrButton {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'",
-                    "resolved": "\"danger\" | \"dark\" | \"info\" | \"light\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
+                    "original": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline'",
+                    "resolved": "\"danger\" | \"dark\" | \"info\" | \"light\" | \"outline\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
                     "references": {}
                 },
                 "required": false,
@@ -287,7 +287,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\"",
+                    "resolved": "\"print\" | \"key\" | \"save\" | \"check\" | \"user\" | \"search\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\"",
                     "references": {
                         "TIcons": {
                             "location": "import",

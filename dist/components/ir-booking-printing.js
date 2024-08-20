@@ -1,7 +1,7 @@
 import { h, proxyCustomElement, HTMLElement, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { a as _formatTime, b as _formatAmount } from './functions.js';
-import { c as calculateDaysBetweenDates } from './booking2.js';
+import { b as _formatTime, _ as _formatAmount } from './functions.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
