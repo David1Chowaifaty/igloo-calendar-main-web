@@ -108,6 +108,7 @@ export namespace Components {
         "version": string;
     }
     interface IrBookingCancelation {
+        "booking": Booking;
         "booking_nbr": string;
         "cancelation": string;
         "cancelation_policies": TBookingInfo[];
@@ -197,8 +198,10 @@ export namespace Components {
     }
     interface IrCarousel {
         "activeIndex": number;
+        "carouselClasses": string;
         "enableCarouselSwipe": boolean;
         "slides": TCarouselSlides[];
+        "styles": Partial<CSSStyleDeclaration>;
     }
     interface IrCheckbox {
         "checkboxId": string;
@@ -249,6 +252,8 @@ export namespace Components {
         "version": string;
     }
     interface IrGallery {
+        "carouselClasses": string;
+        "carouselStyles": Partial<CSSStyleDeclaration>;
         "disableCarouselClick": boolean;
         "enableCarouselSwipe": boolean;
         "images": { url: string; alt: string }[];
@@ -404,6 +409,7 @@ export namespace Components {
         "policyTriggerStyle": Partial<CSSStyleDeclaration>;
     }
     interface IrPropertyGallery {
+        "display": 'grid' | 'default';
         "property_state": 'carousel' | 'gallery';
         "roomType": RoomType;
     }
@@ -414,6 +420,7 @@ export namespace Components {
         "radioId": string;
     }
     interface IrRateplan {
+        "display": 'grid' | 'default';
         "ratePlan": RatePlan;
         "roomTypeId": number;
         "roomTypeInventory": number;
@@ -429,9 +436,12 @@ export namespace Components {
         "roomType": RoomType;
     }
     interface IrRoomtype {
+        "display": 'grid' | 'default';
         "roomtype": RoomType;
     }
     interface IrSelect {
+        "containerStyle": string;
+        "customStyles": string;
         "data": { id: string | number; value: string; disabled?: boolean; html?: boolean }[];
         "icon": boolean;
         "label": string;
@@ -517,6 +527,10 @@ export namespace Components {
 export interface IrAdultChildCounterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAdultChildCounterElement;
+}
+export interface IrAlertDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAlertDialogElement;
 }
 export interface IrAuthCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -718,7 +732,18 @@ declare global {
         prototype: HTMLIrAdultChildCounterElement;
         new (): HTMLIrAdultChildCounterElement;
     };
+    interface HTMLIrAlertDialogElementEventMap {
+        "openChange": boolean;
+    }
     interface HTMLIrAlertDialogElement extends Components.IrAlertDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAlertDialogElementEventMap>(type: K, listener: (this: HTMLIrAlertDialogElement, ev: IrAlertDialogCustomEvent<HTMLIrAlertDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAlertDialogElementEventMap>(type: K, listener: (this: HTMLIrAlertDialogElement, ev: IrAlertDialogCustomEvent<HTMLIrAlertDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrAlertDialogElement: {
         prototype: HTMLIrAlertDialogElement;
@@ -831,6 +856,7 @@ declare global {
     };
     interface HTMLIrBookingCodeElementEventMap {
         "closeDialog": null;
+        "resetBooking": string;
     }
     interface HTMLIrBookingCodeElement extends Components.IrBookingCode, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingCodeElementEventMap>(type: K, listener: (this: HTMLIrBookingCodeElement, ev: IrBookingCodeCustomEvent<HTMLIrBookingCodeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1761,6 +1787,7 @@ declare namespace LocalJSX {
         "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<{ adult_nbr: number; child_nbr: number }>) => void;
     }
     interface IrAlertDialog {
+        "onOpenChange"?: (event: IrAlertDialogCustomEvent<boolean>) => void;
     }
     interface IrAuth {
         "enableSignUp"?: boolean;
@@ -1816,6 +1843,7 @@ declare namespace LocalJSX {
         "version"?: string;
     }
     interface IrBookingCancelation {
+        "booking"?: Booking;
         "booking_nbr"?: string;
         "cancelation"?: string;
         "cancelation_policies"?: TBookingInfo[];
@@ -1830,6 +1858,7 @@ declare namespace LocalJSX {
     }
     interface IrBookingCode {
         "onCloseDialog"?: (event: IrBookingCodeCustomEvent<null>) => void;
+        "onResetBooking"?: (event: IrBookingCodeCustomEvent<string>) => void;
     }
     interface IrBookingDetails {
         "errors"?: string;
@@ -1922,10 +1951,12 @@ declare namespace LocalJSX {
     }
     interface IrCarousel {
         "activeIndex"?: number;
+        "carouselClasses"?: string;
         "enableCarouselSwipe"?: boolean;
         "onCarouselImageClicked"?: (event: IrCarouselCustomEvent<null>) => void;
         "onCarouselImageIndexChange"?: (event: IrCarouselCustomEvent<number>) => void;
         "slides"?: TCarouselSlides[];
+        "styles"?: Partial<CSSStyleDeclaration>;
     }
     interface IrCheckbox {
         "checkboxId"?: string;
@@ -2000,6 +2031,8 @@ declare namespace LocalJSX {
         "version"?: string;
     }
     interface IrGallery {
+        "carouselClasses"?: string;
+        "carouselStyles"?: Partial<CSSStyleDeclaration>;
         "disableCarouselClick"?: boolean;
         "enableCarouselSwipe"?: boolean;
         "images"?: { url: string; alt: string }[];
@@ -2179,6 +2212,7 @@ declare namespace LocalJSX {
         "policyTriggerStyle"?: Partial<CSSStyleDeclaration>;
     }
     interface IrPropertyGallery {
+        "display"?: 'grid' | 'default';
         "property_state"?: 'carousel' | 'gallery';
         "roomType"?: RoomType;
     }
@@ -2190,6 +2224,7 @@ declare namespace LocalJSX {
         "radioId"?: string;
     }
     interface IrRateplan {
+        "display"?: 'grid' | 'default';
         "onAnimateBookingButton"?: (event: IrRateplanCustomEvent<null>) => void;
         "ratePlan"?: RatePlan;
         "roomTypeId"?: number;
@@ -2206,9 +2241,12 @@ declare namespace LocalJSX {
         "roomType"?: RoomType;
     }
     interface IrRoomtype {
+        "display"?: 'grid' | 'default';
         "roomtype"?: RoomType;
     }
     interface IrSelect {
+        "containerStyle"?: string;
+        "customStyles"?: string;
         "data"?: { id: string | number; value: string; disabled?: boolean; html?: boolean }[];
         "icon"?: boolean;
         "label"?: string;

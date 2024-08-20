@@ -1,5 +1,6 @@
 import { RoomType } from "../../../../models/property";
 export declare class IrPropertyGallery {
+    display: 'grid' | 'default';
     property_state: 'carousel' | 'gallery';
     roomType: RoomType;
     activeIndex: number;

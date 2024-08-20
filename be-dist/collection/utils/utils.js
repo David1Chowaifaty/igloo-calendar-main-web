@@ -186,7 +186,8 @@ export function validateAgentCode(code) {
         return false;
     }
     let isValidCode = false;
-    const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code === this.code.trim());
+    const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code.toLowerCase() === code.trim().toLowerCase());
+    console.log(agent);
     if (agent) {
         isValidCode = true;
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id });

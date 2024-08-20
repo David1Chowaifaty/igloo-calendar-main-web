@@ -16,7 +16,7 @@ export class IrCouponDialog {
         }
         this.isValid = true;
         this.validationMessage = { error: false, message: this.coupon };
-        this.resetBooking.emit('discountOnly');
+        this.resetBooking.emit('partialReset');
         this.coupon = null;
         this.dialogRef.closeModal();
     }
@@ -24,7 +24,7 @@ export class IrCouponDialog {
         this.isValid = false;
         this.validationMessage = null;
         modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: null, loyalty: false }));
-        this.resetBooking.emit('discountOnly');
+        this.resetBooking.emit('partialReset');
     }
     render() {
         var _a, _b, _c, _d;

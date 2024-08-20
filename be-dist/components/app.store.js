@@ -13,6 +13,7 @@ const initialState = {
     },
     invoice: null,
     app_data: {
+        displayMode: 'default',
         affiliate: null,
         stag: null,
         token: '',

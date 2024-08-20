@@ -18,7 +18,7 @@ export class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: !!booking_store.bookingAvailabilityParams.agent }));
+        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -48,6 +48,7 @@ export class PropertyService extends Token {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
+            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }

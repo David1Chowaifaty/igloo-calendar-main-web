@@ -12,11 +12,11 @@ export declare class IrBookingPage {
     currencies: ICurrency[];
     languages: IExposedLanguages[];
     routing: EventEmitter<pages>;
-    checkoutContainerRef: HTMLDivElement;
-    roomTypeSectionRef: HTMLElement;
+    private checkoutContainerRef;
+    private roomTypeSectionRef;
     componentWillLoad(): void;
     handleBookingAnimation(e: CustomEvent): void;
     handleScrolling(e: CustomEvent): void;
-    renderTotalNights(): string;
+    private renderTotalNights;
     render(): any;
 }

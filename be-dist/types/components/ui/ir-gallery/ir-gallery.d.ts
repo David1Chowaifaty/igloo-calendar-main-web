@@ -8,6 +8,8 @@ export declare class IrGallery {
     maxLength: number;
     disableCarouselClick: boolean;
     enableCarouselSwipe: boolean;
+    carouselStyles: Partial<CSSStyleDeclaration>;
+    carouselClasses: string;
     openGallery: EventEmitter<number>;
     private swiperInstance;
     carouselEl: HTMLDivElement;
@@ -15,6 +17,8 @@ export declare class IrGallery {
     prevEl: HTMLElement;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    handleStylesChange(): void;
+    applyStyles(): void;
     initializeSwiper(): void;
     reinitializeSwiper(): void;
     private handleOpenGallery;

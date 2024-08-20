@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { RatePlan } from "../../../../models/property";
 import { IRatePlanSelection } from "../../../../stores/booking";
 export declare class IrRateplan {
+    display: 'grid' | 'default';
     ratePlan: RatePlan;
     visibleInventory?: IRatePlanSelection | {
         reserved: number;

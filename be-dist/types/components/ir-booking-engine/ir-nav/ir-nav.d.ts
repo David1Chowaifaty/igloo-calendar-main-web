@@ -26,5 +26,6 @@ export declare class IrNav {
     renderLanguageTrigger(): any;
     private handleSignIn;
     handleItemSelect(e: CustomEvent): Promise<CustomEvent<pages>>;
+    private showAgentCode;
     render(): any;
 }

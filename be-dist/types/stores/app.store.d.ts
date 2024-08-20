@@ -34,6 +34,7 @@ export interface IAppStore {
         hideGoogleSignIn: boolean;
         isFromGhs: boolean;
         stag: string | null;
+        displayMode: 'default' | 'grid';
     };
     property: IExposedProperty;
     setup_entries: {

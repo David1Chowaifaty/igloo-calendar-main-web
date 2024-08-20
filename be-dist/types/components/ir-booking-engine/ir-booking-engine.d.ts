@@ -57,7 +57,7 @@ export declare class IrBookingEngine {
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
     handleAuthFinish(e: CustomEvent): void;
-    resetBooking(resetType?: 'discountOnly' | 'completeReset'): Promise<void>;
+    resetBooking(resetType?: 'partialReset' | 'completeReset'): Promise<void>;
     checkAvailability(): Promise<void>;
     renderScreens(): any;
     disconnectedCallback(): void;

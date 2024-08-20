@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrSelect {
     label: string;
+    icon: boolean;
     value: string | number;
     data: {
         id: string | number;
@@ -10,7 +11,8 @@ export declare class IrSelect {
     }[];
     select_id: string;
     variant: 'double-line' | 'default';
-    icon: boolean;
+    customStyles: string;
+    containerStyle: string;
     valueChange: EventEmitter<string | number>;
     render(): any;
 }

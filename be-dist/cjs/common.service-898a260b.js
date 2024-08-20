@@ -1,6 +1,6 @@
 'use strict';
 
-const utils$3 = require('./utils-48cc294d.js');
+const utils$3 = require('./utils-f616c52c.js');
 
 class Token {
     getToken() {
@@ -21935,7 +21935,7 @@ class PropertyHelpers {
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, 
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: rp.variations, 
                         // variations: rp.variations.map(v => {
                         //   if (!newRatePlan.variations) {
                         //     return v;
@@ -22127,7 +22127,7 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: utils$3.app_store.userPreferences.currency_id, include_sales_rate_plans: !!utils$3.booking_store.bookingAvailabilityParams.agent }));
+        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: utils$3.app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -22157,6 +22157,7 @@ class PropertyService extends Token {
         utils$3.app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
+            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -22500,7 +22501,7 @@ class CommonService extends Token {
     transformArrayToObject(data) {
         let object = {};
         for (const d of data) {
-            object[d.code] = d.description;
+            object[d.code] = `${d.description}`;
         }
         return object;
     }
@@ -22518,4 +22519,4 @@ exports.updatePartialPickupFormData = updatePartialPickupFormData;
 exports.updatePickupFormData = updatePickupFormData;
 exports.updateUserFormData = updateUserFormData;
 
-//# sourceMappingURL=common.service-8bc68752.js.map
+//# sourceMappingURL=common.service-898a260b.js.map

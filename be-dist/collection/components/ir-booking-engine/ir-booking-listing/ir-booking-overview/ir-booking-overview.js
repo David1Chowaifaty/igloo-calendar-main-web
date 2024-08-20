@@ -266,7 +266,7 @@ export class IrBookingOverview {
                     const { id } = e.detail;
                     console.log(id);
                     this.handleBlEvents(id);
-                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, currency: { code: (_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.currency.code, id: (_e = this.selectedBooking) === null || _e === void 0 ? void 0 : _e.currency.id }, cancelation: this.cancelationMessage || ((_f = this.selectedBooking) === null || _f === void 0 ? void 0 : _f.rooms[0].rateplan.cancelation), onCancelationResult: e => {
+                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancelation", { ref: el => (this.bookingCancelation = el), booking: this.selectedBooking, booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, currency: { code: (_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.currency.code, id: (_e = this.selectedBooking) === null || _e === void 0 ? void 0 : _e.currency.id }, cancelation: this.cancelationMessage || ((_f = this.selectedBooking) === null || _f === void 0 ? void 0 : _f.rooms[0].rateplan.cancelation), onCancelationResult: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { state, booking_nbr } = e.detail;

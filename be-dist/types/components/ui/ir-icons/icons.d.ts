@@ -191,6 +191,14 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'arrow-up-right-from-square': {
+        d: string;
+        viewBox: string;
+    };
+    'circle-user': {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

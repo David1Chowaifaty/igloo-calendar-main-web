@@ -1,4 +1,4 @@
-import { H as toDate, I as startOfWeek, J as defaultOptions, K as enUS, L as isSameWeek, d as dateFns, a as app_store, b as booking_store, n as modifyBookingStore, c as createStore, M as injectHTML, r as getDateDifference, x as calculateTotalCost, l as localizedWords } from './utils-1e51ce92.js';
+import { H as toDate, I as startOfWeek, J as defaultOptions, K as enUS, L as isSameWeek, d as dateFns, a as app_store, b as booking_store, n as modifyBookingStore, c as createStore, M as injectHTML, r as getDateDifference, x as calculateTotalCost, l as localizedWords } from './utils-59abd24d.js';
 
 class Token {
     getToken() {
@@ -21933,7 +21933,7 @@ class PropertyHelpers {
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations, 
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: rp.variations, 
                         // variations: rp.variations.map(v => {
                         //   if (!newRatePlan.variations) {
                         //     return v;
@@ -22125,7 +22125,7 @@ class PropertyService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: !!booking_store.bookingAvailabilityParams.agent }));
+        const { data } = await axios$1.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -22155,6 +22155,7 @@ class PropertyService extends Token {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
+            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -22498,7 +22499,7 @@ class CommonService extends Token {
     transformArrayToObject(data) {
         let object = {};
         for (const d of data) {
-            object[d.code] = d.description;
+            object[d.code] = `${d.description}`;
         }
         return object;
     }
@@ -22506,4 +22507,4 @@ class CommonService extends Token {
 
 export { CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, axios$1 as a, PaymentService as b, checkout_store as c, updatePickupFormData as d, updatePartialPickupFormData as e, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=common.service-a2cfd016.js.map
+//# sourceMappingURL=common.service-24f4691a.js.map

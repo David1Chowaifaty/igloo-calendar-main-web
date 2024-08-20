@@ -114,6 +114,7 @@ export class IrBookingEngine {
         this.commonService.setToken(this.token);
         this.propertyService.setToken(this.token);
         app_store.app_data = {
+            displayMode: 'grid',
             isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
             token: this.token,
             property_id: this.propertyId,
@@ -219,7 +220,7 @@ export class IrBookingEngine {
     async resetBooking(resetType = 'completeReset') {
         var _a;
         let queries = [];
-        if (resetType === 'discountOnly' && app_store.fetchedBooking) {
+        if (resetType === 'partialReset' && app_store.fetchedBooking) {
             queries.push(this.checkAvailability());
         }
         else if (resetType === 'completeReset') {

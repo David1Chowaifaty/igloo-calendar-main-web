@@ -6,6 +6,7 @@ export declare class IrBookingCode {
         message: string;
     };
     closeDialog: EventEmitter<null>;
+    resetBooking: EventEmitter<string>;
     handleSubmit(e: Event): {
         error: true;
         message: string;

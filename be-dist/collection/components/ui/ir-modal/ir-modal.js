@@ -124,7 +124,7 @@ export class IrModal {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '96cedc96e5e2abdc3f29ed9c47607ba8f0229094', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: '17db4b3284f74274bbf3061a00fdb91a670ff207', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
+        return (h("ir-dialog", { key: '15e203cf59daff1dbe3609ad329d5d68e7f13dd2', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: 'e3a26e2ba700b67d56ae925e23a386e2759815b1', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
     }
     static get is() { return "ir-modal"; }
     static get originalStyleUrls() {

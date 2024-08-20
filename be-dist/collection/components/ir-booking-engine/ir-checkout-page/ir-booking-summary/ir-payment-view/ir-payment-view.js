@@ -143,7 +143,7 @@ export class IrPaymentView {
         return null;
     }
     render() {
-        return (h("div", { key: '504289ed3df6041be3633054dffafa7256890d0b', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
+        return (h("div", { key: '483c0f0ee6892de62ce8eb153efe914cf3af2aed', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }

@@ -220,16 +220,23 @@ export class IrAvailibilityHeader {
         return ((_e = this.errorCause) === null || _e === void 0 ? void 0 : _e.length) > 0;
     }
     render() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         this.shouldRenderErrorToast();
-        return (h("div", { key: '51a20b327afed10ac3b6f2595b9d306ed6e76028', class: "availability-container" }, h("div", { key: '39d6f2fa8748090500ad156e143f5a58c19f527c', class: "availability-inputs" }, h("ir-date-popup", { key: 'd8014ca01b82354029c185f08937f50e66d87523', "data-state": ((_a = this.errorCause) === null || _a === void 0 ? void 0 : _a.find(c => c === 'date')) ? 'error' : '', dates: {
-                start: ((_b = this.exposedBookingAvailabiltyParams) === null || _b === void 0 ? void 0 : _b.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
-                end: ((_c = this.exposedBookingAvailabiltyParams) === null || _c === void 0 ? void 0 : _c.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("div", { key: '3814757780710b140ef63816f074196e6d5d6737', class: "availability-controls" }, h("ir-adult-child-counter", { key: 'cec12d809f2bfdccf170279c5fe7151893ab1f30', "data-state": ((_d = this.errorCause) === null || _d === void 0 ? void 0 : _d.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("ir-button", { key: 'e7217fc0c886cb18e426b4f2cb43993b11b4c639', isLoading: this.isLoading, onButtonClick: e => {
+        const show_loyalty = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.promotions) === null || _b === void 0 ? void 0 : _b.some(p => p.is_loyalty);
+        const show_coupon = (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) === null || _d === void 0 ? void 0 : _d.some(p => p.is_loyalty);
+        const showPromotions = ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (show_coupon || show_loyalty);
+        return (h("div", { key: '9f9897e22355ad57c56face3f7b2d917194fd05d', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '2f5497d32e1aefadfb05cdefcba8ce2ed48c50c6', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'da85ec3416f1fd4f0d64b7b9085154a3e05e1185', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
+                start: ((_g = this.exposedBookingAvailabiltyParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
+                end: ((_h = this.exposedBookingAvailabiltyParams) === null || _h === void 0 ? void 0 : _h.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
+            }, class: "date-popup" }), h("ir-adult-child-counter", { key: 'db70a7a50efc6be93cc1b288e1f6baf697bc576e', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("div", { key: '5ddaad0483ce083780930cf73094ccf769c8eace', class: 'hidden sm:block' }, h("ir-button", { key: '4f4a935a64f8b95f65b5012779f3c6ba1acc4bbd', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" }))), ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (h("div", { key: '34ce2e54394213daba585a37fcdfd52b8b467d3c', class: "promotions-container" }, h("ir-coupon-dialog", { key: '60c00c66fc388ddc23b49abb0a11ff041afa9495', class: "coupon-dialog" }), h("ir-loyalty", { key: '9dc90d2d00fafb3ecb8d21475060520ccf8f937a', class: "loyalty" })))));
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '36e557a7d27caa854eee119ba8a4eae8dbdb66c1', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '22e314aa34fe4ec01ebcc6bd342c952fe1c6bb21', isLoading: this.isLoading, onButtonClick: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.handleCheckAvailability();
+            }, size: "md", label: "search", buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '0c4388468bd4fef95a89b9ff6d78ce2f2a05abb4', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'd9233796fafe5e20d3de3c4702b760088a6cf204', class: "coupon-dialog" }), h("ir-loyalty", { key: '47f0ba6701bfda2c8e0bfd8091c2231e730ac1fa', class: "loyalty" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }

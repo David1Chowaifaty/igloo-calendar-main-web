@@ -6,7 +6,7 @@ import { Host, h } from "@stencil/core";
 export class IrLoyalty {
     toggleLoyalty(value) {
         modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: null, loyalty: value }));
-        this.resetBooking.emit('discountOnly');
+        this.resetBooking.emit('partialReset');
     }
     render() {
         var _a, _b;

@@ -14,10 +14,11 @@ export class IrBookingCode {
         }
         this.validationMessage = { error: false, message: this.code };
         this.closeDialog.emit(null);
+        this.resetBooking.emit('partialReset');
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'b9fbcdd6dafa07520b230f0b8ea7a5c5bfa8878f' }, h("form", { key: '2cd1475bd8ab6833b95959fed5710e448011f866', onSubmit: this.handleSubmit.bind(this), class: "p-4 sm:p-6" }, h("h1", { key: '55ff0d1a580631395f7c989c801b7abf7afe4b51', class: "title" }, localizedWords.entries.Lcz_HaveAgentorCoporate, " "), h("ir-input", { key: '89567c415867e0126f7c57795788b93e038b30e6', error: (_a = this.validationMessage) === null || _a === void 0 ? void 0 : _a.error, onTextChanged: e => (this.code = e.detail), autofocus: true, inputId: "booking_code", placeholder: localizedWords.entries.Lcz_BookingCode, mode: "default" }), ((_b = this.validationMessage) === null || _b === void 0 ? void 0 : _b.error) && h("p", { key: '9890b125744132f6fb9aed0125d79982177816e0', class: "text-red-500" }, this.validationMessage.message), h("div", { key: '0f6dbb45471ff9ee6e5f43a9f47161f253c20dbb', class: "mt-8 flex w-full flex-col items-center gap-4 md:flex-row-reverse" }, h("ir-button", { key: '71b341af83723584cf1e6ecc44878eca53047292', size: "md", label: localizedWords.entries.Lcz_Apply, class: "w-full md:w-fit" }), h("ir-button", { key: '3fb39bc29b300ffe036345d1bcd5ae3dba268571', size: "md", onButtonClick: () => this.closeDialog.emit(null), variants: "outline", label: localizedWords.entries.Lcz_Cancel, class: 'w-full md:w-fit' })))));
+        return (h(Host, { key: 'f2656a8e5e433bb2b5fbb0028142db38b0280feb' }, h("form", { key: '2d9be4b438e928b9765f21c81ddfe6277f23f918', onSubmit: this.handleSubmit.bind(this), class: "p-4 sm:p-6" }, h("h1", { key: 'a3dd16dc042905aefb319436bb521928f8636d3e', class: "title" }, localizedWords.entries.Lcz_HaveAgentorCoporate, " "), h("ir-input", { key: '1ae56222cb4eae8e454baefeeb8d2ecb686a82b4', error: (_a = this.validationMessage) === null || _a === void 0 ? void 0 : _a.error, onTextChanged: e => (this.code = e.detail), autofocus: true, inputId: "booking_code", placeholder: localizedWords.entries.Lcz_BookingCode, mode: "default" }), ((_b = this.validationMessage) === null || _b === void 0 ? void 0 : _b.error) && h("p", { key: '69983ebb907b4c390f44c1ac6d8297ed16c2dcc6', class: "text-red-500" }, this.validationMessage.message), h("div", { key: 'ed8eb37e8b8f2ec41ed420ff49785018414874cc', class: "mt-8 flex w-full flex-col items-center gap-4 md:flex-row-reverse" }, h("ir-button", { key: '6ca0a64a9302f27988e40517b92284469ca8406b', type: "submit", size: "md", label: localizedWords.entries.Lcz_Apply, class: "w-full md:w-fit" }), h("ir-button", { key: '41bd0a1a880d2b0ff3098009c870131c497d637e', size: "md", onButtonClick: () => this.closeDialog.emit(null), variants: "outline", type: "button", label: localizedWords.entries.Lcz_Cancel, class: 'w-full md:w-fit' })))));
     }
     static get is() { return "ir-booking-code"; }
     static get encapsulation() { return "shadow"; }
@@ -51,6 +52,21 @@ export class IrBookingCode {
                 "complexType": {
                     "original": "null",
                     "resolved": "null",
+                    "references": {}
+                }
+            }, {
+                "method": "resetBooking",
+                "name": "resetBooking",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 }
             }];

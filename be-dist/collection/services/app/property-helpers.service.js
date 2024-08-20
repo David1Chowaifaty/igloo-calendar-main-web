@@ -132,7 +132,7 @@ export class PropertyHelpers {
                     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                         return updatedRatePlans;
                     }
-                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { variations: rp.variations,
+                    updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: rp.variations,
                         // variations: rp.variations.map(v => {
                         //   if (!newRatePlan.variations) {
                         //     return v;

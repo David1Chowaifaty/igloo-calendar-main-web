@@ -11,10 +11,12 @@ export class IrAlertDialog {
         this.isOpen = true;
         addOverlay();
         this.prepareFocusTrap();
+        this.openChange.emit(this.isOpen);
     }
     async closeModal() {
         removeOverlay();
         this.isOpen = false;
+        this.openChange.emit(this.isOpen);
     }
     prepareFocusTrap() {
         const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -48,7 +50,7 @@ export class IrAlertDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '58e7454f77c95d6b546cb6d2bddbcd33d0d94dc5' }, h("div", { key: 'c9652653b8da9c0de35f1c2be82e71d86a1f5777', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { key: '5928bddaed0bc5f368ffafdc51eae76ea76bdfe2', class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: 'c983d22e2fb8bf27981ff9d227bb99a8b837c462', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: '9b6e756fa86efb5bc2dd89cb2d5b6fc8486192f6', name: "modal-title" })), h("div", { key: '3eb3b416deb76e4c842c19bca99893b07563647f', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '39ff68f62f4dd106d5f97911181939a14c1e9b8c', name: "modal-body" })), h("div", { key: '84dd31d5a175e4a56a28983427abe466d5e45591', class: "modal-footer" }, h("slot", { key: 'f405ae030981439a4b514ed18e4370b9405af498', name: "modal-footer" }))))));
+        return (h(Host, { key: '7842eba90cd9092d051d6f438fefc3e1535b91a3' }, h("div", { key: '02db51f6a2f28f06d0b9b2f02333999acb48b898', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed' }), this.isOpen && (h("div", { key: '51300be935303f35a5eca9a303a49a050dd2df27', class: "modal-container", tabIndex: -1, role: "alertdialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: 'db8b6b695321217e4df5bf182f97ff6a43b2db54', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'fefb215354e678000925b43f2f27a6f9c90a4417', name: "modal-title" })), h("div", { key: '4e474b82de2caa3d7633507dc599efc09add14ed', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '178a3751d9ed942274e7a92269aeae6fd502930d', name: "modal-body" })), h("div", { key: 'be9e9cbb0bd4361d46a78f0055da95595b49228b', class: "modal-footer" }, h("slot", { key: '811a8de694c5fc91e9bae2e999c8579eec3dd3fe', name: "modal-footer" }))))));
     }
     static get is() { return "ir-alert-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -66,6 +68,24 @@ export class IrAlertDialog {
         return {
             "isOpen": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "openChange",
+                "name": "openChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                }
+            }];
     }
     static get methods() {
         return {
