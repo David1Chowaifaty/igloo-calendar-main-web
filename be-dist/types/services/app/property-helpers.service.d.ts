@@ -21,6 +21,7 @@ export declare class PropertyHelpers {
     fetchAvailabilityData(token: string, props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
     private validateFreeCancelationZone;
     private updateInventory;
+    private updateRatePlan;
     private sortRoomTypes;
     private updateRoomTypeRatePlans;
 }

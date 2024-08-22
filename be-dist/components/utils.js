@@ -50260,6 +50260,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
+    // console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -50345,10 +50346,10 @@ function calculateTotalCost(gross = false) {
             if (isPrePayment) {
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
-            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + (Number(variation[gross ? "amount_gross" : "amount"])), 0);
+            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation[gross ? 'amount_gross' : 'amount']), 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? "amount_gross" : "amount"];
+            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? 'amount_gross' : 'amount'];
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;
