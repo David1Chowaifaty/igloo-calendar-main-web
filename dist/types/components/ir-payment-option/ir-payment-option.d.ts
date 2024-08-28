@@ -13,6 +13,7 @@ export declare class IrPaymentOption {
     handleTokenChange(newValue: string, oldValue: string): void;
     init(): void;
     handleCloseModal(e: CustomEvent): void;
+    private closeModal;
     fetchData(): Promise<void>;
     initServices(): void;
     private modifyPaymentList;

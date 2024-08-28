@@ -565,12 +565,14 @@ const IrPaymentOption = class {
         this.fetchData();
     }
     handleCloseModal(e) {
-        var _a, _b;
         e.stopPropagation();
         e.stopImmediatePropagation();
         console.log(e.detail);
-        if (e.detail) {
-            const newOption = e.detail;
+        this.closeModal(e.detail);
+    }
+    closeModal(newOption) {
+        var _a, _b;
+        if (newOption) {
             this.modifyPaymentList(newOption);
             if (newOption.is_payment_gateway) {
                 this.propertyOptionsById.set(newOption.id, newOption);
@@ -662,7 +664,7 @@ const IrPaymentOption = class {
         return (h(Host, { class: "p-2" }, h("ir-interceptor", null), h("div", { class: "card p-1 flex-fill m-0" }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, " Payment Options")), h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, "Payment method"), h("th", { scope: "col" }, "Status"), h("th", { scope: "col", class: "actions-theader" }, "Action"))), h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => (h("tr", { key: po.id }, h("td", { class: 'text-left po-description' }, po.description), h("td", null, h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), h("td", null, this.showEditButton(po) && (h("ir-button", { variant: "icon", icon_name: "edit", onClickHanlder: () => {
                 payment_option_store.selectedOption = po;
             } }))))))))), h("ir-sidebar", { onIrSidebarToggle: () => {
-                payment_option_store.selectedOption = null;
+                this.closeModal(null);
             }, label: `${(_b = payment_option_store.selectedOption) === null || _b === void 0 ? void 0 : _b.description} Information`, open: payment_option_store.selectedOption !== null }, payment_option_store.selectedOption && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
