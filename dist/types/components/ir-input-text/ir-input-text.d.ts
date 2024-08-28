@@ -24,12 +24,14 @@ export declare class IrInputText {
     valid: boolean;
     initial: boolean;
     inputFocused: boolean;
+    isError: boolean;
     textChange: EventEmitter<any>;
     inputBlur: EventEmitter<FocusEvent>;
     connectedCallback(): void;
     disconnectedCallback(): void;
     watchHandler(newValue: string): void;
     watchHandler2(newValue: boolean): void;
+    handleAriaInvalidChange(newValue: any): void;
     handleInputChange(event: any): void;
     render(): any;
 }

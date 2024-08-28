@@ -12,12 +12,20 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = undefined;
+        this.textareaClassname = undefined;
+        this.error = false;
+    }
+    handleAriaInvalidChange(newValue) {
+        this.error = newValue === 'true';
     }
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '9bf97e6d66e2b6bfd6d4b866935267bec1e902ee', class: "form-group" }, h("label", { key: '50517ff6d6c019d4d31cd3dc2101e447319da2c0' }, this.label), h("textarea", { key: '005ca08ae58f4e28987eb3b225841fd979824690', maxLength: this.maxLength, rows: this.rows, value: this.value, class: "form-control", placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
+        return (h("div", { key: '33b68a671908a41d58c104ef6a5f64729167f57b', class: 'form-group' }, h("label", { key: '0a53cec1c2e92b11d953685f72645807f55980fd' }, this.label), h("textarea", { key: '1d47217ecf3dd1b8135719aba1596dbe7a8431c6', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
+    static get watchers() { return {
+        "aria-invalid": ["handleAriaInvalidChange"]
+    }; }
 }, [0, "ir-textarea", {
         "rows": [2],
         "cols": [2],
@@ -25,7 +33,11 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         "label": [1],
         "placeholder": [1],
         "value": [1],
-        "maxLength": [2, "max-length"]
+        "maxLength": [2, "max-length"],
+        "textareaClassname": [1, "textarea-classname"],
+        "error": [32]
+    }, undefined, {
+        "aria-invalid": ["handleAriaInvalidChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

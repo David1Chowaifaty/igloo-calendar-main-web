@@ -5,6 +5,7 @@ export declare class IrSidebar {
     showCloseButton: boolean;
     open: boolean;
     sidebarStyles: Partial<CSSStyleDeclaration>;
+    label: string;
     irSidebarToggle: EventEmitter;
     private sidebarRef;
     applyStyles(): void;

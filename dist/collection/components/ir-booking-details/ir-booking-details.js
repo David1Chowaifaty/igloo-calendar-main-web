@@ -176,37 +176,39 @@ export class IrBookingDetails {
         const propertyJson = JSON.stringify(this.property);
         const countriesJson = JSON.stringify(this.countryNodeList);
         const pageTitle = `Booking#${this.bookingNumber} | igloorooms`;
-        const src = 'https://david1chowaifaty.github.io/igloo-calendar-main-web/dist/ir-webcmp/ir-webcmp.esm.js';
+        const src = 'https://wb-cmp.igloorooms.com/backend/dist/ir-webcmp/ir-webcmp.esm.js';
         const htmlContent = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${pageTitle}</title>
-                <link rel="shortcut icon" type="image/x-icon" href="https://x.igloorooms.com/app-assets/images/ico/favicon.ico">
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-                <script type="module" src='${src}'></script>
-                <style>
-                   body{
-                      font-family: "Roboto", sans-serif;
-                      }
-                </style>
-            </head>
-            <body>
-                <ir-booking-printing></ir-booking-printing>
-                <script>
-                   const bookingDetail = document.querySelector("ir-booking-printing");
-                   bookingDetail.booking=${bookingJson};
-                   bookingDetail.property=${propertyJson};
-                   bookingDetail.countries=${countriesJson};
-                   bookingDetail.mode='${mode}'
-                </script>
-            </body>
-            </html>
-            `;
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>${pageTitle}</title>
+          <link rel="shortcut icon" type="image/x-icon" href="https://x.igloorooms.com/app-assets/images/ico/favicon.ico">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+          <script type="module" src="${src}"></script>
+          <style>
+            body {
+              font-family: "Roboto", sans-serif;
+            }
+          </style>
+        </head>
+        <body>
+          <ir-booking-printing></ir-booking-printing>
+          <script>
+            document.addEventListener("DOMContentLoaded", function() {
+              const bookingDetail = document.querySelector("ir-booking-printing");
+              bookingDetail.booking = ${bookingJson};
+              bookingDetail.property = ${propertyJson};
+              bookingDetail.countries = ${countriesJson};
+              bookingDetail.mode = '${mode}';
+            });
+          </script>
+        </body>
+      </html>
+    `;
         try {
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
@@ -214,7 +216,7 @@ export class IrBookingDetails {
         }
         catch (error) {
             console.error('Error creating or opening the generated HTML page:', error);
-            alert('Failed to generate and open the HTML page. Check the console for details.');
+            alert('Failed to generate and open the HTML page. Please try again.');
         }
     }
     async updateStatus() {

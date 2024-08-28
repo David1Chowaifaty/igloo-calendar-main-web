@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>Igloo Calendar</title>
+    <script src="dist/collection/assets/scripts/jquery.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/moment.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/daterangepicker.js"></script>
+    <script src="dist/collection/assets/scripts/bootstrap.bundle.min.js"></script>
+    <script src="dist/collection/assets/scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="dist/collection/assets/scripts/toastr/toastr.min.js"></script>
+    <script type="module" src="dist/ir-webcmp/ir-webcmp.esm.js"></script>
+    <link rel="stylesheet" href="dist/collection/assets/scripts/daterangepicker/daterangepicker.css">
+    <script src="index.js"></script>
+    <style>
+        .active a {
+            color: var(--blue) !important
+        }
+    </style>
+</head>
+
+<body>
+    <ir-common></ir-common>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">IglooRoom's Components</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <script>
+                document.addEventListener('DOMContentLoaded', () => renderNavbar("property-payment.html"));
+            </script>
+
+        </div>
+    </nav>
+    <ir-common></ir-common>
+    <ir-payment-option propertyid="42" language="en" baseurl="https://gateway.igloorooms.com/IR"></ir-payment-option>
+    <link rel="stylesheet" href="assets/scripts/toastr/toastr.css" type="text/css">
+
+    <script>
+        const paymentOption = document.querySelector("ir-payment-option");
+        setTimeout(() => {
+            const ticket = getToken();
+            paymentOption.propertyid = getId();
+            paymentOption.ticket = ticket;
+        }, 300)
+    </script>
+    <footer
+        style="height: 1rem; width: 100%; display: flex; align-items: center;border-top-width: 1px; border-color: rgb(36, 36, 36);border-style: solid;">
+        <p>V:1.0</p>
+    </footer>
+</body>
+
+</html>

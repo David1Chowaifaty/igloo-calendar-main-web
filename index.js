@@ -1,5 +1,5 @@
 function getToken() {
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjUzNDU0OTEsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThKTGVjQkN2Wm1LaCJ9.afW0DXIbjxzWZy78B4C5yzres0RWZWgzbaYj6WNiD54"
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjYwNTUxMjcsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThFYVVYM0JOQXR3MyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.wbumhILckvq3YpbXdMGaBK42xHxWH_FsvMTd8yzOIS4"
 }
 function getId() {
     return "42"
@@ -12,6 +12,7 @@ const links = [
         ]
     },
     { href: "front-desk.html", name: "Front desk", current: false, subroutes: null },
+    { href: "property-payment.html", name: "Payment Option", current: false, subroutes: null },
     { href: "booking-details.html", name: "Booking details", current: false, subroutes: null },
     { href: "booking-listing.html", name: "Booking listing", current: false, subroutes: null },
     { href: "channel.html", name: "Channel", current: false, subroutes: null },

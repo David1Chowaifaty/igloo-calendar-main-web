@@ -179,6 +179,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    circle_plus: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

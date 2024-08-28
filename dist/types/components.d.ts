@@ -18,6 +18,7 @@ import { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
 import { IHouseKeepers, THKUser } from "./models/housekeeping";
 import { selectOption } from "./common/models";
 import { ILocale } from "./stores/locales.store";
+import { PaymentOption } from "./models/payment-options";
 import { Booking as Booking1 } from "./models/booking.dto";
 import { IRoomNightsDataEventPayload } from "./models/property-types";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints, TIglBookPropertyPayload, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
@@ -33,6 +34,7 @@ export { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
 export { IHouseKeepers, THKUser } from "./models/housekeeping";
 export { selectOption } from "./common/models";
 export { ILocale } from "./stores/locales.store";
+export { PaymentOption } from "./models/payment-options";
 export { Booking as Booking1 } from "./models/booking.dto";
 export { IRoomNightsDataEventPayload } from "./models/property-types";
 export namespace Components {
@@ -297,10 +299,13 @@ export namespace Components {
         "ticket": string;
     }
     interface IrBookingPrinting {
-        "booking": any;
+        "baseurl": string;
+        "bookingNumber": string;
         "countries": any;
+        "language": string;
         "mode": 'invoice' | 'default';
-        "property": any;
+        "propertyid": number;
+        "token": string;
     }
     interface IrButton {
         "btn_block": boolean;
@@ -521,9 +526,17 @@ export namespace Components {
         "rightBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         "rightBtnText": string;
     }
+    interface IrOptionDetails {
+        "propertyId": string;
+    }
     interface IrPaymentDetails {
         "bookingDetails": Booking;
         "defaultTexts": ILocale;
+    }
+    interface IrPaymentOption {
+        "baseurl": string;
+        "propertyid": string;
+        "ticket": string;
     }
     interface IrPhoneInput {
         "default_country": number;
@@ -596,6 +609,7 @@ export namespace Components {
         "textSize": 'sm' | 'md' | 'lg';
     }
     interface IrSidebar {
+        "label": string;
         "name": string;
         "open": boolean;
         "showCloseButton": boolean;
@@ -618,6 +632,7 @@ export namespace Components {
         "placeholder": string;
         "rows": number;
         "text": string;
+        "textareaClassname": string;
         "value": string;
     }
     interface IrTitle {
@@ -841,6 +856,10 @@ export interface IrLoginCustomEvent<T> extends CustomEvent<T> {
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrModalElement;
+}
+export interface IrOptionDetailsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrOptionDetailsElement;
 }
 export interface IrPaymentDetailsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1835,6 +1854,23 @@ declare global {
         prototype: HTMLIrModalElement;
         new (): HTMLIrModalElement;
     };
+    interface HTMLIrOptionDetailsElementEventMap {
+        "closeModal": PaymentOption | null;
+    }
+    interface HTMLIrOptionDetailsElement extends Components.IrOptionDetails, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrOptionDetailsElementEventMap>(type: K, listener: (this: HTMLIrOptionDetailsElement, ev: IrOptionDetailsCustomEvent<HTMLIrOptionDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrOptionDetailsElementEventMap>(type: K, listener: (this: HTMLIrOptionDetailsElement, ev: IrOptionDetailsCustomEvent<HTMLIrOptionDetailsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrOptionDetailsElement: {
+        prototype: HTMLIrOptionDetailsElement;
+        new (): HTMLIrOptionDetailsElement;
+    };
     interface HTMLIrPaymentDetailsElementEventMap {
         "resetBookingData": null;
         "toast": IToast;
@@ -1852,6 +1888,12 @@ declare global {
     var HTMLIrPaymentDetailsElement: {
         prototype: HTMLIrPaymentDetailsElement;
         new (): HTMLIrPaymentDetailsElement;
+    };
+    interface HTMLIrPaymentOptionElement extends Components.IrPaymentOption, HTMLStencilElement {
+    }
+    var HTMLIrPaymentOptionElement: {
+        prototype: HTMLIrPaymentOptionElement;
+        new (): HTMLIrPaymentOptionElement;
     };
     interface HTMLIrPhoneInputElementEventMap {
         "textChange": { phone_prefix: string; mobile: string };
@@ -2118,7 +2160,9 @@ declare global {
         "ir-loading-screen": HTMLIrLoadingScreenElement;
         "ir-login": HTMLIrLoginElement;
         "ir-modal": HTMLIrModalElement;
+        "ir-option-details": HTMLIrOptionDetailsElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
+        "ir-payment-option": HTMLIrPaymentOptionElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
         "ir-pickup": HTMLIrPickupElement;
         "ir-popover": HTMLIrPopoverElement;
@@ -2477,10 +2521,13 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrBookingPrinting {
-        "booking"?: any;
+        "baseurl"?: string;
+        "bookingNumber"?: string;
         "countries"?: any;
+        "language"?: string;
         "mode"?: 'invoice' | 'default';
-        "property"?: any;
+        "propertyid"?: number;
+        "token"?: string;
     }
     interface IrButton {
         "btn_block"?: boolean;
@@ -2732,11 +2779,20 @@ declare namespace LocalJSX {
         "rightBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         "rightBtnText"?: string;
     }
+    interface IrOptionDetails {
+        "onCloseModal"?: (event: IrOptionDetailsCustomEvent<PaymentOption | null>) => void;
+        "propertyId"?: string;
+    }
     interface IrPaymentDetails {
         "bookingDetails"?: Booking;
         "defaultTexts"?: ILocale;
         "onResetBookingData"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onToast"?: (event: IrPaymentDetailsCustomEvent<IToast>) => void;
+    }
+    interface IrPaymentOption {
+        "baseurl"?: string;
+        "propertyid"?: string;
+        "ticket"?: string;
     }
     interface IrPhoneInput {
         "default_country"?: number;
@@ -2818,6 +2874,7 @@ declare namespace LocalJSX {
         "textSize"?: 'sm' | 'md' | 'lg';
     }
     interface IrSidebar {
+        "label"?: string;
         "name"?: string;
         "onIrSidebarToggle"?: (event: IrSidebarCustomEvent<any>) => void;
         "open"?: boolean;
@@ -2842,6 +2899,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         "rows"?: number;
         "text"?: string;
+        "textareaClassname"?: string;
         "value"?: string;
     }
     interface IrTitle {
@@ -2940,7 +2998,9 @@ declare namespace LocalJSX {
         "ir-loading-screen": IrLoadingScreen;
         "ir-login": IrLogin;
         "ir-modal": IrModal;
+        "ir-option-details": IrOptionDetails;
         "ir-payment-details": IrPaymentDetails;
+        "ir-payment-option": IrPaymentOption;
         "ir-phone-input": IrPhoneInput;
         "ir-pickup": IrPickup;
         "ir-popover": IrPopover;
@@ -3022,7 +3082,9 @@ declare module "@stencil/core" {
             "ir-loading-screen": LocalJSX.IrLoadingScreen & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
             "ir-login": LocalJSX.IrLogin & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
+            "ir-option-details": LocalJSX.IrOptionDetails & JSXBase.HTMLAttributes<HTMLIrOptionDetailsElement>;
             "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
+            "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;

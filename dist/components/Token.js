@@ -9,7 +9,13 @@ class Token {
         return this.token;
     }
 }
+class MissingTokenError extends Error {
+    constructor(message = 'Missing token!!') {
+        super(message);
+        this.name = 'MissingTokenError';
+    }
+}
 
-export { Token as T };
+export { MissingTokenError as M, Token as T };
 
 //# sourceMappingURL=Token.js.map

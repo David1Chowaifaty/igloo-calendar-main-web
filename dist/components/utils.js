@@ -118,10 +118,10 @@ const extras = [
     },
 ];
 function manageAnchorSession(data, mode = 'add') {
-    const anchor = JSON.parse(sessionStorage.getItem('anchor'));
+    const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));
     if (anchor) {
         if (mode === 'add') {
-            return sessionStorage.setItem('anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
+            return sessionStorage.setItem('backend_anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
         }
         else if (mode === 'remove') {
             const keys = Object.keys(data);
@@ -130,17 +130,17 @@ function manageAnchorSession(data, mode = 'add') {
                     delete anchor[key];
                 }
             });
-            return sessionStorage.setItem('anchor', JSON.stringify(anchor));
+            return sessionStorage.setItem('backend_anchor', JSON.stringify(anchor));
         }
     }
     else {
         if (mode === 'add') {
-            return sessionStorage.setItem('anchor', JSON.stringify(Object.assign({}, data)));
+            return sessionStorage.setItem('backend_anchor', JSON.stringify(Object.assign({}, data)));
         }
     }
 }
 function checkUserAuthState() {
-    const anchor = JSON.parse(sessionStorage.getItem('anchor'));
+    const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));
     if (anchor) {
         return anchor.login || null;
     }

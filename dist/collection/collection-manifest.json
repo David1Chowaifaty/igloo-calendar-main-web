@@ -63,6 +63,8 @@
     "components/ir-label/ir-label.js",
     "components/ir-loading-screen/ir-loading-screen.js",
     "components/ir-login/ir-login.js",
+    "components/ir-payment-option/ir-payment-option.js",
+    "components/ir-payment-option/ir-option-details/ir-option-details.js",
     "components/ir-phone-input/ir-phone-input.js",
     "components/ir-popover/ir-popover.js",
     "components/ir-room-nights/ir-room-nights.js",

@@ -3,11 +3,11 @@ import calendar_data from "../stores/calendar-data";
 import { locales } from "../stores/locales.store";
 import axios from "axios";
 export class RoomService extends Token {
-    async fetchData(id, language) {
+    async fetchData(id, language, is_backend = false) {
         try {
             const token = this.getToken();
             if (token !== null) {
-                const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, { id, language });
+                const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, { id, language, is_backend });
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }

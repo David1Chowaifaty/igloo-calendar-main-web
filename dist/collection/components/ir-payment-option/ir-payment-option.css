@@ -1,0 +1,17 @@
+/* @import url('../../assets/reset.css'); */
+:host {
+  display: block;
+}
+.dataTable {
+  width: max-content;
+}
+.po-description {
+  padding-right: 2rem !important;
+}
+.super-high-index {
+  background: #0000004c;
+  position: fixed;
+  inset: 0;
+  z-index: 999999999999999;
+  pointer-events: none;
+}

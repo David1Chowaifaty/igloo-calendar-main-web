@@ -7,7 +7,10 @@ export declare class IrTextArea {
     placeholder: string;
     value: string;
     maxLength: number;
+    textareaClassname: string;
+    error: boolean;
     textChange: EventEmitter<string>;
+    handleAriaInvalidChange(newValue: any): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
     render(): any;
