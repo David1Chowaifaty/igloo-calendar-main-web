@@ -7,13 +7,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.po-view {
+  padding: 0;
+  margin: 0;
+}
 .payment-img {
   height: 18px;
   display: none;
 }
 
 @media (min-width: 768px) {
-  .po-description {
+  .po-view {
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -549,7 +549,7 @@ const IrOptionDetails = class {
 };
 IrOptionDetails.style = IrOptionDetailsStyle0;
 
-const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.payment-img.sc-ir-payment-option{height:18px;display:none}@media (min-width: 768px){.po-description.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
+const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
 const IrPaymentOptionStyle0 = irPaymentOptionCss;
 
 const IrPaymentOption = class {
@@ -681,7 +681,7 @@ const IrPaymentOption = class {
             if (po.code === '004') {
                 return null;
             }
-            return (index.h("tr", { key: po.id }, index.h("td", { class: 'text-left po-description' }, index.h("span", { class: 'p-0 m-0' }, po.description), " ", index.h("img", { src: "https://www.jccsmart.com/assets/images/app-logo.svg", alt: "", class: "payment-img" })), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { variant: "icon", icon_name: "edit", onClickHanlder: () => {
+            return (index.h("tr", { key: po.id }, index.h("td", { class: 'text-left po-description' }, index.h("div", { class: "po-view" }, index.h("span", { class: 'p-0 m-0' }, po.description), " ", index.h("img", { src: "https://www.jccsmart.com/assets/images/app-logo.svg", alt: "", class: "payment-img" }))), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { variant: "icon", icon_name: "edit", onClickHanlder: () => {
                     payment_option_store.selectedOption = po;
                     payment_option_store.mode = 'edit';
                 } })))));
