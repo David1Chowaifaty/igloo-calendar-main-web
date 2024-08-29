@@ -27,12 +27,14 @@ export class IrOptionDetails {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        let selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { property_id: this.propertyId, is_active: true });
+        let selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { property_id: this.propertyId, is_active: payment_option_store.mode === 'create' ? true : payment_option_store.selectedOption.is_active });
         if ((selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.code) === '005') {
             const englishDescription = (_a = selectedOption.localizables.find(l => l.language.code.toLowerCase() === 'en')) === null || _a === void 0 ? void 0 : _a.description;
             console.log(englishDescription);
             // Check if the description is null or empty
             if (!englishDescription || englishDescription.trim() === '') {
+                this.selectedLanguage = payment_option_store.languages.find(l => l.code.toLowerCase() === 'en').id.toString();
+                this.localizationIdx = payment_option_store.selectedOption.localizables.findIndex(l => l.language.id.toString() === this.selectedLanguage);
                 this.invalid = true;
                 return;
             }
@@ -47,6 +49,12 @@ export class IrOptionDetails {
             }
         }
         await this.paymentOptionService.HandlePaymentMethod(selectedOption);
+        this.toast.emit({
+            type: 'success',
+            description: '',
+            title: 'Saved',
+            position: 'top-right',
+        });
         this.closeModal.emit(selectedOption);
     }
     handleSelectChange(e) {
@@ -145,6 +153,27 @@ export class IrOptionDetails {
                             "location": "import",
                             "path": "@/models/payment-options",
                             "id": "src/models/payment-options.ts::PaymentOption"
+                        }
+                    }
+                }
+            }, {
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "../../ir-toast/toast",
+                            "id": "src/components/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

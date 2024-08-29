@@ -2,6 +2,7 @@ import { createStore } from "@stencil/store";
 const initialState = {
     selectedOption: null,
     token: null,
+    mode: 'create',
     languages: null,
 };
 export const { state: payment_option_store } = createStore(initialState);

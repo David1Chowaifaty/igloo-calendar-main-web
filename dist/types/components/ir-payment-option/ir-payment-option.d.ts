@@ -18,6 +18,6 @@ export declare class IrPaymentOption {
     initServices(): void;
     private modifyPaymentList;
     handleCheckChange(e: CustomEvent, po: PaymentOption): Promise<void>;
-    showEditButton(po: PaymentOption, ignoreActive?: boolean): boolean;
+    showEditButton(po: PaymentOption): boolean;
     render(): any;
 }

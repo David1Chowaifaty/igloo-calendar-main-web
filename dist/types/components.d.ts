@@ -1856,6 +1856,7 @@ declare global {
     };
     interface HTMLIrOptionDetailsElementEventMap {
         "closeModal": PaymentOption | null;
+        "toast": IToast1;
     }
     interface HTMLIrOptionDetailsElement extends Components.IrOptionDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrOptionDetailsElementEventMap>(type: K, listener: (this: HTMLIrOptionDetailsElement, ev: IrOptionDetailsCustomEvent<HTMLIrOptionDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2781,6 +2782,7 @@ declare namespace LocalJSX {
     }
     interface IrOptionDetails {
         "onCloseModal"?: (event: IrOptionDetailsCustomEvent<PaymentOption | null>) => void;
+        "onToast"?: (event: IrOptionDetailsCustomEvent<IToast1>) => void;
         "propertyId"?: string;
     }
     interface IrPaymentDetails {

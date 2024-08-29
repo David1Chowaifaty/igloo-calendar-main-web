@@ -1,17 +1,17 @@
-import { r as registerInstance, c as createEvent, h, H as Host, a as getElement } from './index-cec96f7a.js';
-import { R as RoomService } from './room.service-5faff8ce.js';
-import { B as BookingService } from './booking.service-be8a3e53.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
+import { R as RoomService } from './room.service-2ef748c7.js';
+import { B as BookingService } from './booking.service-1033d75a.js';
 import { f as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, g as getNextDay, a as addTwoMonthToDate, c as convertDMYToISO, b as computeEndDate } from './utils-b90a23b3.js';
 import { a as axios } from './axios-ab377903.js';
-import { E as EventsService } from './events.service-ea23efde.js';
+import { E as EventsService } from './events.service-62b803ac.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service-1fbe1015.js';
-import { c as calendar_dates, t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, g as getPrivateNote, d as calculateDaysBetweenDates } from './booking-11e010b6.js';
-import { l as locales } from './locales.store-39020e29.js';
-import { c as calendar_data } from './calendar-data-164d6e14.js';
-import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-232cc33a.js';
+import { c as calendar_dates, t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, g as getPrivateNote, d as calculateDaysBetweenDates } from './booking-caef1e21.js';
+import { l as locales } from './locales.store-a1e3db22.js';
+import { c as calendar_data } from './calendar-data-666acc1f.js';
+import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-e5224335.js';
 import './Token-be23fd51.js';
-import './index-ca81f1d9.js';
+import './index-1d7b1ff2.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
