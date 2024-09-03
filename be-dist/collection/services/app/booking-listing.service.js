@@ -1,4 +1,5 @@
 import app_store from "../../stores/app.store";
+import localizedWords from "../../stores/localization.store";
 import { formatAmount } from "../../utils/utils";
 import { isBefore } from "date-fns";
 export class BookingListingAppService {
@@ -15,9 +16,9 @@ export class BookingListingAppService {
             }
         }
         return {
-            cancel: { show: canCancel, label: 'Cancel booking' },
+            cancel: { show: canCancel, label: localizedWords.entries.Lcz_CancelBooking },
             payment: { show: canMakePayment, label: makePaymentLabel },
-            view: { show: canView, label: 'Booking details' },
+            view: { show: canView, label: localizedWords.entries.Lcz_BookingDetails },
         };
     }
 }

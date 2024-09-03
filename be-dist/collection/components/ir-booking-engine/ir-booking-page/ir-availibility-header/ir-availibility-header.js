@@ -18,7 +18,7 @@ export class IrAvailibilityHeader {
         this.adultCount = undefined;
         this.childrenCount = undefined;
         this.exposedBookingAvailabiltyParams = {
-            adult_nbr: 0,
+            adult_nbr: 2,
             child_nbr: 0,
             currency_ref: 'USD',
             language: 'en',

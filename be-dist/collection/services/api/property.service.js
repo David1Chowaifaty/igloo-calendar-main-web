@@ -44,6 +44,7 @@ export class PropertyService extends Token {
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
+        app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
         app_store.property = Object.assign({}, result.My_Result);
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {

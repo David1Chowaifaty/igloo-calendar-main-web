@@ -1,6 +1,6 @@
 import { Locale } from 'date-fns';
 import { ICurrency, IExposedLanguages } from "../../models/commun";
-import { IExposedProperty, Variation } from "../../models/property";
+import { IExposedProperty } from "../../models/property";
 import { TSource } from "../../stores/app.store";
 import Stack from "../../models/stack";
 export declare class IrBookingEngine {
@@ -47,19 +47,18 @@ export declare class IrBookingEngine {
     handleCouponChange(newValue: string, oldValue: string): void;
     handleLoyaltyChange(newValue: boolean, oldValue: boolean): void;
     handleAgentCodeChange(newValue: string, oldValue: string): void;
-    setSource(newSource: TSource): void;
-    modifyLanguage(code: string): void;
-    initializeApp(): void;
-    initRequest(): Promise<void>;
-    checkAndApplyDiscounts(): void;
-    handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number): void;
+    private setSource;
+    private modifyLanguage;
+    private initializeApp;
+    private initRequest;
+    private checkAndApplyDiscounts;
     private modifyLoyalty;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
     handleAuthFinish(e: CustomEvent): void;
-    resetBooking(resetType?: 'partialReset' | 'completeReset'): Promise<void>;
-    checkAvailability(): Promise<void>;
-    renderScreens(): any;
+    private resetBooking;
+    private checkAvailability;
+    private renderScreens;
     disconnectedCallback(): void;
     render(): any;
 }

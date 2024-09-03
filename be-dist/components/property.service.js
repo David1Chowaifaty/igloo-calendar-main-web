@@ -128,46 +128,48 @@ class PropertyHelpers {
                 return updatedRoomtypes;
             }
             const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: this.updateRatePlan(rt.rateplans, newRoomtype) });
+            console.log(updatedRoomtype.rateplans);
             updatedRoomtypes.push(updatedRoomtype);
             return updatedRoomtypes;
         }, []);
     }
-    updateRatePlan(ratePlans, newRoomtype) {
-        return ratePlans.reduce((updatedRatePlans, rp) => {
-            const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
-            if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
-                return updatedRatePlans;
-            }
-            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: rp.variations, 
-                // variations: rp.variations.map(v => {
-                //   if (!newRatePlan.variations) {
-                //     return v;
-                //   }
-                //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
-                //     return newRatePlan.variations[0];
-                //   }
-                //   return v;
-                // }),
-                selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
-            return updatedRatePlans;
-        }, []);
-    }
-    // private updateRatePlan(ratePlans: RatePlan[], newRoomtype: RoomType): RatePlan[] {
-    //   const agentExists = !!booking_store.bookingAvailabilityParams.agent;
-    //   return ratePlans.reduce((updatedRatePlans: RatePlan[], rp: RatePlan) => {
-    //     const newRatePlan = agentExists ? newRoomtype.rateplans?.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
+    // private updateRatePlan(ratePlans: RatePlan[], newRoomtype: RoomType) {
+    //   return ratePlans.reduce((updatedRatePlans, rp) => {
+    //     const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
     //     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
     //       return updatedRatePlans;
     //     }
     //     updatedRatePlans.push({
     //       ...newRatePlan,
     //       is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency,
-    //       variations: agentExists ? newRatePlan.variations : rp.variations,
+    //       variations: rp.variations,
+    //       // variations: rp.variations.map(v => {
+    //       //   if (!newRatePlan.variations) {
+    //       //     return v;
+    //       //   }
+    //       //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
+    //       //     return newRatePlan.variations[0];
+    //       //   }
+    //       //   return v;
+    //       // }),
     //       selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null,
+    //       // selected_variation: newRatePlan.variations ? rp.variations.find(v => v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) : null,
     //     });
     //     return updatedRatePlans;
     //   }, []);
     // }
+    updateRatePlan(ratePlans, newRoomtype) {
+        const agentExists = !!booking_store.bookingAvailabilityParams.agent;
+        return ratePlans.reduce((updatedRatePlans, rp) => {
+            var _a;
+            const newRatePlan = agentExists ? (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
+            if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+                return updatedRatePlans;
+            }
+            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: agentExists ? newRatePlan.variations : rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+            return updatedRatePlans;
+        }, []);
+    }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
             var _a, _b, _c, _d;
@@ -219,7 +221,6 @@ class PropertyHelpers {
             throw new Error('Invalid New Rateplan');
         }
         const newVariation = newRatePlan.variations.find(v => v.adult_child_offering === props.adultChildConstraint);
-        console.log(newRatePlan.variations, props.adultChildConstraint);
         if (!newVariation) {
             throw new Error('Missing variation');
         }
@@ -342,6 +343,7 @@ class PropertyService extends Token {
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
+        app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
         app_store.property = Object.assign({}, result.My_Result);
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {

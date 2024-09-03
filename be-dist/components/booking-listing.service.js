@@ -1,5 +1,6 @@
 import { a as app_store } from './app.store.js';
-import { d as dateFns, w as formatAmount } from './utils.js';
+import { l as localizedWords } from './localization.store.js';
+import { d as dateFns, u as formatAmount } from './utils.js';
 
 class BookingListingAppService {
     getBookingActions(booking) {
@@ -15,9 +16,9 @@ class BookingListingAppService {
             }
         }
         return {
-            cancel: { show: canCancel, label: 'Cancel booking' },
+            cancel: { show: canCancel, label: localizedWords.entries.Lcz_CancelBooking },
             payment: { show: canMakePayment, label: makePaymentLabel },
-            view: { show: canView, label: 'Booking details' },
+            view: { show: canView, label: localizedWords.entries.Lcz_BookingDetails },
         };
     }
 }

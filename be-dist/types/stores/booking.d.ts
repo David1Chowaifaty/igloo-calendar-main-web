@@ -40,6 +40,7 @@ export interface IBookinAvailabilityParams {
     coupon?: string;
     agent?: number;
     loyalty?: boolean;
+    agent_code?: string;
 }
 interface BookingStore {
     tax_statement: {

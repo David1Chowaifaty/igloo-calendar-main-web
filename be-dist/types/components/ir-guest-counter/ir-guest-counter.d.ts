@@ -5,10 +5,15 @@ export declare class IrGuestCounter {
     minChildrenCount: number;
     maxChildrenCount: number;
     childMaxAge: number;
+    child: number;
+    adults: number;
     adultCount: number;
     childrenCount: number;
     updateCounts: EventEmitter;
     closeGuestCounter: EventEmitter;
+    componentWillLoad(): void;
+    handleAdultsChange(newValue: any, oldValue: any): void;
+    handleChildChange(newValue: any, oldValue: any): void;
     incrementAdultCount(): void;
     decrementAdultCount(): void;
     incrementChildrenCount(): void;

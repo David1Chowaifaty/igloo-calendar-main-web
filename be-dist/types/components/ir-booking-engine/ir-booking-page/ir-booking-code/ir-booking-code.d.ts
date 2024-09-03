@@ -7,9 +7,10 @@ export declare class IrBookingCode {
     };
     closeDialog: EventEmitter<null>;
     resetBooking: EventEmitter<string>;
-    handleSubmit(e: Event): {
+    handleSubmit(e: Event): Promise<void> | {
         error: true;
         message: string;
     };
+    clearAgent(): Promise<void>;
     render(): any;
 }

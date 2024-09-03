@@ -54,7 +54,7 @@ export class PaymentService extends Token {
             throw new Error(data.ExceptionMsg);
         }
         const result = data['My_Result'];
-        return { data: result, amount: this.processAlicablePolicies(result, book_date).amount };
+        return { data: result, amount: this.processAlicablePolicies(result, book_date).amount, room_type_id: params.room_type_id, rate_plan_id: params.rate_plan_id };
     }
     processAlicablePolicies(policies, book_date) {
         var _a, _b, _c, _d;

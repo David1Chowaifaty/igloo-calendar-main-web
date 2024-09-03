@@ -24,6 +24,7 @@ export interface IExposedProperty {
     promotions: LoyaltyPromotion[];
     max_nights: number;
     name: string;
+    be_listing_mode: 'list' | 'grid';
     parking_offering: ParkingOffering;
     pets_acceptance: PetsAcceptance;
     phone: string;
@@ -104,6 +105,22 @@ export interface AllowedPaymentMethod {
         value: string;
     }[];
     is_payment_gateway: boolean;
+    id: number;
+    localizables: ILocalizable[] | null;
+}
+export interface ILocalizable {
+    code: string;
+    description: string;
+    id: number;
+    language: ILanguages;
+}
+export interface ILanguages {
+    code: string;
+    culture: string;
+    description: string;
+    direction: string;
+    entries: null;
+    flag: string;
     id: number;
 }
 export interface Amenity {

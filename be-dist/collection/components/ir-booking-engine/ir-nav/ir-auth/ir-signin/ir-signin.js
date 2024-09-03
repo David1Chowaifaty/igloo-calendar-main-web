@@ -3,6 +3,7 @@ import { SignInValidtor } from "../../../../../validators/auth.validator";
 import { ZodError } from "zod";
 import { AuthService } from "../../../../../services/api/auth.service";
 import app_store, { onAppDataChange } from "../../../../../stores/app.store";
+import localizedWords from "../../../../../stores/localization.store";
 export class IrSignin {
     constructor() {
         this.authService = new AuthService();
@@ -78,7 +79,7 @@ export class IrSignin {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (h(Host, { key: '2d7e9dd74c278f3e633207c7e788dc939b463fb9' }, h("h1", { key: '71dc8932f6f16760fa6fb31966bf7a3a89b0ce71', class: "title" }, "Sign in to your booking"), h("form", { key: 'be38d14ee4dacaee817befd18476df96d0dd8462', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { key: '106cdb6dff4358e3ed1b1b62acc72307a6605d24', class: "error" }, h("ir-badge-group", { key: 'ef9b21cdafba6582aacb54c50c38eb4dc4f6f03d', variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: 'a3452146e4bbbdca755f30f45b1ee0701b360564' }, h("ir-input", { key: '38f369f3a417d90ab731145730eff00f47bb4f5a', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: "Enter your email", onInputBlur: e => {
+        return (h(Host, { key: '4086d1dbfc04b7c3d3c0463aab2b4ecf0b292503' }, h("h1", { key: 'fc9c44f9bcce40efdf7df7595ec41a51c90c06ce', class: "title" }, localizedWords.entries.Lcz_SignInToYourBooking), h("form", { key: '54e253c6e2b52f848fbb60a8a33a71fe39779f52', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { key: '016aaa94b17d5e384141dcfc04dca89ed9d3cb3b', class: "error" }, h("ir-badge-group", { key: '96964a31e1b548e131e81d944f7ec99311faa0ea', variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '3e8563a6e39985b6795a95a09cc9c9db96e0ba0c' }, h("ir-input", { key: '9cf2ef96d10ed3cbe9d280fc1bde710e2a2065a5', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: localizedWords.entries.Lcz_EnterYourEmail, onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ email: true });
                 const firstNameValidation = firstNameSchema.safeParse({ email: this.signInParams.email });
                 const target = e.target;
@@ -95,7 +96,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("fieldset", { key: 'cbd96053b18195b7e5f30b79d8bca60857ecbc90' }, h("ir-input", { key: 'f003b0e1752baacfe9ef98dc91c0afffe6e81ce6', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: "Enter your booking number", onInputBlur: e => {
+            } })), h("fieldset", { key: '199fbd6e3c8f85578637d5ba30ae2e3904c4b81a' }, h("ir-input", { key: 'a1b3679e93cbcec383a892306814a9733d0a3a9b', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: localizedWords.entries.Lcz_EnterYourBookingBumber, onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ booking_nbr: true });
                 const firstNameValidation = firstNameSchema.safeParse({ booking_nbr: this.signInParams.booking_nbr });
                 const target = e.target;
@@ -112,7 +113,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("button", { key: '0c375ddb31463f0cb07a277ed988dbf9f06b9c24', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: 'f74de4865201a382f4c1892ab94795dd722c7fea', class: "loader" }), "Sign in"), !app_store.app_data.hideGoogleSignIn && (h("div", { key: 'fc5b072404d73152c97eea2d6028013a97e8be13', class: "divider" }, h("div", { key: '5379a39db0d3af2621be832b0eae81ed00d73501', class: "divider-line" }), h("span", { key: '5760f4755b282e2cf8253fb65bba8ba240bed1e8', class: "divider-text" }, "OR"), h("div", { key: 'd9c3ab26ccca0b6eb430a470f91ca2cd5354d154', class: "divider-line" }))))));
+            } })), h("button", { key: 'c4178a5c2f533bfb59f21cbd99bf93f1661c0de7', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: '957900aafe148c12b053c465bfaa3b616eca89cc', class: "loader" }), localizedWords.entries.Lcz_SignIn), !app_store.app_data.hideGoogleSignIn && (h("div", { key: 'aa5b5b0edb492518d005174f7b766765e4f0197f', class: "divider" }, h("div", { key: '8fb7827d7c7ffea0a6230f81dde5cd26d1c42a36', class: "divider-line" }), h("span", { key: 'cdbf27cd1fa83db436b883b1c61984571f4a84bb', class: "divider-text" }, localizedWords.entries.Lcz_Or), h("div", { key: '746b80eb51573181a689cfa5b69c282040ce0d67', class: "divider-line" }))))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }

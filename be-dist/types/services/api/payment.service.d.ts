@@ -4,6 +4,8 @@ import { Token } from "../../models/Token";
 type TExposedApplicablePolicies = {
     data: IExposedApplicablePolicies[];
     amount: number;
+    room_type_id?: number;
+    rate_plan_id?: number;
 };
 interface FetchCancelationMessageWithData {
     data: IExposedApplicablePolicies[];

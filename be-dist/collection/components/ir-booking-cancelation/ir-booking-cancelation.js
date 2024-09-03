@@ -3,6 +3,7 @@ import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { PaymentService } from "../../services/api/payment.service";
 import app_store from "../../stores/app.store";
 import { formatAmount } from "../../utils/utils";
+import localizedWords from "../../stores/localization.store";
 export class IrBookingCancelation {
     constructor() {
         this.paymentService = new PaymentService();
@@ -69,15 +70,15 @@ export class IrBookingCancelation {
     render() {
         var _a, _b;
         const isPending = isRequestPending('/Get_Exposed_Cancelation_Due_Amount');
-        return (h("div", { key: '0e4abc738abde53882ee94772a3f03c2acf87458' }, h("ir-alert-dialog", { key: '50a8f816e86c46a16e71708c192945c5303dc9d3', ref: el => (this.alertDialog = el), onOpenChange: e => {
+        return (h("div", { key: '0ff2e30d8ea88ae6e84197112760b906d49d64e0' }, h("ir-alert-dialog", { key: '03f325fb05235c7f45904db38f186a68d487505e', ref: el => (this.alertDialog = el), onOpenChange: e => {
                 if (!e.detail && this.isOpen) {
                     this.isOpen = false;
                 }
-            } }, h("h2", { key: 'a3bfa40a39b0bf94a8917c01ed2bed4f30a41114', slot: "modal-title", class: "text-lg font-medium" }, "Booking Cancellation"), h("div", { key: '285ac4a18de8b3f7896e10ab5d6a715e04984659', class: "py-3", slot: "modal-body" }, isPending ? (h("div", { class: "h-24" }, h("ir-skeleton", { class: "mb-2.5 h-4 w-60" }))) : (h(Fragment, null, this.paymentAmount > 0 ? (h("p", { class: "mb-2.5 font-semibold" }, `If you cancel now, the penalty will be ${formatAmount(this.paymentAmount, ((_a = this.currency) === null || _a === void 0 ? void 0 : _a.code) || 'usd')}.`)) : (h("p", { class: "mb-2.5 font-semibold" }, "No penalty is applied if you cancel now.")), h("button", { onClick: () => {
+            } }, h("h2", { key: '70de434e0ed32f669ae0232c8c4ff91f041a68a8', slot: "modal-title", class: "text-lg font-medium" }, localizedWords.entries.Lcz_BookingCancellation), h("div", { key: '61cd493b29588b64608edbdc53c20690a34b3c8a', class: "py-3", slot: "modal-body" }, isPending ? (h("div", { class: "h-24" }, h("ir-skeleton", { class: "mb-2.5 h-4 w-60" }))) : (h(Fragment, null, this.paymentAmount > 0 ? (h("p", { class: "mb-2.5 font-semibold" }, `If you cancel now, the penalty will be ${formatAmount(this.paymentAmount, ((_a = this.currency) === null || _a === void 0 ? void 0 : _a.code) || 'usd')}.`)) : (h("p", { class: "mb-2.5 font-semibold" }, localizedWords.entries.Lcz_NoPenalityIsApplied)), h("button", { onClick: () => {
                 this.isOpen = !this.isOpen;
-            }, class: "flex w-full items-center justify-between rounded-md  py-1 " }, h("p", null, "More details"), h("ir-icons", { name: this.isOpen ? 'angle_up' : 'angle_down', svgClassName: "h-3" })), this.isOpen && (h(Fragment, null, h("div", { class: 'divide-y py-2' }, (_b = this.policies) === null || _b === void 0 ? void 0 : _b.map(d => (h("div", { class: "space-y-1.5 py-2.5" }, h("p", { class: 'font-medium' }, d.rt_name, " ", d.rp_name), h("p", { class: "text-xs text-gray-500" }, d.statement)))))))))), h("div", { key: '348b4f3e6e712df26a6dc17cf568ac451d3963dd', slot: "modal-footer" }, h("ir-button", { key: 'b4ffa975fa57ef91c784c07fcd88d37cff9fe214', label: "Cancel", variants: "outline", onButtonClick: () => {
+            }, class: "flex w-full items-center justify-between rounded-md  py-1 " }, h("p", null, localizedWords.entries.Lcz_MoreDetails), h("ir-icons", { name: this.isOpen ? 'angle_up' : 'angle_down', svgClassName: "h-3" })), this.isOpen && (h(Fragment, null, h("div", { class: 'divide-y py-2' }, (_b = this.policies) === null || _b === void 0 ? void 0 : _b.map(d => (h("div", { class: "space-y-1.5 py-2.5" }, h("p", { class: 'font-medium' }, d.rt_name, " ", d.rp_name), h("p", { class: "text-xs text-gray-500" }, d.statement)))))))))), h("div", { key: 'de1cdd284bca040817b57a2236785f6b815cd05e', slot: "modal-footer" }, h("ir-button", { key: 'b37b70316ae92bae9aca878ed84259e98771b0de', label: localizedWords.entries.Lcz_Cancel, variants: "outline", onButtonClick: () => {
                 this.closeAlertDialog();
-            }, size: "md" }), h("ir-button", { key: 'c923784c2921283fefb6e473004c8f39731ee819', disabled: isPending, size: "md", label: "Accept & Confirm", isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
+            }, size: "md" }), h("ir-button", { key: '4ad37785f828ca309648e0e74ce0b705a06188e1', disabled: isPending, size: "md", label: localizedWords.entries.Lcz_AcceptAndConfirm, isLoading: isRequestPending('/Request_Booking_Cancelation'), onButtonClick: async () => {
                 try {
                     await this.paymentService.RequestBookingCancelation(this.booking_nbr);
                     this.cancelationResult.emit({ state: 'success', booking_nbr: this.booking_nbr });

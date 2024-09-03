@@ -14,7 +14,6 @@ export class IrRoomtype {
                 max_occupancy: this.roomtype.occupancy_max.adult_nbr,
                 bedding_setup: this.roomtype.bedding_setup,
             }, amenities: app_store.property.amenities }))), booking_store.enableBooking ? (this.roomtype.rateplans.map(ratePlan => {
-            console.log(ratePlan);
             if (!ratePlan.is_active || !ratePlan.is_booking_engine_enabled || !ratePlan.variations) {
                 return null;
             }

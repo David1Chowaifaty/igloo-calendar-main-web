@@ -1,2 +1,0 @@
-import{d as e,a,p as o}from"./p-84a257b7.js";class t{getBookingActions(t){const n=true;const s=t.status.code!=="003"&&e.isBefore(new Date,new Date(t.from_date));const l=t.status.code==="001"&&a.property.allowed_payment_methods.some((e=>e.is_payment_gateway));let c="";if(l){const e=t.extras.find((e=>e.key==="prepayment_amount"));if(e){c=`Pay ${o(e.value||0,t.currency.code)} to guarentee`}}return{cancel:{show:s,label:"Cancel booking"},payment:{show:l,label:c},view:{show:n,label:"Booking details"}}}}export{t as B};
-//# sourceMappingURL=p-6247097a.js.map

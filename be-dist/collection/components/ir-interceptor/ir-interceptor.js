@@ -2,6 +2,7 @@ import { Host, h } from "@stencil/core";
 import axios from "axios";
 // import { IToast } from '../ir-toast/toast';
 import interceptor_requests from "../../stores/ir-interceptor.store";
+import localizedWords from "../../stores/localization.store";
 export class IrInterceptor {
     constructor() {
         this.ignoredErrorRoutes = ['/Exposed_Guest_SignIn', '/Exposed_Guest_SignUp'];
@@ -65,7 +66,8 @@ export class IrInterceptor {
         }
     }
     render() {
-        return (h(Host, { key: '6bbe4fb99eca8a24d69e24a1eed60778ffaa9b6f' }, h("ir-alert-dialog", { key: 'ec37cc7832f4704ddef712fc18af4654f58c0de9', ref: el => (this.alertRef = el) }, h("div", { key: 'c8c894d351f704ffbcde19d9ec244e3159c412d8', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: 'eda43dd2f7e612e6bbb68ba80ecf1e8e728cfdd2', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: 'f148c3efca40d084947a4d8f32bbccc7177a5faa', class: 'text-lg font-semibold' }, "Something went wrong!")), h("p", { key: '637df65018feb00282314a97efb09ad009be8d57', slot: "modal-body" }, this.errorMessage), h("div", { key: '836a1212c2d7901f4f6b9c160ad44ff30acdb710', slot: "modal-footer" }, h("ir-button", { key: 'eba0cbc8d079289e3794593d1809d67fd6567b88', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: '8c06b94929c71eb759793b763ffbc4a1f0808f8b', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
+        var _a, _b;
+        return (h(Host, { key: '027c5c635b3e02655978b875a79bde1e5c6059a6' }, h("ir-alert-dialog", { key: 'ae843d24084fe4e0b51ebe75d747f9ca7340ce86', ref: el => (this.alertRef = el) }, h("div", { key: 'd50ff1a27a089fe5a3b3eca72b781fd00bf26fb7', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: '64314d10df3bdd3d05cee8d4a6e813649d5d5b05', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: 'd2ffc1d4c7e3470b8c54d361608aa0c48e65956a', class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { key: 'a98314d8705740288ac03300dec789e998475240', slot: "modal-body" }, this.errorMessage), h("div", { key: 'c327154fa57d27cfc47da881cdb55ec355d5b86e', slot: "modal-footer" }, h("ir-button", { key: '2daea13f23836aa3ed73e47f8276ec4f0eae9fa6', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: '811e7ca647c6c16e1729b32cee7628e7f57db762', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }

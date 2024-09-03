@@ -24,6 +24,7 @@ const initialState = {
         source: null,
         hideGoogleSignIn: false,
         isFromGhs: false,
+        isAgentMode: false,
     },
     property: undefined,
     setup_entries: undefined,

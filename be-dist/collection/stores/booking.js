@@ -99,7 +99,6 @@ export function reserveRooms(roomTypeId, ratePlanId, rooms) {
         throw new Error('Invalid rate plan');
     }
     if (!booking_store.ratePlanSelections[roomTypeId][ratePlanId]) {
-        console.log('prepayment_amount', roomType.pre_payment_amount);
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,

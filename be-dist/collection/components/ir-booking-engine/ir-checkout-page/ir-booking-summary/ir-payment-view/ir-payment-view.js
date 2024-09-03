@@ -44,7 +44,7 @@ export class IrPaymentView {
         };
     }
     renderPaymentMethod() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         if (app_store.property.allowed_payment_methods.length === 0) {
             return;
         }
@@ -114,7 +114,8 @@ export class IrPaymentView {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cvc: e.detail });
                 }, class: "w-full", rightIcon: true }, h("svg", { slot: "right-icon", width: "20", height: "16", viewBox: "0 0 20 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M0 3C0 1.34315 1.34315 0 3 0H17C18.6569 0 20 1.34315 20 3V13C20 14.6569 18.6569 16 17 16H3C1.34315 16 0 14.6569 0 13V3Z", fill: "#EAECF0" }), h("path", { d: "M2 8C2 7.44772 2.44772 7 3 7H17C17.5523 7 18 7.44772 18 8C18 8.55228 17.5523 9 17 9H3C2.44772 9 2 8.55228 2 8Z", fill: "#8B8B8B" }), h("path", { d: "M2 4C2 3.44772 2.44772 3 3 3H5C5.55228 3 6 3.44772 6 4C6 4.55228 5.55228 5 5 5H3C2.44772 5 2 4.55228 2 4Z", fill: "white" }), h("path", { d: "M10 11C10 10.4477 10.4477 10 11 10H15C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14H11C10.4477 14 10 13.5523 10 13V11Z", fill: "#FE4F42" }), h("path", { d: "M11 11H15V13H11V11Z", fill: "#EAECF0" }))))))));
         if (this.selectedPaymentMethod === '005') {
-            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, h("p", null, method.description), h("p", { class: "text-xs text-gray-700" }, (_f = method.data) === null || _f === void 0 ? void 0 : _f.map(d => h("span", { key: d.key }, d.value))))));
+            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_g = (_f = method.localizables) === null || _f === void 0 ? void 0 : _f.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _g === void 0 ? void 0 : _g.description) ||
+                    ((_j = (_h = method.localizables) === null || _h === void 0 ? void 0 : _h.find(d => d.language.code.toLowerCase() === 'en')) === null || _j === void 0 ? void 0 : _j.description) }))));
         }
     }
     handlePaymentSelectionChange(e) {
@@ -143,7 +144,7 @@ export class IrPaymentView {
         return null;
     }
     render() {
-        return (h("div", { key: '483c0f0ee6892de62ce8eb153efe914cf3af2aed', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
+        return (h("div", { key: 'd265575520c30f56cd9da5cc3d7b59b6e20ece56', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }

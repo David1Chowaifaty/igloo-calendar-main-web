@@ -7,6 +7,7 @@ import app_store from "../../../stores/app.store";
 import booking_store, { validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import localizedWords from "../../../stores/localization.store";
 import { destroyBookingCookie, getDateDifference, runScriptAndRemove } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
@@ -60,7 +61,17 @@ export class IrCheckoutPage {
                 property_id: app_store.property.id,
             },
         })));
-        this.prepaymentAmount = requests.reduce((prev, curr) => prev + curr.amount, 0);
+        this.prepaymentAmount = requests.reduce((prev, curr) => {
+            let total = 1;
+            const roomtype = booking_store.ratePlanSelections[curr.room_type_id];
+            if (roomtype) {
+                const ratePlan = roomtype[curr.rate_plan_id];
+                if (ratePlan) {
+                    total = ratePlan.reserved;
+                }
+            }
+            return (prev + curr.amount) * total;
+        }, 0);
         console.log(requests);
     }
     async handleBooking(e) {
@@ -259,7 +270,7 @@ export class IrCheckoutPage {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
-            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, "Complete your booking")), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { prepaymentAmount: this.prepaymentAmount, error: this.error })))));
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { prepaymentAmount: this.prepaymentAmount, error: this.error })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "scoped"; }

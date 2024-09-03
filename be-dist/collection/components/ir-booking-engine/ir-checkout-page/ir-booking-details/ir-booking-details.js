@@ -199,7 +199,7 @@ export class IrBookingDetails {
                     if (this.isLoading === r.ratePlan.id) {
                         return h("div", { class: "h-16 animate-pulse rounded-md bg-gray-200" });
                     }
-                    return (h("div", { class: "flex items-center justify-between" }, h("div", { class: "flex-1 space-y-2" }, h("div", null, h("div", { class: "flex items-center gap-3" }, h("div", { class: "flex flex-row items-center gap-3 " }, h("h3", { class: "font-semibold" }, r.roomtype.name), r.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-[var(--ir-green)]" }, "Non refundable")) : (h("div", { class: 'inline-flex  h-6 items-center justify-center pt-0.5' }, h("ir-button", { haveRightIcon: true, variants: "link", class: "text-sm", buttonClassName: "pl-0", buttonStyles: { paddingLeft: '0', fontSize: '12px', paddingTop: '0', paddingBottom: '0' }, onButtonClick: async () => {
+                    return (h("div", { class: "flex items-center justify-between" }, h("div", { class: "flex-1 space-y-2" }, h("div", null, h("div", { class: "flex items-center gap-3" }, h("div", { class: "flex flex-row items-center gap-3 " }, h("h3", { class: "font-semibold" }, r.roomtype.name), r.ratePlan.is_non_refundable ? (h("p", { class: "text-xs text-[var(--ir-green)]" }, localizedWords.entries.Lcz_NonRefundable)) : (h("div", { class: 'inline-flex  h-6 items-center justify-center pt-0.5' }, h("ir-button", { haveRightIcon: true, variants: "link", class: "text-sm", buttonClassName: "pl-0", buttonStyles: { paddingLeft: '0', fontSize: '12px', paddingTop: '0', paddingBottom: '0' }, onButtonClick: async () => {
                             this.currentRatePlan = r.ratePlan;
                             await this.fetchCancelationMessage(r.ratePlan.id, r.roomtype.id);
                             this.dialogRef.openModal();
@@ -233,11 +233,11 @@ export class IrBookingDetails {
                         })), class: "hidden w-full sm:block", onValueChange: e => this.handleVariationChange(index, e, r.ratePlan.variations, Number(ratePlanId), Number(roomTypeId)) })), h("div", { class: "flex items-center gap-4" }, h("div", { class: "flex items-center gap-1 text-xs" }, h("ir-icons", { name: "utencils", svgClassName: "size-4" }), h("p", { class: "line-clamp-3" }, h("span", null, r.ratePlan.short_name), r.ratePlan.custom_text && h("span", { class: "mx-1 max-w-[60%] text-right text-xs text-gray-500 md:w-full md:max-w-full" }, r.ratePlan.custom_text))), this.renderSmokingView(r.roomtype.smoking_option, index, ratePlanId, roomTypeId, r.checkoutSmokingSelection), r.is_bed_configuration_enabled && (h("ir-select", { value: r.checkoutBedSelection[index], onValueChange: e => this.handleBedConfiguration(roomTypeId, ratePlanId, e.detail, index), data: r.roomtype.bedding_setup.map(b => ({ id: b.code, value: b.name })), icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" })))))));
                 });
             });
-        }))), h("ir-dialog", { key: '67338e8eb00f53d88a6523f8aaa60a9bf5b9b0dc', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: '74731c22a4c82f64116a284c87946888926c7229', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: 'becac8bfa4fc400c3d5a5121ab2872cf7df3677a', slot: "modal-body", class: "p-6 " }, h("p", { key: '60e7c162b4ef696d2b0ef0f5d884e406847a1586', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '811a904748dbfa93596aebbbe4831c9738bba975', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
+            } }, h("div", { key: '94e6f488a56ac11260f1803383ff3872cbfa072b', slot: "modal-body", class: "p-6 " }, h("p", { key: '34c77b5e4a362d47e5ad915e19fd8574feba2e86', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '1fd5b0797d595d7c9c213cbe96c65035195b2ab5', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "shadow"; }

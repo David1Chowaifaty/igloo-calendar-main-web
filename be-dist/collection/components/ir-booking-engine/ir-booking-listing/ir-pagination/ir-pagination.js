@@ -1,3 +1,4 @@
+import localizedWords from "../../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
 export class IrPagination {
     constructor() {
@@ -34,7 +35,7 @@ export class IrPagination {
             return;
         }
         const pages = this.getPages();
-        return (h(Host, null, h("ir-button", { disabled: this.current === 1, onButtonClick: () => this.pageChange.emit(this.current - 1), variants: "outline", label: "Previous", haveLeftIcon: true }, h("ir-icons", { name: "arrow_left", slot: "left-icon", svgClassName: "size-3" })), h("p", { class: "current-page-info" }, "Page ", this.current, " of ", this.total), h("ul", null, pages.map(page => typeof page === 'number' ? (h("li", { class: this.current === page ? 'active' : '' }, h("button", { onClick: () => this.pageChange.emit(page), type: "button" }, page))) : (h("li", { class: "ellipsis" }, page)))), h("ir-button", { disabled: this.current === this.total, onButtonClick: () => this.pageChange.emit(this.current + 1), variants: "outline", label: "Next", haveRightIcon: true }, h("ir-icons", { name: "arrow_right", slot: "right-icon", svgClassName: "size-3" }))));
+        return (h(Host, null, h("ir-button", { disabled: this.current === 1, onButtonClick: () => this.pageChange.emit(this.current - 1), variants: "outline", label: localizedWords.entries.Lcz_Previous, haveLeftIcon: true }, h("ir-icons", { class: "ir-icons", name: localizedWords.direction === 'rtl' ? 'arrow_left' : 'arrow_left', slot: "left-icon", svgClassName: "size-3" })), h("p", { class: "current-page-info" }, localizedWords.entries.Lcz_PageOf.replace('%1', this.current.toString()).replace('%2', this.total.toString())), h("ul", null, pages.map(page => typeof page === 'number' ? (h("li", { class: this.current === page ? 'active' : '' }, h("button", { onClick: () => this.pageChange.emit(page), type: "button" }, page))) : (h("li", { class: "ellipsis" }, page)))), h("ir-button", { disabled: this.current === this.total, onButtonClick: () => this.pageChange.emit(this.current + 1), variants: "outline", label: localizedWords.entries.Lcz_Next, haveRightIcon: true }, h("ir-icons", { class: "ir-icons", name: 'arrow_right', slot: "right-icon", svgClassName: "size-3" }))));
     }
     static get is() { return "ir-pagination"; }
     static get encapsulation() { return "shadow"; }

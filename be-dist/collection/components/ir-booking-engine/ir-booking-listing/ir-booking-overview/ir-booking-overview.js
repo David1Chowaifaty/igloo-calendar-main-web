@@ -7,6 +7,7 @@ import { cn, formatAmount, formatFullLocation, runScriptAndRemove } from "../../
 import { differenceInCalendarDays, format } from "date-fns";
 import app_store from "../../../../stores/app.store";
 import { PaymentService } from "../../../../services/api/payment.service";
+import localizedWords from "../../../../stores/localization.store";
 export class IrBookingOverview {
     constructor() {
         this.bookingListingService = new BookingListingService();
@@ -221,7 +222,7 @@ export class IrBookingOverview {
             return (h("div", { class: "flex h-screen w-full flex-col place-content-center" }, h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map((_, idx) => (h("ir-skeleton", { key: idx, class: "h-80 w-full" })))), h("div", { class: "hidden h-screen flex-col md:flex" }, h("ir-skeleton", { class: "h-[80vh] w-full" }))));
         }
         const totalPages = Math.round(this.total_count / this.maxPages);
-        return (h(Host, null, h("section", { class: `main-container ${!this.be ? 'main-container-padding' : ''}` }, h("div", { class: "ir-table-container mx-auto hidden max-w-6xl flex-1 overflow-x-hidden p-4 shadow-md md:block" }, this.showAllBookings && (h("ir-booking-header", { bookingNumber: this.bookingNumber, activeLink: this.activeLink, mode: this.bookingNumber ? 'multi' : 'single' })), h("div", { class: "max-w-full overflow-x-auto" }, h("table", { class: "ir-table" }, h("thead", null, h("tr", { class: "ir-table-header" }, h("th", { class: "ir-table-head" }, "Status"), h("th", { class: "ir-table-head" }, "Booking reference"), h("th", { class: "ir-table-head md:hidden lg:table-cell" }, "Booking date"), h("th", { class: "ir-table-head" }, "Check-in"), h("th", { class: "ir-table-head" }, "Duration"), h("th", { class: "ir-table-head" }, "Total price"), h("th", { class: "ir-table-head sr-only" }, "pay now"))), h("tbody", { class: " " }, (_a = this.bookings) === null || _a === void 0 ? void 0 : _a.map(booking => {
+        return (h(Host, null, h("section", { class: `main-container ${!this.be ? 'main-container-padding' : ''}` }, h("div", { class: "ir-table-container mx-auto hidden max-w-6xl flex-1 overflow-x-hidden p-4 shadow-md md:block" }, this.showAllBookings && (h("ir-booking-header", { bookingNumber: this.bookingNumber, activeLink: this.activeLink, mode: this.bookingNumber ? 'multi' : 'single' })), h("div", { class: "max-w-full overflow-x-auto" }, h("table", { class: "ir-table" }, h("thead", null, h("tr", { class: "ir-table-header" }, h("th", { class: "ir-table-head capitalize" }, localizedWords.entries.Lcz_status), h("th", { class: "ir-table-head" }, localizedWords.entries.Lcz_BookingReference), h("th", { class: "ir-table-head md:hidden lg:table-cell" }, localizedWords.entries.Lcz_BookingDate), h("th", { class: "ir-table-head" }, localizedWords.entries.Lcz_CheckIn), h("th", { class: "ir-table-head" }, localizedWords.entries.Lcz_Duration), h("th", { class: "ir-table-head" }, localizedWords.entries.Lcz_Totalprice), h("th", { class: "ir-table-head sr-only" }, "pay now"))), h("tbody", { class: " " }, (_a = this.bookings) === null || _a === void 0 ? void 0 : _a.map(booking => {
             var _a, _b;
             const totalNights = differenceInCalendarDays(new Date(booking.to_date), new Date(booking.from_date));
             const { cancel, payment, view } = this.bookingListingAppService.getBookingActions(booking);
@@ -257,7 +258,7 @@ export class IrBookingOverview {
                             booking,
                         },
                     });
-                } }, "Booking details")))))));
+                } }, localizedWords.entries.Lcz_BookingDetails)))))));
         })))), this.page_mode === 'multi' && (h("div", { class: "px-[1.25rem] pt-[1rem] " }, h("ir-pagination", { total: totalPages, current: this.currentPage })))), h("section", { class: cn('flex-1 space-y-4  md:hidden', {
                 'px-4': !this.be,
             }) }, this.showAllBookings && h("ir-booking-header", { bookingNumber: this.bookingNumber, mode: this.bookingNumber ? 'multi' : 'single' }), (_b = this.bookings) === null || _b === void 0 ? void 0 :

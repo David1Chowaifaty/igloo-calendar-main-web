@@ -2,6 +2,7 @@ import { CommonService } from "../../../services/api/common.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
 import { checkout_store } from "../../../stores/checkout.store";
+import localizedWords from "../../../stores/localization.store";
 import { checkAffiliate, getUserPrefernce } from "../../../utils/utils";
 import { Fragment, Host, h } from "@stencil/core";
 import axios from "axios";
@@ -142,7 +143,7 @@ export class IrBookingListing {
                         this.currentPage = 'bookings';
                         this.selectedBooking = null;
                         // this.bl_routing.emit({ route: 'booking' });
-                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, "My bookings")), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
+                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, localizedWords.entries.Lcz_MyBookings)), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
             case 'user-profile':
                 if (this.be) {
                     return;
@@ -171,7 +172,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
     }
     render() {
-        return (h(Host, { key: '6f7184867d1a4760f66a34a690ec24b6af35eb1d' }, !this.be && h("ir-interceptor", { key: '81d925c3c4fe8dd3d1e9b2b7826b74aee7c2560b' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '96044cd8ecc3160ae1b066676578dfaf19ca639d' }, !this.be && h("ir-interceptor", { key: '9bd3a97f701d14b01840222de09c4377ec61909f' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

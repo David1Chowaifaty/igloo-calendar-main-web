@@ -3,15 +3,13 @@ import { PropertyService } from "../../services/api/property.service";
 import { h } from "@stencil/core";
 import { format } from "date-fns";
 import axios from "axios";
-import booking_store, { modifyBookingStore, updateRoomParams } from "../../stores/booking";
+import booking_store, { modifyBookingStore } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
 import { checkAffiliate, checkGhs, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
 import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
-// import { PaymentService } from '@/services/api/payment.service';
-// import { isRequestPending } from '@/stores/ir-interceptor.store';
 export class IrBookingEngine {
     constructor() {
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
@@ -28,7 +26,7 @@ export class IrBookingEngine {
         this.checkin = undefined;
         this.checkout = undefined;
         this.language = undefined;
-        this.adults = undefined;
+        this.adults = '2';
         this.child = undefined;
         this.cur = undefined;
         this.aff = undefined;
@@ -114,7 +112,7 @@ export class IrBookingEngine {
         this.commonService.setToken(this.token);
         this.propertyService.setToken(this.token);
         app_store.app_data = {
-            displayMode: 'grid',
+            displayMode: 'default',
             isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
             token: this.token,
             property_id: this.propertyId,
@@ -174,16 +172,16 @@ export class IrBookingEngine {
             validateAgentCode(this.agent_code);
         }
     }
-    handleVariationChange(e, variations, rateplanId, roomTypeId) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const value = e.detail;
-        const selectedVariation = variations.find(variation => variation.adult_child_offering === value);
-        if (!selectedVariation) {
-            return;
-        }
-        updateRoomParams({ params: { selected_variation: { variation: selectedVariation, state: 'modified' } }, ratePlanId: rateplanId, roomTypeId });
-    }
+    // private handleVariationChange(e: CustomEvent, variations: Variation[], rateplanId: number, roomTypeId: number) {
+    //   e.stopImmediatePropagation();
+    //   e.stopPropagation();
+    //   const value = e.detail;
+    //   const selectedVariation = variations.find(variation => variation.adult_child_offering === value);
+    //   if (!selectedVariation) {
+    //     return;
+    //   }
+    //   updateRoomParams({ params: { selected_variation: { variation: selectedVariation, state: 'modified' } }, ratePlanId: rateplanId, roomTypeId });
+    // }
     modifyLoyalty() {
         modifyBookingStore('bookingAvailabilityParams', Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { coupon: null, loyalty: this.loyalty }));
     }
@@ -499,7 +497,8 @@ export class IrBookingEngine {
                     "text": ""
                 },
                 "attribute": "adults",
-                "reflect": false
+                "reflect": false,
+                "defaultValue": "'2'"
             },
             "child": {
                 "type": "string",

@@ -7,6 +7,7 @@ import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
 import { CommonService } from "../../../../services/api/common.service";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
+import localizedWords from "../../../../stores/localization.store";
 export class IrUserProfile {
     constructor() {
         this.propertyService = new PropertyService();
@@ -58,7 +59,7 @@ export class IrUserProfile {
         if (isRequestPending('/Get_Exposed_Country_By_IP')) {
             return null;
         }
-        return (h("section", { class: `mx-auto h-full min-h-[80vh] max-w-xl ${!this.be ? 'p-4 md:p-6' : ''}` }, h("h1", { class: "mb-6 text-lg font-medium" }, "Personal profile"), h("form", { onSubmit: this.handleSubmit.bind(this) }, h("div", { class: "relative  flex flex-col gap-4 md:grid md:grid-cols-2 " }, h("ir-input", { label: "First name", onTextChanged: e => this.updateUserData('first_name', e.detail), value: this.user.first_name, placeholder: "", onInputBlur: e => {
+        return (h("section", { class: `mx-auto h-full min-h-[80vh] max-w-xl ${!this.be ? 'p-4 md:p-6' : ''}` }, h("h1", { class: "mb-6 text-lg font-medium" }, localizedWords.entries.Lcz_PersonalProfile), h("form", { onSubmit: this.handleSubmit.bind(this) }, h("div", { class: "relative  flex flex-col gap-4 md:grid md:grid-cols-2 " }, h("ir-input", { label: localizedWords.entries.Lcz_FirstName, onTextChanged: e => this.updateUserData('first_name', e.detail), value: this.user.first_name, placeholder: "", onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ first_name: true });
                 const schemaValidation = emailSchema.safeParse({ first_name: (_a = this.user) === null || _a === void 0 ? void 0 : _a.first_name });
@@ -76,7 +77,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { value: this.user.last_name, label: "Last name", placeholder: "", onTextChanged: e => this.updateUserData('last_name', e.detail), onInputBlur: e => {
+            } }), h("ir-input", { value: this.user.last_name, label: localizedWords.entries.Lcz_LastName, placeholder: "", onTextChanged: e => this.updateUserData('last_name', e.detail), onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ last_name: true });
                 const schemaValidation = emailSchema.safeParse({ last_name: (_a = this.user) === null || _a === void 0 ? void 0 : _a.last_name });
@@ -94,7 +95,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { label: "Email", placeholder: "", value: this.user.email, onInputBlur: e => {
+            } }), h("ir-input", { label: localizedWords.entries.Lcz_Email, placeholder: "", value: this.user.email, onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ email: true });
                 const schemaValidation = emailSchema.safeParse({ email: (_a = this.user) === null || _a === void 0 ? void 0 : _a.email });
@@ -112,7 +113,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { value: this.user.country_id, label: "Country", variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
+            }, onTextChanged: e => this.updateUserData('email', e.detail) }), h("ir-select", { value: this.user.country_id, label: localizedWords.entries.Lcz_Country, variant: "double-line", data: (_a = phone_input_store.countries) === null || _a === void 0 ? void 0 : _a.map(country => ({
                 id: country.id,
                 value: country.name,
             })), onValueChange: e => this.updateUserData('country_id', e.detail) }), h("ir-phone-input", { class: "col-span-2 w-full", country_code: this.user.country_id || null, mode: "prefix_only", country_phone_prefix: this.user.country_phone_prefix || null, onTextChange: e => {
@@ -135,7 +136,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("div", { class: "mt-4" }, h("ir-checkbox", { onCheckChange: e => this.updateUserData('subscribe_to_news_letter', e.detail), label: "Register for exclusive deals" })), h("div", { class: "flex items-center justify-end" }, h("ir-button", { type: "submit", isLoading: this.isLoading, label: "Save", class: "mt-6 w-full md:w-fit" })))));
+            } })), h("div", { class: "mt-4" }, h("ir-checkbox", { onCheckChange: e => this.updateUserData('subscribe_to_news_letter', e.detail), label: localizedWords.entries.Lcz_RegisterForExclusiveDeals })), h("div", { class: "flex items-center justify-end" }, h("ir-button", { type: "submit", isLoading: this.isLoading, label: localizedWords.entries.Lcz_save, class: "mt-6 w-full md:w-fit" })))));
     }
     static get is() { return "ir-user-profile"; }
     static get encapsulation() { return "shadow"; }

@@ -17,6 +17,7 @@ export declare class IrNav {
     private preferences;
     private dialogRef;
     private sheetRef;
+    private bookingCodeRef;
     modalRef: HTMLIrModalElement;
     componentWillLoad(): void;
     handleWebsiteChange(newValue: string, oldValue: string): void;

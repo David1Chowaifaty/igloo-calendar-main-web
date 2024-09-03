@@ -35,6 +35,7 @@ export interface IAppStore {
         isFromGhs: boolean;
         stag: string | null;
         displayMode: 'default' | 'grid';
+        isAgentMode?: boolean;
     };
     property: IExposedProperty;
     setup_entries: {
