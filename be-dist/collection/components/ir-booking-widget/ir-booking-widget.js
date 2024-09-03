@@ -101,7 +101,7 @@ export class IrBookingWidget {
     }
     renderAdultChildTrigger() {
         const { adultCount, childrenCount } = this.guests;
-        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 ? (h(Fragment, null, h("span", null, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), h("span", null, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children))) : (h("span", null, "Guests")))));
+        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 ? (h(Fragment, null, h("span", { class: "lowercase" }, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), h("span", { class: "lowercase" }, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children))) : (h("span", null, "Guests")))));
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
