@@ -1,5 +1,5 @@
 function getToken() {
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjYwNTUxMjcsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThFYVVYM0JOQXR3MyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.wbumhILckvq3YpbXdMGaBK42xHxWH_FsvMTd8yzOIS4"
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjY2NTI0MDMsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThFYVVYM0JOQXR3MyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.AmnSKQRZQ3ClFuC4MtkFfIXrMknRUC6-vhsXdk2vc2c"
 }
 function getId() {
     return "42"
@@ -28,7 +28,7 @@ const links = [
     { href: "booking-widget.html", name: "BE Widget", current: false, subroutes: null },
 ];
 function injectBootstrapResources() {
-    const resources = [
+    let resources = [
         {
             tag: 'link',
             attributes: {
@@ -56,6 +56,7 @@ function injectBootstrapResources() {
         }
     ];
 
+
     function createAndAppendElement(tag, attributes) {
         const element = document.createElement(tag);
         for (let attr in attributes) {
@@ -75,7 +76,6 @@ function injectBootstrapResources() {
     });
 }
 
-injectBootstrapResources();
 
 function renderNavbar(active_link) {
     const ul = document.createElement('ul');

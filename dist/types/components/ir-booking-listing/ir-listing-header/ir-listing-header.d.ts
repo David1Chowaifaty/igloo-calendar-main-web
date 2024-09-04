@@ -7,10 +7,12 @@ export declare class IrListingHeader {
     isLoading: 'search' | 'excel';
     preventPageLoad: EventEmitter<string>;
     private bookingListingService;
+    private toDateRef;
     componentWillLoad(): void;
     private downloadUrlTag;
     handleDateRangeChange(e: CustomEvent): void;
     handleSearchClicked(is_to_export: boolean): Promise<void>;
     handleClearUserField(): Promise<void>;
+    private handleFromDateChange;
     render(): any;
 }

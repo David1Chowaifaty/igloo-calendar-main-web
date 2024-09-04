@@ -381,6 +381,7 @@ export namespace Components {
         "maxSpan": moment.DurationInputArg1;
         "minDate": string;
         "monthNames": string[];
+        "openDatePicker": () => Promise<void>;
         "opens": 'left' | 'right' | 'center';
         "separator": string;
         "singleDatePicker": boolean;
@@ -535,6 +536,7 @@ export namespace Components {
     }
     interface IrPaymentOption {
         "baseurl": string;
+        "language": string;
         "propertyid": string;
         "ticket": string;
     }
@@ -2793,6 +2795,7 @@ declare namespace LocalJSX {
     }
     interface IrPaymentOption {
         "baseurl"?: string;
+        "language"?: string;
         "propertyid"?: string;
         "ticket"?: string;
     }

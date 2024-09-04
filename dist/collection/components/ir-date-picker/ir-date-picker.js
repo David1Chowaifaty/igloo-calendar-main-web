@@ -25,8 +25,21 @@ export class IrDatePicker {
             days: 240,
         };
     }
+    handleMinDateChange() {
+        $(this.dateRangeInput).data('daterangepicker').remove();
+        this.initializeDateRangePicker();
+    }
+    async openDatePicker() {
+        console.log('opening date');
+        this.openDatePickerTimeout = setTimeout(() => {
+            this.dateRangeInput.click();
+        }, 20);
+    }
     componentDidLoad() {
         this.dateRangeInput = this.element.querySelector('.date-range-input');
+        this.initializeDateRangePicker();
+    }
+    initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
             singleDatePicker: this.singleDatePicker,
             opens: this.opens,
@@ -53,8 +66,14 @@ export class IrDatePicker {
             this.dateChanged.emit({ start, end });
         });
     }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        $(this.dateRangeInput).data('daterangepicker').remove();
+    }
     render() {
-        return (h(Host, { key: '9e69f2a8d60bbf3142c67e5b19bb4c9a0139b6a4' }, h("input", { key: 'b3771235eebfb9f491fa2a1f85ba4b0041a68f91', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'de04dbc346f9096994d8aa00f45299ce2ab73e27' }, h("input", { key: '17169d40dc7525db6f471f38fad8d201f81e3c2a', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     static get is() { return "ir-date-picker"; }
     static get encapsulation() { return "scoped"; }
@@ -456,6 +475,33 @@ export class IrDatePicker {
                 }
             }];
     }
+    static get methods() {
+        return {
+            "openDatePicker": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            }
+        };
+    }
     static get elementRef() { return "element"; }
+    static get watchers() {
+        return [{
+                "propName": "minDate",
+                "methodName": "handleMinDateChange"
+            }];
+    }
 }
 //# sourceMappingURL=ir-date-picker.js.map

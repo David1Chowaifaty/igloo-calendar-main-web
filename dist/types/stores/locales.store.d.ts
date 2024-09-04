@@ -2,7 +2,7 @@ export interface ILocale {
     entries: TLocaleEntries;
     direction: 'ltr' | 'rtl';
 }
-export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords) | null;
+export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords & LocalizationPAYMENTBACK) | null;
 export type LocalizationStrings = {
     Lcz_PrivateNote_MaxChar: string;
     Lcz_VisibleToHotelOnly: string;
@@ -300,6 +300,18 @@ export type LocalizationChannelFrontEntries = {
     Lcz_TestConnection: string;
     Lcz_NoChannelsAreConnected: string;
     Lcz_InvalidCredentials: string;
+};
+export type LocalizationPAYMENTBACK = {
+    Lcz_Action: string;
+    Lcz_Cancel: string;
+    Lcz_Edit: string;
+    Lcz_Information: string;
+    Lcz_PaymentMethod: string;
+    Lcz_PaymentOptions: string;
+    Lcz_Save: string;
+    Lcz_Saved: string;
+    Lcz_Status: string;
+    Lcz_YouMustFillEnglishField: string;
 };
 export declare const locales: ILocale, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<ILocale>;
 export default locales;

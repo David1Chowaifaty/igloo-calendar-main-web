@@ -32,8 +32,21 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
             days: 240,
         };
     }
+    handleMinDateChange() {
+        $(this.dateRangeInput).data('daterangepicker').remove();
+        this.initializeDateRangePicker();
+    }
+    async openDatePicker() {
+        console.log('opening date');
+        this.openDatePickerTimeout = setTimeout(() => {
+            this.dateRangeInput.click();
+        }, 20);
+    }
     componentDidLoad() {
         this.dateRangeInput = this.element.querySelector('.date-range-input');
+        this.initializeDateRangePicker();
+    }
+    initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
             singleDatePicker: this.singleDatePicker,
             opens: this.opens,
@@ -60,10 +73,19 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
             this.dateChanged.emit({ start, end });
         });
     }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        $(this.dateRangeInput).data('daterangepicker').remove();
+    }
     render() {
-        return (h(Host, { key: '9e69f2a8d60bbf3142c67e5b19bb4c9a0139b6a4' }, h("input", { key: 'b3771235eebfb9f491fa2a1f85ba4b0041a68f91', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'de04dbc346f9096994d8aa00f45299ce2ab73e27' }, h("input", { key: '17169d40dc7525db6f471f38fad8d201f81e3c2a', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
+    static get watchers() { return {
+        "minDate": ["handleMinDateChange"]
+    }; }
     static get style() { return IrDatePickerStyle0; }
 }, [2, "ir-date-picker", {
         "fromDate": [16],
@@ -85,7 +107,10 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         "singleDatePicker": [4, "single-date-picker"],
         "minDate": [1, "min-date"],
         "maxDate": [1, "max-date"],
-        "maxSpan": [8, "max-span"]
+        "maxSpan": [8, "max-span"],
+        "openDatePicker": [64]
+    }, undefined, {
+        "minDate": ["handleMinDateChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

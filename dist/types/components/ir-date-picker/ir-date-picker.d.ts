@@ -22,11 +22,16 @@ export declare class IrDatePicker {
     minDate: string;
     maxDate: string;
     maxSpan: moment.DurationInputArg1;
+    private openDatePickerTimeout;
     dateChanged: EventEmitter<{
         start: moment.Moment;
         end: moment.Moment;
     }>;
     dateRangeInput: HTMLElement;
+    handleMinDateChange(): void;
+    openDatePicker(): Promise<void>;
     componentDidLoad(): void;
+    initializeDateRangePicker(): void;
+    disconnectedCallback(): void;
     render(): any;
 }
