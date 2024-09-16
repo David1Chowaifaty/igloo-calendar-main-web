@@ -4,6 +4,7 @@ import { d as dateFns } from './utils.js';
 
 const initialState = {
     userFormData: {},
+    prepaymentAmount: 0,
     modifiedGuestName: false,
     pickup: {
         arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),

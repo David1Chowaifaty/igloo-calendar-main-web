@@ -16,4 +16,5 @@ export declare class IrDatePopup {
     componentWillLoad(): void;
     dateTrigger(): any;
     render(): any;
+    private getDateModifiers;
 }

@@ -99,6 +99,10 @@ export class IrDateRange {
         this.displayedDaysArr = [this.getMonthDays(newFirstMonth), this.displayedDaysArr[0]];
     }
     selectDay(day) {
+        const isDateDisabled = !!this.dateModifiers[format(day, 'yyyy-MM-dd')];
+        if (isDateDisabled && !this.selectedDates.start) {
+            return;
+        }
         if (isSameDay(new Date(this.selectedDates.start), new Date(day)) || isSameDay(new Date(this.selectedDates.end), new Date(day))) {
             this.selectedDates = { start: day, end: null };
         }
@@ -109,6 +113,9 @@ export class IrDateRange {
             else {
                 if (this.selectedDates.end === null) {
                     if (isBefore(day, this.selectedDates.start)) {
+                        if (isDateDisabled) {
+                            return;
+                        }
                         this.selectedDates = { start: day, end: null };
                     }
                     else {
@@ -116,7 +123,9 @@ export class IrDateRange {
                     }
                 }
                 else {
-                    this.selectedDates = { start: day, end: null };
+                    if (!isDateDisabled) {
+                        this.selectedDates = { start: day, end: null };
+                    }
                 }
             }
         }
@@ -183,7 +192,7 @@ export class IrDateRange {
         return;
     }
     render() {
-        return (h("div", { key: '70a8b40e16f8d03e5a4b491e2e316a5aeb765f64', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", null, format(month.month, 'MMMM yyyy', { locale: this.locale })), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday))))), h("tbody", { class: "days-grid" }, month.days
+        return (h("div", { key: 'a4c58f69d60857182e32736725ca0af59fae0f10', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, format(month.month, 'MMMM yyyy', { locale: this.locale })), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
             .reduce((acc, day, index) => {
             const weekIndex = Math.floor(index / 7);
             if (!acc[weekIndex]) {
@@ -196,11 +205,11 @@ export class IrDateRange {
             var _a, _b;
             day.setHours(0, 0, 0, 0);
             const checkedDate = this.checkDatePresence(day);
-            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month.month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
+            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month.month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.selectDay(day);
-                }, "aria-label": `${format(day, 'EEEE, MMMM do yyyy', { locale: this.locale })} ${isBefore(day, this.minDate) || isAfter(day, this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isSameDay(new Date(this.selectedDates.start), new Date(day))) ||
+                }, title: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'No availability' : '', "aria-unavailable": (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-label": `${format(day, 'EEEE, MMMM do yyyy', { locale: this.locale })} ${isBefore(day, this.minDate) || isAfter(day, this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isSameDay(new Date(this.selectedDates.start), new Date(day))) ||
                     this.isDaySelected(day) ||
                     (this.selectedDates.end && isSameDay(new Date((_a = this.selectedDates.end) !== null && _a !== void 0 ? _a : new Date()), new Date(day))), class: `day-button  ${this.selectedDates.start && isSameDay(new Date(this.selectedDates.start), new Date(day)) ? 'day-range-start' : ''}
                           ${this.selectedDates.end && isSameDay(new Date((_b = this.selectedDates.end) !== null && _b !== void 0 ? _b : new Date()), new Date(day)) ? 'day-range-end' : ''}  

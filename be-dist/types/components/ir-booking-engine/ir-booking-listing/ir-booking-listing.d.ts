@@ -28,14 +28,17 @@ export declare class IrBookingListing {
     isAffiliate: boolean;
     private commonService;
     private propertyService;
+    private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleAffiliateChange(newValue: string, oldValue: string): void;
     handleScreenChanged(e: CustomEvent<pages>): void;
+    private fetchGuest;
     initializeApp(): Promise<void>;
     initializeServices(): void;
     handleAuthFinish(e: CustomEvent): void;
     handleSignout(): void;
     handleRouting(e: CustomEvent): void;
+    openPrivacyPolicy(e: CustomEvent): Promise<void>;
     private renderPages;
     private renderAuthScreen;
     private renderBookingsScreen;

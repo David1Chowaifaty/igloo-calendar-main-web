@@ -6,18 +6,39 @@ import { h } from "@stencil/core";
 import IMask from "imask";
 export class IrPaymentView {
     constructor() {
+        this.prepaymentAmount = 0;
         this.errors = undefined;
         this.selectedPaymentMethod = undefined;
+        this.cardType = '';
     }
     componentWillLoad() {
-        var _a;
-        this.selectedPaymentMethod = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods[0].code;
-        console.log(this.selectedPaymentMethod);
+        this.setPaymentMethod();
         if (!checkout_store.payment) {
             checkout_store.payment = {
                 code: this.selectedPaymentMethod,
             };
         }
+    }
+    handlePrePaymentAmount(newValue, oldValue) {
+        if (newValue === 0) {
+            this.selectedPaymentMethod = null;
+        }
+        else if (newValue !== oldValue) {
+            this.setPaymentMethod();
+        }
+    }
+    setPaymentMethod() {
+        var _a;
+        if (this.prepaymentAmount === 0) {
+            return;
+        }
+        const paymentMethods = ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.filter(pm => pm.is_active)) || [];
+        let selectedMethodCode = null;
+        if (paymentMethods.length > 0) {
+            const [firstMethod, secondMethod] = paymentMethods;
+            selectedMethodCode = firstMethod.code === '000' && secondMethod ? secondMethod.code : firstMethod.code;
+        }
+        this.selectedPaymentMethod = selectedMethodCode;
     }
     getExpiryMask() {
         const currentYear = new Date().getFullYear() % 100;
@@ -49,6 +70,9 @@ export class IrPaymentView {
             return;
         }
         const method = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.find(apm => apm.code === this.selectedPaymentMethod);
+        if (this.selectedPaymentMethod === '000') {
+            return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
+        }
         if (this.selectedPaymentMethod === '001' || this.selectedPaymentMethod === '004')
             return (h("form", { class: "flex w-full gap-4", key: method.code }, h("div", { class: 'flex-1 space-y-4' }, h("fieldset", null, h("ir-input", { placeholder: "", onTextChanged: e => {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cardHolderName: e.detail });
@@ -71,7 +95,9 @@ export class IrPaymentView {
                     if (target.hasAttribute('data-state'))
                         target.removeAttribute('data-state');
                 } })), h("ir-credit-card-input", { "data-state": ((_c = this.errors) === null || _c === void 0 ? void 0 : _c.cardNumber) ? 'error' : '', onCreditCardChange: e => {
-                    checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cardNumber: e.detail });
+                    const { cardType, value } = e.detail;
+                    this.cardType = cardType;
+                    checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cardNumber: value });
                 } }), h("div", { class: "flex flex-col gap-2.5 sm:flex-row sm:items-center" }, h("fieldset", { class: "w-full" }, h("ir-input", { autocomplete: "cc-exp", "data-state": ((_d = this.errors) === null || _d === void 0 ? void 0 : _d.expiryDate) ? 'error' : '', type: "text", value: "", placeholder: "MM/YY", mask: this.getExpiryMask(), label: localizedWords.entries.Lcz_ExpirationDate, class: "w-full", rightIcon: true, onTextChanged: e => {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { expiry_month: e.detail, expiry_year: e.detail });
                 }, onInputBlur: e => {
@@ -127,24 +153,32 @@ export class IrPaymentView {
     }
     renderPaymentOptions() {
         var _a;
-        const paymentLength = app_store.property.allowed_payment_methods.length;
-        if (paymentLength === 0) {
-            return h("p", { class: "text-center" }, "No deposit required");
+        const paymentLength = app_store.property.allowed_payment_methods.filter(p => p.is_active).length;
+        if (paymentLength === 0 || this.prepaymentAmount === 0 || (paymentLength === 1 && this.selectedPaymentMethod === '000')) {
+            return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
         }
         if (paymentLength > 1) {
-            return (h("ir-select", { variant: "double-line", label: localizedWords.entries.Lcz_SelectYourPaymentMethod, data: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.map(apm => ({
-                    id: apm.code,
-                    value: apm.is_payment_gateway ? `Card payment with ${apm.description}` : apm.description,
-                })), onValueChange: this.handlePaymentSelectionChange.bind(this) }));
+            return (h("ir-select", { variant: "double-line", value: this.selectedPaymentMethod.toString(), label: localizedWords.entries.Lcz_SelectYourPaymentMethod, data: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.map(apm => {
+                    if (!apm.is_active) {
+                        return null;
+                    }
+                    return {
+                        id: apm.code,
+                        value: apm.is_payment_gateway ? `${localizedWords.entries.Lcz_CardPaymentWith} ${apm.description}` : apm.description,
+                    };
+                }).filter(p => p !== null), onValueChange: this.handlePaymentSelectionChange.bind(this) }));
         }
         const paymentOption = app_store.property.allowed_payment_methods[0];
         if (paymentOption.is_payment_gateway) {
-            return h("p", { class: "text-center" }, "Card payment with ", paymentOption.description, " ");
+            return h("p", { class: "text-center" }, paymentOption.description, " ");
         }
         return null;
     }
     render() {
-        return (h("div", { key: 'd265575520c30f56cd9da5cc3d7b59b6e20ece56', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod()));
+        var _a, _b;
+        return (h("div", { key: '70ae52cd2a3c14a12dd1714f97bb10d58ad89762', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.prepaymentAmount > 0 && this.renderPaymentMethod(), this.cardType !== '' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '561d371db3be30b04817e6fb2df2e92baf37b0a1', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+            _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
@@ -160,6 +194,24 @@ export class IrPaymentView {
     }
     static get properties() {
         return {
+            "prepaymentAmount": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "prepayment-amount",
+                "reflect": false,
+                "defaultValue": "0"
+            },
             "errors": {
                 "type": "unknown",
                 "mutable": false,
@@ -189,8 +241,15 @@ export class IrPaymentView {
     }
     static get states() {
         return {
-            "selectedPaymentMethod": {}
+            "selectedPaymentMethod": {},
+            "cardType": {}
         };
+    }
+    static get watchers() {
+        return [{
+                "propName": "prepaymentAmount",
+                "methodName": "handlePrePaymentAmount"
+            }];
     }
 }
 //# sourceMappingURL=ir-payment-view.js.map

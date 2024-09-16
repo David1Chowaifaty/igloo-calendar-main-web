@@ -1,3 +1,4 @@
+import app_store from "../../../../../stores/app.store";
 import localization_store from "../../../../../stores/app.store";
 import localizedWords from "../../../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
@@ -23,12 +24,25 @@ export class IrDatePopup {
         return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: '33979d04adaaeced8a89c512f290d3c1b2418086' }, h("ir-popover", { key: '1193b6818345f5b22031a0cc3a5ba692011d516c', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Host, { key: '09b97e9afa736ba83765e365cf42ead35cd40f66' }, h("ir-popover", { key: '459a59be8623ae5fe0e4a354dd5b09f33ad0e00f', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
                     this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
                 }
-            } }, this.dateTrigger(), h("div", { key: 'ac860c77b0a969749c2cf74784dc68e425c105a3', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '7ec3fd0a8bfc3217675235cc83a725b018fa6d84', fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: '19929910701034d762d5254285a9acb794bec188', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: 'ec2bf5237005fddd814f5b8217d32f4d619f7eee', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
+    }
+    getDateModifiers() {
+        var _a;
+        if (!Object.keys(app_store.nonBookableNights).length) {
+            return undefined;
+        }
+        const nights = {};
+        (_a = Object.keys(app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights)) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
+            nights[nbn] = {
+                disabled: true,
+            };
+        });
+        return nights;
     }
     static get is() { return "ir-date-popup"; }
     static get encapsulation() { return "shadow"; }

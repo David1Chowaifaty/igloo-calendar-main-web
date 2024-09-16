@@ -5,6 +5,9 @@ export type UserPreference = {
     language_id: string;
     currency_id: string;
 };
+export type NonBookableNights = {
+    night: string;
+};
 interface IUserDefaultCountry {
     cities: [];
     currency: ICurrency;
@@ -18,12 +21,14 @@ export type TSource = {
     description: string;
 };
 export interface IAppStore {
+    nonBookableNights: Record<string, null>;
     currencies: TCurrency[];
     localizedWords: string[];
     dir: TDirection;
     selectedLocale: Locale;
     userPreferences: UserPreference;
     app_data: {
+        override_rp?: boolean;
         token: string;
         property_id: number;
         injected: boolean;
@@ -36,6 +41,8 @@ export interface IAppStore {
         stag: string | null;
         displayMode: 'default' | 'grid';
         isAgentMode?: boolean;
+        aName: string;
+        perma_link: string;
     };
     property: IExposedProperty;
     setup_entries: {

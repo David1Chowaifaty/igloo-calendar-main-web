@@ -16,7 +16,7 @@ export class IrUserForm {
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!app_store.setup_entries) {
-            return (h("div", null, h("p", null, "Loading")));
+            return (h("div", { class: 'flex h-72 flex-col' }, h("ir-checkout-skeleton", null)));
         }
         return (h(Fragment, null, h("section", { class: "user-form-section" }, h("div", { class: "user-form-content" }, h("div", { class: "user-form-row" }, h("ir-input", { placeholder: "", value: (_a = checkout_store.userFormData) === null || _a === void 0 ? void 0 : _a.firstName, "data-state": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.firstName) ? 'error' : '', label: localizedWords.entries.Lcz_FirstName, onTextChanged: e => updateUserFormData('firstName', e.detail), class: "user-form-input", onInputBlur: e => {
                 var _a;
@@ -89,7 +89,7 @@ export class IrUserForm {
                     target.removeAttribute('data-state');
             } })), h("div", { class: "user-form-row" }, h("ir-select", { label: localizedWords.entries.Lcz_YourArrivalTime.replace('%1', (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.time_constraints.check_in_from), variant: "double-line", value: (_k = checkout_store.userFormData) === null || _k === void 0 ? void 0 : _k.arrival_time, onValueChange: e => updateUserFormData('arrival_time', e.detail), data: app_store.setup_entries.arrivalTime.map(entry => ({
                 id: entry.CODE_NAME,
-                value: entry.CODE_VALUE_EN,
+                value: entry[`CODE_VALUE_${app_store.userPreferences.language_id.toUpperCase()}`],
             })), class: "user-form-input" })), h("ir-textarea", { value: (_l = checkout_store.userFormData) === null || _l === void 0 ? void 0 : _l.message, placeholder: "", label: localizedWords.entries.Lcz_AnyMessageForUs, maxlength: 555, onTextChanged: e => updateUserFormData('message', e.detail), class: "w-full" })), h("ir-checkbox", { checked: (_m = checkout_store.userFormData) === null || _m === void 0 ? void 0 : _m.bookingForSomeoneElse, label: localizedWords.entries.Lcz_IAmBooklingForSomeoneElse, class: "user-form-checkbox", onCheckChange: e => updateUserFormData('bookingForSomeoneElse', e.detail) }))));
     }
     static get is() { return "ir-user-form"; }

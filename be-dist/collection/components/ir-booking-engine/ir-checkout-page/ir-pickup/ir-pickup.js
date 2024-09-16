@@ -1,6 +1,7 @@
 import { PickupFormData } from "../../../../models/pickup";
 import { PickupService } from "../../../../services/app/pickup.service";
 import app_store, { onAppDataChange } from "../../../../stores/app.store";
+import booking_store from "../../../../stores/booking";
 import { checkout_store, onCheckoutDataChange, updatePartialPickupFormData, updatePickupFormData } from "../../../../stores/checkout.store";
 import localizedWords from "../../../../stores/localization.store";
 import { formatAmount } from "../../../../utils/utils";
@@ -36,8 +37,10 @@ export class IrPickup {
         this.allowedOptionsByLocation = [];
     }
     componentWillLoad() {
+        var _a;
         this.oldCurrencyValue = app_store.userPreferences.currency_id;
         this.updateCurrency();
+        updatePickupFormData('arrival_date', format((_a = booking_store.bookingAvailabilityParams) === null || _a === void 0 ? void 0 : _a.from_date, 'yyyy-MM-dd'));
         onAppDataChange('userPreferences', newValue => {
             if (newValue.currency_id !== this.oldCurrencyValue) {
                 this.updateCurrency();
@@ -141,11 +144,11 @@ export class IrPickup {
         });
     }
     render() {
-        var _a;
+        var _a, _b;
         if (!app_store.property.pickup_service.allowed_options) {
             return null;
         }
-        return (h("section", { class: "space-y-5" }, h("div", { class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { name: "car" }), h("p", null, localizedWords.entries.Lcz_NeedPickup), h("ir-select", { value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: localizedWords.entries.Lcz_NoThankYou }, ...this.pickupService.getAvailableLocations(localizedWords.entries.Lcz_YesFrom)] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'flex items-center gap-4 sm:flex-col lg:flex-row' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit sm:w-full lg:w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", null))), h("ir-input", { class: 'w-full', onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: localizedWords.entries.Lcz_ArrivalHour, placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", "data-state": this.errors && this.errors.arrival_time ? 'error' : '', "aria-invalid": this.errors && this.errors.arrival_time ? 'true' : 'false', onInputBlur: e => {
+        return (h("section", { class: "space-y-5" }, h("div", { class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { name: "car" }), h("p", null, localizedWords.entries.Lcz_NeedPickup), h("ir-select", { value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: localizedWords.entries.Lcz_NoThankYou }, ...this.pickupService.getAvailableLocations(localizedWords.entries.Lcz_YesFrom)] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'pickup-header-container' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit sm:w-full lg:w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", { date: new Date(checkout_store.pickup.arrival_date), fromDate: (_b = booking_store.bookingAvailabilityParams) === null || _b === void 0 ? void 0 : _b.from_date }))), h("ir-input", { class: 'w-full', onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: localizedWords.entries.Lcz_ArrivalHour, placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", "data-state": this.errors && this.errors.arrival_time ? 'error' : '', "aria-invalid": this.errors && this.errors.arrival_time ? 'true' : 'false', onInputBlur: e => {
                 var _a;
                 const firstNameSchema = PickupFormData.pick({ arrival_time: true });
                 const firstNameValidation = firstNameSchema.safeParse({ arrival_time: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.arrival_time });
@@ -163,7 +166,7 @@ export class IrPickup {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("div", { class: "hidden flex-1  lg:block" }, h("p", { class: "text-end text-base font-medium xl:text-xl" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id)))), h("div", null, h("ir-input", { label: localizedWords.entries.Lcz_FlightDetails, placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
+            } }), h("p", { class: "pickup-amount" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id))), h("div", null, h("ir-input", { label: localizedWords.entries.Lcz_FlightDetails, placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
                 id: option.vehicle.code,
                 value: option.vehicle.description,
             })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: localizedWords.entries.Lcz_CarModel, variant: "double-line" }), h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({

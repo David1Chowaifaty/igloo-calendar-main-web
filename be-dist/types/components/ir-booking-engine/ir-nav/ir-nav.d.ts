@@ -10,10 +10,11 @@ export declare class IrNav {
     showBookingCode: boolean;
     showCurrency: boolean;
     menuShown: boolean;
+    logoOnly: boolean;
+    currentPage: TTabsState;
     routing: EventEmitter<pages>;
     signOut: EventEmitter<null>;
     screenChanged: EventEmitter<pages>;
-    currentPage: TTabsState;
     private preferences;
     private dialogRef;
     private sheetRef;

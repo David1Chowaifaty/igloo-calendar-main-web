@@ -1,4 +1,6 @@
-import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
+'use strict';
+
+const index = require('./index-380c61af.js');
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -38,7 +40,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof getRenderingRef !== 'function') {
+    if (typeof index.getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -47,7 +49,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = getRenderingRef();
+            const elm = index.getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -55,12 +57,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -50400,6 +50402,7 @@ Object.keys(_index95).forEach(function (key) {
 }(locale));
 
 const initialState$1 = {
+    nonBookableNights: null,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: locale.enUS,
@@ -50410,6 +50413,7 @@ const initialState$1 = {
     },
     invoice: null,
     app_data: {
+        override_rp: false,
         displayMode: 'default',
         affiliate: null,
         stag: null,
@@ -50422,6 +50426,8 @@ const initialState$1 = {
         hideGoogleSignIn: false,
         isFromGhs: false,
         isAgentMode: false,
+        aName: null,
+        perma_link: null,
     },
     property: undefined,
     setup_entries: undefined,
@@ -53265,6 +53271,9 @@ function getUserPrefernce(lang = undefined) {
         updateUserPreference({
             language_id: lang || 'en',
         });
+        if (lang === 'ar') {
+            changeLocale('RTL', matchLocale(lang));
+        }
     }
 }
 function runScriptAndRemove(scriptContent) {
@@ -53375,14 +53384,14 @@ function validateAgentCode(code) {
     return isValidCode;
 }
 function renderPropertyLocation() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d;
     const affiliate = app_store.app_data.affiliate;
     if (affiliate) {
-        return [(_b = (_a = app_store.app_data.affiliate) === null || _a === void 0 ? void 0 : _a.address) !== null && _b !== void 0 ? _b : null, (_c = app_store.app_data.affiliate.city) !== null && _c !== void 0 ? _c : null, (_d = app_store.app_data.affiliate.country.name) !== null && _d !== void 0 ? _d : null]
+        return [((_a = app_store.app_data.affiliate) === null || _a === void 0 ? void 0 : _a.address) || null, app_store.app_data.affiliate.city || null, app_store.app_data.affiliate.country.name || null]
             .filter(f => f !== null)
             .join(', ');
     }
-    return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
+    return [((_b = app_store.property) === null || _b === void 0 ? void 0 : _b.area) || null, ((_c = app_store.property) === null || _c === void 0 ? void 0 : _c.city.name) || null, ((_d = app_store.property) === null || _d === void 0 ? void 0 : _d.country.name) || null].filter(f => f !== null).join(', ');
 }
 function setBookingCookie() {
     const cookieName = 'ghs_booking';
@@ -53408,7 +53417,61 @@ function checkGhs(source_code, stag) {
     }
     return false;
 }
+function detectCardType(value) {
+    const startsWith = (prefixes) => prefixes.some(prefix => value.startsWith(prefix));
+    if (startsWith(['4'])) {
+        return 'VISA';
+    }
+    else if (startsWith(['5', '2'])) {
+        return 'Mastercard';
+    }
+    else if (startsWith(['34', '37'])) {
+        return 'AMEX';
+    }
+    else {
+        return '';
+    }
+}
 
-export { destroyBookingCookie as A, renderPropertyLocation as B, renderTime as C, formatImageAlt as D, updateRoomParams as E, reserveRooms as F, getVisibleInventory as G, toDate$1 as H, startOfWeek$1 as I, defaultOptions$1 as J, enUS as K, isSameWeek$1 as L, injectHTML as M, app_store as a, booking_store as b, createStore as c, dateFns as d, validateAgentCode as e, changeLocale as f, getUserPrefernce as g, matchLocale as h, checkGhs as i, checkAffiliate as j, modifyBookingStore as k, localizedWords as l, manageAnchorSession as m, formatAmount as n, onAppDataChange as o, formatFullLocation as p, getDateDifference as q, runScriptAndRemove as r, setDefaultLocale as s, cn as t, updateUserPreference as u, validateCoupon as v, calculateTotalCost as w, locale as x, getAbbreviatedWeekdays as y, validateBooking as z };
+exports.app_store = app_store;
+exports.booking_store = booking_store;
+exports.calculateTotalCost = calculateTotalCost;
+exports.changeLocale = changeLocale;
+exports.checkAffiliate = checkAffiliate;
+exports.checkGhs = checkGhs;
+exports.cn = cn;
+exports.createStore = createStore;
+exports.dateFns = dateFns;
+exports.defaultOptions = defaultOptions$1;
+exports.destroyBookingCookie = destroyBookingCookie;
+exports.detectCardType = detectCardType;
+exports.enUS = enUS;
+exports.formatAmount = formatAmount;
+exports.formatFullLocation = formatFullLocation;
+exports.formatImageAlt = formatImageAlt;
+exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getDateDifference = getDateDifference;
+exports.getUserPrefernce = getUserPrefernce;
+exports.getVisibleInventory = getVisibleInventory;
+exports.injectHTML = injectHTML;
+exports.isSameWeek = isSameWeek$1;
+exports.locale = locale;
+exports.localizedWords = localizedWords;
+exports.manageAnchorSession = manageAnchorSession;
+exports.matchLocale = matchLocale;
+exports.modifyBookingStore = modifyBookingStore;
+exports.onAppDataChange = onAppDataChange;
+exports.renderPropertyLocation = renderPropertyLocation;
+exports.renderTime = renderTime;
+exports.reserveRooms = reserveRooms;
+exports.runScriptAndRemove = runScriptAndRemove;
+exports.setDefaultLocale = setDefaultLocale;
+exports.startOfWeek = startOfWeek$1;
+exports.toDate = toDate$1;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserPreference = updateUserPreference;
+exports.validateAgentCode = validateAgentCode;
+exports.validateBooking = validateBooking;
+exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-409b836b.js.map
+//# sourceMappingURL=utils-f1c59f53.js.map

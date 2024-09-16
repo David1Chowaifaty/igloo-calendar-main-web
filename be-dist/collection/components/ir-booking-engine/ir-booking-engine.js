@@ -1,7 +1,7 @@
 import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import { h } from "@stencil/core";
-import { format } from "date-fns";
+import { addYears, format } from "date-fns";
 import axios from "axios";
 import booking_store, { modifyBookingStore } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
@@ -112,6 +112,8 @@ export class IrBookingEngine {
         this.commonService.setToken(this.token);
         this.propertyService.setToken(this.token);
         app_store.app_data = {
+            aName: this.p,
+            perma_link: this.perma_link,
             displayMode: 'default',
             isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
             token: this.token,
@@ -136,6 +138,13 @@ export class IrBookingEngine {
             this.commonService.getExposedCountryByIp(),
             this.commonService.getExposedLanguage(),
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
+            this.propertyService.getExposedNonBookableNights({
+                porperty_id: this.propertyId,
+                from_date: format(new Date(), 'yyyy-MM-dd'),
+                to_date: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+                perma_link: this.perma_link,
+                aname: this.p
+            }),
         ];
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
@@ -195,6 +204,11 @@ export class IrBookingEngine {
         e.stopImmediatePropagation();
         e.stopPropagation();
         await this.resetBooking((_a = e.detail) !== null && _a !== void 0 ? _a : 'completeReset');
+    }
+    async openPrivacyPolicy(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.privacyPolicyRef.openModal();
     }
     handleAuthFinish(e) {
         e.stopImmediatePropagation();
@@ -291,7 +305,7 @@ export class IrBookingEngine {
         if (this.isLoading) {
             return h("ir-home-loader", null);
         }
-        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: `${this.injected ? '' : 'sticky top-0 z-50'}  m-0 w-full p-0 ` }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), !this.injected && h("ir-footer", { version: this.version })));
+        return (h("main", { class: "relative  flex w-full flex-col space-y-5 " }, h("ir-interceptor", null), h("section", { class: `${this.injected ? '' : 'sticky top-0 z-20'}  m-0 w-full p-0 ` }, h("ir-nav", { class: 'm-0 p-0', website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, currencies: this.currencies, languages: this.languages })), h("section", { class: "flex-1 px-4 lg:px-6" }, h("div", { class: "mx-auto max-w-6xl" }, this.renderScreens())), h("ir-privacy-policy", { ref: el => (this.privacyPolicyRef = el), hideTrigger: true }), !this.injected && h("ir-footer", { version: this.version })));
     }
     static get is() { return "ir-be"; }
     static get encapsulation() { return "shadow"; }
@@ -742,6 +756,12 @@ export class IrBookingEngine {
             }, {
                 "name": "resetBooking",
                 "method": "handleResetBooking",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "openPrivacyPolicy",
+                "method": "openPrivacyPolicy",
                 "target": undefined,
                 "capture": false,
                 "passive": false

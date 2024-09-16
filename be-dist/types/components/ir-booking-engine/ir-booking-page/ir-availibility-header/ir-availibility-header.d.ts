@@ -16,8 +16,10 @@ export declare class IrAvailibilityHeader {
     private identifier;
     private propertyService;
     private availabiltyService;
+    private validator;
     componentWillLoad(): void;
     disableLoading(): void;
+    private recheckAvailability;
     handleFromDateChange(newValue: string, oldValue: string): void;
     handleToDateChange(newValue: string, oldValue: string): void;
     handleChildrenCountChange(newValue: string, oldValue: string): void;

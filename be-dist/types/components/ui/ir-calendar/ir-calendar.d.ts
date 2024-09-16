@@ -10,6 +10,7 @@ export declare class IrCalendar {
     maxSpanDays: number;
     showPrice: boolean;
     locale: Locale;
+    date: Date;
     selectedDate: Date;
     displayedDays: {
         month: Date;
@@ -19,6 +20,7 @@ export declare class IrCalendar {
     dateChange: EventEmitter<Date>;
     weekdays: string[];
     componentWillLoad(): void;
+    handleDateChange(newDate: Date, oldDate: Date): void;
     handleLocale(newValue: Locale, oldLocale: Locale): void;
     getMonthDays(month: Date): {
         month: Date;

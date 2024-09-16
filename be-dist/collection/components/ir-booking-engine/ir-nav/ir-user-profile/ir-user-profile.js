@@ -95,7 +95,7 @@ export class IrUserProfile {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } }), h("ir-input", { label: localizedWords.entries.Lcz_Email, placeholder: "", value: this.user.email, onInputBlur: e => {
+            } }), h("ir-input", { label: localizedWords.entries.Lcz_EmailAddress, placeholder: "", value: this.user.email, onInputBlur: e => {
                 var _a;
                 const emailSchema = IrGuest.pick({ email: true });
                 const schemaValidation = emailSchema.safeParse({ email: (_a = this.user) === null || _a === void 0 ? void 0 : _a.email });

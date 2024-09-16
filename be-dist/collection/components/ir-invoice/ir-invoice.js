@@ -22,7 +22,7 @@ export class IrInvoice {
         this.email = undefined;
         this.propertyId = undefined;
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.language = 'en';
+        this.language = undefined;
         this.bookingNbr = undefined;
         this.status = 1;
         this.perma_link = null;
@@ -75,7 +75,7 @@ export class IrInvoice {
     }
     async handleBookingNumberChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.booking = await this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language: this.language }, true);
+            this.booking = await this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language: this.language || app_store.userPreferences.language_id }, true);
         }
     }
     async init() {
@@ -85,17 +85,18 @@ export class IrInvoice {
         this.paymentService.setToken(this.token);
         app_store.app_data.token = this.token;
     }
-    async fetchData() {
+    async fetchData(language = this.language || app_store.userPreferences.language_id, resetLanguage = false) {
         if (!this.isAuthenticated) {
             this.token = await this.authService.login({ option: 'direct', params: { email: this.email, booking_nbr: this.bookingNbr } }, false);
             this.init();
         }
-        const requests = [this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language: this.language })];
-        if (!this.be) {
+        console.warn(this.be, resetLanguage);
+        const requests = [this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language })];
+        if (!this.be || resetLanguage) {
             requests.push(this.commonService.getExposedLanguage());
             requests.push(this.propertyService.getExposedProperty({
                 id: this.propertyId,
-                language: this.language,
+                language,
                 aname: this.aName,
                 perma_link: this.perma_link,
             }));
@@ -108,6 +109,19 @@ export class IrInvoice {
         book_date.setMinutes(this.booking.booked_on.minute);
         await this.setAmountAndCancelationPolicy();
         this.isLoading = false;
+    }
+    async openPrivacyPolicy(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (this.privacyPolicyRef) {
+            this.privacyPolicyRef.openModal();
+        }
+    }
+    async handleLanguageChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        console.warn('request fetchData');
+        this.fetchData(e.detail, true);
     }
     async setAmountAndCancelationPolicy() {
         if (this.amount || isBefore(new Date(this.booking.to_date), new Date())) {
@@ -124,7 +138,7 @@ export class IrInvoice {
                     room_type_id: 0,
                     rate_plan_id: 0,
                     currency_id: this.booking.currency.id,
-                    language: this.language,
+                    language: this.language || app_store.userPreferences.language_id,
                 },
             }),
         ]);
@@ -171,11 +185,13 @@ export class IrInvoice {
         return `mailto:${email}?subject=${encodedSubject}`;
     }
     renderPaymentText(paymentOption) {
+        var _a, _b, _c, _d;
         if (paymentOption.is_payment_gateway) {
             return (h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_YouHavePaid, " ", h("span", null, formatAmount(this.amount, this.booking.currency.code))));
         }
         if (paymentOption.code === '005') {
-            return (h("div", null, h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_DueAmountNow, " ", h("span", null, formatAmount(this.booking.financial.due_amount, this.booking.currency.code))), h("p", null, paymentOption.description)));
+            return (h("div", null, h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_DueAmountNow, " ", h("span", null, formatAmount(this.booking.financial.due_amount, this.booking.currency.code))), h("p", { class: "mt-1.5 text-xs text-gray-700", innerHTML: ((_b = (_a = paymentOption.localizables) === null || _a === void 0 ? void 0 : _a.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _b === void 0 ? void 0 : _b.description) ||
+                    ((_d = (_c = paymentOption.localizables) === null || _c === void 0 ? void 0 : _c.find(d => d.language.code.toLowerCase() === 'en')) === null || _d === void 0 ? void 0 : _d.description) })));
         }
         return (h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_YourCardWillBeCharged, " ", h("span", null, formatAmount(this.booking.financial.gross_total, this.booking.currency.code))));
     }
@@ -217,23 +233,17 @@ export class IrInvoice {
             return null;
         }
         if (this.isLoading) {
-            return (
-            // <div >
-            //   {[...new Array(10)].map((_, i) => (
-            //     <div key={i} class="h-72 w-full animate-pulse rounded-md bg-gray-200"></div>
-            //   ))}
-            // </div>
-            h("div", { class: "flex  flex-col gap-4 " }, h(InvoiceSkeleton, null)));
+            return (h("div", { class: "flex  flex-col gap-4 " }, h(InvoiceSkeleton, null)));
         }
         const google_maps_url = `http://maps.google.com/maps?q=${app_store.property.location.latitude},${app_store.property.location.longitude}`;
         const { cancel } = this.bookingListingAppService.getBookingActions(this.booking);
-        return (h(Host, null, h("ir-interceptor", null), h("main", { class: "relative flex w-full flex-col space-y-5" }, this.headerShown && (h("section", { class: "sticky top-0 z-50 m-0  w-full  p-0" }, h("ir-nav", { class: 'm-0 p-0', showBookingCode: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: this.be }))), h("section", { class: `flex-1 ${this.be ? '' : 'invoice-container mx-auto w-full max-w-6xl'}` }, this.headerMessageShown && isBefore(new Date(), new Date(this.booking.to_date)) ? (h("div", { class: this.be ? '' : 'invoice-container' }, h("p", { class: `flex items-center gap-4 text-xl font-medium ${this.status === 1 ? 'text-green-600' : 'text-red-500'} ${this.be ? '' : ''}` }, h("ir-icons", { name: this.status === 1 ? 'check' : 'xmark' }), h("span", null, " ", this.status === 1 ? 'Your booking is now confirmed' : 'Payment unsuccessful')), this.status === 1 && h("p", null, "An email has been sent to ", this.booking.guest.email))) : (h("div", { class: this.be ? '' : 'invoice-container' }, h("p", { class: 'text-xl font-medium ' }, localizedWords.entries.Lcz_ThisBookingIs.replace('%1', this.booking.status.description)))), h("div", { class: `flex  ${this.locationShown ? 'w-full' : 'w-full'} gap-16 ` }, h("div", { class: `invoice-container ${this.locationShown ? 'w-full' : 'w-full'}` }, h("section", { class: "flex flex-col gap-4 md:flex-row md:items-center" }, this.status === 1 ? (h("a", { href: google_maps_url, target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_GetDirections)) : (this.payment_option.is_payment_gateway && h("ir-button", { variants: "outline", label: "Retry Payment", onButtonClick: () => this.processPayment() })), h("a", { href: this.getPropertyEmail(), target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_MessageProperty), cancel.show && (h("ir-button", { class: 'w-full md:w-fit', variants: "outline", label: localizedWords.entries.Lcz_CancelBooking, onButtonClick: async () => {
+        return (h(Host, null, h("ir-interceptor", null), h("main", { class: "relative flex w-full flex-col space-y-5" }, this.headerShown && (h("section", { class: "sticky top-0 z-50 m-0  w-full  p-0" }, h("ir-nav", { class: 'm-0 p-0', showBookingCode: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: this.be }))), h("section", { class: `flex-1 ${this.be ? '' : 'invoice-container mx-auto w-full max-w-6xl'}` }, this.headerMessageShown && isBefore(new Date(), new Date(this.booking.to_date)) ? (h("div", { class: 'invoice-container' }, h("p", { class: `flex items-center gap-4 text-xl font-medium ${this.status === 1 ? 'text-green-600' : 'text-red-500'} ${this.be ? '' : ''}` }, h("ir-icons", { name: this.status === 1 ? 'check' : 'xmark' }), h("span", null, " ", this.status === 1 ? localizedWords.entries.Lcz_YourBookingIsConfirmed : localizedWords.entries.Lcz_YourPaymentIsUnsuccesful)), this.status === 1 && h("p", null, localizedWords.entries.Lcz_AnEmailHasBeenSent.replace('%1', this.booking.guest.email)))) : (h("div", { class: 'invoice-container' }, h("p", { class: 'text-xl font-medium ' }, localizedWords.entries.Lcz_ThisBookingIs.replace('%1', this.booking.status.description)))), h("div", { class: `flex  ${this.locationShown ? 'w-full' : 'w-full'} gap-16 ` }, h("div", { class: `invoice-container ${this.locationShown ? 'w-full' : 'w-full'}` }, h("section", { class: "flex flex-col gap-4 md:flex-row md:items-center" }, this.status === 1 ? (h("a", { href: google_maps_url, target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_GetDirections)) : (this.payment_option.is_payment_gateway && (h("ir-button", { variants: "outline", label: localizedWords.entries.Lcz_RetryPayment, onButtonClick: () => this.processPayment() }))), h("a", { href: this.getPropertyEmail(), target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_MessageProperty), cancel.show && (h("ir-button", { class: 'w-full md:w-fit', variants: "outline", label: localizedWords.entries.Lcz_CancelBooking, onButtonClick: async () => {
                 this.bookingCancelation.openDialog();
-            } }))), h("section", { class: "booking-info" }, h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookingPreference, " ", h("span", null, this.booking.booking_nbr)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookedBy, ' ', h("span", null, this.booking.guest.first_name, " ", this.booking.guest.last_name)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_CheckIn, ": ", h("span", null, format(this.booking.from_date, 'eee, dd MMM yyyy'), " "), h("span", null, localizedWords.entries.Lcz_From, " ", (_d = app_store.property) === null || _d === void 0 ? void 0 :
+            } }))), h("section", { class: "booking-info" }, h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookingReference, " ", h("span", null, this.booking.booking_nbr)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookedBy, ' ', h("span", null, this.booking.guest.first_name, " ", this.booking.guest.last_name)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_CheckIn, ": ", h("span", null, format(this.booking.from_date, 'eee, dd MMM yyyy'), " "), h("span", null, localizedWords.entries.Lcz_From, " ", (_d = app_store.property) === null || _d === void 0 ? void 0 :
             _d.time_constraints.check_in_from)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_CheckOut, ": ", h("span", null, format(this.booking.to_date, 'eee, dd MMM yyyy'), " "), h("span", null, localizedWords.entries.Lcz_Before, " ", (_e = app_store.property) === null || _e === void 0 ? void 0 :
-            _e.time_constraints.check_out_till)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_ArrivalTime, " ", h("span", null, this.booking.arrival.description)), this.booking.remark && (h("p", { class: "booking-info-text" }, "Special request: ", h("span", null, this.booking.remark)))), h("section", { class: "booking-details space-y-2" }, h("div", { class: "flex flex-wrap items-center justify-between gap-1 text-center md:text-right" }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "bed" }), h("h3", { class: "booking-details-header" }, this.renderBookingDetailHeader())), h("p", { class: "text-xs" }, (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.tax_statement)), h("div", null, (_g = this.booking.rooms) === null || _g === void 0 ? void 0 : _g.map(room => (h("div", { class: "room-info", key: room.identifier }, h("div", { class: "flex w-full items-center justify-between" }, h("h4", { class: "room-type" }, room.roomtype.name), h("p", { class: "text-lg font-medium text-green-600" }, " ", formatAmount(room.gross_total, this.booking.currency.code))), h("p", { class: "room-info-text" }, localizedWords.entries.Lcz_GuestName, ' ', h("span", null, room.guest.first_name, " ", room.guest.last_name, " (", room.rateplan.selected_variation.adult_child_offering, ")")), h("p", { class: "room-info-text" }, localizedWords.entries.Lcz_MealPlan, ' ', h("span", null, room.rateplan.name)), this.cancelation_message && h("p", { class: "room-info-text", innerHTML: `<b><u>Cancelation:</u></b>${this.cancelation_message}` }), this.guarantee_message && h("p", { class: "room-info-text", innerHTML: `<b><u>Guarantee:</u></b>${this.guarantee_message}` })))))), this.booking.pickup_info && (h("section", { class: "space-y-2" }, h("div", { class: 'flex items-center gap-4' }, h("ir-icons", { name: "taxi" }), h("h3", { class: 'booking-details-header' }, "Pickup")), h("div", { class: "room-info" }, h("div", { class: "flex w-full items-center justify-between" }, h("p", { class: "flex items-center gap-4" }, h("p", { class: "room-info-text" }, 'Date:', " ", h("span", null, format(new Date(this.booking.pickup_info.date), 'eee, dd MMM yyyy'))), h("p", { class: "room-info-text" }, 'Time:', ' ', h("span", null, this.booking.pickup_info.hour, ":", this.booking.pickup_info.minute))), h("p", { class: "text-lg font-medium text-green-600" }, formatAmount(this.booking.pickup_info.total, this.booking.pickup_info.currency.code))), h("p", { class: "room-info-text" }, 'Flight details:', " ", h("span", null, this.booking.pickup_info.details)), h("p", { class: "room-info-text" }, 'No. of vehicles:', " ", h("span", null, this.booking.pickup_info.nbr_of_units)), h("p", { class: 'room-info-text text-xs' }, app_store.property.pickup_service.pickup_instruction.description, app_store.property.pickup_service.pickup_cancelation_prepayment.description)))), h("section", { class: "space-y-2" }, h("div", { class: 'flex items-center gap-4' }, h("ir-icons", { name: "credit_card" }), h("h3", { class: 'booking-details-header' }, localizedWords.entries.Lcz_PaymentDetails)), h("p", { class: "total-payment" }, localizedWords.entries.Lcz_Total, ' ', h("span", { class: "payment_amount text-green-600" }, formatAmount(this.booking.financial.gross_total, this.booking.currency.code))), this.payment_option && this.renderPaymentText(this.payment_option)), h("section", { class: "space-y-2" }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "danger" }), h("h3", { class: 'booking-details-header' }, localizedWords.entries.Lcz_ImportantInformation)), h("p", null, app_store.property.description.important_info)), h("section", { class: 'space-y-2' }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "car" }), h("p", null, (_h = app_store.property) === null || _h === void 0 ? void 0 :
+            _e.time_constraints.check_out_till)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_ArrivalTime, " ", h("span", null, this.booking.arrival.description)), this.booking.remark && (h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_SpecialRequest, ": ", h("span", null, this.booking.remark)))), h("section", { class: "booking-details space-y-2" }, h("div", { class: "flex flex-wrap items-center justify-between gap-1 text-center md:text-right" }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "bed" }), h("h3", { class: "booking-details-header" }, this.renderBookingDetailHeader())), h("p", { class: "text-xs" }, (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.tax_statement)), h("div", null, (_g = this.booking.rooms) === null || _g === void 0 ? void 0 : _g.map(room => (h("div", { class: "room-info", key: room.identifier }, h("div", { class: "flex w-full items-center justify-between" }, h("h4", { class: "room-type" }, room.roomtype.name), h("p", { class: "text-lg font-medium text-green-600" }, " ", formatAmount(room.gross_total, this.booking.currency.code))), h("p", { class: "room-info-text" }, localizedWords.entries.Lcz_GuestName, ' ', h("span", null, room.guest.first_name, " ", room.guest.last_name, " (", room.rateplan.selected_variation.adult_child_offering, ")")), h("p", { class: "room-info-text" }, localizedWords.entries.Lcz_MealPlan, ' ', h("span", null, room.rateplan.name)), this.cancelation_message && h("p", { class: "room-info-text", innerHTML: `${localizedWords.entries.Lcz_Cancelation}: ${this.cancelation_message}` }), this.guarantee_message && h("p", { class: "room-info-text", innerHTML: `${localizedWords.entries.Lcz_Guarantee}: ${this.guarantee_message}` })))))), this.booking.pickup_info && (h("section", { class: "space-y-2" }, h("div", { class: 'flex items-center gap-4' }, h("ir-icons", { name: "taxi" }), h("h3", { class: 'booking-details-header' }, localizedWords.entries.Lcz_Pickup)), h("div", { class: "room-info" }, h("div", { class: "flex w-full items-center justify-between" }, h("p", { class: "flex items-center gap-4" }, h("p", { class: "room-info-text" }, `${localizedWords.entries.Lcz_Date}:`, " ", h("span", null, format(new Date(this.booking.pickup_info.date), 'eee, dd MMM yyyy'))), h("p", { class: "room-info-text" }, `${localizedWords.entries.Lcz_Time}:`, ' ', h("span", null, this.booking.pickup_info.hour, ":", this.booking.pickup_info.minute))), h("p", { class: "text-lg font-medium text-green-600" }, formatAmount(this.booking.pickup_info.total, this.booking.pickup_info.currency.code))), h("p", { class: "room-info-text" }, `${localizedWords.entries.Lcz_FlightDetails}:`, " ", h("span", null, this.booking.pickup_info.details)), h("p", { class: "room-info-text" }, `${localizedWords.entries.Lcz_NoOfVehicles}:`, " ", h("span", null, this.booking.pickup_info.nbr_of_units)), h("p", { class: 'room-info-text text-xs' }, app_store.property.pickup_service.pickup_instruction.description, app_store.property.pickup_service.pickup_cancelation_prepayment.description)))), h("section", { class: "space-y-2" }, h("div", { class: 'flex items-center gap-4' }, h("ir-icons", { name: "credit_card" }), h("h3", { class: 'booking-details-header' }, localizedWords.entries.Lcz_PaymentDetails)), h("p", { class: "total-payment" }, localizedWords.entries.Lcz_Total, ' ', h("span", { class: "payment_amount text-green-600" }, formatAmount(this.booking.financial.gross_total, this.booking.currency.code))), this.payment_option && this.renderPaymentText(this.payment_option)), h("section", { class: "space-y-2" }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "danger" }), h("h3", { class: 'booking-details-header' }, localizedWords.entries.Lcz_ImportantInformation)), h("p", null, app_store.property.description.important_info)), h("section", { class: 'space-y-2' }, h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "car" }), h("p", null, (_h = app_store.property) === null || _h === void 0 ? void 0 :
             _h.parking_offering.title, " ", localizedWords.entries.Lcz_At, ' ', formatAmount((_j = app_store.property) === null || _j === void 0 ? void 0 : _j.parking_offering.pricing, app_store.userPreferences.currency_id))), h("div", { class: "flex items-center gap-4" }, h("ir-icons", { name: "pets" }), h("p", null, (_k = app_store.property) === null || _k === void 0 ? void 0 : _k.pets_acceptance.title)), h("div", { class: "flex items-center gap-4 " }, h("ir-icons", { name: "bed" }), h("p", null, (_l = app_store.property) === null || _l === void 0 ? void 0 : _l.baby_cot_offering.title)))), this.locationShown && (h("div", { class: "property_info sticky top-[20%]" }, ((_m = app_store.property) === null || _m === void 0 ? void 0 : _m.space_theme.background_image) && (h("div", { class: "lg:aspect9-[16/9] aspect-[1/1] max-h-32 w-full" }, h("img", { class: "property_img h-full w-full object-cover", src: (_o = app_store.property) === null || _o === void 0 ? void 0 : _o.space_theme.background_image, alt: "" }))), h("a", { class: "mapLink", target: "_blank", href: google_maps_url }, h("img", { src: `https://maps.googleapis.com/maps/api/staticmap?center=${((_p = app_store.property) === null || _p === void 0 ? void 0 : _p.location.latitude) || 34.022},${((_q = app_store.property) === null || _q === void 0 ? void 0 : _q.location.longitude) || 35.628}&zoom=15&size=1024x768&maptype=roadmap&markers=color:red%7Clabel:${app_store.property.name}%7C34.022,35.628&key=AIzaSyCJ5P4SraJdZzcBi9Ue16hyg_iWJv-aHpk`, loading: "lazy" })), h("div", { class: "contact-info" }, h("span", null, h("label", { class: "m-0 p-0", htmlFor: "phone" }, localizedWords.entries.Lcz_Phone)), h("a", { id: "phone", class: "contact-link p-0", href: `tel:${(_r = app_store.property) === null || _r === void 0 ? void 0 : _r.phone}` }, ((_t = (_s = app_store.property) === null || _s === void 0 ? void 0 : _s.country) === null || _t === void 0 ? void 0 : _t.phone_prefix) || '', " ", (_u = app_store.property) === null || _u === void 0 ? void 0 :
-            _u.phone)))))), this.footerShown && h("ir-footer", { version: this.version }), h("ir-booking-cancelation", { cancelation_policies: this.cancelation_policies, ref: el => (this.bookingCancelation = el), booking_nbr: (_v = this.booking) === null || _v === void 0 ? void 0 : _v.booking_nbr, currency: { code: this.booking.currency.code, id: this.booking.currency.id }, cancelation: this.cancelationMessage || ((_w = this.booking) === null || _w === void 0 ? void 0 : _w.rooms[0].rateplan.cancelation) }))));
+            _u.phone)))))), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) }), h("ir-booking-cancelation", { cancelation_policies: this.cancelation_policies, ref: el => (this.bookingCancelation = el), booking_nbr: (_v = this.booking) === null || _v === void 0 ? void 0 : _v.booking_nbr, currency: { code: this.booking.currency.code, id: this.booking.currency.id }, cancelation: this.cancelationMessage || ((_w = this.booking) === null || _w === void 0 ? void 0 : _w.rooms[0].rateplan.cancelation) }))));
     }
     static get is() { return "ir-invoice"; }
     static get encapsulation() { return "scoped"; }
@@ -316,8 +326,7 @@ export class IrInvoice {
                     "text": ""
                 },
                 "attribute": "language",
-                "reflect": false,
-                "defaultValue": "'en'"
+                "reflect": false
             },
             "bookingNbr": {
                 "type": "string",
@@ -517,6 +526,21 @@ export class IrInvoice {
         return [{
                 "propName": "bookingNbr",
                 "methodName": "handleBookingNumberChange"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "openPrivacyPolicy",
+                "method": "openPrivacyPolicy",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "languageChanged",
+                "method": "handleLanguageChanged",
+                "target": "body",
+                "capture": false,
+                "passive": false
             }];
     }
 }

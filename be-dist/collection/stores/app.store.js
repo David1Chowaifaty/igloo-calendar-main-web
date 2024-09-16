@@ -1,6 +1,7 @@
 import { createStore } from "@stencil/store";
 import { enUS } from "date-fns/locale";
 const initialState = {
+    nonBookableNights: null,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: enUS,
@@ -11,6 +12,7 @@ const initialState = {
     },
     invoice: null,
     app_data: {
+        override_rp: false,
         displayMode: 'default',
         affiliate: null,
         stag: null,
@@ -23,6 +25,8 @@ const initialState = {
         hideGoogleSignIn: false,
         isFromGhs: false,
         isAgentMode: false,
+        aName: null,
+        perma_link: null,
     },
     property: undefined,
     setup_entries: undefined,

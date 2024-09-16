@@ -16,6 +16,7 @@ export class IrDialog {
             this.prepareFocusTrap();
         }, 10);
         this.openChange.emit(this.isOpen);
+        // document.body.appendChild(this.el);
     }
     async closeModal() {
         if (!this.isOpen) {
@@ -24,6 +25,7 @@ export class IrDialog {
         removeOverlay();
         this.isOpen = false;
         this.openChange.emit(this.isOpen);
+        // document.body.removeChild(this.el);
     }
     prepareFocusTrap() {
         const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -61,11 +63,11 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '1fae0d0d2c1726507a1b6e4f3dde2d6ed7cbde0a' }, h("div", { key: 'afefe34589e5f2694b3614ec8d467881701efb6c', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '6af26d48e4934ff591f4c217ba19e2d4aa109296', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: '3fbe5cd1b02f3d538385dd0f076a894e18978d12', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'bb3198040a9ec9f8c96bbec32b1f440179f95b92', name: "modal-title" })), h("div", { key: 'e43495ecce9ae82779ba399df92fbe9dc1ef750d', class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { key: '83bb662bad020be501f69ae1ba62eff2ac6248ab', onButtonClick: e => {
+        return (h(Host, { key: '0b43d19749459bc7fec3c1a05046360b5eaef67c' }, h("div", { key: 'aa5045f4b9cd2a7989ca98c7d5d82e8698ce559d', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '13e46cba5670f6a8ced15c5b77ee81f510607271', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: '9cca76aca573e462bcc2f0da038c6d6f2cd86ea8', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: '9a4188a3d113e63f05b45861eb4147305414c237', name: "modal-title" })), h("div", { key: 'a381e69c8fbd096f6ab16073ca892c44b80b2150', class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { key: '9cb3664bb0a6fbc01d5ec7de331a7076abdb4736', onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal();
-            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "absolute right-3 top-3 z-50", iconName: "xmark" })), h("slot", { key: 'f15578d2cf34f002a7762194a68cdd4864853408', name: "modal-body" })), h("div", { key: '735a5871ee6d37b8e398f0a8dc7c7e078889b434', class: "modal-footer" }, h("slot", { key: '5e6048f98ce8ae74e595b416f54253f0166ba03a', name: "modal-footer" }))))));
+            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "dialog-close-btn", iconName: "xmark" })), h("slot", { key: 'aa1d2b594aa76689019cf397bd6677790e3e48a0', name: "modal-body" })), h("div", { key: '7c076bdfeac4dcb6d9ea5aac8769c3037b5d4c4e', class: "modal-footer" }, h("slot", { key: '094d5ebb72a3d646fc56ed32be227c840e887ad1', name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

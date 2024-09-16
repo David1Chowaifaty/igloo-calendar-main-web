@@ -3,5 +3,6 @@ export declare class IrRoomTypeAmenities {
     aminities: Amenity[];
     roomType: RoomType;
     renderOccupancyView(): any;
+    private checkAmenity;
     render(): any;
 }

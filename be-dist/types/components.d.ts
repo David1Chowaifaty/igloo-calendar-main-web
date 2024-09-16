@@ -188,6 +188,7 @@ export namespace Components {
         "variants": 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
     interface IrCalendar {
+        "date": Date;
         "dateModifiers": IDateModifiers;
         "fromDate": Date | null;
         "locale": Locale;
@@ -371,6 +372,7 @@ export namespace Components {
         "isBookingListing": boolean;
         "languages": IExposedLanguages[];
         "logo": string;
+        "logoOnly": boolean;
         "menuShown": boolean;
         "showBookingCode": boolean;
         "showCurrency": boolean;
@@ -383,6 +385,7 @@ export namespace Components {
     }
     interface IrPaymentView {
         "errors": Record<string, ZodIssue>;
+        "prepaymentAmount": number;
     }
     interface IrPhoneInput {
         "country_code": number;
@@ -396,6 +399,7 @@ export namespace Components {
     }
     interface IrPopover {
         "active": boolean;
+        "allowFlip": boolean;
         "placement": Placement;
         "showCloseButton": boolean;
         "stopListeningForOutsideClicks": boolean;
@@ -408,7 +412,10 @@ export namespace Components {
         "updatePosition": () => Promise<void>;
     }
     interface IrPrivacyPolicy {
+        "closeModal": () => Promise<void>;
+        "hideTrigger": boolean;
         "label": string;
+        "openModal": () => Promise<void>;
         "policyTriggerStyle": Partial<CSSStyleDeclaration>;
     }
     interface IrPropertyGallery {
@@ -622,6 +629,10 @@ export interface IrDialogCustomEvent<T> extends CustomEvent<T> {
 export interface IrDrawerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDrawerElement;
+}
+export interface IrFooterCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFooterElement;
 }
 export interface IrGalleryCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -964,6 +975,7 @@ declare global {
     interface HTMLIrBookingSummaryElementEventMap {
         "routing": pages;
         "bookingClicked": null;
+        "openPrivacyPolicy": null;
     }
     interface HTMLIrBookingSummaryElement extends Components.IrBookingSummary, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingSummaryElementEventMap>(type: K, listener: (this: HTMLIrBookingSummaryElement, ev: IrBookingSummaryCustomEvent<HTMLIrBookingSummaryElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1089,7 +1101,7 @@ declare global {
         new (): HTMLIrCouponDialogElement;
     };
     interface HTMLIrCreditCardInputElementEventMap {
-        "creditCardChange": string;
+        "creditCardChange": { value: string; cardType: '' | 'AMEX' | 'VISA' | 'Mastercard' };
     }
     interface HTMLIrCreditCardInputElement extends Components.IrCreditCardInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCreditCardInputElementEventMap>(type: K, listener: (this: HTMLIrCreditCardInputElement, ev: IrCreditCardInputCustomEvent<HTMLIrCreditCardInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1184,7 +1196,18 @@ declare global {
         prototype: HTMLIrFacilitiesElement;
         new (): HTMLIrFacilitiesElement;
     };
+    interface HTMLIrFooterElementEventMap {
+        "openPrivacyPolicy": null;
+    }
     interface HTMLIrFooterElement extends Components.IrFooter, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFooterElementEventMap>(type: K, listener: (this: HTMLIrFooterElement, ev: IrFooterCustomEvent<HTMLIrFooterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFooterElementEventMap>(type: K, listener: (this: HTMLIrFooterElement, ev: IrFooterCustomEvent<HTMLIrFooterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrFooterElement: {
         prototype: HTMLIrFooterElement;
@@ -1277,6 +1300,7 @@ declare global {
     interface HTMLIrLanguagePickerElementEventMap {
         "closeDialog": null;
         "resetBooking": null;
+        "languageChanged": string;
     }
     interface HTMLIrLanguagePickerElement extends Components.IrLanguagePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrLanguagePickerElementEventMap>(type: K, listener: (this: HTMLIrLanguagePickerElement, ev: IrLanguagePickerCustomEvent<HTMLIrLanguagePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1918,6 +1942,7 @@ declare namespace LocalJSX {
     interface IrBookingSummary {
         "error"?: CheckoutErrors;
         "onBookingClicked"?: (event: IrBookingSummaryCustomEvent<null>) => void;
+        "onOpenPrivacyPolicy"?: (event: IrBookingSummaryCustomEvent<null>) => void;
         "onRouting"?: (event: IrBookingSummaryCustomEvent<pages>) => void;
         "prepaymentAmount"?: any;
     }
@@ -1942,6 +1967,7 @@ declare namespace LocalJSX {
         "variants"?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link' | 'icon' | 'ghost-primary' | 'outline-primary' | 'icon-primary';
     }
     interface IrCalendar {
+        "date"?: Date;
         "dateModifiers"?: IDateModifiers;
         "fromDate"?: Date | null;
         "locale"?: Locale;
@@ -1978,7 +2004,7 @@ declare namespace LocalJSX {
         "onResetBooking"?: (event: IrCouponDialogCustomEvent<string>) => void;
     }
     interface IrCreditCardInput {
-        "onCreditCardChange"?: (event: IrCreditCardInputCustomEvent<string>) => void;
+        "onCreditCardChange"?: (event: IrCreditCardInputCustomEvent<{ value: string; cardType: '' | 'AMEX' | 'VISA' | 'Mastercard' }>) => void;
         "value"?: string;
     }
     interface IrDatePopup {
@@ -2031,6 +2057,7 @@ declare namespace LocalJSX {
     interface IrFacilities {
     }
     interface IrFooter {
+        "onOpenPrivacyPolicy"?: (event: IrFooterCustomEvent<null>) => void;
         "version"?: string;
     }
     interface IrGallery {
@@ -2142,6 +2169,7 @@ declare namespace LocalJSX {
         "currencies"?: ICurrency[];
         "languages"?: IExposedLanguages[];
         "onCloseDialog"?: (event: IrLanguagePickerCustomEvent<null>) => void;
+        "onLanguageChanged"?: (event: IrLanguagePickerCustomEvent<string>) => void;
         "onResetBooking"?: (event: IrLanguagePickerCustomEvent<null>) => void;
     }
     interface IrLoyalty {
@@ -2170,6 +2198,7 @@ declare namespace LocalJSX {
         "isBookingListing"?: boolean;
         "languages"?: IExposedLanguages[];
         "logo"?: string;
+        "logoOnly"?: boolean;
         "menuShown"?: boolean;
         "onRouting"?: (event: IrNavCustomEvent<pages>) => void;
         "onScreenChanged"?: (event: IrNavCustomEvent<pages>) => void;
@@ -2186,6 +2215,7 @@ declare namespace LocalJSX {
     }
     interface IrPaymentView {
         "errors"?: Record<string, ZodIssue>;
+        "prepaymentAmount"?: number;
     }
     interface IrPhoneInput {
         "country_code"?: number;
@@ -2202,6 +2232,7 @@ declare namespace LocalJSX {
     }
     interface IrPopover {
         "active"?: boolean;
+        "allowFlip"?: boolean;
         "onOpenChange"?: (event: IrPopoverCustomEvent<boolean>) => void;
         "placement"?: Placement;
         "showCloseButton"?: boolean;
@@ -2213,6 +2244,7 @@ declare namespace LocalJSX {
         "reference"?: HTMLElement;
     }
     interface IrPrivacyPolicy {
+        "hideTrigger"?: boolean;
         "label"?: string;
         "policyTriggerStyle"?: Partial<CSSStyleDeclaration>;
     }

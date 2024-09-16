@@ -32,6 +32,7 @@ export declare class IrBookingWidget {
     handleContentContainerStyle(): void;
     private modifyContainerStyle;
     handleBooknow(): void;
+    private getDateModifiers;
     private renderDateTrigger;
     private renderAdultChildTrigger;
     render(): any;

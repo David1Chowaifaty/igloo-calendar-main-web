@@ -37,7 +37,7 @@ export class IrBookingListing {
         app_store.app_data.hideGoogleSignIn = this.hideGoogleSignIn;
         this.currentPage = this.startScreen.screen;
         this.selectedBooking = (_a = this.startScreen.params) !== null && _a !== void 0 ? _a : null;
-        getUserPrefernce();
+        getUserPrefernce(this.language);
         const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             this.bookingNumber = isAuthenticated.params ? isAuthenticated.params.booking_nbr : null;
@@ -69,11 +69,25 @@ export class IrBookingListing {
         }
         this.currentPage = screen === 'booking-listing' ? 'bookings' : 'user-profile';
     }
+    async fetchGuest() {
+        try {
+            this.isLoading = true;
+            await this.propertyService.getExposedGuest();
+        }
+        catch (error) {
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
     async initializeApp() {
         var _a, _b;
         try {
             this.isLoading = true;
-            let requests = [this.propertyService.getExposedGuest()];
+            let requests = [];
+            app_store.app_data.aName = this.aName;
+            app_store.app_data.perma_link = this.perma_link;
+            app_store.app_data.property_id = this.propertyid;
             if (!this.be) {
                 requests = [
                     ...requests,
@@ -81,11 +95,14 @@ export class IrBookingListing {
                     this.commonService.getCurrencies(),
                     this.propertyService.getExposedProperty({
                         id: this.propertyid,
-                        language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en',
+                        language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || this.language || 'en',
                         aname: this.aName,
                         perma_link: this.perma_link,
                     }),
                 ];
+            }
+            if (this.token) {
+                requests = [...requests, this.propertyService.getExposedGuest()];
             }
             await Promise.all(requests);
             this.isAffiliate = checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) !== null;
@@ -98,8 +115,10 @@ export class IrBookingListing {
         }
     }
     initializeServices() {
-        this.propertyService.setToken(this.token);
-        this.commonService.setToken(this.token);
+        var _a, _b;
+        console.log(this.token);
+        this.propertyService.setToken((_a = this.token) !== null && _a !== void 0 ? _a : app_store.app_data.token);
+        this.commonService.setToken((_b = this.token) !== null && _b !== void 0 ? _b : app_store.app_data.token);
     }
     handleAuthFinish(e) {
         e.stopImmediatePropagation();
@@ -116,7 +135,7 @@ export class IrBookingListing {
             }
             this.token = token;
             this.initializeServices();
-            this.initializeApp();
+            this.fetchGuest();
         }
     }
     handleSignout() {
@@ -131,6 +150,13 @@ export class IrBookingListing {
         const { params, route } = e.detail;
         this.currentPage = route;
         this.selectedBooking = params.booking ? { email: params === null || params === void 0 ? void 0 : params.booking.guest.email, booking_nbr: params.booking.booking_nbr } : null;
+    }
+    async openPrivacyPolicy(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (this.privacyPolicyRef) {
+            this.privacyPolicyRef.openModal();
+        }
     }
     renderPages() {
         switch (this.currentPage) {
@@ -162,17 +188,21 @@ export class IrBookingListing {
         }
     }
     renderAuthScreen() {
-        return (h("main", { class: "flex h-screen flex-col  justify-center" }, h("div", { class: "mx-auto w-full max-w-md px-4" }, h("ir-auth", { enableSignUp: false }))));
+        var _a, _b, _c;
+        if (this.isLoading) {
+            return (h("main", { class: "flex min-h-screen flex-col" }, h("div", { class: "flex h-14 p-4" }, h("ir-skeleton", { class: " h-10 w-56 " })), h("div", { class: "mx-auto flex h-full w-full max-w-md flex-1 flex-col gap-4 px-4 py-4 " }, h("ir-skeleton", { class: "mb-2 h-6 w-56 self-center" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-10 w-full rounded-full" }))));
+        }
+        return (h("main", { class: "flex min-h-screen flex-col" }, h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: false, logoOnly: true }), h("div", { class: "mx-auto flex h-full  w-full max-w-md flex-1 flex-col px-4 py-4 " }, h("ir-auth", { enableSignUp: false }))));
     }
     renderBookingsScreen() {
         var _a, _b, _c;
         if (this.isLoading) {
             return (h("div", { class: "grid h-screen w-full place-content-center" }, !this.be && h("ir-interceptor", null), h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map(p => (h("div", { key: p, class: "block h-64 w-full animate-pulse rounded-md bg-gray-200" }))))));
         }
-        return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version })));
+        return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) })));
     }
     render() {
-        return (h(Host, { key: '96044cd8ecc3160ae1b066676578dfaf19ca639d' }, !this.be && h("ir-interceptor", { key: '9bd3a97f701d14b01840222de09c4377ec61909f' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '5014af489fc0d63c2e5d1636a9d2b7856567b76c' }, !this.be && h("ir-interceptor", { key: '8a5fb4ecc5b0d52c1ffad77d840fb77691ad0e91' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -475,6 +505,12 @@ export class IrBookingListing {
             }, {
                 "name": "bl_routing",
                 "method": "handleRouting",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "openPrivacyPolicy",
+                "method": "openPrivacyPolicy",
                 "target": undefined,
                 "capture": false,
                 "passive": false

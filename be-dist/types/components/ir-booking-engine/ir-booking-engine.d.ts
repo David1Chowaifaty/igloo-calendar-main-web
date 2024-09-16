@@ -40,6 +40,7 @@ export declare class IrBookingEngine {
     private propertyService;
     private availabiltyService;
     private identifier;
+    private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleTokenChange(newValue: string, oldValue: string): void;
     handleSourceChange(newSource: TSource, oldSource: TSource): void;
@@ -55,6 +56,7 @@ export declare class IrBookingEngine {
     private modifyLoyalty;
     handleNavigation(e: CustomEvent): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
+    openPrivacyPolicy(e: CustomEvent): Promise<void>;
     handleAuthFinish(e: CustomEvent): void;
     private resetBooking;
     private checkAvailability;

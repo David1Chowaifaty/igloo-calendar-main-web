@@ -32,12 +32,15 @@ export declare class IrInvoice {
     private bookingListingAppService;
     private payment_option;
     private amount;
-    bookingCancelation: HTMLIrBookingCancelationElement;
+    private bookingCancelation;
+    private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     init(): Promise<void>;
-    fetchData(): Promise<void>;
+    fetchData(language?: string, resetLanguage?: boolean): Promise<void>;
+    openPrivacyPolicy(e: CustomEvent): Promise<void>;
+    handleLanguageChanged(e: CustomEvent): Promise<void>;
     setAmountAndCancelationPolicy(): Promise<void>;
     renderBookingDetailHeader(): string;
     getPropertyEmail(): string;

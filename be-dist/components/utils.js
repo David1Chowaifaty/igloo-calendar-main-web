@@ -53024,6 +53024,9 @@ function getUserPrefernce(lang = undefined) {
         updateUserPreference({
             language_id: lang || 'en',
         });
+        if (lang === 'ar') {
+            changeLocale('RTL', matchLocale(lang));
+        }
     }
 }
 function runScriptAndRemove(scriptContent) {
@@ -53134,14 +53137,14 @@ function validateAgentCode(code) {
     return isValidCode;
 }
 function renderPropertyLocation() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d;
     const affiliate = app_store.app_data.affiliate;
     if (affiliate) {
-        return [(_b = (_a = app_store.app_data.affiliate) === null || _a === void 0 ? void 0 : _a.address) !== null && _b !== void 0 ? _b : null, (_c = app_store.app_data.affiliate.city) !== null && _c !== void 0 ? _c : null, (_d = app_store.app_data.affiliate.country.name) !== null && _d !== void 0 ? _d : null]
+        return [((_a = app_store.app_data.affiliate) === null || _a === void 0 ? void 0 : _a.address) || null, app_store.app_data.affiliate.city || null, app_store.app_data.affiliate.country.name || null]
             .filter(f => f !== null)
             .join(', ');
     }
-    return [(_f = (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area) !== null && _f !== void 0 ? _f : null, (_h = (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.city.name) !== null && _h !== void 0 ? _h : null, (_k = (_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name) !== null && _k !== void 0 ? _k : null].filter(f => f !== null).join(', ');
+    return [((_b = app_store.property) === null || _b === void 0 ? void 0 : _b.area) || null, ((_c = app_store.property) === null || _c === void 0 ? void 0 : _c.city.name) || null, ((_d = app_store.property) === null || _d === void 0 ? void 0 : _d.country.name) || null].filter(f => f !== null).join(', ');
 }
 function setBookingCookie() {
     const cookieName = 'ghs_booking';
@@ -53167,7 +53170,22 @@ function checkGhs(source_code, stag) {
     }
     return false;
 }
+function detectCardType(value) {
+    const startsWith = (prefixes) => prefixes.some(prefix => value.startsWith(prefix));
+    if (startsWith(['4'])) {
+        return 'VISA';
+    }
+    else if (startsWith(['5', '2'])) {
+        return 'Mastercard';
+    }
+    else if (startsWith(['34', '37'])) {
+        return 'AMEX';
+    }
+    else {
+        return '';
+    }
+}
 
-export { renderPropertyLocation as A, renderTime as B, formatImageAlt as C, updateRoomParams as D, reserveRooms as E, getVisibleInventory as F, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, calculateTotalCost as e, defaultOptions$1 as f, getDateDifference as g, enUS as h, injectHTML as i, isSameWeek$1 as j, getAbbreviatedWeekdays as k, getUserPrefernce as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, runScriptAndRemove as x, validateBooking as y, destroyBookingCookie as z };
+export { destroyBookingCookie as A, renderPropertyLocation as B, renderTime as C, formatImageAlt as D, updateRoomParams as E, reserveRooms as F, getVisibleInventory as G, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, getAbbreviatedWeekdays as j, getUserPrefernce as k, validateAgentCode as l, manageAnchorSession as m, matchLocale as n, checkGhs as o, setDefaultLocale as p, checkAffiliate as q, formatAmount as r, startOfWeek$1 as s, toDate$1 as t, formatFullLocation as u, validateCoupon as v, runScriptAndRemove as w, calculateTotalCost as x, detectCardType as y, validateBooking as z };
 
 //# sourceMappingURL=utils.js.map

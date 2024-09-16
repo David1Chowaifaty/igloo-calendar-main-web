@@ -1,8 +1,10 @@
 import app_store from "../../../stores/app.store";
+import localizedWords from "../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
 export class IrPrivacyPolicy {
     constructor() {
         this.label = 'privacy policy';
+        this.hideTrigger = false;
         this.policyTriggerStyle = undefined;
     }
     replaceStringByObjectValue(input, replacements) {
@@ -15,15 +17,21 @@ export class IrPrivacyPolicy {
         }
         return input;
     }
+    async openModal() {
+        this.dialogRef.openModal();
+    }
+    async closeModal() {
+        this.dialogRef.closeModal();
+    }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
-        return (h(Host, { key: '1864fdd93407829e397f86e9f04d0e8c686037a1' }, h("ir-button", { key: 'ac4e3cda661dc75fa0e6b9d592e041093bde368c', label: this.label, buttonStyles: Object.assign({ padding: '0', background: 'transparent' }, this.policyTriggerStyle), variants: "link", onButtonClick: () => this.dialogRef.openModal() }), h("ir-dialog", { key: 'a1485cae6507d976d9ba1c4d2069965197c9ee79', ref: el => (this.dialogRef = el) }, h("div", { key: '1eccb080eff3f22dfd9a39b85ba985473786e888', class: "max-h-[83vh] overflow-y-auto p-4  text-[var(--gray-600,#475467)] md:p-6", slot: "modal-title" }, h("h1", { key: '198df0ae6b5a14a7cfa06ced3545feeacbb26ae1', class: "mb-4 text-xl font-semibold text-[var(--gray-700,#344054)]" }, "Privacy and policy"), h("div", { key: 'cc4492443158227e8a060910888ff2a24a0852b9', class: "text-sm" }, h("p", { key: '983e2287a942bf06fc6cba8d3793a94e1f8ed036', innerHTML: this.replaceStringByObjectValue((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.privacy_policy, {
-                '[AC_NAME]': (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.name,
-                '[URL]': (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.space_theme.website,
-                '[ADDRESS]': (_d = app_store.property) === null || _d === void 0 ? void 0 : _d.address,
-                '[AREA]': (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.area,
-                '[LEVEL2]': (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.city.name,
-                '[COUNTRY]': (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.country.name,
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        return (h(Host, { key: '8490cd52c3d3ec2358a288c8da3335033bdcc80c' }, !this.hideTrigger && (h("ir-button", { key: 'ecf7715455394018d16e2c5e720aee1c3e773c53', label: this.label, buttonStyles: Object.assign({ padding: '0', background: 'transparent' }, this.policyTriggerStyle), variants: "link", onButtonClick: () => this.dialogRef.openModal() })), h("ir-dialog", { key: 'b37284e1be923999533ae74771e203b30adb40d7', ref: el => (this.dialogRef = el) }, h("div", { key: '77feabb7f9cfca80aaefd3a3132ff9d27594103b', class: "max-h-[83vh] overflow-y-auto p-4  text-[var(--gray-600,#475467)] md:p-6", slot: "modal-title" }, h("h1", { key: 'fd9959034b0a7a291dd9491978c3e8c948684d27', class: "mb-4 text-xl font-semibold capitalize text-[var(--gray-700,#344054)]" }, localizedWords.entries.Lcz_PrivacyPolicy), h("div", { key: '360a641605d9f7abcc13565e258f3caa9804e391', class: "text-sm font-normal" }, h("p", { key: 'af1a8ea9001a75a9ae51b6318c2de58c60cd4c6a', innerHTML: this.replaceStringByObjectValue((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.privacy_policy, {
+                '[AC_NAME]': (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : '',
+                '[URL]': (_e = (_d = app_store.property) === null || _d === void 0 ? void 0 : _d.space_theme.website) !== null && _e !== void 0 ? _e : '',
+                '[ADDRESS]': (_g = (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.address) !== null && _g !== void 0 ? _g : '',
+                '[AREA]': (_j = (_h = app_store.property) === null || _h === void 0 ? void 0 : _h.area) !== null && _j !== void 0 ? _j : '',
+                '[LEVEL2]': (_l = (_k = app_store.property) === null || _k === void 0 ? void 0 : _k.city.name) !== null && _l !== void 0 ? _l : '',
+                '[COUNTRY]': (_o = (_m = app_store.property) === null || _m === void 0 ? void 0 : _m.country.name) !== null && _o !== void 0 ? _o : '',
             }) }))))));
     }
     static get is() { return "ir-privacy-policy"; }
@@ -58,6 +66,24 @@ export class IrPrivacyPolicy {
                 "reflect": false,
                 "defaultValue": "'privacy policy'"
             },
+            "hideTrigger": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "hide-trigger",
+                "reflect": false,
+                "defaultValue": "false"
+            },
             "policyTriggerStyle": {
                 "type": "unknown",
                 "mutable": false,
@@ -80,6 +106,44 @@ export class IrPrivacyPolicy {
                 "docs": {
                     "tags": [],
                     "text": ""
+                }
+            }
+        };
+    }
+    static get methods() {
+        return {
+            "openModal": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            },
+            "closeModal": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
                 }
             }
         };

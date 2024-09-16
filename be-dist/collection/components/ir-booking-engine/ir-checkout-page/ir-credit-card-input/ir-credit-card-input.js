@@ -1,4 +1,5 @@
 import localizedWords from "../../../../stores/localization.store";
+import { detectCardType } from "../../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import IMask from "imask";
@@ -7,21 +8,6 @@ export class IrCreditCardInput {
         this.value = undefined;
         this.cardType = '';
         this.error = false;
-    }
-    detectCardType(value) {
-        const startsWith = (prefixes) => prefixes.some(prefix => value.startsWith(prefix));
-        if (startsWith(['4'])) {
-            return 'VISA';
-        }
-        else if (startsWith(['5', '2'])) {
-            return 'Mastercard';
-        }
-        else if (startsWith(['34', '37'])) {
-            return 'AMEX';
-        }
-        else {
-            return '';
-        }
     }
     applyMask(cardType) {
         if (this.mask) {
@@ -43,13 +29,13 @@ export class IrCreditCardInput {
     handleInput(e) {
         const target = e.target;
         const value = target.value;
-        this.creditCardChange.emit(value);
+        this.creditCardChange.emit({ value, cardType: this.cardType });
         if (value === '') {
             this.cardType = '';
             this.error = false;
         }
         else {
-            const detectedCardType = this.detectCardType(value);
+            const detectedCardType = detectCardType(value);
             if (this.cardType !== detectedCardType) {
                 this.cardType = detectedCardType;
                 this.applyMask(this.cardType);
@@ -62,7 +48,7 @@ export class IrCreditCardInput {
         }
     }
     render() {
-        return (h(Host, { key: '0d103bb65af06781905d85215afb013a2b129870' }, h("div", { key: '6ca7b758290e0e9f92a6ff1b591f8cd0aa80b36b', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '847e7754d49222cc83eff5b9cd3213a9d477cce0', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: 'fe4b58a2ca9fe4310cf7bd640aa3e014d0d93d2b', class: "input-container" }, h("input", { key: 'dbab4d287b1fee247f8bb34418ac53139b12f622', type: "text", class: "w-full", onFocus: () => {
+        return (h(Host, { key: '9a0c72af5b129e0fe1405b75f70c7bde0446ecc3' }, h("div", { key: '56d993c397e16a4b494df3849fd101db532684a0', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: 'a0afc303d2493d5d2be26a2aadaac23eb7b56c47', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '2bdfbd4aab455519d12c2c579e4df77de93d9d0f', class: "input-container" }, h("input", { key: '837d0c1427fa1e1c21b37ce5e6722ea0c8625e16', type: "text", class: "w-full", onFocus: () => {
                 if (this.el.hasAttribute('data-state'))
                     this.el.removeAttribute('data-state');
             }, onBlur: e => {
@@ -79,7 +65,7 @@ export class IrCreditCardInput {
                         this.el.setAttribute('aria-invalid', 'false');
                     }
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '05396ae8088a6f9345ad667dcf441ecfc421b07c', class: "icon-container" }, this.renderIcon(this.cardType))))));
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: 'ad0e6514f7e4331f966b7468c85f4b3f750f5b06', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {
@@ -156,8 +142,8 @@ export class IrCreditCardInput {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
+                    "original": "{ value: string; cardType: '' | 'AMEX' | 'VISA' | 'Mastercard' }",
+                    "resolved": "{ value: string; cardType: \"\" | \"AMEX\" | \"VISA\" | \"Mastercard\"; }",
                     "references": {}
                 }
             }];

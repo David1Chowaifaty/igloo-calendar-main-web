@@ -39,6 +39,7 @@ export declare class IrBookingOverview {
     getBadgeVariant(code: string): "error" | "success" | "pending";
     handlePageChange(e: CustomEvent<number>): Promise<void>;
     handleLinkChanged(e: CustomEvent): Promise<void>;
+    handleLanguageChanged(e: CustomEvent): Promise<void>;
     fetchCancelationMessage(id: number, roomTypeId: number): Promise<void>;
     private handleBookingCancelation;
     private handleMenuItemChange;

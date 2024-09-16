@@ -8,6 +8,7 @@ export declare class IrPopover {
     placement: Placement;
     stopListeningForOutsideClicks: boolean;
     showCloseButton: boolean;
+    allowFlip: boolean;
     isVisible: boolean;
     isMobile: boolean;
     previousIsMobile: boolean;

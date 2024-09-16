@@ -6,9 +6,8 @@ import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
 import booking_store, { validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
-import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import localizedWords from "../../../stores/localization.store";
-import { destroyBookingCookie, getDateDifference, runScriptAndRemove } from "../../../utils/utils";
+import { destroyBookingCookie, detectCardType, getDateDifference, runScriptAndRemove } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import { ZodError } from "zod";
@@ -72,7 +71,8 @@ export class IrCheckoutPage {
             }
             return (prev + curr.amount) * total;
         }, 0);
-        console.log(requests);
+        // this.prepaymentAmount = 0;
+        checkout_store.prepaymentAmount = this.prepaymentAmount;
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -91,15 +91,16 @@ export class IrCheckoutPage {
         return true;
     }
     validatePayment() {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f;
+        if (this.prepaymentAmount === 0) {
+            return true;
+        }
         const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
         this.selectedPaymentMethod = currentPayment;
-        console.log(currentPayment);
         if (!currentPayment) {
-            console.log('no current payment');
             return false;
         }
-        if (currentPayment.is_payment_gateway) {
+        if (currentPayment.is_payment_gateway || currentPayment.code === '000' || currentPayment.code === '005') {
             return true;
         }
         try {
@@ -109,6 +110,10 @@ export class IrCheckoutPage {
                 expiryDate: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.expiry_month,
                 cvc: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.cvc,
             });
+            const cardType = detectCardType((_f = (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.cardNumber) === null || _f === void 0 ? void 0 : _f.replace(/ /g, ''));
+            if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes(cardType === null || cardType === void 0 ? void 0 : cardType.toLowerCase()))) {
+                return false;
+            }
             return true;
         }
         catch (error) {
@@ -210,21 +215,6 @@ export class IrCheckoutPage {
             console.error('Booking process failed:', error);
         }
     }
-    // private async checkPaymentOption(booking: Booking, token: string) {
-    //   const { amount } = await this.paymentService.GetExposedApplicablePolicies({
-    //     token,
-    //     params: {
-    //       booking_nbr: booking.booking_nbr,
-    //       property_id: app_store.app_data.property_id,
-    //       room_type_id: 0,
-    //       rate_plan_id: 0,
-    //       currency_id: booking.currency.id,
-    //       language: app_store.userPreferences.language_id,
-    //     },
-    //     book_date: new Date(),
-    //   });
-    //   return amount;
-    // }
     modifyConversionTag(tag) {
         const booking = booking_store.booking;
         tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
@@ -262,11 +252,10 @@ export class IrCheckoutPage {
         }
     }
     render() {
-        console.log(isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI'));
         if (this.isLoading) {
             return (h("div", { class: 'flex min-h-screen flex-col' }, h("ir-checkout-skeleton", null)));
         }
-        return (h(Host, null, h("main", { class: "flex min-h-screen w-full  flex-col justify-between gap-4  md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
+        return (h(Host, null, h("main", { class: "flex  w-full  flex-col justify-between gap-4   md:flex-row md:items-start" }, h("section", { class: "w-full space-y-4 md:max-w-4xl" }, h("div", { class: "flex items-center gap-2.5" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');

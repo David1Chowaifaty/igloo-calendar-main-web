@@ -14,6 +14,13 @@ export declare class PropertyService extends Token {
         aname: string | null;
         perma_link: string | null;
     }, initTheme?: boolean): Promise<any>;
+    getExposedNonBookableNights(params: {
+        from_date: string;
+        to_date: string;
+        porperty_id: number;
+        aname: string;
+        perma_link: string;
+    }): Promise<any>;
     getExposedBookingAvailability(props: {
         params: TExposedBookingAvailability;
         identifier: string;

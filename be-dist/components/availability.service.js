@@ -4092,6 +4092,7 @@ class AvailabiltyService {
                 }
                 let rateplan = roomType.rateplans[selectedRatePlanIndex];
                 let oldVariation = rateplan.variations || [];
+                console.log(payload);
                 const variation = {
                     adult_child_offering: payload.ADULT_CHILD_OFFERING,
                     adult_nbr: Number((_a = payload.ADULTS_NBR) !== null && _a !== void 0 ? _a : 0),
@@ -4114,6 +4115,7 @@ class AvailabiltyService {
                     is_calculated: payload.IS_CALCULATED,
                     MLS_ALERT: payload.MLS_ALERT,
                     IS_MLS_VIOLATED: payload.IS_MLS_VIOLATED,
+                    MLS_ALERT_VALUE: payload.MLS_ALERT_VALUE,
                 };
                 const variationIndex = oldVariation.findIndex(v => v.adult_child_offering === payload.ADULT_CHILD_OFFERING);
                 if (variationIndex === -1) {

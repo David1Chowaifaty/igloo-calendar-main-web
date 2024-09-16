@@ -7,6 +7,7 @@ export declare class IrLanguagePicker {
     selectedLanguage: IExposedLanguages;
     closeDialog: EventEmitter<null>;
     resetBooking: EventEmitter<null>;
+    languageChanged: EventEmitter<string>;
     private langEl;
     private selectedIndex;
     componentWillLoad(): Promise<void>;

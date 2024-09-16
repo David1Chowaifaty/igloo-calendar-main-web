@@ -5,6 +5,7 @@ export declare class BookingListingService extends Token {
         start_row: number;
         end_row: number;
         total_count: number;
+        language: string;
     }): Promise<{
         bookings: any;
         total_count: any;

@@ -1,5 +1,5 @@
 import { M as MissingTokenError, T as Token } from './Token.js';
-import { b as booking_store, d as dateFns, a as modifyBookingStore, i as injectHTML, g as getDateDifference, e as calculateTotalCost } from './utils.js';
+import { b as booking_store, d as dateFns, a as modifyBookingStore, i as injectHTML, g as getDateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 import { P as PaymentService } from './payment.service.js';
 import { a as app_store } from './app.store.js';
@@ -128,7 +128,6 @@ class PropertyHelpers {
                 return updatedRoomtypes;
             }
             const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: this.updateRatePlan(rt.rateplans, newRoomtype) });
-            console.log(updatedRoomtype.rateplans);
             updatedRoomtypes.push(updatedRoomtype);
             return updatedRoomtypes;
         }, []);
@@ -352,6 +351,23 @@ class PropertyService extends Token {
         }
         return result.My_Result;
     }
+    async getExposedNonBookableNights(params) {
+        var _a;
+        const token = this.getToken();
+        if (!token) {
+            throw new MissingTokenError();
+        }
+        const { data } = await axios.post(`/Get_Exposed_Non_Bookable_Nights?Ticket=${token}`, params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const nights = {};
+        (_a = data.My_Result) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
+            nights[nbn.night] = true;
+        });
+        app_store.nonBookableNights = nights;
+        return data.My_Result;
+    }
     async getExposedBookingAvailability(props) {
         const token = this.getToken();
         this.propertyHelpers.validateToken(token);
@@ -483,7 +499,7 @@ class PropertyService extends Token {
     }
     async bookUser() {
         var _a;
-        const { prePaymentAmount } = calculateTotalCost();
+        const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             const token = this.getToken();
             if (!token) {
@@ -520,21 +536,25 @@ class PropertyService extends Token {
                     },
                     source: { code: app_store.app_data.isFromGhs ? 'ghs' : window.location.href, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
-                    currency: app_store.property.currency,
+                    currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
                 },
                 extras: [
-                    {
-                        key: 'payment_code',
-                        value: checkout_store.payment.code,
-                    },
-                    {
-                        key: 'prepayment_amount',
-                        value: prePaymentAmount,
-                    },
-                ],
+                    prePaymentAmount > 0
+                        ? {
+                            key: 'payment_code',
+                            value: checkout_store.payment.code,
+                        }
+                        : null,
+                    prePaymentAmount > 0
+                        ? {
+                            key: 'prepayment_amount',
+                            value: prePaymentAmount,
+                        }
+                        : null,
+                ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
             const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
