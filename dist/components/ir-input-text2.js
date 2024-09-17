@@ -68,7 +68,6 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         }
     }
     render() {
-        console.log(this.isError);
         const id = v4();
         if (this.variant === 'icon') {
             return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { type: this.type, onFocus: () => (this.inputFocused = true), required: this.required, onBlur: e => {

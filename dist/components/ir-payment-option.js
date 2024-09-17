@@ -28,6 +28,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.propertyid = undefined;
         this.ticket = undefined;
         this.language = 'en';
+        this.defaultStyles = true;
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
@@ -149,7 +150,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         if (this.isLoading || this.paymentOptions.length == 0) {
             return (h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, h("ir-loading-screen", null)));
         }
-        return (h(Host, { class: "p-2" }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: "card p-1 flex-fill m-0" }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, locales.entries.Lcz_PaymentOptions)), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, locales.entries.Lcz_PaymentMethod), h("th", { scope: "col" }, locales.entries.Lcz_Status), h("th", { scope: "col", class: "actions-header" }, locales.entries.Lcz_Action))), h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
+        return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card p-1' : ''} flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, locales.entries.Lcz_PaymentOptions)), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, locales.entries.Lcz_PaymentMethod), h("th", { scope: "col" }, locales.entries.Lcz_Status), h("th", { scope: "col", class: "actions-header" }, locales.entries.Lcz_Action))), h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
             if (po.code === '004') {
                 return null;
             }
@@ -170,6 +171,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         "propertyid": [1],
         "ticket": [1],
         "language": [1],
+        "defaultStyles": [4, "default-styles"],
         "paymentOptions": [32],
         "isLoading": [32],
         "selectedOption": [32]

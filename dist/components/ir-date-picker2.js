@@ -11,6 +11,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         this.dateChanged = createEvent(this, "dateChanged", 7);
         this.fromDate = undefined;
         this.toDate = undefined;
+        this.date = undefined;
         this.opens = undefined;
         this.autoApply = undefined;
         this.firstDay = 1;
@@ -36,15 +37,37 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         $(this.dateRangeInput).data('daterangepicker').remove();
         this.initializeDateRangePicker();
     }
+    datePropChanged() {
+        this.updateDateRangePickerDates();
+    }
     async openDatePicker() {
-        console.log('opening date');
         this.openDatePickerTimeout = setTimeout(() => {
             this.dateRangeInput.click();
         }, 20);
     }
+    updateDateRangePickerDates() {
+        const picker = $(this.dateRangeInput).data('daterangepicker');
+        if (!picker) {
+            console.error('Date range picker not initialized.');
+            return;
+        }
+        // Adjust how dates are set based on whether it's a single date picker or range picker.
+        if (this.singleDatePicker) {
+            const newDate = this.date ? hooks(this.date) : hooks();
+            picker.setStartDate(newDate);
+            picker.setEndDate(newDate); // For single date picker, start and end date might be the same.
+        }
+        else {
+            const newStartDate = this.fromDate ? hooks(this.fromDate) : hooks();
+            const newEndDate = this.toDate ? hooks(this.toDate) : newStartDate.clone().add(1, 'days');
+            picker.setStartDate(newStartDate);
+            picker.setEndDate(newEndDate);
+        }
+    }
     componentDidLoad() {
         this.dateRangeInput = this.element.querySelector('.date-range-input');
         this.initializeDateRangePicker();
+        this.updateDateRangePickerDates();
     }
     initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
@@ -80,16 +103,18 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: 'de04dbc346f9096994d8aa00f45299ce2ab73e27' }, h("input", { key: '17169d40dc7525db6f471f38fad8d201f81e3c2a', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: '5e9e22d521c56bf24277bed28c0997b4d2ae4e02' }, h("input", { key: '5521a8c07f08d3c79fcd6d40c10f7f04bfe12af1', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {
-        "minDate": ["handleMinDateChange"]
+        "minDate": ["handleMinDateChange"],
+        "date": ["datePropChanged"]
     }; }
     static get style() { return IrDatePickerStyle0; }
 }, [2, "ir-date-picker", {
         "fromDate": [16],
         "toDate": [16],
+        "date": [16],
         "opens": [1],
         "autoApply": [4, "auto-apply"],
         "firstDay": [2, "first-day"],
@@ -110,7 +135,8 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         "maxSpan": [8, "max-span"],
         "openDatePicker": [64]
     }, undefined, {
-        "minDate": ["handleMinDateChange"]
+        "minDate": ["handleMinDateChange"],
+        "date": ["datePropChanged"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

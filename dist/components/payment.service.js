@@ -34,6 +34,22 @@ class PaymentService extends Token {
             throw new Error(error);
         }
     }
+    async GetExposedCancelationDueAmount(params) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount?Ticket=${token}`, params);
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                return data.My_Result;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
 }
 
 export { PaymentService as P };

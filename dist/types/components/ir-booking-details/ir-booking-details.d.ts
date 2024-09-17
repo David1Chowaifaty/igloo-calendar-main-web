@@ -4,6 +4,7 @@ import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { ILocale } from "../../stores/locales.store";
 import { IToast } from '../ir-toast/toast';
 import { ICountry } from "../../models/IBooking";
+import { IPaymentAction } from "../../services/payment.service";
 export declare class IrBookingDetails {
     element: HTMLElement;
     language: string;
@@ -37,12 +38,13 @@ export declare class IrBookingDetails {
     pms_status: IPmsLog;
     isPMSLogLoading: boolean;
     userCountry: ICountry | null;
+    paymentActions: IPaymentAction[];
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
     private bookingService;
     private roomService;
-    private property;
+    private paymentService;
     private dialogRef;
     componentDidLoad(): void;
     ticketChanged(): Promise<void>;
@@ -50,9 +52,9 @@ export declare class IrBookingDetails {
     initializeApp(): Promise<void>;
     handleIconClick(e: any): void;
     handleEditSidebar(): void;
+    handleResetExposedCancelationDueAmount(e: CustomEvent): Promise<void>;
     handleSelectChange(e: CustomEvent<any>): void;
     openEditSidebar(): void;
-    printBooking(mode?: 'invoice' | 'default'): void;
     updateStatus(): Promise<void>;
     openPMSLogsDialog(): Promise<void>;
     handleEditInitiated(e: CustomEvent<TIglBookPropertyPayload>): void;

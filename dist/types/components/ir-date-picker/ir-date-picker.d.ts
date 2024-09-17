@@ -4,6 +4,7 @@ export declare class IrDatePicker {
     private element;
     fromDate: Date;
     toDate: Date;
+    date: Date;
     opens: 'left' | 'right' | 'center';
     autoApply: boolean;
     firstDay: number;
@@ -29,7 +30,9 @@ export declare class IrDatePicker {
     }>;
     dateRangeInput: HTMLElement;
     handleMinDateChange(): void;
+    datePropChanged(): void;
     openDatePicker(): Promise<void>;
+    updateDateRangePickerDates(): void;
     componentDidLoad(): void;
     initializeDateRangePicker(): void;
     disconnectedCallback(): void;

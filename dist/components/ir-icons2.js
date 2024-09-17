@@ -197,7 +197,7 @@ const colorVariants = {
     },
 };
 
-const irIconsCss = ".sc-ir-icons-h{display:block}.icon.sc-ir-icons{height:var(--icon-size, 1.25rem);width:var(--icon-size, 1.25rem);margin:0;padding:0}";
+const irIconsCss = ".sc-ir-icons-h{display:block;box-sizing:border-box;margin:0;padding:0}.icon.sc-ir-icons{height:var(--icon-size, 1.25rem);width:var(--icon-size, 1.25rem);margin:0;padding:0}";
 const IrIconsStyle0 = irIconsCss;
 
 const IrIcons = /*@__PURE__*/ proxyCustomElement(class IrIcons extends HTMLElement {

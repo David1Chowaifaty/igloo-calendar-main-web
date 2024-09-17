@@ -8,10 +8,12 @@ import locales from "../../stores/locales.store";
 import calendar_data from "../../stores/calendar-data";
 import { colorVariants } from "../ui/ir-icons/icons";
 import { getPrivateNote } from "../../utils/booking";
+import { PaymentService } from "../../services/payment.service";
 export class IrBookingDetails {
     constructor() {
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
+        this.paymentService = new PaymentService();
         this.language = '';
         this.ticket = '';
         this.bookingNumber = '';
@@ -43,6 +45,7 @@ export class IrBookingDetails {
         this.pms_status = undefined;
         this.isPMSLogLoading = false;
         this.userCountry = null;
+        this.paymentActions = undefined;
     }
     componentDidLoad() {
         if (this.baseurl) {
@@ -57,6 +60,7 @@ export class IrBookingDetails {
     }
     async ticketChanged() {
         calendar_data.token = this.ticket;
+        this.paymentService.setToken(this.ticket);
         this.bookingService.setToken(this.ticket);
         this.roomService.setToken(this.ticket);
         this.initializeApp();
@@ -81,7 +85,9 @@ export class IrBookingDetails {
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
             ]);
-            this.property = roomResponse.My_Result;
+            //TODO:Add this when reimplementing payment actions
+            // this.paymentService.setToken(this.ticket);
+            // this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({ booking_nbr: bookingDetails.booking_nbr, currency_id: bookingDetails.currency.id });
             if (!locales.entries) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
@@ -161,6 +167,12 @@ export class IrBookingDetails {
     handleEditSidebar() {
         this.sidebarState = 'guest';
     }
+    async handleResetExposedCancelationDueAmount(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        //TODO:Impement when payment action is on
+        // this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({ booking_nbr: this.bookingData.booking_nbr, currency_id: this.bookingData.currency.id });
+    }
     handleSelectChange(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -170,54 +182,6 @@ export class IrBookingDetails {
     openEditSidebar() {
         const sidebar = document.querySelector('ir-sidebar#editGuestInfo');
         sidebar.open = true;
-    }
-    printBooking(mode = 'default') {
-        const bookingJson = JSON.stringify(this.bookingData);
-        const propertyJson = JSON.stringify(this.property);
-        const countriesJson = JSON.stringify(this.countryNodeList);
-        const pageTitle = `Booking#${this.bookingNumber} | igloorooms`;
-        const src = 'https://wb-cmp.igloorooms.com/backend/dist/ir-webcmp/ir-webcmp.esm.js';
-        const htmlContent = `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>${pageTitle}</title>
-          <link rel="shortcut icon" type="image/x-icon" href="https://x.igloorooms.com/app-assets/images/ico/favicon.ico">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-          <script type="module" src="${src}"></script>
-          <style>
-            body {
-              font-family: "Roboto", sans-serif;
-            }
-          </style>
-        </head>
-        <body>
-          <ir-booking-printing></ir-booking-printing>
-          <script>
-            document.addEventListener("DOMContentLoaded", function() {
-              const bookingDetail = document.querySelector("ir-booking-printing");
-              bookingDetail.booking = ${bookingJson};
-              bookingDetail.property = ${propertyJson};
-              bookingDetail.countries = ${countriesJson};
-              bookingDetail.mode = '${mode}';
-            });
-          </script>
-        </body>
-      </html>
-    `;
-        try {
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            window.open(url);
-        }
-        catch (error) {
-            console.error('Error creating or opening the generated HTML page:', error);
-            alert('Failed to generate and open the HTML page. Please try again.');
-        }
     }
     async updateStatus() {
         if (this.tempStatus !== '' && this.tempStatus !== null) {
@@ -363,7 +327,7 @@ export class IrBookingDetails {
                     // add separator if not last item with marginHorizontal and alignCenter
                     index !== this.bookingData.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
-            })), calendar_data.pickup_service.is_enabled && this.bookingData.is_direct && this.bookingData.is_editable && (h("div", { class: "mb-1" }, h("div", { class: 'd-flex w-100 mb-1 align-items-center justify-content-between' }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_Pickup), h("ir-button", { id: "pickup", variant: "icon", icon_name: "edit", style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }) })), this.bookingData.pickup_info && (h("div", { class: 'card' }, h("div", { class: 'p-1' }, h("div", { class: 'd-flex align-items-center py-0 my-0 pickup-margin' }, h("p", { class: 'font-weight-bold mr-1 py-0 my-0' }, locales.entries.Lcz_Date, ": ", h("span", { class: 'font-weight-normal' }, moment(this.bookingData.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), this.bookingData.pickup_info.hour && this.bookingData.pickup_info.minute && (h("p", { class: 'font-weight-bold flex-fill py-0 my-0' }, locales.entries.Lcz_Time, ":", h("span", { class: 'font-weight-normal' }, " ", _formatTime(this.bookingData.pickup_info.hour.toString(), this.bookingData.pickup_info.minute.toString())))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_DueUponBooking, ":", ' ', h("span", { class: 'font-weight-normal' }, this.bookingData.pickup_info.currency.symbol, this.bookingData.pickup_info.total))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_FlightDetails, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.bookingData.pickup_info.details}`)), h("p", { class: 'py-0 my-0 pickup-margin' }, `${this.bookingData.pickup_info.selected_option.vehicle.description}`), h("p", { class: 'font-weight-bold py-0 my-0 pickup-margin' }, locales.entries.Lcz_NbrOfVehicles, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.bookingData.pickup_info.nbr_of_units}`)), h("p", { class: 'small py-0 my-0 pickup-margin' }, calendar_data.pickup_service.pickup_instruction.description, calendar_data.pickup_service.pickup_cancelation_prepayment.description))))))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { defaultTexts: this.defaultTexts, bookingDetails: this.bookingData })))),
+            })), calendar_data.pickup_service.is_enabled && this.bookingData.is_direct && this.bookingData.is_editable && (h("div", { class: "mb-1" }, h("div", { class: 'd-flex w-100 mb-1 align-items-center justify-content-between' }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_Pickup), h("ir-button", { id: "pickup", variant: "icon", icon_name: "edit", style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }) })), this.bookingData.pickup_info && (h("div", { class: 'card' }, h("div", { class: 'p-1' }, h("div", { class: 'd-flex align-items-center py-0 my-0 pickup-margin' }, h("p", { class: 'font-weight-bold mr-1 py-0 my-0' }, locales.entries.Lcz_Date, ": ", h("span", { class: 'font-weight-normal' }, moment(this.bookingData.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), this.bookingData.pickup_info.hour && this.bookingData.pickup_info.minute && (h("p", { class: 'font-weight-bold flex-fill py-0 my-0' }, locales.entries.Lcz_Time, ":", h("span", { class: 'font-weight-normal' }, " ", _formatTime(this.bookingData.pickup_info.hour.toString(), this.bookingData.pickup_info.minute.toString())))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_DueUponBooking, ":", ' ', h("span", { class: 'font-weight-normal' }, this.bookingData.pickup_info.currency.symbol, this.bookingData.pickup_info.total))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_FlightDetails, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.bookingData.pickup_info.details}`)), h("p", { class: 'py-0 my-0 pickup-margin' }, `${this.bookingData.pickup_info.selected_option.vehicle.description}`), h("p", { class: 'font-weight-bold py-0 my-0 pickup-margin' }, locales.entries.Lcz_NbrOfVehicles, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.bookingData.pickup_info.nbr_of_units}`)), h("p", { class: 'small py-0 my-0 pickup-margin' }, calendar_data.pickup_service.pickup_instruction.description, calendar_data.pickup_service.pickup_cancelation_prepayment.description))))))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, defaultTexts: this.defaultTexts, bookingDetails: this.bookingData })))),
             h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -706,7 +670,8 @@ export class IrBookingDetails {
             "isUpdateClicked": {},
             "pms_status": {},
             "isPMSLogLoading": {},
-            "userCountry": {}
+            "userCountry": {},
+            "paymentActions": {}
         };
     }
     static get events() {
@@ -786,6 +751,12 @@ export class IrBookingDetails {
             }, {
                 "name": "editSidebar",
                 "method": "handleEditSidebar",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetExposedCancelationDueAmount",
+                "method": "handleResetExposedCancelationDueAmount",
                 "target": undefined,
                 "capture": false,
                 "passive": false

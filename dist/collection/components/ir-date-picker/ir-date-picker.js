@@ -4,6 +4,7 @@ export class IrDatePicker {
     constructor() {
         this.fromDate = undefined;
         this.toDate = undefined;
+        this.date = undefined;
         this.opens = undefined;
         this.autoApply = undefined;
         this.firstDay = 1;
@@ -29,15 +30,37 @@ export class IrDatePicker {
         $(this.dateRangeInput).data('daterangepicker').remove();
         this.initializeDateRangePicker();
     }
+    datePropChanged() {
+        this.updateDateRangePickerDates();
+    }
     async openDatePicker() {
-        console.log('opening date');
         this.openDatePickerTimeout = setTimeout(() => {
             this.dateRangeInput.click();
         }, 20);
     }
+    updateDateRangePickerDates() {
+        const picker = $(this.dateRangeInput).data('daterangepicker');
+        if (!picker) {
+            console.error('Date range picker not initialized.');
+            return;
+        }
+        // Adjust how dates are set based on whether it's a single date picker or range picker.
+        if (this.singleDatePicker) {
+            const newDate = this.date ? moment(this.date) : moment();
+            picker.setStartDate(newDate);
+            picker.setEndDate(newDate); // For single date picker, start and end date might be the same.
+        }
+        else {
+            const newStartDate = this.fromDate ? moment(this.fromDate) : moment();
+            const newEndDate = this.toDate ? moment(this.toDate) : newStartDate.clone().add(1, 'days');
+            picker.setStartDate(newStartDate);
+            picker.setEndDate(newEndDate);
+        }
+    }
     componentDidLoad() {
         this.dateRangeInput = this.element.querySelector('.date-range-input');
         this.initializeDateRangePicker();
+        this.updateDateRangePickerDates();
     }
     initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
@@ -73,7 +96,7 @@ export class IrDatePicker {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: 'de04dbc346f9096994d8aa00f45299ce2ab73e27' }, h("input", { key: '17169d40dc7525db6f471f38fad8d201f81e3c2a', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: '5e9e22d521c56bf24277bed28c0997b4d2ae4e02' }, h("input", { key: '5521a8c07f08d3c79fcd6d40c10f7f04bfe12af1', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     static get is() { return "ir-date-picker"; }
     static get encapsulation() { return "scoped"; }
@@ -110,6 +133,26 @@ export class IrDatePicker {
                 }
             },
             "toDate": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Date",
+                    "resolved": "Date",
+                    "references": {
+                        "Date": {
+                            "location": "global",
+                            "id": "global::Date"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
+            },
+            "date": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
@@ -501,6 +544,9 @@ export class IrDatePicker {
         return [{
                 "propName": "minDate",
                 "methodName": "handleMinDateChange"
+            }, {
+                "propName": "date",
+                "methodName": "datePropChanged"
             }];
     }
 }

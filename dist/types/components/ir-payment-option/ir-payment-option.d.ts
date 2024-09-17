@@ -4,6 +4,7 @@ export declare class IrPaymentOption {
     propertyid: string;
     ticket: string;
     language: string;
+    defaultStyles: boolean;
     paymentOptions: PaymentOption[];
     isLoading: boolean;
     selectedOption: PaymentOption | null;
