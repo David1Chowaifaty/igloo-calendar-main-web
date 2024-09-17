@@ -3,19 +3,18 @@ import { P as PaymentOptionService, p as payment_option_store, d as defineCustom
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { a as axios } from './axios.js';
-import { d as defineCustomElement$d } from './ir-button2.js';
-import { d as defineCustomElement$c } from './ir-icon2.js';
-import { d as defineCustomElement$b } from './ir-icons2.js';
-import { d as defineCustomElement$a } from './ir-input-text2.js';
-import { d as defineCustomElement$9 } from './ir-interceptor2.js';
-import { d as defineCustomElement$8 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$c } from './ir-button2.js';
+import { d as defineCustomElement$b } from './ir-icon2.js';
+import { d as defineCustomElement$a } from './ir-icons2.js';
+import { d as defineCustomElement$9 } from './ir-input-text2.js';
+import { d as defineCustomElement$8 } from './ir-interceptor2.js';
 import { d as defineCustomElement$6 } from './ir-select2.js';
 import { d as defineCustomElement$5 } from './ir-sidebar2.js';
 import { d as defineCustomElement$4 } from './ir-switch2.js';
 import { d as defineCustomElement$3 } from './ir-textarea2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 
-const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
+const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
 const IrPaymentOptionStyle0 = irPaymentOptionCss;
 
 const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption extends HTMLElement {
@@ -147,10 +146,11 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
     }
     render() {
         var _a, _b;
+        console.log('isLoading', this.isLoading, 'paymentOptions', this.paymentOptions);
         if (this.isLoading || this.paymentOptions.length == 0) {
-            return (h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, h("ir-loading-screen", null)));
+            return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, h("span", { class: "payment-option-loader" }))));
         }
-        return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card p-1' : ''} flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, locales.entries.Lcz_PaymentOptions)), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, locales.entries.Lcz_PaymentMethod), h("th", { scope: "col" }, locales.entries.Lcz_Status), h("th", { scope: "col", class: "actions-header" }, locales.entries.Lcz_Action))), h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
+        return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, locales.entries.Lcz_PaymentOptions)), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, locales.entries.Lcz_PaymentMethod), h("th", { scope: "col" }, locales.entries.Lcz_Status), h("th", { scope: "col", class: "actions-header" }, locales.entries.Lcz_Action))), h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
             if (po.code === '004') {
                 return null;
             }
@@ -182,7 +182,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-option-details", "ir-select", "ir-sidebar", "ir-switch", "ir-textarea", "ir-toast"];
+    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-select", "ir-sidebar", "ir-switch", "ir-textarea", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-option":
             if (!customElements.get(tagName)) {
@@ -191,30 +191,25 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$c();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$b();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$a();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
-            }
-            break;
-        case "ir-interceptor":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-loading-screen":
+        case "ir-interceptor":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

@@ -377,20 +377,6 @@ const IrInterceptor = class {
 };
 IrInterceptor.style = IrInterceptorStyle0;
 
-const irLoadingScreenCss = ".sc-ir-loading-screen-h{display:fixed;height:100vh;width:100vw;z-index:1000;top:0;left:0;display:flex;align-items:center;justify-content:center;background:white}.loader.sc-ir-loading-screen{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-loading-screen{position:absolute;z-index:100001;padding:20px;top:50%;left:50%;transform:translate(-50%, -50%);background:white;display:flex;align-items:center;justify-content:center;gap:20px;border-radius:5px}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrLoadingScreenStyle0 = irLoadingScreenCss;
-
-const IrLoadingScreen = class {
-    constructor(hostRef) {
-        index.registerInstance(this, hostRef);
-        this.message = '';
-    }
-    render() {
-        return (index.h(index.Host, { key: 'b932b11e03588a18f20ef3ef32ef582b6a392fa3' }, index.h("span", { key: '15b31f2f7c1cfc5ebb434f62dddce8f8d834f37c', class: "loader" })));
-    }
-};
-IrLoadingScreen.style = IrLoadingScreenStyle0;
-
 class PaymentOptionService extends Token.Token {
     async GetExposedPaymentMethods() {
         const token = this.getToken();
@@ -551,7 +537,7 @@ const IrOptionDetails = class {
 };
 IrOptionDetails.style = IrOptionDetailsStyle0;
 
-const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
+const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}";
 const IrPaymentOptionStyle0 = irPaymentOptionCss;
 
 const IrPaymentOption = class {
@@ -682,10 +668,11 @@ const IrPaymentOption = class {
     }
     render() {
         var _a, _b;
+        console.log('isLoading', this.isLoading, 'paymentOptions', this.paymentOptions);
         if (this.isLoading || this.paymentOptions.length == 0) {
-            return (index.h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, index.h("ir-loading-screen", null)));
+            return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, index.h("span", { class: "payment-option-loader" }))));
         }
-        return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("div", { class: `${this.defaultStyles ? 'card p-1' : ''} flex-fill m-0` }, index.h("div", { class: "d-flex align-items-center mb-2" }, index.h("div", { class: "p-0 m-0 mr-1" }, index.h("ir-icons", { name: "credit_card" })), index.h("h3", { class: 'm-0 p-0' }, locales_store.locales.entries.Lcz_PaymentOptions)), index.h("div", { class: "payment-table-container" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, locales_store.locales.entries.Lcz_PaymentMethod), index.h("th", { scope: "col" }, locales_store.locales.entries.Lcz_Status), index.h("th", { scope: "col", class: "actions-header" }, locales_store.locales.entries.Lcz_Action))), index.h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
+        return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, index.h("div", { class: "d-flex align-items-center mb-2" }, index.h("div", { class: "p-0 m-0 mr-1" }, index.h("ir-icons", { name: "credit_card" })), index.h("h3", { class: 'm-0 p-0' }, locales_store.locales.entries.Lcz_PaymentOptions)), index.h("div", { class: "payment-table-container" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, locales_store.locales.entries.Lcz_PaymentMethod), index.h("th", { scope: "col" }, locales_store.locales.entries.Lcz_Status), index.h("th", { scope: "col", class: "actions-header" }, locales_store.locales.entries.Lcz_Action))), index.h("tbody", { class: "" }, (_a = this.paymentOptions) === null || _a === void 0 ? void 0 : _a.map(po => {
             if (po.code === '004') {
                 return null;
             }
@@ -976,7 +963,6 @@ exports.ir_icon = IrIcon;
 exports.ir_icons = IrIcons;
 exports.ir_input_text = IrInputText;
 exports.ir_interceptor = IrInterceptor;
-exports.ir_loading_screen = IrLoadingScreen;
 exports.ir_option_details = IrOptionDetails;
 exports.ir_payment_option = IrPaymentOption;
 exports.ir_select = IrSelect;
@@ -985,4 +971,4 @@ exports.ir_switch = IrSwitch;
 exports.ir_textarea = IrTextArea;
 exports.ir_toast = IrToast;
 
-//# sourceMappingURL=ir-button_14.cjs.entry.js.map
+//# sourceMappingURL=ir-button_13.cjs.entry.js.map
