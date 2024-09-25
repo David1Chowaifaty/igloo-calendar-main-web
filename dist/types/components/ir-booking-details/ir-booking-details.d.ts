@@ -46,10 +46,12 @@ export declare class IrBookingDetails {
     private roomService;
     private paymentService;
     private dialogRef;
+    private printingBaseUrl;
     componentDidLoad(): void;
     ticketChanged(): Promise<void>;
     setRoomsData(roomServiceResp: any): void;
     initializeApp(): Promise<void>;
+    private openPrinting;
     handleIconClick(e: any): void;
     handleEditSidebar(): void;
     handleResetExposedCancelationDueAmount(e: CustomEvent): Promise<void>;

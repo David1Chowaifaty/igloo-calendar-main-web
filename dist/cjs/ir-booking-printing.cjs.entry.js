@@ -5,8 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-d0d7c4d0.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-c20a8dc4.js');
-const booking = require('./booking-287b38fc.js');
-const booking_service = require('./booking.service-07f301d9.js');
+const booking_service = require('./booking.service-30d7a94d.js');
 const room_service = require('./room.service-cc9c0583.js');
 const axios = require('./axios-b86c5465.js');
 const locales_store = require('./locales.store-4301bbe8.js');
@@ -95,7 +94,7 @@ const IrBookingPrinting = class {
             //   throw new Error('Missing booking number');
             // }
             let countries;
-            const [property, languageTexts, booking$1, fetchedCountries] = await Promise.all([
+            const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
                 this.roomService.fetchData(this.propertyid, this.language),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
@@ -108,11 +107,11 @@ const IrBookingPrinting = class {
             this.property = property['My_Result'];
             // this.booking = booking;
             countries = fetchedCountries;
-            this.booking = booking$1;
+            this.booking = booking;
             this.setUserCountry(countries, this.booking.guest.country_id);
             this.currency = this.booking.currency.code;
             this.totalPersons = ((_a = this.booking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.booking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
-            this.totalNights = booking.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
+            this.totalNights = booking_service.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
         }
         catch (error) {
             console.error(error);
