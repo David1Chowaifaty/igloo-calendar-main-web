@@ -56,7 +56,8 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.paymentService = new PaymentService();
-        this.printingBaseUrl = 'https://bookingmystay.com/%1/printing?id=%2';
+        // private printingBaseUrl = 'https://bookingmystay.com/%1/printing?id=%2';
+        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
         this.language = '';
         this.ticket = '';
         this.bookingNumber = '';
