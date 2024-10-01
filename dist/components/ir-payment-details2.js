@@ -1,13 +1,14 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
-import { a as _formatDate, _ as _formatAmount } from './functions.js';
-import { B as BookingService } from './booking.service.js';
+import { _ as _formatDate, b as _formatAmount } from './functions.js';
+import { B as BookingService } from './booking.service2.js';
 import { h as hooks } from './moment.js';
 import { P as PaymentService } from './payment.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { c as colorVariants, d as defineCustomElement$2 } from './ir-icons2.js';
+import { c as colorVariants } from './icons.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-picker2.js';
+import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-modal2.js';
 
 const irPaymentDetailsCss = ".sm-margin-right.sc-ir-payment-details{margin-right:5px !important;background:#000}.action_icons.sc-ir-payment-details{width:60px}.w-60.sc-ir-payment-details{width:100px;padding:0 5px}.payments-height.sc-ir-payment-details{height:30px}.payment_date.sc-ir-payment-details{width:100px}.iframeHeight.sc-ir-payment-details{height:max-content;height:22.5rem}.designation.sc-ir-payment-details{width:120px}.total-cost-container.sc-ir-payment-details{background:#7cbebe;color:white;padding:0.5rem;border-radius:5px}.payment-actions.sc-ir-payment-details{display:flex;align-items:center;justify-content:center;height:100%;gap:0.5rem}";

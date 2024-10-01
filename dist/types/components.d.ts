@@ -545,6 +545,7 @@ export namespace Components {
     interface IrPaymentOption {
         "baseurl": string;
         "defaultStyles": boolean;
+        "hideLogs": boolean;
         "language": string;
         "propertyid": string;
         "ticket": string;
@@ -564,6 +565,9 @@ export namespace Components {
         "bookingNumber": string;
         "defaultPickupData": IBookingPickupInfo | null;
         "numberOfPersons": number;
+    }
+    interface IrPickupView {
+        "booking": Booking;
     }
     interface IrPopover {
         "irPopoverLeft": string;
@@ -630,6 +634,12 @@ export namespace Components {
     }
     interface IrSpan {
         "text": any;
+    }
+    interface IrSpinner {
+        "borderWidth": number;
+        "color": string;
+        "size": number;
+        "unit": 'px' | 'rem';
     }
     interface IrSwitch {
         "checked": boolean;
@@ -879,6 +889,10 @@ export interface IrPaymentActionsCustomEvent<T> extends CustomEvent<T> {
 export interface IrPaymentDetailsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPaymentDetailsElement;
+}
+export interface IrPaymentOptionCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPaymentOptionElement;
 }
 export interface IrPhoneInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1923,7 +1937,18 @@ declare global {
         prototype: HTMLIrPaymentDetailsElement;
         new (): HTMLIrPaymentDetailsElement;
     };
+    interface HTMLIrPaymentOptionElementEventMap {
+        "toast": IToast1;
+    }
     interface HTMLIrPaymentOptionElement extends Components.IrPaymentOption, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPaymentOptionElementEventMap>(type: K, listener: (this: HTMLIrPaymentOptionElement, ev: IrPaymentOptionCustomEvent<HTMLIrPaymentOptionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPaymentOptionElementEventMap>(type: K, listener: (this: HTMLIrPaymentOptionElement, ev: IrPaymentOptionCustomEvent<HTMLIrPaymentOptionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrPaymentOptionElement: {
         prototype: HTMLIrPaymentOptionElement;
@@ -1963,6 +1988,12 @@ declare global {
     var HTMLIrPickupElement: {
         prototype: HTMLIrPickupElement;
         new (): HTMLIrPickupElement;
+    };
+    interface HTMLIrPickupViewElement extends Components.IrPickupView, HTMLStencilElement {
+    }
+    var HTMLIrPickupViewElement: {
+        prototype: HTMLIrPickupViewElement;
+        new (): HTMLIrPickupViewElement;
     };
     interface HTMLIrPopoverElement extends Components.IrPopover, HTMLStencilElement {
     }
@@ -2046,6 +2077,12 @@ declare global {
     var HTMLIrSpanElement: {
         prototype: HTMLIrSpanElement;
         new (): HTMLIrSpanElement;
+    };
+    interface HTMLIrSpinnerElement extends Components.IrSpinner, HTMLStencilElement {
+    }
+    var HTMLIrSpinnerElement: {
+        prototype: HTMLIrSpinnerElement;
+        new (): HTMLIrSpinnerElement;
     };
     interface HTMLIrSwitchElementEventMap {
         "checkChange": boolean;
@@ -2200,12 +2237,14 @@ declare global {
         "ir-payment-option": HTMLIrPaymentOptionElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
         "ir-pickup": HTMLIrPickupElement;
+        "ir-pickup-view": HTMLIrPickupViewElement;
         "ir-popover": HTMLIrPopoverElement;
         "ir-room": HTMLIrRoomElement;
         "ir-room-nights": HTMLIrRoomNightsElement;
         "ir-select": HTMLIrSelectElement;
         "ir-sidebar": HTMLIrSidebarElement;
         "ir-span": HTMLIrSpanElement;
+        "ir-spinner": HTMLIrSpinnerElement;
         "ir-switch": HTMLIrSwitchElement;
         "ir-textarea": HTMLIrTextareaElement;
         "ir-title": HTMLIrTitleElement;
@@ -2836,7 +2875,9 @@ declare namespace LocalJSX {
     interface IrPaymentOption {
         "baseurl"?: string;
         "defaultStyles"?: boolean;
+        "hideLogs"?: boolean;
         "language"?: string;
+        "onToast"?: (event: IrPaymentOptionCustomEvent<IToast1>) => void;
         "propertyid"?: string;
         "ticket"?: string;
     }
@@ -2858,6 +2899,9 @@ declare namespace LocalJSX {
         "numberOfPersons"?: number;
         "onCloseModal"?: (event: IrPickupCustomEvent<null>) => void;
         "onResetBookingData"?: (event: IrPickupCustomEvent<null>) => void;
+    }
+    interface IrPickupView {
+        "booking"?: Booking;
     }
     interface IrPopover {
         "irPopoverLeft"?: string;
@@ -2930,6 +2974,12 @@ declare namespace LocalJSX {
     }
     interface IrSpan {
         "text"?: any;
+    }
+    interface IrSpinner {
+        "borderWidth"?: number;
+        "color"?: string;
+        "size"?: number;
+        "unit"?: 'px' | 'rem';
     }
     interface IrSwitch {
         "checked"?: boolean;
@@ -3050,12 +3100,14 @@ declare namespace LocalJSX {
         "ir-payment-option": IrPaymentOption;
         "ir-phone-input": IrPhoneInput;
         "ir-pickup": IrPickup;
+        "ir-pickup-view": IrPickupView;
         "ir-popover": IrPopover;
         "ir-room": IrRoom;
         "ir-room-nights": IrRoomNights;
         "ir-select": IrSelect;
         "ir-sidebar": IrSidebar;
         "ir-span": IrSpan;
+        "ir-spinner": IrSpinner;
         "ir-switch": IrSwitch;
         "ir-textarea": IrTextarea;
         "ir-title": IrTitle;
@@ -3135,12 +3187,14 @@ declare module "@stencil/core" {
             "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
+            "ir-pickup-view": LocalJSX.IrPickupView & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
             "ir-room": LocalJSX.IrRoom & JSXBase.HTMLAttributes<HTMLIrRoomElement>;
             "ir-room-nights": LocalJSX.IrRoomNights & JSXBase.HTMLAttributes<HTMLIrRoomNightsElement>;
             "ir-select": LocalJSX.IrSelect & JSXBase.HTMLAttributes<HTMLIrSelectElement>;
             "ir-sidebar": LocalJSX.IrSidebar & JSXBase.HTMLAttributes<HTMLIrSidebarElement>;
             "ir-span": LocalJSX.IrSpan & JSXBase.HTMLAttributes<HTMLIrSpanElement>;
+            "ir-spinner": LocalJSX.IrSpinner & JSXBase.HTMLAttributes<HTMLIrSpinnerElement>;
             "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;

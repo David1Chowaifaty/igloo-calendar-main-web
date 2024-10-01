@@ -566,6 +566,24 @@ export class IglBookingEvent {
     updateData(data) {
         this.updateEventData.emit(data);
     }
+    calculateHoverPosition() {
+        const barRect = this.element.getBoundingClientRect();
+        const barWidth = barRect.width;
+        const barLeft = barRect.left;
+        const screenWidth = window.innerWidth;
+        let hoverLeft;
+        if (barWidth <= screenWidth) {
+            hoverLeft = barWidth / 2;
+        }
+        else {
+            hoverLeft = screenWidth / 2 - barLeft;
+        }
+        return {
+            position: 'absolute',
+            left: `${hoverLeft}px`,
+            transform: 'translateX(-50%)',
+        };
+    }
     renderEventBookingNumber() {
         if (this.bookingEvent.STATUS === 'TEMP-EVENT' || this.bookingEvent.ID === 'NEW_TEMP_EVENT') {
             return '';
@@ -579,6 +597,32 @@ export class IglBookingEvent {
         return ` - ${this.bookingEvent.BOOKING_NUMBER}`;
     }
     showEventInfo(showInfo) {
+        // if (this.isHighlightEventType() || this.bookingEvent.hideBubble) {
+        //   return null;
+        // }
+        // if (showInfo) {
+        //   // Calculate which side we need to show the bubble, top side or bottom.
+        //   let bodyContainer = document.querySelector('.calendarScrollContainer');
+        //   let bodyContainerRect: { [key: string]: any } = bodyContainer.getBoundingClientRect();
+        //   let elementRect: { [key: string]: any } = this.element.getBoundingClientRect();
+        //   let midPoint = bodyContainerRect.height / 2 + bodyContainerRect.top + 50;
+        //   // let topDifference = elementRect.top - bodyContainerRect.top;
+        //   // let bottomDifference = bodyContainerRect.bottom - elementRect.bottom;
+        //   if (elementRect.top < midPoint) {
+        //     this.bubbleInfoTopSide = false;
+        //   } else {
+        //     this.bubbleInfoTopSide = true;
+        //   }
+        // }
+        // // showInfo = true;
+        // if (showInfo) {
+        //   this.hideBubbleInfo.emit({
+        //     key: 'hidePopup',
+        //     currentInfoBubbleId: this.getBookingId(),
+        //   });
+        // }
+        // this.showInfoPopup = showInfo;
+        // this.renderAgain();
         if (this.isHighlightEventType() || this.bookingEvent.hideBubble) {
             return null;
         }
@@ -588,8 +632,6 @@ export class IglBookingEvent {
             let bodyContainerRect = bodyContainer.getBoundingClientRect();
             let elementRect = this.element.getBoundingClientRect();
             let midPoint = bodyContainerRect.height / 2 + bodyContainerRect.top + 50;
-            // let topDifference = elementRect.top - bodyContainerRect.top;
-            // let bottomDifference = bodyContainerRect.bottom - elementRect.bottom;
             if (elementRect.top < midPoint) {
                 this.bubbleInfoTopSide = false;
             }
@@ -597,7 +639,6 @@ export class IglBookingEvent {
                 this.bubbleInfoTopSide = true;
             }
         }
-        // showInfo = true;
         if (showInfo) {
             this.hideBubbleInfo.emit({
                 key: 'hidePopup',
@@ -613,15 +654,15 @@ export class IglBookingEvent {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '72b7c1f85387982e1134d53f72c4a54afbddd895', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'f42081d9fee9022beeb68ab480771a58c73e06dd', class: `bookingEventBase ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '615fd22fc31a55d827137b5ff720e5a366b1ed7b', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'ea4ec22d7256a58bcf6d69bc8c97549339a7cc3d', class: `bookingEventBase ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '19eeaf522639272305843a72e3abd90afd3de902', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'a329dc0e976574ebab5a038c45f953ea107ef8d2' }, h("div", { key: '122d84cde785b1df0da38ad6582ae70f96e8e917', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '9e0d0f36a3e6a4c07a29521915e0e566e14780e4', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-              ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide })) : null));
+                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '9ddb31a68a69945804a311d5336a735b3e96df5a', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'cc001fa68f154a9af91ab46a40b3470373aa3640' }, h("div", { key: '78d5ef8e83dd137d831886bb25e1ca5c0abb1d93', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '538e1e87c23eabd61dd5f97a2110e44ac44baef4', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+              ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }

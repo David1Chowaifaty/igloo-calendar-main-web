@@ -1,13 +1,18 @@
 import { PaymentOption } from "../../models/payment-options";
+import { EventEmitter } from '../../stencil-public-runtime';
+import { IToast } from '../ir-toast/toast';
 export declare class IrPaymentOption {
     baseurl: string;
     propertyid: string;
     ticket: string;
     language: string;
     defaultStyles: boolean;
+    hideLogs: boolean;
     paymentOptions: PaymentOption[];
     isLoading: boolean;
     selectedOption: PaymentOption | null;
+    initialized: boolean;
+    toast: EventEmitter<IToast>;
     private paymentOptionService;
     private roomService;
     private propertyOptionsById;
@@ -16,6 +21,7 @@ export declare class IrPaymentOption {
     handleTokenChange(newValue: string, oldValue: string): void;
     init(): void;
     handleCloseModal(e: CustomEvent): void;
+    private log;
     private closeModal;
     private fetchData;
     private initServices;

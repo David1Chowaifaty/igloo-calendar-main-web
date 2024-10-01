@@ -1,16 +1,78 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-2ef748c7.js';
-import { B as BookingService, a as calendar_dates, t as transformNewBLockedRooms, b as transformNewBooking, d as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking.service-39e55055.js';
-import { j as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, k as getNextDay, l as addTwoMonthToDate, m as convertDMYToISO, n as computeEndDate } from './utils-d22fb9ff.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-d2ec0a5d.js';
+import { T as Token } from './Token-be23fd51.js';
+import { c as calendar_data } from './calendar-data-956fa3f1.js';
+import { l as locales } from './locales.store-91c051f0.js';
 import { a as axios } from './axios-ab377903.js';
-import { E as EventsService } from './events.service-3599e788.js';
+import { B as BookingService } from './booking.service-16847df8.js';
+import { f as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, g as getNextDay, a as addTwoMonthToDate, c as convertDMYToISO, b as computeEndDate } from './utils-f67d53ec.js';
+import { E as EventsService } from './events.service-d54b1295.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-80c33133.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import { c as calendar_data } from './calendar-data-666acc1f.js';
-import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-e5224335.js';
-import './Token-be23fd51.js';
-import './index-1d7b1ff2.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-cffb3161.js';
+import { t as transformNewBLockedRooms, a as transformNewBooking, b as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-5899a14e.js';
+import { c as calendar_dates } from './calendar-dates.store-26a46226.js';
+import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store-001b6c01.js';
+import './index-a32c4342.js';
+
+class RoomService extends Token {
+    async fetchData(id, language, is_backend = false) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, { id, language, is_backend });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                const results = data.My_Result;
+                calendar_data.adultChildConstraints = results.adult_child_constraints;
+                calendar_data.allowedBookingSources = results.allowed_booking_sources;
+                calendar_data.allowed_payment_methods = results.allowed_booking_methods;
+                calendar_data.currency = results.currency;
+                calendar_data.is_vacation_rental = results.is_vacation_rental;
+                calendar_data.pickup_service = results.pickup_service;
+                calendar_data.max_nights = results.max_nights;
+                calendar_data.roomsInfo = results.roomtypes;
+                calendar_data.taxes = results.taxes;
+                calendar_data.id = results.id;
+                calendar_data.country = results.country;
+                calendar_data.name = results.name;
+                calendar_data.tax_statement = results.tax_statement;
+                calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
+                calendar_data.is_pms_enabled = results.is_pms_enabled;
+                return data;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async fetchLanguage(code, sections = ['_PMS_FRONT']) {
+        try {
+            const token = this.getToken();
+            if (token !== null) {
+                const { data } = await axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code, sections });
+                if (data.ExceptionMsg !== '') {
+                    throw new Error(data.ExceptionMsg);
+                }
+                let entries = this.transformArrayToObject(data.My_Result.entries);
+                locales.entries = Object.assign(Object.assign({}, locales.entries), entries);
+                locales.direction = data.My_Result.direction;
+                return { entries, direction: data.My_Result.direction };
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    transformArrayToObject(data) {
+        let object = {};
+        for (const d of data) {
+            object[d.code] = d.description;
+        }
+        return object;
+    }
+}
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -211,6 +273,7 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
+    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -270,14 +333,15 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* State.READ_HEADER */;
+    let state = 0 /* READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
+    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* State.READ_HEADER */) {
+                if (state === 0 /* READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -285,24 +349,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* State.READ_PAYLOAD */;
+                        state = 3 /* READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
-                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -315,7 +379,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -323,7 +387,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* State.READ_HEADER */;
+                    state = 0 /* READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);

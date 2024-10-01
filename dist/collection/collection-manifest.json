@@ -28,6 +28,7 @@
     "components/ir-booking-details/ir-payment-details/ir-payment-details.js",
     "components/ir-booking-details/ir-payment-details/ir-payment-actions/ir-payment-actions.js",
     "components/ir-booking-details/ir-pickup/ir-pickup.js",
+    "components/ir-booking-details/ir-pickup-view/ir-pickup-view.js",
     "components/ir-modal/ir-modal.js",
     "components/ir-booking-details/ir-room/ir-room.js",
     "components/ir-booking-extra-note/ir-booking-extra-note.js",
@@ -78,11 +79,12 @@
     "components/ir-toast/ir-toast.js",
     "components/ir-tooltip/ir-tooltip.js",
     "components/ota-label/ota-label.js",
-    "components/ui/ir-icons/ir-icons.js"
+    "components/ui/ir-icons/ir-icons.js",
+    "components/ui/ir-spinner/ir-spinner.js"
   ],
   "compiler": {
     "name": "@stencil/core",
-    "version": "4.19.2",
+    "version": "4.18.3",
     "typescriptVersion": "5.4.5"
   },
   "collections": [],
