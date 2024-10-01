@@ -81,6 +81,7 @@ export class IrCheckoutPage {
         if (!this.validateUserForm() || !this.validateBookingDetails() || !this.validatePickupForm() || !this.validatePayment() || this.validatePolicyAcceptance()) {
             return;
         }
+        // alert('do booking');
         await this.processBooking();
     }
     validatePolicyAcceptance() {
@@ -92,15 +93,15 @@ export class IrCheckoutPage {
     }
     validatePayment() {
         var _a, _b, _c, _d, _e, _f;
-        if (this.prepaymentAmount === 0) {
-            return true;
-        }
         const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
         this.selectedPaymentMethod = currentPayment;
-        if (!currentPayment) {
+        if (!currentPayment && this.prepaymentAmount > 0) {
             return false;
         }
-        if (currentPayment.is_payment_gateway || currentPayment.code === '000' || currentPayment.code === '005') {
+        if (!currentPayment && this.prepaymentAmount === 0) {
+            return true;
+        }
+        if ((currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.is_payment_gateway) || (currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.code) === '000' || (currentPayment === null || currentPayment === void 0 ? void 0 : currentPayment.code) === '005') {
             return true;
         }
         try {
@@ -118,7 +119,10 @@ export class IrCheckoutPage {
         }
         catch (error) {
             if (error instanceof ZodError) {
-                console.log(error.issues);
+                // console.log(error.issues);
+                // if (error.issues.length === 4 && this.prepaymentAmount === 0) {
+                //   return true;
+                // }
                 this.handleError('payment', error);
             }
             return false;
@@ -189,7 +193,7 @@ export class IrCheckoutPage {
             if (conversionTag && conversionTag.value) {
                 this.modifyConversionTag(conversionTag.value);
             }
-            if (!this.selectedPaymentMethod || !((_b = this.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.is_payment_gateway)) {
+            if (!this.selectedPaymentMethod || !((_b = this.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.is_payment_gateway) || this.prepaymentAmount === 0) {
                 app_store.invoice = {
                     email: booking_store.booking.guest.email,
                     booking_number: booking_store.booking.booking_nbr,

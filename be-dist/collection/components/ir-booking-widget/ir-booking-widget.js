@@ -43,6 +43,7 @@ export class IrBookingWidget {
             currency_id: 'usd',
         };
         this.propertyService.setToken(this.token);
+        this.commonService.setToken(this.token);
         this.initProperty();
     }
     componentDidLoad() {
@@ -62,12 +63,13 @@ export class IrBookingWidget {
                     aname: this.p,
                     perma_link: this.perma_link,
                 }),
+                this.commonService.getExposedLanguage(),
                 this.propertyService.getExposedNonBookableNights({
                     porperty_id: this.propertyId,
                     from_date: format(new Date(), 'yyyy-MM-dd'),
                     to_date: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
                     perma_link: this.perma_link,
-                    aname: this.p
+                    aname: this.p,
                 }),
             ]);
         }
@@ -126,14 +128,14 @@ export class IrBookingWidget {
         if (this.isLoading) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { allowFlip: false, class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Fragment, null, h("div", { class: "booking-widget-container", style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { autoAdjust: false, allowFlip: false, class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen) {
                     if (!this.dates.to_date && this.dates.from_date) {
                         this.dates = Object.assign(Object.assign({}, this.dates), { to_date: addDays(this.dates.from_date, 1) });
                     }
                 }
-            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { dateModifiers: this.getDateModifiers(), minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: 5, onDateChange: e => {
+            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4  md:p-6 " }, h("ir-date-range", { dateModifiers: this.getDateModifiers(), minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: 5, onDateChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { end, start } = e.detail;
@@ -144,7 +146,7 @@ export class IrBookingWidget {
                     from_date: start,
                     to_date: end,
                 };
-            } }))), h("ir-popover", { allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto' }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.toggleVisibility() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
+            } }))), h("ir-popover", { autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto' }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.toggleVisibility() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
     }
     static get is() { return "ir-widget"; }
     static get encapsulation() { return "shadow"; }

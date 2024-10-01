@@ -24,12 +24,12 @@ export class IrDatePopup {
         return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: '09b97e9afa736ba83765e365cf42ead35cd40f66' }, h("ir-popover", { key: '459a59be8623ae5fe0e4a354dd5b09f33ad0e00f', showCloseButton: false, placement: "auto", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Host, { key: '09b97e9afa736ba83765e365cf42ead35cd40f66' }, h("ir-popover", { key: '325551e45ffc06a42a784e3655f5bd5b3b19373d', showCloseButton: false, placement: "bottom-start", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
                     this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
                 }
-            } }, this.dateTrigger(), h("div", { key: '19929910701034d762d5254285a9acb794bec188', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: 'ec2bf5237005fddd814f5b8217d32f4d619f7eee', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: '94b4b911ec0037bf100b93cb95f7787b579b7975', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: 'a0419c5fc9c23c12cbf59c66b8dc6c4524917192', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: 5, minDate: this.minDate })))));
     }
     getDateModifiers() {
         var _a;

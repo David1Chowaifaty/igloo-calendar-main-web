@@ -83,10 +83,10 @@ export function getUserPrefernce(lang = undefined) {
     }
     else {
         updateUserPreference({
-            language_id: lang || 'en',
+            language_id: (lang === null || lang === void 0 ? void 0 : lang.toLowerCase()) || 'en',
         });
-        if (lang === 'ar') {
-            changeLocale('RTL', matchLocale(lang));
+        if ((lang === null || lang === void 0 ? void 0 : lang.toLowerCase()) === 'ar') {
+            changeLocale('RTL', matchLocale(lang === null || lang === void 0 ? void 0 : lang.toLowerCase()));
         }
     }
 }
@@ -244,6 +244,37 @@ export function detectCardType(value) {
     }
     else {
         return '';
+    }
+}
+/**
+ * Utility to modify query string parameters.
+ *
+ * @param param - The query parameter key to modify
+ * @param value - The value to set for the query parameter. If null, the parameter will be removed.
+ * @param options - Options to control whether the page should reload or replace the current history state.
+ */
+export function modifyQueryParam(param, value, options = { reload: false, replaceState: false }) {
+    if (!app_store.app_data.origin || app_store.app_data.origin !== 'be') {
+        return;
+    }
+    const url = new URL(window.location.href);
+    if (value === null) {
+        url.searchParams.delete(param); // Remove the query parameter
+    }
+    else {
+        url.searchParams.set(param, value); // Add or update the query parameter
+    }
+    if (options.reload) {
+        // Reload the page by updating the href (replaces the full URL)
+        window.location.href = url.toString();
+    }
+    else if (options.replaceState) {
+        // Use replaceState to update the URL without adding a new entry in the history
+        history.replaceState(null, '', url.toString());
+    }
+    else {
+        // Use pushState to update the URL without reloading and add an entry in the history
+        history.pushState(null, '', url.toString());
     }
 }
 //# sourceMappingURL=utils.js.map

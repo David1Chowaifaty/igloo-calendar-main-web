@@ -126,6 +126,7 @@ export class PropertyHelpers {
             if (!newRoomtype) {
                 return updatedRoomtypes;
             }
+            console.log('new roomtypes', newRoomtypes);
             const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: this.updateRatePlan(rt.rateplans, newRoomtype) });
             updatedRoomtypes.push(updatedRoomtype);
             return updatedRoomtypes;
@@ -159,12 +160,13 @@ export class PropertyHelpers {
     updateRatePlan(ratePlans, newRoomtype) {
         const agentExists = !!booking_store.bookingAvailabilityParams.agent;
         return ratePlans.reduce((updatedRatePlans, rp) => {
-            var _a;
-            const newRatePlan = agentExists ? (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
-            if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+            var _a, _b;
+            const newRP = (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRP => newRP.id === rp.id);
+            const newRatePlan = agentExists ? (_b = newRoomtype.rateplans) === null || _b === void 0 ? void 0 : _b.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
+            if (!newRatePlan || !newRP || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                 return updatedRatePlans;
             }
-            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: agentExists ? newRatePlan.variations : rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { short_name: newRP.short_name, is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: agentExists ? newRatePlan.variations : rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
             return updatedRatePlans;
         }, []);
     }

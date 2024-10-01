@@ -32,6 +32,7 @@ export declare class PropertyService extends Token {
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;
+        currency: string;
     }, withExtras?: boolean): Promise<Booking>;
     fetchSetupEntries(): Promise<ISetupEntries>;
     private filterRooms;

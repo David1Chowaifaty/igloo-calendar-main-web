@@ -40,15 +40,13 @@ class CommonService extends Token {
             throw new Error(error);
         }
     }
-    async getUserDefaultCountry() {
+    async getUserDefaultCountry(params) {
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
-            const { data } = await axios.post(`/Get_Country_By_IP?Ticket=${token}`, {
-                IP: '',
-            });
+            const { data } = await axios.post(`/Get_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -59,16 +57,13 @@ class CommonService extends Token {
             throw new Error(error);
         }
     }
-    async getExposedCountryByIp() {
+    async getExposedCountryByIp(params) {
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
-            const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
-                IP: '',
-                lang: 'en',
-            });
+            const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '', lang: 'en' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

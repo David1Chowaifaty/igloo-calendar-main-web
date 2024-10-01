@@ -21,8 +21,8 @@ export declare class IrBookingEngine {
     stag: string | null;
     property: IExposedProperty | null;
     source: TSource | null;
-    version: string;
     hideGoogleSignIn: boolean;
+    origin: string | null;
     coupon: string;
     loyalty: boolean;
     agent_code: string;
@@ -35,6 +35,7 @@ export declare class IrBookingEngine {
         screen: 'bookings' | 'booking-details';
         params: unknown;
     };
+    private version;
     private baseUrl;
     private commonService;
     private propertyService;

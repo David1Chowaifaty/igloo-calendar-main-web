@@ -20,24 +20,23 @@ export class IrPaymentView {
         }
     }
     handlePrePaymentAmount(newValue, oldValue) {
-        if (newValue === 0) {
-            this.selectedPaymentMethod = null;
-        }
-        else if (newValue !== oldValue) {
+        if (newValue !== oldValue) {
             this.setPaymentMethod();
         }
     }
     setPaymentMethod() {
         var _a;
-        if (this.prepaymentAmount === 0) {
-            return;
-        }
         const paymentMethods = ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.filter(pm => pm.is_active)) || [];
         let selectedMethodCode = null;
+        if ((this.prepaymentAmount === 0 && paymentMethods.length === 1 && paymentMethods[0].is_payment_gateway) ||
+            (this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway))) {
+            return null;
+        }
         if (paymentMethods.length > 0) {
             const [firstMethod, secondMethod] = paymentMethods;
             selectedMethodCode = firstMethod.code === '000' && secondMethod ? secondMethod.code : firstMethod.code;
         }
+        console.log('selectedMethodCode', selectedMethodCode);
         this.selectedPaymentMethod = selectedMethodCode;
     }
     getExpiryMask() {
@@ -138,7 +137,7 @@ export class IrPaymentView {
                         target.removeAttribute('data-state');
                 }, "data-state": ((_e = this.errors) === null || _e === void 0 ? void 0 : _e.cvc) ? 'error' : '', label: localizedWords.entries.Lcz_SecurityCode, maxlength: 4, tooltip: localizedWords.entries.Lcz_SecurityCodeHint, placeholder: "", onTextChanged: e => {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cvc: e.detail });
-                }, class: "w-full", rightIcon: true }, h("svg", { slot: "right-icon", width: "20", height: "16", viewBox: "0 0 20 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M0 3C0 1.34315 1.34315 0 3 0H17C18.6569 0 20 1.34315 20 3V13C20 14.6569 18.6569 16 17 16H3C1.34315 16 0 14.6569 0 13V3Z", fill: "#EAECF0" }), h("path", { d: "M2 8C2 7.44772 2.44772 7 3 7H17C17.5523 7 18 7.44772 18 8C18 8.55228 17.5523 9 17 9H3C2.44772 9 2 8.55228 2 8Z", fill: "#8B8B8B" }), h("path", { d: "M2 4C2 3.44772 2.44772 3 3 3H5C5.55228 3 6 3.44772 6 4C6 4.55228 5.55228 5 5 5H3C2.44772 5 2 4.55228 2 4Z", fill: "white" }), h("path", { d: "M10 11C10 10.4477 10.4477 10 11 10H15C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14H11C10.4477 14 10 13.5523 10 13V11Z", fill: "#FE4F42" }), h("path", { d: "M11 11H15V13H11V11Z", fill: "#EAECF0" }))))))));
+                }, class: "w-full", rightIcon: true }, h("svg", { class: 'cursor-pointer', slot: "right-icon", width: "20", height: "16", viewBox: "0 0 20 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("title", null, localizedWords.entries.Lcz_SecurityCodeHint), h("path", { d: "M0 3C0 1.34315 1.34315 0 3 0H17C18.6569 0 20 1.34315 20 3V13C20 14.6569 18.6569 16 17 16H3C1.34315 16 0 14.6569 0 13V3Z", fill: "#EAECF0" }), h("path", { d: "M2 8C2 7.44772 2.44772 7 3 7H17C17.5523 7 18 7.44772 18 8C18 8.55228 17.5523 9 17 9H3C2.44772 9 2 8.55228 2 8Z", fill: "#8B8B8B" }), h("path", { d: "M2 4C2 3.44772 2.44772 3 3 3H5C5.55228 3 6 3.44772 6 4C6 4.55228 5.55228 5 5 5H3C2.44772 5 2 4.55228 2 4Z", fill: "white" }), h("path", { d: "M10 11C10 10.4477 10.4477 10 11 10H15C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14H11C10.4477 14 10 13.5523 10 13V11Z", fill: "#FE4F42" }), h("path", { d: "M11 11H15V13H11V11Z", fill: "#EAECF0" }))))))));
         if (this.selectedPaymentMethod === '005') {
             return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_g = (_f = method.localizables) === null || _f === void 0 ? void 0 : _f.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _g === void 0 ? void 0 : _g.description) ||
                     ((_j = (_h = method.localizables) === null || _h === void 0 ? void 0 : _h.find(d => d.language.code.toLowerCase() === 'en')) === null || _j === void 0 ? void 0 : _j.description) }))));
@@ -152,32 +151,57 @@ export class IrPaymentView {
         checkout_store.payment.code = payment_code;
     }
     renderPaymentOptions() {
-        var _a;
-        const paymentLength = app_store.property.allowed_payment_methods.filter(p => p.is_active).length;
-        if (paymentLength === 0 || this.prepaymentAmount === 0 || (paymentLength === 1 && this.selectedPaymentMethod === '000')) {
+        var _a, _b, _c, _d;
+        const paymentMethods = (_a = app_store.property.allowed_payment_methods.filter(p => p.is_active)) !== null && _a !== void 0 ? _a : [];
+        const paymentLength = paymentMethods.length;
+        if ((this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway)) || paymentLength === 0) {
             return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
         }
+        if (paymentLength === 1 && paymentMethods[0].is_payment_gateway) {
+            return h("p", { class: 'text-center' }, `${(_b = localizedWords.entries[`Lcz_Pay_${paymentMethods[0].code}`]) !== null && _b !== void 0 ? _b : localizedWords.entries.Lcz_PayByCard}`);
+        }
         if (paymentLength > 1) {
-            return (h("ir-select", { variant: "double-line", value: this.selectedPaymentMethod.toString(), label: localizedWords.entries.Lcz_SelectYourPaymentMethod, data: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.map(apm => {
-                    if (!apm.is_active) {
-                        return null;
-                    }
-                    return {
-                        id: apm.code,
-                        value: apm.is_payment_gateway ? `${localizedWords.entries.Lcz_CardPaymentWith} ${apm.description}` : apm.description,
-                    };
-                }).filter(p => p !== null), onValueChange: this.handlePaymentSelectionChange.bind(this) }));
+            const filteredMap = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.allowed_payment_methods.map(apm => {
+                var _a;
+                if (!apm.is_active) {
+                    return null;
+                }
+                if (apm.code === '000') {
+                    return null;
+                }
+                if (apm.is_payment_gateway && this.prepaymentAmount === 0) {
+                    return null;
+                }
+                return {
+                    id: apm.code,
+                    value: apm.is_payment_gateway
+                        ? `${(_a = localizedWords.entries[`Lcz_Pay_${apm.code}`]) !== null && _a !== void 0 ? _a : localizedWords.entries.Lcz_PayByCard}`
+                        : apm.code === '001' || apm.code === '004'
+                            ? localizedWords.entries.Lcz_SecureByCard
+                            : apm.description,
+                };
+            }).filter(p => p !== null);
+            if (filteredMap.length === 0) {
+                return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
+            }
+            else if (filteredMap.length === 1 && filteredMap[0].id === '005') {
+                return null;
+            }
+            return (h("ir-select", { variant: "double-line", value: this.selectedPaymentMethod.toString(), label: localizedWords.entries.Lcz_SelectYourPaymentMethod, data: filteredMap, onValueChange: this.handlePaymentSelectionChange.bind(this) }));
         }
         const paymentOption = app_store.property.allowed_payment_methods[0];
+        if (this.prepaymentAmount === 0 && paymentOption.is_payment_gateway) {
+            return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
+        }
         if (paymentOption.is_payment_gateway) {
-            return h("p", { class: "text-center" }, paymentOption.description, " ");
+            return h("p", { class: "text-center" }, `${(_d = localizedWords.entries[`Lcz_Pay_${paymentOption.code}`]) !== null && _d !== void 0 ? _d : localizedWords.entries.Lcz_PayByCard}`, " ");
         }
         return null;
     }
     render() {
         var _a, _b;
-        return (h("div", { key: '70ae52cd2a3c14a12dd1714f97bb10d58ad89762', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.prepaymentAmount > 0 && this.renderPaymentMethod(), this.cardType !== '' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '561d371db3be30b04817e6fb2df2e92baf37b0a1', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+        return (h("div", { key: 'f3062de863380da259137402d05ba4231ec9748e', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.renderPaymentOptions(), this.renderPaymentMethod(), this.cardType !== '' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '01f5103266be6c2d5c6ddeac78ada75caca868a7', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
             _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }

@@ -10,6 +10,7 @@ export type TLocaleLocalizedWordsEntries = {
     Lcz_Adult: string;
     Lcz_Adults: string;
     Lcz_Age: string;
+    Lcz_NoAvailability: string;
     Lcz_Ages: string;
     Lcz_AlreadyHaveAnAccount: string;
     Lcz_Amenities: string;
@@ -172,6 +173,8 @@ export type TLocaleLocalizedWordsEntries = {
     Lcz_CardTypeNotSupport: string;
     Lcz_MLS_Alert: string;
     Lcz_NoDepositRequired: string;
+    Lcz_SecureByCard: string;
+    Lcz_PayByCard: string;
 };
 export declare const localizedWords: ILocale, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<ILocale>;
 export default localizedWords;

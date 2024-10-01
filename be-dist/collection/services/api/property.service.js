@@ -41,6 +41,22 @@ export class PropertyService extends Token {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
+        // } else {
+        //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
+        //   booking_store.roomTypes = result.My_Result.roomtypes?.map(rt => {
+        //     const selectedRt = oldBookingStoreRoomTypes.find(r => r.id === rt.id);
+        //     return {
+        //       ...rt,
+        //       rateplans: rt.rateplans.map(rp => {
+        //         const currentRp = selectedRt.rateplans.find(s => s.id === rp.id);
+        //         if (currentRp) {
+        //           return { ...currentRp, short_name: rp.short_name };
+        //         }
+        //         return null;
+        //       }),
+        //     };
+        //   });
+        // }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -92,6 +108,7 @@ export class PropertyService extends Token {
                         key: 'prepayment_amount',
                         value: '',
                     },
+                    { key: 'payment_code', value: '' },
                 ]
                 : null }));
         const result = data;
@@ -135,7 +152,6 @@ export class PropertyService extends Token {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a;
                         const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
@@ -163,18 +179,7 @@ export class PropertyService extends Token {
                                 address: null,
                                 dob: null,
                                 subscribe_to_news_letter: null,
-                                cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
-                                    ? () => {
-                                        const payment = checkout_store.payment;
-                                        return {
-                                            nbr: payment === null || payment === void 0 ? void 0 : payment.cardNumber,
-                                            holder_name: payment === null || payment === void 0 ? void 0 : payment.cardHolderName,
-                                            expiry_month: payment === null || payment === void 0 ? void 0 : payment.expiry_month.split('/')[0],
-                                            expiry_year: payment === null || payment === void 0 ? void 0 : payment.expiry_year.split('/')[1],
-                                            cvc: (payment === null || payment === void 0 ? void 0 : payment.code) === '001' ? payment.cvc : null,
-                                        };
-                                    }
-                                    : null,
+                                cci: null,
                             },
                         });
                     });
@@ -200,13 +205,14 @@ export class PropertyService extends Token {
         }
     }
     async bookUser() {
-        var _a;
+        var _a, _b, _c, _d, _e, _f;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
+            console.log('payment', checkout_store.payment);
             let guest = {
                 email: checkout_store.userFormData.email,
                 first_name: checkout_store.userFormData.firstName,
@@ -218,7 +224,15 @@ export class PropertyService extends Token {
                 country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
-                cci: null,
+                cci: ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code) === '001'
+                    ? {
+                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber.replace(/ /g, ''),
+                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
+                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
+                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
+                        cvc: checkout_store.payment.cvc,
+                    }
+                    : null,
             };
             const body = {
                 assign_units: false,
@@ -227,7 +241,7 @@ export class PropertyService extends Token {
                 is_direct: true,
                 agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_a = booking_store.bookingAvailabilityParams.coupon) !== null && _a !== void 0 ? _a : null,
+                promo_key: (_f = booking_store.bookingAvailabilityParams.coupon) !== null && _f !== void 0 ? _f : null,
                 booking: {
                     booking_nbr: '',
                     from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -256,9 +270,14 @@ export class PropertyService extends Token {
                             value: prePaymentAmount,
                         }
                         : null,
+                    {
+                        key: 'selected_currency',
+                        value: app_store.userPreferences.currency_id,
+                    },
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
+            console.log('body');
             const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);

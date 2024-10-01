@@ -26,10 +26,15 @@ export class IrUserProfile {
         this.user = Object.assign({}, this.user_data);
     }
     async fetchData() {
+        var _a;
         if (this.be) {
             return;
         }
-        await this.commonService.getExposedCountryByIp();
+        await this.commonService.getExposedCountryByIp({
+            id: (_a = app_store.app_data.property_id) === null || _a === void 0 ? void 0 : _a.toString(),
+            aname: app_store.app_data.aName,
+            perma_link: app_store.app_data.perma_link,
+        });
     }
     updateUserData(key, value) {
         console.log(key, value);

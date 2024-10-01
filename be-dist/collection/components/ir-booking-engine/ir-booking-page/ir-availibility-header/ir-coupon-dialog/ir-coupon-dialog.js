@@ -32,13 +32,17 @@ export class IrCouponDialog {
         if (!showCoupon || booking_store.bookingAvailabilityParams.loyalty) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "coupon-container" }, h("ir-button", { class: cn('coupon-button', {
+        if (!!booking_store.bookingAvailabilityParams.coupon) {
+            return (h("div", { class: "coupon-applied" }, h("p", { onClick: this.removeCoupon.bind(this) }, localizedWords.entries.Lcz_DiscountApplied), h("ir-button", { "aria-label": "remove coupon", iconName: "xmark", variants: "icon", class: "icon-remove", svgClassName: "text-[hsl(var(--brand-600))]", onButtonClick: this.removeCoupon.bind(this) })));
+        }
+        return (h(Fragment, null, h("ir-button", { class: cn('coupon-button', {
                 'coupon-button-wide': !!booking_store.bookingAvailabilityParams.coupon,
-            }), onButtonClick: () => this.dialogRef.openModal(), variants: "outline", label: localizedWords.entries.Lcz_HaveCoupon, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "coupon" })), !!booking_store.bookingAvailabilityParams.coupon && (h("div", { class: "coupon-applied" }, h("p", { onClick: this.removeCoupon.bind(this) }, localizedWords.entries.Lcz_DiscountApplied), h("ir-button", { "aria-label": "remove coupon", iconName: "xmark", variants: "icon", class: "icon-remove", svgClassName: "text-[hsl(var(--brand-600))]", onButtonClick: this.removeCoupon.bind(this) })))), h("ir-dialog", { ref: el => (this.dialogRef = el), onOpenChange: e => {
+            }), onButtonClick: () => this.dialogRef.openModal(), variants: "outline", label: localizedWords.entries.Lcz_HaveCoupon, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "coupon" })), h("ir-dialog", { ref: el => (this.dialogRef = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     this.coupon = '';
+                    this.validationMessage = null;
                 }
             } }, h("form", { onSubmit: e => {
                 e.preventDefault();

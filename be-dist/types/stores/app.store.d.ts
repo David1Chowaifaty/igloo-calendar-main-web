@@ -43,6 +43,7 @@ export interface IAppStore {
         isAgentMode?: boolean;
         aName: string;
         perma_link: string;
+        origin: string | null;
     };
     property: IExposedProperty;
     setup_entries: {

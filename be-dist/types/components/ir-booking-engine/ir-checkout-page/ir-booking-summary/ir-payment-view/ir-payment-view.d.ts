@@ -5,7 +5,7 @@ export declare class IrPaymentView {
     selectedPaymentMethod: string;
     cardType: string;
     componentWillLoad(): void;
-    handlePrePaymentAmount(newValue: any, oldValue: any): void;
+    handlePrePaymentAmount(newValue: number, oldValue: number): void;
     private setPaymentMethod;
     private getExpiryMask;
     renderPaymentMethod(): any;

@@ -50229,6 +50229,18 @@ function setSelectedVariation(lastVariation, variations, currentVariation) {
     }
     return currentVariation;
 }
+// function setSelectedVariation(lastVariation: Variation, variations: Variation[], currentVariation: ISelectedVariation): ISelectedVariation {
+//   if (currentVariation?.state === 'default' || !currentVariation || booking_store.resetBooking) {
+//     const variationWithAmount = variations.find(v => v.amount > 0);
+//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
+//   }
+//   const currentVariationIdx = variations.findIndex(v => v.adult_child_offering === currentVariation.variation.adult_child_offering);
+//   if (currentVariationIdx === -1) {
+//     const variationWithAmount = variations.find(v => v.amount > 0);
+//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
+//   }
+//   return currentVariation;
+// }
 onRoomTypeChange('roomTypes', (newValue) => {
     // console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
@@ -50345,7 +50357,10 @@ function calculateTotalCost(gross = false) {
             if (isPrePayment) {
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
-            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation[gross ? 'amount_gross' : 'amount']), 0);
+            return ratePlan.checkoutVariations.reduce((sum, variation) => {
+                console.log(gross, variation['amount_gross'], variation['amount'], variation);
+                return sum + Number(variation[gross ? 'amount_gross' : 'amount']);
+            }, 0);
         }
         else if (ratePlan.reserved > 0) {
             const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? 'amount_gross' : 'amount'];
@@ -53022,10 +53037,10 @@ function getUserPrefernce(lang = undefined) {
     }
     else {
         updateUserPreference({
-            language_id: lang || 'en',
+            language_id: (lang === null || lang === void 0 ? void 0 : lang.toLowerCase()) || 'en',
         });
-        if (lang === 'ar') {
-            changeLocale('RTL', matchLocale(lang));
+        if ((lang === null || lang === void 0 ? void 0 : lang.toLowerCase()) === 'ar') {
+            changeLocale('RTL', matchLocale(lang === null || lang === void 0 ? void 0 : lang.toLowerCase()));
         }
     }
 }
@@ -53185,7 +53200,38 @@ function detectCardType(value) {
         return '';
     }
 }
+/**
+ * Utility to modify query string parameters.
+ *
+ * @param param - The query parameter key to modify
+ * @param value - The value to set for the query parameter. If null, the parameter will be removed.
+ * @param options - Options to control whether the page should reload or replace the current history state.
+ */
+function modifyQueryParam(param, value, options = { reload: false, replaceState: false }) {
+    if (!app_store.app_data.origin || app_store.app_data.origin !== 'be') {
+        return;
+    }
+    const url = new URL(window.location.href);
+    if (value === null) {
+        url.searchParams.delete(param); // Remove the query parameter
+    }
+    else {
+        url.searchParams.set(param, value); // Add or update the query parameter
+    }
+    if (options.reload) {
+        // Reload the page by updating the href (replaces the full URL)
+        window.location.href = url.toString();
+    }
+    else if (options.replaceState) {
+        // Use replaceState to update the URL without adding a new entry in the history
+        history.replaceState(null, '', url.toString());
+    }
+    else {
+        // Use pushState to update the URL without reloading and add an entry in the history
+        history.pushState(null, '', url.toString());
+    }
+}
 
-export { destroyBookingCookie as A, renderPropertyLocation as B, renderTime as C, formatImageAlt as D, updateRoomParams as E, reserveRooms as F, getVisibleInventory as G, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, getAbbreviatedWeekdays as j, getUserPrefernce as k, validateAgentCode as l, manageAnchorSession as m, matchLocale as n, checkGhs as o, setDefaultLocale as p, checkAffiliate as q, formatAmount as r, startOfWeek$1 as s, toDate$1 as t, formatFullLocation as u, validateCoupon as v, runScriptAndRemove as w, calculateTotalCost as x, detectCardType as y, validateBooking as z };
+export { validateBooking as A, destroyBookingCookie as B, renderPropertyLocation as C, renderTime as D, formatImageAlt as E, updateRoomParams as F, reserveRooms as G, getVisibleInventory as H, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, getAbbreviatedWeekdays as k, getUserPrefernce as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, runScriptAndRemove as x, calculateTotalCost as y, detectCardType as z };
 
 //# sourceMappingURL=utils.js.map

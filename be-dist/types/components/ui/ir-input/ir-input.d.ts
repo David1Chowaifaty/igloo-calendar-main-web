@@ -23,12 +23,12 @@ export declare class IrInput {
     autofocus: boolean;
     size: number;
     multiple: boolean;
+    tooltip: string;
     label: string;
     error: boolean;
     mask: Record<string, unknown>;
     labelBackground: string;
     mode: 'double-line' | 'default';
-    tooltip: string;
     textChanged: EventEmitter<string>;
     inputFocus: EventEmitter<FocusEvent>;
     inputBlur: EventEmitter<FocusEvent>;

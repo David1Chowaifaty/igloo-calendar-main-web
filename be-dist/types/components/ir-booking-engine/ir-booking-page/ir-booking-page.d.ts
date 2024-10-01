@@ -13,7 +13,8 @@ export declare class IrBookingPage {
     languages: IExposedLanguages[];
     routing: EventEmitter<pages>;
     private checkoutContainerRef;
-    private roomTypeSectionRef;
+    roomTypeSectionRef: HTMLElement;
+    private availabiltyHeaderRef;
     componentWillLoad(): void;
     handleBookingAnimation(e: CustomEvent): void;
     handleScrolling(e: CustomEvent): void;

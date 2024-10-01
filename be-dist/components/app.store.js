@@ -14,6 +14,7 @@ const initialState = {
     },
     invoice: null,
     app_data: {
+        origin: null,
         override_rp: false,
         displayMode: 'default',
         affiliate: null,

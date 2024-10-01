@@ -1,4 +1,4 @@
-import { d as dateFns, a as app_store, n as formatAmount, l as localizedWords } from './utils-bf90f210.js';
+import { d as dateFns, a as app_store, p as formatAmount, l as localizedWords } from './utils-b6f193c7.js';
 
 class BookingListingAppService {
     getBookingActions(booking) {
@@ -23,4 +23,4 @@ class BookingListingAppService {
 
 export { BookingListingAppService as B };
 
-//# sourceMappingURL=booking-listing.service-638635ed.js.map
+//# sourceMappingURL=booking-listing.service-7474a07a.js.map

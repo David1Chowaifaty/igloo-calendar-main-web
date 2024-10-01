@@ -17,6 +17,8 @@ export declare class IrAvailibilityHeader {
     private propertyService;
     private availabiltyService;
     private validator;
+    private setDefaultAdultCount;
+    private setDefaultChildCount;
     componentWillLoad(): void;
     disableLoading(): void;
     private recheckAvailability;

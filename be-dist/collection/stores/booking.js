@@ -27,6 +27,18 @@ function setSelectedVariation(lastVariation, variations, currentVariation) {
     }
     return currentVariation;
 }
+// function setSelectedVariation(lastVariation: Variation, variations: Variation[], currentVariation: ISelectedVariation): ISelectedVariation {
+//   if (currentVariation?.state === 'default' || !currentVariation || booking_store.resetBooking) {
+//     const variationWithAmount = variations.find(v => v.amount > 0);
+//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
+//   }
+//   const currentVariationIdx = variations.findIndex(v => v.adult_child_offering === currentVariation.variation.adult_child_offering);
+//   if (currentVariationIdx === -1) {
+//     const variationWithAmount = variations.find(v => v.amount > 0);
+//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
+//   }
+//   return currentVariation;
+// }
 onRoomTypeChange('roomTypes', (newValue) => {
     // console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
@@ -143,7 +155,10 @@ export function calculateTotalCost(gross = false) {
             if (isPrePayment) {
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
-            return ratePlan.checkoutVariations.reduce((sum, variation) => sum + Number(variation[gross ? 'amount_gross' : 'amount']), 0);
+            return ratePlan.checkoutVariations.reduce((sum, variation) => {
+                console.log(gross, variation['amount_gross'], variation['amount'], variation);
+                return sum + Number(variation[gross ? 'amount_gross' : 'amount']);
+            }, 0);
         }
         else if (ratePlan.reserved > 0) {
             const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? 'amount_gross' : 'amount'];

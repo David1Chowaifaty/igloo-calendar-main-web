@@ -188,11 +188,11 @@ export class IrBookingListing {
         }
     }
     renderAuthScreen() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         if (this.isLoading) {
-            return (h("main", { class: "flex min-h-screen flex-col" }, h("div", { class: "flex h-14 p-4" }, h("ir-skeleton", { class: " h-10 w-56 " })), h("div", { class: "mx-auto flex h-full w-full max-w-md flex-1 flex-col gap-4 px-4 py-4 " }, h("ir-skeleton", { class: "mb-2 h-6 w-56 self-center" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-10 w-full rounded-full" }))));
+            return (h("main", { class: "flex min-h-screen flex-col" }, h("div", { class: "flex h-14 p-4" }, h("ir-skeleton", { class: " mx-auto h-10 w-80 " })), h("div", { class: "mx-auto flex h-full w-full max-w-md flex-1 flex-col gap-4 px-4 py-4 " }, h("ir-skeleton", { class: "mb-2 h-6 w-56 self-center" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-12 w-full" }), h("ir-skeleton", { class: "h-10 w-full rounded-full" }))));
         }
-        return (h("main", { class: "flex min-h-screen flex-col" }, h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: false, logoOnly: true }), h("div", { class: "mx-auto flex h-full  w-full max-w-md flex-1 flex-col px-4 py-4 " }, h("ir-auth", { enableSignUp: false }))));
+        return (h("main", { class: "flex min-h-screen flex-col" }, h("nav", { class: "ir-auth-nav" }, h("div", { class: "ir-auth-nav-container relative" }, h("div", { class: 'flex w-full items-center gap-4' }, h("ir-button", { class: 'bl-back-btn absolute', variants: "icon", iconName: "angle_left", onButtonClick: () => (window.location.href = `https://${app_store.property.perma_link}.bookingmystay.com`) }), h("div", { class: 'flex w-full flex-1 justify-center ' }, h("a", { "aria-label": "home", target: "_blank", href: `https://${app_store.app_data.affiliate ? (_a = app_store.app_data.affiliate.sites[0]) === null || _a === void 0 ? void 0 : _a.url : (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme.website}` }, h("img", { loading: "lazy", src: ((_c = app_store.app_data) === null || _c === void 0 ? void 0 : _c.affiliate) ? (_e = (_d = app_store.app_data) === null || _d === void 0 ? void 0 : _d.affiliate.sites[0]) === null || _e === void 0 ? void 0 : _e.logo : (_g = (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.space_theme) === null || _g === void 0 ? void 0 : _g.logo, alt: `${(_h = app_store.property) === null || _h === void 0 ? void 0 : _h.name}, ${(_j = app_store.property) === null || _j === void 0 ? void 0 : _j.country.name}`, class: "ir-nav-logo aspect-1" })))))), h("div", { class: "mx-auto flex h-full  w-full max-w-md flex-1 flex-col px-4 py-4 " }, h("ir-auth", { enableSignUp: false }))));
     }
     renderBookingsScreen() {
         var _a, _b, _c;
@@ -202,7 +202,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) })));
     }
     render() {
-        return (h(Host, { key: '5014af489fc0d63c2e5d1636a9d2b7856567b76c' }, !this.be && h("ir-interceptor", { key: '8a5fb4ecc5b0d52c1ffad77d840fb77691ad0e91' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '702d455caf124fa47e0e8917447057b0a8705381' }, !this.be && h("ir-interceptor", { key: '4e4586784daa34cc3d8c62f45ca48c98f3483936' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

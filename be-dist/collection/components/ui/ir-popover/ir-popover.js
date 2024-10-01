@@ -22,6 +22,7 @@ export class IrPopover {
             }
         };
         this.active = false;
+        this.autoAdjust = true;
         this.trigger_label = '';
         this.placement = undefined;
         this.stopListeningForOutsideClicks = false;
@@ -64,7 +65,7 @@ export class IrPopover {
     initializePopover() {
         if (this.triggerElement && this.contentElement) {
             this.popoverInstance = createPopper(this.triggerElement, this.contentElement, {
-                placement: this.placement || localization_store.dir === 'LTR' ? 'bottom-start' : 'bottom-end',
+                placement: this.placement ? this.placement : localization_store.dir === 'LTR' ? 'bottom-start' : 'bottom-end',
                 modifiers: [
                     {
                         name: 'offset',
@@ -105,11 +106,28 @@ export class IrPopover {
                     this.popoverInstance.update();
                 });
             }
+            else if ((this.popoverInstance.state.options.placement === 'top-start' && currentDir === 'rtl') ||
+                (this.popoverInstance.state.options.placement === 'top-end' && currentDir === 'ltr')) {
+                let newPlacement = this.popoverInstance.state.options.placement;
+                if (currentDir === 'rtl') {
+                    newPlacement = newPlacement.replace('top-start', 'top-end');
+                }
+                else {
+                    newPlacement = newPlacement.replace('top-end', 'top-start');
+                }
+                this.popoverInstance
+                    .setOptions({
+                    placement: newPlacement,
+                })
+                    .then(() => {
+                    this.popoverInstance.update();
+                });
+            }
             else {
                 this.popoverInstance.update();
             }
         }
-        if (!app_store.app_data.injected) {
+        if (!app_store.app_data.injected && this.autoAdjust) {
             this.adjustPopoverPlacement();
         }
         this.openChange.emit(this.isVisible);
@@ -141,18 +159,18 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: 'b14c298cd6d514c81e4665bebf8b3ddefe1949d2' }, this.isMobile && (h("div", { key: 'f4ab107ea7b15066c56edabe82857353378fabde', class: "w-full md:hidden" }, h("div", { key: '2351f417808eff0d98b0be2dfa376f3dc88d13b7', class: "w-full", onClick: () => {
+        return (h(Fragment, { key: '01ad56bd2b0dbab3948092440919ee1c3fb6898f' }, this.isMobile && (h("div", { key: '20a8dbc81a440ebf6b14f609ff894e1aa230e6a4', class: "w-full md:hidden" }, h("div", { key: '5892e28210555215abc030e6f94be0a4763f92c4', class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
-            } }, h("slot", { key: '9dfa70de7e75fa6d32a6ad566cf5d71ce33e267f', name: "trigger" })), h("ir-dialog", { key: '9d6ab3306b7cf3c4f2eaa269e46743b42183d245', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
+            } }, h("slot", { key: 'd5fca896c03fa04f5d7e67384e3d7edb7d7f6ad8', name: "trigger" })), h("ir-dialog", { key: '3b302abcd4c5d3c51db83ae58df7a51b25c66e44', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isDialogOpen = e.detail;
                 this.openChange.emit(e.detail);
-            } }, h("div", { key: 'f0c39613e262257fecbca256f659aba745071ad8', slot: "modal-body" }, h("slot", { key: 'dca7c644af397e155056601b709ed34bd543657d', name: "popover-content" }))))), !this.isMobile && (h("div", { key: 'efcab7373b890eaef62dea4bef894c21b91e2c40', class: "hidden sm:block" }, h("div", { key: 'f85b51d9f20d4b1ce179c52791662462a43025c8', ref: el => (this.triggerElement = el), onClick: e => {
+            } }, h("div", { key: '913e62892826aa14601233787bf2b773dbfd743b', slot: "modal-body" }, h("slot", { key: '1b31c2dbff1e4df31082f60693782a76a8e690c4', name: "popover-content" }))))), !this.isMobile && (h("div", { key: 'fffe414e3a5c41497344d02946d7ef2be1539416', class: "hidden sm:block" }, h("div", { key: '2b06e8243415eaf3cce7412f2692c7de32d084d2', ref: el => (this.triggerElement = el), onClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.toggleVisibility();
-            } }, h("slot", { key: 'e8cf517d2fb3043b422e48874520c0c6a1fafb70', name: "trigger" }, h("button", { key: 'ae63d72cb862ced0a436502c7a5cd934597f7710', class: "trigger" }, h("span", { key: '9ae0ad32b1a7f0570a0ef57586e2d53625368a81' }, this.trigger_label), h("svg", { key: 'fa73e9013a1e8473d28cf9b357e4a4240ecde018', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '858ff371f6fb90194d884c0e9715212b4343180c', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '6c84055894b2656a8e7136460ad28d0c2fabf5f2', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: '8e676b9c49c7597ac841e53b47a6e4532cef34a4' }, h("slot", { key: 'dd61258b7eaa9747da6a9071d5c9ec7bf7a96618', name: "popover-content" }))))))));
+            } }, h("slot", { key: '4c98b6c0afdee7ed6c0ce7a9fcebe1f78e4671bc', name: "trigger" }, h("button", { key: '117a2282558b7c790a693230c389ab9f8c4dc29d', class: "trigger" }, h("span", { key: '97cd84eb1044eac6ca87190624a69cbedd798b50' }, this.trigger_label), h("svg", { key: '239166cb710d73f4db374473f6bb76e759264a1a', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '87c2194ad711c4d4a959015e08b328833d6741fa', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'c85bafd3fe69ae3fd2b4cd57ae62e8822d04dd3f', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: 'd933834c1644da1c629537306c84f70f7033e452' }, h("slot", { key: '7d1e14ae946b2ab1c1a5bbb7a2357ab1ddd44fa5', name: "popover-content" }))))))));
     }
     static get is() { return "ir-popover"; }
     static get encapsulation() { return "shadow"; }
@@ -185,6 +203,24 @@ export class IrPopover {
                 "attribute": "active",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "autoAdjust": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "auto-adjust",
+                "reflect": false,
+                "defaultValue": "true"
             },
             "trigger_label": {
                 "type": "string",

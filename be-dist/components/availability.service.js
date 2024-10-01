@@ -4092,7 +4092,6 @@ class AvailabiltyService {
                 }
                 let rateplan = roomType.rateplans[selectedRatePlanIndex];
                 let oldVariation = rateplan.variations || [];
-                console.log(payload);
                 const variation = {
                     adult_child_offering: payload.ADULT_CHILD_OFFERING,
                     adult_nbr: Number((_a = payload.ADULTS_NBR) !== null && _a !== void 0 ? _a : 0),

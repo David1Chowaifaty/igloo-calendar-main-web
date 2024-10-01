@@ -12,6 +12,7 @@ import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
 export class IrBookingEngine {
     constructor() {
+        this.version = '2.16';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -33,8 +34,8 @@ export class IrBookingEngine {
         this.stag = undefined;
         this.property = null;
         this.source = null;
-        this.version = '2.0';
         this.hideGoogleSignIn = true;
+        this.origin = null;
         this.coupon = undefined;
         this.loyalty = undefined;
         this.agent_code = undefined;
@@ -46,6 +47,7 @@ export class IrBookingEngine {
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
     }
     async componentWillLoad() {
+        console.log(`version:${this.version}`);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         getUserPrefernce(this.language);
@@ -113,6 +115,7 @@ export class IrBookingEngine {
         this.propertyService.setToken(this.token);
         app_store.app_data = {
             aName: this.p,
+            origin: this.origin,
             perma_link: this.perma_link,
             displayMode: 'default',
             isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
@@ -129,21 +132,25 @@ export class IrBookingEngine {
         this.initRequest();
     }
     async initRequest() {
-        var _a, _b;
+        var _a, _b, _c;
         this.isLoading = true;
         const p = JSON.parse(localStorage.getItem('user_preference'));
         let requests = [
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
-            this.commonService.getExposedCountryByIp(),
+            this.commonService.getExposedCountryByIp({
+                id: (_a = this.propertyId) === null || _a === void 0 ? void 0 : _a.toString(),
+                perma_link: this.perma_link,
+                aname: this.p,
+            }),
             this.commonService.getExposedLanguage(),
-            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
+            this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
             this.propertyService.getExposedNonBookableNights({
                 porperty_id: this.propertyId,
                 from_date: format(new Date(), 'yyyy-MM-dd'),
                 to_date: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
                 perma_link: this.perma_link,
-                aname: this.p
+                aname: this.p,
             }),
         ];
         if (app_store.is_signed_in) {
@@ -154,7 +161,7 @@ export class IrBookingEngine {
         this.languages = languages;
         if (!p) {
             if (this.language) {
-                this.modifyLanguage(this.language);
+                this.modifyLanguage(this.language.toLowerCase());
             }
             let currency = app_store.userDefaultCountry.currency;
             if (this.cur) {
@@ -167,7 +174,7 @@ export class IrBookingEngine {
             setDefaultLocale({ currency });
         }
         this.checkAndApplyDiscounts();
-        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_b = this.aff) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()) });
+        app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { affiliate: checkAffiliate((_c = this.aff) === null || _c === void 0 ? void 0 : _c.toLowerCase().trim()) });
         this.isLoading = false;
     }
     checkAndApplyDiscounts() {
@@ -274,13 +281,14 @@ export class IrBookingEngine {
         });
     }
     renderScreens() {
+        var _a;
         switch (app_store.currentPage) {
             case 'booking':
                 return h("ir-booking-page", { adultCount: this.adults, childrenCount: this.child, fromDate: this.checkin, toDate: this.checkout });
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
-                return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.p, language: this.language, baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
+                return (h("ir-invoice", { version: this.version, headerShown: false, footerShown: false, propertyId: this.propertyId, perma_link: this.perma_link, aName: this.p, language: (_a = this.language) === null || _a === void 0 ? void 0 : _a.toLowerCase(), baseUrl: this.baseUrl, email: app_store.invoice.email, bookingNbr: app_store.invoice.booking_number, status: 1, be: true }));
             case 'booking-listing':
                 return (h("ir-booking-listing", { version: this.version, startScreen: this.bookingListingScreenOptions, showAllBookings: false, headerShown: false, footerShown: false, propertyid: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.p, be: true, baseUrl: this.baseUrl, aff: this.aff }));
             case 'user-profile':
@@ -626,24 +634,6 @@ export class IrBookingEngine {
                 },
                 "defaultValue": "null"
             },
-            "version": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "version",
-                "reflect": false,
-                "defaultValue": "'2.0'"
-            },
             "hideGoogleSignIn": {
                 "type": "boolean",
                 "mutable": false,
@@ -661,6 +651,24 @@ export class IrBookingEngine {
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
                 "defaultValue": "true"
+            },
+            "origin": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "origin",
+                "reflect": false,
+                "defaultValue": "null"
             },
             "coupon": {
                 "type": "string",

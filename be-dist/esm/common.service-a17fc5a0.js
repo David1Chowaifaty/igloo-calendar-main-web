@@ -1,4 +1,4 @@
-import { I as toDate, J as startOfWeek, K as defaultOptions, L as enUS, M as isSameWeek, d as dateFns, a as app_store, b as booking_store, k as modifyBookingStore, c as createStore, N as injectHTML, q as getDateDifference, l as localizedWords } from './utils-bf90f210.js';
+import { J as toDate, K as startOfWeek, L as defaultOptions, M as enUS, N as isSameWeek, d as dateFns, a as app_store, b as booking_store, n as modifyBookingStore, c as createStore, O as injectHTML, r as getDateDifference, l as localizedWords } from './utils-b6f193c7.js';
 
 class Token {
     getToken() {
@@ -21927,6 +21927,7 @@ class PropertyHelpers {
             if (!newRoomtype) {
                 return updatedRoomtypes;
             }
+            console.log('new roomtypes', newRoomtypes);
             const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: this.updateRatePlan(rt.rateplans, newRoomtype) });
             updatedRoomtypes.push(updatedRoomtype);
             return updatedRoomtypes;
@@ -21960,12 +21961,13 @@ class PropertyHelpers {
     updateRatePlan(ratePlans, newRoomtype) {
         const agentExists = !!booking_store.bookingAvailabilityParams.agent;
         return ratePlans.reduce((updatedRatePlans, rp) => {
-            var _a;
-            const newRatePlan = agentExists ? (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
-            if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+            var _a, _b;
+            const newRP = (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRP => newRP.id === rp.id);
+            const newRatePlan = agentExists ? (_b = newRoomtype.rateplans) === null || _b === void 0 ? void 0 : _b.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
+            if (!newRatePlan || !newRP || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
                 return updatedRatePlans;
             }
-            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: agentExists ? newRatePlan.variations : rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
+            updatedRatePlans.push(Object.assign(Object.assign({}, newRatePlan), { short_name: newRP.short_name, is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency, variations: agentExists ? newRatePlan.variations : rp.variations, selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null }));
             return updatedRatePlans;
         }, []);
     }
@@ -22113,24 +22115,31 @@ class Colors {
         return shades;
     }
     initTheme(property) {
+        let base_theme_color = '#e93e57';
+        let radius = null;
         if (property.space_theme) {
-            const root = document.documentElement;
-            const shades = this.generateColorShades(property.space_theme.button_bg_color);
-            let shade_number = 900;
-            shades.forEach((shade, index) => {
-                root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
-                if (index === 9) {
-                    shade_number = 25;
-                }
-                else if (index === 8) {
-                    shade_number = 50;
-                }
-                else {
-                    shade_number = shade_number - 100;
-                }
-            });
-            root.style.setProperty('--radius', property.space_theme.button_border_radius + 'px');
+            base_theme_color = property.space_theme.button_bg_color;
+            radius = property.space_theme.button_border_radius;
         }
+        const root = document.documentElement;
+        const shades = this.generateColorShades(base_theme_color);
+        let shade_number = 900;
+        shades.forEach((shade, index) => {
+            root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+            if (index === 9) {
+                shade_number = 25;
+            }
+            else if (index === 8) {
+                shade_number = 50;
+            }
+            else {
+                shade_number = shade_number - 100;
+            }
+        });
+        if (!radius) {
+            return;
+        }
+        root.style.setProperty('--radius', radius + 'px');
     }
 }
 
@@ -22168,6 +22177,22 @@ class PropertyService extends Token {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...result.My_Result.roomtypes];
         }
+        // } else {
+        //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
+        //   booking_store.roomTypes = result.My_Result.roomtypes?.map(rt => {
+        //     const selectedRt = oldBookingStoreRoomTypes.find(r => r.id === rt.id);
+        //     return {
+        //       ...rt,
+        //       rateplans: rt.rateplans.map(rp => {
+        //         const currentRp = selectedRt.rateplans.find(s => s.id === rp.id);
+        //         if (currentRp) {
+        //           return { ...currentRp, short_name: rp.short_name };
+        //         }
+        //         return null;
+        //       }),
+        //     };
+        //   });
+        // }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -22219,6 +22244,7 @@ class PropertyService extends Token {
                         key: 'prepayment_amount',
                         value: '',
                     },
+                    { key: 'payment_code', value: '' },
                 ]
                 : null }));
         const result = data;
@@ -22262,7 +22288,6 @@ class PropertyService extends Token {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
-                        var _a;
                         const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
@@ -22290,18 +22315,7 @@ class PropertyService extends Token {
                                 address: null,
                                 dob: null,
                                 subscribe_to_news_letter: null,
-                                cci: ['001', '004'].includes((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code)
-                                    ? () => {
-                                        const payment = checkout_store.payment;
-                                        return {
-                                            nbr: payment === null || payment === void 0 ? void 0 : payment.cardNumber,
-                                            holder_name: payment === null || payment === void 0 ? void 0 : payment.cardHolderName,
-                                            expiry_month: payment === null || payment === void 0 ? void 0 : payment.expiry_month.split('/')[0],
-                                            expiry_year: payment === null || payment === void 0 ? void 0 : payment.expiry_year.split('/')[1],
-                                            cvc: (payment === null || payment === void 0 ? void 0 : payment.code) === '001' ? payment.cvc : null,
-                                        };
-                                    }
-                                    : null,
+                                cci: null,
                             },
                         });
                     });
@@ -22327,13 +22341,14 @@ class PropertyService extends Token {
         }
     }
     async bookUser() {
-        var _a;
+        var _a, _b, _c, _d, _e, _f;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
+            console.log('payment', checkout_store.payment);
             let guest = {
                 email: checkout_store.userFormData.email,
                 first_name: checkout_store.userFormData.firstName,
@@ -22345,7 +22360,15 @@ class PropertyService extends Token {
                 country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
-                cci: null,
+                cci: ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code) === '001'
+                    ? {
+                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber.replace(/ /g, ''),
+                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
+                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
+                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
+                        cvc: checkout_store.payment.cvc,
+                    }
+                    : null,
             };
             const body = {
                 assign_units: false,
@@ -22354,7 +22377,7 @@ class PropertyService extends Token {
                 is_direct: true,
                 agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_a = booking_store.bookingAvailabilityParams.coupon) !== null && _a !== void 0 ? _a : null,
+                promo_key: (_f = booking_store.bookingAvailabilityParams.coupon) !== null && _f !== void 0 ? _f : null,
                 booking: {
                     booking_nbr: '',
                     from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -22383,9 +22406,14 @@ class PropertyService extends Token {
                             value: prePaymentAmount,
                         }
                         : null,
+                    {
+                        key: 'selected_currency',
+                        value: app_store.userPreferences.currency_id,
+                    },
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
+            console.log('body');
             const { data } = await axios$1.post(`/DoReservation?Ticket=${token}`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
@@ -22455,15 +22483,13 @@ class CommonService extends Token {
             throw new Error(error);
         }
     }
-    async getUserDefaultCountry() {
+    async getUserDefaultCountry(params) {
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
-            const { data } = await axios$1.post(`/Get_Country_By_IP?Ticket=${token}`, {
-                IP: '',
-            });
+            const { data } = await axios$1.post(`/Get_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -22474,16 +22500,13 @@ class CommonService extends Token {
             throw new Error(error);
         }
     }
-    async getExposedCountryByIp() {
+    async getExposedCountryByIp(params) {
         try {
             const token = this.getToken();
             if (!token) {
                 throw new MissingTokenError();
             }
-            const { data } = await axios$1.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, {
-                IP: '',
-                lang: 'en',
-            });
+            const { data } = await axios$1.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '', lang: 'en' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -22549,4 +22572,4 @@ class CommonService extends Token {
 
 export { CommonService as C, MissingTokenError as M, PropertyService as P, Token as T, axios$1 as a, PaymentService as b, checkout_store as c, updatePickupFormData as d, updatePartialPickupFormData as e, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=common.service-9c3604f2.js.map
+//# sourceMappingURL=common.service-a17fc5a0.js.map

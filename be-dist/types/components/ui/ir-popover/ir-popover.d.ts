@@ -4,6 +4,7 @@ import { Placement } from '@popperjs/core';
 export declare class IrPopover {
     el: HTMLElement;
     active: boolean;
+    autoAdjust: boolean;
     trigger_label: string;
     placement: Placement;
     stopListeningForOutsideClicks: boolean;

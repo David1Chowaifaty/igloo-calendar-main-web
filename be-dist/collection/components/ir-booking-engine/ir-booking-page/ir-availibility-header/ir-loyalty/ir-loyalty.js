@@ -14,9 +14,10 @@ export class IrLoyalty {
         if (!show_loyalty || booking_store.bookingAvailabilityParams.coupon) {
             return null;
         }
-        return (h(Host, null, h("div", { class: "flex w-full items-center justify-center gap-4" }, h("ir-button", { class: cn('w-full', {
-                'w-fit': booking_store.bookingAvailabilityParams.loyalty,
-            }), onButtonClick: () => this.toggleLoyalty(true), variants: "outline", label: localizedWords.entries.Lcz_GetLoyaltyDiscount, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "heart" })), booking_store.bookingAvailabilityParams.loyalty && (h("div", { class: "flex items-center  text-sm text-[hsl(var(--brand-600))]" }, h("p", { onClick: () => this.toggleLoyalty(false) }, localizedWords.entries.Lcz_LoyaltyApplied), h("ir-button", { "aria-label": 'remove loyalty', variants: "icon", iconName: "xmark", svgClassName: "text-[hsl(var(--brand-600))]", onButtonClick: () => this.toggleLoyalty(false) }))))));
+        if (booking_store.bookingAvailabilityParams.loyalty) {
+            return (h("div", { class: "flex items-center  text-sm text-[hsl(var(--brand-600))]" }, h("p", { onClick: () => this.toggleLoyalty(false) }, localizedWords.entries.Lcz_LoyaltyApplied), h("ir-button", { "aria-label": 'remove loyalty', variants: "icon", iconName: "xmark", svgClassName: "text-[hsl(var(--brand-600))]", onButtonClick: () => this.toggleLoyalty(false) })));
+        }
+        return (h(Host, null, h("ir-button", { class: cn('w-full'), onButtonClick: () => this.toggleLoyalty(true), variants: "outline", label: localizedWords.entries.Lcz_GetLoyaltyDiscount, haveLeftIcon: true }, h("ir-icons", { slot: "left-icon", name: "heart" }))));
     }
     static get is() { return "ir-loyalty"; }
     static get encapsulation() { return "shadow"; }

@@ -31,3 +31,16 @@ export declare function renderPropertyLocation(): string;
 export declare function destroyBookingCookie(): void;
 export declare function checkGhs(source_code: string, stag: string): boolean;
 export declare function detectCardType(value: string): "" | "AMEX" | "VISA" | "Mastercard";
+type ModifyQueryOptions = {
+    reload?: boolean;
+    replaceState?: boolean;
+};
+/**
+ * Utility to modify query string parameters.
+ *
+ * @param param - The query parameter key to modify
+ * @param value - The value to set for the query parameter. If null, the parameter will be removed.
+ * @param options - Options to control whether the page should reload or replace the current history state.
+ */
+export declare function modifyQueryParam(param: string, value: string | null, options?: ModifyQueryOptions): void;
+export {};

@@ -96,6 +96,7 @@ export namespace Components {
         "injected": boolean;
         "language": string;
         "loyalty": boolean;
+        "origin": string | null;
         "p": string;
         "perma_link": string;
         "property": IExposedProperty | null;
@@ -105,7 +106,6 @@ export namespace Components {
         "source": TSource | null;
         "stag": string | null;
         "token": string;
-        "version": string;
     }
     interface IrBookingCancelation {
         "booking": Booking;
@@ -400,6 +400,7 @@ export namespace Components {
     interface IrPopover {
         "active": boolean;
         "allowFlip": boolean;
+        "autoAdjust": boolean;
         "placement": Placement;
         "showCloseButton": boolean;
         "stopListeningForOutsideClicks": boolean;
@@ -1858,6 +1859,7 @@ declare namespace LocalJSX {
         "injected"?: boolean;
         "language"?: string;
         "loyalty"?: boolean;
+        "origin"?: string | null;
         "p"?: string;
         "perma_link"?: string;
         "property"?: IExposedProperty | null;
@@ -1867,7 +1869,6 @@ declare namespace LocalJSX {
         "source"?: TSource | null;
         "stag"?: string | null;
         "token"?: string;
-        "version"?: string;
     }
     interface IrBookingCancelation {
         "booking"?: Booking;
@@ -2233,6 +2234,7 @@ declare namespace LocalJSX {
     interface IrPopover {
         "active"?: boolean;
         "allowFlip"?: boolean;
+        "autoAdjust"?: boolean;
         "onOpenChange"?: (event: IrPopoverCustomEvent<boolean>) => void;
         "placement"?: Placement;
         "showCloseButton"?: boolean;
