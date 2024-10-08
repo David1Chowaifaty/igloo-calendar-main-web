@@ -11,7 +11,6 @@ export declare class IrPaymentOption {
     paymentOptions: PaymentOption[];
     isLoading: boolean;
     selectedOption: PaymentOption | null;
-    initialized: boolean;
     toast: EventEmitter<IToast>;
     private paymentOptionService;
     private roomService;

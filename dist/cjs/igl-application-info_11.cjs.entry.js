@@ -2,21 +2,19 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
-const utils = require('./utils-4391bd80.js');
-const locales_store = require('./locales.store-ec208203.js');
-const calendarData = require('./calendar-data-3ed3cfd1.js');
+const index = require('./index-d0d7c4d0.js');
+const utils = require('./utils-5cd972af.js');
+const locales_store = require('./locales.store-4301bbe8.js');
+const calendarData = require('./calendar-data-fbe7f62b.js');
 const v4 = require('./v4-9b297151.js');
-const booking_service = require('./booking.service-10c6e7c1.js');
-const booking = require('./booking-9b03b4af.js');
-const events_service = require('./events.service-87d352f1.js');
-const irInterceptor_store = require('./ir-interceptor.store-b79239af.js');
+const booking_service = require('./booking.service-07f301d9.js');
+const booking = require('./booking-287b38fc.js');
+const events_service = require('./events.service-9ff25095.js');
+const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const moment = require('./moment-1780b03a.js');
-const booking$1 = require('./booking-7ed8ec85.js');
-require('./index-104877f7.js');
+require('./index-5e99a1fe.js');
 require('./axios-b86c5465.js');
 require('./Token-db8ba99b.js');
-require('./calendar-dates.store-55347731.js');
 
 const iglApplicationInfoCss = ".sc-igl-application-info-h{display:block}@media only screen and (min-width: 908px){.aplicationInfoContainer.sc-igl-application-info{max-width:80%}.guest-info-container.sc-igl-application-info{max-width:300px}.preference-select-container.sc-igl-application-info{max-width:250px}}";
 const IglApplicationInfoStyle0 = iglApplicationInfoCss;
@@ -1441,7 +1439,7 @@ const IglDateRange = class {
         }
     }
     calculateTotalNights() {
-        this.totalNights = booking$1.calculateDaysBetweenDates(moment.hooks(this.fromDate).format('YYYY-MM-DD'), moment.hooks(this.toDate).format('YYYY-MM-DD'));
+        this.totalNights = booking.calculateDaysBetweenDates(moment.hooks(this.fromDate).format('YYYY-MM-DD'), moment.hooks(this.toDate).format('YYYY-MM-DD'));
     }
     getFormattedDateString(dt) {
         return dt.getDate() + ' ' + dt.toLocaleString('default', { month: 'short' }).toLowerCase() + ' ' + dt.getFullYear();

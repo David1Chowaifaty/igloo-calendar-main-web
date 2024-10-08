@@ -135,7 +135,7 @@ export class IrBookingWidget {
                         this.dates = Object.assign(Object.assign({}, this.dates), { to_date: addDays(this.dates.from_date, 1) });
                     }
                 }
-            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4  md:p-6 " }, h("ir-date-range", { dateModifiers: this.getDateModifiers(), minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: 5, onDateChange: e => {
+            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4  md:p-6 " }, h("ir-date-range", { dateModifiers: this.getDateModifiers(), minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, onDateChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { end, start } = e.detail;

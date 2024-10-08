@@ -33,18 +33,15 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.initialized = false;
     }
     componentWillLoad() {
         axios.defaults.baseURL = this.baseurl;
-        if (this.ticket && !this.initialized) {
-            this.initialized = true;
+        if (this.ticket) {
             this.init();
         }
     }
     handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue && !this.initialized) {
-            this.initialized = true;
+        if (newValue !== oldValue) {
             this.init();
         }
     }
@@ -123,6 +120,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
+        console.log(paymentOption);
         let index = prevPaymentOptions.findIndex(p => p.code === paymentOption.code);
         if (index === -1) {
             throw new Error('Invalid code');
@@ -206,8 +204,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         "hideLogs": [4, "hide-logs"],
         "paymentOptions": [32],
         "isLoading": [32],
-        "selectedOption": [32],
-        "initialized": [32]
+        "selectedOption": [32]
     }, [[0, "closeModal", "handleCloseModal"]], {
         "ticket": ["handleTokenChange"]
     }]);

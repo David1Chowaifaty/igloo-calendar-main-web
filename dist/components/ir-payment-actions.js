@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { f as formatAmount } from './utils2.js';
+import { u as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';

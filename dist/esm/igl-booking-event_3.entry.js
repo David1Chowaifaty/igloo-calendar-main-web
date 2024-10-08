@@ -1,89 +1,15 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-d2ec0a5d.js';
-import { B as BookingService$1 } from './booking.service-16847df82.js';
-import { t as transformNewBooking } from './booking-bcc64520.js';
-import { i as isBlockUnit } from './utils-ff429cce.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-c553b3dc.js';
+import { B as BookingService } from './booking.service-1033d75a.js';
+import { a as transformNewBooking } from './booking-caef1e21.js';
+import { i as isBlockUnit, t as findCountry } from './utils-b90a23b3.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { a as axios } from './axios-ab377903.js';
-import { B as BookingService } from './booking.service-16847df8.js';
-import { e as extras, k as getReleaseHoursString, q as findCountry } from './utils-f67d53ec.js';
-import { T as Token } from './Token-be23fd51.js';
-import { l as locales } from './locales.store-91c051f0.js';
-import { c as calendar_data } from './calendar-data-956fa3f1.js';
-import { E as EventsService$1 } from './events.service-d54b1295.js';
-import './booking-5899a14e.js';
-import './calendar-dates.store-26a46226.js';
-import './index-a32c4342.js';
-
-class EventsService extends Token {
-    constructor() {
-        super(...arguments);
-        this.bookingService = new BookingService();
-    }
-    async reallocateEvent(pool, destination_pr_id, from_date, to_date) {
-        try {
-            const token = this.getToken();
-            if (token) {
-                console.log(pool, destination_pr_id, from_date, to_date);
-                const { data } = await axios.post(`/ReAllocate_Exposed_Room?Ticket=${token}`, { pool, destination_pr_id, from_date, to_date, extras });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                console.log(data);
-                return data;
-            }
-            else {
-                throw new Error('Invalid Token');
-            }
-        }
-        catch (error) {
-            console.error(error);
-            throw new Error(error);
-        }
-    }
-    async deleteEvent(POOL) {
-        try {
-            const token = this.getToken();
-            if (token) {
-                const { data } = await axios.post(`/UnBlock_Exposed_Unit?Ticket=${token}`, {
-                    POOL,
-                });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                return data.My_Result;
-            }
-            else {
-                throw new Error('Invalid Token');
-            }
-        }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-    async updateBlockedEvent(bookingEvent) {
-        try {
-            const token = this.getToken();
-            if (token) {
-                const releaseData = getReleaseHoursString(+bookingEvent.RELEASE_AFTER_HOURS);
-                await this.deleteEvent(bookingEvent.POOL);
-                this.bookingService.setToken(token);
-                const result = await this.bookingService.blockUnit(Object.assign({ from_date: this.formatDate(bookingEvent.FROM_DATE), to_date: this.formatDate(bookingEvent.TO_DATE), pr_id: bookingEvent.PR_ID, STAY_STATUS_CODE: bookingEvent.OUT_OF_SERVICE ? '004' : bookingEvent.RELEASE_AFTER_HOURS === 0 ? '002' : '003', DESCRIPTION: bookingEvent.RELEASE_AFTER_HOURS || '', NOTES: bookingEvent.OPTIONAL_REASON || '' }, releaseData));
-                return result;
-            }
-            else {
-                throw new Error('Invalid Token');
-            }
-        }
-        catch (error) {
-            console.error(error);
-            throw new Error(error);
-        }
-    }
-    formatDate(date) {
-        return date.split('/').join('-');
-    }
-}
+import { E as EventsService } from './events.service-62b803ac.js';
+import { l as locales } from './locales.store-a1e3db22.js';
+import { c as calendar_data } from './calendar-data-666acc1f.js';
+import { a as _formatAmount } from './functions-10a29c1f.js';
+import './axios-ab377903.js';
+import './Token-be23fd51.js';
+import './index-1d7b1ff2.js';
 
 const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;border-radius:4px;transform:skewX(-22deg)}.bookingEventBase.skewedLeft.sc-igl-booking-event::before{content:'';position:absolute;top:0px;bottom:0;left:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:right;transform:skewX(22deg);border-radius:4px;border-top-left-radius:0;border-bottom-left-radius:0}.bookingEventBase.skewedRight.sc-igl-booking-event::before{content:'';position:absolute;top:0;bottom:0;right:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:left;transform:skewX(22deg);border-radius:4px;border-top-right-radius:0;border-bottom-right-radius:0}.bookingEventBase.border.skewedLeft.sc-igl-booking-event::before{border:1px solid #424242;border-right:0;border-left:0;border-top-right-radius:0;border-bottom-right-radius:0;top:-1px;height:20px;left:-4px}.bookingEventBase.border.skewedRight.sc-igl-booking-event::before{border:1px solid #424242;border-left:0;border-right:0;border-top-left-radius:0;border-bottom-left-radius:0;top:-1px;height:20px;right:-4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.leftSide.skewedLeft.sc-igl-booking-event{transform:skewX(0)}.rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
 const IglBookingEventStyle0 = iglBookingEventCss;
@@ -120,7 +46,7 @@ const IglBookingEvent = class {
         this.isStreatch = false;
         /*Services */
         this.eventsService = new EventsService();
-        this.bookingService = new BookingService$1();
+        this.bookingService = new BookingService();
         /* Resize props */
         this.resizeSide = '';
         this.isDragging = false;
@@ -759,11 +685,6 @@ const IglBookingEvent = class {
 };
 IglBookingEvent.style = IglBookingEventStyle0;
 
-const _formatAmount = (amount, currency = 'USD') => {
-    // format the amount using accounting.js
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(amount);
-};
-
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
 const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
 
@@ -775,7 +696,7 @@ const IglBookingEventHover = class {
         this.deleteButton = createEvent(this, "deleteButton", 7);
         this.bookingCreated = createEvent(this, "bookingCreated", 7);
         this.todayTimeStamp = new Date().setHours(0, 0, 0, 0);
-        this.eventService = new EventsService$1();
+        this.eventService = new EventsService();
         this.hideButtons = false;
         this.bookingEvent = undefined;
         this.bubbleInfoTop = false;

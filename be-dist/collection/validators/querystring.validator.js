@@ -18,7 +18,6 @@ export class QueryStringValidator {
             return null;
         }
         const checkinDate = parseISO(checkinStr);
-        console.log(checkinDate);
         const today = new Date();
         if (!isValid(checkinDate)) {
             this.errors.push('Checkin date is not a valid date.');

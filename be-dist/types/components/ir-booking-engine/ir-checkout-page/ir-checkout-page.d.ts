@@ -7,6 +7,7 @@ export declare class IrCheckoutPage {
     error: CheckoutErrors;
     selectedPaymentMethod: AllowedPaymentMethod | null;
     prepaymentAmount: number;
+    isBookingConfirmed: boolean;
     routing: EventEmitter<pages>;
     private propertyService;
     private paymentService;

@@ -3,7 +3,15 @@ import { i as isBlockUnit, b as dateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { c as calendar_dates } from './calendar-dates.store.js';
+import { c as createStore } from './index2.js';
+
+const initialState = {
+    days: [],
+    months: [],
+    fromDate: '',
+    toDate: '',
+};
+const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
 
 async function getMyBookings(months) {
     const myBookings = [];
@@ -317,6 +325,6 @@ function calculateDaysBetweenDates(from_date, to_date) {
     return daysDiff || 1;
 }
 
-export { transformNewBooking as a, bookingStatus as b, getPrivateNote as c, calculateDaysBetweenDates as d, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
+export { transformNewBooking as a, calendar_dates as b, calculateDaysBetweenDates as c, bookingStatus as d, getPrivateNote as e, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
 
 //# sourceMappingURL=booking.js.map

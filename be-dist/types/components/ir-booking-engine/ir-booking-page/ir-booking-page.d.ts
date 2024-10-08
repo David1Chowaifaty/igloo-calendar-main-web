@@ -15,6 +15,7 @@ export declare class IrBookingPage {
     private checkoutContainerRef;
     roomTypeSectionRef: HTMLElement;
     private availabiltyHeaderRef;
+    propertyGalleryRef: HTMLDivElement;
     componentWillLoad(): void;
     handleBookingAnimation(e: CustomEvent): void;
     handleScrolling(e: CustomEvent): void;

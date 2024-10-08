@@ -1,7 +1,7 @@
-import { r as registerInstance, h, H as Host } from './index-d2ec0a5d.js';
-import { l as locales } from './locales.store-91c051f0.js';
+import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
+import { l as locales } from './locales.store-a1e3db22.js';
 import { v as v4 } from './v4-964634d6.js';
-import './index-a32c4342.js';
+import './index-1d7b1ff2.js';
 
 const otaLabelCss = "*.sc-ota-label{margin:0;padding:0}.sc-ota-label-h{display:flex;margin-bottom:5px;gap:5px;width:100%}strong.sc-ota-label{margin:0;padding:0}ul.sc-ota-label{margin:0 3px;padding:0;list-style:none;overflow:hidden;width:100%;word-wrap:break-word !important;overflow-wrap:break-word !important}li.sc-ota-label{width:100%;line-height:1.5;margin:0;padding:0;word-wrap:break-word !important;overflow-wrap:break-word !important}button.sc-ota-label{background:white;color:var(--blue);padding:0;margin:0;margin-left:3px;font-size:12px;border:0}button.sc-ota-label:hover{color:#355270}";
 const OtaLabelStyle0 = otaLabelCss;

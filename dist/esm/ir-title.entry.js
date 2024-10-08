@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-d2ec0a5d.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
 
 const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
 const IrTitleStyle0 = irTitleCss;

@@ -1,13 +1,13 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-d2ec0a5d.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
 import { v as v4 } from './v4-964634d6.js';
 import { i as icons } from './icons-1d5eab7e.js';
 import { a as axios } from './axios-ab377903.js';
-import { i as interceptor_requests, a as isRequestPending } from './ir-interceptor.store-713e7358.js';
+import { i as interceptor_requests, a as isRequestPending } from './ir-interceptor.store-268d0d48.js';
 import { T as Token, M as MissingTokenError } from './Token-be23fd51.js';
-import { c as createStore } from './index-a32c4342.js';
-import { l as locales } from './locales.store-91c051f0.js';
-import { R as RoomService } from './room.service-22d6f31b.js';
-import './calendar-data-956fa3f1.js';
+import { c as createStore } from './index-1d7b1ff2.js';
+import { l as locales } from './locales.store-a1e3db22.js';
+import { R as RoomService } from './room.service-2ef748c7.js';
+import './calendar-data-666acc1f.js';
 
 const irButtonCss = ".sc-ir-button-h{--icon-button-color:#6b6f82;--icon-button-hover-color:#104064}.button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}.ir-button-class.sc-ir-button{display:inline-flex !important;justify-content:center;align-items:center;box-sizing:border-box}.icon-button.sc-ir-button{all:unset;box-sizing:border-box;border-radius:0.25rem;display:inline-flex;align-items:center;justify-content:center;color:var(--icon-button-color);padding:0.2rem;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.icon-button.sc-ir-button:hover{color:var(--icon-button-hover-color)}.icon-button.sc-ir-button:hover.hovered_bg{background:var('--ir-icon-bg-hover', #f6f6f6)}.icon-button.sc-ir-button:disabled{pointer-events:none}.icon-loader.sc-ir-button{margin:0;padding:0;width:var(--icon-size, 1.25rem);height:var(--icon-size, 1.25rem);border-radius:50%;background:radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));-webkit-mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);animation:l13 1s infinite linear}.btn_loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l13{100%{transform:rotate(1turn)}}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrButtonStyle0 = irButtonCss;
@@ -458,6 +458,7 @@ const IrOptionDetails = class {
             payment_option_store.selectedOption.code === '005'
                 ? (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables) === null || _b === void 0 ? void 0 : _b.findIndex(l => l.language.id.toString() === this.selectedLanguage)
                 : null;
+        console.log(this.localizationIdx, this.selectedLanguage);
     }
     async saveOption(e) {
         var _a;
@@ -527,7 +528,7 @@ const IrOptionDetails = class {
         return (h(Host, null, h("form", { class: 'p-1 mt-2', onSubmit: this.saveOption.bind(this) }, payment_option_store.selectedOption.code === '005' ? (h("div", null, h("div", { class: "mb-1" }, h("ir-select", { selectedValue: this.selectedLanguage, LabelAvailable: false, showFirstOption: false, data: payment_option_store.languages.map(l => ({
                 text: l.description,
                 value: l.id.toString(),
-            })) })), h("div", null, this.invalid && h("p", { class: "text-danger p-0 m-0" }, locales.entries.Lcz_YouMustFillEnglishField), h("ir-textarea", { placeholder: "", "aria-invalid": this.invalid ? 'true' : 'false', textareaClassname: "money-transfer-form", label: "", onTextChange: this.handleTextAreaChange.bind(this), value: this.localizationIdx ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '' })))) : (h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
+            })) })), h("div", null, this.invalid && h("p", { class: "text-danger p-0 m-0" }, locales.entries.Lcz_YouMustFillEnglishField), h("ir-textarea", { placeholder: "", "aria-invalid": this.invalid ? 'true' : 'false', textareaClassname: "money-transfer-form", label: "", onTextChange: this.handleTextAreaChange.bind(this), value: this.localizationIdx !== null ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '' })))) : (h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
             var _a, _b;
             return (h("fieldset", { key: d.key }, h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key, placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || ((_b = ((_a = d.value) !== null && _a !== void 0 ? _a : '')) === null || _b === void 0 ? void 0 : _b.trim()) === '') ? 'true' : 'false' })));
         }))), h("div", { class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Handle_Payment_Method'), text: locales.entries.Lcz_Save, btn_color: "primary" })))));
@@ -553,18 +554,15 @@ const IrPaymentOption = class {
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.initialized = false;
     }
     componentWillLoad() {
         axios.defaults.baseURL = this.baseurl;
-        if (this.ticket && !this.initialized) {
-            this.initialized = true;
+        if (this.ticket) {
             this.init();
         }
     }
     handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue && !this.initialized) {
-            this.initialized = true;
+        if (newValue !== oldValue) {
             this.init();
         }
     }
@@ -643,6 +641,7 @@ const IrPaymentOption = class {
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
+        console.log(paymentOption);
         let index = prevPaymentOptions.findIndex(p => p.code === paymentOption.code);
         if (index === -1) {
             throw new Error('Invalid code');

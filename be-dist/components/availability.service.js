@@ -3949,7 +3949,12 @@ class SocketManager {
         this.initializeSocket();
     }
     initializeSocket() {
+        // Close existing socket if any
+        if (this.socket) {
+            this.socket.close();
+        }
         this.socket = lookup('https://realtime.igloorooms.com/', {
+            reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 2000,
         });
@@ -3963,7 +3968,6 @@ class SocketManager {
         this.socket.on('disconnect', reason => {
             console.log('Disconnected:', reason);
             this.isConnected = false;
-            // this.reconnect();
         });
     }
     static getInstance() {
@@ -3973,13 +3977,16 @@ class SocketManager {
         return SocketManager.instance;
     }
     reconnect() {
-        console.log('Attempting to reconnect...');
-        this.initializeSocket();
+        if (!this.isConnected) {
+            console.log('Attempting to reconnect...');
+            this.socket.connect();
+        }
     }
     close() {
         this.socket.close();
     }
 }
+
 class AvailabiltyService {
     // private variationSorter = new VariationSorter();
     constructor() {
@@ -4049,6 +4056,7 @@ class AvailabiltyService {
         this.subscribers.forEach(callback => callback(false));
     }
     resetVariations() {
+        console.log('reseting the variations');
         booking_store.resetBooking = true;
         this.roomTypes = [...booking_store.roomTypes];
         this.roomTypes = this.roomTypes.map(rt => {
@@ -4076,9 +4084,6 @@ class AvailabiltyService {
             }
             payloads.forEach(payload => {
                 var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-                if (payload.ROOM_CATEGORY_ID === 2345) {
-                    console.log(payload);
-                }
                 const selectedRoomTypeIndex = this.roomTypes.findIndex(rt => rt.id === payload.ROOM_CATEGORY_ID);
                 if (selectedRoomTypeIndex === -1) {
                     console.error('Invalid room type');

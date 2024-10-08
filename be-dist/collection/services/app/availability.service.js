@@ -1,45 +1,7 @@
 import { Queue } from "../../models/queue";
 import booking_store from "../../stores/booking";
-import { io } from "socket.io-client";
 import { z } from "zod";
-class SocketManager {
-    constructor() {
-        this.isConnected = false;
-        this.initializeSocket();
-    }
-    initializeSocket() {
-        this.socket = io('https://realtime.igloorooms.com/', {
-            reconnectionAttempts: 5,
-            reconnectionDelay: 2000,
-        });
-        this.socket.on('connect', () => {
-            console.log('Connected to the socket server');
-            this.isConnected = true;
-        });
-        this.socket.on('connect_error', error => {
-            console.error('Connection error:', error);
-        });
-        this.socket.on('disconnect', reason => {
-            console.log('Disconnected:', reason);
-            this.isConnected = false;
-            // this.reconnect();
-        });
-    }
-    static getInstance() {
-        if (!SocketManager.instance) {
-            SocketManager.instance = new SocketManager();
-        }
-        return SocketManager.instance;
-    }
-    reconnect() {
-        console.log('Attempting to reconnect...');
-        this.initializeSocket();
-    }
-    close() {
-        this.socket.close();
-    }
-}
-export default SocketManager;
+import SocketManager from "./SocketManager";
 export class AvailabiltyService {
     // private variationSorter = new VariationSorter();
     constructor() {
@@ -109,6 +71,7 @@ export class AvailabiltyService {
         this.subscribers.forEach(callback => callback(false));
     }
     resetVariations() {
+        console.log('reseting the variations');
         booking_store.resetBooking = true;
         this.roomTypes = [...booking_store.roomTypes];
         this.roomTypes = this.roomTypes.map(rt => {
@@ -136,9 +99,6 @@ export class AvailabiltyService {
             }
             payloads.forEach(payload => {
                 var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-                if (payload.ROOM_CATEGORY_ID === 2345) {
-                    console.log(payload);
-                }
                 const selectedRoomTypeIndex = this.roomTypes.findIndex(rt => rt.id === payload.ROOM_CATEGORY_ID);
                 if (selectedRoomTypeIndex === -1) {
                     console.error('Invalid room type');

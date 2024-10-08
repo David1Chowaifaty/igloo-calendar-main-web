@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service2.js';
+import { B as BookingService } from './booking.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-icon2.js';

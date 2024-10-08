@@ -33,8 +33,14 @@ export class IrBookingPage {
     handleScrolling(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        // this.roomTypeSectionRef.scrollIntoView({ behavior: 'smooth' });
-        this.availabiltyHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+        const header = document.querySelector('ir-be').shadowRoot.querySelector('ir-nav');
+        this.availabiltyHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+            window.scrollTo({
+                top: this.availabiltyHeaderRef.getBoundingClientRect().top + window.scrollY - (header !== null ? header.getBoundingClientRect().height + 5 : 80),
+                behavior: 'smooth',
+            });
+        }, 100);
     }
     renderTotalNights() {
         var _a, _b;
@@ -62,7 +68,7 @@ export class IrBookingPage {
         // console.log(this.checkMaxAmount());
         const { totalAmount } = calculateTotalCost();
         const isInjected = app_store.app_data.injected;
-        return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", null, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", { ref: el => (this.availabiltyHeaderRef = el), fromDate: this.fromDate, toDate: this.toDate, adultCount: this.adultCount, childrenCount: this.childrenCount })), h("section", { class: app_store.app_data.displayMode === 'default' ? 'relative justify-between gap-4 rounded-md ' : '', ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: app_store.app_data.displayMode === 'default' ? ' flex-1 py-2' : 'grid-container' }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
+        return (h(Host, null, h("div", { class: "space-y-5 " }, !isInjected && (h("div", { ref: el => (this.propertyGalleryRef = el) }, h("ir-property-gallery", null))), h("div", null, h("ir-availibility-header", { ref: el => (this.availabiltyHeaderRef = el), fromDate: this.fromDate, toDate: this.toDate, adultCount: this.adultCount, childrenCount: this.childrenCount })), h("section", { class: app_store.app_data.displayMode === 'default' ? 'relative justify-between gap-4 rounded-md ' : '', ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: app_store.app_data.displayMode === 'default' ? ' flex-1 py-2' : 'grid-container' }, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => {
             if (!roomType.is_active ||
                 (app_store.app_data.roomtype_id && roomType.id !== app_store.app_data.roomtype_id) ||
                 !roomType.rateplans.some(rp => rp.is_booking_engine_enabled) ||

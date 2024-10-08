@@ -1,5 +1,6 @@
 import app_store from "../../../../stores/app.store";
 import booking_store, { getVisibleInventory } from "../../../../stores/booking";
+import localizedWords from "../../../../stores/localization.store";
 import { h } from "@stencil/core";
 export class IrRoomtype {
     constructor() {
@@ -7,19 +8,25 @@ export class IrRoomtype {
         this.roomtype = undefined;
     }
     render() {
-        return (h("section", { key: '9d7bfec12a70f648cc6d5e82d28484dec26f3a2d', class: `room-type-container p-0 ${this.display === 'default' ? 'md:p-4' : 'h-full'}` }, this.display === 'default' && (h("aside", { key: '6ed79ff6329a95fb9ab4989cc93ac07ac523ce5c', class: "hidden md:block" }, h("ir-property-gallery", { key: 'debf1441d16f8a8c0f9a84d5f1018d0a6d1668ad', property_state: "carousel", roomType: this.roomtype }))), h("div", { key: '5a6466791364ffbe9e95e0e43f65e1b06b0e3925', class: `w-full  ${this.display === 'default' ? 'md:space-y-2' : 'rp-container-grid '}` }, this.display === 'default' && h("h3", { key: '660fef519bd97b254a4a2b8612ba7b3840d603c1', class: "hidden text-start  text-lg font-medium text-slate-900 md:block " }, this.roomtype.name), h("div", { key: '569dd2466d99b3e5a4466904628780e46b05ce58', class: this.display === 'default' ? 'md:hidden' : '' }, h("ir-property-gallery", { key: '45ef1ff6005ff7073b76422308d4515647be964a', display: this.display, property_state: "carousel", roomType: this.roomtype })), h("div", { key: '5fddf44203434bc2ee1644120219d6b4d74167e7', class: `p-4 pt-2 ${this.display === 'default' ? 'md:p-0' : 'rp-container-grid justify-between'}` }, h("div", { key: '1ab5dded1e59503dbf8c10536af39a6e008372ef' }, h("h3", { key: '1d1fcaf44a4c90fd14aa294a7baf7b767387945f', class: `text-start  text-lg font-medium text-slate-900 ${this.display === 'default' ? 'md:hidden' : ''} ` }, this.roomtype.name), h("div", { key: '38b41c03341da36f2d343298f785b55091563f1c', class: `flex  flex-wrap  gap-2 py-2 text-sm font-normal text-gray-700 ${this.display === 'default' ? 'md:hidden' : '  '}` }, h("ir-accomodations", { key: '7831353f935c9ad1f2a423635bbd77eb73b7fc9c', bookingAttributes: {
+        return (h("section", { key: '66135d0bddf074f30bcf87e0eb7364c4631870b1', class: `room-type-container p-0 ${this.display === 'default' ? 'md:p-4' : 'h-full'}` }, this.display === 'default' && (h("aside", { key: '5bd6dfa2f8208761ba821b88fae9a5bfe7e59f47', class: "hidden md:block" }, h("ir-property-gallery", { key: '0a7abe3e049935f4510a7f5a9545b80dc1fb5404', property_state: "carousel", roomType: this.roomtype }))), h("div", { key: '1296be22513b8bc7c8084266b5a8306a2eb5b86a', class: `w-full  ${this.display === 'default' ? 'md:space-y-2' : 'rp-container-grid '}` }, this.display === 'default' && h("h3", { key: '6ad7b42a42e46fcff38352a7f84a92742024bc33', class: "hidden text-start  text-lg font-medium text-slate-900 md:block " }, this.roomtype.name), h("div", { key: '734213dc7da4e2c70c42c0b46035c02f0fc9d736', class: this.display === 'default' ? 'md:hidden' : '' }, h("ir-property-gallery", { key: 'fb8cc4dead0f002a3aa40747ad186ee393aed9b7', display: this.display, property_state: "carousel", roomType: this.roomtype })), h("div", { key: '61fdf951f01213af7f9084b4b276df04754248a1', class: `p-4 pt-2 ${this.display === 'default' ? 'md:p-0' : 'rp-container-grid '}` }, h("div", { key: 'b39046f9c0524f086fbea1db0fb020364ccb7b19' }, h("h3", { key: '3a9670228b248e60a7f1e3b917542a0c280013a5', class: `text-start  text-lg font-medium text-slate-900 ${this.display === 'default' ? 'md:hidden' : ''} ` }, this.roomtype.name), h("div", { key: '1526bf774d29e2db106a6b21377c341db96ff4ff', class: `flex  flex-wrap  gap-2 py-2 text-sm font-normal text-gray-700 ${this.display === 'default' ? 'md:hidden' : '  '}` }, h("ir-accomodations", { key: '14563fa07860003d60309fad905964bcc140c5a5', bookingAttributes: {
                 max_occupancy: this.roomtype.occupancy_max.adult_nbr,
                 bedding_setup: this.roomtype.bedding_setup,
-            }, amenities: app_store.property.amenities })), this.display === 'default' && (h("div", { key: 'deeeb97b11da5abd29edfec9664a04fc1548bee0', class: 'hidden md:block' }, h("ir-accomodations", { key: '3f1520998d00d2fc923f8506f18bdbb36fbdc7c7', bookingAttributes: {
+            }, amenities: app_store.property.amenities })), this.display === 'default' && (h("div", { key: '933933dfc01f4ed0052294b0a29d54ca9e724a8a', class: 'hidden md:block' }, h("ir-accomodations", { key: '096558a96456c8e9d0625ed5198eb82b4551b86b', bookingAttributes: {
                 max_occupancy: this.roomtype.occupancy_max.adult_nbr,
                 bedding_setup: this.roomtype.bedding_setup,
-            }, amenities: app_store.property.amenities })))), h("div", { key: '210d7ca25c9fc749a21e1b6df1eb721ea0fb09d6' }, booking_store.enableBooking ? (this.roomtype.rateplans.map(ratePlan => {
-            if (!ratePlan.is_active || !ratePlan.is_booking_engine_enabled || !ratePlan.variations) {
+            }, amenities: app_store.property.amenities })))), booking_store.enableBooking &&
+            (this.roomtype.rateplans.every(r => r.is_closed) ||
+                this.roomtype.rateplans.every(ratePlan => !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))))) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? (this.roomtype.rateplans.map(ratePlan => {
+            if (!ratePlan.is_active ||
+                ratePlan.is_closed ||
+                !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))) ||
+                !ratePlan.is_booking_engine_enabled ||
+                !ratePlan.variations) {
                 return null;
             }
             const visibleInventory = getVisibleInventory(this.roomtype.id, ratePlan.id);
             return (h("ir-rateplan", { display: this.display, key: ratePlan.id, ratePlan: ratePlan, visibleInventory: visibleInventory, roomTypeId: this.roomtype.id, roomTypeInventory: this.roomtype.inventory }));
-        })) : (h("div", { class: "app_container flex w-full flex-1 flex-col justify-between space-y-1 rounded-md bg-gray-100  text-sm md:flex-row" }, h("p", null, this.roomtype.description))))))));
+        })) : (h("div", { class: "app_container flex w-full  flex-col justify-between space-y-1 rounded-md bg-gray-100  text-sm md:flex-row" }, h("p", null, this.roomtype.description)))))))));
     }
     static get is() { return "ir-roomtype"; }
     static get encapsulation() { return "shadow"; }

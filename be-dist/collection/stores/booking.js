@@ -17,13 +17,16 @@ const initialState = {
 };
 export const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
 function setSelectedVariation(lastVariation, variations, currentVariation) {
-    // console.log(lastVariation, variations, currentVariation);
     if ((currentVariation === null || currentVariation === void 0 ? void 0 : currentVariation.state) === 'default' || !currentVariation || booking_store.resetBooking) {
-        return { state: 'default', variation: lastVariation };
+        if (lastVariation.amount > 0) {
+            return { state: 'default', variation: lastVariation };
+        }
+        return { state: 'default', variation: variations[0] };
     }
-    const currentVariationIdx = variations.findIndex(v => v.adult_child_offering === currentVariation.variation.adult_child_offering);
+    const currentVariationIdx = variations.findIndex(v => { var _a; return (v === null || v === void 0 ? void 0 : v.adult_child_offering) === ((_a = currentVariation.variation) === null || _a === void 0 ? void 0 : _a.adult_child_offering); });
     if (currentVariationIdx === -1) {
-        return { state: 'default', variation: lastVariation };
+        const variationWithAmount = variations.find(v => v.amount > 0);
+        return { state: 'default', variation: variationWithAmount !== null && variationWithAmount !== void 0 ? variationWithAmount : lastVariation };
     }
     return currentVariation;
 }
@@ -56,10 +59,10 @@ onRoomTypeChange('roomTypes', (newValue) => {
             const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
-                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
+                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
-                    selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, currentRatePlanSelection === null || currentRatePlanSelection === void 0 ? void 0 : currentRatePlanSelection.selected_variation),
+                    selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation),
                     ratePlan,
                     guestName: [],
                     is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,

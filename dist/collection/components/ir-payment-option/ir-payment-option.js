@@ -17,18 +17,15 @@ export class IrPaymentOption {
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.initialized = false;
     }
     componentWillLoad() {
         axios.defaults.baseURL = this.baseurl;
-        if (this.ticket && !this.initialized) {
-            this.initialized = true;
+        if (this.ticket) {
             this.init();
         }
     }
     handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue && !this.initialized) {
-            this.initialized = true;
+        if (newValue !== oldValue) {
             this.init();
         }
     }
@@ -107,6 +104,7 @@ export class IrPaymentOption {
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
+        console.log(paymentOption);
         let index = prevPaymentOptions.findIndex(p => p.code === paymentOption.code);
         if (index === -1) {
             throw new Error('Invalid code');
@@ -302,8 +300,7 @@ export class IrPaymentOption {
         return {
             "paymentOptions": {},
             "isLoading": {},
-            "selectedOption": {},
-            "initialized": {}
+            "selectedOption": {}
         };
     }
     static get events() {

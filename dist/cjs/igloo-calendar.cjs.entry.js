@@ -2,81 +2,20 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
-const Token = require('./Token-db8ba99b.js');
-const calendarData = require('./calendar-data-3ed3cfd1.js');
-const locales_store = require('./locales.store-ec208203.js');
+const index = require('./index-d0d7c4d0.js');
+const room_service = require('./room.service-cc9c0583.js');
+const booking_service = require('./booking.service-07f301d9.js');
+const utils = require('./utils-5cd972af.js');
 const axios = require('./axios-b86c5465.js');
-const booking_service = require('./booking.service-10c6e7c1.js');
-const utils = require('./utils-4391bd80.js');
-const events_service = require('./events.service-87d352f1.js');
+const events_service = require('./events.service-9ff25095.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-9ee59969.js');
-const booking = require('./booking-9b03b4af.js');
-const calendarDates_store = require('./calendar-dates.store-55347731.js');
-const unassigned_dates_store = require('./unassigned_dates.store-f6f346cd.js');
-require('./index-104877f7.js');
-
-class RoomService extends Token.Token {
-    async fetchData(id, language, is_backend = false) {
-        try {
-            const token = this.getToken();
-            if (token !== null) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Property?Ticket=${token}`, { id, language, is_backend });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                const results = data.My_Result;
-                calendarData.calendar_data.adultChildConstraints = results.adult_child_constraints;
-                calendarData.calendar_data.allowedBookingSources = results.allowed_booking_sources;
-                calendarData.calendar_data.allowed_payment_methods = results.allowed_booking_methods;
-                calendarData.calendar_data.currency = results.currency;
-                calendarData.calendar_data.is_vacation_rental = results.is_vacation_rental;
-                calendarData.calendar_data.pickup_service = results.pickup_service;
-                calendarData.calendar_data.max_nights = results.max_nights;
-                calendarData.calendar_data.roomsInfo = results.roomtypes;
-                calendarData.calendar_data.taxes = results.taxes;
-                calendarData.calendar_data.id = results.id;
-                calendarData.calendar_data.country = results.country;
-                calendarData.calendar_data.name = results.name;
-                calendarData.calendar_data.tax_statement = results.tax_statement;
-                calendarData.calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
-                calendarData.calendar_data.is_pms_enabled = results.is_pms_enabled;
-                return data;
-            }
-        }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-    async fetchLanguage(code, sections = ['_PMS_FRONT']) {
-        try {
-            const token = this.getToken();
-            if (token !== null) {
-                const { data } = await axios.axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code, sections });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                let entries = this.transformArrayToObject(data.My_Result.entries);
-                locales_store.locales.entries = Object.assign(Object.assign({}, locales_store.locales.entries), entries);
-                locales_store.locales.direction = data.My_Result.direction;
-                return { entries, direction: data.My_Result.direction };
-            }
-        }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-    transformArrayToObject(data) {
-        let object = {};
-        for (const d of data) {
-            object[d.code] = d.description;
-        }
-        return object;
-    }
-}
+const toBeAssigned_service = require('./toBeAssigned.service-1d20e09d.js');
+const booking = require('./booking-287b38fc.js');
+const locales_store = require('./locales.store-4301bbe8.js');
+const calendarData = require('./calendar-data-fbe7f62b.js');
+const unassigned_dates_store = require('./unassigned_dates.store-4630d230.js');
+require('./Token-db8ba99b.js');
+require('./index-5e99a1fe.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -277,7 +216,6 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
-    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -337,15 +275,14 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* READ_HEADER */;
+    let state = 0 /* State.READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
-    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* READ_HEADER */) {
+                if (state === 0 /* State.READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -353,24 +290,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* READ_PAYLOAD */;
+                        state = 3 /* State.READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
-                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -383,7 +320,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -391,7 +328,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* READ_HEADER */;
+                    state = 0 /* State.READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);
@@ -3995,7 +3932,7 @@ const IglooCalendar = class {
         this.reduceAvailableUnitEvent = index.createEvent(this, "reduceAvailableUnitEvent", 7);
         this.revertBooking = index.createEvent(this, "revertBooking", 7);
         this.bookingService = new booking_service.BookingService();
-        this.roomService = new RoomService();
+        this.roomService = new room_service.RoomService();
         this.eventsService = new events_service.EventsService();
         this.toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
         this.countryNodeList = [];
@@ -4103,8 +4040,8 @@ const IglooCalendar = class {
                 this.bookingService.getCalendarData(this.propertyid, this.from_date, this.to_date),
                 this.bookingService.getCountries(this.language),
             ]);
-            calendarDates_store.calendar_dates.days = bookingResp.days;
-            calendarDates_store.calendar_dates.months = bookingResp.months;
+            booking.calendar_dates.days = bookingResp.days;
+            booking.calendar_dates.months = bookingResp.months;
             this.setRoomsData(roomResp);
             this.countryNodeList = countryNodeList;
             this.setUpCalendarData(roomResp, bookingResp);
@@ -4118,8 +4055,8 @@ const IglooCalendar = class {
             this.days = bookingResp.days;
             this.calendarData.days = this.days;
             this.calendarData.monthsInfo = bookingResp.months;
-            calendarDates_store.calendar_dates.fromDate = this.calendarData.from_date;
-            calendarDates_store.calendar_dates.toDate = this.calendarData.to_date;
+            booking.calendar_dates.fromDate = this.calendarData.from_date;
+            booking.calendar_dates.toDate = this.calendarData.to_date;
             setTimeout(() => {
                 this.scrollToElement(this.today);
             }, 200);
@@ -4243,7 +4180,7 @@ const IglooCalendar = class {
         }
     }
     updateTotalAvailability() {
-        let days = [...calendarDates_store.calendar_dates.days];
+        let days = [...booking.calendar_dates.days];
         this.totalAvailabilityQueue.forEach(queue => {
             let selectedDate = new Date(queue.date);
             selectedDate.setMilliseconds(0);
@@ -4260,7 +4197,7 @@ const IglooCalendar = class {
                 }
             }
         });
-        calendarDates_store.calendar_dates.days = [...days];
+        booking.calendar_dates.days = [...days];
     }
     componentDidLoad() {
         this.scrollToElement(this.today);
@@ -4523,7 +4460,7 @@ const IglooCalendar = class {
         if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
             this.calendarData.startingDate = new Date(fromDate).getTime();
             this.calendarData.from_date = fromDate;
-            calendarDates_store.calendar_dates.fromDate = this.calendarData.from_date;
+            booking.calendar_dates.fromDate = this.calendarData.from_date;
             this.days = [...results.days, ...this.days];
             let newMonths = [...results.months];
             if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
@@ -4540,13 +4477,13 @@ const IglooCalendar = class {
                 }
                 return true;
             });
-            calendarDates_store.calendar_dates.days = this.days;
+            booking.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
         }
         else {
             this.calendarData.endingDate = new Date(toDate).getTime();
             this.calendarData.to_date = toDate;
-            calendarDates_store.calendar_dates.toDate = this.calendarData.to_date;
+            booking.calendar_dates.toDate = this.calendarData.to_date;
             let newMonths = [...results.months];
             this.days = [...this.days, ...results.days];
             if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
@@ -4564,7 +4501,7 @@ const IglooCalendar = class {
                 }
                 return true;
             });
-            calendarDates_store.calendar_dates.days = this.days;
+            booking.calendar_dates.days = this.days;
             //calendar_dates.months = bookingResp.months;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...this.calendarData.monthsInfo, ...newMonths], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
             const data = await this.toBeAssignedService.getUnassignedDates(this.propertyid, fromDate, toDate);

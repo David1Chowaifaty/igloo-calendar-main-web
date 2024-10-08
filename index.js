@@ -1,5 +1,5 @@
 function getToken() {
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Mjg0NjA1MzIsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThKYXhDR25xUkxrcSIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.FxYXU8QuKI08pUhw3SU_eRcg_wSMl1QIacse0pE7xnI"
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Mjk1NzY4ODQsIkNMQUlNLTAxIjoicktLMi9DY1dQQnM9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThKYXhDR25xUkxrcSIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.D3QDbmnKBh4GKZ6tb9IvDO4AJY0v8bJ_wCdEJ4RLrjU"
 }
 function getId() {
     return "42"
@@ -22,6 +22,7 @@ const links = [
             { href: "be-napa.html", name: "Napa City Apartments", current: false, subroutes: null },
             { href: "be-regency-palace.html", name: "Regency Palace Hotel", current: false, subroutes: null },
             { href: "be-theo.html", name: "Theo Sunset Bay Hotel", current: false, subroutes: null },
+            { href: "be-daralma.html", name: "Dar Alma", current: false, subroutes: null },
             { href: "be-demo-injected.html", name: "Demo injected", current: false, subroutes: null },
         ]
     },

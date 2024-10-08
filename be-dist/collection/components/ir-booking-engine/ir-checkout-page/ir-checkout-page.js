@@ -20,6 +20,7 @@ export class IrCheckoutPage {
         this.error = undefined;
         this.selectedPaymentMethod = null;
         this.prepaymentAmount = undefined;
+        this.isBookingConfirmed = false;
     }
     async componentWillLoad() {
         try {
@@ -93,6 +94,9 @@ export class IrCheckoutPage {
     }
     validatePayment() {
         var _a, _b, _c, _d, _e, _f;
+        if (!app_store.property.allowed_payment_methods.some(p => p.is_active)) {
+            return true;
+        }
         const currentPayment = app_store.property.allowed_payment_methods.find(p => { var _a; return p.code === ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code); });
         this.selectedPaymentMethod = currentPayment;
         if (!currentPayment && this.prepaymentAmount > 0) {
@@ -188,6 +192,7 @@ export class IrCheckoutPage {
         var _a, _b;
         try {
             const result = await this.propertyService.bookUser();
+            this.isBookingConfirmed = true;
             booking_store.booking = result;
             const conversionTag = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.tags.find(t => t.key === 'conversion');
             if (conversionTag && conversionTag.value) {
@@ -238,7 +243,7 @@ export class IrCheckoutPage {
                 params: {
                     booking_nbr: bookingResult.booking_nbr,
                     amount: amountToBePayed,
-                    currency_id: bookingResult.currency.id,
+                    currency_id: app_store.currencies.find(a => a.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
                     email: bookingResult.guest.email,
                     pgw_id: currentPayment.id.toString(),
                 },
@@ -263,7 +268,7 @@ export class IrCheckoutPage {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
-            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { prepaymentAmount: this.prepaymentAmount, error: this.error })))));
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "scoped"; }
@@ -282,7 +287,8 @@ export class IrCheckoutPage {
             "isLoading": {},
             "error": {},
             "selectedPaymentMethod": {},
-            "prepaymentAmount": {}
+            "prepaymentAmount": {},
+            "isBookingConfirmed": {}
         };
     }
     static get events() {

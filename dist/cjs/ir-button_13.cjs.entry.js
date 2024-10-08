@@ -2,16 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-caa79d4b.js');
+const index = require('./index-d0d7c4d0.js');
 const v4 = require('./v4-9b297151.js');
 const icons = require('./icons-24fa0323.js');
 const axios = require('./axios-b86c5465.js');
-const irInterceptor_store = require('./ir-interceptor.store-b79239af.js');
+const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const Token = require('./Token-db8ba99b.js');
-const index$1 = require('./index-104877f7.js');
-const locales_store = require('./locales.store-ec208203.js');
-const room_service = require('./room.service-5be9e149.js');
-require('./calendar-data-3ed3cfd1.js');
+const index$1 = require('./index-5e99a1fe.js');
+const locales_store = require('./locales.store-4301bbe8.js');
+const room_service = require('./room.service-cc9c0583.js');
+require('./calendar-data-fbe7f62b.js');
 
 const irButtonCss = ".sc-ir-button-h{--icon-button-color:#6b6f82;--icon-button-hover-color:#104064}.button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}.ir-button-class.sc-ir-button{display:inline-flex !important;justify-content:center;align-items:center;box-sizing:border-box}.icon-button.sc-ir-button{all:unset;box-sizing:border-box;border-radius:0.25rem;display:inline-flex;align-items:center;justify-content:center;color:var(--icon-button-color);padding:0.2rem;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.icon-button.sc-ir-button:hover{color:var(--icon-button-hover-color)}.icon-button.sc-ir-button:hover.hovered_bg{background:var('--ir-icon-bg-hover', #f6f6f6)}.icon-button.sc-ir-button:disabled{pointer-events:none}.icon-loader.sc-ir-button{margin:0;padding:0;width:var(--icon-size, 1.25rem);height:var(--icon-size, 1.25rem);border-radius:50%;background:radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));-webkit-mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);animation:l13 1s infinite linear}.btn_loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l13{100%{transform:rotate(1turn)}}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrButtonStyle0 = irButtonCss;
@@ -462,6 +462,7 @@ const IrOptionDetails = class {
             payment_option_store.selectedOption.code === '005'
                 ? (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables) === null || _b === void 0 ? void 0 : _b.findIndex(l => l.language.id.toString() === this.selectedLanguage)
                 : null;
+        console.log(this.localizationIdx, this.selectedLanguage);
     }
     async saveOption(e) {
         var _a;
@@ -531,7 +532,7 @@ const IrOptionDetails = class {
         return (index.h(index.Host, null, index.h("form", { class: 'p-1 mt-2', onSubmit: this.saveOption.bind(this) }, payment_option_store.selectedOption.code === '005' ? (index.h("div", null, index.h("div", { class: "mb-1" }, index.h("ir-select", { selectedValue: this.selectedLanguage, LabelAvailable: false, showFirstOption: false, data: payment_option_store.languages.map(l => ({
                 text: l.description,
                 value: l.id.toString(),
-            })) })), index.h("div", null, this.invalid && index.h("p", { class: "text-danger p-0 m-0" }, locales_store.locales.entries.Lcz_YouMustFillEnglishField), index.h("ir-textarea", { placeholder: "", "aria-invalid": this.invalid ? 'true' : 'false', textareaClassname: "money-transfer-form", label: "", onTextChange: this.handleTextAreaChange.bind(this), value: this.localizationIdx ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '' })))) : (index.h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
+            })) })), index.h("div", null, this.invalid && index.h("p", { class: "text-danger p-0 m-0" }, locales_store.locales.entries.Lcz_YouMustFillEnglishField), index.h("ir-textarea", { placeholder: "", "aria-invalid": this.invalid ? 'true' : 'false', textareaClassname: "money-transfer-form", label: "", onTextChange: this.handleTextAreaChange.bind(this), value: this.localizationIdx !== null ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '' })))) : (index.h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
             var _a, _b;
             return (index.h("fieldset", { key: d.key }, index.h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key, placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || ((_b = ((_a = d.value) !== null && _a !== void 0 ? _a : '')) === null || _b === void 0 ? void 0 : _b.trim()) === '') ? 'true' : 'false' })));
         }))), index.h("div", { class: 'd-flex flex-column flex-sm-row mt-3' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), index.h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: irInterceptor_store.isRequestPending('/Handle_Payment_Method'), text: locales_store.locales.entries.Lcz_Save, btn_color: "primary" })))));
@@ -557,18 +558,15 @@ const IrPaymentOption = class {
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.initialized = false;
     }
     componentWillLoad() {
         axios.axios.defaults.baseURL = this.baseurl;
-        if (this.ticket && !this.initialized) {
-            this.initialized = true;
+        if (this.ticket) {
             this.init();
         }
     }
     handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue && !this.initialized) {
-            this.initialized = true;
+        if (newValue !== oldValue) {
             this.init();
         }
     }
@@ -647,6 +645,7 @@ const IrPaymentOption = class {
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
+        console.log(paymentOption);
         let index = prevPaymentOptions.findIndex(p => p.code === paymentOption.code);
         if (index === -1) {
             throw new Error('Invalid code');
