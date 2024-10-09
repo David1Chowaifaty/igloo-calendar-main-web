@@ -33,6 +33,7 @@ export declare class IrDatePicker {
     datePropChanged(): void;
     openDatePicker(): Promise<void>;
     updateDateRangePickerDates(): void;
+    componentWillLoad(): void;
     componentDidLoad(): void;
     initializeDateRangePicker(): void;
     disconnectedCallback(): void;

@@ -4,10 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-const booking = require('./booking-287b38fc.js');
+const booking = require('./booking-487f5bfc.js');
 const moment = require('./moment-1780b03a.js');
 require('./index-5e99a1fe.js');
-require('./utils-5cd972af.js');
+require('./utils-7ae9e098.js');
 require('./axios-b86c5465.js');
 require('./calendar-data-fbe7f62b.js');
 
@@ -49,6 +49,9 @@ const IrDateView = class {
             to_date: '',
             date_diffrence: 0,
         };
+        if (!date) {
+            return;
+        }
         if (typeof date === 'string') {
             this.dates[key] = moment.hooks(date, this.dateOption).format('MMM DD, YYYY');
         }
@@ -63,7 +66,7 @@ const IrDateView = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '7724caf1e1005e29eb249353faf9209657b35341', class: "d-flex align-items-center" }, index.h("span", { key: '1796ef2a9725cc6ebb49ff08f32d37d0a1bcc004' }, this.dates.from_date), ' ', index.h("svg", { key: '962119ab292eed2464b96471c76982579846b639', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, index.h("path", { key: '19a3afca1e831458b9c0e6cded799f4393ee9d76', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), index.h("span", { key: '4ba6a1f04713f8122903a2df7954c24229e829cc' }, this.dates.to_date, ' ', this.showDateDifference && (index.h("span", { key: 'cdf99d753f165c5a3abf1b34d2448f4452cdc865', class: "mx-01" }, this.dates.date_diffrence, '   ', this.dates.date_diffrence > 1 ? ` ${locales_store.locales.entries.Lcz_Nights}` : ` ${locales_store.locales.entries.Lcz_Night}`)))));
+        return (index.h(index.Host, { key: '4034ad3b84e1774225fee17850a83b07d54a32b4', class: "d-flex align-items-center" }, index.h("span", { key: '966ae7c0115d77785c89f7392ef336daea24ff17' }, this.dates.from_date), ' ', index.h("svg", { key: '8aa78632234f8f72c6c6b2d952a2927d5cbfd700', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, index.h("path", { key: 'de157504fe318040d3ab1e8bfd8518d413c547c6', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), index.h("span", { key: '5087f3cfc836c2ee69b715dba2a43cb0f05768fc' }, this.dates.to_date, ' ', this.showDateDifference && (index.h("span", { key: '37088cbfe7c497fe79a3bd4c32a491a1f31cdffd', class: "mx-01" }, this.dates.date_diffrence, '   ', this.dates.date_diffrence > 1 ? ` ${locales_store.locales.entries.Lcz_Nights}` : ` ${locales_store.locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],

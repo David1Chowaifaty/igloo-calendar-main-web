@@ -3,16 +3,14 @@ import { RoomBlockDetails, RoomBookingDetails } from '../../../models/IBooking';
 import { IPageTwoDataUpdateProps } from '../../../models/models';
 import { TAdultChildConstraints, TPropertyButtonsTypes } from '../../../models/igl-book-property';
 import { IToast } from "../../ir-toast/toast";
+import { ICurrency } from "../../../models/calendarData";
 export declare class IglBookProperty {
     propertyid: number;
     allowedBookingSources: any;
     language: string;
     countryNodeList: any;
     showPaymentDetails: boolean;
-    currency: {
-        id: number;
-        code: string;
-    };
+    currency: ICurrency;
     bookingData: {
         [key: string]: any;
     };

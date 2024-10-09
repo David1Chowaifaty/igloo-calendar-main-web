@@ -4,11 +4,11 @@ import { a as axios } from './axios.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as createStore } from './index2.js';
 import { l as locales } from './locales.store.js';
+import { L as Link, d as defineCustomElement$1 } from './ir-text-editor2.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-input-text2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
-import { d as defineCustomElement$1 } from './ir-textarea2.js';
 
 class PaymentOptionService extends Token {
     async GetExposedPaymentMethods() {
@@ -166,7 +166,7 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         return (h(Host, null, h("form", { class: 'p-1 mt-2', onSubmit: this.saveOption.bind(this) }, payment_option_store.selectedOption.code === '005' ? (h("div", null, h("div", { class: "mb-1" }, h("ir-select", { selectedValue: this.selectedLanguage, LabelAvailable: false, showFirstOption: false, data: payment_option_store.languages.map(l => ({
                 text: l.description,
                 value: l.id.toString(),
-            })) })), h("div", null, this.invalid && h("p", { class: "text-danger p-0 m-0" }, locales.entries.Lcz_YouMustFillEnglishField), h("ir-textarea", { placeholder: "", "aria-invalid": this.invalid ? 'true' : 'false', textareaClassname: "money-transfer-form", label: "", onTextChange: this.handleTextAreaChange.bind(this), value: this.localizationIdx !== null ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '' })))) : (h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
+            })) })), h("div", null, this.invalid && h("p", { class: "text-danger p-0 m-0" }, locales.entries.Lcz_YouMustFillEnglishField), h("ir-text-editor", { plugins: [Link], pluginsMode: "add", toolbarItemsMode: "add", toolbarItems: ['|', 'link'], style: { '--ir-editor-height': '250px' }, error: this.invalid, value: this.localizationIdx !== null ? (_c = (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables[this.localizationIdx]) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : '' : '', onTextChange: this.handleTextAreaChange.bind(this) })))) : (h("div", null, (_d = payment_option_store.selectedOption.data) === null || _d === void 0 ? void 0 : _d.map((d, idx) => {
             var _a, _b;
             return (h("fieldset", { key: d.key }, h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key, placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || ((_b = ((_a = d.value) !== null && _a !== void 0 ? _a : '')) === null || _b === void 0 ? void 0 : _b.trim()) === '') ? 'true' : 'false' })));
         }))), h("div", { class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Handle_Payment_Method'), text: locales.entries.Lcz_Save, btn_color: "primary" })))));
@@ -182,7 +182,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-option-details", "ir-button", "ir-icons", "ir-input-text", "ir-select", "ir-textarea"];
+    const components = ["ir-option-details", "ir-button", "ir-icons", "ir-input-text", "ir-select", "ir-text-editor"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-option-details":
             if (!customElements.get(tagName)) {
@@ -209,7 +209,7 @@ function defineCustomElement() {
                 defineCustomElement$2();
             }
             break;
-        case "ir-textarea":
+        case "ir-text-editor":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

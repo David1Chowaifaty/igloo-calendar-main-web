@@ -29,9 +29,7 @@ export declare class IglPropertyBookedBy {
     private populateBookedByData;
     handleDataChange(key: any, event: any): void;
     handleNumberInput(key: any, event: InputEvent): void;
-    handleEmailInput(key: any, event: InputEvent): Promise<void>;
     checkUser(): Promise<void>;
-    isValidEmail(emailId: any): boolean;
     handleComboboxChange(e: CustomEvent): void;
     clearEvent(): void;
     handleButtonClicked(event: CustomEvent<{

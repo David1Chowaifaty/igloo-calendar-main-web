@@ -1,5 +1,5 @@
 import { h, Host } from "@stencil/core";
-import { getCurrencySymbol } from "../../../utils/utils";
+import { formatAmount } from "../../../utils/utils";
 import locales from "../../../stores/locales.store";
 export class IglPagetwo {
     constructor() {
@@ -115,14 +115,12 @@ export class IglPagetwo {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h(Host, { key: '7a87f4429f3f4ba2a8b8098e89d507cf2114e34f' }, h("div", { key: '0c59d4c8f63e77ddcb39ab54620c8d481baf4756', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '6c413bb99b3124d3ed9f6c3754995d6e18b40fc4', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDateStr, to_date: this.dateRangeData.toDateStr, dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'fabf9057d48425efce9dff7d70a639c744a7df58', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'aa00c23cc991017912ce9555059b72f652ddfd8a', class: "font-weight-bold font-medium-1" }, getCurrencySymbol(this.currency.code) + this.bookingData.TOTAL_PRICE || '$0.00')))), this.guestData.map((roomInfo, index) => {
+        return (h(Host, { key: '31e002672954d89d9f11fceb6d05c028f00ffeb8' }, h("div", { key: '819fc3abb3b5a6f2b56823b68f59721e2eb8ac17', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'bd6af801f149914a4c1d4a2d8ffe33b2ccf49a1c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDateStr, to_date: this.dateRangeData.toDateStr, dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'f23d70bed4f780721513fdc2259705a40f5a1d92', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'ace47b4c8affd5e53788a8bcca8d2715a9e136d6', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), this.guestData.map((roomInfo, index) => {
             return (h("igl-application-info", { dateDifference: this.dateRangeData.dateDifference, defaultGuestPreference: this.defaultGuestData.bed_preference, defaultGuestRoomId: this.defaultGuestData.PR_ID, currency: this.currency, bedPreferenceType: this.bedPreferenceType, index: index, selectedUnits: this.selectedUnits[`c_${roomInfo.roomCategoryId}`], guestInfo: roomInfo, guestRefKey: index, bookingType: this.bookingData.event_type, roomsList: roomInfo.physicalRooms, onDataUpdateEvent: event => this.handleEventData(event, 'application-info', index) }));
-        }), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => 
-            // this.dataUpdateEvent.emit({
-            //   key: "propertyBookedBy",
-            //   value: event.detail,
-            // })
-            this.handleEventData(event, 'propertyBookedBy', 0) })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHanlder: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book }))))));
+        }), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => {
+                console.log('user info details', event.detail);
+                this.handleEventData(event, 'propertyBookedBy', 0);
+            } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHanlder: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHanlder: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book }))))));
     }
     static get is() { return "igl-pagetwo"; }
     static get encapsulation() { return "scoped"; }
@@ -156,21 +154,25 @@ export class IglPagetwo {
                 "reflect": false
             },
             "currency": {
-                "type": "any",
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
+                    "original": "ICurrency",
+                    "resolved": "ICurrency",
+                    "references": {
+                        "ICurrency": {
+                            "location": "import",
+                            "path": "@/models/calendarData",
+                            "id": "src/models/calendarData.ts::ICurrency"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "attribute": "currency",
-                "reflect": false
+                }
             },
             "isEditOrAddRoomEvent": {
                 "type": "boolean",
@@ -420,7 +422,7 @@ export class IglPagetwo {
                     "references": {
                         "IPageTwoDataUpdateProps": {
                             "location": "import",
-                            "path": "../../../models/models",
+                            "path": "@/models/models",
                             "id": "src/models/models.ts::IPageTwoDataUpdateProps"
                         }
                     }

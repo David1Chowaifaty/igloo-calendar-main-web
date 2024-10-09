@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
-import { o as getDaysArray, g as getCurrencySymbol, p as convertDatePrice, q as formatDate } from './utils.js';
+import { o as getDaysArray, p as getCurrencySymbol, q as convertDatePrice, s as formatDate } from './utils.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';

@@ -1,10 +1,11 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { TPropertyButtonsTypes } from "../../../components";
+import { ICurrency } from "../../../models/calendarData";
 export declare class IglApplicationInfo {
     guestInfo: {
         [key: string]: any;
     };
-    currency: any;
+    currency: ICurrency;
     roomsList: {
         [key: string]: any;
     }[];

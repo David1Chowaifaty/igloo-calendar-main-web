@@ -64,6 +64,18 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
             picker.setEndDate(newEndDate);
         }
     }
+    componentWillLoad() {
+        if (!document.getElementById('ir-daterangepicker-style')) {
+            const style = document.createElement('style');
+            style.id = 'ir-daterangepicker-style';
+            style.textContent = `
+        .daterangepicker {
+          margin-top: 14px;
+        }
+      `;
+            document.head.appendChild(style);
+        }
+    }
     componentDidLoad() {
         this.dateRangeInput = this.element.querySelector('.date-range-input');
         this.initializeDateRangePicker();
@@ -103,7 +115,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '5e9e22d521c56bf24277bed28c0997b4d2ae4e02' }, h("input", { key: '5521a8c07f08d3c79fcd6d40c10f7f04bfe12af1', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: '1902857eaa8550c3a295b6b7ddffd122a90a4457' }, h("input", { key: 'cad8c26b2d67400f04061f482096cd465f29c00f', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {

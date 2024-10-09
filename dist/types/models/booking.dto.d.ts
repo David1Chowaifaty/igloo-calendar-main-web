@@ -97,6 +97,7 @@ export interface DateTime {
 export interface Currency {
     code: string;
     id: number;
+    symbol: string;
 }
 export interface Guest {
     address: string | null;

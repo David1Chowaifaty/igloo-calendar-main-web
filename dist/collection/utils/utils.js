@@ -1,4 +1,5 @@
 import moment from "moment";
+import { z } from "zod";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear) {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');
@@ -122,9 +123,16 @@ export function getDaysArray(date1, date2) {
 export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
+export function validateEmail(email) {
+    if (email === '') {
+        return true;
+    }
+    const parsedEmailResults = z.string().email().safeParse(email);
+    return !parsedEmailResults.success;
+}
 export function formatAmount(currency, amount) {
-    const symbol = getCurrencySymbol(currency);
-    return symbol + amount.toFixed(2);
+    // const symbol = getCurrencySymbol(currency);
+    return currency + amount.toFixed(2);
 }
 export const extras = [
     {

@@ -1,9 +1,10 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { IPageTwoDataUpdateProps } from '../../../models/models';
+import { IPageTwoDataUpdateProps } from "../../../models/models";
 import { IglBookPropertyPayloadEditBooking, TPropertyButtonsTypes } from '../../../models/igl-book-property';
+import { ICurrency } from "../../../models/calendarData";
 export declare class IglPagetwo {
     showPaymentDetails: boolean;
-    currency: any;
+    currency: ICurrency;
     isEditOrAddRoomEvent: boolean;
     dateRangeData: {
         [key: string]: any;
