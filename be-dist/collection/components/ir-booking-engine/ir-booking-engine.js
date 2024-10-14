@@ -12,7 +12,7 @@ import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.20';
+        this.version = '2.25';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -50,6 +50,7 @@ export class IrBookingEngine {
         console.log(`version:${this.version}`);
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
+        axios.defaults.headers.common['Testing'] = 'david';
         getUserPrefernce(this.language);
         if (this.property) {
             app_store.property = Object.assign({}, this.property);

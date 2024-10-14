@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { TContainerStyle } from './types';
 export declare class IrBookingWidget {
     el: HTMLIrWidgetElement;
@@ -9,7 +10,9 @@ export declare class IrBookingWidget {
     language: string;
     roomTypeId: string | null;
     aff: string;
+    delay: number;
     isPopoverOpen: boolean;
+    dateModifiers: any;
     isLoading: boolean;
     dates: {
         from_date: Date | null;
@@ -25,6 +28,8 @@ export declare class IrBookingWidget {
     private commonService;
     private propertyService;
     private guestPopover;
+    containerRef: HTMLDivElement;
+    elTimout: NodeJS.Timeout;
     private initApp;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
@@ -35,5 +40,6 @@ export declare class IrBookingWidget {
     private getDateModifiers;
     private renderDateTrigger;
     private renderAdultChildTrigger;
+    disconnectedCallback(): void;
     render(): any;
 }

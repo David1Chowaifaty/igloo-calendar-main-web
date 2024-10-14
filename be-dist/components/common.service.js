@@ -9,7 +9,7 @@ class CommonService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Currencies?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Currencies`);
         app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
@@ -18,7 +18,7 @@ class CommonService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Languages`);
         app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
@@ -26,7 +26,7 @@ class CommonService extends Token {
         try {
             const token = this.getToken();
             if (token) {
-                const { data } = await axios.post(`/Get_Exposed_Countries?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Exposed_Countries`, {
                     language,
                 });
                 if (data.ExceptionMsg !== '') {
@@ -42,11 +42,7 @@ class CommonService extends Token {
     }
     async getUserDefaultCountry(params) {
         try {
-            const token = this.getToken();
-            if (!token) {
-                throw new MissingTokenError();
-            }
-            const { data } = await axios.post(`/Get_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '' }, params));
+            const { data } = await axios.post(`/Get_Country_By_IP`, Object.assign({ IP: '' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -59,11 +55,7 @@ class CommonService extends Token {
     }
     async getExposedCountryByIp(params) {
         try {
-            const token = this.getToken();
-            if (!token) {
-                throw new MissingTokenError();
-            }
-            const { data } = await axios.post(`/Get_Exposed_Country_By_IP?Ticket=${token}`, Object.assign({ IP: '', lang: 'en' }, params));
+            const { data } = await axios.post(`/Get_Exposed_Country_By_IP`, Object.assign({ IP: '', lang: 'en' }, params));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -90,11 +82,7 @@ class CommonService extends Token {
     }
     async getExposedLanguage() {
         try {
-            const token = this.getToken();
-            if (!token) {
-                throw new MissingTokenError();
-            }
-            const { data } = await axios.post(`/Get_Exposed_Language?Ticket=${token}`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+            const { data } = await axios.post(`/Get_Exposed_Language`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

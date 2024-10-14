@@ -377,11 +377,7 @@ class PropertyService extends Token {
         this.colors = new Colors();
     }
     async getExposedProperty(params, initTheme = true) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Property?Ticket=${token}`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
+        const { data } = await axios.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -434,11 +430,7 @@ class PropertyService extends Token {
     }
     async getExposedNonBookableNights(params) {
         var _a;
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Non_Bookable_Nights?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Get_Exposed_Non_Bookable_Nights`, params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -460,11 +452,7 @@ class PropertyService extends Token {
         return data;
     }
     async getExposedBooking(params, withExtras = true) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Booking?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: withExtras
+        const { data } = await axios.post(`/Get_Exposed_Booking`, Object.assign(Object.assign({}, params), { extras: withExtras
                 ? [
                     { key: 'payment_code', value: '' },
                     {
@@ -487,7 +475,7 @@ class PropertyService extends Token {
                 if (app_store.setup_entries) {
                     return app_store.setup_entries;
                 }
-                const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI?Ticket=${token}`, {
+                const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
                     TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
                 });
                 if (data.ExceptionMsg !== '') {
@@ -555,7 +543,7 @@ class PropertyService extends Token {
         try {
             const token = this.getToken();
             if (token !== null) {
-                const { data } = await axios.post(`/Edit_Exposed_Guest?Ticket=${token}`, Object.assign(Object.assign({}, guest), { book_nbr }));
+                const { data } = await axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
                 if (data.ExceptionMsg !== '') {
                     throw new Error(data.ExceptionMsg);
                 }
@@ -641,7 +629,7 @@ class PropertyService extends Token {
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
             console.log('body');
-            const { data } = await axios.post(`/DoReservation?Ticket=${token}`, body);
+            const { data } = await axios.post(`/DoReservation`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -653,11 +641,7 @@ class PropertyService extends Token {
         }
     }
     async getExposedGuest() {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Guest?Ticket=${token}`, {
+        const { data } = await axios.post(`/Get_Exposed_Guest`, {
             email: null,
         });
         if (data.ExceptionMsg !== '') {

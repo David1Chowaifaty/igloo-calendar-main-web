@@ -77,6 +77,7 @@ export class AvailabiltyService {
         this.roomTypes = this.roomTypes.map(rt => {
             return Object.assign(Object.assign({}, rt), { rateplans: rt.rateplans.map(rp => (Object.assign(Object.assign({}, rp), { variations: [] }))) });
         });
+        booking_store.roomTypes = [...this.roomTypes];
     }
     validateNumberString(input) {
         const schema = z.string().refine(val => {

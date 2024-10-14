@@ -1,12 +1,8 @@
-import { MissingTokenError, Token } from "../../models/Token";
+import { Token } from "../../models/Token";
 import axios from "axios";
 export class BookingListingService extends Token {
     async getExposedGuestBookings(params) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Guest_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras: [
+        const { data } = await axios.post(`/Get_Exposed_Guest_Bookings`, Object.assign(Object.assign({}, params), { extras: [
                 {
                     key: 'payment_code',
                     value: '',

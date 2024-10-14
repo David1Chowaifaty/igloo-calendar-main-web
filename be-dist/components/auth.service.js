@@ -51,12 +51,8 @@ class AuthService extends Token {
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { token });
     }
     async login(params, signIn = true) {
-        const token = this.getToken();
         const { option } = params, rest = __rest(params, ["option"]);
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Exposed_Guest_SignIn?Ticket=${token}`, option === 'direct' ? rest.params : Object.assign({}, rest));
+        const { data } = await axios.post(`/Exposed_Guest_SignIn`, option === 'direct' ? rest.params : Object.assign({}, rest));
         if (data['ExceptionMsg'] !== '') {
             this.notifySubscribers({
                 state: 'failed',
