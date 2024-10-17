@@ -1,2 +1,0 @@
-class s{constructor(){this.token=""}setToken(s){this.token=s}getToken(){return this.token}}class r extends Error{constructor(s="Missing token!!"){super(s);this.name="MissingTokenError"}}export{r as M,s as T};
-//# sourceMappingURL=p-dfa14c12.js.map

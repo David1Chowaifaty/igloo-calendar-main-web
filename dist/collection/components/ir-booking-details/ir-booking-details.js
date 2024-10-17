@@ -23,9 +23,9 @@ export class IrBookingDetails {
         this.language = '';
         this.ticket = '';
         this.bookingNumber = '';
-        this.baseurl = '';
         this.propertyid = undefined;
         this.is_from_front_desk = false;
+        this.p = undefined;
         this.hasPrint = false;
         this.hasReceipt = false;
         this.hasDelete = false;
@@ -52,17 +52,15 @@ export class IrBookingDetails {
         this.isPMSLogLoading = false;
         this.userCountry = null;
         this.paymentActions = undefined;
+        this.property_id = undefined;
     }
     componentDidLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
-        if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.bookingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
-            this.initializeApp();
-        }
+        // if (this.ticket !== '') {
+        calendar_data.token = this.ticket;
+        this.bookingService.setToken(this.ticket);
+        this.roomService.setToken(this.ticket);
+        this.initializeApp();
+        // }
     }
     async ticketChanged() {
         calendar_data.token = this.ticket;
@@ -162,15 +160,16 @@ export class IrBookingDetails {
         this.calendarData.roomsInfo = roomsData;
     }
     async initializeApp() {
-        var _a;
+        var _a, _b;
         try {
             const [roomResponse, languageTexts, countriesList, bookingDetails] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language),
+                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
             ]);
             this.paymentService.setToken(this.ticket);
+            this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             //TODO:Reenable payment actions
             // if (bookingDetails?.booking_nbr && bookingDetails?.currency?.id) {
             //   this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({
@@ -186,7 +185,7 @@ export class IrBookingDetails {
             }
             this.defaultTexts = languageTexts;
             this.countryNodeList = countriesList;
-            const guestCountryId = (_a = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.guest) === null || _a === void 0 ? void 0 : _a.country_id;
+            const guestCountryId = (_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.guest) === null || _b === void 0 ? void 0 : _b.country_id;
             this.userCountry = guestCountryId ? this.countryNodeList.find(country => country.id === guestCountryId) || null : null;
             const myResult = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result;
             if (myResult) {
@@ -217,7 +216,7 @@ export class IrBookingDetails {
         if (this.tempStatus !== '' && this.tempStatus !== null) {
             try {
                 this.isUpdateClicked = true;
-                await axios.post(`/Change_Exposed_Booking_Status?Ticket=${this.ticket}`, {
+                await axios.post(`/Change_Exposed_Booking_Status`, {
                     book_nbr: this.bookingNumber,
                     status: this.tempStatus,
                 });
@@ -274,7 +273,7 @@ export class IrBookingDetails {
         if (mode === 'invoice') {
             url = url + '&mode=invoice';
         }
-        const { data } = await axios.post(`Get_ShortLiving_Token?Ticket=${this.ticket}`);
+        const { data } = await axios.post(`Get_ShortLiving_Token`);
         if (!data.ExceptionMsg) {
             url = url + `&token=${data.My_Result}`;
         }
@@ -355,7 +354,7 @@ export class IrBookingDetails {
                     e.stopPropagation();
                     this.sidebarState = null;
                 }, showCloseButton: false }, this.renderSidbarContent()),
-            h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
+            h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
             h(Fragment, null, h("ir-dialog", { ref: el => (this.dialogRef = el) }, h("div", { slot: "modal-body", class: "p-1" }, h("h3", { class: " text-left mb-1 dialog-title " }, locales.entries.Lcz_PMS_Logs), !this.isPMSLogLoading && (h(Fragment, null, h("div", { class: "d-flex align-items-center" }, h("p", { class: "list-title" }, locales.entries.Lcz_SentAt), ((_e = this.pms_status) === null || _e === void 0 ? void 0 : _e.sent_date) ? (h("p", { class: "list-item" }, (_f = this.pms_status) === null || _f === void 0 ? void 0 :
                 _f.sent_date, " ", _formatTime((_g = this.pms_status) === null || _g === void 0 ? void 0 : _g.sent_hour.toString(), (_h = this.pms_status) === null || _h === void 0 ? void 0 : _h.sent_minute.toString()))) : (h("p", { class: `list-item ${((_j = this.pms_status) === null || _j === void 0 ? void 0 : _j.sent_date) ? 'green' : 'red'}` }, ((_k = this.pms_status) === null || _k === void 0 ? void 0 : _k.is_acknowledged) ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))), h("div", { class: "d-flex align-items-center" }, h("h4", { class: "list-title" }, locales.entries.Lcz_Acknowledged), h("p", { class: `list-item ${((_l = this.pms_status) === null || _l === void 0 ? void 0 : _l.is_acknowledged) ? 'green' : 'red'}` }, ((_m = this.pms_status) === null || _m === void 0 ? void 0 : _m.is_acknowledged) ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))))))),
         ];
@@ -428,24 +427,6 @@ export class IrBookingDetails {
                 "reflect": false,
                 "defaultValue": "''"
             },
-            "baseurl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "baseurl",
-                "reflect": false,
-                "defaultValue": "''"
-            },
             "propertyid": {
                 "type": "number",
                 "mutable": false,
@@ -480,6 +461,23 @@ export class IrBookingDetails {
                 "attribute": "is_from_front_desk",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "p",
+                "reflect": false
             },
             "hasPrint": {
                 "type": "boolean",
@@ -680,7 +678,8 @@ export class IrBookingDetails {
             "pms_status": {},
             "isPMSLogLoading": {},
             "userCountry": {},
-            "paymentActions": {}
+            "paymentActions": {},
+            "property_id": {}
         };
     }
     static get events() {

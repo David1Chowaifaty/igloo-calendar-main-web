@@ -3,14 +3,13 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import payment_option_store from "../../stores/payment-option.store";
 import { Host, h } from "@stencil/core";
-import axios from "axios";
 export class IrPaymentOption {
     constructor() {
         this.paymentOptionService = new PaymentOptionService();
         this.roomService = new RoomService();
-        this.baseurl = undefined;
         this.propertyid = undefined;
         this.ticket = undefined;
+        this.p = undefined;
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
@@ -19,7 +18,6 @@ export class IrPaymentOption {
         this.selectedOption = null;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         if (this.ticket) {
             this.init();
         }
@@ -66,11 +64,24 @@ export class IrPaymentOption {
     }
     async fetchData() {
         try {
-            this.log('start fetching data');
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
             this.isLoading = true;
+            let propertyId = this.propertyid;
+            console.log('pror id', propertyId);
+            if (!propertyId) {
+                console.log('fetching property id');
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
             const [paymentOptions, propertyOptions, languageTexts] = await Promise.all([
                 this.paymentOptionService.GetExposedPaymentMethods(),
-                this.paymentOptionService.GetPropertyPaymentMethods(this.propertyid),
+                this.paymentOptionService.GetPropertyPaymentMethods(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_PAYMENT_BACK']),
             ]);
             this.log('---feteched data---');
@@ -125,7 +136,7 @@ export class IrPaymentOption {
                 this.toast.emit({
                     type: 'success',
                     description: '',
-                    title: 'You need to select "No deposit required" from your Pre-payment options since you have no means of charging guests before arrival.',
+                    title: locales.entries['Lcz_YouNeedToSelect'],
                     position: 'top-right',
                 });
             }
@@ -189,23 +200,6 @@ export class IrPaymentOption {
     }
     static get properties() {
         return {
-            "baseurl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "baseurl",
-                "reflect": false
-            },
             "propertyid": {
                 "type": "string",
                 "mutable": false,
@@ -238,6 +232,23 @@ export class IrPaymentOption {
                     "text": ""
                 },
                 "attribute": "ticket",
+                "reflect": false
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "p",
                 "reflect": false
             },
             "language": {

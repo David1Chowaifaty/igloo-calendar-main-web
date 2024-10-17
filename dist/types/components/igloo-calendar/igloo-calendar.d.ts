@@ -1,20 +1,21 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Moment } from 'moment';
-import { IReallocationPayload, IRoomNightsData, IRoomNightsDataEventPayload } from '../../models/property-types';
-import { TIglBookPropertyPayload } from '../../models/igl-book-property';
+import { IReallocationPayload, IRoomNightsData } from "../../models/property-types";
+import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 export declare class IglooCalendar {
     propertyid: number;
     from_date: string;
     to_date: string;
     language: string;
-    baseurl: string;
     loadingMessage: string;
     currencyName: string;
     ticket: string;
+    p: string;
     private element;
     calendarData: {
         [key: string]: any;
     };
+    property_id: number;
     days: {
         [key: string]: any;
     }[];
@@ -39,6 +40,7 @@ export declare class IglooCalendar {
         from: string;
         to: string;
     };
+    isAuthenticated: boolean;
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
     calculateUnassignedDates: EventEmitter;
@@ -51,6 +53,7 @@ export declare class IglooCalendar {
     private roomService;
     private eventsService;
     private toBeAssignedService;
+    private auth;
     private countryNodeList;
     private visibleCalendarCells;
     private scrollContainer;
@@ -90,23 +93,18 @@ export declare class IglooCalendar {
         start: Moment;
         end: Moment;
     }): Promise<void>;
-    closeSideMenu(): void;
-    scrollViewDragPos: {
-        top: number;
-        left: number;
-        x: number;
-        y: number;
-    };
-    dragScrollContent(event: MouseEvent): void;
-    onScrollContentMoveHandler: EventListener;
-    onScrollContentMoveEndHandler: EventListener;
-    calendarScrolling(): void;
-    hasAncestorWithClass(element: HTMLElement, className: string): boolean;
-    highlightDragOver(hightLightElement: any, currentPosition: any): Promise<void>;
-    handleModalConfirm(): void;
-    handleModalCancel(): void;
-    handleRoomNightsDialogClose(e: CustomEvent<IRoomNightsDataEventPayload>): void;
-    handleSideBarToggle(e: CustomEvent<boolean>): void;
-    handleCloseBookingWindow(): void;
+    private closeSideMenu;
+    private scrollViewDragPos;
+    private dragScrollContent;
+    private onScrollContentMoveHandler;
+    private onScrollContentMoveEndHandler;
+    private calendarScrolling;
+    private hasAncestorWithClass;
+    private highlightDragOver;
+    private handleModalConfirm;
+    private handleModalCancel;
+    private handleRoomNightsDialogClose;
+    private handleSideBarToggle;
+    private handleCloseBookingWindow;
     render(): any;
 }

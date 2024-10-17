@@ -3,29 +3,25 @@ import { RoomService } from "../../../services/room.service";
 import housekeeping_store, { updateHKStore } from "../../../stores/housekeeping.store";
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
-import axios from "axios";
 export class IrHkTasks {
     constructor() {
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
+        this.property_id = undefined;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -47,13 +43,12 @@ export class IrHkTasks {
                 id: unit.id,
             },
         });
-        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
+        await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
     async ticketChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -80,7 +75,7 @@ export class IrHkTasks {
     }
     async getPendingActions() {
         await this.houseKeepingService.getHKPendingActions({
-            property_id: this.propertyid,
+            property_id: this.property_id,
             bracket: {
                 code: this.selectedDuration,
             },
@@ -92,11 +87,27 @@ export class IrHkTasks {
     async initializeApp() {
         try {
             this.isLoading = true;
-            await Promise.all([
-                this.houseKeepingService.getExposedHKStatusCriteria(this.propertyid),
-                this.roomService.fetchData(this.propertyid, this.language),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT']),
-            ]);
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKStatusCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
             this.selectedDuration = housekeeping_store.hk_tasks.brackets[0].code;
             await this.getPendingActions();
         }
@@ -196,24 +207,6 @@ export class IrHkTasks {
                 "reflect": false,
                 "defaultValue": "''"
             },
-            "baseurl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "baseurl",
-                "reflect": false,
-                "defaultValue": "''"
-            },
             "propertyid": {
                 "type": "number",
                 "mutable": false,
@@ -230,6 +223,23 @@ export class IrHkTasks {
                 },
                 "attribute": "propertyid",
                 "reflect": false
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "p",
+                "reflect": false
             }
         };
     }
@@ -239,7 +249,8 @@ export class IrHkTasks {
             "selectedDuration": {},
             "selectedHouseKeeper": {},
             "selectedRoom": {},
-            "archiveOpened": {}
+            "archiveOpened": {},
+            "property_id": {}
         };
     }
     static get elementRef() { return "el"; }

@@ -4,7 +4,6 @@ import { a as _formatTime } from './functions.js';
 import { c as calculateDaysBetweenDates } from './booking.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
-import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
 import { f as formatAmount } from './utils.js';
 
@@ -52,7 +51,6 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
         this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
-        this.baseurl = 'https://gateway.igloorooms.com/IR';
         this.language = 'en';
         this.propertyid = undefined;
         this.mode = 'default';
@@ -63,7 +61,6 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
         this.isLoading = undefined;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         document.body.style.background = 'white';
         if (this.token) {
             this.init();
@@ -91,7 +88,7 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
             // }
             let countries;
             const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language),
+                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
                 this.bookingService.getCountries(this.language),
@@ -193,7 +190,6 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
 }, [1, "ir-booking-printing", {
         "token": [1],
         "bookingNumber": [1, "booking-number"],
-        "baseurl": [1],
         "language": [1],
         "propertyid": [2],
         "mode": [1],

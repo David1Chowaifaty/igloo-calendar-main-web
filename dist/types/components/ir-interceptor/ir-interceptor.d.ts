@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IToast } from '../ir-toast/toast';
 export declare class IrInterceptor {
+    ticket: string;
     isShown: boolean;
     isLoading: boolean;
     isUnassignedUnit: boolean;

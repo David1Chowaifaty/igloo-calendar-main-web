@@ -10,7 +10,9 @@ export declare class IrOptionDetails {
     toast: EventEmitter<IToast>;
     private paymentOptionService;
     componentWillLoad(): Promise<void>;
+    private createBankTransferInfoObject;
     saveOption(e: Event): Promise<void>;
+    private isEditorEmpty;
     handleSelectChange(e: CustomEvent): void;
     private handleTextAreaChange;
     private handlePaymentGatewayInfoChange;

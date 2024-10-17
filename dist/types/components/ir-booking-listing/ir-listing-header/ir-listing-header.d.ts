@@ -2,7 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrListingHeader {
     propertyId: number;
     language: string;
-    baseurl: string;
+    p: string;
     inputValue: string;
     isLoading: 'search' | 'excel';
     preventPageLoad: EventEmitter<string>;

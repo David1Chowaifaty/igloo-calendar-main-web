@@ -3,9 +3,9 @@ export declare class IrBookingListing {
     el: HTMLElement;
     language: string;
     ticket: string;
-    baseurl: string;
     propertyid: number;
     rowCount: number;
+    p: string;
     isLoading: boolean;
     currentPage: number;
     totalPages: number;

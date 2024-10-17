@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const housekeeping_service = require('./housekeeping.service-74b3a50b.js');
-const room_service = require('./room.service-cc9c0583.js');
+const housekeeping_service = require('./housekeeping.service-05dace8e.js');
+const room_service = require('./room.service-90a9ab46.js');
 const axios = require('./axios-b86c5465.js');
-require('./Token-db8ba99b.js');
+require('./Token-e80634a3.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
 require('./locales.store-4301bbe8.js');
@@ -23,6 +23,7 @@ const IrHousekeeping = class {
         this.ticket = '';
         this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
     }
     componentWillLoad() {
@@ -32,7 +33,6 @@ const IrHousekeeping = class {
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -45,18 +45,32 @@ const IrHousekeeping = class {
         if (newValue !== oldValue) {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
     async initializeApp() {
         try {
             this.isLoading = true;
-            await Promise.all([
-                this.houseKeepingService.getExposedHKSetup(this.propertyid),
-                this.roomService.fetchData(this.propertyid, this.language),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT']),
-            ]);
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
         }
         catch (error) {
             console.error(error);

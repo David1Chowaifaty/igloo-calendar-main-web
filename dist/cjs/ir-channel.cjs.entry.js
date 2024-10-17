@@ -3,13 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const room_service = require('./room.service-cc9c0583.js');
+const room_service = require('./room.service-90a9ab46.js');
 const channel_store = require('./channel.store-9da77951.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const axios = require('./axios-b86c5465.js');
-const channel_service = require('./channel.service-3523211c.js');
+const channel_service = require('./channel.service-e56df957.js');
 const calendarData = require('./calendar-data-fbe7f62b.js');
-require('./Token-db8ba99b.js');
+require('./Token-e80634a3.js');
 require('./index-5e99a1fe.js');
 
 const actions = (entries) => [
@@ -116,6 +116,7 @@ const IrChannel = class {
         this.propertyid = undefined;
         this.language = undefined;
         this.baseurl = undefined;
+        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
@@ -152,13 +153,34 @@ const IrChannel = class {
         await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
+        if (!this.propertyid && !this.p) {
+            throw new Error('Property ID or username is required');
+        }
         try {
-            const [, , , languageTexts] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language, true),
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            const requests = [
                 this.channelService.getExposedChannels(),
-                this.channelService.getExposedConnectedChannels(this.propertyid),
+                this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
-            ]);
+            ];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            const languageTexts = results[results.length - 1];
             channel_store.channels_data.property_id = this.propertyid;
             if (!locales_store.locales.entries) {
                 locales_store.locales.entries = languageTexts.entries;

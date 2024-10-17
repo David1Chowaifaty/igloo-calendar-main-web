@@ -3,7 +3,6 @@ import { IProperty } from "../../models/property";
 export declare class IrBookingPrinting {
     token: string;
     bookingNumber: string;
-    baseurl: string;
     language: string;
     propertyid: number;
     mode: 'invoice' | 'default';

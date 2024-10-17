@@ -1,11 +1,11 @@
 import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-2ef748c7.js';
+import { R as RoomService } from './room.service-9a27089d.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-a03c634b.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { a as axios } from './axios-ab377903.js';
-import { C as ChannelService } from './channel.service-b42cac58.js';
+import { C as ChannelService } from './channel.service-d6692d5c.js';
 import { c as calendar_data } from './calendar-data-666acc1f.js';
-import './Token-be23fd51.js';
+import './Token-7a199370.js';
 import './index-1d7b1ff2.js';
 
 const actions = (entries) => [
@@ -112,6 +112,7 @@ const IrChannel = class {
         this.propertyid = undefined;
         this.language = undefined;
         this.baseurl = undefined;
+        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
@@ -148,13 +149,34 @@ const IrChannel = class {
         await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
+        if (!this.propertyid && !this.p) {
+            throw new Error('Property ID or username is required');
+        }
         try {
-            const [, , , languageTexts] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language, true),
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            const requests = [
                 this.channelService.getExposedChannels(),
-                this.channelService.getExposedConnectedChannels(this.propertyid),
+                this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
-            ]);
+            ];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            const languageTexts = results[results.length - 1];
             channels_data.property_id = this.propertyid;
             if (!locales.entries) {
                 locales.entries = languageTexts.entries;

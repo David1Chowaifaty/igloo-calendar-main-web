@@ -4357,6 +4357,10 @@ const extras = [
         key: 'is_backend',
         value: true,
     },
+    {
+        key: 'ERROR_EMAIL',
+        value: '',
+    },
 ];
 function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));

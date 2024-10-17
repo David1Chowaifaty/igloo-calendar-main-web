@@ -3,7 +3,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IglBookPropertyContainer {
     language: string;
     ticket: string;
-    baseurl: string;
+    p: string;
     propertyid: number;
     from_date: string;
     to_date: string;

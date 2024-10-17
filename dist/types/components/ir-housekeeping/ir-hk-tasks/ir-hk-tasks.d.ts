@@ -3,13 +3,14 @@ export declare class IrHkTasks {
     el: HTMLElement;
     language: string;
     ticket: string;
-    baseurl: string;
     propertyid: number;
+    p: string;
     isLoading: boolean;
     selectedDuration: string;
     selectedHouseKeeper: string;
     selectedRoom: IPendingActions | null;
     archiveOpened: boolean;
+    property_id: number;
     private modalOpenTimeOut;
     private roomService;
     private houseKeepingService;

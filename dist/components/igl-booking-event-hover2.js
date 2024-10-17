@@ -282,6 +282,9 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         if (['003', '002', '004'].includes(this.bookingEvent.STATUS_CODE)) {
             data.roomsInfo = [roomInfo.ROOMS_INFO];
         }
+        if (eventType === 'BAR_BOOKING') {
+            this.handleDeleteEvent();
+        }
         this.showBookingPopup.emit({
             key: 'add',
             data: Object.assign({}, data),
@@ -336,7 +339,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: 'df986f94aad1a3f344b4cdccd496ebd4b5a8a81a' }, h("div", { key: 'f5258a8f115e98b613805403d4d9e563dd4bf476', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'fee359ab465823832df8e890eb1f910b1bef5cf9', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'eb8bbbe62b2308978ae11c1ef644b86ba3492021' }, h("div", { key: '7da2ed7ece80bfc0be91ccee98fe195c45839a0b', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '0b8eb0c79f88dffaf7c3f44875a66aa60f76e847', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get style() { return IglBookingEventHoverStyle0; }

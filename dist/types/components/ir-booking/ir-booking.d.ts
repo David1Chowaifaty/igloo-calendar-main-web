@@ -1,6 +1,6 @@
 export declare class IrBooking {
-    baseurl: string;
     propertyid: number;
+    p: string;
     bookingNumber: string;
     token: string;
     componentWillLoad(): void;

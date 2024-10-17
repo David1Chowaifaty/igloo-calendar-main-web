@@ -1,6 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IrLogin {
-    baseurl: string;
     username: string;
     password: string;
     showPassword: boolean;
@@ -9,7 +8,6 @@ export declare class IrLogin {
         code: 'succsess' | 'error';
     }>;
     private authService;
-    componentWillLoad(): void;
     private handleSignIn;
     render(): any;
 }

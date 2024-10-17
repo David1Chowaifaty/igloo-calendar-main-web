@@ -48,13 +48,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '130124304297bc09b796db247e20ffefcfd2c3f7', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: 'c39e31658ee2c211d974ac566fc4e1f18f888fd5', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: 'bb6f41f6bed14750a0504cfc36f21c57af59f539', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'ff6a36544c3761f9a764ce768df75a390a9e5fcf', class: `ir-alert-content p-2` }, h("div", { key: 'f2a7812a000e8de0e22d2565dd5f54c0ce15c48b', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: 'c22522fdcc0467e0b21e861761d986420f551b67', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '91db085ec405f09be503d505cbe4f2a27a31a3a7' }, this.modalBody)), h("div", { key: 'c70f96fad1062114739b080c93b31df5e7648e1e', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '72d59527320ca4a5cdfdcd1ce0b9a664f00b1a12', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'c3469c111c94b44ef3cef440cb7ac8624c7bd03a', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '19569cc9e5172ff9f82db0ad3c554126865139ec', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '31b001847e28392f308fdfbeb2bdf6909d4af5d4', class: `ir-alert-content p-2` }, h("div", { key: '16cd5e45192df5d9c66e1b150c4c540f70c9b0f5', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '3fcb5076a52982010b25662dcb1ad9260191220e', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'b393b4e654299555e89fbff3e8162db40703d29e' }, this.modalBody)), h("div", { key: '5cc3d8725b8efc21c7fc082270e4f86f3998f565', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: 'd0fa1cdc06fb9a6ea828fa60d9a4ac74ed190016', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '86c8b429e5c3076165d0e5fbf6390155d2acebec', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };

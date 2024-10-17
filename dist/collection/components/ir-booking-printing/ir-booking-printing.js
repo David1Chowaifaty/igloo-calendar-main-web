@@ -5,7 +5,6 @@ import { calculateDaysBetweenDates } from "../../utils/booking";
 import BeLogoFooter from "../../assets/be_logo_footer";
 import { BookingService } from "../../services/booking.service";
 import { RoomService } from "../../services/room.service";
-import axios from "axios";
 import locales from "../../stores/locales.store";
 import { formatAmount } from "../../utils/utils";
 export class IrBookingPrinting {
@@ -15,7 +14,6 @@ export class IrBookingPrinting {
         this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
-        this.baseurl = 'https://gateway.igloorooms.com/IR';
         this.language = 'en';
         this.propertyid = undefined;
         this.mode = 'default';
@@ -26,7 +24,6 @@ export class IrBookingPrinting {
         this.isLoading = undefined;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         document.body.style.background = 'white';
         if (this.token) {
             this.init();
@@ -54,7 +51,7 @@ export class IrBookingPrinting {
             // }
             let countries;
             const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language),
+                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
                 this.bookingService.getCountries(this.language),
@@ -198,24 +195,6 @@ export class IrBookingPrinting {
                 "attribute": "booking-number",
                 "reflect": false,
                 "defaultValue": "''"
-            },
-            "baseurl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "baseurl",
-                "reflect": false,
-                "defaultValue": "'https://gateway.igloorooms.com/IR'"
             },
             "language": {
                 "type": "string",

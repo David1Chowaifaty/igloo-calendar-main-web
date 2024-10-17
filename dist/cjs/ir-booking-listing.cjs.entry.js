@@ -3,15 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking_listing_service = require('./booking_listing.service-aefb42ae.js');
-const room_service = require('./room.service-cc9c0583.js');
+const booking_listing_service = require('./booking_listing.service-1cfdf986.js');
+const room_service = require('./room.service-90a9ab46.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-const utils = require('./utils-7ae9e098.js');
-const axios = require('./axios-b86c5465.js');
+const utils = require('./utils-34705107.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const booking = require('./booking-487f5bfc.js');
-require('./Token-db8ba99b.js');
+const booking = require('./booking-c11bc999.js');
+require('./Token-e80634a3.js');
+require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
 
@@ -31,9 +31,9 @@ const IrBookingListing = class {
         };
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
         this.rowCount = 10;
+        this.p = undefined;
         this.isLoading = false;
         this.currentPage = 1;
         this.totalPages = 1;
@@ -44,9 +44,6 @@ const IrBookingListing = class {
     componentWillLoad() {
         booking_listing_service.updateUserSelection('end_row', this.rowCount);
         booking_listing_service.booking_listing.rowCount = this.rowCount;
-        if (this.baseurl) {
-            axios.axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
             this.bookingListingService.setToken(this.ticket);
             this.roomService.setToken(this.ticket);
@@ -72,8 +69,29 @@ const IrBookingListing = class {
     async initializeApp() {
         try {
             this.isLoading = true;
-            booking_listing_service.updateUserSelection('property_id', this.propertyid);
-            await Promise.all([this.bookingListingService.getExposedBookingsCriteria(this.propertyid), this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT'])]);
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            const requests = [this.bookingListingService.getExposedBookingsCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
+            booking_listing_service.updateUserSelection('property_id', propertyId);
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false }));
         }
         catch (error) {
@@ -140,7 +158,7 @@ const IrBookingListing = class {
         if (this.isLoading || this.ticket === '') {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "p-1 main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, language: this.language, baseurl: this.baseurl }), index.h("section", null, index.h("div", { class: "card p-1 flex-fill m-0 mt-2" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 :
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "p-1 main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", null, index.h("div", { class: "card p-1 flex-fill m-0 mt-2" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 :
             _a.Lcz_Booking, "#"), index.h("th", { scope: "col" }, (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_BookedOn), index.h("th", { scope: "col" }, (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_GuestSource), index.h("th", { scope: "col", class: "text-left services-cell" }, (_d = locales_store.locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Services), index.h("th", { scope: "col", class: "in-out" }, (_e = locales_store.locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_Dates), index.h("th", { scope: "col" }, index.h("span", { class: "price-span" }, (_f = locales_store.locales.entries) === null || _f === void 0 ? void 0 : _f.Lcz_Amount), index.h("ir-tooltip", { customSlot: true, message: `<span style="width:100%;display:block;">${(_g = locales_store.locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_BookingBalance}</span><span>${(_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_ClickToSettle}</span>` }, index.h("span", { slot: "tooltip-trigger", class: 'm-0 btn due-btn' }, (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_Balance))), this.showCost && (index.h("th", { scope: "col", class: "services-cell" }, (_k = locales_store.locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Cost)), index.h("th", { scope: "col" }, (_l = locales_store.locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Status), index.h("th", { scope: "col" }, index.h("p", { class: "sr-only" }, "actions")))), index.h("tbody", { class: "" }, booking_listing_service.booking_listing.bookings.length === 0 && (index.h("tr", null, index.h("td", { colSpan: 8 }, (_m = locales_store.locales.entries) === null || _m === void 0 ? void 0 : _m.Lcz_NoDataAvailable))), (_o = booking_listing_service.booking_listing.bookings) === null || _o === void 0 ? void 0 :
             _o.map(booking$1 => {
                 var _a, _b, _c;
@@ -174,7 +192,7 @@ const IrBookingListing = class {
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && index.h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), index.h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && this.editBookingItem.cause === 'edit', showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'edit' && (index.h("ir-booking-details", { slot: "sidebar-body", hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, baseurl: this.baseurl, language: this.language, hasRoomAdd: true })))));
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && index.h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), index.h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && this.editBookingItem.cause === 'edit', showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'edit' && (index.h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

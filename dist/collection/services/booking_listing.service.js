@@ -1,14 +1,10 @@
-import { Token } from "../models/Token";
+import Token from "../models/Token";
 import booking_listing, { initializeUserSelection } from "../stores/booking_listing.store";
 import { extras } from "../utils/utils";
 import axios from "axios";
 export class BookingListingService extends Token {
     async getExposedBookingsCriteria(property_id) {
-        const token = this.getToken();
-        if (!token) {
-            throw new Error('Invalid token');
-        }
-        const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria?Ticket=${token}`, {
+        const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, {
             property_id,
         });
         const result = data.My_Result;
@@ -19,11 +15,7 @@ export class BookingListingService extends Token {
         initializeUserSelection();
     }
     async getExposedBookings(params) {
-        const token = this.getToken();
-        if (!token) {
-            throw new Error('Invalid token');
-        }
-        const { data } = await axios.post(`/Get_Exposed_Bookings?Ticket=${token}`, Object.assign(Object.assign({}, params), { extras }));
+        const { data } = await axios.post(`/Get_Exposed_Bookings`, Object.assign(Object.assign({}, params), { extras }));
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];
@@ -31,11 +23,7 @@ export class BookingListingService extends Token {
         booking_listing.download_url = header.exported_data_url;
     }
     async removeExposedBooking(booking_nbr, is_to_revover) {
-        const token = this.getToken();
-        if (!token) {
-            throw new Error('Invalid token');
-        }
-        await axios.post(`/Remove_Exposed_Booking?Ticket=${token}`, {
+        await axios.post(`/Remove_Exposed_Booking`, {
             booking_nbr,
             is_to_revover,
         });

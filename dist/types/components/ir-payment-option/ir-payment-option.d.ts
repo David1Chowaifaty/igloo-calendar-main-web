@@ -2,9 +2,9 @@ import { PaymentOption } from "../../models/payment-options";
 import { EventEmitter } from '../../stencil-public-runtime';
 import { IToast } from '../ir-toast/toast';
 export declare class IrPaymentOption {
-    baseurl: string;
     propertyid: string;
     ticket: string;
+    p: string;
     language: string;
     defaultStyles: boolean;
     hideLogs: boolean;

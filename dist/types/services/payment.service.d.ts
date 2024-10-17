@@ -1,5 +1,5 @@
 import { IPayment } from "../models/booking.dto";
-import { Token } from "../models/Token";
+import Token from "../models/Token";
 export interface IPaymentAction {
     amount: number;
     currency: {

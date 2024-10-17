@@ -2,7 +2,6 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$7 } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { a as axios } from './axios.js';
 import { d as defineCustomElement$c } from './ir-button2.js';
 import { d as defineCustomElement$b } from './ir-icon2.js';
 import { d as defineCustomElement$a } from './ir-icons2.js';
@@ -24,9 +23,9 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.toast = createEvent(this, "toast", 7);
         this.paymentOptionService = new PaymentOptionService();
         this.roomService = new RoomService();
-        this.baseurl = undefined;
         this.propertyid = undefined;
         this.ticket = undefined;
+        this.p = undefined;
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
@@ -35,7 +34,6 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.selectedOption = null;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         if (this.ticket) {
             this.init();
         }
@@ -82,11 +80,24 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
     }
     async fetchData() {
         try {
-            this.log('start fetching data');
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
             this.isLoading = true;
+            let propertyId = this.propertyid;
+            console.log('pror id', propertyId);
+            if (!propertyId) {
+                console.log('fetching property id');
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
             const [paymentOptions, propertyOptions, languageTexts] = await Promise.all([
                 this.paymentOptionService.GetExposedPaymentMethods(),
-                this.paymentOptionService.GetPropertyPaymentMethods(this.propertyid),
+                this.paymentOptionService.GetPropertyPaymentMethods(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_PAYMENT_BACK']),
             ]);
             this.log('---feteched data---');
@@ -141,7 +152,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
                 this.toast.emit({
                     type: 'success',
                     description: '',
-                    title: 'You need to select "No deposit required" from your Pre-payment options since you have no means of charging guests before arrival.',
+                    title: locales.entries['Lcz_YouNeedToSelect'],
                     position: 'top-right',
                 });
             }
@@ -196,9 +207,9 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
     }; }
     static get style() { return IrPaymentOptionStyle0; }
 }, [2, "ir-payment-option", {
-        "baseurl": [1],
         "propertyid": [1],
         "ticket": [1],
+        "p": [1],
         "language": [1],
         "defaultStyles": [4, "default-styles"],
         "hideLogs": [4, "hide-logs"],

@@ -123,6 +123,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
         this.propertyid = undefined;
         this.language = undefined;
         this.baseurl = undefined;
+        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
@@ -159,13 +160,34 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
         await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
+        if (!this.propertyid && !this.p) {
+            throw new Error('Property ID or username is required');
+        }
         try {
-            const [, , , languageTexts] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language, true),
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            const requests = [
                 this.channelService.getExposedChannels(),
-                this.channelService.getExposedConnectedChannels(this.propertyid),
+                this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
-            ]);
+            ];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            const languageTexts = results[results.length - 1];
             channels_data.property_id = this.propertyid;
             if (!locales.entries) {
                 locales.entries = languageTexts.entries;
@@ -272,6 +294,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
         "propertyid": [2],
         "language": [1],
         "baseurl": [1],
+        "p": [1],
         "channel_status": [32],
         "modal_cause": [32],
         "isLoading": [32]

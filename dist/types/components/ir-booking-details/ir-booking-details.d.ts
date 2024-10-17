@@ -10,9 +10,9 @@ export declare class IrBookingDetails {
     language: string;
     ticket: string;
     bookingNumber: string;
-    baseurl: string;
     propertyid: number;
     is_from_front_desk: boolean;
+    p: string;
     hasPrint: boolean;
     hasReceipt: boolean;
     hasDelete: boolean;
@@ -39,6 +39,7 @@ export declare class IrBookingDetails {
     isPMSLogLoading: boolean;
     userCountry: ICountry | null;
     paymentActions: IPaymentAction[];
+    property_id: number;
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;

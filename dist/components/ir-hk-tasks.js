@@ -2,7 +2,6 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { a as axios } from './axios.js';
 import { d as defineCustomElement$b } from './ir-button2.js';
 import { d as defineCustomElement$a } from './ir-checkbox2.js';
 import { d as defineCustomElement$9 } from './ir-icon2.js';
@@ -25,22 +24,19 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         this.houseKeepingService = new HouseKeepingService();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
+        this.property_id = undefined;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -62,13 +58,12 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
                 id: unit.id,
             },
         });
-        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
+        await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
     async ticketChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -95,7 +90,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
     }
     async getPendingActions() {
         await this.houseKeepingService.getHKPendingActions({
-            property_id: this.propertyid,
+            property_id: this.property_id,
             bracket: {
                 code: this.selectedDuration,
             },
@@ -107,11 +102,27 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
     async initializeApp() {
         try {
             this.isLoading = true;
-            await Promise.all([
-                this.houseKeepingService.getExposedHKStatusCriteria(this.propertyid),
-                this.roomService.fetchData(this.propertyid, this.language),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT']),
-            ]);
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKStatusCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
             this.selectedDuration = housekeeping_store.hk_tasks.brackets[0].code;
             await this.getPendingActions();
         }
@@ -169,13 +180,14 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
 }, [2, "ir-hk-tasks", {
         "language": [1],
         "ticket": [1],
-        "baseurl": [1],
         "propertyid": [2],
+        "p": [1],
         "isLoading": [32],
         "selectedDuration": [32],
         "selectedHouseKeeper": [32],
         "selectedRoom": [32],
-        "archiveOpened": [32]
+        "archiveOpened": [32],
+        "property_id": [32]
     }, [[0, "resetData", "handleResetData"], [0, "closeSideBar", "handleCloseSidebar"]], {
         "ticket": ["ticketChanged"]
     }]);

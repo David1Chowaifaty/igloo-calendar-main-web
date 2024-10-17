@@ -38,24 +38,42 @@
 
         </div>
     </nav>
-    <igloo-calendar currency-name="USD" propertyid="42" language="en"
-        baseurl="https://gateway.igloorooms.com/IR"></igloo-calendar>
+    <!-- <igloo-calendar currency-name="USD" propertyid="42" language="en"
+        baseurl="https://gateway.igloorooms.com/IR"></igloo-calendar> -->
     <link rel="stylesheet" href="dist/collection/assets/scripts/toastr/toastr.css" type="text/css">
 
     <script>
-        var today = new Date();
-        today.setDate(today.getDate() - 1);
-        var _FROM_DATE = today.toISOString().substring(0, 10)
-        today.setDate(today.getDate() + 60);
-        var _TO_DATE = today.toISOString().substring(0, 10)
-        const calendar = document.querySelector("igloo-calendar");
-        calendar.from_date = _FROM_DATE;
-        calendar.to_date = _TO_DATE;
-        setTimeout(() => {
-            const ticket = getToken();
+
+        authenticate().then(() => {
+            const calendar = document.createElement('igloo-calendar');
+
+            var today = new Date();
+            today.setDate(today.getDate() - 1);
+            var _FROM_DATE = today.toISOString().substring(0, 10)
+            today.setDate(today.getDate() + 60);
+            var _TO_DATE = today.toISOString().substring(0, 10)
+
+
+            calendar.language = "en"
+            calendar.from_date = _FROM_DATE;
+            calendar.to_date = _TO_DATE;
             calendar.propertyid = getId();
-            calendar.ticket = ticket;
-        }, 300)
+
+            document.body.appendChild(calendar)
+        });
+        // var today = new Date();
+        // today.setDate(today.getDate() - 1);
+        // var _FROM_DATE = today.toISOString().substring(0, 10)
+        // today.setDate(today.getDate() + 60);
+        // var _TO_DATE = today.toISOString().substring(0, 10)
+        // const calendar = document.querySelector("igloo-calendar");
+        // calendar.from_date = _FROM_DATE;
+        // calendar.to_date = _TO_DATE;
+        // setTimeout(() => {
+        //     const ticket = getToken();
+        //     calendar.propertyid = getId();
+        //     calendar.ticket = ticket;
+        // }, 300)
     </script>
     <footer
         style="height: 1rem; width: 100%; display: flex; align-items: center;border-top-width: 1px; border-color: rgb(36, 36, 36);border-style: solid;">

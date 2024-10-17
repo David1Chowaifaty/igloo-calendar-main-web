@@ -1,6 +1,6 @@
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, Guest, IBookingPickupInfo, IPmsLog } from '../models/booking.dto';
-import { Token } from "../models/Token";
+import Token from "../models/Token";
 export interface IBookingParams {
     bookedByInfoData: any;
     check_in: boolean;

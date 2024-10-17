@@ -65,7 +65,7 @@ export declare class IglBookingEventHover {
     handleConvertBlockedDateToBooking(): void;
     getRoomInfo(): any;
     renderTitle(eventType: any, roomInfo: any): string;
-    handleBookingOption(eventType: any, roomData?: any): void;
+    private handleBookingOption;
     renderNote(): any;
     getInfoElement(): any;
     getNewBookingOptions(): any;

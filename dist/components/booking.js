@@ -1,8 +1,7 @@
 import { h as hooks } from './moment.js';
-import { i as isBlockUnit, b as dateDifference } from './utils.js';
+import { b as dateDifference, i as isBlockUnit } from './utils.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
-import { c as calendar_data } from './calendar-data.js';
 import { c as createStore } from './index2.js';
 
 const initialState = {
@@ -55,19 +54,13 @@ function formatName(firstName, lastName) {
 }
 async function getStayStatus() {
     try {
-        const token = calendar_data.token;
-        if (token) {
-            const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_Multi?Ticket=${token}`, {
-                TBL_NAMES: ['_STAY_STATUS'],
-            });
-            return data.My_Result.map(d => ({
-                code: d.CODE_NAME,
-                value: d.CODE_VALUE_EN,
-            }));
-        }
-        else {
-            throw new Error('Invalid Token');
-        }
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_Multi`, {
+            TBL_NAMES: ['_STAY_STATUS'],
+        });
+        return data.My_Result.map(d => ({
+            code: d.CODE_NAME,
+            value: d.CODE_VALUE_EN,
+        }));
     }
     catch (error) {
         console.log(error);
@@ -235,14 +228,23 @@ function transformNewBooking(data) {
     rooms.forEach(room => {
         var _a, _b, _c;
         const bookingFromDate = hooks(room.from_date, 'YYYY-MM-DD').isAfter(hooks(calendar_dates.fromDate, 'YYYY-MM-DD')) ? room.from_date : calendar_dates.fromDate;
-        const bookingToDate = hooks(room.to_date, 'YYYY-MM-DD').isAfter(hooks(calendar_dates.toDate, 'YYYY-MM-DD')) ? room.to_date : calendar_dates.toDate;
-        console.log(bookingToDate, bookingFromDate, room.from_date, room.to_date);
+        const bookingToDate = room.to_date;
+        console.log(`
+  bookingFromDate:${bookingFromDate},\n
+  roomFromDate:${room.from_date},\n
+  bookingToDate:${bookingToDate},\n
+  roomToDate:${bookingToDate}\n
+      `);
+        if (hooks(room.to_date, 'YYYY-MM-DD').isBefore(hooks(calendar_dates.fromDate, 'YYYY-MM-DD'))) {
+            return;
+        }
+        // console.log('bookingToDate:', bookingToDate, 'bookingFromDate:', bookingFromDate, 'room from date:', room.from_date, 'room to date', room.to_date);
         bookings.push({
             ID: room['assigned_units_pool'],
-            TO_DATE: room.to_date,
-            FROM_DATE: room.from_date,
+            TO_DATE: bookingToDate,
+            FROM_DATE: bookingFromDate,
             PRIVATE_NOTE: getPrivateNote(data.extras),
-            NO_OF_DAYS: room.days.length,
+            NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
             ARRIVAL: data.arrival,
             IS_EDITABLE: true,
             BALANCE: (_a = data.financial) === null || _a === void 0 ? void 0 : _a.due_amount,

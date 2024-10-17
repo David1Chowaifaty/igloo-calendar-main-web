@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { T as Token, M as MissingTokenError } from './Token.js';
+import { T as Token } from './Token.js';
 import { a as axios } from './axios.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as createStore } from './index2.js';
@@ -12,11 +12,7 @@ import { d as defineCustomElement$2 } from './ir-select2.js';
 
 class PaymentOptionService extends Token {
     async GetExposedPaymentMethods() {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Payment_Methods?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Payment_Methods`);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -24,11 +20,7 @@ class PaymentOptionService extends Token {
         return results;
     }
     async GetPropertyPaymentMethods(property_id) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Property_Payment_Methods?Ticket=${token}`, { property_id, is_return_sensitive_data: true });
+        const { data } = await axios.post(`/Get_Property_Payment_Methods`, { property_id, is_return_sensitive_data: true });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -36,11 +28,7 @@ class PaymentOptionService extends Token {
         return results;
     }
     async GetExposedLanguages() {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Languages?Ticket=${token}`);
+        const { data } = await axios.post(`/Get_Exposed_Languages`);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -48,11 +36,7 @@ class PaymentOptionService extends Token {
         return results;
     }
     async HandlePaymentMethod(paymentOption) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Handle_Payment_Method?Ticket=${token}`, paymentOption);
+        const { data } = await axios.post(`/Handle_Payment_Method`, paymentOption);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -85,30 +69,40 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         this.invalid = false;
     }
     async componentWillLoad() {
-        var _a, _b;
+        var _a;
         this.paymentOptionService.setToken(payment_option_store.token);
+        if (payment_option_store.selectedOption.code !== '005') {
+            return;
+        }
         if (!payment_option_store.languages) {
             const result = await this.paymentOptionService.GetExposedLanguages();
             payment_option_store.languages = result;
         }
+        const localizables = (_a = payment_option_store.selectedOption.localizables) !== null && _a !== void 0 ? _a : [];
         this.selectedLanguage = payment_option_store.languages[0].id.toString();
-        this.localizationIdx =
-            payment_option_store.selectedOption.code === '005'
-                ? (_b = (_a = payment_option_store.selectedOption) === null || _a === void 0 ? void 0 : _a.localizables) === null || _b === void 0 ? void 0 : _b.findIndex(l => l.language.id.toString() === this.selectedLanguage)
-                : null;
-        console.log(this.localizationIdx, this.selectedLanguage);
+        if (localizables.length === 0) {
+            localizables.push(this.createBankTransferInfoObject(payment_option_store.languages[0]));
+        }
+        this.localizationIdx = payment_option_store.selectedOption.code === '005' ? localizables === null || localizables === void 0 ? void 0 : localizables.findIndex(l => l.language.id.toString() === this.selectedLanguage) : null;
+        payment_option_store.selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { localizables: localizables });
+    }
+    createBankTransferInfoObject(l) {
+        return {
+            code: 'BANK_TRANSFER_INFO',
+            description: '',
+            id: null,
+            language: l,
+        };
     }
     async saveOption(e) {
-        var _a;
+        var _a, _b;
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        let selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { property_id: this.propertyId, is_active: payment_option_store.mode === 'create' ? true : payment_option_store.selectedOption.is_active });
+        let selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { property_id: this.propertyId, is_active: payment_option_store.mode === 'create' ? true : (_a = payment_option_store.selectedOption.is_active) !== null && _a !== void 0 ? _a : false });
         if ((selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.code) === '005') {
-            const englishDescription = (_a = selectedOption.localizables.find(l => l.language.code.toLowerCase() === 'en')) === null || _a === void 0 ? void 0 : _a.description;
-            console.log(englishDescription);
-            // Check if the description is null or empty
-            if (!englishDescription || englishDescription.trim() === '') {
+            const englishDescription = (_b = selectedOption.localizables.find(l => l.language.code.toLowerCase() === 'en')) === null || _b === void 0 ? void 0 : _b.description;
+            if (!englishDescription || englishDescription.trim() === '' || this.isEditorEmpty(englishDescription.trim())) {
                 this.selectedLanguage = payment_option_store.languages.find(l => l.code.toLowerCase() === 'en').id.toString();
                 this.localizationIdx = payment_option_store.selectedOption.localizables.findIndex(l => l.language.id.toString() === this.selectedLanguage);
                 this.invalid = true;
@@ -117,7 +111,6 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         }
         if (selectedOption.is_payment_gateway) {
             selectedOption.display_order = 0;
-            // Check if any value in selectedOption.data is null or empty
             const hasInvalidData = selectedOption.data.some(d => !d.value || d.value === '');
             if (hasInvalidData) {
                 this.invalid = true;
@@ -133,14 +126,29 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         });
         this.closeModal.emit(selectedOption);
     }
+    isEditorEmpty(htmlString) {
+        const text = htmlString
+            .replace(/<\/?[^>]+(>|$)/g, '')
+            .replace(/&nbsp;/g, '')
+            .trim();
+        return text.length === 0;
+    }
     handleSelectChange(e) {
+        var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
+        if (payment_option_store.selectedOption.code !== '005') {
+            return;
+        }
         this.selectedLanguage = e.detail;
-        this.localizationIdx =
-            payment_option_store.selectedOption.code === '005'
-                ? payment_option_store.selectedOption.localizables.findIndex(l => l.language.id.toString() === this.selectedLanguage)
-                : null;
+        let idx = payment_option_store.selectedOption.localizables.findIndex(l => l.language.id.toString() === this.selectedLanguage);
+        const localizables = (_a = payment_option_store.selectedOption.localizables) !== null && _a !== void 0 ? _a : [];
+        if (idx === -1) {
+            localizables.push(this.createBankTransferInfoObject(payment_option_store.languages.find(l => l.id.toString() === this.selectedLanguage)));
+            payment_option_store.selectedOption = Object.assign(Object.assign({}, payment_option_store.selectedOption), { localizables: localizables });
+            idx = localizables.length - 1;
+        }
+        this.localizationIdx = idx;
     }
     handleTextAreaChange(e) {
         const value = e.detail;
@@ -162,7 +170,6 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         if (!payment_option_store.selectedOption) {
             return null;
         }
-        console.log(this.localizationIdx);
         return (h(Host, null, h("form", { class: 'p-1 mt-2', onSubmit: this.saveOption.bind(this) }, payment_option_store.selectedOption.code === '005' ? (h("div", null, h("div", { class: "mb-1" }, h("ir-select", { selectedValue: this.selectedLanguage, LabelAvailable: false, showFirstOption: false, data: payment_option_store.languages.map(l => ({
                 text: l.description,
                 value: l.id.toString(),

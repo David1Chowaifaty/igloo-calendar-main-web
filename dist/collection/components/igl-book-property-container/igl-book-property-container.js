@@ -3,14 +3,13 @@ import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
-import axios from "axios";
 export class IglBookPropertyContainer {
     constructor() {
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
+        this.p = undefined;
         this.propertyid = undefined;
         this.from_date = undefined;
         this.to_date = undefined;
@@ -33,8 +32,11 @@ export class IglBookPropertyContainer {
     }
     async initializeApp() {
         try {
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
             const [roomResponse, languageTexts, countriesList] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language),
+                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
             ]);
@@ -54,9 +56,6 @@ export class IglBookPropertyContainer {
         }
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
             calendar_data.token = this.ticket;
             this.bookingService.setToken(this.ticket);
@@ -97,7 +96,7 @@ export class IglBookPropertyContainer {
         };
     }
     render() {
-        return (h(Host, { key: '31859a191a13184c986d2c70876e300c1baf8c1d' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '117a413b4210746cd0893628770296adbf6d761a' }, h("ir-toast", { key: '73736e5ffd9102c4e1517a30779e669d2614c40f' }), h("ir-interceptor", { key: '960a56a40bdd0398f0a4641bbc889a16bbf4d887' }))), h("div", { key: 'e66dfb43e27e8f24bd6d8d0e215c6ffb9ac8e6e6', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'fd9ecb37347b8269709fd22db89c0a40066d24ae', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'c3444a44bba129488cd8d32c4de46d76ceb93582', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingData: (e) => {
+        return (h(Host, { key: '876125431f515449ddf110dc7889802150ddb496' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '6781eed3df9991171f39f79171d9eb9d99b5aed0' }, h("ir-toast", { key: 'fa9d6f0150ff64dc463c95f25ca5cbb61cffc760' }), h("ir-interceptor", { key: 'c9065eec2b31aa5ddc60ee502f9347c6132fcf22' }))), h("div", { key: '10e9211d8d6458c9f2649c1bdb2ec534d94b4b1c', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'dbd8d47395bacd94cece545df889f56cc3f9ab79', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'cd21c4be5718d2fb6f180c4fde57d0573d356078', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingData: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);
@@ -153,7 +152,7 @@ export class IglBookPropertyContainer {
                 "reflect": false,
                 "defaultValue": "''"
             },
-            "baseurl": {
+            "p": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -167,9 +166,8 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "baseurl",
-                "reflect": false,
-                "defaultValue": "''"
+                "attribute": "p",
+                "reflect": false
             },
             "propertyid": {
                 "type": "number",

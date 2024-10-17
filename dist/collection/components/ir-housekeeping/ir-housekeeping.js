@@ -11,6 +11,7 @@ export class IrHousekeeping {
         this.ticket = '';
         this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
     }
     componentWillLoad() {
@@ -20,7 +21,6 @@ export class IrHousekeeping {
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -33,18 +33,32 @@ export class IrHousekeeping {
         if (newValue !== oldValue) {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
     async initializeApp() {
         try {
             this.isLoading = true;
-            await Promise.all([
-                this.houseKeepingService.getExposedHKSetup(this.propertyid),
-                this.roomService.fetchData(this.propertyid, this.language),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT']),
-            ]);
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
         }
         catch (error) {
             console.error(error);
@@ -142,6 +156,23 @@ export class IrHousekeeping {
                     "text": ""
                 },
                 "attribute": "propertyid",
+                "reflect": false
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "p",
                 "reflect": false
             }
         };

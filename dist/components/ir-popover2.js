@@ -39,7 +39,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
         });
     }
     render() {
-        return (h(Host, { key: '2d4bc4e4858d8910f017b38347bffc045417cb96', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '32b08445e5f04d4f7bce34a8ed17b8b9dddfb58c', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '74a0309138f19c77d7fe5f90112f2e220d86029c', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (h(Host, { key: 'f839023f98cba828e4f16e168b8501f12f13ae27', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '18bd0514cef456eb2e10f9aec9db2ccd41fe4287', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '280fd8368b2b03906d7ba3da1a2afd4b706f9708', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return this; }
     static get style() { return IrPopoverStyle0; }

@@ -1,5 +1,4 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
-import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
 import { o as getDaysArray, p as getCurrencySymbol, q as convertDatePrice, s as formatDate } from './utils.js';
 import { h as hooks } from './moment.js';
@@ -21,7 +20,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
         this.bookingService = new BookingService();
         this.bookingNumber = undefined;
-        this.baseUrl = undefined;
         this.propertyId = undefined;
         this.language = undefined;
         this.identifier = undefined;
@@ -29,6 +27,7 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         this.fromDate = undefined;
         this.pool = undefined;
         this.ticket = undefined;
+        this.defaultDates = undefined;
         this.bookingEvent = undefined;
         this.selectedRoom = undefined;
         this.rates = [];
@@ -42,9 +41,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
     }
     componentWillLoad() {
         this.bookingService.setToken(calendar_data.token);
-        if (this.baseUrl) {
-            axios.defaults.baseURL = this.baseUrl;
-        }
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
     }
@@ -53,8 +49,15 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
     }
     async init() {
         var _a;
-        console.log(this.fromDate, this.toDate);
         try {
+            const { from_date } = this.defaultDates;
+            if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
+                this.dates.from_date = new Date(from_date);
+            }
+            else {
+                this.dates.from_date = new Date(this.fromDate);
+            }
+            this.dates.to_date = new Date(this.toDate);
             this.bookingEvent = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
             if (this.bookingEvent) {
                 const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
@@ -88,18 +91,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
                     ];
                 }
             }
-            if (hooks(this.rates[0].date).isAfter(this.fromDate)) {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            else {
-                this.dates.from_date = new Date(this.rates[0].date);
-            }
-            if (hooks(this.rates[this.rates.length - 1].date).isBefore(this.toDate)) {
-                this.dates.to_date = new Date(this.toDate);
-            }
-            else {
-                this.dates.to_date = new Date(this.rates[this.rates.length - 1].date);
-            }
         }
         catch (error) {
             console.log(error);
@@ -128,7 +119,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
             }
         }
         this.rates = days;
-        console.log(this.rates);
     }
     async fetchBookingAvailability(from_date, to_date, rate_plan_id, selected_variation) {
         var _a;
@@ -233,7 +223,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
     static get style() { return IrRoomNightsStyle0; }
 }, [2, "ir-room-nights", {
         "bookingNumber": [1, "booking-number"],
-        "baseUrl": [1, "base-url"],
         "propertyId": [2, "property-id"],
         "language": [1],
         "identifier": [1],
@@ -241,6 +230,7 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         "fromDate": [1, "from-date"],
         "pool": [1],
         "ticket": [1],
+        "defaultDates": [16],
         "bookingEvent": [32],
         "selectedRoom": [32],
         "rates": [32],

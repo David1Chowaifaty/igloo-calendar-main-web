@@ -6,6 +6,7 @@ export declare class IrChannel {
     propertyid: number;
     language: string;
     baseurl: string;
+    p: string;
     channel_status: 'create' | 'edit' | null;
     modal_cause: IModalCause | null;
     isLoading: boolean;

@@ -267,7 +267,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'f7f0ecef6742bbc0b93ce5aa11089df7e0128ffd' }, h("div", { key: '73c1c77b73e557be0d45af51186323618529f42a', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1bdc75826394776aef5f4364a0c2a5207f0a091a', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: 'f022d25b08e42a9d9ea3c8ac08cfa27b7e81eb26' }, h("div", { key: '397ec2514d96ded5a2d3d9e2e5c6863ff8291a42', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '49dff92cd492081a364375bb995d4a24ffd78a5e', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get style() { return IglCalBodyStyle0; }
 }, [2, "igl-cal-body", {

@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { t as checkUserAuthState, u as manageAnchorSession } from './utils.js';
-import { a as axios } from './axios.js';
 import { d as defineCustomElement$D } from './igl-application-info2.js';
 import { d as defineCustomElement$C } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$B } from './igl-book-property2.js';
@@ -47,13 +46,12 @@ const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTM
     constructor() {
         super();
         this.__registerHost();
-        this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.bookingNumber = undefined;
         this.token = undefined;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
             this.token = isAuthenticated.token;
@@ -65,13 +63,13 @@ const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTM
     }
     render() {
         if (!this.token)
-            return (h(Host, null, h("ir-login", { baseurl: this.baseurl, onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, baseurl: this.baseurl, ticket: this.token })));
+            return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, ticket: this.token })));
     }
     static get style() { return IrBookingStyle0; }
 }, [2, "ir-booking", {
-        "baseurl": [1],
         "propertyid": [2],
+        "p": [1],
         "bookingNumber": [1, "booking-number"],
         "token": [32]
     }]);

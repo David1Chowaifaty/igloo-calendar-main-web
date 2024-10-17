@@ -1,15 +1,15 @@
 import { h, r as registerInstance, F as Fragment } from './index-c553b3dc.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-14871918.js';
-import { d as calculateDaysBetweenDates } from './booking-b72372fd.js';
-import { B as BookingService } from './booking.service-8e99b8b1.js';
-import { R as RoomService } from './room.service-2ef748c7.js';
-import { a as axios } from './axios-ab377903.js';
+import { d as calculateDaysBetweenDates } from './booking-2b88fc10.js';
+import { B as BookingService } from './booking.service-ae082272.js';
+import { R as RoomService } from './room.service-9a27089d.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import { o as formatAmount } from './utils-a9f743bb.js';
-import './calendar-data-666acc1f.js';
+import { o as formatAmount } from './utils-6e2dd91f.js';
+import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
-import './Token-be23fd51.js';
+import './Token-7a199370.js';
+import './calendar-data-666acc1f.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -53,7 +53,6 @@ const IrBookingPrinting = class {
         this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
-        this.baseurl = 'https://gateway.igloorooms.com/IR';
         this.language = 'en';
         this.propertyid = undefined;
         this.mode = 'default';
@@ -64,7 +63,6 @@ const IrBookingPrinting = class {
         this.isLoading = undefined;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         document.body.style.background = 'white';
         if (this.token) {
             this.init();
@@ -92,7 +90,7 @@ const IrBookingPrinting = class {
             // }
             let countries;
             const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
-                this.roomService.fetchData(this.propertyid, this.language),
+                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
                 this.bookingService.getCountries(this.language),

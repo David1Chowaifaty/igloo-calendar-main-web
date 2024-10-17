@@ -1,4 +1,4 @@
-import { Token } from "../models/Token";
+import Token from "../models/Token";
 import { PaymentOption } from "../models/payment-options";
 export declare class PaymentOptionService extends Token {
     GetExposedPaymentMethods(): Promise<any>;

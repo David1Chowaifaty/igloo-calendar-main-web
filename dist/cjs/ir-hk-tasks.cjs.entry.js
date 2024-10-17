@@ -3,11 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const housekeeping_service = require('./housekeeping.service-74b3a50b.js');
-const room_service = require('./room.service-cc9c0583.js');
+const housekeeping_service = require('./housekeeping.service-05dace8e.js');
+const room_service = require('./room.service-90a9ab46.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-const axios = require('./axios-b86c5465.js');
-require('./Token-db8ba99b.js');
+require('./Token-e80634a3.js');
+require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
 
@@ -21,22 +21,19 @@ const IrHkTasks = class {
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
+        this.property_id = undefined;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -58,13 +55,12 @@ const IrHkTasks = class {
                 id: unit.id,
             },
         });
-        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
+        await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
     async ticketChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.roomService.setToken(this.ticket);
             this.houseKeepingService.setToken(this.ticket);
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: this.propertyid, language: this.language });
             this.initializeApp();
         }
     }
@@ -91,7 +87,7 @@ const IrHkTasks = class {
     }
     async getPendingActions() {
         await this.houseKeepingService.getHKPendingActions({
-            property_id: this.propertyid,
+            property_id: this.property_id,
             bracket: {
                 code: this.selectedDuration,
             },
@@ -103,11 +99,27 @@ const IrHkTasks = class {
     async initializeApp() {
         try {
             this.isLoading = true;
-            await Promise.all([
-                this.houseKeepingService.getExposedHKStatusCriteria(this.propertyid),
-                this.roomService.fetchData(this.propertyid, this.language),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT']),
-            ]);
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKStatusCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            if (this.propertyid) {
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            await Promise.all(requests);
             this.selectedDuration = housekeeping_service.housekeeping_store.hk_tasks.brackets[0].code;
             await this.getPendingActions();
         }

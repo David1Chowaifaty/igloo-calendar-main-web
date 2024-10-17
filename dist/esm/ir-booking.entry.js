@@ -1,6 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
-import { m as checkUserAuthState, n as manageAnchorSession } from './utils-a9f743bb.js';
-import { a as axios } from './axios-ab377903.js';
+import { m as checkUserAuthState, n as manageAnchorSession } from './utils-6e2dd91f.js';
 import './moment-ab846cee.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
@@ -9,13 +8,12 @@ const IrBookingStyle0 = irBookingCss;
 const IrBooking = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.baseurl = '';
         this.propertyid = undefined;
+        this.p = undefined;
         this.bookingNumber = undefined;
         this.token = undefined;
     }
     componentWillLoad() {
-        axios.defaults.baseURL = this.baseurl;
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
             this.token = isAuthenticated.token;
@@ -27,8 +25,8 @@ const IrBooking = class {
     }
     render() {
         if (!this.token)
-            return (h(Host, null, h("ir-login", { baseurl: this.baseurl, onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, baseurl: this.baseurl, ticket: this.token })));
+            return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, ticket: this.token })));
     }
 };
 IrBooking.style = IrBookingStyle0;

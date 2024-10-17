@@ -3,6 +3,7 @@ import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 export class IrInterceptor {
     constructor() {
+        this.ticket = undefined;
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
@@ -30,6 +31,10 @@ export class IrInterceptor {
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
+        config.params = config.params || {};
+        // if (this.ticket) {
+        //   config.params.Ticket = this.ticket;
+        // }
         if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStoped !== extractedUrl) {
             if (extractedUrl !== '/Get_Exposed_Calendar') {
                 this.isLoading = true;
@@ -69,7 +74,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '24949f82628ef5dd46bb9cd8c587a8d3d04f2a8c' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '2df168d296058556b483846d43832d4642edd6b4', class: "loadingScreenContainer" }, h("div", { key: '8af9f6d3be332522c35f7aba6c45bc08e4a8be8b', class: "loaderContainer" }, h("span", { key: '8e24260bf96d159fe6d94c75813d9b8dc36765f6', class: "page-loader" }))))));
+        return (h(Host, { key: 'ddfe6d82bbe6ced165c1d6f16a052cb157fd024c' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'b8547fdef69cfd09c81ac9612e81f79e2fad3e9a', class: "loadingScreenContainer" }, h("div", { key: '3223d49551280fae7a8a44fccf97b020a8d4a43a', class: "loaderContainer" }, h("span", { key: '3e3d16303565aa06154bbf8ef2ae838a0c322063', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -85,6 +90,23 @@ export class IrInterceptor {
     }
     static get properties() {
         return {
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "ticket",
+                "reflect": false
+            },
             "handledEndpoints": {
                 "type": "unknown",
                 "mutable": false,

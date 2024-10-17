@@ -3,6 +3,7 @@ export declare class IrHousekeeping {
     ticket: string;
     baseurl: string;
     propertyid: number;
+    p: string;
     isLoading: boolean;
     private roomService;
     private houseKeepingService;
