@@ -326,7 +326,7 @@ export class IglBookingEventHover {
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: 'eb8bbbe62b2308978ae11c1ef644b86ba3492021' }, h("div", { key: '7da2ed7ece80bfc0be91ccee98fe195c45839a0b', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '0b8eb0c79f88dffaf7c3f44875a66aa60f76e847', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'f50cfd6309cb2a8ddbce8266c7a7273508b409f8' }, h("div", { key: '08d25a14b46c632afa56010bad0e22a67683699a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '94feffbcfdeb4b2f07f02c3c0b69f59fa6701fe7', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

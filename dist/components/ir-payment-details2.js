@@ -4,14 +4,15 @@ import { B as BookingService } from './booking.service.js';
 import { h as hooks } from './moment.js';
 import { P as PaymentService } from './payment.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { c as colorVariants, d as defineCustomElement$2 } from './ir-icons2.js';
+import { c as colorVariants, d as defineCustomElement$3 } from './ir-icons2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { f as formatAmount } from './utils.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
-import { d as defineCustomElement$3 } from './ir-date-picker2.js';
-import { d as defineCustomElement$1 } from './ir-modal2.js';
+import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$4 } from './ir-date-picker2.js';
+import { d as defineCustomElement$2 } from './ir-modal2.js';
+import { d as defineCustomElement$1 } from './ir-payment-actions2.js';
 
-const irPaymentDetailsCss = ".sm-margin-right.sc-ir-payment-details{margin-right:5px !important;background:#000}.action_icons.sc-ir-payment-details{width:60px}.w-60.sc-ir-payment-details{width:100px;padding:0 5px}.payments-height.sc-ir-payment-details{height:30px}.payment_date.sc-ir-payment-details{width:100px}.iframeHeight.sc-ir-payment-details{height:max-content;height:22.5rem}.designation.sc-ir-payment-details{width:120px}.total-cost-container.sc-ir-payment-details{background:#7cbebe;color:white;padding:0.5rem;border-radius:5px}.payment-actions.sc-ir-payment-details{display:flex;align-items:center;justify-content:center;height:100%;gap:0.5rem}";
+const irPaymentDetailsCss = ".sm-margin-right.sc-ir-payment-details{margin-right:5px !important;background:#000}.action_icons.sc-ir-payment-details{width:60px}.w-60.sc-ir-payment-details{width:100px;padding:0 5px}.payments-height.sc-ir-payment-details{height:30px}.payment_date.sc-ir-payment-details{width:100px}.iframeHeight.sc-ir-payment-details{height:max-content;height:22.5rem}.designation.sc-ir-payment-details{width:120px}.total-cost-container.sc-ir-payment-details{background:#7cbebe;color:white;padding:0.5rem;border-radius:5px}.payment-actions.sc-ir-payment-details{display:flex;align-items:center;justify-content:center;height:100%;gap:0.5rem}.payment_action_beta_container.sc-ir-payment-details{border:1px solid var(--red);position:relative;padding:4px;box-sizing:border-box;border-radius:4px}.beta.sc-ir-payment-details{position:absolute;top:4px;background:var(--red);color:white;padding:0.2rem 0.3rem;font-size:12px;border-radius:4px;right:4px;margin:0}";
 const IrPaymentDetailsStyle0 = irPaymentDetailsCss;
 
 const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails extends HTMLElement {
@@ -213,17 +214,15 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         return (h("tr", null, h("td", { class: 'pr-1' }, _formatDate(item.date)), h("td", { class: 'pr-1' }, formatAmount(this.bookingDetails.currency.symbol, item.amount)), h("td", { class: 'pr-1' }, item.description), h("td", { class: "collapse font-size-small roomName" }, item.room)));
     }
     render() {
-        var _a, _b, _c, _d;
+        var _a;
         if (!this.bookingDetails.financial) {
             return null;
         }
         return [
-            h("div", { class: "card m-0" }, h("div", { class: "p-1" }, this.bookingDetails.financial.gross_cost > 0 && this.bookingDetails.financial.gross_cost !== null && (h("div", { class: "mb-2 h4 total-cost-container" }, this.defaultTexts.entries.Lcz_TotalCost, ": ", h("span", null, formatAmount(this.bookingDetails.currency.symbol, this.bookingDetails.financial.gross_cost)))), h("div", { class: " h4" }, this.defaultTexts.entries.Lcz_DueBalance, ":", ' ', h("span", { class: "danger font-weight-bold" }, formatAmount(this.bookingDetails.currency.symbol, this.bookingDetails.financial.due_amount))), this.bookingGuarantee(), h("div", { class: "mt-2" }, h("div", null, ((_b = (_a = this.bookingDetails.financial) === null || _a === void 0 ? void 0 : _a.due_dates) === null || _b === void 0 ? void 0 : _b.length) > 0 && (h(Fragment, null, h("div", { class: "d-flex align-items-center" }, h("strong", { class: "mr-1" }, this.defaultTexts.entries.Lcz_PaymentDueDates), h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": `.roomName`, "aria-expanded": this.collapsedPayment ? 'true' : 'false', "aria-controls": "myCollapse", variant: "icon", icon_name: this.collapsedPayment ? 'closed_eye' : 'open_eye', onClickHanlder: () => {
-                    this.collapsedPayment = !this.collapsedPayment;
-                }, style: { '--icon-size': '1.5rem' } })), h("table", null, (_c = this.bookingDetails.financial.due_dates) === null || _c === void 0 ? void 0 : _c.map(item => this._renderDueDate(item))))))), h("div", { class: "mt-2 d-flex  flex-column rounded payment-container" }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("strong", null, this.defaultTexts.entries.Lcz_Payments, " history"), h("ir-button", { id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHanlder: () => {
+            h("div", { class: "card m-0" }, h("div", { class: "p-1" }, this.bookingDetails.financial.gross_cost > 0 && this.bookingDetails.financial.gross_cost !== null && (h("div", { class: "mb-2 h4 total-cost-container" }, this.defaultTexts.entries.Lcz_TotalCost, ": ", h("span", null, formatAmount(this.bookingDetails.currency.symbol, this.bookingDetails.financial.gross_cost)))), h("div", { class: " h4" }, "Balance: ", h("span", { class: "danger font-weight-bold" }, formatAmount(this.bookingDetails.currency.symbol, this.bookingDetails.financial.due_amount))), h("div", { class: "mb-2 h4" }, "Collected:", ' ', h("span", { class: "" }, formatAmount(this.bookingDetails.currency.symbol, this.bookingDetails.financial.payments ? this.bookingDetails.financial.payments.reduce((prev, curr) => prev + curr.amount, 0) : 0))), this.bookingGuarantee(), h("div", { class: "payment_action_beta_container" }, h("p", { class: "beta" }, "Beta"), h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.bookingDetails })), h("div", { class: "mt-2 d-flex  flex-column rounded payment-container" }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("strong", null, this.defaultTexts.entries.Lcz_Payments, " history"), h("ir-button", { id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHanlder: () => {
                     this.newTableRow = true;
-                } })), h("table", { class: "mt-1", style: { backgroundColor: this.paymentBackground } }, h("thead", null, h("tr", null, h("th", { class: 'border border-light border-bottom-0 text-center payment_date' }, this.defaultTexts.entries.Lcz_Dates), h("th", { class: 'border border-light border-bottom-0 text-center w-60' }, this.defaultTexts.entries.Lcz_Amount), h("th", { class: 'border border-light border-bottom-0 text-center designation' }, this.defaultTexts.entries.Lcz_Designation), h("th", { class: 'border border-light border-bottom-0 text-center action_icons' }, h("span", { class: 'sr-only' }, "payment actions")))), h("tbody", null, (_d = this.bookingDetails.financial.payments) === null || _d === void 0 ? void 0 :
-                _d.map((item) => this._renderTableRow(item)), this.newTableRow ? this._renderTableRow(null, 'add') : null))))),
+                } })), h("table", { class: "mt-1", style: { backgroundColor: this.paymentBackground } }, h("thead", null, h("tr", null, h("th", { class: 'border border-light border-bottom-0 text-center payment_date' }, this.defaultTexts.entries.Lcz_Dates), h("th", { class: 'border border-light border-bottom-0 text-center w-60' }, this.defaultTexts.entries.Lcz_Amount), h("th", { class: 'border border-light border-bottom-0 text-center designation' }, this.defaultTexts.entries.Lcz_Designation), h("th", { class: 'border border-light border-bottom-0 text-center action_icons' }, h("span", { class: 'sr-only' }, "payment actions")))), h("tbody", null, (_a = this.bookingDetails.financial.payments) === null || _a === void 0 ? void 0 :
+                _a.map((item) => this._renderTableRow(item)), this.newTableRow ? this._renderTableRow(null, 'add') : null))))),
             h("ir-modal", { item: this.toBeDeletedItem, class: 'delete-record-modal', modalTitle: this.defaultTexts.entries.Lcz_Confirmation, modalBody: this.modal_mode === 'delete' ? this.defaultTexts.entries.Lcz_IfDeletedPermantlyLost : this.defaultTexts.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: this.defaultTexts.entries.Lcz_Cancel, rightBtnText: this.modal_mode === 'delete' ? this.defaultTexts.entries.Lcz_Delete : this.defaultTexts.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modal_mode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal.bind(this), onCancelModal: this.handleCancelModal.bind(this) }),
         ];
     }
@@ -252,7 +251,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-button", "ir-date-picker", "ir-icons", "ir-modal"];
+    const components = ["ir-payment-details", "ir-button", "ir-date-picker", "ir-icons", "ir-modal", "ir-payment-actions"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
@@ -261,20 +260,25 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-modal":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-payment-actions":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

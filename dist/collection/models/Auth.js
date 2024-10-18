@@ -7,11 +7,11 @@ class Auth {
         }
     }
     async init() {
-        axios.defaults.withCredentials = true;
+        // axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
-        Auth.isAuthUsed = true;
-        const { data } = await axios.post('/Is_Already_Athenticated');
-        this.setIsAuthenticated(data.My_Result);
+        // Auth.isAuthUsed = true;
+        // const { data } = await axios.post('/Is_Already_Athenticated');
+        // this.setIsAuthenticated(data.My_Result);
     }
     subscribe(callback) {
         Auth.subscribers.push(callback);

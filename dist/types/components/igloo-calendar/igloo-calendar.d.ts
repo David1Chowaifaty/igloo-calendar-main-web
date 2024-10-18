@@ -53,7 +53,6 @@ export declare class IglooCalendar {
     private roomService;
     private eventsService;
     private toBeAssignedService;
-    private auth;
     private countryNodeList;
     private visibleCalendarCells;
     private scrollContainer;

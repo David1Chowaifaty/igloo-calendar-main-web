@@ -17,7 +17,7 @@ export class IrTextArea {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '884931e2f40b0f42e396764f383d863a837c57fb', class: 'form-group' }, h("label", { key: '378d303e68da3ded31e66b0fbad5d0b9262671a3' }, this.label), h("textarea", { key: '7bfa146049c4a4a111ad5b4abfac0f59af15ff0c', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
+        return (h("div", { key: '91c39c0911e323c2e495e54b58d0fad4db4afdd3', class: 'form-group' }, h("label", { key: 'a074c0f9d8fa3f5c4288ac31d816da243f23cc88' }, this.label), h("textarea", { key: '1d543a64c5c1892fc2e3bfe2ef913afe12efdc7a', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
     static get is() { return "ir-textarea"; }
     static get properties() {

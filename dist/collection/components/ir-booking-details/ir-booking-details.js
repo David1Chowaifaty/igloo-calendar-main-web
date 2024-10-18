@@ -54,13 +54,13 @@ export class IrBookingDetails {
         this.paymentActions = undefined;
         this.property_id = undefined;
     }
-    componentDidLoad() {
-        // if (this.ticket !== '') {
-        calendar_data.token = this.ticket;
-        this.bookingService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
-        this.initializeApp();
-        // }
+    componentWillLoad() {
+        if (this.ticket !== '') {
+            calendar_data.token = this.ticket;
+            this.bookingService.setToken(this.ticket);
+            this.roomService.setToken(this.ticket);
+            this.initializeApp();
+        }
     }
     async ticketChanged() {
         calendar_data.token = this.ticket;
@@ -127,9 +127,9 @@ export class IrBookingDetails {
     async handleResetExposedCancelationDueAmount(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        //TOTO: Payment action
-        // const paymentActions = await this.paymentService.GetExposedCancelationDueAmount({ booking_nbr: this.bookingData.booking_nbr, currency_id: this.bookingData.currency.id });
-        // this.paymentActions = [...paymentActions];
+        //TODO: Payment action
+        const paymentActions = await this.paymentService.GetExposedCancelationDueAmount({ booking_nbr: this.bookingData.booking_nbr, currency_id: this.bookingData.currency.id });
+        this.paymentActions = [...paymentActions];
     }
     handleSelectChange(e) {
         e.stopPropagation();
@@ -160,7 +160,7 @@ export class IrBookingDetails {
         this.calendarData.roomsInfo = roomsData;
     }
     async initializeApp() {
-        var _a, _b;
+        var _a, _b, _c;
         try {
             const [roomResponse, languageTexts, countriesList, bookingDetails] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
@@ -171,21 +171,22 @@ export class IrBookingDetails {
             this.paymentService.setToken(this.ticket);
             this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             //TODO:Reenable payment actions
-            // if (bookingDetails?.booking_nbr && bookingDetails?.currency?.id) {
-            //   this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({
-            //     booking_nbr: bookingDetails.booking_nbr,
-            //     currency_id: bookingDetails.currency.id,
-            //   });
-            // } else {
-            //   console.warn('Booking details are incomplete for payment actions.');
-            // }
+            if ((bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.booking_nbr) && ((_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.currency) === null || _b === void 0 ? void 0 : _b.id)) {
+                this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({
+                    booking_nbr: bookingDetails.booking_nbr,
+                    currency_id: bookingDetails.currency.id,
+                });
+            }
+            else {
+                console.warn('Booking details are incomplete for payment actions.');
+            }
             if (!(locales === null || locales === void 0 ? void 0 : locales.entries)) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
             }
             this.defaultTexts = languageTexts;
             this.countryNodeList = countriesList;
-            const guestCountryId = (_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.guest) === null || _b === void 0 ? void 0 : _b.country_id;
+            const guestCountryId = (_c = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.guest) === null || _c === void 0 ? void 0 : _c.country_id;
             this.userCountry = guestCountryId ? this.countryNodeList.find(country => country.id === guestCountryId) || null : null;
             const myResult = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result;
             if (myResult) {

@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
-import { m as checkUserAuthState, n as manageAnchorSession } from './utils-6e2dd91f.js';
+import { t as checkUserAuthState, u as manageAnchorSession } from './utils-9f3b1dfe.js';
 import './moment-ab846cee.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";

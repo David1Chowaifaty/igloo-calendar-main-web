@@ -49,7 +49,7 @@ export declare class IrBookingDetails {
     private dialogRef;
     private printingBaseUrl;
     private confirmationBG;
-    componentDidLoad(): void;
+    componentWillLoad(): void;
     ticketChanged(): Promise<void>;
     handleIconClick(e: CustomEvent): void;
     handleEditSidebar(): void;

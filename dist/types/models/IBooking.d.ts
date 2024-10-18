@@ -1,4 +1,6 @@
 import { Booking, IFormat, Room, Origin, Arrival, IOtaNotes } from './booking.dto';
+import { TAdultChildConstraints } from './igl-book-property';
+import { Currency } from './property';
 import { IRoomService } from './property-types';
 export default interface IBooking {
     ID: string;
@@ -28,6 +30,19 @@ export default interface IBooking {
 }
 export type STATUS = 'IN-HOUSE' | 'CONFIRMED' | 'PENDING-CONFIRMATION' | 'SPLIT-UNIT' | 'CHECKED-IN' | 'CHECKED-OUT' | 'BLOCKED' | 'BLOCKED-WITH-DATES' | 'NOTES' | 'OUTSTANDING-BALANCE' | 'TEMP-EVENT';
 export type bookingReasons = 'DORESERVATION' | 'BLOCK_EXPOSED_UNIT' | 'REALLOCATE_EXPOSED_ROOM_BLOCK' | 'ASSIGN_EXPOSED_ROOM' | 'REALLOCATE_EXPOSED_ROOM_BOOK' | 'UNBLOCK_EXPOSED_UNIT' | 'DELETE_CALENDAR_POOL' | 'GET_UNASSIGNED_DATES' | 'UPDATE_CALENDAR_AVAILABILITY' | 'CHANGE_IN_DUE_AMOUNT' | 'CHANGE_IN_BOOK_STATUS' | 'NON_TECHNICAL_CHANGE_IN_BOOKING';
+export declare const validReasons: Set<bookingReasons>;
+export type TCalendar = {
+    adultChildConstraints: TAdultChildConstraints;
+    allowedBookingSources: TAllowedBookingSource[];
+    currency: Currency;
+};
+export type TAllowedBookingSource = {
+    code: string;
+    description: string;
+    id: string;
+    tag: string;
+    type: 'SETUP' | 'LABEL' | 'TRAVEL_AGENCY';
+};
 export interface ICountry {
     cities: string[];
     id: number;

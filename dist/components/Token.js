@@ -8,11 +8,11 @@ class Auth {
         }
     }
     async init() {
-        axios.defaults.withCredentials = true;
+        // axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
-        Auth.isAuthUsed = true;
-        const { data } = await axios.post('/Is_Already_Athenticated');
-        this.setIsAuthenticated(data.My_Result);
+        // Auth.isAuthUsed = true;
+        // const { data } = await axios.post('/Is_Already_Athenticated');
+        // this.setIsAuthenticated(data.My_Result);
     }
     subscribe(callback) {
         Auth.subscribers.push(callback);
@@ -37,20 +37,19 @@ Auth.subscribers = [];
 
 // import axios from 'axios';
 class Token extends Auth {
-    // private static isInterceptorAdded = false;
     constructor() {
         super();
-        // if (!Token.isInterceptorAdded) {
-        //   // axios.defaults.withCredentials = true;
-        //   axios.interceptors.request.use(config => {
-        //     if (Token.token) {
-        //       config.params = config.params || {};
-        //       config.params.Ticket = Token.token;
-        //     }
-        //     return config;
-        //   });
-        //   Token.isInterceptorAdded = true;
-        // }
+        if (!Token.isInterceptorAdded) {
+            // axios.defaults.withCredentials = true;
+            axios.interceptors.request.use(config => {
+                if (Token.token) {
+                    config.params = config.params || {};
+                    config.params.Ticket = Token.token;
+                }
+                return config;
+            });
+            Token.isInterceptorAdded = true;
+        }
     }
     setToken(token) {
         Token.token = token;
@@ -66,6 +65,7 @@ class Token extends Auth {
     }
 }
 Token.token = '';
+Token.isInterceptorAdded = false;
 class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {
         super(message);
@@ -73,6 +73,6 @@ class MissingTokenError extends Error {
     }
 }
 
-export { Auth as A, Token as T };
+export { Token as T };
 
 //# sourceMappingURL=Token.js.map
