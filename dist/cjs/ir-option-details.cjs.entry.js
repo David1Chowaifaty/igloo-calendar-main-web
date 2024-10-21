@@ -3,11 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const paymentOption_store = require('./payment-option.store-097eadb2.js');
+const paymentOption_store = require('./payment-option.store-98e527da.js');
 const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const turndown_browser_es = require('./turndown.browser.es-8a1ff1d3.js');
-require('./Token-078e0d04.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 
@@ -27,7 +26,6 @@ const IrOptionDetails = class {
     }
     async componentWillLoad() {
         var _a;
-        this.paymentOptionService.setToken(paymentOption_store.payment_option_store.token);
         if (paymentOption_store.payment_option_store.selectedOption.code !== '005') {
             return;
         }

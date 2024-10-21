@@ -1,6 +1,5 @@
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, Guest, IBookingPickupInfo, IPmsLog } from '../models/booking.dto';
-import Token from "../models/Token";
 export interface IBookingParams {
     bookedByInfoData: any;
     check_in: boolean;
@@ -29,7 +28,7 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
-export declare class BookingService extends Token {
+export declare class BookingService {
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;
     }>;

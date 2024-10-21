@@ -1,12 +1,12 @@
 import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-a20764d1.js';
+import { R as RoomService } from './room.service-f3b5fba8.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-a03c634b.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import { a as axios } from './axios-ab377903.js';
-import { C as ChannelService } from './channel.service-8e3913de.js';
-import { c as calendar_data } from './calendar-data-666acc1f.js';
-import './Token-39881880.js';
+import { C as ChannelService } from './channel.service-2d616727.js';
+import { T as Token } from './Token-a4516431.js';
+import './calendar-data-666acc1f.js';
 import './index-1d7b1ff2.js';
+import './axios-ab377903.js';
 
 const actions = (entries) => [
     {
@@ -89,7 +89,6 @@ const actions = (entries) => [
                 cause: 'remove',
                 action: async () => {
                     const channel_service = new ChannelService();
-                    channel_service.setToken(calendar_data.token);
                     await channel_service.saveConnectedChannel(params.id, true);
                 },
                 title: '',
@@ -108,6 +107,7 @@ const IrChannel = class {
         registerInstance(this, hostRef);
         this.roomService = new RoomService();
         this.channelService = new ChannelService();
+        this.token = new Token();
         this.ticket = '';
         this.propertyid = undefined;
         this.language = undefined;
@@ -119,13 +119,8 @@ const IrChannel = class {
     }
     componentWillLoad() {
         this.isLoading = true;
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.channelService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -190,10 +185,11 @@ const IrChannel = class {
             this.isLoading = false;
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.roomService.setToken(this.ticket);
-        this.channelService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleCancelModal(e) {

@@ -1,12 +1,11 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-8f40dcdb.js';
+import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-0fce7ec1.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { c as calendar_data } from './calendar-data-666acc1f.js';
 import { i as isRequestPending } from './ir-interceptor.store-651abd9c.js';
-import { B as BookingService } from './booking.service-04facc51.js';
-import './Token-39881880.js';
-import './axios-ab377903.js';
+import { B as BookingService } from './booking.service-b7cdb1ea.js';
 import './index-1d7b1ff2.js';
+import './axios-ab377903.js';
 import './utils-9f3b1dfe.js';
 import './moment-ab846cee.js';
 import './booking-689d51f3.js';
@@ -36,9 +35,6 @@ const IrDeleteModal = class {
         this.isOpen = false;
         this.selectedId = '';
         this.loadingBtn = null;
-    }
-    componentWillLoad() {
-        this.housekeepingService.setToken(housekeeping_store.default_properties.token);
     }
     async closeModal() {
         this.isOpen = false;
@@ -111,9 +107,6 @@ const IrHkUnassignedUnits = class {
         this.housekeepingService = new HouseKeepingService();
         this.user = null;
         this.renderAgain = false;
-    }
-    componentWillLoad() {
-        this.housekeepingService.setToken(housekeeping_store.default_properties.token);
     }
     assignUnit(unit_id, hk_id, checked) {
         if (this.user) {
@@ -201,7 +194,7 @@ const IrHkUnassignedUnits = class {
         });
     }
     render() {
-        return (h(Host, { key: 'e5a9660eea2088e508587187ec0f39f1b3c5e552' }, h("ir-title", { key: '542c48de7e0e3cbfcaa4db0a4dd95841cb62769b', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'a72918fb8593a5a9e6a6ecdca51031536be808a8', class: "px-1" }, h("table", { key: '809a1d7d748d0d1c4a1349840e2928ba959f0f00' }, h("thead", { key: 'c54e993ff44a8527125e497a0a0768471885d109' }, h("th", { key: 'aae9b7da165e3487601c8f12bf042deec597235b', class: "sr-only" }, "room name"), h("th", { key: '46bdb982445f04f19e48554f001409915fb576ba', class: "sr-only" }, "housekeeper name"), h("th", { key: '5fbfcefea84fcfeda36bdcbf82d39ce4cecb1d30', class: "sr-only" }, "actions")), h("tbody", { key: '41936ec3e4835c183f7ec16274d084ef2791b263' }, this.renderRooms())), h("div", { key: 'cae71db9b0a3e928600ef78aeace45468ed91b01', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'e7ec9293818293826b45c79d1c3c0001544265e1', onClickHanlder: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '60ae157a6a0f88a17f1a10008cfcbb791b547934', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHanlder: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
+        return (h(Host, { key: '318e6932d55580d3481405c0a1b345ab1eb52c14' }, h("ir-title", { key: '1e530207bcfcf4b6540eef231e8e99e337b8b9b1', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '5dee6a4919787faa262586f7729018a6aeea3fb4', class: "px-1" }, h("table", { key: 'a32fbfe4fb45e9b6f8488cf9b2437931b2a52ed8' }, h("thead", { key: '5a09344319fdd01ab8cc4265bc1cf98ad7773cbb' }, h("th", { key: '6e8ab061343e996d45bb92facfc17a600c0210e1', class: "sr-only" }, "room name"), h("th", { key: '31eace64b0f5b19f9d1d84df3ad15338a7f86579', class: "sr-only" }, "housekeeper name"), h("th", { key: '803ab5c74d70b965bd9dc5c8ce0b381c79f001f6', class: "sr-only" }, "actions")), h("tbody", { key: 'd4d62b2da8f2d163dc980be6f01c021186ad8393' }, this.renderRooms())), h("div", { key: '6e529821ded2e52e8aec396c57dd23c9db3c3f7b', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '5fae893aac0f7ee73a578b8715b92f3a2bbb3fea', onClickHanlder: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '2d3341ed95b5fcd0b9520a066722ae3f9e793be6', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHanlder: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
     }
 };
 IrHkUnassignedUnits.style = IrHkUnassignedUnitsStyle0;
@@ -287,7 +280,6 @@ const IrHkUser = class {
     async componentWillLoad() {
         const { token, language, property_id } = getDefaultProperties();
         this.default_properties = { token, language };
-        this.housekeepingService.setToken(token);
         if (!this.user) {
             this.userInfo['property_id'] = property_id;
         }
@@ -337,10 +329,10 @@ const IrHkUser = class {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
-        return (h(Host, { key: '7d9ecb5dcbde4605d367de54208f0e23c7dc81f7' }, h("ir-title", { key: '8e6c3f4563c12e8e537d75cc8e35271ef8fea72d', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: '7b0aa67fd30e35fd2fe8cca02cb53289c0f91a36', class: "px-1" }, h("ir-input-text", { key: 'b94903d732ddb26e757d5de3231d61f7f99194ee', error: ((_b = (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 0, label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this) }), h("ir-phone-input", { key: '0c7e0573a54b9b27f57d8910d2386ace52028d85', placeholder: locales.entries.Lcz_Mobile, error: ((_d = (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) === null || _d === void 0 ? void 0 : _d.length) > 0, language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
+        return (h(Host, { key: 'aaf8cfe0d60b0927f557a162de08adc4bafdfa9f' }, h("ir-title", { key: 'f42bf6eb8aa3dd48ba7d68155b045d3b9a0c659a', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: 'f0020338644d200324e5fc912d3e44ebf90ffac2', class: "px-1" }, h("ir-input-text", { key: 'e0a9568798fc86640a378f29dbb82625cc1ee5dd', error: ((_b = (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 0, label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this) }), h("ir-phone-input", { key: '29d3b4ffba3ae6fbb4127f9c51b6a4b7132b84c2', placeholder: locales.entries.Lcz_Mobile, error: ((_d = (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) === null || _d === void 0 ? void 0 : _d.length) > 0, language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
                 this.updateUserField('phone_prefix', e.detail.phone_prefix);
                 this.updateUserField('mobile', e.detail.mobile);
-            } }), h("ir-input-text", { key: '9fe64ed4d49530f789c7a42f87c8fc3b6ee95ec9', disabled: this.user !== null, label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: '17c2fa42b3a9d2d0959f3687bb80fe60fc6a3b81', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", error: ((_g = (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password) === null || _g === void 0 ? void 0 : _g.length) > 0, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-input-text", { key: '43cbc668b85750466b9524c388b25509d000d7ba', label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: '36f923ee9912555975be5aa1d4ee0c6bc693b523', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '1470b22e08cfb4ffa2fb362168d35143afe326ac', onClickHanlder: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'd3ced9bb032c40d08b35ee151799f9a3eb68ade7', isLoading: this.isLoading, onClickHanlder: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
+            } }), h("ir-input-text", { key: 'ced42f3dfe776871978a71e29131191cff131a48', disabled: this.user !== null, label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: 'db26cc832b312309f732cecfeca1623447a35779', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", error: ((_g = (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password) === null || _g === void 0 ? void 0 : _g.length) > 0, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-input-text", { key: 'c76c0aedb1ad9b56ac2c71ec1d7006a21312bf65', label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: 'c33fe33767edcb85c39e6c79075e1ee51aa73362', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'd46a0d6daa0752c63c7e0d31b30941224652da7a', onClickHanlder: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '0f6387039a79483f69b2aed72554fb31b5752049', isLoading: this.isLoading, onClickHanlder: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
     }
 };
 IrHkUser.style = IrHkUserStyle0;
@@ -368,7 +360,6 @@ const IrPhoneInput = class {
         this.currentCountry = undefined;
     }
     async componentWillLoad() {
-        this.bookingService.setToken(this.token);
         const countries = await this.bookingService.getCountries(this.language);
         this.countries = countries;
         if (this.phone_prefix) {
@@ -416,7 +407,7 @@ const IrPhoneInput = class {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'f62430c0ce0d1bdb31bada7c88a5e05efbd1573d' }, h("div", { key: '548f1d1d394b55ceef71a558716808c169c17873', class: "form-group mr-0" }, h("div", { key: '898e655e5df2462f09fdf01528813945f73042c3', class: "input-group row m-0 p-0 position-relative" }, this.label && (h("div", { key: 'ff942fa820f9e82a8a95633833c2b0c92df289b8', class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { key: 'f3a3e9152b574e88b9b3cbbd8e06663c403a8d3c', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), h("div", { key: '9d80605cd6f5d66ecd5d4b09169c371861aba730', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { key: '8efa940f48f5c9399d767bd91a39ad94307e1791', onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, h("img", { key: '550d4f91b3bd51db203023c1243af05780b4fb88', src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }), h("svg", { key: '4779c585c62033e34f145010a1cfcdc6c5e78101', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '4ae78f2f2f5fae5d3aa8307efce1c85053079d12', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("label", { key: '19570878d7a09e9046a90427806b62f59614b9ba' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), h("input", { key: '56702c441f5e830dccb4f3ece1baf607b590b0a0', type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), ' ', this.isDropdownVisible && (h("div", { key: '7bbcb7018d46be0682e70fbc3b518bcd76790ab8', class: "ir-dropdown-container" }, h("ir-combobox", { key: '89567fbd6fa4550dd19ffc8ced1e54e0c644417d', onComboboxValueChange: e => {
+        return (h(Host, { key: '478613478389485004fa931b7c60eedbda40a3c9' }, h("div", { key: '5504dc22ece6269a7820c3d3f4a853b170a8fcae', class: "form-group mr-0" }, h("div", { key: 'dffdac242a904354cccc411c2736585c05ea4c7c', class: "input-group row m-0 p-0 position-relative" }, this.label && (h("div", { key: '53dcf7df45547b0bfd441d456c299f2257a0fc7f', class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { key: 'efcf18b4cc434c91fd4048f62377777c0369d142', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), h("div", { key: '2c5aa75ffbd7fcd061e56a18ed9e2f9b229f960a', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { key: '9335e9a3d16405c8fa0fe6b8c6db1336a8054156', onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, h("img", { key: '51ca7498e231f4341cbc9d0eb4ae58c2e0bcfb2c', src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }), h("svg", { key: '26221b146f4fd6004464500296beb22bcbf1ff05', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: 'a1ff1f731ff623a31a4082a71f82bedc1080a291', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("label", { key: '7860c3501470e8ce01ee10d11e6a81ed58a61bc2' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), h("input", { key: '2a44db6c4baefd98242ad39449a2b0aff40c56cc', type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), ' ', this.isDropdownVisible && (h("div", { key: '78d463b9caa5d672436003ee6e8eeaa2243fdc1d', class: "ir-dropdown-container" }, h("ir-combobox", { key: '544617facabcbda42372ad38df86c676e34cfed9', onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
             }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({

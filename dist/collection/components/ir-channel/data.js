@@ -1,5 +1,4 @@
 import { ChannelService } from "../../services/channel.service";
-import calendar_data from "../../stores/calendar-data";
 import { selectChannel, setChannelIdAndActiveState, testConnection, updateChannelSettings } from "../../stores/channel.store";
 import { h } from "@stencil/core";
 export const actions = (entries) => [
@@ -81,7 +80,6 @@ export const actions = (entries) => [
                 cause: 'remove',
                 action: async () => {
                     const channel_service = new ChannelService();
-                    channel_service.setToken(calendar_data.token);
                     await channel_service.saveConnectedChannel(params.id, true);
                 },
                 title: '',

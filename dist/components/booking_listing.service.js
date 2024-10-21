@@ -1,4 +1,3 @@
-import { T as Token } from './Token.js';
 import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
 import { e as extras } from './utils.js';
@@ -42,7 +41,7 @@ function updateUserSelection(key, value) {
     booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { [key]: value });
 }
 
-class BookingListingService extends Token {
+class BookingListingService {
     async getExposedBookingsCriteria(property_id) {
         const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, {
             property_id,

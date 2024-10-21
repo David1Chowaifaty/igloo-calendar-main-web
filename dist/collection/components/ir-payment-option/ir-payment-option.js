@@ -3,10 +3,12 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import payment_option_store from "../../stores/payment-option.store";
 import { Host, h } from "@stencil/core";
+import Token from "../../models/Token";
 export class IrPaymentOption {
     constructor() {
         this.paymentOptionService = new PaymentOptionService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.propertyid = undefined;
         this.ticket = undefined;
         this.p = undefined;
@@ -18,14 +20,17 @@ export class IrPaymentOption {
         this.selectedOption = null;
     }
     componentWillLoad() {
-        if (this.ticket) {
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
             this.init();
         }
     }
-    handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.init();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.init();
     }
     init() {
         this.initServices();
@@ -109,9 +114,7 @@ export class IrPaymentOption {
         }
     }
     initServices() {
-        payment_option_store.token = this.ticket;
-        this.paymentOptionService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+        this.token.setToken(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
@@ -341,7 +344,7 @@ export class IrPaymentOption {
     static get watchers() {
         return [{
                 "propName": "ticket",
-                "methodName": "handleTokenChange"
+                "methodName": "ticketChanged"
             }];
     }
     static get listeners() {

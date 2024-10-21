@@ -3,16 +3,16 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking_listing_service = require('./booking_listing.service-6e60a49f.js');
-const room_service = require('./room.service-19ad1607.js');
+const booking_listing_service = require('./booking_listing.service-8aab558d.js');
+const room_service = require('./room.service-723b3148.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const utils = require('./utils-34705107.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
 const booking = require('./booking-c11bc999.js');
-require('./Token-078e0d04.js');
-require('./axios-b86c5465.js');
+const Token = require('./Token-f44372b0.js');
 require('./index-5e99a1fe.js');
+require('./axios-b86c5465.js');
 require('./calendar-data-fbe7f62b.js');
 
 const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
@@ -23,6 +23,7 @@ const IrBookingListing = class {
         index.registerInstance(this, hostRef);
         this.bookingListingService = new booking_listing_service.BookingListingService();
         this.roomService = new room_service.RoomService();
+        this.token = new Token.Token();
         this.statusColors = {
             '001': 'badge-warning',
             '002': 'badge-success',
@@ -45,9 +46,8 @@ const IrBookingListing = class {
         booking_listing_service.updateUserSelection('end_row', this.rowCount);
         booking_listing_service.booking_listing.rowCount = this.rowCount;
         if (this.ticket !== '') {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
             booking_listing_service.booking_listing.token = this.ticket;
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
         booking_listing_service.onBookingListingChange('userSelection', async (newValue) => {
@@ -58,13 +58,13 @@ const IrBookingListing = class {
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
-            booking_listing_service.booking_listing.token = this.ticket;
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        booking_listing_service.booking_listing.token = this.ticket;
+        this.initializeApp();
     }
     async initializeApp() {
         try {

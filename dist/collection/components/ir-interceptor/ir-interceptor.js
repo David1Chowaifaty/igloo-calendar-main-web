@@ -3,7 +3,6 @@ import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 export class IrInterceptor {
     constructor() {
-        this.ticket = undefined;
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
@@ -74,7 +73,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '7f974ef9b909ccb49b708fc5f35d03350f9ba6fa' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '77c6d5d192ad3b56ead54e0dc0bf2f4cbd2aff8b', class: "loadingScreenContainer" }, h("div", { key: 'cb3d05891f1435ddaedeebac8ea31fda5025557e', class: "loaderContainer" }, h("span", { key: '0a7cb4032c36ec6df0fa554dfebdac1543f2f66b', class: "page-loader" }))))));
+        return (h(Host, { key: '8c2f11adfc7be7524578295bf714fae1783d7a3b' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '34c1f4faa1aff78015b00dc2fdacd88b204fd28c', class: "loadingScreenContainer" }, h("div", { key: 'bb8b5e996f2df34f5972aa9d035c386a836641c3', class: "loaderContainer" }, h("span", { key: '8972a0a9bba79a600fedc88c5571d1e6d96f96c9', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -90,23 +89,6 @@ export class IrInterceptor {
     }
     static get properties() {
         return {
-            "ticket": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "ticket",
-                "reflect": false
-            },
             "handledEndpoints": {
                 "type": "unknown",
                 "mutable": false,

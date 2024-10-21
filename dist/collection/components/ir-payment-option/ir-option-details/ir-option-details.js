@@ -14,7 +14,6 @@ export class IrOptionDetails {
     }
     async componentWillLoad() {
         var _a;
-        this.paymentOptionService.setToken(payment_option_store.token);
         if (payment_option_store.selectedOption.code !== '005') {
             return;
         }

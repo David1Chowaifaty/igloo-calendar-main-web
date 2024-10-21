@@ -14,9 +14,10 @@ export declare class IrHkTasks {
     private modalOpenTimeOut;
     private roomService;
     private houseKeepingService;
+    private token;
     componentWillLoad(): void;
     handleResetData(e: CustomEvent): Promise<void>;
-    ticketChanged(newValue: string, oldValue: string): Promise<void>;
+    ticketChanged(newValue: string, oldValue: string): void;
     handleCheckChange(e: CustomEvent, action: IPendingActions): void;
     handleCloseSidebar(e: CustomEvent): void;
     disconnectedCallback(): void;

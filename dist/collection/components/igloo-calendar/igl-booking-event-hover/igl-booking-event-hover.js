@@ -3,7 +3,6 @@ import { findCountry, formatAmount } from "../../../utils/utils";
 import { EventsService } from "../../../services/events.service";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
-import calendar_data from "../../../stores/calendar-data";
 //import { transformNewBLockedRooms } from '../../../utils/booking';
 export class IglBookingEventHover {
     constructor() {
@@ -19,8 +18,6 @@ export class IglBookingEventHover {
         this.shouldHideUnassignUnit = false;
     }
     componentWillLoad() {
-        // console.log('this.bookingEvent', this.bookingEvent);
-        this.eventService.setToken(calendar_data.token);
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
         if (selectedRt) {
             console.log(selectedRt.physicalrooms.length === 1);
@@ -326,7 +323,7 @@ export class IglBookingEventHover {
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: 'f50cfd6309cb2a8ddbce8266c7a7273508b409f8' }, h("div", { key: '08d25a14b46c632afa56010bad0e22a67683699a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '94feffbcfdeb4b2f07f02c3c0b69f59fa6701fe7', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '1f7f23ea2969b334f7bc50f52f3af55acf68d1be' }, h("div", { key: 'b5146e99dce38cd6de5439a9ae62ac1f5b601c3a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cdc686e5e855e1b3a1968508263c614ea512154d', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

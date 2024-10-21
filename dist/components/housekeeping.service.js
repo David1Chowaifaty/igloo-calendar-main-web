@@ -1,4 +1,3 @@
-import { T as Token } from './Token.js';
 import { c as createStore } from './index2.js';
 import { a as axios } from './axios.js';
 
@@ -16,7 +15,7 @@ function getDefaultProperties() {
     return housekeeping_store.default_properties;
 }
 
-class HouseKeepingService extends Token {
+class HouseKeepingService {
     async getExposedHKSetup(property_id) {
         const { data } = await axios.post(`/Get_Exposed_HK_Setup`, {
             property_id,

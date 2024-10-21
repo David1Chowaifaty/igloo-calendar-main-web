@@ -7,7 +7,6 @@ export declare class IrHkUnassignedUnits {
     resetData: EventEmitter<null>;
     private assignedUnits;
     private housekeepingService;
-    componentWillLoad(): void;
     assignUnit(unit_id: number, hk_id: number | null, checked: boolean): void;
     assignUnits(): Promise<void>;
     renderRooms(): any[];

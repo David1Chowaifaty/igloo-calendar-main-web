@@ -1,5 +1,4 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { T as Token } from './Token.js';
 import { a as axios } from './axios.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as createStore } from './index2.js';
@@ -10,7 +9,7 @@ import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-input-text2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
 
-class PaymentOptionService extends Token {
+class PaymentOptionService {
     async GetExposedPaymentMethods() {
         const { data } = await axios.post(`/Get_Exposed_Payment_Methods`);
         if (data.ExceptionMsg !== '') {
@@ -70,7 +69,6 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
     }
     async componentWillLoad() {
         var _a;
-        this.paymentOptionService.setToken(payment_option_store.token);
         if (payment_option_store.selectedOption.code !== '005') {
             return;
         }

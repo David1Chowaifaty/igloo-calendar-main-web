@@ -6,6 +6,7 @@ import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
 import { e as getPrivateNote } from './booking.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$H } from './igl-application-info2.js';
 import { d as defineCustomElement$G } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$F } from './igl-book-property2.js';
@@ -58,6 +59,7 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
         this.__registerHost();
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.statusColors = {
             '001': 'badge-warning',
             '002': 'badge-success',
@@ -80,9 +82,8 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
         updateUserSelection('end_row', this.rowCount);
         booking_listing.rowCount = this.rowCount;
         if (this.ticket !== '') {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
             booking_listing.token = this.ticket;
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
         onBookingListingChange('userSelection', async (newValue) => {
@@ -93,13 +94,13 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
-            booking_listing.token = this.ticket;
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        booking_listing.token = this.ticket;
+        this.initializeApp();
     }
     async initializeApp() {
         try {

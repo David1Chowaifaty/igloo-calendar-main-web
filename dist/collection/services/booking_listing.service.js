@@ -1,8 +1,7 @@
-import Token from "../models/Token";
 import booking_listing, { initializeUserSelection } from "../stores/booking_listing.store";
 import { extras } from "../utils/utils";
 import axios from "axios";
-export class BookingListingService extends Token {
+export class BookingListingService {
     async getExposedBookingsCriteria(property_id) {
         const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, {
             property_id,

@@ -2,13 +2,12 @@ import { h, r as registerInstance, F as Fragment } from './index-c553b3dc.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { a as _formatTime } from './functions-7c8c67af.js';
 import { b as calculateDaysBetweenDates } from './booking-689d51f3.js';
-import { B as BookingService } from './booking.service-04facc51.js';
-import { R as RoomService } from './room.service-a20764d1.js';
+import { B as BookingService } from './booking.service-b7cdb1ea.js';
+import { R as RoomService } from './room.service-f3b5fba8.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { f as formatAmount } from './utils-9f3b1dfe.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
-import './Token-39881880.js';
 import './calendar-data-666acc1f.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
@@ -73,12 +72,7 @@ const IrBookingPrinting = class {
             this.init();
         }
     }
-    applyTokenToServices() {
-        this.bookingService.setToken(this.token);
-        this.roomService.setToken(this.token);
-    }
     init() {
-        this.applyTokenToServices();
         this.initializeRequests();
     }
     async initializeRequests() {

@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const housekeeping_service = require('./housekeeping.service-9db61e8d.js');
-const room_service = require('./room.service-19ad1607.js');
+const Token = require('./Token-f44372b0.js');
+const housekeeping_service = require('./housekeeping.service-ae78c8e1.js');
+const room_service = require('./room.service-723b3148.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-require('./Token-078e0d04.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
@@ -19,6 +19,7 @@ const IrHkTasks = class {
         index.registerInstance(this, hostRef);
         this.roomService = new room_service.RoomService();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
+        this.token = new Token.Token();
         this.language = '';
         this.ticket = '';
         this.propertyid = undefined;
@@ -32,8 +33,7 @@ const IrHkTasks = class {
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -57,12 +57,12 @@ const IrHkTasks = class {
         });
         await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     handleCheckChange(e, action) {
         if (e.detail) {

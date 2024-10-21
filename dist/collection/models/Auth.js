@@ -1,14 +1,12 @@
-import axios from "axios";
+// import axios from 'axios';
 class Auth {
     constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IR';
         if (!Auth.isAuthUsed) {
             this.init();
         }
     }
     async init() {
         // axios.defaults.withCredentials = true;
-        axios.defaults.baseURL = this.baseUrl;
         // Auth.isAuthUsed = true;
         // const { data } = await axios.post('/Is_Already_Athenticated');
         // this.setIsAuthenticated(data.My_Result);

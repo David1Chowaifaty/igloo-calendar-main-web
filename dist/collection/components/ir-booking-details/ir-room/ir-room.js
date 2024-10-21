@@ -167,7 +167,19 @@ export class IrRoom {
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? this.defaultTexts.entries.Lcz_Excluding : this.defaultTexts.entries.Lcz_Including, " ", d.name), h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), h("div", { key: '3bf77bce0ce1e063c418ceb024bb3f9fd3733e1d', class: "sm-mb-1", innerHTML: this.item.rateplan.cancelation || '' }), h("div", { key: '56e678423b6ee02f45fd0a5033121584ec9b9054', class: "sm-mb-1", innerHTML: this.item.rateplan.guarantee || '' }), this.bookingEvent.is_direct && h("ir-label", { key: '898701780c01355bedaa1d0226b1d252cd1f945f', label: `${this.defaultTexts.entries.Lcz_MealPlan}:`, value: this.mealCodeName }))), h("ir-modal", { key: '434d62da71b82ef4de7cd57574d4651cbc85c5f0', autoClose: false, ref: el => (this.irModalRef = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: this.defaultTexts.entries.Lcz_Cancel, rightBtnText: this.defaultTexts.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: this.defaultTexts.entries.Lcz_Confirmation, modalBody: `${this.defaultTexts.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${this.defaultTexts.entries.Lcz_FromThisBooking}` })));
+        })()))))), this.item.rateplan.cancelation && (
+        // <div class="sm-mb-1 room_statements">
+        //   <span>
+        //     <b>
+        //       <u>{this.defaultTexts.entries.Lcz_Cancellation}: </u>
+        //     </b>
+        //   </span>
+        //   <span>
+        //     njfsdnfjsfsdfdsfnijsnfijnfjsnfjsdnfjsnfkjsdnfjksdnfkjsdnfjksnfjksfnkjsdnfjksfnjksdnfjksdnfjsdnfjksnfjksdnfkjsdnfjksnfjksddnfjksnfjksddnfjsdnfjksf js
+        //     jnjnsjnfjksfnjsdfnjdskfnsddjfnsifnj
+        //   </span>
+        // </div>
+        h("div", { key: '79d3b924d8581c47ace23059a9306d6bf131f953', class: "room_statements" }, h("span", { key: '49fd783c06b781803514da398675f2d0bdcbc561' }, h("b", { key: 'b205a1f67e4c426f92370f3c2896bb13307af8bf' }, this.defaultTexts.entries.Lcz_Cancellation, ":"), h("span", { key: 'e26c6f6569fa6e4f599a1516b6d27715c0bdc1e9', innerHTML: this.item.rateplan.cancelation || '' })))), this.item.rateplan.guarantee && (h("div", { key: '3d3049b5cc4268137cbdfe6317d939da4a94e342', class: "sm-mb-1" }, h("span", { key: 'af28ebf99dd23490f46c409e8c24ff1e98428998' }, h("b", { key: 'f30298590014e7aea852ef79d2b15d31fb54793b' }, this.defaultTexts.entries.Lcz_Guarantee, ": "), h("span", { key: 'f8aa9275a244a02c479d94f04bbfb1f4cf7b7f36', innerHTML: this.item.rateplan.guarantee || '' })))), this.bookingEvent.is_direct && h("ir-label", { key: '613250731d2ee79f71c7451f44dfd326742e6017', label: `${this.defaultTexts.entries.Lcz_MealPlan}:`, value: this.mealCodeName }))), h("ir-modal", { key: '7757fccf822fd3ab6ca8042431c06e1855c79313', autoClose: false, ref: el => (this.irModalRef = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: this.defaultTexts.entries.Lcz_Cancel, rightBtnText: this.defaultTexts.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: this.defaultTexts.entries.Lcz_Confirmation, modalBody: `${this.defaultTexts.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${this.defaultTexts.entries.Lcz_FromThisBooking}` })));
     }
     static get is() { return "ir-room"; }
     static get encapsulation() { return "scoped"; }

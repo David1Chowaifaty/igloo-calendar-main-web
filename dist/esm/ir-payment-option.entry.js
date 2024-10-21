@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-5c7398c6.js';
-import { R as RoomService } from './room.service-a20764d1.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-404dbac8.js';
+import { R as RoomService } from './room.service-f3b5fba8.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import './Token-39881880.js';
+import { T as Token } from './Token-a4516431.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
 import './calendar-data-666acc1f.js';
@@ -16,6 +16,7 @@ const IrPaymentOption = class {
         this.toast = createEvent(this, "toast", 7);
         this.paymentOptionService = new PaymentOptionService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.propertyid = undefined;
         this.ticket = undefined;
         this.p = undefined;
@@ -27,14 +28,17 @@ const IrPaymentOption = class {
         this.selectedOption = null;
     }
     componentWillLoad() {
-        if (this.ticket) {
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
             this.init();
         }
     }
-    handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.init();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.init();
     }
     init() {
         this.initServices();
@@ -118,9 +122,7 @@ const IrPaymentOption = class {
         }
     }
     initServices() {
-        payment_option_store.token = this.ticket;
-        this.paymentOptionService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+        this.token.setToken(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
@@ -196,7 +198,7 @@ const IrPaymentOption = class {
             }, label: (_f = locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Information) === null || _f === void 0 ? void 0 : _f.replace('%1', (_g = payment_option_store.selectedOption) === null || _g === void 0 ? void 0 : _g.description), open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
-        "ticket": ["handleTokenChange"]
+        "ticket": ["ticketChanged"]
     }; }
 };
 IrPaymentOption.style = IrPaymentOptionStyle0;

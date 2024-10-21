@@ -1,5 +1,4 @@
-import Token from "../models/Token";
-export declare class RoomService extends Token {
+export declare class RoomService {
     getExposedProperty(params: {
         id: number | null;
         language: string;

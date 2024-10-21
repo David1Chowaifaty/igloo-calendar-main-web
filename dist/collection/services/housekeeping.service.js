@@ -1,7 +1,6 @@
-import Token from "../models/Token";
 import { updateHKStore } from "../stores/housekeeping.store";
 import axios from "axios";
-export class HouseKeepingService extends Token {
+export class HouseKeepingService {
     async getExposedHKSetup(property_id) {
         const { data } = await axios.post(`/Get_Exposed_HK_Setup`, {
             property_id,

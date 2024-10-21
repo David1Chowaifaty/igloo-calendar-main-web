@@ -14,10 +14,11 @@ export declare class IrPaymentOption {
     toast: EventEmitter<IToast>;
     private paymentOptionService;
     private roomService;
+    private token;
     private propertyOptionsById;
     private propertyOptionsByCode;
     componentWillLoad(): void;
-    handleTokenChange(newValue: string, oldValue: string): void;
+    ticketChanged(newValue: string, oldValue: string): void;
     init(): void;
     handleCloseModal(e: CustomEvent): void;
     private log;

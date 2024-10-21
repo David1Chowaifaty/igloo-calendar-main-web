@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ICountry } from '../../../models/IBooking';
+import { ICountry } from "../../../models/IBooking";
 import { TPropertyButtonsTypes } from "../../../components";
 export declare class IglPropertyBookedBy {
     language: string;

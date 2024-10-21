@@ -13,8 +13,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import axios from "axios";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../utils/utils";
 import { getMyBookings } from "../utils/booking";
-import Token from "../models/Token";
-export class BookingService extends Token {
+export class BookingService {
     async getCalendarData(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Calendar`, {

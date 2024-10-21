@@ -18,7 +18,6 @@ export declare class IrBookingPrinting {
     private totalPersons;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): Promise<void>;
-    private applyTokenToServices;
     private init;
     initializeRequests(): Promise<void>;
     private formatGuestName;

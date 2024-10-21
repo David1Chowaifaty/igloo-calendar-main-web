@@ -1,5 +1,4 @@
 import { IPayment } from "../models/booking.dto";
-import Token from "../models/Token";
 export interface IPaymentAction {
     amount: number;
     currency: {
@@ -10,7 +9,7 @@ export interface IPaymentAction {
     due_on: string;
     type: 'overdue' | 'future';
 }
-export declare class PaymentService extends Token {
+export declare class PaymentService {
     AddPayment(payment: IPayment, book_nbr: string): Promise<any>;
     CancelPayment(id: number): Promise<any>;
     GetExposedCancelationDueAmount(params: {

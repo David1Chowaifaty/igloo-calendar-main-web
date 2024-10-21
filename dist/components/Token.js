@@ -1,15 +1,14 @@
 import { a as axios } from './axios.js';
 
+// import axios from 'axios';
 class Auth {
     constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IR';
         if (!Auth.isAuthUsed) {
             this.init();
         }
     }
     async init() {
         // axios.defaults.withCredentials = true;
-        axios.defaults.baseURL = this.baseUrl;
         // Auth.isAuthUsed = true;
         // const { data } = await axios.post('/Is_Already_Athenticated');
         // this.setIsAuthenticated(data.My_Result);
@@ -35,33 +34,30 @@ Auth.isAuthUsed = false;
 Auth._isAuthenticated = false;
 Auth.subscribers = [];
 
-// import axios from 'axios';
 class Token extends Auth {
     constructor() {
         super();
-        if (!Token.isInterceptorAdded) {
-            // axios.defaults.withCredentials = true;
-            axios.interceptors.request.use(config => {
-                if (Token.token) {
-                    config.params = config.params || {};
-                    config.params.Ticket = Token.token;
-                }
-                return config;
-            });
-            Token.isInterceptorAdded = true;
+        this.baseUrl = 'https://gateway.igloorooms.com/IR';
+    }
+    initialize() {
+        if (Token.isInterceptorAdded) {
+            return;
         }
+        axios.defaults.baseURL = this.baseUrl;
+        axios.interceptors.request.use(config => {
+            if (!Token.token) {
+                throw new MissingTokenError();
+            }
+            config.headers.Authorization = Token.token;
+            // config.params = config.params || {};
+            // config.params.Ticket = Token.token;
+            return config;
+        });
+        Token.isInterceptorAdded = true;
     }
     setToken(token) {
         Token.token = token;
-    }
-    isAuthenticated() {
-        return super.isAuthenticated();
-    }
-    getToken() {
-        if (!Token.token) {
-            throw new MissingTokenError();
-        }
-        return Token.token;
+        this.initialize();
     }
 }
 Token.token = '';

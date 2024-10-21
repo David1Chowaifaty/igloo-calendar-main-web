@@ -1,6 +1,5 @@
-import Token from "../models/Token";
 import { IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
-export declare class HouseKeepingService extends Token {
+export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
     getExposedHKStatusCriteria(property_id: number): Promise<IExposedHouseKeepingSetup>;
     setExposedInspectionMode(property_id: number, mode: IInspectionMode): Promise<any>;

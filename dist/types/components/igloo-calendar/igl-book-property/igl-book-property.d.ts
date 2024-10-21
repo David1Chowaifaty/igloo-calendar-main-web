@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { RoomBlockDetails, RoomBookingDetails } from '../../../models/IBooking';
-import { IPageTwoDataUpdateProps } from '../../../models/models';
-import { TAdultChildConstraints, TPropertyButtonsTypes } from '../../../models/igl-book-property';
+import { RoomBlockDetails, RoomBookingDetails } from "../../../models/IBooking";
+import { IPageTwoDataUpdateProps } from "../../../models/models";
+import { TAdultChildConstraints, TPropertyButtonsTypes } from "../../../models/igl-book-property";
 import { IToast } from "../../ir-toast/toast";
 import { ICurrency } from "../../../models/calendarData";
 export declare class IglBookProperty {
@@ -62,7 +62,7 @@ export declare class IglBookProperty {
         data: unknown;
     }>): Promise<void>;
     componentWillLoad(): Promise<void>;
-    fetchSetupEntries(): Promise<import("../../../models/IBooking").ISetupEntries>;
+    fetchSetupEntries(): Promise<import("@/models/IBooking").ISetupEntries>;
     isGuestDataIncomplete(): boolean;
     isButtonDisabled(): boolean;
     setSourceOptions(bookingSource: any[]): void;

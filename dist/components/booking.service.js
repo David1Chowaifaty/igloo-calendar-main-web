@@ -1,7 +1,6 @@
 import { a as axios } from './axios.js';
 import { e as extras, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { g as getMyBookings } from './booking.js';
-import { T as Token } from './Token.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -14,7 +13,7 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
         }
     return t;
 };
-class BookingService extends Token {
+class BookingService {
     async getCalendarData(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Calendar`, {

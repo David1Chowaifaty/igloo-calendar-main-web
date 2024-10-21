@@ -1,9 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-5c7398c6.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-404dbac8.js';
 import { i as isRequestPending } from './ir-interceptor.store-651abd9c.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { L as Link } from './turndown.browser.es-8962c325.js';
-import './Token-39881880.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
 
@@ -23,7 +22,6 @@ const IrOptionDetails = class {
     }
     async componentWillLoad() {
         var _a;
-        this.paymentOptionService.setToken(payment_option_store.token);
         if (payment_option_store.selectedOption.code !== '005') {
             return;
         }

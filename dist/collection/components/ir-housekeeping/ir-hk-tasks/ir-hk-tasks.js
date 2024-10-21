@@ -1,3 +1,4 @@
+import Token from "../../../models/Token";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store, { updateHKStore } from "../../../stores/housekeeping.store";
@@ -7,6 +8,7 @@ export class IrHkTasks {
     constructor() {
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
         this.propertyid = undefined;
@@ -20,8 +22,7 @@ export class IrHkTasks {
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -45,12 +46,12 @@ export class IrHkTasks {
         });
         await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     handleCheckChange(e, action) {
         if (e.detail) {

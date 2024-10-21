@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
+import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
-import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$l } from './igl-application-info2.js';
 import { d as defineCustomElement$k } from './igl-block-dates-view2.js';
@@ -35,6 +35,7 @@ const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookP
         this.resetBookingData = createEvent(this, "resetBookingData", 7);
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
         this.p = undefined;
@@ -85,16 +86,15 @@ const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookP
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.bookingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.bookingService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleCloseBookingWindow() {
@@ -124,7 +124,7 @@ const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookP
         };
     }
     render() {
-        return (h(Host, { key: '876125431f515449ddf110dc7889802150ddb496' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '6781eed3df9991171f39f79171d9eb9d99b5aed0' }, h("ir-toast", { key: 'fa9d6f0150ff64dc463c95f25ca5cbb61cffc760' }), h("ir-interceptor", { key: 'c9065eec2b31aa5ddc60ee502f9347c6132fcf22' }))), h("div", { key: '10e9211d8d6458c9f2649c1bdb2ec534d94b4b1c', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'dbd8d47395bacd94cece545df889f56cc3f9ab79', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'cd21c4be5718d2fb6f180c4fde57d0573d356078', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingData: (e) => {
+        return (h(Host, { key: '701bbe110cf630b35a92feecf85691a99c416ea4' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'f07108b013c64edf2a6273b665d456f6c4733751' }, h("ir-toast", { key: '070db848d0a3006c8be0da2c118b7a3a401f5e30' }), h("ir-interceptor", { key: '7a8d8b3964cb1772bdda359d19df0fac025af38b' }))), h("div", { key: 'accbe58b0414c2899c7d9f69d70a28ab9f6a693c', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'b93d1d890d3c060a6aeef178e8be746b9cbcae90', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '3e1fbb4894edb4569a75b83bca8c329f687907ea', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingData: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

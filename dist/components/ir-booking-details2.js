@@ -8,6 +8,7 @@ import { c as calendar_data } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$i } from './ir-icons2.js';
 import { e as getPrivateNote } from './booking.js';
 import { P as PaymentService } from './payment.service.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$B } from './igl-application-info2.js';
 import { d as defineCustomElement$A } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$z } from './igl-book-property2.js';
@@ -58,6 +59,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.paymentService = new PaymentService();
+        this.token = new Token();
         this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
         this.confirmationBG = {
             '001': 'bg-ir-orange',
@@ -101,17 +103,15 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.bookingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.paymentService.setToken(this.ticket);
-        this.bookingService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleIconClick(e) {
@@ -213,7 +213,6 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
             ]);
-            this.paymentService.setToken(this.ticket);
             this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             //TODO:Reenable payment actions
             if ((bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.booking_nbr) && ((_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.currency) === null || _b === void 0 ? void 0 : _b.id)) {

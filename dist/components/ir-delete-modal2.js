@@ -33,9 +33,6 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
         this.selectedId = '';
         this.loadingBtn = null;
     }
-    componentWillLoad() {
-        this.housekeepingService.setToken(housekeeping_store.default_properties.token);
-    }
     async closeModal() {
         this.isOpen = false;
         this.modalClosed.emit(null);

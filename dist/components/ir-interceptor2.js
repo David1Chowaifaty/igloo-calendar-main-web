@@ -10,7 +10,6 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
-        this.ticket = undefined;
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
@@ -81,11 +80,10 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '7f974ef9b909ccb49b708fc5f35d03350f9ba6fa' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '77c6d5d192ad3b56ead54e0dc0bf2f4cbd2aff8b', class: "loadingScreenContainer" }, h("div", { key: 'cb3d05891f1435ddaedeebac8ea31fda5025557e', class: "loaderContainer" }, h("span", { key: '0a7cb4032c36ec6df0fa554dfebdac1543f2f66b', class: "page-loader" }))))));
+        return (h(Host, { key: '8c2f11adfc7be7524578295bf714fae1783d7a3b' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '34c1f4faa1aff78015b00dc2fdacd88b204fd28c', class: "loadingScreenContainer" }, h("div", { key: 'bb8b5e996f2df34f5972aa9d035c386a836641c3', class: "loaderContainer" }, h("span", { key: '8972a0a9bba79a600fedc88c5571d1e6d96f96c9', class: "page-loader" }))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
-        "ticket": [1],
         "handledEndpoints": [16],
         "isShown": [32],
         "isLoading": [32],

@@ -4,7 +4,6 @@ import { convertDatePrice, formatDate, getCurrencySymbol, getDaysArray } from ".
 import { v4 } from "uuid";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
-import calendar_data from "../../../stores/calendar-data";
 export class IrRoomNights {
     constructor() {
         this.bookingService = new BookingService();
@@ -29,7 +28,6 @@ export class IrRoomNights {
         this.dates = { from_date: new Date(), to_date: new Date() };
     }
     componentWillLoad() {
-        this.bookingService.setToken(calendar_data.token);
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
     }

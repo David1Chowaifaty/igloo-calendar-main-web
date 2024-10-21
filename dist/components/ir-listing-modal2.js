@@ -27,8 +27,6 @@ const IrListingModal = /*@__PURE__*/ proxyCustomElement(class IrListingModal ext
         this.loadingBtn = null;
     }
     componentWillLoad() {
-        this.bookingListingsService.setToken(booking_listing.token);
-        this.paymentService.setToken(booking_listing.token);
         this.selectedDesignation = booking_listing.settlement_methods[0].name;
     }
     async closeModal() {

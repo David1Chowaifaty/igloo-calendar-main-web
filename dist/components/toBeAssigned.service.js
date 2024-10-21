@@ -1,9 +1,8 @@
 import { a as axios } from './axios.js';
 import { e as extras, d as dateToFormattedString, b as dateDifference } from './utils.js';
-import { T as Token } from './Token.js';
 import { h as hooks } from './moment.js';
 
-class ToBeAssignedService extends Token {
+class ToBeAssignedService {
     async getUnassignedDates(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_UnAssigned_Dates`, {

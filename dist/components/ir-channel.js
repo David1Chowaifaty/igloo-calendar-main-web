@@ -2,9 +2,8 @@ import { h, proxyCustomElement, HTMLElement, Host, Fragment } from '@stencil/cor
 import { R as RoomService } from './room.service.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store.js';
 import { l as locales } from './locales.store.js';
-import { a as axios } from './axios.js';
 import { C as ChannelService, d as defineCustomElement$d } from './ir-channel-editor2.js';
-import { c as calendar_data } from './calendar-data.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$e } from './ir-button2.js';
 import { d as defineCustomElement$c } from './ir-channel-general2.js';
 import { d as defineCustomElement$b } from './ir-channel-header2.js';
@@ -99,7 +98,6 @@ const actions = (entries) => [
                 cause: 'remove',
                 action: async () => {
                     const channel_service = new ChannelService();
-                    channel_service.setToken(calendar_data.token);
                     await channel_service.saveConnectedChannel(params.id, true);
                 },
                 title: '',
@@ -119,6 +117,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
         this.__registerHost();
         this.roomService = new RoomService();
         this.channelService = new ChannelService();
+        this.token = new Token();
         this.ticket = '';
         this.propertyid = undefined;
         this.language = undefined;
@@ -130,13 +129,8 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
     }
     componentWillLoad() {
         this.isLoading = true;
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.channelService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -201,10 +195,11 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
             this.isLoading = false;
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.roomService.setToken(this.ticket);
-        this.channelService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleCancelModal(e) {

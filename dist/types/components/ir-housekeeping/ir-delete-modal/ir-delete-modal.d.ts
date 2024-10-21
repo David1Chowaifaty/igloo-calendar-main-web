@@ -8,7 +8,6 @@ export declare class IrDeleteModal {
     modalClosed: EventEmitter<null>;
     resetData: EventEmitter<string>;
     private housekeepingService;
-    componentWillLoad(): void;
     closeModal(): Promise<void>;
     openModal(): Promise<void>;
     btnClickHandler(event: CustomEvent): Promise<void>;

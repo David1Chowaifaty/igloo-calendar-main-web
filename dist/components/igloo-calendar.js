@@ -5,10 +5,11 @@ import { j as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, 
 import { E as EventsService } from './events.service.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
-import { b as calendar_dates, t as transformNewBLockedRooms, a as transformNewBooking, d as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
+import { b as calendar_dates, a as transformNewBooking, t as transformNewBLockedRooms, d as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassingedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$P } from './igl-application-info2.js';
 import { d as defineCustomElement$O } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$N } from './igl-book-property2.js';
@@ -3984,6 +3985,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.visibleCalendarCells = { x: [], y: [] };
         this.today = '';
         this.reachedEndOfCalendar = false;
+        this.token = new Token();
         this.scrollViewDragPos = { top: 0, left: 0, x: 0, y: 0 };
         this.onScrollContentMoveHandler = (event) => {
             if (event.buttons !== 1) {
@@ -4028,261 +4030,8 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.calDates = undefined;
         this.isAuthenticated = false;
     }
-    ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.bookingService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
-        this.eventsService.setToken(this.ticket);
-        this.toBeAssignedService.setToken(this.ticket);
-        this.initializeApp();
-    }
     componentWillLoad() {
-        this.calDates = {
-            from: this.from_date,
-            to: this.to_date,
-        };
-        if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.bookingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
-            this.eventsService.setToken(this.ticket);
-            this.toBeAssignedService.setToken(this.ticket);
-            this.initializeApp();
-        }
-        this.calDates = {
-            from: this.from_date,
-            to: this.to_date,
-        };
-        handleUnAssignedDatesChange('unassigned_dates', newValue => {
-            if (Object.keys(newValue).length === 0 && this.highlightedDate !== '') {
-                this.highlightedDate = '';
-            }
-        });
-    }
-    setUpCalendarData(roomResp, bookingResp) {
-        console.log(roomResp);
-        this.calendarData.currency = roomResp['My_Result'].currency;
-        this.calendarData.allowedBookingSources = roomResp['My_Result'].allowed_booking_sources;
-        this.calendarData.adultChildConstraints = roomResp['My_Result'].adult_child_constraints;
-        console.log(this.calendarData.allowedBookingSources);
-        this.calendarData.legendData = this.getLegendData(roomResp);
-        this.calendarData.is_vacation_rental = roomResp['My_Result'].is_vacation_rental;
-        this.calendarData.from_date = bookingResp.My_Params_Get_Rooming_Data.FROM;
-        this.calendarData.to_date = bookingResp.My_Params_Get_Rooming_Data.TO;
-        this.calendarData.startingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.FROM).getTime();
-        this.calendarData.endingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.TO).getTime();
-        this.calendarData.formattedLegendData = formatLegendColors(this.calendarData.legendData);
-        let bookings = bookingResp.myBookings || [];
-        bookings = bookings.filter(bookingEvent => {
-            const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
-            return !toDate.isSame(fromDate);
-        });
-        this.calendarData.bookingEvents = bookings;
-        this.calendarData.toBeAssignedEvents = [];
-    }
-    async initializeApp() {
-        try {
-            let propertyId = this.propertyid;
-            if (!this.propertyid && !this.p) {
-                throw new Error('Property ID or username is required');
-            }
-            let roomResp = null;
-            if (!propertyId) {
-                console.log(propertyId);
-                const propertyData = await this.roomService.getExposedProperty({
-                    id: 0,
-                    aname: this.p,
-                    language: this.language,
-                    is_backend: true,
-                });
-                roomResp = propertyData;
-                propertyId = propertyData.My_Result.id;
-            }
-            this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getCalendarData(propertyId, this.from_date, this.to_date),
-                this.bookingService.getCountries(this.language),
-                this.roomService.fetchLanguage(this.language),
-            ];
-            if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                    is_backend: true,
-                }));
-            }
-            const results = await Promise.all(requests);
-            // const [_, , bookingResp, countryNodeList] = await Promise.all([
-            //   this.roomService.fetchData(this.propertyid, this.language),
-            //   this.roomService.fetchLanguage(this.language),
-            //   this.bookingService.getCalendarData(this.propertyid, this.from_date, this.to_date),
-            //   this.bookingService.getCountries(this.language),
-            // ]);
-            if (!roomResp) {
-                roomResp = results[results.length - 1];
-            }
-            const [bookingResp, countryNodeList] = results;
-            calendar_dates.days = bookingResp.days;
-            calendar_dates.months = bookingResp.months;
-            this.setRoomsData(roomResp);
-            this.countryNodeList = countryNodeList;
-            this.setUpCalendarData(roomResp, bookingResp);
-            let paymentMethods = roomResp['My_Result']['allowed_payment_methods'];
-            this.showPaymentDetails = paymentMethods.some(item => item.code === '001' || item.code === '004');
-            this.updateBookingEventsDateRange(this.calendarData.bookingEvents);
-            this.updateBookingEventsDateRange(this.calendarData.toBeAssignedEvents);
-            this.today = this.transformDateForScroll(new Date());
-            let startingDay = new Date(this.calendarData.startingDate);
-            startingDay.setHours(0, 0, 0, 0);
-            this.days = bookingResp.days;
-            this.calendarData.days = this.days;
-            this.calendarData.monthsInfo = bookingResp.months;
-            calendar_dates.fromDate = this.calendarData.from_date;
-            calendar_dates.toDate = this.calendarData.to_date;
-            setTimeout(() => {
-                this.scrollToElement(this.today);
-            }, 200);
-            if (!this.calendarData.is_vacation_rental) {
-                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, dateToFormattedString(new Date()), this.to_date);
-                this.unassignedDates = { fromDate: this.from_date, toDate: this.to_date, data: Object.assign(Object.assign({}, this.unassignedDates), data) };
-                this.calendarData = Object.assign(Object.assign({}, this.calendarData), { unassignedDates: data });
-                addUnassingedDates(data);
-            }
-            this.socket = lookup('https://realtime.igloorooms.com/');
-            this.socket.on('MSG', async (msg) => {
-                let msgAsObject = JSON.parse(msg);
-                if (!msgAsObject) {
-                    return;
-                }
-                const { REASON, KEY, PAYLOAD } = msgAsObject;
-                if (KEY.toString() !== this.property_id.toString()) {
-                    return;
-                }
-                let result;
-                // console.log(REASON);
-                if (REASON === 'DELETE_CALENDAR_POOL' || REASON === 'GET_UNASSIGNED_DATES') {
-                    result = PAYLOAD;
-                }
-                else {
-                    result = JSON.parse(PAYLOAD);
-                }
-                const resasons = ['DORESERVATION', 'BLOCK_EXPOSED_UNIT', 'ASSIGN_EXPOSED_ROOM', 'REALLOCATE_EXPOSED_ROOM_BLOCK'];
-                if (resasons.includes(REASON)) {
-                    let transformedBooking;
-                    if (REASON === 'BLOCK_EXPOSED_UNIT' || REASON === 'REALLOCATE_EXPOSED_ROOM_BLOCK') {
-                        transformedBooking = [await transformNewBLockedRooms(result)];
-                    }
-                    else {
-                        console.log(result, REASON);
-                        transformedBooking = transformNewBooking(result);
-                        console.log(transformedBooking);
-                    }
-                    this.AddOrUpdateRoomBookings(transformedBooking, undefined);
-                }
-                else if (REASON === 'DELETE_CALENDAR_POOL') {
-                    console.log('delete calendar pool');
-                    this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.filter(e => e.POOL !== result) });
-                }
-                else if (REASON === 'GET_UNASSIGNED_DATES') {
-                    function parseDateRange(str) {
-                        const result = {};
-                        const pairs = str.split('|');
-                        pairs.forEach(pair => {
-                            const res = pair.split(':');
-                            result[res[0]] = res[1];
-                        });
-                        return result;
-                    }
-                    const parsedResult = parseDateRange(result);
-                    if (!this.calendarData.is_vacation_rental &&
-                        new Date(parsedResult.FROM_DATE).getTime() >= this.calendarData.startingDate &&
-                        new Date(parsedResult.TO_DATE).getTime() <= this.calendarData.endingDate) {
-                        const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
-                        addUnassingedDates(data);
-                        // this.calendarData.unassignedDates = { ...this.calendarData.unassignedDates, ...data };
-                        this.unassignedDates = {
-                            fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
-                            toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
-                            data,
-                        };
-                        // console.log(this.calendarData.unassignedDates, this.unassignedDates);
-                        if (Object.keys(data).length === 0) {
-                            removeUnassignedDates(dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
-                            this.reduceAvailableUnitEvent.emit({
-                                fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
-                                toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
-                            });
-                        }
-                    }
-                }
-                else if (REASON === 'UPDATE_CALENDAR_AVAILABILITY') {
-                    this.totalAvailabilityQueue.push(result);
-                    if (this.totalAvailabilityQueue.length > 0) {
-                        clearTimeout(this.availabilityTimeout);
-                    }
-                    this.availabilityTimeout = setTimeout(() => {
-                        this.updateTotalAvailability();
-                    }, 1000);
-                }
-                else if (REASON === 'CHANGE_IN_DUE_AMOUNT') {
-                    this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
-                            ...this.calendarData.bookingEvents.map(event => {
-                                if (result.pools.includes(event.ID)) {
-                                    return Object.assign(Object.assign({}, event), { BALANCE: result.due_amount });
-                                }
-                                return event;
-                            }),
-                        ] });
-                }
-                else if (REASON === 'CHANGE_IN_BOOK_STATUS') {
-                    this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
-                            ...this.calendarData.bookingEvents.map(event => {
-                                if (result.pools.includes(event.ID)) {
-                                    return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? bookingStatus[result.status_code] : result.status_code === '001' ? bookingStatus[result.status_code] : 'IN-HOUSE' });
-                                }
-                                return event;
-                            }),
-                        ] });
-                }
-                else if (REASON === 'NON_TECHNICAL_CHANGE_IN_BOOKING') {
-                    this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
-                            ...this.calendarData.bookingEvents.map(event => {
-                                if (event.BOOKING_NUMBER === result.booking_nbr) {
-                                    return Object.assign(Object.assign({}, event), { PRIVATE_NOTE: getPrivateNote(result.extras) });
-                                }
-                                return event;
-                            }),
-                        ] });
-                }
-                else {
-                    return;
-                }
-            });
-        }
-        catch (error) {
-            console.error('Initializing Calendar Error', error);
-        }
-    }
-    updateTotalAvailability() {
-        let days = [...calendar_dates.days];
-        this.totalAvailabilityQueue.forEach(queue => {
-            let selectedDate = new Date(queue.date);
-            selectedDate.setMilliseconds(0);
-            selectedDate.setSeconds(0);
-            selectedDate.setMinutes(0);
-            selectedDate.setHours(0);
-            //find the selected day
-            const index = days.findIndex(day => day.currentDate === selectedDate.getTime());
-            if (index != -1) {
-                //find room_type_id
-                const room_type_index = days[index].rate.findIndex(room => room.id === queue.room_type_id);
-                if (room_type_index != -1) {
-                    days[index].rate[room_type_index].exposed_inventory.rts = queue.availability;
-                }
-            }
-        });
-        calendar_dates.days = [...days];
+        this.init();
     }
     componentDidLoad() {
         this.scrollToElement(this.today);
@@ -4390,6 +4139,243 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             this.highlightDragOver(false, event.detail.data);
         }
     }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
+    }
+    init() {
+        this.calDates = {
+            from: this.from_date,
+            to: this.to_date,
+        };
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+        this.calDates = {
+            from: this.from_date,
+            to: this.to_date,
+        };
+        handleUnAssignedDatesChange('unassigned_dates', newValue => {
+            if (Object.keys(newValue).length === 0 && this.highlightedDate !== '') {
+                this.highlightedDate = '';
+            }
+        });
+    }
+    setUpCalendarData(roomResp, bookingResp) {
+        console.log(roomResp);
+        this.calendarData.currency = roomResp['My_Result'].currency;
+        this.calendarData.allowedBookingSources = roomResp['My_Result'].allowed_booking_sources;
+        this.calendarData.adultChildConstraints = roomResp['My_Result'].adult_child_constraints;
+        console.log(this.calendarData.allowedBookingSources);
+        this.calendarData.legendData = this.getLegendData(roomResp);
+        this.calendarData.is_vacation_rental = roomResp['My_Result'].is_vacation_rental;
+        this.calendarData.from_date = bookingResp.My_Params_Get_Rooming_Data.FROM;
+        this.calendarData.to_date = bookingResp.My_Params_Get_Rooming_Data.TO;
+        this.calendarData.startingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.FROM).getTime();
+        this.calendarData.endingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.TO).getTime();
+        this.calendarData.formattedLegendData = formatLegendColors(this.calendarData.legendData);
+        let bookings = bookingResp.myBookings || [];
+        bookings = bookings.filter(bookingEvent => {
+            const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            return !toDate.isSame(fromDate);
+        });
+        this.calendarData.bookingEvents = bookings;
+        this.calendarData.toBeAssignedEvents = [];
+    }
+    async initializeApp() {
+        try {
+            let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            let roomResp = null;
+            if (!propertyId) {
+                console.log(propertyId);
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                roomResp = propertyData;
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            const requests = [
+                this.bookingService.getCalendarData(propertyId, this.from_date, this.to_date),
+                this.bookingService.getCountries(this.language),
+                this.roomService.fetchLanguage(this.language),
+            ];
+            if (this.propertyid) {
+                requests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            if (!roomResp) {
+                roomResp = results[results.length - 1];
+            }
+            const [bookingResp, countryNodeList] = results;
+            calendar_dates.days = bookingResp.days;
+            calendar_dates.months = bookingResp.months;
+            this.setRoomsData(roomResp);
+            this.countryNodeList = countryNodeList;
+            this.setUpCalendarData(roomResp, bookingResp);
+            let paymentMethods = roomResp['My_Result']['allowed_payment_methods'];
+            this.showPaymentDetails = paymentMethods.some(item => item.code === '001' || item.code === '004');
+            this.updateBookingEventsDateRange(this.calendarData.bookingEvents);
+            this.updateBookingEventsDateRange(this.calendarData.toBeAssignedEvents);
+            this.today = this.transformDateForScroll(new Date());
+            let startingDay = new Date(this.calendarData.startingDate);
+            startingDay.setHours(0, 0, 0, 0);
+            this.days = bookingResp.days;
+            this.calendarData.days = this.days;
+            this.calendarData.monthsInfo = bookingResp.months;
+            calendar_dates.fromDate = this.calendarData.from_date;
+            calendar_dates.toDate = this.calendarData.to_date;
+            setTimeout(() => {
+                this.scrollToElement(this.today);
+            }, 200);
+            if (!this.calendarData.is_vacation_rental) {
+                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, dateToFormattedString(new Date()), this.to_date);
+                this.unassignedDates = { fromDate: this.from_date, toDate: this.to_date, data: Object.assign(Object.assign({}, this.unassignedDates), data) };
+                this.calendarData = Object.assign(Object.assign({}, this.calendarData), { unassignedDates: data });
+                addUnassingedDates(data);
+            }
+            this.socket = lookup('https://realtime.igloorooms.com/');
+            this.socket.on('MSG', async (msg) => {
+                await this.handleSocketMessage(msg);
+            });
+        }
+        catch (error) {
+            console.error('Initializing Calendar Error', error);
+        }
+    }
+    async handleSocketMessage(msg) {
+        const msgAsObject = JSON.parse(msg);
+        if (!msgAsObject) {
+            return;
+        }
+        const { REASON, KEY, PAYLOAD } = msgAsObject;
+        if (KEY.toString() !== this.property_id.toString()) {
+            return;
+        }
+        let result;
+        if (['DELETE_CALENDAR_POOL', 'GET_UNASSIGNED_DATES'].includes(REASON)) {
+            result = PAYLOAD;
+        }
+        else {
+            result = JSON.parse(PAYLOAD);
+        }
+        const reasonHandlers = {
+            DORESERVATION: this.handleDoReservation,
+            BLOCK_EXPOSED_UNIT: this.handleBlockExposedUnit,
+            ASSIGN_EXPOSED_ROOM: this.handleAssignExposedRoom,
+            REALLOCATE_EXPOSED_ROOM_BLOCK: this.handleReallocateExposedRoomBlock,
+            DELETE_CALENDAR_POOL: this.handleDeleteCalendarPool,
+            GET_UNASSIGNED_DATES: this.handleGetUnassignedDates,
+            UPDATE_CALENDAR_AVAILABILITY: this.handleUpdateCalendarAvailability,
+            CHANGE_IN_DUE_AMOUNT: this.handleChangeInDueAmount,
+            CHANGE_IN_BOOK_STATUS: this.handleChangeInBookStatus,
+            NON_TECHNICAL_CHANGE_IN_BOOKING: this.handleNonTechnicalChangeInBooking,
+        };
+        const handler = reasonHandlers[REASON];
+        if (handler) {
+            await handler.call(this, result);
+        }
+        else {
+            console.warn(`Unhandled REASON: ${REASON}`);
+        }
+    }
+    async handleDoReservation(result) {
+        const transformedBooking = transformNewBooking(result);
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleBlockExposedUnit(result) {
+        const transformedBooking = [await transformNewBLockedRooms(result)];
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleAssignExposedRoom(result) {
+        const transformedBooking = transformNewBooking(result);
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleReallocateExposedRoomBlock(result) {
+        await this.handleBlockExposedUnit(result);
+    }
+    async handleDeleteCalendarPool(result) {
+        console.log('delete calendar pool');
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.filter(e => e.POOL !== result) });
+    }
+    async handleGetUnassignedDates(result) {
+        const parsedResult = this.parseDateRange(result);
+        if (!this.calendarData.is_vacation_rental &&
+            new Date(parsedResult.FROM_DATE).getTime() >= this.calendarData.startingDate &&
+            new Date(parsedResult.TO_DATE).getTime() <= this.calendarData.endingDate) {
+            const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
+            addUnassingedDates(data);
+            this.unassignedDates = {
+                fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                data,
+            };
+            if (Object.keys(data).length === 0) {
+                removeUnassignedDates(dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
+                this.reduceAvailableUnitEvent.emit({
+                    fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                    toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                });
+            }
+        }
+    }
+    parseDateRange(str) {
+        const result = {};
+        const pairs = str.split('|');
+        pairs.forEach(pair => {
+            const res = pair.split(':');
+            result[res[0]] = res[1];
+        });
+        return result;
+    }
+    handleUpdateCalendarAvailability(result) {
+        this.totalAvailabilityQueue.push(result);
+        if (this.totalAvailabilityQueue.length > 0) {
+            clearTimeout(this.availabilityTimeout);
+        }
+        this.availabilityTimeout = setTimeout(() => {
+            this.updateTotalAvailability();
+        }, 1000);
+    }
+    handleChangeInDueAmount(result) {
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (result.pools.includes(event.ID)) {
+                    return Object.assign(Object.assign({}, event), { BALANCE: result.due_amount });
+                }
+                return event;
+            }) });
+    }
+    handleChangeInBookStatus(result) {
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (result.pools.includes(event.ID)) {
+                    return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? bookingStatus[result.status_code] : result.status_code === '001' ? bookingStatus[result.status_code] : 'IN-HOUSE' });
+                }
+                return event;
+            }) });
+    }
+    handleNonTechnicalChangeInBooking(result) {
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (event.BOOKING_NUMBER === result.booking_nbr) {
+                    return Object.assign(Object.assign({}, event), { PRIVATE_NOTE: getPrivateNote(result.extras) });
+                }
+                return event;
+            }) });
+    }
     checkBookingAvailability(data) {
         return this.calendarData.bookingEvents.some(booking => booking.ID === data.ID || (booking.FROM_DATE === data.FROM_DATE && booking.TO_DATE === data.TO_DATE && booking.PR_ID === data.PR_ID));
     }
@@ -4426,6 +4412,26 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             }
         });
     }
+    updateTotalAvailability() {
+        let days = [...calendar_dates.days];
+        this.totalAvailabilityQueue.forEach(queue => {
+            let selectedDate = new Date(queue.date);
+            selectedDate.setMilliseconds(0);
+            selectedDate.setSeconds(0);
+            selectedDate.setMinutes(0);
+            selectedDate.setHours(0);
+            //find the selected day
+            const index = days.findIndex(day => day.currentDate === selectedDate.getTime());
+            if (index != -1) {
+                //find room_type_id
+                const room_type_index = days[index].rate.findIndex(room => room.id === queue.room_type_id);
+                if (room_type_index != -1) {
+                    days[index].rate[room_type_index].exposed_inventory.rts = queue.availability;
+                }
+            }
+        });
+        calendar_dates.days = [...days];
+    }
     setRoomsData(roomServiceResp) {
         var _a, _b;
         let roomsData = new Array();
@@ -4458,7 +4464,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             });
         }
     }
-    AddOrUpdateRoomBookings(data, pool) {
+    AddOrUpdateRoomBookings(data, pool = undefined) {
         let bookings = [...this.calendarData.bookingEvents];
         data.forEach(d => {
             if (!this.checkBookingAvailability(d)) {
@@ -4772,11 +4778,11 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: '943ef8f79ce6c0fe63f7242ff7fd9cd34e5fbeee' }, h("ir-toast", { key: '930b4fd9ed84ad0d0b9abe5ff89bd50db356e4e0' }), h("ir-interceptor", { key: '6c26ade63a114668c00f499727f0a311f7865f98', ticket: this.ticket }), h("div", { key: '32a1f339909c24709f35a35a134f386077d5dc5c', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
+        return (h(Host, { key: '59c86aa68168a8fe1344ecc642cadbaa0045e021' }, h("ir-toast", { key: '036f9926e85fbb47ddc5fc9cfec778ff7c835de5' }), h("ir-interceptor", { key: '4912aa2b55512f96db4d68944a248140f892da13' }), h("div", { key: 'fc8fcafdae77f8e13d530d998808897f4e0450c9', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
             this.showToBeAssigned ? (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             this.showLegend ? (h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
-        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '1d98a064b000aba2be7bd7c08a1ca218dc5ac463', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'd8301df1329db21b181a77b0316bab056fa09f45', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '0f911c255ac7d208e054d35a42e71fedf69c9caf', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '9dadc8e4304f0a89b7676cc588c78337a801cae4', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: 'f1d68541fe132cb99b06142356c127878a6183fe', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '624ab6f90e886b3d190d9a064081b3c8db30eb08', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'c34463338ddd98e8f3ba41296d9cdf53f26e9ecb', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: 'd40a19c1c4651464468ac8ce795a46ce07e645bb', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'e2c08464799e01964649d540a3b909de9cd8e452', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '62da49b42e8a1f5facd907c6adbc76c8a8cb342e', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return this; }
     static get watchers() { return {

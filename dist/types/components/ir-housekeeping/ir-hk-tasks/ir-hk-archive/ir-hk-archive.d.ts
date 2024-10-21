@@ -3,7 +3,6 @@ export declare class IrHkArchive {
         start: string;
         end: string;
     };
-    private houseKeepingService;
     componentWillLoad(): void;
     initializeData(): Promise<void>;
     handleDateRangeChange(e: CustomEvent): void;

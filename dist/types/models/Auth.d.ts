@@ -1,7 +1,6 @@
 declare class Auth {
     private static isAuthUsed;
     private static _isAuthenticated;
-    private baseUrl;
     private static subscribers;
     constructor();
     init(): Promise<void>;

@@ -12,13 +12,14 @@ export declare class IrChannel {
     isLoading: boolean;
     private roomService;
     private channelService;
+    private token;
     private irModalRef;
     componentWillLoad(): void;
     handleConfirmClicked(e: CustomEvent): Promise<void>;
     openModal(): void;
     refreshChannels(): Promise<void>;
     initializeApp(): Promise<void>;
-    ticketChanged(): Promise<void>;
+    ticketChanged(newValue: string, oldValue: string): void;
     handleCancelModal(e: CustomEvent): void;
     handleSidebarClose(e: CustomEvent): void;
     resetSideBar(): void;

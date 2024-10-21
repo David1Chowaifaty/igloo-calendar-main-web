@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const paymentOption_store = require('./payment-option.store-097eadb2.js');
-const room_service = require('./room.service-19ad1607.js');
+const paymentOption_store = require('./payment-option.store-98e527da.js');
+const room_service = require('./room.service-723b3148.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-require('./Token-078e0d04.js');
+const Token = require('./Token-f44372b0.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
@@ -20,6 +20,7 @@ const IrPaymentOption = class {
         this.toast = index.createEvent(this, "toast", 7);
         this.paymentOptionService = new paymentOption_store.PaymentOptionService();
         this.roomService = new room_service.RoomService();
+        this.token = new Token.Token();
         this.propertyid = undefined;
         this.ticket = undefined;
         this.p = undefined;
@@ -31,14 +32,17 @@ const IrPaymentOption = class {
         this.selectedOption = null;
     }
     componentWillLoad() {
-        if (this.ticket) {
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
             this.init();
         }
     }
-    handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.init();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.init();
     }
     init() {
         this.initServices();
@@ -122,9 +126,7 @@ const IrPaymentOption = class {
         }
     }
     initServices() {
-        paymentOption_store.payment_option_store.token = this.ticket;
-        this.paymentOptionService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+        this.token.setToken(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
@@ -200,7 +202,7 @@ const IrPaymentOption = class {
             }, label: (_f = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Information) === null || _f === void 0 ? void 0 : _f.replace('%1', (_g = paymentOption_store.payment_option_store.selectedOption) === null || _g === void 0 ? void 0 : _g.description), open: (paymentOption_store.payment_option_store === null || paymentOption_store.payment_option_store === void 0 ? void 0 : paymentOption_store.payment_option_store.selectedOption) !== null }, (paymentOption_store.payment_option_store === null || paymentOption_store.payment_option_store === void 0 ? void 0 : paymentOption_store.payment_option_store.selectedOption) && index.h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
-        "ticket": ["handleTokenChange"]
+        "ticket": ["ticketChanged"]
     }; }
 };
 IrPaymentOption.style = IrPaymentOptionStyle0;

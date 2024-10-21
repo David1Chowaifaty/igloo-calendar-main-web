@@ -71,12 +71,7 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
             this.init();
         }
     }
-    applyTokenToServices() {
-        this.bookingService.setToken(this.token);
-        this.roomService.setToken(this.token);
-    }
     init() {
-        this.applyTokenToServices();
         this.initializeRequests();
     }
     async initializeRequests() {

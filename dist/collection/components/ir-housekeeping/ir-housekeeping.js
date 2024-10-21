@@ -1,26 +1,22 @@
+import Token from "../../models/Token";
 import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
 import { updateHKStore } from "../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
-import axios from "axios";
 export class IrHousekeeping {
     constructor() {
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
         this.p = undefined;
         this.isLoading = false;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -29,12 +25,12 @@ export class IrHousekeeping {
         e.stopPropagation();
         await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     async initializeApp() {
         try {
@@ -120,24 +116,6 @@ export class IrHousekeeping {
                     "text": ""
                 },
                 "attribute": "ticket",
-                "reflect": false,
-                "defaultValue": "''"
-            },
-            "baseurl": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "baseurl",
                 "reflect": false,
                 "defaultValue": "''"
             },

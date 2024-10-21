@@ -16,8 +16,6 @@ export class IrListingModal {
         this.loadingBtn = null;
     }
     componentWillLoad() {
-        this.bookingListingsService.setToken(booking_listing.token);
-        this.paymentService.setToken(booking_listing.token);
         this.selectedDesignation = booking_listing.settlement_methods[0].name;
     }
     async closeModal() {

@@ -1,6 +1,5 @@
-import Token from "../models/Token";
 import axios from "axios";
-export class PaymentOptionService extends Token {
+export class PaymentOptionService {
     async GetExposedPaymentMethods() {
         const { data } = await axios.post(`/Get_Exposed_Payment_Methods`);
         if (data.ExceptionMsg !== '') {

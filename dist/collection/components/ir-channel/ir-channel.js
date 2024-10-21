@@ -2,14 +2,14 @@ import { RoomService } from "../../services/room.service";
 import channels_data, { resetStore, selectChannel, setChannelIdAndActiveState, testConnection, updateChannelSettings } from "../../stores/channel.store";
 import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
-import axios from "axios";
 import { actions } from "./data";
 import { ChannelService } from "../../services/channel.service";
-import calendar_data from "../../stores/calendar-data";
+import Token from "../../models/Token";
 export class IrChannel {
     constructor() {
         this.roomService = new RoomService();
         this.channelService = new ChannelService();
+        this.token = new Token();
         this.ticket = '';
         this.propertyid = undefined;
         this.language = undefined;
@@ -21,13 +21,8 @@ export class IrChannel {
     }
     componentWillLoad() {
         this.isLoading = true;
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.channelService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -92,10 +87,11 @@ export class IrChannel {
             this.isLoading = false;
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.roomService.setToken(this.ticket);
-        this.channelService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleCancelModal(e) {

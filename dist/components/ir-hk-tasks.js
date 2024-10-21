@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { T as Token } from './Token.js';
 import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
@@ -22,6 +23,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         this.__registerHost();
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
         this.propertyid = undefined;
@@ -35,8 +37,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -60,12 +61,12 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         });
         await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     handleCheckChange(e, action) {
         if (e.detail) {

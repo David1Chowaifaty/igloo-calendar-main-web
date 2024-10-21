@@ -8,11 +8,13 @@ import calendar_data from "../../stores/calendar-data";
 import { colorVariants } from "../ui/ir-icons/icons";
 import { getPrivateNote } from "../../utils/booking";
 import { PaymentService } from "../../services/payment.service";
+import Token from "../../models/Token";
 export class IrBookingDetails {
     constructor() {
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.paymentService = new PaymentService();
+        this.token = new Token();
         this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
         this.confirmationBG = {
             '001': 'bg-ir-orange',
@@ -56,17 +58,15 @@ export class IrBookingDetails {
     }
     componentWillLoad() {
         if (this.ticket !== '') {
-            calendar_data.token = this.ticket;
-            this.bookingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
-    async ticketChanged() {
-        calendar_data.token = this.ticket;
-        this.paymentService.setToken(this.ticket);
-        this.bookingService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleIconClick(e) {
@@ -168,7 +168,6 @@ export class IrBookingDetails {
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
             ]);
-            this.paymentService.setToken(this.ticket);
             this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             //TODO:Reenable payment actions
             if ((bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.booking_nbr) && ((_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.currency) === null || _b === void 0 ? void 0 : _b.id)) {

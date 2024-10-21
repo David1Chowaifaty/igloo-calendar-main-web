@@ -8,7 +8,6 @@ export declare class IrListingHeader {
     preventPageLoad: EventEmitter<string>;
     private bookingListingService;
     private toDateRef;
-    componentWillLoad(): void;
     private downloadUrlTag;
     handleDateRangeChange(e: CustomEvent): void;
     handleSearchClicked(is_to_export: boolean): Promise<void>;

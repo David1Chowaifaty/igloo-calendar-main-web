@@ -1,6 +1,5 @@
 import { IRoomCategory, InnerRecord } from '../models/tobeassigned';
-import Token from "../models/Token";
-export declare class ToBeAssignedService extends Token {
+export declare class ToBeAssignedService {
     getUnassignedDates(propertyid: number, from_date: string, to_date: string): Promise<Record<number, InnerRecord>>;
     getUnassignedRooms(calendarFromDates: {
         from_date: string;

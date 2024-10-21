@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$7 } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$c } from './ir-button2.js';
 import { d as defineCustomElement$b } from './ir-icon2.js';
 import { d as defineCustomElement$a } from './ir-icons2.js';
@@ -23,6 +24,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.toast = createEvent(this, "toast", 7);
         this.paymentOptionService = new PaymentOptionService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.propertyid = undefined;
         this.ticket = undefined;
         this.p = undefined;
@@ -34,14 +36,17 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         this.selectedOption = null;
     }
     componentWillLoad() {
-        if (this.ticket) {
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
             this.init();
         }
     }
-    handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.init();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.init();
     }
     init() {
         this.initServices();
@@ -125,9 +130,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         }
     }
     initServices() {
-        payment_option_store.token = this.ticket;
-        this.paymentOptionService.setToken(this.ticket);
-        this.roomService.setToken(this.ticket);
+        this.token.setToken(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
@@ -203,7 +206,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
             }, label: (_f = locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Information) === null || _f === void 0 ? void 0 : _f.replace('%1', (_g = payment_option_store.selectedOption) === null || _g === void 0 ? void 0 : _g.description), open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
-        "ticket": ["handleTokenChange"]
+        "ticket": ["ticketChanged"]
     }; }
     static get style() { return IrPaymentOptionStyle0; }
 }, [2, "ir-payment-option", {
@@ -217,7 +220,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         "isLoading": [32],
         "selectedOption": [32]
     }, [[0, "closeModal", "handleCloseModal"]], {
-        "ticket": ["handleTokenChange"]
+        "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {

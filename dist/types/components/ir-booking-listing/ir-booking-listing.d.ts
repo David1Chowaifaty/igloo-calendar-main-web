@@ -17,11 +17,12 @@ export declare class IrBookingListing {
     showCost: boolean;
     private bookingListingService;
     private roomService;
+    private token;
     private listingModal;
     private listingModalTimeout;
     private statusColors;
     componentWillLoad(): void;
-    ticketChanged(newValue: string, oldValue: string): Promise<void>;
+    ticketChanged(newValue: string, oldValue: string): void;
     initializeApp(): Promise<void>;
     handleSideBarToggle(e: CustomEvent<boolean>): void;
     getPaginationBounds(): {

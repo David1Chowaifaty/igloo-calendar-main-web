@@ -1,8 +1,8 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
-import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service-8f40dcdb.js';
-import { R as RoomService } from './room.service-a20764d1.js';
-import { a as axios } from './axios-ab377903.js';
-import './Token-39881880.js';
+import { T as Token } from './Token-a4516431.js';
+import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service-0fce7ec1.js';
+import { R as RoomService } from './room.service-f3b5fba8.js';
+import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
 import './calendar-data-666acc1f.js';
 import './locales.store-a1e3db22.js';
@@ -15,20 +15,16 @@ const IrHousekeeping = class {
         registerInstance(this, hostRef);
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
         this.p = undefined;
         this.isLoading = false;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -37,12 +33,12 @@ const IrHousekeeping = class {
         e.stopPropagation();
         await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     async initializeApp() {
         try {

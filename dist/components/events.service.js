@@ -1,11 +1,9 @@
 import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
 import { e as extras, g as getReleaseHoursString } from './utils.js';
-import { T as Token } from './Token.js';
 
-class EventsService extends Token {
+class EventsService {
     constructor() {
-        super(...arguments);
         this.bookingService = new BookingService();
     }
     async reallocateEvent(pool, destination_pr_id, from_date, to_date) {

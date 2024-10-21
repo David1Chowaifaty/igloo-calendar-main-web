@@ -1,7 +1,6 @@
 import { a as axios } from './axios.js';
-import { T as Token } from './Token.js';
 
-class PaymentService extends Token {
+class PaymentService {
     async AddPayment(payment, book_nbr) {
         try {
             const { data } = await axios.post(`/Do_Payment`, { payment: Object.assign(Object.assign({}, payment), { book_nbr }) });

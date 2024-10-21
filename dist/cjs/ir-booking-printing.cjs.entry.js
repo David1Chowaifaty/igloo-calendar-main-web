@@ -6,13 +6,12 @@ const index = require('./index-d0d7c4d0.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
 const booking = require('./booking-c11bc999.js');
-const booking_service = require('./booking.service-2de0b0e7.js');
-const room_service = require('./room.service-19ad1607.js');
+const booking_service = require('./booking.service-8141fe8e.js');
+const room_service = require('./room.service-723b3148.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const utils = require('./utils-34705107.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
-require('./Token-078e0d04.js');
 require('./calendar-data-fbe7f62b.js');
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
@@ -77,12 +76,7 @@ const IrBookingPrinting = class {
             this.init();
         }
     }
-    applyTokenToServices() {
-        this.bookingService.setToken(this.token);
-        this.roomService.setToken(this.token);
-    }
     init() {
-        this.applyTokenToServices();
         this.initializeRequests();
     }
     async initializeRequests() {

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { T as Token } from './Token.js';
 import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
-import { a as axios } from './axios.js';
 import { d as defineCustomElement$j } from './ir-button2.js';
 import { d as defineCustomElement$i } from './ir-combobox2.js';
 import { d as defineCustomElement$h } from './ir-delete-modal2.js';
@@ -30,20 +30,16 @@ const IrHousekeeping$1 = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping e
         this.__registerHost();
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
-        this.baseurl = '';
         this.propertyid = undefined;
         this.p = undefined;
         this.isLoading = false;
     }
     componentWillLoad() {
-        if (this.baseurl) {
-            axios.defaults.baseURL = this.baseurl;
-        }
         if (this.ticket !== '') {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
@@ -52,12 +48,12 @@ const IrHousekeeping$1 = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping e
         e.stopPropagation();
         await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.roomService.setToken(this.ticket);
-            this.houseKeepingService.setToken(this.ticket);
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
     }
     async initializeApp() {
         try {
@@ -103,7 +99,6 @@ const IrHousekeeping$1 = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping e
 }, [2, "ir-housekeeping", {
         "language": [1],
         "ticket": [1],
-        "baseurl": [1],
         "propertyid": [2],
         "p": [1],
         "isLoading": [32]

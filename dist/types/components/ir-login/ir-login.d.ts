@@ -8,6 +8,7 @@ export declare class IrLogin {
         code: 'succsess' | 'error';
     }>;
     private authService;
+    private token;
     private handleSignIn;
     render(): any;
 }

@@ -15,10 +15,11 @@ export declare class IglBookPropertyContainer {
     resetBookingData: EventEmitter<null>;
     private bookingService;
     private roomService;
+    private token;
     setRoomsData(roomServiceResp: any): void;
     initializeApp(): Promise<void>;
     componentWillLoad(): void;
-    ticketChanged(): Promise<void>;
+    ticketChanged(newValue: string, oldValue: string): void;
     handleCloseBookingWindow(): void;
     handleTriggerClicked(): void;
     render(): any;

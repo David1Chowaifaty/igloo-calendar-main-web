@@ -7,10 +7,12 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { _formatTime } from "../ir-booking-details/functions";
 import { getPrivateNote } from "../../utils/booking";
+import Token from "../../models/Token";
 export class IrBookingListing {
     constructor() {
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
+        this.token = new Token();
         this.statusColors = {
             '001': 'badge-warning',
             '002': 'badge-success',
@@ -33,9 +35,8 @@ export class IrBookingListing {
         updateUserSelection('end_row', this.rowCount);
         booking_listing.rowCount = this.rowCount;
         if (this.ticket !== '') {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
             booking_listing.token = this.ticket;
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
         onBookingListingChange('userSelection', async (newValue) => {
@@ -46,13 +47,13 @@ export class IrBookingListing {
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
     }
-    async ticketChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.bookingListingService.setToken(this.ticket);
-            this.roomService.setToken(this.ticket);
-            booking_listing.token = this.ticket;
-            this.initializeApp();
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
         }
+        this.token.setToken(this.ticket);
+        booking_listing.token = this.ticket;
+        this.initializeApp();
     }
     async initializeApp() {
         try {
