@@ -37,6 +37,7 @@ export interface IBookinAvailabilityParams {
     to_date: Date | null;
     adult_nbr: number;
     child_nbr: number;
+    infant_nbr: number;
     coupon?: string;
     agent?: number;
     loyalty?: boolean;

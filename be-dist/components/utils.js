@@ -50213,6 +50213,7 @@ const initialState = {
         to_date: null,
         adult_nbr: 0,
         child_nbr: 0,
+        infant_nbr: 0,
     },
     booking: null,
     fictus_booking_nbr: null,
@@ -53234,7 +53235,15 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
         history.pushState(null, '', url.toString());
     }
 }
+function calculateInfantNumber(ages) {
+    return ages.reduce((prev, curr) => {
+        if (curr !== '' && Number(curr) < 3) {
+            return prev + 1;
+        }
+        return prev;
+    }, 0);
+}
 
-export { validateBooking as A, destroyBookingCookie as B, renderPropertyLocation as C, renderTime as D, formatImageAlt as E, updateRoomParams as F, reserveRooms as G, getVisibleInventory as H, modifyBookingStore as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, getAbbreviatedWeekdays as k, getUserPrefernce as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, runScriptAndRemove as x, calculateTotalCost as y, detectCardType as z };
+export { detectCardType as A, validateBooking as B, destroyBookingCookie as C, renderPropertyLocation as D, renderTime as E, formatImageAlt as F, updateRoomParams as G, reserveRooms as H, getVisibleInventory as I, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyBookingStore as e, defaultOptions$1 as f, getDateDifference as g, enUS as h, injectHTML as i, isSameWeek$1 as j, modifyQueryParam as k, getAbbreviatedWeekdays as l, manageAnchorSession as m, getUserPrefernce as n, validateAgentCode as o, matchLocale as p, checkGhs as q, setDefaultLocale as r, startOfWeek$1 as s, toDate$1 as t, checkAffiliate as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, runScriptAndRemove as y, calculateTotalCost as z };
 
 //# sourceMappingURL=utils.js.map

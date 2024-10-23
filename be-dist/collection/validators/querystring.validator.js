@@ -33,6 +33,10 @@ export class QueryStringValidator {
         }
         return checkinDate;
     }
+    validateAges(str) {
+        const regex = /^(\d+_)+\d+$/;
+        return regex.test(str);
+    }
     validateCheckout(checkoutStr, checkinDate) {
         try {
             this.dateSchema.parse(checkoutStr);

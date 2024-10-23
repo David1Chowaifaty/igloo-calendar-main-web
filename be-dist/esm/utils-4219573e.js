@@ -1,6 +1,4 @@
-'use strict';
-
-const index = require('./index-380c61af.js');
+import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -40,7 +38,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof index.getRenderingRef !== 'function') {
+    if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -49,7 +47,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = index.getRenderingRef();
+            const elm = getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -57,12 +55,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -50461,6 +50459,7 @@ const initialState = {
         to_date: null,
         adult_nbr: 0,
         child_nbr: 0,
+        infant_nbr: 0,
     },
     booking: null,
     fictus_booking_nbr: null,
@@ -50631,9 +50630,9 @@ function validateBooking() {
     return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')));
 }
 
-var dateFns = {};
-
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
+
+var dateFns = {};
 
 var bundleCjs = {};
 
@@ -53482,47 +53481,15 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
         history.pushState(null, '', url.toString());
     }
 }
+function calculateInfantNumber(ages) {
+    return ages.reduce((prev, curr) => {
+        if (curr !== '' && Number(curr) < 3) {
+            return prev + 1;
+        }
+        return prev;
+    }, 0);
+}
 
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateTotalCost = calculateTotalCost;
-exports.changeLocale = changeLocale;
-exports.checkAffiliate = checkAffiliate;
-exports.checkGhs = checkGhs;
-exports.cn = cn;
-exports.createStore = createStore;
-exports.dateFns = dateFns;
-exports.defaultOptions = defaultOptions$1;
-exports.destroyBookingCookie = destroyBookingCookie;
-exports.detectCardType = detectCardType;
-exports.enUS = enUS;
-exports.formatAmount = formatAmount;
-exports.formatFullLocation = formatFullLocation;
-exports.formatImageAlt = formatImageAlt;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getDateDifference = getDateDifference;
-exports.getUserPrefernce = getUserPrefernce;
-exports.getVisibleInventory = getVisibleInventory;
-exports.injectHTML = injectHTML;
-exports.isSameWeek = isSameWeek$1;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.manageAnchorSession = manageAnchorSession;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.modifyQueryParam = modifyQueryParam;
-exports.onAppDataChange = onAppDataChange;
-exports.renderPropertyLocation = renderPropertyLocation;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.runScriptAndRemove = runScriptAndRemove;
-exports.setDefaultLocale = setDefaultLocale;
-exports.startOfWeek = startOfWeek$1;
-exports.toDate = toDate$1;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserPreference = updateUserPreference;
-exports.validateAgentCode = validateAgentCode;
-exports.validateBooking = validateBooking;
-exports.validateCoupon = validateCoupon;
+export { getAbbreviatedWeekdays as A, detectCardType as B, validateBooking as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, toDate$1 as K, startOfWeek$1 as L, defaultOptions$1 as M, enUS as N, isSameWeek$1 as O, injectHTML as P, createStore as a, app_store as b, calculateInfantNumber as c, booking_store as d, dateFns as e, modifyQueryParam as f, getUserPrefernce as g, validateAgentCode as h, changeLocale as i, matchLocale as j, checkGhs as k, localizedWords as l, manageAnchorSession as m, checkAffiliate as n, onAppDataChange as o, modifyBookingStore as p, formatAmount as q, formatFullLocation as r, setDefaultLocale as s, getDateDifference as t, updateUserPreference as u, validateCoupon as v, runScriptAndRemove as w, cn as x, calculateTotalCost as y, locale as z };
 
-//# sourceMappingURL=utils-582e1d19.js.map
+//# sourceMappingURL=utils-4219573e.js.map

@@ -1,4 +1,3 @@
-import { MissingTokenError } from "../../models/Token";
 import booking_store, { modifyBookingStore } from "../../stores/booking";
 import axios from "axios";
 import { addDays, format } from "date-fns";
@@ -52,11 +51,6 @@ export class PropertyHelpers {
             console.error(error);
         }
     }
-    validateToken(token) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-    }
     collectRoomTypeIds(props) {
         return props.rt_id ? [props.rt_id] : [];
     }
@@ -81,8 +75,8 @@ export class PropertyHelpers {
         const names = guestName[index].split(' ');
         return { first_name: names[0] || null, last_name: names[1] || null };
     }
-    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+    async fetchAvailabilityData(props, roomtypeIds, rateplanIds) {
+        const response = await axios.post(`/Get_Exposed_Booking_Availability`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
         const result = response.data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -91,12 +85,11 @@ export class PropertyHelpers {
             modifyBookingStore('fictus_booking_nbr', {
                 nbr: result.My_Result.booking_nbr,
             });
-            this.validateFreeCancelationZone(token, result.My_Result.booking_nbr);
+            this.validateFreeCancelationZone(result.My_Result.booking_nbr);
         }
         return result;
     }
-    async validateFreeCancelationZone(token, booking_nbr) {
-        this.paymentService.setToken(token);
+    async validateFreeCancelationZone(booking_nbr) {
         // console.log(app_store.currencies.find(c => c.code.toLowerCase() === app_store.userPreferences.currency_id?.toLowerCase()));
         const result = await this.paymentService.GetExposedApplicablePolicies({
             book_date: new Date(),
@@ -108,7 +101,6 @@ export class PropertyHelpers {
                 rate_plan_id: 0,
                 room_type_id: 0,
             },
-            token,
         });
         console.log('applicable policies', result);
         if (!result) {

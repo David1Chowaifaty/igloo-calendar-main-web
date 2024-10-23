@@ -6,6 +6,7 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     room_type_ids: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
     adult_nbr: z.ZodNumber;
     child_nbr: z.ZodNumber;
+    infant_nbr: z.ZodNumber;
     language: z.ZodDefault<z.ZodString>;
     currency_ref: z.ZodString;
     is_in_loyalty_mode: z.ZodDefault<z.ZodBoolean>;
@@ -21,6 +22,7 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     room_type_ids?: string[];
     adult_nbr?: number;
     child_nbr?: number;
+    infant_nbr?: number;
     language?: string;
     currency_ref?: string;
     is_in_loyalty_mode?: boolean;
@@ -36,6 +38,7 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     room_type_ids?: string[];
     adult_nbr?: number;
     child_nbr?: number;
+    infant_nbr?: number;
     language?: string;
     currency_ref?: string;
     is_in_loyalty_mode?: boolean;

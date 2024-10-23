@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Booking } from "../../../../models/booking.dto";
 export declare class IrBookingOverview {
-    token: string;
     propertyid: number;
     language: string;
     maxPages: number;

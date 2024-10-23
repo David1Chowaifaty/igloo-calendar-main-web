@@ -10,16 +10,14 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import axios from "axios";
 import { PropertyService } from "./property.service";
 import { manageAnchorSession } from "../../utils/utils";
 import { checkout_store } from "../../stores/checkout.store";
 import { CommonService } from "./common.service";
-export class AuthService extends Token {
+export class AuthService {
     constructor() {
-        super(...arguments);
         this.subscribers = [];
     }
     // public onLoginCompleted(listener: (result: LoginEventPayload) => void) {
@@ -68,7 +66,6 @@ export class AuthService extends Token {
         }
         console.count('auth called');
         const propertyService = new PropertyService();
-        propertyService.setToken(loginToken);
         propertyService.getExposedGuest();
         this.notifySubscribers({
             state: 'success',
@@ -78,11 +75,7 @@ export class AuthService extends Token {
         return data['My_Result'];
     }
     async signUp(params) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Exposed_Guest_SignUp?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Exposed_Guest_SignUp`, params);
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data['ExceptionMsg']);
         }

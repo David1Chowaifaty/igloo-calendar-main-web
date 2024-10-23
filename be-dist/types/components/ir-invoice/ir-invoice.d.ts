@@ -17,7 +17,6 @@ export declare class IrInvoice {
     be: boolean;
     version: string;
     booking: Booking;
-    token: string;
     isAuthenticated: boolean;
     isLoading: boolean;
     cancelation_message: string;
@@ -25,6 +24,7 @@ export declare class IrInvoice {
     cancelationMessage: string;
     amountToBePayed: number;
     cancelation_policies: TBookingInfo[];
+    private token;
     private propertyService;
     private commonService;
     private authService;
@@ -37,7 +37,6 @@ export declare class IrInvoice {
     componentWillLoad(): Promise<void>;
     private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
-    init(): Promise<void>;
     fetchData(language?: string, resetLanguage?: boolean): Promise<void>;
     openPrivacyPolicy(e: CustomEvent): Promise<void>;
     handleLanguageChanged(e: CustomEvent): Promise<void>;

@@ -1,6 +1,5 @@
 import { Booking } from "../../models/booking.dto";
 import { IBrackets, IExposedApplicablePolicies } from "../../models/property";
-import { Token } from "../../models/Token";
 type TExposedApplicablePolicies = {
     data: IExposedApplicablePolicies[];
     amount: number;
@@ -24,7 +23,7 @@ export type TBookingInfo = {
     rp_name: string;
     rt_name: string;
 };
-export declare class PaymentService extends Token {
+export declare class PaymentService {
     getExposedCancelationDueAmount(params: {
         booking_nbr: string;
         currency_id: number;
@@ -42,8 +41,7 @@ export declare class PaymentService extends Token {
         onScriptRun: (script: string) => void;
     }): Promise<any>;
     RequestBookingCancelation(booking_nbr: string): Promise<any>;
-    GetExposedApplicablePolicies({ token, params, book_date, }: {
-        token: string;
+    GetExposedApplicablePolicies({ params, book_date, }: {
         params: {
             booking_nbr: string;
             property_id: number;

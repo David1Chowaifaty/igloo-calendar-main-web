@@ -1,5 +1,4 @@
-import { Token } from '../../models/Token';
-export declare class CommonService extends Token {
+export declare class CommonService {
     getCurrencies(): Promise<any>;
     getExposedLanguages(): Promise<any>;
     getCountries(language: string): Promise<any>;

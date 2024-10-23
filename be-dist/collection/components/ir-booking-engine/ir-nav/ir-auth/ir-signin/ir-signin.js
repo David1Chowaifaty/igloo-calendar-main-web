@@ -2,21 +2,17 @@ import { Host, h } from "@stencil/core";
 import { SignInValidtor } from "../../../../../validators/auth.validator";
 import { ZodError } from "zod";
 import { AuthService } from "../../../../../services/api/auth.service";
-import app_store, { onAppDataChange } from "../../../../../stores/app.store";
+import app_store from "../../../../../stores/app.store";
 import localizedWords from "../../../../../stores/localization.store";
+import Token from "../../../../../models/Token";
 export class IrSignin {
     constructor() {
         this.authService = new AuthService();
+        this.token = new Token();
         this.enableSignUp = false;
         this.signInParams = {};
         this.formState = { cause: null, errors: null, status: 'empty' };
         this.isLoading = false;
-    }
-    componentWillLoad() {
-        this.authService.setToken(app_store.app_data.token);
-        onAppDataChange('app_data', newValue => {
-            this.authService.setToken(newValue.token);
-        });
     }
     modifySignInParams(params) {
         if (!this.signInParams) {
@@ -28,6 +24,7 @@ export class IrSignin {
         try {
             this.isLoading = true;
             const token = await this.authService.login({ option: 'direct', params });
+            this.token.setToken(token);
             this.authFinish.emit({
                 state: 'success',
                 token,
@@ -79,7 +76,7 @@ export class IrSignin {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (h(Host, { key: '24697d43c5986a6c6ae0bbe85d25abc549e1cc30' }, h("h1", { key: '8386df898e9432efc70e307e8f6abd70e95fce18', class: "title" }, localizedWords.entries.Lcz_SignInToYourBooking), h("form", { key: '30b9eead11889323fc2dd21cddc7aeb4c03deac5', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { key: 'c629aefc75224a533710c8c58f1cf6afe6a0a9fc', class: "error" }, h("ir-badge-group", { key: '6fbb750ca12e1783123eefac30bf5d0a351c25a6', variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '2267c21db610dafd485f4096ff32696f551bbb47' }, h("ir-input", { key: '928957e272779a4406e83850f0f475100af7a27e', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: localizedWords.entries.Lcz_EnterYourEmail, onInputBlur: e => {
+        return (h(Host, { key: '0d25fa3c07dba79a63ee29fbe50a31162250de7e' }, h("h1", { key: 'd1cbc82215fbd71cf77ad34302c97fd8d5bca16d', class: "title" }, localizedWords.entries.Lcz_SignInToYourBooking), h("form", { key: 'ee8102506c2d398570db6187b7bf8232410392ee', onSubmit: this.handleSignIn.bind(this) }, ((_a = this.formState) === null || _a === void 0 ? void 0 : _a.cause) === 'auth' && ((_b = this.formState) === null || _b === void 0 ? void 0 : _b.errors) && (h("div", { key: 'f85363ebaa9e3c7141fcc75bef2b507d4a8b18cf', class: "error" }, h("ir-badge-group", { key: '08c11d313b49a2123cccfa776d177c0540f66066', variant: "error", badge: "Error", message: (_e = (_d = (_c = this.formState) === null || _c === void 0 ? void 0 : _c.errors) === null || _d === void 0 ? void 0 : _d.email) !== null && _e !== void 0 ? _e : '' }))), h("fieldset", { key: '69fd4702c4d715ba12829a1549092e4b5dc4e18c' }, h("ir-input", { key: 'f2b4b1dc94fb79833c4d7630e2373d99e0b88010', error: !!((_g = (_f = this.formState) === null || _f === void 0 ? void 0 : _f.errors) === null || _g === void 0 ? void 0 : _g.email), onTextChanged: e => this.modifySignInParams({ email: e.detail }), autofocus: true, inputId: "email", label: localizedWords.entries.Lcz_EnterYourEmail, onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ email: true });
                 const firstNameValidation = firstNameSchema.safeParse({ email: this.signInParams.email });
                 const target = e.target;
@@ -96,7 +93,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("fieldset", { key: 'ce612055ff9499bc46fdb1310c13f472c4f2b102' }, h("ir-input", { key: 'b0e79a0f55b422f84d8aa4a904db95d8fd5f21d2', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: localizedWords.entries.Lcz_EnterYourBookingBumber, onInputBlur: e => {
+            } })), h("fieldset", { key: '74427fb65eab32cb5ff8e10c7812dde53a398a94' }, h("ir-input", { key: '6cf95de228623dc6c4930fbb2c9b656ffdf6473f', error: !!((_j = (_h = this.formState) === null || _h === void 0 ? void 0 : _h.errors) === null || _j === void 0 ? void 0 : _j.booking_nbr), onTextChanged: e => this.modifySignInParams({ booking_nbr: e.detail }), inputId: "booking_nbr", type: "number", label: localizedWords.entries.Lcz_EnterYourBookingBumber, onInputBlur: e => {
                 const firstNameSchema = SignInValidtor.pick({ booking_nbr: true });
                 const firstNameValidation = firstNameSchema.safeParse({ booking_nbr: this.signInParams.booking_nbr });
                 const target = e.target;
@@ -113,7 +110,7 @@ export class IrSignin {
                 const target = e.target;
                 if (target.hasAttribute('data-state'))
                     target.removeAttribute('data-state');
-            } })), h("button", { key: '9d67c80c67e263ac640e3afb99d86155c2c147d7', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: 'e065f09dc72dbe80617e5059a6369b30c391b3c5', class: "loader" }), localizedWords.entries.Lcz_SignIn), !app_store.app_data.hideGoogleSignIn && (h("div", { key: '10966577f73a6e93da8c8977ba972c2e90a6ec0e', class: "divider" }, h("div", { key: '841d8a0ff76b4a4700ab9ee7c6e0af3ba0221580', class: "divider-line" }), h("span", { key: '81e97a92cee1bf213a6deb9251f6032ac7e4c7df', class: "divider-text" }, localizedWords.entries.Lcz_Or), h("div", { key: 'b50af0134e8e94db13f185e8a24896b059ffde6d', class: "divider-line" }))))));
+            } })), h("button", { key: 'a4bb16b6fe73bba052c3324297b1f4cad34b10bf', type: "submit", class: "button-default ir-button", "data-size": 'md' }, this.isLoading && h("span", { key: 'c00c6683031d865d9154a93f65585eb5bfc45f51', class: "loader" }), localizedWords.entries.Lcz_SignIn), !app_store.app_data.hideGoogleSignIn && (h("div", { key: '78b4e0662b8dfdad19abb679633d6bbe9034fbd9', class: "divider" }, h("div", { key: 'e7bddde6f9fb38310bcbb0b5253f8a8bd1bd42c2', class: "divider-line" }), h("span", { key: '4373a3e0d7b1910b2a333bf8285b0b06ac51ba95', class: "divider-text" }, localizedWords.entries.Lcz_Or), h("div", { key: 'f7ff7cadf24d50adc27aac31ea7ae66778b86676', class: "divider-line" }))))));
     }
     static get is() { return "ir-signin"; }
     static get encapsulation() { return "scoped"; }

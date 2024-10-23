@@ -1,3 +1,4 @@
+import Token from "../../../models/Token";
 import { CommonService } from "../../../services/api/common.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
@@ -10,6 +11,7 @@ export class IrBookingListing {
     constructor() {
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
+        this.token = new Token();
         this.propertyid = undefined;
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.language = undefined;
@@ -25,11 +27,11 @@ export class IrBookingListing {
         this.version = '2.0';
         this.hideGoogleSignIn = true;
         this.isLoading = false;
-        this.token = undefined;
         this.bookingNumber = null;
         this.currentPage = 'bookings';
         this.selectedBooking = null;
         this.isAffiliate = false;
+        this.isSignedIn = false;
     }
     async componentWillLoad() {
         var _a;
@@ -41,16 +43,15 @@ export class IrBookingListing {
         const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             this.bookingNumber = isAuthenticated.params ? isAuthenticated.params.booking_nbr : null;
-            this.token = isAuthenticated.token;
-            app_store.app_data.token = this.token;
+            this.token.setToken(isAuthenticated.token);
+            this.isSignedIn = true;
         }
         else {
             const token = await this.commonService.getBEToken();
             if (token) {
-                app_store.app_data.token = token;
+                this.token.setToken(token);
             }
         }
-        this.initializeServices();
         if (!this.be) {
             this.initializeApp();
         }
@@ -101,7 +102,7 @@ export class IrBookingListing {
                     }),
                 ];
             }
-            if (this.token) {
+            if (this.isSignedIn) {
                 requests = [...requests, this.propertyService.getExposedGuest()];
             }
             await Promise.all(requests);
@@ -113,12 +114,6 @@ export class IrBookingListing {
         finally {
             this.isLoading = false;
         }
-    }
-    initializeServices() {
-        var _a, _b;
-        console.log(this.token);
-        this.propertyService.setToken((_a = this.token) !== null && _a !== void 0 ? _a : app_store.app_data.token);
-        this.commonService.setToken((_b = this.token) !== null && _b !== void 0 ? _b : app_store.app_data.token);
     }
     handleAuthFinish(e) {
         e.stopImmediatePropagation();
@@ -133,8 +128,8 @@ export class IrBookingListing {
                 this.bookingNumber = payload.booking_nbr;
                 this.currentPage = 'booking-details';
             }
-            this.token = token;
-            this.initializeServices();
+            this.token.setToken(token);
+            this.isSignedIn = true;
             this.fetchGuest();
         }
     }
@@ -142,7 +137,8 @@ export class IrBookingListing {
         if (this.be) {
             return;
         }
-        this.token = null;
+        this.token.setToken('');
+        this.isSignedIn = false;
     }
     handleRouting(e) {
         e.stopPropagation();
@@ -161,7 +157,7 @@ export class IrBookingListing {
     renderPages() {
         switch (this.currentPage) {
             case 'bookings':
-                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+                return (h("ir-booking-overview", { aff: this.isAffiliate, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
             case 'booking-details':
                 return (h("div", { class: this.be ? '' : 'mx-auto px-4 lg:px-6' }, h("div", { class: "header-left" }, h("ir-button", { variants: "icon", onButtonClick: e => {
                         e.stopPropagation();
@@ -184,7 +180,7 @@ export class IrBookingListing {
                         country_phone_prefix: checkout_store.userFormData.country_phone_prefix.toString(),
                     } }));
             default:
-                return (h("ir-booking-overview", { aff: this.isAffiliate, token: this.token, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
+                return (h("ir-booking-overview", { aff: this.isAffiliate, propertyid: app_store.app_data.property_id, language: this.language, maxPages: this.maxPages, showAllBookings: this.showAllBookings, be: this.be }));
         }
     }
     renderAuthScreen() {
@@ -202,7 +198,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) })));
     }
     render() {
-        return (h(Host, { key: '702d455caf124fa47e0e8917447057b0a8705381' }, !this.be && h("ir-interceptor", { key: '4e4586784daa34cc3d8c62f45ca48c98f3483936' }), !this.token ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '59b7ebd42e2613bb5cc5ddc100978118f3e3088a' }, !this.be && h("ir-interceptor", { key: '0baa72b804c246622a715e15fc37ed39761b5d5d' }), !this.isSignedIn ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {
@@ -470,11 +466,11 @@ export class IrBookingListing {
     static get states() {
         return {
             "isLoading": {},
-            "token": {},
             "bookingNumber": {},
             "currentPage": {},
             "selectedBooking": {},
-            "isAffiliate": {}
+            "isAffiliate": {},
+            "isSignedIn": {}
         };
     }
     static get watchers() {

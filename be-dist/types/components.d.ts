@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
+import { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 import { TSource } from "./stores/app.store";
 import { TBookingInfo } from "./services/api/payment.service";
 import { Booking } from "./models/booking.dto";
@@ -22,6 +23,7 @@ import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.valida
 import { TGuest } from "./models/user_form";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
 export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
+export { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 export { TSource } from "./stores/app.store";
 export { TBookingInfo } from "./services/api/payment.service";
 export { Booking } from "./models/booking.dto";
@@ -47,12 +49,16 @@ export namespace Components {
     }
     interface IrAdultChildCounter {
         "adultCount": number;
+        "baseChildrenAges": string[];
         "childMaxAge": number;
         "childrenCount": number;
+        "error": boolean;
+        "infant_nbr": number;
         "maxAdultCount": number;
         "maxChildrenCount": number;
         "minAdultCount": number;
         "minChildrenCount": number;
+        "open": () => Promise<void>;
     }
     interface IrAlertDialog {
         "closeModal": () => Promise<void>;
@@ -63,6 +69,7 @@ export namespace Components {
     }
     interface IrAvailibilityHeader {
         "adultCount": string;
+        "ages": string;
         "childrenCount": string;
         "fromDate": string;
         "toDate": string;
@@ -87,6 +94,7 @@ export namespace Components {
         "adults": string;
         "aff": string;
         "agent_code": string;
+        "ages": string;
         "checkin": string;
         "checkout": string;
         "child": string;
@@ -105,7 +113,6 @@ export namespace Components {
         "rt_id": number;
         "source": TSource | null;
         "stag": string | null;
-        "token": string;
     }
     interface IrBookingCancelation {
         "booking": Booking;
@@ -156,10 +163,10 @@ export namespace Components {
         "maxPages": number;
         "propertyid": number;
         "showAllBookings": boolean;
-        "token": string;
     }
     interface IrBookingPage {
         "adultCount": string;
+        "ages": string;
         "childrenCount": string;
         "fromDate": string;
         "toDate": string;
@@ -402,10 +409,12 @@ export namespace Components {
         "active": boolean;
         "allowFlip": boolean;
         "autoAdjust": boolean;
+        "forceClose": () => Promise<void>;
+        "outsideEvents": 'all' | 'none';
         "placement": Placement;
         "showCloseButton": boolean;
         "stopListeningForOutsideClicks": boolean;
-        "toggleVisibility": () => Promise<void>;
+        "toggleVisibility": () => Promise<CustomEvent<boolean>>;
         "trigger_label": string;
     }
     interface IrPortal {
@@ -452,6 +461,7 @@ export namespace Components {
         "roomtype": RoomType;
     }
     interface IrSelect {
+        "addDummyOption": boolean;
         "containerStyle": string;
         "customStyles": string;
         "data": { id: string | number; value: string; disabled?: boolean; html?: boolean }[];
@@ -733,7 +743,7 @@ declare global {
         new (): HTMLIrAccomodationsElement;
     };
     interface HTMLIrAdultChildCounterElementEventMap {
-        "addAdultsAndChildren": { adult_nbr: number; child_nbr: number };
+        "addAdultsAndChildren": AddAdultsAndChildrenEvent;
     }
     interface HTMLIrAdultChildCounterElement extends Components.IrAdultChildCounter, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAdultChildCounterElementEventMap>(type: K, listener: (this: HTMLIrAdultChildCounterElement, ev: IrAdultChildCounterCustomEvent<HTMLIrAdultChildCounterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1808,13 +1818,16 @@ declare namespace LocalJSX {
     }
     interface IrAdultChildCounter {
         "adultCount"?: number;
+        "baseChildrenAges"?: string[];
         "childMaxAge"?: number;
         "childrenCount"?: number;
+        "error"?: boolean;
+        "infant_nbr"?: number;
         "maxAdultCount"?: number;
         "maxChildrenCount"?: number;
         "minAdultCount"?: number;
         "minChildrenCount"?: number;
-        "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<{ adult_nbr: number; child_nbr: number }>) => void;
+        "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<AddAdultsAndChildrenEvent>) => void;
     }
     interface IrAlertDialog {
         "onOpenChange"?: (event: IrAlertDialogCustomEvent<boolean>) => void;
@@ -1825,6 +1838,7 @@ declare namespace LocalJSX {
     }
     interface IrAvailibilityHeader {
         "adultCount"?: string;
+        "ages"?: string;
         "childrenCount"?: string;
         "fromDate"?: string;
         "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
@@ -1852,6 +1866,7 @@ declare namespace LocalJSX {
         "adults"?: string;
         "aff"?: string;
         "agent_code"?: string;
+        "ages"?: string;
         "checkin"?: string;
         "checkout"?: string;
         "child"?: string;
@@ -1870,7 +1885,6 @@ declare namespace LocalJSX {
         "rt_id"?: number;
         "source"?: TSource | null;
         "stag"?: string | null;
-        "token"?: string;
     }
     interface IrBookingCancelation {
         "booking"?: Booking;
@@ -1933,10 +1947,10 @@ declare namespace LocalJSX {
   }>) => void;
         "propertyid"?: number;
         "showAllBookings"?: boolean;
-        "token"?: string;
     }
     interface IrBookingPage {
         "adultCount"?: string;
+        "ages"?: string;
         "childrenCount"?: string;
         "fromDate"?: string;
         "onRouting"?: (event: IrBookingPageCustomEvent<pages>) => void;
@@ -2239,6 +2253,7 @@ declare namespace LocalJSX {
         "allowFlip"?: boolean;
         "autoAdjust"?: boolean;
         "onOpenChange"?: (event: IrPopoverCustomEvent<boolean>) => void;
+        "outsideEvents"?: 'all' | 'none';
         "placement"?: Placement;
         "showCloseButton"?: boolean;
         "stopListeningForOutsideClicks"?: boolean;
@@ -2287,6 +2302,7 @@ declare namespace LocalJSX {
         "roomtype"?: RoomType;
     }
     interface IrSelect {
+        "addDummyOption"?: boolean;
         "containerStyle"?: string;
         "customStyles"?: string;
         "data"?: { id: string | number; value: string; disabled?: boolean; html?: boolean }[];

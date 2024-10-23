@@ -23,10 +23,6 @@ export class IrCheckoutPage {
         this.isBookingConfirmed = false;
     }
     async componentWillLoad() {
-        const token = app_store.app_data.token;
-        this.propertyService.setToken(token);
-        this.paymentService.setToken(token);
-        this.authService.setToken(token);
         this.calculateTotalPrepaymentAmount();
     }
     async calculateTotalPrepaymentAmount() {
@@ -43,7 +39,6 @@ export class IrCheckoutPage {
                 });
             });
             let requests = await Promise.all(list.map(l => this.paymentService.GetExposedApplicablePolicies({
-                token: app_store.app_data.token,
                 book_date: new Date(),
                 params: {
                     booking_nbr: l.booking_nbr,

@@ -1,5 +1,4 @@
-import { M as MissingTokenError, T as Token } from './Token.js';
-import { b as booking_store, d as dateFns, a as modifyBookingStore, i as injectHTML, g as getDateDifference } from './utils.js';
+import { b as booking_store, d as dateFns, e as modifyBookingStore, i as injectHTML, g as getDateDifference } from './utils.js';
 import { a as axios } from './axios.js';
 import { P as PaymentService } from './payment.service.js';
 import { a as app_store } from './app.store.js';
@@ -53,11 +52,6 @@ class PropertyHelpers {
             console.error(error);
         }
     }
-    validateToken(token) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-    }
     collectRoomTypeIds(props) {
         return props.rt_id ? [props.rt_id] : [];
     }
@@ -82,8 +76,8 @@ class PropertyHelpers {
         const names = guestName[index].split(' ');
         return { first_name: names[0] || null, last_name: names[1] || null };
     }
-    async fetchAvailabilityData(token, props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Get_Exposed_Booking_Availability?Ticket=${token}`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+    async fetchAvailabilityData(props, roomtypeIds, rateplanIds) {
+        const response = await axios.post(`/Get_Exposed_Booking_Availability`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
         const result = response.data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -92,12 +86,11 @@ class PropertyHelpers {
             modifyBookingStore('fictus_booking_nbr', {
                 nbr: result.My_Result.booking_nbr,
             });
-            this.validateFreeCancelationZone(token, result.My_Result.booking_nbr);
+            this.validateFreeCancelationZone(result.My_Result.booking_nbr);
         }
         return result;
     }
-    async validateFreeCancelationZone(token, booking_nbr) {
-        this.paymentService.setToken(token);
+    async validateFreeCancelationZone(booking_nbr) {
         // console.log(app_store.currencies.find(c => c.code.toLowerCase() === app_store.userPreferences.currency_id?.toLowerCase()));
         const result = await this.paymentService.GetExposedApplicablePolicies({
             book_date: new Date(),
@@ -109,7 +102,6 @@ class PropertyHelpers {
                 rate_plan_id: 0,
                 room_type_id: 0,
             },
-            token,
         });
         console.log('applicable policies', result);
         if (!result) {
@@ -370,13 +362,13 @@ class Colors {
     }
 }
 
-class PropertyService extends Token {
+class PropertyService {
     constructor() {
-        super(...arguments);
         this.propertyHelpers = new PropertyHelpers();
         this.colors = new Colors();
     }
     async getExposedProperty(params, initTheme = true) {
+        var _a, _b;
         const { data } = await axios.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
@@ -398,7 +390,7 @@ class PropertyService extends Token {
             });
         }
         if (!app_store.fetchedBooking) {
-            booking_store.roomTypes = [...result.My_Result.roomtypes];
+            booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
         // } else {
         //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
@@ -442,12 +434,10 @@ class PropertyService extends Token {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
-        const token = this.getToken();
-        this.propertyHelpers.validateToken(token);
         this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
-        const data = await this.propertyHelpers.fetchAvailabilityData(token, props, roomtypeIds, rateplanIds);
+        const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
         this.propertyHelpers.updateBookingStore(data, props);
         return data;
     }
@@ -469,33 +459,24 @@ class PropertyService extends Token {
         return result.My_Result;
     }
     async fetchSetupEntries() {
-        try {
-            const token = this.getToken();
-            if (token) {
-                if (app_store.setup_entries) {
-                    return app_store.setup_entries;
-                }
-                const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
-                    TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
-                });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                const res = data.My_Result;
-                const setupEntries = {
-                    arrivalTime: res.filter(e => e.TBL_NAME === '_ARRIVAL_TIME'),
-                    ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
-                    bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
-                };
-                app_store.setup_entries = setupEntries;
-                updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
-                return setupEntries;
-            }
+        if (app_store.setup_entries) {
+            return app_store.setup_entries;
         }
-        catch (error) {
-            console.error(error);
-            throw new Error(error);
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
+            TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
         }
+        const res = data.My_Result;
+        const setupEntries = {
+            arrivalTime: res.filter(e => e.TBL_NAME === '_ARRIVAL_TIME'),
+            ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
+            bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
+        };
+        app_store.setup_entries = setupEntries;
+        updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
+        return setupEntries;
     }
     filterRooms() {
         let rooms = [];
@@ -540,29 +521,16 @@ class PropertyService extends Token {
         return rooms;
     }
     async editExposedGuest(guest, book_nbr) {
-        try {
-            const token = this.getToken();
-            if (token !== null) {
-                const { data } = await axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                return data.My_Result;
-            }
+        const { data } = await axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
         }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
+        return data.My_Result;
     }
     async bookUser() {
         var _a, _b, _c, _d, _e, _f;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
-            const token = this.getToken();
-            if (!token) {
-                throw new MissingTokenError();
-            }
             console.log('payment', checkout_store.payment);
             let guest = {
                 email: checkout_store.userFormData.email,

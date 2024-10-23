@@ -78,11 +78,29 @@
             </script>
         </div>
     </nav>
-    <ir-be version="2.5"></ir-be>
+    <ir-be version="2.5" origin="be"></ir-be>
     <script>
         const testCmp = document.querySelector('ir-be');
+        // Function to parse query string into an object
+        function getQueryParams() {
+            const queryString = window.location.search; // Get the query string part of the URL
+            const urlParams = new URLSearchParams(queryString); // Create URLSearchParams object
+
+            // Convert URLSearchParams entries into a plain object
+            const params = {};
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+
         async function init() {
+            const { ages, adults, children } = getQueryParams();
             testCmp.propertyId = "42"
+            testCmp.adults = adults
+            testCmp.ages = ages
+            testCmp.child = children
             try {
             } catch (error) {
                 console.log(error)

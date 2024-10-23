@@ -2,7 +2,6 @@ import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import { h } from "@stencil/core";
 import { addYears, format } from "date-fns";
-import axios from "axios";
 import booking_store, { modifyBookingStore } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
 import { checkAffiliate, checkGhs, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
@@ -10,14 +9,15 @@ import Stack from "../../models/stack";
 import { v4 } from "uuid";
 import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
+import Token from "../../models/Token";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.25';
+        this.version = '2.26';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.availabiltyService = new AvailabiltyService();
-        this.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTQ1NTQ5OTIsIkNMQUlNLTAxIjoiOGJpaUdjK21FQVE9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoicUxHWllZcVA3SzB5aENrRTFaY0tENm5TeFowNkEvQ2lPc1JrWUpYTHFhTEF5M3N0akltbU9CWkdDb080dDRyNVRiWjkxYnZQelFIQ2c1YlBGU2J3cm5HdjNsNjVVcjVLT3RnMmZQVWFnNHNEYmE3WTJkMDF4RGpDWUs2SFlGREhkcTFYTzBLdTVtd0NKeU5rWDFSeWZmSnhJdWdtZFBUeTZPWjk0RUVjYTJleWVSVzZFa0pYMnhCZzFNdnJ3aFRKRHF1cUxzaUxvZ3I0UFU5Y2x0MjdnQ2tJZlJzZ2lZbnpOK2szclZnTUdsQTUvWjRHekJWcHl3a0dqcWlpa0M5T0owWFUrdWJJM1dzNmNvSWEwSks4SWRqVjVaQ1VaZjZ1OGhBMytCUlpsUWlyWmFZVWZlVmpzU1FETFNwWFowYjVQY0FncE1EWVpmRGtWbGFscjRzZ1pRNVkwODkwcEp6dE16T0s2VTR5Z1FMQkdQbTlTSmRLY0ExSGU2MXl2YlhuIiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBcklIUzg2aEpCQSJ9.ySJjLhWwUDeP4X8LIJcbsjO74y_UgMHwRDpNrCClndc';
+        this.token = new Token();
         this.propertyId = undefined;
         this.injected = undefined;
         this.rt_id = null;
@@ -29,6 +29,7 @@ export class IrBookingEngine {
         this.language = undefined;
         this.adults = '2';
         this.child = undefined;
+        this.ages = undefined;
         this.cur = undefined;
         this.aff = undefined;
         this.stag = undefined;
@@ -48,9 +49,6 @@ export class IrBookingEngine {
     }
     async componentWillLoad() {
         console.log(`version:${this.version}`);
-        axios.defaults.withCredentials = true;
-        axios.defaults.baseURL = this.baseUrl;
-        axios.defaults.headers.common['Testing'] = 'david';
         getUserPrefernce(this.language);
         if (this.property) {
             app_store.property = Object.assign({}, this.property);
@@ -58,17 +56,13 @@ export class IrBookingEngine {
         const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             app_store.is_signed_in = true;
-            this.token = isAuthenticated.token;
-            app_store.app_data.token = this.token;
+            this.token.setToken(isAuthenticated.token);
         }
         else {
-            this.token = await this.commonService.getBEToken();
+            const token = await this.commonService.getBEToken();
+            this.token.setToken(token);
         }
-    }
-    handleTokenChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.initializeApp();
-        }
+        this.initializeApp();
     }
     handleSourceChange(newSource, oldSource) {
         if (newSource && (!oldSource || oldSource.code !== newSource.code)) {
@@ -112,15 +106,13 @@ export class IrBookingEngine {
     }
     initializeApp() {
         var _a;
-        this.commonService.setToken(this.token);
-        this.propertyService.setToken(this.token);
         app_store.app_data = {
             aName: this.p,
             origin: this.origin,
             perma_link: this.perma_link,
             displayMode: 'default',
             isFromGhs: checkGhs((_a = this.source) === null || _a === void 0 ? void 0 : _a.code, this.stag),
-            token: this.token,
+            token: '',
             property_id: this.propertyId,
             injected: this.injected,
             roomtype_id: this.rt_id,
@@ -285,7 +277,7 @@ export class IrBookingEngine {
         var _a;
         switch (app_store.currentPage) {
             case 'booking':
-                return h("ir-booking-page", { adultCount: this.adults, childrenCount: this.child, fromDate: this.checkin, toDate: this.checkout });
+                return h("ir-booking-page", { adultCount: this.adults, childrenCount: this.child, ages: this.ages, fromDate: this.checkin, toDate: this.checkout });
             case 'checkout':
                 return h("ir-checkout-page", null);
             case 'invoice':
@@ -330,24 +322,6 @@ export class IrBookingEngine {
     }
     static get properties() {
         return {
-            "token": {
-                "type": "string",
-                "mutable": true,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "token",
-                "reflect": false,
-                "defaultValue": "'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTQ1NTQ5OTIsIkNMQUlNLTAxIjoiOGJpaUdjK21FQVE9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6Ilp3Tys5azJoTzUwPSIsIkNMQUlNLTA0IjoicUxHWllZcVA3SzB5aENrRTFaY0tENm5TeFowNkEvQ2lPc1JrWUpYTHFhTEF5M3N0akltbU9CWkdDb080dDRyNVRiWjkxYnZQelFIQ2c1YlBGU2J3cm5HdjNsNjVVcjVLT3RnMmZQVWFnNHNEYmE3WTJkMDF4RGpDWUs2SFlGREhkcTFYTzBLdTVtd0NKeU5rWDFSeWZmSnhJdWdtZFBUeTZPWjk0RUVjYTJleWVSVzZFa0pYMnhCZzFNdnJ3aFRKRHF1cUxzaUxvZ3I0UFU5Y2x0MjdnQ2tJZlJzZ2lZbnpOK2szclZnTUdsQTUvWjRHekJWcHl3a0dqcWlpa0M5T0owWFUrdWJJM1dzNmNvSWEwSks4SWRqVjVaQ1VaZjZ1OGhBMytCUlpsUWlyWmFZVWZlVmpzU1FETFNwWFowYjVQY0FncE1EWVpmRGtWbGFscjRzZ1pRNVkwODkwcEp6dE16T0s2VTR5Z1FMQkdQbTlTSmRLY0ExSGU2MXl2YlhuIiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBcklIUzg2aEpCQSJ9.ySJjLhWwUDeP4X8LIJcbsjO74y_UgMHwRDpNrCClndc'"
-            },
             "propertyId": {
                 "type": "number",
                 "mutable": false,
@@ -538,6 +512,23 @@ export class IrBookingEngine {
                     "text": ""
                 },
                 "attribute": "child",
+                "reflect": false
+            },
+            "ages": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "ages",
                 "reflect": false
             },
             "cur": {
@@ -736,9 +727,6 @@ export class IrBookingEngine {
     }
     static get watchers() {
         return [{
-                "propName": "token",
-                "methodName": "handleTokenChange"
-            }, {
                 "propName": "source",
                 "methodName": "handleSourceChange"
             }, {

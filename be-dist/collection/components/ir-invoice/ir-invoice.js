@@ -5,13 +5,14 @@ import localizedWords from "../../stores/localization.store";
 import app_store from "../../stores/app.store";
 import { PropertyService } from "../../services/api/property.service";
 import { CommonService } from "../../services/api/common.service";
-import axios from "axios";
 import { AuthService } from "../../services/api/auth.service";
 import { PaymentService } from "../../services/api/payment.service";
 import { BookingListingAppService } from "../../services/app/booking-listing.service";
 import InvoiceSkeleton from "./InvoiceSkeleton";
+import Token from "../../models/Token";
 export class IrInvoice {
     constructor() {
+        this.token = new Token();
         this.propertyService = new PropertyService();
         this.commonService = new CommonService();
         this.authService = new AuthService();
@@ -34,7 +35,6 @@ export class IrInvoice {
         this.be = false;
         this.version = '2.0';
         this.booking = undefined;
-        this.token = undefined;
         this.isAuthenticated = false;
         this.isLoading = false;
         this.cancelation_message = null;
@@ -47,8 +47,6 @@ export class IrInvoice {
         if (!this.baseUrl) {
             throw new Error('Missing base url');
         }
-        axios.defaults.baseURL = this.baseUrl;
-        axios.defaults.withCredentials = true;
         this.isLoading = true;
         if (!this.be) {
             getUserPrefernce(this.language);
@@ -56,13 +54,13 @@ export class IrInvoice {
         const isAuthenticated = this.commonService.checkUserAuthState();
         console.log(isAuthenticated);
         if (isAuthenticated) {
-            this.token = isAuthenticated.token;
+            this.token.setToken(isAuthenticated.token);
             this.isAuthenticated = true;
         }
         else {
-            this.token = await this.commonService.getBEToken();
+            const token = await this.commonService.getBEToken();
+            this.token.setToken(token);
         }
-        this.init();
         this.fetchData();
     }
     detectPaymentOrigin() {
@@ -81,13 +79,6 @@ export class IrInvoice {
             this.booking = await this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language: this.language || app_store.userPreferences.language_id, currency: null }, true);
         }
     }
-    async init() {
-        this.propertyService.setToken(this.token);
-        this.commonService.setToken(this.token);
-        this.authService.setToken(this.token);
-        this.paymentService.setToken(this.token);
-        app_store.app_data.token = this.token;
-    }
     async fetchData(language, resetLanguage) {
         var _a;
         if (language === void 0) {
@@ -97,8 +88,8 @@ export class IrInvoice {
             resetLanguage = false;
         }
         if (!this.isAuthenticated) {
-            this.token = await this.authService.login({ option: 'direct', params: { email: this.email, booking_nbr: this.bookingNbr } }, false);
-            this.init();
+            const token = await this.authService.login({ option: 'direct', params: { email: this.email, booking_nbr: this.bookingNbr } }, false);
+            this.token.setToken(token);
         }
         const requests = [this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language, currency: null })];
         if (!this.be || resetLanguage) {
@@ -140,7 +131,6 @@ export class IrInvoice {
             this.paymentService.getBookingPrepaymentAmount(this.booking),
             await this.paymentService.GetExposedApplicablePolicies({
                 book_date: new Date(this.booking.booked_on.date),
-                token: this.token,
                 params: {
                     booking_nbr: this.bookingNbr,
                     property_id: this.booking.property.id,
@@ -177,7 +167,8 @@ export class IrInvoice {
     }
     renderBookingDetailHeader() {
         const total_nights = getDateDifference(new Date(this.booking.from_date), new Date(this.booking.to_date));
-        const nbr_of_persons = this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr;
+        // const nbr_of_persons = this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr;
+        const nbr_of_persons = this.booking.rooms.reduce((prev, room) => prev + Number(room.rateplan.selected_variation.adult_nbr) + Number(room.rateplan.selected_variation.child_nbr), 0);
         const total_rooms = this.booking.rooms.length;
         return `${total_nights} ${total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night} - ${nbr_of_persons}
     ${nbr_of_persons > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person} - ${total_rooms}
@@ -521,7 +512,6 @@ export class IrInvoice {
     static get states() {
         return {
             "booking": {},
-            "token": {},
             "isAuthenticated": {},
             "isLoading": {},
             "cancelation_message": {},

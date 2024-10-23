@@ -18,7 +18,6 @@ export declare class IrBookingListing {
     version: string;
     hideGoogleSignIn: boolean;
     isLoading: boolean;
-    token: string;
     bookingNumber: any;
     currentPage: 'bookings' | 'booking-details' | 'user-profile';
     selectedBooking: {
@@ -26,15 +25,16 @@ export declare class IrBookingListing {
         booking_nbr: string;
     } | null;
     isAffiliate: boolean;
+    isSignedIn: boolean;
     private commonService;
     private propertyService;
+    private token;
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleAffiliateChange(newValue: string, oldValue: string): void;
     handleScreenChanged(e: CustomEvent<pages>): void;
     private fetchGuest;
     initializeApp(): Promise<void>;
-    initializeServices(): void;
     handleAuthFinish(e: CustomEvent): void;
     handleSignout(): void;
     handleRouting(e: CustomEvent): void;

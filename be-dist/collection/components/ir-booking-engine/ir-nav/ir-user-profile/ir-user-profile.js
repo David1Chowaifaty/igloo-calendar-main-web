@@ -19,9 +19,6 @@ export class IrUserProfile {
         this.isPageLoading = false;
     }
     async componentWillLoad() {
-        this.propertyService.setToken(app_store.app_data.token);
-        console.log('token', app_store.app_data.token);
-        this.commonService.setToken(app_store.app_data.token);
         await this.fetchData();
         this.user = Object.assign({}, this.user_data);
     }

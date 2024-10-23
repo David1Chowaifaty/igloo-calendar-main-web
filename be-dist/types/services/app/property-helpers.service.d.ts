@@ -6,7 +6,6 @@ export declare class PropertyHelpers {
     validateModeProps(props: any): void;
     convertPickup(pickup: TPickupFormData): any;
     updateBookingStore(data: any, props: any): void;
-    validateToken(token: string | null): void;
     collectRoomTypeIds(props: any): number[];
     collectRatePlanIds(props: any): number[];
     generateDays(from_date: Date, to_date: Date, amount: number): {
@@ -18,7 +17,7 @@ export declare class PropertyHelpers {
         first_name: string;
         last_name: string;
     };
-    fetchAvailabilityData(token: string, props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
+    fetchAvailabilityData(props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
     private validateFreeCancelationZone;
     private updateInventory;
     private updateRatePlan;

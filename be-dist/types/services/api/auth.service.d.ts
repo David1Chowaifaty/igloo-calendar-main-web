@@ -1,4 +1,3 @@
-import { Token } from "../../models/Token";
 import { TSignInValidator, TSignUpValidator } from "../../validators/auth.validator";
 interface BaseLoginParams {
     option: 'google' | 'direct';
@@ -26,7 +25,7 @@ interface LoginFailurePayload {
     error: string;
 }
 type LoginEventPayload = LoginSuccessPayload | LoginFailurePayload;
-export declare class AuthService extends Token {
+export declare class AuthService {
     private subscribers;
     subscribe(callback: (result: LoginEventPayload) => void): void;
     unsubscribe(callback: (result: LoginEventPayload) => void): void;

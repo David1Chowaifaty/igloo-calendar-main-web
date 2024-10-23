@@ -1,5 +1,4 @@
-import { Token } from "../../models/Token";
-export declare class BookingListingService extends Token {
+export declare class BookingListingService {
     getExposedGuestBookings(params: {
         property_id: string | number;
         start_row: number;

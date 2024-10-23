@@ -29,7 +29,7 @@ export class IrDatePopup {
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
                     this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
                 }
-            } }, this.dateTrigger(), h("div", { key: '94b4b911ec0037bf100b93cb95f7787b579b7975', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm md:p-6 " }, h("ir-date-range", { key: '7add7aeeb40c91dcaa7497fe31196d380632fd4a', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: 'af3ddc2bc4077ad5b8d4b09528a8286d84f7c379', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm " }, h("ir-date-range", { key: 'd6dace620b51fda7afa4c518f4968745db1dca3d', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
     }
     getDateModifiers() {
         var _a;

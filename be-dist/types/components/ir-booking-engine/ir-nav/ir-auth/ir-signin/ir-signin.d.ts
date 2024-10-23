@@ -22,7 +22,7 @@ export declare class IrSignin {
     navigate: EventEmitter<TAuthNavigation>;
     signIn: EventEmitter<TSignInAuthTrigger>;
     private authService;
-    componentWillLoad(): void;
+    private token;
     modifySignInParams(params: Partial<TSignInValidator>): void;
     login(params: {
         email?: string;

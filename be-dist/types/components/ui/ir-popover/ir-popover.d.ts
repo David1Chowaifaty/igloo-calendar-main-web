@@ -10,6 +10,7 @@ export declare class IrPopover {
     stopListeningForOutsideClicks: boolean;
     showCloseButton: boolean;
     allowFlip: boolean;
+    outsideEvents: 'all' | 'none';
     isVisible: boolean;
     isMobile: boolean;
     previousIsMobile: boolean;
@@ -24,7 +25,8 @@ export declare class IrPopover {
     handleKeyboardPress: (e: KeyboardEvent) => void;
     handleResize(): void;
     initializePopover(): void;
-    toggleVisibility(): Promise<void>;
+    forceClose(): Promise<void>;
+    toggleVisibility(): Promise<CustomEvent<boolean>>;
     adjustPopoverPlacement(): void;
     handleOutsideClick: (event: MouseEvent) => void;
     disconnectedCallback(): void;

@@ -1,15 +1,11 @@
-import { MissingTokenError, Token } from "../../models/Token";
+import { MissingTokenError } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
 import axios from "axios";
 import { isBefore, parseISO } from "date-fns";
-export class PaymentService extends Token {
+export class PaymentService {
     async getExposedCancelationDueAmount(params) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount?Ticket=${token}`, Object.assign({}, params));
+        const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount`, Object.assign({}, params));
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -20,7 +16,7 @@ export class PaymentService extends Token {
         if (!token) {
             throw new MissingTokenError();
         }
-        const { data } = await axios.post(`/Generate_Payment_Caller?Ticket=${token}`, Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }));
+        const { data } = await axios.post(`/Generate_Payment_Caller`, Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }));
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -34,21 +30,14 @@ export class PaymentService extends Token {
         return res;
     }
     async RequestBookingCancelation(booking_nbr) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Request_Booking_Cancelation?Ticket=${token}`, { BOOK_NBR: booking_nbr });
+        const { data } = await axios.post(`/Request_Booking_Cancelation`, { BOOK_NBR: booking_nbr });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data['My_Result'];
     }
-    async GetExposedApplicablePolicies({ token, params, book_date, }) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Get_Exposed_Applicable_Policies?Ticket=${token}`, params);
+    async GetExposedApplicablePolicies({ params, book_date, }) {
+        const { data } = await axios.post(`/Get_Exposed_Applicable_Policies`, params);
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -86,7 +75,6 @@ export class PaymentService extends Token {
                     rate_plan_id: id,
                     room_type_id: roomTypeId,
                 },
-                token: app_store.app_data.token,
             });
             applicablePolicies = result.data;
         }
@@ -95,13 +83,8 @@ export class PaymentService extends Token {
     }
     async getBookingPrepaymentAmount(booking) {
         var _a, _b;
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
         const list = this.setUpBooking(booking);
         let requests = await Promise.all(list.map(l => this.GetExposedApplicablePolicies({
-            token,
             book_date: new Date(booking.booked_on.date),
             params: {
                 booking_nbr: l.booking_nbr,

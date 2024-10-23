@@ -1,43 +1,25 @@
 import axios from "axios";
-import { MissingTokenError, Token } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import localizedWords from "../../stores/localization.store";
-export class CommonService extends Token {
+export class CommonService {
     async getCurrencies() {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
         const { data } = await axios.post(`/Get_Exposed_Currencies`);
         app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
     async getExposedLanguages() {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
         const { data } = await axios.post(`/Get_Exposed_Languages`);
         app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
     async getCountries(language) {
-        try {
-            const token = this.getToken();
-            if (token) {
-                const { data } = await axios.post(`/Get_Exposed_Countries`, {
-                    language,
-                });
-                if (data.ExceptionMsg !== '') {
-                    throw new Error(data.ExceptionMsg);
-                }
-                return data.My_Result;
-            }
+        const { data } = await axios.post(`/Get_Exposed_Countries`, {
+            language,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
         }
-        catch (error) {
-            console.error(error);
-            throw new Error(error);
-        }
+        return data.My_Result;
     }
     async getUserDefaultCountry(params) {
         try {

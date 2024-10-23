@@ -1,6 +1,5 @@
-import { Token } from "../../models/Token";
 import axios from "axios";
-export class BookingListingService extends Token {
+export class BookingListingService {
     async getExposedGuestBookings(params) {
         const { data } = await axios.post(`/Get_Exposed_Guest_Bookings`, Object.assign(Object.assign({}, params), { extras: [
                 {

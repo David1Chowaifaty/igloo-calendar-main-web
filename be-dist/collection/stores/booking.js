@@ -11,6 +11,7 @@ const initialState = {
         to_date: null,
         adult_nbr: 0,
         child_nbr: 0,
+        infant_nbr: 0,
     },
     booking: null,
     fictus_booking_nbr: null,

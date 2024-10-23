@@ -21,7 +21,6 @@ export declare class IrBookingCancelation {
     }>;
     private alertDialog;
     private paymentService;
-    componentWillLoad(): void;
     setOverdueAmount(): Promise<void>;
     init(): Promise<void>;
     openDialog(): Promise<void>;

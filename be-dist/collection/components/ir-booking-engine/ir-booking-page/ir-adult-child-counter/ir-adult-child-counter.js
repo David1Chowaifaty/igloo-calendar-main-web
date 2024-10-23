@@ -1,22 +1,37 @@
 import localizedWords from "../../../../stores/localization.store";
+import { calculateInfantNumber } from "../../../../utils/utils";
 import { h, Fragment } from "@stencil/core";
 export class IrAdultChildCounter {
     constructor() {
         this.adultCount = 2;
         this.childrenCount = 0;
+        this.infant_nbr = 0;
+        this.error = undefined;
         this.minAdultCount = 0;
         this.minChildrenCount = 0;
         this.maxAdultCount = 10;
         this.maxChildrenCount = 10;
         this.childMaxAge = 0;
+        this.baseChildrenAges = [];
         this.isPopoverOpen = false;
+        this.childrenAges = [];
+    }
+    componentWillLoad() {
+        this.childrenAges = [...this.baseChildrenAges];
+    }
+    handleBaseChildrenAgesChange(newValue) {
+        this.childrenAges = [...newValue];
+    }
+    async open() {
+        if (this.isPopoverOpen) {
+            return;
+        }
+        this.popover.toggleVisibility();
     }
     addChildrenAndAdult() {
-        this.addAdultsAndChildren.emit({
-            adult_nbr: this.adultCount,
-            child_nbr: this.childrenCount,
-        });
-        this.popover.toggleVisibility();
+        this.error = false;
+        this.updateGuestInformation();
+        this.validateChildrenAges();
     }
     incrementAdultCount() {
         const newValue = this.adultCount + 1;
@@ -37,6 +52,7 @@ export class IrAdultChildCounter {
         if (newValue > this.maxChildrenCount) {
             return;
         }
+        this.childrenAges.push('');
         this.childrenCount = newValue;
     }
     decrementChildrenCount() {
@@ -44,24 +60,54 @@ export class IrAdultChildCounter {
         if (newValue < this.minChildrenCount) {
             return;
         }
+        this.childrenAges.pop();
         this.childrenCount = newValue;
-    }
-    guestTrigger() {
-        return (h("div", { class: "popover-trigger w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "user", svgClassName: "size-[1.125rem]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Guests), h("p", { class: 'guests' }, this.adultCount > 0 ? (h(Fragment, null, h("span", { class: 'lowercase' }, this.adultCount, " ", this.adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), this.childMaxAge > 0 && (h("span", { class: 'lowercase' }, ", ", this.childrenCount, " ", this.childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)))) : (h("span", { class: "" }, localizedWords.entries.Lcz_Select, "..."))))));
     }
     handlePopoverToggle(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.isPopoverOpen = e.detail;
         if (!this.isPopoverOpen) {
-            this.addAdultsAndChildren.emit({
-                adult_nbr: this.adultCount,
-                child_nbr: this.childrenCount,
-            });
+            if (this.childrenCount === 0) {
+                this.popover.forceClose();
+            }
+            else {
+                this.validateChildrenAges();
+            }
+            this.updateGuestInformation();
         }
     }
+    updateGuestInformation() {
+        const infant_nbr = calculateInfantNumber(this.childrenAges);
+        this.addAdultsAndChildren.emit({
+            adult_nbr: this.adultCount,
+            child_nbr: this.childrenCount,
+            infant_nbr,
+            childrenAges: this.childrenAges,
+        });
+    }
+    validateChildrenAges() {
+        if (this.childrenAges.some(c => c === '')) {
+            this.error = true;
+            return;
+        }
+        this.popover.forceClose();
+    }
+    guestTrigger() {
+        return (h("div", { class: "popover-trigger w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "user", svgClassName: "size-[1.125rem]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Guests), h("p", { class: 'guests' }, this.adultCount > 0 ? (h(Fragment, null, h("span", { class: 'lowercase' }, this.adultCount, " ", this.adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), this.childMaxAge > 0 && (h("span", { class: 'lowercase' }, ", ", this.childrenCount, " ", this.childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)))) : (h("span", { class: "" }, localizedWords.entries.Lcz_Select, "..."))))));
+    }
     render() {
-        return (h("ir-popover", { key: '120c01b23e8139c8442508f169f01c6f48b5ec93', ref: el => (this.popover = el), onOpenChange: this.handlePopoverToggle.bind(this) }, this.guestTrigger(), h("div", { key: '8a2583bb1df5eb137d1e4149aafab2b03a2d467c', class: "counter-container w-full border-0 p-4 pt-14 shadow-none sm:w-auto sm:border sm:pt-4 sm:shadow-sm", slot: "popover-content" }, h("div", { key: '517e7ca99e38c3e3bc5c8ec16c4b2632362818c4', class: "counter-item" }, h("div", { key: '2d4470844e32d9ae5b4075b1f3d9640e5b3d66e4' }, h("p", { key: '97227f13e20e47c7ba8683b61afca84b865b41fa', class: "main-text" }, localizedWords.entries.Lcz_Adults), h("p", { key: '119dbc22b2339f19761c671d85f9b733765fe1b1', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " ", this.childMaxAge + 1, "+")), h("div", { key: '0ad1a30503b4786ad9dee317f610a7d0049e7a6f', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '06f065df84b82f5771bfa8748f5d0053657dbf60', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '30d753340774d7c011b19b191093884b21d53b9d' }, this.adultCount), h("ir-button", { key: '9bc5a4f1b60d3b40ae151703f538d77aa70fab93', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: 'adf45b8b4f3535fe9267deb95ba293ca42e3070f', class: "counter-item" }, h("div", { key: 'ae8294ae8fc8aeb1a7174b5cc542da4162a0383c' }, h("p", { key: '99d6bc8e9c8275570438e9f768ee772d1c1d2a58', class: "main-text" }, localizedWords.entries.Lcz_Children), h("p", { key: '65cc3a9f7e34c92dc5e94b121ca5365aae89a7ab', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " 1-", this.childMaxAge)), h("div", { key: '8e3cc70885386fc7ddaff4464bade01b946f3e18', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '091cdf01955cafa1c00e992d3a6afbeed1562e00', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '235a64a049f4cf3d22062e011c9d89801e7031a5' }, this.childrenCount), h("ir-button", { key: '0b5d77b3b8621c3b6a4fe903406608a0806fc2c4', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), h("ir-button", { key: 'bae734b6a82ef3dee536c7c9ad6355b510fc6811', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
+        var _a;
+        console.log(this.childrenAges);
+        return (h("ir-popover", { key: '5dd2eb8097e329654cca78360f56d0b721a80d91', ref: el => (this.popover = el), outsideEvents: "none", onOpenChange: this.handlePopoverToggle.bind(this) }, this.guestTrigger(), h("div", { key: '7635a7ff4e34cd094ab21c67c14667b56d917d6d', class: "counter-container max-h-96 w-full overflow-y-auto border-0 p-4 pt-14 shadow-none sm:w-auto sm:border sm:pt-4 sm:shadow-sm", slot: "popover-content" }, h("div", { key: '16766c6560fde7cd1851a27848317808cf3404d5', class: "counter-item" }, h("div", { key: '0509b6c1c797fa7afdae3e769d1e068295220905' }, h("p", { key: 'b9f282c79a8a71d7eeaaf9379722217b5d5af3ea', class: "main-text" }, localizedWords.entries.Lcz_Adults), h("p", { key: 'ad4178fc85db1459cae6db1f8a44ddaffea13f4b', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " ", this.childMaxAge + 1, "+")), h("div", { key: '498307eedb4a04cc560158625ce6973479f823a8', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '1389fb9cb7a98dd49588de2d397d46067e006486', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '340665b4679816b96cf972b18fafe3279cec2acd', class: 'text-base' }, this.adultCount), h("ir-button", { key: '07144e8e2e11bfebf18f1551bca652e37a9326ab', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: 'ff556f85dd6a757c73a2712f45ff4520f6451197', class: "counter-item" }, h("div", { key: '2696e7270fb169c073c641fded692cc01f0a1839' }, h("p", { key: '85ce1bba7a1e0a5c152708cb8f3c8bd3dcb40075', class: "main-text" }, localizedWords.entries.Lcz_Children), h("p", { key: 'b2a69cf436754404f9ee5135cf3181d79b6b5781', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " 0-", this.childMaxAge)), h("div", { key: 'a4b378d78992c149f50477a8db6dbc58d1007837', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '8c87c72352aa349cd9a871dbe5e8ec68f871bd3a', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '94c63c7093600b4ecf5f2d6fd8a5184545a8bb20', class: 'text-base' }, this.childrenCount), h("ir-button", { key: 'd62cc20593b4a003c9e54c7282d75cd1d3de0dda', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
+            _a.map((v, i) => (h("div", null, h("ir-select", { addDummyOption: true, value: v, key: `child_${i}_age`, "data-state": this.error && v === '' ? 'error' : '', variant: "double-line", label: `Child ${i + 1} age`, onValueChange: e => {
+                    const prev = [...this.childrenAges];
+                    prev[i] = e.detail.toString();
+                    this.childrenAges = [...prev];
+                }, data: [...Array(this.maxChildrenCount)].map((_, index) => ({
+                    id: index.toString(),
+                    value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
+                })) }), this.error && v === '' && h("p", { class: 'text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: '531442d71322152ff04f30a5fc756b5b3cef328b', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
     }
     static get is() { return "ir-adult-child-counter"; }
     static get encapsulation() { return "shadow"; }
@@ -92,7 +138,7 @@ export class IrAdultChildCounter {
                     "text": ""
                 },
                 "attribute": "adult-count",
-                "reflect": true,
+                "reflect": false,
                 "defaultValue": "2"
             },
             "childrenCount": {
@@ -110,8 +156,43 @@ export class IrAdultChildCounter {
                     "text": ""
                 },
                 "attribute": "children-count",
-                "reflect": true,
+                "reflect": false,
                 "defaultValue": "0"
+            },
+            "infant_nbr": {
+                "type": "number",
+                "mutable": true,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "infant_nbr",
+                "reflect": false,
+                "defaultValue": "0"
+            },
+            "error": {
+                "type": "boolean",
+                "mutable": true,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "error",
+                "reflect": false
             },
             "minAdultCount": {
                 "type": "number",
@@ -202,12 +283,29 @@ export class IrAdultChildCounter {
                 "attribute": "child-max-age",
                 "reflect": false,
                 "defaultValue": "0"
+            },
+            "baseChildrenAges": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "string[]",
+                    "resolved": "string[]",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "defaultValue": "[]"
             }
         };
     }
     static get states() {
         return {
-            "isPopoverOpen": {}
+            "isPopoverOpen": {},
+            "childrenAges": {}
         };
     }
     static get events() {
@@ -222,10 +320,43 @@ export class IrAdultChildCounter {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ adult_nbr: number; child_nbr: number }",
-                    "resolved": "{ adult_nbr: number; child_nbr: number; }",
-                    "references": {}
+                    "original": "AddAdultsAndChildrenEvent",
+                    "resolved": "{ adult_nbr: number; child_nbr: number; infant_nbr: number; childrenAges: string[]; }",
+                    "references": {
+                        "AddAdultsAndChildrenEvent": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/work-rony/iglooroom/src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx",
+                            "id": "src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx::AddAdultsAndChildrenEvent"
+                        }
+                    }
                 }
+            }];
+    }
+    static get methods() {
+        return {
+            "open": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            }
+        };
+    }
+    static get watchers() {
+        return [{
+                "propName": "baseChildrenAges",
+                "methodName": "handleBaseChildrenAgesChange"
             }];
     }
 }

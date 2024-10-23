@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrSelect {
     label: string;
     icon: boolean;
+    addDummyOption: boolean;
     value: string | number;
     data: {
         id: string | number;

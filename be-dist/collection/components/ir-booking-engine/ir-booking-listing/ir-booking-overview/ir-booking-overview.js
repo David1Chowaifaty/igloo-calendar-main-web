@@ -16,7 +16,6 @@ export class IrBookingOverview {
         this.propertyService = new PropertyService();
         this.bookingListingAppService = new BookingListingAppService();
         this.paymentService = new PaymentService();
-        this.token = undefined;
         this.propertyid = undefined;
         this.language = undefined;
         this.maxPages = 10;
@@ -44,9 +43,6 @@ export class IrBookingOverview {
         this.initializeApp();
     }
     initializeServices() {
-        this.bookingListingService.setToken(this.token);
-        this.propertyService.setToken(this.token);
-        this.commonService.setToken(this.token);
         if (!this.showAllBookings) {
             this.page_mode = 'multi';
         }
@@ -312,23 +308,6 @@ export class IrBookingOverview {
     }
     static get properties() {
         return {
-            "token": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "token",
-                "reflect": false
-            },
             "propertyid": {
                 "type": "number",
                 "mutable": false,

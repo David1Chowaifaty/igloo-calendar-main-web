@@ -6,6 +6,7 @@ export declare class IrBookingPage {
     fromDate: string;
     toDate: string;
     adultCount: string;
+    ages: string;
     childrenCount: string;
     selectedLocale: Locale;
     property: IExposedProperty;

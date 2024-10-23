@@ -1,6 +1,6 @@
 import { a as app_store } from './app.store.js';
 import { l as localizedWords } from './localization.store.js';
-import { d as dateFns, u as formatAmount } from './utils.js';
+import { d as dateFns, w as formatAmount } from './utils.js';
 
 class BookingListingAppService {
     getBookingActions(booking) {

@@ -1,24 +1,36 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
+export type AddAdultsAndChildrenEvent = {
+    adult_nbr: number;
+    child_nbr: number;
+    infant_nbr: number;
+    childrenAges: string[];
+};
 export declare class IrAdultChildCounter {
     adultCount: number;
     childrenCount: number;
+    infant_nbr: number;
+    error: boolean;
     minAdultCount: number;
     minChildrenCount: number;
     maxAdultCount: number;
     maxChildrenCount: number;
     childMaxAge: number;
-    addAdultsAndChildren: EventEmitter<{
-        adult_nbr: number;
-        child_nbr: number;
-    }>;
+    baseChildrenAges: string[];
     isPopoverOpen: boolean;
+    childrenAges: string[];
+    addAdultsAndChildren: EventEmitter<AddAdultsAndChildrenEvent>;
     private popover;
-    addChildrenAndAdult(): void;
-    incrementAdultCount(): void;
-    decrementAdultCount(): void;
-    incrementChildrenCount(): void;
-    decrementChildrenCount(): void;
-    guestTrigger(): any;
-    handlePopoverToggle(e: CustomEvent): void;
+    componentWillLoad(): void;
+    handleBaseChildrenAgesChange(newValue: string[]): void;
+    open(): Promise<void>;
+    private addChildrenAndAdult;
+    private incrementAdultCount;
+    private decrementAdultCount;
+    private incrementChildrenCount;
+    private decrementChildrenCount;
+    private handlePopoverToggle;
+    private updateGuestInformation;
+    private validateChildrenAges;
+    private guestTrigger;
     render(): any;
 }

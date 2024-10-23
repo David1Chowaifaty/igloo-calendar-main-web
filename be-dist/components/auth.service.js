@@ -1,4 +1,3 @@
-import { T as Token, M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
 import { a as axios } from './axios.js';
 import { P as PropertyService } from './property.service.js';
@@ -17,9 +16,8 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
         }
     return t;
 };
-class AuthService extends Token {
+class AuthService {
     constructor() {
-        super(...arguments);
         this.subscribers = [];
     }
     // public onLoginCompleted(listener: (result: LoginEventPayload) => void) {
@@ -68,7 +66,6 @@ class AuthService extends Token {
         }
         console.count('auth called');
         const propertyService = new PropertyService();
-        propertyService.setToken(loginToken);
         propertyService.getExposedGuest();
         this.notifySubscribers({
             state: 'success',
@@ -78,11 +75,7 @@ class AuthService extends Token {
         return data['My_Result'];
     }
     async signUp(params) {
-        const token = this.getToken();
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Exposed_Guest_SignUp?Ticket=${token}`, params);
+        const { data } = await axios.post(`/Exposed_Guest_SignUp`, params);
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data['ExceptionMsg']);
         }

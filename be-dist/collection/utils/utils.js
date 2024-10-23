@@ -277,4 +277,12 @@ export function modifyQueryParam(param, value, options = { reload: false, replac
         history.pushState(null, '', url.toString());
     }
 }
+export function calculateInfantNumber(ages) {
+    return ages.reduce((prev, curr) => {
+        if (curr !== '' && Number(curr) < 3) {
+            return prev + 1;
+        }
+        return prev;
+    }, 0);
+}
 //# sourceMappingURL=utils.js.map

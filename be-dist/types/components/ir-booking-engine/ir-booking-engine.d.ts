@@ -1,10 +1,9 @@
 import { Locale } from 'date-fns';
-import { ICurrency, IExposedLanguages } from "../../models/commun";
 import { IExposedProperty } from "../../models/property";
 import { TSource } from "../../stores/app.store";
 import Stack from "../../models/stack";
+import { ICurrency, IExposedLanguages } from "../../models/commun";
 export declare class IrBookingEngine {
-    token: string;
     propertyId: number;
     injected: boolean;
     rt_id: number;
@@ -16,6 +15,7 @@ export declare class IrBookingEngine {
     language: string;
     adults: string;
     child: string;
+    ages: string;
     cur: string;
     aff: string;
     stag: string | null;
@@ -40,10 +40,10 @@ export declare class IrBookingEngine {
     private commonService;
     private propertyService;
     private availabiltyService;
+    private token;
     private identifier;
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
-    handleTokenChange(newValue: string, oldValue: string): void;
     handleSourceChange(newSource: TSource, oldSource: TSource): void;
     handleCurrencyChange(newValue: string, oldValue: string): void;
     handleCouponChange(newValue: string, oldValue: string): void;

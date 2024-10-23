@@ -6,9 +6,11 @@ import axios from "axios";
 import app_store from "../../stores/app.store";
 import { addDays, addYears, format } from "date-fns";
 import localizedWords from "../../stores/localization.store";
+import Token from "../../models/Token";
 export class IrBookingWidget {
     constructor() {
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.token = new Token();
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.position = 'fixed';
@@ -39,13 +41,12 @@ export class IrBookingWidget {
     }
     async componentWillLoad() {
         this.initApp();
-        this.token = await this.commonService.getBEToken();
+        const token = await this.commonService.getBEToken();
         app_store.userPreferences = {
             language_id: this.language,
             currency_id: 'usd',
         };
-        this.propertyService.setToken(this.token);
-        this.commonService.setToken(this.token);
+        this.token.setToken(token);
         this.initProperty();
     }
     componentDidLoad() {

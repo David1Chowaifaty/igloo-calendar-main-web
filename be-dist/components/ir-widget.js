@@ -4,6 +4,7 @@ import { C as CommonService } from './common.service.js';
 import { P as PropertyService } from './property.service.js';
 import { a as axios } from './axios.js';
 import { l as localizedWords } from './localization.store.js';
+import { T as Token } from './payment.service.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-range2.js';
 import { d as defineCustomElement$5 } from './ir-dialog2.js';
@@ -21,6 +22,7 @@ const IrBookingWidget = /*@__PURE__*/ proxyCustomElement(class IrBookingWidget e
         this.__registerHost();
         this.__attachShadow();
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.token = new Token();
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
         this.position = 'fixed';
@@ -51,13 +53,12 @@ const IrBookingWidget = /*@__PURE__*/ proxyCustomElement(class IrBookingWidget e
     }
     async componentWillLoad() {
         this.initApp();
-        this.token = await this.commonService.getBEToken();
+        const token = await this.commonService.getBEToken();
         app_store.userPreferences = {
             language_id: this.language,
             currency_id: 'usd',
         };
-        this.propertyService.setToken(this.token);
-        this.commonService.setToken(this.token);
+        this.token.setToken(token);
         this.initProperty();
     }
     componentDidLoad() {
