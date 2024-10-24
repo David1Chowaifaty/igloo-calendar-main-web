@@ -86,7 +86,11 @@ export class IrPopover {
         }
     }
     async forceClose() {
+        var _a;
         this.isVisible = false;
+        if (!this.isVisible) {
+            (_a = this.dialogElement) === null || _a === void 0 ? void 0 : _a.closeModal();
+        }
     }
     async toggleVisibility() {
         if (this.outsideEvents === 'none' && this.isVisible) {
@@ -168,18 +172,18 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: 'b1f5b75918d3a6133380356a8bcf5a9dc06ec8dd' }, this.isMobile && (h("div", { key: '567ab9513a139030cdde975286075dd5525ece7c', class: "w-full md:hidden" }, h("div", { key: '574d18683605429f6240245a83e3b7c8fba480f6', class: "w-full", onClick: () => {
+        return (h(Fragment, { key: 'f2e6c144dfb59ce5356a31d7a5047727d7d51895' }, this.isMobile && (h("div", { key: '8e9181f991db9515efe2106f8a9fa1d7595744b3', class: "w-full md:hidden" }, h("div", { key: '533001ebb2938a5bb443f57da68df29c33928455', class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
-            } }, h("slot", { key: '89dae5ce6c6ed48a92d54a14c47f3204a3cb0e72', name: "trigger" })), h("ir-dialog", { key: 'ccdce270913dbb5fc99c5714862949aad1b74bd2', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
+            } }, h("slot", { key: 'dbfe8b1fe32d98e00e95d74f7e5d693c5800a8cd', name: "trigger" })), h("ir-dialog", { key: '5aeb21e161c12d9bbee75993f40dec6da6275a1a', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isDialogOpen = e.detail;
                 this.openChange.emit(e.detail);
-            } }, h("div", { key: '86fb951a28eae2d2f7c6df90817f8b2a4835d8e5', slot: "modal-body" }, h("slot", { key: '6a00a28269cc1d42e77c5cfc0d14d382dd96e581', name: "popover-content" }))))), !this.isMobile && (h("div", { key: '6985703b50f4e92e541ae63ecdd2c74e2198462f', class: "hidden sm:block" }, h("div", { key: '6b4e565be39f62e2e7cbc74e7f82e11f24c64234', ref: el => (this.triggerElement = el), onClick: e => {
+            } }, h("div", { key: '87a90ed30ebbcf5be48f8ad367489d5ee8f08567', slot: "modal-body" }, h("slot", { key: 'd57876810f54dbb924f1e94853ee06b36688cfe0', name: "popover-content" }))))), !this.isMobile && (h("div", { key: 'eb7520ac28144275937f3f594f929abe5b3fd1c6', class: "hidden sm:block" }, h("div", { key: '7ea504a2f404b71c46a9f17375f6121de22a8d04', ref: el => (this.triggerElement = el), onClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.toggleVisibility();
-            } }, h("slot", { key: '20a6a59a02d8e75b2b33e398940d3ef6181e2462', name: "trigger" }, h("button", { key: 'fe6937be658e4e062bc8074b5b6973538ab6dfc0', class: "trigger" }, h("span", { key: 'ceaeb3f6849f0f3ab4c087dad8193dbd716d260b' }, this.trigger_label), h("svg", { key: '371f44e743be21b0f538ccfb80eb4607093cd4e9', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '48cc5dd35c40ff78b7ce29d12a02f9ab9b596bfc', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'ab49a7758cd4ab77dd140c6675dbfe8c9fec16e3', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: '703860e591dc84f09d5034de4cb977e92c4a79e6' }, h("slot", { key: 'bd09c9c8acc6a92b20d5dcda540977261485cc50', name: "popover-content" }))))))));
+            } }, h("slot", { key: '40bf9cf6e551e6e2c269c87550e6aac7acde49ba', name: "trigger" }, h("button", { key: 'cf02c5a73a4ad23ab6ec262ca560fa864ffe899e', class: "trigger" }, h("span", { key: 'b8baa64c8ec6c9cbbce2fbd8a1a09fdec626b0e4' }, this.trigger_label), h("svg", { key: '623da8ae7eec564cc52248ba53bd6635691f227d', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'cab1a5eed986a06d8319573b18758da0130f0755', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '6647f4f804ea38717adacccd7c8f3edf701d64ce', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: 'fe874b96d21ec70ff60d8485a7ebf58491f9d544' }, h("slot", { key: '7766eb1e7e1ed096002f1b0d840e34a33f0f1d36', name: "popover-content" }))))))));
     }
     static get is() { return "ir-popover"; }
     static get encapsulation() { return "shadow"; }

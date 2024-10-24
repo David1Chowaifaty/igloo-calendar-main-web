@@ -1,3 +1,5 @@
+import localizedWords from "../../stores/localization.store";
+import { calculateInfantNumber } from "../../utils/utils";
 import { h } from "@stencil/core";
 export class IrGuestCounter {
     constructor() {
@@ -8,8 +10,10 @@ export class IrGuestCounter {
         this.childMaxAge = 17;
         this.child = undefined;
         this.adults = undefined;
+        this.error = false;
         this.adultCount = this.minAdultCount;
         this.childrenCount = this.minChildrenCount;
+        this.childrenAges = [];
     }
     componentWillLoad() {
         this.adultCount = this.adults || this.minAdultCount;
@@ -28,32 +32,70 @@ export class IrGuestCounter {
     incrementAdultCount() {
         if (this.adultCount < this.maxAdultCount) {
             this.adultCount++;
-            this.updateCounts.emit({ adultCount: this.adultCount, childrenCount: this.childrenCount });
+            this.emitCountHandler();
         }
     }
     decrementAdultCount() {
         if (this.adultCount > this.minAdultCount) {
             this.adultCount--;
-            this.updateCounts.emit({ adultCount: this.adultCount, childrenCount: this.childrenCount });
+            this.emitCountHandler();
         }
     }
     incrementChildrenCount() {
         if (this.childrenCount < this.maxChildrenCount) {
+            const newValue = this.childrenCount + 1;
+            if (newValue > this.maxChildrenCount) {
+                return;
+            }
+            this.childrenAges.push('');
             this.childrenCount++;
-            this.updateCounts.emit({ adultCount: this.adultCount, childrenCount: this.childrenCount });
+            this.emitCountHandler();
         }
     }
     decrementChildrenCount() {
         if (this.childrenCount > this.minChildrenCount) {
+            const newValue = this.childrenCount - 1;
+            if (newValue < this.minChildrenCount) {
+                return;
+            }
+            this.childrenAges.pop();
             this.childrenCount--;
-            this.updateCounts.emit({ adultCount: this.adultCount, childrenCount: this.childrenCount });
+            this.emitCountHandler();
         }
     }
-    addChildrenAndAdult() {
+    validateChildrenAges() {
+        if (this.childrenAges.some(c => c === '')) {
+            this.error = true;
+            return;
+        }
         this.closeGuestCounter.emit(null);
+        // this.popover.forceClose();
+    }
+    emitCountHandler() {
+        const infant_nbr = calculateInfantNumber(this.childrenAges);
+        const config = {
+            adultCount: this.adultCount,
+            childrenCount: this.childrenCount,
+            infants: infant_nbr,
+            childrenAges: this.childrenAges,
+        };
+        this.updateCounts.emit(config);
+    }
+    addChildrenAndAdult() {
+        this.validateChildrenAges();
     }
     render() {
-        return (h("div", { key: '24c038f77bc9a0b086f9fe417530836f546ec4eb', class: "counter-container p-4" }, h("div", { key: '2b847b0325a85e951f6117c546a319e3f9b3b91b', class: "counter-item" }, h("div", { key: 'a37eb647cc8f75e1a51de4e13fae40a9fa7c87ff' }, h("p", { key: '95d5141f06576f3ba52bf5c2c23ff431c8493ba2', class: "main-text" }, "Adults"), h("p", { key: '24a49ae7c5d175431ba3dd7be1353f10820169b4', class: "secondary-text" }, "Ages ", this.childMaxAge + 1, "+")), h("div", { key: '3e35918e2a7ed95b7e6723c2bac9cf849294cacb', class: "counter-buttons-group" }, h("ir-button", { key: 'f0c73ed5e33f4ddc3c2455cd1204fbc8ed4f403f', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '1cc4d82fb1a97b9d043e31dd4b831ef49c46a087' }, this.adultCount), h("ir-button", { key: 'c22e3db491e0499c1efffe64c3e9fcccc028d14b', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: '3f9b10a0555fd40da5fa122a55b7ff45505b185a', class: "counter-item" }, h("div", { key: 'e57f05517571deba9a012e5a9b51c518ea2e2bf1' }, h("p", { key: '6c87ac4b6f214e9da60d9050574146eebb7d1a63', class: "main-text" }, "Children"), h("p", { key: '8470b3b3b1c85fba9cae78ee20c5a700f8c187e8', class: "secondary-text" }, "Ages 1-", this.childMaxAge)), h("div", { key: '3ec1ea1f15beeca2158f7c5afdc1d9fe16e06609', class: "counter-buttons-group" }, h("ir-button", { key: '17b8b2b7d41d37d495da7f056b7066115f74edd5', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '1deb7417a8e80a724a0a8c741ce43a3c357ec6b9' }, this.childrenCount), h("ir-button", { key: '98396499b7efa345dacc94fa593bf5afc032cd08', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), h("ir-button", { key: '320029cf7672267f54c834982d72a8ca29a2246d', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
+        var _a;
+        return (h("div", { key: '44d54a27b1eb6d66067b64f561a827245f9490e1', class: "counter-container p-4" }, h("div", { key: 'b86477055f78dd3e509e42394d4dca3ccabbf177', class: "counter-item" }, h("div", { key: 'f34ef680b60e7ada0c73f3b066083239cd31628c' }, h("p", { key: '650ce754f6bf7d6d658b7d8ad8c88f5acafbb732', class: "main-text" }, "Adults"), h("p", { key: 'bb1716a6c2935ad2b0d72027718928b120016d4f', class: "secondary-text" }, "Ages ", this.childMaxAge + 1, "+")), h("div", { key: 'bc791a3fee6205ff072bae4698ff5a3de0a510ac', class: "counter-buttons-group" }, h("ir-button", { key: '4ecd9d902f8228d241a83aa77682ecaf22f6be13', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'b5150db9b3383d8625f04f7b39cbccb481d05c43' }, this.adultCount), h("ir-button", { key: 'ce1a5343711f140d27808edd9e23918bb031dfb0', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: '52feb7f94a3358823b31fcec5f59488e697d451f', class: "counter-item" }, h("div", { key: '2e1e25021533af193b6f14992f678de593e2b59b' }, h("p", { key: '10b53703250a8606c4bfc0b3c1a2dbce9a47572b', class: "main-text" }, "Children"), h("p", { key: '07654127bcc8ed68ff2d4f2fb999faeb29daea44', class: "secondary-text" }, "Ages 0-", this.childMaxAge)), h("div", { key: '22001ced0074ad137eda58fe9bb9de155ac2c19f', class: "counter-buttons-group" }, h("ir-button", { key: 'f6b30abe45a7a115a096050a455cc7c339e4e2f7', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '2a88a5ed6524d288cd43dfa33a60cac5f9157373' }, this.childrenCount), h("ir-button", { key: '636499c38b51e7291d458fb875d1b961c7e81d5b', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
+            _a.map((v, i) => (h("div", null, h("ir-select", { addDummyOption: true, value: v, key: `child_${i}_age`, "data-state": this.error && v === '' ? 'error' : '', variant: "double-line", label: `Child ${i + 1} age`, onValueChange: e => {
+                    const prev = [...this.childrenAges];
+                    prev[i] = e.detail.toString();
+                    this.childrenAges = [...prev];
+                    this.emitCountHandler();
+                }, data: [...Array(this.childMaxAge)].map((_, index) => ({
+                    id: index.toString(),
+                    value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
+                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'f1f9aa719c3559b058660dccaa765bfed8001b40', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
             // label={localizedWords.entries.Lcz_Done}
             label: "Done", "aria-label": "Confirm selection" })));
     }
@@ -194,13 +236,32 @@ export class IrGuestCounter {
                 },
                 "attribute": "adults",
                 "reflect": false
+            },
+            "error": {
+                "type": "boolean",
+                "mutable": true,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "error",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }
     static get states() {
         return {
             "adultCount": {},
-            "childrenCount": {}
+            "childrenCount": {},
+            "childrenAges": {}
         };
     }
     static get events() {

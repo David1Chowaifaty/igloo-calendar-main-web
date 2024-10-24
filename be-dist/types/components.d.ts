@@ -276,6 +276,7 @@ export namespace Components {
         "adults": number;
         "child": number;
         "childMaxAge": number;
+        "error": boolean;
         "maxAdultCount": number;
         "maxChildrenCount": number;
         "minAdultCount": number;
@@ -2094,6 +2095,7 @@ declare namespace LocalJSX {
         "adults"?: number;
         "child"?: number;
         "childMaxAge"?: number;
+        "error"?: boolean;
         "maxAdultCount"?: number;
         "maxChildrenCount"?: number;
         "minAdultCount"?: number;
