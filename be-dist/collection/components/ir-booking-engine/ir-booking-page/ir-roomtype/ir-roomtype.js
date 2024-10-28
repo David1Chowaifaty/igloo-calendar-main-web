@@ -17,7 +17,7 @@ export class IrRoomtype {
                 bedding_setup: this.roomtype.bedding_setup,
             }, amenities: app_store.property.amenities })))), booking_store.enableBooking &&
             (this.roomtype.rateplans.every(r => r.is_closed) ||
-                this.roomtype.rateplans.every(ratePlan => !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.amount === 0 || v.amount === null)))) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? ((_a = this.roomtype.rateplans) === null || _a === void 0 ? void 0 : _a.map(ratePlan => {
+                this.roomtype.rateplans.every(ratePlan => { var _a; return !(this.roomtype.inventory > 0 && !((_a = ratePlan.variations) === null || _a === void 0 ? void 0 : _a.some(v => v.amount === 0 || v.amount === null))); })) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? ((_a = this.roomtype.rateplans) === null || _a === void 0 ? void 0 : _a.map(ratePlan => {
             if (!ratePlan.is_active ||
                 ratePlan.is_closed ||
                 // !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))) ||
