@@ -20,14 +20,7 @@ export declare class PropertyService {
         aname: string;
         perma_link: string;
     }): Promise<any>;
-    getExposedBookingAvailability(props: {
-        params: TExposedBookingAvailability;
-        identifier: string;
-        rp_id?: number;
-        rt_id?: number;
-        mode: 'modify_rt' | 'default';
-        adultChildConstraint?: string;
-    }): Promise<DataStructure>;
+    getExposedBookingAvailability(props: TExposedBookingAvailability): Promise<DataStructure>;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;

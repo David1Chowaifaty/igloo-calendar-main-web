@@ -8,6 +8,7 @@ export class IrRoomtype {
         this.roomtype = undefined;
     }
     render() {
+        var _a;
         return (h("section", { key: '66135d0bddf074f30bcf87e0eb7364c4631870b1', class: `room-type-container p-0 ${this.display === 'default' ? 'md:p-4' : 'h-full'}` }, this.display === 'default' && (h("aside", { key: '5bd6dfa2f8208761ba821b88fae9a5bfe7e59f47', class: "hidden md:block" }, h("ir-property-gallery", { key: '0a7abe3e049935f4510a7f5a9545b80dc1fb5404', property_state: "carousel", roomType: this.roomtype }))), h("div", { key: '1296be22513b8bc7c8084266b5a8306a2eb5b86a', class: `w-full  ${this.display === 'default' ? 'md:space-y-2' : 'rp-container-grid '}` }, this.display === 'default' && h("h3", { key: '6ad7b42a42e46fcff38352a7f84a92742024bc33', class: "hidden text-start  text-lg font-medium text-slate-900 md:block " }, this.roomtype.name), h("div", { key: '734213dc7da4e2c70c42c0b46035c02f0fc9d736', class: this.display === 'default' ? 'md:hidden' : '' }, h("ir-property-gallery", { key: 'fb8cc4dead0f002a3aa40747ad186ee393aed9b7', display: this.display, property_state: "carousel", roomType: this.roomtype })), h("div", { key: '61fdf951f01213af7f9084b4b276df04754248a1', class: `p-4 pt-2 ${this.display === 'default' ? 'md:p-0' : 'rp-container-grid '}` }, h("div", { key: 'b39046f9c0524f086fbea1db0fb020364ccb7b19' }, h("h3", { key: '3a9670228b248e60a7f1e3b917542a0c280013a5', class: `text-start  text-lg font-medium text-slate-900 ${this.display === 'default' ? 'md:hidden' : ''} ` }, this.roomtype.name), h("div", { key: '1526bf774d29e2db106a6b21377c341db96ff4ff', class: `flex  flex-wrap  gap-2 py-2 text-sm font-normal text-gray-700 ${this.display === 'default' ? 'md:hidden' : '  '}` }, h("ir-accomodations", { key: '14563fa07860003d60309fad905964bcc140c5a5', bookingAttributes: {
                 max_occupancy: this.roomtype.occupancy_max.adult_nbr,
                 bedding_setup: this.roomtype.bedding_setup,
@@ -16,10 +17,10 @@ export class IrRoomtype {
                 bedding_setup: this.roomtype.bedding_setup,
             }, amenities: app_store.property.amenities })))), booking_store.enableBooking &&
             (this.roomtype.rateplans.every(r => r.is_closed) ||
-                this.roomtype.rateplans.every(ratePlan => !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))))) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? (this.roomtype.rateplans.map(ratePlan => {
+                this.roomtype.rateplans.every(ratePlan => !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.amount === 0 || v.amount === null)))) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? ((_a = this.roomtype.rateplans) === null || _a === void 0 ? void 0 : _a.map(ratePlan => {
             if (!ratePlan.is_active ||
                 ratePlan.is_closed ||
-                !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))) ||
+                // !(this.roomtype.inventory > 0 && !ratePlan.variations.some(v => v.is_calculated && (v.amount === 0 || v.amount === null))) ||
                 !ratePlan.is_booking_engine_enabled ||
                 !ratePlan.variations) {
                 return null;

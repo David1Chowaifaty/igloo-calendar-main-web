@@ -298,6 +298,7 @@ export interface Housekeeper {
 }
 export interface RatePlan {
     assignable_units: Assignableunit[];
+    applicable_policies: ApplicablePolicy[] | null;
     cancelation: string;
     custom_text?: any;
     guarantee: string;
@@ -316,6 +317,23 @@ export interface RatePlan {
     short_name: string;
     pre_payment_amount: number;
     pre_payment_amount_gross: number;
+}
+export interface ApplicablePolicy {
+    brackets: Bracket[];
+    combined_statement: string;
+    type: ApplicablePolicyType;
+}
+export type ApplicablePolicyType = 'cancelation' | 'guarantee';
+export interface Bracket {
+    amount: number;
+    amount_formatted: string;
+    code: string;
+    currency_id: number;
+    due_on: string;
+    due_on_formatted: string;
+    gross_amount: number;
+    gross_amount_formatted: number;
+    statement: string;
 }
 export interface Variation {
     adult_child_offering: string;

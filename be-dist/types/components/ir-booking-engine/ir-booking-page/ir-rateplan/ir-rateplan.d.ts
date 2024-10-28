@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { RatePlan } from "../../../../models/property";
+import { RatePlan, Variation } from "../../../../models/property";
 import { IRatePlanSelection } from "../../../../stores/booking";
 export declare class IrRateplan {
     display: 'grid' | 'default';
@@ -15,8 +15,6 @@ export declare class IrRateplan {
     cancelationMessage: string;
     isRatePlanAvailable: boolean;
     animateBookingButton: EventEmitter<null>;
-    private propertyService;
-    private availabilityService;
     private paymentService;
     componentWillLoad(): void;
     handleRTICHange(newValue: number, oldValue: number): any;
@@ -25,4 +23,5 @@ export declare class IrRateplan {
     private updateVariation;
     private fetchCancelationMessage;
     render(): any;
+    formatVariation(v: Variation): any;
 }

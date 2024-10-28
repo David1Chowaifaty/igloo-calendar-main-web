@@ -6,7 +6,6 @@ export declare class IrBookingDetails {
     cancelationMessage: string;
     private dialogRef;
     private firstRoom;
-    private propertyService;
     private paymentService;
     componentWillLoad(): void;
     modifyBookings(): void;
@@ -21,8 +20,9 @@ export declare class IrBookingDetails {
         rt_id: number;
         rp_id: number;
         adultChildConstraint: string;
-    }): Promise<any>;
+    }): Promise<void>;
     handleBedConfiguration(roomTypeId: string, rateplanId: string, detail: string | number, index: number): void;
+    private formatVariation;
     handleSmokeConfiguration(roomTypeId: string, rateplanId: string, detail: string | number, index: number): void;
     fetchCancelationMessage(id: number, roomTypeId: number): Promise<void>;
     renderSmokingView(smoking_option: ISmokingOption, index: number, ratePlanId: string, roomTypeId: string, checkoutSmokingSelection: string[]): any;

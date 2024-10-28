@@ -17,34 +17,7 @@ const initialState = {
     fictus_booking_nbr: null,
 };
 export const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
-function setSelectedVariation(lastVariation, variations, currentVariation) {
-    if ((currentVariation === null || currentVariation === void 0 ? void 0 : currentVariation.state) === 'default' || !currentVariation || booking_store.resetBooking) {
-        if (lastVariation.amount > 0) {
-            return { state: 'default', variation: lastVariation };
-        }
-        return { state: 'default', variation: variations[0] };
-    }
-    const currentVariationIdx = variations.findIndex(v => { var _a; return (v === null || v === void 0 ? void 0 : v.adult_child_offering) === ((_a = currentVariation.variation) === null || _a === void 0 ? void 0 : _a.adult_child_offering); });
-    if (currentVariationIdx === -1) {
-        const variationWithAmount = variations.find(v => v.amount > 0);
-        return { state: 'default', variation: variationWithAmount !== null && variationWithAmount !== void 0 ? variationWithAmount : lastVariation };
-    }
-    return currentVariation;
-}
-// function setSelectedVariation(lastVariation: Variation, variations: Variation[], currentVariation: ISelectedVariation): ISelectedVariation {
-//   if (currentVariation?.state === 'default' || !currentVariation || booking_store.resetBooking) {
-//     const variationWithAmount = variations.find(v => v.amount > 0);
-//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
-//   }
-//   const currentVariationIdx = variations.findIndex(v => v.adult_child_offering === currentVariation.variation.adult_child_offering);
-//   if (currentVariationIdx === -1) {
-//     const variationWithAmount = variations.find(v => v.amount > 0);
-//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
-//   }
-//   return currentVariation;
-// }
 onRoomTypeChange('roomTypes', (newValue) => {
-    // console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
     newValue.forEach(roomType => {
@@ -52,7 +25,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
             return;
         ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
         roomType.rateplans.forEach(ratePlan => {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             if (!ratePlan.is_active || !((_a = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations) === null || _a === void 0 ? void 0 : _a.length))
                 return;
             let lastVariation = ratePlan.variations[ratePlan.variations.length - 1];
@@ -60,10 +33,10 @@ onRoomTypeChange('roomTypes', (newValue) => {
             const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
-                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
+                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: ratePlan.selected_variation, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
-                    selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation),
+                    selected_variation: (_d = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _d !== void 0 ? _d : null,
                     ratePlan,
                     guestName: [],
                     is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
@@ -74,7 +47,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    // console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -154,18 +126,17 @@ export function calculateTotalCost(gross = false) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b;
+        var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
             if (isPrePayment) {
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
             return ratePlan.checkoutVariations.reduce((sum, variation) => {
-                console.log(gross, variation['amount_gross'], variation['amount'], variation);
                 return sum + Number(variation[gross ? 'amount_gross' : 'amount']);
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? 'amount_gross' : 'amount'];
+            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : ratePlan.selected_variation[gross ? 'amount_gross' : 'amount'];
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;

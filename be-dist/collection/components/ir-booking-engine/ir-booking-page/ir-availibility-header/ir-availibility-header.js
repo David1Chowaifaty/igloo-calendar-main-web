@@ -6,8 +6,6 @@ import { onAppDataChange } from "../../../../stores/app.store";
 import { PropertyService } from "../../../../services/api/property.service";
 import app_store from "../../../../stores/app.store";
 import booking_store from "../../../../stores/booking";
-import { v4 } from "uuid";
-import { AvailabiltyService } from "../../../../services/app/availability.service";
 import localizedWords from "../../../../stores/localization.store";
 import { QueryStringValidator } from "../../../../validators/querystring.validator";
 import { calculateInfantNumber, modifyQueryParam } from "../../../../utils/utils";
@@ -16,7 +14,6 @@ export class IrAvailibilityHeader {
         this.errorCause = null;
         this.popoverInstance = null;
         this.propertyService = new PropertyService();
-        this.availabiltyService = new AvailabiltyService();
         this.validator = new QueryStringValidator();
         this.fromDate = undefined;
         this.toDate = undefined;
@@ -42,7 +39,6 @@ export class IrAvailibilityHeader {
     }
     componentWillLoad() {
         const { property_id } = app_store.app_data;
-        this.availabiltyService.subscribe(() => this.disableLoading());
         const validatedFromDate = this.validator.validateCheckin(this.fromDate);
         this.exposedBookingAvailabiltyParams = Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { adult_nbr: this.setDefaultAdultCount(), child_nbr: this.setDefaultChildCount(), from_date: validatedFromDate ? this.fromDate : null, to_date: this.validator.validateCheckout(this.toDate, validatedFromDate) ? this.toDate : null });
         this.childrenAges = [...Array(this.exposedBookingAvailabiltyParams.child_nbr)].fill('');
@@ -55,7 +51,6 @@ export class IrAvailibilityHeader {
             this.exposedBookingAvailabiltyParams.adult_nbr = booking_store.bookingAvailabilityParams.adult_nbr;
             this.exposedBookingAvailabiltyParams.child_nbr = booking_store.bookingAvailabilityParams.child_nbr;
         }
-        console.log(this.validator.getErrors());
         this.changeExposedAvailabilityParams({
             propertyid: property_id,
             language: app_store.userPreferences.language_id,
@@ -169,11 +164,6 @@ export class IrAvailibilityHeader {
         const childCountNumber = Number(this.childrenCount);
         return childCountNumber > app_store.property.adult_child_constraints.child_max_nbr ? app_store.property.adult_child_constraints.child_max_nbr : childCountNumber;
     }
-    disableLoading() {
-        if (this.isLoading) {
-            this.isLoading = false;
-        }
-    }
     recheckAvailability() {
         if (!this.fromDate || !this.toDate || !this.adultCount) {
             return;
@@ -231,16 +221,9 @@ export class IrAvailibilityHeader {
             this.errorCause.push('adult_child');
             return;
         }
-        this.identifier = v4();
-        this.availabiltyService.initSocket(this.identifier);
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr - params.infant_nbr, infant_nbr: params.infant_nbr });
         this.scrollToRoomType.emit(null);
-        await this.propertyService.getExposedBookingAvailability({
-            params: Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { child_nbr: this.exposedBookingAvailabiltyParams.child_nbr - this.exposedBookingAvailabiltyParams.infant_nbr, promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: booking_store.bookingAvailabilityParams.agent || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon, is_in_affiliate_mode: !!app_store.app_data.affiliate, affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null }),
-            identifier: this.identifier,
-            mode: 'default',
-        });
-        app_store.fetchedBooking = true;
+        await this.propertyService.getExposedBookingAvailability(Object.assign(Object.assign({}, this.exposedBookingAvailabiltyParams), { child_nbr: this.exposedBookingAvailabiltyParams.child_nbr - this.exposedBookingAvailabiltyParams.infant_nbr, promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: booking_store.bookingAvailabilityParams.agent || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon, is_in_affiliate_mode: !!app_store.app_data.affiliate, affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null }));
     }
     async handleCheckAvailability() {
         try {
@@ -296,8 +279,6 @@ export class IrAvailibilityHeader {
         if (this.toast_timeout) {
             clearTimeout(this.toast_timeout);
         }
-        this.availabiltyService.unsubscribe(() => this.disableLoading());
-        this.availabiltyService.disconnectSocket();
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
@@ -305,18 +286,18 @@ export class IrAvailibilityHeader {
         const show_loyalty = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.promotions) === null || _b === void 0 ? void 0 : _b.some(p => p.is_loyalty);
         const show_coupon = (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) === null || _d === void 0 ? void 0 : _d.some(p => p.is_loyalty);
         const showPromotions = ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (show_coupon || show_loyalty);
-        return (h("div", { key: 'c73b01a55e866a6153b8ef4dbc2255789a400a7f', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '3e5e5a21c6124684bcb35d80948ce9ebdd5d3850', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: '68dea4b123f4dc1f46272fb956a04793a625408f', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: '51f27609ed67cf49acfcbda007e553949ac7a2d7', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '44df70a4ab89db94e6a155ad8f55431b6a27b14f', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'fce8a6c76ce17ef9a7d75dfe293e5a54804c9e32', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_g = this.exposedBookingAvailabiltyParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date(this.exposedBookingAvailabiltyParams.from_date) : null,
                 end: ((_h = this.exposedBookingAvailabiltyParams) === null || _h === void 0 ? void 0 : _h.to_date) ? new Date(this.exposedBookingAvailabiltyParams.to_date) : null,
-            }, class: "date-popup" }), h("ir-adult-child-counter", { key: '400aed3931e84de52f62b4bdd7ccb99b3ad2b749', infant_nbr: this.exposedBookingAvailabiltyParams.infant_nbr, error: !!((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')), "data-state": ((_k = this.errorCause) === null || _k === void 0 ? void 0 : _k.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: this.childrenAges }), h("div", { key: 'be068e0914d6160e4d520f90a3bdebf993fd518e', class: 'hidden sm:block' }, h("ir-button", { key: '926ec2ffd81c4996541fcbba2a36c547eaa0d48b', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("ir-adult-child-counter", { key: 'f83afeb005f14725f99ce31003e4052f24187d7f', infant_nbr: this.exposedBookingAvailabiltyParams.infant_nbr, error: !!((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')), "data-state": ((_k = this.errorCause) === null || _k === void 0 ? void 0 : _k.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabiltyParams.adult_nbr, childrenCount: this.exposedBookingAvailabiltyParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: this.childrenAges }), h("div", { key: '9da4a4a8805c737edc6f6db7a29af90f46649f35', class: 'hidden sm:block' }, h("ir-button", { key: 'fa00fc9cf20fb1bb04ef75c0fdaae5a56f97f65e', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '28da2e7778efd2f24be2c1ed6fa2b06636059329', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '481bc0d60fdd80fca1a8a3d04fe604d89187b5d6', isLoading: this.isLoading, onButtonClick: e => {
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '13b234656aa4112bc45b692781cf912f1393a5c7', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: 'f8f90ebf1af19699cdf2d40af849375e76406d61', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_l = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _l === void 0 ? void 0 : _l.promotions) && (h("div", { key: 'a10752ec19dc43e2575aac3671f12cc76739cb45', class: "promotions-container" }, h("ir-coupon-dialog", { key: '57d61b037ec48e852bd51cd7dd82cb7af5173641', class: "coupon-dialog" }), h("ir-loyalty", { key: 'ea46a66dee1df7db3213283fd7051d74946fda8b', class: "loyalty" })))));
+            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_l = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _l === void 0 ? void 0 : _l.promotions) && (h("div", { key: '945b950a6d475e596b7d1f32b6b4cc705d5d015a', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'a3c33abb081271b716ab502130d601d0a1efd486', class: "coupon-dialog" }), h("ir-loyalty", { key: '21320827baf589f7ef7b2670242997e48d218b38', class: "loyalty" })))));
     }
     static get is() { return "ir-availibility-header"; }
     static get encapsulation() { return "shadow"; }

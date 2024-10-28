@@ -16,10 +16,8 @@ export declare class IrAvailibilityHeader {
     private errorCause;
     private popoverInstance;
     private toast_timeout;
-    private identifier;
     private personCounter;
     private propertyService;
-    private availabiltyService;
     private validator;
     componentWillLoad(): void;
     handleAgesChange(newValue: string, oldValue: string): void;
@@ -31,7 +29,6 @@ export declare class IrAvailibilityHeader {
     handleAdultChildChange(e: CustomEvent<AddAdultsAndChildrenEvent>): void;
     private setDefaultAdultCount;
     private setDefaultChildCount;
-    private disableLoading;
     private recheckAvailability;
     private proccessAges;
     private checkAvailability;

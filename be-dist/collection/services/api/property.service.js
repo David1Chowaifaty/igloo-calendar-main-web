@@ -36,22 +36,6 @@ export class PropertyService {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
-        // } else {
-        //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
-        //   booking_store.roomTypes = result.My_Result.roomtypes?.map(rt => {
-        //     const selectedRt = oldBookingStoreRoomTypes.find(r => r.id === rt.id);
-        //     return {
-        //       ...rt,
-        //       rateplans: rt.rateplans.map(rp => {
-        //         const currentRp = selectedRt.rateplans.find(s => s.id === rp.id);
-        //         if (currentRp) {
-        //           return { ...currentRp, short_name: rp.short_name };
-        //         }
-        //         return null;
-        //       }),
-        //     };
-        //   });
-        // }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -60,7 +44,6 @@ export class PropertyService {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
-            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -78,11 +61,10 @@ export class PropertyService {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
-        this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data, props);
+        this.propertyHelpers.updateBookingStore(data);
         return data;
     }
     async getExposedBooking(params, withExtras = true) {

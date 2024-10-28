@@ -28,38 +28,32 @@ export class IrCheckoutPage {
     async calculateTotalPrepaymentAmount() {
         try {
             this.isLoading = true;
-            let list = [];
-            Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
-                return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
-                    const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
-                    if (r.reserved === 0) {
-                        return null;
-                    }
-                    list.push({ booking_nbr: booking_store.fictus_booking_nbr.nbr, ratePlanId: r.ratePlan.id, roomTypeId: r.roomtype.id });
-                });
-            });
-            let requests = await Promise.all(list.map(l => this.paymentService.GetExposedApplicablePolicies({
-                book_date: new Date(),
-                params: {
-                    booking_nbr: l.booking_nbr,
-                    currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
-                    language: app_store.userPreferences.language_id,
-                    rate_plan_id: l.ratePlanId,
-                    room_type_id: l.roomTypeId,
-                    property_id: app_store.property.id,
-                },
-            })));
-            this.prepaymentAmount = requests.reduce((prev, curr) => {
-                let total = 1;
-                const roomtype = booking_store.ratePlanSelections[curr.room_type_id];
-                if (roomtype) {
-                    const ratePlan = roomtype[curr.rate_plan_id];
-                    if (ratePlan) {
-                        total = ratePlan.reserved;
-                    }
-                }
-                return (prev + curr.amount) * total;
-            }, 0);
+            // let requests = await Promise.all(
+            //   list.map(l =>
+            //     this.paymentService.GetExposedApplicablePolicies({
+            //       book_date: new Date(),
+            //       params: {
+            //         booking_nbr: l.booking_nbr,
+            //         currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+            //         language: app_store.userPreferences.language_id,
+            //         rate_plan_id: l.ratePlanId,
+            //         room_type_id: l.roomTypeId,
+            //         property_id: app_store.property.id,
+            //       },
+            //     }),
+            //   ),
+            // );
+            // this.prepaymentAmount = requests.reduce((prev, curr) => {
+            //   let total = 1;
+            //   const roomtype = booking_store.ratePlanSelections[curr.room_type_id];
+            //   if (roomtype) {
+            //     const ratePlan = roomtype[curr.rate_plan_id];
+            //     if (ratePlan) {
+            //       total = ratePlan.reserved;
+            //     }
+            //   }
+            //   return (prev + curr.amount) * total;
+            // }, 0);
             // this.prepaymentAmount = 0;
             checkout_store.prepaymentAmount = this.prepaymentAmount;
         }

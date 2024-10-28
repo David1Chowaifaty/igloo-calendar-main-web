@@ -56,6 +56,11 @@ export class PaymentService {
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
     }
+    getCancelationMessage(applicablePolicies, showCancelation = false) {
+        var _a;
+        const message = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
+        return { message: message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>', data: applicablePolicies };
+    }
     async fetchCancelationMessage(params) {
         var _a, _b;
         let applicablePolicies;

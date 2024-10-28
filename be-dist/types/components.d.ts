@@ -448,10 +448,10 @@ export namespace Components {
         "roomTypeInventory": number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-        reserved: number;
-        visibleInventory?: number;
-        selected_variation: any;
-      };
+      reserved: number;
+      visibleInventory?: number;
+      selected_variation: any;
+    };
     }
     interface IrRoomTypeAmenities {
         "aminities": Amenity[];
@@ -2290,10 +2290,10 @@ declare namespace LocalJSX {
         "roomTypeInventory"?: number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-        reserved: number;
-        visibleInventory?: number;
-        selected_variation: any;
-      };
+      reserved: number;
+      visibleInventory?: number;
+      selected_variation: any;
+    };
     }
     interface IrRoomTypeAmenities {
         "aminities"?: Amenity[];

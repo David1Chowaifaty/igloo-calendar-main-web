@@ -1,44 +1,7 @@
-import { a as axios } from './axios.js';
+import { M as MissingTokenError } from './Token.js';
 import { a as app_store } from './app.store.js';
 import { d as dateFns, b as booking_store } from './utils.js';
-import './index5.js';
-
-class Token {
-    constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        axios.defaults.baseURL = this.baseUrl;
-    }
-    initialize() {
-        if (Token.isInterceptorAdded) {
-            return;
-        }
-        axios.interceptors.request.use(config => {
-            if (!Token.token) {
-                throw new MissingTokenError();
-            }
-            config.headers.Authorization = Token.token;
-            // config.params = config.params || {};
-            // config.params.Ticket = Token.token;
-            return config;
-        });
-        Token.isInterceptorAdded = true;
-    }
-    setToken(token) {
-        if (token === Token.token) {
-            return;
-        }
-        Token.token = token;
-        this.initialize();
-    }
-}
-Token.token = '';
-Token.isInterceptorAdded = false;
-class MissingTokenError extends Error {
-    constructor(message = 'Missing token!!') {
-        super(message);
-        this.name = 'MissingTokenError';
-    }
-}
+import { a as axios } from './axios.js';
 
 class PaymentService {
     async getExposedCancelationDueAmount(params) {
@@ -92,6 +55,11 @@ class PaymentService {
             return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount, isInFreeCancelationZone };
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
+    }
+    getCancelationMessage(applicablePolicies, showCancelation = false) {
+        var _a;
+        const message = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
+        return { message: message ? `${showCancelation ? '<b><u>Cancellation: </u></b>' : ''}${message}<br/>` : '<span></span>', data: applicablePolicies };
     }
     async fetchCancelationMessage(params) {
         var _a, _b;
@@ -163,6 +131,6 @@ class PaymentService {
     }
 }
 
-export { PaymentService as P, Token as T };
+export { PaymentService as P };
 
 //# sourceMappingURL=payment.service.js.map
