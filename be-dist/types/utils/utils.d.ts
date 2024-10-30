@@ -30,7 +30,7 @@ export declare function validateAgentCode(code: string): boolean;
 export declare function renderPropertyLocation(): string;
 export declare function destroyBookingCookie(): void;
 export declare function checkGhs(source_code: string, stag: string): boolean;
-export declare function detectCardType(value: string): "" | "VISA" | "Mastercard" | "AMEX";
+export declare function detectCardType(value: string): "" | "AMEX" | "VISA" | "Mastercard";
 type ModifyQueryOptions = {
     reload?: boolean;
     replaceState?: boolean;

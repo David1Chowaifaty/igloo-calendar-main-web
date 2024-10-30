@@ -7,7 +7,7 @@ export declare class IrRateplan {
     visibleInventory?: IRatePlanSelection | {
         reserved: number;
         visibleInventory?: number;
-        selected_variation: any;
+        selected_variation: Variation;
     };
     roomTypeInventory: number;
     roomTypeId: number;
@@ -20,7 +20,6 @@ export declare class IrRateplan {
     handleRTICHange(newValue: number, oldValue: number): any;
     private checkAvailability;
     private handleVariationChange;
-    private updateVariation;
     private fetchCancelationMessage;
     render(): any;
     formatVariation(v: Variation): any;

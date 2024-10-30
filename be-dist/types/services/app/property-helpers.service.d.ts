@@ -15,4 +15,5 @@ export declare class PropertyHelpers {
     };
     fetchAvailabilityData(props: any, roomtypeIds: number[], rateplanIds: number[]): Promise<any>;
     private sortRoomTypes;
+    private sortVariations;
 }

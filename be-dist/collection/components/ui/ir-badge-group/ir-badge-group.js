@@ -8,15 +8,15 @@ export class IrBadgeGroup {
         this.messagePosition = 'default';
     }
     render() {
-        return (h("div", { key: '80fe5d9d2ee7879fff686bddb16cbb90c8461a13', class: `badge-group ${this.variant} position-${this.messagePosition} ${this.clickable ? 'clickable' : ''}`, onClick: e => {
+        return (h("div", { key: '014e59a6975aeaf40b031b4cb7aa1f34800865dc', class: `badge-group ${this.variant} position-${this.messagePosition} ${this.clickable ? 'clickable' : ''}`, onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }
-            } }, h("p", { key: 'c14af90c9e7564b30fde97f4e26bebbe0ab5b234', class: "badge" }, this.badge), h("p", { key: 'ef67a16ce23c117155c1a5fc252d8dc54db75a49', class: "message" }, this.message), this.clickable && (h("button", { key: 'cd33f5f97c0aa38b01216bf53786f1379400fec0', onClick: e => {
+            } }, h("p", { key: 'f070963134ded368a3612aea76a1bc1c32eee248', class: "badge" }, this.badge), h("p", { key: 'd2259a31a15f212b35b361f0c0b929a3f75ed708', class: "message" }, this.message), this.clickable && (h("button", { key: 'df4c7c37a7ed73e18e5b6d72236d95a424f7e817', onClick: e => {
                 if (this.clickable) {
                     this.badgeClick.emit(e);
                 }
-            } }, h("ir-icons", { key: 'ede09187c37979917ccb31c871e6f2ba420705ea', name: "arrow_right" })))));
+            } }, h("ir-icons", { key: '4d2bb0283ba0a49bac75f7d671c1cadf3a5dec41', name: "arrow_right" })))));
     }
     static get is() { return "ir-badge-group"; }
     static get encapsulation() { return "shadow"; }

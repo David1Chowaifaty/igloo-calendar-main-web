@@ -55,6 +55,17 @@ export class IrCheckoutPage {
             //   return (prev + curr.amount) * total;
             // }, 0);
             // this.prepaymentAmount = 0;
+            // let total = 0;
+            // for (const roomtypeId in booking_store.ratePlanSelections) {
+            //   for (const rateplanId in booking_store.ratePlanSelections[roomtypeId]) {
+            //     const rateplan = booking_store.ratePlanSelections[roomtypeId][rateplanId];
+            //     if (rateplan.reserved >= 1) {
+            //       total += rateplan.reserved * this.paymentService.processAlicablePolicies(rateplan.selected_variation.applicable_policies, new Date())?.amount;
+            //     }
+            //   }
+            // }
+            // this.prepaymentAmount = total;
+            console.log(booking_store.ratePlanSelections);
             checkout_store.prepaymentAmount = this.prepaymentAmount;
         }
         catch (error) {
@@ -63,6 +74,9 @@ export class IrCheckoutPage {
         finally {
             this.isLoading = false;
         }
+    }
+    handlePrepaymentAmountChange(e) {
+        this.prepaymentAmount = e.detail;
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -306,6 +320,12 @@ export class IrCheckoutPage {
     }
     static get listeners() {
         return [{
+                "name": "prepaymentChange",
+                "method": "handlePrepaymentAmountChange",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "bookingClicked",
                 "method": "handleBooking",
                 "target": undefined,

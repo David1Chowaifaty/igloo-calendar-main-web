@@ -24,7 +24,7 @@ export class PropertyHelpers {
             const newRoomtypes = data.My_Result;
             const { adult_nbr, child_nbr } = data.My_Params_Check_Availability;
             const sortedRoomTypes = this.sortRoomTypes(newRoomtypes, { adult_nbr, child_nbr });
-            booking_store.roomTypes = [...sortedRoomTypes.map(rt => (Object.assign(Object.assign({}, rt), { rateplans: rt.rateplans.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: (_a = rp.variations) === null || _a === void 0 ? void 0 : _a.reverse() })); }) })))];
+            booking_store.roomTypes = [...sortedRoomTypes.map(rt => (Object.assign(Object.assign({}, rt), { rateplans: rt.rateplans.map(rp => (Object.assign(Object.assign({}, rp), { variations: this.sortVariations(rp.variations) }))) })))];
             booking_store.tax_statement = { message: data.My_Result.tax_statement };
             booking_store.enableBooking = true;
         }
@@ -67,40 +67,44 @@ export class PropertyHelpers {
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
             var _a, _b, _c, _d;
-            const isNotAvailableA = a.rateplans.every(plan => !plan.is_active || plan.is_closed || !plan.variations);
-            const isNotAvailableB = b.rateplans.every(plan => !plan.is_active || plan.is_closed || !plan.variations);
-            if (isNotAvailableA && !isNotAvailableB)
-                return 1;
-            if (!isNotAvailableA && isNotAvailableB)
+            // Priority to available rooms
+            if (a.is_available_to_book && !b.is_available_to_book)
                 return -1;
-            // Move room types with zero inventory to the end
-            if (a.inventory === 0 && b.inventory !== 0)
+            if (!a.is_available_to_book && b.is_available_to_book)
                 return 1;
-            if (a.inventory !== 0 && b.inventory === 0)
-                return -1;
-            // Check for variations where is_calculated is true and amount is 0
-            const zeroCalculatedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.amount === 0 || variation.amount === null); });
-            const zeroCalculatedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.amount === 0 || variation.amount === null); });
-            // Prioritize these types to be before inventory 0 but after all others
+            // Check for variations where is_calculated is true and amount is 0 or null
+            const zeroCalculatedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
+            const zeroCalculatedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
+            // Prioritize these types to be before inventory 0 but after all available ones
             if (zeroCalculatedA && !zeroCalculatedB)
                 return 1;
             if (!zeroCalculatedA && zeroCalculatedB)
                 return -1;
-            // Check for exact matching variations
+            // Check for exact matching variations based on user criteria
             const matchA = (_c = a.rateplans) === null || _c === void 0 ? void 0 : _c.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
             const matchB = (_d = b.rateplans) === null || _d === void 0 ? void 0 : _d.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
             if (matchA && !matchB)
                 return -1;
             if (!matchA && matchB)
                 return 1;
-            // Sort by the highest variation in any attribute, for example `amount`
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => variation.amount); }));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => variation.amount); }));
+            // Sort by the highest variation amount
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
             if (maxVariationA < maxVariationB)
                 return -1;
             if (maxVariationA > maxVariationB)
                 return 1;
             return 0;
+        });
+    }
+    sortVariations(variations) {
+        return variations.sort((a, b) => {
+            // Sort by adult_nbr in descending order first
+            if (b.adult_nbr !== a.adult_nbr) {
+                return b.adult_nbr - a.adult_nbr;
+            }
+            // If adult_nbr is the same, sort by child_nbr in descending order
+            return b.child_nbr - a.child_nbr;
         });
     }
 }

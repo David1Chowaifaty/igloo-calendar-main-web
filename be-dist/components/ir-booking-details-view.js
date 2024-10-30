@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { a as app_store } from './app.store.js';
 import { l as localizedWords } from './localization.store.js';
-import { g as getDateDifference, d as dateFns, w as formatAmount } from './utils.js';
+import { g as getDateDifference, d as dateFns, u as formatAmount } from './utils.js';
 import { B as BookingListingAppService } from './booking-listing.service.js';
 import { d as defineCustomElement$7 } from './ir-alert-dialog2.js';
 import { d as defineCustomElement$6 } from './ir-booking-cancelation2.js';

@@ -203,8 +203,8 @@ export class IrPaymentView {
     }
     render() {
         var _a, _b;
-        return (h("div", { key: '46124f2a1ad45452322c8fb99ee2d92bc8f48738', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'e4cd8c108e568bfec61e0a13f24429e91f47445f' }, localizedWords.entries.Lcz_PaymentSecurity), this.renderPaymentOptions(), this.renderPaymentMethod(), this.cardType !== '' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '6aac98fe6511cc01d7cc7995f3a7c4b8f131776d', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+        return (h("div", { key: 'cb3a93223f2b7b38ffb0448cb3319b6685c322ce', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: '8c867a12c94db0cfbdbb8cda9e72770c6827d5df' }, localizedWords.entries.Lcz_PaymentSecurity), this.renderPaymentOptions(), this.renderPaymentMethod(), this.cardType !== '' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: 'eee287bad935fe861e7ca73a964b321033976cd8', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
             _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }

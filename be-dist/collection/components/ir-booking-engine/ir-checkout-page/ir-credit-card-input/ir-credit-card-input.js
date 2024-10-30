@@ -48,7 +48,7 @@ export class IrCreditCardInput {
         }
     }
     render() {
-        return (h(Host, { key: '0a5a818f4019cbb494fa74823ad0248cbb8dc070' }, h("div", { key: '0624d6f3a48783f47a04deab31466e0f6681e578', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: '3f384a5bd3e9726e4966a1b5cf59863988e9621d', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: '4165c6ecffcdb02ef88c831e2215aef9e95232a8', class: "input-container" }, h("input", { key: 'f9f8e9c8a431c53d44c6ac3b7d0024419857724a', type: "text", class: "w-full", onFocus: () => {
+        return (h(Host, { key: '803e5a707a415b8d9bcfa806c91617f0102b8475' }, h("div", { key: '62b0f6bf7590aedf4f55c23f9bbdd3772f125c5f', class: `card-container ${this.error ? 'error' : ''}` }, h("label", { key: 'ba725b1dd1007ca883c73d6a6c851c2eabb66528', htmlFor: "first_input", class: "card-number" }, localizedWords.entries.Lcz_CardNumber), h("div", { key: 'a7138508d93d2bc6315bbfaa6723145e8e883a8f', class: "input-container" }, h("input", { key: '374546b581fd587815d37b7a56cbd63ca2694e14', type: "text", class: "w-full", onFocus: () => {
                 if (this.el.hasAttribute('data-state'))
                     this.el.removeAttribute('data-state');
             }, onBlur: e => {
@@ -65,7 +65,7 @@ export class IrCreditCardInput {
                         this.el.setAttribute('aria-invalid', 'false');
                     }
                 }
-            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: '6d5f643217d446b9db367523cd1354f15778f128', class: "icon-container" }, this.renderIcon(this.cardType))))));
+            }, autocomplete: "cc-number", inputMode: "numeric", onInput: this.handleInput.bind(this) }), h("div", { key: 'a130fabae5e6d874d37bb899ca6fbdbb20b0220e', class: "icon-container" }, this.renderIcon(this.cardType))))));
     }
     renderIcon(cardType) {
         const icons = {
@@ -143,7 +143,7 @@ export class IrCreditCardInput {
                 },
                 "complexType": {
                     "original": "{ value: string; cardType: '' | 'AMEX' | 'VISA' | 'Mastercard' }",
-                    "resolved": "{ value: string; cardType: \"\" | \"VISA\" | \"Mastercard\" | \"AMEX\"; }",
+                    "resolved": "{ value: string; cardType: \"\" | \"AMEX\" | \"VISA\" | \"Mastercard\"; }",
                     "references": {}
                 }
             }];
