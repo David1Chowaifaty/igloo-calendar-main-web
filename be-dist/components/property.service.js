@@ -26,7 +26,7 @@ class PropertyHelpers {
             const newRoomtypes = data.My_Result;
             const { adult_nbr, child_nbr } = data.My_Params_Check_Availability;
             const sortedRoomTypes = this.sortRoomTypes(newRoomtypes, { adult_nbr, child_nbr });
-            booking_store.roomTypes = [...sortedRoomTypes.map(rt => (Object.assign(Object.assign({}, rt), { rateplans: rt.rateplans.map(rp => (Object.assign(Object.assign({}, rp), { variations: this.sortVariations(rp.variations) }))) })))];
+            booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
             booking_store.tax_statement = { message: data.My_Result.tax_statement };
             booking_store.enableBooking = true;
         }
