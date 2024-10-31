@@ -309,7 +309,7 @@ export class IrAdultChildCounter {
                     "references": {
                         "AddAdultsAndChildrenEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/work-rony/iglooroom/src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx",
+                            "path": "C:/Users/user/Code/work-rony/iglooroom/src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx",
                             "id": "src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx::AddAdultsAndChildrenEvent"
                         }
                     }
