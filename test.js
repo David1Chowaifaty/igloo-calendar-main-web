@@ -1,1 +1,1 @@
-alert("test");
+const i=20;
