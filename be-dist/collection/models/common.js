@@ -7,4 +7,4 @@ export const ZCurrency = z.object({
 });
 export class Identifier {
 }
-//# sourceMappingURL=commun.js.map
+//# sourceMappingURL=common.js.map

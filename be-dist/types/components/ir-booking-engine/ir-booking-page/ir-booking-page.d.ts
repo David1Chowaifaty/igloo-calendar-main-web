@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Locale } from 'date-fns';
-import { ICurrency, IExposedLanguages, pages } from "../../../models/commun";
+import { ICurrency, IExposedLanguages, pages } from "../../../models/common";
 import { IExposedProperty } from "../../../models/property";
 export declare class IrBookingPage {
     fromDate: string;

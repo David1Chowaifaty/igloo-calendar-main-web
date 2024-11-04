@@ -2,7 +2,7 @@ import { Locale } from 'date-fns';
 import { IExposedProperty } from "../../models/property";
 import { TSource } from "../../stores/app.store";
 import Stack from "../../models/stack";
-import { ICurrency, IExposedLanguages } from "../../models/commun";
+import { ICurrency, IExposedLanguages } from "../../models/common";
 export declare class IrBookingEngine {
     propertyId: number;
     injected: boolean;

@@ -158,8 +158,8 @@ export class IrNav {
                     "references": {
                         "ICurrency": {
                             "location": "import",
-                            "path": "@/models/commun",
-                            "id": "src/models/commun.ts::ICurrency"
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::ICurrency"
                         }
                     }
                 },
@@ -179,8 +179,8 @@ export class IrNav {
                     "references": {
                         "IExposedLanguages": {
                             "location": "import",
-                            "path": "@/models/commun",
-                            "id": "src/models/commun.ts::IExposedLanguages"
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::IExposedLanguages"
                         }
                     }
                 },
@@ -339,8 +339,8 @@ export class IrNav {
                     "references": {
                         "pages": {
                             "location": "import",
-                            "path": "@/models/commun",
-                            "id": "src/models/commun.ts::pages"
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::pages"
                         }
                     }
                 }
@@ -375,8 +375,8 @@ export class IrNav {
                     "references": {
                         "pages": {
                             "location": "import",
-                            "path": "@/models/commun",
-                            "id": "src/models/commun.ts::pages"
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::pages"
                         }
                     }
                 }

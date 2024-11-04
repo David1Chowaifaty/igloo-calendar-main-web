@@ -63,10 +63,10 @@ class AuthService {
             app_store.app_data.token = loginToken;
             app_store.is_signed_in = true;
             manageAnchorSession({ login: Object.assign(Object.assign({ method: option }, rest), { isLoggedIn: true, token: loginToken }) });
+            const propertyService = new PropertyService();
+            propertyService.getExposedGuest();
         }
         console.count('auth called');
-        const propertyService = new PropertyService();
-        propertyService.getExposedGuest();
         this.notifySubscribers({
             state: 'success',
             token: loginToken,

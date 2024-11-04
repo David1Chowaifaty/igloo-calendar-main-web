@@ -1,4 +1,4 @@
-import { CheckoutErrors, pages } from "../../../models/commun";
+import { CheckoutErrors, pages } from "../../../models/common";
 import { AllowedPaymentMethod } from "../../../models/property";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ZodError } from 'zod';

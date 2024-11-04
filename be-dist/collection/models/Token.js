@@ -12,7 +12,10 @@ class Token {
             if (!Token.token) {
                 throw new MissingTokenError();
             }
-            config.headers.Authorization = Token.token;
+            const prevHeaders = config.headers || {};
+            if (!prevHeaders.hasOwnProperty('Authorization') || !prevHeaders['Authorization']) {
+                config.headers.Authorization = Token.token;
+            }
             // config.params = config.params || {};
             // config.params.Ticket = Token.token;
             return config;

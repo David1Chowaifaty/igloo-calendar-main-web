@@ -4,7 +4,7 @@ import { C as CommonService } from './common.service.js';
 import { P as PropertyService } from './property.service.js';
 import { a as axios } from './axios.js';
 import { l as localizedWords } from './localization.store.js';
-import { T as Token } from './payment.service.js';
+import { T as Token } from './Token.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-date-range2.js';
 import { d as defineCustomElement$6 } from './ir-dialog2.js';

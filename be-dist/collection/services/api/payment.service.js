@@ -1,4 +1,3 @@
-import { MissingTokenError } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
 import axios from "axios";
@@ -13,10 +12,16 @@ export class PaymentService {
         return res;
     }
     async GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }) {
-        if (!token) {
-            throw new MissingTokenError();
-        }
-        const { data } = await axios.post(`/Generate_Payment_Caller`, Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }));
+        // const resp = await fetch(`https://gateway.igloorooms.com/IRBE/Generate_Payment_Caller`, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Authorization': token,
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ ...params, callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }),
+        // });
+        // const data = await resp.json();
+        const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }), { headers: { Authorization: token } });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }

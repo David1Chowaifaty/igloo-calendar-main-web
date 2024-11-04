@@ -1,4 +1,4 @@
-import { CheckoutErrors, pages } from "../../../../models/commun";
+import { CheckoutErrors, pages } from "../../../../models/common";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrBookingSummary {
     prepaymentAmount: any;

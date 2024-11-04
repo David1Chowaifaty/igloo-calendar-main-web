@@ -7,7 +7,7 @@ import app_store from "../../../stores/app.store";
 import booking_store, { validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
-import { destroyBookingCookie, detectCardType, getDateDifference, injectHTMLAndRunScript, runScriptAndRemove } from "../../../utils/utils";
+import { destroyBookingCookie, detectCardType, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import { ZodError } from "zod";
@@ -220,12 +220,14 @@ export class IrCheckoutPage {
         }
     }
     modifyConversionTag(tag) {
+        var _a, _b, _c, _d;
         const booking = booking_store.booking;
         tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
         tag = tag.replace(/\$\$length_of_stay\$\$/g, getDateDifference(new Date(booking.from_date), new Date(booking.to_date)).toString());
         tag = tag.replace(/\$\$booking_xref\$\$/g, booking.booking_nbr.toString());
-        tag = tag.replace(/\$\$curr\$\$/g, app_store.userPreferences.currency_id.toString());
-        runScriptAndRemove(tag);
+        tag = tag.replace(/\$\$curr\$\$/g, (_b = (_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.currency_id) === null || _b === void 0 ? void 0 : _b.toString());
+        tag = tag.replace(/\$\$cur_code\$\$/g, (_d = (_c = app_store.userPreferences) === null || _c === void 0 ? void 0 : _c.currency_id) === null || _d === void 0 ? void 0 : _d.toString());
+        injectHTMLAndRunScript(tag, 'conversion_tag');
     }
     async processPayment(bookingResult, currentPayment, paymentAmount, token) {
         let amountToBePayed = paymentAmount;
@@ -303,8 +305,8 @@ export class IrCheckoutPage {
                     "references": {
                         "pages": {
                             "location": "import",
-                            "path": "@/models/commun",
-                            "id": "src/models/commun.ts::pages"
+                            "path": "@/models/common",
+                            "id": "src/models/common.ts::pages"
                         }
                     }
                 }

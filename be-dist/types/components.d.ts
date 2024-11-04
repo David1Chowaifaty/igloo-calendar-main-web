@@ -10,7 +10,7 @@ import { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-boo
 import { TSource } from "./stores/app.store";
 import { TBookingInfo } from "./services/api/payment.service";
 import { Booking } from "./models/booking.dto";
-import { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/commun";
+import { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 import { Locale } from "date-fns";
@@ -27,7 +27,7 @@ export { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-boo
 export { TSource } from "./stores/app.store";
 export { TBookingInfo } from "./services/api/payment.service";
 export { Booking } from "./models/booking.dto";
-export { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/commun";
+export { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { IDateModifiers } from "./components/ui/ir-date-range/ir-date-range.types";
 export { Locale } from "date-fns";
