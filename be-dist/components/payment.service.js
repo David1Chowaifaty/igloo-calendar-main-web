@@ -1,8 +1,44 @@
-import { M as MissingTokenError } from './Token.js';
+import { a as axios } from './axios.js';
 import { a as app_store } from './app.store.js';
 import { d as dateFns, b as booking_store } from './utils.js';
-import { l as localizedWords } from './localization.store.js';
-import { a as axios } from './axios.js';
+import './index5.js';
+
+class Token {
+    constructor() {
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        axios.defaults.baseURL = this.baseUrl;
+    }
+    initialize() {
+        if (Token.isInterceptorAdded) {
+            return;
+        }
+        axios.interceptors.request.use(config => {
+            if (!Token.token) {
+                throw new MissingTokenError();
+            }
+            config.headers.Authorization = Token.token;
+            // config.params = config.params || {};
+            // config.params.Ticket = Token.token;
+            return config;
+        });
+        Token.isInterceptorAdded = true;
+    }
+    setToken(token) {
+        if (token === Token.token) {
+            return;
+        }
+        Token.token = token;
+        this.initialize();
+    }
+}
+Token.token = '';
+Token.isInterceptorAdded = false;
+class MissingTokenError extends Error {
+    constructor(message = 'Missing token!!') {
+        super(message);
+        this.name = 'MissingTokenError';
+    }
+}
 
 class PaymentService {
     async getExposedCancelationDueAmount(params) {
@@ -49,28 +85,13 @@ class PaymentService {
         var _a, _b, _c, _d;
         let isInFreeCancelationZone = false;
         const guarenteeAmount = ((_b = (_a = policies.find(po => po.type === 'guarantee')) === null || _a === void 0 ? void 0 : _a.brackets[0]) === null || _b === void 0 ? void 0 : _b.gross_amount) || 0;
-        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => dateFns.isBefore(book_date, new Date(b.due_on)) || dateFns.isSameDay(book_date, new Date(b.due_on)), book_date)); });
+        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => dateFns.isBefore(book_date, new Date(b.due_on)) || dateFns.isSameDay(new Date(b.due_on), book_date), book_date)); });
         if (cancelation) {
             isInFreeCancelationZone = true;
-            const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => dateFns.isBefore(new Date(b.due_on), book_date) || dateFns.isSameDay(book_date, new Date(b.due_on)))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
+            const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => dateFns.isBefore(book_date, new Date(b.due_on)) || dateFns.isSameDay(new Date(b.due_on), book_date))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
             return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount, isInFreeCancelationZone };
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
-    }
-    getCancelationMessage(applicablePolicies, showCancelation = false, includeGuarentee = true) {
-        var _a, _b;
-        const cancelationMessage = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
-        let message = cancelationMessage ? `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Cancelation}: </u></b>` : ''}${cancelationMessage}<br/>` : '<span></span>';
-        if (includeGuarentee) {
-            const guarenteeMessage = (_b = applicablePolicies.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-            if (guarenteeMessage) {
-                message += `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Guarantee}: </u></b>` : ''}${guarenteeMessage}<br/>`;
-            }
-        }
-        return {
-            message,
-            data: applicablePolicies,
-        };
     }
     async fetchCancelationMessage(params) {
         var _a, _b;
@@ -142,6 +163,6 @@ class PaymentService {
     }
 }
 
-export { PaymentService as P };
+export { PaymentService as P, Token as T };
 
 //# sourceMappingURL=payment.service.js.map

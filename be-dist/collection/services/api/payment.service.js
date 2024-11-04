@@ -1,7 +1,6 @@
 import { MissingTokenError } from "../../models/Token";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
-import localizedWords from "../../stores/localization.store";
 import axios from "axios";
 import { isBefore, isSameDay, parseISO } from "date-fns";
 export class PaymentService {
@@ -49,28 +48,13 @@ export class PaymentService {
         var _a, _b, _c, _d;
         let isInFreeCancelationZone = false;
         const guarenteeAmount = ((_b = (_a = policies.find(po => po.type === 'guarantee')) === null || _a === void 0 ? void 0 : _a.brackets[0]) === null || _b === void 0 ? void 0 : _b.gross_amount) || 0;
-        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(book_date, new Date(b.due_on)) || isSameDay(book_date, new Date(b.due_on)), book_date)); });
+        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(book_date, new Date(b.due_on)) || isSameDay(new Date(b.due_on), book_date), book_date)); });
         if (cancelation) {
             isInFreeCancelationZone = true;
-            const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => isBefore(new Date(b.due_on), book_date) || isSameDay(book_date, new Date(b.due_on)))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
+            const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => isBefore(book_date, new Date(b.due_on)) || isSameDay(new Date(b.due_on), book_date))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
             return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount, isInFreeCancelationZone };
         }
         return { amount: guarenteeAmount, isInFreeCancelationZone };
-    }
-    getCancelationMessage(applicablePolicies, showCancelation = false, includeGuarentee = true) {
-        var _a, _b;
-        const cancelationMessage = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
-        let message = cancelationMessage ? `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Cancelation}: </u></b>` : ''}${cancelationMessage}<br/>` : '<span></span>';
-        if (includeGuarentee) {
-            const guarenteeMessage = (_b = applicablePolicies.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-            if (guarenteeMessage) {
-                message += `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Guarantee}: </u></b>` : ''}${guarenteeMessage}<br/>`;
-            }
-        }
-        return {
-            message,
-            data: applicablePolicies,
-        };
     }
     async fetchCancelationMessage(params) {
         var _a, _b;

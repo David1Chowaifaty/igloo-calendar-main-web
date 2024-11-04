@@ -6,6 +6,7 @@ import { Colors } from '../app/colors.service';
 import { TGuest } from "../../models/user_form";
 export declare class PropertyService {
     private propertyHelpers;
+    private static initialized;
     colors: Colors;
     getExposedProperty(params: {
         id: number;
@@ -20,7 +21,14 @@ export declare class PropertyService {
         aname: string;
         perma_link: string;
     }): Promise<any>;
-    getExposedBookingAvailability(props: TExposedBookingAvailability): Promise<DataStructure>;
+    getExposedBookingAvailability(props: {
+        params: TExposedBookingAvailability;
+        identifier: string;
+        rp_id?: number;
+        rt_id?: number;
+        mode: 'modify_rt' | 'default';
+        adultChildConstraint?: string;
+    }): Promise<DataStructure>;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;

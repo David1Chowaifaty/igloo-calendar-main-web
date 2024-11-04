@@ -3,7 +3,10 @@ import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
-    selected_variation: Variation | null;
+    selected_variation: {
+        variation: Variation;
+        state: 'default' | 'modified';
+    };
     ratePlan: RatePlan;
     guestName: string[];
     is_bed_configuration_enabled: boolean;

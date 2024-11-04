@@ -56,10 +56,6 @@ export declare class PaymentService {
         amount: number;
         isInFreeCancelationZone: boolean;
     };
-    getCancelationMessage(applicablePolicies: IExposedApplicablePolicies[] | null, showCancelation?: boolean, includeGuarentee?: boolean): {
-        message: string;
-        data: IExposedApplicablePolicies[];
-    };
     fetchCancelationMessage(params: FetchCancelationMessageParams): Promise<{
         message: string;
         data: IExposedApplicablePolicies[];

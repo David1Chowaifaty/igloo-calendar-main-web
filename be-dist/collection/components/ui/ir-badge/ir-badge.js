@@ -8,7 +8,7 @@ export class IrBadge {
         this.backgroundShown = true;
     }
     render() {
-        return h("p", { key: 'de966cc1947357600c9ee9c9eaa332381d2bc4bc', class: `size-${this.size} badge ${this.variant} ${this.backgroundShown ? '' : 'transparent'}` }, this.label);
+        return h("p", { key: '02df9cce9fff122a1bbcdb100549d7d65c1004b5', class: `size-${this.size} badge ${this.variant} ${this.backgroundShown ? '' : 'transparent'}` }, this.label);
     }
     static get is() { return "ir-badge"; }
     static get encapsulation() { return "shadow"; }

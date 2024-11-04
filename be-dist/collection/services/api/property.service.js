@@ -18,7 +18,8 @@ export class PropertyService {
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        if (result.My_Result.tags) {
+        if (result.My_Result.tags && !PropertyService.initialized) {
+            PropertyService.initialized = true;
             result.My_Result.tags.map(({ key, value }) => {
                 if (!value) {
                     return;
@@ -36,6 +37,22 @@ export class PropertyService {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
+        // } else {
+        //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
+        //   booking_store.roomTypes = result.My_Result.roomtypes?.map(rt => {
+        //     const selectedRt = oldBookingStoreRoomTypes.find(r => r.id === rt.id);
+        //     return {
+        //       ...rt,
+        //       rateplans: rt.rateplans.map(rp => {
+        //         const currentRp = selectedRt.rateplans.find(s => s.id === rp.id);
+        //         if (currentRp) {
+        //           return { ...currentRp, short_name: rp.short_name };
+        //         }
+        //         return null;
+        //       }),
+        //     };
+        //   });
+        // }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -44,6 +61,7 @@ export class PropertyService {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
+            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -61,10 +79,11 @@ export class PropertyService {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
+        this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data);
+        this.propertyHelpers.updateBookingStore(data, props);
         return data;
     }
     async getExposedBooking(params, withExtras = true) {
@@ -154,7 +173,7 @@ export class PropertyService {
         return data.My_Result;
     }
     async bookUser() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             console.log('payment', checkout_store.payment);
@@ -184,10 +203,10 @@ export class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_g = (_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
+                language: ((_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) || 'en',
                 agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_h = booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
+                promo_key: (_g = booking_store.bookingAvailabilityParams.coupon) !== null && _g !== void 0 ? _g : null,
                 booking: {
                     booking_nbr: '',
                     from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -196,7 +215,7 @@ export class PropertyService {
                     property: {
                         id: app_store.app_data.property_id,
                     },
-                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : window.location.href, tag: app_store.app_data.stag, description: '' },
+                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
                     currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
                     arrival: { code: checkout_store.userFormData.arrival_time },
@@ -251,4 +270,5 @@ export class PropertyService {
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
     }
 }
+PropertyService.initialized = false;
 //# sourceMappingURL=property.service.js.map

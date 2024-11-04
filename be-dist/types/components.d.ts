@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
-import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
+import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 import { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 import { TSource } from "./stores/app.store";
 import { TBookingInfo } from "./services/api/payment.service";
@@ -22,7 +22,7 @@ import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/a
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
 import { TGuest } from "./models/user_form";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
-export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
+export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
 export { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 export { TSource } from "./stores/app.store";
 export { TBookingInfo } from "./services/api/payment.service";
@@ -69,6 +69,7 @@ export namespace Components {
     }
     interface IrAvailibilityHeader {
         "adultCount": string;
+        "ages": string;
         "childrenCount": string;
         "fromDate": string;
         "toDate": string;
@@ -447,10 +448,10 @@ export namespace Components {
         "roomTypeInventory": number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-        reserved: number;
-        visibleInventory?: number;
-        selected_variation: Variation;
-      };
+      reserved: number;
+      visibleInventory?: number;
+      selected_variation: any;
+    };
     }
     interface IrRoomTypeAmenities {
         "aminities": Amenity[];
@@ -578,10 +579,6 @@ export interface IrBookingCardCustomEvent<T> extends CustomEvent<T> {
 export interface IrBookingCodeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingCodeElement;
-}
-export interface IrBookingDetailsCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrBookingDetailsElement;
 }
 export interface IrBookingDetailsViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -903,18 +900,7 @@ declare global {
         prototype: HTMLIrBookingCodeElement;
         new (): HTMLIrBookingCodeElement;
     };
-    interface HTMLIrBookingDetailsElementEventMap {
-        "prepaymentChange": number;
-    }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrBookingDetailsElement: {
         prototype: HTMLIrBookingDetailsElement;
@@ -1853,6 +1839,7 @@ declare namespace LocalJSX {
     }
     interface IrAvailibilityHeader {
         "adultCount"?: string;
+        "ages"?: string;
         "childrenCount"?: string;
         "fromDate"?: string;
         "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
@@ -1920,7 +1907,6 @@ declare namespace LocalJSX {
     }
     interface IrBookingDetails {
         "errors"?: string;
-        "onPrepaymentChange"?: (event: IrBookingDetailsCustomEvent<number>) => void;
     }
     interface IrBookingDetailsView {
         "booking"?: Booking | null;
@@ -2304,10 +2290,10 @@ declare namespace LocalJSX {
         "roomTypeInventory"?: number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-        reserved: number;
-        visibleInventory?: number;
-        selected_variation: Variation;
-      };
+      reserved: number;
+      visibleInventory?: number;
+      selected_variation: any;
+    };
     }
     interface IrRoomTypeAmenities {
         "aminities"?: Amenity[];

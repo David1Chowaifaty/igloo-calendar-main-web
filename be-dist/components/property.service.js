@@ -1,8 +1,366 @@
-import { P as PropertyHelpers, C as Colors } from './colors.service.js';
-import { a as app_store } from './app.store.js';
-import { i as injectHTML, b as booking_store, d as dateFns, g as getDateDifference } from './utils.js';
-import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
+import { b as booking_store, d as dateFns, e as modifyBookingStore, i as injectHTML, g as getDateDifference } from './utils.js';
 import { a as axios } from './axios.js';
+import { P as PaymentService } from './payment.service.js';
+import { a as app_store } from './app.store.js';
+import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
+
+class PropertyHelpers {
+    constructor() {
+        this.paymentService = new PaymentService();
+    }
+    validateModeProps(props) {
+        if (props.mode === PropertyHelpers.MODE_MODIFY_RT && (!props.rp_id || !props.rt_id)) {
+            throw new Error('Missing property: rp_id or rt_id is required in modify_rt mode');
+        }
+    }
+    convertPickup(pickup) {
+        let res = {};
+        const [hour, minute] = pickup.arrival_time.split(':');
+        res = {
+            booking_nbr: null,
+            is_remove: false,
+            currency: pickup.currency,
+            date: pickup.arrival_date,
+            details: pickup.flight_details || null,
+            hour: Number(hour),
+            minute: Number(minute),
+            nbr_of_units: pickup.number_of_vehicles,
+            selected_option: pickup.selected_option,
+            total: Number(pickup.due_upon_booking),
+        };
+        return res;
+    }
+    updateBookingStore(data, props) {
+        try {
+            let roomtypes = [...booking_store.roomTypes];
+            const newRoomtypes = data.My_Result.roomtypes;
+            if (props.mode === PropertyHelpers.MODE_DEFAULT) {
+                roomtypes = this.updateInventory(roomtypes, newRoomtypes);
+                roomtypes = this.sortRoomTypes(roomtypes, {
+                    adult_nbr: props.params.adult_nbr,
+                    child_nbr: props.params.child_nbr,
+                });
+            }
+            else {
+                roomtypes = this.updateRoomTypeRatePlans(roomtypes, newRoomtypes, props);
+            }
+            booking_store.roomTypes = roomtypes;
+            booking_store.tax_statement = { message: data.My_Result.tax_statement };
+            booking_store.enableBooking = true;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    collectRoomTypeIds(props) {
+        return props.rt_id ? [props.rt_id] : [];
+    }
+    collectRatePlanIds(props) {
+        return props.rp_id ? [props.rp_id] : [];
+    }
+    generateDays(from_date, to_date, amount) {
+        const endDate = to_date;
+        let currentDate = from_date;
+        const days = [];
+        while (currentDate < endDate) {
+            days.push({
+                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
+                amount: amount,
+                cost: null,
+            });
+            currentDate = dateFns.addDays(currentDate, 1);
+        }
+        return days;
+    }
+    extractFirstNameAndLastName(index, guestName) {
+        const names = guestName[index].split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
+    async fetchAvailabilityData(props, roomtypeIds, rateplanIds) {
+        const response = await axios.post(`/Get_Exposed_Booking_Availability`, Object.assign(Object.assign({}, props.params), { identifier: props.identifier, room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+        const result = response.data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        if (result.My_Result.booking_nbr) {
+            modifyBookingStore('fictus_booking_nbr', {
+                nbr: result.My_Result.booking_nbr,
+            });
+            this.validateFreeCancelationZone(result.My_Result.booking_nbr);
+        }
+        return result;
+    }
+    async validateFreeCancelationZone(booking_nbr) {
+        // console.log(app_store.currencies.find(c => c.code.toLowerCase() === app_store.userPreferences.currency_id?.toLowerCase()));
+        const result = await this.paymentService.GetExposedApplicablePolicies({
+            book_date: new Date(),
+            params: {
+                booking_nbr,
+                currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
+                language: app_store.userPreferences.language_id,
+                property_id: app_store.app_data.property_id,
+                rate_plan_id: 0,
+                room_type_id: 0,
+            },
+        });
+        console.log('applicable policies', result);
+        if (!result) {
+            booking_store.isInFreeCancelationZone = true;
+        }
+        if (result) {
+            const { isInFreeCancelationZone } = this.paymentService.processAlicablePolicies(result.data, new Date());
+            booking_store.isInFreeCancelationZone = isInFreeCancelationZone;
+        }
+    }
+    updateInventory(roomtypes, newRoomtypes) {
+        const newRoomtypesMap = new Map(newRoomtypes.map(rt => [rt.id, rt]));
+        return roomtypes.reduce((updatedRoomtypes, rt) => {
+            const newRoomtype = newRoomtypesMap.get(rt.id);
+            if (!newRoomtype) {
+                return updatedRoomtypes;
+            }
+            // console.log('new roomtypes', newRoomtypes);
+            const updatedRoomtype = Object.assign(Object.assign({}, rt), { inventory: newRoomtype.inventory, pre_payment_amount: newRoomtype.pre_payment_amount, rateplans: this.updateRatePlan(rt.rateplans, newRoomtype) });
+            updatedRoomtypes.push(updatedRoomtype);
+            return updatedRoomtypes;
+        }, []);
+    }
+    // private updateRatePlan(ratePlans: RatePlan[], newRoomtype: RoomType) {
+    //   return ratePlans.reduce((updatedRatePlans, rp) => {
+    //     const newRatePlan = newRoomtype.rateplans.find(newRP => newRP.id === rp.id);
+    //     if (!newRatePlan || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+    //       return updatedRatePlans;
+    //     }
+    //     updatedRatePlans.push({
+    //       ...newRatePlan,
+    //       is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency,
+    //       variations: rp.variations,
+    //       // variations: rp.variations.map(v => {
+    //       //   if (!newRatePlan.variations) {
+    //       //     return v;
+    //       //   }
+    //       //   if (v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) {
+    //       //     return newRatePlan.variations[0];
+    //       //   }
+    //       //   return v;
+    //       // }),
+    //       selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null,
+    //       // selected_variation: newRatePlan.variations ? rp.variations.find(v => v.adult_child_offering === newRatePlan.variations[0].adult_child_offering) : null,
+    //     });
+    //     return updatedRatePlans;
+    //   }, []);
+    // }
+    updateRatePlan(ratePlans, newRoomtype) {
+        const agentExists = !!booking_store.bookingAvailabilityParams.agent;
+        return ratePlans.reduce((updatedRatePlans, rp) => {
+            var _a, _b;
+            const newRP = (_a = newRoomtype.rateplans) === null || _a === void 0 ? void 0 : _a.find(newRatePlan => newRatePlan.id === rp.id);
+            if (!newRP || !newRP.is_active || !newRP.is_booking_engine_enabled) {
+                return updatedRatePlans;
+            }
+            // console.log('terst selected variation', newRP, newRP.variations, 'res', newRP.variations?.length > 0 ? newRP.variations[0] : null);
+            updatedRatePlans.push(Object.assign(Object.assign({}, newRP), { variations: agentExists ? newRP.variations : rp.variations, selected_variation: ((_b = newRP.variations) === null || _b === void 0 ? void 0 : _b.length) > 0 ? newRP.variations[0] : null }));
+            return updatedRatePlans;
+        }, []);
+    }
+    // private updateRatePlan(ratePlans: RatePlan[], newRoomtype: RoomType): RatePlan[] {
+    //   const agentExists = !!booking_store.bookingAvailabilityParams.agent;
+    //   return ratePlans.reduce((updatedRatePlans: RatePlan[], rp: RatePlan) => {
+    //     const newRP = newRoomtype.rateplans?.find(newRP => newRP.id === rp.id);
+    //     const newRatePlan = agentExists ? newRoomtype.rateplans?.find(newRP => newRP.id === rp.id) : ratePlans.find(newRP => newRP.id === rp.id);
+    //     if (!newRatePlan || !newRP || !newRatePlan.is_active || !newRatePlan.is_booking_engine_enabled) {
+    //       return updatedRatePlans;
+    //     }
+    //     updatedRatePlans.push({
+    //       ...newRatePlan,
+    //       short_name: newRP.short_name,
+    //       is_targeting_travel_agency: newRatePlan.is_targeting_travel_agency,
+    //       variations: agentExists ? newRatePlan.variations : rp.variations,
+    //       selected_variation: newRatePlan.variations ? newRatePlan.variations[0] : null,
+    //     });
+    //     return updatedRatePlans;
+    //   }, []);
+    // }
+    //---------------------------
+    //         SORTING
+    //---------------------------
+    // private sortRoomTypes(roomTypes: RoomType[], userCriteria: { adult_nbr: number; child_nbr: number }): RoomType[] {
+    //   return roomTypes.sort((a, b) => {
+    //     // Move room types with zero inventory to the end
+    //     if (a.inventory === 0 && b.inventory !== 0) return 1;
+    //     if (a.inventory !== 0 && b.inventory === 0) return -1;
+    //     // Check for variations where is_calculated is true and amount is 0
+    //     const zeroCalculatedA = a.rateplans?.some(plan => plan?.variations?.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+    //     const zeroCalculatedB = b.rateplans?.some(plan => plan?.variations?.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)));
+    //     // Prioritize these types to be before inventory 0 but after all others
+    //     if (zeroCalculatedA && !zeroCalculatedB) return 1;
+    //     if (!zeroCalculatedA && zeroCalculatedB) return -1;
+    //     // Check for exact matching variations
+    //     const matchA = a.rateplans?.some(plan =>
+    //       plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr),
+    //     );
+    //     const matchB = b.rateplans?.some(plan =>
+    //       plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr),
+    //     );
+    //     if (matchA && !matchB) return -1;
+    //     if (!matchA && matchB) return 1;
+    //     // Sort by the highest variation in any attribute, for example `amount`
+    //     const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan?.variations?.map(variation => variation.amount)));
+    //     const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan?.variations?.map(variation => variation.amount)));
+    //     if (maxVariationA < maxVariationB) return -1;
+    //     if (maxVariationA > maxVariationB) return 1;
+    //     return 0;
+    //   });
+    // }
+    sortRoomTypes(roomTypes, userCriteria) {
+        return roomTypes.sort((a, b) => {
+            var _a, _b, _c, _d, _e, _f;
+            // Move room types with zero inventory to the end
+            if (a.inventory === 0 && b.inventory !== 0)
+                return 1;
+            if (a.inventory !== 0 && b.inventory === 0)
+                return -1;
+            // Move room types with all rate plans closed to the end
+            const allRateplansClosedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.every(plan => plan.is_closed);
+            const allRateplansClosedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.every(plan => plan.is_closed);
+            if (allRateplansClosedA && !allRateplansClosedB)
+                return 1;
+            if (!allRateplansClosedA && allRateplansClosedB)
+                return -1;
+            // Check for variations where is_calculated is true and amount is 0
+            const zeroCalculatedA = (_c = a.rateplans) === null || _c === void 0 ? void 0 : _c.some(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)); });
+            const zeroCalculatedB = (_d = b.rateplans) === null || _d === void 0 ? void 0 : _d.some(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.is_calculated && (variation.amount === 0 || variation.amount === null)); });
+            // Prioritize these types to be before inventory 0 but after all others
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
+                return -1;
+            // Check for exact matching variations
+            const matchA = (_e = a.rateplans) === null || _e === void 0 ? void 0 : _e.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            const matchB = (_f = b.rateplans) === null || _f === void 0 ? void 0 : _f.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            if (matchA && !matchB)
+                return -1;
+            if (!matchA && matchB)
+                return 1;
+            // Sort by the highest variation in any attribute, for example `amount`
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => variation.amount); }));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan === null || plan === void 0 ? void 0 : plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => variation.amount); }));
+            if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
+                return 1;
+            return 0;
+        });
+    }
+    updateRoomTypeRatePlans(roomtypes, newRoomtypes, props) {
+        var _a;
+        const selectedRoomTypeIdx = roomtypes.findIndex(rt => rt.id === props.rt_id);
+        if (selectedRoomTypeIdx === -1) {
+            throw new Error('Invalid RoomType');
+        }
+        const selectednewRoomTypeIdx = newRoomtypes.findIndex(rt => rt.id === props.rt_id);
+        if (selectedRoomTypeIdx === -1) {
+            throw new Error('Invalid RoomType');
+        }
+        if (selectednewRoomTypeIdx === -1) {
+            throw new Error('Invalid New RoomType');
+        }
+        const newRatePlan = (_a = newRoomtypes[selectednewRoomTypeIdx].rateplans) === null || _a === void 0 ? void 0 : _a.find(rp => rp.id === props.rp_id);
+        if (!newRatePlan) {
+            throw new Error('Invalid New Rateplan');
+        }
+        const newVariation = newRatePlan.variations.find(v => v.adult_child_offering === props.adultChildConstraint);
+        if (!newVariation) {
+            throw new Error('Missing variation');
+        }
+        roomtypes[selectedRoomTypeIdx] = Object.assign(Object.assign({}, roomtypes[selectedRoomTypeIdx]), { rateplans: roomtypes[selectedRoomTypeIdx].rateplans.map(rp => {
+                return Object.assign(Object.assign({}, rp), { variations: rp.variations.map(v => {
+                        if (v.adult_child_offering === props.adultChildConstraint && rp.id === props.rp_id) {
+                            return newVariation;
+                        }
+                        return v;
+                    }) });
+            }) });
+        return roomtypes;
+    }
+}
+PropertyHelpers.MODE_MODIFY_RT = 'modify_rt';
+PropertyHelpers.MODE_DEFAULT = 'default';
+
+class Colors {
+    hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        var r = parseInt(hex.substring(0, 2), 16);
+        var g = parseInt(hex.substring(2, 4), 16);
+        var b = parseInt(hex.substring(4, 6), 16);
+        return { r, g, b };
+    }
+    rgbToHsl(rgb) {
+        let r = parseInt(rgb.r);
+        let g = parseInt(rgb.g);
+        let b = parseInt(rgb.b);
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let cmin = Math.min(r, g, b), cmax = Math.max(r, g, b), delta = cmax - cmin, h = 0, s = 0, l = 0;
+        if (delta == 0)
+            h = 0;
+        else if (cmax == r)
+            h = ((g - b) / delta) % 6;
+        else if (cmax == g)
+            h = (b - r) / delta + 2;
+        else
+            h = (r - g) / delta + 4;
+        h = Math.round(h * 60);
+        if (h < 0)
+            h += 360;
+        l = (cmax + cmin) / 2;
+        s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        s = +(s * 100).toFixed(1);
+        l = +(l * 100).toFixed(1);
+        return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
+    }
+    hexToHSL(hex) {
+        const rgb = this.hexToRgb(hex);
+        return this.rgbToHsl(rgb);
+    }
+    generateColorShades(baseHex) {
+        const { h, s, l: baseL } = this.hexToHSL(baseHex);
+        let shades = [];
+        for (let i = -3; i <= 6; i++) {
+            let l = baseL + i * 4;
+            shades.push({ h, s, l: Math.min(Math.max(l, 0), 100) });
+        }
+        return shades;
+    }
+    initTheme(property) {
+        let base_theme_color = '#e93e57';
+        let radius = null;
+        if (property.space_theme) {
+            base_theme_color = property.space_theme.button_bg_color;
+            radius = property.space_theme.button_border_radius;
+        }
+        const root = document.documentElement;
+        const shades = this.generateColorShades(base_theme_color);
+        let shade_number = 900;
+        shades.forEach((shade, index) => {
+            root.style.setProperty(`--brand-${shade_number}`, `${shade.h}, ${shade.s}%, ${shade.l}%`);
+            if (index === 9) {
+                shade_number = 25;
+            }
+            else if (index === 8) {
+                shade_number = 50;
+            }
+            else {
+                shade_number = shade_number - 100;
+            }
+        });
+        if (!radius) {
+            return;
+        }
+        root.style.setProperty('--radius', radius + 'px');
+    }
+}
 
 class PropertyService {
     constructor() {
@@ -16,7 +374,8 @@ class PropertyService {
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
         }
-        if (result.My_Result.tags) {
+        if (result.My_Result.tags && !PropertyService.initialized) {
+            PropertyService.initialized = true;
             result.My_Result.tags.map(({ key, value }) => {
                 if (!value) {
                     return;
@@ -34,6 +393,22 @@ class PropertyService {
         if (!app_store.fetchedBooking) {
             booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
+        // } else {
+        //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
+        //   booking_store.roomTypes = result.My_Result.roomtypes?.map(rt => {
+        //     const selectedRt = oldBookingStoreRoomTypes.find(r => r.id === rt.id);
+        //     return {
+        //       ...rt,
+        //       rateplans: rt.rateplans.map(rp => {
+        //         const currentRp = selectedRt.rateplans.find(s => s.id === rp.id);
+        //         if (currentRp) {
+        //           return { ...currentRp, short_name: rp.short_name };
+        //         }
+        //         return null;
+        //       }),
+        //     };
+        //   });
+        // }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -42,6 +417,7 @@ class PropertyService {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
+            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -59,10 +435,11 @@ class PropertyService {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
+        this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data);
+        this.propertyHelpers.updateBookingStore(data, props);
         return data;
     }
     async getExposedBooking(params, withExtras = true) {
@@ -152,7 +529,7 @@ class PropertyService {
         return data.My_Result;
     }
     async bookUser() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             console.log('payment', checkout_store.payment);
@@ -182,10 +559,10 @@ class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_g = (_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
+                language: ((_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) || 'en',
                 agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_h = booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
+                promo_key: (_g = booking_store.bookingAvailabilityParams.coupon) !== null && _g !== void 0 ? _g : null,
                 booking: {
                     booking_nbr: '',
                     from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -194,7 +571,7 @@ class PropertyService {
                     property: {
                         id: app_store.app_data.property_id,
                     },
-                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : window.location.href, tag: app_store.app_data.stag, description: '' },
+                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
                     currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
                     arrival: { code: checkout_store.userFormData.arrival_time },
@@ -249,6 +626,7 @@ class PropertyService {
         checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { country_id: res.country_id, email: res.email, firstName: res.first_name, lastName: res.last_name, mobile_number: res.mobile, country_phone_prefix: res.country_phone_prefix, id: res.id });
     }
 }
+PropertyService.initialized = false;
 
 export { PropertyService as P };
 

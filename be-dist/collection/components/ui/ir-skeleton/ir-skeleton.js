@@ -5,7 +5,7 @@ export class IrSkeleton {
         this.styles = undefined;
     }
     render() {
-        return h("div", { key: '11db85d7a5e610cfd3f951db1060f16a54347df6', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
+        return h("div", { key: 'd22f7a9c74d5f6d89ebc55db7bda02539d98bd20', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
     }
     static get is() { return "ir-skeleton"; }
     static get encapsulation() { return "shadow"; }

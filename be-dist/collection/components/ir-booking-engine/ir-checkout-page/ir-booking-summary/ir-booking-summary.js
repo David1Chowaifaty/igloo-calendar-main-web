@@ -20,6 +20,8 @@ export class IrBookingSummary {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         const { totalAmount } = calculateTotalCost(true);
+        console.log(totalAmount);
+        console.log(booking_store.ratePlanSelections);
         if (isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')) {
             return (h("div", null, h("p", null, "Loading")));
         }

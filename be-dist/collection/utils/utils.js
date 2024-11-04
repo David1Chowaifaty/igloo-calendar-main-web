@@ -96,6 +96,107 @@ export function runScriptAndRemove(scriptContent) {
     document.body.appendChild(script);
     document.body.removeChild(script);
 }
+// export function injectHTMLAndRunScript(htmlContent: string, uniqueId: string, target: 'head' | 'body' = 'body', position: 'first' | 'last' = 'last'): void {
+//   const element = document.createRange().createContextualFragment(htmlContent);
+//   const scripts = element.querySelectorAll('script');
+//   // Assign a unique ID to each element
+//   element.querySelectorAll('*').forEach((child, index) => {
+//     child.id = `${uniqueId}-${index}`;
+//   });
+//   const destination = target === 'head' ? document.head : document.body;
+//   if (scripts.length === 0) {
+//     // If no script tags and the content is meant to be JavaScript, inject a script element to execute it
+//     if (htmlContent.trim().startsWith('<')) {
+//       // If the content looks like HTML, append it directly without creating a script
+//       if (position === 'first') {
+//         destination.insertBefore(element, destination.firstChild);
+//       } else {
+//         destination.appendChild(element);
+//       }
+//     } else {
+//       // Create a script element to execute plain JavaScript content
+//       const script = document.createElement('script');
+//       script.textContent = htmlContent;
+//       script.onload = function () {
+//         script.remove(); // Clean up after execution
+//       };
+//       if (position === 'first') {
+//         destination.insertBefore(script, destination.firstChild);
+//       } else {
+//         destination.appendChild(script);
+//       }
+//     }
+//   } else {
+//     // Handle existing script tags
+//     scripts.forEach(script => {
+//       const newScript = document.createElement('script');
+//       newScript.textContent = script.textContent; // Only use the JavaScript code inside the script tag
+//       newScript.onload = function () {
+//         newScript.remove(); // Remove the script after execution
+//       };
+//       script.replaceWith(newScript);
+//     });
+//     // Inject the rest of the HTML
+//     if (position === 'first') {
+//       destination.insertBefore(element, destination.firstChild);
+//     } else {
+//       destination.appendChild(element);
+//     }
+//   }
+// }
+export function injectHTMLAndRunScript(htmlContent, uniqueId, target = 'body', position = 'last') {
+    const element = document.createRange().createContextualFragment(htmlContent);
+    const scripts = element.querySelectorAll('script');
+    // Assign a unique ID to each element
+    element.querySelectorAll('*').forEach((child, index) => {
+        child.id = `${uniqueId}-${index}`;
+    });
+    const destination = target === 'head' ? document.head : document.body;
+    if (scripts.length === 0) {
+        // If no script tags and the content is meant to be JavaScript, inject a script element to execute it
+        if (htmlContent.trim().startsWith('<')) {
+            // If the content looks like HTML, append it directly without creating a script
+            if (position === 'first') {
+                destination.insertBefore(element, destination.firstChild);
+            }
+            else {
+                destination.appendChild(element);
+            }
+        }
+        else {
+            // Create a script element to execute plain JavaScript content
+            const script = document.createElement('script');
+            script.textContent = htmlContent;
+            script.onload = function () {
+                script.remove(); // Clean up after execution
+            };
+            if (position === 'first') {
+                destination.insertBefore(script, destination.firstChild);
+            }
+            else {
+                destination.appendChild(script);
+            }
+        }
+    }
+    else {
+        // Handle existing script tags
+        scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent; // Only use the JavaScript code inside the script tag
+            newScript.onload = function () {
+                newScript.remove(); // Remove the script after execution
+            };
+            script.replaceWith(newScript);
+        });
+        // Inject the rest of the HTML
+        if (position === 'first') {
+            destination.insertBefore(element, destination.firstChild);
+        }
+        else {
+            destination.appendChild(element);
+        }
+    }
+}
 export function setDefaultLocale({ currency }) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), { currency_id: currency.code.toString() });
     // matchLocale(language_id)
