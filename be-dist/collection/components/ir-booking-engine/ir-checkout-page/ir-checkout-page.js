@@ -4,7 +4,7 @@ import { AuthService } from "../../../services/api/auth.service";
 import { PaymentService } from "../../../services/api/payment.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
-import booking_store, { validateBooking } from "../../../stores/booking";
+import booking_store, { calculateTotalRooms, validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
 import { destroyBookingCookie, detectCardType, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
@@ -28,39 +28,6 @@ export class IrCheckoutPage {
     async calculateTotalPrepaymentAmount() {
         try {
             this.isLoading = true;
-            let list = [];
-            Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
-                return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
-                    const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
-                    if (r.reserved === 0) {
-                        return null;
-                    }
-                    list.push({ booking_nbr: booking_store.fictus_booking_nbr.nbr, ratePlanId: r.ratePlan.id, roomTypeId: r.roomtype.id });
-                });
-            });
-            let requests = await Promise.all(list.map(l => this.paymentService.GetExposedApplicablePolicies({
-                book_date: new Date(),
-                params: {
-                    booking_nbr: l.booking_nbr,
-                    currency_id: app_store.currencies.find(c => c.code.toLowerCase() === (app_store.userPreferences.currency_id.toLowerCase() || 'usd')).id,
-                    language: app_store.userPreferences.language_id,
-                    rate_plan_id: l.ratePlanId,
-                    room_type_id: l.roomTypeId,
-                    property_id: app_store.property.id,
-                },
-            })));
-            this.prepaymentAmount = requests.reduce((prev, curr) => {
-                let total = 1;
-                const roomtype = booking_store.ratePlanSelections[curr.room_type_id];
-                if (roomtype) {
-                    const ratePlan = roomtype[curr.rate_plan_id];
-                    if (ratePlan) {
-                        total = ratePlan.reserved;
-                    }
-                }
-                return (prev + curr.amount) * total;
-            }, 0);
-            // this.prepaymentAmount = 0;
             checkout_store.prepaymentAmount = this.prepaymentAmount;
         }
         catch (error) {
@@ -69,6 +36,9 @@ export class IrCheckoutPage {
         finally {
             this.isLoading = false;
         }
+    }
+    handlePrepaymentAmountChange(e) {
+        this.prepaymentAmount = e.detail;
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -84,7 +54,7 @@ export class IrCheckoutPage {
         if (checkout_store.agreed_to_services) {
             return false;
         }
-        this.error = { cause: 'booking-summary', issues: 'unchecked aggreement' };
+        this.error = { cause: 'booking-summary', issues: 'unchecked agreement' };
         return true;
     }
     validatePayment() {
@@ -223,7 +193,7 @@ export class IrCheckoutPage {
         var _a, _b, _c, _d;
         const booking = booking_store.booking;
         tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
-        tag = tag.replace(/\$\$length_of_stay\$\$/g, getDateDifference(new Date(booking.from_date), new Date(booking.to_date)).toString());
+        tag = tag.replace(/\$\$total_roomnights\$\$/g, (getDateDifference(new Date(booking.from_date), new Date(booking.to_date)) * calculateTotalRooms()).toString());
         tag = tag.replace(/\$\$booking_xref\$\$/g, booking.booking_nbr.toString());
         tag = tag.replace(/\$\$curr\$\$/g, (_b = (_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.currency_id) === null || _b === void 0 ? void 0 : _b.toString());
         tag = tag.replace(/\$\$cur_code\$\$/g, (_d = (_c = app_store.userPreferences) === null || _c === void 0 ? void 0 : _c.currency_id) === null || _d === void 0 ? void 0 : _d.toString());
@@ -314,6 +284,12 @@ export class IrCheckoutPage {
     }
     static get listeners() {
         return [{
+                "name": "prepaymentChange",
+                "method": "handlePrepaymentAmountChange",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "bookingClicked",
                 "method": "handleBooking",
                 "target": undefined,

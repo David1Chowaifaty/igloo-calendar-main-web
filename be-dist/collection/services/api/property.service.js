@@ -12,7 +12,7 @@ export class PropertyService {
         this.colors = new Colors();
     }
     async getExposedProperty(params, initTheme = true) {
-        var _a, _b;
+        var _a, _b, _c, _d;
         const { data } = await axios.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
@@ -53,6 +53,9 @@ export class PropertyService {
         //     };
         //   });
         // }
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
+        }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
@@ -61,7 +64,6 @@ export class PropertyService {
         app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
-            // app_store.app_data.displayMode = 'grid';
         }
         return result.My_Result;
     }
@@ -79,11 +81,10 @@ export class PropertyService {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
-        this.propertyHelpers.validateModeProps(props);
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data, props);
+        this.propertyHelpers.updateBookingStore(data);
         return data;
     }
     async getExposedBooking(params, withExtras = true) {

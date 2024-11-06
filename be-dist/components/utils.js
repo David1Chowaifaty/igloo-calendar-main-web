@@ -50219,34 +50219,7 @@ const initialState = {
     fictus_booking_nbr: null,
 };
 const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
-function setSelectedVariation(lastVariation, variations, currentVariation) {
-    if ((currentVariation === null || currentVariation === void 0 ? void 0 : currentVariation.state) === 'default' || !currentVariation || booking_store.resetBooking) {
-        if (lastVariation.amount > 0) {
-            return { state: 'default', variation: lastVariation };
-        }
-        return { state: 'default', variation: variations[0] };
-    }
-    const currentVariationIdx = variations.findIndex(v => { var _a; return (v === null || v === void 0 ? void 0 : v.adult_child_offering) === ((_a = currentVariation.variation) === null || _a === void 0 ? void 0 : _a.adult_child_offering); });
-    if (currentVariationIdx === -1) {
-        const variationWithAmount = variations.find(v => v.amount > 0);
-        return { state: 'default', variation: variationWithAmount !== null && variationWithAmount !== void 0 ? variationWithAmount : lastVariation };
-    }
-    return currentVariation;
-}
-// function setSelectedVariation(lastVariation: Variation, variations: Variation[], currentVariation: ISelectedVariation): ISelectedVariation {
-//   if (currentVariation?.state === 'default' || !currentVariation || booking_store.resetBooking) {
-//     const variationWithAmount = variations.find(v => v.amount > 0);
-//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
-//   }
-//   const currentVariationIdx = variations.findIndex(v => v.adult_child_offering === currentVariation.variation.adult_child_offering);
-//   if (currentVariationIdx === -1) {
-//     const variationWithAmount = variations.find(v => v.amount > 0);
-//     return { state: 'default', variation: variationWithAmount ?? lastVariation };
-//   }
-//   return currentVariation;
-// }
 onRoomTypeChange('roomTypes', (newValue) => {
-    // console.log('hellow', newValue);
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
     newValue.forEach(roomType => {
@@ -50254,18 +50227,16 @@ onRoomTypeChange('roomTypes', (newValue) => {
             return;
         ratePlanSelections[roomType.id] = ratePlanSelections[roomType.id] || {};
         roomType.rateplans.forEach(ratePlan => {
-            var _a, _b, _c;
+            var _a, _c, _d, _e;
             if (!ratePlan.is_active || !((_a = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations) === null || _a === void 0 ? void 0 : _a.length))
                 return;
-            let lastVariation = ratePlan.variations[ratePlan.variations.length - 1];
-            lastVariation = (_b = ratePlan.selected_variation) !== null && _b !== void 0 ? _b : lastVariation;
             const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
-                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation), visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
+                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
-                    selected_variation: setSelectedVariation(lastVariation, ratePlan.variations, ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.selected_variation),
+                    selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,
                     ratePlan,
                     guestName: [],
                     is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
@@ -50276,7 +50247,6 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 };
         });
     });
-    // console.log(ratePlanSelections);
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
@@ -50356,18 +50326,17 @@ function calculateTotalCost(gross = false) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const calculateCost = (ratePlan, isPrePayment = false) => {
-        var _a, _b;
+        var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
             if (isPrePayment) {
                 return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
             }
             return ratePlan.checkoutVariations.reduce((sum, variation) => {
-                console.log(gross, variation['amount_gross'], variation['amount'], variation);
-                return sum + Number(variation[gross ? 'amount_gross' : 'amount']);
+                return sum + Number(variation[gross ? 'discounted_gross_amount' : 'discounted_amount']);
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : (_b = ratePlan.selected_variation) === null || _b === void 0 ? void 0 : _b.variation[gross ? 'amount_gross' : 'amount'];
+            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
             return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
         }
         return 0;
@@ -50382,6 +50351,17 @@ function calculateTotalCost(gross = false) {
 }
 function validateBooking() {
     return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')));
+}
+function calculateTotalRooms() {
+    return Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
+        return (total +
+            Object.values(value).reduce((innerTotal, ratePlan) => {
+                if (ratePlan.reserved === 0) {
+                    return innerTotal;
+                }
+                return innerTotal + ratePlan.reserved;
+            }, 0));
+    }, 0);
 }
 
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
@@ -53029,7 +53009,7 @@ function getDateDifference(date1, date2) {
 function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
-function getUserPrefernce(lang = undefined) {
+function getUserPreference(lang = undefined) {
     const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
         const { direction, currency_id } = p;
@@ -53345,6 +53325,6 @@ function calculateInfantNumber(ages) {
     }, 0);
 }
 
-export { detectCardType as A, validateBooking as B, injectHTMLAndRunScript as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyBookingStore as e, defaultOptions$1 as f, getDateDifference as g, enUS as h, injectHTML as i, isSameWeek$1 as j, modifyQueryParam as k, getAbbreviatedWeekdays as l, manageAnchorSession as m, getUserPrefernce as n, validateAgentCode as o, matchLocale as p, checkGhs as q, setDefaultLocale as r, startOfWeek$1 as s, toDate$1 as t, checkAffiliate as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, runScriptAndRemove as y, calculateTotalCost as z };
+export { detectCardType as A, validateBooking as B, injectHTMLAndRunScript as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, calculateInfantNumber as K, defaultOptions$1 as a, booking_store as b, cn as c, dateFns as d, enUS as e, isSameWeek$1 as f, getDateDifference as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, getUserPreference as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, runScriptAndRemove as y, calculateTotalCost as z };
 
 //# sourceMappingURL=utils.js.map

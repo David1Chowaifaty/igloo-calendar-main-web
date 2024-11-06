@@ -39,9 +39,7 @@ export declare class IrBookingEngine {
     private baseUrl;
     private commonService;
     private propertyService;
-    private availabiltyService;
     private token;
-    private identifier;
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleSourceChange(newSource: TSource, oldSource: TSource): void;
@@ -62,6 +60,5 @@ export declare class IrBookingEngine {
     private resetBooking;
     private checkAvailability;
     private renderScreens;
-    disconnectedCallback(): void;
     render(): any;
 }

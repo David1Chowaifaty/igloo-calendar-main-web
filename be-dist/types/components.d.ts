@@ -5,8 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
-import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
-import { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
+import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
 import { TSource } from "./stores/app.store";
 import { TBookingInfo } from "./services/api/payment.service";
 import { Booking } from "./models/booking.dto";
@@ -22,8 +21,7 @@ import { TAuthNavigation } from "./components/ir-booking-engine/ir-nav/ir-auth/a
 import { TSignInAuthTrigger, TSignUpAuthTrigger } from "./validators/auth.validator";
 import { TGuest } from "./models/user_form";
 import { TContainerStyle } from "./components/ir-booking-widget/types";
-export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType } from "./models/property";
-export { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
+export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
 export { TSource } from "./stores/app.store";
 export { TBookingInfo } from "./services/api/payment.service";
 export { Booking } from "./models/booking.dto";
@@ -49,16 +47,12 @@ export namespace Components {
     }
     interface IrAdultChildCounter {
         "adultCount": number;
-        "baseChildrenAges": string[];
         "childMaxAge": number;
         "childrenCount": number;
-        "error": boolean;
-        "infant_nbr": number;
         "maxAdultCount": number;
         "maxChildrenCount": number;
         "minAdultCount": number;
         "minChildrenCount": number;
-        "open": () => Promise<void>;
     }
     interface IrAlertDialog {
         "closeModal": () => Promise<void>;
@@ -67,9 +61,8 @@ export namespace Components {
     interface IrAuth {
         "enableSignUp": boolean;
     }
-    interface IrAvailibilityHeader {
+    interface IrAvailabilityHeader {
         "adultCount": string;
-        "ages": string;
         "childrenCount": string;
         "fromDate": string;
         "toDate": string;
@@ -448,10 +441,10 @@ export namespace Components {
         "roomTypeInventory": number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-      reserved: number;
-      visibleInventory?: number;
-      selected_variation: any;
-    };
+        reserved: number;
+        visibleInventory?: number;
+        selected_variation: Variation;
+      };
     }
     interface IrRoomTypeAmenities {
         "aminities": Amenity[];
@@ -560,9 +553,9 @@ export interface IrAuthCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAuthElement;
 }
-export interface IrAvailibilityHeaderCustomEvent<T> extends CustomEvent<T> {
+export interface IrAvailabilityHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLIrAvailibilityHeaderElement;
+    target: HTMLIrAvailabilityHeaderElement;
 }
 export interface IrBadgeGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -579,6 +572,10 @@ export interface IrBookingCardCustomEvent<T> extends CustomEvent<T> {
 export interface IrBookingCodeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingCodeElement;
+}
+export interface IrBookingDetailsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingDetailsElement;
 }
 export interface IrBookingDetailsViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -744,7 +741,7 @@ declare global {
         new (): HTMLIrAccomodationsElement;
     };
     interface HTMLIrAdultChildCounterElementEventMap {
-        "addAdultsAndChildren": AddAdultsAndChildrenEvent;
+        "addAdultsAndChildren": { adult_nbr: number; child_nbr: number };
     }
     interface HTMLIrAdultChildCounterElement extends Components.IrAdultChildCounter, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAdultChildCounterElementEventMap>(type: K, listener: (this: HTMLIrAdultChildCounterElement, ev: IrAdultChildCounterCustomEvent<HTMLIrAdultChildCounterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -794,23 +791,23 @@ declare global {
         prototype: HTMLIrAuthElement;
         new (): HTMLIrAuthElement;
     };
-    interface HTMLIrAvailibilityHeaderElementEventMap {
+    interface HTMLIrAvailabilityHeaderElementEventMap {
         "resetBooking": null;
         "scrollToRoomType": null;
     }
-    interface HTMLIrAvailibilityHeaderElement extends Components.IrAvailibilityHeader, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrAvailibilityHeaderElementEventMap>(type: K, listener: (this: HTMLIrAvailibilityHeaderElement, ev: IrAvailibilityHeaderCustomEvent<HTMLIrAvailibilityHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLIrAvailabilityHeaderElement extends Components.IrAvailabilityHeader, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAvailabilityHeaderElementEventMap>(type: K, listener: (this: HTMLIrAvailabilityHeaderElement, ev: IrAvailabilityHeaderCustomEvent<HTMLIrAvailabilityHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrAvailibilityHeaderElementEventMap>(type: K, listener: (this: HTMLIrAvailibilityHeaderElement, ev: IrAvailibilityHeaderCustomEvent<HTMLIrAvailibilityHeaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAvailabilityHeaderElementEventMap>(type: K, listener: (this: HTMLIrAvailabilityHeaderElement, ev: IrAvailabilityHeaderCustomEvent<HTMLIrAvailabilityHeaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLIrAvailibilityHeaderElement: {
-        prototype: HTMLIrAvailibilityHeaderElement;
-        new (): HTMLIrAvailibilityHeaderElement;
+    var HTMLIrAvailabilityHeaderElement: {
+        prototype: HTMLIrAvailabilityHeaderElement;
+        new (): HTMLIrAvailabilityHeaderElement;
     };
     interface HTMLIrBadgeElement extends Components.IrBadge, HTMLStencilElement {
     }
@@ -900,7 +897,18 @@ declare global {
         prototype: HTMLIrBookingCodeElement;
         new (): HTMLIrBookingCodeElement;
     };
+    interface HTMLIrBookingDetailsElementEventMap {
+        "prepaymentChange": number;
+    }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrBookingDetailsElement: {
         prototype: HTMLIrBookingDetailsElement;
@@ -1739,7 +1747,7 @@ declare global {
         "ir-adult-child-counter": HTMLIrAdultChildCounterElement;
         "ir-alert-dialog": HTMLIrAlertDialogElement;
         "ir-auth": HTMLIrAuthElement;
-        "ir-availibility-header": HTMLIrAvailibilityHeaderElement;
+        "ir-availability-header": HTMLIrAvailabilityHeaderElement;
         "ir-badge": HTMLIrBadgeElement;
         "ir-badge-group": HTMLIrBadgeGroupElement;
         "ir-banner": HTMLIrBannerElement;
@@ -1819,16 +1827,13 @@ declare namespace LocalJSX {
     }
     interface IrAdultChildCounter {
         "adultCount"?: number;
-        "baseChildrenAges"?: string[];
         "childMaxAge"?: number;
         "childrenCount"?: number;
-        "error"?: boolean;
-        "infant_nbr"?: number;
         "maxAdultCount"?: number;
         "maxChildrenCount"?: number;
         "minAdultCount"?: number;
         "minChildrenCount"?: number;
-        "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<AddAdultsAndChildrenEvent>) => void;
+        "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<{ adult_nbr: number; child_nbr: number }>) => void;
     }
     interface IrAlertDialog {
         "onOpenChange"?: (event: IrAlertDialogCustomEvent<boolean>) => void;
@@ -1837,13 +1842,12 @@ declare namespace LocalJSX {
         "enableSignUp"?: boolean;
         "onCloseDialog"?: (event: IrAuthCustomEvent<null>) => void;
     }
-    interface IrAvailibilityHeader {
+    interface IrAvailabilityHeader {
         "adultCount"?: string;
-        "ages"?: string;
         "childrenCount"?: string;
         "fromDate"?: string;
-        "onResetBooking"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
-        "onScrollToRoomType"?: (event: IrAvailibilityHeaderCustomEvent<null>) => void;
+        "onResetBooking"?: (event: IrAvailabilityHeaderCustomEvent<null>) => void;
+        "onScrollToRoomType"?: (event: IrAvailabilityHeaderCustomEvent<null>) => void;
         "toDate"?: string;
     }
     interface IrBadge {
@@ -1907,6 +1911,7 @@ declare namespace LocalJSX {
     }
     interface IrBookingDetails {
         "errors"?: string;
+        "onPrepaymentChange"?: (event: IrBookingDetailsCustomEvent<number>) => void;
     }
     interface IrBookingDetailsView {
         "booking"?: Booking | null;
@@ -2290,10 +2295,10 @@ declare namespace LocalJSX {
         "roomTypeInventory"?: number;
         "visibleInventory"?: | IRatePlanSelection
     | {
-      reserved: number;
-      visibleInventory?: number;
-      selected_variation: any;
-    };
+        reserved: number;
+        visibleInventory?: number;
+        selected_variation: Variation;
+      };
     }
     interface IrRoomTypeAmenities {
         "aminities"?: Amenity[];
@@ -2414,7 +2419,7 @@ declare namespace LocalJSX {
         "ir-adult-child-counter": IrAdultChildCounter;
         "ir-alert-dialog": IrAlertDialog;
         "ir-auth": IrAuth;
-        "ir-availibility-header": IrAvailibilityHeader;
+        "ir-availability-header": IrAvailabilityHeader;
         "ir-badge": IrBadge;
         "ir-badge-group": IrBadgeGroup;
         "ir-banner": IrBanner;
@@ -2492,7 +2497,7 @@ declare module "@stencil/core" {
             "ir-adult-child-counter": LocalJSX.IrAdultChildCounter & JSXBase.HTMLAttributes<HTMLIrAdultChildCounterElement>;
             "ir-alert-dialog": LocalJSX.IrAlertDialog & JSXBase.HTMLAttributes<HTMLIrAlertDialogElement>;
             "ir-auth": LocalJSX.IrAuth & JSXBase.HTMLAttributes<HTMLIrAuthElement>;
-            "ir-availibility-header": LocalJSX.IrAvailibilityHeader & JSXBase.HTMLAttributes<HTMLIrAvailibilityHeaderElement>;
+            "ir-availability-header": LocalJSX.IrAvailabilityHeader & JSXBase.HTMLAttributes<HTMLIrAvailabilityHeaderElement>;
             "ir-badge": LocalJSX.IrBadge & JSXBase.HTMLAttributes<HTMLIrBadgeElement>;
             "ir-badge-group": LocalJSX.IrBadgeGroup & JSXBase.HTMLAttributes<HTMLIrBadgeGroupElement>;
             "ir-banner": LocalJSX.IrBanner & JSXBase.HTMLAttributes<HTMLIrBannerElement>;

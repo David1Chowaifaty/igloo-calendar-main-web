@@ -143,7 +143,7 @@ export class IrCreditCardInput {
                 },
                 "complexType": {
                     "original": "{ value: string; cardType: '' | 'AMEX' | 'VISA' | 'Mastercard' }",
-                    "resolved": "{ value: string; cardType: \"\" | \"VISA\" | \"Mastercard\" | \"AMEX\"; }",
+                    "resolved": "{ value: string; cardType: \"\" | \"AMEX\" | \"VISA\" | \"Mastercard\"; }",
                     "references": {}
                 }
             }];

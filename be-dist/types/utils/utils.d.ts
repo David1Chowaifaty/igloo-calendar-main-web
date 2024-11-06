@@ -11,7 +11,7 @@ export declare function cn(...inputs: ClassValue[]): string;
 export declare const formatAmount: (amount: any, currency?: string, decimals?: number) => string;
 export declare function getDateDifference(date1: Date, date2: Date): number;
 export declare function renderTime(time: number): string;
-export declare function getUserPrefernce(lang?: string | undefined): void;
+export declare function getUserPreference(lang?: string | undefined): void;
 export declare function runScriptAndRemove(scriptContent: string): void;
 export declare function injectHTMLAndRunScript(htmlContent: string, uniqueId: string, target?: 'head' | 'body', position?: 'first' | 'last'): void;
 export declare function setDefaultLocale({ currency }: {
@@ -31,7 +31,7 @@ export declare function validateAgentCode(code: string): boolean;
 export declare function renderPropertyLocation(): string;
 export declare function destroyBookingCookie(): void;
 export declare function checkGhs(source_code: string, stag: string): boolean;
-export declare function detectCardType(value: string): "" | "VISA" | "Mastercard" | "AMEX";
+export declare function detectCardType(value: string): "" | "AMEX" | "VISA" | "Mastercard";
 type ModifyQueryOptions = {
     reload?: boolean;
     replaceState?: boolean;

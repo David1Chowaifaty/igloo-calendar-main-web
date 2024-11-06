@@ -44,7 +44,6 @@ export declare class IrBookingWidget {
     private renderDateTrigger;
     private renderAdultChildTrigger;
     disconnectedCallback(): void;
-    private handlePopoverToggle;
     private validateChildrenAges;
     render(): any;
 }

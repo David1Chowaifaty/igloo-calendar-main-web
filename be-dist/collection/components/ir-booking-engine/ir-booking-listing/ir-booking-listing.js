@@ -4,7 +4,7 @@ import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
-import { checkAffiliate, getUserPrefernce } from "../../../utils/utils";
+import { checkAffiliate, getUserPreference } from "../../../utils/utils";
 import { Fragment, Host, h } from "@stencil/core";
 import axios from "axios";
 export class IrBookingListing {
@@ -39,7 +39,7 @@ export class IrBookingListing {
         app_store.app_data.hideGoogleSignIn = this.hideGoogleSignIn;
         this.currentPage = this.startScreen.screen;
         this.selectedBooking = (_a = this.startScreen.params) !== null && _a !== void 0 ? _a : null;
-        getUserPrefernce(this.language);
+        getUserPreference(this.language);
         const isAuthenticated = this.commonService.checkUserAuthState();
         if (isAuthenticated) {
             this.bookingNumber = isAuthenticated.params ? isAuthenticated.params.booking_nbr : null;
@@ -198,7 +198,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) })));
     }
     render() {
-        return (h(Host, { key: '59b7ebd42e2613bb5cc5ddc100978118f3e3088a' }, !this.be && h("ir-interceptor", { key: '0baa72b804c246622a715e15fc37ed39761b5d5d' }), !this.isSignedIn ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '3df82be484098f545c72a6f2cb07a34242a613c7' }, !this.be && h("ir-interceptor", { key: 'ab0d27f1bf9f6cdac61ad7e2aefb3134e2d0bace' }), !this.isSignedIn ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

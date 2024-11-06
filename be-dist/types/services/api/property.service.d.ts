@@ -1,4 +1,4 @@
-import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availibility-header/availability";
+import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availability-header/availability";
 import { Booking } from "../../models/booking.dto";
 import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
@@ -21,14 +21,7 @@ export declare class PropertyService {
         aname: string;
         perma_link: string;
     }): Promise<any>;
-    getExposedBookingAvailability(props: {
-        params: TExposedBookingAvailability;
-        identifier: string;
-        rp_id?: number;
-        rt_id?: number;
-        mode: 'modify_rt' | 'default';
-        adultChildConstraint?: string;
-    }): Promise<DataStructure>;
+    getExposedBookingAvailability(props: TExposedBookingAvailability): Promise<DataStructure>;
     getExposedBooking(params: {
         booking_nbr: string;
         language: string;

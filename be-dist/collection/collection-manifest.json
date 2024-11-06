@@ -1,6 +1,5 @@
 {
   "entries": [
-    "components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.js",
     "components/ir-booking-cancelation/ir-booking-cancelation.js",
     "components/ir-booking-engine/ir-booking-engine.js",
     "components/ir-booking-engine/ir-booking-listing/ir-booking-listing.js",
@@ -11,10 +10,11 @@
     "components/ir-booking-engine/ir-booking-listing/ir-pagination/ir-pagination.js",
     "components/ir-booking-engine/ir-booking-page/ir-booking-page.js",
     "components/ir-booking-engine/ir-booking-page/ir-accomodations/ir-accomodations.js",
-    "components/ir-booking-engine/ir-booking-page/ir-availibility-header/ir-availibility-header.js",
-    "components/ir-booking-engine/ir-booking-page/ir-availibility-header/ir-coupon-dialog/ir-coupon-dialog.js",
-    "components/ir-booking-engine/ir-booking-page/ir-availibility-header/ir-date-popup/ir-date-popup.js",
-    "components/ir-booking-engine/ir-booking-page/ir-availibility-header/ir-loyalty/ir-loyalty.js",
+    "components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.js",
+    "components/ir-booking-engine/ir-booking-page/ir-availability-header/ir-availability-header.js",
+    "components/ir-booking-engine/ir-booking-page/ir-availability-header/ir-coupon-dialog/ir-coupon-dialog.js",
+    "components/ir-booking-engine/ir-booking-page/ir-availability-header/ir-date-popup/ir-date-popup.js",
+    "components/ir-booking-engine/ir-booking-page/ir-availability-header/ir-loyalty/ir-loyalty.js",
     "components/ir-booking-engine/ir-booking-page/ir-booking-code/ir-booking-code.js",
     "components/ir-booking-engine/ir-booking-page/ir-facilities/ir-facilities.js",
     "components/ir-booking-engine/ir-booking-page/ir-property-gallery/ir-property-gallery.js",

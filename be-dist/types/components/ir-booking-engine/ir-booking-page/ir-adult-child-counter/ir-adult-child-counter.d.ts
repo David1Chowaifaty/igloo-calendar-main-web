@@ -8,29 +8,23 @@ export type AddAdultsAndChildrenEvent = {
 export declare class IrAdultChildCounter {
     adultCount: number;
     childrenCount: number;
-    infant_nbr: number;
-    error: boolean;
     minAdultCount: number;
     minChildrenCount: number;
     maxAdultCount: number;
     maxChildrenCount: number;
     childMaxAge: number;
-    baseChildrenAges: string[];
+    addAdultsAndChildren: EventEmitter<{
+        adult_nbr: number;
+        child_nbr: number;
+    }>;
     isPopoverOpen: boolean;
-    childrenAges: string[];
-    addAdultsAndChildren: EventEmitter<AddAdultsAndChildrenEvent>;
     private popover;
-    componentWillLoad(): void;
-    handleBaseChildrenAgesChange(newValue: string[]): void;
-    open(): Promise<void>;
-    private addChildrenAndAdult;
-    private incrementAdultCount;
-    private decrementAdultCount;
-    private incrementChildrenCount;
-    private decrementChildrenCount;
-    private handlePopoverToggle;
-    private updateGuestInformation;
-    private validateChildrenAges;
-    private guestTrigger;
+    addChildrenAndAdult(): void;
+    incrementAdultCount(): void;
+    decrementAdultCount(): void;
+    incrementChildrenCount(): void;
+    decrementChildrenCount(): void;
+    guestTrigger(): any;
+    handlePopoverToggle(e: CustomEvent): void;
     render(): any;
 }

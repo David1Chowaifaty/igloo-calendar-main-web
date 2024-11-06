@@ -1,6 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { format, isBefore } from "date-fns";
-import { cn, formatAmount, getDateDifference, getUserPrefernce, runScriptAndRemove } from "../../utils/utils";
+import { cn, formatAmount, getDateDifference, getUserPreference as getUserPreference, runScriptAndRemove } from "../../utils/utils";
 import localizedWords from "../../stores/localization.store";
 import app_store from "../../stores/app.store";
 import { PropertyService } from "../../services/api/property.service";
@@ -49,7 +49,7 @@ export class IrInvoice {
         }
         this.isLoading = true;
         if (!this.be) {
-            getUserPrefernce(this.language);
+            getUserPreference(this.language);
         }
         const isAuthenticated = this.commonService.checkUserAuthState();
         console.log(isAuthenticated);
@@ -185,13 +185,14 @@ export class IrInvoice {
         return `mailto:${email}?subject=${encodedSubject}`;
     }
     renderPaymentText(paymentOption) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f;
         if (paymentOption.is_payment_gateway) {
-            return (h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_YouHavePaid, " ", h("span", null, formatAmount(this.amount, this.booking.currency.code))));
+            const amount = (_b = (_a = this.booking.financial.payments) === null || _a === void 0 ? void 0 : _a.reduce((prev, cur) => cur.amount + prev, 0)) !== null && _b !== void 0 ? _b : 0;
+            return (h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_YouHavePaid, " ", h("span", null, formatAmount(amount, this.booking.currency.code))));
         }
         if (paymentOption.code === '005') {
-            return (h("div", null, h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_DueAmountNow, " ", h("span", null, formatAmount(this.booking.financial.due_amount, this.booking.currency.code))), h("p", { class: "mt-1.5 text-xs text-gray-700", innerHTML: ((_b = (_a = paymentOption.localizables) === null || _a === void 0 ? void 0 : _a.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _b === void 0 ? void 0 : _b.description) ||
-                    ((_d = (_c = paymentOption.localizables) === null || _c === void 0 ? void 0 : _c.find(d => d.language.code.toLowerCase() === 'en')) === null || _d === void 0 ? void 0 : _d.description) })));
+            return (h("div", null, h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_DueAmountNow, " ", h("span", null, formatAmount(this.booking.financial.due_amount, this.booking.currency.code))), h("p", { class: "mt-1.5 text-xs text-gray-700", innerHTML: ((_d = (_c = paymentOption.localizables) === null || _c === void 0 ? void 0 : _c.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _d === void 0 ? void 0 : _d.description) ||
+                    ((_f = (_e = paymentOption.localizables) === null || _e === void 0 ? void 0 : _e.find(d => d.language.code.toLowerCase() === 'en')) === null || _f === void 0 ? void 0 : _f.description) })));
         }
         return (h("p", { class: "total-payment text-sm" }, localizedWords.entries.Lcz_YourCardWillBeCharged, " ", h("span", null, formatAmount(this.booking.financial.gross_total, this.booking.currency.code))));
     }

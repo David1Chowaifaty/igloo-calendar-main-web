@@ -18,6 +18,7 @@ export declare class IrCheckoutPage {
     private errorElement;
     componentWillLoad(): Promise<void>;
     private calculateTotalPrepaymentAmount;
+    handlePrepaymentAmountChange(e: CustomEvent<number>): void;
     handleBooking(e: CustomEvent): Promise<void>;
     private validatePolicyAcceptance;
     private validatePayment;

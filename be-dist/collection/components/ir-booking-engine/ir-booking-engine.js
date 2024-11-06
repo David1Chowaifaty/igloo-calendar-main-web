@@ -4,19 +4,16 @@ import { h } from "@stencil/core";
 import { addYears, format } from "date-fns";
 import booking_store, { modifyBookingStore } from "../../stores/booking";
 import app_store, { changeLocale, updateUserPreference } from "../../stores/app.store";
-import { checkAffiliate, checkGhs, getUserPrefernce, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
+import { checkAffiliate, checkGhs, getUserPreference, matchLocale, setDefaultLocale, validateAgentCode, validateCoupon } from "../../utils/utils";
 import Stack from "../../models/stack";
-import { v4 } from "uuid";
-import { AvailabiltyService } from "../../services/app/availability.service";
 import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.31';
+        this.version = '2.33';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
-        this.availabiltyService = new AvailabiltyService();
         this.token = new Token();
         this.propertyId = undefined;
         this.injected = undefined;
@@ -49,7 +46,7 @@ export class IrBookingEngine {
     }
     async componentWillLoad() {
         console.log(`version:${this.version}`);
-        getUserPrefernce(this.language);
+        getUserPreference(this.language);
         if (this.property) {
             app_store.property = Object.assign({}, this.property);
         }
@@ -250,27 +247,22 @@ export class IrBookingEngine {
         await Promise.all(queries);
     }
     async checkAvailability() {
-        this.identifier = v4();
-        this.availabiltyService.initSocket(this.identifier);
+        console.warn('here');
         await this.propertyService.getExposedBookingAvailability({
-            params: {
-                propertyid: app_store.app_data.property_id,
-                from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
-                room_type_ids: [],
-                adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
-                child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
-                language: app_store.userPreferences.language_id,
-                currency_ref: app_store.userPreferences.currency_id,
-                is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
-                promo_key: booking_store.bookingAvailabilityParams.coupon || '',
-                is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
-                agent_id: booking_store.bookingAvailabilityParams.agent || 0,
-                is_in_affiliate_mode: !!app_store.app_data.affiliate,
-                affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
-            },
-            identifier: this.identifier,
-            mode: 'default',
+            propertyid: app_store.app_data.property_id,
+            from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+            to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+            room_type_ids: [],
+            adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
+            child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
+            language: app_store.userPreferences.language_id,
+            currency_ref: app_store.userPreferences.currency_id,
+            is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
+            promo_key: booking_store.bookingAvailabilityParams.coupon || '',
+            is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
+            agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+            is_in_affiliate_mode: !!app_store.app_data.affiliate,
+            affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
         });
     }
     renderScreens() {
@@ -297,9 +289,6 @@ export class IrBookingEngine {
             default:
                 return null;
         }
-    }
-    disconnectedCallback() {
-        this.availabiltyService.disconnectSocket();
     }
     render() {
         var _a, _b, _c;

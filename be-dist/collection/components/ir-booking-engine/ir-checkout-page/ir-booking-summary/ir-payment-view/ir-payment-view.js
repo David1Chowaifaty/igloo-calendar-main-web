@@ -27,6 +27,7 @@ export class IrPaymentView {
     setPaymentMethod() {
         var _a;
         const paymentMethods = ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.filter(pm => pm.is_active)) || [];
+        console.log('paymentMethods', paymentMethods);
         let selectedMethodCode = null;
         if ((this.prepaymentAmount === 0 && paymentMethods.length === 1 && paymentMethods[0].is_payment_gateway) ||
             (this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway))) {
@@ -36,7 +37,6 @@ export class IrPaymentView {
             const [firstMethod, secondMethod] = paymentMethods;
             selectedMethodCode = firstMethod.code === '000' && secondMethod ? secondMethod.code : firstMethod.code;
         }
-        console.log('selectedMethodCode', selectedMethodCode);
         this.selectedPaymentMethod = selectedMethodCode;
     }
     getExpiryMask() {
@@ -154,7 +154,6 @@ export class IrPaymentView {
         var _a, _b, _c, _d;
         const paymentMethods = (_a = app_store.property.allowed_payment_methods.filter(p => p.is_active)) !== null && _a !== void 0 ? _a : [];
         const paymentLength = paymentMethods.length;
-        console.log(paymentLength);
         if ((this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway)) || paymentLength === 0) {
             return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
         }
@@ -170,9 +169,9 @@ export class IrPaymentView {
                 if (!apm.is_active) {
                     return null;
                 }
-                if (apm.code === '000') {
-                    return null;
-                }
+                // if (apm.code === '000') {
+                //   return null;
+                // }
                 if (apm.is_payment_gateway && this.prepaymentAmount === 0) {
                     return null;
                 }
@@ -204,8 +203,8 @@ export class IrPaymentView {
     }
     render() {
         var _a, _b;
-        return (h("div", { key: '877723c876a55ba84c92a36ac7427e8d2727ed7e', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'fa75764f7c66fbb9c099bc9035ad34ec8cf46ea0' }, localizedWords.entries.Lcz_PaymentSecurity), this.renderPaymentOptions(), this.renderPaymentMethod(), this.cardType !== '' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '947cc9dbf7876404edfa3749a15448c9ffe3c617', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+        return (h("div", { key: '46124f2a1ad45452322c8fb99ee2d92bc8f48738', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'e4cd8c108e568bfec61e0a13f24429e91f47445f' }, localizedWords.entries.Lcz_PaymentSecurity), this.renderPaymentOptions(), this.renderPaymentMethod(), this.cardType !== '' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '6aac98fe6511cc01d7cc7995f3a7c4b8f131776d', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
             _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }

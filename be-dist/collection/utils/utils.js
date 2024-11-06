@@ -71,7 +71,7 @@ export function getDateDifference(date1, date2) {
 export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }
-export function getUserPrefernce(lang = undefined) {
+export function getUserPreference(lang = undefined) {
     const p = JSON.parse(localStorage.getItem('user_preference'));
     if (p) {
         const { direction, currency_id } = p;
