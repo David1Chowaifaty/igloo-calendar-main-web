@@ -1,9 +1,9 @@
 import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availability-header/availability";
 import { Booking } from "../../models/booking.dto";
-import { DataStructure } from "../../models/common";
 import { ISetupEntries } from "../../models/property";
 import { Colors } from '../app/colors.service';
 import { TGuest } from "../../models/user_form";
+import { DataStructure } from "../../models/common";
 export declare class PropertyService {
     private propertyHelpers;
     private static initialized;

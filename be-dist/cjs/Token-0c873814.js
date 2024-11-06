@@ -22031,7 +22031,7 @@ class PropertyService {
         return data.My_Result;
     }
     async bookUser() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             console.log('payment', checkout_store.payment);
@@ -22061,10 +22061,10 @@ class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: ((_f = utils$3.app_store === null || utils$3.app_store === void 0 ? void 0 : utils$3.app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) || 'en',
+                language: (_g = (_f = utils$3.app_store === null || utils$3.app_store === void 0 ? void 0 : utils$3.app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
                 agent: utils$3.booking_store.bookingAvailabilityParams.agent ? { id: utils$3.booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: utils$3.booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_g = utils$3.booking_store.bookingAvailabilityParams.coupon) !== null && _g !== void 0 ? _g : null,
+                promo_key: (_h = utils$3.booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
                 booking: {
                     booking_nbr: '',
                     from_date: utils$3.dateFns.format(utils$3.booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -22275,4 +22275,4 @@ exports.updatePartialPickupFormData = updatePartialPickupFormData;
 exports.updatePickupFormData = updatePickupFormData;
 exports.updateUserFormData = updateUserFormData;
 
-//# sourceMappingURL=Token-29cb2287.js.map
+//# sourceMappingURL=Token-0c873814.js.map

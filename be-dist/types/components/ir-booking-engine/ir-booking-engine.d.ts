@@ -40,7 +40,7 @@ export declare class IrBookingEngine {
     private commonService;
     private propertyService;
     private token;
-    private privacyPolicyRef;
+    privacyPolicyRef: any;
     componentWillLoad(): Promise<void>;
     handleSourceChange(newSource: TSource, oldSource: TSource): void;
     handleCurrencyChange(newValue: string, oldValue: string): void;

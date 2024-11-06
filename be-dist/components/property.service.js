@@ -354,7 +354,7 @@ class PropertyService {
         return data.My_Result;
     }
     async bookUser() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             console.log('payment', checkout_store.payment);
@@ -384,10 +384,10 @@ class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: ((_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) || 'en',
+                language: (_g = (_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
                 agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_g = booking_store.bookingAvailabilityParams.coupon) !== null && _g !== void 0 ? _g : null,
+                promo_key: (_h = booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
                 booking: {
                     booking_nbr: '',
                     from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
