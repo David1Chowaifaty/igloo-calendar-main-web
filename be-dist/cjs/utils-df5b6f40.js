@@ -1,4 +1,6 @@
-import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
+'use strict';
+
+const index = require('./index-380c61af.js');
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -38,7 +40,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof getRenderingRef !== 'function') {
+    if (typeof index.getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -47,7 +49,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = getRenderingRef();
+            const elm = index.getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -55,12 +57,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -53571,6 +53573,49 @@ function calculateInfantNumber(ages) {
     }, 0);
 }
 
-export { getAbbreviatedWeekdays as A, detectCardType as B, validateBooking as C, injectHTMLAndRunScript as D, destroyBookingCookie as E, renderPropertyLocation as F, renderTime as G, formatImageAlt as H, updateRoomParams as I, reserveRooms as J, getVisibleInventory as K, toDate$1 as L, startOfWeek$1 as M, defaultOptions$1 as N, enUS as O, isSameWeek$1 as P, injectHTML as Q, calculateInfantNumber as R, app_store as a, booking_store as b, createStore as c, dateFns as d, modifyQueryParam as e, validateAgentCode as f, getUserPreference as g, changeLocale as h, matchLocale as i, checkGhs as j, checkAffiliate as k, localizedWords as l, manageAnchorSession as m, modifyBookingStore as n, onAppDataChange as o, formatAmount as p, formatFullLocation as q, getDateDifference as r, setDefaultLocale as s, calculateTotalRooms as t, updateUserPreference as u, validateCoupon as v, runScriptAndRemove as w, cn as x, calculateTotalCost as y, locale as z };
+exports.app_store = app_store;
+exports.booking_store = booking_store;
+exports.calculateInfantNumber = calculateInfantNumber;
+exports.calculateTotalCost = calculateTotalCost;
+exports.calculateTotalRooms = calculateTotalRooms;
+exports.changeLocale = changeLocale;
+exports.checkAffiliate = checkAffiliate;
+exports.checkGhs = checkGhs;
+exports.cn = cn;
+exports.createStore = createStore;
+exports.dateFns = dateFns;
+exports.defaultOptions = defaultOptions$1;
+exports.destroyBookingCookie = destroyBookingCookie;
+exports.detectCardType = detectCardType;
+exports.enUS = enUS;
+exports.formatAmount = formatAmount;
+exports.formatFullLocation = formatFullLocation;
+exports.formatImageAlt = formatImageAlt;
+exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getDateDifference = getDateDifference;
+exports.getUserPreference = getUserPreference;
+exports.getVisibleInventory = getVisibleInventory;
+exports.injectHTML = injectHTML;
+exports.injectHTMLAndRunScript = injectHTMLAndRunScript;
+exports.isSameWeek = isSameWeek$1;
+exports.locale = locale;
+exports.localizedWords = localizedWords;
+exports.manageAnchorSession = manageAnchorSession;
+exports.matchLocale = matchLocale;
+exports.modifyBookingStore = modifyBookingStore;
+exports.modifyQueryParam = modifyQueryParam;
+exports.onAppDataChange = onAppDataChange;
+exports.renderPropertyLocation = renderPropertyLocation;
+exports.renderTime = renderTime;
+exports.reserveRooms = reserveRooms;
+exports.runScriptAndRemove = runScriptAndRemove;
+exports.setDefaultLocale = setDefaultLocale;
+exports.startOfWeek = startOfWeek$1;
+exports.toDate = toDate$1;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserPreference = updateUserPreference;
+exports.validateAgentCode = validateAgentCode;
+exports.validateBooking = validateBooking;
+exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-a63ad51c.js.map
+//# sourceMappingURL=utils-df5b6f40.js.map

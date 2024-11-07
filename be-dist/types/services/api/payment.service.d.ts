@@ -54,8 +54,8 @@ export declare class PaymentService {
     }): Promise<TExposedApplicablePolicies>;
     processAlicablePolicies(policies: IExposedApplicablePolicies[], book_date: Date): {
         amount: number;
-        isInFreeCancelationZone: boolean;
     };
+    checkFreeCancelationZone(policies: IExposedApplicablePolicies[]): boolean;
     getCancelationMessage(applicablePolicies: IExposedApplicablePolicies[] | null, showCancelation?: boolean, includeGuarentee?: boolean): {
         message: string;
         data: IExposedApplicablePolicies[];

@@ -1,6 +1,4 @@
-'use strict';
-
-const index = require('./index-380c61af.js');
+import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -40,7 +38,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof index.getRenderingRef !== 'function') {
+    if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -49,7 +47,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = index.getRenderingRef();
+            const elm = getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -57,12 +55,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -53573,49 +53571,6 @@ function calculateInfantNumber(ages) {
     }, 0);
 }
 
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateInfantNumber = calculateInfantNumber;
-exports.calculateTotalCost = calculateTotalCost;
-exports.calculateTotalRooms = calculateTotalRooms;
-exports.changeLocale = changeLocale;
-exports.checkAffiliate = checkAffiliate;
-exports.checkGhs = checkGhs;
-exports.cn = cn;
-exports.createStore = createStore;
-exports.dateFns = dateFns;
-exports.defaultOptions = defaultOptions$1;
-exports.destroyBookingCookie = destroyBookingCookie;
-exports.detectCardType = detectCardType;
-exports.enUS = enUS;
-exports.formatAmount = formatAmount;
-exports.formatFullLocation = formatFullLocation;
-exports.formatImageAlt = formatImageAlt;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getDateDifference = getDateDifference;
-exports.getUserPreference = getUserPreference;
-exports.getVisibleInventory = getVisibleInventory;
-exports.injectHTML = injectHTML;
-exports.injectHTMLAndRunScript = injectHTMLAndRunScript;
-exports.isSameWeek = isSameWeek$1;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.manageAnchorSession = manageAnchorSession;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.modifyQueryParam = modifyQueryParam;
-exports.onAppDataChange = onAppDataChange;
-exports.renderPropertyLocation = renderPropertyLocation;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.runScriptAndRemove = runScriptAndRemove;
-exports.setDefaultLocale = setDefaultLocale;
-exports.startOfWeek = startOfWeek$1;
-exports.toDate = toDate$1;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserPreference = updateUserPreference;
-exports.validateAgentCode = validateAgentCode;
-exports.validateBooking = validateBooking;
-exports.validateCoupon = validateCoupon;
+export { locale as A, getAbbreviatedWeekdays as B, detectCardType as C, validateBooking as D, injectHTMLAndRunScript as E, destroyBookingCookie as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, toDate$1 as M, startOfWeek$1 as N, defaultOptions$1 as O, enUS as P, isSameWeek$1 as Q, calculateInfantNumber as R, app_store as a, booking_store as b, createStore as c, dateFns as d, modifyQueryParam as e, getUserPreference as f, getDateDifference as g, validateAgentCode as h, injectHTML as i, changeLocale as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, onAppDataChange as o, checkAffiliate as p, modifyBookingStore as q, formatAmount as r, setDefaultLocale as s, formatFullLocation as t, updateUserPreference as u, validateCoupon as v, calculateTotalRooms as w, runScriptAndRemove as x, cn as y, calculateTotalCost as z };
 
-//# sourceMappingURL=utils-cac5975c.js.map
+//# sourceMappingURL=utils-345dd346.js.map
