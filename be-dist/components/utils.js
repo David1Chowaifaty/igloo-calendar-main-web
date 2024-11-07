@@ -50219,6 +50219,16 @@ const initialState = {
     fictus_booking_nbr: null,
 };
 const { state: booking_store, onChange: onRoomTypeChange } = createStore(initialState);
+function checkVariation(variations, selected_variation) {
+    var _a;
+    if (!variations) {
+        return null;
+    }
+    if (!selected_variation || booking_store.resetBooking) {
+        return variations[0];
+    }
+    return (_a = variations === null || variations === void 0 ? void 0 : variations.find(v => v.adult_nbr === selected_variation.adult_nbr && v.child_nbr === selected_variation.child_nbr)) !== null && _a !== void 0 ? _a : null;
+}
 onRoomTypeChange('roomTypes', (newValue) => {
     const currentSelections = booking_store.ratePlanSelections;
     const ratePlanSelections = {};
@@ -50233,7 +50243,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
             const currentRatePlanSelection = (_c = currentSelections[roomType.id]) === null || _c === void 0 ? void 0 : _c[ratePlan.id];
             ratePlanSelections[roomType.id][ratePlan.id] =
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
-                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
+                    ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = checkVariation(ratePlan.variations, currentRatePlanSelection.selected_variation)) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,

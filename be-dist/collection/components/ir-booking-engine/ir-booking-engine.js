@@ -248,6 +248,7 @@ export class IrBookingEngine {
     }
     async checkAvailability() {
         console.warn('here');
+        booking_store.resetBooking = false;
         await this.propertyService.getExposedBookingAvailability({
             propertyid: app_store.app_data.property_id,
             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),

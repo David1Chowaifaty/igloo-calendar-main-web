@@ -1,6 +1,4 @@
-'use strict';
-
-const utils$3 = require('./utils-df5b6f40.js');
+import { L as toDate, M as startOfWeek, N as defaultOptions, O as enUS, P as isSameWeek, d as dateFns, b as booking_store, c as createStore, a as app_store, Q as injectHTML, r as getDateDifference, l as localizedWords } from './utils-7f9804d9.js';
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3305,7 +3303,7 @@ function constructFrom(date, value) {
 }
 
 addDays$1.addDays = addDays;
-var _index$3S = utils$3.toDate;
+var _index$3S = toDate;
 var _index2$1x = constructFrom$1;
 
 /**
@@ -3342,7 +3340,7 @@ function addDays(date, amount) {
 var addMonths$1 = {};
 
 addMonths$1.addMonths = addMonths;
-var _index$3R = utils$3.toDate;
+var _index$3R = toDate;
 var _index2$1w = constructFrom$1;
 
 /**
@@ -3414,7 +3412,7 @@ add$1.add = add;
 var _index$3Q = addDays$1;
 var _index2$1v = addMonths$1;
 var _index3$N = constructFrom$1;
-var _index4$h = utils$3.toDate;
+var _index4$h = toDate;
 
 /**
  * @name add
@@ -3497,7 +3495,7 @@ var addBusinessDays$1 = {};
 var isSaturday$1 = {};
 
 isSaturday$1.isSaturday = isSaturday;
-var _index$3P = utils$3.toDate;
+var _index$3P = toDate;
 
 /**
  * @name isSaturday
@@ -3525,7 +3523,7 @@ function isSaturday(date) {
 var isSunday$1 = {};
 
 isSunday$1.isSunday = isSunday;
-var _index$3O = utils$3.toDate;
+var _index$3O = toDate;
 
 /**
  * @name isSunday
@@ -3553,7 +3551,7 @@ function isSunday(date) {
 var isWeekend$1 = {};
 
 isWeekend$1.isWeekend = isWeekend;
-var _index$3N = utils$3.toDate;
+var _index$3N = toDate;
 
 /**
  * @name isWeekend
@@ -3584,7 +3582,7 @@ var _index$3M = constructFrom$1;
 var _index2$1u = isSaturday$1;
 var _index3$M = isSunday$1;
 var _index4$g = isWeekend$1;
-var _index5$8 = utils$3.toDate;
+var _index5$8 = toDate;
 
 /**
  * @name addBusinessDays
@@ -3650,7 +3648,7 @@ var addHours$1 = {};
 var addMilliseconds$1 = {};
 
 addMilliseconds$1.addMilliseconds = addMilliseconds;
-var _index$3L = utils$3.toDate;
+var _index$3L = toDate;
 var _index2$1t = constructFrom$1;
 
 /**
@@ -3942,7 +3940,7 @@ var getISOWeekYear$1 = {};
 var startOfISOWeek$1 = {};
 
 startOfISOWeek$1.startOfISOWeek = startOfISOWeek;
-var _index$3J = utils$3.startOfWeek;
+var _index$3J = startOfWeek;
 
 /**
  * @name startOfISOWeek
@@ -3973,7 +3971,7 @@ function startOfISOWeek(date) {
 getISOWeekYear$1.getISOWeekYear = getISOWeekYear;
 var _index$3I = constructFrom$1;
 var _index2$1r = startOfISOWeek$1;
-var _index3$L = utils$3.toDate;
+var _index3$L = toDate;
 
 /**
  * @name getISOWeekYear
@@ -4031,7 +4029,7 @@ var differenceInCalendarDays$1 = {};
 var startOfDay$1 = {};
 
 startOfDay$1.startOfDay = startOfDay;
-var _index$3H = utils$3.toDate;
+var _index$3H = toDate;
 
 /**
  * @name startOfDay
@@ -4062,7 +4060,7 @@ function startOfDay(date) {
 var getTimezoneOffsetInMilliseconds$1 = {};
 
 getTimezoneOffsetInMilliseconds$1.getTimezoneOffsetInMilliseconds = getTimezoneOffsetInMilliseconds;
-var _index$3G = utils$3.toDate;
+var _index$3G = toDate;
 
 /**
  * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
@@ -4190,7 +4188,7 @@ setISOWeekYear$1.setISOWeekYear = setISOWeekYear;
 var _index$3D = constructFrom$1;
 var _index2$1o = differenceInCalendarDays$1;
 var _index3$I = startOfISOWeekYear$1;
-var _index4$f = utils$3.toDate;
+var _index4$f = toDate;
 
 /**
  * @name setISOWeekYear
@@ -4416,7 +4414,7 @@ function addYears(date, amount) {
 var areIntervalsOverlapping$1 = {};
 
 areIntervalsOverlapping$1.areIntervalsOverlapping = areIntervalsOverlapping;
-var _index$3w = utils$3.toDate;
+var _index$3w = toDate;
 
 /**
  * The {@link areIntervalsOverlapping} function options.
@@ -4497,7 +4495,7 @@ var clamp$1 = {};
 var max$1 = {};
 
 max$1.max = max;
-var _index$3v = utils$3.toDate;
+var _index$3v = toDate;
 
 /**
  * @name max
@@ -4543,7 +4541,7 @@ function max(dates) {
 var min$1 = {};
 
 min$1.min = min;
-var _index$3u = utils$3.toDate;
+var _index$3u = toDate;
 
 /**
  * @name min
@@ -4624,7 +4622,7 @@ function clamp(date, interval) {
 var closestIndexTo$1 = {};
 
 closestIndexTo$1.closestIndexTo = closestIndexTo;
-var _index$3s = utils$3.toDate;
+var _index$3s = toDate;
 
 /**
  * @name closestIndexTo
@@ -4684,7 +4682,7 @@ var closestTo$1 = {};
 
 closestTo$1.closestTo = closestTo;
 var _index$3r = constructFrom$1;
-var _index2$1k = utils$3.toDate;
+var _index2$1k = toDate;
 
 /**
  * @name closestTo
@@ -4741,7 +4739,7 @@ function closestTo(dateToCompare, dates) {
 var compareAsc$1 = {};
 
 compareAsc$1.compareAsc = compareAsc;
-var _index$3q = utils$3.toDate;
+var _index$3q = toDate;
 
 /**
  * @name compareAsc
@@ -4796,7 +4794,7 @@ function compareAsc(dateLeft, dateRight) {
 var compareDesc$1 = {};
 
 compareDesc$1.compareDesc = compareDesc;
-var _index$3p = utils$3.toDate;
+var _index$3p = toDate;
 
 /**
  * @name compareDesc
@@ -5013,7 +5011,7 @@ function isDate(value) {
 
 isValid$1.isValid = isValid;
 var _index$3l = isDate$1;
-var _index2$1j = utils$3.toDate;
+var _index2$1j = toDate;
 
 /**
  * @name isValid
@@ -5062,7 +5060,7 @@ var _index2$1i = differenceInCalendarDays$1;
 var _index3$H = isSameDay$1;
 var _index4$e = isValid$1;
 var _index5$7 = isWeekend$1;
-var _index6$5 = utils$3.toDate;
+var _index6$5 = toDate;
 
 /**
  * @name differenceInBusinessDays
@@ -5234,7 +5232,7 @@ function differenceInCalendarISOWeeks(dateLeft, dateRight) {
 var differenceInCalendarMonths$1 = {};
 
 differenceInCalendarMonths$1.differenceInCalendarMonths = differenceInCalendarMonths;
-var _index$3h = utils$3.toDate;
+var _index$3h = toDate;
 
 /**
  * @name differenceInCalendarMonths
@@ -5274,7 +5272,7 @@ var differenceInCalendarQuarters$1 = {};
 var getQuarter$1 = {};
 
 getQuarter$1.getQuarter = getQuarter;
-var _index$3g = utils$3.toDate;
+var _index$3g = toDate;
 
 /**
  * @name getQuarter
@@ -5303,7 +5301,7 @@ function getQuarter(date) {
 
 differenceInCalendarQuarters$1.differenceInCalendarQuarters = differenceInCalendarQuarters;
 var _index$3f = getQuarter$1;
-var _index2$1g = utils$3.toDate;
+var _index2$1g = toDate;
 
 /**
  * @name differenceInCalendarQuarters
@@ -5343,7 +5341,7 @@ var differenceInCalendarWeeks$1 = {};
 
 differenceInCalendarWeeks$1.differenceInCalendarWeeks = differenceInCalendarWeeks;
 var _index$3e = constants$1;
-var _index2$1f = utils$3.startOfWeek;
+var _index2$1f = startOfWeek;
 
 var _index3$F = getTimezoneOffsetInMilliseconds$1;
 
@@ -5407,7 +5405,7 @@ function differenceInCalendarWeeks(dateLeft, dateRight, options) {
 var differenceInCalendarYears$1 = {};
 
 differenceInCalendarYears$1.differenceInCalendarYears = differenceInCalendarYears;
-var _index$3d = utils$3.toDate;
+var _index$3d = toDate;
 
 /**
  * @name differenceInCalendarYears
@@ -5443,7 +5441,7 @@ var differenceInDays$1 = {};
 
 differenceInDays$1.differenceInDays = differenceInDays;
 var _index$3c = differenceInCalendarDays$1;
-var _index2$1e = utils$3.toDate;
+var _index2$1e = toDate;
 
 /**
  * @name differenceInDays
@@ -5562,7 +5560,7 @@ function getRoundingMethod(method) {
 var differenceInMilliseconds$1 = {};
 
 differenceInMilliseconds$1.differenceInMilliseconds = differenceInMilliseconds;
-var _index$3b = utils$3.toDate;
+var _index$3b = toDate;
 
 /**
  * @name differenceInMilliseconds
@@ -5669,7 +5667,7 @@ differenceInISOWeekYears$1.differenceInISOWeekYears = differenceInISOWeekYears;
 var _index$38 = compareAsc$1;
 var _index2$1c = differenceInCalendarISOWeekYears$1;
 var _index3$D = subISOWeekYears$1;
-var _index4$d = utils$3.toDate;
+var _index4$d = toDate;
 
 /**
  * @name differenceInISOWeekYears
@@ -5774,7 +5772,7 @@ var isLastDayOfMonth$1 = {};
 var endOfDay$1 = {};
 
 endOfDay$1.endOfDay = endOfDay;
-var _index$36 = utils$3.toDate;
+var _index$36 = toDate;
 
 /**
  * @name endOfDay
@@ -5805,7 +5803,7 @@ function endOfDay(date) {
 var endOfMonth$1 = {};
 
 endOfMonth$1.endOfMonth = endOfMonth;
-var _index$35 = utils$3.toDate;
+var _index$35 = toDate;
 
 /**
  * @name endOfMonth
@@ -5838,7 +5836,7 @@ function endOfMonth(date) {
 isLastDayOfMonth$1.isLastDayOfMonth = isLastDayOfMonth;
 var _index$34 = endOfDay$1;
 var _index2$1a = endOfMonth$1;
-var _index3$B = utils$3.toDate;
+var _index3$B = toDate;
 
 /**
  * @name isLastDayOfMonth
@@ -5868,7 +5866,7 @@ differenceInMonths$1.differenceInMonths = differenceInMonths;
 var _index$33 = compareAsc$1;
 var _index2$19 = differenceInCalendarMonths$1;
 var _index3$A = isLastDayOfMonth$1;
-var _index4$c = utils$3.toDate;
+var _index4$c = toDate;
 
 /**
  * @name differenceInMonths
@@ -6072,7 +6070,7 @@ var differenceInYears$1 = {};
 differenceInYears$1.differenceInYears = differenceInYears;
 var _index$2$ = compareAsc$1;
 var _index2$15 = differenceInCalendarYears$1;
-var _index3$z = utils$3.toDate;
+var _index3$z = toDate;
 
 /**
  * @name differenceInYears
@@ -6121,7 +6119,7 @@ function differenceInYears(dateLeft, dateRight) {
 var eachDayOfInterval$1 = {};
 
 eachDayOfInterval$1.eachDayOfInterval = eachDayOfInterval;
-var _index$2_ = utils$3.toDate;
+var _index$2_ = toDate;
 
 /**
  * The {@link eachDayOfInterval} function options.
@@ -6187,7 +6185,7 @@ var eachHourOfInterval$1 = {};
 
 eachHourOfInterval$1.eachHourOfInterval = eachHourOfInterval;
 var _index$2Z = addHours$1;
-var _index2$14 = utils$3.toDate;
+var _index2$14 = toDate;
 
 /**
  * The {@link eachHourOfInterval} function options.
@@ -6252,7 +6250,7 @@ var eachMinuteOfInterval$1 = {};
 var startOfMinute$1 = {};
 
 startOfMinute$1.startOfMinute = startOfMinute;
-var _index$2Y = utils$3.toDate;
+var _index$2Y = toDate;
 
 /**
  * @name startOfMinute
@@ -6283,7 +6281,7 @@ function startOfMinute(date) {
 eachMinuteOfInterval$1.eachMinuteOfInterval = eachMinuteOfInterval;
 var _index$2X = addMinutes$1;
 var _index2$13 = startOfMinute$1;
-var _index3$y = utils$3.toDate;
+var _index3$y = toDate;
 
 /**
  * The {@link eachMinuteOfInterval} function options.
@@ -6347,7 +6345,7 @@ function eachMinuteOfInterval(interval, options) {
 var eachMonthOfInterval$1 = {};
 
 eachMonthOfInterval$1.eachMonthOfInterval = eachMonthOfInterval;
-var _index$2W = utils$3.toDate;
+var _index$2W = toDate;
 
 /**
  * The {@link eachMonthOfInterval} function options.
@@ -6415,7 +6413,7 @@ var eachQuarterOfInterval$1 = {};
 var startOfQuarter$1 = {};
 
 startOfQuarter$1.startOfQuarter = startOfQuarter;
-var _index$2V = utils$3.toDate;
+var _index$2V = toDate;
 
 /**
  * @name startOfQuarter
@@ -6449,7 +6447,7 @@ function startOfQuarter(date) {
 eachQuarterOfInterval$1.eachQuarterOfInterval = eachQuarterOfInterval;
 var _index$2U = addQuarters$1;
 var _index2$12 = startOfQuarter$1;
-var _index3$x = utils$3.toDate;
+var _index3$x = toDate;
 
 /**
  * The {@link eachQuarterOfInterval} function options.
@@ -6514,8 +6512,8 @@ var eachWeekOfInterval$1 = {};
 
 eachWeekOfInterval$1.eachWeekOfInterval = eachWeekOfInterval;
 var _index$2T = addWeeks$1;
-var _index2$11 = utils$3.startOfWeek;
-var _index3$w = utils$3.toDate;
+var _index2$11 = startOfWeek;
+var _index3$w = toDate;
 
 /**
  * The {@link eachWeekOfInterval} function options.
@@ -6640,7 +6638,7 @@ var eachWeekendOfMonth$1 = {};
 var startOfMonth$1 = {};
 
 startOfMonth$1.startOfMonth = startOfMonth;
-var _index$2R = utils$3.toDate;
+var _index$2R = toDate;
 
 /**
  * @name startOfMonth
@@ -6713,7 +6711,7 @@ var eachWeekendOfYear$1 = {};
 var endOfYear$1 = {};
 
 endOfYear$1.endOfYear = endOfYear;
-var _index$2P = utils$3.toDate;
+var _index$2P = toDate;
 
 /**
  * @name endOfYear
@@ -6746,7 +6744,7 @@ function endOfYear(date) {
 var startOfYear$1 = {};
 
 startOfYear$1.startOfYear = startOfYear;
-var _index$2O = utils$3.toDate;
+var _index$2O = toDate;
 var _index2$_ = constructFrom$1;
 
 /**
@@ -6816,7 +6814,7 @@ function eachWeekendOfYear(date) {
 var eachYearOfInterval$1 = {};
 
 eachYearOfInterval$1.eachYearOfInterval = eachYearOfInterval;
-var _index$2M = utils$3.toDate;
+var _index$2M = toDate;
 
 /**
  * The {@link eachYearOfInterval} function options.
@@ -6879,7 +6877,7 @@ function eachYearOfInterval(interval, options) {
 var endOfDecade$1 = {};
 
 endOfDecade$1.endOfDecade = endOfDecade;
-var _index$2L = utils$3.toDate;
+var _index$2L = toDate;
 
 /**
  * @name endOfDecade
@@ -6915,7 +6913,7 @@ function endOfDecade(date) {
 var endOfHour$1 = {};
 
 endOfHour$1.endOfHour = endOfHour;
-var _index$2K = utils$3.toDate;
+var _index$2K = toDate;
 
 /**
  * @name endOfHour
@@ -6948,9 +6946,9 @@ var endOfISOWeek$1 = {};
 var endOfWeek$1 = {};
 
 endOfWeek$1.endOfWeek = endOfWeek;
-var _index$2J = utils$3.toDate;
+var _index$2J = toDate;
 
-var _index2$Y = utils$3.defaultOptions;
+var _index2$Y = defaultOptions;
 
 /**
  * The {@link endOfWeek} function options.
@@ -7072,7 +7070,7 @@ function endOfISOWeekYear(date) {
 var endOfMinute$1 = {};
 
 endOfMinute$1.endOfMinute = endOfMinute;
-var _index$2G = utils$3.toDate;
+var _index$2G = toDate;
 
 /**
  * @name endOfMinute
@@ -7103,7 +7101,7 @@ function endOfMinute(date) {
 var endOfQuarter$1 = {};
 
 endOfQuarter$1.endOfQuarter = endOfQuarter;
-var _index$2F = utils$3.toDate;
+var _index$2F = toDate;
 
 /**
  * @name endOfQuarter
@@ -7137,7 +7135,7 @@ function endOfQuarter(date) {
 var endOfSecond$1 = {};
 
 endOfSecond$1.endOfSecond = endOfSecond;
-var _index$2E = utils$3.toDate;
+var _index$2E = toDate;
 
 /**
  * @name endOfSecond
@@ -7267,7 +7265,7 @@ Object.defineProperty(exports, "defaultLocale", {
     return _index.enUS;
   },
 });
-var _index = utils$3.enUS;
+var _index = enUS;
 }(defaultLocale));
 
 var formatters = {};
@@ -7277,7 +7275,7 @@ var getDayOfYear$1 = {};
 getDayOfYear$1.getDayOfYear = getDayOfYear;
 var _index$2C = differenceInCalendarDays$1;
 var _index2$W = startOfYear$1;
-var _index3$s = utils$3.toDate;
+var _index3$s = toDate;
 
 /**
  * @name getDayOfYear
@@ -7314,7 +7312,7 @@ getISOWeek$1.getISOWeek = getISOWeek;
 var _index$2B = constants$1;
 var _index2$V = startOfISOWeek$1;
 var _index3$r = startOfISOWeekYear$1;
-var _index4$b = utils$3.toDate;
+var _index4$b = toDate;
 
 /**
  * @name getISOWeek
@@ -7357,10 +7355,10 @@ var getWeekYear$1 = {};
 
 getWeekYear$1.getWeekYear = getWeekYear;
 var _index$2A = constructFrom$1;
-var _index2$U = utils$3.startOfWeek;
-var _index3$q = utils$3.toDate;
+var _index2$U = startOfWeek;
+var _index3$q = toDate;
 
-var _index4$a = utils$3.defaultOptions;
+var _index4$a = defaultOptions;
 
 /**
  * The {@link getWeekYear} function options.
@@ -7442,9 +7440,9 @@ function getWeekYear(date, options) {
 startOfWeekYear$1.startOfWeekYear = startOfWeekYear;
 var _index$2z = constructFrom$1;
 var _index2$T = getWeekYear$1;
-var _index3$p = utils$3.startOfWeek;
+var _index3$p = startOfWeek;
 
-var _index4$9 = utils$3.defaultOptions;
+var _index4$9 = defaultOptions;
 
 /**
  * The {@link startOfWeekYear} function options.
@@ -7505,9 +7503,9 @@ function startOfWeekYear(date, options) {
 
 getWeek$1.getWeek = getWeek;
 var _index$2y = constants$1;
-var _index2$S = utils$3.startOfWeek;
+var _index2$S = startOfWeek;
 var _index3$o = startOfWeekYear$1;
-var _index4$8 = utils$3.toDate;
+var _index4$8 = toDate;
 
 /**
  * The {@link getWeek} function options.
@@ -8569,13 +8567,13 @@ Object.defineProperty(exports, "longFormatters", {
   },
 });
 var _index = defaultLocale;
-var _index2 = utils$3.defaultOptions;
+var _index2 = defaultOptions;
 var _index3 = formatters;
 var _index4 = longFormatters;
 var _index5 = protectedTokens;
 
 var _index6 = isValid$1;
-var _index7 = utils$3.toDate;
+var _index7 = toDate;
 
 // Rexports of internal for libraries to use.
 // See: https://github.com/date-fns/date-fns/issues/3638#issuecomment-1877082874
@@ -9005,10 +9003,10 @@ var _index$2v = compareAsc$1;
 var _index2$Q = constants$1;
 var _index3$m = differenceInMonths$1;
 var _index4$6 = differenceInSeconds$1;
-var _index5$5 = utils$3.toDate;
+var _index5$5 = toDate;
 
 var _index6$3 = defaultLocale;
-var _index7$3 = utils$3.defaultOptions;
+var _index7$3 = defaultOptions;
 var _index8$2 = getTimezoneOffsetInMilliseconds$1;
 
 /**
@@ -9214,13 +9212,13 @@ var formatDistanceStrict$1 = {};
 
 formatDistanceStrict$1.formatDistanceStrict = formatDistanceStrict;
 var _index$2u = defaultLocale;
-var _index2$P = utils$3.defaultOptions;
+var _index2$P = defaultOptions;
 var _index3$l = getRoundingMethod$1;
 var _index4$5 = getTimezoneOffsetInMilliseconds$1;
 var _index5$4 = compareAsc$1;
 var _index6$2 = constants$1;
 
-var _index7$2 = utils$3.toDate;
+var _index7$2 = toDate;
 
 /**
  * The {@link formatDistanceStrict} function options.
@@ -9606,7 +9604,7 @@ var formatDuration$1 = {};
 formatDuration$1.formatDuration = formatDuration;
 
 var _index$2r = defaultLocale;
-var _index2$M = utils$3.defaultOptions;
+var _index2$M = defaultOptions;
 
 /**
  * The {@link formatDuration} function options.
@@ -9711,7 +9709,7 @@ function formatDuration(duration, options) {
 var formatISO$1 = {};
 
 formatISO$1.formatISO = formatISO;
-var _index$2q = utils$3.toDate;
+var _index$2q = toDate;
 
 var _index2$L = addLeadingZeros$1;
 
@@ -9823,7 +9821,7 @@ var formatISO9075$1 = {};
 
 formatISO9075$1.formatISO9075 = formatISO9075;
 var _index$2p = isValid$1;
-var _index2$K = utils$3.toDate;
+var _index2$K = toDate;
 
 var _index3$k = addLeadingZeros$1;
 
@@ -9954,7 +9952,7 @@ var formatRFC3339$1 = {};
 
 formatRFC3339$1.formatRFC3339 = formatRFC3339;
 var _index$2o = isValid$1;
-var _index2$J = utils$3.toDate;
+var _index2$J = toDate;
 var _index3$j = addLeadingZeros$1;
 
 /**
@@ -10042,7 +10040,7 @@ var formatRFC7231$1 = {};
 
 formatRFC7231$1.formatRFC7231 = formatRFC7231;
 var _index$2n = isValid$1;
-var _index2$I = utils$3.toDate;
+var _index2$I = toDate;
 var _index3$i = addLeadingZeros$1;
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -10110,10 +10108,10 @@ formatRelative$1.formatRelative = formatRelative;
 var _index$2m = differenceInCalendarDays$1;
 var _index2$H = format;
 
-var _index3$h = utils$3.toDate;
+var _index3$h = toDate;
 
 var _index4$4 = defaultLocale;
-var _index5$3 = utils$3.defaultOptions;
+var _index5$3 = defaultOptions;
 
 /**
  * The {@link formatRelative} function options.
@@ -10202,7 +10200,7 @@ function formatRelative(date, baseDate, options) {
 var fromUnixTime$1 = {};
 
 fromUnixTime$1.fromUnixTime = fromUnixTime;
-var _index$2l = utils$3.toDate;
+var _index$2l = toDate;
 
 /**
  * @name fromUnixTime
@@ -10228,7 +10226,7 @@ function fromUnixTime(unixTime) {
 var getDate$1 = {};
 
 getDate$1.getDate = getDate;
-var _index$2k = utils$3.toDate;
+var _index$2k = toDate;
 
 /**
  * @name getDate
@@ -10258,7 +10256,7 @@ function getDate(date) {
 var getDay$1 = {};
 
 getDay$1.getDay = getDay;
-var _index$2j = utils$3.toDate;
+var _index$2j = toDate;
 
 /**
  * @name getDay
@@ -10288,7 +10286,7 @@ function getDay(date) {
 var getDaysInMonth$1 = {};
 
 getDaysInMonth$1.getDaysInMonth = getDaysInMonth;
-var _index$2i = utils$3.toDate;
+var _index$2i = toDate;
 var _index2$G = constructFrom$1;
 
 /**
@@ -10325,7 +10323,7 @@ var getDaysInYear$1 = {};
 var isLeapYear$1 = {};
 
 isLeapYear$1.isLeapYear = isLeapYear;
-var _index$2h = utils$3.toDate;
+var _index$2h = toDate;
 
 /**
  * @name isLeapYear
@@ -10354,7 +10352,7 @@ function isLeapYear(date) {
 
 getDaysInYear$1.getDaysInYear = getDaysInYear;
 var _index$2g = isLeapYear$1;
-var _index2$F = utils$3.toDate;
+var _index2$F = toDate;
 
 /**
  * @name getDaysInYear
@@ -10388,7 +10386,7 @@ function getDaysInYear(date) {
 var getDecade$1 = {};
 
 getDecade$1.getDecade = getDecade;
-var _index$2f = utils$3.toDate;
+var _index$2f = toDate;
 
 /**
  * @name getDecade
@@ -10423,7 +10421,7 @@ var getDefaultOptions$1 = {};
 
 getDefaultOptions$1.getDefaultOptions = getDefaultOptions;
 
-var _index$2e = utils$3.defaultOptions;
+var _index$2e = defaultOptions;
 
 /**
  * @name getDefaultOptions
@@ -10456,7 +10454,7 @@ function getDefaultOptions() {
 var getHours$1 = {};
 
 getHours$1.getHours = getHours;
-var _index$2d = utils$3.toDate;
+var _index$2d = toDate;
 
 /**
  * @name getHours
@@ -10486,7 +10484,7 @@ function getHours(date) {
 var getISODay$1 = {};
 
 getISODay$1.getISODay = getISODay;
-var _index$2c = utils$3.toDate;
+var _index$2c = toDate;
 
 /**
  * @name getISODay
@@ -10565,7 +10563,7 @@ function getISOWeeksInYear(date) {
 var getMilliseconds$1 = {};
 
 getMilliseconds$1.getMilliseconds = getMilliseconds;
-var _index$2a = utils$3.toDate;
+var _index$2a = toDate;
 
 /**
  * @name getMilliseconds
@@ -10595,7 +10593,7 @@ function getMilliseconds(date) {
 var getMinutes$1 = {};
 
 getMinutes$1.getMinutes = getMinutes;
-var _index$29 = utils$3.toDate;
+var _index$29 = toDate;
 
 /**
  * @name getMinutes
@@ -10625,7 +10623,7 @@ function getMinutes(date) {
 var getMonth$1 = {};
 
 getMonth$1.getMonth = getMonth;
-var _index$28 = utils$3.toDate;
+var _index$28 = toDate;
 
 /**
  * @name getMonth
@@ -10657,7 +10655,7 @@ var getOverlappingDaysInIntervals$1 = {};
 getOverlappingDaysInIntervals$1.getOverlappingDaysInIntervals = getOverlappingDaysInIntervals;
 var _index$27 = getTimezoneOffsetInMilliseconds$1;
 var _index2$D = constants$1;
-var _index3$f = utils$3.toDate;
+var _index3$f = toDate;
 
 /**
  * @name getOverlappingDaysInIntervals
@@ -10725,7 +10723,7 @@ function getOverlappingDaysInIntervals(intervalLeft, intervalRight) {
 var getSeconds$1 = {};
 
 getSeconds$1.getSeconds = getSeconds;
-var _index$26 = utils$3.toDate;
+var _index$26 = toDate;
 
 /**
  * @name getSeconds
@@ -10755,7 +10753,7 @@ function getSeconds(date) {
 var getTime$1 = {};
 
 getTime$1.getTime = getTime;
-var _index$25 = utils$3.toDate;
+var _index$25 = toDate;
 
 /**
  * @name getTime
@@ -10785,7 +10783,7 @@ function getTime(date) {
 var getUnixTime$1 = {};
 
 getUnixTime$1.getUnixTime = getUnixTime;
-var _index$24 = utils$3.toDate;
+var _index$24 = toDate;
 
 /**
  * @name getUnixTime
@@ -10817,7 +10815,7 @@ var _index$23 = getDate$1;
 var _index2$C = getDay$1;
 var _index3$e = startOfMonth$1;
 
-var _index4$3 = utils$3.defaultOptions;
+var _index4$3 = defaultOptions;
 
 /**
  * The {@link getWeekOfMonth} function options.
@@ -10869,7 +10867,7 @@ var getWeeksInMonth$1 = {};
 var lastDayOfMonth$1 = {};
 
 lastDayOfMonth$1.lastDayOfMonth = lastDayOfMonth;
-var _index$22 = utils$3.toDate;
+var _index$22 = toDate;
 
 /**
  * @name lastDayOfMonth
@@ -10947,7 +10945,7 @@ function getWeeksInMonth(date, options) {
 var getYear$1 = {};
 
 getYear$1.getYear = getYear;
-var _index$20 = utils$3.toDate;
+var _index$20 = toDate;
 
 /**
  * @name getYear
@@ -11059,7 +11057,7 @@ function hoursToSeconds(hours) {
 var interval$1 = {};
 
 interval$1.interval = interval;
-var _index$1Y = utils$3.toDate;
+var _index$1Y = toDate;
 
 /**
  * The {@link interval} function options.
@@ -11108,7 +11106,7 @@ var _index4$2 = differenceInMinutes$1;
 var _index5$2 = differenceInMonths$1;
 var _index6$1 = differenceInSeconds$1;
 var _index7$1 = differenceInYears$1;
-var _index8$1 = utils$3.toDate;
+var _index8$1 = toDate;
 
 /**
  * @name intervalToDuration
@@ -11180,7 +11178,7 @@ function intervalToDuration(interval) {
 var intlFormat$1 = {};
 
 intlFormat$1.intlFormat = intlFormat;
-var _index$1W = utils$3.toDate;
+var _index$1W = toDate;
 
 /**
  * The locale string (see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument).
@@ -11317,7 +11315,7 @@ var _index6 = differenceInCalendarYears$1;
 var _index7 = differenceInHours$1;
 var _index8 = differenceInMinutes$1;
 var _index9 = differenceInSeconds$1;
-var _index10 = utils$3.toDate;
+var _index10 = toDate;
 
 /**
  * The {@link intlFormatDistance} function options.
@@ -11507,7 +11505,7 @@ function intlFormatDistance(date, baseDate, options) {
 var isAfter$1 = {};
 
 isAfter$1.isAfter = isAfter;
-var _index$1U = utils$3.toDate;
+var _index$1U = toDate;
 
 /**
  * @name isAfter
@@ -11538,7 +11536,7 @@ function isAfter(date, dateToCompare) {
 var isBefore$1 = {};
 
 isBefore$1.isBefore = isBefore;
-var _index$1T = utils$3.toDate;
+var _index$1T = toDate;
 
 /**
  * @name isBefore
@@ -11569,7 +11567,7 @@ function isBefore(date, dateToCompare) {
 var isEqual$1 = {};
 
 isEqual$1.isEqual = isEqual;
-var _index$1S = utils$3.toDate;
+var _index$1S = toDate;
 
 /**
  * @name isEqual
@@ -11638,7 +11636,7 @@ function isExists(year, month, day) {
 var isFirstDayOfMonth$1 = {};
 
 isFirstDayOfMonth$1.isFirstDayOfMonth = isFirstDayOfMonth;
-var _index$1R = utils$3.toDate;
+var _index$1R = toDate;
 
 /**
  * @name isFirstDayOfMonth
@@ -11666,7 +11664,7 @@ function isFirstDayOfMonth(date) {
 var isFriday$1 = {};
 
 isFriday$1.isFriday = isFriday;
-var _index$1Q = utils$3.toDate;
+var _index$1Q = toDate;
 
 /**
  * @name isFriday
@@ -11694,7 +11692,7 @@ function isFriday(date) {
 var isFuture$1 = {};
 
 isFuture$1.isFuture = isFuture;
-var _index$1P = utils$3.toDate;
+var _index$1P = toDate;
 
 /**
  * @name isFuture
@@ -12199,7 +12197,7 @@ var LocalWeekYearParser$1 = {};
 LocalWeekYearParser$1.LocalWeekYearParser = void 0;
 var _index$1L = getWeekYear$1;
 
-var _index2$x = utils$3.startOfWeek;
+var _index2$x = startOfWeek;
 var _Parser$s = Parser$1;
 
 var _utils$r = utils;
@@ -12729,7 +12727,7 @@ var setWeek$1 = {};
 
 setWeek$1.setWeek = setWeek;
 var _index$1J = getWeek$1;
-var _index2$v = utils$3.toDate;
+var _index2$v = toDate;
 
 /**
  * The {@link setWeek} function options.
@@ -12781,7 +12779,7 @@ function setWeek(date, week, options) {
 
 LocalWeekParser$1.LocalWeekParser = void 0;
 var _index$1I = setWeek$1;
-var _index2$u = utils$3.startOfWeek;
+var _index2$u = startOfWeek;
 var _constants$b = constants;
 var _Parser$l = Parser$1;
 
@@ -12840,7 +12838,7 @@ var setISOWeek$1 = {};
 
 setISOWeek$1.setISOWeek = setISOWeek;
 var _index$1H = getISOWeek$1;
-var _index2$t = utils$3.toDate;
+var _index2$t = toDate;
 
 /**
  * @name setISOWeek
@@ -13060,9 +13058,9 @@ var setDay$1 = {};
 
 setDay$1.setDay = setDay;
 var _index$1F = addDays$1;
-var _index2$r = utils$3.toDate;
+var _index2$r = toDate;
 
-var _index3$a = utils$3.defaultOptions;
+var _index3$a = defaultOptions;
 
 /**
  * The {@link setDay} function options.
@@ -13396,7 +13394,7 @@ var setISODay$1 = {};
 setISODay$1.setISODay = setISODay;
 var _index$1B = addDays$1;
 var _index2$q = getISODay$1;
-var _index3$9 = utils$3.toDate;
+var _index3$9 = toDate;
 
 /**
  * @name setISODay
@@ -14289,7 +14287,7 @@ Object.defineProperty(exports, "parsers", {
 var _index = constructFrom$1;
 var _index2 = getDefaultOptions$1;
 var _index3 = defaultLocale;
-var _index4 = utils$3.toDate;
+var _index4 = toDate;
 
 var _index5 = longFormatters;
 var _index6 = protectedTokens;
@@ -15103,7 +15101,7 @@ function isMatch(dateStr, formatStr, options) {
 var isMonday$1 = {};
 
 isMonday$1.isMonday = isMonday;
-var _index$1u = utils$3.toDate;
+var _index$1u = toDate;
 
 /**
  * @name isMonday
@@ -15131,7 +15129,7 @@ function isMonday(date) {
 var isPast$1 = {};
 
 isPast$1.isPast = isPast;
-var _index$1t = utils$3.toDate;
+var _index$1t = toDate;
 
 /**
  * @name isPast
@@ -15162,7 +15160,7 @@ var isSameHour$1 = {};
 var startOfHour$1 = {};
 
 startOfHour$1.startOfHour = startOfHour;
-var _index$1s = utils$3.toDate;
+var _index$1s = toDate;
 
 /**
  * @name startOfHour
@@ -15228,7 +15226,7 @@ function isSameHour(dateLeft, dateRight) {
 var isSameISOWeek$1 = {};
 
 isSameISOWeek$1.isSameISOWeek = isSameISOWeek;
-var _index$1q = utils$3.isSameWeek;
+var _index$1q = isSameWeek;
 
 /**
  * @name isSameISOWeek
@@ -15341,7 +15339,7 @@ function isSameMinute(dateLeft, dateRight) {
 var isSameMonth$1 = {};
 
 isSameMonth$1.isSameMonth = isSameMonth;
-var _index$1n = utils$3.toDate;
+var _index$1n = toDate;
 
 /**
  * @name isSameMonth
@@ -15419,7 +15417,7 @@ var isSameSecond$1 = {};
 var startOfSecond$1 = {};
 
 startOfSecond$1.startOfSecond = startOfSecond;
-var _index$1l = utils$3.toDate;
+var _index$1l = toDate;
 
 /**
  * @name startOfSecond
@@ -15499,7 +15497,7 @@ function isSameSecond(dateLeft, dateRight) {
 var isSameYear$1 = {};
 
 isSameYear$1.isSameYear = isSameYear;
-var _index$1j = utils$3.toDate;
+var _index$1j = toDate;
 
 /**
  * @name isSameYear
@@ -15719,7 +15717,7 @@ var isThisWeek$1 = {};
 
 isThisWeek$1.isThisWeek = isThisWeek;
 var _index$1c = constructNow$1;
-var _index2$g = utils$3.isSameWeek;
+var _index2$g = isSameWeek;
 
 /**
  * The {@link isThisWeek} function options.
@@ -15789,7 +15787,7 @@ function isThisYear(date) {
 var isThursday$1 = {};
 
 isThursday$1.isThursday = isThursday;
-var _index$1a = utils$3.toDate;
+var _index$1a = toDate;
 
 /**
  * @name isThursday
@@ -15881,7 +15879,7 @@ function isTomorrow(date) {
 var isTuesday$1 = {};
 
 isTuesday$1.isTuesday = isTuesday;
-var _index$17 = utils$3.toDate;
+var _index$17 = toDate;
 
 /**
  * @name isTuesday
@@ -15909,7 +15907,7 @@ function isTuesday(date) {
 var isWednesday$1 = {};
 
 isWednesday$1.isWednesday = isWednesday;
-var _index$16 = utils$3.toDate;
+var _index$16 = toDate;
 
 /**
  * @name isWednesday
@@ -15937,7 +15935,7 @@ function isWednesday(date) {
 var isWithinInterval$1 = {};
 
 isWithinInterval$1.isWithinInterval = isWithinInterval;
-var _index$15 = utils$3.toDate;
+var _index$15 = toDate;
 
 /**
  * @name isWithinInterval
@@ -16056,7 +16054,7 @@ function isYesterday(date) {
 var lastDayOfDecade$1 = {};
 
 lastDayOfDecade$1.lastDayOfDecade = lastDayOfDecade;
-var _index$12 = utils$3.toDate;
+var _index$12 = toDate;
 
 /**
  * @name lastDayOfDecade
@@ -16094,9 +16092,9 @@ var lastDayOfISOWeek$1 = {};
 var lastDayOfWeek$1 = {};
 
 lastDayOfWeek$1.lastDayOfWeek = lastDayOfWeek;
-var _index$11 = utils$3.toDate;
+var _index$11 = toDate;
 
-var _index2$b = utils$3.defaultOptions;
+var _index2$b = defaultOptions;
 
 /**
  * The {@link lastDayOfWeek} function options.
@@ -16218,7 +16216,7 @@ function lastDayOfISOWeekYear(date) {
 var lastDayOfQuarter$1 = {};
 
 lastDayOfQuarter$1.lastDayOfQuarter = lastDayOfQuarter;
-var _index$_ = utils$3.toDate;
+var _index$_ = toDate;
 
 /**
  * @name lastDayOfQuarter
@@ -16252,7 +16250,7 @@ function lastDayOfQuarter(date) {
 var lastDayOfYear$1 = {};
 
 lastDayOfYear$1.lastDayOfYear = lastDayOfYear;
-var _index$Z = utils$3.toDate;
+var _index$Z = toDate;
 
 /**
  * @name lastDayOfYear
@@ -16293,7 +16291,7 @@ Object.defineProperty(exports, "lightFormatters", {
   },
 });
 var _index = isValid$1;
-var _index2 = utils$3.toDate;
+var _index2 = toDate;
 var _index3 = lightFormatters;
 
 // Rexports of internal for libraries to use.
@@ -17621,7 +17619,7 @@ var roundToNearestHours$1 = {};
 roundToNearestHours$1.roundToNearestHours = roundToNearestHours;
 var _index$w = getRoundingMethod$1;
 var _index2$7 = constructFrom$1;
-var _index3$5 = utils$3.toDate;
+var _index3$5 = toDate;
 
 /**
  * The {@link roundToNearestHours} function options.
@@ -17701,7 +17699,7 @@ var roundToNearestMinutes$1 = {};
 roundToNearestMinutes$1.roundToNearestMinutes = roundToNearestMinutes;
 var _index$v = getRoundingMethod$1;
 var _index2$6 = constructFrom$1;
-var _index3$4 = utils$3.toDate;
+var _index3$4 = toDate;
 
 /**
  * The {@link roundToNearestMinutes} function options.
@@ -17863,7 +17861,7 @@ var setMonth$1 = {};
 setMonth$1.setMonth = setMonth;
 var _index$r = constructFrom$1;
 var _index2$5 = getDaysInMonth$1;
-var _index3$3 = utils$3.toDate;
+var _index3$3 = toDate;
 
 /**
  * @name setMonth
@@ -17903,7 +17901,7 @@ function setMonth(date, month) {
 set$1.set = set;
 var _index$q = constructFrom$1;
 var _index2$4 = setMonth$1;
-var _index3$2 = utils$3.toDate;
+var _index3$2 = toDate;
 
 /**
  * @name set
@@ -17980,7 +17978,7 @@ function set(date, values) {
 var setDate$1 = {};
 
 setDate$1.setDate = setDate;
-var _index$p = utils$3.toDate;
+var _index$p = toDate;
 
 /**
  * @name setDate
@@ -18011,7 +18009,7 @@ function setDate(date, dayOfMonth) {
 var setDayOfYear$1 = {};
 
 setDayOfYear$1.setDayOfYear = setDayOfYear;
-var _index$o = utils$3.toDate;
+var _index$o = toDate;
 
 /**
  * @name setDayOfYear
@@ -18044,7 +18042,7 @@ var setDefaultOptions$1 = {};
 
 setDefaultOptions$1.setDefaultOptions = setDefaultOptions;
 
-var _index$n = utils$3.defaultOptions;
+var _index$n = defaultOptions;
 
 /**
  * @name setDefaultOptions
@@ -18120,7 +18118,7 @@ function setDefaultOptions(options) {
 var setHours$1 = {};
 
 setHours$1.setHours = setHours;
-var _index$m = utils$3.toDate;
+var _index$m = toDate;
 
 /**
  * @name setHours
@@ -18151,7 +18149,7 @@ function setHours(date, hours) {
 var setMilliseconds$1 = {};
 
 setMilliseconds$1.setMilliseconds = setMilliseconds;
-var _index$l = utils$3.toDate;
+var _index$l = toDate;
 
 /**
  * @name setMilliseconds
@@ -18182,7 +18180,7 @@ function setMilliseconds(date, milliseconds) {
 var setMinutes$1 = {};
 
 setMinutes$1.setMinutes = setMinutes;
-var _index$k = utils$3.toDate;
+var _index$k = toDate;
 
 /**
  * @name setMinutes
@@ -18214,7 +18212,7 @@ var setQuarter$1 = {};
 
 setQuarter$1.setQuarter = setQuarter;
 var _index$j = setMonth$1;
-var _index2$3 = utils$3.toDate;
+var _index2$3 = toDate;
 
 /**
  * @name setQuarter
@@ -18246,7 +18244,7 @@ function setQuarter(date, quarter) {
 var setSeconds$1 = {};
 
 setSeconds$1.setSeconds = setSeconds;
-var _index$i = utils$3.toDate;
+var _index$i = toDate;
 
 /**
  * @name setSeconds
@@ -18280,9 +18278,9 @@ setWeekYear$1.setWeekYear = setWeekYear;
 var _index$h = constructFrom$1;
 var _index2$2 = differenceInCalendarDays$1;
 var _index3$1 = startOfWeekYear$1;
-var _index4 = utils$3.toDate;
+var _index4 = toDate;
 
-var _index5 = utils$3.defaultOptions;
+var _index5 = defaultOptions;
 
 /**
  * The {@link setWeekYear} function options.
@@ -18352,7 +18350,7 @@ var setYear$1 = {};
 
 setYear$1.setYear = setYear;
 var _index$g = constructFrom$1;
-var _index2$1 = utils$3.toDate;
+var _index2$1 = toDate;
 
 /**
  * @name setYear
@@ -18389,7 +18387,7 @@ function setYear(date, year) {
 var startOfDecade$1 = {};
 
 startOfDecade$1.startOfDecade = startOfDecade;
-var _index$f = utils$3.toDate;
+var _index$f = toDate;
 
 /**
  * @name startOfDecade
@@ -20373,7 +20371,7 @@ Object.keys(_index129).forEach(function (key) {
     },
   });
 });
-var _index130 = utils$3.isSameWeek;
+var _index130 = isSameWeek;
 Object.keys(_index130).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _index130[key]) return;
@@ -21407,7 +21405,7 @@ Object.keys(_index223).forEach(function (key) {
     },
   });
 });
-var _index224 = utils$3.startOfWeek;
+var _index224 = startOfWeek;
 Object.keys(_index224).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _index224[key]) return;
@@ -21583,7 +21581,7 @@ Object.keys(_index239).forEach(function (key) {
     },
   });
 });
-var _index240 = utils$3.toDate;
+var _index240 = toDate;
 Object.keys(_index240).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _index240[key]) return;
@@ -21649,7 +21647,7 @@ Object.keys(_index245).forEach(function (key) {
     },
   });
 });
-}(utils$3.dateFns));
+}(dateFns));
 
 class PropertyHelpers {
     convertPickup(pickup) {
@@ -21674,9 +21672,9 @@ class PropertyHelpers {
             const newRoomtypes = data.My_Result;
             const { adult_nbr, child_nbr } = data.My_Params_Check_Availability;
             const sortedRoomTypes = this.sortRoomTypes(newRoomtypes, { adult_nbr, child_nbr });
-            utils$3.booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
-            utils$3.booking_store.tax_statement = { message: data.My_Result.tax_statement };
-            utils$3.booking_store.enableBooking = true;
+            booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
+            booking_store.tax_statement = { message: data.My_Result.tax_statement };
+            booking_store.enableBooking = true;
         }
         catch (error) {
             console.error(error);
@@ -21694,11 +21692,11 @@ class PropertyHelpers {
         const days = [];
         while (currentDate < endDate) {
             days.push({
-                date: utils$3.dateFns.format(currentDate, 'yyyy-MM-dd'),
+                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
                 amount: amount,
                 cost: null,
             });
-            currentDate = utils$3.dateFns.addDays(currentDate, 1);
+            currentDate = dateFns.addDays(currentDate, 1);
         }
         return days;
     }
@@ -21764,19 +21762,19 @@ const initialState = {
     prepaymentAmount: 0,
     modifiedGuestName: false,
     pickup: {
-        arrival_date: utils$3.dateFns.format(new Date(), 'yyyy-MM-dd'),
+        arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
     },
     payment: null,
     agreed_to_services: false,
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = utils$3.createStore(initialState);
+const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
 function updatePickupFormData(key, value) {
     if (key === 'location' && value === null) {
         checkout_store.pickup = {
-            arrival_date: utils$3.dateFns.format(new Date(), 'yyyy-MM-dd'),
+            arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
             location: null,
         };
     }
@@ -21870,7 +21868,7 @@ class PropertyService {
     }
     async getExposedProperty(params, initTheme = true) {
         var _a, _b, _c, _d;
-        const { data } = await axios$1.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: utils$3.app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
+        const { data } = await axios$1.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -21883,16 +21881,16 @@ class PropertyService {
                 }
                 switch (key) {
                     case 'header':
-                        return utils$3.injectHTML(value, 'head', 'first');
+                        return injectHTML(value, 'head', 'first');
                     case 'body':
-                        return utils$3.injectHTML(value, 'body', 'first');
+                        return injectHTML(value, 'body', 'first');
                     case 'footer':
-                        return utils$3.injectHTML(value, 'body', 'last');
+                        return injectHTML(value, 'body', 'last');
                 }
             });
         }
-        if (!utils$3.app_store.fetchedBooking) {
-            utils$3.booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
         // } else {
         //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
@@ -21910,15 +21908,15 @@ class PropertyService {
         //     };
         //   });
         // }
-        if (!utils$3.app_store.fetchedBooking) {
-            utils$3.booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
         }
         if (params.aname || params.perma_link) {
-            utils$3.app_store.app_data = Object.assign(Object.assign({}, utils$3.app_store.app_data), { property_id: result.My_Result.id });
+            app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
-        utils$3.app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
-        utils$3.app_store.property = Object.assign({}, result.My_Result);
-        utils$3.app_store.app_data.property_id = result.My_Result.id;
+        app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
+        app_store.property = Object.assign({}, result.My_Result);
+        app_store.app_data.property_id = result.My_Result.id;
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
         }
@@ -21934,7 +21932,7 @@ class PropertyService {
         (_a = data.My_Result) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
             nights[nbn.night] = true;
         });
-        utils$3.app_store.nonBookableNights = nights;
+        app_store.nonBookableNights = nights;
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
@@ -21962,8 +21960,8 @@ class PropertyService {
         return result.My_Result;
     }
     async fetchSetupEntries() {
-        if (utils$3.app_store.setup_entries) {
-            return utils$3.app_store.setup_entries;
+        if (app_store.setup_entries) {
+            return app_store.setup_entries;
         }
         const { data } = await axios$1.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
             TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
@@ -21977,13 +21975,13 @@ class PropertyService {
             ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
             bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
         };
-        utils$3.app_store.setup_entries = setupEntries;
+        app_store.setup_entries = setupEntries;
         updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
         return setupEntries;
     }
     filterRooms() {
         let rooms = [];
-        Object.values(utils$3.booking_store.ratePlanSelections).map(rt => {
+        Object.values(booking_store.ratePlanSelections).map(rt => {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
@@ -22000,10 +21998,10 @@ class PropertyService {
                                 infant_nbr: null,
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
-                            from_date: utils$3.dateFns.format(utils$3.booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                            to_date: utils$3.dateFns.format(utils$3.booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                            from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                            to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.propertyHelpers.generateDays(utils$3.booking_store.bookingAvailabilityParams.from_date, utils$3.booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / utils$3.getDateDifference(utils$3.booking_store.bookingAvailabilityParams.from_date, utils$3.booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
                                 first_name,
@@ -22061,21 +22059,21 @@ class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_g = (_f = utils$3.app_store === null || utils$3.app_store === void 0 ? void 0 : utils$3.app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
-                agent: utils$3.booking_store.bookingAvailabilityParams.agent ? { id: utils$3.booking_store.bookingAvailabilityParams.agent } : null,
-                is_in_loyalty_mode: utils$3.booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_h = utils$3.booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
+                language: (_g = (_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
+                agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
+                is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
+                promo_key: (_h = booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
                 booking: {
                     booking_nbr: '',
-                    from_date: utils$3.dateFns.format(utils$3.booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                    to_date: utils$3.dateFns.format(utils$3.booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                    from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
+                    to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                     remark: checkout_store.userFormData.message || null,
                     property: {
-                        id: utils$3.app_store.app_data.property_id,
+                        id: app_store.app_data.property_id,
                     },
-                    source: { code: utils$3.app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: utils$3.app_store.app_data.stag, description: '' },
-                    referrer_site: utils$3.app_store.app_data.affiliate ? `https://${utils$3.app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
-                    currency: utils$3.app_store.currencies.find(currency => currency.code.toString().toLowerCase() === utils$3.app_store.userPreferences.currency_id.toLowerCase()),
+                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
+                    referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
+                    currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
@@ -22095,7 +22093,7 @@ class PropertyService {
                         : null,
                     {
                         key: 'selected_currency',
-                        value: utils$3.app_store.userPreferences.currency_id,
+                        value: app_store.userPreferences.currency_id,
                     },
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
@@ -22121,7 +22119,7 @@ class PropertyService {
         }
         const res = data.My_Result;
         if (res === null) {
-            utils$3.app_store.is_signed_in = false;
+            app_store.is_signed_in = false;
             return;
         }
         // app_store.is_signed_in = true;
@@ -22133,12 +22131,12 @@ PropertyService.initialized = false;
 class CommonService {
     async getCurrencies() {
         const { data } = await axios$1.post(`/Get_Exposed_Currencies`);
-        utils$3.app_store.currencies = [...data['My_Result']];
+        app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
     async getExposedLanguages() {
         const { data } = await axios$1.post(`/Get_Exposed_Languages`);
-        utils$3.app_store.languages = [...data.My_Result];
+        app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
     async getCountries(language) {
@@ -22169,7 +22167,7 @@ class CommonService {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            utils$3.app_store.userDefaultCountry = data['My_Result'];
+            app_store.userDefaultCountry = data['My_Result'];
             return data['My_Result'];
         }
         catch (error) {
@@ -22192,13 +22190,13 @@ class CommonService {
     }
     async getExposedLanguage() {
         try {
-            const { data } = await axios$1.post(`/Get_Exposed_Language`, { code: utils$3.app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+            const { data } = await axios$1.post(`/Get_Exposed_Language`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
             let entries = this.transformArrayToObject(data.My_Result.entries);
-            utils$3.localizedWords.entries = Object.assign(Object.assign({}, utils$3.localizedWords.entries), entries);
-            utils$3.localizedWords.direction = data.My_Result.direction;
+            localizedWords.entries = Object.assign(Object.assign({}, localizedWords.entries), entries);
+            localizedWords.direction = data.My_Result.direction;
             return { entries, direction: data.My_Result.direction };
         }
         catch (error) {
@@ -22210,7 +22208,7 @@ class CommonService {
         const anchor = JSON.parse(sessionStorage.getItem('anchor'));
         if (anchor) {
             if (anchor.login) {
-                utils$3.app_store.is_signed_in = true;
+                app_store.is_signed_in = true;
             }
             return anchor.login || null;
         }
@@ -22265,16 +22263,6 @@ class MissingTokenError extends Error {
     }
 }
 
-exports.Colors = Colors;
-exports.CommonService = CommonService;
-exports.PropertyHelpers = PropertyHelpers;
-exports.PropertyService = PropertyService;
-exports.Token = Token;
-exports.axios = axios$1;
-exports.checkout_store = checkout_store;
-exports.onCheckoutDataChange = onCheckoutDataChange;
-exports.updatePartialPickupFormData = updatePartialPickupFormData;
-exports.updatePickupFormData = updatePickupFormData;
-exports.updateUserFormData = updateUserFormData;
+export { CommonService as C, PropertyService as P, Token as T, axios$1 as a, updatePickupFormData as b, checkout_store as c, updatePartialPickupFormData as d, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=Token-b89e1d83.js.map
+//# sourceMappingURL=Token-31b43d19.js.map
