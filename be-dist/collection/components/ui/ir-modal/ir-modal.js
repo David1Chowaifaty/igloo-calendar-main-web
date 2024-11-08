@@ -63,7 +63,6 @@ export class IrModal {
             this.auth = document.createElement('ir-auth');
             this.auth.addEventListener('closeDialog', () => this.closeModal());
             this.auth.addEventListener('authFinish', (e) => {
-                console.log('auth finish');
                 this.authStatus.emit(e.detail);
             });
             this.modalContainer.appendChild(this.auth);
@@ -124,7 +123,7 @@ export class IrModal {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'f46019e08c862e7452f9eda0652f205a91f6c26b', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: '5588b45c78420efa87de2ff6931cfa94207a65a7', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
+        return (h("ir-dialog", { key: '4fd35a47fd327b44c36a0641392684526653a869', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: 'e728f73477dd89b1a2c322e196b7bf40bc62c192', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
     }
     static get is() { return "ir-modal"; }
     static get originalStyleUrls() {

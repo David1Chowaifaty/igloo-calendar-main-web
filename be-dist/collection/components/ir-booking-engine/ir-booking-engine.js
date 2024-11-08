@@ -155,7 +155,6 @@ export class IrBookingEngine {
             }
             let currency = app_store.userDefaultCountry.currency;
             if (this.cur) {
-                console.log(this.cur);
                 const newCurr = this.currencies.find(c => c.code.toLowerCase() === this.cur.toLowerCase());
                 if (newCurr) {
                     currency = newCurr;
@@ -210,9 +209,7 @@ export class IrBookingEngine {
     handleAuthFinish(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        console.log('auth finish');
-        const { token, state, payload } = e.detail;
-        console.log(token, state, payload);
+        const { state, payload } = e.detail;
         if (state === 'success') {
             if (payload.method === 'direct') {
                 this.bookingListingScreenOptions = {

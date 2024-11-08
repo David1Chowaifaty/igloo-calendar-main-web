@@ -91,7 +91,6 @@ class PaymentService {
             applicablePolicies = params.data;
         }
         else {
-            console.log('fetching cancelation message');
             const { id, roomTypeId, bookingNbr = (_a = booking_store.fictus_booking_nbr) === null || _a === void 0 ? void 0 : _a.nbr } = params;
             const result = await this.GetExposedApplicablePolicies({
                 book_date: new Date(),

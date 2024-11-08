@@ -52,7 +52,6 @@ export class IrInvoice {
             getUserPreference(this.language);
         }
         const isAuthenticated = this.commonService.checkUserAuthState();
-        console.log(isAuthenticated);
         if (isAuthenticated) {
             this.token.setToken(isAuthenticated.token);
             this.isAuthenticated = true;
@@ -159,7 +158,6 @@ export class IrInvoice {
             guarantee = this.paymentService.findClosestDate(guaranteeBrackets === null || guaranteeBrackets === void 0 ? void 0 : guaranteeBrackets.brackets);
         }
         if (guarantee && cancelation) {
-            console.log(guarantee, cancelation);
             if (isBefore(new Date(guarantee.due_on), new Date(cancelation.due_on))) {
                 this.amountToBePayed = cancelation.gross_amount;
             }

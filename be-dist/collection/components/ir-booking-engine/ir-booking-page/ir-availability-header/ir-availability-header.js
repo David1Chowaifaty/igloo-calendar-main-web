@@ -237,7 +237,7 @@ export class IrAvailabilityHeader {
         }
         catch (error) {
             if (error instanceof ZodError) {
-                console.log(error.errors);
+                console.error(error.errors);
                 for (const err of error.errors) {
                     if (!this.errorCause) {
                         this.errorCause = [];
@@ -291,18 +291,18 @@ export class IrAvailabilityHeader {
         const show_loyalty = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.promotions) === null || _b === void 0 ? void 0 : _b.some(p => p.is_loyalty);
         const show_coupon = (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) === null || _d === void 0 ? void 0 : _d.some(p => p.is_loyalty);
         const showPromotions = ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (show_coupon || show_loyalty);
-        return (h("div", { key: '3c240a7de809c4d2fa0dfdb92ef936c9ee9625fe', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '58ac181177a508ee774ba06cad4dbffe3f3d3599', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'e23f98766d83b424c6ef6ec56079baa71d708299', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: 'c9d6170cd24ed12726a0604494845be92555e561', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: 'bd4353fdad2329fdb826ec7869e87c120bda390e', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: '137d6302ba32096700bd67b229b094f38743e4df', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_g = this.exposedBookingAvailabilityParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date(this.exposedBookingAvailabilityParams.from_date) : null,
                 end: ((_h = this.exposedBookingAvailabilityParams) === null || _h === void 0 ? void 0 : _h.to_date) ? new Date(this.exposedBookingAvailabilityParams.to_date) : null,
-            }, class: "date-popup" }), h("ir-adult-child-counter", { key: '6e57f8aa6d6e3663dde8f9af7d0beb761fe7b1a9', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("div", { key: 'a2fa1f56ce1165262e5ba31745dd1c2356e6f7ee', class: 'hidden sm:block' }, h("ir-button", { key: '19e4ab51bc38f5baade78536bfb06fbb22a8268f', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("ir-adult-child-counter", { key: '4b0d98e8480a12184363afaba6cecda50ff9b576', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter" }), h("div", { key: 'a7171c3163954ba6da1c8c0d139629ef01fb1c05', class: 'hidden sm:block' }, h("ir-button", { key: 'b91ca761fe610cfcdbf30ec64b07bfbba1803160', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '3eac204702b21bbc0201d78de7c9be386066c837', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '2985b184d1235a09a16f9109165317019c09e167', isLoading: this.isLoading, onButtonClick: e => {
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '3af35e1f522b43f0241205fadb602b8faa5a5519', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '79ac1156ca841c9bdb7b020198cefdf98c2d3f39', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '6c2cc2775ebc3d9fb1fa8fd0222d5507aeab618d', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'd901f2595242228c173cb2b1fa82989d20a85631', class: "coupon-dialog" }), h("ir-loyalty", { key: 'a552c985bcea65f4d5a1e1c1f7da58a727393551', class: "loyalty" })))));
+            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '1ff7fc38095a7d4af6de5494142f83baf2726655', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'd95d4f70ee86f0fae22c6483b9fadcfc0bd442d7', class: "coupon-dialog" }), h("ir-loyalty", { key: 'f1258a7ce53bbaecfdeef704f2d7db979137134b', class: "loyalty" })))));
     }
     static get is() { return "ir-availability-header"; }
     static get encapsulation() { return "shadow"; }

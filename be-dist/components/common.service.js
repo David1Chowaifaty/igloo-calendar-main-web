@@ -74,7 +74,7 @@ class CommonService {
             return { entries, direction: data.My_Result.direction };
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             throw new Error(error);
         }
     }

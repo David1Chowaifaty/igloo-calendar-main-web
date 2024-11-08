@@ -18,10 +18,10 @@ export class IrRoomtype {
             }, amenities: app_store.property.amenities })))), booking_store.enableBooking &&
             (!this.roomtype.is_available_to_book ||
                 this.roomtype.rateplans.every(ratePlan => { var _a; return !ratePlan.is_available_to_book && !((_a = ratePlan.not_available_reason) === null || _a === void 0 ? void 0 : _a.includes('MLS')); })) ? (h("p", { class: `unavailable-roomtype text-base ${this.display === 'default' ? '' : 'pt-4'}` }, localizedWords.entries.Lcz_NotAvailable)) : (h("div", null, booking_store.enableBooking ? ((_a = this.roomtype.rateplans) === null || _a === void 0 ? void 0 : _a.map(ratePlan => {
-            if (!ratePlan.is_available_to_book && !ratePlan.not_available_reason.includes('MLS')) {
+            var _a;
+            if (!ratePlan.is_available_to_book && !((_a = ratePlan.not_available_reason) === null || _a === void 0 ? void 0 : _a.includes('MLS'))) {
                 return null;
             }
-            console.log(ratePlan);
             const visibleInventory = getVisibleInventory(this.roomtype.id, ratePlan.id);
             return (h("ir-rateplan", { display: this.display, key: ratePlan.id, ratePlan: ratePlan, visibleInventory: visibleInventory, roomTypeId: this.roomtype.id, roomTypeInventory: this.roomtype.inventory }));
         })) : (h("div", { class: "app_container flex w-full  flex-col justify-between space-y-1 rounded-md bg-gray-100  text-sm md:flex-row" }, h("p", null, this.roomtype.description)))))))));

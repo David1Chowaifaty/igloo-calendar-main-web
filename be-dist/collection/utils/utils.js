@@ -259,7 +259,6 @@ export function checkAffiliate(afName) {
     if (!affiliate) {
         return null;
     }
-    console.log(affiliate);
     return affiliate;
 }
 export function formatFullLocation(property) {

@@ -134,9 +134,6 @@ export class IrBookingDetails {
         }
         return rateplan.variations.find(v => v.adult_child_offering === oldVariation.adult_child_offering);
     }
-    async updateVariation(params) {
-        console.log(params);
-    }
     handleBedConfiguration(roomTypeId, rateplanId, detail, index) {
         var _a, _b;
         let oldBedConfiguration = [];
@@ -148,7 +145,7 @@ export class IrBookingDetails {
     }
     formatVariation(v) {
         const adults = `${v.adult_nbr} ${v.adult_nbr === 1 ? localizedWords.entries.Lcz_Adult.toLowerCase() : localizedWords.entries.Lcz_Adults.toLowerCase()}`;
-        const children = v.child_nbr > 0 ? `${v.child_nbr}  ${v.child_nbr > 1 ? localizedWords.entries.Lcz_Children : localizedWords.entries.Lcz_Child}` : null;
+        const children = v.child_nbr > 0 ? `${v.child_nbr}  ${v.child_nbr > 1 ? localizedWords.entries.Lcz_Children.toLowerCase() : localizedWords.entries.Lcz_Child.toLowerCase()}` : null;
         return children ? `${adults} ${children}` : adults;
     }
     handleSmokeConfiguration(roomTypeId, rateplanId, detail, index) {
@@ -175,7 +172,7 @@ export class IrBookingDetails {
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         const total_rooms = calculateTotalRooms();
         const total_persons = this.calculateTotalPersons();
-        return (h(Host, { key: '65cd89cfb754a96b580e7bb7359c408af9c86ec4' }, h("div", { key: '3d2146a4768478c0b2e06989a4796fcfe3645577', class: "w-full" }, h("section", { key: '1f98c71fcf61d52db1ff6070a8dab240f860bfc6', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: '5432ff9fd01deddd933f3084e7c3264a82d52da2', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '2e7aa2c33ec72e46acfc02c34b1ef976dd712510', name: "bed" }), h("p", { key: 'abe91b9ab80ee106f369b6d05d168dae873fc1e0' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", total_persons, ' ', total_persons > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: 'aebb1a5364c4cd53c07827276f227677ec850e44', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: 'faa5d54262dbfed24ca988c540b127fecb058e52', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+        return (h(Host, { key: '4abce5a4b5dce3476b05052d065cd889bf79ba49' }, h("div", { key: '2182c5a2634206308511eb39d752a427d31056c9', class: "w-full" }, h("section", { key: '99827709790596ca0704f08e21605137a87d5ef5', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: 'a434d44cfd9135ec3f7849d06a847bb0eb0f5ee4', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '7c78250e0f2af6f0222496ad81d66dc777b9c64e', name: "bed" }), h("p", { key: '85270490e2afd00bdb25eff3863d31658888c207' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", total_persons, ' ', total_persons > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", total_rooms, ' ', total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '0d31a90186353373fba076db9d46e2bf588e037e', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '15bb7e645d12120fb3efd5fb5528224f854f5b89', class: 'space-y-14' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
                 if (r.reserved === 0) {
@@ -221,11 +218,11 @@ export class IrBookingDetails {
                         })), class: "hidden w-full sm:block", onValueChange: e => this.handleVariationChange(index, e, r.ratePlan.variations, Number(ratePlanId), Number(roomTypeId)) })), h("div", { class: "flex items-center gap-4" }, h("div", { class: "flex items-center gap-1 text-xs" }, h("ir-icons", { name: "utencils", svgClassName: "size-4" }), h("p", { class: "line-clamp-3" }, h("span", null, r.ratePlan.short_name), r.ratePlan.custom_text && h("span", { class: "mx-1 max-w-[60%] text-right text-xs text-gray-500 md:w-full md:max-w-full" }, r.ratePlan.custom_text))), this.renderSmokingView(r.roomtype.smoking_option, index, ratePlanId, roomTypeId, r.checkoutSmokingSelection), r.is_bed_configuration_enabled && (h("ir-select", { value: r.checkoutBedSelection[index], onValueChange: e => this.handleBedConfiguration(roomTypeId, ratePlanId, e.detail, index), data: r.roomtype.bedding_setup.map(b => ({ id: b.code, value: b.name })), icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" })))))));
                 });
             });
-        }))), h("ir-dialog", { key: '1e4b616d9817e8a62475f441b10ccb3bfa666e2c', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: 'fef4956923cac9265cf77a23f09baf2211ee9e31', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: 'f87b2060480432fb60f70102a3b7b5bf344d62d1', slot: "modal-body", class: "p-6 " }, h("p", { key: '5cfaa42f341e621fdd20046d4e6346bbef7afba9', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '7178f9fe3b173a90722534ca76f0bb7e39914f47', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
+            } }, h("div", { key: '5965e0cf3348f4b1057fe87b9c13208ef1a9fec0', slot: "modal-body", class: "p-6 " }, h("p", { key: '1f458b62794a1f299ddd0c9efdb0776d02ebbd43', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: 'f1e0431858c079d9e5c8cd0c5465e80ab94eb6f8', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
     }
     calculateTotalPersons() {
         let count = 0;

@@ -34,7 +34,6 @@ export class IrUserProfile {
         });
     }
     updateUserData(key, value) {
-        console.log(key, value);
         this.user = Object.assign(Object.assign({}, this.user), { [key]: value });
     }
     async handleSubmit(e) {
@@ -48,7 +47,7 @@ export class IrUserProfile {
         }
         catch (error) {
             if (error instanceof ZodError) {
-                console.log(error.issues);
+                console.error(error.issues);
             }
         }
         finally {
@@ -57,7 +56,6 @@ export class IrUserProfile {
     }
     render() {
         var _a;
-        console.log(isRequestPending('/Get_Exposed_Country_By_IP'));
         if (isRequestPending('/Get_Exposed_Country_By_IP')) {
             return null;
         }

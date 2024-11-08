@@ -177,7 +177,6 @@ export class PropertyService {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
-            console.log('payment', checkout_store.payment);
             let guest = {
                 email: checkout_store.userFormData.email,
                 first_name: checkout_store.userFormData.firstName,
@@ -243,7 +242,6 @@ export class PropertyService {
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
-            console.log('body');
             const { data } = await axios.post(`/DoReservation`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);

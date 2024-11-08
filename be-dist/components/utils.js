@@ -53207,7 +53207,6 @@ function checkAffiliate(afName) {
     if (!affiliate) {
         return null;
     }
-    console.log(affiliate);
     return affiliate;
 }
 function formatFullLocation(property) {
@@ -53326,15 +53325,7 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
         history.pushState(null, '', url.toString());
     }
 }
-function calculateInfantNumber(ages) {
-    return ages.reduce((prev, curr) => {
-        if (curr !== '' && Number(curr) < 3) {
-            return prev + 1;
-        }
-        return prev;
-    }, 0);
-}
 
-export { detectCardType as A, validateBooking as B, injectHTMLAndRunScript as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, calculateInfantNumber as K, defaultOptions$1 as a, booking_store as b, cn as c, dateFns as d, enUS as e, isSameWeek$1 as f, getDateDifference as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, getUserPreference as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, runScriptAndRemove as y, calculateTotalCost as z };
+export { detectCardType as A, validateBooking as B, injectHTMLAndRunScript as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, defaultOptions$1 as a, booking_store as b, cn as c, dateFns as d, enUS as e, isSameWeek$1 as f, getDateDifference as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, getUserPreference as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, runScriptAndRemove as y, calculateTotalCost as z };
 
 //# sourceMappingURL=utils.js.map

@@ -65,11 +65,10 @@ export class IrCheckoutPage {
             //   }
             // }
             // this.prepaymentAmount = total;
-            console.log(booking_store.ratePlanSelections);
             checkout_store.prepaymentAmount = this.prepaymentAmount;
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
         finally {
             this.isLoading = false;
@@ -145,7 +144,7 @@ export class IrCheckoutPage {
         }
         catch (error) {
             if (error instanceof ZodError) {
-                console.log(error.errors);
+                console.error(error.errors);
                 this.handleError('user', error);
             }
             return false;
