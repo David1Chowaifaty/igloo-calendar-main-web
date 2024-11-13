@@ -10,7 +10,7 @@ import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.33';
+        this.version = '2.38';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();

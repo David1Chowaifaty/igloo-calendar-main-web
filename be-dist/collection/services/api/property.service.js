@@ -140,13 +140,14 @@ export class PropertyService {
                             occupancy: {
                                 adult_nbr: rp.checkoutVariations[index].adult_nbr,
                                 children_nbr: rp.checkoutVariations[index].child_nbr,
-                                infant_nbr: null,
+                                infant_nbr: rp.infant_nbr,
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
                             from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
                             to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, +rp.checkoutVariations[index].amount / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, Number(rp.checkoutVariations[index].discounted_amount) /
+                                getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
                             guest: {
                                 email: null,
                                 first_name,

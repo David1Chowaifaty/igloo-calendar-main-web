@@ -45,6 +45,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
                     ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = checkVariation(ratePlan.variations, currentRatePlanSelection.selected_variation)) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
+                    infant_nbr: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,
                     ratePlan,
@@ -100,6 +101,7 @@ export function reserveRooms(roomTypeId, ratePlanId, rooms) {
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
+            infant_nbr: 0,
             is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
             visibleInventory: 0,
             selected_variation: null,

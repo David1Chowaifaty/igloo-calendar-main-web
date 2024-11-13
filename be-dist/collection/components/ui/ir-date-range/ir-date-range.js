@@ -208,7 +208,7 @@ export class IrDateRange {
             var _a, _b, _c, _d;
             day.setHours(0, 0, 0, 0);
             const checkedDate = this.checkDatePresence(day);
-            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month.month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (this.selectedDates.start && isAfter(day, maxSpanDays)), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
+            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month.month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (this.selectedDates.start && isAfter(day, maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.selectDay(day);

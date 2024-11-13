@@ -50245,6 +50245,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
                     ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = checkVariation(ratePlan.variations, currentRatePlanSelection.selected_variation)) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
+                    infant_nbr: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,
                     ratePlan,
@@ -50300,6 +50301,7 @@ function reserveRooms(roomTypeId, ratePlanId, rooms) {
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
+            infant_nbr: 0,
             is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
             visibleInventory: 0,
             selected_variation: null,
@@ -53326,6 +53328,6 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
     }
 }
 
-export { detectCardType as A, validateBooking as B, injectHTMLAndRunScript as C, destroyBookingCookie as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, defaultOptions$1 as a, booking_store as b, cn as c, dateFns as d, enUS as e, isSameWeek$1 as f, getDateDifference as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, getUserPreference as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, runScriptAndRemove as y, calculateTotalCost as z };
+export { detectCardType as A, validateBooking as B, destroyBookingCookie as C, injectHTMLAndRunScript as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, defaultOptions$1 as a, booking_store as b, cn as c, dateFns as d, enUS as e, isSameWeek$1 as f, getDateDifference as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, getUserPreference as l, manageAnchorSession as m, validateAgentCode as n, matchLocale as o, checkGhs as p, setDefaultLocale as q, checkAffiliate as r, startOfWeek$1 as s, toDate$1 as t, formatAmount as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, runScriptAndRemove as y, calculateTotalCost as z };
 
 //# sourceMappingURL=utils.js.map

@@ -5,6 +5,8 @@ export interface ILocale {
 export type TLocaleLocalizedWordsEntries = {
     Lcz_AcceptAndConfirm: string;
     Lcz_AcceptedCreditCards: string;
+    Lcz_No: string;
+    Lcz_AnyInfant: string;
     Lcz_Activities: string;
     Lcz_Address: string;
     Lcz_Adult: string;

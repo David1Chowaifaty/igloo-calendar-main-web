@@ -1,6 +1,4 @@
-'use strict';
-
-const index = require('./index-380c61af.js');
+import { a as getRenderingRef, f as forceUpdate } from './index-3ddfa666.js';
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -40,7 +38,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof index.getRenderingRef !== 'function') {
+    if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -49,7 +47,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = index.getRenderingRef();
+            const elm = getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -57,12 +55,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -50493,6 +50491,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
                     ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = checkVariation(ratePlan.variations, currentRatePlanSelection.selected_variation)) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
+                    infant_nbr: 0,
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,
                     ratePlan,
@@ -50548,6 +50547,7 @@ function reserveRooms(roomTypeId, ratePlanId, rooms) {
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
+            infant_nbr: 0,
             is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
             visibleInventory: 0,
             selected_variation: null,
@@ -53574,48 +53574,6 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
     }
 }
 
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateTotalCost = calculateTotalCost;
-exports.calculateTotalRooms = calculateTotalRooms;
-exports.changeLocale = changeLocale;
-exports.checkAffiliate = checkAffiliate;
-exports.checkGhs = checkGhs;
-exports.cn = cn;
-exports.createStore = createStore;
-exports.dateFns = dateFns;
-exports.defaultOptions = defaultOptions$1;
-exports.destroyBookingCookie = destroyBookingCookie;
-exports.detectCardType = detectCardType;
-exports.enUS = enUS;
-exports.formatAmount = formatAmount;
-exports.formatFullLocation = formatFullLocation;
-exports.formatImageAlt = formatImageAlt;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getDateDifference = getDateDifference;
-exports.getUserPreference = getUserPreference;
-exports.getVisibleInventory = getVisibleInventory;
-exports.injectHTML = injectHTML;
-exports.injectHTMLAndRunScript = injectHTMLAndRunScript;
-exports.isSameWeek = isSameWeek$1;
-exports.locale = locale;
-exports.localizedWords = localizedWords;
-exports.manageAnchorSession = manageAnchorSession;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.modifyQueryParam = modifyQueryParam;
-exports.onAppDataChange = onAppDataChange;
-exports.renderPropertyLocation = renderPropertyLocation;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.runScriptAndRemove = runScriptAndRemove;
-exports.setDefaultLocale = setDefaultLocale;
-exports.startOfWeek = startOfWeek$1;
-exports.toDate = toDate$1;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserPreference = updateUserPreference;
-exports.validateAgentCode = validateAgentCode;
-exports.validateBooking = validateBooking;
-exports.validateCoupon = validateCoupon;
+export { getAbbreviatedWeekdays as A, detectCardType as B, validateBooking as C, destroyBookingCookie as D, injectHTMLAndRunScript as E, renderPropertyLocation as F, renderTime as G, formatImageAlt as H, updateRoomParams as I, reserveRooms as J, getVisibleInventory as K, toDate$1 as L, startOfWeek$1 as M, defaultOptions$1 as N, enUS as O, isSameWeek$1 as P, injectHTML as Q, app_store as a, booking_store as b, createStore as c, dateFns as d, modifyQueryParam as e, validateAgentCode as f, getUserPreference as g, changeLocale as h, matchLocale as i, checkGhs as j, checkAffiliate as k, localizedWords as l, manageAnchorSession as m, modifyBookingStore as n, onAppDataChange as o, formatAmount as p, formatFullLocation as q, getDateDifference as r, setDefaultLocale as s, calculateTotalRooms as t, updateUserPreference as u, validateCoupon as v, runScriptAndRemove as w, cn as x, calculateTotalCost as y, locale as z };
 
-//# sourceMappingURL=utils-43146937.js.map
+//# sourceMappingURL=utils-20d39c9e.js.map

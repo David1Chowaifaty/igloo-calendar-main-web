@@ -99,8 +99,7 @@ export class IrBookingWidget {
         }
     }
     handleBooknow() {
-        if (!this.validateChildrenAges())
-            return;
+        // if (!this.validateChildrenAges()) return;
         let subdomainURL = `bookingmystay.com`;
         const currentDomain = `${app_store.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
@@ -154,14 +153,14 @@ export class IrBookingWidget {
     //     }
     //   }
     // }
-    validateChildrenAges() {
-        if (this.guests.childrenAges.some(c => c === '')) {
-            this.error = true;
-            return false;
-        }
-        this.guestPopover.forceClose();
-        return true;
-    }
+    // private validateChildrenAges() {
+    //   if (this.guests.childrenAges.some(c => c === '')) {
+    //     this.error = true;
+    //     return false;
+    //   }
+    //   this.guestPopover.forceClose();
+    //   return true;
+    // }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
         if (this.isLoading) {

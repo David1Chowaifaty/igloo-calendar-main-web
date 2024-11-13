@@ -3,6 +3,7 @@ import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
+    infant_nbr: number;
     selected_variation: Variation | null;
     ratePlan: RatePlan;
     guestName: string[];

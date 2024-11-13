@@ -23,5 +23,6 @@ export declare class IrBookingDetails {
     fetchCancelationMessage(applicable_policies: any): Promise<void>;
     renderSmokingView(smoking_option: ISmokingOption, index: number, ratePlanId: string, roomTypeId: string, checkoutSmokingSelection: string[]): any;
     render(): any;
+    handleInfantNumberChange(roomTypeId: string, rateplanId: string, detail: string | number, index: number): void;
     calculateTotalPersons(): number;
 }
