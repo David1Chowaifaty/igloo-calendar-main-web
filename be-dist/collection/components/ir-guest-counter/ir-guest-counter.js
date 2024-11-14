@@ -92,10 +92,10 @@ export class IrGuestCounter {
                     prev[i] = e.detail.toString();
                     this.childrenAges = [...prev];
                     this.emitCountHandler();
-                }, data: [...Array(this.childMaxAge)].map((_, index) => ({
+                }, data: [...Array(this.childMaxAge + 1)].map((_, index) => ({
                     id: index.toString(),
                     value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
-                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'f1f9aa719c3559b058660dccaa765bfed8001b40', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
+                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'f724267e48a7d5f40ac339da4bd137e060e3759f', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
             // label={localizedWords.entries.Lcz_Done}
             label: "Done", "aria-label": "Confirm selection" })));
     }

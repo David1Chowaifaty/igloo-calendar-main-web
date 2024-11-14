@@ -106,10 +106,10 @@ export class IrAdultChildCounter {
                     const prev = [...this.childrenAges];
                     prev[i] = e.detail.toString();
                     this.childrenAges = [...prev];
-                }, data: [...Array(this.childMaxAge)].map((_, index) => ({
+                }, data: [...Array(this.childMaxAge + 1)].map((_, index) => ({
                     id: index.toString(),
                     value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
-                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'd5ae2fee7b2bce78b8ad1222cecb588eb650fe01', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
+                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'b0a8cb37dec254c070d92d40800bfa39f72686e6', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
     }
     static get is() { return "ir-adult-child-counter"; }
     static get encapsulation() { return "shadow"; }
