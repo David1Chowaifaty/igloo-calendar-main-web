@@ -7,8 +7,10 @@ export declare class IrGuestCounter {
     childMaxAge: number;
     child: number;
     adults: number;
+    error: boolean;
     adultCount: number;
     childrenCount: number;
+    childrenAges: string[];
     updateCounts: EventEmitter;
     closeGuestCounter: EventEmitter;
     componentWillLoad(): void;
@@ -18,6 +20,8 @@ export declare class IrGuestCounter {
     decrementAdultCount(): void;
     incrementChildrenCount(): void;
     decrementChildrenCount(): void;
+    private validateChildrenAges;
+    private emitCountHandler;
     addChildrenAndAdult(): void;
     render(): any;
 }

@@ -50622,9 +50622,9 @@ function calculateTotalRooms() {
     }, 0);
 }
 
-var dateFns = {};
-
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
+
+var dateFns = {};
 
 var bundleCjs = {};
 
@@ -53573,7 +53573,15 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
         history.pushState(null, '', url.toString());
     }
 }
+function calculateInfantNumber(ages) {
+    return ages.reduce((prev, curr) => {
+        if (curr !== '' && Number(curr) < 3) {
+            return prev + 1;
+        }
+        return prev;
+    }, 0);
+}
 
-export { getAbbreviatedWeekdays as A, detectCardType as B, validateBooking as C, destroyBookingCookie as D, injectHTMLAndRunScript as E, renderPropertyLocation as F, renderTime as G, formatImageAlt as H, updateRoomParams as I, reserveRooms as J, getVisibleInventory as K, toDate$1 as L, startOfWeek$1 as M, defaultOptions$1 as N, enUS as O, isSameWeek$1 as P, injectHTML as Q, app_store as a, booking_store as b, createStore as c, dateFns as d, modifyQueryParam as e, validateAgentCode as f, getUserPreference as g, changeLocale as h, matchLocale as i, checkGhs as j, checkAffiliate as k, localizedWords as l, manageAnchorSession as m, modifyBookingStore as n, onAppDataChange as o, formatAmount as p, formatFullLocation as q, getDateDifference as r, setDefaultLocale as s, calculateTotalRooms as t, updateUserPreference as u, validateCoupon as v, runScriptAndRemove as w, cn as x, calculateTotalCost as y, locale as z };
+export { locale as A, getAbbreviatedWeekdays as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, toDate$1 as M, startOfWeek$1 as N, defaultOptions$1 as O, enUS as P, isSameWeek$1 as Q, injectHTML as R, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, modifyQueryParam as f, getUserPreference as g, validateAgentCode as h, changeLocale as i, matchLocale as j, checkGhs as k, localizedWords as l, manageAnchorSession as m, checkAffiliate as n, onAppDataChange as o, modifyBookingStore as p, formatAmount as q, formatFullLocation as r, setDefaultLocale as s, calculateTotalRooms as t, updateUserPreference as u, validateCoupon as v, getDateDifference as w, runScriptAndRemove as x, cn as y, calculateTotalCost as z };
 
-//# sourceMappingURL=utils-20d39c9e.js.map
+//# sourceMappingURL=utils-c1228829.js.map

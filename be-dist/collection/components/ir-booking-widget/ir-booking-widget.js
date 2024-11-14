@@ -99,7 +99,8 @@ export class IrBookingWidget {
         }
     }
     handleBooknow() {
-        // if (!this.validateChildrenAges()) return;
+        if (!this.validateChildrenAges())
+            return;
         let subdomainURL = `bookingmystay.com`;
         const currentDomain = `${app_store.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
@@ -110,8 +111,8 @@ export class IrBookingWidget {
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
         const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
         const affiliate = this.aff ? `aff=${this.aff}` : '';
-        // const ages = this.guests.childrenCount > 0 && this.guests.childrenAges.length > 0 ? `ages=${this.guests.childrenAges.join('_')}` : '';
-        const queryParams = [fromDate, toDate, adults, children, roomTypeId, affiliate];
+        const ages = this.guests.childrenCount > 0 && this.guests.childrenAges.length > 0 ? `ages=${this.guests.childrenAges.join('_')}` : '';
+        const queryParams = [fromDate, toDate, adults, children, roomTypeId, affiliate, ages];
         const queryString = queryParams.filter(param => param !== '').join('&');
         window.open(`https://${currentDomain}?${queryString}`, '_blank');
     }
@@ -140,27 +141,28 @@ export class IrBookingWidget {
             clearTimeout(this.elTimout);
         }
     }
-    // private handlePopoverToggle(e: CustomEvent) {
-    //   e.stopImmediatePropagation();
-    //   e.stopPropagation();
-    //   this.isGuestPopoverOpen = e.detail;
-    //   console.log('here');
-    //   if (!this.isGuestPopoverOpen) {
-    //     if (this.guests.childrenCount === 0) {
-    //       this.guestPopover.forceClose();
-    //     } else {
-    //       this.validateChildrenAges();
-    //     }
-    //   }
-    // }
-    // private validateChildrenAges() {
-    //   if (this.guests.childrenAges.some(c => c === '')) {
-    //     this.error = true;
-    //     return false;
-    //   }
-    //   this.guestPopover.forceClose();
-    //   return true;
-    // }
+    handlePopoverToggle(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.isGuestPopoverOpen = e.detail;
+        console.log('here');
+        if (!this.isGuestPopoverOpen) {
+            if (this.guests.childrenCount === 0) {
+                this.guestPopover.forceClose();
+            }
+            else {
+                this.validateChildrenAges();
+            }
+        }
+    }
+    validateChildrenAges() {
+        if (this.guests.childrenAges.some(c => c === '')) {
+            this.error = true;
+            return false;
+        }
+        this.guestPopover.forceClose();
+        return true;
+    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
         if (this.isLoading) {
@@ -184,7 +186,7 @@ export class IrBookingWidget {
                     from_date: start,
                     to_date: end,
                 };
-            } }))), h("ir-popover", { autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto' }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = e.detail), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.toggleVisibility() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
+            } }))), h("ir-popover", { outsideEvents: "none", autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', onOpenChange: this.handlePopoverToggle.bind(this) }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", error: this.error, adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = app_store.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = Object.assign({}, e.detail)), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.forceClose() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
     }
     static get is() { return "ir-widget"; }
     static get encapsulation() { return "shadow"; }

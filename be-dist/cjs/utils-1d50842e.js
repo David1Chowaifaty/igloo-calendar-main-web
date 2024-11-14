@@ -50624,9 +50624,9 @@ function calculateTotalRooms() {
     }, 0);
 }
 
-var dateFns = {};
-
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
+
+var dateFns = {};
 
 var bundleCjs = {};
 
@@ -53575,9 +53575,18 @@ function modifyQueryParam(param, value, options = { reload: false, replaceState:
         history.pushState(null, '', url.toString());
     }
 }
+function calculateInfantNumber(ages) {
+    return ages.reduce((prev, curr) => {
+        if (curr !== '' && Number(curr) < 3) {
+            return prev + 1;
+        }
+        return prev;
+    }, 0);
+}
 
 exports.app_store = app_store;
 exports.booking_store = booking_store;
+exports.calculateInfantNumber = calculateInfantNumber;
 exports.calculateTotalCost = calculateTotalCost;
 exports.calculateTotalRooms = calculateTotalRooms;
 exports.changeLocale = changeLocale;
@@ -53620,4 +53629,4 @@ exports.validateAgentCode = validateAgentCode;
 exports.validateBooking = validateBooking;
 exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-145d3901.js.map
+//# sourceMappingURL=utils-1d50842e.js.map
