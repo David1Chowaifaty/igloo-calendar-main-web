@@ -38,12 +38,19 @@ class Token extends Auth {
     constructor() {
         super();
         this.baseUrl = 'https://gateway.igloorooms.com/IR';
+        if (Token.modifiedBaseUrl) {
+            return;
+        }
+        Token.modifiedBaseUrl = true;
+        axios.defaults.baseURL = this.baseUrl;
+    }
+    getToken() {
+        return Token.token;
     }
     initialize() {
         if (Token.isInterceptorAdded) {
             return;
         }
-        axios.defaults.baseURL = this.baseUrl;
         axios.interceptors.request.use(config => {
             if (!Token.token) {
                 throw new MissingTokenError();
@@ -61,6 +68,7 @@ class Token extends Auth {
     }
 }
 Token.token = '';
+Token.modifiedBaseUrl = false;
 Token.isInterceptorAdded = false;
 class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {

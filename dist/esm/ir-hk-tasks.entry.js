@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { T as Token } from './Token-a4516431.js';
+import { T as Token } from './Token-a382baa1.js';
 import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store } from './housekeeping.service-0fce7ec1.js';
 import { R as RoomService } from './room.service-f3b5fba8.js';
 import { l as locales } from './locales.store-a1e3db22.js';

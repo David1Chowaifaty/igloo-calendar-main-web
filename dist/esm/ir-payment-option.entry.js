@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host } from './index-c
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-404dbac8.js';
 import { R as RoomService } from './room.service-f3b5fba8.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import { T as Token } from './Token-a4516431.js';
+import { T as Token } from './Token-a382baa1.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';
 import './calendar-data-666acc1f.js';

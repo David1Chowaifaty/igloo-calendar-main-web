@@ -2,7 +2,8 @@ export declare class IrBooking {
     propertyid: number;
     p: string;
     bookingNumber: string;
-    token: string;
+    isAuthenticated: boolean;
+    private token;
     componentWillLoad(): void;
     private handleAuthFinish;
     render(): any;

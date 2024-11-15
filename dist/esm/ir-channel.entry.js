@@ -3,7 +3,7 @@ import { R as RoomService } from './room.service-f3b5fba8.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-a03c634b.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { C as ChannelService } from './channel.service-2d616727.js';
-import { T as Token } from './Token-a4516431.js';
+import { T as Token } from './Token-a382baa1.js';
 import './calendar-data-666acc1f.js';
 import './index-1d7b1ff2.js';
 import './axios-ab377903.js';

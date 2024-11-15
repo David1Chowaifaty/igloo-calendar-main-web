@@ -1,5 +1,7 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
-import { t as checkUserAuthState, u as manageAnchorSession } from './utils-9f3b1dfe.js';
+import { T as Token } from './Token-a382baa1.js';
+import { n as checkUserAuthState, o as manageAnchorSession } from './utils-b3dd8f4b.js';
+import './axios-ab377903.js';
 import './moment-ab846cee.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
@@ -8,25 +10,29 @@ const IrBookingStyle0 = irBookingCss;
 const IrBooking = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.token = new Token();
         this.propertyid = undefined;
         this.p = undefined;
         this.bookingNumber = undefined;
-        this.token = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
-            this.token = isAuthenticated.token;
+            this.isAuthenticated = true;
+            this.token.setToken(isAuthenticated.token);
         }
     }
     handleAuthFinish(e) {
-        this.token = e.detail.token;
-        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token: this.token } });
+        const token = e.detail.token;
+        this.token.setToken(token);
+        this.isAuthenticated = true;
+        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
-        if (!this.token)
+        if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, ticket: this.token })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
 };
 IrBooking.style = IrBookingStyle0;

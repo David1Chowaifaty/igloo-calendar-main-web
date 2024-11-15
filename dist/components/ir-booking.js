@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { T as Token } from './Token.js';
 import { t as checkUserAuthState, u as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$E } from './igl-application-info2.js';
 import { d as defineCustomElement$D } from './igl-block-dates-view2.js';
@@ -47,32 +48,36 @@ const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTM
     constructor() {
         super();
         this.__registerHost();
+        this.token = new Token();
         this.propertyid = undefined;
         this.p = undefined;
         this.bookingNumber = undefined;
-        this.token = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
-            this.token = isAuthenticated.token;
+            this.isAuthenticated = true;
+            this.token.setToken(isAuthenticated.token);
         }
     }
     handleAuthFinish(e) {
-        this.token = e.detail.token;
-        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token: this.token } });
+        const token = e.detail.token;
+        this.token.setToken(token);
+        this.isAuthenticated = true;
+        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
-        if (!this.token)
+        if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, ticket: this.token })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
     static get style() { return IrBookingStyle0; }
 }, [2, "ir-booking", {
         "propertyid": [2],
         "p": [1],
         "bookingNumber": [1, "booking-number"],
-        "token": [32]
+        "isAuthenticated": [32]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {

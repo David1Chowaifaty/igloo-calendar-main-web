@@ -1,26 +1,31 @@
+import Token from "../../models/Token";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBooking {
     constructor() {
+        this.token = new Token();
         this.propertyid = undefined;
         this.p = undefined;
         this.bookingNumber = undefined;
-        this.token = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
-            this.token = isAuthenticated.token;
+            this.isAuthenticated = true;
+            this.token.setToken(isAuthenticated.token);
         }
     }
     handleAuthFinish(e) {
-        this.token = e.detail.token;
-        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token: this.token } });
+        const token = e.detail.token;
+        this.token.setToken(token);
+        this.isAuthenticated = true;
+        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
-        if (!this.token)
+        if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", bookingNumber: this.bookingNumber, ticket: this.token })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
     static get is() { return "ir-booking"; }
     static get encapsulation() { return "scoped"; }
@@ -91,7 +96,7 @@ export class IrBooking {
     }
     static get states() {
         return {
-            "token": {}
+            "isAuthenticated": {}
         };
     }
 }

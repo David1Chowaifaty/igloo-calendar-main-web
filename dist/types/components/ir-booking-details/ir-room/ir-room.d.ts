@@ -36,6 +36,7 @@ export declare class IrRoom {
     getDateStr(date: any, locale?: string): string;
     handleEditClick(): void;
     handleDeleteClick(): void;
-    deleteRoom(): Promise<void>;
+    private deleteRoom;
+    private formatVariation;
     render(): any;
 }
