@@ -1,4 +1,4 @@
-import { IBookingParams } from "../../../services/booking.service";
+import { TSourceOption } from "../../../models/igl-book-property";
 export declare class IglBookPropertyService {
     setBookingInfoFromAutoComplete(context: any, res: any): void;
     resetRoomsInfoAndMessage(context: any): void;
@@ -8,7 +8,14 @@ export declare class IglBookPropertyService {
     private setSelectedRoomData;
     private cleanupEmptyData;
     private applyBookingEditToSelectedRoom;
-    prepareBookUserServiceParams(context: any, check_in: any, sourceOption: any): Promise<IBookingParams>;
+    private generateRoomDays;
+    private extractFirstNameAndLastName;
+    private getBookedRooms;
+    prepareBookUserServiceParams({ context, sourceOption, check_in }: {
+        context: any;
+        sourceOption: TSourceOption;
+        check_in: boolean;
+    }): Promise<any>;
     private getRoomCategoryByRoomId;
     setEditingRoomInfo(bookingData: any, selectedUnits: any): void;
 }

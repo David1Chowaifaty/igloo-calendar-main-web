@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { Booking, Room } from '../../../models/booking.dto';
-import { TIglBookPropertyPayload } from '../../../models/igl-book-property';
+import { Booking, Room } from "../../../models/booking.dto";
+import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { ILocale } from "../../../stores/locales.store";
 export declare class IrRoom {
     bookingEvent: Booking;

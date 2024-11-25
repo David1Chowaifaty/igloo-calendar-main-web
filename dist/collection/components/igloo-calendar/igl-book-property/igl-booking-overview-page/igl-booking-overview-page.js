@@ -1,6 +1,7 @@
 import { Fragment, Host, h } from "@stencil/core";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import moment from "moment";
+import booking_store from "../../../../stores/booking.store";
 export class IglBookingOverviewPage {
     constructor() {
         this.bookingData = undefined;
@@ -37,14 +38,10 @@ export class IglBookingOverviewPage {
         return from_date.add(-2, 'weeks').format('YYYY-MM-DD');
     }
     render() {
-        var _a, _b;
-        //console.log(this.bookingData);
-        return (h(Host, { key: '10bb0647f1dda45256d5ebf4958db6e7617ea096' }, h("igl-book-property-header", { key: '63fd9d685f7ae67eca115abcfdd593d6e6916d2b', bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
+        var _a;
+        return (h(Host, { key: 'ead94c7b6adc1297a8d4d47f94543886c4b883ec' }, h("igl-book-property-header", { key: '78fea523284b22e4b4e8446bb31b5297d9f04f95', bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
             // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
-            adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: '3c37f4c8c090eb15fd4e31db20c06bfab2308562', class: " text-left" }, isRequestPending('/Get_Exposed_Booking_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_b = (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.roomsInfo) === null || _b === void 0 ? void 0 : _b.map(roomInfo => {
-            //console.log(this.selectedRooms);
-            return (h("igl-booking-rooms", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-info-${roomInfo.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomTypeData: roomInfo, class: "mt-2 mb-1 p-0", roomInfoId: this.selectedRooms.has(`c_${roomInfo.id}`) ? roomInfo.id : null, defaultData: this.selectedRooms.get(`c_${roomInfo.id}`), onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }));
-        })))), h("igl-book-property-footer", { key: 'c934d624a9e3fe51a25070a00631539b0b76a80a', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type, disabled: this.selectedRooms.size === 0 })));
+            adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'e7bbb860b58e12b20b806f7c5597185ef7a08eef', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-info-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) })))))), h("igl-book-property-footer", { key: '9a36ecdf0602561f4295e9a9d643430d248e82ac', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type })));
     }
     static get is() { return "igl-booking-overview-page"; }
     static get encapsulation() { return "scoped"; }

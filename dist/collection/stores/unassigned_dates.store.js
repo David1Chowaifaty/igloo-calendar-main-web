@@ -3,7 +3,7 @@ const initialState = {
     unassigned_dates: {},
 };
 export let { state: unassigned_dates, onChange: handleUnAssignedDatesChange } = createStore(initialState);
-export function addUnassingedDates(data) {
+export function addUnassignedDates(data) {
     unassigned_dates.unassigned_dates = Object.assign(Object.assign({}, unassigned_dates.unassigned_dates), data);
     /*
      try {
@@ -27,7 +27,7 @@ export function addUnassingedDates(data) {
         //  toastr.error(error);
       }
     */
-    console.log(unassigned_dates.unassigned_dates);
+    // console.log(unassigned_dates.unassigned_dates);
 }
 export function getUnassignedDates() {
     return unassigned_dates.unassigned_dates;

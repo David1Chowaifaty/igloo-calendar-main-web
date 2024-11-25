@@ -5,10 +5,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-d0d7c4d0.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const booking_service = require('./booking.service-b2a0a254.js');
+const booking = require('./booking-6263d2be.js');
+const booking_service = require('./booking.service-48f67a35.js');
 const room_service = require('./room.service-723b3148.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-const utils = require('./utils-34705107.js');
+const utils = require('./utils-452a00ec.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-fbe7f62b.js');
@@ -86,7 +87,7 @@ const IrBookingPrinting = class {
             //   throw new Error('Missing booking number');
             // }
             let countries;
-            const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
+            const [property, languageTexts, booking$1, fetchedCountries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
@@ -99,11 +100,11 @@ const IrBookingPrinting = class {
             this.property = property['My_Result'];
             // this.booking = booking;
             countries = fetchedCountries;
-            this.booking = booking;
+            this.booking = booking$1;
             this.setUserCountry(countries, this.booking.guest.country_id);
             this.currency = this.booking.currency.symbol;
             this.totalPersons = ((_a = this.booking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.booking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
-            this.totalNights = booking_service.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
+            this.totalNights = booking.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
         }
         catch (error) {
             console.error(error);

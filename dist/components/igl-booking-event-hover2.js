@@ -182,6 +182,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() <= 9 ? '0' : '') + dt.getDate();
     }
     handleAddRoom() {
+        var _a;
         let fromDate = new Date(this.bookingEvent.FROM_DATE);
         fromDate.setHours(0, 0, 0, 0);
         let from_date_str = this.getStringDateFormat(fromDate);
@@ -189,7 +190,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         //toDate.setDate(toDate.getDate() + 1);
         toDate.setHours(0, 0, 0, 0);
         let to_date_str = this.getStringDateFormat(toDate);
-        //console.log(this.bookingEvent);
+        // console.log(this.bookingEvent);
         let eventData = {
             ID: '',
             NAME: '',
@@ -205,11 +206,12 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             GUEST: this.bookingEvent.GUEST,
             message: this.bookingEvent.NOTES,
             SOURCE: this.bookingEvent.SOURCE,
+            booking: (_a = this.bookingEvent) === null || _a === void 0 ? void 0 : _a.booking,
             defaultDateRange: {
-                fromDate: fromDate, //new Date("2023-09-10"),
-                fromDateStr: '', //"10 Sep 2023",
-                toDate: toDate, //new Date("2023-09-15"),
-                toDateStr: '', // "15 Sep 2023",
+                fromDate: fromDate,
+                fromDateStr: '',
+                toDate: toDate,
+                toDateStr: '',
                 dateDifference: 0,
                 editabled: true,
                 message: 'Including 5.00% City Tax - Excluding 11.00% VAT',
@@ -336,7 +338,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: '1f7f23ea2969b334f7bc50f52f3af55acf68d1be' }, h("div", { key: 'b5146e99dce38cd6de5439a9ae62ac1f5b601c3a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cdc686e5e855e1b3a1968508263c614ea512154d', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '54f78e0ef95bfbbbdb609588927cb2b72e5bf9a8' }, h("div", { key: '3851810c9906a6b58ec5e10f69e4446097a43a8a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '3398b90d4c12b92acb86b6a009280ecaccafe73f', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get style() { return IglBookingEventHoverStyle0; }

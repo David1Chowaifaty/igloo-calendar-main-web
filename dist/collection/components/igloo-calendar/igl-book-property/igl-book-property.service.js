@@ -1,4 +1,19 @@
-//import { BookingService } from '../../../services/booking.service';
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s)
+        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+import booking_store from "../../../stores/booking.store";
+import { calculateDaysBetweenDates } from "../../../utils/booking";
+import { extras } from "../../../utils/utils";
+import moment from "moment";
 export class IglBookPropertyService {
     setBookingInfoFromAutoComplete(context, res) {
         context.bookedByInfoData = {
@@ -96,60 +111,188 @@ export class IglBookPropertyService {
         }
         selectedUnits.set(roomCategoryKey, new Map().set(ratePlanKey, res));
     }
-    async prepareBookUserServiceParams(context, check_in, sourceOption) {
+    generateRoomDays(from_date, to_date, amount) {
+        const endDate = new Date(to_date);
+        endDate.setDate(endDate.getDate() - 1);
+        let currentDate = new Date(from_date);
+        const days = [];
+        while (currentDate <= endDate) {
+            days.push({
+                date: moment(currentDate).format('YYYY-MM-DD'),
+                amount: amount,
+                cost: null,
+            });
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return days;
+    }
+    extractFirstNameAndLastName(name) {
+        const names = name.split(' ');
+        return { first_name: names[0] || null, last_name: names[1] || null };
+    }
+    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, }) {
+        const rooms = [];
+        const total_days = calculateDaysBetweenDates(moment(check_in).format('YYYY-MM-DD'), moment(check_out).format('YYYY-MM-DD'));
+        const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount }) => {
+            if (is_amount_modified) {
+                return view_mode === '002' ? rp_amount : rp_amount / total_days;
+            }
+            return Number(selected_variation.discounted_gross_amount) / total_days;
+        };
+        for (const roomTypeId in booking_store.ratePlanSelections) {
+            const roomtype = booking_store.ratePlanSelections[roomTypeId];
+            for (const rateplanId in roomtype) {
+                const rateplan = roomtype[rateplanId];
+                if (rateplan.reserved > 0) {
+                    for (let i = 0; i < rateplan.reserved; i++) {
+                        const { first_name, last_name } = this.extractFirstNameAndLastName(rateplan.guest[i].name);
+                        rooms.push({
+                            identifier,
+                            roomtype: rateplan.roomtype,
+                            rateplan: rateplan.ratePlan,
+                            prepayment_amount_gross: 0,
+                            unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
+                            occupancy: {
+                                adult_nbr: rateplan.selected_variation.adult_nbr,
+                                children_nbr: rateplan.selected_variation.child_nbr,
+                                infant_nbr: rateplan.guest[i].infant_nbr,
+                            },
+                            bed_preference: rateplan.guest[i].bed_preference,
+                            from_date: moment(check_in).format('YYYY-MM-DD'),
+                            to_date: moment(check_out).format('YYYY-MM-DD'),
+                            notes,
+                            days: this.generateRoomDays(check_in, check_out, calculateAmount(rateplan)),
+                            guest: {
+                                email: null,
+                                first_name,
+                                last_name,
+                                country_id: null,
+                                city: null,
+                                mobile: null,
+                                address: null,
+                                dob: null,
+                                subscribe_to_news_letter: null,
+                                cci: null,
+                            },
+                        });
+                    }
+                }
+            }
+        }
+        return rooms;
+    }
+    async prepareBookUserServiceParams({ context, sourceOption, check_in }) {
         try {
-            const arrivalTime = context.isEventType('EDIT_BOOKING')
-                ? context.getArrivalTimeForBooking()
-                : context.isEventType('ADD_ROOM')
-                    ? context.bookingData.ARRIVAL.code
-                    : context.isEventType('SPLIT_BOOKING')
-                        ? context.bookedByInfoData.selectedArrivalTime.code
-                        : '';
-            const pr_id = context.isEventType('BAR_BOOKING') ? context.bookingData.PR_ID : undefined;
-            const bookingNumber = context.isEventType('EDIT_BOOKING') || context.isEventType('ADD_ROOM')
-                ? context.bookingData.BOOKING_NUMBER
-                : context.isEventType('SPLIT_BOOKING')
-                    ? context.bookedByInfoData.bookingNumber
-                    : undefined;
-            let rooms = [];
-            if (context.isEventType('ADD_ROOM')) {
-                // const result = await (context.bookingService as BookingService).getExoposedBooking(bookingNumber, context.language);
-                //rooms = result.rooms;
-                rooms = context.bookingData.ROOMS;
+            // Validate context structure
+            if (!context || !context.dateRangeData) {
+                throw new Error('Invalid context: Missing date range data.');
             }
-            else if (context.isEventType('SPLIT_BOOKING')) {
-                rooms = context.bookedByInfoData.rooms;
-            }
-            else if (context.isEventType('EDIT_BOOKING')) {
-                rooms = context.defaultData.ROOMS.filter(room => room.identifier !== context.bookingData.IDENTIFIER);
-            }
-            return {
-                bookedByInfoData: context.bookedByInfoData,
-                check_in,
-                fromDate: new Date(context.dateRangeData.fromDate),
-                toDate: new Date(context.dateRangeData.toDate),
-                guestData: context.guestData,
-                totalNights: context.dateRangeData.dateDifference,
-                source: sourceOption,
-                propertyid: context.propertyid,
-                rooms,
-                pickup_info: context.bookingData.PICKUP_INFO || null,
-                currency: context.currency,
-                bookingNumber,
-                defaultGuest: context.bookingData.GUEST,
-                arrivalTime,
-                pr_id,
-                identifier: context.bookingData.IDENTIFIER,
-                extras: null,
+            const fromDate = new Date(context.dateRangeData.fromDate);
+            const toDate = new Date(context.dateRangeData.toDate);
+            const generateNewRooms = (identifier = null) => {
+                return this.getBookedRooms({
+                    check_in: fromDate,
+                    check_out: toDate,
+                    identifier,
+                    notes: '',
+                    override_unit: context.isEventType('BAR_BOOKING') ? true : false,
+                    unit: context.isEventType('BAR_BOOKING') ? context.bookingData.PR_ID : null,
+                });
             };
+            const modifyBookingDetails = (_a, rooms) => {
+                var { pickup_info, is_direct, is_in_loyalty_mode, promo_key, extras } = _a, rest = __rest(_a, ["pickup_info", "is_direct", "is_in_loyalty_mode", "promo_key", "extras"]);
+                return {
+                    assign_untis: true,
+                    check_in: false,
+                    is_pms: true,
+                    is_direct,
+                    is_in_loyalty_mode,
+                    promo_key,
+                    extras,
+                    booking: Object.assign(Object.assign({}, rest), { rooms }),
+                    pickup_info,
+                };
+            };
+            let newBooking = null;
+            switch (context.defaultData.event_type) {
+                case 'EDIT_BOOKING': {
+                    const { booking, currentRoomType } = context.defaultData;
+                    const filteredRooms = booking.rooms.filter(r => r.identifier !== currentRoomType.identifier);
+                    const newRooms = generateNewRooms(currentRoomType.identifier);
+                    newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
+                    break;
+                }
+                case 'ADD_ROOM':
+                case 'SPLIT_BOOKING': {
+                    const { booking } = context.defaultData;
+                    if (!booking) {
+                        throw new Error('Missing booking');
+                    }
+                    console.log(booking);
+                    const newRooms = generateNewRooms();
+                    newBooking = modifyBookingDetails(booking, [...booking === null || booking === void 0 ? void 0 : booking.rooms, ...newRooms]);
+                    break;
+                }
+                default: {
+                    const newRooms = generateNewRooms();
+                    const { bookedByInfoData } = context;
+                    newBooking = {
+                        assign_untis: true,
+                        check_in,
+                        is_pms: true,
+                        is_direct: true,
+                        is_in_loyalty_mode: false,
+                        promo_key: null,
+                        extras,
+                        booking: {
+                            from_date: moment(fromDate).format('YYYY-MM-DD'),
+                            to_date: moment(toDate).format('YYYY-MM-DD'),
+                            remark: '',
+                            booking_nbr: '',
+                            property: {
+                                id: context.propertyid,
+                            },
+                            booked_on: {
+                                date: moment().format('YYYY-MM-DD'),
+                                hour: new Date().getHours(),
+                                minute: new Date().getMinutes(),
+                            },
+                            source: sourceOption,
+                            rooms: newRooms,
+                            currency: context.currency,
+                            arrival: { code: bookedByInfoData.selectedArrivalTime },
+                            guest: {
+                                email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
+                                first_name: bookedByInfoData.firstName,
+                                last_name: bookedByInfoData.lastName,
+                                country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
+                                city: null,
+                                mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
+                                phone_prefix: null,
+                                address: '',
+                                dob: null,
+                                subscribe_to_news_letter: bookedByInfoData.emailGuest || false,
+                                cci: bookedByInfoData.cardNumber
+                                    ? {
+                                        nbr: bookedByInfoData.cardNumber,
+                                        holder_name: bookedByInfoData.cardHolderName,
+                                        expiry_month: bookedByInfoData.expiryMonth,
+                                        expiry_year: bookedByInfoData.expiryYear,
+                                    }
+                                    : null,
+                            },
+                        },
+                        pickup_info: null,
+                    };
+                    break;
+                }
+            }
+            return newBooking;
         }
         catch (error) {
             console.error(error);
         }
     }
-    // private getBookingPreferenceRoomId(bookingData) {
-    //   return (bookingData.hasOwnProperty('PR_ID') && bookingData.PR_ID) || null;
-    // }
     getRoomCategoryByRoomId(bookingData) {
         var _a;
         return (_a = bookingData.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(roomCategory => {

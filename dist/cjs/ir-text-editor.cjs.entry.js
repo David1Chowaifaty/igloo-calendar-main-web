@@ -7678,7 +7678,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'a19c41456ae5eac45b3cfd655b87defffd05fd9e' }, index.h("div", { key: 'f28e3da35e2849bd4e44cdb8b542f890cfd5579d', id: "editor" })));
+        return (index.h(index.Host, { key: '68bb8f1b0c76612468ac625c2afc487e425b512e' }, index.h("div", { key: '883409643ff921512dbe91c6764d6c77515e6cd6', id: "editor" })));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

@@ -13,6 +13,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import axios from "axios";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../utils/utils";
 import { getMyBookings } from "../utils/booking";
+import booking_store from "../stores/booking.store";
 export class BookingService {
     async getCalendarData(propertyid, from_date, to_date) {
         try {
@@ -104,16 +105,63 @@ export class BookingService {
     async getBookingAvailability(props) {
         try {
             const { adultChildCount, currency } = props, rest = __rest(props, ["adultChildCount", "currency"]);
-            const { data } = await axios.post(`/Get_Exposed_Booking_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, is_backend: true }));
+            const { data } = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, is_backend: true }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            return data['My_Result'];
+            const results = this.modifyRateplans(this.sortRoomTypes(data['My_Result'], { adult_nbr: Number(adultChildCount.adult), child_nbr: Number(adultChildCount.child) }));
+            booking_store.roomTypes = [...results];
+            booking_store.tax_statement = { message: data.My_Result.tax_statement };
+            return results;
         }
         catch (error) {
             console.error(error);
             throw new Error(error);
         }
+    }
+    sortRoomTypes(roomTypes, userCriteria) {
+        return roomTypes.sort((a, b) => {
+            var _a, _b, _c, _d;
+            // Priority to available rooms
+            if (a.is_available_to_book && !b.is_available_to_book)
+                return -1;
+            if (!a.is_available_to_book && b.is_available_to_book)
+                return 1;
+            // Check for variations where is_calculated is true and amount is 0 or null
+            const zeroCalculatedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
+            const zeroCalculatedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
+            // Prioritize these types to be before inventory 0 but after all available ones
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
+                return -1;
+            // Check for exact matching variations based on user criteria
+            const matchA = (_c = a.rateplans) === null || _c === void 0 ? void 0 : _c.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            const matchB = (_d = b.rateplans) === null || _d === void 0 ? void 0 : _d.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            if (matchA && !matchB)
+                return -1;
+            if (!matchA && matchB)
+                return 1;
+            // Sort by the highest variation amount
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
+                return 1;
+            return 0;
+        });
+    }
+    modifyRateplans(roomTypes) {
+        return roomTypes === null || roomTypes === void 0 ? void 0 : roomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); });
+    }
+    sortVariations(variations) {
+        return variations.sort((a, b) => {
+            if (a.adult_nbr !== b.adult_nbr) {
+                return b.adult_nbr - a.adult_nbr;
+            }
+            return b.child_nbr - a.child_nbr;
+        });
     }
     async getCountries(language) {
         try {
@@ -149,6 +197,13 @@ export class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async doBookingExtraService({ booking_nbr, service, is_remove }) {
+        const { data } = await axios.post(`/Do_Booking_Extra_Service`, Object.assign(Object.assign({}, service), { booking_nbr, is_remove }));
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
     async getBlockedInfo() {
         try {
@@ -399,8 +454,8 @@ export class BookingService {
                 pickup_info,
             };
             console.log('book user payload', body);
-            const result = await this.doReservation(body);
-            return result;
+            // const result = await this.doReservation(body);
+            // return result;
         }
         catch (error) {
             console.error(error);

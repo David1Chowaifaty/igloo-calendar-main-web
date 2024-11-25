@@ -21,7 +21,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: '407999021c9081021b69ce01b6098a3acac9e4b3', class: 'form-group' }, h("label", { key: '082455ca3f6b22769c12ff74df77b473aeb8f554' }, this.label), h("textarea", { key: '67358a3de6018b0099d18d12c38c34f485b249d9', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
+        return (h("div", { key: '07b7b60d1da535382fa252491129d0660c0e781c', class: 'form-group' }, h("label", { key: 'e66b0be8303e2da4ad3f54c67ea9c3554899f809' }, this.label), h("textarea", { key: '12e268d40a35a4b87ad9dd0813b6b321161e144e', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
     static get watchers() { return {
         "aria-invalid": ["handleAriaInvalidChange"]

@@ -1,5 +1,5 @@
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
-import { Booking, Guest, IBookingPickupInfo, IPmsLog } from '../models/booking.dto';
+import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog } from '../models/booking.dto';
 export interface IBookingParams {
     bookedByInfoData: any;
     check_in: boolean;
@@ -45,6 +45,7 @@ export declare class BookingService {
         };
         language: string;
         room_type_ids: number[];
+        room_type_ids_to_update?: number[];
         currency: {
             id: number;
             code: string;
@@ -52,8 +53,16 @@ export declare class BookingService {
         is_in_agent_mode?: boolean;
         agent_id?: string | number;
     }): Promise<BookingDetails>;
+    private sortRoomTypes;
+    private modifyRateplans;
+    private sortVariations;
     getCountries(language: string): Promise<ICountry[]>;
     fetchSetupEntries(): Promise<ISetupEntries>;
+    doBookingExtraService({ booking_nbr, service, is_remove }: {
+        service: ExtraService;
+        booking_nbr: number | string;
+        is_remove: boolean;
+    }): Promise<any>;
     getBlockedInfo(): Promise<IEntries[]>;
     getUserDefaultCountry(): Promise<any>;
     blockUnit(params: IBlockUnit): Promise<any>;
@@ -65,5 +74,5 @@ export declare class BookingService {
     fetchExposedBookings(booking_nbr: string, property_id: number, from_date: string, to_date: string): Promise<any>;
     getPCICardInfoURL(BOOK_NBR: string): Promise<any>;
     doReservation(body: any): Promise<any>;
-    bookUser({ bookedByInfoData, check_in, currency, extras, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }: IBookingParams): Promise<any>;
+    bookUser({ bookedByInfoData, check_in, currency, extras, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }: IBookingParams): Promise<void>;
 }

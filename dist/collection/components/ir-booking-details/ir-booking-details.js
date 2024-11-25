@@ -55,6 +55,7 @@ export class IrBookingDetails {
         this.userCountry = null;
         this.paymentActions = undefined;
         this.property_id = undefined;
+        this.selectedService = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -109,6 +110,7 @@ export class IrBookingDetails {
                         message: '',
                     },
                     event_type: 'ADD_ROOM',
+                    booking: this.bookingData,
                     BOOKING_NUMBER: this.bookingData.booking_nbr,
                     ADD_ROOM_TO_BOOKING: this.bookingData.booking_nbr,
                     GUEST: this.bookingData.guest,
@@ -116,6 +118,9 @@ export class IrBookingDetails {
                     SOURCE: this.bookingData.source,
                     ROOMS: this.bookingData.rooms,
                 };
+                return;
+            case 'extra_service_btn':
+                this.sidebarState = 'extra_service';
                 return;
             case 'add-payment':
                 return;
@@ -148,6 +153,10 @@ export class IrBookingDetails {
         }
         await this.resetBookingData();
     }
+    handleEditExtraService(e) {
+        this.selectedService = e.detail;
+        this.sidebarState = 'extra_service';
+    }
     setRoomsData(roomServiceResp) {
         var _a, _b;
         let roomsData = new Array();
@@ -171,9 +180,13 @@ export class IrBookingDetails {
             this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             //TODO:Reenable payment actions
             if ((bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.booking_nbr) && ((_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.currency) === null || _b === void 0 ? void 0 : _b.id)) {
-                this.paymentActions = await this.paymentService.GetExposedCancelationDueAmount({
+                this.paymentService
+                    .GetExposedCancelationDueAmount({
                     booking_nbr: bookingDetails.booking_nbr,
                     currency_id: bookingDetails.currency.id,
+                })
+                    .then(res => {
+                    this.paymentActions = res;
                 });
             }
             else {
@@ -316,13 +329,23 @@ export class IrBookingDetails {
     }
     renderSidbarContent() {
         var _a;
+        const handleClose = () => {
+            this.sidebarState = null;
+        };
         switch (this.sidebarState) {
             case 'guest':
-                return (h("ir-guest-info", { slot: "sidebar-body", booking_nbr: this.bookingNumber, defaultTexts: this.defaultTexts, email: (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.guest.email, language: this.language, onCloseSideBar: () => (this.sidebarState = null) }));
+                return (h("ir-guest-info", { slot: "sidebar-body", booking_nbr: this.bookingNumber, defaultTexts: this.defaultTexts, email: (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.guest.email, language: this.language, onCloseSideBar: handleClose }));
             case 'pickup':
-                return (h("ir-pickup", { slot: "sidebar-body", defaultPickupData: this.bookingData.pickup_info, bookingNumber: this.bookingData.booking_nbr, numberOfPersons: this.bookingData.occupancy.adult_nbr + this.bookingData.occupancy.children_nbr, onCloseModal: () => (this.sidebarState = null) }));
+                return (h("ir-pickup", { slot: "sidebar-body", defaultPickupData: this.bookingData.pickup_info, bookingNumber: this.bookingData.booking_nbr, numberOfPersons: this.bookingData.occupancy.adult_nbr + this.bookingData.occupancy.children_nbr, onCloseModal: handleClose }));
             case 'extra_note':
                 return h("ir-booking-extra-note", { slot: "sidebar-body", booking: this.bookingData, onCloseModal: () => (this.sidebarState = null) });
+            case 'extra_service':
+                return (h("ir-extra-service-config", { service: this.selectedService, booking: { from_date: this.bookingData.from_date, to_date: this.bookingData.to_date, booking_nbr: this.bookingData.booking_nbr, currency: this.bookingData.currency }, slot: "sidebar-body", onCloseModal: () => {
+                        handleClose();
+                        if (this.selectedService) {
+                            this.selectedService = null;
+                        }
+                    } }));
             default:
                 return null;
         }
@@ -348,7 +371,7 @@ export class IrBookingDetails {
                     h("ir-room", { isEditable: this.bookingData.is_editable, defaultTexts: this.defaultTexts, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.name, currency: this.bookingData.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.bookingData.status.code !== '003' && this.bookingData.is_direct, hasRoomDelete: this.hasRoomDelete && this.bookingData.status.code !== '003' && this.bookingData.is_direct, hasCheckIn: this.hasCheckIn, hasCheckOut: this.hasCheckOut, bookingEvent: this.bookingData, bookingIndex: index, ticket: this.ticket, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
                     index !== this.bookingData.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
-            })), h("ir-pickup-view", { booking: this.bookingData })), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, defaultTexts: this.defaultTexts, bookingDetails: this.bookingData })))),
+            })), h("ir-pickup-view", { booking: this.bookingData }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, "Extra Services"), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.bookingData.booking_nbr, currency: this.bookingData.currency, extra_services: this.bookingData.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, defaultTexts: this.defaultTexts, bookingDetails: this.bookingData })))),
             h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -679,7 +702,8 @@ export class IrBookingDetails {
             "isPMSLogLoading": {},
             "userCountry": {},
             "paymentActions": {},
-            "property_id": {}
+            "property_id": {},
+            "selectedService": {}
         };
     }
     static get events() {
@@ -783,6 +807,12 @@ export class IrBookingDetails {
             }, {
                 "name": "resetBookingData",
                 "method": "handleResetBookingData",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "editExtraService",
+                "method": "handleEditExtraService",
                 "target": undefined,
                 "capture": false,
                 "passive": false

@@ -4392,6 +4392,6 @@ function checkUserAuthState() {
     return null;
 }
 
-export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, getCurrencySymbol as p, convertDatePrice as q, renderTime as r, formatDate as s, checkUserAuthState as t, manageAnchorSession as u, validateEmail as v, z };
+export { ZodError as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, getCurrencySymbol as p, convertDatePrice as q, renderTime as r, formatDate as s, checkUserAuthState as t, manageAnchorSession as u, validateEmail as v, z };
 
 //# sourceMappingURL=utils.js.map

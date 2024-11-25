@@ -14,9 +14,9 @@ export class IrTitle {
         }
     }
     render() {
-        return (h(Host, { key: '59aaadbe3f930cbb4659447c4d7362275954605d' }, h("h4", { key: 'f8459c92f680b39f2cc176dedf984cf34026047b', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '3872ade9acd8a43a8406ae7e39f65170bf36ed2e', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '181081320644b094a377bdb1f4056f37b4e5c430' }, h("h4", { key: 'f155e422713c682d49d307a8c98229e511cd8a55', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'cfbbc19f42aebdccd38bcc6dde6b5b2ac1e36ee1', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'aa0198d32c910d392280157f92ee79779458d5d4', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'c5d3e2b959cfcb2ec4c14b020db624c5cd529308', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '2500c270ba6f1a4fa68ab103ad8ef98e041a5956', class: 'title-body' }, h("slot", { key: '4b2c7d58b3357881002fcdb41da85c306a250f51', name: "title-body" })))));
+            } }, h("svg", { key: '583f55340c634a2f05f0c7f5ec6b2ce119c5cf38', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'ca9edd17a325d6b3119f5717c4f313d83cff451b', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'baa5a7a9eb5a0b5755d214c22900f1d9aaff860b', class: 'title-body' }, h("slot", { key: 'f50997aeb75fc4e1364b7a61964aa883b11760b3', name: "title-body" })))));
     }
     static get is() { return "ir-title"; }
     static get encapsulation() { return "scoped"; }

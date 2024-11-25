@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
 export interface Booking {
     agent: {
@@ -12,6 +13,7 @@ export interface Booking {
     booked_on: DateTime;
     booking_nbr: string;
     currency: Currency;
+    extra_services: ExtraService[] | null;
     from_date: string;
     guest: Guest;
     extras: Extras[] | null;
@@ -36,6 +38,35 @@ export interface Booking {
     promo_key: string | null;
     is_in_loyalty_mode: boolean;
 }
+export declare const ExtraServiceSchema: z.ZodObject<{
+    booking_system_id: z.ZodOptional<z.ZodNumber>;
+    cost: z.ZodNullable<z.ZodNumber>;
+    currency_id: z.ZodNumber;
+    description: z.ZodString;
+    end_date: z.ZodNullable<z.ZodString>;
+    price: z.ZodNumber;
+    start_date: z.ZodNullable<z.ZodString>;
+    system_id: z.ZodOptional<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    description?: string;
+    booking_system_id?: number;
+    cost?: number;
+    currency_id?: number;
+    end_date?: string;
+    price?: number;
+    start_date?: string;
+    system_id?: number;
+}, {
+    description?: string;
+    booking_system_id?: number;
+    cost?: number;
+    currency_id?: number;
+    end_date?: string;
+    price?: number;
+    start_date?: string;
+    system_id?: number;
+}>;
+export type ExtraService = z.infer<typeof ExtraServiceSchema>;
 export interface Extras {
     key: string;
     value: any;
@@ -197,7 +228,6 @@ export interface IVariations {
     adult_nbr: number;
     amount: number | null;
     child_nbr: number;
-    infant_nbr: number;
 }
 export interface RoomType {
     availabilities: null;

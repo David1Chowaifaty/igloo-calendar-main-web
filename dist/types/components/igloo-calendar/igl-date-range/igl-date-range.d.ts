@@ -9,24 +9,23 @@ export declare class IglDateRange {
     dateLabel: string;
     maxDate: string;
     withDateDifference: boolean;
+    variant: 'booking' | 'default';
+    renderAgain: boolean;
     dateSelectEvent: EventEmitter<{
         [key: string]: any;
     }>;
-    renderAgain: boolean;
     toast: EventEmitter<IToast>;
     private totalNights;
     private fromDate;
     private toDate;
     private fromDateStr;
     private toDateStr;
-    dateRangeInput: HTMLElement;
-    getStringDateFormat(dt: Date): string;
-    initializeDates(): void;
     componentWillLoad(): void;
     handleDataChange(newValue: any, oldValue: any): void;
-    calculateTotalNights(): void;
-    getFormattedDateString(dt: any): string;
-    handleDateSelectEvent(key: any, data?: any): void;
-    handleDateChange(evt: any): void;
+    private initializeDates;
+    private calculateTotalNights;
+    private getFormattedDateString;
+    private handleDateSelectEvent;
+    private handleDateChange;
     render(): any;
 }

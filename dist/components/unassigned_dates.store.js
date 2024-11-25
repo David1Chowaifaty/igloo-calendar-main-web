@@ -4,7 +4,7 @@ const initialState = {
     unassigned_dates: {},
 };
 let { state: unassigned_dates, onChange: handleUnAssignedDatesChange } = createStore(initialState);
-function addUnassingedDates(data) {
+function addUnassignedDates(data) {
     unassigned_dates.unassigned_dates = Object.assign(Object.assign({}, unassigned_dates.unassigned_dates), data);
     /*
      try {
@@ -28,7 +28,7 @@ function addUnassingedDates(data) {
         //  toastr.error(error);
       }
     */
-    console.log(unassigned_dates.unassigned_dates);
+    // console.log(unassigned_dates.unassigned_dates);
 }
 function getUnassignedDates() {
     return unassigned_dates.unassigned_dates;
@@ -49,6 +49,6 @@ function convertToDateTimestamp(dateStr) {
     return date.getTime();
 }
 
-export { addUnassingedDates as a, getUnassignedDates as g, handleUnAssignedDatesChange as h, removeUnassignedDates as r };
+export { addUnassignedDates as a, getUnassignedDates as g, handleUnAssignedDatesChange as h, removeUnassignedDates as r };
 
 //# sourceMappingURL=unassigned_dates.store.js.map
