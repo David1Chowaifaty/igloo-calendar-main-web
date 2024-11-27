@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { g as getVisibleInventory } from './booking.store.js';
-import { d as defineCustomElement$2 } from './igl-rate-plan2.js';
+import { d as defineCustomElement$3 } from './igl-rate-plan2.js';
+import { d as defineCustomElement$2 } from './ir-price-input2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const iglRoomTypeCss = ".sc-igl-room-type-h{display:block}.margin-bottom-8.sc-igl-room-type{margin-bottom:8px !important}";
@@ -68,7 +69,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-room-type", "igl-rate-plan", "ir-tooltip"];
+    const components = ["igl-room-type", "igl-rate-plan", "ir-price-input", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-room-type":
             if (!customElements.get(tagName)) {
@@ -76,6 +77,11 @@ function defineCustomElement() {
             }
             break;
         case "igl-rate-plan":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-price-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

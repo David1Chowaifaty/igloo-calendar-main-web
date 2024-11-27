@@ -18,7 +18,6 @@ export declare class IrBookingListing {
     private bookingListingService;
     private roomService;
     private token;
-    private roomHistory;
     private listingModal;
     private listingModalTimeout;
     private statusColors;
@@ -38,6 +37,5 @@ export declare class IrBookingListing {
     handleBookingChanged(e: CustomEvent<Booking>): void;
     renderItemRange(): string;
     updateData(): Promise<void>;
-    private isSingleUnit;
     render(): any;
 }

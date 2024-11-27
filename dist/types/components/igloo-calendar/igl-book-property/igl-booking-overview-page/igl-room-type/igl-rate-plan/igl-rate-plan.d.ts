@@ -15,12 +15,10 @@ export declare class IglRatePlan {
     bookingType: string;
     isBookDisabled: boolean;
     visibleInventory: IRatePlanSelection;
-    isInputFocused: boolean;
     gotoSplitPageTwoEvent: EventEmitter<{
         [key: string]: any;
     }>;
     private disableForm;
-    private handleInput;
     private updateRateplanSelection;
     private handleDataChange;
     private bookProperty;

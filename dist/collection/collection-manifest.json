@@ -83,6 +83,7 @@
     "components/ota-label/ota-label.js",
     "components/ui/ir-icons/ir-icons.js",
     "components/ui/ir-label/ir-label.js",
+    "components/ui/ir-price-input/ir-price-input.js",
     "components/ui/ir-spinner/ir-spinner.js",
     "components/ui/ir-text-editor/ir-text-editor.js"
   ],

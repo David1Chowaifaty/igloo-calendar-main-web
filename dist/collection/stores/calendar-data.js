@@ -26,7 +26,22 @@ const initialState = {
     tax_statement: '',
     country: undefined,
     is_pms_enabled: false,
+    roomHistory: {},
 };
 export const { state: calendar_data, onChange: onCalendarDatesChange } = createStore(initialState);
+export function isSingleUnit(id) {
+    var _a;
+    if (calendar_data.roomHistory[id]) {
+        return calendar_data.roomHistory[id];
+    }
+    const roomtype = calendar_data.roomsInfo.find(r => r.id === id);
+    if (!roomtype) {
+        console.warn(`Room type not found for ID: ${id}`);
+        return false;
+    }
+    const result = ((_a = roomtype.physicalrooms) === null || _a === void 0 ? void 0 : _a.length) <= 1;
+    calendar_data.roomHistory[id] = result;
+    return result;
+}
 export default calendar_data;
 //# sourceMappingURL=calendar-data.js.map

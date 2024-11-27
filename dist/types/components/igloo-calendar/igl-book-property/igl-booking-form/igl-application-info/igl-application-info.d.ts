@@ -17,6 +17,7 @@ export declare class IglApplicationInfo {
         roomtypeId: number;
     };
     isButtonPressed: boolean;
+    componentWillLoad(): void;
     private updateGuest;
     handleButtonClicked(event: CustomEvent<{
         key: TPropertyButtonsTypes;

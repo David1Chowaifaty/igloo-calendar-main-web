@@ -200,7 +200,7 @@ export class IglBookPropertyService {
                 });
             };
             const modifyBookingDetails = (_a, rooms) => {
-                var { pickup_info, is_direct, is_in_loyalty_mode, promo_key, extras } = _a, rest = __rest(_a, ["pickup_info", "is_direct", "is_in_loyalty_mode", "promo_key", "extras"]);
+                var { pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras } = _a, rest = __rest(_a, ["pickup_info", "extra_services", "is_direct", "is_in_loyalty_mode", "promo_key", "extras"]);
                 return {
                     assign_units: true,
                     check_in: false,
@@ -210,6 +210,7 @@ export class IglBookPropertyService {
                     promo_key,
                     extras,
                     booking: Object.assign(Object.assign({}, rest), { rooms }),
+                    extra_services,
                     pickup_info,
                 };
             };

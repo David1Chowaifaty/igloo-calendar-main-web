@@ -63,6 +63,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'xmark-fill': {
+        viewBox: string;
+        d: string;
+    };
     globe: {
         viewBox: string;
         d: string;

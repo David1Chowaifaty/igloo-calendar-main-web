@@ -31,7 +31,24 @@
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
-
+.service-date-container {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  justify-content: center;
+}
+.service-date-container .btn-container {
+  position: absolute;
+  right: 5px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
 .service-description .input-group-text {
   height: fit-content;
   border: 0;
@@ -58,10 +75,23 @@
 .cost-input {
   border-left: 0;
 }
+
+.row-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 @media (min-width: 640px) {
   .row-group {
-    display: flex;
+    flex-direction: row;
     align-items: center;
+    gap: 0;
+  }
+  .cost-label {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0;
   }
   .until-prepend,
   .cost-input-placeholder {

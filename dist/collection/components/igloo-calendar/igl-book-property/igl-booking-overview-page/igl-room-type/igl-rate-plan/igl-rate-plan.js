@@ -13,7 +13,6 @@ export class IglRatePlan {
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
         this.visibleInventory = undefined;
-        this.isInputFocused = false;
     }
     // Determine if the form inputs should be disabled
     disableForm() {
@@ -22,17 +21,6 @@ export class IglRatePlan {
             return false;
         }
         return !ratePlan.is_available_to_book || (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.visibleInventory) === 0 || !calendar_data.is_frontdesk_enabled;
-    }
-    // Handle input change for the rate amount
-    handleInput(event) {
-        const inputElement = event.target;
-        const sanitizedValue = inputElement.value.replace(/[^0-9.]/g, '');
-        inputElement.value = sanitizedValue;
-        const amount = sanitizedValue ? parseFloat(sanitizedValue) : 0;
-        this.updateRateplanSelection({
-            is_amount_modified: true,
-            rp_amount: amount,
-        });
     }
     // Update the rate plan selection in the booking store
     updateRateplanSelection(props) {
@@ -132,12 +120,15 @@ export class IglRatePlan {
     }
     render() {
         var _a;
-        const { ratePlan, bookingType, currency, ratePricingMode, visibleInventory, isInputFocused } = this;
+        const { ratePlan, bookingType, currency, ratePricingMode, visibleInventory } = this;
         const isAvailableToBook = ratePlan.is_available_to_book;
         const disableForm = this.disableForm();
         const selectedVariation = visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.selected_variation;
         const formattedVariations = (_a = ratePlan.variations) === null || _a === void 0 ? void 0 : _a.map(v => this.formatVariation(v));
-        return (h(Host, { key: 'f98bb67a37d0d52012ddb6f63c0db1876f85639f' }, h("div", { key: '24c22236cda480a156b6157c38d2c0886813307a', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: '37ef891b4c38912d6938cb2abbbb0efefda4f07a', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name)), isAvailableToBook && h("ir-tooltip", { key: '84b5ca3515ce1be6f3c387c2d0215607f8939dfd', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0" }, h("fieldset", { class: "position-relative has-icon-left m-0 p-0 rate-input-container" }, h("div", { class: "input-group-prepend" }, h("span", { "data-disabled": disableForm, "data-state": isInputFocused ? 'focus' : '', class: "input-group-text new-currency" }, currency.symbol)), h("input", { onFocus: () => (this.isInputFocused = true), onBlur: () => (this.isInputFocused = false), disabled: disableForm, type: "text", class: "form-control pl-0 input-sm rate-input py-0 m-0 rounded-0 rateInputBorder", value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate', onInput: this.handleInput.bind(this) })), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: uuidv4(), onChange: evt => this.updateRateplanSelection({
+        return (h(Host, { key: '2ad69b1eafa38cd901132bb176712c12dd1dd17a' }, h("div", { key: 'f1e8c9f1bf2a2ca2d0be96dc13c745a4012dd73a', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: '65f7c5cefb976293ad2ad6833b9515463cd5baea', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name)), isAvailableToBook && h("ir-tooltip", { key: 'b7f8b77a2974237d2b27eac03230a5a0d934f902', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0" }, h("ir-price-input", { disabled: disableForm, onTextChange: e => this.updateRateplanSelection({
+                is_amount_modified: true,
+                rp_amount: Number(e.detail),
+            }), "aria-label": `${this.visibleInventory.roomtype.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: uuidv4(), onChange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
             }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: visibleInventory.view_mode === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-lg-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 mt-lg-0 ml-md-1 mt-md-1 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
                 this.resetReserved();
@@ -200,7 +191,7 @@ export class IglRatePlan {
                         }
                     }
                 },
-                "required": true,
+                "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
@@ -215,7 +206,7 @@ export class IglRatePlan {
                     "resolved": "number",
                     "references": {}
                 },
-                "required": true,
+                "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
@@ -334,11 +325,6 @@ export class IglRatePlan {
                     "text": ""
                 }
             }
-        };
-    }
-    static get states() {
-        return {
-            "isInputFocused": {}
         };
     }
     static get events() {

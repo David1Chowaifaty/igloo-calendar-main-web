@@ -13,5 +13,6 @@ export declare class IrExtraServiceConfig {
     componentWillLoad(): void;
     private saveAmenity;
     private updateService;
+    private validatePrice;
     render(): any;
 }

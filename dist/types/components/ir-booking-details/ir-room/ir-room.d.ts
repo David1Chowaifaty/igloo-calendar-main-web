@@ -28,10 +28,10 @@ export declare class IrRoom {
     isLoading: boolean;
     isModelOpen: boolean;
     private modal;
-    irModalRef: HTMLIrModalElement;
+    private irModalRef;
     componentWillLoad(): void;
-    handleBookingEventChange(): void;
     componentDidLoad(): void;
+    handleBookingEventChange(): void;
     handleClick(e: any): void;
     getDateStr(date: any, locale?: string): string;
     handleEditClick(): void;

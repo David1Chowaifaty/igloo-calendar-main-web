@@ -1,7 +1,6 @@
 import { Host, h, Fragment } from "@stencil/core";
 import { BookingService } from "../../../services/booking.service";
-import { convertDatePrice, formatDate, getCurrencySymbol, getDaysArray } from "../../../utils/utils";
-import { v4 } from "uuid";
+import { convertDatePrice, formatDate, getDaysArray } from "../../../utils/utils";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 export class IrRoomNights {
@@ -85,23 +84,13 @@ export class IrRoomNights {
         }
     }
     handleInput(event, index) {
-        let inputElement = event.target;
-        let inputValue = inputElement.value;
+        let inputValue = event;
         let days = [...this.rates];
         inputValue = inputValue.replace(/[^0-9.]/g, '');
         if (inputValue === '') {
             days[index].amount = -1;
         }
         else {
-            const decimalCheck = inputValue.split('.');
-            if (decimalCheck.length > 2) {
-                inputValue = inputValue.substring(0, inputValue.length - 1);
-                inputElement.value = inputValue;
-            }
-            else if (decimalCheck.length === 2 && decimalCheck[1].length > 2) {
-                inputValue = `${decimalCheck[0]}.${decimalCheck[1].substring(0, 2)}`;
-                inputElement.value = inputValue;
-            }
             if (!isNaN(Number(inputValue))) {
                 days[index].amount = Number(inputValue);
             }
@@ -144,7 +133,7 @@ export class IrRoomNights {
         }
     }
     renderInputField(index, currency_symbol, day) {
-        return (h("fieldset", { class: "col-2 ml-1 position-relative has-icon-left m-0 p-0 rate-input-container" }, h("div", { class: "input-group-prepend bg-white" }, h("span", { "data-disabled": this.inventory === 0 || this.inventory === null, "data-state": this.isInputFocused === index ? 'focus' : '', class: "input-group-text new-currency bg-white", id: "basic-addon1" }, currency_symbol)), h("input", { onFocus: () => (this.isInputFocused = index), onBlur: () => (this.isInputFocused = -1), disabled: this.inventory === 0 || this.inventory === null, type: "text", class: "form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder", id: v4(), value: day.amount > 0 ? day.amount : '', placeholder: locales.entries.Lcz_Rate || 'Rate', onInput: event => this.handleInput(event, index) })));
+        return (h("div", { class: "col-3 ml-1 position-relative  m-0 p-0 rate-input-container" }, h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index) })));
     }
     renderReadOnlyField(currency_symbol, day) {
         return h("p", { class: "col-9 ml-1 m-0 p-0" }, `${currency_symbol}${Number(day.amount).toFixed(2)}`);
@@ -164,7 +153,8 @@ export class IrRoomNights {
     }
     renderDates() {
         var _a;
-        const currency_symbol = getCurrencySymbol(this.bookingEvent.currency.code);
+        const currency_symbol = this.bookingEvent.currency.symbol;
+        // const currency_symbol = getCurrencySymbol(this.bookingEvent.currency.code);
         return (h("div", { class: 'mt-2 m-0' }, (_a = this.rates) === null || _a === void 0 ? void 0 : _a.map((day, index) => (h("div", { class: 'row m-0 mt-1 align-items-center' }, h("p", { class: 'col-2 m-0 p-0' }, convertDatePrice(day.date)), this.renderRateFields(index, currency_symbol, day))))));
     }
     async handleRoomConfirmation() {
@@ -181,6 +171,8 @@ export class IrRoomNights {
                 check_in: true,
                 is_pms: true,
                 is_direct: true,
+                pickup_info: this.bookingEvent.pickup_info,
+                extra_services: this.bookingEvent.extra_services,
                 booking: {
                     booking_nbr: this.bookingNumber,
                     from_date: moment(this.dates.from_date).format('YYYY-MM-DD'),
