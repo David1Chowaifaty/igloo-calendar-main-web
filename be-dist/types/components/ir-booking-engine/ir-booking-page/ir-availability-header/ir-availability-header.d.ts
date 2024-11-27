@@ -9,7 +9,6 @@ export declare class IrAvailabilityHeader {
     ages: string;
     target: HTMLElement;
     isLoading: boolean;
-    childrenAges: string[];
     exposedBookingAvailabilityParams: TExposedBookingAvailability;
     resetBooking: EventEmitter<null>;
     scrollToRoomType: EventEmitter<null>;

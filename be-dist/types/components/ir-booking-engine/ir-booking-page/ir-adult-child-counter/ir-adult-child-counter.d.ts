@@ -19,6 +19,7 @@ export declare class IrAdultChildCounter {
     isPopoverOpen: boolean;
     childrenAges: string[];
     addAdultsAndChildren: EventEmitter<AddAdultsAndChildrenEvent>;
+    checkAvailability: EventEmitter<null>;
     private popover;
     componentWillLoad(): void;
     handleBaseChildrenAgesChange(newValue: string[]): void;

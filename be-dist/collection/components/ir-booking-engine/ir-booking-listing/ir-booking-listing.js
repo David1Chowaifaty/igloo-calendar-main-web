@@ -165,7 +165,7 @@ export class IrBookingListing {
                         this.currentPage = 'bookings';
                         this.selectedBooking = null;
                         // this.bl_routing.emit({ route: 'booking' });
-                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, localizedWords.entries.Lcz_MyBookings)), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.aName, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
+                    }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "header-title" }, localizedWords.entries.Lcz_MyBookings)), h("ir-invoice", { locationShown: false, headerShown: false, headerMessageShown: false, footerShown: false, propertyId: app_store.app_data.property_id, perma_link: this.perma_link, aName: this.aName, isConfermation: false, language: this.language, baseUrl: this.baseUrl, email: this.selectedBooking.email, bookingNbr: this.selectedBooking.booking_nbr, status: 1, be: true })));
             case 'user-profile':
                 if (this.be) {
                     return;
@@ -198,7 +198,7 @@ export class IrBookingListing {
         return (h(Fragment, null, this.headerShown && (h("ir-nav", { isBookingListing: true, showBookingCode: false, showCurrency: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo })), h("div", { class: `mx-auto max-w-6xl ` }, this.renderPages()), this.footerShown && h("ir-footer", { version: this.version }), this.footerShown && h("ir-privacy-policy", { hideTrigger: true, ref: el => (this.privacyPolicyRef = el) })));
     }
     render() {
-        return (h(Host, { key: '470089c950a55c5218b99e2604c0ea66a59e0141' }, !this.be && h("ir-interceptor", { key: '1299c71071f4368d9afb9b017348e9625a208b15' }), !this.isSignedIn ? this.renderAuthScreen() : this.renderBookingsScreen()));
+        return (h(Host, { key: '3399d3e3953eb09458caa489144333b30ca6ebf2' }, !this.be && h("ir-interceptor", { key: '552e38dd0a84a56bbc1589f2741fb451ea2ae49f' }), !this.isSignedIn ? this.renderAuthScreen() : this.renderBookingsScreen()));
     }
     static get is() { return "ir-booking-listing"; }
     static get originalStyleUrls() {

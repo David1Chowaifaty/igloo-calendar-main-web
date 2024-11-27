@@ -50401,6 +50401,7 @@ Object.keys(_index95).forEach(function (key) {
 
 const initialState$1 = {
     nonBookableNights: null,
+    childrenStartAge: 3,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: locale.enUS,
@@ -50450,6 +50451,7 @@ function updateUserPreference(params) {
 const initialState = {
     tax_statement: null,
     roomTypes: undefined,
+    childrenAges: [],
     enableBooking: false,
     resetBooking: false,
     ratePlanSelections: {},
@@ -50459,7 +50461,6 @@ const initialState = {
         to_date: null,
         adult_nbr: 0,
         child_nbr: 0,
-        infant_nbr: 0,
     },
     booking: null,
     fictus_booking_nbr: null,
@@ -50607,8 +50608,33 @@ function calculateTotalCost(gross = false) {
     });
     return { totalAmount, prePaymentAmount };
 }
+// export function validateBooking() {
+//   return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection =>
+//     Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')),
+//   );
+// }
+// export function validateBooking() {
+//   return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection =>
+//     Object.values(roomTypeSelection).every(ratePlan => {
+//       console.log(ratePlan);
+//       return (
+//         (ratePlan.guestName.every(name => name.trim() !== '') &&
+//           (!ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1'))) ||
+//         Number(ratePlan.infant_nbr) !== -1
+//       );
+//     }),
+//   );
+// }
 function validateBooking() {
-    return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')));
+    return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => {
+        return (
+        // Check guestName: All names must be non-empty
+        ratePlan.guestName.every(name => name.trim() !== '') &&
+            // Check bed configuration: If enabled, all selections must be valid
+            (!ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1')) &&
+            // Check infant_nbr: Must be greater than -1
+            Number(ratePlan.infant_nbr) > -1);
+    }));
 }
 function calculateTotalRooms() {
     return Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
@@ -53584,4 +53610,4 @@ function calculateInfantNumber(ages) {
 
 export { locale as A, getAbbreviatedWeekdays as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, toDate$1 as M, startOfWeek$1 as N, defaultOptions$1 as O, enUS as P, isSameWeek$1 as Q, injectHTML as R, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, modifyQueryParam as f, getUserPreference as g, validateAgentCode as h, changeLocale as i, matchLocale as j, checkGhs as k, localizedWords as l, manageAnchorSession as m, checkAffiliate as n, onAppDataChange as o, modifyBookingStore as p, formatAmount as q, formatFullLocation as r, setDefaultLocale as s, calculateTotalRooms as t, updateUserPreference as u, validateCoupon as v, getDateDifference as w, runScriptAndRemove as x, cn as y, calculateTotalCost as z };
 
-//# sourceMappingURL=utils-c1228829.js.map
+//# sourceMappingURL=utils-c2f428f2.js.map

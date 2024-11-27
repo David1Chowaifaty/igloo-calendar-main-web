@@ -2,6 +2,7 @@ import { createStore } from "@stencil/store";
 const initialState = {
     tax_statement: null,
     roomTypes: undefined,
+    childrenAges: [],
     enableBooking: false,
     resetBooking: false,
     ratePlanSelections: {},
@@ -11,7 +12,6 @@ const initialState = {
         to_date: null,
         adult_nbr: 0,
         child_nbr: 0,
-        infant_nbr: 0,
     },
     booking: null,
     fictus_booking_nbr: null,
@@ -161,8 +161,33 @@ export function calculateTotalCost(gross = false) {
     });
     return { totalAmount, prePaymentAmount };
 }
+// export function validateBooking() {
+//   return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection =>
+//     Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')),
+//   );
+// }
+// export function validateBooking() {
+//   return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection =>
+//     Object.values(roomTypeSelection).every(ratePlan => {
+//       console.log(ratePlan);
+//       return (
+//         (ratePlan.guestName.every(name => name.trim() !== '') &&
+//           (!ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1'))) ||
+//         Number(ratePlan.infant_nbr) !== -1
+//       );
+//     }),
+//   );
+// }
 export function validateBooking() {
-    return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => ratePlan.guestName.every(name => name.trim() !== '')));
+    return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => {
+        return (
+        // Check guestName: All names must be non-empty
+        ratePlan.guestName.every(name => name.trim() !== '') &&
+            // Check bed configuration: If enabled, all selections must be valid
+            (!ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1')) &&
+            // Check infant_nbr: Must be greater than -1
+            Number(ratePlan.infant_nbr) > -1);
+    }));
 }
 export function calculateTotalRooms() {
     return Object.values(booking_store.ratePlanSelections).reduce((total, value) => {

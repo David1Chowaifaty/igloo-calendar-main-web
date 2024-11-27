@@ -32,6 +32,7 @@ export class IrAdultChildCounter {
         this.error = false;
         this.updateGuestInformation();
         this.validateChildrenAges();
+        this.checkAvailability.emit(null);
     }
     incrementAdultCount() {
         const newValue = this.adultCount + 1;
@@ -100,16 +101,15 @@ export class IrAdultChildCounter {
     }
     render() {
         var _a;
-        console.log(this.childrenAges);
-        return (h("ir-popover", { key: 'c637194583f76445dafd7de9135fda1c693bcd7a', ref: el => (this.popover = el), allowFlip: false, placement: "bottom-end", autoAdjust: false, outsideEvents: "none", onOpenChange: this.handlePopoverToggle.bind(this) }, this.guestTrigger(), h("div", { key: '59f499c4116e0078e599518d30e80106072dda28', class: "counter-container  w-full border-0 p-4 pt-14 shadow-none sm:w-auto sm:border sm:pt-4 sm:shadow-sm", slot: "popover-content" }, h("div", { key: '3d4281e955010d8d072831740a890da2e58781d6', class: "counter-item" }, h("div", { key: 'da1051841f48370c7f304b2c8411c60cac7ee809' }, h("p", { key: 'd225a8af2dcdf7c9f1283d39f361e3461c758dcc', class: "main-text" }, localizedWords.entries.Lcz_Adults), h("p", { key: '469edf42f592e02f5f3728048a1f435a85dfd502', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " ", this.childMaxAge + 1, "+")), h("div", { key: '666619d8cf93e1d024a79d195ef75d0b4bf3d9ea', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: 'e64b449cfcf97f45d027a93565f207bd630f74ed', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '4c5a3c03475ada25ae2ba734e47948ca272dc743', class: 'text-base' }, this.adultCount), h("ir-button", { key: '29d9542d58fb9da50f760ec50bdc63340ab9b417', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: '26ace1a7d6a23e0a5a97bd9de80e9f7e05a1e65b', class: "counter-item" }, h("div", { key: 'bf2171c7da02b8a3da3628c6034f3abda9f59168' }, h("p", { key: 'fff72ba4a2b9234069d7f1db101499f625f858b4', class: "main-text" }, localizedWords.entries.Lcz_Children), h("p", { key: 'aa102c8ed42b966e39245595dd8afeb834711348', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " 0-", this.childMaxAge)), h("div", { key: '2134982ea8ed4e020d46feb33be96a1b5b25e244', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '1a4f810578822f233d8797df70695feedc391a2c', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'e8ebd235969dac044bf9b9ad32be531255b6b297', class: 'text-base' }, this.childrenCount), h("ir-button", { key: '0170c9aac9522cb29e0d696112b6f449c04c7c99', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
-            _a.map((v, i) => (h("div", null, h("ir-select", { addDummyOption: true, value: v, key: `child_${i}_age`, "data-state": this.error && v === '' ? 'error' : '', variant: "double-line", label: `Child ${i + 1} age`, onValueChange: e => {
+        return (h("ir-popover", { key: '256123449326d482812933a740c5557ef20c160b', ref: el => (this.popover = el), allowFlip: false, placement: "bottom-end", autoAdjust: false, outsideEvents: "none", onOpenChange: this.handlePopoverToggle.bind(this) }, this.guestTrigger(), h("div", { key: '12ab9b829b85a2eeb99843508e7d5ec68dec930f', class: "counter-container  w-full border-0 p-4 pt-14 shadow-none sm:w-auto sm:border sm:pt-4 sm:shadow-sm", slot: "popover-content" }, h("div", { key: '9e4221ab240a582a2a5bf391a339167c58ec4722', class: "counter-item" }, h("div", { key: '6ba64f07ebaa601307a7e0bbb81bce8ab7f7ba0f' }, h("p", { key: '4022245d63a1b09fc3864e90c3d6289710ec2667', class: "main-text" }, localizedWords.entries.Lcz_Adults), h("p", { key: '9cf7d8b4ce571c81c436cfa3a2dd2e6b6a70ae13', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " ", this.childMaxAge + 1, "+")), h("div", { key: '2320390b0601dce2434fdbd1603b7c92a3035fc7', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '25d43d77e298ff0aabf6b3d5094a254f2d800b18', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'a1b28ae642823fecf8743b3384e1050507764c23', class: 'text-base' }, this.adultCount), h("ir-button", { key: 'd103baf41a336dada20aa7d5f223db2779b2bf45', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: '50a10d415d6aaf3d2ca30fae2de7f240207b2fb1', class: "counter-item" }, h("div", { key: '717ade18c1e07fc41457327eed6658e7bc4e8302' }, h("p", { key: '0562bbe488deb76074ef306718ec52c1aefda6b6', class: "main-text" }, localizedWords.entries.Lcz_Children), h("p", { key: 'f41d0534cb876dba92e16aff43184ba930ec9d9a', class: "secondary-text" }, localizedWords.entries.Lcz_Age, " 0-", this.childMaxAge)), h("div", { key: 'e83c8862b32eece856eea3eceba2b4a12dcf6954', class: "counter-buttons-group", role: "group" }, h("ir-button", { key: '38c59db800c1257d831d54240eb92ccec14f86fb', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '0a0ddf361d7848c334bfd75acf346355d484bbd3', class: 'text-base' }, this.childrenCount), h("ir-button", { key: '57a3877bcc4991abbbbf641ce720fd14d4dd55ac', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
+            _a.map((v, i) => (h("div", null, h("ir-select", { addDummyOption: true, value: v.toString(), key: `child_${i}_age`, "data-state": this.error && v === '' ? 'error' : '', variant: "double-line", label: `Child ${i + 1} age`, onValueChange: e => {
                     const prev = [...this.childrenAges];
                     prev[i] = e.detail.toString();
                     this.childrenAges = [...prev];
                 }, data: [...Array(this.childMaxAge + 1)].map((_, index) => ({
                     id: index.toString(),
                     value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
-                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'b0a8cb37dec254c070d92d40800bfa39f72686e6', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
+                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: '6a0063acf98f3082da0f14bc3161971abca1169e', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button", label: localizedWords.entries.Lcz_Done, "aria-label": "Confirm selection" }))));
     }
     static get is() { return "ir-adult-child-counter"; }
     static get encapsulation() { return "shadow"; }
@@ -331,6 +331,21 @@ export class IrAdultChildCounter {
                             "id": "src/components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.tsx::AddAdultsAndChildrenEvent"
                         }
                     }
+                }
+            }, {
+                "method": "checkAvailability",
+                "name": "checkAvailability",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "null",
+                    "resolved": "null",
+                    "references": {}
                 }
             }];
     }

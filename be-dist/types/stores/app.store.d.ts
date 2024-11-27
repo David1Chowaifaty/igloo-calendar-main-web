@@ -21,6 +21,7 @@ export type TSource = {
     description: string;
 };
 export interface IAppStore {
+    childrenStartAge?: number;
     nonBookableNights: Record<string, null>;
     currencies: TCurrency[];
     localizedWords: string[];

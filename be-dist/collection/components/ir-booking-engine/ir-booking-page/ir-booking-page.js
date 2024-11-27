@@ -31,17 +31,40 @@ export class IrBookingPage {
             });
         }
     }
+    // @Listen('scrollToRoomType')
+    // handleScrolling(e: CustomEvent) {
+    //   e.stopImmediatePropagation();
+    //   e.stopPropagation();
+    //   const header: HTMLIrNavElement | null = document.querySelector('ir-be').shadowRoot.querySelector('ir-nav');
+    //   this.availabilityHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    //   setTimeout(() => {
+    //     window.scrollTo({
+    //       top: this.availabilityHeaderRef.getBoundingClientRect().top + window.scrollY - (header !== null ? header.getBoundingClientRect().height + 5 : 80),
+    //       behavior: 'smooth',
+    //     });
+    //   }, 100);
+    // }
     handleScrolling(e) {
+        var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        const header = document.querySelector('ir-be').shadowRoot.querySelector('ir-nav');
-        this.availabilityHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => {
-            window.scrollTo({
-                top: this.availabilityHeaderRef.getBoundingClientRect().top + window.scrollY - (header !== null ? header.getBoundingClientRect().height + 5 : 80),
-                behavior: 'smooth',
-            });
-        }, 100);
+        const header = (_a = document.querySelector('ir-be')) === null || _a === void 0 ? void 0 : _a.shadowRoot.querySelector('ir-nav');
+        if (this.availabilityHeaderRef) {
+            const headerHeight = (header === null || header === void 0 ? void 0 : header.getBoundingClientRect().height) || 0;
+            const targetPosition = this.availabilityHeaderRef.getBoundingClientRect().top + window.scrollY - (headerHeight + 5);
+            const currentPosition = window.scrollY;
+            const tolerance = 10;
+            console.log(currentPosition, targetPosition);
+            if (currentPosition === 0 || Math.abs(currentPosition - targetPosition) > tolerance) {
+                this.availabilityHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: this.availabilityHeaderRef.getBoundingClientRect().top + window.scrollY - (header !== null ? header.getBoundingClientRect().height + 5 : 80),
+                        behavior: 'smooth',
+                    });
+                }, 100);
+            }
+        }
     }
     renderTotalNights() {
         var _a, _b;

@@ -34,7 +34,6 @@ export class IrAvailabilityHeader {
         this.ages = '';
         this.target = null;
         this.isLoading = false;
-        this.childrenAges = [];
         this.exposedBookingAvailabilityParams = {
             adult_nbr: 2,
             child_nbr: 0,
@@ -53,8 +52,6 @@ export class IrAvailabilityHeader {
         const { property_id } = app_store.app_data;
         const validatedFromDate = this.validator.validateCheckin(this.fromDate);
         this.exposedBookingAvailabilityParams = Object.assign(Object.assign({}, this.exposedBookingAvailabilityParams), { adult_nbr: this.setDefaultAdultCount(), child_nbr: this.setDefaultChildCount(), from_date: validatedFromDate ? this.fromDate : null, to_date: this.validator.validateCheckout(this.toDate, validatedFromDate) ? this.toDate : null });
-        this.childrenAges = [...Array(this.exposedBookingAvailabilityParams.child_nbr)].fill('');
-        this.processAges();
         if (booking_store.bookingAvailabilityParams.from_date) {
             this.exposedBookingAvailabilityParams.from_date = format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd');
             this.exposedBookingAvailabilityParams.to_date = format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd');
@@ -68,6 +65,10 @@ export class IrAvailabilityHeader {
             language: app_store.userPreferences.language_id,
             currency_ref: app_store.userPreferences.currency_id,
         });
+        if (booking_store.childrenAges.length == 0) {
+            booking_store.childrenAges = [...Array(this.exposedBookingAvailabilityParams.child_nbr)].fill('');
+        }
+        this.processAges();
         onAppDataChange('userPreferences', async (newValue) => {
             this.changeExposedAvailabilityParams({
                 language: newValue.language_id,
@@ -114,7 +115,7 @@ export class IrAvailabilityHeader {
         if (newValue !== oldValue) {
             if (!this.validator.validateChildrenCount(newValue)) {
                 this.exposedBookingAvailabilityParams = Object.assign(Object.assign({}, this.exposedBookingAvailabilityParams), { child_nbr: +newValue });
-                this.childrenAges = [...Array(this.exposedBookingAvailabilityParams.child_nbr)].fill('');
+                booking_store.childrenAges = [...Array(this.exposedBookingAvailabilityParams.child_nbr)].fill('');
                 this.recheckAvailability();
             }
         }
@@ -154,7 +155,7 @@ export class IrAvailabilityHeader {
         e.stopPropagation();
         e.stopImmediatePropagation();
         const { adult_nbr, child_nbr, childrenAges, infant_nbr } = e.detail;
-        this.childrenAges = [...childrenAges];
+        booking_store.childrenAges = [...childrenAges];
         this.changeExposedAvailabilityParams({ adult_nbr, child_nbr, infant_nbr });
         modifyQueryParam('adults', (_a = this.exposedBookingAvailabilityParams.adult_nbr) === null || _a === void 0 ? void 0 : _a.toString());
         modifyQueryParam('children', (_b = this.exposedBookingAvailabilityParams.child_nbr) === null || _b === void 0 ? void 0 : _b.toString());
@@ -195,12 +196,12 @@ export class IrAvailabilityHeader {
         if (this.validator.validateAges(this.ages)) {
             const ages = this.ages.split('_');
             ages.slice(0, this.adultCount.length + 1).forEach((age, index) => {
-                this.childrenAges[index] = age.toString();
+                booking_store.childrenAges[index] = age.toString();
             });
-            const infant_nbr = calculateInfantNumber(this.childrenAges);
+            const infant_nbr = calculateInfantNumber(booking_store.childrenAges);
             this.exposedBookingAvailabilityParams = Object.assign(Object.assign({}, this.exposedBookingAvailabilityParams), { infant_nbr });
         }
-        if (this.exposedBookingAvailabilityParams.child_nbr > 0 && this.childrenAges.some(c => c === '')) {
+        if (this.exposedBookingAvailabilityParams.child_nbr > 0 && booking_store.childrenAges.some(c => c === '')) {
             setTimeout(() => {
                 var _a;
                 (_a = this.personCounter) === null || _a === void 0 ? void 0 : _a.open();
@@ -221,13 +222,13 @@ export class IrAvailabilityHeader {
             const loyalty = booking_store.bookingAvailabilityParams.loyalty ? 'loyalty=true' : '';
             const promo_key = booking_store.bookingAvailabilityParams.coupon ? `promo=${booking_store.bookingAvailabilityParams.coupon}` : '';
             const agent = booking_store.bookingAvailabilityParams.agent ? `agent=${booking_store.bookingAvailabilityParams.agent}` : '';
-            const ages = infant_nbr > 0 && !this.childrenAges.every(c => c === '') ? `ages=${this.childrenAges.join('_')}` : '';
+            const ages = infant_nbr > 0 && !booking_store.childrenAges.every(c => c === '') ? `ages=${booking_store.childrenAges.join('_')}` : '';
             // const queryParams = [fromDate, toDate, adults, children, affiliate, language, currency, loyalty, promo_key, agent];
             const queryParams = [fromDate, toDate, adults, ages, children, affiliate, language, currency, loyalty, promo_key, agent];
             const queryString = queryParams.filter(param => param !== '').join('&');
             return (location.href = `https://${app_store.property.perma_link}.bookingmystay.com?${queryString}`);
         }
-        if (this.childrenAges.length > 0 && this.childrenAges.some(c => c === '') && this.exposedBookingAvailabilityParams.child_nbr > 0) {
+        if (booking_store.childrenAges.length > 0 && booking_store.childrenAges.some(c => c === '') && this.exposedBookingAvailabilityParams.child_nbr > 0) {
             if (!this.errorCause) {
                 this.errorCause = [];
             }
@@ -235,7 +236,7 @@ export class IrAvailabilityHeader {
             this.errorCause.push('adult_child');
             return;
         }
-        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr, infant_nbr: params.infant_nbr });
+        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr });
         this.scrollToRoomType.emit(null);
         booking_store.resetBooking = true;
         const _a = this.exposedBookingAvailabilityParams, { infant_nbr } = _a, rest = __rest(_a, ["infant_nbr"]);
@@ -305,18 +306,18 @@ export class IrAvailabilityHeader {
         const show_loyalty = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.promotions) === null || _b === void 0 ? void 0 : _b.some(p => p.is_loyalty);
         const show_coupon = (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) === null || _d === void 0 ? void 0 : _d.some(p => p.is_loyalty);
         const showPromotions = ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (show_coupon || show_loyalty);
-        return (h("div", { key: 'be15f0c10d4d68a5c6762b921a6bf99af8a668be', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: 'cc8a8bc63ef884d576124fcad4dae479a11bcd84', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'fdb87e961916fdf664418eebe3aee8ae7e282570', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: '5d12e6640e88b47fed5036c6738a8af8c51b1b5a', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: 'ac1e854aa1c3aa4e2200e2439f2fc787a7c6b9b5', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'b3ab913002b997cf049afa63909e322f816b10c5', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_g = this.exposedBookingAvailabilityParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date(this.exposedBookingAvailabilityParams.from_date) : null,
                 end: ((_h = this.exposedBookingAvailabilityParams) === null || _h === void 0 ? void 0 : _h.to_date) ? new Date(this.exposedBookingAvailabilityParams.to_date) : null,
-            }, class: "date-popup" }), h("ir-adult-child-counter", { key: '9c7b82be8ecd1ceb8f9e14a800c17bbca628f0ee', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: this.childrenAges }), h("div", { key: 'e5018b82fa2835bc70bae1f30b7b928f61f7b1b3', class: 'hidden sm:block' }, h("ir-button", { key: '6df51c8daf76f75a62a9f4e34df64943e7ff9a8e', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("ir-adult-child-counter", { key: 'e86ca58a8519f11475daa6d72b0f01e103047aee', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: booking_store.childrenAges }), h("div", { key: '306f10fb2e6565208e867fd1fe4ff7e486b16daa', class: 'hidden sm:block' }, h("ir-button", { key: 'ab2575f796c825104929dcc01cfc14763422048c', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '9a68b8af7435cc6f158a7a1ea7dcf131b858fb99', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '654b7c29450e4f9c57420ac80b848515daaac608', isLoading: this.isLoading, onButtonClick: e => {
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: '377a38455adb626137377a241d24c3a3c5b25c8e', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '98d2f84cd51b8acd01f9cf33d116203d5c72fac2', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: 'e836df5034057a97a78dc217c493961aaa44f0e6', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'a80373a2e0cb38b6875107d629e267cb3a618d64', class: "coupon-dialog" }), h("ir-loyalty", { key: '559d672f7ce7f380271fcec76342e3364549df8f', class: "loyalty" })))));
+            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '31a765bdbef06ae2b0bf5ef38d0785e52cd9a2ae', class: "promotions-container" }, h("ir-coupon-dialog", { key: '4d310ed8dd4ac2bf081ac4d600c53354c35d81b3', class: "coupon-dialog" }), h("ir-loyalty", { key: '92c7f7c5a7426d194e827c9f56b637ba8eaa11a1', class: "loyalty" })))));
     }
     static get is() { return "ir-availability-header"; }
     static get encapsulation() { return "shadow"; }
@@ -424,7 +425,6 @@ export class IrAvailabilityHeader {
         return {
             "target": {},
             "isLoading": {},
-            "childrenAges": {},
             "exposedBookingAvailabilityParams": {}
         };
     }

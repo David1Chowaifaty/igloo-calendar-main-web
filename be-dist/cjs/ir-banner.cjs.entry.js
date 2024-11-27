@@ -12,7 +12,7 @@ const IrBanner = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return index.h("div", { key: '773bfd6cdd415128af36d47c2123744ddcd6360e', class: "banner" });
+        return index.h("div", { key: '015975f51e45980aeac29db27b6b36c691a86f08', class: "banner" });
     }
 };
 IrBanner.style = IrBannerStyle0;

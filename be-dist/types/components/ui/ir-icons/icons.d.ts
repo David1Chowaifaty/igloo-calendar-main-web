@@ -200,8 +200,8 @@ declare const icons: {
         d: string;
     };
     baby: {
-        viewBox: string;
         d: string;
+        viewBox: string;
     };
 };
 export type TIcons = keyof typeof icons;

@@ -2,6 +2,7 @@ import { createStore } from "@stencil/store";
 import { enUS } from "date-fns/locale";
 const initialState = {
     nonBookableNights: null,
+    childrenStartAge: 3,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: enUS,

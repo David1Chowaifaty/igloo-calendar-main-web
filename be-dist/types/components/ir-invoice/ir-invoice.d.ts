@@ -7,6 +7,7 @@ export declare class IrInvoice {
     baseUrl: string;
     language: string;
     bookingNbr: string;
+    isConfermation: boolean;
     status: 0 | 1;
     perma_link: string;
     aName: string;

@@ -35,7 +35,6 @@ export interface IBookinAvailabilityParams {
     to_date: Date | null;
     adult_nbr: number;
     child_nbr: number;
-    infant_nbr: number;
     coupon?: string;
     agent?: number;
     loyalty?: boolean;
@@ -57,6 +56,7 @@ interface BookingStore {
     fictus_booking_nbr: {
         nbr: string | null;
     };
+    childrenAges: string[];
 }
 export declare const booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>;
 export declare function updateInventory(roomTypeId: number): void;

@@ -1,4 +1,4 @@
-import { M as toDate, N as startOfWeek, O as defaultOptions, P as enUS, Q as isSameWeek, d as dateFns, e as booking_store, a as createStore, b as app_store, R as injectHTML, w as getDateDifference, l as localizedWords } from './utils-c1228829.js';
+import { M as toDate, N as startOfWeek, O as defaultOptions, P as enUS, Q as isSameWeek, d as dateFns, e as booking_store, a as createStore, b as app_store, R as injectHTML, w as getDateDifference, l as localizedWords } from './utils-c2f428f2.js';
 
 var add$1 = {};
 
@@ -21985,11 +21985,13 @@ class PropertyService {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
+                        var _a;
                         const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
                             rateplan: rp.ratePlan,
+                            prepayment_amount_gross: (_a = rp === null || rp === void 0 ? void 0 : rp.selected_variation) === null || _a === void 0 ? void 0 : _a.prepayment_amount_gross,
                             unit: null,
                             smoking_option: rp.checkoutSmokingSelection[index],
                             occupancy: {
@@ -22079,12 +22081,10 @@ class PropertyService {
                     rooms: this.filterRooms(),
                 },
                 extras: [
-                    prePaymentAmount > 0
-                        ? {
-                            key: 'payment_code',
-                            value: checkout_store.payment.code,
-                        }
-                        : null,
+                    {
+                        key: 'payment_code',
+                        value: checkout_store.payment.code,
+                    },
                     prePaymentAmount > 0
                         ? {
                             key: 'prepayment_amount',
@@ -22264,4 +22264,4 @@ class MissingTokenError extends Error {
 
 export { CommonService as C, PropertyService as P, Token as T, axios$1 as a, updatePickupFormData as b, checkout_store as c, updatePartialPickupFormData as d, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=Token-1b568b8d.js.map
+//# sourceMappingURL=Token-12d897d4.js.map

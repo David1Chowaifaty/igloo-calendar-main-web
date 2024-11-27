@@ -1,6 +1,6 @@
 'use strict';
 
-const utils$3 = require('./utils-1d50842e.js');
+const utils$3 = require('./utils-05cd9954.js');
 
 var add$1 = {};
 
@@ -21987,11 +21987,13 @@ class PropertyService {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
+                        var _a;
                         const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
                             rateplan: rp.ratePlan,
+                            prepayment_amount_gross: (_a = rp === null || rp === void 0 ? void 0 : rp.selected_variation) === null || _a === void 0 ? void 0 : _a.prepayment_amount_gross,
                             unit: null,
                             smoking_option: rp.checkoutSmokingSelection[index],
                             occupancy: {
@@ -22081,12 +22083,10 @@ class PropertyService {
                     rooms: this.filterRooms(),
                 },
                 extras: [
-                    prePaymentAmount > 0
-                        ? {
-                            key: 'payment_code',
-                            value: checkout_store.payment.code,
-                        }
-                        : null,
+                    {
+                        key: 'payment_code',
+                        value: checkout_store.payment.code,
+                    },
                     prePaymentAmount > 0
                         ? {
                             key: 'prepayment_amount',
@@ -22274,4 +22274,4 @@ exports.updatePartialPickupFormData = updatePartialPickupFormData;
 exports.updatePickupFormData = updatePickupFormData;
 exports.updateUserFormData = updateUserFormData;
 
-//# sourceMappingURL=Token-eed2b7d0.js.map
+//# sourceMappingURL=Token-485b8e99.js.map

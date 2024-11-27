@@ -354,6 +354,7 @@ export namespace Components {
         "footerShown": boolean;
         "headerMessageShown": boolean;
         "headerShown": boolean;
+        "isConfermation": boolean;
         "language": string;
         "locationShown": boolean;
         "perma_link": string;
@@ -749,6 +750,7 @@ declare global {
     };
     interface HTMLIrAdultChildCounterElementEventMap {
         "addAdultsAndChildren": AddAdultsAndChildrenEvent;
+        "checkAvailability": null;
     }
     interface HTMLIrAdultChildCounterElement extends Components.IrAdultChildCounter, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAdultChildCounterElementEventMap>(type: K, listener: (this: HTMLIrAdultChildCounterElement, ev: IrAdultChildCounterCustomEvent<HTMLIrAdultChildCounterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1844,6 +1846,7 @@ declare namespace LocalJSX {
         "minAdultCount"?: number;
         "minChildrenCount"?: number;
         "onAddAdultsAndChildren"?: (event: IrAdultChildCounterCustomEvent<AddAdultsAndChildrenEvent>) => void;
+        "onCheckAvailability"?: (event: IrAdultChildCounterCustomEvent<null>) => void;
     }
     interface IrAlertDialog {
         "onOpenChange"?: (event: IrAlertDialogCustomEvent<boolean>) => void;
@@ -2194,6 +2197,7 @@ declare namespace LocalJSX {
         "footerShown"?: boolean;
         "headerMessageShown"?: boolean;
         "headerShown"?: boolean;
+        "isConfermation"?: boolean;
         "language"?: string;
         "locationShown"?: boolean;
         "perma_link"?: string;
