@@ -61,10 +61,11 @@ export declare class IglBookProperty {
     private bedPreferenceType;
     private bookingService;
     private bookPropertyService;
-    private eventsService;
     private defaultDateRange;
     private updatedBooking;
     private MAX_HISTORY_LENGTH;
+    private didReservation;
+    private wasBlockedUnit;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     disconnectedCallback(): void;
@@ -98,6 +99,7 @@ export declare class IglBookProperty {
     private setOtherProperties;
     private checkBookingAvailability;
     private updateBooking;
+    private checkAndBlockDate;
     private closeWindow;
     private isEventType;
     private handleBlockDateUpdate;

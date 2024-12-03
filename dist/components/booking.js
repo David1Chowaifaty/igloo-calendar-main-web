@@ -327,6 +327,6 @@ function calculateDaysBetweenDates(from_date, to_date) {
     return daysDiff || 1;
 }
 
-export { transformNewBooking as a, calendar_dates as b, calculateDaysBetweenDates as c, bookingStatus as d, getPrivateNote as e, formatName as f, getMyBookings as g, transformNewBLockedRooms as t };
+export { calendar_dates as a, transformNewBLockedRooms as b, calculateDaysBetweenDates as c, bookingStatus as d, getPrivateNote as e, formatName as f, getMyBookings as g, transformNewBooking as t };
 
 //# sourceMappingURL=booking.js.map

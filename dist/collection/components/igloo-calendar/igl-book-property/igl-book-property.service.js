@@ -111,7 +111,7 @@ export class IglBookPropertyService {
         }
         selectedUnits.set(roomCategoryKey, new Map().set(ratePlanKey, res));
     }
-    generateRoomDays(from_date, to_date, amount) {
+    generateDailyRates(from_date, to_date, amount) {
         const endDate = new Date(to_date);
         endDate.setDate(endDate.getDate() - 1);
         let currentDate = new Date(from_date);
@@ -161,7 +161,7 @@ export class IglBookPropertyService {
                             from_date: moment(check_in).format('YYYY-MM-DD'),
                             to_date: moment(check_out).format('YYYY-MM-DD'),
                             notes,
-                            days: this.generateRoomDays(check_in, check_out, calculateAmount(rateplan)),
+                            days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan)),
                             guest: {
                                 email: null,
                                 first_name,
@@ -248,7 +248,7 @@ export class IglBookPropertyService {
                         booking: {
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
                             to_date: moment(toDate).format('YYYY-MM-DD'),
-                            remark: '',
+                            remark: bookedByInfoData.message || null,
                             booking_nbr: '',
                             property: {
                                 id: context.propertyid,

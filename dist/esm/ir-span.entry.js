@@ -8,7 +8,7 @@ const IrSpan = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("span", { key: 'ba5062b8b5c6707eb11eca05f165efbca8856a39' }, this.text));
+        return (h("span", { key: 'd01d1dd8827e088384f90f17f5782216a4ba6f80' }, this.text));
     }
 };
 

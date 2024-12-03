@@ -268,7 +268,19 @@ export class IglBookingEventHover {
         if (['003', '002', '004'].includes(this.bookingEvent.STATUS_CODE)) {
             data.roomsInfo = [roomInfo.ROOMS_INFO];
         }
-        if (eventType === 'BAR_BOOKING') {
+        if (eventType === 'BAR_BOOKING' && this.bookingEvent.STATUS !== 'TEMP-EVENT') {
+            const { FROM_DATE, TO_DATE, PR_ID, RELEASE_AFTER_HOURS, ENTRY_DATE, OPTIONAL_REASON, ENTRY_MINUTE, ENTRY_HOUR, STATUS_CODE } = this.bookingEvent;
+            data.block_exposed_unit_props = {
+                from_date: FROM_DATE,
+                to_date: TO_DATE,
+                NOTES: OPTIONAL_REASON,
+                pr_id: PR_ID,
+                STAY_STATUS_CODE: STATUS_CODE,
+                DESCRIPTION: RELEASE_AFTER_HOURS,
+                BLOCKED_TILL_DATE: ENTRY_DATE,
+                BLOCKED_TILL_HOUR: ENTRY_HOUR,
+                BLOCKED_TILL_MINUTE: ENTRY_MINUTE,
+            };
             this.handleDeleteEvent();
         }
         this.showBookingPopup.emit({
@@ -318,14 +330,14 @@ export class IglBookingEventHover {
         // let defaultData = {RELEASE_AFTER_HOURS: 0, OPTIONAL_REASON: "", OUT_OF_SERVICE: false};
         return (h("div", { class: `iglPopOver blockedView ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left` }, h("igl-block-dates-view", { isEventHover: true, entryHour: this.bookingEvent.ENTRY_HOUR, entryMinute: this.bookingEvent.ENTRY_MINUTE, defaultData: this.bookingEvent, fromDate: moment(this.bookingEvent.defaultDates.from_date, 'YYYY-MM-DD').format('DD MM YYYY'), toDate: moment(this.bookingEvent.defaultDates.to_date, 'YYYY-MM-DD').format('DD MM YYYY'), entryDate: this.getEntryDate(), onDataUpdateEvent: event => this.handleBlockDateUpdate(event) }), h("div", { class: "row p-0 m-0 mt-2" }, h("div", { class: "full-width btn-group btn-group-sm font-small-3", role: "group" }, h("button", { disabled: this.isLoading === 'update', type: "button", class: "btn btn-primary mr-1 events_btns", onClick: _ => {
                 this.handleUpdateBlockedDates();
-            } }, this.isLoading === 'update' ? h("i", { class: "la la-circle-o-notch spinner mx-1" }) : h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Update)), h("button", { type: "button", class: "btn btn-primary events_btns", onClick: _ => {
+            } }, this.isLoading === 'update' ? h("i", { class: "la la-circle-o-notch spinner mx-1" }) : h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Update)), h("button", { type: "button", class: "btn btn-primary events_btns", onClick: () => {
                 this.handleConvertBlockedDateToBooking();
             } }, locales.entries.Lcz_ConvertToBooking), h("button", { type: "button", class: "btn btn-danger ml-1 events_btns", onClick: _ => {
                 this.handleDeleteEvent();
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: '54f78e0ef95bfbbbdb609588927cb2b72e5bf9a8' }, h("div", { key: '3851810c9906a6b58ec5e10f69e4446097a43a8a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '3398b90d4c12b92acb86b6a009280ecaccafe73f', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'fcaa72e563b1ddfe0aa75d0ef92883d686e24a96' }, h("div", { key: '8804749703fc8871c4f62b8d2a1fbaad128db36a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '9543a305e83560f33dd6381de95bdb5df1f0daae', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

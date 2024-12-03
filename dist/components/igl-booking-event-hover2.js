@@ -1,12 +1,64 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { h as findCountry, f as formatAmount } from './utils.js';
-import { E as EventsService } from './events.service.js';
+import { e as extras, g as getReleaseHoursString, h as findCountry, f as formatAmount } from './utils.js';
+import { a as axios } from './axios.js';
+import { B as BookingService } from './booking.service.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$4 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$3 } from './ir-date-view2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
+
+class EventsService {
+    constructor() {
+        this.bookingService = new BookingService();
+    }
+    async reallocateEvent(pool, destination_pr_id, from_date, to_date) {
+        try {
+            console.log(pool, destination_pr_id, from_date, to_date);
+            const { data } = await axios.post(`/ReAllocate_Exposed_Room`, { pool, destination_pr_id, from_date, to_date, extras });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            console.log(data);
+            return data;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async deleteEvent(POOL) {
+        try {
+            const { data } = await axios.post(`/UnBlock_Exposed_Unit`, {
+                POOL,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async updateBlockedEvent(bookingEvent) {
+        try {
+            const releaseData = getReleaseHoursString(+bookingEvent.RELEASE_AFTER_HOURS);
+            await this.deleteEvent(bookingEvent.POOL);
+            const result = await this.bookingService.blockUnit(Object.assign({ from_date: this.formatDate(bookingEvent.FROM_DATE), to_date: this.formatDate(bookingEvent.TO_DATE), pr_id: bookingEvent.PR_ID, STAY_STATUS_CODE: bookingEvent.OUT_OF_SERVICE ? '004' : bookingEvent.RELEASE_AFTER_HOURS === 0 ? '002' : '003', DESCRIPTION: bookingEvent.RELEASE_AFTER_HOURS || '', NOTES: bookingEvent.OPTIONAL_REASON || '' }, releaseData));
+            return result;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    formatDate(date) {
+        return date.split('/').join('-');
+    }
+}
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
 const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
@@ -281,7 +333,19 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         if (['003', '002', '004'].includes(this.bookingEvent.STATUS_CODE)) {
             data.roomsInfo = [roomInfo.ROOMS_INFO];
         }
-        if (eventType === 'BAR_BOOKING') {
+        if (eventType === 'BAR_BOOKING' && this.bookingEvent.STATUS !== 'TEMP-EVENT') {
+            const { FROM_DATE, TO_DATE, PR_ID, RELEASE_AFTER_HOURS, ENTRY_DATE, OPTIONAL_REASON, ENTRY_MINUTE, ENTRY_HOUR, STATUS_CODE } = this.bookingEvent;
+            data.block_exposed_unit_props = {
+                from_date: FROM_DATE,
+                to_date: TO_DATE,
+                NOTES: OPTIONAL_REASON,
+                pr_id: PR_ID,
+                STAY_STATUS_CODE: STATUS_CODE,
+                DESCRIPTION: RELEASE_AFTER_HOURS,
+                BLOCKED_TILL_DATE: ENTRY_DATE,
+                BLOCKED_TILL_HOUR: ENTRY_HOUR,
+                BLOCKED_TILL_MINUTE: ENTRY_MINUTE,
+            };
             this.handleDeleteEvent();
         }
         this.showBookingPopup.emit({
@@ -331,14 +395,14 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         // let defaultData = {RELEASE_AFTER_HOURS: 0, OPTIONAL_REASON: "", OUT_OF_SERVICE: false};
         return (h("div", { class: `iglPopOver blockedView ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left` }, h("igl-block-dates-view", { isEventHover: true, entryHour: this.bookingEvent.ENTRY_HOUR, entryMinute: this.bookingEvent.ENTRY_MINUTE, defaultData: this.bookingEvent, fromDate: hooks(this.bookingEvent.defaultDates.from_date, 'YYYY-MM-DD').format('DD MM YYYY'), toDate: hooks(this.bookingEvent.defaultDates.to_date, 'YYYY-MM-DD').format('DD MM YYYY'), entryDate: this.getEntryDate(), onDataUpdateEvent: event => this.handleBlockDateUpdate(event) }), h("div", { class: "row p-0 m-0 mt-2" }, h("div", { class: "full-width btn-group btn-group-sm font-small-3", role: "group" }, h("button", { disabled: this.isLoading === 'update', type: "button", class: "btn btn-primary mr-1 events_btns", onClick: _ => {
                 this.handleUpdateBlockedDates();
-            } }, this.isLoading === 'update' ? h("i", { class: "la la-circle-o-notch spinner mx-1" }) : h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Update)), h("button", { type: "button", class: "btn btn-primary events_btns", onClick: _ => {
+            } }, this.isLoading === 'update' ? h("i", { class: "la la-circle-o-notch spinner mx-1" }) : h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Update)), h("button", { type: "button", class: "btn btn-primary events_btns", onClick: () => {
                 this.handleConvertBlockedDateToBooking();
             } }, locales.entries.Lcz_ConvertToBooking), h("button", { type: "button", class: "btn btn-danger ml-1 events_btns", onClick: _ => {
                 this.handleDeleteEvent();
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: '54f78e0ef95bfbbbdb609588927cb2b72e5bf9a8' }, h("div", { key: '3851810c9906a6b58ec5e10f69e4446097a43a8a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '3398b90d4c12b92acb86b6a009280ecaccafe73f', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'fcaa72e563b1ddfe0aa75d0ef92883d686e24a96' }, h("div", { key: '8804749703fc8871c4f62b8d2a1fbaad128db36a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '9543a305e83560f33dd6381de95bdb5df1f0daae', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get style() { return IglBookingEventHoverStyle0; }
@@ -385,6 +449,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IglBookingEventHover as I, defineCustomElement as d };
+export { EventsService as E, IglBookingEventHover as I, defineCustomElement as d };
 
 //# sourceMappingURL=igl-booking-event-hover2.js.map

@@ -1,5 +1,6 @@
 import { createStore } from "@stencil/store";
 const initialState = {
+    checkout_guest: null,
     guest: null,
     tax_statement: null,
     roomTypes: [],
@@ -78,7 +79,7 @@ export function updateInventory(roomTypeId) {
     const newRatePlans = Object.fromEntries(Object.entries(roomTypeSelection).map(([ratePlanId, ratePlan]) => {
         const totalSelectedRoomsExcludingCurrent = calculateTotalSelectedRoomsExcludingIndex(Number(ratePlanId));
         const roomTypeData = booking_store.roomTypes.find(rt => rt.id === roomTypeId);
-        const availableRooms = roomTypeData ? (roomTypeData.inventory === 1 ? 2 : roomTypeData.inventory) - totalSelectedRoomsExcludingCurrent : 0;
+        const availableRooms = roomTypeData ? roomTypeData.inventory - totalSelectedRoomsExcludingCurrent : 0;
         return [
             ratePlanId,
             Object.assign(Object.assign({}, ratePlan), { visibleInventory: availableRooms > 0 ? availableRooms : 0 }),

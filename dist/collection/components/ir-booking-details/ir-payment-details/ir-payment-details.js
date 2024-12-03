@@ -6,6 +6,7 @@ import { PaymentService } from "../../../services/payment.service";
 import { colorVariants } from "../../ui/ir-icons/icons";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { formatAmount } from "../../../utils/utils";
+import locales from "../../../stores/locales.store";
 export class IrPaymentDetails {
     constructor() {
         this.paymentService = new PaymentService();
@@ -32,7 +33,10 @@ export class IrPaymentDetails {
         this.paymentBackground = 'rgba(250, 253, 174)';
     }
     async componentWillLoad() {
+        var _a;
         try {
+            const hasAgent = this.bookingDetails.agent && ((_a = this.bookingDetails.extras) === null || _a === void 0 ? void 0 : _a.find(e => e.key === 'agent_payment_mode'));
+            this.hasAgentWithCode001 = (hasAgent === null || hasAgent === void 0 ? void 0 : hasAgent.value) === '001';
             this.initializeItemToBeAdded();
         }
         catch (error) {
@@ -184,7 +188,7 @@ export class IrPaymentDetails {
         if (this.bookingDetails.is_direct && !this.bookingDetails.guest.cci) {
             return null;
         }
-        return (h("div", null, h("div", { class: "d-flex align-items-center" }, h("strong", { class: "mr-1" }, this.defaultTexts.entries.Lcz_BookingGuarantee), h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": `.guarrantee`, "aria-expanded": this.collapsedGuarantee ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHanlder: async () => {
+        return (h("div", null, h("div", { class: "d-flex align-items-center" }, h("strong", { class: "mr-1" }, this.defaultTexts.entries.Lcz_BookingGuarantee, " ", this.hasAgentWithCode001 && `(${locales.entries.Lcz_OnCredit})`), h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": `.guarrantee`, "aria-expanded": this.collapsedGuarantee ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHanlder: async () => {
                 if (!this.bookingDetails.is_direct && this.bookingDetails.channel_booking_nbr && !this.bookingDetails.guest.cci) {
                     this.paymentDetailsUrl = await this.bookingService.getPCICardInfoURL(this.bookingDetails.booking_nbr);
                 }

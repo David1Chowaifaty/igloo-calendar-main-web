@@ -14,6 +14,7 @@ import axios from "axios";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../utils/utils";
 import { getMyBookings } from "../utils/booking";
 import booking_store from "../stores/booking.store";
+import calendar_data from "../stores/calendar-data";
 export class BookingService {
     async getCalendarData(propertyid, from_date, to_date) {
         try {
@@ -105,7 +106,7 @@ export class BookingService {
     async getBookingAvailability(props) {
         try {
             const { adultChildCount, currency } = props, rest = __rest(props, ["adultChildCount", "currency"]);
-            const { data } = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, is_backend: true }));
+            const { data } = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled, is_backend: true }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

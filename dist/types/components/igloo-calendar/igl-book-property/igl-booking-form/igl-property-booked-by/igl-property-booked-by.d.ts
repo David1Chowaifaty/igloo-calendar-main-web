@@ -30,6 +30,7 @@ export declare class IglPropertyBookedBy {
     handleDataChange(key: any, event: any): void;
     handleNumberInput(key: any, event: InputEvent): void;
     checkUser(): Promise<void>;
+    private updateGuest;
     handleComboboxChange(e: CustomEvent): void;
     clearEvent(): void;
     handleButtonClicked(event: CustomEvent<{

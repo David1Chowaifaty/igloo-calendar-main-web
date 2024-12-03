@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
+import { TSourceOption } from './igl-book-property';
 export interface Booking {
     agent: {
         code: string;
@@ -156,6 +157,54 @@ export interface Occupancy {
     adult_nbr: number;
     children_nbr: number;
     infant_nbr: number | null;
+}
+export interface DoReservationProps {
+    assign_units: boolean;
+    check_in: boolean;
+    is_pms: boolean;
+    is_direct: boolean;
+    is_in_loyalty_mode: boolean;
+    promo_key: string | null;
+    extras: any;
+    booking: {
+        from_date: string;
+        to_date: string;
+        remark: string | null;
+        booking_nbr: string;
+        property: {
+            id: string | number;
+        };
+        booked_on: {
+            date: string;
+            hour: number;
+            minute: number;
+        };
+        source: TSourceOption;
+        rooms: Room[];
+        currency: string;
+        arrival: {
+            code: string;
+        };
+        guest: {
+            email: string | null;
+            first_name: string;
+            last_name: string;
+            country_id: string | number | null;
+            city: string | null;
+            mobile: string;
+            phone_prefix: string | null;
+            address: string;
+            dob: string | null;
+            subscribe_to_news_letter: boolean;
+            cci: {
+                nbr: string;
+                holder_name: string;
+                expiry_month: string;
+                expiry_year: string;
+            } | null;
+        };
+    };
+    pickup_info: any | null;
 }
 export interface Origin {
     Icon: string;

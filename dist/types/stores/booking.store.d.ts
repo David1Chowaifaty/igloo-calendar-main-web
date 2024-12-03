@@ -1,4 +1,4 @@
-import { Booking } from "../models/booking.dto";
+import { Booking, Guest } from "../models/booking.dto";
 import { TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 export interface IRatePlanSelection {
@@ -52,10 +52,11 @@ export interface IBookinAvailabilityParams {
     loyalty?: boolean;
     agent_code?: string;
 }
-interface BookingStore {
+export interface BookingStore {
     tax_statement: {
         message: string;
     } | null;
+    checkout_guest: Guest | null;
     roomTypes: RoomType[];
     enableBooking: boolean;
     ratePlanSelections: {
