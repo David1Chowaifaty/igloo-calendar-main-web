@@ -40,7 +40,7 @@ export declare class PaymentService {
         onRedirect: (url: string) => void;
         onScriptRun: (script: string) => void;
     }): Promise<any>;
-    RequestBookingCancelation(booking_nbr: string): Promise<any>;
+    RequestBookingCancellation(booking_nbr: string): Promise<any>;
     GetExposedApplicablePolicies({ params, book_date, }: {
         params: {
             booking_nbr: string;

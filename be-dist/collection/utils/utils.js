@@ -273,7 +273,7 @@ export function validateCoupon(coupon) {
         return false;
     }
     let isValidCoupon = false;
-    const c = app_store.property.promotions.find(p => p.key === coupon.trim());
+    const c = app_store.property.promotions.find(p => { var _a, _b; return ((_a = p.key) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === ((_b = coupon.trim()) === null || _b === void 0 ? void 0 : _b.toLowerCase()); });
     if (c) {
         if (isBefore(new Date(c.to), new Date())) {
             return false;
@@ -292,7 +292,7 @@ export function validateAgentCode(code) {
     const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code.toLowerCase() === code.trim().toLowerCase());
     if (agent) {
         isValidCode = true;
-        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id, agent_code: code });
+        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent, agent_code: code });
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { isAgentMode: true });
     }
     return isValidCode;

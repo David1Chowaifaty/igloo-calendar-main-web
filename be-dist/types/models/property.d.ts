@@ -82,6 +82,11 @@ export interface Agent {
     id: number;
     name: string;
     verification_mode: string;
+    payment_mode: AgentPaymentMode;
+}
+export interface AgentPaymentMode {
+    code: '001' | '002';
+    description: string;
 }
 export interface AllowedBookingSource {
     code: string;

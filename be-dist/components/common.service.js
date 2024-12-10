@@ -1,6 +1,6 @@
 import { a as axios } from './axios.js';
 import { a as app_store } from './app.store.js';
-import { l as localizedWords } from './localization.store.js';
+import { l as localizedWords } from './utils.js';
 
 class CommonService {
     async getCurrencies() {

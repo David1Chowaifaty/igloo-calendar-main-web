@@ -39,6 +39,7 @@ export class IrCheckoutPage {
     }
     handlePrepaymentAmountChange(e) {
         this.prepaymentAmount = e.detail;
+        checkout_store.prepaymentAmount = this.prepaymentAmount;
     }
     async handleBooking(e) {
         e.stopImmediatePropagation();
@@ -58,7 +59,10 @@ export class IrCheckoutPage {
         return true;
     }
     validatePayment() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        if (booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams) === null || _a === void 0 ? void 0 : _a.agent) === null || _b === void 0 ? void 0 : _b.payment_mode.code) === '001') {
+            return true;
+        }
         if (!app_store.property.allowed_payment_methods.some(p => p.is_active)) {
             return true;
         }
@@ -75,12 +79,12 @@ export class IrCheckoutPage {
         }
         try {
             ZCreditCardSchemaWithCvc.parse({
-                cardNumber: (_b = (_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.cardNumber) === null || _b === void 0 ? void 0 : _b.replace(/ /g, ''),
+                cardNumber: (_d = (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardNumber) === null || _d === void 0 ? void 0 : _d.replace(/ /g, ''),
                 cardHolderName: checkout_store.payment.cardHolderName,
-                expiryDate: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.expiry_month,
-                cvc: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.cvc,
+                expiryDate: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_month,
+                cvc: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cvc,
             });
-            const cardType = detectCardType((_f = (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.cardNumber) === null || _f === void 0 ? void 0 : _f.replace(/ /g, ''));
+            const cardType = detectCardType((_h = (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.cardNumber) === null || _h === void 0 ? void 0 : _h.replace(/ /g, ''));
             if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes(cardType === null || cardType === void 0 ? void 0 : cardType.toLowerCase()))) {
                 return false;
             }

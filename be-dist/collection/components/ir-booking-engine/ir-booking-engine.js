@@ -10,7 +10,7 @@ import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.42';
+        this.version = '2.50';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -244,6 +244,7 @@ export class IrBookingEngine {
         await Promise.all(queries);
     }
     async checkAvailability() {
+        var _a;
         console.warn('here');
         booking_store.resetBooking = false;
         await this.propertyService.getExposedBookingAvailability({
@@ -258,7 +259,7 @@ export class IrBookingEngine {
             is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
             promo_key: booking_store.bookingAvailabilityParams.coupon || '',
             is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
-            agent_id: booking_store.bookingAvailabilityParams.agent || 0,
+            agent_id: ((_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.id) || 0,
             is_in_affiliate_mode: !!app_store.app_data.affiliate,
             affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
         });

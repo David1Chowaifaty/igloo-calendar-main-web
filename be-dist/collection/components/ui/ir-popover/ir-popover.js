@@ -93,6 +93,7 @@ export class IrPopover {
         }
     }
     async toggleVisibility() {
+        console.log('toggleVisibility', this.outsideEvents, this.isVisible);
         if (this.outsideEvents === 'none' && this.isVisible) {
             return this.openChange.emit(false);
         }
@@ -151,7 +152,11 @@ export class IrPopover {
     }
     adjustPopoverPlacement() {
         requestAnimationFrame(() => {
-            const rect = this.contentElement.getBoundingClientRect();
+            var _a;
+            if (!this.contentElement) {
+                return;
+            }
+            const rect = (_a = this.contentElement) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect();
             if (rect.bottom > window.innerHeight) {
                 this.popoverInstance.setOptions({
                     placement: 'top-end',
@@ -176,18 +181,19 @@ export class IrPopover {
         }
     }
     render() {
-        return (h(Fragment, { key: '4663e0e67a3955163b23487162ec915c5205253d' }, this.isMobile && (h("div", { key: 'e4bd63e7746d85c81af2eae08b30363704a512f8', class: "w-full md:hidden" }, h("div", { key: 'eca7aa342529cdb31a5f2cd7215f8da2204ffd67', class: "w-full", onClick: () => {
+        return (h(Fragment, { key: '0b579d528915f95c642067f635c8872f880ab4be' }, this.isMobile && (h("div", { key: '601dc6866853ad637e59e5282771fdfcad51c1c0', class: "w-full md:hidden" }, h("div", { key: '38fff63f7b4adcc15f039e936f22978cf7693474', class: "w-full", onClick: () => {
                 this.dialogElement.openModal();
-            } }, h("slot", { key: 'abc4ac0bd3768ff3a013335b84091e039a8e3a28', name: "trigger" })), h("ir-dialog", { key: '64f96f8fee2a4da8332f32cc030205031f51d5ea', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
+            } }, h("slot", { key: '8448f9d5a3ac9cfa8bd84422b57ecd1cb988d60f', name: "trigger" })), h("ir-dialog", { key: 'c7ba7c8999d3515be77e95f226da41fe704e7bf1', closeButton: this.showCloseButton, ref: el => (this.dialogElement = el), onOpenChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isDialogOpen = e.detail;
+                this.isVisible = e.detail;
                 this.openChange.emit(e.detail);
-            } }, h("div", { key: 'ad66d86c654cadd3add4a0a3dca1f227f313d47a', slot: "modal-body" }, h("slot", { key: 'b22e05e3e30b806afab7d9ac0ff8340d0334b358', name: "popover-content" }))))), !this.isMobile && (h("div", { key: '9eda573faec95ec55848847d9bb4d5ec35a57def', class: "hidden sm:block" }, h("div", { key: '910090abdf416ba0c5b2d874f80974c44a6262cc', ref: el => (this.triggerElement = el), onClick: e => {
+            } }, h("div", { key: '55febaf6565bb9f6dc93606b1605506479e53c88', slot: "modal-body" }, h("slot", { key: 'c4a7030e3b5a5892fefb7db0ffbecefa1075da7a', name: "popover-content" }))))), !this.isMobile && (h("div", { key: '63b346ad2cf5ae26da1ff7b3c50e610149e3d9a8', class: "hidden sm:block" }, h("div", { key: '08fb076a5ee2b836c9af8bfd1a20bacedf2a5c49', ref: el => (this.triggerElement = el), onClick: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.toggleVisibility();
-            } }, h("slot", { key: '657b16221f9bfa3ad42c001f08a47eac5eb6c098', name: "trigger" }, h("button", { key: 'da78a4095061530f03962fa81bcc54438d10835c', class: "trigger" }, h("span", { key: 'd454d34138ab28ea198699ae98b89dd0b10c4ffa' }, this.trigger_label), h("svg", { key: '0955936be18ecc448160e59d2567d90bbc0cd9b2', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '0413558c821453270b67f194a49026f6c7f370c8', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: 'd511dd18d5f3b628d0d45db44246a8c949351e43', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: '0a78c4bf762f03a57a96afdc2cd684d653fadd51' }, h("slot", { key: '741789e3c0242b4e9156f43a5eddc153e7059fc5', name: "popover-content" }))))))));
+            } }, h("slot", { key: 'ec8bf6c7178293b5c65a57fa443ad8ab92584d5a', name: "trigger" }, h("button", { key: 'bd48e42a0628351361d147dc1a69a64cc25d0e96', class: "trigger", type: "button" }, h("span", { key: '89fa96e27d4df7363a4f4c473522c41f88caf296' }, this.trigger_label), h("svg", { key: '87147c7dc69c1712f224b8690a563ee0ecdc90d4', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '7be7304484f09f3898a4a047a136d4ab132fb55d', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), h("div", { key: '4fe2ce57da097c18fce096164b1fe97bc1673bd9', class: "popover-content", ref: el => (this.contentElement = el) }, this.isVisible && (h("div", { key: 'a621ac0456a4bc487ca59b73a758ac24960dc32d' }, h("slot", { key: 'd68a2b4e68865400a2987e5f96fb35104d447801', name: "popover-content" }))))))));
     }
     static get is() { return "ir-popover"; }
     static get encapsulation() { return "shadow"; }

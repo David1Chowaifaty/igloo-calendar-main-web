@@ -1,6 +1,5 @@
 import { a as app_store } from './app.store.js';
-import { d as dateFns, b as booking_store } from './utils.js';
-import { l as localizedWords } from './localization.store.js';
+import { d as dateFns, l as localizedWords, b as booking_store } from './utils.js';
 import { a as axios } from './axios.js';
 
 class PaymentService {
@@ -35,7 +34,7 @@ class PaymentService {
         }
         return res;
     }
-    async RequestBookingCancelation(booking_nbr) {
+    async RequestBookingCancellation(booking_nbr) {
         const { data } = await axios.post(`/Request_Booking_Cancelation`, { BOOK_NBR: booking_nbr });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);

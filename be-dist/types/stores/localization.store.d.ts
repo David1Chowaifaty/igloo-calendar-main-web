@@ -11,6 +11,9 @@ export type TLocaleLocalizedWordsEntries = {
     Lcz_Address: string;
     Lcz_Adult: string;
     Lcz_enterchildage: string;
+    Lcz_OnCredit: string;
+    Lcz_Bedconfiguration: string;
+    Lcz_IfYouCancelNow: string;
     Lcz_Adults: string;
     Lcz_Age: string;
     Lcz_under1: string;

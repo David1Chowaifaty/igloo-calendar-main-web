@@ -1,9 +1,9 @@
 import { Booking } from "../models/booking.dto";
-import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
+import { Agent, BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
-    infant_nbr: number;
+    infant_nbr: number[];
     selected_variation: Variation | null;
     ratePlan: RatePlan;
     guestName: string[];
@@ -36,7 +36,7 @@ export interface IBookinAvailabilityParams {
     adult_nbr: number;
     child_nbr: number;
     coupon?: string;
-    agent?: number;
+    agent?: Agent;
     loyalty?: boolean;
     agent_code?: string;
 }

@@ -17,7 +17,7 @@ export declare class IrBookingOverview {
     selectedBooking: Booking | null;
     selectedMenuIds: Record<string, number>;
     hoveredBooking: any;
-    cancelationMessage: string;
+    cancellationMessage: string;
     amountToBePayed: number;
     bl_routing: EventEmitter<{
         route: 'booking' | 'booking-details';
@@ -29,7 +29,7 @@ export declare class IrBookingOverview {
     private bookingListingAppService;
     private paymentService;
     private booking;
-    private bookingCancelation;
+    private bookingCancellation;
     componentWillLoad(): Promise<void>;
     initializeServices(): void;
     initializeApp(): Promise<void>;

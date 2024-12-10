@@ -9,6 +9,7 @@ export declare class IrBookingDetails {
     private dialogRef;
     private firstRoom;
     private paymentService;
+    private variationService;
     prepaymentChange: EventEmitter<number>;
     total_rooms: number;
     componentWillLoad(): void;
@@ -16,9 +17,7 @@ export declare class IrBookingDetails {
     private modifyBookings;
     private updateGuestNames;
     private handleGuestNameChange;
-    private handleVariationChange;
     private handleBedConfiguration;
-    private formatVariation;
     private handleSmokeConfiguration;
     private fetchCancelationMessage;
     private renderSmokingView;

@@ -1,7 +1,7 @@
 {
   "entries": [
     "components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.js",
-    "components/ir-booking-cancelation/ir-booking-cancelation.js",
+    "components/ir-booking-cancellation/ir-booking-cancellation.js",
     "components/ir-booking-engine/ir-booking-engine.js",
     "components/ir-booking-engine/ir-booking-listing/ir-booking-listing.js",
     "components/ir-booking-engine/ir-booking-listing/ir-booking-card/ir-booking-card.js",

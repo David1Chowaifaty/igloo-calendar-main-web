@@ -50201,6 +50201,68 @@ Object.keys(_index95).forEach(function (key) {
 });
 }(locale));
 
+const initialState$1 = {
+    entries: null,
+    direction: 'ltr',
+};
+const { state: localizedWords, onChange: onCalendarDatesChange } = createStore(initialState$1);
+
+class VariationService {
+    /**
+     * Formats a variation based on the number of infants and returns a formatted string.
+     * @param {Object} params - The input parameters.
+     * @param {Variation} params.baseVariation - The base variation object.
+     * @param {Variation[]} params.variations - A list of available variations.
+     * @param {number} params.infants - The number of infants to adjust the variation for.
+     * @returns {string} A formatted string describing the variation adjusted for infants.
+     */
+    formatVariationBasedOnInfants(params) {
+        const variation = this.getVariationBasedOnInfants(params);
+        return this.formatVariation(variation, params.infants);
+    }
+    /**
+     * Calculates the discounted amount for a variation adjusted for the number of infants.
+     * @param {Object} params - The input parameters.
+     * @param {Variation} params.baseVariation - The base variation object.
+     * @param {Variation[]} params.variations - A list of available variations.
+     * @param {number} params.infants - The number of infants to consider for adjustments.
+     * @returns {number} The discounted amount for the selected variation, or 0 if no discounted amount is available.
+     */
+    calculateVariationAmount(params) {
+        var _a;
+        return ((_a = this.getVariationBasedOnInfants(params)) === null || _a === void 0 ? void 0 : _a.discounted_amount) || 0;
+    }
+    /**
+     * Finds the appropriate variation from a list of variations based on the number of infants.
+     * @param {Object} params - The input parameters.
+     * @param {Variation} params.baseVariation - The base variation object.
+     * @param {Variation[]} params.variations - A list of available variations.
+     * @param {number} params.infants - The number of infants to adjust for.
+     * @returns {Variation} The matching variation or the base variation if no match is found.
+     */
+    getVariationBasedOnInfants({ variations, baseVariation, infants }) {
+        const { adult_nbr, child_nbr } = baseVariation;
+        return variations.find(v => v.adult_nbr === adult_nbr && v.child_nbr === Math.max(0, child_nbr - Math.max(0, infants))) || baseVariation;
+    }
+    /**
+     * Formats a variation object into a human-readable string, adjusted for the number of infants.
+     * @param {Variation} variation - The variation object to format.
+     * @param {number} infant_nbr - The number of infants to adjust for.
+     * @returns {string} A formatted string representing the variation.
+     * @private
+     */
+    formatVariation({ child_nbr, adult_nbr }, infant_nbr) {
+        var _a, _b, _c, _d;
+        const adultNumber = Number(adult_nbr) || 0;
+        const infantNumber = Math.max(Number(infant_nbr) || 0, 0);
+        const adultLabel = adultNumber > 1 ? localizedWords.entries.Lcz_Adults.toLowerCase() : localizedWords.entries.Lcz_Adult.toLowerCase();
+        const childLabel = child_nbr > 1 ? localizedWords.entries.Lcz_Children.toLowerCase() : localizedWords.entries.Lcz_Child.toLowerCase();
+        const infantLabel = infantNumber > 1 ? (_b = ((_a = localizedWords.entries['Lcz_Infants']) !== null && _a !== void 0 ? _a : 'infants')) === null || _b === void 0 ? void 0 : _b.toLowerCase() : (_d = ((_c = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries['Lcz_Infant']) !== null && _c !== void 0 ? _c : 'infant')) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+        const parts = [`${adultNumber} ${adultLabel}`, child_nbr ? `${child_nbr} ${childLabel}` : '', infantNumber ? `${infantNumber} ${infantLabel}` : ''];
+        return parts.filter(Boolean).join('  ');
+    }
+}
+
 const initialState = {
     tax_statement: null,
     roomTypes: undefined,
@@ -50245,7 +50307,7 @@ onRoomTypeChange('roomTypes', (newValue) => {
                 currentRatePlanSelection && Object.keys(currentRatePlanSelection).length > 0
                     ? Object.assign(Object.assign({}, currentRatePlanSelection), { ratePlan, selected_variation: (_d = checkVariation(ratePlan.variations, currentRatePlanSelection.selected_variation)) !== null && _d !== void 0 ? _d : null, visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory, reserved: roomType.inventory === 0 ? 0 : booking_store.resetBooking ? 0 : currentRatePlanSelection.reserved, checkoutVariations: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutVariations, checkoutBedSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutBedSelection, checkoutSmokingSelection: roomType.inventory === 0 ? [] : currentRatePlanSelection.checkoutSmokingSelection, guestName: roomType.inventory === 0 ? [] : currentRatePlanSelection.guestName, roomtype: Object.assign({}, currentRatePlanSelection.roomtype) }) : {
                     reserved: 0,
-                    infant_nbr: 0,
+                    infant_nbr: [],
                     visibleInventory: roomType.inventory === 1 ? 2 : roomType.inventory,
                     selected_variation: (_e = ratePlan === null || ratePlan === void 0 ? void 0 : ratePlan.variations[0]) !== null && _e !== void 0 ? _e : null,
                     ratePlan,
@@ -50301,7 +50363,7 @@ function reserveRooms(roomTypeId, ratePlanId, rooms) {
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,
-            infant_nbr: 0,
+            infant_nbr: [],
             is_bed_configuration_enabled: roomType.is_bed_configuration_enabled,
             visibleInventory: 0,
             selected_variation: null,
@@ -50334,28 +50396,65 @@ function getVisibleInventory(roomTypeId, ratePlanId) {
 function modifyBookingStore(key, value) {
     booking_store[key] = value;
 }
+// export function calculateTotalCost(gross: boolean = false): { totalAmount: number; prePaymentAmount: number } {
+//   let prePaymentAmount = 0;
+//   let totalAmount = 0;
+//   const variationService = new VariationService();
+//   const calculateCost = (ratePlan: IRatePlanSelection, isPrePayment: boolean = false) => {
+//     if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
+//       if (isPrePayment) {
+//         return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
+//       }
+//       return ratePlan.checkoutVariations.reduce((sum, variation, index) => {
+//         const infantBasedVariation = variationService.getVariationBasedOnInfants({
+//           variations: ratePlan.ratePlan.variations,
+//           baseVariation: variation,
+//           infants: ratePlan.infant_nbr[index],
+//         });
+//         return sum + Number(infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount']);
+//       }, 0);
+//     } else if (ratePlan.reserved > 0) {
+//       const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount ?? 0 : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
+//       return ratePlan.reserved * (amount ?? 0);
+//     }
+//     return 0;
+//   };
+//   Object.values(booking_store.ratePlanSelections).forEach(value => {
+//     Object.values(value).forEach(ratePlan => {
+//       totalAmount += calculateCost(ratePlan);
+//       prePaymentAmount += calculateCost(ratePlan, true);
+//     });
+//   });
+//   return { totalAmount, prePaymentAmount };
+// }
 function calculateTotalCost(gross = false) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
-    const calculateCost = (ratePlan, isPrePayment = false) => {
+    const variationService = new VariationService();
+    // Helper to calculate cost for a single rate plan
+    const calculateCost = (ratePlan, isPrePayment) => {
         var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
-            if (isPrePayment) {
-                return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
-            }
-            return ratePlan.checkoutVariations.reduce((sum, variation) => {
-                return sum + Number(variation[gross ? 'discounted_gross_amount' : 'discounted_amount']);
+            const variations = ratePlan.checkoutVariations.map((variation, index) => variationService.getVariationBasedOnInfants({
+                variations: ratePlan.ratePlan.variations,
+                baseVariation: variation,
+                infants: ratePlan.infant_nbr[index],
+            }));
+            return variations.reduce((sum, infantBasedVariation) => {
+                const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
+                return sum + amount * ratePlan.reserved;
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (_a = ratePlan.ratePlan.pre_payment_amount) !== null && _a !== void 0 ? _a : 0 : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
-            return ratePlan.reserved * (amount !== null && amount !== void 0 ? amount : 0);
+            const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
+            return amount * ratePlan.reserved;
         }
         return 0;
     };
-    Object.values(booking_store.ratePlanSelections).forEach(value => {
-        Object.values(value).forEach(ratePlan => {
-            totalAmount += calculateCost(ratePlan);
+    // Iterate through rate plan selections
+    Object.values(booking_store.ratePlanSelections).forEach(roomTypeSelection => {
+        Object.values(roomTypeSelection).forEach(ratePlan => {
+            totalAmount += calculateCost(ratePlan, false);
             prePaymentAmount += calculateCost(ratePlan, true);
         });
     });
@@ -50380,13 +50479,14 @@ function calculateTotalCost(gross = false) {
 // }
 function validateBooking() {
     return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => {
+        // console.log(ratePlan);
         return (
         // Check guestName: All names must be non-empty
         ratePlan.guestName.every(name => name.trim() !== '') &&
             // Check bed configuration: If enabled, all selections must be valid
             (!ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1')) &&
             // Check infant_nbr: Must be greater than -1
-            Number(ratePlan.infant_nbr) > -1);
+            ratePlan.infant_nbr.every(nb => Number(nb) > -1));
     }));
 }
 function calculateTotalRooms() {
@@ -53248,7 +53348,7 @@ function validateCoupon(coupon) {
         return false;
     }
     let isValidCoupon = false;
-    const c = app_store.property.promotions.find(p => p.key === coupon.trim());
+    const c = app_store.property.promotions.find(p => { var _a, _b; return ((_a = p.key) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === ((_b = coupon.trim()) === null || _b === void 0 ? void 0 : _b.toLowerCase()); });
     if (c) {
         if (dateFns.isBefore(new Date(c.to), new Date())) {
             return false;
@@ -53267,7 +53367,7 @@ function validateAgentCode(code) {
     const agent = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.agents.find(a => a.code.toLowerCase() === code.trim().toLowerCase());
     if (agent) {
         isValidCode = true;
-        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent: agent.id, agent_code: code });
+        booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { agent, agent_code: code });
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { isAgentMode: true });
     }
     return isValidCode;
@@ -53361,6 +53461,6 @@ function calculateInfantNumber(ages) {
     }, 0);
 }
 
-export { calculateTotalCost as A, detectCardType as B, validateBooking as C, destroyBookingCookie as D, injectHTMLAndRunScript as E, renderPropertyLocation as F, renderTime as G, formatImageAlt as H, updateRoomParams as I, reserveRooms as J, getVisibleInventory as K, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, modifyBookingStore as k, getAbbreviatedWeekdays as l, manageAnchorSession as m, getUserPreference as n, validateAgentCode as o, matchLocale as p, checkGhs as q, setDefaultLocale as r, startOfWeek$1 as s, toDate$1 as t, checkAffiliate as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, calculateTotalRooms as y, runScriptAndRemove as z };
+export { runScriptAndRemove as A, calculateTotalCost as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, modifyBookingStore as k, localizedWords as l, manageAnchorSession as m, getAbbreviatedWeekdays as n, getUserPreference as o, validateAgentCode as p, matchLocale as q, checkGhs as r, startOfWeek$1 as s, toDate$1 as t, setDefaultLocale as u, validateCoupon as v, checkAffiliate as w, formatAmount as x, formatFullLocation as y, calculateTotalRooms as z };
 
 //# sourceMappingURL=utils.js.map

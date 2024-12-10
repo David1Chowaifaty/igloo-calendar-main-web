@@ -1,4 +1,4 @@
-import { b as booking_store, d as dateFns, i as injectHTML, g as getDateDifference } from './utils.js';
+import { b as booking_store, d as dateFns, i as injectHTML, g as getDateDifference, V as VariationService } from './utils.js';
 import { a as axios } from './axios.js';
 import { a as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
@@ -276,6 +276,7 @@ class PropertyService {
                         value: '',
                     },
                     { key: 'payment_code', value: '' },
+                    { key: 'agent_payment_mode', value: '' },
                 ]
                 : null }));
         const result = data;
@@ -306,12 +307,18 @@ class PropertyService {
     }
     filterRooms() {
         let rooms = [];
+        const variationService = new VariationService();
         Object.values(booking_store.ratePlanSelections).map(rt => {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
                         var _a;
                         const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
+                        const variation = variationService.getVariationBasedOnInfants({
+                            baseVariation: rp.checkoutVariations[index],
+                            variations: rp.ratePlan.variations,
+                            infants: rp.infant_nbr[index],
+                        });
                         rooms.push({
                             identifier: null,
                             roomtype: rp.roomtype,
@@ -321,15 +328,15 @@ class PropertyService {
                             smoking_option: rp.checkoutSmokingSelection[index],
                             occupancy: {
                                 adult_nbr: rp.checkoutVariations[index].adult_nbr,
-                                children_nbr: rp.checkoutVariations[index].child_nbr,
-                                infant_nbr: rp.infant_nbr,
+                                children_nbr: rp.checkoutVariations[index].child_nbr - rp.infant_nbr[index],
+                                infant_nbr: rp.infant_nbr[index],
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
                             from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
                             to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, Number(rp.checkoutVariations[index].discounted_amount) /
-                                getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, Number(variation.discounted_gross_amount) / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
+                            // days: variation.nights,
                             guest: {
                                 email: null,
                                 first_name,
@@ -357,7 +364,7 @@ class PropertyService {
         return data.My_Result;
     }
     async bookUser() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             let guest = {
@@ -371,25 +378,27 @@ class PropertyService {
                 country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
-                cci: ((_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.code) === '001'
-                    ? {
-                        nbr: (_b = checkout_store.payment) === null || _b === void 0 ? void 0 : _b.cardNumber.replace(/ /g, ''),
-                        holder_name: (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardHolderName,
-                        expiry_month: (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.expiry_month.split('/')[0],
-                        expiry_year: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_year.split('/')[1],
-                        cvc: checkout_store.payment.cvc,
-                    }
-                    : null,
+                cci: booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.payment_mode) === null || _b === void 0 ? void 0 : _b.code) === '001'
+                    ? null
+                    : ((_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.code) === '001'
+                        ? {
+                            nbr: (_e = (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.cardNumber) === null || _e === void 0 ? void 0 : _e.replace(/ /g, ''),
+                            holder_name: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardHolderName,
+                            expiry_month: (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.expiry_month.split('/')[0],
+                            expiry_year: (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.expiry_year.split('/')[1],
+                            cvc: checkout_store.payment.cvc,
+                        }
+                        : null,
             };
             const body = {
                 assign_units: false,
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_g = (_f = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _f === void 0 ? void 0 : _f.language_id) !== null && _g !== void 0 ? _g : 'en',
-                agent: booking_store.bookingAvailabilityParams.agent ? { id: booking_store.bookingAvailabilityParams.agent } : null,
+                language: (_k = (_j = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _j === void 0 ? void 0 : _j.language_id) !== null && _k !== void 0 ? _k : 'en',
+                agent: booking_store.bookingAvailabilityParams.agent ? { id: (_l = booking_store.bookingAvailabilityParams.agent) === null || _l === void 0 ? void 0 : _l.id } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_h = booking_store.bookingAvailabilityParams.coupon) !== null && _h !== void 0 ? _h : null,
+                promo_key: (_m = booking_store.bookingAvailabilityParams.coupon) !== null && _m !== void 0 ? _m : null,
                 booking: {
                     booking_nbr: '',
                     from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
@@ -414,6 +423,12 @@ class PropertyService {
                         ? {
                             key: 'prepayment_amount',
                             value: prePaymentAmount,
+                        }
+                        : null,
+                    booking_store.bookingAvailabilityParams.agent
+                        ? {
+                            key: 'agent_payment_mode',
+                            value: booking_store.bookingAvailabilityParams.agent.payment_mode.code,
                         }
                         : null,
                     {

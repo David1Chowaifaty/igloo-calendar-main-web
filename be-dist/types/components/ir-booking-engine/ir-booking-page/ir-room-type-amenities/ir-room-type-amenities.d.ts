@@ -2,7 +2,12 @@ import { Amenity, RoomType } from "../../../../models/property";
 export declare class IrRoomTypeAmenities {
     aminities: Amenity[];
     roomType: RoomType;
-    renderOccupancyView(): any;
+    _amenities: any[];
+    componentWillLoad(): void;
+    handleAmenitiesChange(newValue: any, oldValue: any): void;
+    handleRoomTypeChange(newValue: any, oldValue: any): void;
+    private setupAmenities;
+    private renderOccupancyView;
     private checkAmenity;
     render(): any;
 }

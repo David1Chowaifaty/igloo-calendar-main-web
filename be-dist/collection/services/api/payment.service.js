@@ -35,7 +35,7 @@ export class PaymentService {
         }
         return res;
     }
-    async RequestBookingCancelation(booking_nbr) {
+    async RequestBookingCancellation(booking_nbr) {
         const { data } = await axios.post(`/Request_Booking_Cancelation`, { BOOK_NBR: booking_nbr });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);

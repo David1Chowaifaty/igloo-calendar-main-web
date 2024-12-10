@@ -10,7 +10,7 @@ const IrSocialButton = class {
         this.label = undefined;
     }
     render() {
-        return (h("button", { key: '0751cc090c2b3a0623efcb0d26378e284f12a802', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: '38bfbd4d801d9a4e35b1d70ff43830e19aa99cac', class: "icon" }, h("slot", { key: 'f5854c3c52076448c9fd22ac18db46df54eb3ae9', name: "icon" })), h("span", { key: 'cd6c08ace5d3119a1ee6f28f19fbdb5bc7685055' }, this.label)));
+        return (h("button", { key: 'f315ca5471a77ae42a4f07407fcd8eb874962819', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: '999f6c41c8976028ee17c7e4d6244b9e6f30e23e', class: "icon" }, h("slot", { key: 'ee5e7bd58c4a04b95f7d4d923fbdf07d03bbf46c', name: "icon" })), h("span", { key: '29422dd7418f6ba51b7535e467df21d786abc3a1' }, this.label)));
     }
 };
 IrSocialButton.style = IrSocialButtonStyle0;
