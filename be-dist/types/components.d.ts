@@ -8,7 +8,6 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
 import { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 import { TSource } from "./stores/app.store";
-import { TBookingInfo } from "./services/api/payment.service";
 import { Booking } from "./models/booking.dto";
 import { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 import { TIcons } from "./components/ui/ir-icons/icons";
@@ -25,7 +24,6 @@ import { TContainerStyle } from "./components/ir-booking-widget/types";
 export { Amenity, BeddingSetup, IExposedProperty, RatePlan, RoomType, Variation } from "./models/property";
 export { AddAdultsAndChildrenEvent } from "./components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter";
 export { TSource } from "./stores/app.store";
-export { TBookingInfo } from "./services/api/payment.service";
 export { Booking } from "./models/booking.dto";
 export { CheckoutErrors, ICurrency, IExposedLanguages, pages } from "./models/common";
 export { TIcons } from "./components/ui/ir-icons/icons";
@@ -116,10 +114,6 @@ export namespace Components {
     }
     interface IrBookingCancellation {
         "booking": Booking;
-        "booking_nbr": string;
-        "cancellation": string;
-        "cancellation_policies": TBookingInfo[];
-        "currency": { code: string; id: number };
         "openDialog": () => Promise<void>;
         "property_id": number;
     }
@@ -267,7 +261,7 @@ export namespace Components {
         "carouselStyles": Partial<CSSStyleDeclaration>;
         "disableCarouselClick": boolean;
         "enableCarouselSwipe": boolean;
-        "images": { url: string; alt: string }[];
+        "images": { url: string; alt: string; thumbnail: string }[];
         "maxLength": number;
         "totalImages": number;
     }
@@ -290,6 +284,14 @@ export namespace Components {
         "name": TIcons;
         "removeClassName": boolean;
         "svgClassName": string;
+        "width": number;
+    }
+    interface IrImage {
+        "alt": string;
+        "blurhash": string;
+        "height": number;
+        "src": string;
+        "thumbnail": string;
         "width": number;
     }
     interface IrInput {
@@ -1298,6 +1300,12 @@ declare global {
         prototype: HTMLIrIconsElement;
         new (): HTMLIrIconsElement;
     };
+    interface HTMLIrImageElement extends Components.IrImage, HTMLStencilElement {
+    }
+    var HTMLIrImageElement: {
+        prototype: HTMLIrImageElement;
+        new (): HTMLIrImageElement;
+    };
     interface HTMLIrInputElementEventMap {
         "textChanged": string;
         "inputFocus": FocusEvent;
@@ -1791,6 +1799,7 @@ declare global {
         "ir-guest-counter": HTMLIrGuestCounterElement;
         "ir-home-loader": HTMLIrHomeLoaderElement;
         "ir-icons": HTMLIrIconsElement;
+        "ir-image": HTMLIrImageElement;
         "ir-input": HTMLIrInputElement;
         "ir-interceptor": HTMLIrInterceptorElement;
         "ir-invoice": HTMLIrInvoiceElement;
@@ -1908,10 +1917,6 @@ declare namespace LocalJSX {
     }
     interface IrBookingCancellation {
         "booking"?: Booking;
-        "booking_nbr"?: string;
-        "cancellation"?: string;
-        "cancellation_policies"?: TBookingInfo[];
-        "currency"?: { code: string; id: number };
         "onCancellationResult"?: (event: IrBookingCancellationCustomEvent<{ state: 'failed' | 'success'; booking_nbr: string }>) => void;
         "onOpenChange"?: (event: IrBookingCancellationCustomEvent<boolean>) => void;
         "property_id"?: number;
@@ -2105,7 +2110,7 @@ declare namespace LocalJSX {
         "carouselStyles"?: Partial<CSSStyleDeclaration>;
         "disableCarouselClick"?: boolean;
         "enableCarouselSwipe"?: boolean;
-        "images"?: { url: string; alt: string }[];
+        "images"?: { url: string; alt: string; thumbnail: string }[];
         "maxLength"?: number;
         "onOpenGallery"?: (event: IrGalleryCustomEvent<number>) => void;
         "totalImages"?: number;
@@ -2131,6 +2136,14 @@ declare namespace LocalJSX {
         "name"?: TIcons;
         "removeClassName"?: boolean;
         "svgClassName"?: string;
+        "width"?: number;
+    }
+    interface IrImage {
+        "alt"?: string;
+        "blurhash"?: string;
+        "height"?: number;
+        "src"?: string;
+        "thumbnail"?: string;
         "width"?: number;
     }
     interface IrInput {
@@ -2470,6 +2483,7 @@ declare namespace LocalJSX {
         "ir-guest-counter": IrGuestCounter;
         "ir-home-loader": IrHomeLoader;
         "ir-icons": IrIcons;
+        "ir-image": IrImage;
         "ir-input": IrInput;
         "ir-interceptor": IrInterceptor;
         "ir-invoice": IrInvoice;
@@ -2548,6 +2562,7 @@ declare module "@stencil/core" {
             "ir-guest-counter": LocalJSX.IrGuestCounter & JSXBase.HTMLAttributes<HTMLIrGuestCounterElement>;
             "ir-home-loader": LocalJSX.IrHomeLoader & JSXBase.HTMLAttributes<HTMLIrHomeLoaderElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
+            "ir-image": LocalJSX.IrImage & JSXBase.HTMLAttributes<HTMLIrImageElement>;
             "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
             "ir-invoice": LocalJSX.IrInvoice & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;

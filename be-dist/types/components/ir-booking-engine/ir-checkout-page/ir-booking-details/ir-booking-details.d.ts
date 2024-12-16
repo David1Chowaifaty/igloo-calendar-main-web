@@ -10,10 +10,12 @@ export declare class IrBookingDetails {
     private firstRoom;
     private paymentService;
     private variationService;
+    private total_rooms;
+    private totalPersons;
     prepaymentChange: EventEmitter<number>;
-    total_rooms: number;
     componentWillLoad(): void;
     private calculatePrepaymentAmount;
+    private getTotalPersons;
     private modifyBookings;
     private updateGuestNames;
     private handleGuestNameChange;

@@ -19,9 +19,12 @@ export class IrBookingSummary {
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
-        const { totalAmount } = calculateTotalCost(true);
+        const { totalAmount } = calculateTotalCost({
+            gross: true,
+            infants: true,
+        });
         if (isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')) {
-            return (h("div", null, h("p", null, "Loading")));
+            return h("div", null);
         }
         return (h(Host, null, h("div", { class: "w-full rounded-md bg-gray-100  text-sm md:max-w-sm" }, ((_c = app_store.property) === null || _c === void 0 ? void 0 : _c.space_theme.background_image) && (h("div", { class: "aspect-[1/1] max-h-32 w-full lg:aspect-[16/9]" }, h("img", { loading: "lazy", class: "h-full w-full rounded-t-md object-cover", src: ((_d = app_store.property) === null || _d === void 0 ? void 0 : _d.images.length) === 0 ? app_store.property.space_theme.background_image : (_e = app_store.property) === null || _e === void 0 ? void 0 : _e.images[0].url, alt: ((_f = app_store.property) === null || _f === void 0 ? void 0 : _f.images.length) === 0 ? app_store.property.name : app_store.property.images[0].tooltip }))), h("section", { class: "flex flex-col items-center space-y-4 p-4 lg:p-6" }, h("div", { class: "flex w-full flex-1 items-center " }, h("div", { class: "w-56 rounded-md border border-gray-300 bg-white p-2 text-center text-xs" }, h("p", null, localizedWords.entries.Lcz_CheckIn), h("p", { class: "text-sm font-semibold" }, format(((_g = booking_store.bookingAvailabilityParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date((_h = booking_store.bookingAvailabilityParams) === null || _h === void 0 ? void 0 : _h.from_date) : new Date(), 'eee, dd MMM yyyy', {
             locale: localization_store.selectedLocale,

@@ -152,18 +152,10 @@ export class IrBookingOverview {
         ]);
         this.bookings = bookings;
     }
-    async fetchCancelationMessage(id, roomTypeId) {
-        var _a;
-        const { data, message } = await this.paymentService.fetchCancelationMessage({ id, roomTypeId, bookingNbr: this.selectedBooking.booking_nbr, showCancelation: false });
-        const cancelationBrackets = data.find(d => d.type === 'cancelation' && d.brackets);
-        if (cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets) {
-            this.amountToBePayed = ((_a = this.paymentService.findClosestDate(cancelationBrackets === null || cancelationBrackets === void 0 ? void 0 : cancelationBrackets.brackets)) === null || _a === void 0 ? void 0 : _a.gross_amount) || null;
-        }
-        this.cancellationMessage = message;
-    }
-    async handleBookingCancelation() {
-        await this.fetchCancelationMessage(0, 0);
-        this.bookingCancellation.openDialog();
+    handleBookingCancellation() {
+        setTimeout(() => {
+            this.bookingCancellation.openDialog();
+        }, 10);
     }
     handleMenuItemChange(e) {
         e.stopImmediatePropagation();
@@ -179,7 +171,7 @@ export class IrBookingOverview {
             case 2:
                 return this.processPayment();
             case 3:
-                return this.handleBookingCancelation();
+                return this.handleBookingCancellation();
             default:
                 return null;
         }
@@ -235,7 +227,7 @@ export class IrBookingOverview {
     // private handlePayment() {
     // }
     render() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b;
         if (this.isLoading) {
             return (h("div", { class: "flex h-screen w-full flex-col place-content-center" }, h("div", { class: " flex h-screen flex-col gap-4 md:hidden" }, [...Array(5)].map((_, idx) => (h("ir-skeleton", { key: idx, class: "h-80 w-full" })))), h("div", { class: "hidden h-screen flex-col md:flex" }, h("ir-skeleton", { class: "h-[80vh] w-full" }))));
         }
@@ -284,7 +276,7 @@ export class IrBookingOverview {
                     this.selectedBooking = booking;
                     const { id } = e.detail;
                     this.handleBlEvents(id);
-                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancellation", { ref: el => (this.bookingCancellation = el), booking: this.selectedBooking, booking_nbr: (_c = this.selectedBooking) === null || _c === void 0 ? void 0 : _c.booking_nbr, currency: { code: (_d = this.selectedBooking) === null || _d === void 0 ? void 0 : _d.currency.code, id: (_e = this.selectedBooking) === null || _e === void 0 ? void 0 : _e.currency.id }, cancellation: this.cancellationMessage || ((_f = this.selectedBooking) === null || _f === void 0 ? void 0 : _f.rooms[0].rateplan.cancelation), onCancellationResult: e => {
+                } }))), this.page_mode === 'multi' && h("ir-pagination", { total: totalPages, current: this.currentPage })), h("ir-booking-cancellation", { ref: el => (this.bookingCancellation = el), booking: this.selectedBooking, onCancellationResult: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { state, booking_nbr } = e.detail;

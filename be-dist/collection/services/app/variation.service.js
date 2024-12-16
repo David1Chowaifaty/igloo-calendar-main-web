@@ -51,7 +51,7 @@ export default class VariationService {
         const childLabel = child_nbr > 1 ? localizedWords.entries.Lcz_Children.toLowerCase() : localizedWords.entries.Lcz_Child.toLowerCase();
         const infantLabel = infantNumber > 1 ? (_b = ((_a = localizedWords.entries['Lcz_Infants']) !== null && _a !== void 0 ? _a : 'infants')) === null || _b === void 0 ? void 0 : _b.toLowerCase() : (_d = ((_c = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries['Lcz_Infant']) !== null && _c !== void 0 ? _c : 'infant')) === null || _d === void 0 ? void 0 : _d.toLowerCase();
         const parts = [`${adultNumber} ${adultLabel}`, child_nbr ? `${child_nbr} ${childLabel}` : '', infantNumber ? `${infantNumber} ${infantLabel}` : ''];
-        return parts.filter(Boolean).join('  ');
+        return parts.filter(Boolean).join('&nbsp&nbsp&nbsp&nbsp');
     }
 }
 //# sourceMappingURL=variation.service.js.map

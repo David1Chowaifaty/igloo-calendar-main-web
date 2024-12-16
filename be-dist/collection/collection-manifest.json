@@ -60,6 +60,7 @@
     "components/ui/ir-drawer/ir-drawer.js",
     "components/ui/ir-gallery/ir-gallery.js",
     "components/ui/ir-icons/ir-icons.js",
+    "components/ui/ir-image/ir-image.js",
     "components/ui/ir-input/ir-input.js",
     "components/ui/ir-menu/ir-menu.js",
     "components/ui/ir-modal/ir-modal.js",

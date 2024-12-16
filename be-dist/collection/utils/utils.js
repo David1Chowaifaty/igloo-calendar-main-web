@@ -385,4 +385,12 @@ export function calculateInfantNumber(ages) {
         return prev;
     }, 0);
 }
+export function generateCheckoutUrl(perma_link, queryString = null) {
+    const baseUrl = `https://${perma_link}.bookingmystay.com/booked`;
+    if (queryString && Object.keys(queryString).length > 0) {
+        const params = new URLSearchParams(queryString);
+        return `${baseUrl}?${params.toString()}`;
+    }
+    return baseUrl;
+}
 //# sourceMappingURL=utils.js.map

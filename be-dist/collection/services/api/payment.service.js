@@ -1,6 +1,7 @@
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
 import localizedWords from "../../stores/localization.store";
+import { generateCheckoutUrl } from "../../utils/utils";
 import axios from "axios";
 import { isBefore, isSameDay, parseISO } from "date-fns";
 export class PaymentService {
@@ -22,7 +23,7 @@ export class PaymentService {
         //   body: JSON.stringify({ ...params, callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }),
         // });
         // const data = await resp.json();
-        const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }), { headers: { Authorization: token } });
+        const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: generateCheckoutUrl(app_store.property.perma_link) }), { headers: { Authorization: token } });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }

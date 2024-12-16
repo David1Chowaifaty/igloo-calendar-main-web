@@ -55,7 +55,6 @@ export class IrBookingPage {
             const targetPosition = this.availabilityHeaderRef.getBoundingClientRect().top + window.scrollY - (headerHeight + 5);
             const currentPosition = window.scrollY;
             const tolerance = 10;
-            console.log(currentPosition, targetPosition);
             if (currentPosition === 0 || Math.abs(currentPosition - targetPosition) > tolerance) {
                 this.availabilityHeaderRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 setTimeout(() => {
@@ -86,7 +85,7 @@ export class IrBookingPage {
     //   });
     // }
     render() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         if (!this.property) {
             return null;
         }
@@ -101,7 +100,7 @@ export class IrBookingPage {
                 return null;
             }
             return h("ir-roomtype", { display: app_store.app_data.displayMode, roomtype: roomType, key: roomType.id });
-        }))), h("section", { class: cn('text-sm', { 'pb-5': isInjected }) }, h("h2", { class: "mb-5 text-lg font-medium" }, localizedWords.entries.Lcz_FacilitiesAndServices), h("ir-facilities", null), !isInjected && h("p", { innerHTML: (_c = (_b = this.property) === null || _b === void 0 ? void 0 : _b.description) === null || _c === void 0 ? void 0 : _c.location_and_intro, class: "px-6 py-8" }))), booking_store.enableBooking && totalAmount > 0 && (h("div", { ref: el => (this.checkoutContainerRef = el), class: "sticky bottom-2 z-40 mt-14 flex w-full items-center justify-end gap-4 rounded-md bg-gray-700/80 text-base text-gray-200 md:text-lg lg:gap-10  lg:text-2xl" }, h("p", null, this.renderTotalNights()), totalAmount > 0 && h("div", null, formatAmount(totalAmount, app_store.userPreferences.currency_id, 0)), h("ir-button", { onButtonClick: () => this.routing.emit('checkout'), label: localizedWords.entries.Lcz_BookNow, size: "lg", class: "w-auto lg:w-60", disabled: isRequestPending('/Check_Availability'), buttonStyles: {
+        }))), h("section", { class: cn('text-sm', { 'pb-5': isInjected }) }, h("h2", { class: "mb-5 text-lg font-medium" }, localizedWords.entries.Lcz_FacilitiesAndServices), h("ir-facilities", null), !isInjected && h("p", { innerHTML: (_c = (_b = this.property) === null || _b === void 0 ? void 0 : _b.description) === null || _c === void 0 ? void 0 : _c.location_and_intro, class: "px-6 py-8" }))), booking_store.enableBooking && totalAmount > 0 && (h("div", { ref: el => (this.checkoutContainerRef = el), class: "sticky bottom-2 z-40 mt-14 flex w-full items-center justify-end gap-4 rounded-md bg-gray-700/80 text-base text-gray-200 md:text-lg lg:gap-10  lg:text-2xl" }, h("p", null, this.renderTotalNights()), totalAmount > 0 && (h("div", { class: "total-amount-container" }, h("span", null, formatAmount(totalAmount, app_store.userPreferences.currency_id, 0)), ((_d = booking_store.childrenAges) === null || _d === void 0 ? void 0 : _d.some(age => Number(age) < app_store.childrenStartAge)) && (h("ir-tooltip", { class: "infant-tooltip", message: localizedWords.entries.Lcz_PriceDrop })))), h("ir-button", { onButtonClick: () => this.routing.emit('checkout'), label: localizedWords.entries.Lcz_BookNow, size: "lg", class: "w-auto lg:w-60", disabled: isRequestPending('/Check_Availability'), buttonStyles: {
                 height: '64px',
                 borderRadius: '0',
                 borderTopRightRadius: app_store.dir === 'RTL' ? '0px' : '6px',

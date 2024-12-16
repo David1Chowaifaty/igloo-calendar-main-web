@@ -135,38 +135,7 @@ export function getVisibleInventory(roomTypeId, ratePlanId) {
 export function modifyBookingStore(key, value) {
     booking_store[key] = value;
 }
-// export function calculateTotalCost(gross: boolean = false): { totalAmount: number; prePaymentAmount: number } {
-//   let prePaymentAmount = 0;
-//   let totalAmount = 0;
-//   const variationService = new VariationService();
-//   const calculateCost = (ratePlan: IRatePlanSelection, isPrePayment: boolean = false) => {
-//     if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
-//       if (isPrePayment) {
-//         return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
-//       }
-//       return ratePlan.checkoutVariations.reduce((sum, variation, index) => {
-//         const infantBasedVariation = variationService.getVariationBasedOnInfants({
-//           variations: ratePlan.ratePlan.variations,
-//           baseVariation: variation,
-//           infants: ratePlan.infant_nbr[index],
-//         });
-//         return sum + Number(infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount']);
-//       }, 0);
-//     } else if (ratePlan.reserved > 0) {
-//       const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount ?? 0 : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
-//       return ratePlan.reserved * (amount ?? 0);
-//     }
-//     return 0;
-//   };
-//   Object.values(booking_store.ratePlanSelections).forEach(value => {
-//     Object.values(value).forEach(ratePlan => {
-//       totalAmount += calculateCost(ratePlan);
-//       prePaymentAmount += calculateCost(ratePlan, true);
-//     });
-//   });
-//   return { totalAmount, prePaymentAmount };
-// }
-export function calculateTotalCost(gross = false) {
+export function calculateTotalCost(config = { gross: false, infants: false }) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const variationService = new VariationService();
@@ -174,18 +143,23 @@ export function calculateTotalCost(gross = false) {
     const calculateCost = (ratePlan, isPrePayment) => {
         var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
-            const variations = ratePlan.checkoutVariations.map((variation, index) => variationService.getVariationBasedOnInfants({
-                variations: ratePlan.ratePlan.variations,
-                baseVariation: variation,
-                infants: ratePlan.infant_nbr[index],
-            }));
+            let variations = ratePlan.checkoutVariations;
+            if (config.infants) {
+                variations = [
+                    ...ratePlan.checkoutVariations.map((variation, index) => variationService.getVariationBasedOnInfants({
+                        variations: ratePlan.ratePlan.variations,
+                        baseVariation: variation,
+                        infants: ratePlan.infant_nbr[index],
+                    })),
+                ];
+            }
             return variations.reduce((sum, infantBasedVariation) => {
-                const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
+                const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[config.gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
                 return sum + amount * ratePlan.reserved;
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
+            const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[config.gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
             return amount * ratePlan.reserved;
         }
         return 0;

@@ -45,4 +45,5 @@ type ModifyQueryOptions = {
  */
 export declare function modifyQueryParam(param: string, value: string | null, options?: ModifyQueryOptions): void;
 export declare function calculateInfantNumber(ages: string[]): number;
+export declare function generateCheckoutUrl(perma_link: string, queryString?: Record<string, string> | null): string;
 export {};

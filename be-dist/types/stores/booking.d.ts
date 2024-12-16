@@ -72,7 +72,11 @@ export declare function getVisibleInventory(roomTypeId: number, ratePlanId: numb
     selected_variation: any;
 };
 export declare function modifyBookingStore(key: keyof BookingStore, value: any): void;
-export declare function calculateTotalCost(gross?: boolean): {
+type CostCalculationConfig = {
+    gross: boolean;
+    infants: boolean;
+};
+export declare function calculateTotalCost(config?: CostCalculationConfig): {
     totalAmount: number;
     prePaymentAmount: number;
 };

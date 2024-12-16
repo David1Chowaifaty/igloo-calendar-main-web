@@ -11,6 +11,7 @@ export class IrPaymentView {
         this.errors = undefined;
         this.selectedPaymentMethod = undefined;
         this.cardType = '';
+        this.paymentDetails = undefined;
     }
     componentWillLoad() {
         this.setPaymentMethod();
@@ -26,8 +27,7 @@ export class IrPaymentView {
         }
     }
     setPaymentMethod() {
-        var _a;
-        const paymentMethods = ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods.filter(pm => pm.is_active)) || [];
+        const { paymentMethods } = this.setPaymentDetails();
         let selectedMethodCode = null;
         if ((this.prepaymentAmount === 0 && paymentMethods.length === 1 && paymentMethods[0].is_payment_gateway) ||
             (this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway))) {
@@ -38,6 +38,25 @@ export class IrPaymentView {
             selectedMethodCode = firstMethod.code === '000' && secondMethod ? secondMethod.code : firstMethod.code;
         }
         this.selectedPaymentMethod = selectedMethodCode;
+    }
+    setPaymentDetails() {
+        const paymentMethods = app_store.property.allowed_payment_methods.filter(p => p.is_active) || [];
+        const filteredMap = paymentMethods
+            .filter(apm => !(apm.is_payment_gateway && this.prepaymentAmount === 0)) // Filter out inactive gateways for zero prepayment
+            .map(apm => ({
+            id: apm.code,
+            value: apm.is_payment_gateway
+                ? localizedWords.entries[`Lcz_Pay_${apm.code}`] || localizedWords.entries.Lcz_PayByCard
+                : ['001', '004'].includes(apm.code)
+                    ? localizedWords.entries.Lcz_SecureByCard
+                    : apm.description,
+        }));
+        const paymentDetails = {
+            paymentMethods,
+            filteredMap,
+        };
+        this.paymentDetails = paymentDetails;
+        return paymentDetails;
     }
     getExpiryMask() {
         const currentYear = new Date().getFullYear() % 100;
@@ -63,8 +82,15 @@ export class IrPaymentView {
             placeholderChar: '_',
         };
     }
+    handlePaymentSelectionChange(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const payment_code = e.detail;
+        this.selectedPaymentMethod = payment_code;
+        checkout_store.payment.code = payment_code;
+    }
     renderPaymentMethod() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         if (app_store.property.allowed_payment_methods.length === 0) {
             return;
         }
@@ -139,51 +165,24 @@ export class IrPaymentView {
                     checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cvc: e.detail });
                 }, class: "w-full", rightIcon: true }, h("svg", { class: 'cursor-pointer', slot: "right-icon", width: "20", height: "16", viewBox: "0 0 20 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("title", null, localizedWords.entries.Lcz_SecurityCodeHint), h("path", { d: "M0 3C0 1.34315 1.34315 0 3 0H17C18.6569 0 20 1.34315 20 3V13C20 14.6569 18.6569 16 17 16H3C1.34315 16 0 14.6569 0 13V3Z", fill: "#EAECF0" }), h("path", { d: "M2 8C2 7.44772 2.44772 7 3 7H17C17.5523 7 18 7.44772 18 8C18 8.55228 17.5523 9 17 9H3C2.44772 9 2 8.55228 2 8Z", fill: "#8B8B8B" }), h("path", { d: "M2 4C2 3.44772 2.44772 3 3 3H5C5.55228 3 6 3.44772 6 4C6 4.55228 5.55228 5 5 5H3C2.44772 5 2 4.55228 2 4Z", fill: "white" }), h("path", { d: "M10 11C10 10.4477 10.4477 10 11 10H15C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14H11C10.4477 14 10 13.5523 10 13V11Z", fill: "#FE4F42" }), h("path", { d: "M11 11H15V13H11V11Z", fill: "#EAECF0" }))))))));
         if (this.selectedPaymentMethod === '005') {
-            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_g = (_f = method.localizables) === null || _f === void 0 ? void 0 : _f.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _g === void 0 ? void 0 : _g.description) ||
-                    ((_j = (_h = method.localizables) === null || _h === void 0 ? void 0 : _h.find(d => d.language.code.toLowerCase() === 'en')) === null || _j === void 0 ? void 0 : _j.description) }))));
+            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, ((_g = (_f = this.paymentDetails) === null || _f === void 0 ? void 0 : _f.filteredMap) === null || _g === void 0 ? void 0 : _g.length) === 1 && h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_j = (_h = method.localizables) === null || _h === void 0 ? void 0 : _h.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _j === void 0 ? void 0 : _j.description) ||
+                    ((_l = (_k = method.localizables) === null || _k === void 0 ? void 0 : _k.find(d => d.language.code.toLowerCase() === 'en')) === null || _l === void 0 ? void 0 : _l.description) }))));
         }
     }
-    handlePaymentSelectionChange(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const payment_code = e.detail;
-        this.selectedPaymentMethod = payment_code;
-        checkout_store.payment.code = payment_code;
-    }
     renderPaymentOptions() {
-        var _a, _b, _c, _d;
-        const paymentMethods = (_a = app_store.property.allowed_payment_methods.filter(p => p.is_active)) !== null && _a !== void 0 ? _a : [];
+        var _a, _b;
+        const { filteredMap, paymentMethods } = this.paymentDetails;
         const paymentLength = paymentMethods.length;
         if ((this.prepaymentAmount === 0 && !paymentMethods.some(pm => !pm.is_payment_gateway)) || paymentLength === 0) {
             return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
         }
         if (paymentLength === 1 && paymentMethods[0].is_payment_gateway) {
-            return h("p", { class: 'text-center' }, `${(_b = localizedWords.entries[`Lcz_Pay_${paymentMethods[0].code}`]) !== null && _b !== void 0 ? _b : localizedWords.entries.Lcz_PayByCard}`);
+            return h("p", { class: 'text-center' }, `${(_a = localizedWords.entries[`Lcz_Pay_${paymentMethods[0].code}`]) !== null && _a !== void 0 ? _a : localizedWords.entries.Lcz_PayByCard}`);
         }
         // if (paymentLength === 1 && paymentMethods[0].code === '001') {
         //   return <p>{localizedWords.entries.Lcz_SecureByCard}</p>;
         // }
         if (paymentLength > 1) {
-            const filteredMap = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.allowed_payment_methods.map(apm => {
-                var _a;
-                if (!apm.is_active) {
-                    return null;
-                }
-                // if (apm.code === '000') {
-                //   return null;
-                // }
-                if (apm.is_payment_gateway && this.prepaymentAmount === 0) {
-                    return null;
-                }
-                return {
-                    id: apm.code,
-                    value: apm.is_payment_gateway
-                        ? `${(_a = localizedWords.entries[`Lcz_Pay_${apm.code}`]) !== null && _a !== void 0 ? _a : localizedWords.entries.Lcz_PayByCard}`
-                        : apm.code === '001' || apm.code === '004'
-                            ? localizedWords.entries.Lcz_SecureByCard
-                            : apm.description,
-                };
-            }).filter(p => p !== null);
             if (filteredMap.length === 0) {
                 return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
             }
@@ -197,16 +196,15 @@ export class IrPaymentView {
             return h("p", { class: "text-center" }, localizedWords.entries.Lcz_NoDepositRequired);
         }
         if (paymentOption.is_payment_gateway) {
-            return h("p", { class: "text-center" }, `${(_d = localizedWords.entries[`Lcz_Pay_${paymentOption.code}`]) !== null && _d !== void 0 ? _d : localizedWords.entries.Lcz_PayByCard}`, " ");
+            return h("p", { class: "text-center" }, `${(_b = localizedWords.entries[`Lcz_Pay_${paymentOption.code}`]) !== null && _b !== void 0 ? _b : localizedWords.entries.Lcz_PayByCard}`, " ");
         }
         return null;
     }
     render() {
         var _a, _b;
-        console.log(booking_store.bookingAvailabilityParams.agent);
         const hasAgentWithCode001 = booking_store.bookingAvailabilityParams.agent && booking_store.bookingAvailabilityParams.agent.payment_mode.code === '001';
-        return (h("div", { key: '924dd35d6c3806b830006c10ff82e0977539455c', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'ca6906cdbe988ec03920bbc0db1b2fae86c96ff6' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '90d0ccbc7ceb9705786cb8c42531c6a0fcebceb7', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: 'c483020da0deecef717043939d97d7fed50fd0ea', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+        return (h("div", { key: '2319e132ce3aaae3df7ede918a113a53e004f152', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'f027a7f819932cab7e2eb276820503636e351f67' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '628771deec170da14ce91485ea0a0b6f11d301dd', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: 'ed575c37af97f66d491064f6bbda18ae872b7da0', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
             _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }
@@ -271,7 +269,8 @@ export class IrPaymentView {
     static get states() {
         return {
             "selectedPaymentMethod": {},
-            "cardType": {}
+            "cardType": {},
+            "paymentDetails": {}
         };
     }
     static get watchers() {

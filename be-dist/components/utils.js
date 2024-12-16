@@ -50259,7 +50259,7 @@ class VariationService {
         const childLabel = child_nbr > 1 ? localizedWords.entries.Lcz_Children.toLowerCase() : localizedWords.entries.Lcz_Child.toLowerCase();
         const infantLabel = infantNumber > 1 ? (_b = ((_a = localizedWords.entries['Lcz_Infants']) !== null && _a !== void 0 ? _a : 'infants')) === null || _b === void 0 ? void 0 : _b.toLowerCase() : (_d = ((_c = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries['Lcz_Infant']) !== null && _c !== void 0 ? _c : 'infant')) === null || _d === void 0 ? void 0 : _d.toLowerCase();
         const parts = [`${adultNumber} ${adultLabel}`, child_nbr ? `${child_nbr} ${childLabel}` : '', infantNumber ? `${infantNumber} ${infantLabel}` : ''];
-        return parts.filter(Boolean).join('  ');
+        return parts.filter(Boolean).join('&nbsp&nbsp&nbsp&nbsp');
     }
 }
 
@@ -50396,38 +50396,7 @@ function getVisibleInventory(roomTypeId, ratePlanId) {
 function modifyBookingStore(key, value) {
     booking_store[key] = value;
 }
-// export function calculateTotalCost(gross: boolean = false): { totalAmount: number; prePaymentAmount: number } {
-//   let prePaymentAmount = 0;
-//   let totalAmount = 0;
-//   const variationService = new VariationService();
-//   const calculateCost = (ratePlan: IRatePlanSelection, isPrePayment: boolean = false) => {
-//     if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
-//       if (isPrePayment) {
-//         return ratePlan.reserved * ratePlan.ratePlan.pre_payment_amount || 0;
-//       }
-//       return ratePlan.checkoutVariations.reduce((sum, variation, index) => {
-//         const infantBasedVariation = variationService.getVariationBasedOnInfants({
-//           variations: ratePlan.ratePlan.variations,
-//           baseVariation: variation,
-//           infants: ratePlan.infant_nbr[index],
-//         });
-//         return sum + Number(infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount']);
-//       }, 0);
-//     } else if (ratePlan.reserved > 0) {
-//       const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount ?? 0 : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
-//       return ratePlan.reserved * (amount ?? 0);
-//     }
-//     return 0;
-//   };
-//   Object.values(booking_store.ratePlanSelections).forEach(value => {
-//     Object.values(value).forEach(ratePlan => {
-//       totalAmount += calculateCost(ratePlan);
-//       prePaymentAmount += calculateCost(ratePlan, true);
-//     });
-//   });
-//   return { totalAmount, prePaymentAmount };
-// }
-function calculateTotalCost(gross = false) {
+function calculateTotalCost(config = { gross: false, infants: false }) {
     let prePaymentAmount = 0;
     let totalAmount = 0;
     const variationService = new VariationService();
@@ -50435,18 +50404,23 @@ function calculateTotalCost(gross = false) {
     const calculateCost = (ratePlan, isPrePayment) => {
         var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
-            const variations = ratePlan.checkoutVariations.map((variation, index) => variationService.getVariationBasedOnInfants({
-                variations: ratePlan.ratePlan.variations,
-                baseVariation: variation,
-                infants: ratePlan.infant_nbr[index],
-            }));
+            let variations = ratePlan.checkoutVariations;
+            if (config.infants) {
+                variations = [
+                    ...ratePlan.checkoutVariations.map((variation, index) => variationService.getVariationBasedOnInfants({
+                        variations: ratePlan.ratePlan.variations,
+                        baseVariation: variation,
+                        infants: ratePlan.infant_nbr[index],
+                    })),
+                ];
+            }
             return variations.reduce((sum, infantBasedVariation) => {
-                const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
+                const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[config.gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
                 return sum + amount * ratePlan.reserved;
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
+            const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[config.gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
             return amount * ratePlan.reserved;
         }
         return 0;
@@ -53460,7 +53434,15 @@ function calculateInfantNumber(ages) {
         return prev;
     }, 0);
 }
+function generateCheckoutUrl(perma_link, queryString = null) {
+    const baseUrl = `https://${perma_link}.bookingmystay.com/booked`;
+    if (queryString && Object.keys(queryString).length > 0) {
+        const params = new URLSearchParams(queryString);
+        return `${baseUrl}?${params.toString()}`;
+    }
+    return baseUrl;
+}
 
-export { runScriptAndRemove as A, calculateTotalCost as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, modifyBookingStore as k, localizedWords as l, manageAnchorSession as m, getAbbreviatedWeekdays as n, getUserPreference as o, validateAgentCode as p, matchLocale as q, checkGhs as r, startOfWeek$1 as s, toDate$1 as t, setDefaultLocale as u, validateCoupon as v, checkAffiliate as w, formatAmount as x, formatFullLocation as y, calculateTotalRooms as z };
+export { runScriptAndRemove as A, calculateTotalCost as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, generateCheckoutUrl as F, injectHTMLAndRunScript as G, renderPropertyLocation as H, renderTime as I, formatImageAlt as J, updateRoomParams as K, reserveRooms as L, getVisibleInventory as M, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, getDateDifference as g, isSameWeek$1 as h, injectHTML as i, modifyQueryParam as j, modifyBookingStore as k, localizedWords as l, manageAnchorSession as m, getAbbreviatedWeekdays as n, getUserPreference as o, validateAgentCode as p, matchLocale as q, checkGhs as r, startOfWeek$1 as s, toDate$1 as t, setDefaultLocale as u, validateCoupon as v, checkAffiliate as w, formatFullLocation as x, formatAmount as y, calculateTotalRooms as z };
 
 //# sourceMappingURL=utils.js.map

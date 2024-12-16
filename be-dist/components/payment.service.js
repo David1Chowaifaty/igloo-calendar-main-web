@@ -1,5 +1,5 @@
 import { a as app_store } from './app.store.js';
-import { d as dateFns, l as localizedWords, b as booking_store } from './utils.js';
+import { F as generateCheckoutUrl, d as dateFns, l as localizedWords, b as booking_store } from './utils.js';
 import { a as axios } from './axios.js';
 
 class PaymentService {
@@ -21,7 +21,7 @@ class PaymentService {
         //   body: JSON.stringify({ ...params, callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }),
         // });
         // const data = await resp.json();
-        const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }), { headers: { Authorization: token } });
+        const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: generateCheckoutUrl(app_store.property.perma_link) }), { headers: { Authorization: token } });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }

@@ -39,8 +39,7 @@ export declare class IrBookingOverview {
     handlePageChange(e: CustomEvent<number>): Promise<void>;
     handleLinkChanged(e: CustomEvent): Promise<void>;
     handleLanguageChanged(e: CustomEvent): Promise<void>;
-    fetchCancelationMessage(id: number, roomTypeId: number): Promise<void>;
-    private handleBookingCancelation;
+    private handleBookingCancellation;
     private handleMenuItemChange;
     private handleBlEvents;
     private processPayment;

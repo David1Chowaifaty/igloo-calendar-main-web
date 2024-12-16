@@ -3,6 +3,7 @@ export declare class IrGallery {
     images: {
         url: string;
         alt: string;
+        thumbnail: string;
     }[];
     totalImages: number;
     maxLength: number;

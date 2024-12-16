@@ -77,6 +77,7 @@ export class IrRateplan {
             }, data: this.ratePlan.variations.map((v, i) => ({
                 id: i.toString(),
                 value: this.formatVariation(v),
+                html: true,
             })) }))), !((_y = this.ratePlan.not_available_reason) === null || _y === void 0 ? void 0 : _y.includes('MLS')) ? (h(Fragment, null, ((_0 = (_z = this.visibleInventory) === null || _z === void 0 ? void 0 : _z.selected_variation) === null || _0 === void 0 ? void 0 : _0.discounted_amount) && (h(Fragment, null, ((_2 = (_1 = this.visibleInventory) === null || _1 === void 0 ? void 0 : _1.selected_variation) === null || _2 === void 0 ? void 0 : _2.discount_pct) > 0 && (h("div", { class: "rateplan-pricing" }, h("p", { class: "rateplan-discounted-amount" }, formatAmount((_4 = (_3 = this.visibleInventory) === null || _3 === void 0 ? void 0 : _3.selected_variation) === null || _4 === void 0 ? void 0 : _4.amount, app_store.userPreferences.currency_id, 0)), h("p", { class: "rateplan-discount" }, `-${Number((_6 = (_5 = this.visibleInventory) === null || _5 === void 0 ? void 0 : _5.selected_variation) === null || _6 === void 0 ? void 0 : _6.discount_pct).toPrecision(2)}%`))), h("div", { class: "rateplan-final-pricing", "data-style": ((_8 = (_7 = this.visibleInventory) === null || _7 === void 0 ? void 0 : _7.selected_variation) === null || _8 === void 0 ? void 0 : _8.discount_pct) > 0 ? '' : 'full-width' }, h("p", { class: "rateplan-amount" }, formatAmount((_10 = (_9 = this.visibleInventory) === null || _9 === void 0 ? void 0 : _9.selected_variation) === null || _10 === void 0 ? void 0 : _10.discounted_amount, app_store.userPreferences.currency_id, 0)), getDateDifference((_11 = booking_store.bookingAvailabilityParams.from_date) !== null && _11 !== void 0 ? _11 : new Date(), (_12 = booking_store.bookingAvailabilityParams.to_date) !== null && _12 !== void 0 ? _12 : new Date()) >
             1 && (h("p", { class: "rateplan-amount-per-night" }, `${formatAmount((_14 = (_13 = this.visibleInventory) === null || _13 === void 0 ? void 0 : _13.selected_variation) === null || _14 === void 0 ? void 0 : _14.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`))))), ((_15 = this.visibleInventory) === null || _15 === void 0 ? void 0 : _15.reserved) > 0 ? (h("ir-select", { onValueChange: e => {
                 reserveRooms(this.roomTypeId, this.ratePlan.id, Number(e.detail));
@@ -91,7 +92,7 @@ export class IrRateplan {
                     disabled: i >= ((_c = this.visibleInventory) === null || _c === void 0 ? void 0 : _c.visibleInventory) + 1,
                     html: true,
                 });
-            }), containerStyle: 'triggerStyle', customStyles: 'selectStyle' })) : (h("ir-button", { disabled: isInventoryFull || isRequestPending('/Check_Availability'), class: "rateplan-select-rooms-btn", buttonStyles: { background: 'white', width: '100%', opacity: isInventoryFull ? '0.5' : '1' }, label: localizedWords.entries.Lcz_Select, variants: "outline-primary", onButtonClick: () => {
+            }), containerStyle: 'triggerStyle', customStyles: 'selectStyle' })) : (h("ir-button", { disabled: isInventoryFull || isRequestPending('/Check_Availability'), class: "rateplan-select-rooms w-full", buttonStyles: { background: 'white', opacity: isInventoryFull ? '0.5' : '1' }, label: localizedWords.entries.Lcz_Select, variants: "outline-primary", onButtonClick: () => {
                 reserveRooms(this.roomTypeId, this.ratePlan.id, 1);
                 this.animateBookingButton.emit(null);
             } })))) : (h("p", { class: "mls_alert" }, localizedWords.entries.Lcz_MLS_Alert.replace('{0}', (_18 = this.ratePlan.not_available_reason) === null || _18 === void 0 ? void 0 : _18.replace('MLS-', ''))))))))));
@@ -99,7 +100,7 @@ export class IrRateplan {
     formatVariation(v) {
         const adults = `${v.adult_nbr} ${v.adult_nbr === 1 ? localizedWords.entries.Lcz_Adult.toLowerCase() : localizedWords.entries.Lcz_Adults.toLowerCase()}`;
         const children = v.child_nbr > 0 ? `${v.child_nbr}  ${v.child_nbr > 1 ? localizedWords.entries.Lcz_Children.toLowerCase() : localizedWords.entries.Lcz_Child.toLowerCase()}` : null;
-        return children ? `${adults} ${children}` : adults;
+        return children ? `${adults}&nbsp&nbsp&nbsp${children}` : adults;
     }
     static get is() { return "ir-rateplan"; }
     static get encapsulation() { return "shadow"; }
