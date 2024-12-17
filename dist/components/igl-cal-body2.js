@@ -241,21 +241,33 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         this.renderElement();
     }
     getRoomCategoryRow(roomCategory, index) {
-        if (this.getTotalPhysicalRooms(roomCategory) <= 1) {
+        if (this.getTotalPhysicalRooms(roomCategory) <= 1 || !roomCategory.is_active) {
             return null;
         }
         return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-popover", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
     }
+    /**
+     * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
+     *
+     * @param {RoomCategory} roomCategory - The category containing room details.
+     * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
+     */
     getRoomsByCategory(roomCategory) {
         var _a;
         // Check accordion is expanded.
         if (!roomCategory.expanded) {
             return [];
         }
-        return (_a = this.getCategoryRooms(roomCategory)) === null || _a === void 0 ? void 0 : _a.map(room => (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory))));
+        return (_a = this.getCategoryRooms(roomCategory)) === null || _a === void 0 ? void 0 : _a.map(room => {
+            if (!room.is_active) {
+                return null;
+            }
+            return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
+        });
     }
     getRoomRows() {
-        return this.calendarData.roomsInfo.map((roomCategory, index) => {
+        var _a;
+        return (_a = this.calendarData.roomsInfo) === null || _a === void 0 ? void 0 : _a.map((roomCategory, index) => {
             if (roomCategory.is_active) {
                 return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory)];
             }
@@ -267,7 +279,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'e5a3bb4dac434cfb789e198551b3d4be667b249c' }, h("div", { key: '857ef29bcf22b9f850a4f89275d9d75275a6e7c1', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '581ad0ff82bc15f078086f667336f02b674430ca', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: '5195af5e50897b99daf1228c2f809011a5b8ede8' }, h("div", { key: '64bf1312f3f6b130e03d5b9fca5f082da833158e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39a3661a823632308863ebd57b75f3afbcaf6abf', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get style() { return IglCalBodyStyle0; }
 }, [2, "igl-cal-body", {

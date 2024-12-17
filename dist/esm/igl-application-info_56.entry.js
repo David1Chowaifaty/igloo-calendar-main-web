@@ -2496,8 +2496,7 @@ const IglBookingForm = class {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        console.log(this.dateRangeData);
-        return (h(Host, { key: '0a0db9c4bc5987aba920021d8916d2b01e9a9e55' }, h("div", { key: '93820c69b2b5719dcd794eceed9958611241a60a', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'e3cabb389815f3785f842e7659959cedb3c2105a', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '9ba14859d84e5d62cc49a105152550effc464bdd', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'bdb81836b3a8c4fb0a3c094d3b977a90fe41a90f', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        return (h(Host, { key: '7c3155b68bb37ea5b9cb895517dd0bfd6850f8aa' }, h("div", { key: 'ba2e2ee99a16fc4dd51f5607ad1ff394f246816a', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '4670668ec6112318e1b5e03fb6504a364acdaec2', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '7c51ec8e014615fdd23fc20da9ea12358df6d026', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '50da321a554bdbcb0d5f071e451c2dedf2d8a64d', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;
@@ -2795,21 +2794,33 @@ const IglCalBody = class {
         this.renderElement();
     }
     getRoomCategoryRow(roomCategory, index) {
-        if (this.getTotalPhysicalRooms(roomCategory) <= 1) {
+        if (this.getTotalPhysicalRooms(roomCategory) <= 1 || !roomCategory.is_active) {
             return null;
         }
         return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-popover", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
     }
+    /**
+     * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
+     *
+     * @param {RoomCategory} roomCategory - The category containing room details.
+     * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
+     */
     getRoomsByCategory(roomCategory) {
         var _a;
         // Check accordion is expanded.
         if (!roomCategory.expanded) {
             return [];
         }
-        return (_a = this.getCategoryRooms(roomCategory)) === null || _a === void 0 ? void 0 : _a.map(room => (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory))));
+        return (_a = this.getCategoryRooms(roomCategory)) === null || _a === void 0 ? void 0 : _a.map(room => {
+            if (!room.is_active) {
+                return null;
+            }
+            return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
+        });
     }
     getRoomRows() {
-        return this.calendarData.roomsInfo.map((roomCategory, index) => {
+        var _a;
+        return (_a = this.calendarData.roomsInfo) === null || _a === void 0 ? void 0 : _a.map((roomCategory, index) => {
             if (roomCategory.is_active) {
                 return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory)];
             }
@@ -2821,7 +2832,7 @@ const IglCalBody = class {
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'e5a3bb4dac434cfb789e198551b3d4be667b249c' }, h("div", { key: '857ef29bcf22b9f850a4f89275d9d75275a6e7c1', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '581ad0ff82bc15f078086f667336f02b674430ca', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: '5195af5e50897b99daf1228c2f809011a5b8ede8' }, h("div", { key: '64bf1312f3f6b130e03d5b9fca5f082da833158e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39a3661a823632308863ebd57b75f3afbcaf6abf', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
 };
 IglCalBody.style = IglCalBodyStyle0;
@@ -2842,7 +2853,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: '30c90bfa311e3e169056e4b3f8bbef66ce838c49', class: "footerContainer" }, h("div", { key: 'f2874f0b1562009bafd5f0caffda57657aa5a338', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '72635b48de03ba5de2fa4ad80aa49cba4616672e', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '2e1a7ce49aed67c4f5f948bd9d89128c1ef0b733', class: "la la-square" }), h("u", { key: '9bf44c6d1fda6281e3fcc6c73c7843361076c935' }, locales.entries.Lcz_Legend), h("span", { key: 'a12642b1dba495fce0e7f80e7be07572a22e9889' }, " - v99"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: '30c90bfa311e3e169056e4b3f8bbef66ce838c49', class: "footerContainer" }, h("div", { key: 'f2874f0b1562009bafd5f0caffda57657aa5a338', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '72635b48de03ba5de2fa4ad80aa49cba4616672e', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '2e1a7ce49aed67c4f5f948bd9d89128c1ef0b733', class: "la la-square" }), h("u", { key: '9bf44c6d1fda6281e3fcc6c73c7843361076c935' }, locales.entries.Lcz_Legend), h("span", { key: 'a12642b1dba495fce0e7f80e7be07572a22e9889' }, " - v99.01"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;
@@ -9332,7 +9343,7 @@ const IrAutocomplete = class {
         this.isComboBoxVisible = false;
     }
     render() {
-        return (h(Host, { key: '17c03e1ec75513f9cf9cd825f8cc0a3652cd6731' }, h("div", { key: 'c2679f348f62261ba5ecdc337e0bfbbb9758fca8', class: 'd-flex align-items-center ' }, h("label", { key: 'c82d1f3aea46191f0dca86eafa827905a40a3a99', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: 'a9991ceab494255b81fccb97e8290432bcc0cff2', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: 'e739f55e1f157e656f3bc1e6c6e84622422df85e', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: 'a42cf9125c80a117a6a35744a8ae3ff07dd6e146', required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "off", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: 'e5f486f7d881b05cb4e914042b87ba3dfe0a5a3e', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: '0200f0e126fc271f8ea48b9b79be79db7d1bc680', class: 'sr-only' }, "clear input"), h("svg", { key: 'c007adb317e960583f8612c1a5a7c19d619af9e9', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '7c30463c10a07cf856616a418b41fd4bc95c27f9', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
+        return (h(Host, { key: '17c03e1ec75513f9cf9cd825f8cc0a3652cd6731' }, h("div", { key: 'c2679f348f62261ba5ecdc337e0bfbbb9758fca8', class: 'd-flex align-items-center ' }, h("label", { key: 'c82d1f3aea46191f0dca86eafa827905a40a3a99', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: 'a9991ceab494255b81fccb97e8290432bcc0cff2', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: 'e739f55e1f157e656f3bc1e6c6e84622422df85e', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: '3a8b8bac4ae39ad132de8555a425a1c73c61096b', required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: '6f4367c79c7e65b3525d57f516334a6d21aeeaf9', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: 'be7f0b0cb527adf1b3119d074e24bf8211c085e1', class: 'sr-only' }, "clear input"), h("svg", { key: '2c6eb9b732029f0d9181e64922338951658f7487', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '9b1ffe810ea7f55d37914ba4d4dc88938ee86022', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
     }
     get el() { return getElement(this); }
 };
