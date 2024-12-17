@@ -7,9 +7,7 @@ export declare class IrPropertyGallery {
     private irDialog;
     handleOpenGallery(e: CustomEvent): void;
     handleOpenCarouselGallery(): void;
-    showPlanLimitations({ withRoomSize, showMoreTag }: {
-        withRoomSize: boolean;
-        showMoreTag: boolean;
-    }): any;
+    private showPlanLimitations;
+    private renderRoomtypeImages;
     render(): any;
 }

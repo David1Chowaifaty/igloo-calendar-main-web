@@ -29,8 +29,16 @@ export class IrImage {
     handleImageLoad() {
         this.loaded = true;
     }
+    checkImageCached() {
+        if (this.imageRef && this.imageRef.complete && this.imageRef.naturalHeight !== 0) {
+            this.loaded = true;
+        }
+    }
     render() {
-        return (h("div", { key: '2a4559f4988879b6f6919cec9d74e5ab4abed25d', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '3fd2e4f9885ee17a004b073c8785911eec001214', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: 'bdff4fabb2f38dd23e628eb6ade7231761a89deb', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: 'c76c540739a83738d9ff8379cdb4eb1ad4329465', src: this.src, class: `original ${this.loaded ? 'visible' : ''}`, alt: this.alt, loading: "lazy", onLoad: () => this.handleImageLoad() })));
+        return (h("div", { key: '30a6550356c10661320844072edde77fae4aab41', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '84c875a19e7a4e19719f8843f226b27694fdf1fb', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: 'a00957f6e8727f759d521bc4a7721f722b24047f', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: 'bc4627e696be7e8e15207c6b82f3b5f395053670', ref: el => {
+                this.imageRef = el;
+                this.checkImageCached(); // Check if the image is already cached
+            }, src: this.src, class: `original ${this.loaded ? 'visible' : ''}`, alt: this.alt, loading: "lazy", onLoad: () => this.handleImageLoad() })));
     }
     static get is() { return "ir-image"; }
     static get encapsulation() { return "shadow"; }

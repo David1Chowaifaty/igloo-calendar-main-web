@@ -165,6 +165,7 @@ export interface Description {
 export interface Image {
     tooltip: any;
     url: string;
+    thumbnail: string;
 }
 export interface InternetOffering {
     is_public_internet_free: boolean;
