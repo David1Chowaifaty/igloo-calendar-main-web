@@ -17,13 +17,13 @@ export declare class IglApplicationInfo {
         roomtypeId: number;
     };
     isButtonPressed: boolean;
+    private variationService;
     componentWillLoad(): void;
     private updateGuest;
     handleButtonClicked(event: CustomEvent<{
         key: TPropertyButtonsTypes;
         data?: CustomEvent;
     }>): void;
-    private formatVariation;
     private getTooltipMessages;
     private getAmount;
     private filterRooms;

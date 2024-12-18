@@ -1,5 +1,6 @@
 import { TSourceOption } from "../../../models/igl-book-property";
 export declare class IglBookPropertyService {
+    private variationService;
     setBookingInfoFromAutoComplete(context: any, res: any): void;
     resetRoomsInfoAndMessage(context: any): void;
     onDataRoomUpdate(event: CustomEvent, selectedUnits: Map<string, Map<string, any>>, isEdit: boolean, isEditBooking: boolean, name: string): Map<string, Map<string, any>>;

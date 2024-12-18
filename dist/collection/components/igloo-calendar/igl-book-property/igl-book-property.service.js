@@ -10,6 +10,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+import VariationService from "../../../services/variation.service";
 import booking_store from "../../../stores/booking.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import { extras } from "../../../utils/utils";
@@ -133,11 +134,18 @@ export class IglBookPropertyService {
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, }) {
         const rooms = [];
         const total_days = calculateDaysBetweenDates(moment(check_in).format('YYYY-MM-DD'), moment(check_out).format('YYYY-MM-DD'));
-        const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount }) => {
+        const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
             if (is_amount_modified) {
                 return view_mode === '002' ? rp_amount : rp_amount / total_days;
             }
-            return Number(selected_variation.discounted_gross_amount) / total_days;
+            let variation = selected_variation;
+            if (infants > 0) {
+                if (!this.variationService) {
+                    this.variationService = new VariationService();
+                }
+                variation = this.variationService.getVariationBasedOnInfants({ variations: ratePlan.variations, baseVariation: selected_variation, infants });
+            }
+            return Number(variation.discounted_amount) / total_days;
         };
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
@@ -154,14 +162,14 @@ export class IglBookPropertyService {
                             unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
                             occupancy: {
                                 adult_nbr: rateplan.selected_variation.adult_nbr,
-                                children_nbr: rateplan.selected_variation.child_nbr,
+                                children_nbr: rateplan.selected_variation.child_nbr - Math.max(rateplan.guest[i].infant_nbr, 0),
                                 infant_nbr: rateplan.guest[i].infant_nbr,
                             },
                             bed_preference: rateplan.guest[i].bed_preference,
                             from_date: moment(check_in).format('YYYY-MM-DD'),
                             to_date: moment(check_out).format('YYYY-MM-DD'),
                             notes,
-                            days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan)),
+                            days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr)),
                             guest: {
                                 email: null,
                                 first_name,

@@ -4,8 +4,10 @@ import locales from "../../../../../stores/locales.store";
 import { v4 } from "uuid";
 import calendar_data, { isSingleUnit } from "../../../../../stores/calendar-data";
 import { formatAmount } from "../../../../../utils/utils";
+import VariationService from "../../../../../services/variation.service";
 export class IglApplicationInfo {
     constructor() {
+        this.variationService = new VariationService();
         this.rateplanSelection = undefined;
         this.guestInfo = undefined;
         this.currency = undefined;
@@ -40,27 +42,24 @@ export class IglApplicationInfo {
                 break;
         }
     }
-    formatVariation(variation) {
-        var _a, _b, _c, _d;
-        if (!variation)
-            return '';
-        const adults = `${variation.adult_nbr} ${variation.adult_nbr === 1 ? (_a = locales.entries['Lcz_Adult']) === null || _a === void 0 ? void 0 : _a.toLowerCase() : (_b = locales.entries['Lcz_Adults']) === null || _b === void 0 ? void 0 : _b.toLowerCase()}`;
-        const children = variation.child_nbr > 0
-            ? `${variation.child_nbr} ${variation.child_nbr > 1 ? (_c = locales.entries['Lcz_Children']) === null || _c === void 0 ? void 0 : _c.toLowerCase() : (_d = locales.entries['Lcz_Child']) === null || _d === void 0 ? void 0 : _d.toLowerCase()}`
-            : '';
-        return children ? `${adults} ${children}` : adults;
-    }
     getTooltipMessages() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         const { ratePlan, selected_variation } = this.rateplanSelection;
-        const selectedVariation = selected_variation;
+        let selectedVariation = selected_variation;
+        if ((_a = this.guestInfo) === null || _a === void 0 ? void 0 : _a.infant_nbr) {
+            selectedVariation = this.variationService.getVariationBasedOnInfants({
+                variations: ratePlan.variations,
+                baseVariation: selected_variation,
+                infants: (_b = this.guestInfo) === null || _b === void 0 ? void 0 : _b.infant_nbr,
+            });
+        }
         if (!selectedVariation)
             return;
-        const matchingVariation = (_a = ratePlan.variations) === null || _a === void 0 ? void 0 : _a.find(variation => this.formatVariation(variation) === this.formatVariation(selectedVariation));
+        const matchingVariation = (_c = ratePlan.variations) === null || _c === void 0 ? void 0 : _c.find(variation => variation.adult_nbr === selectedVariation.adult_nbr && variation.child_nbr === selectedVariation.child_nbr);
         if (!matchingVariation)
             return;
-        const cancellationPolicy = (_c = (_b = matchingVariation.applicable_policies) === null || _b === void 0 ? void 0 : _b.find(p => p.type === 'cancelation')) === null || _c === void 0 ? void 0 : _c.combined_statement;
-        const guaranteePolicy = (_e = (_d = matchingVariation.applicable_policies) === null || _d === void 0 ? void 0 : _d.find(p => p.type === 'guarantee')) === null || _e === void 0 ? void 0 : _e.combined_statement;
+        const cancellationPolicy = (_e = (_d = matchingVariation.applicable_policies) === null || _d === void 0 ? void 0 : _d.find(p => p.type === 'cancelation')) === null || _e === void 0 ? void 0 : _e.combined_statement;
+        const guaranteePolicy = (_g = (_f = matchingVariation.applicable_policies) === null || _f === void 0 ? void 0 : _f.find(p => p.type === 'guarantee')) === null || _g === void 0 ? void 0 : _g.combined_statement;
         let tooltip = '';
         if (cancellationPolicy) {
             tooltip += `<b><u>Cancellation:</u></b> ${cancellationPolicy}<br/>`;
@@ -71,10 +70,19 @@ export class IglApplicationInfo {
         return tooltip || undefined;
     }
     getAmount() {
+        var _a, _b;
         if (this.rateplanSelection.is_amount_modified) {
             return this.rateplanSelection.view_mode === '001' ? this.rateplanSelection.rp_amount : this.rateplanSelection.rp_amount * this.totalNights;
         }
-        return this.rateplanSelection.selected_variation.discounted_gross_amount;
+        let variation = this.rateplanSelection.selected_variation;
+        if ((_a = this.guestInfo) === null || _a === void 0 ? void 0 : _a.infant_nbr) {
+            variation = this.variationService.getVariationBasedOnInfants({
+                variations: this.rateplanSelection.ratePlan.variations,
+                baseVariation: this.rateplanSelection.selected_variation,
+                infants: (_b = this.guestInfo) === null || _b === void 0 ? void 0 : _b.infant_nbr,
+            });
+        }
+        return variation.discounted_gross_amount;
     }
     filterRooms() {
         var _a, _b, _c, _d;
@@ -98,22 +106,27 @@ export class IglApplicationInfo {
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         const filteredRoomList = this.filterRooms();
-        return (h(Host, { key: '5c4a98412c8ad118cd552fbea279f2ea93f68c81', class: 'my-2' }, h("div", { key: 'f32521686c7cc85251508b817051d2d03ffd7eb8', class: "booking-header" }, (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("span", { key: '7d09178df7da103c0901941dacf39d5eb8c45028', class: "booking-roomtype-title" }, this.rateplanSelection.roomtype.name)), h("div", { key: '03b5a16ffeddaab4ec99246426ab11cc5efbeb8b', class: "booking-details-container" }, h("div", { key: '915955eb0501fac98ceae77f686692aa23c621db', class: "booking-rateplan" }, h("p", { key: 'ad5c51eeac1b11864579396d4801b3469289263f', class: "booking-rateplan-name" }, this.rateplanSelection.ratePlan.short_name, " ", this.rateplanSelection.ratePlan.is_non_refundable && h("span", { key: '30188cd3a21cf5fb80af248c16a7397441922085', class: 'non-ref-span' }, "Non Refundable")), h("ir-tooltip", { key: '57d88d5edfbb6950d9800083db585c4c27111849', class: "booking-tooltip", message: this.getTooltipMessages() })), h("p", { key: 'b3fc4326c26097bd5cfc01fdb8579d57690a3462', class: "booking-variation" }, this.formatVariation(this.rateplanSelection.selected_variation))), h("p", { key: '30db446867e3f0064132032513d2fe8b31b7505d', class: "booking-price" }, formatAmount((_a = this.currency) === null || _a === void 0 ? void 0 : _a.symbol, this.getAmount()), "/", locales.entries.Lcz_Stay)), h("div", { key: 'ebe819cbbb60be3277e7e593f180dc33e6022d2d', class: "booking-footer" }, h("div", { key: 'ef285e036880172fe8e315507be18fc6b0da2554', class: "booking-rateplan" }, h("p", { key: '90328dad888faba7bb800ae653bd05fd7f86213c', class: "booking-rateplan-name" }, this.rateplanSelection.ratePlan.short_name), h("ir-tooltip", { key: 'a26a27006cb3f6b58ab0ed2868493c5edb737917', class: "booking-tooltip", message: this.getTooltipMessages() })), h("p", { key: 'ab172f7082b2d9cd3e378e79dce4e8ce266d12dd', class: "booking-variation" }, this.formatVariation(this.rateplanSelection.selected_variation))), h("div", { key: 'bd96bdfae11a210b8baa3aecdf4ac8c22cc88280', class: "d-flex flex-column flex-md-row  p-0 align-items-md-center aplicationInfoContainer" }, h("div", { key: '631c5eb7d3bd656f1f94a175d307b622e602d0f5', class: "mr-1 flex-fill guest-info-container" }, h("input", { key: 'd265be4ae9b4baa00c51a2ad943300ae8463cc67', id: v4(), type: "email", class: `form-control ${this.isButtonPressed && ((_b = this.guestInfo) === null || _b === void 0 ? void 0 : _b.name) === '' && 'border-danger'}`, placeholder: locales.entries.Lcz_GuestFirstnameAndLastname, name: "guestName", onInput: event => {
+        const formattedVariation = this.variationService.formatVariationBasedOnInfants({
+            baseVariation: this.rateplanSelection.selected_variation,
+            infants: this.guestInfo.infant_nbr,
+            variations: this.rateplanSelection.ratePlan.variations,
+        });
+        return (h(Host, { key: '8cf868b5b04abdc19b73bd4c4326d7451f0590b9', class: 'my-2' }, h("div", { key: '6e774f0d8aabec7e2f484c59fe133d6a69737a3a', class: "booking-header" }, (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("span", { key: '7a26db8dfc65f0d65260fa62f6f3061dd0d70155', class: "booking-roomtype-title" }, this.rateplanSelection.roomtype.name)), h("div", { key: '708d6fc162680bc5565c84de60b51e65f0f30ff6', class: "booking-details-container" }, h("div", { key: '423ce38e0ec6ea2b7024ba38a12922c1dc434152', class: "booking-rateplan" }, h("p", { key: 'bbbd6f170b35d9d406beeab70b22ab199023f124', class: "booking-rateplan-name" }, this.rateplanSelection.ratePlan.short_name, " ", this.rateplanSelection.ratePlan.is_non_refundable && h("span", { key: 'ff1fa5a5cc9f815db22472f2e97316c403466c3f', class: 'non-ref-span' }, "Non Refundable")), h("ir-tooltip", { key: '4d459471ac85fe0c38e070338908e29b9e50cfd7', class: "booking-tooltip", message: this.getTooltipMessages() })), h("p", { key: 'e22789000005fb91863fa59f46280b546a95c556', class: "booking-variation", innerHTML: formattedVariation })), h("p", { key: '652d8067fd5130ac08c8e9356cc113990e95159b', class: "booking-price" }, formatAmount((_a = this.currency) === null || _a === void 0 ? void 0 : _a.symbol, this.getAmount()), "/", locales.entries.Lcz_Stay)), h("div", { key: '5ce13d29effbeb590a425b3a8b3a179e20c07582', class: "booking-footer" }, h("div", { key: 'a736de8bea568d10eb6ef71a1b5bc31c9649f911', class: "booking-rateplan" }, h("p", { key: 'f0e0d55abf8770b027175ff2e3b87a754e5901a3', class: "booking-rateplan-name" }, this.rateplanSelection.ratePlan.short_name), h("ir-tooltip", { key: '9f65ad4520d91680c6cfec397fc446dfbedda74a', class: "booking-tooltip", message: this.getTooltipMessages() })), h("p", { key: 'd400a6a4514c9e8df5068fbd912acaa950661d76', class: "booking-variation", innerHTML: formattedVariation })), h("div", { key: 'e66469214abdf4ea925b3bce8993c1493c058bc4', class: "d-flex flex-column flex-md-row  p-0 align-items-md-center aplicationInfoContainer" }, h("div", { key: '8ac7ad699200417bbb1f7ca4f6bf1934cde23505', class: "mr-1 flex-fill guest-info-container" }, h("input", { key: '4938bce9f5133f93da51336286b2cd0caa57924a', id: v4(), type: "email", class: `form-control ${this.isButtonPressed && ((_b = this.guestInfo) === null || _b === void 0 ? void 0 : _b.name) === '' && 'border-danger'}`, placeholder: locales.entries.Lcz_GuestFirstnameAndLastname, name: "guestName", onInput: event => {
                 const name = event.target.value;
                 this.updateGuest({ name });
                 if (booking_store.event_type.type === 'EDIT_BOOKING') {
                     modifyBookingStore('guest', Object.assign(Object.assign({}, booking_store.guest), { name }));
                 }
-            }, required: true, value: (_c = this.guestInfo) === null || _c === void 0 ? void 0 : _c.name })), h("div", { key: '354560b4a017fa9919b10e6b1be92433027316a2', class: "mt-1 mt-md-0 d-flex align-items-center flex-fill" }, calendar_data.is_frontdesk_enabled &&
+            }, required: true, value: (_c = this.guestInfo) === null || _c === void 0 ? void 0 : _c.name })), h("div", { key: '263126318c0429086f89e15eb012dbbb46791a0e', class: "mt-1 mt-md-0 d-flex align-items-center flex-fill" }, calendar_data.is_frontdesk_enabled &&
             !isSingleUnit(this.rateplanSelection.roomtype.id) &&
-            (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("div", { key: '10df98aecd1ed0c2d9068cdd7207c6b6eca06845', class: "mr-1 p-0 flex-fill preference-select-container" }, h("select", { key: 'a215f528051beeb7a9608491912141b592ebe602', class: "form-control input-sm pr-0", id: v4(), onChange: event => this.updateGuest({ unit: event.target.value }) }, h("option", { key: '9ccd2ae04b930b50d26ecd3a08e266aa9e12c3bd', value: "", selected: ((_d = this.guestInfo) === null || _d === void 0 ? void 0 : _d.unit) === '' }, locales.entries.Lcz_Assignunits), filteredRoomList === null || filteredRoomList === void 0 ? void 0 :
+            (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("div", { key: '2c66c74b1e7c7918c9308e0848a14a2863c89db4', class: "mr-1 p-0 flex-fill preference-select-container" }, h("select", { key: '317eb36bd161e6c9f6842613e678c1b58ec6b21e', class: "form-control input-sm pr-0", id: v4(), onChange: event => this.updateGuest({ unit: event.target.value }) }, h("option", { key: '443f6a35a142b124f54b3f74f4a7ac6751946819', value: "", selected: ((_d = this.guestInfo) === null || _d === void 0 ? void 0 : _d.unit) === '' }, locales.entries.Lcz_Assignunits), filteredRoomList === null || filteredRoomList === void 0 ? void 0 :
             filteredRoomList.map(room => {
                 var _a;
                 return (h("option", { value: room.id, selected: ((_a = this.guestInfo) === null || _a === void 0 ? void 0 : _a.unit) === room.id.toString() }, room.name));
-            }))))), this.rateplanSelection.roomtype.is_bed_configuration_enabled && (h("div", { key: 'e60461bd024bd9589d37b61a7ee2ead47ed3bdf6', class: "mr-1 flex-fill" }, h("select", { key: '549a51ebcf95c0b895904e34bc3ffc626b6747f9', class: `form-control input-sm ${this.isButtonPressed && ((_e = this.guestInfo) === null || _e === void 0 ? void 0 : _e.bed_preference) === '' && 'border-danger'}`, id: v4(), onChange: event => this.updateGuest({ bed_preference: event.target.value }) }, h("option", { key: '80e55278aff08aa8fc96f6bb8d9b8f95d646215a', value: "", selected: ((_f = this.guestInfo) === null || _f === void 0 ? void 0 : _f.bed_preference) === '' }, locales.entries.Lcz_BedConfiguration), this.bedPreferenceType.map(data => {
+            }))))), this.rateplanSelection.roomtype.is_bed_configuration_enabled && (h("div", { key: '697041891476a4b81c38c0511293cb5a75fa9acf', class: "mr-1 flex-fill" }, h("select", { key: 'b47409c8dbc693b7209f6bc8bb23aa6b1f59377f', class: `form-control input-sm ${this.isButtonPressed && ((_e = this.guestInfo) === null || _e === void 0 ? void 0 : _e.bed_preference) === '' && 'border-danger'}`, id: v4(), onChange: event => this.updateGuest({ bed_preference: event.target.value }) }, h("option", { key: 'c6fac4140dd0537c33f23833e1ccac5b29c87c27', value: "", selected: ((_f = this.guestInfo) === null || _f === void 0 ? void 0 : _f.bed_preference) === '' }, locales.entries.Lcz_BedConfiguration), this.bedPreferenceType.map(data => {
             var _a;
             return (h("option", { value: data.CODE_NAME, selected: ((_a = this.guestInfo) === null || _a === void 0 ? void 0 : _a.bed_preference) === data.CODE_NAME }, data.CODE_VALUE_EN));
-        })))), h("p", { key: '70f6cdc1232d9b702ef52886b595ccbb09b01339', class: "rate_amount" }, formatAmount((_g = this.currency) === null || _g === void 0 ? void 0 : _g.symbol, this.getAmount()), "/", locales.entries.Lcz_Stay)), this.rateplanSelection.selected_variation.child_nbr > 0 && (h("div", { key: '258f3eac06754a03d62d43ab1f3c294390cde958', style: { gap: '0.5rem', marginTop: '0.5rem' }, class: "d-flex  flex-row  p-0 align-items-center aplicationInfoContainer" }, h("p", { key: '1bac07e25e71a1ef36850c18e955f2cbf55e68e0', class: 'm-0 p-0 text-danger' }, "Any of the children below 3 years?"), h("div", { key: '08a84ca3dfd6dd10f92e1b9347d237c4a25519c1', class: "mr-1 flex-fill" }, h("select", { key: 'b76d68c59da0a82a038354f976e01dbc82221b9f', class: `form-control input-sm ${this.isButtonPressed && ((_h = this.guestInfo) === null || _h === void 0 ? void 0 : _h.bed_preference) === '' && 'border-danger'}`, id: v4(), style: { width: 'max-content' }, onChange: event => this.updateGuest({ infant_nbr: Number(event.target.value) }) }, h("option", { key: '55c772dc639286b8cb8c5e2727e5104e7d9c4f95', value: "", selected: Number((_j = this.guestInfo) === null || _j === void 0 ? void 0 : _j.infant_nbr) === 0 }, locales.entries['No'] || 'No'), Array.from({ length: this.rateplanSelection.selected_variation.child_nbr }, (_, i) => i + 1).map(item => {
+        })))), h("p", { key: 'b8af7ad72b3a96cd7ec86fe04bfb7a1814dcf733', class: "rate_amount" }, formatAmount((_g = this.currency) === null || _g === void 0 ? void 0 : _g.symbol, this.getAmount()), "/", locales.entries.Lcz_Stay)), this.rateplanSelection.selected_variation.child_nbr > 0 && (h("div", { key: 'beb9d793189644281aec1b02f896889199b1edbb', style: { gap: '0.5rem', marginTop: '0.5rem' }, class: "d-flex  flex-row  p-0 align-items-center aplicationInfoContainer" }, h("p", { key: 'd0079f7b4fa0a895c1fc7afbd1640abedc8bd017', class: 'm-0 p-0 text-danger' }, "Any of the children below 3 years?"), h("div", { key: 'e37ee0aa9420a72763bb14ce5a9339c3ce20f18d', class: "mr-1 flex-fill" }, h("select", { key: '1e3993233aef24e257283c9978df1999628a1a82', class: `form-control input-sm ${this.isButtonPressed && ((_h = this.guestInfo) === null || _h === void 0 ? void 0 : _h.bed_preference) === '' && 'border-danger'}`, id: v4(), style: { width: 'max-content' }, onChange: event => this.updateGuest({ infant_nbr: Number(event.target.value) }) }, h("option", { key: '54f0094bfef13c7a858ccb685c42c6db008bc6d6', value: "", selected: Number((_j = this.guestInfo) === null || _j === void 0 ? void 0 : _j.infant_nbr) === 0 }, locales.entries['No'] || 'No'), Array.from({ length: this.rateplanSelection.selected_variation.child_nbr }, (_, i) => i + 1).map(item => {
             var _a;
             return (h("option", { value: item, selected: ((_a = this.guestInfo) === null || _a === void 0 ? void 0 : _a.infant_nbr) === item }, item));
         })))))));
