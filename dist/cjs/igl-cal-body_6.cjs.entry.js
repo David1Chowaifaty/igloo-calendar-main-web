@@ -9,7 +9,7 @@ const toBeAssigned_service = require('./toBeAssigned.service-40fc68e0.js');
 const utils = require('./utils-0869c24f.js');
 const moment = require('./moment-1780b03a.js');
 const unassigned_dates_store = require('./unassigned_dates.store-c1996160.js');
-const icons = require('./icons-4a417001.js');
+const icons = require('./icons-72c05699.js');
 const booking_service = require('./booking.service-04d8ca45.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');

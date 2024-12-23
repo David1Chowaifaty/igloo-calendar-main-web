@@ -11,7 +11,7 @@ export class IrPaymentActions {
         if (((_a = this.paymentAction) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) == 0) {
             return null;
         }
-        return (h(Host, null, h("div", { class: 'my-1' }, h("strong", null, "Payment actions")), h("table", null, h("thead", null, h("th", null, h("p", { class: "sr-only" }, "Amount")), h("th", null, h("p", { class: 'sr-only' }, "Due date")), h("th", null, h("p", { class: 'sr-only' }, "Pay")), h("th", null, h("p", { class: 'sr-only' }, "Status"))), h("tbody", null, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map(pa => {
+        return (h(Host, null, h("div", { class: 'my-1' }, h("span", { class: 'font-medium' }, "Payment actions")), h("table", null, h("thead", null, h("th", null, h("p", { class: "sr-only" }, "Amount")), h("th", null, h("p", { class: 'sr-only' }, "Due date")), h("th", null, h("p", { class: 'sr-only' }, "Pay")), h("th", null, h("p", { class: 'sr-only' }, "Status"))), h("tbody", null, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map(pa => {
             if (!pa.due_on) {
                 return null;
             }

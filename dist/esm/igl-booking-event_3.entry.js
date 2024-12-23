@@ -1112,7 +1112,7 @@ const IrPopover = class {
         });
     }
     render() {
-        return (h(Host, { key: 'd794b59330dca4058379755d40c2df26a9fd87bf', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '1f82dc2e4676bd449eeefafaa29071bc2d56a1f0', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: 'fd0917b459d18a66f956504b18fb9d23c9b9a0b7', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (h(Host, { key: '500b73cc68adbcf94aa314f2ce80b3deb9dc4ce0', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'c86a0393230c742670725aeb0c9141a61075b32e', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '2be99052eef79540a8fca8b835f060b2dde5ba7e', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return getElement(this); }
 };

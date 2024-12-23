@@ -114,7 +114,7 @@ export class IrTextEditor {
         }
     }
     render() {
-        return (h(Host, { key: 'e518ef9601757b5e1f4c8775b85fd3e5aae723fb' }, h("div", { key: 'cd1bb736d5331b534c927a86bab7c32b65c7ce6f', id: "editor" })));
+        return (h(Host, { key: 'ecfda63f30c07d2314ecb8ac5ab3949d91793614' }, h("div", { key: 'd3540fa9cb33787bfd6dabf12b5d9730a0e556f3', id: "editor" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {

@@ -3,7 +3,7 @@ export type OpenSidebarEvent = {
     type: BookingDetailsSidebarEvents;
     payload?: unknown;
 };
-export type BookingDetailsDialogEvents = 'pms' | 'revisions';
+export type BookingDetailsDialogEvents = 'pms' | 'events-log';
 export type OpenDialogEvent = {
     type: BookingDetailsDialogEvents;
     payload?: unknown;

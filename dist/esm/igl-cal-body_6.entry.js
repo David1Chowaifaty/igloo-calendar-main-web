@@ -5,7 +5,7 @@ import { T as ToBeAssignedService } from './toBeAssigned.service-cd5901c2.js';
 import { d as dateToFormattedString, p as getDaysArray, q as convertDatePrice, s as formatDate } from './utils-1edcc817.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-e3b8f067.js';
-import { c as colorVariants } from './icons-9abe7046.js';
+import { c as colorVariants } from './icons-3050e6b6.js';
 import { B as BookingService } from './booking.service-71d9d60d.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';

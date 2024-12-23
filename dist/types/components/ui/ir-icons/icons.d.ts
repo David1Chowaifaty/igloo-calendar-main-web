@@ -7,6 +7,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'envelope-circle-check': {
+        viewBox: string;
+        d: string;
+    };
     danger: {
         viewBox: string;
         d: string;

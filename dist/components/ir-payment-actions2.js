@@ -4,7 +4,7 @@ import { h as hooks } from './moment.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
-const irPaymentActionsCss = ".sc-ir-payment-actions-h{display:block}.sc-ir-payment-actions-h p.sc-ir-payment-actions,.sc-ir-payment-actions-h div.sc-ir-payment-actions,.sc-ir-payment-actions-h span.sc-ir-payment-actions,.sc-ir-payment-actions-h ir-icons.sc-ir-payment-actions{box-sizing:border-box;padding:0;margin:0}.action-container.sc-ir-payment-actions td.sc-ir-payment-actions{padding:0px 0.5rem;padding-bottom:0.5rem}.action-container.sc-ir-payment-actions .amount_action.sc-ir-payment-actions{padding-inline-start:0}.overdue_action.sc-ir-payment-actions{color:#ff4961;border-radius:0.25rem;display:flex;align-items:center;gap:0.5rem}.future_action.sc-ir-payment-actions{border-radius:0.25rem;color:#1e9ff2;display:flex;align-items:center;justify-content:start;gap:0.5rem}.date_action.sc-ir-payment-actions{font-weight:500}.amount_action.sc-ir-payment-actions{font-weight:700}";
+const irPaymentActionsCss = ".sc-ir-payment-actions-h{display:block}.sc-ir-payment-actions-h p.sc-ir-payment-actions,.sc-ir-payment-actions-h div.sc-ir-payment-actions,.sc-ir-payment-actions-h span.sc-ir-payment-actions,.sc-ir-payment-actions-h ir-icons.sc-ir-payment-actions{box-sizing:border-box;padding:0;margin:0}.action-container.sc-ir-payment-actions td.sc-ir-payment-actions{padding:0px 0.5rem;padding-bottom:0.5rem}.action-container.sc-ir-payment-actions .amount_action.sc-ir-payment-actions{padding-inline-start:0}.overdue_action.sc-ir-payment-actions{color:#ff4961;border-radius:0.25rem;display:flex;align-items:center;gap:0.5rem}.future_action.sc-ir-payment-actions{border-radius:0.25rem;color:#1e9ff2;display:flex;align-items:center;justify-content:start;gap:0.5rem}.date_action.sc-ir-payment-actions{font-weight:500}.amount_action.sc-ir-payment-actions{font-weight:600}";
 const IrPaymentActionsStyle0 = irPaymentActionsCss;
 
 const IrPaymentActions = /*@__PURE__*/ proxyCustomElement(class IrPaymentActions extends HTMLElement {
@@ -20,7 +20,7 @@ const IrPaymentActions = /*@__PURE__*/ proxyCustomElement(class IrPaymentActions
         if (((_a = this.paymentAction) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) == 0) {
             return null;
         }
-        return (h(Host, null, h("div", { class: 'my-1' }, h("strong", null, "Payment actions")), h("table", null, h("thead", null, h("th", null, h("p", { class: "sr-only" }, "Amount")), h("th", null, h("p", { class: 'sr-only' }, "Due date")), h("th", null, h("p", { class: 'sr-only' }, "Pay")), h("th", null, h("p", { class: 'sr-only' }, "Status"))), h("tbody", null, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map(pa => {
+        return (h(Host, null, h("div", { class: 'my-1' }, h("span", { class: 'font-medium' }, "Payment actions")), h("table", null, h("thead", null, h("th", null, h("p", { class: "sr-only" }, "Amount")), h("th", null, h("p", { class: 'sr-only' }, "Due date")), h("th", null, h("p", { class: 'sr-only' }, "Pay")), h("th", null, h("p", { class: 'sr-only' }, "Status"))), h("tbody", null, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map(pa => {
             if (!pa.due_on) {
                 return null;
             }
