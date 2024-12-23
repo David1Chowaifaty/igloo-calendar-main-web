@@ -26,7 +26,7 @@ export class PaymentService {
             throw new Error(error);
         }
     }
-    async GetExposedCancelationDueAmount(params) {
+    async GetExposedCancellationDueAmount(params) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount`, params);
             if (data.ExceptionMsg !== '') {

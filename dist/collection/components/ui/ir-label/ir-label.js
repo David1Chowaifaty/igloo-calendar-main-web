@@ -1,30 +1,22 @@
 import { h, Host } from "@stencil/core";
-import { colorVariants } from "../ir-icons/icons";
 export class IrLabel {
     constructor() {
-        this.label = undefined;
-        this.value = undefined;
-        this.iconShown = false;
-        this.image = undefined;
-        this.country = false;
+        this.labelText = undefined;
+        this.content = undefined;
+        this.renderContentAsHtml = false;
+        this.image = null;
+        this.isCountryImage = false;
         this.imageStyle = '';
-        this.icon_name = 'edit';
-        this.icon_style = undefined;
-        this.ignore_value = false;
+        this.ignoreEmptyContent = false;
         this.placeholder = undefined;
     }
-    openEditSidebar() {
-        this.editSidebar.emit();
-    }
     render() {
-        if (!this.placeholder && !this.value && !this.ignore_value) {
+        var _a, _b, _c;
+        // If we have no content and no placeholder, and we are NOT ignoring the empty content, return null.
+        if (!this.placeholder && !this.content && !this.ignoreEmptyContent) {
             return null;
         }
-        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("strong", { class: "label_title" }, this.label), this.image && h("img", { src: this.image.src, class: `p-0 m-0 ${this.country ? 'country' : 'logo'} ${this.image.style}`, alt: this.image.src }), this.value ? h("p", { class: 'label_message' }, this.value) : h("p", { class: 'label_placeholder' }, this.placeholder), this.iconShown && (h("div", { class: "icon-container" }, h("ir-button", { variant: "icon", icon_name: this.icon_name, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHanlder: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.openEditSidebar();
-            } })))));
+        return (h(Host, { class: this.image ? 'align-items-center' : '' }, this.labelText && h("p", { class: "label_title" }, this.labelText), h("slot", { name: "prefix" }), this.image && (h("img", { src: this.image.src, alt: (_a = this.image.alt) !== null && _a !== void 0 ? _a : this.image.src, class: `p-0 m-0 ${this.isCountryImage ? 'country' : 'logo'} ${(_b = this.image.style) !== null && _b !== void 0 ? _b : ''} ${(_c = this.imageStyle) !== null && _c !== void 0 ? _c : ''}` })), this.content ? (this.renderContentAsHtml ? (h("p", { class: "label_message", innerHTML: this.content })) : (h("p", { class: "label_message" }, this.content))) : (h("p", { class: "label_placeholder" }, this.placeholder)), h("slot", null), h("slot", { name: "suffix" })));
     }
     static get is() { return "ir-label"; }
     static get encapsulation() { return "scoped"; }
@@ -40,7 +32,7 @@ export class IrLabel {
     }
     static get properties() {
         return {
-            "label": {
+            "labelText": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -52,12 +44,12 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The text to display as the label's title"
                 },
-                "attribute": "label",
+                "attribute": "label-text",
                 "reflect": false
             },
-            "value": {
+            "content": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -69,12 +61,12 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The main text or HTML content to display"
                 },
-                "attribute": "value",
+                "attribute": "content",
                 "reflect": false
             },
-            "iconShown": {
+            "renderContentAsHtml": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -86,9 +78,9 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "If true, will render `content` as HTML"
                 },
-                "attribute": "icon-shown",
+                "attribute": "render-content-as-html",
                 "reflect": false,
                 "defaultValue": "false"
             },
@@ -101,13 +93,14 @@ export class IrLabel {
                     "references": {}
                 },
                 "required": false,
-                "optional": false,
+                "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
-                }
+                    "text": "Object representing the image used within the label"
+                },
+                "defaultValue": "null"
             },
-            "country": {
+            "isCountryImage": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -119,9 +112,9 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Renders a country-type image style (vs. a 'logo')"
                 },
-                "attribute": "country",
+                "attribute": "is-country-image",
                 "reflect": false,
                 "defaultValue": "false"
             },
@@ -137,54 +130,13 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Additional CSS classes or style for the image"
                 },
                 "attribute": "image-style",
                 "reflect": false,
                 "defaultValue": "''"
             },
-            "icon_name": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
-                    "references": {
-                        "TIcons": {
-                            "location": "import",
-                            "path": "../ir-icons/icons",
-                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "icon_name",
-                "reflect": false,
-                "defaultValue": "'edit'"
-            },
-            "icon_style": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "icon_style",
-                "reflect": false
-            },
-            "ignore_value": {
+            "ignoreEmptyContent": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -196,9 +148,9 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "If true, label will ignore checking for an empty content"
                 },
-                "attribute": "ignore_value",
+                "attribute": "ignore-empty-content",
                 "reflect": false,
                 "defaultValue": "false"
             },
@@ -214,30 +166,12 @@ export class IrLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Placeholder text to display if content is empty"
                 },
                 "attribute": "placeholder",
                 "reflect": false
             }
         };
-    }
-    static get events() {
-        return [{
-                "method": "editSidebar",
-                "name": "editSidebar",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                }
-            }];
     }
 }
 //# sourceMappingURL=ir-label.js.map

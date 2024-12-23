@@ -77,9 +77,34 @@ export class BookingService {
             throw new Error(error);
         }
     }
+    async changeExposedBookingStatus(props) {
+        try {
+            const { data } = await axios.post(`/Change_Exposed_Booking_Status`, props);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    }
     async fetchPMSLogs(booking_nbr) {
         try {
             const { data } = await axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async getExposedBookingEvents(booking_nbr) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

@@ -28,12 +28,25 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
+export interface ExposedBookingEvent {
+    date: string;
+    hour: number;
+    id: number;
+    minute: number;
+    second: number;
+    type: string;
+}
 export declare class BookingService {
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;
     }>;
     fetchGuest(email: string): Promise<Guest>;
+    changeExposedBookingStatus(props: {
+        book_nbr: string;
+        status: string;
+    }): Promise<any>;
     fetchPMSLogs(booking_nbr: string | number): Promise<IPmsLog>;
+    getExposedBookingEvents(booking_nbr: string | number): Promise<ExposedBookingEvent[] | null>;
     editExposedGuest(guest: Guest, book_nbr: string): Promise<any>;
     getBookingAvailability(props: {
         from_date: string;

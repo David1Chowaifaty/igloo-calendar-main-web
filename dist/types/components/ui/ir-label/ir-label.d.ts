@@ -1,22 +1,23 @@
-import { EventEmitter } from '../../../stencil-public-runtime';
-import { TIcons } from '../ir-icons/icons';
 export declare class IrLabel {
-    label: string;
-    value: string;
-    iconShown: boolean;
-    image: {
+    /** The text to display as the label's title */
+    labelText: string;
+    /** The main text or HTML content to display */
+    content: string;
+    /** If true, will render `content` as HTML */
+    renderContentAsHtml: boolean;
+    /** Object representing the image used within the label */
+    image?: {
         src: string;
         alt: string;
         style?: string;
     } | null;
-    country: boolean;
+    /** Renders a country-type image style (vs. a 'logo') */
+    isCountryImage: boolean;
+    /** Additional CSS classes or style for the image */
     imageStyle: string;
-    icon_name: TIcons;
-    icon_style: string;
-    ignore_value: boolean;
+    /** If true, label will ignore checking for an empty content */
+    ignoreEmptyContent: boolean;
+    /** Placeholder text to display if content is empty */
     placeholder: string;
-    editSidebar: EventEmitter;
-    openEditSidebar(): void;
-    å: any;
     render(): any;
 }

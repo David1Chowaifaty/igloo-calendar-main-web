@@ -12,7 +12,7 @@ export interface IPaymentAction {
 export declare class PaymentService {
     AddPayment(payment: IPayment, book_nbr: string): Promise<any>;
     CancelPayment(id: number): Promise<any>;
-    GetExposedCancelationDueAmount(params: {
+    GetExposedCancellationDueAmount(params: {
         booking_nbr: string;
         currency_id: number;
     }): Promise<IPaymentAction[]>;
