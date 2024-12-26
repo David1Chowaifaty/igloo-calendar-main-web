@@ -3,6 +3,7 @@ import { Guest } from "../../models/booking.dto";
 import { ICountry } from "../../components";
 export declare class GuestInfo {
     language: string;
+    headerShown: boolean;
     email: string;
     booking_nbr: string;
     ticket: string;

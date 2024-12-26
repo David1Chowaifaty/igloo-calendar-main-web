@@ -441,6 +441,7 @@ export namespace Components {
     interface IrGuestInfo {
         "booking_nbr": string;
         "email": string;
+        "headerShown": boolean;
         "language": string;
         "ticket": string;
     }
@@ -2983,6 +2984,7 @@ declare namespace LocalJSX {
     interface IrGuestInfo {
         "booking_nbr"?: string;
         "email"?: string;
+        "headerShown"?: boolean;
         "language"?: string;
         "onCloseSideBar"?: (event: IrGuestInfoCustomEvent<null>) => void;
         "onResetbooking"?: (event: IrGuestInfoCustomEvent<null>) => void;
