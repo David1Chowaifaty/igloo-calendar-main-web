@@ -1,8 +1,8 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, Room } from "../../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
-import { ILocale } from "../../../stores/locales.store";
 export declare class IrRoom {
+    element: HTMLIrRoomElement;
     bookingEvent: Booking;
     bookingIndex: number;
     isEditable: boolean;
@@ -12,14 +12,11 @@ export declare class IrRoom {
     legendData: any;
     roomsInfo: any;
     collapsed: boolean;
-    defaultTexts: ILocale;
-    ticket: any;
     hasRoomEdit: boolean;
     hasRoomDelete: boolean;
     hasRoomAdd: boolean;
     hasCheckIn: boolean;
     hasCheckOut: boolean;
-    element: any;
     deleteFinished: EventEmitter<string>;
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
@@ -28,9 +25,7 @@ export declare class IrRoom {
     isLoading: boolean;
     isModelOpen: boolean;
     private modal;
-    private irModalRef;
     componentWillLoad(): void;
-    componentDidLoad(): void;
     handleBookingEventChange(): void;
     handleClick(e: any): void;
     getDateStr(date: any, locale?: string): string;

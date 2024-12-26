@@ -7,8 +7,9 @@ export class IrTextArea {
         this.label = '<label>';
         this.placeholder = '<placeholder>';
         this.value = '';
-        this.maxLength = undefined;
+        this.maxLength = 250;
         this.textareaClassname = undefined;
+        this.variant = 'default';
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -17,7 +18,10 @@ export class IrTextArea {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("div", { key: 'd83f3a813c8e32d194586309094229471c64d154', class: 'form-group' }, h("label", { key: 'e12303f3f7cc8c2b2f76b45c51422d20e11df79d' }, this.label), h("textarea", { key: '884cdc19b7cff1fa0a272725357be910d6c2b64d', maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
+        if (this.variant === 'prepend') {
+            return (h("fieldset", { class: "input-group" }, h("div", { class: "input-group-prepend" }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
+        }
+        return (h("div", { class: 'form-group' }, h("label", null, this.label), h("textarea", { maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
     static get is() { return "ir-textarea"; }
     static get properties() {
@@ -145,7 +149,8 @@ export class IrTextArea {
                     "text": ""
                 },
                 "attribute": "max-length",
-                "reflect": false
+                "reflect": false,
+                "defaultValue": "250"
             },
             "textareaClassname": {
                 "type": "string",
@@ -163,6 +168,24 @@ export class IrTextArea {
                 },
                 "attribute": "textarea-classname",
                 "reflect": false
+            },
+            "variant": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'default' | 'prepend'",
+                    "resolved": "\"default\" | \"prepend\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "variant",
+                "reflect": false,
+                "defaultValue": "'default'"
             }
         };
     }

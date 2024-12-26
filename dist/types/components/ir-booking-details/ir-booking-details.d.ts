@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Booking, ExtraService, Guest, IPmsLog } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { ILocale } from "../../stores/locales.store";
 import { IToast } from '../ir-toast/toast';
 import { ICountry } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
@@ -26,19 +25,16 @@ export declare class IrBookingDetails {
     hasCloseButton: boolean;
     bookingItem: TIglBookPropertyPayload | null;
     statusData: any[];
-    tempStatus: string;
     showPaymentDetails: any;
     booking: Booking;
     countryNodeList: ICountry[];
     calendarData: any;
     guestData: Guest;
-    defaultTexts: ILocale;
     rerenderFlag: boolean;
     sidebarState: BookingDetailsSidebarEvents | null;
     isUpdateClicked: boolean;
     pms_status: IPmsLog;
     isPMSLogLoading: boolean;
-    userCountry: ICountry | null;
     paymentActions: IPaymentAction[];
     property_id: number;
     selectedService: ExtraService;

@@ -9,7 +9,7 @@ const IrSpan$1 = /*@__PURE__*/ proxyCustomElement(class IrSpan extends HTMLEleme
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("span", { key: '15269c129b5c2aea340b14ff06207d58d07642b8' }, this.text));
+        return (h("span", { key: '45b4d60d733bc6678956556e85b2f789f4fd47ec' }, this.text));
     }
 }, [0, "ir-span", {
         "text": [8]

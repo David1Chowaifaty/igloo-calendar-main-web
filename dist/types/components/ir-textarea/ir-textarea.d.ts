@@ -8,6 +8,7 @@ export declare class IrTextArea {
     value: string;
     maxLength: number;
     textareaClassname: string;
+    variant: 'default' | 'prepend';
     error: boolean;
     textChange: EventEmitter<string>;
     handleAriaInvalidChange(newValue: any): void;

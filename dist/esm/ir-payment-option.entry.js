@@ -189,7 +189,7 @@ const IrPaymentOption = class {
             if (po.code === '004') {
                 return null;
             }
-            return (h("tr", { key: po.id }, h("td", { class: 'text-left po-description' }, h("div", { class: "po-view" }, h("span", { class: 'p-0 m-0' }, po === null || po === void 0 ? void 0 : po.description))), h("td", null, h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), h("td", { class: "payment-action" }, this.showEditButton(po) && (h("ir-button", { title: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Edit, variant: "icon", icon_name: "edit", onClickHanlder: () => {
+            return (h("tr", { key: po.id }, h("td", { class: 'text-left po-description' }, h("div", { class: "po-view" }, h("span", { class: 'p-0 m-0' }, po === null || po === void 0 ? void 0 : po.description))), h("td", null, h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), h("td", { class: "payment-action" }, this.showEditButton(po) && (h("ir-button", { title: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Edit, variant: "icon", icon_name: "edit", onClickHandler: () => {
                     payment_option_store.selectedOption = po;
                     payment_option_store.mode = 'edit';
                 } })))));

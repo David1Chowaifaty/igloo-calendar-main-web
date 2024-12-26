@@ -18,11 +18,9 @@ import { RatePlan, RoomType } from "./models/property";
 import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 import { OpenSidebarEvent } from "./components/ir-booking-details/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
-import { checkboxes, selectOption as selectOption1 } from "./common/models";
-import { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
+import { checkboxes, selectOption } from "./common/models";
+import { IToast as IToast2 } from "./components.d";
 import { IHouseKeepers, THKUser } from "./models/housekeeping";
-import { selectOption } from "./common/models";
-import { ILocale } from "./stores/locales.store";
 import { PaymentOption } from "./models/payment-options";
 import { IPaymentAction } from "./services/payment.service";
 import { ZodType } from "zod";
@@ -40,11 +38,9 @@ export { RatePlan, RoomType } from "./models/property";
 export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes } from "./models/booking.dto";
 export { OpenSidebarEvent } from "./components/ir-booking-details/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
-export { checkboxes, selectOption as selectOption1 } from "./common/models";
-export { ILocale as ILocale1, IToast as IToast2 } from "./components.d";
+export { checkboxes, selectOption } from "./common/models";
+export { IToast as IToast2 } from "./components.d";
 export { IHouseKeepers, THKUser } from "./models/housekeeping";
-export { selectOption } from "./common/models";
-export { ILocale } from "./stores/locales.store";
 export { PaymentOption } from "./models/payment-options";
 export { IPaymentAction } from "./services/payment.service";
 export { ZodType } from "zod";
@@ -444,11 +440,9 @@ export namespace Components {
     }
     interface IrGuestInfo {
         "booking_nbr": string;
-        "defaultTexts": ILocale;
         "email": string;
         "language": string;
-        "setupDataCountries": selectOption[];
-        "setupDataCountriesCode": selectOption[];
+        "ticket": string;
     }
     interface IrHkArchive {
     }
@@ -477,6 +471,7 @@ export namespace Components {
         "icon": string;
     }
     interface IrIcons {
+        "color": string;
         "name": TIcons;
         "svgClassName": string;
     }
@@ -583,7 +578,6 @@ export namespace Components {
     }
     interface IrPaymentDetails {
         "bookingDetails": Booking;
-        "defaultTexts": ILocale;
         "paymentActions": IPaymentAction[];
     }
     interface IrPaymentOption {
@@ -682,7 +676,6 @@ export namespace Components {
         "bookingEvent": Booking;
         "bookingIndex": number;
         "currency": string;
-        "defaultTexts": ILocale;
         "hasCheckIn": boolean;
         "hasCheckOut": boolean;
         "hasRoomAdd": boolean;
@@ -693,7 +686,6 @@ export namespace Components {
         "mealCodeName": string;
         "myRoomTypeFoodCat": string;
         "roomsInfo": any;
-        "ticket": any;
     }
     interface IrRoomNights {
         "bookingNumber": string;
@@ -708,7 +700,7 @@ export namespace Components {
     }
     interface IrSelect {
         "LabelAvailable": boolean;
-        "data": selectOption1[];
+        "data": selectOption[];
         "firstOption": string;
         "label": string;
         "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
@@ -769,6 +761,7 @@ export namespace Components {
         "text": string;
         "textareaClassname": string;
         "value": string;
+        "variant": 'default' | 'prepend';
     }
     interface IrTitle {
         "displayContext": 'default' | 'sidebar';
@@ -1570,7 +1563,7 @@ declare global {
         new (): HTMLIrBookingPrintingElement;
     };
     interface HTMLIrButtonElementEventMap {
-        "clickHanlder": any;
+        "clickHandler": any;
     }
     interface HTMLIrButtonElement extends Components.IrButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrButtonElementEventMap>(type: K, listener: (this: HTMLIrButtonElement, ev: IrButtonCustomEvent<HTMLIrButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1838,7 +1831,7 @@ declare global {
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
-        "resetBookingData": null;
+        "resetbooking": null;
     }
     interface HTMLIrGuestInfoElement extends Components.IrGuestInfo, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestInfoElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoElement, ev: IrGuestInfoCustomEvent<HTMLIrGuestInfoElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2856,7 +2849,7 @@ declare namespace LocalJSX {
         "icon_style"?: any;
         "isLoading"?: boolean;
         "name"?: string;
-        "onClickHanlder"?: (event: IrButtonCustomEvent<any>) => void;
+        "onClickHandler"?: (event: IrButtonCustomEvent<any>) => void;
         "size"?: 'sm' | 'md' | 'lg';
         "text"?: any;
         "textSize"?: 'sm' | 'md' | 'lg';
@@ -2989,13 +2982,11 @@ declare namespace LocalJSX {
     }
     interface IrGuestInfo {
         "booking_nbr"?: string;
-        "defaultTexts"?: ILocale;
         "email"?: string;
         "language"?: string;
         "onCloseSideBar"?: (event: IrGuestInfoCustomEvent<null>) => void;
-        "onResetBookingData"?: (event: IrGuestInfoCustomEvent<null>) => void;
-        "setupDataCountries"?: selectOption[];
-        "setupDataCountriesCode"?: selectOption[];
+        "onResetbooking"?: (event: IrGuestInfoCustomEvent<null>) => void;
+        "ticket"?: string;
     }
     interface IrHkArchive {
     }
@@ -3029,6 +3020,7 @@ declare namespace LocalJSX {
         "onIconClickHandler"?: (event: IrIconCustomEvent<any>) => void;
     }
     interface IrIcons {
+        "color"?: string;
         "name"?: TIcons;
         "svgClassName"?: string;
     }
@@ -3146,7 +3138,6 @@ declare namespace LocalJSX {
     }
     interface IrPaymentDetails {
         "bookingDetails"?: Booking;
-        "defaultTexts"?: ILocale;
         "onResetBookingData"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onResetExposedCancelationDueAmount"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onToast"?: (event: IrPaymentDetailsCustomEvent<IToast>) => void;
@@ -3265,7 +3256,6 @@ declare namespace LocalJSX {
         "bookingEvent"?: Booking;
         "bookingIndex"?: number;
         "currency"?: string;
-        "defaultTexts"?: ILocale;
         "hasCheckIn"?: boolean;
         "hasCheckOut"?: boolean;
         "hasRoomAdd"?: boolean;
@@ -3280,7 +3270,6 @@ declare namespace LocalJSX {
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;
         "roomsInfo"?: any;
-        "ticket"?: any;
     }
     interface IrRoomNights {
         "bookingNumber"?: string;
@@ -3296,7 +3285,7 @@ declare namespace LocalJSX {
     }
     interface IrSelect {
         "LabelAvailable"?: boolean;
-        "data"?: selectOption1[];
+        "data"?: selectOption[];
         "firstOption"?: string;
         "label"?: string;
         "labelBackground"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
@@ -3361,6 +3350,7 @@ declare namespace LocalJSX {
         "text"?: string;
         "textareaClassname"?: string;
         "value"?: string;
+        "variant"?: 'default' | 'prepend';
     }
     interface IrTitle {
         "displayContext"?: 'default' | 'sidebar';

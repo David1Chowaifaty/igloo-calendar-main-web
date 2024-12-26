@@ -5,7 +5,9 @@ import { OpenSidebarEvent } from '../types';
 export declare class IrReservationInformation {
     booking: Booking;
     countries: ICountry[];
+    userCountry: ICountry | null;
     openSidebar: EventEmitter<OpenSidebarEvent>;
+    componentWillLoad(): void;
     private handleEditClick;
     private renderPhoneNumber;
     render(): any;

@@ -173,14 +173,14 @@ const IrBookingListing = class {
                         this.openModal();
                     }, class: "btn p-0 m-0 due-btn" }, utils.formatAmount(booking$1.currency.symbol, booking$1.financial.due_amount)))), this.showCost && (index.h("td", null, booking$1.financial.gross_cost !== null && booking$1.financial.gross_cost === 0
                     ? '_'
-                    : utils.formatAmount(booking$1.currency.symbol, booking$1.financial.gross_cost))), index.h("td", null, index.h("p", { class: `m-0 badge ${confirmationBG} ct_ir_badge` }, booking$1.status.description)), index.h("td", null, index.h("div", { class: "d-flex justify-content-center align-items-center", style: { gap: '8px' } }, index.h("ir-button", { title: "Edit booking", variant: "icon", icon_name: "edit", onClickHanlder: () => (this.editBookingItem = { booking: booking$1, cause: 'edit' }) }), index.h("ir-button", { title: "Delete booking", style: { '--icon-button-color': '#ff4961', '--icon-button-hover-color': '#FF1635' }, variant: "icon", icon_name: "trash", onClickHanlder: () => {
+                    : utils.formatAmount(booking$1.currency.symbol, booking$1.financial.gross_cost))), index.h("td", null, index.h("p", { class: `m-0 badge ${confirmationBG} ct_ir_badge` }, booking$1.status.description)), index.h("td", null, index.h("div", { class: "d-flex justify-content-center align-items-center", style: { gap: '8px' } }, index.h("ir-button", { title: "Edit booking", variant: "icon", icon_name: "edit", onClickHandler: () => (this.editBookingItem = { booking: booking$1, cause: 'edit' }) }), index.h("ir-button", { title: "Delete booking", style: { '--icon-button-color': '#ff4961', '--icon-button-hover-color': '#FF1635' }, variant: "icon", icon_name: "trash", onClickHandler: () => {
                         this.editBookingItem = { booking: booking$1, cause: 'delete' };
                         this.openModal();
                     } })))));
-            }))), this.totalPages > 1 && (index.h("section", { class: 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container' }, index.h("p", { class: "m-0 mb-1 mb-md-0" }, this.renderItemRange()), index.h("div", { class: 'd-flex align-items-center buttons-container' }, index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHanlder: async () => {
+            }))), this.totalPages > 1 && (index.h("section", { class: 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container' }, index.h("p", { class: "m-0 mb-1 mb-md-0" }, this.renderItemRange()), index.h("div", { class: 'd-flex align-items-center buttons-container' }, index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
                 this.currentPage = 1;
                 await this.updateData();
-            }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHanlder: async () => {
+            }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
                 this.currentPage = this.currentPage - 1;
                 console.log(this.currentPage);
                 await this.updateData();
@@ -190,10 +190,10 @@ const IrBookingListing = class {
             }, data: Array.from(Array(this.totalPages), (_, i) => i + 1).map(i => ({
                 text: i.toString(),
                 value: i.toString(),
-            })) }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHanlder: async () => {
+            })) }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
                 this.currentPage = this.currentPage + 1;
                 await this.updateData();
-            }, icon_name: "angle_right", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHanlder: async () => {
+            }, icon_name: "angle_right", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();

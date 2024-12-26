@@ -2,10 +2,9 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IDueDate, IPayment } from "../../../models/booking.dto";
 import moment from 'moment';
 import { IPaymentAction } from "../../../services/payment.service";
-import { ILocale, IToast } from "../../../components";
+import { IToast } from "../../ir-toast/toast";
 export declare class IrPaymentDetails {
     bookingDetails: Booking;
-    defaultTexts: ILocale;
     paymentActions: IPaymentAction[];
     newTableRow: boolean;
     collapsedPayment: boolean;
@@ -16,10 +15,10 @@ export declare class IrPaymentDetails {
     paymentDetailsUrl: string;
     paymentExceptionMessage: string;
     modal_mode: 'delete' | 'save' | null;
+    itemToBeAdded: IPayment;
     resetBookingData: EventEmitter<null>;
     resetExposedCancelationDueAmount: EventEmitter<null>;
     toast: EventEmitter<IToast>;
-    itemToBeAdded: IPayment;
     private paymentService;
     private bookingService;
     private paymentBackground;

@@ -18,7 +18,7 @@ export declare class IrButton {
     visibleBackgroundOnHover: boolean;
     iconPostion: 'left' | 'right';
     icon_style: any;
-    clickHanlder: EventEmitter<any>;
+    clickHandler: EventEmitter<any>;
     private buttonEl;
     handleButtonAnimation(e: CustomEvent): void;
     render(): any;

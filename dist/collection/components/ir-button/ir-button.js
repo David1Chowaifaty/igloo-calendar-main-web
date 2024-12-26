@@ -32,10 +32,10 @@ export class IrButton {
     }
     render() {
         if (this.variant === 'icon') {
-            return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { class: 'm-0 p-0', name: this.icon_name })));
+            return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { class: 'm-0 p-0', name: this.icon_name })));
         }
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHanlder.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, this.icon_name && this.iconPostion === 'left' && h("ir-icons", { name: this.icon_name, style: this.icon_style }), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading ? h("div", { class: "btn_loader m-0 p-0" }) : this.iconPostion === 'right' && h("ir-icons", { style: this.icon_style, name: this.icon_name })));
+        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, this.icon_name && this.iconPostion === 'left' && h("ir-icons", { name: this.icon_name, style: this.icon_style }), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading ? h("div", { class: "btn_loader m-0 p-0" }) : this.iconPostion === 'right' && h("ir-icons", { style: this.icon_style, name: this.icon_name })));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }
@@ -287,7 +287,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
+                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -362,8 +362,8 @@ export class IrButton {
     }
     static get events() {
         return [{
-                "method": "clickHanlder",
-                "name": "clickHanlder",
+                "method": "clickHandler",
+                "name": "clickHandler",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

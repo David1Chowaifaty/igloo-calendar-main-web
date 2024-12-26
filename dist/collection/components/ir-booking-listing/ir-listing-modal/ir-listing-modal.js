@@ -258,7 +258,7 @@ export class IrListingModal {
     }
     static get listeners() {
         return [{
-                "name": "clickHanlder",
+                "name": "clickHandler",
                 "method": "btnClickHandler",
                 "target": undefined,
                 "capture": false,

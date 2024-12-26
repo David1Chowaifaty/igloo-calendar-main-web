@@ -17,8 +17,6 @@ export class IrRoom {
         this.legendData = undefined;
         this.roomsInfo = undefined;
         this.collapsed = false;
-        this.defaultTexts = undefined;
-        this.ticket = undefined;
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -32,9 +30,6 @@ export class IrRoom {
         if (this.bookingEvent) {
             this.item = this.bookingEvent.rooms[this.bookingIndex];
         }
-    }
-    componentDidLoad() {
-        this.modal = this.element.querySelector('ir-modal');
     }
     handleBookingEventChange() {
         this.item = this.bookingEvent.rooms[this.bookingIndex];
@@ -62,7 +57,7 @@ export class IrRoom {
             REFERENCE_TYPE: '',
             FROM_DATE: this.bookingEvent.from_date,
             TO_DATE: this.bookingEvent.to_date,
-            TITLE: `${this.defaultTexts.entries.Lcz_EditBookingFor} ${(_b = (_a = this.item) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 : _b.name} ${((_d = (_c = this.item) === null || _c === void 0 ? void 0 : _c.unit) === null || _d === void 0 ? void 0 : _d.name) || ''}`,
+            TITLE: `${locales.entries.Lcz_EditBookingFor} ${(_b = (_a = this.item) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 : _b.name} ${((_d = (_c = this.item) === null || _c === void 0 ? void 0 : _c.unit) === null || _d === void 0 ? void 0 : _d.name) || ''}`,
             defaultDateRange: {
                 dateDifference: this.item.days.length,
                 fromDate: new Date(this.item.from_date + 'T00:00:00'),
@@ -142,7 +137,7 @@ export class IrRoom {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            this.irModalRef.closeModal();
+            this.modal.closeModal();
             this.deleteFinished.emit(this.item.identifier);
         }
         catch (error) {
@@ -165,24 +160,24 @@ export class IrRoom {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '322032ca2d13f4cfd0a6d51f6769d170e40a552a', class: "p-1 d-flex m-0" }, h("ir-button", { key: 'a2f70b735d849473e8fa083a46bece4c73b25f95', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": `#roomCollapse-${(_a = this.item.identifier) === null || _a === void 0 ? void 0 : _a.split(' ').join('')}`, "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "mr-1", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHanlder: () => {
+        return (h(Host, { key: '8a45564152f0d39f4ee9412f14c73849f2eae211', class: "p-1 d-flex m-0" }, h("ir-button", { key: '3a075a01cd78603b898315351c9ee33383dedfa2', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": `#roomCollapse-${(_a = this.item.identifier) === null || _a === void 0 ? void 0 : _a.split(' ').join('')}`, "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "mr-1", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } }), h("div", { key: '8871fce6e5e9af91e874cc178a4c4436507b4112', class: "flex-fill m-0 " }, h("div", { key: 'eeab9b7993774c3697235f457de2e7c95a8bcd4b', class: "d-flex align-items-start justify-content-between sm-mb-1" }, h("p", { key: '657cdae61bd61891f7f269c1b9cc1a87d42cb502', class: "m-0 p-0" }, h("span", { key: 'ccd41117a48dae0f930951e5fd6c7c2f868b4436', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.item.rateplan.is_non_refundable && ` - ${this.defaultTexts.entries.Lcz_NonRefundable}`, ' '), h("div", { key: 'b75fd36485b3548b225bbea3826cf813646718c7', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, h("span", { key: 'd49ea2aff12bb1443d69ccac70e942ba1d44f9a2', class: "p-0 m-0 font-weight-bold" }, formatAmount(this.currency, this.item['gross_total'])), this.hasRoomEdit && this.isEditable && (h("ir-button", { key: '0db7c965cbd405d6f8ec5d31d5d456faeb7ced3b', id: `roomEdit-${this.item.identifier}`, variant: "icon", icon_name: "edit",
+            }, style: { '--icon-size': '1.6rem' } }), h("div", { key: '4da6fb353c7603984dd58f86ee3f6e510adea508', class: "flex-fill m-0 " }, h("div", { key: '3153b1a878dcc677c096e6e9dd82f82a6f838fa8', class: "d-flex align-items-start justify-content-between sm-mb-1" }, h("p", { key: 'e08a93423d0b6596b3ef5d27c30eee5ed5b82e32', class: "m-0 p-0" }, h("span", { key: '703f4a68a1e3f8ed43b393db5ed470f5ac7da569', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.item.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: 'a45b31c1df7ec4395b84667ba88d1ab8a94dadf9', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, h("span", { key: '866b26c801434e41ec33a7a81665c7839b58e439', class: "p-0 m-0 font-weight-bold" }, formatAmount(this.currency, this.item['gross_total'])), this.hasRoomEdit && this.isEditable && (h("ir-button", { key: '8157648cb17947611e4bf4048dbbf0517c619785', id: `roomEdit-${this.item.identifier}`, variant: "icon", icon_name: "edit",
             // class="mx-1"
-            style: colorVariants.secondary, onClickHanlder: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: '03fce193766ecb303c0c06593c55bdc8663a7f33', variant: "icon", onClickHanlder: this.handleDeleteClick.bind(this), id: `roomDelete-${this.item.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: '2bbff34b88f12d9ba0fb1e45ba3adc22f0914fab', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '32369a46f1bbe0fe9dae70a65f2c1020751e22ca', class: "mr-1", from_date: this.item.from_date, to_date: this.item.to_date, showDateDifference: false }), this.hasCheckIn && h("ir-button", { key: '842ef05b6e0b3373fda1fc3cc3d8e2e4bc0e034e', id: "checkin", icon: "", class: "mr-1", btn_color: "info", size: "sm", text: "Check in" }), this.hasCheckOut && h("ir-button", { key: '5ecac9c24f8e0c5268a1a9f25db277058e6b1a02', id: "checkout", icon: "", btn_color: "info", size: "sm", text: "Check out" })), !isSingleUnit(this.item.roomtype.id) && calendar_data.is_frontdesk_enabled && this.item.unit && (h("div", { key: '2b402e066608485347fd904c93eb9245ca2a1b13', class: 'd-flex justify-content-end' }, h("span", { key: 'e7b51a4edb7ec4cf9ba96c4f66f375938a3a4ae7', class: `light-blue-bg ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.item.unit.name))), h("div", { key: 'cacb782241105c32c0de4ecc8f2b83428b360558' }, h("span", { key: '5f8ea0f9ac5d47e0d331982f108af90d3f97c0ba', class: "mr-1" }, `${this.item.guest.first_name || ''} ${this.item.guest.last_name || ''}`), this.item.rateplan.selected_variation.adult_nbr > 0 && h("span", { key: 'c7390ceeea8acaa8ae829c4729d1567bf56c54a7', innerHTML: this.formatVariation(this.item.rateplan.selected_variation, this.item.occupancy) }, " ")), h("div", { key: '8b0a3eb8d609e3db62beebb880fd9b10ce546257', class: "collapse", id: `roomCollapse-${(_b = this.item.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, h("div", { key: 'd5be81ec2f19757282d3d8e7bec15890bc85c5bd', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: 'ae8acbedd5e8a433978da7e01e950b7ea29a2f96', class: " sm-padding-top" }, h("p", { key: 'c8325f848902153d20cda536c71608dcc9df3cc0', class: "sm-padding-right", style: { fontWeight: '600' } }, `${this.defaultTexts.entries.Lcz_Breakdown}:`)), h("div", { key: '47bb8dec2333964289d44704163c9da6cc0770dd', class: 'flex-fill' }, h("table", { key: '3d3e0c92f61eed5caa676a6dd92f018bef9fe2f1' }, this.item.days.length > 0 &&
+            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: 'd0c48ab7b6548de52e304bc53a63fb935c4e4f78', variant: "icon", onClickHandler: this.handleDeleteClick.bind(this), id: `roomDelete-${this.item.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: 'b976b457acf90375dc278f86424aad08374cb474', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '96f130bea52a35f61d494e715cb14fdde6439cc5', class: "mr-1", from_date: this.item.from_date, to_date: this.item.to_date, showDateDifference: false }), this.hasCheckIn && h("ir-button", { key: '87a851a1377575129323a77974a244cebb12150a', id: "checkin", icon: "", class: "mr-1", btn_color: "info", size: "sm", text: "Check in" }), this.hasCheckOut && h("ir-button", { key: '6233c3371b30095070cf2b86495641b0d39419a0', id: "checkout", icon: "", btn_color: "info", size: "sm", text: "Check out" })), !isSingleUnit(this.item.roomtype.id) && calendar_data.is_frontdesk_enabled && this.item.unit && (h("div", { key: 'ae59395dda7125c76e41e3ab6c570068f46e89ca', class: 'd-flex justify-content-end' }, h("span", { key: 'e45534537a551ff9f9036d5d5ec7bd778d86d207', class: `light-blue-bg ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.item.unit.name))), h("div", { key: 'effea7f3e0ad073c74cc9ef69d3ca093dd62a380' }, h("span", { key: 'cb3c07c586505d95b2aa787d721d488322e73bdf', class: "mr-1" }, `${this.item.guest.first_name || ''} ${this.item.guest.last_name || ''}`), this.item.rateplan.selected_variation.adult_nbr > 0 && h("span", { key: '504e50139bcdd66251a4bf52a6ced14ab2475af4', innerHTML: this.formatVariation(this.item.rateplan.selected_variation, this.item.occupancy) }, " ")), h("div", { key: 'bcd458e870427ef09ba294cd9265299a908a5003', class: "collapse", id: `roomCollapse-${(_b = this.item.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, h("div", { key: '8a0dfbcab99e2c6c0b33dd2bcbd7b00a97bd7f47', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: 'f7f9e215b15083f66396bf91068049de7ba06a30', class: " sm-padding-top" }, h("p", { key: 'ea735087fa7de6d7635ba4e6029fabffa43baa1b', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: '681485bc54b59e68c43756746c4b869d6b21afc0', class: 'flex-fill' }, h("table", { key: '8f4c3217f294fb92e7a879271c150402b295e3a3' }, this.item.days.length > 0 &&
             this.item.days.map(item => {
                 return (h("tr", null, h("td", { class: 'pr-2 text-right' }, _getDay(item.date)), h("td", { class: "text-right" }, formatAmount(this.currency, item.amount)), item.cost > 0 && item.cost !== null && h("td", { class: "pl-2 text-left night-cost" }, formatAmount(this.currency, item.cost))));
-            }), h("tr", { key: '84b7018259b6f9dc887ce19f8ecea54d444cd303', class: '' }, h("th", { key: '36ac327de63f98400b93e8dd6afbd9d3e08add96', class: "text-right pr-2 subtotal_row" }, this.defaultTexts.entries.Lcz_SubTotal), h("th", { key: '1e99ea93303bc149dc7f2680469d726ded0e7127', class: "text-right subtotal_row" }, formatAmount(this.currency, this.item.total)), this.item.gross_cost > 0 && this.item.gross_cost !== null && h("th", { key: 'fd7214a6689e0ddbd5465911df98af589a42eccf', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.item.cost))), this.bookingEvent.is_direct ? (h(Fragment, null, (() => {
+            }), h("tr", { key: 'fc2f15c6d23f7683f20979c2508b2287369bd41e', class: '' }, h("th", { key: '8722116dd90f80380ffbde20a0b3efee3f0a44be', class: "text-right pr-2 subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '0191165d5b8217ff93ea870e65b89fd8e80cda2a', class: "text-right subtotal_row" }, formatAmount(this.currency, this.item.total)), this.item.gross_cost > 0 && this.item.gross_cost !== null && h("th", { key: '3b3b5b50df5560ed631b0f0d95c322aab2a75db3', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.item.cost))), this.bookingEvent.is_direct ? (h(Fragment, null, (() => {
             const filtered_data = calendar_data.taxes.filter(tx => tx.pct > 0);
             return filtered_data.map(d => {
-                return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? this.defaultTexts.entries.Lcz_Excluding : this.defaultTexts.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), h("td", { class: "text-right" }, formatAmount(this.currency, (this.item.total * d.pct) / 100)), this.item.gross_cost > 0 && this.item.gross_cost !== null && (h("td", { class: "pl-2 text-right night-cost" }, formatAmount(this.currency, (this.item.cost * d.pct) / 100)))));
+                return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), h("td", { class: "text-right" }, formatAmount(this.currency, (this.item.total * d.pct) / 100)), this.item.gross_cost > 0 && this.item.gross_cost !== null && (h("td", { class: "pl-2 text-right night-cost" }, formatAmount(this.currency, (this.item.cost * d.pct) / 100)))));
             });
         })())) : (h(Fragment, null, (() => {
             const filtered_data = this.item.ota_taxes.filter(tx => tx.amount > 0);
             return filtered_data.map(d => {
-                return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? this.defaultTexts.entries.Lcz_Excluding : this.defaultTexts.entries.Lcz_Including, " ", d.name), h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
+                return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name), h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), this.item.rateplan.cancelation && (h("ir-label", { key: 'fb4eabc625b3a545ca6327aefa394e6d0067558f', labelText: `${this.defaultTexts.entries.Lcz_Cancellation}:`, content: this.item.rateplan.cancelation || '', renderContentAsHtml: true })), this.item.rateplan.guarantee && (h("ir-label", { key: 'fc0ca3c3848f337db4ef8b9df2157ce9fd48c8e2', labelText: `${this.defaultTexts.entries.Lcz_Guarantee}:`, content: this.item.rateplan.guarantee || '', renderContentAsHtml: true })), this.bookingEvent.is_direct && h("ir-label", { key: '81828f8336cc792d132127f98b82c5d9d9396cfe', labelText: `${this.defaultTexts.entries.Lcz_MealPlan}:`, content: this.mealCodeName }))), h("ir-modal", { key: '8de65cb275db9910fe187e2f51a30e1274528afc', autoClose: false, ref: el => (this.irModalRef = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: this.defaultTexts.entries.Lcz_Cancel, rightBtnText: this.defaultTexts.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: this.defaultTexts.entries.Lcz_Confirmation, modalBody: `${this.defaultTexts.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${this.defaultTexts.entries.Lcz_FromThisBooking}` })));
+        })()))))), this.item.rateplan.cancelation && (h("ir-label", { key: 'b8d4bae0ce7e8f5154696f306078fa4f972a3955', labelText: `${locales.entries.Lcz_Cancellation}:`, content: this.item.rateplan.cancelation || '', renderContentAsHtml: true })), this.item.rateplan.guarantee && h("ir-label", { key: '4cd81705e0b4893863cc965a22900ffe46e45886', labelText: `${locales.entries.Lcz_Guarantee}:`, content: this.item.rateplan.guarantee || '', renderContentAsHtml: true }), this.bookingEvent.is_direct && h("ir-label", { key: '71b780b166c38c8d22bbc09264d8c493004822be', labelText: `${locales.entries.Lcz_MealPlan}:`, content: this.mealCodeName }))), h("ir-modal", { key: '4e24609cc6e4a2fdeffcdf31624adf9209f3a9b6', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales.entries.Lcz_Confirmation, modalBody: `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${locales.entries.Lcz_FromThisBooking}` })));
     }
     static get is() { return "ir-room"; }
     static get encapsulation() { return "scoped"; }
@@ -337,44 +332,6 @@ export class IrRoom {
                     "text": ""
                 },
                 "attribute": "rooms-info",
-                "reflect": false
-            },
-            "defaultTexts": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "ILocale",
-                    "resolved": "ILocale",
-                    "references": {
-                        "ILocale": {
-                            "location": "import",
-                            "path": "@/stores/locales.store",
-                            "id": "src/stores/locales.store.ts::ILocale"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                }
-            },
-            "ticket": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "ticket",
                 "reflect": false
             },
             "hasRoomEdit": {
@@ -555,7 +512,7 @@ export class IrRoom {
     }
     static get listeners() {
         return [{
-                "name": "clickHanlder",
+                "name": "clickHandler",
                 "method": "handleClick",
                 "target": undefined,
                 "capture": false,

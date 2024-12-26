@@ -193,7 +193,7 @@ const IrPaymentOption = class {
             if (po.code === '004') {
                 return null;
             }
-            return (index.h("tr", { key: po.id }, index.h("td", { class: 'text-left po-description' }, index.h("div", { class: "po-view" }, index.h("span", { class: 'p-0 m-0' }, po === null || po === void 0 ? void 0 : po.description))), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { title: (_a = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Edit, variant: "icon", icon_name: "edit", onClickHanlder: () => {
+            return (index.h("tr", { key: po.id }, index.h("td", { class: 'text-left po-description' }, index.h("div", { class: "po-view" }, index.h("span", { class: 'p-0 m-0' }, po === null || po === void 0 ? void 0 : po.description))), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { title: (_a = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Edit, variant: "icon", icon_name: "edit", onClickHandler: () => {
                     paymentOption_store.payment_option_store.selectedOption = po;
                     paymentOption_store.payment_option_store.mode = 'edit';
                 } })))));

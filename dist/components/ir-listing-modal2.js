@@ -143,7 +143,7 @@ const IrListingModal = /*@__PURE__*/ proxyCustomElement(class IrListingModal ext
         "loadingBtn": [32],
         "closeModal": [64],
         "openModal": [64]
-    }, [[0, "clickHanlder", "btnClickHandler"]]]);
+    }, [[0, "clickHandler", "btnClickHandler"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;

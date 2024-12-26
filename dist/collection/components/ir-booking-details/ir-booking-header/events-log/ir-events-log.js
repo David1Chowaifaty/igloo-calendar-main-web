@@ -1,6 +1,7 @@
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../../../services/booking.service";
+import locales from "../../../../stores/locales.store";
 export class IrEventsLog {
     constructor() {
         this.bookingService = new BookingService();
@@ -20,7 +21,7 @@ export class IrEventsLog {
     }
     render() {
         var _a;
-        return (h("div", { key: 'b9e3d9a81c1e6a2bbed31c2eb4cfcbd4cc5ac8da', class: "p-1" }, h("div", { key: '22db7183144902e6fc23754068381227e5121e5c', class: "d-flex  align-items-center", style: { gap: '0.5rem' } }, h("h3", { key: 'af7092d84f018778990bc5bf04e9a876dc192c9d', class: " text-left p-0 m-0  dialog-title " }, "Events log"), h("span", { key: '4ad0121f70c528bfd0167eb900b05aaa9e0a3431', class: "m-0 beta" }, "Beta")), isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { style: { opacity: '0' } }, h("tr", null, h("th", null, "date"), h("th", null, "time"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, (_a = this.bookingEvents) === null || _a === void 0 ? void 0 : _a.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "pb-1" }, e.date), h("td", { class: " pb-1 pl-1" }, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0')), h("td", { class: "pl-1 pb-1 " }, e.user), h("td", { class: "pl-3 pb-1 " }, e.type))))))))));
+        return (h("div", { key: 'e036aae22caa73efef5e219fa7372e72e59f2a1e', class: "p-1" }, h("div", { key: '898c19e377874428825b15700b4b7d5ef2bb5a3c', class: "d-flex  align-items-center", style: { gap: '0.5rem' } }, h("h3", { key: '5be09b0d5a69a739f757ebb00257dfbbcb85a17d', class: " text-left p-0 m-0  dialog-title " }, locales.entries.Lcz_EventsLog), h("span", { key: '35d445796769f296da2041081c2e0f77877ded86', class: "m-0 beta" }, "Beta")), isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { style: { opacity: '0' } }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, (_a = this.bookingEvents) === null || _a === void 0 ? void 0 : _a.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row" }, e.date, " ", String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0')), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
     }
     static get is() { return "ir-events-log"; }
     static get encapsulation() { return "scoped"; }
