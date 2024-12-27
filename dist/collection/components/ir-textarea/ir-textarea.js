@@ -10,6 +10,7 @@ export class IrTextArea {
         this.maxLength = 250;
         this.textareaClassname = undefined;
         this.variant = 'default';
+        this.labelWidth = 3;
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -19,7 +20,7 @@ export class IrTextArea {
     disconnectedCallback() { }
     render() {
         if (this.variant === 'prepend') {
-            return (h("fieldset", { class: "input-group" }, h("div", { class: "input-group-prepend" }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
+            return (h("fieldset", { class: "input-group" }, h("div", { class: `input-group-prepend col-${this.labelWidth} pl-0` }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
         }
         return (h("div", { class: 'form-group' }, h("label", null, this.label), h("textarea", { maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
@@ -186,6 +187,24 @@ export class IrTextArea {
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
+            },
+            "labelWidth": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11",
+                    "resolved": "1 | 10 | 11 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "label-width",
+                "reflect": false,
+                "defaultValue": "3"
             }
         };
     }

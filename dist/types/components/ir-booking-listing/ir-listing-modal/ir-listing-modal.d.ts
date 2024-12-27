@@ -4,7 +4,7 @@ export declare class IrListingModal {
     modalTitle: string;
     editBooking: {
         booking: Booking;
-        cause: 'edit' | 'payment' | 'delete';
+        cause: 'edit' | 'payment' | 'delete' | 'guest';
     };
     isOpen: boolean;
     deletionStage: number;

@@ -14,6 +14,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         this.maxLength = 250;
         this.textareaClassname = undefined;
         this.variant = 'default';
+        this.labelWidth = 3;
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -23,7 +24,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     disconnectedCallback() { }
     render() {
         if (this.variant === 'prepend') {
-            return (h("fieldset", { class: "input-group" }, h("div", { class: "input-group-prepend" }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
+            return (h("fieldset", { class: "input-group" }, h("div", { class: `input-group-prepend col-${this.labelWidth} pl-0` }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
         }
         return (h("div", { class: 'form-group' }, h("label", null, this.label), h("textarea", { maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
@@ -40,6 +41,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         "maxLength": [2, "max-length"],
         "textareaClassname": [1, "textarea-classname"],
         "variant": [1],
+        "labelWidth": [2, "label-width"],
         "error": [32]
     }, undefined, {
         "aria-invalid": ["handleAriaInvalidChange"]

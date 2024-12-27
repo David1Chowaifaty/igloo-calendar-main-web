@@ -245,6 +245,7 @@ export class IglBookPropertyService {
                 default: {
                     const newRooms = generateNewRooms();
                     const { bookedByInfoData } = context;
+                    const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
                     newBooking = {
                         assign_units: true,
                         check_in,
@@ -253,6 +254,7 @@ export class IglBookPropertyService {
                         is_in_loyalty_mode: false,
                         promo_key: null,
                         extras,
+                        agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
                             to_date: moment(toDate).format('YYYY-MM-DD'),
@@ -266,7 +268,7 @@ export class IglBookPropertyService {
                                 hour: new Date().getHours(),
                                 minute: new Date().getMinutes(),
                             },
-                            source: sourceOption,
+                            source: isAgent ? '' : sourceOption,
                             rooms: newRooms,
                             currency: context.currency,
                             arrival: { code: bookedByInfoData.selectedArrivalTime },

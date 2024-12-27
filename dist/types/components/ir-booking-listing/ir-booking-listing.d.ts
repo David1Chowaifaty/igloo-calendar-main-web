@@ -12,7 +12,7 @@ export declare class IrBookingListing {
     oldStartValue: number;
     editBookingItem: {
         booking: Booking;
-        cause: 'edit' | 'payment' | 'delete';
+        cause: 'edit' | 'payment' | 'delete' | 'guest';
     } | null;
     showCost: boolean;
     private bookingListingService;

@@ -544,7 +544,7 @@ export namespace Components {
     }
     interface IrListingModal {
         "closeModal": () => Promise<void>;
-        "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
+        "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
         "modalTitle": string;
         "openModal": () => Promise<void>;
     }
@@ -757,6 +757,7 @@ export namespace Components {
     interface IrTextarea {
         "cols": number;
         "label": string;
+        "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         "maxLength": number;
         "placeholder": string;
         "rows": number;
@@ -3098,7 +3099,7 @@ declare namespace LocalJSX {
         "propertyId"?: number;
     }
     interface IrListingModal {
-        "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' };
+        "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
         "modalTitle"?: string;
         "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
         "onResetData"?: (event: IrListingModalCustomEvent<string>) => void;
@@ -3347,6 +3348,7 @@ declare namespace LocalJSX {
     interface IrTextarea {
         "cols"?: number;
         "label"?: string;
+        "labelWidth"?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         "maxLength"?: number;
         "onTextChange"?: (event: IrTextareaCustomEvent<string>) => void;
         "placeholder"?: string;

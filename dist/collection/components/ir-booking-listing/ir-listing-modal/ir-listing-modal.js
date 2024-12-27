@@ -158,8 +158,8 @@ export class IrListingModal {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{ booking: Booking; cause: 'edit' | 'payment' | 'delete' }",
-                    "resolved": "{ booking: Booking; cause: \"delete\" | \"payment\" | \"edit\"; }",
+                    "original": "{ booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' }",
+                    "resolved": "{ booking: Booking; cause: \"guest\" | \"delete\" | \"payment\" | \"edit\"; }",
                     "references": {
                         "Booking": {
                             "location": "import",
