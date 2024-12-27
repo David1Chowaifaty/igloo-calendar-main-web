@@ -3,14 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking = require('./booking-12c70869.js');
+const booking_service = require('./booking.service-f416ce47.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const toBeAssigned_service = require('./toBeAssigned.service-40fc68e0.js');
 const utils = require('./utils-0869c24f.js');
 const moment = require('./moment-1780b03a.js');
 const unassigned_dates_store = require('./unassigned_dates.store-c1996160.js');
 const icons = require('./icons-e68cb333.js');
-const booking_service = require('./booking.service-04d8ca45.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-b301c729.js');
@@ -233,7 +232,7 @@ const IglCalBody = class {
         this.renderAgain = !this.renderAgain;
     }
     getGeneralCategoryDayColumns(addClass, isCategory = false, index$1) {
-        return booking.calendar_dates.days.map(dayInfo => {
+        return booking_service.calendar_dates.days.map(dayInfo => {
             return (index.h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (index.h("span", { class: 'categoryName' }, dayInfo.rate[index$1].exposed_inventory.rts)) : ('')));
         });
     }

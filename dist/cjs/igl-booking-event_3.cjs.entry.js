@@ -3,11 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking_service = require('./booking.service-04d8ca45.js');
-const booking = require('./booking-12c70869.js');
+const booking_service = require('./booking.service-f416ce47.js');
 const utils = require('./utils-0869c24f.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-a95da35d.js');
+const events_service = require('./events.service-0687f715.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
@@ -85,7 +84,7 @@ const IglBookingEvent = class {
                 throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty pool`);
             }
             data.rooms = filteredRooms;
-            const transformedBooking = booking.transformNewBooking(data)[0];
+            const transformedBooking = booking_service.transformNewBooking(data)[0];
             const otherBookingData = __rest(transformedBooking, ["ID", "TO_DATE", "FROM_DATE", "NO_OF_DAYS", "STATUS", "NAME", "IDENTIFIER", "PR_ID", "POOL", "BOOKING_NUMBER", "NOTES", "is_direct", "BALANCE"]);
             this.bookingEvent = Object.assign(Object.assign(Object.assign({}, otherBookingData), this.bookingEvent), { booking: data, PHONE_PREFIX: otherBookingData.PHONE_PREFIX, PRIVATE_NOTE: otherBookingData.PRIVATE_NOTE });
             this.updateBookingEvent.emit(this.bookingEvent);
@@ -1116,7 +1115,7 @@ const IrPopover = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '0654df484c9ed2118efd5ce170d22c13359ba54d', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '9558c7cabd204b9229ffb25a52f5f859947868be', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (index.h("div", { key: '63e8ad02f850a6cfe19e72b644b52bd0a275538c', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (index.h(index.Host, { key: 'd794b59330dca4058379755d40c2df26a9fd87bf', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '1f82dc2e4676bd449eeefafaa29071bc2d56a1f0', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (index.h("div", { key: 'fd0917b459d18a66f956504b18fb9d23c9b9a0b7', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return index.getElement(this); }
 };

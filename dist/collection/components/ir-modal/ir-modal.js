@@ -41,13 +41,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: '1e2574fa4c67818cea000f24a0d4e2abbae07513', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '7171e3f55802a509f076c2e90b66323ae5a39dfe', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '76b6581635d7640397b48a3d195246164147611b', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '1cf27ab4562c9e887562929f61ac7f3dff8cc4cf', class: `ir-alert-content p-2` }, h("div", { key: 'e935ea99b573d42c735296e11ba25bb025904010', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '6a5b436cead8f6c46d32fa70e6217cc537f1c437', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'de9523ae57efc20a93a646e52da399c17d51abfb' }, this.modalBody)), h("div", { key: 'e5ec8128ae4e176480bda289be597c1c7a505e27', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '451db332497f18039dda6a5550bd1e9f423b4f9f', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '305f1c49d81119c5f9a24f4a70367af1ed4079c2', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '38dcf6c18e69127153b6d2dc6c3adca119722656', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '99ed898bcda4fd9b8cc7dac4ad18063926782812', class: `ir-alert-content p-2` }, h("div", { key: '3e9d27e104eee568438132448aed3ff6337e1b4b', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: 'e6d6a19d7c54cc7e4d701cc9b196565a7fa1c489', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'aa87fc76d9769fe6d2b7f691514bd77fa93069f0' }, this.modalBody)), h("div", { key: '6d0d14a59180149145d517ad3d4c49662988d252', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '8c4cec1bdf182b589827f67a59198f6e8ad72576', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '17d056c8d3d2c3534e097cb1deb04d9e8429a19c', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }

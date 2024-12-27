@@ -507,6 +507,7 @@ export namespace Components {
           * The main text or HTML content to display
          */
         "content": string;
+        "display": 'inline' | 'flex';
         /**
           * If true, label will ignore checking for an empty content
          */
@@ -3060,6 +3061,7 @@ declare namespace LocalJSX {
           * The main text or HTML content to display
          */
         "content"?: string;
+        "display"?: 'inline' | 'flex';
         /**
           * If true, label will ignore checking for an empty content
          */

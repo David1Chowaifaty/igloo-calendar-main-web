@@ -3,6 +3,7 @@ export declare class IrLabel {
     labelText: string;
     /** The main text or HTML content to display */
     content: string;
+    display: 'inline' | 'flex';
     /** If true, will render `content` as HTML */
     renderContentAsHtml: boolean;
     /** Object representing the image used within the label */
