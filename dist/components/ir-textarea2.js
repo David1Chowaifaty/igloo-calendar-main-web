@@ -1,5 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 
+const irTextareaCss = ".prepend-textarea.sc-ir-textarea{padding-left:0 !important}";
+const IrTextareaStyle0 = irTextareaCss;
+
 const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTMLElement {
     constructor() {
         super();
@@ -24,14 +27,15 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     disconnectedCallback() { }
     render() {
         if (this.variant === 'prepend') {
-            return (h("fieldset", { class: "input-group" }, h("div", { class: `input-group-prepend col-${this.labelWidth} pl-0` }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
+            return (h("fieldset", { class: "input-group" }, h("div", { class: `input-group-prepend col-${this.labelWidth} prepend-textarea` }, h("span", { class: "input-group-text" }, this.label)), h("textarea", { value: this.value, class: `form-control`, style: { height: '7rem' }, maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
         }
         return (h("div", { class: 'form-group' }, h("label", null, this.label), h("textarea", { maxLength: this.maxLength, rows: this.rows, value: this.value, class: `form-control ${this.textareaClassname} ${this.error ? 'border-danger' : ''}`, placeholder: this.placeholder, onInput: e => this.textChange.emit(e.target.value) })));
     }
     static get watchers() { return {
         "aria-invalid": ["handleAriaInvalidChange"]
     }; }
-}, [0, "ir-textarea", {
+    static get style() { return IrTextareaStyle0; }
+}, [2, "ir-textarea", {
         "rows": [2],
         "cols": [2],
         "text": [1],
