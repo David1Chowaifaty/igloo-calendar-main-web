@@ -13,6 +13,7 @@ const initialState = {
     },
     invoice: null,
     app_data: {
+        view: 'default',
         origin: null,
         override_rp: false,
         displayMode: 'default',

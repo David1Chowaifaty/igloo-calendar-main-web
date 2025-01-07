@@ -143,6 +143,7 @@ export function calculateTotalCost(config = { gross: false, infants: false }) {
     const calculateCost = (ratePlan, isPrePayment) => {
         var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
+            console.log('here 1');
             let variations = ratePlan.checkoutVariations;
             if (config.infants) {
                 variations = [
@@ -154,11 +155,13 @@ export function calculateTotalCost(config = { gross: false, infants: false }) {
                 ];
             }
             return variations.reduce((sum, infantBasedVariation) => {
+                console.log(infantBasedVariation, ratePlan.reserved);
                 const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[config.gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
-                return sum + amount * ratePlan.reserved;
+                return sum + amount;
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
+            console.log('here 2');
             const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[config.gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
             return amount * ratePlan.reserved;
         }

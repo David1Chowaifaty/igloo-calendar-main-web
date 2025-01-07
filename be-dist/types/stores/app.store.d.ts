@@ -29,6 +29,7 @@ export interface IAppStore {
     selectedLocale: Locale;
     userPreferences: UserPreference;
     app_data: {
+        view: 'extended' | 'default';
         override_rp?: boolean;
         token: string;
         property_id: number;

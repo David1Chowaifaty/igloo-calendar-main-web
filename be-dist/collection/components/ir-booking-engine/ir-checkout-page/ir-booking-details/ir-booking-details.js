@@ -62,7 +62,7 @@ export class IrBookingDetails {
                 isInfantNumberSet = true;
                 return Math.min(booking_store.childrenAges.reduce((prev, cur) => {
                     if (Number(cur) < app_store.childrenStartAge) {
-                        return prev + Number(cur);
+                        return prev + 1;
                     }
                     return prev;
                 }, 0), child_nbr);
@@ -190,7 +190,7 @@ export class IrBookingDetails {
         const total_nights = getDateDifference((_a = booking_store.bookingAvailabilityParams.from_date) !== null && _a !== void 0 ? _a : new Date(), (_b = booking_store.bookingAvailabilityParams.to_date) !== null && _b !== void 0 ? _b : new Date());
         // const this.total_rooms = calculateTotalRooms();
         const total_persons = this.calculateTotalPersons();
-        return (h(Host, { key: 'caad59486df90c82d03ac98c63b5af8e94f509fe' }, h("div", { key: '335d3ce3abc6983f585ace2ca1fe1b7091847994', class: "w-full" }, h("section", { key: '803a19b522d36b1fce518f288ef84a43c9b811ed', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: 'bd2eed14153ab937436f2523dcc2a27a0131cac0', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '53e86f5553fbf9dd78934d6b90cd36cb28cacf41', name: "bed" }), h("p", { key: '8bc8bb85af1e77e1edf092f78cab92d4dad5ef72' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", total_persons, ' ', total_persons > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", this.total_rooms, ' ', this.total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: 'ba920b0a72bbf345cf4416d277fadd03ede29961', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '7033c645e82abc5bd3e21118d57d0e26c2138c56', class: 'space-y-9' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+        return (h(Host, { key: 'ab3161eb20029f9f3c137b7f335d99f143438b78' }, h("div", { key: 'e2475626ae55103c50366d6bdc38be1c35dfd454', class: "w-full" }, h("section", { key: '03286ea14e7171f5f20caed13e14a64b20adc25d', class: "mb-5 flex flex-col flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2 lg:flex-row" }, h("div", { key: '3bb06d52a9bd9d9037eaa9c6655fbe0b6e4d4e52', class: "flex flex-1 items-center gap-2" }, h("ir-icons", { key: '3aa1c00e2fea2b1c8170e3e5fd68cdf6e7025894', name: "bed" }), h("p", { key: '0b75b720faf2d5eda90cb1232579e0567bd5bf0e' }, total_nights, " ", total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night, " - ", total_persons, ' ', total_persons > 1 ? localizedWords.entries.Lcz_Persons : localizedWords.entries.Lcz_Person, " - ", this.total_rooms, ' ', this.total_rooms > 1 ? localizedWords.entries.Lcz_Rooms : localizedWords.entries.Lcz_Room)), h("p", { key: '495775cf7976bdefc577d66a8a3b36a187bbe2c0', class: " text-right text-xs text-gray-500" }, (_c = booking_store.tax_statement) === null || _c === void 0 ? void 0 : _c.message)), h("section", { key: '5018a2afc730d83b365d54821a6c9fd124446e3b', class: 'space-y-9' }, Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
             return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
                 const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
                 if (r.reserved === 0) {
@@ -255,11 +255,11 @@ export class IrBookingDetails {
                         ], icon: true }, h("ir-icons", { name: r.checkoutBedSelection[index] === 'kingsizebed' ? 'double_bed' : 'bed', slot: "icon" })))))));
                 });
             });
-        }))), h("ir-dialog", { key: 'bd57bc5c6a4805836671bbac089ed68b76955688', ref: el => (this.dialogRef = el), onOpenChange: e => {
+        }))), h("ir-dialog", { key: '0574504e3bbb31a5b8f3e45f18dbbf9e1587f7df', ref: el => (this.dialogRef = el), onOpenChange: e => {
                 if (!e.detail) {
                     this.currentRatePlan = null;
                 }
-            } }, h("div", { key: '77bd4ab1632a296f8b40d7c62c1a0eca6a94d37e', slot: "modal-body", class: "p-6 " }, h("p", { key: 'ccb74609f3c2fa6bdc228ab584bf661211274925', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '588323d9f0276decd9e17b7b028dbce4f187a2a1', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
+            } }, h("div", { key: '40562d3c0def5005e2d5d8645bab3ad8a795fb68', slot: "modal-body", class: "p-6 " }, h("p", { key: 'd46d79b219e48efc391373ca9d8849305a9feaeb', class: 'px-6', innerHTML: this.cancelationMessage || ((_d = this.currentRatePlan) === null || _d === void 0 ? void 0 : _d.cancelation) }), h("p", { key: '49461cea41de6c2dad9af3d1a655be1ca4dc7415', class: 'px-6', innerHTML: (_e = this.currentRatePlan) === null || _e === void 0 ? void 0 : _e.guarantee })))));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "shadow"; }

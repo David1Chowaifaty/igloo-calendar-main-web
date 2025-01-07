@@ -23,6 +23,7 @@ export declare class IrBookingEngine {
     source: TSource | null;
     hideGoogleSignIn: boolean;
     origin: string | null;
+    view: 'extended' | 'default';
     coupon: string;
     loyalty: boolean;
     agent_code: string;
@@ -47,6 +48,7 @@ export declare class IrBookingEngine {
     handleCouponChange(newValue: string, oldValue: string): void;
     handleLoyaltyChange(newValue: boolean, oldValue: boolean): void;
     handleAgentCodeChange(newValue: string, oldValue: string): void;
+    handleAppViewChange(newValue: string, oldValue: string): void;
     private setSource;
     private modifyLanguage;
     private initializeApp;

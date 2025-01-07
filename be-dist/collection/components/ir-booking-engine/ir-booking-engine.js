@@ -10,7 +10,7 @@ import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.52';
+        this.version = '2.56';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -34,6 +34,7 @@ export class IrBookingEngine {
         this.source = null;
         this.hideGoogleSignIn = true;
         this.origin = null;
+        this.view = 'default';
         this.coupon = undefined;
         this.loyalty = undefined;
         this.agent_code = undefined;
@@ -88,6 +89,11 @@ export class IrBookingEngine {
             validateAgentCode(newValue);
         }
     }
+    handleAppViewChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            app_store.app_data.view = newValue;
+        }
+    }
     setSource(newSource) {
         app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { source: newSource });
     }
@@ -104,6 +110,7 @@ export class IrBookingEngine {
     initializeApp() {
         var _a;
         app_store.app_data = {
+            view: this.view,
             aName: this.p,
             origin: this.origin,
             perma_link: this.perma_link,
@@ -650,6 +657,24 @@ export class IrBookingEngine {
                 "reflect": false,
                 "defaultValue": "null"
             },
+            "view": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'extended' | 'default'",
+                    "resolved": "\"default\" | \"extended\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "view",
+                "reflect": false,
+                "defaultValue": "'default'"
+            },
             "coupon": {
                 "type": "string",
                 "mutable": false,
@@ -729,6 +754,9 @@ export class IrBookingEngine {
             }, {
                 "propName": "agent_code",
                 "methodName": "handleAgentCodeChange"
+            }, {
+                "propName": "view",
+                "methodName": "handleAppViewChange"
             }];
     }
     static get listeners() {

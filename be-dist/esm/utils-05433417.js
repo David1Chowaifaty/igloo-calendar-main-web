@@ -50412,6 +50412,7 @@ const initialState$1 = {
     },
     invoice: null,
     app_data: {
+        view: 'default',
         origin: null,
         override_rp: false,
         displayMode: 'default',
@@ -50645,6 +50646,7 @@ function calculateTotalCost(config = { gross: false, infants: false }) {
     const calculateCost = (ratePlan, isPrePayment) => {
         var _a;
         if (ratePlan.checkoutVariations.length > 0 && ratePlan.reserved > 0) {
+            console.log('here 1');
             let variations = ratePlan.checkoutVariations;
             if (config.infants) {
                 variations = [
@@ -50656,11 +50658,13 @@ function calculateTotalCost(config = { gross: false, infants: false }) {
                 ];
             }
             return variations.reduce((sum, infantBasedVariation) => {
+                console.log(infantBasedVariation, ratePlan.reserved);
                 const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : infantBasedVariation[config.gross ? 'discounted_gross_amount' : 'discounted_amount'] || 0;
-                return sum + amount * ratePlan.reserved;
+                return sum + amount;
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
+            console.log('here 2');
             const amount = isPrePayment ? ratePlan.ratePlan.pre_payment_amount || 0 : ((_a = ratePlan.selected_variation) === null || _a === void 0 ? void 0 : _a[config.gross ? 'discounted_gross_amount' : 'discounted_amount']) || 0;
             return amount * ratePlan.reserved;
         }
@@ -53686,4 +53690,4 @@ function generateCheckoutUrl(perma_link, queryString = null) {
 
 export { calculateTotalCost as A, locale as B, getAbbreviatedWeekdays as C, detectCardType as D, validateBooking as E, destroyBookingCookie as F, injectHTMLAndRunScript as G, renderPropertyLocation as H, renderTime as I, formatImageAlt as J, updateRoomParams as K, reserveRooms as L, getVisibleInventory as M, toDate$1 as N, startOfWeek$1 as O, defaultOptions$1 as P, enUS as Q, isSameWeek$1 as R, injectHTML as S, VariationService as V, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, modifyQueryParam as f, getUserPreference as g, validateAgentCode as h, changeLocale as i, matchLocale as j, checkGhs as k, localizedWords as l, manageAnchorSession as m, checkAffiliate as n, onAppDataChange as o, modifyBookingStore as p, generateCheckoutUrl as q, formatAmount as r, setDefaultLocale as s, formatFullLocation as t, updateUserPreference as u, validateCoupon as v, calculateTotalRooms as w, getDateDifference as x, runScriptAndRemove as y, cn as z };
 
-//# sourceMappingURL=utils-a9380c46.js.map
+//# sourceMappingURL=utils-05433417.js.map

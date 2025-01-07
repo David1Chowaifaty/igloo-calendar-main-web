@@ -8,7 +8,7 @@ export declare class IrImage {
     blurDataUrl: string;
     loaded: boolean;
     private imageRef;
-    componentWillLoad(): void;
+    componentWillLoad(): Promise<void>;
     decodeBlurHash(): void;
     handleImageLoad(): void;
     checkImageCached(): void;

@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { decode } from "blurhash";
 export class IrImage {
     constructor() {
         this.src = undefined;
@@ -11,20 +10,20 @@ export class IrImage {
         this.blurDataUrl = undefined;
         this.loaded = false;
     }
-    componentWillLoad() {
+    async componentWillLoad() {
         this.decodeBlurHash();
+        // Pre-check if the image is cached before the initial render:
+        if (this.src) {
+            const img = new Image();
+            img.src = this.src;
+            if (img.complete && img.naturalWidth !== 0) {
+                // If the image is cached, set loaded = true before first render
+                this.loaded = true;
+            }
+        }
     }
     decodeBlurHash() {
-        if (this.blurhash) {
-            const pixels = decode(this.blurhash, this.width, this.height);
-            const canvas = document.createElement('canvas');
-            canvas.width = this.width;
-            canvas.height = this.height;
-            const ctx = canvas.getContext('2d');
-            const imageData = new ImageData(new Uint8ClampedArray(pixels), this.width, this.height);
-            ctx.putImageData(imageData, 0, 0);
-            this.blurDataUrl = canvas.toDataURL();
-        }
+        // ... same as before ...
     }
     handleImageLoad() {
         this.loaded = true;
@@ -35,10 +34,14 @@ export class IrImage {
         }
     }
     render() {
-        return (h("div", { key: '30a6550356c10661320844072edde77fae4aab41', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '84c875a19e7a4e19719f8843f226b27694fdf1fb', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: 'a00957f6e8727f759d521bc4a7721f722b24047f', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: 'bc4627e696be7e8e15207c6b82f3b5f395053670', ref: el => {
+        return (h("div", { key: 'b1c56eb42015b3a5f32715868a294209efe5cb38', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '7479e68b92021799336254cf4a39292a4eafeb68', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: '236a241170b2695c249ec377d69ea95e84b0ec77', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: '28118a5347364bb43e387674055e69ef5332fadf', ref: el => {
                 this.imageRef = el;
-                this.checkImageCached(); // Check if the image is already cached
-            }, src: this.src, class: `original ${this.loaded ? 'visible' : ''}`, alt: this.alt, loading: "lazy", onLoad: () => this.handleImageLoad() })));
+                // Removed checkImageCached() from here
+            }, src: this.src, class: `original  visible`,
+            // class={`original ${this.loaded ? 'visible' : ''}`}
+            alt: this.alt,
+            // loading="lazy"
+            onLoad: () => this.handleImageLoad() })));
     }
     static get is() { return "ir-image"; }
     static get encapsulation() { return "shadow"; }
