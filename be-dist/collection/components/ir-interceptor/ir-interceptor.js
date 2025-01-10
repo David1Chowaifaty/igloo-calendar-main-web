@@ -1,19 +1,19 @@
 import { Host, h } from "@stencil/core";
 import axios from "axios";
-// import { IToast } from '../ir-toast/toast';
 import interceptor_requests from "../../stores/ir-interceptor.store";
-import localizedWords from "../../stores/localization.store";
 export class IrInterceptor {
     constructor() {
-        this.ignoredErrorRoutes = ['/Exposed_Guest_SignIn', '/Exposed_Guest_SignUp'];
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
-        this.errorMessage = null;
-        this.lastFailedRequest = null;
-        this.handledEndpoints = [];
+        this.endpointsCount = 0;
+        this.isPageLoadingStoped = null;
+        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings'];
     }
-    //@Event({ bubbles: true, composed: true }) toast: EventEmitter<IToast>;
+    handleStopPageLoading(e) {
+        this.isLoading = false;
+        this.isPageLoadingStoped = e.detail;
+    }
     componentWillLoad() {
         this.setupAxiosInterceptors();
     }
@@ -30,8 +30,22 @@ export class IrInterceptor {
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
-        if (this.isHandledEndpoint(extractedUrl)) {
-            this.isLoading = true;
+        config.params = config.params || {};
+        // if (this.ticket) {
+        //   config.params.Ticket = this.ticket;
+        // }
+        if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStoped !== extractedUrl) {
+            if (extractedUrl !== '/Get_Exposed_Calendar') {
+                this.isLoading = true;
+            }
+            else {
+                if (this.endpointsCount > 0) {
+                    this.isLoading = true;
+                }
+            }
+        }
+        if (extractedUrl === '/Get_Exposed_Calendar') {
+            this.endpointsCount = this.endpointsCount + 1;
         }
         return config;
     }
@@ -40,35 +54,29 @@ export class IrInterceptor {
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
+            this.isPageLoadingStoped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            if (!this.ignoredErrorRoutes.includes(extractedUrl)) {
-                this.handleError(response.data.ExceptionMsg);
-                this.lastFailedRequest = response.config;
-            }
+            this.handleError(response.data.ExceptionMsg);
             throw new Error(response.data.ExceptionMsg);
         }
         return response;
     }
     handleError(error) {
-        this.errorMessage = error;
-        this.alertRef.openModal();
+        this.toast.emit({
+            type: 'error',
+            title: error,
+            description: '',
+            position: 'top-right',
+        });
         return Promise.reject(error);
     }
-    retryLastRequest() {
-        this.alertRef.closeModal();
-        this.errorMessage = null;
-        if (this.lastFailedRequest) {
-            return axios(this.lastFailedRequest);
-        }
-    }
     render() {
-        var _a, _b;
-        return (h(Host, { key: 'e0c2d9ca4e41259571d11581d11f84a232ff3a4e' }, h("ir-alert-dialog", { key: '098ab9acf0e76af664089ab7958cd8187656657f', ref: el => (this.alertRef = el) }, h("div", { key: 'fcfeae5f322cbe1f39d69b16f52eff031184fd48', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: '2c499903ecfe8624068d97dee93628fe4d588684', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: '85099e9511bc61989af7d7e16ed6e591005a50fd', class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { key: '45565fc8494103f400a728ebb00bded4ec544642', slot: "modal-body" }, this.errorMessage), h("div", { key: '61bf4f2d6321f9cd3b6223675c137d46d9185573', slot: "modal-footer" }, h("ir-button", { key: 'fcbaab7846617954d629103c5c9be232c6b09e7a', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: 'c74730a19d107e421908daeda1a0f5cf988b7ac2', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
+        return (h(Host, { key: '3be6a854e8ae903930ae99b50151c5aab86da801' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'bf172b777a80de711ba028c180fdc784f20d8fef', class: "loadingScreenContainer" }, h("div", { key: 'bac328fe76e41f2a2147e9c7d58e0f2ca0ee072d', class: "loaderContainer" }, h("span", { key: 'a57c0310d6f69dc0ac17a64b4f9c0ce8d0825ace', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
-    static get encapsulation() { return "shadow"; }
+    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-interceptor.css"]
@@ -85,8 +93,8 @@ export class IrInterceptor {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "any[]",
-                    "resolved": "any[]",
+                    "original": "string[]",
+                    "resolved": "string[]",
                     "references": {}
                 },
                 "required": false,
@@ -95,7 +103,7 @@ export class IrInterceptor {
                     "tags": [],
                     "text": ""
                 },
-                "defaultValue": "[]"
+                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings']"
             }
         };
     }
@@ -104,9 +112,42 @@ export class IrInterceptor {
             "isShown": {},
             "isLoading": {},
             "isUnassignedUnit": {},
-            "errorMessage": {},
-            "lastFailedRequest": {}
+            "endpointsCount": {},
+            "isPageLoadingStoped": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "../ir-toast/toast",
+                            "id": "src/components/ir-toast/toast.ts::IToast"
+                        }
+                    }
+                }
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "preventPageLoad",
+                "method": "handleStopPageLoading",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }];
     }
 }
 //# sourceMappingURL=ir-interceptor.js.map

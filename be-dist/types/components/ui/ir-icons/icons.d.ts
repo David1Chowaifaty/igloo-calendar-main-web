@@ -3,35 +3,15 @@ declare const icons: {
         d: string;
         viewBox: string;
     };
-    wifi: {
-        viewBox: string;
-        d: string;
-    };
-    car: {
-        viewBox: string;
-        d: string;
-    };
-    pets: {
-        viewBox: string;
-        d: string;
-    };
-    bed: {
-        viewBox: string;
-        d: string;
-    };
-    hotel: {
-        viewBox: string;
-        d: string;
-    };
-    utencils: {
-        viewBox: string;
-        d: string;
-    };
-    credit_card: {
-        viewBox: string;
-        d: string;
-    };
     check: {
+        viewBox: string;
+        d: string;
+    };
+    'heart-fill': {
+        viewBox: string;
+        d: string;
+    };
+    'envelope-circle-check': {
         viewBox: string;
         d: string;
     };
@@ -40,10 +20,6 @@ declare const icons: {
         d: string;
     };
     bell: {
-        viewBox: string;
-        d: string;
-    };
-    football: {
         viewBox: string;
         d: string;
     };
@@ -59,14 +35,6 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
-    snowflake: {
-        viewBox: string;
-        d: string;
-    };
-    sun: {
-        viewBox: string;
-        d: string;
-    };
     minus: {
         viewBox: string;
         d: string;
@@ -79,27 +47,11 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
-    dimensions: {
-        viewBox: string;
-        d: string;
-    };
     user_group: {
         viewBox: string;
         d: string;
     };
     search: {
-        viewBox: string;
-        d: string;
-    };
-    smoking: {
-        viewBox: string;
-        d: string;
-    };
-    ban_smoking: {
-        viewBox: string;
-        d: string;
-    };
-    double_bed: {
         viewBox: string;
         d: string;
     };
@@ -119,7 +71,7 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
-    child: {
+    'xmark-fill': {
         viewBox: string;
         d: string;
     };
@@ -151,19 +103,23 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
-    angle_right: {
+    circle_check: {
+        d: string;
+        viewBox: string;
+    };
+    eraser: {
         viewBox: string;
         d: string;
     };
-    coupon: {
+    file: {
         viewBox: string;
         d: string;
     };
-    location_dot: {
+    edit: {
         viewBox: string;
         d: string;
     };
-    image: {
+    trash: {
         viewBox: string;
         d: string;
     };
@@ -171,37 +127,83 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
-    elipse_vertical: {
+    reciept: {
         viewBox: string;
         d: string;
     };
-    taxi: {
+    print: {
         viewBox: string;
         d: string;
     };
-    angle_down: {
+    menu_list: {
         viewBox: string;
         d: string;
     };
-    angle_up: {
+    save: {
         viewBox: string;
         d: string;
     };
-    ellipsis: {
+    credit_card: {
         viewBox: string;
         d: string;
     };
-    'arrow-up-right-from-square': {
-        d: string;
-        viewBox: string;
-    };
-    'circle-user': {
+    closed_eye: {
         viewBox: string;
         d: string;
     };
-    baby: {
-        d: string;
+    open_eye: {
         viewBox: string;
+        d: string;
+    };
+    server: {
+        viewBox: string;
+        d: string;
+    };
+    double_caret_left: {
+        viewBox: string;
+        d: string;
+    };
+    square_plus: {
+        viewBox: string;
+        d: string;
+    };
+    angles_left: {
+        viewBox: string;
+        d: string;
+    };
+    angle_right: {
+        viewBox: string;
+        d: string;
+    };
+    angles_right: {
+        viewBox: string;
+        d: string;
+    };
+    outline_user: {
+        viewBox: string;
+        d: string;
+    };
+    key: {
+        viewBox: string;
+        d: string;
+    };
+    unlock: {
+        viewBox: string;
+        d: string;
+    };
+    circle_plus: {
+        viewBox: string;
+        d: string;
+    };
+};
+export declare const colorVariants: {
+    secondary: {
+        '--icon-button-color': string;
+        '--icon-button-hover-color': string;
+    };
+    danger: {
+        '--icon-button-color': string;
+        '--icon-button-hover-color': string;
     };
 };
 export type TIcons = keyof typeof icons;

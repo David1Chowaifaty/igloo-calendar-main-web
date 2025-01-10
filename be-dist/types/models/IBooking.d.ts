@@ -1,61 +1,7 @@
 import { Booking, IFormat, Room, Origin, Arrival, IOtaNotes } from './booking.dto';
-export interface IRoomService {
-    calendar_legends: CalendarLegend[];
-    currency: Currency;
-    id: number;
-    name: string;
-    roomtypes: RoomType[];
-}
-export interface CalendarLegend {
-    color: string;
-    design: string;
-    id: string;
-    name: string;
-}
-export interface Currency {
-    code: string;
-    id: number;
-}
-export interface RoomType {
-    availabilities: number | null;
-    id: number;
-    inventory: number;
-    name: string;
-    physicalRooms: PhysicalRoom[];
-    rate: number;
-    ratePlans: RatePlan[];
-    expanded: boolean;
-}
-export interface PhysicalRoom {
-    calendarCell: null;
-    id: number;
-    name: string;
-}
-export interface RatePlan {
-    id: number;
-    name: string;
-    rateRestrictions: null;
-}
-export interface IReallocationPayload {
-    pool: string;
-    toRoomId: number;
-    from_date: string;
-    to_date: string;
-    title: string;
-    description: string;
-    hideConfirmButton?: boolean;
-}
-export interface IRoomNightsDataEventPayload {
-    type: 'cancel' | 'confirm';
-    pool: string;
-}
-export interface IRoomNightsData {
-    bookingNumber: string;
-    identifier: string;
-    to_date: string;
-    pool: string;
-    from_date: string;
-}
+import { TAdultChildConstraints } from './igl-book-property';
+import { Currency } from './property';
+import { IRoomService } from './property-types';
 export default interface IBooking {
     ID: string;
     NOTES: string;
@@ -83,7 +29,20 @@ export default interface IBooking {
     RATE_TYPE?: number;
 }
 export type STATUS = 'IN-HOUSE' | 'CONFIRMED' | 'PENDING-CONFIRMATION' | 'SPLIT-UNIT' | 'CHECKED-IN' | 'CHECKED-OUT' | 'BLOCKED' | 'BLOCKED-WITH-DATES' | 'NOTES' | 'OUTSTANDING-BALANCE' | 'TEMP-EVENT';
-export type bookingReasons = 'DORESERVATION' | 'BLOCK_EXPOSED_UNIT' | 'REALLOCATE_EXPOSED_ROOM_BLOCK' | 'ASSIGN_EXPOSED_ROOM' | 'REALLOCATE_EXPOSED_ROOM_BOOK' | 'UNBLOCK_EXPOSED_UNIT' | 'DELETE_CALENDAR_POOL' | 'GET_UNASSIGNED_DATES' | 'UPDATE_CALENDAR_AVAILABILITY' | 'CHANGE_IN_DUE_AMOUNT' | 'CHANGE_IN_BOOK_STATUS';
+export type bookingReasons = 'DORESERVATION' | 'BLOCK_EXPOSED_UNIT' | 'REALLOCATE_EXPOSED_ROOM_BLOCK' | 'ASSIGN_EXPOSED_ROOM' | 'REALLOCATE_EXPOSED_ROOM_BOOK' | 'UNBLOCK_EXPOSED_UNIT' | 'DELETE_CALENDAR_POOL' | 'GET_UNASSIGNED_DATES' | 'UPDATE_CALENDAR_AVAILABILITY' | 'CHANGE_IN_DUE_AMOUNT' | 'CHANGE_IN_BOOK_STATUS' | 'NON_TECHNICAL_CHANGE_IN_BOOKING';
+export declare const validReasons: Set<bookingReasons>;
+export type TCalendar = {
+    adultChildConstraints: TAdultChildConstraints;
+    allowedBookingSources: TAllowedBookingSource[];
+    currency: Currency;
+};
+export type TAllowedBookingSource = {
+    code: string;
+    description: string;
+    id: string;
+    tag: string;
+    type: 'SETUP' | 'LABEL' | 'TRAVEL_AGENCY';
+};
 export interface ICountry {
     cities: string[];
     id: number;
@@ -283,9 +242,11 @@ export interface RoomBookingDetails {
     FROM_DATE: string;
     NO_OF_DAYS: number;
     IS_EDITABLE: boolean;
+    PRIVATE_NOTE: string;
     STATUS: STATUS;
     NAME: string;
     PHONE: string;
+    PHONE_PREFIX: string;
     ENTRY_DATE: string;
     RATE: number;
     RATE_PLAN: string;
@@ -315,6 +276,10 @@ export interface RoomBookingDetails {
     SOURCE: ISource;
     ROOMS: Room[];
     ota_notes: IOtaNotes[];
+    defaultDates: {
+        from_date: string;
+        to_date: string;
+    };
 }
 export interface ISource {
     code: string;
@@ -341,5 +306,9 @@ export interface RoomBlockDetails {
     OUT_OF_SERVICE: boolean;
     FROM_DATE_STR: string;
     TO_DATE_STR: string;
+    defaultDates: {
+        from_date: string;
+        to_date: string;
+    };
 }
 export {};

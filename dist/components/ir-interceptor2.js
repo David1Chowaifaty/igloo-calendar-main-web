@@ -80,7 +80,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '791521df038501a259a59fc6e763759a992e1060' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '249466036b8b8886c5251539ecaf8d93cf702319', class: "loadingScreenContainer" }, h("div", { key: '7244d11dff5f6651b202a623e5f5dc87867449e1', class: "loaderContainer" }, h("span", { key: '2ab07e4e266ac97f6f8332fb1b0a57ca63cc6422', class: "page-loader" }))))));
+        return (h(Host, { key: '3be6a854e8ae903930ae99b50151c5aab86da801' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'bf172b777a80de711ba028c180fdc784f20d8fef', class: "loadingScreenContainer" }, h("div", { key: 'bac328fe76e41f2a2147e9c7d58e0f2ca0ee072d', class: "loaderContainer" }, h("span", { key: 'a57c0310d6f69dc0ac17a64b4f9c0ce8d0825ace', class: "page-loader" }))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {

@@ -1,2 +1,13 @@
-export {};
+export const validReasons = new Set([
+    'DORESERVATION',
+    'BLOCK_EXPOSED_UNIT',
+    'ASSIGN_EXPOSED_ROOM',
+    'REALLOCATE_EXPOSED_ROOM_BLOCK',
+    'DELETE_CALENDAR_POOL',
+    'GET_UNASSIGNED_DATES',
+    'UPDATE_CALENDAR_AVAILABILITY',
+    'CHANGE_IN_DUE_AMOUNT',
+    'CHANGE_IN_BOOK_STATUS',
+    'NON_TECHNICAL_CHANGE_IN_BOOKING',
+]);
 //# sourceMappingURL=IBooking.js.map

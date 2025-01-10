@@ -1,8 +1,17 @@
 import axios from "axios";
-class Token {
+import Auth from "./Auth";
+class Token extends Auth {
     constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        super();
+        this.baseUrl = 'https://gateway.igloorooms.com/IR';
+        if (Token.modifiedBaseUrl) {
+            return;
+        }
+        Token.modifiedBaseUrl = true;
         axios.defaults.baseURL = this.baseUrl;
+    }
+    getToken() {
+        return Token.token;
     }
     initialize() {
         if (Token.isInterceptorAdded) {
@@ -12,10 +21,7 @@ class Token {
             if (!Token.token) {
                 throw new MissingTokenError();
             }
-            const prevHeaders = config.headers || {};
-            if (!prevHeaders.hasOwnProperty('Authorization') || !prevHeaders['Authorization']) {
-                config.headers.Authorization = Token.token;
-            }
+            config.headers.Authorization = Token.token;
             // config.params = config.params || {};
             // config.params.Ticket = Token.token;
             return config;
@@ -23,14 +29,12 @@ class Token {
         Token.isInterceptorAdded = true;
     }
     setToken(token) {
-        if (token === Token.token) {
-            return;
-        }
         Token.token = token;
         this.initialize();
     }
 }
 Token.token = '';
+Token.modifiedBaseUrl = false;
 Token.isInterceptorAdded = false;
 export default Token;
 export class MissingTokenError extends Error {

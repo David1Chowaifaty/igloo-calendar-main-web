@@ -1,49 +1,35 @@
-import { ICurrency } from "../components";
-import { Assignableunit, IExposedProperty } from "../models/property";
-import { ClassValue } from 'clsx';
-import { Locale } from 'date-fns';
-export declare function matchLocale(locale: string): Locale;
-export declare function getAbbreviatedWeekdays(locale: Locale): any[];
-export declare function setLanguagePreference(language: string): void;
-export declare function getLanguagePreference(): string | null;
-export declare function getAvailableRooms(assignable_units: Assignableunit[]): any[];
-export declare function cn(...inputs: ClassValue[]): string;
-export declare const formatAmount: (amount: any, currency?: string, decimals?: number) => string;
-export declare function getDateDifference(date1: Date, date2: Date): number;
+import IBooking, { ICountry, PhysicalRoomType } from '../models/IBooking';
+export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string): string;
+export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
+export declare function dateDifference(FROM_DATE: string, TO_DATE: string): number;
+export declare const getBrowserLanguage: () => string;
+export declare const transformBooking: (physicalRoom: PhysicalRoomType[]) => IBooking[];
+export declare function dateToFormattedString(date: Date): string;
+export declare function formatLegendColors(legendData: any): any;
+export declare function isBlockUnit(status_code: any): boolean;
+export declare function getCurrencySymbol(currencyCode: any): string;
+export declare const findCountry: (id: number, countries: ICountry[]) => ICountry;
+export declare function getReleaseHoursString(releaseDate: number): {
+    BLOCKED_TILL_DATE: string;
+    BLOCKED_TILL_HOUR: string;
+    BLOCKED_TILL_MINUTE: string;
+};
+export declare function computeEndDate(startDate: string, numberOfDays: number): string;
+export declare function convertDMYToISO(date: string): string;
+export declare function addTwoMonthToDate(date: Date): string;
+export declare function formatDate(dateString: any, option?: string): string;
+export declare function getNextDay(date: Date): string;
+export declare function convertDatePrice(date: string): string;
+export declare function getDaysArray(date1: string, date2: string): any[];
 export declare function renderTime(time: number): string;
-export declare function getUserPreference(lang?: string | undefined): void;
-export declare function runScriptAndRemove(scriptContent: string): void;
-export declare function injectHTMLAndRunScript(htmlContent: string, uniqueId: string, target?: 'head' | 'body', position?: 'first' | 'last'): void;
-export declare function setDefaultLocale({ currency }: {
-    currency: ICurrency;
-}): void;
-export declare function getCookies(): {
-    [key: string]: string;
-};
-export declare function getCookie(name: string): string | null;
+export declare function validateEmail(email: string): boolean;
+export declare function formatAmount(currency: string, amount: number): string;
+export declare const extras: ({
+    key: string;
+    value: string;
+} | {
+    key: string;
+    value: boolean;
+})[];
 export declare function manageAnchorSession(data: Record<string, unknown>, mode?: 'add' | 'remove'): void;
-export declare function injectHTML(htmlContent: string, target?: 'head' | 'body', position?: 'first' | 'last'): void;
-export declare function checkAffiliate(afName: string): import("@/models/property").Affiliate;
-export declare function formatFullLocation(property: IExposedProperty): string;
-export declare function formatImageAlt(alt: string | null, roomTypeName?: string | null): string;
-export declare function validateCoupon(coupon: string): boolean;
-export declare function validateAgentCode(code: string): boolean;
-export declare function renderPropertyLocation(): string;
-export declare function destroyBookingCookie(): void;
-export declare function checkGhs(source_code: string, stag: string): boolean;
-export declare function detectCardType(value: string): "" | "VISA" | "Mastercard" | "AMEX";
-type ModifyQueryOptions = {
-    reload?: boolean;
-    replaceState?: boolean;
-};
-/**
- * Utility to modify query string parameters.
- *
- * @param param - The query parameter key to modify
- * @param value - The value to set for the query parameter. If null, the parameter will be removed.
- * @param options - Options to control whether the page should reload or replace the current history state.
- */
-export declare function modifyQueryParam(param: string, value: string | null, options?: ModifyQueryOptions): void;
-export declare function calculateInfantNumber(ages: string[]): number;
-export declare function generateCheckoutUrl(perma_link: string, queryString?: Record<string, string> | null): string;
-export {};
+export declare function checkUserAuthState(): any;

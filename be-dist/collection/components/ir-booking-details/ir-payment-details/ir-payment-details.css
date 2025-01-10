@@ -1,0 +1,55 @@
+.sm-margin-right {
+  margin-right: 5px !important;
+  background: #000;
+}
+.action_icons {
+  width: 60px;
+}
+.w-60 {
+  width: 100px;
+  padding: 0 5px;
+}
+.payments-height {
+  height: 30px;
+}
+.payment_date {
+  width: 100px;
+}
+.iframeHeight {
+  height: max-content;
+  height: 22.5rem;
+}
+.designation {
+  width: 120px;
+}
+.total-cost-container {
+  background: #7cbebe;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.payment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 0.5rem;
+}
+.payment_action_beta_container {
+  border: 1px solid var(--red);
+  position: relative;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.beta {
+  position: absolute;
+  top: 4px;
+  background: var(--red);
+  color: white;
+  padding: 0.2rem 0.3rem;
+  font-size: 12px;
+  border-radius: 4px;
+  right: 4px;
+  margin: 0;
+}

@@ -1,5 +1,6 @@
 {
   "entries": [
+    "components/ir-combobox/ir-combobox.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igloo-calendar.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
@@ -51,7 +52,6 @@
     "components/ir-channel/ir-channel-mapping/ir-channel-mapping.js",
     "components/ir-checkbox/ir-checkbox.js",
     "components/ir-checkboxes/ir-checkboxes.js",
-    "components/ir-combobox/ir-combobox.js",
     "components/ir-common/ir-common.js",
     "components/ir-date-picker/ir-date-picker.js",
     "components/ir-date-view/ir-date-view.js",

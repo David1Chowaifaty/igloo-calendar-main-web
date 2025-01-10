@@ -1,1 +1,0 @@
-{"version":3,"file":"auth.types.js","sourceRoot":"","sources":["../../../../../src/components/ir-booking-engine/ir-nav/ir-auth/auth.types.ts"],"names":[],"mappings":"","sourcesContent":["export type TAuthNavigation = 'register' | 'login';\r\n"]}

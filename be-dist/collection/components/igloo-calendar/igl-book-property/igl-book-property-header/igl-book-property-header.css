@@ -1,0 +1,10 @@
+:host {
+  display: block;
+}
+
+.sourceContainer {
+  max-width: 350px;
+}
+.message-label {
+  font-size: 80%;
+}
