@@ -1,5 +1,10 @@
-import { ICountry, RoomDetail, STATUS } from './IBooking';
-import { TAdultChildConstraints } from './igl-book-property';
+import { ICountry } from './common';
+import { RoomDetail, STATUS } from './IBooking';
+export type TAdultChildConstraints = {
+    adult_max_nbr: number | null;
+    child_max_nbr: number | null;
+    child_max_age: number | null;
+};
 export interface CalendarDataDetails {
     adultChildConstraints: TAdultChildConstraints;
     allowedBookingSources: IAllowedBookingSources[];
@@ -123,7 +128,6 @@ export interface IAllowedBookingSources {
 export interface ICurrency {
     code: string;
     id: number;
-    symbol: string;
 }
 export interface IFormattedLegendData {
     legendData: ILegendData[];

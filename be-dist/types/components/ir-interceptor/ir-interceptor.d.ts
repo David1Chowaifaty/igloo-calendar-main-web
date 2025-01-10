@@ -1,15 +1,13 @@
-import { EventEmitter } from '../../stencil-public-runtime';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IToast } from '../ir-toast/toast';
 export declare class IrInterceptor {
     isShown: boolean;
     isLoading: boolean;
     isUnassignedUnit: boolean;
-    endpointsCount: number;
-    isPageLoadingStoped: string | null;
-    handledEndpoints: string[];
-    toast: EventEmitter<IToast>;
-    handleStopPageLoading(e: CustomEvent): void;
+    errorMessage: string | null;
+    lastFailedRequest: AxiosRequestConfig | null;
+    handledEndpoints: any[];
+    alertRef: HTMLIrAlertDialogElement;
+    private ignoredErrorRoutes;
     componentWillLoad(): void;
     setupAxiosInterceptors(): void;
     extractEndpoint(url: string): string;
@@ -17,5 +15,6 @@ export declare class IrInterceptor {
     handleRequest(config: AxiosRequestConfig): AxiosRequestConfig<any>;
     handleResponse(response: AxiosResponse): AxiosResponse<any, any>;
     handleError(error: string): Promise<never>;
+    retryLastRequest(): Promise<AxiosResponse<any, any>>;
     render(): any;
 }

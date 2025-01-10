@@ -1,0 +1,33 @@
+import { EventEmitter } from '../../../stencil-public-runtime';
+import { TTabsState } from './nav-types';
+import { ICurrency, IExposedLanguages, pages } from "../../../models/common";
+export declare class IrNav {
+    currencies: ICurrency[];
+    languages: IExposedLanguages[];
+    logo: string;
+    website: string;
+    isBookingListing: boolean;
+    showBookingCode: boolean;
+    showCurrency: boolean;
+    menuShown: boolean;
+    logoOnly: boolean;
+    currentPage: TTabsState;
+    routing: EventEmitter<pages>;
+    signOut: EventEmitter<null>;
+    screenChanged: EventEmitter<pages>;
+    private preferences;
+    private dialogRef;
+    private sheetRef;
+    private bookingCodeRef;
+    modalRef: HTMLIrModalElement;
+    componentWillLoad(): void;
+    handleWebsiteChange(newValue: string, oldValue: string): void;
+    handleButtonClick(e: CustomEvent, page: TTabsState): void;
+    handleCloseDialog(e: CustomEvent): void;
+    renderDialogBody(): any;
+    renderLanguageTrigger(): any;
+    private handleSignIn;
+    handleItemSelect(e: CustomEvent): Promise<CustomEvent<pages>>;
+    private showAgentCode;
+    render(): any;
+}

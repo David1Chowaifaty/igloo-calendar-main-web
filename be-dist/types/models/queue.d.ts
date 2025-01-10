@@ -1,10 +1,11 @@
-declare class Queue<T> {
-    private elements;
-    private head;
-    private tail;
+export declare class Queue<T> {
+    private items;
+    private rear;
+    private front;
     enqueue(element: T): void;
     dequeue(): T | undefined;
+    isEmpty(): boolean;
     peek(): T | undefined;
-    get length(): number;
-    get isEmpty(): boolean;
+    size(): number;
+    print(): void;
 }

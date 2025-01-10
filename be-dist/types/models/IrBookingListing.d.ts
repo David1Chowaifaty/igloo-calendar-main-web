@@ -8,7 +8,6 @@ export interface IExposedBookingsCriteria {
 export interface ICriteriaChannel {
     is_direct: boolean;
     name: string;
-    value: string;
 }
 export interface ISettlementMethods extends Identifier {
 }

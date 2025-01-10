@@ -1,30 +1,37 @@
-class Queue {
+export class Queue {
     constructor() {
-        this.elements = {};
-        this.head = 0;
-        this.tail = 0;
+        this.items = {};
+        this.rear = 0;
+        this.front = 0;
     }
     enqueue(element) {
-        this.elements[this.tail] = element;
-        this.tail++;
+        this.items[this.rear] = element;
+        this.rear++;
     }
     dequeue() {
-        if (this.isEmpty) {
+        if (this.isEmpty()) {
             return undefined;
         }
-        const item = this.elements[this.head];
-        delete this.elements[this.head];
-        this.head++;
+        const item = this.items[this.front];
+        delete this.items[this.front];
+        this.front++;
+        if (this.isEmpty()) {
+            this.rear = 0;
+            this.front = 0;
+        }
         return item;
     }
+    isEmpty() {
+        return this.rear === this.front;
+    }
     peek() {
-        return this.elements[this.head];
+        return this.items[this.front];
     }
-    get length() {
-        return this.tail - this.head;
+    size() {
+        return this.rear - this.front;
     }
-    get isEmpty() {
-        return this.length === 0;
+    print() {
+        console.log(Object.values(this.items).slice(this.front, this.rear));
     }
 }
-//# sourceMappingURL=Queue.js.map
+//# sourceMappingURL=queue.js.map

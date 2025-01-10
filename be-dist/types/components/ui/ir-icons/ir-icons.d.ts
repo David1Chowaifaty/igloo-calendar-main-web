@@ -2,6 +2,8 @@ import { TIcons } from './icons';
 export declare class IrIcons {
     name: TIcons;
     svgClassName: string;
-    color: string;
+    height: number;
+    width: number;
+    removeClassName: boolean;
     render(): any;
 }
