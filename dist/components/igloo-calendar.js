@@ -5,7 +5,7 @@ import { j as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, 
 import { E as EventsService, d as defineCustomElement$T } from './igl-booking-event-hover2.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
-import { a as calendar_dates, t as transformNewBooking, b as transformNewBLockedRooms, d as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
+import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
@@ -4174,6 +4174,27 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             }
         });
     }
+    renderModalBody() {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        switch ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) {
+            case 'checkin': {
+                const name = ((_b = this.dialogData) === null || _b === void 0 ? void 0 : _b.roomName) || '';
+                const unit = ((_c = this.dialogData) === null || _c === void 0 ? void 0 : _c.roomUnit) || '';
+                const fromThisBooking = ((_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_FromThisBooking) || 'from this booking';
+                return `Are you sure you want to check in ${name} ${unit} ${fromThisBooking}?`;
+            }
+            case 'checkout': {
+                const name = ((_e = this.dialogData) === null || _e === void 0 ? void 0 : _e.roomName) || '';
+                const unit = ((_f = this.dialogData) === null || _f === void 0 ? void 0 : _f.roomUnit) || '';
+                const fromThisBooking = ((_g = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_FromThisBooking) || 'from this booking';
+                return `Are you sure you want to check out ${name} ${unit} ${fromThisBooking}?`;
+            }
+            case 'reallocate':
+                return ((_h = this.dialogData) === null || _h === void 0 ? void 0 : _h.description) || '';
+            default:
+                return 'Unknown modal content';
+        }
+    }
     setUpCalendarData(roomResp, bookingResp) {
         console.log(roomResp);
         this.calendarData.currency = roomResp['My_Result'].currency;
@@ -4294,6 +4315,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             CHANGE_IN_DUE_AMOUNT: this.handleChangeInDueAmount,
             CHANGE_IN_BOOK_STATUS: this.handleChangeInBookStatus,
             NON_TECHNICAL_CHANGE_IN_BOOKING: this.handleNonTechnicalChangeInBooking,
+            ROOM_STATUS_CHANGED: this.handleRoomStatusChanged,
         };
         const handler = reasonHandlers[REASON];
         if (handler) {
@@ -4302,6 +4324,17 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         else {
             console.warn(`Unhandled REASON: ${REASON}`);
         }
+    }
+    handleRoomStatusChanged(result) {
+        console.log(result);
+        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
+                ...this.calendarData.bookingEvents.map(e => {
+                    if (e.IDENTIFIER === result.room_identifier) {
+                        return Object.assign(Object.assign({}, e), { CHECKIN: result.status === '001', CHECKOUT: result.status === '002', STATUS: bookingStatus[result.status === '001' ? '000' : '003'] });
+                    }
+                    return e;
+                }),
+            ] });
     }
     async handleDoReservation(result) {
         const transformedBooking = transformNewBooking(result);
@@ -4402,20 +4435,30 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
             bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
             bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
             if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
-                const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-                const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
-                if (bookingEvent.STATUS !== 'PENDING') {
-                    if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
-                        bookingEvent.STATUS = bookingStatus['000'];
-                    }
-                    else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
-                        bookingEvent.STATUS = bookingStatus['000'];
-                    }
-                    else if (toDate.isSame(now, 'day') && now.hour() < 12) {
-                        bookingEvent.STATUS = bookingStatus['000'];
-                    }
-                    else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+                if (calendar_data.checkin_enabled) {
+                    if (bookingEvent.CHECKOUT) {
                         bookingEvent.STATUS = bookingStatus['003'];
+                    }
+                    if (bookingEvent.CHECKIN) {
+                        bookingEvent.STATUS = bookingStatus['000'];
+                    }
+                }
+                else {
+                    const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+                    const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+                    if (bookingEvent.STATUS !== 'PENDING') {
+                        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+                            bookingEvent.STATUS = bookingStatus['000'];
+                        }
+                        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+                            bookingEvent.STATUS = bookingStatus['000'];
+                        }
+                        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+                            bookingEvent.STATUS = bookingStatus['000'];
+                        }
+                        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+                            bookingEvent.STATUS = bookingStatus['003'];
+                        }
                     }
                 }
             }
@@ -4744,18 +4787,52 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         }
     }
     handleModalConfirm() {
-        const { pool, toRoomId, from_date, to_date } = this.dialogData;
-        this.eventsService
-            .reallocateEvent(pool, toRoomId, from_date, to_date)
-            .then(() => {
+        var _a;
+        // Helper to reset modal state
+        const resetModalState = () => {
             this.dialogData = null;
-        })
-            .catch(() => {
-            this.revertBooking.emit(pool);
-        });
+        };
+        try {
+            switch ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) {
+                case 'checkin':
+                case 'checkout': {
+                    const { bookingNumber, roomIdentifier } = this.dialogData;
+                    const status = this.dialogData.reason === 'checkin' ? '001' : '002';
+                    this.bookingService.handleExposedRoomInOut({ booking_nbr: bookingNumber, room_identifier: roomIdentifier, status }).finally(resetModalState);
+                    break;
+                }
+                case 'reallocate': {
+                    if (!this.dialogData) {
+                        console.warn('No dialog data available for reallocation.');
+                        return;
+                    }
+                    const { pool, toRoomId, from_date, to_date } = this.dialogData;
+                    // Handle room reallocation
+                    this.eventsService
+                        .reallocateEvent(pool, toRoomId, from_date, to_date)
+                        .then(resetModalState)
+                        .catch(() => {
+                        console.error('Reallocation failed. Reverting booking.');
+                        this.revertBooking.emit(pool);
+                    })
+                        .finally(resetModalState);
+                    break;
+                }
+                default:
+                    resetModalState();
+                    break;
+            }
+        }
+        catch (error) {
+            console.error('Error handling modal confirm:', error);
+            resetModalState();
+        }
     }
     handleModalCancel() {
-        this.revertBooking.emit(this.dialogData.pool);
+        var _a;
+        if (((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate') {
+            this.revertBooking.emit(this.dialogData.pool);
+        }
         this.dialogData = null;
     }
     handleRoomNightsDialogClose(e) {
@@ -4765,6 +4842,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.roomNightsData = null;
     }
     handleSideBarToggle(e) {
+        var _a;
         if (e.detail) {
             if (this.editBookingItem) {
                 this.editBookingItem = null;
@@ -4773,7 +4851,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
                 this.revertBooking.emit(this.roomNightsData.pool);
                 this.roomNightsData = null;
             }
-            if (this.dialogData) {
+            if (((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate') {
                 this.revertBooking.emit(this.dialogData.pool);
                 this.dialogData = null;
             }
@@ -4783,15 +4861,15 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
         this.bookingItem = null;
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c;
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: 'e2acb464fc51699511b89d1d03c5d498886da06d' }, h("ir-toast", { key: '2293812d3f5d94350e73085a10a7084b284d42a0' }), h("ir-interceptor", { key: 'd54a46fbc3ed46cee946d19dfeffe52192157f95' }), h("div", { key: '1213041cca08f23f32b69d0e0afacee2fdb0ee50', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
+        return (h(Host, { key: '2ab9292625cee81f6ce216b851353612ce8c72ed' }, h("ir-toast", { key: '18a2334afc0158ab8306f56e1335949bafa99466' }), h("ir-interceptor", { key: '1877392748c0928ed6fa96178a009f8dddc12a00' }), h("div", { key: '72ce593ae44e3faa77dfba5146f4daed0fa5b326', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
             this.showToBeAssigned ? (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             this.showLegend ? (h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
-        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '5fa32190e02834857b5f3d41cbc068edd5aa3518', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'c4af1310c05a3bb11cda99a561fd6182cc9c7849', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '76a7b6071b8814f1128d647db36e8fb36111e8f9', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '7d0a59f6f1752bc3f9b13fe6c8889125c5a96d85', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '3b6041d63d8e4cc2e9a2e21cc7a206c6592ccda0', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '555477327ebcb8f8de86451559c9e52db66fd0ab', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '7d7155092370b55aab9b36719edec1be5c460ee2', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '51fe0e7cf2d4d7ba1719cba7b2da104cf40b028e', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'c84bd9ea14b0a0426f6d4ad403d00ff79de69dea', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: 'c8c23553c8a71c9f4677cfd0496f1fbf7d09d607', modalTitle: '', rightBtnActive: ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return this; }
     static get watchers() { return {

@@ -16,6 +16,13 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
     return t;
 };
 class BookingService {
+    async handleExposedRoomInOut(props) {
+        const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Calendar`, {

@@ -219,6 +219,10 @@ export interface Property {
     name: string;
     roomtypes: null;
 }
+export type RoomInOut = {
+    code: '001' | '002' | '000';
+    description: string;
+};
 export interface Room {
     days: Day[];
     from_date: string;
@@ -227,6 +231,7 @@ export interface Room {
     notes: string | null;
     occupancy: Occupancy;
     physicalroom: null;
+    in_out: RoomInOut | null;
     bed_preference: number | null;
     rateplan: RatePlan;
     roomtype: RoomType;

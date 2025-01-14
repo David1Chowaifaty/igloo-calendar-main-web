@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { C as ChannelService } from './channel.service-94701279.js';
+import { C as ChannelService } from './channel.service-daadceb9.js';
 import { o as onChannelChange, c as channels_data } from './channel.store-a03c634b.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import './calendar-data-2333f282.js';
+import './calendar-data-d6f8ed1a.js';
 import './index-1d7b1ff2.js';
 import './axios-ab377903.js';
 
@@ -85,9 +85,9 @@ const IrChannelEditor = class {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'b4f573710dd7225a2b2eeb078b27950badf4154e', class: " d-flex flex-column h-100" }, h("nav", { key: '08bae12afa10e28f06780d9b6501de5e97078c5b', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: '9849ddde40f253c5cd44f9653ab8115db1891a49', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: '42b8a3822a1b5c8d68d6e9de547174731ac4f304', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: 'c69b9e7163b5dcf692683d40b09cf5ec85a9c9bf', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (h(Host, { key: '84d544aaa361d8f702a0b5e62dd723ce1a927632', class: " d-flex flex-column h-100" }, h("nav", { key: '0f5f4a14edf93ccd21b6fa762641d6cf2f61b2b5', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: 'bd9cf59eea16e063d1fbf3ee0303aaeeb3ea4cb8', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: 'f9b5826d6d72671febdc9bd0c380c8cb7a96e31a', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: '08f9ecfec621d98a22cb28db418bab8bb737f838', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'ababb4404f7c0c2ce8b633cb42ea7224e1799d98', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '991deff90756aea51a9484da12c879f310d8460c', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: 'a8281e3c5efaee0abbfe4a07fe1290bc1cf9387e', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: '1682785187c16dc7c113b6b68cc918e904ecf212', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: '28fa26b724851bdf293f45cdcabcc2d7b34c928a', isLoading: this.isLoading, onClickHandler: () => {
+            } }, h("svg", { key: '31e9f2223c2691f8db1453062c6e3d387ccd9787', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '25de5bf5c149864e68258fc18e1acb90f145dd0c', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '643b9773ea6d81eca4b9af806a92fb3ef3f7290e', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: '55eafe7a4ac8c2e68dfdec9e934b5b2345ab237e', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: 'f66b6be5fa3c0106fe7218de7888c5f7e5d2a7c7', isLoading: this.isLoading, onClickHandler: () => {
                 if (!channels_data.isConnectedToChannel) {
                     this.toast.emit({
                         type: 'error',

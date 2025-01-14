@@ -3,6 +3,7 @@ import { findCountry, formatAmount } from "../../../utils/utils";
 import { EventsService } from "../../../services/events.service";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
+import calendar_data from "../../../stores/calendar-data";
 //import { transformNewBLockedRooms } from '../../../utils/booking';
 export class IglBookingEventHover {
     constructor() {
@@ -20,27 +21,12 @@ export class IglBookingEventHover {
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
         if (selectedRt) {
-            console.log(selectedRt.physicalrooms.length === 1);
             this.shouldHideUnassignUnit = selectedRt.physicalrooms.length === 1;
         }
         if (moment(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isBefore(moment())) {
             this.hideButtons = true;
         }
         this.handleKeyDown = this.handleKeyDown.bind(this);
-    }
-    handleKeyDown(event) {
-        if (event.key === 'Escape') {
-            this.hideBubble();
-        }
-        else
-            return;
-    }
-    hideBubble() {
-        this.hideBubbleInfo.emit({
-            key: 'hidebubble',
-            currentInfoBubbleId: this.getBookingId(),
-        });
-        document.removeEventListener('keydown', this.handleKeyDown);
     }
     componentDidLoad() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -50,6 +36,20 @@ export class IglBookingEventHover {
     }
     getBookingId() {
         return this.bookingEvent.ID;
+    }
+    hideBubble() {
+        this.hideBubbleInfo.emit({
+            key: 'hidebubble',
+            currentInfoBubbleId: this.getBookingId(),
+        });
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+    handleKeyDown(event) {
+        if (event.key === 'Escape') {
+            this.hideBubble();
+        }
+        else
+            return;
     }
     getTotalOccupants() {
         var _a, _b, _c;
@@ -98,14 +98,15 @@ export class IglBookingEventHover {
     getEntryDate() {
         return this.bookingEvent.ENTRY_DATE;
     }
-    getReleaseAfterHours() {
-        return this.bookingEvent.RELEASE_AFTER_HOURS;
-    }
+    // private getReleaseAfterHours() {
+    //   return this.bookingEvent.RELEASE_AFTER_HOURS;
+    // }
     isNewBooking() {
         return this.getBookingId() === 'NEW_TEMP_EVENT';
     }
     isCheckedIn() {
-        return this.bookingEvent.STATUS === 'CHECKED-IN';
+        console.log(this.bookingEvent.STATUS);
+        return this.bookingEvent.STATUS === 'IN-HOUSE';
     }
     isCheckedOut() {
         return this.bookingEvent.STATUS === 'CHECKED-OUT';
@@ -113,18 +114,21 @@ export class IglBookingEventHover {
     isBlockedDateEvent() {
         return this.bookingEvent.STATUS === 'BLOCKED' || this.bookingEvent.STATUS === 'BLOCKED-WITH-DATES';
     }
-    getRoomId() {
-        return this.bookingEvent.PR_ID;
-    }
-    getCategoryByRoomId(roomId) {
-        // console.log("room id ",roomId)
-        // console.log("booking event",this.bookingEvent)
-        return this.bookingEvent.roomsInfo.find(roomCategory => roomCategory.physicalrooms.find(room => room.id === roomId));
-    }
+    // private getRoomId() {
+    //   return this.bookingEvent.PR_ID;
+    // }
+    // private getCategoryByRoomId(roomId) {
+    //   // console.log("room id ",roomId)
+    //   // console.log("booking event",this.bookingEvent)
+    //   return this.bookingEvent.roomsInfo.find(roomCategory => roomCategory.physicalrooms.find(room => room.id === roomId));
+    // }
     hasSplitBooking() {
         return this.bookingEvent.hasOwnProperty('splitBookingEvents') && this.bookingEvent.splitBookingEvents;
     }
     canCheckIn() {
+        if (!calendar_data.checkin_enabled) {
+            return false;
+        }
         if (!this.fromTimeStamp) {
             let dt = new Date(this.getCheckInDate());
             dt.setHours(0, 0, 0, 0);
@@ -146,6 +150,10 @@ export class IglBookingEventHover {
         }
     }
     canCheckOut() {
+        if (!calendar_data.checkin_enabled) {
+            return false;
+        }
+        console.log(this.isCheckedIn());
         if (this.isCheckedIn() && this.todayTimeStamp <= this.toTimeStamp) {
             return true;
         }
@@ -207,10 +215,10 @@ export class IglBookingEventHover {
         this.handleBookingOption('ADD_ROOM', eventData);
     }
     handleCustomerCheckIn() {
-        console.log('Handle Customer Check In');
+        this.showDialog.emit({ reason: 'checkin', bookingNumber: this.bookingEvent.BOOKING_NUMBER, roomIdentifier: this.bookingEvent.IDENTIFIER, roomName: '', roomUnit: '' });
     }
     handleCustomerCheckOut() {
-        console.log('Handle Customer Check Out');
+        this.showDialog.emit({ reason: 'checkout', bookingNumber: this.bookingEvent.BOOKING_NUMBER, roomIdentifier: this.bookingEvent.IDENTIFIER, roomName: '', roomUnit: '' });
     }
     handleDeleteEvent() {
         this.hideBubble();
@@ -310,7 +318,11 @@ export class IglBookingEventHover {
                 this.handleEditBooking();
             } }, h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Edit)), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (h("button", { type: "button", class: `btn btn-primary events_btns ${!this.shouldHideUnassignUnit ? 'mr-1' : 'w-50'}`, onClick: _ => {
                 this.handleAddRoom();
-            } }, h("ir-icons", { name: "square_plus", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_AddRoom))), this.hideButtons
+            } }, h("ir-icons", { name: "square_plus", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_AddRoom))), this.canCheckIn() ? (h("button", { type: "button", class: "btn btn-primary p-0 mr-1 events_btns", onClick: _ => {
+                this.handleCustomerCheckIn();
+            }, disabled: !this.bookingEvent.IS_EDITABLE }, h("ir-icons", { name: "edit", style: { '--icon-size': '0.875rem' } }), h("span", null, " ", locales.entries.Lcz_CheckIn))) : null, this.canCheckOut() ? (h("button", { type: "button", class: "btn btn-primary events_btns p-0 mr-1", onClick: _ => {
+                this.handleCustomerCheckOut();
+            }, disabled: !this.bookingEvent.IS_EDITABLE }, h("ir-icons", { name: "arrow-right-from-bracket", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_CheckOut))) : null, this.hideButtons
             ? null
             : !this.shouldHideUnassignUnit && (h("button", { type: "button", class: "btn btn-primary events_btns", onClick: _ => {
                     this.handleDeleteEvent();
@@ -337,7 +349,7 @@ export class IglBookingEventHover {
             } }, h("ir-icons", { name: "trash", style: { '--icon-size': '0.875rem' } }), h("span", null, locales.entries.Lcz_Delete))))));
     }
     render() {
-        return (h(Host, { key: '81c01f332c18564cdf5ad2c32a62993a275134ea' }, h("div", { key: '481c46361e189b1b7a10ada2fbeca0ae1702ad77', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '5e714346854fa3c538b0c16296dc869c63762fe1', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '133868ebcf03da61daa67389cff4084a4eaa8b8c' }, h("div", { key: 'b19bc21c50355101017091f0528f147f877f2958', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '0e683d7984265fbd8cf1571fd02aafc7a9b2601f', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
@@ -510,6 +522,27 @@ export class IglBookingEventHover {
                     "original": "{ pool?: string; data: any[] }",
                     "resolved": "{ pool?: string; data: any[]; }",
                     "references": {}
+                }
+            }, {
+                "method": "showDialog",
+                "name": "showDialog",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "CalendarModalEvent",
+                    "resolved": "{ reason: \"checkin\" | \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload",
+                    "references": {
+                        "CalendarModalEvent": {
+                            "location": "import",
+                            "path": "@/models/property-types",
+                            "id": "src/models/property-types.ts::CalendarModalEvent"
+                        }
+                    }
                 }
             }];
     }

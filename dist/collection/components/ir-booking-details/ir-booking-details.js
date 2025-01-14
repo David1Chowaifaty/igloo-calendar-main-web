@@ -5,6 +5,7 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
+import calendar_data from "../../stores/calendar-data";
 export class IrBookingDetails {
     constructor() {
         this.bookingService = new BookingService();
@@ -266,8 +267,10 @@ export class IrBookingDetails {
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", null), h("ir-interceptor", null)))),
             h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt }),
             h("div", { class: "fluid-container p-1 text-left mx-0" }, h("div", { class: "row m-0" }, h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, h("ir-reservation-information", { countries: this.countryNodeList, booking: this.booking }), h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } }))), h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index) => {
+                const showCheckin = this.handleRoomCheckin(room);
+                const showCheckout = this.handleRoomCheckout(room);
                 return [
-                    h("ir-room", { language: this.language, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: this.hasCheckIn, hasCheckOut: this.hasCheckOut, bookingEvent: this.booking, bookingIndex: index, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
+                    h("ir-room", { language: this.language, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, bookingEvent: this.booking, bookingIndex: index, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
                     index !== this.booking.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, bookingDetails: this.booking })))),
@@ -278,6 +281,42 @@ export class IrBookingDetails {
                 }, showCloseButton: false }, this.renderSidebarContent()),
             h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
         ];
+    }
+    handleRoomCheckout(room) {
+        // throw new Error('Method not implemented.');
+        if (!calendar_data.checkin_enabled) {
+            return false;
+        }
+        return room.in_out.code === '001';
+    }
+    handleRoomCheckin(room) {
+        if (!calendar_data.checkin_enabled) {
+            return false;
+        }
+        const todayTimeStamp = new Date().getTime();
+        let fromTimeStamp;
+        let toTimeStamp;
+        if (!fromTimeStamp) {
+            let dt = new Date(room.from_date);
+            dt.setHours(0, 0, 0, 0);
+            fromTimeStamp = dt.getTime();
+        }
+        if (!toTimeStamp) {
+            let dt = new Date(room.to_date);
+            dt.setHours(0, 0, 0, 0);
+            toTimeStamp = dt.getTime();
+        }
+        console.log();
+        //TODO
+        if (room.in_out && room.in_out.code !== '000') {
+            return false;
+        }
+        if (fromTimeStamp <= todayTimeStamp && todayTimeStamp <= toTimeStamp) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "scoped"; }

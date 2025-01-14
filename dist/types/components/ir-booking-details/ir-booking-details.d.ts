@@ -63,4 +63,6 @@ export declare class IrBookingDetails {
     private resetBooking;
     private renderSidebarContent;
     render(): any;
+    private handleRoomCheckout;
+    private handleRoomCheckin;
 }

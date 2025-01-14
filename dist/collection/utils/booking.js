@@ -3,6 +3,7 @@ import { dateDifference, isBlockUnit } from "./utils";
 import axios from "axios";
 import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
+import calendar_data from "../stores/calendar-data";
 export async function getMyBookings(months) {
     const myBookings = [];
     const stayStatus = await getStayStatus();
@@ -64,7 +65,7 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatus) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = moment(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = moment(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -98,7 +99,7 @@ function getDefaultData(cell, stayStatus) {
             },
         };
     }
-    if (cell.booking.booking_nbr.toString() === '23080178267') {
+    if (cell.booking.booking_nbr.toString() === '77054273380') {
         console.log('booking', cell);
     }
     // if (cell.booking.booking_nbr === '61249849') {
@@ -153,6 +154,9 @@ function getDefaultData(cell, stayStatus) {
         TO_DATE_STR: cell.booking.format.to_date,
         adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
         SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
+        //TODO:Implement checkin-checkout
+        CHECKIN: ((_e = cell.room.in_out) === null || _e === void 0 ? void 0 : _e.code) === '001',
+        CHECKOUT: ((_f = cell.room.in_out) === null || _f === void 0 ? void 0 : _f.code) === '002',
     };
 }
 // function updateBookingWithStayData(data: any, cell: CellType): any {
@@ -191,23 +195,35 @@ export function transformNewBooking(data) {
     let bookings = [];
     //console.log(data);
     const renderStatus = room => {
-        const now = moment();
-        const toDate = moment(room.to_date, 'YYYY-MM-DD');
-        const fromDate = moment(room.from_date, 'YYYY-MM-DD');
-        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
-            return bookingStatus['000'];
-        }
-        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
-            return bookingStatus['000'];
-        }
-        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
-            return bookingStatus['000'];
-        }
-        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
-            return bookingStatus['003'];
+        var _a, _b;
+        if (calendar_data.checkin_enabled) {
+            if (((_a = room.in_out) === null || _a === void 0 ? void 0 : _a.code) === '001') {
+                return bookingStatus['000'];
+            }
+            else if (((_b = room.in_out) === null || _b === void 0 ? void 0 : _b.code) === '002') {
+                return bookingStatus['003'];
+            }
+            return bookingStatus[(data === null || data === void 0 ? void 0 : data.status.code) || '001'];
         }
         else {
-            return bookingStatus[(data === null || data === void 0 ? void 0 : data.status.code) || '001'];
+            const now = moment();
+            const toDate = moment(room.to_date, 'YYYY-MM-DD');
+            const fromDate = moment(room.from_date, 'YYYY-MM-DD');
+            if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+                return bookingStatus['000'];
+            }
+            else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+                return bookingStatus['000'];
+            }
+            else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+                return bookingStatus['000'];
+            }
+            else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+                return bookingStatus['003'];
+            }
+            else {
+                return bookingStatus[(data === null || data === void 0 ? void 0 : data.status.code) || '001'];
+            }
         }
         // if (toDate.isBefore(now, 'day') || (toDate.isSame(now, 'day') && now.hour() >= 12)) {
         //   return bookingStatus['003'];
@@ -231,6 +247,8 @@ export function transformNewBooking(data) {
         }
         // console.log('bookingToDate:', bookingToDate, 'bookingFromDate:', bookingFromDate, 'room from date:', room.from_date, 'room to date', room.to_date);
         bookings.push({
+            CHECKIN: false,
+            CHECKOUT: false,
             ID: room['assigned_units_pool'],
             TO_DATE: bookingToDate,
             FROM_DATE: bookingFromDate,

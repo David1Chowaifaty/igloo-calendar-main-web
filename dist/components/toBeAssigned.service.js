@@ -104,7 +104,8 @@ class ToBeAssignedService {
         roomCategory.defaultDateRange.dateDifference = roomCategory.NO_OF_DAYS;
     }
     getRoomTypeId(roomName, roomInfo) {
-        return roomInfo.find(room => this.cleanSpacesAndSpecialChars(room.name) === this.cleanSpacesAndSpecialChars(roomName)).id || null;
+        var _a;
+        return ((_a = roomInfo.find(room => this.cleanSpacesAndSpecialChars(room.name) === this.cleanSpacesAndSpecialChars(roomName))) === null || _a === void 0 ? void 0 : _a.id) || null;
     }
     updateAvailableRooms(calendarFromDates, room, roomCategory, formattedLegendData, roomsInfo) {
         const rooms = [];

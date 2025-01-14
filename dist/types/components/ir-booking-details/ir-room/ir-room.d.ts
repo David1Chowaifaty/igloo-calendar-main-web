@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, Room } from "../../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
+export type RoomModalReason = 'delete' | 'checkin' | 'checkout' | null;
 export declare class IrRoom {
     element: HTMLIrRoomElement;
     bookingEvent: Booking;
@@ -22,20 +23,24 @@ export declare class IrRoom {
     collapsed: boolean;
     item: Room;
     isLoading: boolean;
-    isModelOpen: boolean;
+    modalReason: RoomModalReason;
     deleteFinished: EventEmitter<string>;
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
+    resetbooking: EventEmitter<null>;
     private modal;
+    private bookingService;
     componentWillLoad(): void;
     handleBookingEventChange(): void;
     handleClick(e: any): void;
     getDateStr(date: any, locale?: string): string;
     handleEditClick(): void;
-    handleDeleteClick(): void;
+    private openModal;
+    private handleModalConfirmation;
     private deleteRoom;
     private formatVariation;
     private getBedName;
+    private renderModalMessage;
     render(): any;
 }

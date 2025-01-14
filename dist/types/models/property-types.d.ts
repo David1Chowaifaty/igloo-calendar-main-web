@@ -59,3 +59,16 @@ export interface IRoomNightsData {
         to_date: string;
     };
 }
+export type CalendarModalReason = 'checkin' | 'checkout' | 'reallocate' | null;
+export type CalendarModalEvent = CheckinCheckoutEventPayload | ReallocateEventPayload;
+type CheckinCheckoutEventPayload = {
+    reason: 'checkin' | 'checkout';
+    bookingNumber: string;
+    roomIdentifier: string;
+    roomUnit: string;
+    roomName: string;
+};
+type ReallocateEventPayload = {
+    reason: 'reallocate';
+} & IReallocationPayload;
+export {};
