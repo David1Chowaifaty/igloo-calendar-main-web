@@ -2,12 +2,14 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, Room } from "../../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
+import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
 export type RoomModalReason = 'delete' | 'checkin' | 'checkout' | null;
 export declare class IrRoom {
     element: HTMLIrRoomElement;
-    bookingEvent: Booking;
+    booking: Booking;
     bookingIndex: number;
     isEditable: boolean;
+    room: Room;
     mealCodeName: string;
     myRoomTypeFoodCat: string;
     currency: string;
@@ -21,7 +23,6 @@ export declare class IrRoom {
     hasCheckIn: boolean;
     hasCheckOut: boolean;
     collapsed: boolean;
-    item: Room;
     isLoading: boolean;
     modalReason: RoomModalReason;
     deleteFinished: EventEmitter<string>;
@@ -29,10 +30,9 @@ export declare class IrRoom {
     pressCheckOut: EventEmitter;
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
     resetbooking: EventEmitter<null>;
+    openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     private modal;
     private bookingService;
-    componentWillLoad(): void;
-    handleBookingEventChange(): void;
     handleClick(e: any): void;
     getDateStr(date: any, locale?: string): string;
     handleEditClick(): void;
@@ -42,5 +42,7 @@ export declare class IrRoom {
     private formatVariation;
     private getBedName;
     private renderModalMessage;
+    private handleCheckIn;
     render(): any;
+    private showGuestModal;
 }

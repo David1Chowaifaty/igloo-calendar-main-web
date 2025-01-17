@@ -1,17 +1,18 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import IMask from "imask";
 export class IrInputText {
     constructor() {
         this.name = undefined;
         this.value = undefined;
-        this.label = '<label>';
-        this.placeholder = '<placeholder>';
+        this.label = '';
+        this.placeholder = '';
         this.inputStyles = '';
         this.required = undefined;
         this.LabelAvailable = true;
         this.readonly = false;
         this.type = 'text';
-        this.submited = false;
+        this.submitted = false;
         this.inputStyle = true;
         this.size = 'md';
         this.textSize = 'md';
@@ -23,21 +24,37 @@ export class IrInputText {
         this.variant = 'default';
         this.disabled = false;
         this.error = false;
-        this.valid = undefined;
+        this.mask = undefined;
+        this.autoValidate = true;
+        this.zod = undefined;
+        this.wrapKey = undefined;
         this.initial = true;
         this.inputFocused = false;
         this.isError = false;
     }
-    connectedCallback() { }
-    disconnectedCallback() { }
-    watchHandler(newValue) {
-        if (newValue !== '' && this.required) {
-            this.valid = true;
+    componentWillLoad() {
+        if (this.el.id) {
+            this.id = this.el.id;
         }
+        else {
+            this.id = v4();
+        }
+    }
+    componentDidLoad() {
+        if (this.mask)
+            this.initMask();
+    }
+    handleMaskChange() {
+        this.initMask();
     }
     watchHandler2(newValue) {
         if (newValue && this.required) {
             this.initial = false;
+        }
+    }
+    handleErrorChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.validateInput(this.value, true);
         }
     }
     handleAriaInvalidChange(newValue) {
@@ -48,37 +65,70 @@ export class IrInputText {
             this.isError = false;
         }
     }
-    handleInputChange(event) {
-        this.initial = false;
-        if (this.required) {
-            this.valid = event.target.checkValidity();
-            const value = event.target.value;
-            this.textChange.emit(value);
+    validateInput(value, forceValidation = false) {
+        if (!this.autoValidate && !forceValidation) {
+            return;
         }
-        else {
-            this.textChange.emit(event.target.value);
+        if (this.zod) {
+            try {
+                this.zod.parse(this.wrapKey ? { [this.wrapKey]: value } : value); // Validate the value using the Zod schema
+                this.error = false; // Clear the error if valid
+            }
+            catch (error) {
+                console.log(error);
+                this.error = true; // Set the error message
+            }
         }
     }
+    handleInputChange(event) {
+        this.initial = false;
+        const value = event.target.value;
+        if (this.maskInstance) {
+            this.maskInstance.value = value;
+        }
+        const maskedValue = this.maskInstance ? this.maskInstance.value : value;
+        this.textChange.emit(maskedValue);
+    }
+    initMask() {
+        if (!this.mask || this.maskInstance) {
+            return;
+        }
+        this.maskInstance = IMask(this.inputRef, this.mask);
+        // Listen to mask changes to keep input value in sync
+        this.maskInstance.on('accept', () => {
+            this.inputRef.value = this.maskInstance.value; // Update the input field
+            this.textChange.emit(this.maskInstance.value); // Emit the masked value
+        });
+    }
+    // Function that handles the blur events
+    // it validates the input and emits the blur event
+    handleBlur(e) {
+        this.validateInput(this.value, this.submitted);
+        this.inputFocused = false;
+        this.inputBlur.emit(e);
+    }
     render() {
-        const id = v4();
         if (this.variant === 'icon') {
-            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { type: this.type, onFocus: () => (this.inputFocused = true), required: this.required, onBlur: e => {
-                    this.inputFocused = false;
-                    this.inputBlur.emit(e);
-                }, disabled: this.disabled, class: `form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
+            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
+                    this.inputFocused = true;
+                    this.inputFocus.emit(e);
+                }, required: this.required, onBlur: this.handleBlur.bind(this), disabled: this.disabled, class: `form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: this.id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
         }
         let className = 'form-control';
-        let label = (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (!this.LabelAvailable) {
             label = '';
         }
         if (this.inputStyle === false) {
             className = '';
         }
-        if (this.required && !this.valid && !this.initial) {
+        if (this.required && !this.initial) {
             className = `${className} border-danger`;
         }
-        return (h("div", { class: "form-group" }, h("div", { class: "input-group row m-0" }, label, h("input", { readOnly: this.readonly, type: this.type, class: `${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: e => this.inputBlur.emit(e), placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));
+        return (h("div", { class: "form-group" }, h("div", { class: "input-group row m-0" }, label, h("input", { id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
+                this.inputFocused = true;
+                this.inputFocus.emit(e);
+            }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));
     }
     static get is() { return "ir-input-text"; }
     static get encapsulation() { return "scoped"; }
@@ -106,24 +156,24 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Name attribute for the input field"
                 },
                 "attribute": "name",
                 "reflect": false
             },
             "value": {
-                "type": "any",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Value of the input field"
                 },
                 "attribute": "value",
                 "reflect": false
@@ -140,11 +190,11 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Label text for the input"
                 },
                 "attribute": "label",
                 "reflect": false,
-                "defaultValue": "'<label>'"
+                "defaultValue": "''"
             },
             "placeholder": {
                 "type": "string",
@@ -158,11 +208,11 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Placeholder text for the input"
                 },
                 "attribute": "placeholder",
                 "reflect": false,
-                "defaultValue": "'<placeholder>'"
+                "defaultValue": "''"
             },
             "inputStyles": {
                 "type": "string",
@@ -176,7 +226,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Additional inline styles for the input"
                 },
                 "attribute": "input-styles",
                 "reflect": false,
@@ -194,7 +244,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the input field is required"
                 },
                 "attribute": "required",
                 "reflect": false
@@ -211,7 +261,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Determines if the label is displayed"
                 },
                 "attribute": "label-available",
                 "reflect": false,
@@ -229,7 +279,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the input field is read-only"
                 },
                 "attribute": "readonly",
                 "reflect": false,
@@ -239,21 +289,21 @@ export class IrInputText {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
+                    "original": "| 'text'\r\n    | 'password'\r\n    | 'email'\r\n    | 'number'\r\n    | 'tel'\r\n    | 'url'\r\n    | 'search'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'month'\r\n    | 'week'\r\n    | 'time'\r\n    | 'color'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'checkbox'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'button'\r\n    | 'reset'\r\n    | 'submit'\r\n    | 'image'",
+                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"reset\" | \"submit\" | \"password\" | \"range\" | \"file\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Input type (e.g., text, password, email)"
                 },
                 "attribute": "type",
                 "reflect": false,
                 "defaultValue": "'text'"
             },
-            "submited": {
+            "submitted": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -265,9 +315,9 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the form has been submitted"
                 },
-                "attribute": "submited",
+                "attribute": "submitted",
                 "reflect": false,
                 "defaultValue": "false"
             },
@@ -283,7 +333,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether to apply default input styling"
                 },
                 "attribute": "input-style",
                 "reflect": false,
@@ -301,7 +351,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Size of the input field: small (sm), medium (md), or large (lg)"
                 },
                 "attribute": "size",
                 "reflect": false,
@@ -319,7 +369,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Text size inside the input field"
                 },
                 "attribute": "text-size",
                 "reflect": false,
@@ -337,7 +387,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Position of the label: left, right, or center"
                 },
                 "attribute": "label-position",
                 "reflect": false,
@@ -355,7 +405,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Background color of the label"
                 },
                 "attribute": "label-background",
                 "reflect": false,
@@ -373,7 +423,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Text color of the label"
                 },
                 "attribute": "label-color",
                 "reflect": false,
@@ -391,7 +441,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Border color/style of the label"
                 },
                 "attribute": "label-border",
                 "reflect": false,
@@ -409,7 +459,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Label width as a fraction of 12 columns (1-11)"
                 },
                 "attribute": "label-width",
                 "reflect": false,
@@ -427,7 +477,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Variant of the input: default or icon"
                 },
                 "attribute": "variant",
                 "reflect": false,
@@ -445,7 +495,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the input is disabled"
                 },
                 "attribute": "disabled",
                 "reflect": false,
@@ -453,7 +503,7 @@ export class IrInputText {
             },
             "error": {
                 "type": "boolean",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
                     "original": "boolean",
                     "resolved": "boolean",
@@ -463,17 +513,95 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the input has an error"
                 },
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "mask": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "FactoryArg",
+                    "resolved": "string | RegExp | NumberConstructor | FactoryOpts | Masked<any> | DateConstructor | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
+                    "references": {
+                        "FactoryArg": {
+                            "location": "import",
+                            "path": "imask",
+                            "id": "node_modules::FactoryArg"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Mask for the input field (optional)"
+                },
+                "attribute": "mask",
+                "reflect": false
+            },
+            "autoValidate": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the input should auto-validate"
+                },
+                "attribute": "auto-validate",
+                "reflect": false,
+                "defaultValue": "true"
+            },
+            "zod": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "ZodType<any, any>",
+                    "resolved": "ZodType<any, any, any>",
+                    "references": {
+                        "ZodType": {
+                            "location": "import",
+                            "path": "zod",
+                            "id": "node_modules::ZodType"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "A Zod schema for validating the input"
+                }
+            },
+            "wrapKey": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Key to wrap the value (e.g., 'price' or 'cost')"
+                },
+                "attribute": "wrap-key",
+                "reflect": false
             }
         };
     }
     static get states() {
         return {
-            "valid": {},
             "initial": {},
             "inputFocused": {},
             "isError": {}
@@ -515,15 +643,39 @@ export class IrInputText {
                         }
                     }
                 }
+            }, {
+                "method": "inputFocus",
+                "name": "inputFocus",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "FocusEvent",
+                    "resolved": "FocusEvent",
+                    "references": {
+                        "FocusEvent": {
+                            "location": "global",
+                            "id": "global::FocusEvent"
+                        }
+                    }
+                }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
-                "propName": "value",
-                "methodName": "watchHandler"
+                "propName": "mask",
+                "methodName": "handleMaskChange"
             }, {
-                "propName": "submited",
+                "propName": "submitted",
                 "methodName": "watchHandler2"
+            }, {
+                "propName": "error",
+                "methodName": "handleErrorChange"
             }, {
                 "propName": "aria-invalid",
                 "methodName": "handleAriaInvalidChange"

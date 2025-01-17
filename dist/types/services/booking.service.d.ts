@@ -1,3 +1,4 @@
+import { HandleExposedRoomGuestsRequest } from './../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../models/booking.dto';
 export interface IBookingParams {
@@ -46,6 +47,7 @@ export declare class BookingService {
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;
     }>;
+    handleExposedRoomGuests(props: HandleExposedRoomGuestsRequest): Promise<any>;
     fetchGuest(email: string): Promise<Guest>;
     changeExposedBookingStatus(props: {
         book_nbr: string;
@@ -77,7 +79,7 @@ export declare class BookingService {
     private modifyRateplans;
     private sortVariations;
     getCountries(language: string): Promise<ICountry[]>;
-    getBedPreferences(): Promise<IEntries[]>;
+    getSetupEntriesByTableName(TBL_NAME: string): Promise<IEntries[]>;
     fetchSetupEntries(): Promise<ISetupEntries>;
     doBookingExtraService({ booking_nbr, service, is_remove }: {
         service: ExtraService;

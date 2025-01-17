@@ -3,9 +3,10 @@ import { B as BookingService } from './booking.service.js';
 import { t as transformNewBooking } from './booking.js';
 import { i as isBlockUnit } from './utils.js';
 import { h as hooks } from './moment.js';
-import { E as EventsService, d as defineCustomElement$4 } from './igl-booking-event-hover2.js';
+import { E as EventsService, d as defineCustomElement$5 } from './igl-booking-event-hover2.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$5 } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$6 } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-view2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
@@ -742,7 +743,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-event", "igl-block-dates-view", "igl-booking-event-hover", "ir-date-view", "ir-icons", "ota-label"];
+    const components = ["igl-booking-event", "igl-block-dates-view", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-icons", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
@@ -751,10 +752,15 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "igl-booking-event-hover":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

@@ -5,7 +5,12 @@ export declare class ToBeAssignedService {
         from_date: string;
         to_date: string;
     }, propertyid: number, specific_date: string, roomInfo: any, formattedLegendData: any): Promise<IRoomCategory[]>;
-    assignUnit(booking_nbr: string, identifier: string, pr_id: number): Promise<any>;
+    assignUnit(props: {
+        booking_nbr: string;
+        identifier: string;
+        pr_id: number;
+        check_in: boolean;
+    }): Promise<any>;
     private cleanSpacesAndSpecialChars;
     private transformToAssignable;
     addDefaultDateRange(roomCategory: IRoomCategory): void;

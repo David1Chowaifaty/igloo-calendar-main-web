@@ -71,6 +71,13 @@ class BookingService {
             console.error(error);
         }
     }
+    async handleExposedRoomGuests(props) {
+        const { data } = await axios.post('/Handle_Exposed_Room_Guests', props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async fetchGuest(email) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Guest`, { email });
@@ -211,9 +218,9 @@ class BookingService {
             throw new Error(error);
         }
     }
-    async getBedPreferences() {
+    async getSetupEntriesByTableName(TBL_NAME) {
         const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
-            TBL_NAME: '_BED_PREFERENCE_TYPE',
+            TBL_NAME,
         });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);

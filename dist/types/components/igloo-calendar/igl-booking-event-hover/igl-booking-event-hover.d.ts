@@ -12,6 +12,7 @@ export declare class IglBookingEventHover {
     is_vacation_rental: boolean;
     isLoading: string;
     shouldHideUnassignUnit: boolean;
+    canCheckInOrCheckout: boolean;
     showBookingPopup: EventEmitter;
     hideBubbleInfo: EventEmitter;
     deleteButton: EventEmitter<string>;
@@ -20,14 +21,12 @@ export declare class IglBookingEventHover {
         data: any[];
     }>;
     showDialog: EventEmitter<CalendarModalEvent>;
-    private fromTimeStamp;
-    private toTimeStamp;
-    private todayTimeStamp;
     private eventService;
     private hideButtons;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
+    handleBookingEventChange(newValue: any, oldValue: any): void;
     private getBookingId;
     private hideBubble;
     private handleKeyDown;
@@ -39,14 +38,11 @@ export declare class IglBookingEventHover {
     private getGuestNote;
     private getInternalNote;
     private getTotalPrice;
-    private getCheckInDate;
-    private getCheckOutDate;
     private getArrivalTime;
     private getRatePlan;
     private getEntryDate;
     private isNewBooking;
     private isCheckedIn;
-    private isCheckedOut;
     private isBlockedDateEvent;
     private hasSplitBooking;
     private canCheckIn;
