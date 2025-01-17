@@ -16073,11 +16073,12 @@ const IrRoom = class {
         })()))))), this.booking.is_direct && (index.h(index.Fragment, { key: 'ad76afb00b5746b185963e6e71476d58e0be8607' }, this.room.rateplan.cancelation && (index.h("ir-label", { key: 'beebbcb2f1e4d33eb15e6dac19e257b8434f4676', labelText: `${locales_store.locales.entries.Lcz_Cancellation}:`, content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (index.h("ir-label", { key: 'd7965a1a71af14c1cb5e8741b35a64ec985bb122', labelText: `${locales_store.locales.entries.Lcz_Guarantee}:`, content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))))), index.h("ir-modal", { key: '91395ef5ba198d30d8bacc27ebff7de9ba1c21fc', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: this.modalReason === 'delete' ? locales_store.locales.entries.Lcz_Delete : locales_store.locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalReason === 'delete' ? 'danger' : 'primary', modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: this.renderModalMessage() })));
     }
     showGuestModal() {
+        var _a;
         const { adult_nbr, children_nbr, infant_nbr } = this.room.occupancy;
         this.openSidebar.emit({
             type: 'room-guest',
             payload: {
-                roomName: this.room.unit.name,
+                roomName: (_a = this.room.unit) === null || _a === void 0 ? void 0 : _a.name,
                 sharing_persons: this.room.sharing_persons,
                 totalGuests: adult_nbr + children_nbr + infant_nbr,
                 checkin: this.hasCheckIn,
