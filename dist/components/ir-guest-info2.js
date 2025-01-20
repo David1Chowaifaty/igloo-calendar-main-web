@@ -6,11 +6,11 @@ import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$9 } from './ir-button2.js';
 import { d as defineCustomElement$8 } from './ir-combobox2.js';
-import { d as defineCustomElement$7 } from './ir-icon2.js';
-import { d as defineCustomElement$6 } from './ir-icons2.js';
-import { d as defineCustomElement$5 } from './ir-input-text2.js';
-import { d as defineCustomElement$4 } from './ir-phone-input2.js';
-import { d as defineCustomElement$3 } from './ir-select2.js';
+import { d as defineCustomElement$7 } from './ir-country-picker2.js';
+import { d as defineCustomElement$6 } from './ir-icon2.js';
+import { d as defineCustomElement$5 } from './ir-icons2.js';
+import { d as defineCustomElement$4 } from './ir-input-text2.js';
+import { d as defineCustomElement$3 } from './ir-phone-input2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-textarea2.js';
 
@@ -33,7 +33,6 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         this.ticket = undefined;
         this.isInSideBar = undefined;
         this.countries = undefined;
-        this.submit = false;
         this.guest = null;
         this.isLoading = false;
     }
@@ -91,7 +90,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         }
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e;
         if (this.isLoading && this.isInSideBar) {
             h("div", { class: 'loading-container' }, h("ir-spinner", null));
         }
@@ -101,12 +100,16 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         return [
             h("div", { class: "p-0" }, this.headerShown && (h("div", { class: "position-sticky mb-1 shadow-none p-0" }, h("div", { class: "d-flex align-items-center justify-content-between ir-card-header py-1 p-0" }, h("h3", { class: "card-title text-left font-medium-2 px-1 my-0" }, locales.entries.Lcz_GuestDetails), h("ir-icon", { class: "close close-icon px-1", onIconClickHandler: () => {
                     this.closeSideBar.emit(null);
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("div", { class: "card-content collapse show" }, h("div", { class: this.headerShown ? 'card-body px-1' : 'pt-0' }, h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_FirstName, name: "firstName", submitted: this.submit, value: (_a = this.guest) === null || _a === void 0 ? void 0 : _a.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_LastName, name: "lastName", submitted: this.submit, value: (_b = this.guest) === null || _b === void 0 ? void 0 : _b.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_Email, name: "email", submitted: this.submit, value: (_c = this.guest) === null || _c === void 0 ? void 0 : _c.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_AlternativeEmail, name: "altEmail", value: (_d = this.guest) === null || _d === void 0 ? void 0 : _d.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-select", { selectContainerStyle: "mb-1", required: true, name: "country", submited: this.submit, label: locales.entries.Lcz_Country, selectedValue: (_g = (_f = (_e = this.guest) === null || _e === void 0 ? void 0 : _e.country_id) === null || _f === void 0 ? void 0 : _f.toString()) !== null && _g !== void 0 ? _g : '', data: (_h = this.countries) === null || _h === void 0 ? void 0 : _h.map(item => {
-                    return {
-                        value: item.id.toString(),
-                        text: item.name,
-                    };
-                }), firstOption: '...', onSelectChange: e => this.handleInputChange({ country_id: e.detail }) }), h("ir-phone-input", { onTextChange: e => {
+                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("div", { class: "card-content collapse show" }, h("div", { class: this.headerShown ? 'card-body px-1' : 'pt-0' }, h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_FirstName, name: "firstName",
+                // submitted={this.submit}
+                value: (_a = this.guest) === null || _a === void 0 ? void 0 : _a.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_LastName, name: "lastName",
+                // submitted={this.submit}
+                value: (_b = this.guest) === null || _b === void 0 ? void 0 : _b.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_Email, name: "email",
+                // submitted={this.submit}
+                value: (_c = this.guest) === null || _c === void 0 ? void 0 : _c.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { placeholder: "", label: locales.entries.Lcz_AlternativeEmail, name: "altEmail", value: (_d = this.guest) === null || _d === void 0 ? void 0 : _d.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
+                // error={this.submit && !this.guest.country_id}
+                country: this.countries.find(c => c.id === this.guest.country_id), label: locales.entries.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
+            }), h("ir-phone-input", { onTextChange: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     const { mobile, phone_prefix } = e.detail;
@@ -115,7 +118,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
                     }
                     if (phone_prefix !== this.guest.country_phone_prefix)
                         this.handleInputChange({ country_phone_prefix: phone_prefix });
-                }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries.Lcz_MobilePhone }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: (_j = this.guest) === null || _j === void 0 ? void 0 : _j.notes, label: locales.entries.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter))), h("hr", null), h("ir-button", { isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), color: "btn-primary" })))),
+                }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries.Lcz_MobilePhone }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: (_e = this.guest) === null || _e === void 0 ? void 0 : _e.notes, label: locales.entries.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter))), h("hr", null), h("ir-button", { isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), color: "btn-primary" })))),
         ];
     }
     static get watchers() { return {
@@ -130,7 +133,6 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         "ticket": [1],
         "isInSideBar": [4, "is-in-side-bar"],
         "countries": [32],
-        "submit": [32],
         "guest": [32],
         "isLoading": [32]
     }, undefined, {
@@ -140,7 +142,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-select", "ir-spinner", "ir-textarea"];
+    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-spinner", "ir-textarea"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
@@ -157,27 +159,27 @@ function defineCustomElement() {
                 defineCustomElement$8();
             }
             break;
-        case "ir-icon":
+        case "ir-country-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-icons":
+        case "ir-icon":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-input-text":
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-phone-input":
+        case "ir-input-text":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-select":
+        case "ir-phone-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

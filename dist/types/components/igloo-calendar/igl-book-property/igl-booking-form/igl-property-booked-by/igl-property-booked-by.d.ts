@@ -27,8 +27,9 @@ export declare class IglPropertyBookedBy {
     private assignCountryCode;
     private initializeDateData;
     private populateBookedByData;
-    handleDataChange(key: any, event: any): void;
-    handleNumberInput(key: any, event: InputEvent): void;
+    private handleDataChange;
+    private handleCountryChange;
+    private handleNumberInput;
     checkUser(): Promise<void>;
     private updateGuest;
     handleComboboxChange(e: CustomEvent): void;

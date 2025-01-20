@@ -140,7 +140,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the room currently being displayed.\nUsed to label the room in the user interface for clarity."
+                    "text": "The name of the room currently being displayed.\r\nUsed to label the room in the user interface for clarity."
                 },
                 "attribute": "room-name",
                 "reflect": false
@@ -157,7 +157,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique identifier for the room.\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
+                    "text": "A unique identifier for the room.\r\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
                 },
                 "attribute": "identifier",
                 "reflect": false
@@ -180,7 +180,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "An array of people sharing the room.\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
+                    "text": "An array of people sharing the room.\r\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
                 },
                 "defaultValue": "[]"
             },
@@ -196,7 +196,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The total number of guests for the room.\nDetermines how many guest input forms to display in the UI."
+                    "text": "The total number of guests for the room.\r\nDetermines how many guest input forms to display in the UI."
                 },
                 "attribute": "total-guests",
                 "reflect": false,
@@ -220,7 +220,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
+                    "text": "A list of available countries.\r\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
                 }
             },
             "checkIn": {
@@ -235,7 +235,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A boolean indicating whether the room is in the process of being checked in.\nIf true, additional actions like saving the room state as \"checked in\" are performed."
+                    "text": "A boolean indicating whether the room is in the process of being checked in.\r\nIf true, additional actions like saving the room state as \"checked in\" are performed."
                 },
                 "attribute": "check-in",
                 "reflect": false
@@ -252,7 +252,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The language used for displaying text content in the component.\nDefaults to English ('en'), but can be set to other supported languages."
+                    "text": "The language used for displaying text content in the component.\r\nDefaults to English ('en'), but can be set to other supported languages."
                 },
                 "attribute": "language",
                 "reflect": false,
@@ -270,7 +270,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique booking number associated with the room.\nThis is used for backend operations like saving guest information or checking in the room."
+                    "text": "A unique booking number associated with the room.\r\nThis is used for backend operations like saving guest information or checking in the room."
                 },
                 "attribute": "booking-number",
                 "reflect": false

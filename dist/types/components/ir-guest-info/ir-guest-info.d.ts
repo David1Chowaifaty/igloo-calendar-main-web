@@ -9,7 +9,6 @@ export declare class GuestInfo {
     ticket: string;
     isInSideBar: boolean;
     countries: ICountry[];
-    submit: boolean;
     guest: Guest | null;
     isLoading: boolean;
     closeSideBar: EventEmitter<null>;

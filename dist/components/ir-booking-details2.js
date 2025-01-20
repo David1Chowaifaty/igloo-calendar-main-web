@@ -356,6 +356,9 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         if (!calendar_data.checkin_enabled) {
             return false;
         }
+        if (!room.unit) {
+            return false;
+        }
         if (room.in_out && room.in_out.code !== '000') {
             return false;
         }
