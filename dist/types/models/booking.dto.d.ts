@@ -32,10 +32,17 @@ export interface SharedPerson {
     password: null;
     subscribe_to_news_letter: null;
 }
+/**
+ * ZIdInfo schema:
+ * - `type.code`: Validates a non-empty string must be at least 3 chars.
+ *   If empty string or not provided, validation is skipped.
+ * - `type.description`: Same pattern for description (but no min length).
+ * - `number`: Validates if non-empty string it should be at least 2 chars.
+ */
 export declare const ZIdInfo: z.ZodObject<{
     type: z.ZodObject<{
-        code: z.ZodString;
-        description: z.ZodString;
+        code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+        description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     }, "strip", z.ZodTypeAny, {
         code?: string;
         description?: string;
@@ -43,7 +50,7 @@ export declare const ZIdInfo: z.ZodObject<{
         code?: string;
         description?: string;
     }>;
-    number: z.ZodString;
+    number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
 }, "strip", z.ZodTypeAny, {
     number?: string;
     type?: {
@@ -57,15 +64,23 @@ export declare const ZIdInfo: z.ZodObject<{
         description?: string;
     };
 }>;
+/**
+ * ZSharedPerson schema:
+ * - `id`: Optional numeric field.
+ * - `full_name`: If provided and non-empty, must be at least 2 chars.
+ * - `country_id`: If provided, coerced to number, must be >= 0.
+ * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
+ * - `id_info`: The nested object above; can also be omitted entirely.
+ */
 export declare const ZSharedPerson: z.ZodObject<{
-    id: z.ZodNumber;
-    full_name: z.ZodString;
-    country_id: z.ZodNumber;
-    dob: z.ZodEffects<z.ZodDate, string, Date>;
-    id_info: z.ZodObject<{
+    id: z.ZodOptional<z.ZodNumber>;
+    full_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+    country_id: z.ZodOptional<z.ZodNumber>;
+    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
+    id_info: z.ZodOptional<z.ZodObject<{
         type: z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodString;
+            code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+            description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
         }, "strip", z.ZodTypeAny, {
             code?: string;
             description?: string;
@@ -73,7 +88,7 @@ export declare const ZSharedPerson: z.ZodObject<{
             code?: string;
             description?: string;
         }>;
-        number: z.ZodString;
+        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     }, "strip", z.ZodTypeAny, {
         number?: string;
         type?: {
@@ -86,7 +101,7 @@ export declare const ZSharedPerson: z.ZodObject<{
             code?: string;
             description?: string;
         };
-    }>;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     id?: number;
     full_name?: string;
@@ -103,7 +118,7 @@ export declare const ZSharedPerson: z.ZodObject<{
     id?: number;
     full_name?: string;
     country_id?: number;
-    dob?: Date;
+    dob?: string;
     id_info?: {
         number?: string;
         type?: {
@@ -113,14 +128,14 @@ export declare const ZSharedPerson: z.ZodObject<{
     };
 }>;
 export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
-    id: z.ZodNumber;
-    full_name: z.ZodString;
-    country_id: z.ZodNumber;
-    dob: z.ZodEffects<z.ZodDate, string, Date>;
-    id_info: z.ZodObject<{
+    id: z.ZodOptional<z.ZodNumber>;
+    full_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+    country_id: z.ZodOptional<z.ZodNumber>;
+    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
+    id_info: z.ZodOptional<z.ZodObject<{
         type: z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodString;
+            code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+            description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
         }, "strip", z.ZodTypeAny, {
             code?: string;
             description?: string;
@@ -128,7 +143,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             code?: string;
             description?: string;
         }>;
-        number: z.ZodString;
+        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     }, "strip", z.ZodTypeAny, {
         number?: string;
         type?: {
@@ -141,7 +156,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             code?: string;
             description?: string;
         };
-    }>;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     id?: number;
     full_name?: string;
@@ -158,7 +173,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
     id?: number;
     full_name?: string;
     country_id?: number;
-    dob?: Date;
+    dob?: string;
     id_info?: {
         number?: string;
         type?: {

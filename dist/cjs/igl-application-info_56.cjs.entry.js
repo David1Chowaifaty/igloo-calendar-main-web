@@ -3989,19 +3989,86 @@ const IrExtraService = class {
 };
 IrExtraService.style = IrExtraServiceStyle0;
 
+// export const ZIdInfo = z.object({
+//   type: z.object({
+//     code: z.string().min(3),
+//     description: z.string(),
+//   }),
+//   number: z.string().min(2),
+// });
+// export const ZSharedPerson = z.object({
+//   id: z.number(),
+//   full_name: z.string().min(2),
+//   country_id: z.coerce.number().min(0),
+//   dob: z.coerce.date().transform(date => moment(date).format('YYYY-MM-DD')),
+//   id_info: ZIdInfo,
+// });
+/**
+ * ZIdInfo schema:
+ * - `type.code`: Validates a non-empty string must be at least 3 chars.
+ *   If empty string or not provided, validation is skipped.
+ * - `type.description`: Same pattern for description (but no min length).
+ * - `number`: Validates if non-empty string it should be at least 2 chars.
+ */
 const ZIdInfo = utils.z.object({
     type: utils.z.object({
-        code: utils.z.string().min(3),
-        description: utils.z.string(),
+        code: utils.z
+            .union([
+            // If provided and non-empty, must have at least 3 chars
+            utils.z.string().min(3),
+            // or it can be an empty string
+            utils.z.literal(''),
+        ])
+            .optional(), // or undefined
+        description: utils.z
+            .union([
+            // If provided and non-empty, no special min
+            utils.z.string(),
+            // or it can be empty string
+            utils.z.literal(''),
+        ])
+            .optional(),
     }),
-    number: utils.z.string().min(2),
+    number: utils.z
+        .union([
+        // If provided and non-empty, must have at least 2 chars
+        utils.z.string().min(2),
+        // or it can be empty string
+        utils.z.literal(''),
+    ])
+        .optional(),
 });
+/**
+ * ZSharedPerson schema:
+ * - `id`: Optional numeric field.
+ * - `full_name`: If provided and non-empty, must be at least 2 chars.
+ * - `country_id`: If provided, coerced to number, must be >= 0.
+ * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
+ * - `id_info`: The nested object above; can also be omitted entirely.
+ */
 const ZSharedPerson = utils.z.object({
-    id: utils.z.number(),
-    full_name: utils.z.string().min(2),
-    country_id: utils.z.coerce.number().min(0),
-    dob: utils.z.coerce.date().transform(date => moment.hooks(date).format('YYYY-MM-DD')),
-    id_info: ZIdInfo,
+    id: utils.z.number().optional(),
+    full_name: utils.z
+        .union([
+        utils.z.string().min(2), // if provided and non-empty, must have min length 2
+        utils.z.literal(''), // or it can be empty string
+    ])
+        .optional(),
+    country_id: utils.z.coerce
+        .number()
+        .min(0) // if provided, must be >= 0
+        .optional(),
+    dob: utils.z
+        .string()
+        .optional()
+        .refine(value => value === undefined || moment.hooks(value, 'DD/MM/YYYY', true).isValid() || value === '', 'Invalid date format')
+        .transform(value => {
+        if (value === undefined || value === '')
+            return null;
+        const isDDMMYYYY = moment.hooks(value, 'DD/MM/YYYY', true).isValid();
+        return isDDMMYYYY ? null : value;
+    }),
+    id_info: ZIdInfo.optional(),
 });
 const ZSharedPersons = utils.z.array(ZSharedPerson);
 const ExtraServiceSchema = utils.z.object({
@@ -7858,7 +7925,7 @@ try {
   globalThis.IMask = IMask;
 } catch {}
 
-const irInputTextCss = ".sc-ir-input-text-h{margin:0;padding:0;display:inline}.border-theme.sc-ir-input-text{border:1px solid #cacfe7}.icon-container.sc-ir-input-text{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}input.sc-ir-input-text:focus{border-color:#1e9ff2 !important}.input-container.sc-ir-input-text{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.input-container.sc-ir-input-text input.sc-ir-input-text{padding-left:5px !important;padding-right:5px !important;border-left:0;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.icon-container[data-state='focus'].sc-ir-input-text{border-color:var(--blue)}.icon-container[data-disabled].sc-ir-input-text{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.danger-border.sc-ir-input-text{border-color:var(--red)}";
+const irInputTextCss = ".sc-ir-input-text-h{margin:0;padding:0;display:inline}.border-theme.sc-ir-input-text{border:1px solid #cacfe7}.icon-container.sc-ir-input-text{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}input.sc-ir-input-text:focus{border-color:#1e9ff2 !important}.ir-input[data-state='empty'].sc-ir-input-text{color:#bbbfc6}.input-container.sc-ir-input-text{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.input-container.sc-ir-input-text input.sc-ir-input-text{padding-left:5px !important;padding-right:5px !important;border-left:0;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.icon-container[data-state='focus'].sc-ir-input-text{border-color:var(--blue)}.icon-container[data-disabled].sc-ir-input-text{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.danger-border.sc-ir-input-text{border-color:var(--red)}";
 const IrInputTextStyle0 = irInputTextCss;
 
 const IrInputText = class {
@@ -7973,13 +8040,13 @@ const IrInputText = class {
     }
     render() {
         if (this.variant === 'icon') {
-            return (index.h("fieldset", { class: "position-relative has-icon-left input-container" }, index.h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, index.h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, index.h("slot", { name: "icon" }))), index.h("input", { ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
+            return (index.h("fieldset", { class: "position-relative has-icon-left input-container" }, index.h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, index.h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, index.h("slot", { name: "icon" }))), index.h("input", { "data-state": !!this.value ? '' : this.mask ? 'empty' : '', ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
                     this.inputFocused = true;
                     this.inputFocus.emit(e);
-                }, required: this.required, onBlur: this.handleBlur.bind(this), disabled: this.disabled, class: `form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: this.id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
+                }, required: this.required, onBlur: this.handleBlur.bind(this), disabled: this.disabled, class: `ir-input form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: this.id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
         }
         let className = 'form-control';
-        let label = (index.h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, index.h("label", { htmlFor: this.id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (index.h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, index.h("label", { htmlFor: this.id, class: ` input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (!this.LabelAvailable) {
             label = '';
         }
@@ -7989,7 +8056,7 @@ const IrInputText = class {
         if (this.required && !this.initial) {
             className = `${className} border-danger`;
         }
-        return (index.h("div", { class: "form-group" }, index.h("div", { class: "input-group row m-0" }, label, index.h("input", { id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
+        return (index.h("div", { class: "form-group" }, index.h("div", { class: "input-group row m-0" }, label, index.h("input", { "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                 this.inputFocused = true;
                 this.inputFocus.emit(e);
             }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));
@@ -9543,7 +9610,7 @@ const IrRoomGuests = class {
         this.bookingNumber = undefined;
         this.guests = [];
         this.idTypes = [];
-        this.error = false;
+        this.error = {};
         this.isLoading = undefined;
         this.submitted = undefined;
         this.propertyCountry = undefined;
@@ -9597,7 +9664,7 @@ const IrRoomGuests = class {
     async saveGuests() {
         try {
             this.submitted = true;
-            this.error = false;
+            this.error = {};
             ZSharedPersons.parse(this.guests);
             await this.bookingService.handleExposedRoomGuests({
                 booking_nbr: this.bookingNumber,
@@ -9616,7 +9683,11 @@ const IrRoomGuests = class {
         }
         catch (error) {
             console.log(error);
-            this.error = true;
+            if (error instanceof utils.ZodError) {
+                let errors = {};
+                error.issues.map(e => ({ [e.path[0].toString()]: true }));
+                this.error = Object.assign({}, errors);
+            }
         }
     }
     render() {
@@ -9625,16 +9696,16 @@ const IrRoomGuests = class {
         }
         return (index.h("div", { class: "h-100 d-flex flex-column", style: { minWidth: '300px' } }, index.h("ir-title", { class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), index.h("section", { class: 'd-flex flex-column px-1 h-100 ' }, index.h("div", { class: "" }, index.h("div", { class: "guest-grid guests-labels" }, index.h("p", { class: "" }, locales_store.locales.entries.Lcz_MainGuest), index.h("p", { class: " " }, locales_store.locales.entries.Lcz_DOB), index.h("p", { class: "" }, locales_store.locales.entries.Lcz_Nationality), index.h("p", { class: " " }, locales_store.locales.entries.Lcz_Documents)), index.h("h5", { class: "main_guest_heading" }, locales_store.locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
             var _a, _b;
-            return (index.h(index.Fragment, null, idx === 1 && (index.h("div", { class: "d-flex mx-0 px-0" }, index.h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales_store.locales.entries.Lcz_PersonsSharingRoom), index.h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales_store.locales.entries.Lcz_PersonsSharingRoom))), index.h("div", { key: idx, class: "guest-grid" }, index.h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, index.h("p", { class: "guest_label" }, "Full name"), index.h("ir-input-text", { class: "flex-grow-1 h-100", id: `full_name_${idx}`, zod: ZSharedPerson.pick({ full_name: true }), error: this.error, autoValidate: false, wrapKey: "full_name", LabelAvailable: false, submitted: this.submitted, placeholder: "", onTextChange: e => this.updateGuestInfo(idx, { full_name: e.detail }), value: guest.full_name })), index.h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_DOB), index.h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: this.error, autoValidate: false, wrapKey: "dob", submitted: this.submitted, mask: dateMask, LabelAvailable: false, placeholder: "dd/mm/yyyy", onTextChange: e => {
+            return (index.h(index.Fragment, null, idx === 1 && (index.h("div", { class: "d-flex mx-0 px-0" }, index.h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales_store.locales.entries.Lcz_PersonsSharingRoom), index.h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales_store.locales.entries.Lcz_PersonsSharingRoom))), index.h("div", { key: idx, class: "guest-grid" }, index.h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, index.h("p", { class: "guest_label" }, "Full name"), index.h("ir-input-text", { class: "flex-grow-1 h-100", id: `full_name_${idx}`, zod: ZSharedPerson.pick({ full_name: true }), error: !!this.error['full_name'], autoValidate: false, wrapKey: "full_name", LabelAvailable: false, submitted: this.submitted, placeholder: "", onTextChange: e => this.updateGuestInfo(idx, { full_name: e.detail }), value: guest.full_name })), index.h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_DOB), index.h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'], autoValidate: false, wrapKey: "dob", submitted: this.submitted, mask: dateMask, LabelAvailable: false, placeholder: "dd/mm/yyyy", onTextChange: e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
-                }, value: guest.dob })), index.h("div", { class: " m-0 p-0 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_Nationality), index.h("div", { class: "mx-0 flex-grow-1  h-100" }, index.h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: this.error && !guest.country_id, country: (_a = this.countries) === null || _a === void 0 ? void 0 : _a.find(c => { var _a, _b, _c; return ((_a = c.id) === null || _a === void 0 ? void 0 : _a.toString()) === ((_c = (_b = guest.country) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString()); }), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail.id.toString(), country: e.detail }), countries: this.countries }))), index.h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_Documents), index.h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, index.h("ir-select", { selectStyles: 'id-select', onSelectChange: e => {
+                }, value: guest.dob })), index.h("div", { class: " m-0 p-0 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_Nationality), index.h("div", { class: "mx-0 flex-grow-1  h-100" }, index.h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: (_a = this.countries) === null || _a === void 0 ? void 0 : _a.find(c => { var _a, _b, _c; return ((_a = c.id) === null || _a === void 0 ? void 0 : _a.toString()) === ((_c = (_b = guest.country) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString()); }), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail.id.toString(), country: e.detail }), countries: this.countries }))), index.h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, index.h("p", { class: "guest_label" }, locales_store.locales.entries.Lcz_Documents), index.h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, index.h("ir-select", { selectStyles: 'id-select', onSelectChange: e => {
                     this.updateGuestInfo(idx, {
                         id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { type: {
                                 code: e.detail,
                                 description: '',
                             } }),
                     });
-                }, selectedValue: guest.id_info.type.code, showFirstOption: false, LabelAvailable: false, data: (_b = this.idTypes) === null || _b === void 0 ? void 0 : _b.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), index.h("ir-input-text", { class: "flex-grow-1 guest_document", type: "text", value: guest.id_info.number, zod: ZIdInfo.pick({ number: true }), error: this.error, autoValidate: false, wrapKey: "number", inputStyles: "form-control", submitted: this.submitted, LabelAvailable: false, onTextChange: e => this.updateGuestInfo(idx, {
+                }, selectedValue: guest.id_info.type.code, showFirstOption: false, LabelAvailable: false, data: (_b = this.idTypes) === null || _b === void 0 ? void 0 : _b.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), index.h("ir-input-text", { placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", value: guest.id_info.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'], autoValidate: false, wrapKey: "number", inputStyles: "form-control", submitted: this.submitted, LabelAvailable: false, onTextChange: e => this.updateGuestInfo(idx, {
                     id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { number: e.detail }),
                 }) }))))));
         })), index.h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: irInterceptor_store.isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales_store.locales.entries.Lcz_CheckIn : locales_store.locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));

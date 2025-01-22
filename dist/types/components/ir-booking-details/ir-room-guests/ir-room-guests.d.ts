@@ -44,7 +44,7 @@ export declare class IrRoomGuests {
     bookingNumber: string;
     guests: SharedPerson[];
     idTypes: IEntries[];
-    error: boolean;
+    error: Record<string, boolean>;
     isLoading: boolean;
     submitted: boolean;
     propertyCountry: ICountry;
