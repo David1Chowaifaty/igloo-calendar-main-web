@@ -5,8 +5,6 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
-import calendar_data from "../../stores/calendar-data";
-import moment from "moment";
 export class IrBookingDetails {
     constructor() {
         this.bookingService = new BookingService();
@@ -14,7 +12,7 @@ export class IrBookingDetails {
         this.paymentService = new PaymentService();
         this.token = new Token();
         this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
-        this.language = 'en';
+        this.language = '';
         this.ticket = '';
         this.bookingNumber = '';
         this.propertyid = undefined;
@@ -34,12 +32,11 @@ export class IrBookingDetails {
         this.statusData = [];
         this.showPaymentDetails = undefined;
         this.booking = undefined;
-        this.countries = undefined;
+        this.countryNodeList = undefined;
         this.calendarData = {};
         this.guestData = null;
         this.rerenderFlag = false;
         this.sidebarState = null;
-        this.sidebarPayload = undefined;
         this.isUpdateClicked = false;
         this.pms_status = undefined;
         this.isPMSLogLoading = false;
@@ -47,7 +44,6 @@ export class IrBookingDetails {
         this.property_id = undefined;
         this.selectedService = undefined;
         this.bedPreference = undefined;
-        this.roomGuest = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -64,7 +60,6 @@ export class IrBookingDetails {
     }
     handleSideBarEvents(e) {
         this.sidebarState = e.detail.type;
-        this.sidebarPayload = e.detail.payload;
     }
     handleIconClick(e) {
         const target = e.target;
@@ -163,7 +158,7 @@ export class IrBookingDetails {
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
-                this.bookingService.getSetupEntriesByTableName('_BED_PREFERENCE_TYPE'),
+                this.bookingService.getBedPreferences(),
             ]);
             this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
             this.bedPreference = bedPreference;
@@ -181,7 +176,7 @@ export class IrBookingDetails {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
             }
-            this.countries = countriesList;
+            this.countryNodeList = countriesList;
             const myResult = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
@@ -241,13 +236,13 @@ export class IrBookingDetails {
         }
     }
     renderSidebarContent() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a;
         const handleClose = () => {
             this.sidebarState = null;
         };
         switch (this.sidebarState) {
             case 'guest':
-                return (h("ir-guest-info", { isInSideBar: true, headerShown: true, slot: "sidebar-body", booking_nbr: this.bookingNumber, email: (_a = this.booking) === null || _a === void 0 ? void 0 : _a.guest.email, language: this.language, onCloseSideBar: handleClose }));
+                return (h("ir-guest-info", { headerShown: true, slot: "sidebar-body", booking_nbr: this.bookingNumber, email: (_a = this.booking) === null || _a === void 0 ? void 0 : _a.guest.email, language: this.language, onCloseSideBar: handleClose }));
             case 'pickup':
                 return (h("ir-pickup", { slot: "sidebar-body", defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: handleClose }));
             case 'extra_note':
@@ -259,8 +254,6 @@ export class IrBookingDetails {
                             this.selectedService = null;
                         }
                     } }));
-            case 'room-guest':
-                return (h("ir-room-guests", { countries: this.countries, language: this.language, identifier: (_b = this.sidebarPayload) === null || _b === void 0 ? void 0 : _b.identifier, bookingNumber: this.booking.booking_nbr, roomName: (_c = this.sidebarPayload) === null || _c === void 0 ? void 0 : _c.roomName, totalGuests: (_d = this.sidebarPayload) === null || _d === void 0 ? void 0 : _d.totalGuests, sharedPersons: (_e = this.sidebarPayload) === null || _e === void 0 ? void 0 : _e.sharing_persons, slot: "sidebar-body", checkIn: (_f = this.sidebarPayload) === null || _f === void 0 ? void 0 : _f.checkin, onCloseModal: handleClose }));
             default:
                 return null;
         }
@@ -272,42 +265,19 @@ export class IrBookingDetails {
         return [
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", null), h("ir-interceptor", null)))),
             h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt }),
-            h("div", { class: "fluid-container p-1 text-left mx-0" }, h("div", { class: "row m-0" }, h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } }))), h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index) => {
-                const showCheckin = this.handleRoomCheckin(room);
-                const showCheckout = this.handleRoomCheckout(room);
+            h("div", { class: "fluid-container p-1 text-left mx-0" }, h("div", { class: "row m-0" }, h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, h("ir-reservation-information", { countries: this.countryNodeList, booking: this.booking }), h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } }))), h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index) => {
                 return [
-                    h("ir-room", { room: room, language: this.language, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: index, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
+                    h("ir-room", { language: this.language, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: this.hasCheckIn, hasCheckOut: this.hasCheckOut, bookingEvent: this.booking, bookingIndex: index, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
                     index !== this.booking.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, bookingDetails: this.booking })))),
-            h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
+            h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.sidebarState = null;
                 }, showCloseButton: false }, this.renderSidebarContent()),
-            h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
+            h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
         ];
-    }
-    handleRoomCheckout(room) {
-        if (!calendar_data.checkin_enabled) {
-            return false;
-        }
-        return room.in_out.code === '001';
-    }
-    handleRoomCheckin(room) {
-        if (!calendar_data.checkin_enabled) {
-            return false;
-        }
-        if (!room.unit) {
-            return false;
-        }
-        if (room.in_out && room.in_out.code !== '000') {
-            return false;
-        }
-        if (moment(new Date()).isSameOrAfter(new Date(room.from_date), 'days') && moment(new Date()).isBefore(new Date(room.to_date), 'days')) {
-            return true;
-        }
-        return false;
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "scoped"; }
@@ -339,7 +309,7 @@ export class IrBookingDetails {
                 },
                 "attribute": "language",
                 "reflect": false,
-                "defaultValue": "'en'"
+                "defaultValue": "''"
             },
             "ticket": {
                 "type": "string",
@@ -617,20 +587,18 @@ export class IrBookingDetails {
             "statusData": {},
             "showPaymentDetails": {},
             "booking": {},
-            "countries": {},
+            "countryNodeList": {},
             "calendarData": {},
             "guestData": {},
             "rerenderFlag": {},
             "sidebarState": {},
-            "sidebarPayload": {},
             "isUpdateClicked": {},
             "pms_status": {},
             "isPMSLogLoading": {},
             "paymentActions": {},
             "property_id": {},
             "selectedService": {},
-            "bedPreference": {},
-            "roomGuest": {}
+            "bedPreference": {}
         };
     }
     static get events() {

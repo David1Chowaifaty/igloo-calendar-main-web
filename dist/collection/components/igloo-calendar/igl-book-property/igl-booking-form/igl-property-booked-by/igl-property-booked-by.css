@@ -16,9 +16,11 @@
   min-width: 125px;
   max-width: 125px;
 }
-.row.sc-igl-booking-form {
-  padding: 0 !important;
+
+.bookedDetailsForm .controlContainer {
+  /* width: calc(100% - 127px); */
 }
+
 .bookedDetailsForm .form-group {
   margin-bottom: 10px !important;
 }

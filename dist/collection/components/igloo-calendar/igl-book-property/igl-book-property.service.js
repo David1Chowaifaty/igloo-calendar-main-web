@@ -132,7 +132,7 @@ export class IglBookPropertyService {
         const names = name.split(' ');
         return { first_name: names[0] || null, last_name: names[1] || null };
     }
-    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, }) {
         const rooms = [];
         const total_days = calculateDaysBetweenDates(moment(check_in).format('YYYY-MM-DD'), moment(check_out).format('YYYY-MM-DD'));
         const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
@@ -170,7 +170,6 @@ export class IglBookPropertyService {
                             from_date: moment(check_in).format('YYYY-MM-DD'),
                             to_date: moment(check_out).format('YYYY-MM-DD'),
                             notes,
-                            check_in: auto_check_in,
                             days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr)),
                             guest: {
                                 email: null,
@@ -192,7 +191,7 @@ export class IglBookPropertyService {
         return rooms;
     }
     async prepareBookUserServiceParams({ context, sourceOption, check_in }) {
-        var _a, _b;
+        var _a;
         try {
             // Validate context structure
             if (!context || !context.dateRangeData) {
@@ -200,7 +199,7 @@ export class IglBookPropertyService {
             }
             const fromDate = new Date(context.dateRangeData.fromDate);
             const toDate = new Date(context.dateRangeData.toDate);
-            const generateNewRooms = (identifier = null, check_in = false) => {
+            const generateNewRooms = (identifier = null) => {
                 return this.getBookedRooms({
                     check_in: fromDate,
                     check_out: toDate,
@@ -208,13 +207,13 @@ export class IglBookPropertyService {
                     notes: '',
                     override_unit: context.isEventType('BAR_BOOKING') ? true : false,
                     unit: context.isEventType('BAR_BOOKING') ? context.bookingData.PR_ID : null,
-                    auto_check_in: check_in,
                 });
             };
             const modifyBookingDetails = (_a, rooms) => {
                 var { pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras } = _a, rest = __rest(_a, ["pickup_info", "extra_services", "is_direct", "is_in_loyalty_mode", "promo_key", "extras"]);
                 return {
                     assign_units: true,
+                    check_in: false,
                     is_pms: true,
                     is_direct,
                     is_in_loyalty_mode,
@@ -230,8 +229,7 @@ export class IglBookPropertyService {
                 case 'EDIT_BOOKING': {
                     const { booking, currentRoomType } = context.defaultData;
                     const filteredRooms = booking.rooms.filter(r => r.identifier !== currentRoomType.identifier);
-                    console.log('currentRoomType', currentRoomType);
-                    const newRooms = generateNewRooms(currentRoomType.identifier, ((_a = currentRoomType.in_out) === null || _a === void 0 ? void 0 : _a.code) === '001');
+                    const newRooms = generateNewRooms(currentRoomType.identifier);
                     newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
                     break;
                 }
@@ -247,11 +245,12 @@ export class IglBookPropertyService {
                     break;
                 }
                 default: {
-                    const newRooms = generateNewRooms(null, check_in);
+                    const newRooms = generateNewRooms();
                     const { bookedByInfoData } = context;
                     const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
                     newBooking = {
                         assign_units: true,
+                        check_in,
                         is_pms: true,
                         is_direct: true,
                         is_in_loyalty_mode: false,
@@ -282,7 +281,7 @@ export class IglBookPropertyService {
                                 country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
                                 city: null,
                                 mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
-                                country_phone_prefix: (_b = bookedByInfoData === null || bookedByInfoData === void 0 ? void 0 : bookedByInfoData.isdCode) !== null && _b !== void 0 ? _b : null,
+                                country_phone_prefix: (_a = bookedByInfoData === null || bookedByInfoData === void 0 ? void 0 : bookedByInfoData.isdCode) !== null && _a !== void 0 ? _a : null,
                                 address: '',
                                 dob: null,
                                 subscribe_to_news_letter: bookedByInfoData.emailGuest || false,

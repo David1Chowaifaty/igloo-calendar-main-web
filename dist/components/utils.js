@@ -4356,6 +4356,7 @@ const extras = [
         key: 'agent_payment_mode',
         value: '',
     },
+    { key: 'payment_code', value: '' },
 ];
 function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));

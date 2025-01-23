@@ -45,10 +45,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.paymentBackground = 'rgba(250, 253, 174)';
     }
     async componentWillLoad() {
-        var _a;
         try {
-            const hasAgent = this.bookingDetails.agent && ((_a = this.bookingDetails.extras) === null || _a === void 0 ? void 0 : _a.find(e => e.key === 'agent_payment_mode'));
-            this.hasAgentWithCode001 = (hasAgent === null || hasAgent === void 0 ? void 0 : hasAgent.value) === '001';
             this.initializeItemToBeAdded();
         }
         catch (error) {
@@ -197,18 +194,49 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     }
     bookingGuarantee() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3;
-        if (this.bookingDetails.is_direct && !this.bookingDetails.guest.cci) {
+        const paymentMethod = this.bookingDetails.is_direct ? this.getPaymentMethod() : null;
+        if (this.bookingDetails.is_direct && !paymentMethod && !this.bookingDetails.guest.cci) {
             return null;
         }
-        return (h("div", null, h("div", { class: "d-flex align-items-center" }, h("span", { class: "mr-1 font-medium" }, locales.entries.Lcz_BookingGuarantee, " ", this.hasAgentWithCode001 && `(${locales.entries.Lcz_OnCredit})`), h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": `.guarrantee`, "aria-expanded": this.collapsedGuarantee ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHandler: async () => {
+        return (h("div", { class: "mb-1" }, h("div", { class: "d-flex align-items-center" }, h("span", { class: "mr-1 font-medium" }, locales.entries.Lcz_BookingGuarantee, !!paymentMethod && h("span", null, " (", paymentMethod, ")")), this.bookingDetails.guest.cci && (h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": `.guarrantee`, "aria-expanded": this.collapsedGuarantee ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHandler: async () => {
                 if (!this.bookingDetails.is_direct && this.bookingDetails.channel_booking_nbr && !this.bookingDetails.guest.cci) {
                     this.paymentDetailsUrl = await this.bookingService.getPCICardInfoURL(this.bookingDetails.booking_nbr);
                 }
                 this.collapsedGuarantee = !this.collapsedGuarantee;
-            } })), h("div", { class: "collapse guarrantee " }, this.bookingDetails.guest.cci ? ([
+            } }))), h("div", { class: "collapse guarrantee " }, this.bookingDetails.guest.cci ? ([
             h("div", null, ((_b = (_a = this.bookingDetails) === null || _a === void 0 ? void 0 : _a.guest) === null || _b === void 0 ? void 0 : _b.cci) && 'Card:', " ", h("span", null, ((_e = (_d = (_c = this.bookingDetails) === null || _c === void 0 ? void 0 : _c.guest) === null || _d === void 0 ? void 0 : _d.cci) === null || _e === void 0 ? void 0 : _e.nbr) || ''), " ", ((_h = (_g = (_f = this.bookingDetails) === null || _f === void 0 ? void 0 : _f.guest) === null || _g === void 0 ? void 0 : _g.cci) === null || _h === void 0 ? void 0 : _h.expiry_month) && 'Expiry: ', h("span", null, ' ', ((_l = (_k = (_j = this.bookingDetails) === null || _j === void 0 ? void 0 : _j.guest) === null || _k === void 0 ? void 0 : _k.cci) === null || _l === void 0 ? void 0 : _l.expiry_month) || '', " ", ((_p = (_o = (_m = this.bookingDetails) === null || _m === void 0 ? void 0 : _m.guest) === null || _o === void 0 ? void 0 : _o.cci) === null || _p === void 0 ? void 0 : _p.expiry_year) && '/' + ((_s = (_r = (_q = this.bookingDetails) === null || _q === void 0 ? void 0 : _q.guest) === null || _r === void 0 ? void 0 : _r.cci) === null || _s === void 0 ? void 0 : _s.expiry_year))),
             h("div", null, ((_u = (_t = this.bookingDetails) === null || _t === void 0 ? void 0 : _t.guest) === null || _u === void 0 ? void 0 : _u.cci.holder_name) && 'Name:', " ", h("span", null, ((_x = (_w = (_v = this.bookingDetails) === null || _v === void 0 ? void 0 : _v.guest) === null || _w === void 0 ? void 0 : _w.cci) === null || _x === void 0 ? void 0 : _x.holder_name) || ''), ' ', ((_0 = (_z = (_y = this.bookingDetails) === null || _y === void 0 ? void 0 : _y.guest) === null || _z === void 0 ? void 0 : _z.cci) === null || _0 === void 0 ? void 0 : _0.cvc) && '- CVC:', " ", h("span", null, " ", ((_3 = (_2 = (_1 = this.bookingDetails) === null || _1 === void 0 ? void 0 : _1.guest) === null || _2 === void 0 ? void 0 : _2.cci) === null || _3 === void 0 ? void 0 : _3.cvc) || '')),
         ]) : this.paymentDetailsUrl ? (h("iframe", { src: this.paymentDetailsUrl, width: "100%", class: "iframeHeight", frameborder: "0", name: "payment" })) : (h("div", { class: "text-center" }, this.paymentExceptionMessage)))));
+    }
+    checkPaymentCode(value) {
+        switch (value) {
+            case '000':
+                return 'No deposit required';
+            case '001':
+            case '004':
+                return 'Manual Card';
+            case '005':
+                return 'Bank or money transfer';
+            default:
+                return value;
+        }
+    }
+    getPaymentMethod() {
+        var _a, _b;
+        let paymentMethod = null;
+        const payment_code = (_a = this.bookingDetails) === null || _a === void 0 ? void 0 : _a.extras.find(e => e.key === 'payment_code');
+        if (this.bookingDetails.agent) {
+            const code = (_b = this.bookingDetails) === null || _b === void 0 ? void 0 : _b.extras.find(e => e.key === 'agent_payment_mode');
+            if (code) {
+                paymentMethod = code.value === '001' ? 'On Credit' : payment_code ? this.checkPaymentCode(payment_code.value) : null;
+            }
+        }
+        else {
+            if (payment_code) {
+                paymentMethod = this.checkPaymentCode(payment_code.value);
+            }
+        }
+        return paymentMethod;
     }
     _renderDueDate(item) {
         return (h("tr", null, h("td", { class: 'pr-1' }, _formatDate(item.date)), h("td", { class: 'pr-1' }, formatAmount(this.bookingDetails.currency.symbol, item.amount)), h("td", { class: 'pr-1' }, item.description), h("td", { class: "collapse font-size-small roomName" }, item.room)));

@@ -1,5 +1,11 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IglTbaBookingView {
+    highlightToBeAssignedBookingEvent: EventEmitter;
+    addToBeAssignedEvent: EventEmitter;
+    scrollPageToRoom: EventEmitter;
+    assignRoomEvent: EventEmitter<{
+        [key: string]: any;
+    }>;
     calendarData: {
         [key: string]: any;
     };
@@ -15,24 +21,16 @@ export declare class IglTbaBookingView {
     eventIndex: any;
     renderAgain: boolean;
     selectedRoom: number;
-    isLoading: 'default' | 'checkin' | null;
     private highlightSection;
     private allRoomsList;
     private toBeAssignedService;
-    highlightToBeAssignedBookingEvent: EventEmitter;
-    addToBeAssignedEvent: EventEmitter;
-    scrollPageToRoom: EventEmitter;
-    assignRoomEvent: EventEmitter<{
-        [key: string]: any;
-    }>;
+    onSelectRoom(evt: any): void;
     componentShouldUpdate(newValue: string, oldValue: string, propName: string): boolean;
     componentWillLoad(): void;
+    handleAssignUnit(event: any): Promise<void>;
+    handleHighlightAvailability(): void;
+    handleCloseAssignment(event: any): void;
     highlightBookingEvent(event: CustomEvent): void;
-    private onSelectRoom;
-    private handleAssignUnit;
-    private handleHighlightAvailability;
-    private handleCloseAssignment;
-    private renderView;
-    private canCheckIn;
+    renderView(): void;
     render(): any;
 }

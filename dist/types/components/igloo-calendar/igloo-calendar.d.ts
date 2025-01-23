@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Moment } from 'moment';
-import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types";
+import { IReallocationPayload, IRoomNightsData } from "../../models/property-types";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 export declare class IglooCalendar {
     propertyid: number;
@@ -20,7 +20,7 @@ export declare class IglooCalendar {
         [key: string]: any;
     }[];
     scrollViewDragging: boolean;
-    dialogData: CalendarModalEvent | null;
+    dialogData: IReallocationPayload | null;
     bookingItem: TIglBookPropertyPayload | null;
     editBookingItem: TIglBookPropertyPayload | null;
     showLegend: boolean;
@@ -74,11 +74,9 @@ export declare class IglooCalendar {
     dragOverEventDataHandler(event: CustomEvent): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private init;
-    private renderModalBody;
     private setUpCalendarData;
     initializeApp(): Promise<void>;
     private handleSocketMessage;
-    private handleRoomStatusChanged;
     private handleDoReservation;
     private handleBlockExposedUnit;
     private handleAssignExposedRoom;

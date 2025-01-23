@@ -5,7 +5,7 @@ export class IrExtraServices {
     }
     render() {
         var _a;
-        return (h(Host, { key: 'f548331073ceeefe7213876d2c4d5ed166759fa6', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
+        return (h(Host, { key: '7d69ff422812c09cbb2002a1d4e51207a9223be4', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
     static get is() { return "ir-extra-services"; }
     static get encapsulation() { return "scoped"; }

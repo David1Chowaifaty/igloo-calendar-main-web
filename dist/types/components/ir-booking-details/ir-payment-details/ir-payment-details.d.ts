@@ -22,7 +22,6 @@ export declare class IrPaymentDetails {
     private paymentService;
     private bookingService;
     private paymentBackground;
-    private hasAgentWithCode001;
     handlePaymentGeneration(e: CustomEvent): void;
     componentWillLoad(): Promise<void>;
     initializeItemToBeAdded(): void;
@@ -40,6 +39,8 @@ export declare class IrPaymentDetails {
     }>): void;
     _renderTableRow(item: IPayment, rowMode?: 'add' | 'normal'): any;
     private bookingGuarantee;
+    private checkPaymentCode;
+    private getPaymentMethod;
     _renderDueDate(item: IDueDate): any;
     render(): any[];
 }

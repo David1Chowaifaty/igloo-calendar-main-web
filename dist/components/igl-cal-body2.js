@@ -1,10 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { a as calendar_dates } from './booking.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$8 } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$7 } from './igl-booking-event2.js';
-import { d as defineCustomElement$6 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$7 } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$6 } from './igl-booking-event2.js';
+import { d as defineCustomElement$5 } from './igl-booking-event-hover2.js';
 import { d as defineCustomElement$4 } from './ir-date-view2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-popover2.js';
@@ -280,7 +279,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '3be004284cd76f677ae4b688fb1f0077eab3a547' }, h("div", { key: '132fa043058ae62718f699fb109cc5bf60acef2e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'feb4e8f31d0e789a725fb067c00015a6d37d6ef7', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: 'e16b417f5f3a9dc9f6151b49f8f7d1eba62a5c39' }, h("div", { key: 'c2b251b6ec01b8c1ab6601f9c1bd9277cf161d36', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '40e1b32cef7a9975d3d3645be74cd83ef3195c06', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get style() { return IglCalBodyStyle0; }
 }, [2, "igl-cal-body", {
@@ -298,7 +297,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-icons", "ir-popover", "ota-label"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-date-view", "ir-icons", "ir-popover", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -307,20 +306,15 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$7();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
-            }
-            break;
-        case "igl-booking-event-hover":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-button":
+        case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

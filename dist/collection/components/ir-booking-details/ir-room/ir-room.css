@@ -2,33 +2,14 @@
   background: #acecff;
   padding: 0.1rem 0.3rem;
   border-radius: 5px;
-  display: block;
-  max-width: 100px;
-  box-sizing: border-box;
-  display: inline-block;
-  overflow: hidden;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: default;
-}
 
-.room_statements {
-  display: block;
-  width: 100%; /* Ensure the container uses the full width */
+  /* max-width: max-content; */
 }
 .room_statements {
   display: block;
   width: 100%;
 }
-.room_guest_name {
-  width: fit-content;
-  padding: 0 !important;
-  margin: 0;
-}
-.room_guest_name .button-text {
-  padding: 0 !important;
-}
+
 .room_statements span {
   display: inline;
   white-space: normal;

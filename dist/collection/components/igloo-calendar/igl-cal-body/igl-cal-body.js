@@ -263,7 +263,7 @@ export class IglCalBody {
     render() {
         var _a;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '3be004284cd76f677ae4b688fb1f0077eab3a547' }, h("div", { key: '132fa043058ae62718f699fb109cc5bf60acef2e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'feb4e8f31d0e789a725fb067c00015a6d37d6ef7', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: 'e16b417f5f3a9dc9f6151b49f8f7d1eba62a5c39' }, h("div", { key: 'c2b251b6ec01b8c1ab6601f9c1bd9277cf161d36', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '40e1b32cef7a9975d3d3645be74cd83ef3195c06', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
