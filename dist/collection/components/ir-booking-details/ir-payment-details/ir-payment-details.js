@@ -7,6 +7,7 @@ import { colorVariants } from "../../ui/ir-icons/icons";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { formatAmount } from "../../../utils/utils";
 import locales from "../../../stores/locales.store";
+import calendar_data from "../../../stores/calendar-data";
 export class IrPaymentDetails {
     constructor() {
         this.paymentService = new PaymentService();
@@ -196,17 +197,9 @@ export class IrPaymentDetails {
         ]) : this.paymentDetailsUrl ? (h("iframe", { src: this.paymentDetailsUrl, width: "100%", class: "iframeHeight", frameborder: "0", name: "payment" })) : (h("div", { class: "text-center" }, this.paymentExceptionMessage)))));
     }
     checkPaymentCode(value) {
-        switch (value) {
-            case '000':
-                return 'No deposit required';
-            case '001':
-            case '004':
-                return 'Manual Card';
-            case '005':
-                return 'Bank or money transfer';
-            default:
-                return value;
-        }
+        var _a, _b, _c;
+        console.log(calendar_data.allowed_payment_methods);
+        return (_c = (_b = (_a = calendar_data.allowed_payment_methods) === null || _a === void 0 ? void 0 : _a.find(pm => pm.code === value)) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : null;
     }
     getPaymentMethod() {
         var _a, _b;
@@ -215,7 +208,7 @@ export class IrPaymentDetails {
         if (this.bookingDetails.agent) {
             const code = (_b = this.bookingDetails) === null || _b === void 0 ? void 0 : _b.extras.find(e => e.key === 'agent_payment_mode');
             if (code) {
-                paymentMethod = code.value === '001' ? 'On Credit' : payment_code ? this.checkPaymentCode(payment_code.value) : null;
+                paymentMethod = code.value === '001' ? locales.entries.Lcz_OnCredit : payment_code ? this.checkPaymentCode(payment_code.value) : null;
             }
         }
         else {

@@ -14,7 +14,7 @@ class RoomService {
             const results = data.My_Result;
             calendarData.calendar_data.adultChildConstraints = results.adult_child_constraints;
             calendarData.calendar_data.allowedBookingSources = results.allowed_booking_sources;
-            calendarData.calendar_data.allowed_payment_methods = results.allowed_booking_methods;
+            calendarData.calendar_data.allowed_payment_methods = results.allowed_payment_methods;
             calendarData.calendar_data.currency = results.currency;
             calendarData.calendar_data.is_vacation_rental = results.is_vacation_rental;
             calendarData.calendar_data.pickup_service = results.pickup_service;
@@ -61,4 +61,4 @@ class RoomService {
 
 exports.RoomService = RoomService;
 
-//# sourceMappingURL=room.service-5e6e33dd.js.map
+//# sourceMappingURL=room.service-2a36c5da.js.map

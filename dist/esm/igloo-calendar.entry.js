@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-16fddfc2.js';
+import { R as RoomService } from './room.service-1e9980b5.js';
 import { B as BookingService, h as calendar_dates, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.service-4cc7ed9e.js';
 import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils-179d2c22.js';
 import { E as EventsService } from './events.service-d77d4587.js';

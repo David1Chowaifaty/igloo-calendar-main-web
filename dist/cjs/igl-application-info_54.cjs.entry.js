@@ -11,7 +11,7 @@ const v4 = require('./v4-9b297151.js');
 const moment = require('./moment-1780b03a.js');
 const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const Token = require('./Token-a4c2b5d8.js');
-const room_service = require('./room.service-5e6e33dd.js');
+const room_service = require('./room.service-2a36c5da.js');
 const axios = require('./axios-b86c5465.js');
 const icons = require('./icons-e68cb333.js');
 const index$1 = require('./index-5e99a1fe.js');
@@ -4836,17 +4836,9 @@ const IrPaymentDetails = class {
         ]) : this.paymentDetailsUrl ? (index.h("iframe", { src: this.paymentDetailsUrl, width: "100%", class: "iframeHeight", frameborder: "0", name: "payment" })) : (index.h("div", { class: "text-center" }, this.paymentExceptionMessage)))));
     }
     checkPaymentCode(value) {
-        switch (value) {
-            case '000':
-                return 'No deposit required';
-            case '001':
-            case '004':
-                return 'Manual Card';
-            case '005':
-                return 'Bank or money transfer';
-            default:
-                return value;
-        }
+        var _a, _b, _c;
+        console.log(calendarData.calendar_data.allowed_payment_methods);
+        return (_c = (_b = (_a = calendarData.calendar_data.allowed_payment_methods) === null || _a === void 0 ? void 0 : _a.find(pm => pm.code === value)) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : null;
     }
     getPaymentMethod() {
         var _a, _b;
@@ -4855,7 +4847,7 @@ const IrPaymentDetails = class {
         if (this.bookingDetails.agent) {
             const code = (_b = this.bookingDetails) === null || _b === void 0 ? void 0 : _b.extras.find(e => e.key === 'agent_payment_mode');
             if (code) {
-                paymentMethod = code.value === '001' ? 'On Credit' : payment_code ? this.checkPaymentCode(payment_code.value) : null;
+                paymentMethod = code.value === '001' ? locales_store.locales.entries.Lcz_OnCredit : payment_code ? this.checkPaymentCode(payment_code.value) : null;
             }
         }
         else {

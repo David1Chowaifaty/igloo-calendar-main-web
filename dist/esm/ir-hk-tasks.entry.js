@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host, g as getElement } from './index-c553b3dc.js';
 import { T as Token } from './Token-a382baa1.js';
 import { H as HouseKeepingService, u as updateHKStore, h as housekeeping_store } from './housekeeping.service-0fce7ec1.js';
-import { R as RoomService } from './room.service-16fddfc2.js';
+import { R as RoomService } from './room.service-1e9980b5.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import './axios-ab377903.js';
 import './index-1d7b1ff2.js';

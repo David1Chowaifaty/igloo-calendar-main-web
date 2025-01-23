@@ -7,6 +7,7 @@ import { c as colorVariants, d as defineCustomElement$3 } from './ir-icons2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
+import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-picker2.js';
 import { d as defineCustomElement$2 } from './ir-modal2.js';
@@ -209,17 +210,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         ]) : this.paymentDetailsUrl ? (h("iframe", { src: this.paymentDetailsUrl, width: "100%", class: "iframeHeight", frameborder: "0", name: "payment" })) : (h("div", { class: "text-center" }, this.paymentExceptionMessage)))));
     }
     checkPaymentCode(value) {
-        switch (value) {
-            case '000':
-                return 'No deposit required';
-            case '001':
-            case '004':
-                return 'Manual Card';
-            case '005':
-                return 'Bank or money transfer';
-            default:
-                return value;
-        }
+        var _a, _b, _c;
+        console.log(calendar_data.allowed_payment_methods);
+        return (_c = (_b = (_a = calendar_data.allowed_payment_methods) === null || _a === void 0 ? void 0 : _a.find(pm => pm.code === value)) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : null;
     }
     getPaymentMethod() {
         var _a, _b;
@@ -228,7 +221,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         if (this.bookingDetails.agent) {
             const code = (_b = this.bookingDetails) === null || _b === void 0 ? void 0 : _b.extras.find(e => e.key === 'agent_payment_mode');
             if (code) {
-                paymentMethod = code.value === '001' ? 'On Credit' : payment_code ? this.checkPaymentCode(payment_code.value) : null;
+                paymentMethod = code.value === '001' ? locales.entries.Lcz_OnCredit : payment_code ? this.checkPaymentCode(payment_code.value) : null;
             }
         }
         else {
