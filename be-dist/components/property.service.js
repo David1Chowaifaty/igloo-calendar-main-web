@@ -1,4 +1,4 @@
-import { b as booking_store, d as dateFns, i as injectHTML, g as getDateDifference, V as VariationService } from './utils.js';
+import { b as booking_store, d as dateFns, i as injectHTML, V as VariationService } from './utils.js';
 import { a as axios } from './axios.js';
 import { a as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
@@ -335,8 +335,16 @@ class PropertyService {
                             from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
                             to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
                             notes: null,
-                            days: this.propertyHelpers.generateDays(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date, Number(variation.discounted_amount) / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date)),
-                            // days: variation.nights,
+                            // days: this.propertyHelpers.generateDays(
+                            //   booking_store.bookingAvailabilityParams.from_date,
+                            //   booking_store.bookingAvailabilityParams.to_date,
+                            //   Number(variation.discounted_amount) / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date),
+                            // ),
+                            days: variation.nights.map(n => ({
+                                date: n.night,
+                                amount: n.discounted_amount,
+                                cost: null,
+                            })),
                             guest: {
                                 email: null,
                                 first_name,

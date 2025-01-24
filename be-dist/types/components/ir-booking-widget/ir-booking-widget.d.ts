@@ -32,10 +32,11 @@ export declare class IrBookingWidget {
     private guestPopover;
     private containerRef;
     private elTimout;
-    error: boolean;
-    private initApp;
-    componentWillLoad(): Promise<void>;
+    private error;
+    componentWillLoad(): void;
     componentDidLoad(): void;
+    private initApp;
+    private resetPageFontSize;
     initProperty(): Promise<void>;
     handleContentContainerStyle(): void;
     private modifyContainerStyle;

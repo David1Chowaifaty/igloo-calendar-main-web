@@ -37,19 +37,12 @@ export class IrBookingWidget {
             childrenAges: [],
         };
     }
-    initApp() {
-        this.modifyContainerStyle();
-        axios.defaults.withCredentials = true;
-        axios.defaults.baseURL = this.baseUrl;
-    }
-    async componentWillLoad() {
+    componentWillLoad() {
         this.initApp();
-        const token = await this.commonService.getBEToken();
         app_store.userPreferences = {
             language_id: this.language,
             currency_id: 'usd',
         };
-        this.token.setToken(token);
         this.initProperty();
     }
     componentDidLoad() {
@@ -59,9 +52,22 @@ export class IrBookingWidget {
             document.body.appendChild(this.el);
         }
     }
+    initApp() {
+        this.modifyContainerStyle();
+        axios.defaults.withCredentials = true;
+        axios.defaults.baseURL = this.baseUrl;
+        this.resetPageFontSize();
+    }
+    resetPageFontSize() {
+        const styleEl = document.createElement('style');
+        styleEl.innerHTML = 'html { font-size: 16px; }';
+        document.head.appendChild(styleEl);
+    }
     async initProperty() {
         try {
             this.isLoading = true;
+            const token = await this.commonService.getBEToken();
+            this.token.setToken(token);
             await Promise.all([
                 this.propertyService.getExposedProperty({
                     id: this.propertyId,
