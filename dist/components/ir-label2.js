@@ -16,6 +16,7 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
         this.imageStyle = '';
         this.ignoreEmptyContent = false;
         this.placeholder = undefined;
+        this.containerStyle = undefined;
     }
     render() {
         var _a, _b, _c;
@@ -23,7 +24,7 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
         if (!this.placeholder && !this.content && !this.ignoreEmptyContent) {
             return null;
         }
-        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("div", { class: `${this.display === 'inline' ? 'label_wrapper_inline' : 'label_wrapper_flex'}` }, this.labelText && h("p", { class: "label_title" }, this.labelText), h("slot", { name: "prefix" }), this.image && (h("img", { src: this.image.src, alt: (_a = this.image.alt) !== null && _a !== void 0 ? _a : this.image.src, class: `p-0 m-0 ${this.isCountryImage ? 'country' : 'logo'} ${(_b = this.image.style) !== null && _b !== void 0 ? _b : ''} ${(_c = this.imageStyle) !== null && _c !== void 0 ? _c : ''}` })), this.content ? (this.renderContentAsHtml ? (h("p", { class: "label_message", innerHTML: this.content })) : (h("p", { class: "label_message" }, this.content))) : (h("p", { class: "label_placeholder" }, this.placeholder)), h("slot", null), h("slot", { name: "suffix" }))));
+        return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("div", { class: `${this.display === 'inline' ? 'label_wrapper_inline' : 'label_wrapper_flex'} `, style: this.containerStyle }, this.labelText && h("p", { class: "label_title" }, this.labelText), h("slot", { name: "prefix" }), this.image && (h("img", { src: this.image.src, alt: (_a = this.image.alt) !== null && _a !== void 0 ? _a : this.image.src, class: `p-0 m-0 ${this.isCountryImage ? 'country' : 'logo'} ${(_b = this.image.style) !== null && _b !== void 0 ? _b : ''} ${(_c = this.imageStyle) !== null && _c !== void 0 ? _c : ''}` })), this.content ? (this.renderContentAsHtml ? (h("p", { class: "label_message", innerHTML: this.content })) : (h("p", { class: "label_message" }, this.content))) : (h("p", { class: "label_placeholder" }, this.placeholder)), h("slot", null), h("slot", { name: "suffix" }))));
     }
     static get style() { return IrLabelStyle0; }
 }, [6, "ir-label", {
@@ -35,7 +36,8 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
         "isCountryImage": [4, "is-country-image"],
         "imageStyle": [1, "image-style"],
         "ignoreEmptyContent": [4, "ignore-empty-content"],
-        "placeholder": [1]
+        "placeholder": [1],
+        "containerStyle": [16]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

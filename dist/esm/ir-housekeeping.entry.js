@@ -1,10 +1,11 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
 import { T as Token } from './Token-a382baa1.js';
-import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service-0fce7ec1.js';
-import { R as RoomService } from './room.service-1e9980b5.js';
+import { H as HouseKeepingService } from './housekeeping.service-d307b11c.js';
+import { R as RoomService } from './room.service-1d85399f.js';
+import { u as updateHKStore } from './housekeeping.store-82894713.js';
 import './axios-ab377903.js';
+import './calendar-data-d6f8ed1a.js';
 import './index-1d7b1ff2.js';
-import './calendar-data-2333f282.js';
 import './locales.store-a1e3db22.js';
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
@@ -75,7 +76,17 @@ const IrHousekeeping = class {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("ir-unit-status", { class: "mb-1" }), h("ir-hk-team", { class: "mb-1" }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("div", { class: "card p-1" }, h("ir-select", { LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.roomService.SetAutomaticCheckInOut({
+                    property_id: this.propertyid,
+                    flag: e.detail === 'auto',
+                });
+            }, data: [
+                { text: 'Manual', value: 'manual' },
+                { text: 'Auto', value: 'auto' },
+            ] })), h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

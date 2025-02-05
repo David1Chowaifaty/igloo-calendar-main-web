@@ -2,9 +2,9 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { TIcons } from '../ui/ir-icons/icons';
 export declare class IrButton {
     name: string;
-    text: any;
+    text: string;
     icon: string;
-    btn_color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline';
+    btn_color: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline' | 'link';
     size: 'sm' | 'md' | 'lg';
     textSize: 'sm' | 'md' | 'lg';
     btn_block: boolean;
@@ -16,10 +16,19 @@ export declare class IrButton {
     variant: 'default' | 'icon';
     icon_name: TIcons;
     visibleBackgroundOnHover: boolean;
-    iconPostion: 'left' | 'right';
+    iconPosition: 'left' | 'right';
     icon_style: any;
+    btnStyle: {
+        [key: string]: string;
+    };
+    labelStyle: {
+        [key: string]: string;
+    };
+    /** If true, will render `content` as HTML */
+    renderContentAsHtml: boolean;
     clickHandler: EventEmitter<any>;
     private buttonEl;
     handleButtonAnimation(e: CustomEvent): void;
+    bounce(): Promise<void>;
     render(): any;
 }

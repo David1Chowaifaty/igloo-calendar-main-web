@@ -10,7 +10,6 @@ export declare class IglBookPropertyService {
     private cleanupEmptyData;
     private applyBookingEditToSelectedRoom;
     private generateDailyRates;
-    private extractFirstNameAndLastName;
     private getBookedRooms;
     prepareBookUserServiceParams({ context, sourceOption, check_in }: {
         context: any;

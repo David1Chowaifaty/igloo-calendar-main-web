@@ -50,7 +50,7 @@ class HouseKeepingService {
     }
     async getHKPendingActions(params) {
         const { data } = await axios.post(`/Get_HK_Pending_Actions`, Object.assign({}, params));
-        updateHKStore('pending_housekeepers', [...data['My_Result']]);
+        updateHKStore('pending_housekeepers', [...data['My_Result']].map(d => ({ original: d, selected: false })));
         return data['My_Result'];
     }
     async executeHKAction(params) {

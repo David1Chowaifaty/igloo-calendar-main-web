@@ -17,8 +17,11 @@ export class IrButton {
         this.variant = 'default';
         this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
-        this.iconPostion = 'left';
+        this.iconPosition = 'left';
         this.icon_style = undefined;
+        this.btnStyle = undefined;
+        this.labelStyle = undefined;
+        this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
         if (!this.buttonEl || e.detail !== this.btn_id) {
@@ -30,12 +33,18 @@ export class IrButton {
         void this.buttonEl.offsetWidth;
         this.buttonEl.classList.add('bounce-3');
     }
+    async bounce() {
+        this.buttonEl.classList.remove('bounce-3');
+        void this.buttonEl.offsetWidth;
+        this.buttonEl.classList.add('bounce-3');
+    }
     render() {
         if (this.variant === 'icon') {
             return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { class: 'm-0 p-0', name: this.icon_name })));
         }
         let blockClass = this.btn_block ? 'btn-block' : '';
-        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, disabled: this.btn_disabled || this.isLoading }, this.icon_name && this.iconPostion === 'left' && h("ir-icons", { name: this.icon_name, style: this.icon_style }), this.text && h("span", { class: "button-text m-0" }, this.text), this.isLoading ? h("div", { class: "btn_loader m-0 p-0" }) : this.iconPostion === 'right' && h("ir-icons", { style: this.icon_style, name: this.icon_name })));
+        return (h("button", { id: this.btn_id, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), class: `btn btn-${this.btn_color} ${this.btn_styles} ir-button-class  btn-${this.size} text-${this.textSize} ${blockClass}`, type: this.btn_type, style: this.btnStyle, disabled: this.btn_disabled || this.isLoading }, this.icon_name && this.iconPosition === 'left' && h("ir-icons", { name: this.icon_name, style: this.icon_style }), this.text &&
+            (this.renderContentAsHtml ? (h("span", { class: "button-text m-0", innerHTML: this.text, style: this.labelStyle })) : (h("span", { style: this.labelStyle, class: "button-text m-0" }, this.text))), this.isLoading ? h("div", { class: "btn_loader m-0 p-0" }) : this.iconPosition === 'right' && h("ir-icons", { style: this.icon_style, name: this.icon_name })));
     }
     static get is() { return "ir-button"; }
     static get encapsulation() { return "scoped"; }
@@ -69,11 +78,11 @@ export class IrButton {
                 "reflect": false
             },
             "text": {
-                "type": "any",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
@@ -107,8 +116,8 @@ export class IrButton {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline'",
-                    "resolved": "\"danger\" | \"dark\" | \"info\" | \"light\" | \"outline\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
+                    "original": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline' | 'link'",
+                    "resolved": "\"danger\" | \"dark\" | \"info\" | \"light\" | \"link\" | \"outline\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
                     "references": {}
                 },
                 "required": false,
@@ -287,7 +296,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
+                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"calendar\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -323,7 +332,7 @@ export class IrButton {
                 "reflect": false,
                 "defaultValue": "false"
             },
-            "iconPostion": {
+            "iconPosition": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -337,7 +346,7 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
-                "attribute": "icon-postion",
+                "attribute": "icon-position",
                 "reflect": false,
                 "defaultValue": "'left'"
             },
@@ -357,6 +366,54 @@ export class IrButton {
                 },
                 "attribute": "icon_style",
                 "reflect": false
+            },
+            "btnStyle": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{ [key: string]: string }",
+                    "resolved": "{ [key: string]: string; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
+            },
+            "labelStyle": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{ [key: string]: string }",
+                    "resolved": "{ [key: string]: string; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
+            },
+            "renderContentAsHtml": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "If true, will render `content` as HTML"
+                },
+                "attribute": "render-content-as-html",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }
@@ -377,6 +434,27 @@ export class IrButton {
                     "references": {}
                 }
             }];
+    }
+    static get methods() {
+        return {
+            "bounce": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            }
+        };
     }
     static get listeners() {
         return [{

@@ -1,7 +1,23 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Moment } from 'moment';
-import { IReallocationPayload, IRoomNightsData } from "../../models/property-types";
+import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
+import { RoomHkStatus } from "../../models/booking.dto";
+export interface UnitHkStatusChangePayload {
+    PR_ID: number;
+    ROOM_CATEGORY_ID: number;
+    NAME: string;
+    DESCRIPTION: string;
+    ENTRY_USER_ID: number;
+    ENTRY_DATE: string;
+    OWNER_ID: number;
+    IS_ACTIVE: boolean;
+    HKS_CODE: RoomHkStatus;
+    HKM_ID: number;
+    CHECKLIST: null;
+    My_Room_category: null;
+    My_Hkm: null;
+}
 export declare class IglooCalendar {
     propertyid: number;
     from_date: string;
@@ -20,7 +36,7 @@ export declare class IglooCalendar {
         [key: string]: any;
     }[];
     scrollViewDragging: boolean;
-    dialogData: IReallocationPayload | null;
+    dialogData: CalendarModalEvent | null;
     bookingItem: TIglBookPropertyPayload | null;
     editBookingItem: TIglBookPropertyPayload | null;
     showLegend: boolean;
@@ -61,6 +77,7 @@ export declare class IglooCalendar {
     private socket;
     private availabilityTimeout;
     private token;
+    calendarModalEl: HTMLIrModalElement;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
@@ -74,9 +91,12 @@ export declare class IglooCalendar {
     dragOverEventDataHandler(event: CustomEvent): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private init;
+    private renderModalBody;
     private setUpCalendarData;
     initializeApp(): Promise<void>;
     private handleSocketMessage;
+    private handleRoomStatusChanged;
+    private handleUnitHKStatusChanged;
     private handleDoReservation;
     private handleBlockExposedUnit;
     private handleAssignExposedRoom;

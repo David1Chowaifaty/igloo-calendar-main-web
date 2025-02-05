@@ -29,6 +29,7 @@ export declare class guestInfo {
     language: string;
 }
 export declare class guestInfoValidation implements Guest {
+    mobile_without_prefix: string;
     nbr_confirmed_bookings: number;
     notes: string;
     country_phone_prefix: string;

@@ -35,14 +35,9 @@ export class ToBeAssignedService {
             throw new Error(error);
         }
     }
-    async assignUnit(booking_nbr, identifier, pr_id) {
+    async assignUnit(props) {
         try {
-            const { data } = await axios.post(`/Assign_Exposed_Room`, {
-                booking_nbr,
-                identifier,
-                pr_id,
-                extras,
-            });
+            const { data } = await axios.post(`/Assign_Exposed_Room`, Object.assign(Object.assign({}, props), { extras }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -103,7 +98,8 @@ export class ToBeAssignedService {
         roomCategory.defaultDateRange.dateDifference = roomCategory.NO_OF_DAYS;
     }
     getRoomTypeId(roomName, roomInfo) {
-        return roomInfo.find(room => this.cleanSpacesAndSpecialChars(room.name) === this.cleanSpacesAndSpecialChars(roomName)).id || null;
+        var _a;
+        return ((_a = roomInfo.find(room => this.cleanSpacesAndSpecialChars(room.name) === this.cleanSpacesAndSpecialChars(roomName))) === null || _a === void 0 ? void 0 : _a.id) || null;
     }
     updateAvailableRooms(calendarFromDates, room, roomCategory, formattedLegendData, roomsInfo) {
         const rooms = [];

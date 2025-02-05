@@ -2,6 +2,13 @@ import calendar_data from "../stores/calendar-data";
 import { locales } from "../stores/locales.store";
 import axios from "axios";
 export class RoomService {
+    async SetAutomaticCheckInOut(props) {
+        const { data } = await axios.post(`/Set_Automatic_Check_In_Out`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async getExposedProperty(params) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Property`, params);

@@ -67,7 +67,17 @@ export class IrHousekeeping {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("ir-unit-status", { class: "mb-1" }), h("ir-hk-team", { class: "mb-1" }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("div", { class: "card p-1" }, h("ir-select", { LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.roomService.SetAutomaticCheckInOut({
+                    property_id: this.propertyid,
+                    flag: e.detail === 'auto',
+                });
+            }, data: [
+                { text: 'Manual', value: 'manual' },
+                { text: 'Auto', value: 'auto' },
+            ] })), h("ir-hk-team", { class: "mb-1" }))));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }

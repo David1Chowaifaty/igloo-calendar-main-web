@@ -20,5 +20,9 @@ export declare class IrLabel {
     ignoreEmptyContent: boolean;
     /** Placeholder text to display if content is empty */
     placeholder: string;
+    /** inline styles for the component container */
+    containerStyle: {
+        [key: string]: string;
+    };
     render(): any;
 }

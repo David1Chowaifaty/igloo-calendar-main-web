@@ -1,20 +1,26 @@
 import { Host, h } from "@stencil/core";
 import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
+import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { HouseKeepingService } from "../../../services/housekeeping.service";
 export class IglCalBody {
     constructor() {
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
+        this.housekeepingService = new HouseKeepingService();
         this.isScrollViewDragging = undefined;
+        this.propertyId = undefined;
         this.calendarData = undefined;
         this.today = undefined;
         this.currency = undefined;
         this.language = undefined;
         this.countryNodeList = undefined;
+        this.highlightedDate = undefined;
         this.dragOverElement = '';
         this.renderAgain = false;
-        this.highlightedDate = undefined;
+        this.selectedRoom = undefined;
+        this.selectedHKStatus = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -228,7 +234,7 @@ export class IglCalBody {
         if (this.getTotalPhysicalRooms(roomCategory) <= 1 || !roomCategory.is_active) {
             return null;
         }
-        return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-popover", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
+        return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
     }
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
@@ -246,7 +252,10 @@ export class IglCalBody {
             if (!room.is_active) {
                 return null;
             }
-            return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
+            return (h("div", { class: "roomRow" }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room), onClick: () => {
+                    this.selectedRoom = room;
+                    this.hkModal.openModal();
+                } }, h("ir-interactive-title", { hkStatus: room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
         });
     }
     getRoomRows() {
@@ -261,9 +270,42 @@ export class IglCalBody {
         });
     }
     render() {
-        var _a;
+        var _a, _b, _c, _d;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'e16b417f5f3a9dc9f6151b49f8f7d1eba62a5c39' }, h("div", { key: 'c2b251b6ec01b8c1ab6601f9c1bd9277cf161d36', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '40e1b32cef7a9975d3d3645be74cd83ef3195c06', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: '6d95e3663b2ca0464fa9d143e7f8b9f903c6c492' }, h("div", { key: 'bcac8b950ae37ddc2ef106132ae8d35367c4220e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd6f9ba472417b7c70b21c7cfb6699bdd3f66e028', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: 'c3d6755954c37fc5c937c015d02c17c91c12bd7a', ref: el => (this.hkModal = el), showTitle: true, modalTitle: `Update unit ${(_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.name} cleaning status`, leftBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Cancel, rightBtnText: (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
+                var _a, _b, _c, _d;
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                if (!this.selectedHKStatus) {
+                    this.hkModal.closeModal();
+                    return;
+                }
+                await this.housekeepingService.executeHKAction({
+                    property_id: this.propertyId,
+                    housekeeper: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.housekeeper) ? { id: (_c = (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.housekeeper) === null || _c === void 0 ? void 0 : _c.id } : null,
+                    status: {
+                        code: this.selectedHKStatus,
+                    },
+                    unit: {
+                        id: (_d = this.selectedRoom) === null || _d === void 0 ? void 0 : _d.id,
+                    },
+                });
+                this.selectedRoom = null;
+                this.selectedHKStatus = null;
+                this.hkModal.closeModal();
+            }, autoClose: false, isLoading: isRequestPending('/Execute_HK_Action'), onCancelModal: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.selectedRoom = null;
+                this.selectedHKStatus = null;
+            } })));
+    }
+    renderModalBody() {
+        var _a;
+        return (h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '001' : '002', data: [
+                { text: 'Clean', value: '001' },
+                { text: 'Dirty', value: '002' },
+            ], onSelectChange: e => (this.selectedHKStatus = e.detail) }));
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
@@ -294,6 +336,23 @@ export class IglCalBody {
                     "text": ""
                 },
                 "attribute": "is-scroll-view-dragging",
+                "reflect": false
+            },
+            "propertyId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "property-id",
                 "reflect": false
             },
             "calendarData": {
@@ -404,11 +463,28 @@ export class IglCalBody {
     static get states() {
         return {
             "dragOverElement": {},
-            "renderAgain": {}
+            "renderAgain": {},
+            "selectedRoom": {},
+            "selectedHKStatus": {}
         };
     }
     static get events() {
         return [{
+                "method": "addBookingDatasEvent",
+                "name": "addBookingDatasEvent",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "any[]",
+                    "resolved": "any[]",
+                    "references": {}
+                }
+            }, {
                 "method": "showBookingPopup",
                 "name": "showBookingPopup",
                 "bubbles": true,
@@ -436,21 +512,6 @@ export class IglCalBody {
                 "complexType": {
                     "original": "any",
                     "resolved": "any",
-                    "references": {}
-                }
-            }, {
-                "method": "addBookingDatasEvent",
-                "name": "addBookingDatasEvent",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "any[]",
-                    "resolved": "any[]",
                     "references": {}
                 }
             }];

@@ -11,6 +11,7 @@ export declare class IrPhoneInput {
     default_country: number;
     phone_prefix: string | null;
     placeholder: string;
+    countries: ICountry[];
     textChange: EventEmitter<{
         phone_prefix: string;
         mobile: string;
@@ -18,7 +19,6 @@ export declare class IrPhoneInput {
     inputValue: string;
     isDropdownVisible: boolean;
     currentCountry: ICountry;
-    private countries;
     private bookingService;
     componentWillLoad(): Promise<void>;
     handleValueChange(newValue: any, oldValue: any): void;
