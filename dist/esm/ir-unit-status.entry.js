@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { H as HouseKeepingService } from './housekeeping.service-d307b11c.js';
+import { H as HouseKeepingService } from './housekeeping.service-731ac492.js';
 import { h as housekeeping_store } from './housekeeping.store-82894713.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import './axios-ab377903.js';
@@ -41,7 +41,7 @@ const IrUnitStatus = class {
     }
     render() {
         var _a;
-        return (h(Host, { key: 'fa2b26e8c16d9dc514e2923d8834280be7e82a19', class: "card p-1" }, h("ir-title", { key: '11cf2e2999d3e9b8ca9895783e3a257480a6a678', label: locales.entries.Lcz_RoomOrUnitStatus }), h("div", { key: 'ead1804d047851f9d3116f1ff94e96296d46bc2a', class: "table-container" }, h("table", { key: 'd2744d205c7884de7269bb0a65fb266ebe5a8554' }, h("thead", { key: 'fb5a2aaa2c8aec8b0d3bd94a50ee9e4cfbcaedae' }, h("tr", { key: '7a64666c13b3d9c3648f12bc65316ce3a27c2540' }, h("th", { key: '1c0786a9376f6e26c0a2fdf8dde2878eb2fff87d' }, locales.entries.Lcz_Status), h("th", { key: '7577f1828e804f2f75a6504664918e7705d60d28', class: 'text-center' }, locales.entries.Lcz_Code), h("th", { key: 'e4cf73f0370bb8b280f9f0927b8bac7430b0ad8d' }, locales.entries.Lcz_Action))), h("tbody", { key: '303f56eb30554c65cdfb19f99868769bb6ed5a4e' }, (_a = housekeeping_store.hk_criteria.statuses) === null || _a === void 0 ? void 0 : _a.map(status => {
+        return (h(Host, { key: 'ea4146c2dc1a7e94d3d112504fe9d0eb48ada486', class: "card p-1" }, h("ir-title", { key: '0b4438e5cab389d4f2fed77fd5b5a41331244e4a', label: locales.entries.Lcz_RoomOrUnitStatus }), h("div", { key: 'de82399f87b2ebabb9779789553d86f6b3cca2ba', class: "table-container" }, h("table", { key: 'ead25305e9a47c6172076844752ea59082aaaa72' }, h("thead", { key: '7112c48f003fd92f1326fb1150d6bf97adb227c2' }, h("tr", { key: '9186fc7259cd178d61d4ae735fe4b9c7bebe1c13' }, h("th", { key: '57653744c20a426392bd0910589c93d30c5b5d0f' }, locales.entries.Lcz_Status), h("th", { key: '6d8570e622d012622a34b55aa35919c6eea71fb6', class: 'text-center' }, locales.entries.Lcz_Code), h("th", { key: '07f4d5c5d837d203bd4eb42fe06b6c40d89de523' }, locales.entries.Lcz_Action))), h("tbody", { key: 'b2ed04d495b934639f73ed3b64f3ca39b68fb4b7' }, (_a = housekeeping_store.hk_criteria.statuses) === null || _a === void 0 ? void 0 : _a.map(status => {
             var _a;
             return (h("tr", { key: status.code }, h("td", null, h("div", { class: "status-container" }, h("span", { class: `circle ${status.style.shape} ${status.style.color}` }), h("p", null, status.description))), h("td", null, status.code), h("td", null, h("div", { class: "action-container" }, h("p", { class: 'm-0' }, status.action), status.code === 'VAC' && (h("div", null, h("ir-select", { selectedValue: status.inspection_mode.is_active ? (_a = status.inspection_mode) === null || _a === void 0 ? void 0 : _a.window.toString() : '', LabelAvailable: false, firstOption: locales.entries.Lcz_No, onSelectChange: this.handleSelectChange.bind(this), data: Array.from(Array(7 + 1), (_, i) => i).map(i => {
                     const text = i === 0

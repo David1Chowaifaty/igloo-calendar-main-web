@@ -347,13 +347,13 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         ];
     }
     handleRoomCheckout(room) {
-        if (!calendar_data.checkin_enabled) {
+        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
             return false;
         }
         return room.in_out.code === '001';
     }
     handleRoomCheckin(room) {
-        if (!calendar_data.checkin_enabled) {
+        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
             return false;
         }
         if (!room.unit) {

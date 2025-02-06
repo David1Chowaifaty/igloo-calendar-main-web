@@ -20,7 +20,6 @@ export class IglCalBody {
         this.dragOverElement = '';
         this.renderAgain = false;
         this.selectedRoom = undefined;
-        this.selectedHKStatus = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -270,42 +269,48 @@ export class IglCalBody {
         });
     }
     render() {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '6d95e3663b2ca0464fa9d143e7f8b9f903c6c492' }, h("div", { key: 'bcac8b950ae37ddc2ef106132ae8d35367c4220e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd6f9ba472417b7c70b21c7cfb6699bdd3f66e028', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: 'c3d6755954c37fc5c937c015d02c17c91c12bd7a', ref: el => (this.hkModal = el), showTitle: true, modalTitle: `Update unit ${(_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.name} cleaning status`, leftBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Cancel, rightBtnText: (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
-                var _a, _b, _c, _d;
+        return (h(Host, { key: 'dc3e463844d4f7e83a82816b7449ee66022ca137' }, h("div", { key: '6b6b5261c081d2f37f24425db70a66fc8cc32abe', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39ccb6ae207e5241f45927825150e301d75fa5b2', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: '2e25adbda38b3b827876aeb3daa79afc9ed77db4', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
+                var _a, _b;
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                if (!this.selectedHKStatus) {
-                    this.hkModal.closeModal();
-                    return;
-                }
-                await this.housekeepingService.executeHKAction({
+                await this.housekeepingService.setExposedUnitHKStatus({
                     property_id: this.propertyId,
-                    housekeeper: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.housekeeper) ? { id: (_c = (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.housekeeper) === null || _c === void 0 ? void 0 : _c.id } : null,
+                    // housekeeper: this.selectedRoom?.housekeeper ? { id: this.selectedRoom?.housekeeper?.id } : null,
                     status: {
-                        code: this.selectedHKStatus,
+                        code: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '002' : '001',
                     },
                     unit: {
-                        id: (_d = this.selectedRoom) === null || _d === void 0 ? void 0 : _d.id,
+                        id: (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.id,
                     },
                 });
                 this.selectedRoom = null;
-                this.selectedHKStatus = null;
                 this.hkModal.closeModal();
-            }, autoClose: false, isLoading: isRequestPending('/Execute_HK_Action'), onCancelModal: e => {
+            }, autoClose: false, isLoading: isRequestPending('/Set_Exposed_Unit_HK_Status'), onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-                this.selectedHKStatus = null;
             } })));
     }
     renderModalBody() {
-        var _a;
-        return (h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '001' : '002', data: [
-                { text: 'Clean', value: '001' },
-                { text: 'Dirty', value: '002' },
-            ], onSelectChange: e => (this.selectedHKStatus = e.detail) }));
+        var _a, _b;
+        if (!this.selectedRoom) {
+            return null;
+        }
+        return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
+            _a.name, " status to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean'))
+        // <ir-select
+        //   LabelAvailable={false}
+        //   showFirstOption={false}
+        //   selectedValue={this.selectedRoom?.hk_status === '001' ? '001' : '002'}
+        //   data={[
+        //     { text: 'Clean', value: '001' },
+        //     { text: 'Dirty', value: '002' },
+        //   ]}
+        //   onSelectChange={e => (this.selectedHKStatus = e.detail)}
+        // ></ir-select>
+        );
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
@@ -464,8 +469,7 @@ export class IglCalBody {
         return {
             "dragOverElement": {},
             "renderAgain": {},
-            "selectedRoom": {},
-            "selectedHKStatus": {}
+            "selectedRoom": {}
         };
     }
     static get events() {

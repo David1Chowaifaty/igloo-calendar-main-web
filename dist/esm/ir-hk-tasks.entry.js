@@ -1,0 +1,126 @@
+import { r as registerInstance, h, H as Host, g as getElement } from './index-c553b3dc.js';
+
+const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
+const IrHkTasksStyle0 = irHkTasksCss;
+
+const initialData = [
+    {
+        id: 1,
+        date: '20 Jan',
+        unit: 228,
+        status: 'INHOUSE',
+        hint: '27 Oct - 3 Nov',
+        a: 4,
+        c: 2,
+        i: 1,
+        housekeeper: 'Maria',
+    },
+    {
+        id: 2,
+        date: '20 Jan',
+        unit: 501,
+        status: 'CHECKIN',
+        hint: 'Noon-2PM',
+        a: 2,
+        c: 0,
+        i: 0,
+        housekeeper: 'Clean Plus',
+    },
+    {
+        id: 3,
+        date: '20 Jan',
+        unit: 600,
+        status: 'VACANT',
+        hint: '',
+        a: 1,
+        c: 1,
+        i: 1,
+        housekeeper: 'Petros',
+    },
+    {
+        id: 4,
+        date: '20 Jan',
+        unit: 102,
+        status: 'TURNOVER',
+        hint: '10PM-Midnight',
+        a: 1,
+        c: 1,
+        i: 1,
+        housekeeper: 'Clean Plus',
+    },
+    {
+        id: 5,
+        date: '20 Jan',
+        unit: 109,
+        status: 'DUSTY',
+        hint: '',
+        a: 1,
+        c: 0,
+        i: 1,
+        housekeeper: 'Clean Plus',
+    },
+    {
+        id: 6,
+        date: '20 Jan',
+        unit: 501,
+        status: 'CHECKOUT',
+        hint: '',
+        a: 2,
+        c: 2,
+        i: 2,
+        housekeeper: 'Clean Plus',
+    },
+    {
+        id: 7,
+        date: '20 Jan',
+        unit: 228,
+        status: 'CHECKIN',
+        hint: 'Noon-2PM',
+        a: 4,
+        c: 2,
+        i: 1,
+        housekeeper: 'Maria',
+    },
+    {
+        id: 8,
+        date: '20 Jan',
+        unit: 228,
+        status: 'CHECKOUT',
+        hint: '',
+        a: 4,
+        c: 2,
+        i: 1,
+        housekeeper: 'Maria',
+    },
+];
+const IrHkTasks = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.language = '';
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.isLoading = false;
+        this.selectedDuration = '';
+        this.selectedHouseKeeper = '0';
+        this.selectedRoom = null;
+        this.archiveOpened = false;
+        this.property_id = undefined;
+    }
+    // private modalOpenTimeOut: NodeJS.Timeout;
+    // private roomService = new RoomService();
+    // private houseKeepingService = new HouseKeepingService();
+    // private token = new Token();
+    render() {
+        if (this.isLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", null), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", null), h("ir-tasks-table", { class: "flex-grow-1 w-100", tasks: initialData })))));
+    }
+    get el() { return getElement(this); }
+};
+IrHkTasks.style = IrHkTasksStyle0;
+
+export { IrHkTasks as ir_hk_tasks };
+
+//# sourceMappingURL=ir-hk-tasks.entry.js.map

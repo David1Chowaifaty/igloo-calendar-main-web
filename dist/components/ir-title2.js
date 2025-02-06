@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './ir-icon2.js';
 
-const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
+const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[border-shown].sc-ir-title-h{border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important;padding-bottom:15px}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
 const IrTitleStyle0 = irTitleCss;
 
 const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLElement {
@@ -10,6 +10,7 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.label = undefined;
+        this.borderShown = undefined;
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }
@@ -22,9 +23,9 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
         }
     }
     render() {
-        return (h(Host, { key: '7d203ab92b9ff229df2fb326f384d633b18f5d86' }, h("h4", { key: '0378e61954073911e11cb03b5a6d3680bb5be0bd', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '2531721e063819ab77554fa2965b78bba06f6570', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '2b25c1d99c1c55e77512b903867685fad597c06a' }, h("h4", { key: '525b8d78e020c1138afe8b33956580eff0f1d4f4', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'd1654f94a358b45ce6078a615c9f64a4cd3b2d95', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '614fe2196860feb2207be36cf3dc6fc03dced413', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'c37a19a748d4149579da2606b65db154505bfc5e', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'b97f09fe22703ce9579946b79c45ddeb5d109275', class: 'title-body' }, h("slot", { key: '980dd6051be0780f4f9003de22c56fa2344b0ba0', name: "title-body" })))));
+            } }, h("svg", { key: 'd2410079adebe7a51604ba4f58c0251a003aff66', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'bf234c8e259bd815b80367aa4666f9e3277605cf', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'e46657ea16f09453467c94808573ede9c4d44f92', class: 'title-body' }, h("slot", { key: '542216119b38e292f44ebd0b8b11ccef0fc95b29', name: "title-body" })))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -33,6 +34,7 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
     static get style() { return IrTitleStyle0; }
 }, [6, "ir-title", {
         "label": [1],
+        "borderShown": [516, "border-shown"],
         "displayContext": [513, "display-context"],
         "justifyContent": [513, "justify-content"]
     }, undefined, {

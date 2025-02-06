@@ -29,6 +29,7 @@ const initialState = {
     country: undefined,
     is_pms_enabled: false,
     roomHistory: {},
+    is_automatic_check_in_out: false,
 };
 const { state: calendar_data, onChange: onCalendarDatesChange } = createStore(initialState);
 function isSingleUnit(id) {

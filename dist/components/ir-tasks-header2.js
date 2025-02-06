@@ -18,7 +18,7 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '669f31d694a11893484edc4ead47828809ac7893', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: '3f8dfbb460ba7d59b0d4f8badec36465418e9d56' }, "Housekeeping Tasks"), h("div", { key: 'c12d4882bcc3e7ef44e19b717a157f293d3b50e4', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: '47e9c4e91f5754346a901dfec8b5892ce3b1b81a', size: "sm", btn_color: "outline", text: "Export" }), h("ir-button", { key: '25c43df1b09b0d96b5fc3ccc5dab1e0b33ac8b39', size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
+        return (h("div", { key: '2ea47cc6e9f77f77fb1654bd80d173176c7d4597', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: 'f168f401957a6382fc46c02dcb8090dbb0795f22' }, "Housekeeping Tasks"), h("div", { key: 'f57216b570fec18f5c92ebb1ed1fdb4c27e47c64', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'a9f96c39cb1cb8daa540075029494471b3702415', size: "sm", btn_color: "outline", text: "Export" }), h("ir-button", { key: 'd5562b5fae720a1d5136a835a65ec200ee14246d', size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
     }
     static get style() { return IrTasksHeaderStyle0; }
 }, [2, "ir-tasks-header", {

@@ -3,16 +3,15 @@ import { a as calendar_dates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
-import { d as defineCustomElement$b } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$a } from './igl-booking-event2.js';
-import { d as defineCustomElement$9 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
-import { d as defineCustomElement$7 } from './ir-date-view2.js';
-import { d as defineCustomElement$6 } from './ir-icons2.js';
-import { d as defineCustomElement$5 } from './ir-interactive-title2.js';
-import { d as defineCustomElement$4 } from './ir-label2.js';
-import { d as defineCustomElement$3 } from './ir-modal2.js';
-import { d as defineCustomElement$2 } from './ir-select2.js';
+import { d as defineCustomElement$a } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$9 } from './igl-booking-event2.js';
+import { d as defineCustomElement$8 } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$7 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-date-view2.js';
+import { d as defineCustomElement$5 } from './ir-icons2.js';
+import { d as defineCustomElement$4 } from './ir-interactive-title2.js';
+import { d as defineCustomElement$3 } from './ir-label2.js';
+import { d as defineCustomElement$2 } from './ir-modal2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:#e0e0e0}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid rgba(186, 191, 199, 0.5)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
@@ -40,7 +39,6 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         this.dragOverElement = '';
         this.renderAgain = false;
         this.selectedRoom = undefined;
-        this.selectedHKStatus = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -290,42 +288,48 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         });
     }
     render() {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '6d95e3663b2ca0464fa9d143e7f8b9f903c6c492' }, h("div", { key: 'bcac8b950ae37ddc2ef106132ae8d35367c4220e', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd6f9ba472417b7c70b21c7cfb6699bdd3f66e028', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: 'c3d6755954c37fc5c937c015d02c17c91c12bd7a', ref: el => (this.hkModal = el), showTitle: true, modalTitle: `Update unit ${(_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.name} cleaning status`, leftBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Cancel, rightBtnText: (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
-                var _a, _b, _c, _d;
+        return (h(Host, { key: 'dc3e463844d4f7e83a82816b7449ee66022ca137' }, h("div", { key: '6b6b5261c081d2f37f24425db70a66fc8cc32abe', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39ccb6ae207e5241f45927825150e301d75fa5b2', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: '2e25adbda38b3b827876aeb3daa79afc9ed77db4', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
+                var _a, _b;
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                if (!this.selectedHKStatus) {
-                    this.hkModal.closeModal();
-                    return;
-                }
-                await this.housekeepingService.executeHKAction({
+                await this.housekeepingService.setExposedUnitHKStatus({
                     property_id: this.propertyId,
-                    housekeeper: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.housekeeper) ? { id: (_c = (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.housekeeper) === null || _c === void 0 ? void 0 : _c.id } : null,
+                    // housekeeper: this.selectedRoom?.housekeeper ? { id: this.selectedRoom?.housekeeper?.id } : null,
                     status: {
-                        code: this.selectedHKStatus,
+                        code: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '002' : '001',
                     },
                     unit: {
-                        id: (_d = this.selectedRoom) === null || _d === void 0 ? void 0 : _d.id,
+                        id: (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.id,
                     },
                 });
                 this.selectedRoom = null;
-                this.selectedHKStatus = null;
                 this.hkModal.closeModal();
-            }, autoClose: false, isLoading: isRequestPending('/Execute_HK_Action'), onCancelModal: e => {
+            }, autoClose: false, isLoading: isRequestPending('/Set_Exposed_Unit_HK_Status'), onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-                this.selectedHKStatus = null;
             } })));
     }
     renderModalBody() {
-        var _a;
-        return (h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '001' : '002', data: [
-                { text: 'Clean', value: '001' },
-                { text: 'Dirty', value: '002' },
-            ], onSelectChange: e => (this.selectedHKStatus = e.detail) }));
+        var _a, _b;
+        if (!this.selectedRoom) {
+            return null;
+        }
+        return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
+            _a.name, " status to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean'))
+        // <ir-select
+        //   LabelAvailable={false}
+        //   showFirstOption={false}
+        //   selectedValue={this.selectedRoom?.hk_status === '001' ? '001' : '002'}
+        //   data={[
+        //     { text: 'Clean', value: '001' },
+        //     { text: 'Dirty', value: '002' },
+        //   ]}
+        //   onSelectChange={e => (this.selectedHKStatus = e.detail)}
+        // ></ir-select>
+        );
     }
     static get style() { return IglCalBodyStyle0; }
 }, [2, "igl-cal-body", {
@@ -339,14 +343,13 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         "highlightedDate": [1, "highlighted-date"],
         "dragOverElement": [32],
         "renderAgain": [32],
-        "selectedRoom": [32],
-        "selectedHKStatus": [32]
+        "selectedRoom": [32]
     }, [[8, "dragOverHighlightElement", "dragOverHighlightElementHandler"], [8, "gotoRoomEvent", "gotoRoom"], [8, "addToBeAssignedEvent", "addToBeAssignedEvents"], [8, "closeBookingWindow", "closeWindow"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal", "ir-select", "ota-label"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -355,50 +358,45 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$a();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$9();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$8();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$7();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$6();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-interactive-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$4();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-modal":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-select":
+        case "ir-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

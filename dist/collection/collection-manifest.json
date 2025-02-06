@@ -58,6 +58,7 @@
     "components/ir-date-picker/ir-date-picker.js",
     "components/ir-date-view/ir-date-view.js",
     "components/ir-dialog/ir-dialog.js",
+    "components/ir-drawer/ir-drawer.js",
     "components/ir-dropdown/ir-dropdown.js",
     "components/ir-guest-info/ir-guest-info.js",
     "components/ir-housekeeping/ir-housekeeping.js",

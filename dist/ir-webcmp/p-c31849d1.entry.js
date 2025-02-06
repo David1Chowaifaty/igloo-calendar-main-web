@@ -1,0 +1,2 @@
+import{r as s,h as a,H as c}from"./p-ee49d535.js";const r=".sc-ir-tasks-archive-h{display:block}";const t=r;const e=class{constructor(a){s(this,a)}render(){return a(c,{key:"cc2794b76dabfad7abf1b762383a83f8708fb566"},a("slot",{key:"edc900512342bb06869c104a199f111251baf7b5"}))}};e.style=t;export{e as ir_tasks_archive};
+//# sourceMappingURL=p-c31849d1.entry.js.map

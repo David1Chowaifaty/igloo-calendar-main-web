@@ -9,7 +9,7 @@ const IrTasksArchive$1 = /*@__PURE__*/ proxyCustomElement(class IrTasksArchive e
         this.__registerHost();
     }
     render() {
-        return (h(Host, { key: 'b3a0a8c931ba6e72cd9f7b0ebc263e72b409ddf4' }, h("slot", { key: 'a19089fc798e8c41b73d63de296bf4a4d66cdd24' })));
+        return (h(Host, { key: 'cc2794b76dabfad7abf1b762383a83f8708fb566' }, h("slot", { key: 'edc900512342bb06869c104a199f111251baf7b5' })));
     }
     static get style() { return IrTasksArchiveStyle0; }
 }, [6, "ir-tasks-archive"]);

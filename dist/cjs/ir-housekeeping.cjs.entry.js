@@ -4,13 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
 const Token = require('./Token-a4c2b5d8.js');
-const housekeeping_service = require('./housekeeping.service-c71d4e42.js');
-const room_service = require('./room.service-153b9123.js');
+const housekeeping_service = require('./housekeeping.service-14de0746.js');
+const room_service = require('./room.service-415aa9c4.js');
+const calendarData = require('./calendar-data-7e342bed.js');
 const housekeeping_store = require('./housekeeping.store-75064296.js');
 require('./axios-b86c5465.js');
-require('./calendar-data-400a8ce5.js');
-require('./index-5e99a1fe.js');
 require('./locales.store-4301bbe8.js');
+require('./index-5e99a1fe.js');
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
 const IrHousekeepingStyle0 = irHousekeepingCss;
@@ -80,7 +80,7 @@ const IrHousekeeping = class {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("div", { class: "card p-1" }, index.h("ir-select", { LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("h4", { class: "mb-2" }, "Housekeeping & Check-In Setup"), index.h("div", { class: "card p-1" }, index.h("ir-title", { borderShown: true, label: "Check-In Mode" }), index.h("div", { class: 'd-flex align-items-center' }, index.h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), index.h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.roomService.SetAutomaticCheckInOut({
@@ -88,9 +88,9 @@ const IrHousekeeping = class {
                     flag: e.detail === 'auto',
                 });
             }, data: [
-                { text: 'Manual', value: 'manual' },
-                { text: 'Auto', value: 'auto' },
-            ] })), index.h("ir-hk-team", { class: "mb-1" }))));
+                { text: `Yes, as per the property's policy.`, value: 'auto' },
+                { text: 'No, I will do it manually. ', value: 'manual' },
+            ] }))), index.h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

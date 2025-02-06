@@ -112,7 +112,7 @@ export class IglBookingEventHover {
         return this.bookingEvent.hasOwnProperty('splitBookingEvents') && this.bookingEvent.splitBookingEvents;
     }
     canCheckIn() {
-        if (!calendar_data.checkin_enabled) {
+        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
             return false;
         }
         if (this.isCheckedIn()) {
@@ -124,7 +124,7 @@ export class IglBookingEventHover {
         return false;
     }
     canCheckOut() {
-        if (!calendar_data.checkin_enabled) {
+        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
             return false;
         }
         if (this.isCheckedIn() && this.canCheckInOrCheckout) {
@@ -367,7 +367,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: '66199751ecb1e4fa70bd401a8575be722e0753e6' }, h("div", { key: 'c82e6f8c5440d80623e828a749f6960fccbcb7ed', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '4b9a837b9a9e36144302eed370148614c2329d54', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '59b11ad3c4644fce5e11c21fa463b8b217daae40' }, h("div", { key: '38503db1b0fadbce11d92ae8130a2b5827d8c3b6', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '1b7fbfef5a065018c69b8ef1565d58b64f9d0657', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
