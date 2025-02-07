@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { h as housekeeping_store } from './housekeeping.store.js';
+import { h as housekeeping_store } from './housekeeping.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$d } from './ir-button2.js';
 import { d as defineCustomElement$c } from './ir-combobox2.js';

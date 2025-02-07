@@ -23,7 +23,7 @@ export declare class HouseKeepingService {
     }): Promise<any>;
     executeHKAction(params: {
         actions: {
-            pr_id: number;
+            unit_id: number;
             hkm_id: number;
             description: string;
         }[];

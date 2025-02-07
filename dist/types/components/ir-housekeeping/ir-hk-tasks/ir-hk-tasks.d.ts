@@ -13,6 +13,7 @@ export declare class IrHkTasks {
     property_id: number;
     tasks: Task[];
     selectedTasks: Task[];
+    private hkNameCache;
     private roomService;
     private houseKeepingService;
     private token;
@@ -20,6 +21,8 @@ export declare class IrHkTasks {
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private init;
+    private buildHousekeeperNameCache;
+    private updateTasks;
     private handleHeaderButtonPress;
     private handleModalConfirmation;
     render(): any;

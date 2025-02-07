@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { H as HouseKeepingService } from './housekeeping.service.js';
-import { h as housekeeping_store } from './housekeeping.store.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$4 } from './ir-icon2.js';
 import { d as defineCustomElement$3 } from './ir-select2.js';

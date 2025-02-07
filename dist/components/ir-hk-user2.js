@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { H as HouseKeepingService } from './housekeeping.service.js';
+import { H as HouseKeepingService, g as getDefaultProperties } from './housekeeping.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { g as getDefaultProperties } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-combobox2.js';

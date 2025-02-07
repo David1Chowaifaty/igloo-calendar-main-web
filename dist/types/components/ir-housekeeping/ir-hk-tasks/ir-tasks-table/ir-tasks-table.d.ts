@@ -29,6 +29,11 @@ export declare class IrTasksTable {
     /**
      * Helper to sort tasks array in state.
      */
+    /**
+     * Sorts the tasks by the given key in ASC or DESC order.
+     * If values for `key` are duplicates, it sorts by `date` ascending.
+     * If `date` is also the same, it finally sorts by `unit.name` ascending.
+     */
     private sortTasks;
     /**
      * Helper to toggle selection for a single row.

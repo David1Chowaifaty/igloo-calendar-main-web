@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { H as HouseKeepingService } from './housekeeping.service.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
@@ -25,6 +25,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
     constructor() {
         super();
         this.__registerHost();
+        this.hkNameCache = {};
         // private modalOpenTimeOut: NodeJS.Timeout;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
@@ -92,7 +93,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
             const results = await Promise.all(requests);
             const tasks = results[0];
             if (tasks) {
-                this.tasks = tasks === null || tasks === void 0 ? void 0 : tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4() })));
+                this.updateTasks(tasks);
             }
         }
         catch (error) {
@@ -101,6 +102,28 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         finally {
             this.isLoading = false;
         }
+    }
+    buildHousekeeperNameCache() {
+        var _a, _b;
+        this.hkNameCache = {};
+        (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.forEach(hk => {
+            if (hk.id != null && hk.name != null) {
+                this.hkNameCache[hk.id] = hk.name;
+            }
+        });
+    }
+    updateTasks(tasks) {
+        this.buildHousekeeperNameCache();
+        this.tasks = tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4(), housekeeper: (() => {
+                var _a, _b, _c;
+                const name = this.hkNameCache[t.hkm_id];
+                if (name) {
+                    return name;
+                }
+                const hkName = (_c = (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
+                this.hkNameCache[t.hkm_id] = hkName;
+                return hkName;
+            })() })));
     }
     handleHeaderButtonPress(e) {
         var _a;
@@ -114,12 +137,18 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         }
     }
     async handleModalConfirmation(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        if (this.selectedTasks.length === 0) {
-            return;
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            if (this.selectedTasks.length === 0) {
+                return;
+            }
+            await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, unit_id: t.unit.id })) });
         }
-        await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, pr_id: t.unit.id })) });
+        finally {
+            this.selectedTasks = [];
+            this.modal.closeModal();
+        }
     }
     render() {
         if (this.isLoading) {

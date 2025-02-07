@@ -1,5 +1,19 @@
-import { u as updateHKStore } from './housekeeping.store.js';
+import { c as createStore } from './index2.js';
 import { a as axios } from './axios.js';
+
+const initialValue = {
+    default_properties: undefined,
+    hk_criteria: undefined,
+    hk_tasks: undefined,
+    pending_housekeepers: [],
+};
+const { state: housekeeping_store } = createStore(initialValue);
+function updateHKStore(key, value) {
+    housekeeping_store[key] = value;
+}
+function getDefaultProperties() {
+    return housekeeping_store.default_properties;
+}
 
 class HouseKeepingService {
     async getExposedHKSetup(property_id) {
@@ -59,6 +73,6 @@ class HouseKeepingService {
     }
 }
 
-export { HouseKeepingService as H };
+export { HouseKeepingService as H, getDefaultProperties as g, housekeeping_store as h, updateHKStore as u };
 
 //# sourceMappingURL=housekeeping.service.js.map

@@ -7,12 +7,12 @@ const v4 = require('./v4-9b297151.js');
 const Token = require('./Token-a4c2b5d8.js');
 const housekeeping_service = require('./housekeeping.service-9f410f2b.js');
 const room_service = require('./room.service-415aa9c4.js');
+const housekeeping_store = require('./housekeeping.store-75064296.js');
 const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const moment = require('./moment-1780b03a.js');
 const icons = require('./icons-a189d33a.js');
 const axios = require('./axios-b86c5465.js');
-const housekeeping_store = require('./housekeeping.store-75064296.js');
 require('./calendar-data-7e342bed.js');
 require('./index-5e99a1fe.js');
 
@@ -232,6 +232,7 @@ const IrHkTasksStyle0 = irHkTasksCss;
 const IrHkTasks = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.hkNameCache = {};
         // private modalOpenTimeOut: NodeJS.Timeout;
         this.roomService = new room_service.RoomService();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
@@ -299,7 +300,7 @@ const IrHkTasks = class {
             const results = await Promise.all(requests);
             const tasks = results[0];
             if (tasks) {
-                this.tasks = tasks === null || tasks === void 0 ? void 0 : tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4.v4() })));
+                this.updateTasks(tasks);
             }
         }
         catch (error) {
@@ -308,6 +309,28 @@ const IrHkTasks = class {
         finally {
             this.isLoading = false;
         }
+    }
+    buildHousekeeperNameCache() {
+        var _a, _b;
+        this.hkNameCache = {};
+        (_b = (_a = housekeeping_store.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.forEach(hk => {
+            if (hk.id != null && hk.name != null) {
+                this.hkNameCache[hk.id] = hk.name;
+            }
+        });
+    }
+    updateTasks(tasks) {
+        this.buildHousekeeperNameCache();
+        this.tasks = tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4.v4(), housekeeper: (() => {
+                var _a, _b, _c;
+                const name = this.hkNameCache[t.hkm_id];
+                if (name) {
+                    return name;
+                }
+                const hkName = (_c = (_b = (_a = housekeeping_store.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
+                this.hkNameCache[t.hkm_id] = hkName;
+                return hkName;
+            })() })));
     }
     handleHeaderButtonPress(e) {
         var _a;
@@ -321,12 +344,18 @@ const IrHkTasks = class {
         }
     }
     async handleModalConfirmation(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        if (this.selectedTasks.length === 0) {
-            return;
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            if (this.selectedTasks.length === 0) {
+                return;
+            }
+            await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, unit_id: t.unit.id })) });
         }
-        await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, pr_id: t.unit.id })) });
+        finally {
+            this.selectedTasks = [];
+            this.modal.closeModal();
+        }
     }
     render() {
         if (this.isLoading) {
@@ -735,14 +764,36 @@ const IrTasksTable = class {
     /**
      * Helper to sort tasks array in state.
      */
+    /**
+     * Sorts the tasks by the given key in ASC or DESC order.
+     * If values for `key` are duplicates, it sorts by `date` ascending.
+     * If `date` is also the same, it finally sorts by `unit.name` ascending.
+     */
     sortTasks(key, direction) {
         const sorted = [...this.tasks].sort((a, b) => {
-            if (a[key] < b[key])
+            var _a, _b, _c, _d;
+            // Primary comparison: a[key] vs b[key]
+            const aPrimary = a[key];
+            const bPrimary = b[key];
+            if (aPrimary < bPrimary) {
                 return direction === 'ASC' ? -1 : 1;
-            if (a[key] > b[key])
+            }
+            if (aPrimary > bPrimary) {
                 return direction === 'ASC' ? 1 : -1;
+            }
+            // First tiebreaker: compare by date (always ascending)
+            if (a.date < b.date)
+                return -1;
+            if (a.date > b.date)
+                return 1;
+            // Second tiebreaker: compare by unit.name (always ascending)
+            if (((_a = a.unit) === null || _a === void 0 ? void 0 : _a.name) < ((_b = b.unit) === null || _b === void 0 ? void 0 : _b.name))
+                return -1;
+            if (((_c = a.unit) === null || _c === void 0 ? void 0 : _c.name) > ((_d = b.unit) === null || _d === void 0 ? void 0 : _d.name))
+                return 1;
             return 0;
         });
+        // Update component state
         this.tasks = sorted;
         this.sortKey = key;
         this.sortDirection = direction;
@@ -786,10 +837,9 @@ const IrTasksTable = class {
         console.log('here');
     }
     render() {
-        return (index.h("div", { key: 'a4bd4ff00ee9458ca4951ac7c3eb740c0b7c0e84', class: "card h-100 p-1 m-0 table-responsive" }, index.h("table", { key: '3d5bf21baa66a2c7a26c9151730d230c3ed5de0a', class: "table " }, index.h("thead", { key: 'a8cb2bdc12feb14a32162a3f202b5b1ca89c9f41' }, index.h("tr", { key: 'cff7a25b46501a626b902988d5311683de255686' }, index.h("th", { key: 'ed3f3d1ef33053827b7dea3b7c191837527b5cfb' }, index.h("ir-checkbox", { key: '3da0ccf89d2e5bd357f5646986370dc0b7b77e3d', checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: '611ac560e4f6971877f2162ceec5a33d9f5ea9e2' }, "Period"), index.h("th", { key: '1555688926c6915ac4717930af3f48bee1b7eb06' }, index.h("span", { key: '22422ac055418ee1714b3b86325100821617686c' }, "Unit")), index.h("th", { key: 'bd3af6a26ddb6857a6c2f6525696a363515dcbe4', class: 'sortable', onClick: () => this.handleSort('status') }, index.h("div", { key: 'dd6325611aa9f00dc29eff9f67889fbe7082da5c', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '6d4b8e8b615708d7c6f4cfac4d3e95a454924089' }, "Status"), index.h("svg", { key: '01b8c606142cb0469dbc5f97c1f6e0da68c2fa8e', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'ee07e20145e1a831545ede71e1afc90be28cda9e', d: "m21 16-4 4-4-4" }), index.h("path", { key: '990f10ab1f0e4485585ff5879d53a90494fe58c0', d: "M17 20V4" }), index.h("path", { key: 'afe9a0c4c7a6b5f70d52f46cc307ac58c876a3f5', d: "m3 8 4-4 4 4" }), index.h("path", { key: 'a6f68a29a540b8cf55c6352df38bce489c3c852e', d: "M7 4v16" })))), index.h("th", { key: '4881772878c32210fda6f8e4701410ed798f9674' }, "Hint"), index.h("th", { key: '20567d382a6b213cae5652542aa8404cf8b9d92e' }, "A"), index.h("th", { key: '13038bb00f2d3ec176b73d7912673ca75f411880' }, "C"), index.h("th", { key: '116d9ba5de4272e2e59ad68643989204814a6d09' }, "I"), index.h("th", { key: 'f5d4bf052510f6774e34ecb2cc2bad7d7038b349', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: '0eda7e97c8ff4aa175901d25762d6f5e50b57e95', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: 'f2bbac3a877717d6b76429a1d42b9a2826075aa0' }, "Housekeeper"), index.h("svg", { key: 'c2bef19cc3d3e2660178a50ce7ddc331b89d6423', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '1f47aab68b38a174fd064300cc038d93b2c97b89', d: "m21 16-4 4-4-4" }), index.h("path", { key: '1a986ee5af72774926e87127c60aa8e16724ec7d', d: "M17 20V4" }), index.h("path", { key: '3613341a06d7ed7d7550bf2a58698960e2b2585a', d: "m3 8 4-4 4 4" }), index.h("path", { key: 'fb4f62342894a4115b615c879835bdf0517c2c2f', d: "M7 4v16" })))))), index.h("tbody", { key: '6193e9a53d0feb9087d4665070aa92ab48ef44a5' }, this.tasks.map(task => {
-            var _a, _b, _c;
+        return (index.h("div", { key: '8e960c83280ef44f316ea2266c57cf83789d0724', class: "card h-100 p-1 m-0 table-responsive" }, index.h("table", { key: 'a1e5c3374ae13b096d3b05410ec6a3f9a717cd96', class: "table " }, index.h("thead", { key: '04ff4b1844c8f22188b17ec9da6844e07de2f59c' }, index.h("tr", { key: '40720059f16b72506d2aafd774d60c21fd23a462' }, index.h("th", { key: 'eefff559321bdc40333af6c9c80b80f429505fdd' }, index.h("ir-checkbox", { key: 'e2e3e4ed8544c02cfdea6b6886c633f682abd262', checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: '36e5758b74278fe47b045f2dae941d223df2142c' }, "Period"), index.h("th", { key: '491472fc763a6b72b70c422b34b94f1cf6ae7dc4' }, index.h("span", { key: '248311613d573b44713cc368bd2cc8e8150ab668' }, "Unit")), index.h("th", { key: '0f89dd512f19612419dd0f5ecde899c4cceb2136', class: 'sortable', onClick: () => this.handleSort('status') }, index.h("div", { key: 'd99c5205a967b7d62f083443543ad4fb7feb98e0', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '65546c6bbd7494138863818d4a2359b8e7cf6ac3' }, "Status"), index.h("svg", { key: 'be0d8fd134aabde9b5ec41613a85a7b95bc4c8d0', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'ab18ecd1be6198756f9f34b6ac7537b2097e3a1c', d: "m21 16-4 4-4-4" }), index.h("path", { key: '609cdd805ec9995d140591622d46e177bb54c40e', d: "M17 20V4" }), index.h("path", { key: '16cebdf65594100f382e254f707d2cdd997e5c50', d: "m3 8 4-4 4 4" }), index.h("path", { key: 'f7f8cac0adf27413b59e8012a79df577d4dceac6', d: "M7 4v16" })))), index.h("th", { key: '1ecc0154a274f048ef184a2face39853dcf5ab79' }, "Hint"), index.h("th", { key: '87941183396a06c1b7ed0e1a5fbb91ee560c236d' }, "A"), index.h("th", { key: 'c0bd367c0d5e2b43b4a76c2f35adcdde3a7edee9' }, "C"), index.h("th", { key: '16e65b46abe18f2f124d7e709bfbada048499286' }, "I"), index.h("th", { key: '714e4c0fa4c4e21419317f67165a4cbec63e8974', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: 'dffbd0a05f488c8d1b5ba70a953c07c777d6282a', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: 'bba733e01abff5b3c5d607fa553e703e008c7e3d' }, "Housekeeper"), index.h("svg", { key: '6bea508d5608f2f33f2c322c52bef55d05d33db1', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '0f056d993f3aee88d8afc240767a4757f1a86a09', d: "m21 16-4 4-4-4" }), index.h("path", { key: '692732cabf255ff7e767e40b5f150bf4ebb89133', d: "M17 20V4" }), index.h("path", { key: '6b339ce0f88ddb439372ecfe1091050bb644fc2d', d: "m3 8 4-4 4 4" }), index.h("path", { key: '9b0d2c7796856b29977860a4a3b7dbb59c5b3e03', d: "M7 4v16" })))))), index.h("tbody", { key: '676ea6603f33e044a7f204df2071fd60ce207ace' }, this.tasks.map(task => {
             const isSelected = this.selectedIds.includes(task.id);
-            return (index.h("tr", { style: { cursor: 'pointer' }, onClick: () => this.toggleSelection(task.id), class: { 'selected': isSelected, 'task-table-row': true }, key: task.id }, index.h("td", { class: "task-row" }, index.h("ir-checkbox", { checked: isSelected })), index.h("td", { class: "task-row" }, task.date), index.h("td", { class: "task-row" }, task.unit.name), index.h("td", { class: "task-row" }, task.status), index.h("td", { class: "task-row" }, task.hint), index.h("td", { class: "task-row" }, task.adult), index.h("td", { class: "task-row" }, task.child), index.h("td", { class: "task-row" }, task.infant), index.h("td", { class: "w-50 task-row", style: { textAlign: 'start' } }, (_c = (_b = (_a = housekeeping_store.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === task.hkm_id)) === null || _c === void 0 ? void 0 : _c.name)));
+            return (index.h("tr", { style: { cursor: 'pointer' }, onClick: () => this.toggleSelection(task.id), class: { 'selected': isSelected, 'task-table-row': true }, key: task.id }, index.h("td", { class: "task-row" }, index.h("ir-checkbox", { checked: isSelected })), index.h("td", { class: "task-row" }, task.date), index.h("td", { class: "task-row" }, task.unit.name), index.h("td", { class: "task-row" }, task.status), index.h("td", { class: "task-row" }, task.hint), index.h("td", { class: "task-row" }, task.adult), index.h("td", { class: "task-row" }, task.child), index.h("td", { class: "task-row" }, task.infant), index.h("td", { class: "w-50 task-row", style: { textAlign: 'start' } }, task.housekeeper)));
         })))));
     }
 };
