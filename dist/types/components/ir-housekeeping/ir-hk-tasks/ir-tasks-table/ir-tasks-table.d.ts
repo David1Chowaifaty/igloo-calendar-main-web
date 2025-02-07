@@ -1,11 +1,11 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { Task } from '../ir-hk-tasks';
+import { Task } from "../../../../models/housekeeping";
 export declare class IrTasksTable {
     tasks: Task[];
     /**
      * Tracks which task IDs are currently selected via checkboxes.
      */
-    selectedIds: number[];
+    selectedIds: Task['id'][];
     /**
      * Controls whether the "Confirm Clean" modal is shown.
      */
@@ -19,6 +19,7 @@ export declare class IrTasksTable {
      */
     sortDirection: 'ASC' | 'DESC';
     animateCleanedButton: EventEmitter<null>;
+    rowSelectChange: EventEmitter<Task[]>;
     componentWillLoad(): void;
     /**
      * Sorts the tasks by the given key. If no direction is provided,
@@ -33,6 +34,7 @@ export declare class IrTasksTable {
      * Helper to toggle selection for a single row.
      */
     private toggleSelection;
+    private emitSelectedTasks;
     /**
      * Checks if every row is selected.
      */

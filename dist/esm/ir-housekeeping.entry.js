@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-c553b3dc.js';
 import { T as Token } from './Token-a382baa1.js';
-import { H as HouseKeepingService } from './housekeeping.service-731ac492.js';
+import { H as HouseKeepingService } from './housekeeping.service-2db79a51.js';
 import { R as RoomService } from './room.service-c28cfd8f.js';
 import { c as calendar_data } from './calendar-data-a75c9e95.js';
 import { u as updateHKStore } from './housekeeping.store-82894713.js';

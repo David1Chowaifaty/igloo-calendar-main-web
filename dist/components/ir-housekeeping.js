@@ -1,8 +1,9 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service.js';
+import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { c as calendar_data } from './calendar-data.js';
+import { u as updateHKStore } from './housekeeping.store.js';
 import { d as defineCustomElement$i } from './ir-button2.js';
 import { d as defineCustomElement$h } from './ir-combobox2.js';
 import { d as defineCustomElement$g } from './ir-delete-modal2.js';

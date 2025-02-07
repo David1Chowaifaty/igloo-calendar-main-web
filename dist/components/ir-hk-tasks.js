@@ -1,112 +1,34 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$b } from './ir-button2.js';
-import { d as defineCustomElement$a } from './ir-checkbox2.js';
-import { d as defineCustomElement$9 } from './ir-icons2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
-import { d as defineCustomElement$7 } from './ir-loading-screen2.js';
+import { T as Token } from './Token.js';
+import { H as HouseKeepingService } from './housekeeping.service.js';
+import { R as RoomService } from './room.service.js';
+import { i as isRequestPending } from './ir-interceptor.store.js';
+import { l as locales } from './locales.store.js';
+import { h as hooks } from './moment.js';
+import { d as defineCustomElement$c } from './ir-button2.js';
+import { d as defineCustomElement$b } from './ir-checkbox2.js';
+import { d as defineCustomElement$a } from './ir-icons2.js';
+import { d as defineCustomElement$9 } from './ir-interceptor2.js';
+import { d as defineCustomElement$8 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$7 } from './ir-modal2.js';
 import { d as defineCustomElement$6 } from './ir-select2.js';
 import { d as defineCustomElement$5 } from './ir-tasks-filters2.js';
 import { d as defineCustomElement$4 } from './ir-tasks-header2.js';
 import { d as defineCustomElement$3 } from './ir-tasks-table2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { v as v4 } from './v4.js';
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
 const IrHkTasksStyle0 = irHkTasksCss;
 
-const initialData = [
-    {
-        id: 1,
-        date: '20 Jan',
-        unit: 228,
-        status: 'INHOUSE',
-        hint: '27 Oct - 3 Nov',
-        a: 4,
-        c: 2,
-        i: 1,
-        housekeeper: 'Maria',
-    },
-    {
-        id: 2,
-        date: '20 Jan',
-        unit: 501,
-        status: 'CHECKIN',
-        hint: 'Noon-2PM',
-        a: 2,
-        c: 0,
-        i: 0,
-        housekeeper: 'Clean Plus',
-    },
-    {
-        id: 3,
-        date: '20 Jan',
-        unit: 600,
-        status: 'VACANT',
-        hint: '',
-        a: 1,
-        c: 1,
-        i: 1,
-        housekeeper: 'Petros',
-    },
-    {
-        id: 4,
-        date: '20 Jan',
-        unit: 102,
-        status: 'TURNOVER',
-        hint: '10PM-Midnight',
-        a: 1,
-        c: 1,
-        i: 1,
-        housekeeper: 'Clean Plus',
-    },
-    {
-        id: 5,
-        date: '20 Jan',
-        unit: 109,
-        status: 'DUSTY',
-        hint: '',
-        a: 1,
-        c: 0,
-        i: 1,
-        housekeeper: 'Clean Plus',
-    },
-    {
-        id: 6,
-        date: '20 Jan',
-        unit: 501,
-        status: 'CHECKOUT',
-        hint: '',
-        a: 2,
-        c: 2,
-        i: 2,
-        housekeeper: 'Clean Plus',
-    },
-    {
-        id: 7,
-        date: '20 Jan',
-        unit: 228,
-        status: 'CHECKIN',
-        hint: 'Noon-2PM',
-        a: 4,
-        c: 2,
-        i: 1,
-        housekeeper: 'Maria',
-    },
-    {
-        id: 8,
-        date: '20 Jan',
-        unit: 228,
-        status: 'CHECKOUT',
-        hint: '',
-        a: 4,
-        c: 2,
-        i: 1,
-        housekeeper: 'Maria',
-    },
-];
 const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
+        // private modalOpenTimeOut: NodeJS.Timeout;
+        this.roomService = new RoomService();
+        this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
         this.propertyid = undefined;
@@ -117,18 +39,102 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         this.selectedRoom = null;
         this.archiveOpened = false;
         this.property_id = undefined;
+        this.tasks = [];
+        this.selectedTasks = [];
     }
-    // private modalOpenTimeOut: NodeJS.Timeout;
-    // private roomService = new RoomService();
-    // private houseKeepingService = new HouseKeepingService();
-    // private token = new Token();
+    componentWillLoad() {
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
+            this.init();
+        }
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        this.init();
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            // let roomResp = null;
+            if (!propertyId) {
+                console.log(propertyId);
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                });
+                // roomResp = propertyData;
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            const requests = [
+                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().add(2, 'days').format('YYYY-MM-DD') }),
+                this.houseKeepingService.getExposedHKSetup(this.property_id),
+                this.roomService.fetchLanguage(this.language),
+            ];
+            if (this.propertyid) {
+                requests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            const tasks = results[0];
+            if (tasks) {
+                this.tasks = tasks === null || tasks === void 0 ? void 0 : tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4() })));
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    handleHeaderButtonPress(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { name } = e.detail;
+        switch (name) {
+            case 'cleaned':
+                (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+                break;
+        }
+    }
+    async handleModalConfirmation(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (this.selectedTasks.length === 0) {
+            return;
+        }
+        await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, pr_id: t.unit.id })) });
+    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", null), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", null), h("ir-tasks-table", { class: "flex-grow-1 w-100", tasks: initialData })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", null), h("ir-tasks-table", { onRowSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.selectedTasks = e.detail;
+            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' })));
     }
     get el() { return this; }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
     static get style() { return IrHkTasksStyle0; }
 }, [2, "ir-hk-tasks", {
         "language": [1],
@@ -140,13 +146,17 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         "selectedHouseKeeper": [32],
         "selectedRoom": [32],
         "archiveOpened": [32],
-        "property_id": [32]
+        "property_id": [32],
+        "tasks": [32],
+        "selectedTasks": [32]
+    }, undefined, {
+        "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-select", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-toast"];
+    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-tasks":
             if (!customElements.get(tagName)) {
@@ -155,25 +165,30 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

@@ -10,7 +10,15 @@ export class IrTasksHeader {
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '2ea47cc6e9f77f77fb1654bd80d173176c7d4597', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: 'f168f401957a6382fc46c02dcb8090dbb0795f22' }, "Housekeeping Tasks"), h("div", { key: 'f57216b570fec18f5c92ebb1ed1fdb4c27e47c64', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'a9f96c39cb1cb8daa540075029494471b3702415', size: "sm", btn_color: "outline", text: "Export" }), h("ir-button", { key: 'd5562b5fae720a1d5136a835a65ec200ee14246d', size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
+        return (h("div", { key: '380421b26c3e0c914a3c8bdd20677d755cb3042a', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: '5796be8c04267ac30eab7af9c05be5a808f8e741' }, "Housekeeping Tasks"), h("div", { key: '54050d457a9f336183c72fe1c49406573f7de368', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: '78d75116708e4b4dc9af34c75f01296c97458384', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.headerButtonPress.emit({ name: 'export' });
+            } }), h("ir-button", { key: '455119e80dee6bbc68dbef37e68fb52fcc4b6510', onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.headerButtonPress.emit({ name: 'cleaned' });
+            }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
     }
     static get is() { return "ir-tasks-header"; }
     static get encapsulation() { return "scoped"; }
@@ -45,6 +53,24 @@ export class IrTasksHeader {
                 "defaultValue": "false"
             }
         };
+    }
+    static get events() {
+        return [{
+                "method": "headerButtonPress",
+                "name": "headerButtonPress",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ name: 'cleaned' | 'export' }",
+                    "resolved": "{ name: \"cleaned\" | \"export\"; }",
+                    "references": {}
+                }
+            }];
     }
     static get listeners() {
         return [{

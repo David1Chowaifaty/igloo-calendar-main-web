@@ -16,6 +16,17 @@ export declare class HouseKeepingService {
             id: number;
         };
     }): Promise<any>;
-    executeHKAction(params: any): Promise<void>;
+    getHkTasks(params: {
+        property_id: number;
+        from_date: string;
+        to_date: string;
+    }): Promise<any>;
+    executeHKAction(params: {
+        actions: {
+            pr_id: number;
+            hkm_id: number;
+            description: string;
+        }[];
+    }): Promise<void>;
     generateUserName(name: string): Promise<any>;
 }

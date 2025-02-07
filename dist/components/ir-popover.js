@@ -39,7 +39,7 @@ const IrPopover$1 = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTM
         });
     }
     render() {
-        return (h(Host, { key: 'e21bec5f12f2b9b9978b973dfc1d68b27da2ce01', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '8a3c467dd62ec19f26efaf7ff1c2c203994e7e42', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '4d003a4aca5410f51db2f395f7ec7b5a8e93564c', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
+        return (h(Host, { key: 'c8a779bd4b4ed43e888014b8db89f41b39167a37', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '5f3dfe2a23b618f9d93fab904d6864417d159111', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: 'bd4c29d3cae3566099d8002755262ecdb35e6455', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return this; }
     static get style() { return IrPopoverStyle0; }

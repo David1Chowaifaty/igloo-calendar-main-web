@@ -1,15 +1,4 @@
-import { IPendingActions } from "../../../models/housekeeping";
-export interface Task {
-    id: number;
-    date: string;
-    unit: number;
-    status: string;
-    hint?: string;
-    a: number;
-    c: number;
-    i: number;
-    housekeeper: string;
-}
+import { IPendingActions, Task } from "../../../models/housekeeping";
 export declare class IrHkTasks {
     el: HTMLElement;
     language: string;
@@ -22,5 +11,16 @@ export declare class IrHkTasks {
     selectedRoom: IPendingActions | null;
     archiveOpened: boolean;
     property_id: number;
+    tasks: Task[];
+    selectedTasks: Task[];
+    private roomService;
+    private houseKeepingService;
+    private token;
+    modal: HTMLIrModalElement;
+    componentWillLoad(): void;
+    ticketChanged(newValue: string, oldValue: string): void;
+    private init;
+    private handleHeaderButtonPress;
+    private handleModalConfirmation;
     render(): any;
 }
