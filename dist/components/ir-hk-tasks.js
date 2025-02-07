@@ -1,4 +1,4 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
@@ -25,8 +25,8 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
     constructor() {
         super();
         this.__registerHost();
+        this.clearSelectedHkTasks = createEvent(this, "clearSelectedHkTasks", 7);
         this.hkNameCache = {};
-        // private modalOpenTimeOut: NodeJS.Timeout;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
@@ -147,6 +147,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         }
         finally {
             this.selectedTasks = [];
+            this.clearSelectedHkTasks.emit();
             this.modal.closeModal();
         }
     }

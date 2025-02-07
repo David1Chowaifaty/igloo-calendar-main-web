@@ -26,6 +26,7 @@ export declare class IrTasksTable {
      * it toggles between ascending and descending.
      */
     private handleSort;
+    handleClearSelectedHkTasks(e: CustomEvent): void;
     /**
      * Helper to sort tasks array in state.
      */

@@ -1,4 +1,5 @@
 import { IPendingActions, Task } from "../../../models/housekeeping";
+import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrHkTasks {
     el: HTMLElement;
     language: string;
@@ -13,11 +14,12 @@ export declare class IrHkTasks {
     property_id: number;
     tasks: Task[];
     selectedTasks: Task[];
+    clearSelectedHkTasks: EventEmitter<void>;
     private hkNameCache;
     private roomService;
     private houseKeepingService;
     private token;
-    modal: HTMLIrModalElement;
+    private modal;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private init;

@@ -1163,6 +1163,10 @@ export interface IrGuestInfoCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoElement;
 }
+export interface IrHkTasksCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHkTasksElement;
+}
 export interface IrHkUnassignedUnitsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkUnassignedUnitsElement;
@@ -2115,7 +2119,18 @@ declare global {
         prototype: HTMLIrHkArchiveElement;
         new (): HTMLIrHkArchiveElement;
     };
+    interface HTMLIrHkTasksElementEventMap {
+        "clearSelectedHkTasks": void;
+    }
     interface HTMLIrHkTasksElement extends Components.IrHkTasks, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHkTasksElementEventMap>(type: K, listener: (this: HTMLIrHkTasksElement, ev: IrHkTasksCustomEvent<HTMLIrHkTasksElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHkTasksElementEventMap>(type: K, listener: (this: HTMLIrHkTasksElement, ev: IrHkTasksCustomEvent<HTMLIrHkTasksElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrHkTasksElement: {
         prototype: HTMLIrHkTasksElement;
@@ -3388,6 +3403,7 @@ declare namespace LocalJSX {
     }
     interface IrHkTasks {
         "language"?: string;
+        "onClearSelectedHkTasks"?: (event: IrHkTasksCustomEvent<void>) => void;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;

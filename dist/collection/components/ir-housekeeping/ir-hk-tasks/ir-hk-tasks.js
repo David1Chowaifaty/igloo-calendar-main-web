@@ -10,7 +10,6 @@ import { v4 } from "uuid";
 export class IrHkTasks {
     constructor() {
         this.hkNameCache = {};
-        // private modalOpenTimeOut: NodeJS.Timeout;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
@@ -133,6 +132,7 @@ export class IrHkTasks {
         }
         finally {
             this.selectedTasks = [];
+            this.clearSelectedHkTasks.emit();
             this.modal.closeModal();
         }
     }
@@ -243,6 +243,24 @@ export class IrHkTasks {
             "tasks": {},
             "selectedTasks": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "clearSelectedHkTasks",
+                "name": "clearSelectedHkTasks",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {
