@@ -4,12 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
 const room_service = require('./room.service-415aa9c4.js');
-const booking_service = require('./booking.service-8c8b0562.js');
-const utils = require('./utils-5b6ac171.js');
-const events_service = require('./events.service-b361c1d2.js');
-const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-8fb634d0.js');
-const booking = require('./booking-576a1a16.js');
+const booking_service = require('./booking.service-d43200d6.js');
+const utils = require('./utils-b5af6709.js');
+const events_service = require('./events.service-eeac57e4.js');
+const toBeAssigned_service = require('./toBeAssigned.service-6c67e65a.js');
+const booking = require('./booking-fa4aebbb.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const calendarData = require('./calendar-data-7e342bed.js');
 const unassigned_dates_store = require('./unassigned_dates.store-c1996160.js');
@@ -4150,8 +4149,8 @@ const IglooCalendar = class {
         this.calendarData.formattedLegendData = utils.formatLegendColors(this.calendarData.legendData);
         let bookings = bookingResp.myBookings || [];
         bookings = bookings.filter(bookingEvent => {
-            const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
             return !toDate.isSame(fromDate);
         });
         this.calendarData.bookingEvents = bookings;
@@ -4385,7 +4384,7 @@ const IglooCalendar = class {
         return this.calendarData.bookingEvents.some(booking => booking.ID === data.ID || (booking.FROM_DATE === data.FROM_DATE && booking.TO_DATE === data.TO_DATE && booking.PR_ID === data.PR_ID));
     }
     updateBookingEventsDateRange(eventData) {
-        const now = moment.hooks();
+        const now = utils.hooks();
         eventData.forEach(bookingEvent => {
             bookingEvent.legendData = this.calendarData.formattedLegendData;
             bookingEvent.defaultDateRange = {};
@@ -4407,8 +4406,8 @@ const IglooCalendar = class {
                     }
                 }
                 else {
-                    const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-                    const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+                    const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+                    const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
                     if (bookingEvent.STATUS !== 'PENDING') {
                         if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
                             bookingEvent.STATUS = booking.bookingStatus['000'];
@@ -4498,7 +4497,7 @@ const IglooCalendar = class {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
     }
     transformDateForScroll(date) {
-        return moment.hooks(date).format('D_M_YYYY');
+        return utils.hooks(date).format('D_M_YYYY');
     }
     shouldRenderCalendarView() {
         // console.log("rendering...")
@@ -4621,12 +4620,12 @@ const IglooCalendar = class {
         }
     }
     async handleDateSearch(dates) {
-        const startDate = moment.hooks(dates.start).toDate();
-        const defaultFromDate = moment.hooks(this.calDates.from).toDate();
+        const startDate = utils.hooks(dates.start).toDate();
+        const defaultFromDate = utils.hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
         if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
-            await this.addDatesToCalendar(moment.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), moment.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(utils.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), utils.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
             this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
@@ -4635,7 +4634,7 @@ const IglooCalendar = class {
         }
         else if (startDate.getTime() > defaultToDate) {
             const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
-            await this.addDatesToCalendar(nextDay, moment.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(nextDay, utils.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
     }

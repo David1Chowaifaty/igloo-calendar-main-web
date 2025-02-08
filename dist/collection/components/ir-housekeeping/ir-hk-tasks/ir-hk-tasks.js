@@ -25,6 +25,7 @@ export class IrHkTasks {
         this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
+        this.isSidebarOpen = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -38,6 +39,11 @@ export class IrHkTasks {
         }
         this.token.setToken(this.ticket);
         this.init();
+    }
+    handleCloseSidebar(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.isSidebarOpen = false;
     }
     async init() {
         try {
@@ -119,6 +125,9 @@ export class IrHkTasks {
                 break;
             case 'export':
                 break;
+            case 'archive':
+                this.isSidebarOpen = true;
+                break;
         }
     }
     async handleModalConfirmation(e) {
@@ -144,7 +153,11 @@ export class IrHkTasks {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedTasks = e.detail;
-            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' })));
+            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isSidebarOpen = false;
+            }, showCloseButton: false }, h("ir-hk-archive", { slot: "sidebar-body" }))));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -241,7 +254,8 @@ export class IrHkTasks {
             "archiveOpened": {},
             "property_id": {},
             "tasks": {},
-            "selectedTasks": {}
+            "selectedTasks": {},
+            "isSidebarOpen": {}
         };
     }
     static get events() {
@@ -267,6 +281,15 @@ export class IrHkTasks {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "closeSideBar",
+                "method": "handleCloseSidebar",
+                "target": undefined,
+                "capture": false,
+                "passive": false
             }];
     }
 }

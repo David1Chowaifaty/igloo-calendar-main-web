@@ -1,20 +1,28 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
+import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
+import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$c } from './ir-button2.js';
-import { d as defineCustomElement$b } from './ir-checkbox2.js';
-import { d as defineCustomElement$a } from './ir-icons2.js';
-import { d as defineCustomElement$9 } from './ir-interceptor2.js';
-import { d as defineCustomElement$8 } from './ir-loading-screen2.js';
-import { d as defineCustomElement$7 } from './ir-modal2.js';
-import { d as defineCustomElement$6 } from './ir-select2.js';
-import { d as defineCustomElement$5 } from './ir-tasks-filters2.js';
-import { d as defineCustomElement$4 } from './ir-tasks-header2.js';
-import { d as defineCustomElement$3 } from './ir-tasks-table2.js';
+import { d as defineCustomElement$j } from './igl-date-range2.js';
+import { d as defineCustomElement$i } from './ir-button2.js';
+import { d as defineCustomElement$h } from './ir-checkbox2.js';
+import { d as defineCustomElement$g } from './ir-date-picker2.js';
+import { d as defineCustomElement$f } from './ir-date-view2.js';
+import { d as defineCustomElement$e } from './ir-hk-archive2.js';
+import { d as defineCustomElement$d } from './ir-icon2.js';
+import { d as defineCustomElement$c } from './ir-icons2.js';
+import { d as defineCustomElement$b } from './ir-interceptor2.js';
+import { d as defineCustomElement$a } from './ir-loading-screen2.js';
+import { d as defineCustomElement$9 } from './ir-modal2.js';
+import { d as defineCustomElement$8 } from './ir-select2.js';
+import { d as defineCustomElement$7 } from './ir-sidebar2.js';
+import { d as defineCustomElement$6 } from './ir-tasks-filters2.js';
+import { d as defineCustomElement$5 } from './ir-tasks-header2.js';
+import { d as defineCustomElement$4 } from './ir-tasks-table2.js';
+import { d as defineCustomElement$3 } from './ir-title2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 import { v as v4 } from './v4.js';
 
@@ -42,6 +50,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
+        this.isSidebarOpen = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -55,6 +64,11 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         }
         this.token.setToken(this.ticket);
         this.init();
+    }
+    handleCloseSidebar(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.isSidebarOpen = false;
     }
     async init() {
         try {
@@ -134,6 +148,11 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
             case 'cleaned':
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
                 break;
+            case 'export':
+                break;
+            case 'archive':
+                this.isSidebarOpen = true;
+                break;
         }
     }
     async handleModalConfirmation(e) {
@@ -159,7 +178,11 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedTasks = e.detail;
-            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' })));
+            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isSidebarOpen = false;
+            }, showCloseButton: false }, h("ir-hk-archive", { slot: "sidebar-body" }))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -178,67 +201,103 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         "archiveOpened": [32],
         "property_id": [32],
         "tasks": [32],
-        "selectedTasks": [32]
-    }, undefined, {
+        "selectedTasks": [32],
+        "isSidebarOpen": [32]
+    }, [[0, "closeSideBar", "handleCloseSidebar"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-tasks", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-toast"];
+    const components = ["ir-hk-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-date-picker", "ir-date-view", "ir-hk-archive", "ir-icon", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-sidebar", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-tasks":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrHkTasks$1);
             }
             break;
+        case "igl-date-range":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$j();
+            }
+            break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$i();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$h();
+            }
+            break;
+        case "ir-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$g();
+            }
+            break;
+        case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-hk-archive":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
+            }
+            break;
+        case "ir-icon":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-sidebar":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
             }
             break;
         case "ir-tasks-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-tasks-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-tasks-table":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-title":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

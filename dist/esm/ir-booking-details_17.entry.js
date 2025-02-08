@@ -1,17 +1,16 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, g as getElement, H as Host } from './index-c553b3dc.js';
 import { a as axios } from './axios-ab377903.js';
-import { B as BookingService } from './booking.service-365f58c4.js';
+import { B as BookingService } from './booking.service-b2fe1cc2.js';
 import { R as RoomService } from './room.service-c28cfd8f.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import { P as PaymentService } from './payment.service-26305b1a.js';
 import { T as Token } from './Token-a382baa1.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data-a75c9e95.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { g as getPrivateNote, f as formatName } from './booking-45149a42.js';
+import { h as hooks, p as formatAmount, z, Z as ZodError, u as renderTime } from './utils-c6413b11.js';
+import { g as getPrivateNote, f as formatName } from './booking-f2354caa.js';
 import { c as colorVariants } from './icons-bcb47550.js';
 import { i as isRequestPending } from './ir-interceptor.store-651abd9c.js';
-import { o as formatAmount, z, Z as ZodError, t as renderTime } from './utils-dd63b020.js';
-import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-14871918.js';
+import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-ca711996.js';
 import { I as IMask } from './index-1207b1f1.js';
 import './index-1d7b1ff2.js';
 

@@ -3,7 +3,7 @@ export declare class IrTasksHeader {
     isCleanedEnabled: boolean;
     private btnRef;
     headerButtonPress: EventEmitter<{
-        name: 'cleaned' | 'export';
+        name: 'cleaned' | 'export' | 'archive';
     }>;
     handleCleanedButtonAnimation(e: CustomEvent): void;
     render(): any;

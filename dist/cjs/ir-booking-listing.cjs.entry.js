@@ -3,13 +3,12 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking_listing_service = require('./booking_listing.service-aa60f015.js');
+const booking_listing_service = require('./booking_listing.service-64cc5f75.js');
 const room_service = require('./room.service-415aa9c4.js');
 const locales_store = require('./locales.store-4301bbe8.js');
-const utils = require('./utils-5b6ac171.js');
-const moment = require('./moment-1780b03a.js');
-const functions = require('./functions-1d46da3c.js');
-const booking = require('./booking-576a1a16.js');
+const utils = require('./utils-b5af6709.js');
+const functions = require('./functions-a88cbffc.js');
+const booking = require('./booking-fa4aebbb.js');
 const Token = require('./Token-a4c2b5d8.js');
 const calendarData = require('./calendar-data-7e342bed.js');
 require('./index-5e99a1fe.js');
@@ -163,7 +162,7 @@ const IrBookingListing = class {
             _o.map(booking$1 => {
                 var _a, _b, _c;
                 let confirmationBG = this.statusColors[booking$1.status.code];
-                return (index.h("tr", { key: booking$1.booking_nbr }, index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking: booking$1, cause: 'edit' }), text: booking$1.booking_nbr })), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking$1.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking$1.booked_on.hour.toString(), booking$1.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking$1.origin.Icon, alt: booking$1.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking: booking$1, cause: 'guest' }), text: `${booking$1.guest.first_name} ${(_a = booking$1.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
+                return (index.h("tr", { key: booking$1.booking_nbr }, index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking: booking$1, cause: 'edit' }), text: booking$1.booking_nbr })), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking$1.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking$1.booked_on.hour.toString(), booking$1.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking$1.origin.Icon, alt: booking$1.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking: booking$1, cause: 'guest' }), text: `${booking$1.guest.first_name} ${(_a = booking$1.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
                         width: 'fit-content',
                         padding: '0',
                         margin: '0',
@@ -174,7 +173,7 @@ const IrBookingListing = class {
                     return (index.h("li", null, index.h("div", { class: 'room-service' }, index.h("p", { class: 'm-0 p-0' }, room.roomtype.name), room.unit &&
                         !calendarData.isSingleUnit(room.roomtype.id) &&
                         (((_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 4 ? (index.h("ir-tooltip", { customSlot: true, message: (_c = room.unit) === null || _c === void 0 ? void 0 : _c.name }, index.h("p", { class: 'room-name-container cursor-pointer m-0', slot: "tooltip-trigger" }, (_e = (_d = room.unit) === null || _d === void 0 ? void 0 : _d.name) === null || _e === void 0 ? void 0 : _e.substring(0, 4)))) : (index.h("p", { class: 'room-name-container  m-0' }, (_g = (_f = room.unit) === null || _f === void 0 ? void 0 : _f.name) === null || _g === void 0 ? void 0 : _g.substring(0, 4)))))));
-                }), booking$1.extra_services && index.h("li", null, locales_store.locales.entries.Lcz_ExtraServices))), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking$1.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking$1.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), index.h("td", null, index.h("p", { class: "p-0 m-0" }, utils.formatAmount(booking$1.currency.symbol, (_c = (_b = booking$1.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), booking$1.financial.due_amount > 0 && (index.h("buuton", { onClick: () => {
+                }), booking$1.extra_services && index.h("li", null, locales_store.locales.entries.Lcz_ExtraServices))), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking$1.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking$1.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), index.h("td", null, index.h("p", { class: "p-0 m-0" }, utils.formatAmount(booking$1.currency.symbol, (_c = (_b = booking$1.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), booking$1.financial.due_amount > 0 && (index.h("buuton", { onClick: () => {
                         this.editBookingItem = { booking: booking$1, cause: 'payment' };
                         this.openModal();
                     }, class: "btn p-0 m-0 due-btn" }, utils.formatAmount(booking$1.currency.symbol, booking$1.financial.due_amount)))), this.showCost && (index.h("td", null, booking$1.financial.gross_cost !== null && booking$1.financial.gross_cost === 0

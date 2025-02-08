@@ -1,12 +1,11 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-c553b3dc.js';
 import { T as Token } from './Token-a382baa1.js';
-import { B as BookingService } from './booking.service-365f58c4.js';
+import { B as BookingService } from './booking.service-b2fe1cc2.js';
 import { R as RoomService } from './room.service-c28cfd8f.js';
 import { l as locales } from './locales.store-a1e3db22.js';
 import './axios-ab377903.js';
-import './utils-dd63b020.js';
-import './moment-ab846cee.js';
-import './booking-45149a42.js';
+import './utils-c6413b11.js';
+import './booking-f2354caa.js';
 import './index-1d7b1ff2.js';
 import './calendar-data-a75c9e95.js';
 

@@ -4,18 +4,17 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
 const axios = require('./axios-b86c5465.js');
-const booking_service = require('./booking.service-8c8b0562.js');
+const booking_service = require('./booking.service-d43200d6.js');
 const room_service = require('./room.service-415aa9c4.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const payment_service = require('./payment.service-79a4a94c.js');
 const Token = require('./Token-a4c2b5d8.js');
 const calendarData = require('./calendar-data-7e342bed.js');
-const moment = require('./moment-1780b03a.js');
-const booking = require('./booking-576a1a16.js');
+const utils = require('./utils-b5af6709.js');
+const booking = require('./booking-fa4aebbb.js');
 const icons = require('./icons-a189d33a.js');
 const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
-const utils = require('./utils-5b6ac171.js');
-const functions = require('./functions-1d46da3c.js');
+const functions = require('./functions-a88cbffc.js');
 const index$1 = require('./index-b31fbbfb.js');
 require('./index-5e99a1fe.js');
 
@@ -323,7 +322,7 @@ const IrBookingDetails = class {
         if (room.in_out && room.in_out.code !== '000') {
             return false;
         }
-        if (moment.hooks(new Date()).isSameOrAfter(new Date(room.from_date), 'days') && moment.hooks(new Date()).isBefore(new Date(room.to_date), 'days')) {
+        if (utils.hooks(new Date()).isSameOrAfter(new Date(room.from_date), 'days') && utils.hooks(new Date()).isBefore(new Date(room.to_date), 'days')) {
             return true;
         }
         return false;
@@ -640,7 +639,7 @@ const IrExtraService = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'cc7f04864115a6cf90bb887920f474fe3c7bd2b0' }, index.h("div", { key: '7f1f0c8efc43aba08052a6638c3e5fe36da0dd20', class: "p-1" }, index.h("div", { key: '95b8a79644d367bc8fae1a5cd2293cb6eb364f06', class: 'extra-service-container' }, index.h("p", { key: '37e289fab2fd6e71d8b72fdc2e6cad5b480f747d', class: "extra-service-description" }, this.service.description), index.h("div", { key: 'b6a9a273450bdcf5a4d9789fbfd290fdbf5b5517', class: "extra-service-actions" }, this.service.price && index.h("p", { key: '9471b2970df39fa976de926b6c6575e6519b52a2', class: "extra-service-price p-0 m-0 font-weight-bold" }, utils.formatAmount(this.currencySymbol, this.service.price)), index.h("ir-button", { key: 'c320a5591408c55f82fa20352c8ffc8893b521ed', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: icons.colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), index.h("ir-button", { key: '824d7fd7d0b7b931ab4978f9c8526a4ee0577492', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: icons.colorVariants.danger }))), index.h("div", { key: '4648780d1d83317d1790b9f52ccaec71cadf03c4', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (index.h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && index.h("p", { class: "extra-service-date-view" }, moment.hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), index.h("ir-modal", { key: 'ce2b59371c51c67f076b64bbac0c31d40e1e4ad6', autoClose: false, ref: el => (this.irModalRef = el), isLoading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}` })));
+        return (index.h(index.Host, { key: 'cc7f04864115a6cf90bb887920f474fe3c7bd2b0' }, index.h("div", { key: '7f1f0c8efc43aba08052a6638c3e5fe36da0dd20', class: "p-1" }, index.h("div", { key: '95b8a79644d367bc8fae1a5cd2293cb6eb364f06', class: 'extra-service-container' }, index.h("p", { key: '37e289fab2fd6e71d8b72fdc2e6cad5b480f747d', class: "extra-service-description" }, this.service.description), index.h("div", { key: 'b6a9a273450bdcf5a4d9789fbfd290fdbf5b5517', class: "extra-service-actions" }, this.service.price && index.h("p", { key: '9471b2970df39fa976de926b6c6575e6519b52a2', class: "extra-service-price p-0 m-0 font-weight-bold" }, utils.formatAmount(this.currencySymbol, this.service.price)), index.h("ir-button", { key: 'c320a5591408c55f82fa20352c8ffc8893b521ed', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: icons.colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), index.h("ir-button", { key: '824d7fd7d0b7b931ab4978f9c8526a4ee0577492', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: icons.colorVariants.danger }))), index.h("div", { key: '4648780d1d83317d1790b9f52ccaec71cadf03c4', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (index.h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && index.h("p", { class: "extra-service-date-view" }, utils.hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), index.h("ir-modal", { key: 'ce2b59371c51c67f076b64bbac0c31d40e1e4ad6', autoClose: false, ref: el => (this.irModalRef = el), isLoading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}` })));
     }
 };
 IrExtraService.style = IrExtraServiceStyle0;
@@ -729,11 +728,11 @@ const ZSharedPerson = utils.z.object({
     dob: utils.z
         .string()
         .optional()
-        .refine(value => value === undefined || moment.hooks(value, 'DD/MM/YYYY', true).isValid() || value === '', 'Invalid date format')
+        .refine(value => value === undefined || utils.hooks(value, 'DD/MM/YYYY', true).isValid() || value === '', 'Invalid date format')
         .transform(value => {
         if (value === undefined || value === '')
             return null;
-        const isDDMMYYYY = moment.hooks(value, 'DD/MM/YYYY', true).isValid();
+        const isDDMMYYYY = utils.hooks(value, 'DD/MM/YYYY', true).isValid();
         return isDDMMYYYY ? null : value;
     }),
     id_info: ZIdInfo.optional(),
@@ -979,7 +978,7 @@ const IrPaymentActions = class {
             if (!pa.due_on) {
                 return null;
             }
-            return (index.h("tr", { class: 'action-container' }, index.h("td", { class: 'amount_action' }, utils.formatAmount(pa.currency.symbol, pa.amount)), index.h("td", { class: 'date_action' }, moment.hooks(new Date(pa.due_on)).format('ddd, DD MMM YYYY')), pa.amount > 0 && (index.h("td", null, index.h("ir-button", { btn_color: "outline", text: 'Pay', size: "sm", onClickHandler: () => this.generatePayment.emit(pa) }))), pa.type === 'overdue' && pa.amount > 0 && (index.h("td", null, index.h("div", { class: 'overdue_action' }, index.h("svg", { height: 16, width: 16, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512" }, index.h("path", { fill: "currentColor", d: "M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" })), index.h("span", null, "Overdue")))), pa.type === 'future' && pa.amount > 0 && (index.h("td", null, index.h("div", { class: 'future_action ' }, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: 16, width: 16, viewBox: "0 0 512 512" }, index.h("path", { fill: "currentColor", d: "M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" })), index.h("span", null, moment.hooks(new Date(pa.due_on)).isSame(new Date()) ? 'Today' : 'Future'))))));
+            return (index.h("tr", { class: 'action-container' }, index.h("td", { class: 'amount_action' }, utils.formatAmount(pa.currency.symbol, pa.amount)), index.h("td", { class: 'date_action' }, utils.hooks(new Date(pa.due_on)).format('ddd, DD MMM YYYY')), pa.amount > 0 && (index.h("td", null, index.h("ir-button", { btn_color: "outline", text: 'Pay', size: "sm", onClickHandler: () => this.generatePayment.emit(pa) }))), pa.type === 'overdue' && pa.amount > 0 && (index.h("td", null, index.h("div", { class: 'overdue_action' }, index.h("svg", { height: 16, width: 16, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512" }, index.h("path", { fill: "currentColor", d: "M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" })), index.h("span", null, "Overdue")))), pa.type === 'future' && pa.amount > 0 && (index.h("td", null, index.h("div", { class: 'future_action ' }, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: 16, width: 16, viewBox: "0 0 512 512" }, index.h("path", { fill: "currentColor", d: "M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" })), index.h("span", null, utils.hooks(new Date(pa.due_on)).isSame(new Date()) ? 'Today' : 'Future'))))));
         })))));
     }
 };
@@ -1032,7 +1031,7 @@ const IrPaymentDetails = class {
     initializeItemToBeAdded() {
         this.itemToBeAdded = {
             id: -1,
-            date: moment.hooks().format('YYYY-MM-DD'),
+            date: utils.hooks().format('YYYY-MM-DD'),
             amount: null,
             currency: this.bookingDetails.currency,
             designation: '',
@@ -1144,7 +1143,7 @@ const IrPaymentDetails = class {
     }
     _renderTableRow(item, rowMode = 'normal') {
         var _a, _b;
-        return (index.h(index.Fragment, null, index.h("tr", null, index.h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (index.h("span", { class: "sm-padding-left" }, functions._formatDate(item.date))) : (index.h("ir-date-picker", { date: ((_a = this.itemToBeAdded) === null || _a === void 0 ? void 0 : _a.date) ? new Date(this.itemToBeAdded.date) : new Date(), minDate: moment.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), singleDatePicker: true, autoApply: true, onDateChanged: this.handleDateChange.bind(this) }))), index.h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (index.h("span", { class: "sm-padding-right" }, utils.formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (index.h("input", { type: "text", class: "border-0 text-center form-control py-0 m-0 w-100", value: this.itemToBeAdded.amount, onBlur: e => {
+        return (index.h(index.Fragment, null, index.h("tr", null, index.h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (index.h("span", { class: "sm-padding-left" }, functions._formatDate(item.date))) : (index.h("ir-date-picker", { date: ((_a = this.itemToBeAdded) === null || _a === void 0 ? void 0 : _a.date) ? new Date(this.itemToBeAdded.date) : new Date(), minDate: utils.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), singleDatePicker: true, autoApply: true, onDateChanged: this.handleDateChange.bind(this) }))), index.h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (index.h("span", { class: "sm-padding-right" }, utils.formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (index.h("input", { type: "text", class: "border-0 text-center form-control py-0 m-0 w-100", value: this.itemToBeAdded.amount, onBlur: e => {
                 e.target.value = Number(this.itemToBeAdded.amount).toFixed(2);
             }, onInput: event => this.handlePaymentInputChange('amount', +event.target.value, event) }))), index.h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (index.h("span", { class: "sm-padding-left" }, item.designation)) : (index.h("input", { class: "border-0 w-100 form-control py-0 m-0", onInput: event => this.handlePaymentInputChange('designation', event.target.value), type: "text" }))), index.h("td", { rowSpan: 2, class: 'border payments-height border-light border-bottom-0 text-center' }, index.h("div", { class: 'payment-actions' }, rowMode === 'add' && (index.h("ir-button", { variant: "icon", icon_name: "save", style: icons.colorVariants.secondary, isLoading: rowMode === 'add' && irInterceptor_store.isRequestPending('/Do_Payment'), class: 'm-0', onClickHandler: () => {
                 this._processPaymentSave();
@@ -1347,7 +1346,7 @@ const IrPickup = class {
             vehicle_type_code: '',
             currency: undefined,
             arrival_time: '',
-            arrival_date: moment.hooks().format('YYYY-MM-DD'),
+            arrival_date: utils.hooks().format('YYYY-MM-DD'),
             selected_option: undefined,
         };
         this.vehicleCapacity = [];
@@ -1501,7 +1500,7 @@ const IrPickup = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'cbd08b33c43237f3f07531e0ff24ed6617dc7582', class: 'p-0' }, index.h("ir-title", { key: 'a2be55b001c5dfaf289f9668b697419c54c75d2f', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales_store.locales.entries.Lcz_Pickup, displayContext: "sidebar" }), index.h("section", { key: '1b4e000294da863f9cb8e2b24397d15c97412f52', class: 'px-1' }, index.h("ir-select", { key: '872cc29024bd724e3519f05cbb28a57d3abc33f3', selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales_store.locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales_store.locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (index.h(index.Fragment, { key: '9ccf89b30047536e71a3070cfbce57af9b9b34cd' }, index.h("div", { key: '074da0bf06125e97b6f8395eb72d8940e7a5e4e3', class: 'd-flex' }, index.h("div", { key: 'b1b1bdbfee88c4fd0b068cb6d89ef6b98c20189c', class: "form-group  mr-1" }, index.h("div", { key: '55eb9d1d7fce699091755fa156738819d2ecc26a', class: "input-group row m-0" }, index.h("div", { key: '81a24269b5591e2d7c39b442cd562c3c7ca4406e', class: `input-group-prepend col-5 p-0 text-dark border-0` }, index.h("label", { key: 'b3b2811ad2cdb1407d09376ea2171366dcc28102', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales_store.locales.entries.Lcz_ArrivalDate)), index.h("div", { key: '5750fd637eda278ddf14f412ccc3e25526854764', class: "form-control form-control-md col-7 d-flex align-items-center pl-0" }, index.h("ir-date-picker", { key: '73f658246913ea4cc136933658320c0f84c94b15', minDate: moment.hooks().format('YYYY-MM-DD'), autoApply: true,
+        return (index.h(index.Host, { key: 'cbd08b33c43237f3f07531e0ff24ed6617dc7582', class: 'p-0' }, index.h("ir-title", { key: 'a2be55b001c5dfaf289f9668b697419c54c75d2f', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales_store.locales.entries.Lcz_Pickup, displayContext: "sidebar" }), index.h("section", { key: '1b4e000294da863f9cb8e2b24397d15c97412f52', class: 'px-1' }, index.h("ir-select", { key: '872cc29024bd724e3519f05cbb28a57d3abc33f3', selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales_store.locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales_store.locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (index.h(index.Fragment, { key: '9ccf89b30047536e71a3070cfbce57af9b9b34cd' }, index.h("div", { key: '074da0bf06125e97b6f8395eb72d8940e7a5e4e3', class: 'd-flex' }, index.h("div", { key: 'b1b1bdbfee88c4fd0b068cb6d89ef6b98c20189c', class: "form-group  mr-1" }, index.h("div", { key: '55eb9d1d7fce699091755fa156738819d2ecc26a', class: "input-group row m-0" }, index.h("div", { key: '81a24269b5591e2d7c39b442cd562c3c7ca4406e', class: `input-group-prepend col-5 p-0 text-dark border-0` }, index.h("label", { key: 'b3b2811ad2cdb1407d09376ea2171366dcc28102', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales_store.locales.entries.Lcz_ArrivalDate)), index.h("div", { key: '5750fd637eda278ddf14f412ccc3e25526854764', class: "form-control form-control-md col-7 d-flex align-items-center pl-0" }, index.h("ir-date-picker", { key: '73f658246913ea4cc136933658320c0f84c94b15', minDate: utils.hooks().format('YYYY-MM-DD'), autoApply: true,
             // format="ddd, DD M YYYY"
             singleDatePicker: true, onDateChanged: evt => {
                 this.updatePickupData('arrival_date', evt.detail.start.format('YYYY-MM-DD'));
@@ -1529,7 +1528,7 @@ const IrPickupView = class {
         if (!calendarData.calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {
             return null;
         }
-        return (index.h(index.Host, null, index.h("div", { class: "mb-1" }, index.h("div", { class: 'd-flex w-100 mb-1 align-items-center justify-content-between' }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, locales_store.locales.entries.Lcz_Pickup), index.h("ir-button", { id: "pickup", variant: "icon", icon_name: "edit", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }) })), this.booking.pickup_info && (index.h("div", { class: 'card' }, index.h("div", { class: 'p-1' }, index.h("div", { class: 'd-flex align-items-center py-0 my-0 pickup-margin' }, index.h("p", { class: 'font-weight-bold mr-1 py-0 my-0' }, locales_store.locales.entries.Lcz_Date, ": ", index.h("span", { class: 'font-weight-normal' }, moment.hooks(this.booking.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), this.booking.pickup_info.hour && this.booking.pickup_info.minute && (index.h("p", { class: 'font-weight-bold flex-fill py-0 my-0' }, locales_store.locales.entries.Lcz_Time, ":", index.h("span", { class: 'font-weight-normal' }, " ", functions._formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString())))), index.h("p", { class: 'font-weight-bold py-0 my-0' }, locales_store.locales.entries.Lcz_DueUponBooking, ":", ' ', index.h("span", { class: 'font-weight-normal' }, this.booking.pickup_info.currency.symbol, this.booking.pickup_info.total))), index.h("p", { class: 'font-weight-bold py-0 my-0' }, locales_store.locales.entries.Lcz_FlightDetails, ":", index.h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.details}`)), index.h("p", { class: 'py-0 my-0 pickup-margin' }, `${this.booking.pickup_info.selected_option.vehicle.description}`), index.h("p", { class: 'font-weight-bold py-0 my-0 pickup-margin' }, locales_store.locales.entries.Lcz_NbrOfVehicles, ":", index.h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.nbr_of_units}`)), index.h("p", { class: 'small py-0 my-0 pickup-margin' }, calendarData.calendar_data.pickup_service.pickup_instruction.description, calendarData.calendar_data.pickup_service.pickup_cancelation_prepayment.description)))))));
+        return (index.h(index.Host, null, index.h("div", { class: "mb-1" }, index.h("div", { class: 'd-flex w-100 mb-1 align-items-center justify-content-between' }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, locales_store.locales.entries.Lcz_Pickup), index.h("ir-button", { id: "pickup", variant: "icon", icon_name: "edit", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }) })), this.booking.pickup_info && (index.h("div", { class: 'card' }, index.h("div", { class: 'p-1' }, index.h("div", { class: 'd-flex align-items-center py-0 my-0 pickup-margin' }, index.h("p", { class: 'font-weight-bold mr-1 py-0 my-0' }, locales_store.locales.entries.Lcz_Date, ": ", index.h("span", { class: 'font-weight-normal' }, utils.hooks(this.booking.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), this.booking.pickup_info.hour && this.booking.pickup_info.minute && (index.h("p", { class: 'font-weight-bold flex-fill py-0 my-0' }, locales_store.locales.entries.Lcz_Time, ":", index.h("span", { class: 'font-weight-normal' }, " ", functions._formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString())))), index.h("p", { class: 'font-weight-bold py-0 my-0' }, locales_store.locales.entries.Lcz_DueUponBooking, ":", ' ', index.h("span", { class: 'font-weight-normal' }, this.booking.pickup_info.currency.symbol, this.booking.pickup_info.total))), index.h("p", { class: 'font-weight-bold py-0 my-0' }, locales_store.locales.entries.Lcz_FlightDetails, ":", index.h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.details}`)), index.h("p", { class: 'py-0 my-0 pickup-margin' }, `${this.booking.pickup_info.selected_option.vehicle.description}`), index.h("p", { class: 'font-weight-bold py-0 my-0 pickup-margin' }, locales_store.locales.entries.Lcz_NbrOfVehicles, ":", index.h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.nbr_of_units}`)), index.h("p", { class: 'small py-0 my-0 pickup-margin' }, calendarData.calendar_data.pickup_service.pickup_instruction.description, calendarData.calendar_data.pickup_service.pickup_cancelation_prepayment.description)))))));
     }
 };
 IrPickupView.style = IrPickupViewStyle0;
@@ -1918,8 +1917,8 @@ const dateMask = {
     lazy: false,
     min: new Date(1900, 0, 1),
     max: new Date(),
-    format: date => moment.hooks(date).format('DD/MM/YYYY'),
-    parse: str => moment.hooks(str, 'DD/MM/YYYY').toDate(),
+    format: date => utils.hooks(date).format('DD/MM/YYYY'),
+    parse: str => utils.hooks(str, 'DD/MM/YYYY').toDate(),
     autofix: true,
     blocks: {
         YYYY: {
@@ -2004,7 +2003,7 @@ const IrRoomGuests = class {
             guests = [...this.sharedPersons];
         }
         guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: new Date(g.dob).getFullYear() === 1900 ? null : g.dob })));
-        this.guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? moment.hooks(new Date(g.dob)).format('DD/MM/YYYY') : '' })));
+        this.guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? utils.hooks(new Date(g.dob)).format('DD/MM/YYYY') : '' })));
     }
     updateGuestInfo(index, params) {
         const tempGuests = [...this.guests];

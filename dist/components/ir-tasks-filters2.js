@@ -4,7 +4,7 @@ import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
-const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;height:100%}@media (min-width: 768px){.collapse-btn.sc-ir-tasks-filters{display:none}}";
+const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;height:100%}@media (min-width: 768px){.collapse-btn.sc-ir-tasks-filters{display:none}#hkTasksFiltersCollapse.collapse.sc-ir-tasks-filters:not(.show){display:block}}";
 const IrTasksFiltersStyle0 = irTasksFiltersCss;
 
 const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters extends HTMLElement {
@@ -20,7 +20,7 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
             dusty_units: '',
             highlight_check_ins: '',
         };
-        this.collapsed = true;
+        this.collapsed = false;
     }
     generateDaysFilter() {
         let list = [{ code: '0', value: 'Do not include' }];
@@ -37,25 +37,25 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
         return list;
     }
     render() {
-        return (h("div", { key: '54f594e236f9493093845805cfaac1dcc5786a88', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: 'be939ebad07acb67432d8b5ed4402d89d5248403', class: "d-flex align-items-center justify-content-between" }, h("div", { key: '357ccb8b83477bb38ea3298b98a3447f0934b963', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '4c6281b1217c7a3e646dafef210e85236feeeeea', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'eb6c9429ed9fae393388bf802d0721150dbdb8c2', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '073f3b71fc818583de3f058a7a35747c27721d70', class: "m-0 p-0 flex-grow-1" }, "Filters")), h("ir-button", { key: 'd48d8f20016b07c70527c8229e919d71be88f1b1', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (h("div", { key: 'd08891c9e346bb8e19524aba6c2d468d4f16631b', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: '3130a6c42a74ec687dea741c6ac952a9b9dad8d7', class: "d-flex align-items-center justify-content-between" }, h("div", { key: 'd392acea4c6aaeb0dba5547fd86821186a414e92', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '862de28cf1ed3bb2f6c42c1237760648901232e2', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '0cc58569d3e280c69f2532c7d5dfb46c1e07dd77', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '678f70d0cc576bcb14e5c8ee804cba4c094d0941', class: "m-0 p-0 flex-grow-1" }, "Filters")), h("ir-button", { key: '9dc155e290547005084964c14dc02260dbddf25b', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '920faf4310848f4962e5f6bc35ac63b295e7ff79', class: "m-0 p-0 ", id: "hkTasksFiltersCollapse" }, h("div", { key: '987d52471dea3e9d1362a363f39d87133f94995a', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: 'c50ae8077a5dd3675a3e7f90049de9e5d335a097', class: "pt-1" }, h("p", { key: '9d0776c96383499c6f81ad638a0406e3178b46df', class: "m-0 p-0" }, "Period"), h("ir-select", { key: '78ac6d6f2520d55d28218f18f2d0763c8f57b9ab', LabelAvailable: false, showFirstOption: false, data: [
+            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: 'dbb2a8294b04650b844e4e8f9b0e3671f70bf0f6', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, h("div", { key: '1ee8d1660c4f230d38e8d3c195bdbfab0590fa50', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '53e94d427db363999288fbdbfe1565bfa1718f9c', class: "pt-1" }, h("p", { key: '5702cd05699e36983d5ba2c25afd403f8dcb56b1', class: "m-0 p-0" }, "Period"), h("ir-select", { key: 'b73e619702e9d9ecf10233e0bcdff7d92a82aba9', LabelAvailable: false, showFirstOption: false, data: [
                 { code: '001', value: 'For today' },
                 { code: '002', value: `Until ${hooks().format('DD MMM')}` },
                 { code: '002', value: `Until ${hooks().add(10, 'days').format('DD MMM')}` },
             ].map(v => ({
                 text: v.value,
                 value: v.code,
-            })) })), h("fieldset", { key: '50dc5d448d93b75a952444400e6f0a27fdd853d9' }, h("p", { key: 'c4f6d70e37959852f6c76dfb3c19b63bf31554dd', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: 'fa3ce1efb135c93a5cd0d5e2edb065e12c7364bc', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
+            })) })), h("fieldset", { key: '0fe866abd1205c7bd66b3a7bda8e0a1c993483b1' }, h("p", { key: '0d7134c51751d5e56eca2738ea2da44080885866', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: 'ab56fbef167634888de688ffbed12ddc34c29ebd', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
                 text: v.value,
                 value: v.code,
-            })) })), h("fieldset", { key: '837c5c420f58f28d1923643189f99f309883ee5f' }, h("p", { key: '3a7f2fb20f61795e6b58dd89e805b251a0b24282', class: "m-0 p-0" }, "Cleaning frequency"), h("ir-select", { key: '110bd72ab4f65fd632f9b03b653206995ad75396', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
+            })) })), h("fieldset", { key: '52e806e6fae249ac83ce9a727d7627c21ac757b6' }, h("p", { key: '46c825fb09ebd2baea471455ff141df4d3f6e433', class: "m-0 p-0" }, "Cleaning frequency"), h("ir-select", { key: '74b832df78030d5f6707c0940157e9d5dd9b1425', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
                 text: v.value,
                 value: v.code,
-            })) })), h("fieldset", { key: '0970e0c336e07851a08fcc7c9290099e8fe7349a' }, h("p", { key: 'fd57cd9e932d1a9cefbe91b7052fef336c88f8f6', class: "m-0 p-0" }, "Dusty units"), h("ir-select", { key: 'ac2230cb2ca8bea3e2b19fbb7eec91e355519a13', showFirstOption: false, LabelAvailable: false, data: [{ text: 'test', value: 'hello' }] })), h("fieldset", { key: 'b0429ca9bde8b4843108a61bf9c782556dce5287', class: "mb-1" }, h("p", { key: '48025df70ede60a5de0c53bfa12ee1a32d0e10ce', class: "m-0 p-0" }, "Highlight check-ins"), h("ir-select", { key: 'd08d93f9b7f55ca4e9359b3e3a5aa080df8c8ec4', LabelAvailable: false, showFirstOption: false, data: this.generateCheckinsDaysFilter().map(v => ({
+            })) })), h("fieldset", { key: '6bd38d739ddb47cf7cfe1872e9376d0e6c9b4c87' }, h("p", { key: 'e814e5d1f8be03647dbac09bdd2bb4382dd8717a', class: "m-0 p-0" }, "Dusty units"), h("ir-select", { key: '9f24eeb9343cbf33d4e374c5e82df3fb4afba43c', showFirstOption: false, LabelAvailable: false, data: [{ text: 'test', value: 'hello' }] })), h("fieldset", { key: '62733e351e7fb1e2896fb9b569f75183c52f4a3f', class: "mb-1" }, h("p", { key: '38f21804aa213d3af8dabbe404edcb1b6a8b4de0', class: "m-0 p-0" }, "Highlight check-ins"), h("ir-select", { key: 'c5e4671b16b0c38e7cb6b1800cc3578b59098cf3', LabelAvailable: false, showFirstOption: false, data: this.generateCheckinsDaysFilter().map(v => ({
                 text: v.value,
                 value: v.code,
-            })) })), h("div", { key: '9f0d0d3ee7f1236306eb9dbcfe31be40c90a4616', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'faa9a8a5af9e5a92fd5c7cbdfbdfb01e6aebcb10', text: "Reset", size: "sm", btn_color: "outline" }), h("ir-button", { key: '2629118b303c847294deb1e3590ad5ddbc6c395a', text: "Apply", size: "sm" }))))));
+            })) })), h("div", { key: 'ef2284a4ba484e8482c8c03737ef49906c06411f', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: '022fe4c53f3d0efec43314c0cb564857aaa26b2b', text: "Reset", size: "sm", btn_color: "outline" }), h("ir-button", { key: '29e8caa13422643de026674a469507e4792699a7', text: "Apply", size: "sm" }))))));
     }
     static get style() { return IrTasksFiltersStyle0; }
 }, [2, "ir-tasks-filters", {

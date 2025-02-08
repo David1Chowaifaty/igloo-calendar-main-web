@@ -14,6 +14,7 @@ export declare class IrHkTasks {
     property_id: number;
     tasks: Task[];
     selectedTasks: Task[];
+    isSidebarOpen: boolean;
     clearSelectedHkTasks: EventEmitter<void>;
     private hkNameCache;
     private roomService;
@@ -22,6 +23,7 @@ export declare class IrHkTasks {
     private modal;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
+    handleCloseSidebar(e: CustomEvent): void;
     private init;
     private buildHousekeeperNameCache;
     private updateTasks;

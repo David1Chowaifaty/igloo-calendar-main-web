@@ -3,16 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const booking = require('./booking-576a1a16.js');
+const booking = require('./booking-fa4aebbb.js');
 const locales_store = require('./locales.store-4301bbe8.js');
 const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
 const housekeeping_service = require('./housekeeping.service-9f410f2b.js');
-const toBeAssigned_service = require('./toBeAssigned.service-8fb634d0.js');
-const utils = require('./utils-5b6ac171.js');
-const moment = require('./moment-1780b03a.js');
+const toBeAssigned_service = require('./toBeAssigned.service-6c67e65a.js');
+const utils = require('./utils-b5af6709.js');
 const unassigned_dates_store = require('./unassigned_dates.store-c1996160.js');
 const icons = require('./icons-a189d33a.js');
-const booking_service = require('./booking.service-8c8b0562.js');
+const booking_service = require('./booking.service-d43200d6.js');
 require('./axios-b86c5465.js');
 require('./index-5e99a1fe.js');
 require('./calendar-data-7e342bed.js');
@@ -414,7 +413,7 @@ const IglCalHeader = class {
             dt.setHours(0, 0, 0, 0);
             let endDate = dt.getTime();
             while (endDate <= new Date(toDate).getTime()) {
-                const selectedDate = moment.hooks(endDate).format('D_M_YYYY');
+                const selectedDate = utils.hooks(endDate).format('D_M_YYYY');
                 if (data[endDate]) {
                     const result = await this.toBeAssignedService.getUnassignedRooms({ from_date: this.calendarData.from_date, to_date: this.calendarData.to_date }, this.propertyid, utils.dateToFormattedString(new Date(endDate)), this.calendarData.roomsInfo, this.calendarData.formattedLegendData);
                     this.unassignedRoomsNumber[selectedDate] = result.length;
@@ -423,7 +422,7 @@ const IglCalHeader = class {
                     const res = this.unassignedRoomsNumber[selectedDate] - 1;
                     this.unassignedRoomsNumber[selectedDate] = res < 0 ? 0 : res;
                 }
-                const newEndDate = moment.hooks(endDate).add(1, 'days').toDate();
+                const newEndDate = utils.hooks(endDate).add(1, 'days').toDate();
                 newEndDate.setHours(0, 0, 0, 0);
                 endDate = newEndDate.getTime();
                 this.renderView();
@@ -439,9 +438,9 @@ const IglCalHeader = class {
         const { fromDate, toDate } = event.detail;
         let endDate = new Date(fromDate).getTime();
         while (endDate < new Date(toDate).getTime()) {
-            const selectedDate = moment.hooks(endDate).format('D_M_YYYY');
+            const selectedDate = utils.hooks(endDate).format('D_M_YYYY');
             this.unassignedRoomsNumber[selectedDate] = this.unassignedRoomsNumber[selectedDate] - 1;
-            endDate = moment.hooks(endDate).add(1, 'days').toDate().getTime();
+            endDate = utils.hooks(endDate).add(1, 'days').toDate().getTime();
         }
         this.renderView();
     }
@@ -523,7 +522,7 @@ const IglCalHeader = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (index.h(index.Host, { key: 'a1bb9b34e5499473b9d2cdd290884b4c80a0275c' }, index.h("div", { key: '55412f82659955011ef40d2eeaef75fdfef2ec53', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: 'ba8755cc4a2adb39a90219622808fefc6cc696ec', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("ir-button", { key: '4cdb0598057b31282c28685e7db13438d6975e8b', variant: "icon", icon_name: "server", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), index.h("ir-button", { key: 'bc45cafcf7f22ce4548778066c1528ef91e0efc2', btn_styles: "caledarBtns", class: 'date_btn', variant: "icon", icon_name: "calendar", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Navigate, onClickHandler: () => this.handleOptionEvent('calendar'), visibleBackgroundOnHover: true }, index.h("ir-date-picker", { key: '46f6fa8e49a421e8c6219c1740e38ef585190388', minDate: moment.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), autoApply: true, singleDatePicker: true, onDateChanged: evt => {
+        return (index.h(index.Host, { key: 'a1bb9b34e5499473b9d2cdd290884b4c80a0275c' }, index.h("div", { key: '55412f82659955011ef40d2eeaef75fdfef2ec53', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: 'ba8755cc4a2adb39a90219622808fefc6cc696ec', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("ir-button", { key: '4cdb0598057b31282c28685e7db13438d6975e8b', variant: "icon", icon_name: "server", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), index.h("ir-button", { key: 'bc45cafcf7f22ce4548778066c1528ef91e0efc2', btn_styles: "caledarBtns", class: 'date_btn', variant: "icon", icon_name: "calendar", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Navigate, onClickHandler: () => this.handleOptionEvent('calendar'), visibleBackgroundOnHover: true }, index.h("ir-date-picker", { key: '46f6fa8e49a421e8c6219c1740e38ef585190388', minDate: utils.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), autoApply: true, singleDatePicker: true, onDateChanged: evt => {
                 console.log('evt', evt);
                 this.handleDateSelect(evt);
             }, class: "datePickerHidden" })), index.h("ir-button", { key: '2be121043e2289b25ccdc3753e644a1b04628107', variant: "icon", btn_styles: "caledarBtns", class: 'pointer', icon_name: "clock", visibleBackgroundOnHover: true, style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_Today, onClickHandler: () => this.handleOptionEvent('gotoToday') }), index.h("ir-button", { key: '443d12a31cabaa94a0c1ce7d39f768ed6326e08e', variant: "icon", btn_styles: "caledarBtns", icon_name: "plus", "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_CreateNewBooking, visibleBackgroundOnHover: true, style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), onClickHandler: () => this.handleOptionEvent('add', this.getNewBookingModel()) })), index.h("div", { key: 'd5da4df5b1fc4248928af883bfb4a8de660c52a9', class: "row justify-content-around no-gutters searchContiner" }, index.h("fieldset", { key: '1dd0d195aeaa3c84792cec0ae403af70ef2d5f07', class: `form-group position-relative ${this.searchValue != '' ? 'show' : ''}` }, index.h("input", { key: 'f78f86c00b9cb2bcba0db81379bfb76511850709', type: "text", class: "form-control form-control-sm input-sm", id: "iconLeft7", value: this.searchValue, placeholder: locales_store.locales.entries.Lcz_FindUnit, onInput: event => this.handleFilterRooms(event) }), this.searchValue !== '' ? (index.h("div", { class: "form-control-position pointer", onClick: () => this.handleClearSearch(), "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Clear Selection" }, index.h("i", { class: "la la-close font-small-4" }))) : null, this.searchList.length ? (index.h("div", { class: "position-absolute searchListContainer dropdown-menu dropdown-menu-left min-width-full" }, this.searchList.map(room => (index.h("div", { class: "searchListItem1 dropdown-item px-1 text-left pointer", onClick: () => this.handleScrollToRoom(room.id) }, room.name))))) : null))), index.h("div", { key: 'f762a8a5101abf227cb627c36b61e13c90e0788a', class: "stickyCell headersContainer" }, index.h("div", { key: '1880958f2648102856274ec501115320d47b740b', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (index.h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, index.h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => (index.h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (index.h("div", { class: "preventPageScroll" }, index.h("span", { class: `badge badge-${this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? 'info pointer' : 'light'} badge-pill`, onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))), index.h("div", { class: "dayTitle" }, dayInfo.dayDisplayName), index.h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")))))));
@@ -599,7 +598,7 @@ const IglToBeAssigned = class {
             else if (data && data[endDate]) {
                 this.unassignedDates[endDate] = data[endDate];
             }
-            endDate = moment.hooks(endDate).add(1, 'days').toDate().getTime();
+            endDate = utils.hooks(endDate).add(1, 'days').toDate().getTime();
         }
         this.data = Object.assign({}, this.unassignedDates);
         this.orderedDatesList = Object.keys(this.data).sort((a, b) => parseInt(a) - parseInt(b));
@@ -809,7 +808,7 @@ const IrRoomNights = class {
         var _a;
         try {
             const { from_date } = this.defaultDates;
-            if (moment.hooks(from_date, 'YYYY-MM-DD').isBefore(moment.hooks(this.fromDate, 'YYYY-MM-DD'))) {
+            if (utils.hooks(from_date, 'YYYY-MM-DD').isBefore(utils.hooks(this.fromDate, 'YYYY-MM-DD'))) {
                 this.dates.from_date = new Date(from_date);
             }
             else {
@@ -822,7 +821,7 @@ const IrRoomNights = class {
                 this.selectedRoom = filteredRooms[0];
                 const lastDay = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.days[this.selectedRoom.days.length - 1];
                 //let first_rate = this.selectedRoom.days[0].amount;
-                if (moment.hooks(this.toDate).add(-1, 'days').isSame(moment.hooks(lastDay.date))) {
+                if (utils.hooks(this.toDate).add(-1, 'days').isSame(utils.hooks(lastDay.date))) {
                     console.log('here1');
                     const amount = await this.fetchBookingAvailability(this.fromDate, this.selectedRoom.days[0].date, this.selectedRoom.rateplan.id);
                     const newDatesArr = utils.getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
@@ -840,7 +839,7 @@ const IrRoomNights = class {
                 else {
                     console.log('here2');
                     console.log(lastDay);
-                    const amount = await this.fetchBookingAvailability(this.bookingEvent.to_date, moment.hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
+                    const amount = await this.fetchBookingAvailability(this.bookingEvent.to_date, utils.hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
                     const newDatesArr = utils.getDaysArray(lastDay.date, this.toDate);
                     this.rates = [
                         ...this.selectedRoom.days,
@@ -941,7 +940,7 @@ const IrRoomNights = class {
             if (selectedRoomIndex === -1) {
                 throw new Error('Invalid Pool');
             }
-            oldRooms[selectedRoomIndex] = Object.assign(Object.assign({}, oldRooms[selectedRoomIndex]), { days: this.rates, to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD') });
+            oldRooms[selectedRoomIndex] = Object.assign(Object.assign({}, oldRooms[selectedRoomIndex]), { days: this.rates, to_date: utils.hooks(this.dates.to_date).format('YYYY-MM-DD'), from_date: utils.hooks(this.dates.from_date).format('YYYY-MM-DD') });
             const body = {
                 assign_units: true,
                 check_in: true,
@@ -951,8 +950,8 @@ const IrRoomNights = class {
                 extra_services: this.bookingEvent.extra_services,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: utils.hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                    to_date: utils.hooks(this.dates.to_date).format('YYYY-MM-DD'),
                     remark: this.bookingEvent.remark,
                     property: this.bookingEvent.property,
                     source: this.bookingEvent.source,
@@ -978,7 +977,7 @@ const IrRoomNights = class {
         }
         console.log(this.inventory);
         return (index.h(index.Host, null, index.h("div", { class: "card position-sticky mb-0 shadow-none p-0 " }, index.h("div", { class: "d-flex mt-2 align-items-center justify-content-between " }, index.h("h3", { class: "card-title text-left pb-1 font-medium-2 px-2" }, locales_store.locales.entries.Lcz_AddingRoomNightsTo, " ", (_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 :
-            _b.name, " ", ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name), index.h("button", { type: "button", class: "close close-icon", onClick: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }, index.h("ir-icon", { icon: "ft-x", class: 'm-0' })))), index.h("section", { class: 'text-left px-2' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), index.h("section", { class: 'd-flex align-items-center mt-2 px-2' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "ml-1 full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+            _b.name, " ", ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name), index.h("button", { type: "button", class: "close close-icon", onClick: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }, index.h("ir-icon", { icon: "ft-x", class: 'm-0' })))), index.h("section", { class: 'text-left px-2' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(utils.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(utils.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), index.h("section", { class: 'd-flex align-items-center mt-2 px-2' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "ml-1 full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
 IrRoomNights.style = IrRoomNightsStyle0;

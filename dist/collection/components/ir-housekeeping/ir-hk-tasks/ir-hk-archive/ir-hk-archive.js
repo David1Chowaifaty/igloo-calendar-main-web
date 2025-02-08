@@ -1,5 +1,6 @@
 // import { HouseKeepingService } from '@/services/housekeeping.service';
 // import housekeeping_store from '@/stores/housekeeping.store';
+import housekeeping_store from "../../../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrHkArchive {
@@ -8,6 +9,30 @@ export class IrHkArchive {
             start: moment().add(-90, 'days').format('YYYY-MM-DD'),
             end: moment().format('YYYY-MM-DD'),
         };
+        this.data = [
+            {
+                id: 1,
+                date: '20 Jun (Mon)',
+                hk_id: 2,
+                housekeeper: 'Test',
+                unit: {
+                    id: 2,
+                    name: 'test',
+                },
+                booking_nbr: 15525610155,
+            },
+            {
+                id: 2,
+                date: '20 Jun (Mon)',
+                hk_id: 2,
+                housekeeper: 'Test aanjhjanjn ajna',
+                unit: {
+                    id: 2,
+                    name: 'test',
+                },
+                booking_nbr: 15525610155,
+            },
+        ];
     }
     // private houseKeepingService = new HouseKeepingService();
     componentWillLoad() {
@@ -32,10 +57,21 @@ export class IrHkArchive {
         e.stopPropagation();
     }
     render() {
-        return (h(Host, { key: 'f3a227589ea0de033adb1bbfbf734523a94196a4' }, h("ir-title", { key: '4e9872368723444d6ba569603e87335b5454cbaa', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '301a343acca4816ff8ed81bec530433f14a02dc4', class: "px-1" }, h("div", { key: '9e5b94c56d7ccd173dc497f63b8828e6d90a098a', class: "d-flex" }, h("ir-select", { key: '7986a16dec1c19553528122cef3ed61b19e500b2', class: "w-100", LabelAvailable: false, data: [], firstOption: "All units" }), h("ir-select", { key: '8aae0a2ad91b4ec802c4906264ffd898c1724148', class: "ml-1 w-100", LabelAvailable: false, data: [], firstOption: "All housekeepers" })), h("div", { key: '2afaaff6e4123de962f6644e3ecfe9ae8655df8b', class: "d-flex mt-1 align-items-center" }, h("igl-date-range", { key: 'adc2125cbe673cdab62e049646f85b926d40f119', class: "mr-1", withDateDifference: false, minDate: moment().add(-90, 'days').format('YYYY-MM-DD'), defaultData: {
+        return (h(Host, { key: '00dad796b8239707629f8bcd37500b01699ca144' }, h("ir-title", { key: '52eff9626342c83859118495353bd3a986bd6477', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '668bb0ed78afed5d7193a2d15bece098d80e6e43', class: "px-1" }, h("div", { key: '8a1d83679a4c3bf06ea9f846c6cce2da7778a059', class: "d-flex" }, h("ir-select", { key: 'ec526d21c9bbd1dd58225b338a1c1a98a39f6949', class: "w-100", LabelAvailable: false, data: [], firstOption: "All units" }), h("ir-select", { key: 'a6f7f72d0af85c46b499bbffb04796c28741d839', class: "ml-1 w-100", LabelAvailable: false, data: housekeeping_store.hk_criteria.housekeepers.map(hk => ({ text: hk.name, value: hk.id.toString() })), firstOption: "All housekeepers" })), h("div", { key: '16cde526fc4ba566c481522c8f87156e37b9f742', class: "d-flex mt-1 align-items-center" }, h("igl-date-range", { key: '374383378d346cd0645ad5d38ec9691b8103d1cd', class: "mr-1", withDateDifference: false, minDate: moment().add(-90, 'days').format('YYYY-MM-DD'), defaultData: {
                 fromDate: this.selectedDates.start,
                 toDate: this.selectedDates.end,
-            } }), h("ir-icon", { key: '0be194b202ed5bc1e1de00306365d40213c6ee3d', onIconClickHandler: this.searchArchive.bind(this), class: "mr-1" }, h("svg", { key: '99f20e591b6e292b5562dd9b5bb4f74f296a36aa', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { key: '784f7223bd2654c10e4fb132a47a495c7ac76fba', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("ir-icon", { key: '05c745a11134403774f96ce08e471efd6aead383', onIconClickHandler: this.exportArchive.bind(this) }, h("svg", { key: '3019ff4d322d9f6ef855e07511ae7713ed02e704', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "15", viewBox: "0 0 384 512" }, h("path", { key: '3aa07d40003d78dac5ef733e2904cd776e84497c', fill: "currentColor", d: "M48 448V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm90.9 233.3c-8.1-10.5-23.2-12.3-33.7-4.2s-12.3 23.2-4.2 33.7L161.6 320l-44.5 57.3c-8.1 10.5-6.3 25.5 4.2 33.7s25.5 6.3 33.7-4.2L192 359.1l37.1 47.6c8.1 10.5 23.2 12.3 33.7 4.2s12.3-23.2 4.2-33.7L222.4 320l44.5-57.3c8.1-10.5 6.3-25.5-4.2-33.7s-25.5-6.3-33.7 4.2L192 280.9l-37.1-47.6z" })))))));
+            } }), h("ir-icon", { key: '039e5e8c77296c9090fcf3c72a63837651e2e17e', onIconClickHandler: this.searchArchive.bind(this), class: "mr-1" }, h("svg", { key: 'b4352da089da892d06c3da7f62328f0013bc91da', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { key: '6e25a290e3c1adf4caca5f3252d1755c4e9f6e18', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("ir-icon", { key: '429b5163c79fd483b6127b129268d7664459100b', onIconClickHandler: this.exportArchive.bind(this) }, h("svg", { key: 'f061b3dc0b5cd88202adc8a65911dfc204c0fefa', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "15", viewBox: "0 0 384 512" }, h("path", { key: '879e4124023f24dd7f94aef8a9f79101faab37f1', fill: "currentColor", d: "M48 448V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm90.9 233.3c-8.1-10.5-23.2-12.3-33.7-4.2s-12.3 23.2-4.2 33.7L161.6 320l-44.5 57.3c-8.1 10.5-6.3 25.5 4.2 33.7s25.5 6.3 33.7-4.2L192 359.1l37.1 47.6c8.1 10.5 23.2 12.3 33.7 4.2s12.3-23.2 4.2-33.7L222.4 320l44.5-57.3c8.1-10.5 6.3-25.5-4.2-33.7s-25.5-6.3-33.7 4.2L192 280.9l-37.1-47.6z" })))), h("table", { key: '61248acad126e1a30691a048d2fe626bd0a276a8', class: "mt-2" }, h("thead", { key: '9800d39acd118d8f64301bd7f04f39a49c1e8ef6' }, h("th", { key: 'dd88f00dcfb365ed588d66c8b86377c9b3c52e9d', class: "sr-only" }, "period"), h("th", { key: 'c0f13d6bdd374166bd5d638be8f15981c84d1654', class: "sr-only" }, "housekeeper name"), h("th", { key: '199df2ca361e666cf2c911f402147ea2005e85e0', class: "sr-only" }, "unit"), h("th", { key: 'ff9b551b10611812ae486f7adeec29756156e09b', class: "sr-only" }, "booking number")), h("tbody", { key: 'd928be602fe1b28a9f499203de41ea084307e357' }, this.data.map(d => {
+            var _a;
+            return (h("tr", { key: d.id }, h("td", { class: "pr-2" }, d.date), h("td", { class: "px-2" }, d.housekeeper), h("td", { class: "px-2" }, (_a = d.unit) === null || _a === void 0 ? void 0 : _a.name), h("td", { class: "px-2" }, h("ir-button", { btn_color: "link", btnStyle: {
+                    width: 'fit-content',
+                    padding: '0',
+                    margin: '0',
+                }, labelStyle: {
+                    padding: '0',
+                }, text: d.booking_nbr.toString(), onClick: () => {
+                    window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
+                } }))));
+        }))))));
     }
     static get is() { return "ir-hk-archive"; }
     static get encapsulation() { return "scoped"; }
@@ -51,7 +87,8 @@ export class IrHkArchive {
     }
     static get states() {
         return {
-            "selectedDates": {}
+            "selectedDates": {},
+            "data": {}
         };
     }
     static get listeners() {
