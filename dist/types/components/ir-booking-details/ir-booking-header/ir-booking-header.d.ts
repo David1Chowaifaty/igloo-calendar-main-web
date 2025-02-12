@@ -1,4 +1,4 @@
-import { IToast } from "../../ir-toast/toast";
+import { IToast } from "../../ui/ir-toast/toast";
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
@@ -13,8 +13,8 @@ export declare class IrBookingHeader {
     currentDialogStatus: BookingDetailsDialogEvents;
     toast: EventEmitter<IToast>;
     closeSidebar: EventEmitter<null>;
-    resetbooking: EventEmitter<null>;
-    openSidebar: EventEmitter<OpenSidebarEvent<any>>;
+    resetBookingEvt: EventEmitter<null>;
+    openSidebar: EventEmitter<OpenSidebarEvent>;
     private confirmationBG;
     private dialogRef;
     private bookingService;

@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement as HTMLElement$1, createEvent, h, Host } from '@stencil/core/internal/client';
+import { c as commonjsGlobal } from './_commonjsHelpers.js';
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -49909,8 +49910,6 @@ const icons = {
     table
 };
 
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
 var colorName = {
 	"aliceblue": [240, 248, 255],
 	"antiquewhite": [250, 235, 215],
@@ -83140,7 +83139,7 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
         }
     }
     render() {
-        return (h(Host, { key: 'e939ae774417ac6cd78f8b3e16307f49089875c7' }, h("div", { key: 'abb371f3df1d7bcddd81cec24c8d3e3f56ef13da', id: "editor" })));
+        return (h(Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     get el() { return this; }
     static get watchers() { return {

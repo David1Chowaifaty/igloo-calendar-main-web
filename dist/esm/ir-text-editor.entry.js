@@ -1,5 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { t as toString, c as createAssigner, b as baseMerge, u as upperFirst, P as Plugin, D as Delete, f as first, a as LiveRange, d as PendingActions, e as debounce, g as DomEmitterMixin, i as icons, M as MenuBarMenuListItemButtonView, B as ButtonView, C as Command, h as isElement$1, E as ElementApiMixin, j as CKEditorError, k as getDataFromElement, l as attachToForm, m as EditorUI, n as normalizeToolbarConfig, o as ElementReplacer, p as enablePlaceholder, R as Rect, q as DialogView, r as BoxedEditorUIView, S as StickyPanelView, T as ToolbarView, s as MenuBarView, I as InlineEditableUIView, v as Editor, w as getCode, x as parseKeystroke, y as transformSets, N as NoOperation, A as AccessibilityHelp, z as Clipboard, F as Enter, G as ShiftEnter, H as Typing, J as Matcher, W as Widget, K as priorities, O as toWidget, Q as isValidAttributeName, U as StylesMap, V as isEqual, X as toArray, Y as HtmlDataProcessor, Z as UpcastWriter, _ as isPlainObject, $ as cloneDeep, a0 as findOptimalInsertionRange, a1 as createElement, a2 as AutoLink, a3 as TextTransformation } from './turndown.browser.es-8962c325.js';
+import { t as toString, c as createAssigner, b as baseMerge, u as upperFirst, P as Plugin, D as Delete, f as first, a as LiveRange, d as PendingActions, e as debounce, g as DomEmitterMixin, i as icons, M as MenuBarMenuListItemButtonView, B as ButtonView, C as Command, h as isElement$1, E as ElementApiMixin, j as CKEditorError, k as getDataFromElement, l as attachToForm, m as EditorUI, n as normalizeToolbarConfig, o as ElementReplacer, p as enablePlaceholder, R as Rect, q as DialogView, r as BoxedEditorUIView, S as StickyPanelView, T as ToolbarView, s as MenuBarView, I as InlineEditableUIView, v as Editor, w as getCode, x as parseKeystroke, y as transformSets, N as NoOperation, A as AccessibilityHelp, z as Clipboard, F as Enter, G as ShiftEnter, H as Typing, J as Matcher, W as Widget, K as priorities, O as toWidget, Q as isValidAttributeName, U as StylesMap, V as isEqual, X as toArray, Y as HtmlDataProcessor, Z as UpcastWriter, _ as isPlainObject, $ as cloneDeep, a0 as findOptimalInsertionRange, a1 as createElement, a2 as AutoLink, a3 as TextTransformation } from './turndown.browser.es-721ae98b.js';
+import './_commonjsHelpers-1c8beb5f.js';
 
 /**
  * A specialized version of `_.reduce` for arrays without support for
@@ -7674,7 +7675,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (h(Host, { key: 'e939ae774417ac6cd78f8b3e16307f49089875c7' }, h("div", { key: 'abb371f3df1d7bcddd81cec24c8d3e3f56ef13da', id: "editor" })));
+        return (h(Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

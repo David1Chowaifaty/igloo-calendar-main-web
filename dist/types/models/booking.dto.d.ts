@@ -1,199 +1,6 @@
 import { z } from 'zod';
 import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
 import { TSourceOption } from './igl-book-property';
-import { ICountry } from './IBooking';
-import { IHouseKeepers } from './housekeeping';
-interface IDType {
-    code: string;
-    description: string;
-}
-interface IDInfo {
-    type: IDType;
-    number: string;
-}
-export interface SharedPerson {
-    address: null;
-    alternative_email: null;
-    cci: null;
-    city: null;
-    country: ICountry;
-    country_id: string;
-    country_phone_prefix: null;
-    dob: string;
-    email: null;
-    first_name: string;
-    full_name: string;
-    id: number;
-    id_info: IDInfo;
-    is_main?: boolean;
-    last_name: string;
-    mobile: null;
-    nbr_confirmed_bookings: number;
-    notes: null;
-    password: null;
-    subscribe_to_news_letter: null;
-}
-/**
- * ZIdInfo schema:
- * - `type.code`: Validates a non-empty string must be at least 3 chars.
- *   If empty string or not provided, validation is skipped.
- * - `type.description`: Same pattern for description (but no min length).
- * - `number`: Validates if non-empty string it should be at least 2 chars.
- */
-export declare const ZIdInfo: z.ZodObject<{
-    type: z.ZodObject<{
-        code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-        description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    }, "strip", z.ZodTypeAny, {
-        code?: string;
-        description?: string;
-    }, {
-        code?: string;
-        description?: string;
-    }>;
-    number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-}, "strip", z.ZodTypeAny, {
-    number?: string;
-    type?: {
-        code?: string;
-        description?: string;
-    };
-}, {
-    number?: string;
-    type?: {
-        code?: string;
-        description?: string;
-    };
-}>;
-/**
- * ZSharedPerson schema:
- * - `id`: Optional numeric field.
- * - `full_name`: If provided and non-empty, must be at least 2 chars.
- * - `country_id`: If provided, coerced to number, must be >= 0.
- * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
- * - `id_info`: The nested object above; can also be omitted entirely.
- */
-export declare const ZSharedPerson: z.ZodObject<{
-    id: z.ZodOptional<z.ZodNumber>;
-    first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    country_id: z.ZodOptional<z.ZodNumber>;
-    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
-    id_info: z.ZodOptional<z.ZodObject<{
-        type: z.ZodObject<{
-            code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-            description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    }, "strip", z.ZodTypeAny, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }>>;
-}, "strip", z.ZodTypeAny, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-}, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-}>;
-export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
-    id: z.ZodOptional<z.ZodNumber>;
-    first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    country_id: z.ZodOptional<z.ZodNumber>;
-    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
-    id_info: z.ZodOptional<z.ZodObject<{
-        type: z.ZodObject<{
-            code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-            description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    }, "strip", z.ZodTypeAny, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }>>;
-}, "strip", z.ZodTypeAny, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-}, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-}>, "many">;
-export interface HandleExposedRoomGuestsRequest {
-    booking_nbr: string;
-    identifier: string;
-    guests: SharedPerson[];
-}
 export interface Booking {
     agent: {
         code: string;
@@ -413,10 +220,6 @@ export interface Property {
     name: string;
     roomtypes: null;
 }
-export type RoomInOut = {
-    code: '001' | '002' | '000';
-    description: string;
-};
 export interface Room {
     days: Day[];
     from_date: string;
@@ -425,8 +228,6 @@ export interface Room {
     notes: string | null;
     occupancy: Occupancy;
     physicalroom: null;
-    in_out: RoomInOut | null;
-    sharing_persons: SharedPerson[] | null;
     bed_preference: number | null;
     rateplan: RatePlan;
     roomtype: RoomType;
@@ -486,19 +287,10 @@ export interface RoomType {
     id: number;
     inventory: number;
     name: string;
-    physicalrooms: PhysicalRoom[];
+    physicalrooms: null;
     rate: number;
     rateplans: null;
     is_active: boolean;
-}
-export type RoomHkStatus = '001' | '002' | '003';
-export interface PhysicalRoom {
-    calendar_cell: null;
-    housekeeper: IHouseKeepers;
-    id: number;
-    is_active: boolean;
-    name: string;
-    hk_status: RoomHkStatus;
 }
 export interface Source {
     code: string | null;
@@ -516,4 +308,3 @@ export interface IPmsLog {
     sent_hour: number;
     sent_minute: number;
 }
-export {};

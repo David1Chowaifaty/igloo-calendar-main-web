@@ -3,10 +3,11 @@ import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$7 } from './igl-date-range2.js';
-import { d as defineCustomElement$6 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$5 } from './ir-button2.js';
-import { d as defineCustomElement$4 } from './ir-date-picker2.js';
+import { d as defineCustomElement$8 } from './igl-date-range2.js';
+import { d as defineCustomElement$7 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$6 } from './ir-button2.js';
+import { d as defineCustomElement$5 } from './ir-date-picker2.js';
+import { d as defineCustomElement$4 } from './ir-date-range2.js';
 import { d as defineCustomElement$3 } from './ir-date-view2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
@@ -143,7 +144,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'e371d228eb4a8a4d6c8996631f637fe19c347483' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: '584fc9f8062a3e40f6d9ef1ffa1f588b03fb21a9', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '6505b25ae251f486514911cbd328d2a5758c85ad', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: '1a9d25d200f739e89c4eb40aed15823b85b43128', variant: "booking", dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'd40109f4c06e138dfd642c0052514de6808ea412', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '4c29a2eec60f42ff3ad8ea4801768c9d9337f5d9' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'bceb41f981e8616c21ad69eea833c5c04d6eb007', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '22e510da347af156ed5e440dce1adfd4649320b3', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: '5464a3acac49e2828bdd82ee7b84ce34507f99ed', variant: "booking", dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'f8469cb724794d1716b89b58817698e8ddd03f2d', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get style() { return IglBookPropertyHeaderStyle0; }
 }, [2, "igl-book-property-header", {
@@ -166,7 +167,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-view", "ir-icons", "ir-select"];
+    const components = ["igl-book-property-header", "igl-date-range", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-icons", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
@@ -175,20 +176,25 @@ function defineCustomElement() {
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

@@ -1,26 +1,25 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { H as HouseKeepingService } from './housekeeping.service.js';
+import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
-import { c as calendar_data } from './calendar-data.js';
-import { u as updateHKStore } from './housekeeping.store.js';
-import { d as defineCustomElement$i } from './ir-button2.js';
-import { d as defineCustomElement$h } from './ir-combobox2.js';
-import { d as defineCustomElement$g } from './ir-delete-modal2.js';
-import { d as defineCustomElement$f } from './ir-hk-team2.js';
-import { d as defineCustomElement$e } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$d } from './ir-hk-user2.js';
-import { d as defineCustomElement$c } from './ir-icon2.js';
-import { d as defineCustomElement$b } from './ir-icons2.js';
-import { d as defineCustomElement$a } from './ir-input-text2.js';
-import { d as defineCustomElement$9 } from './ir-interceptor2.js';
-import { d as defineCustomElement$8 } from './ir-loading-screen2.js';
-import { d as defineCustomElement$7 } from './ir-phone-input2.js';
-import { d as defineCustomElement$6 } from './ir-select2.js';
-import { d as defineCustomElement$5 } from './ir-sidebar2.js';
-import { d as defineCustomElement$4 } from './ir-switch2.js';
-import { d as defineCustomElement$3 } from './ir-title2.js';
-import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { d as defineCustomElement$j } from './ir-button2.js';
+import { d as defineCustomElement$i } from './ir-combobox2.js';
+import { d as defineCustomElement$h } from './ir-delete-modal2.js';
+import { d as defineCustomElement$g } from './ir-hk-team2.js';
+import { d as defineCustomElement$f } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$e } from './ir-hk-user2.js';
+import { d as defineCustomElement$d } from './ir-icon2.js';
+import { d as defineCustomElement$c } from './ir-icons2.js';
+import { d as defineCustomElement$b } from './ir-input-text2.js';
+import { d as defineCustomElement$a } from './ir-interceptor2.js';
+import { d as defineCustomElement$9 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$8 } from './ir-phone-input2.js';
+import { d as defineCustomElement$7 } from './ir-select2.js';
+import { d as defineCustomElement$6 } from './ir-sidebar2.js';
+import { d as defineCustomElement$5 } from './ir-switch2.js';
+import { d as defineCustomElement$4 } from './ir-title2.js';
+import { d as defineCustomElement$3 } from './ir-toast2.js';
+import { d as defineCustomElement$2 } from './ir-unit-status2.js';
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
 const IrHousekeepingStyle0 = irHousekeepingCss;
@@ -91,17 +90,7 @@ const IrHousekeeping$1 = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping e
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h4", { class: "mb-2" }, "Housekeeping & Check-In Setup"), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.roomService.SetAutomaticCheckInOut({
-                    property_id: this.propertyid,
-                    flag: e.detail === 'auto',
-                });
-            }, data: [
-                { text: `Yes, as per the property's policy.`, value: 'auto' },
-                { text: 'No, I will do it manually. ', value: 'manual' },
-            ] }))), h("ir-hk-team", { class: "mb-1" }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("ir-unit-status", { class: "mb-1" }), h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -120,7 +109,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast"];
+    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast", "ir-unit-status"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -129,85 +118,90 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-phone-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-switch":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-unit-status":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

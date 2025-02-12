@@ -3,7 +3,8 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-d0d7c4d0.js');
-const turndown_browser_es = require('./turndown.browser.es-8a1ff1d3.js');
+const turndown_browser_es = require('./turndown.browser.es-de064f1a.js');
+require('./_commonjsHelpers-68cdf74f.js');
 
 /**
  * A specialized version of `_.reduce` for arrays without support for
@@ -7678,7 +7679,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'e939ae774417ac6cd78f8b3e16307f49089875c7' }, index.h("div", { key: 'abb371f3df1d7bcddd81cec24c8d3e3f56ef13da', id: "editor" })));
+        return (index.h(index.Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, index.h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

@@ -73,7 +73,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'a8b506e44c56c065494c2aa13c1d8ca2908b890f' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '4878e91c014581007cfe3a22fb0a7acddcb7d81c', class: "loadingScreenContainer" }, h("div", { key: 'b770a250e1dd5a0f4b3294c9924965e24a0267bc', class: "loaderContainer" }, h("span", { key: '33e9b6d2368f4d29387bb4657e4301af46311f8c', class: "page-loader" }))))));
+        return (h(Host, { key: '254779a7c8f395bb0d8c38847db207f30b450575' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '80cabf2a8225666a8912dc52c36ff9a05f88b26f', class: "loadingScreenContainer" }, h("div", { key: 'f60b9330de9086506a76ab4beb37228c5de6aaf6', class: "loaderContainer" }, h("span", { key: '59f54f0ca1862fc912ab35e7218f08afb89a2ba6', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -133,8 +133,8 @@ export class IrInterceptor {
                     "references": {
                         "IToast": {
                             "location": "import",
-                            "path": "../ir-toast/toast",
-                            "id": "src/components/ir-toast/toast.ts::IToast"
+                            "path": "@components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

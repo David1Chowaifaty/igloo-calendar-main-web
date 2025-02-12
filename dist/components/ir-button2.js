@@ -40,10 +40,6 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
     }
-    async bounce() {
-        this.buttonEl.classList.remove('bounce-3');
-        this.buttonEl.classList.add('bounce-3');
-    }
     render() {
         if (this.variant === 'icon') {
             return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { class: 'm-0 p-0', name: this.icon_name })));
@@ -73,8 +69,7 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         "icon_style": [8],
         "btnStyle": [16],
         "labelStyle": [16],
-        "renderContentAsHtml": [4, "render-content-as-html"],
-        "bounce": [64]
+        "renderContentAsHtml": [4, "render-content-as-html"]
     }, [[16, "animateIrButton", "handleButtonAnimation"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

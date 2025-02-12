@@ -1,4 +1,4 @@
-import { IToast } from "../../ir-toast/toast";
+import { IToast } from "../../ui/ir-toast/toast";
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrChannelEditor {
     channel_status: 'create' | 'edit' | null;

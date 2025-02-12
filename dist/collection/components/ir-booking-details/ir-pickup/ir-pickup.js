@@ -9,6 +9,7 @@ export class IrPickup {
         this.defaultPickupData = undefined;
         this.numberOfPersons = 0;
         this.bookingNumber = undefined;
+        this.bookingDates = undefined;
         this.isLoading = false;
         this.allowedOptionsByLocation = [];
         this.pickupData = {
@@ -163,7 +164,7 @@ export class IrPickup {
                 this.cause = null;
             }
             await this.pickupService.savePickup(this.pickupData, this.bookingNumber, this.defaultPickupData !== null && this.pickupData.location === -1);
-            this.resetBookingData.emit(null);
+            this.resetBookingEvt.emit(null);
             this.closeModal.emit(null);
         }
         catch (error) {
@@ -174,17 +175,22 @@ export class IrPickup {
         }
     }
     render() {
-        return (h(Host, { key: 'cbd08b33c43237f3f07531e0ff24ed6617dc7582', class: 'p-0' }, h("ir-title", { key: 'a2be55b001c5dfaf289f9668b697419c54c75d2f', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_Pickup, displayContext: "sidebar" }), h("section", { key: '1b4e000294da863f9cb8e2b24397d15c97412f52', class: 'px-1' }, h("ir-select", { key: '872cc29024bd724e3519f05cbb28a57d3abc33f3', selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (h(Fragment, { key: '9ccf89b30047536e71a3070cfbce57af9b9b34cd' }, h("div", { key: '074da0bf06125e97b6f8395eb72d8940e7a5e4e3', class: 'd-flex' }, h("div", { key: 'b1b1bdbfee88c4fd0b068cb6d89ef6b98c20189c', class: "form-group  mr-1" }, h("div", { key: '55eb9d1d7fce699091755fa156738819d2ecc26a', class: "input-group row m-0" }, h("div", { key: '81a24269b5591e2d7c39b442cd562c3c7ca4406e', class: `input-group-prepend col-5 p-0 text-dark border-0` }, h("label", { key: 'b3b2811ad2cdb1407d09376ea2171366dcc28102', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales.entries.Lcz_ArrivalDate)), h("div", { key: '5750fd637eda278ddf14f412ccc3e25526854764', class: "form-control form-control-md col-7 d-flex align-items-center pl-0" }, h("ir-date-picker", { key: '73f658246913ea4cc136933658320c0f84c94b15', minDate: moment().format('YYYY-MM-DD'), autoApply: true,
+        var _a;
+        return (h(Host, { key: '432f6491ff01f7612b85bf25365dea550f1d0814', class: 'p-0' }, h("ir-title", { key: '49969d48ba1114c1004a61d514272b4cf3639ee6', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_Pickup, displayContext: "sidebar" }), h("section", { key: 'c4964dfd0c2426a8040c31d59bf988ab2f49adac', class: 'px-1' }, h("ir-select", { key: 'a109044c545d7012e4534a0b34ff6323aa9a415b', selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (h(Fragment, { key: '4018227536b9f1ddc5b99363fad406894d86eba0' }, h("div", { key: '0d58e53f79d04c0fc4a536dda5e0b7508dcfd139', class: 'd-flex' }, h("div", { key: '39becc97495e5a1c1315ad5a86afd87dbbfd52ec', class: "form-group  mr-1" }, h("div", { key: '62bd41984f06398bb67b43bc218d143f12a7eaf5', class: "input-group row m-0" }, h("div", { key: '582c25763d33aa0e9d669e96c0f06172ae1bc854', class: `input-group-prepend col-5 p-0 text-dark border-0` }, h("label", { key: '81c77f68071aa02ae571f0b3c7563f6517b15461', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales.entries.Lcz_ArrivalDate)), h("div", { key: 'ad0efb529a7f72e66ed307631753735c9f24b29a', class: "form-control form-control-md col-7 d-flex align-items-center pl-0" }, h("ir-date-picker", { key: '717af8bd0c312d05370579ee4b71579ea6459a1f', date: this.pickupData.arrival_date, maxDate: (_a = this.bookingDates) === null || _a === void 0 ? void 0 : _a.to, minDate: moment().format('YYYY-MM-DD'),
+            // customPicker={false}
+            // autoApply
             // format="ddd, DD M YYYY"
-            singleDatePicker: true, onDateChanged: evt => {
-                this.updatePickupData('arrival_date', evt.detail.start.format('YYYY-MM-DD'));
-            } })))), h("div", { key: 'f029d9c670285860c78a7af18d367750f09ccd63', class: "form-group" }, h("div", { key: '7b7ac8921b3e1c55322643f331c30b1f7f1e4c36', class: "input-group  row m-0" }, h("div", { key: 'd1ce8452c5e7d2b0cd61731d13939e0c680d7bda', class: `input-group-prepend col-4 col-sm-3 p-0 text-dark border-0` }, h("label", { key: 'a623a18ab54ba0982b2a12a78d8930523d8a9e84', htmlFor: "pickup", class: `input-group-text flex-grow-1 text-dark border-theme` }, locales.entries.Lcz_Time)), h("input", { key: 'ef6e3b2ea14dc010085c967a5cd8e7e808a8c2a7', type: "text", value: this.pickupData.arrival_time, id: "pickup-time", class: `form-control col-8 col-sm-4 ${this.cause === 'arrival_time' && 'border-danger'}` })))), h("ir-input-text", { key: '30a612be24b27cb0d5eccd7f3340031e94340960', value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails, onTextChange: e => this.updatePickupData('flight_details', e.detail), placeholder: "", inputStyles: this.cause === 'flight_details' ? 'border-danger' : '' }), h("ir-select", { key: '763abd3df4465117b18a4657db5272fc5a788c9d', selectContainerStyle: "mb-1", selectStyles: this.cause === 'vehicle_type_code' ? 'border-danger' : '', onSelectChange: this.handleVehicleTypeChange.bind(this), firstOption: locales.entries.Lcz_Select, selectedValue: this.pickupData.vehicle_type_code, class: 'm-0', LabelAvailable: false, data: this.allowedOptionsByLocation.map(option => ({
+            // singleDatePicker
+            onDateChanged: evt => {
+                var _a;
+                this.updatePickupData('arrival_date', (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD'));
+            } }, h("input", { key: 'c988b243bbc21e5580bbde8bc728f9e8ff35947a', type: "text", slot: "trigger", value: moment(this.pickupData.arrival_date).format('MMM DD, YYYY'), class: "form-control input-sm text-center", style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%' } }))))), h("div", { key: '6e99c0084dedb210255dd89f94077092f914d36e', class: "form-group" }, h("div", { key: 'c419f490e92ec41a6a0e5a690ed7b95e339a49c9', class: "input-group  row m-0" }, h("div", { key: '1da37af022b49657b8cbc76689c665107d35f4ee', class: `input-group-prepend col-4 col-sm-3 p-0 text-dark border-0` }, h("label", { key: '863ea62433b823ef48db00ce5cc7f2e46483d78d', htmlFor: "pickup", class: `input-group-text flex-grow-1 text-dark border-theme` }, locales.entries.Lcz_Time)), h("input", { key: '312dd8e42dfc380cb6b1a4ee8ebb52b1c9fe191c', type: "text", value: this.pickupData.arrival_time, id: "pickup-time", class: `form-control col-8 col-sm-4 ${this.cause === 'arrival_time' && 'border-danger'}` })))), h("ir-input-text", { key: 'ebbba1b7674c3865b0babf0dd59ea40c34dad6d9', value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails, onTextChange: e => this.updatePickupData('flight_details', e.detail), placeholder: "", inputStyles: this.cause === 'flight_details' ? 'border-danger' : '' }), h("ir-select", { key: '2a58637fa927e49e6ab10fa30a1b4a3c20d085d7', selectContainerStyle: "mb-1", selectStyles: this.cause === 'vehicle_type_code' ? 'border-danger' : '', onSelectChange: this.handleVehicleTypeChange.bind(this), firstOption: locales.entries.Lcz_Select, selectedValue: this.pickupData.vehicle_type_code, class: 'm-0', LabelAvailable: false, data: this.allowedOptionsByLocation.map(option => ({
                 text: option.vehicle.description,
                 value: option.vehicle.code,
-            })) }), h("div", { key: '7e49e9e97fd311b0473212f1feb1d1df8207d1c2', class: 'd-flex flex-column flex-md-row' }, h("ir-select", { key: '956c1812069687a824098f02aa7915ae8c7e2c81', labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectStyles: this.cause === 'number_of_vehicles' ? 'border-danger' : '', selectedValue: this.pickupData.number_of_vehicles, labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
+            })) }), h("div", { key: '181690df32412dacdc93a55f777f28e75a3c9cf6', class: 'd-flex flex-column flex-md-row' }, h("ir-select", { key: '42c814c57cda972b33ca3803a0fb355871e4b270', labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectStyles: this.cause === 'number_of_vehicles' ? 'border-danger' : '', selectedValue: this.pickupData.number_of_vehicles, labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
                 text: i,
                 value: i,
-            })) }), h("ir-input-text", { key: 'b912336092beff9923af23e9342970d5be12d6f1', labelBorder: "theme", readonly: true, value: this.pickupData.due_upon_booking, labelWidth: 7, label: `${locales.entries.Lcz_DueUponBooking}  ${this.pickupData.currency.symbol}`, placeholder: "", class: "" })))), h("div", { key: 'ba5eb3e2134ee99858df263171ecf9a3bbfaba20', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '84cd25ea5b1e8cb4d1fbc277552e137a732d1c4b', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  ${this.defaultPickupData || this.pickupData.location !== -1 ? 'mr-sm-1' : ''}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: 'b313f3fdd553fe38eb4ae54372b19d7d45d7a409', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", onClick: this.savePickup.bind(this) }))))));
+            })) }), h("ir-input-text", { key: '34ae90b31b264b599f1ead807112e4a3ad1b6b5a', labelBorder: "theme", readonly: true, value: this.pickupData.due_upon_booking, labelWidth: 7, label: `${locales.entries.Lcz_DueUponBooking}  ${this.pickupData.currency.symbol}`, placeholder: "", class: "" })))), h("div", { key: 'ad76825dcb6ea8c9cc6433e9734419ca79e3bd4c', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '71c21e8f72cb4d34c5b2e3c49efd37d8c0a57ec7', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  ${this.defaultPickupData || this.pickupData.location !== -1 ? 'mr-sm-1' : ''}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: 'f91505d76d69f017304045248436f8d19b82dbd9', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", onClick: this.savePickup.bind(this) }))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -255,6 +261,21 @@ export class IrPickup {
                 },
                 "attribute": "booking-number",
                 "reflect": false
+            },
+            "bookingDates": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{ from: string; to: string }",
+                    "resolved": "{ from: string; to: string; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                }
             }
         };
     }
@@ -284,8 +305,8 @@ export class IrPickup {
                     "references": {}
                 }
             }, {
-                "method": "resetBookingData",
-                "name": "resetBookingData",
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

@@ -8,7 +8,7 @@ export declare class IrExtraServiceConfig {
     fromDateClicked: boolean;
     toDateClicked: boolean;
     closeModal: EventEmitter<null>;
-    resetBookingData: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     private bookingService;
     componentWillLoad(): void;
     private saveAmenity;

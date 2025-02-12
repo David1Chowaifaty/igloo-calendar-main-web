@@ -199,8 +199,8 @@ export class IrOptionDetails {
                     "references": {
                         "IToast": {
                             "location": "import",
-                            "path": "../../ir-toast/toast",
-                            "id": "src/components/ir-toast/toast.ts::IToast"
+                            "path": "@components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

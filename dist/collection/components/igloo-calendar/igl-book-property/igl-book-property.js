@@ -235,7 +235,7 @@ export class IglBookProperty {
         this.initializePage();
     }
     initializeEditBookingData() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c;
         this.adultChildCount = {
             adult: this.defaultData.ADULTS_COUNT,
             child: this.defaultData.CHILDREN_COUNT,
@@ -246,15 +246,12 @@ export class IglBookProperty {
             roomId: this.defaultData.PR_ID,
             roomTypeId: this.defaultData.RATE_TYPE,
         };
-        const { currentRoomType, GUEST } = this.defaultData;
-        console.log(GUEST);
+        const { currentRoomType } = this.defaultData;
         modifyBookingStore('guest', {
             bed_preference: (_a = currentRoomType.bed_preference) === null || _a === void 0 ? void 0 : _a.toString(),
             infant_nbr: currentRoomType.occupancy.infant_nbr,
-            first_name: (_b = GUEST.first_name) !== null && _b !== void 0 ? _b : '',
-            last_name: (_c = GUEST.last_name) !== null && _c !== void 0 ? _c : '',
-            // name: currentRoomType.guest.last_name ? currentRoomType.guest.first_name + ' ' + currentRoomType.guest.last_name : currentRoomType.guest.first_name,
-            unit: (_e = (_d = currentRoomType.unit) === null || _d === void 0 ? void 0 : _d.id) === null || _e === void 0 ? void 0 : _e.toString(),
+            name: currentRoomType.guest.last_name ? currentRoomType.guest.first_name + ' ' + currentRoomType.guest.last_name : currentRoomType.guest.first_name,
+            unit: (_c = (_b = currentRoomType.unit) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString(),
         });
         this.checkBookingAvailability();
         this.bookPropertyService.setEditingRoomInfo(this.defaultData, this.selectedUnits);
@@ -283,7 +280,7 @@ export class IglBookProperty {
                 const rateplan = roomtype[rateplanId];
                 if (rateplan.reserved > 0) {
                     for (const guest of rateplan.guest) {
-                        if (guest.first_name === '' || guest.last_name === '') {
+                        if (guest.name === '') {
                             return true;
                         }
                     }
@@ -375,7 +372,7 @@ export class IglBookProperty {
     updateBooking() {
         var _a, _b, _c;
         try {
-            const { currentRoomType, GUEST } = this.defaultData;
+            const { currentRoomType } = this.defaultData;
             const roomtypeId = currentRoomType.roomtype.id;
             const rateplanId = currentRoomType.rateplan.id;
             reserveRooms({
@@ -386,8 +383,7 @@ export class IglBookProperty {
                     {
                         bed_preference: (_a = currentRoomType.bed_preference) === null || _a === void 0 ? void 0 : _a.toString(),
                         infant_nbr: currentRoomType.occupancy.infant_nbr,
-                        last_name: GUEST.last_name,
-                        first_name: GUEST.first_name,
+                        name: currentRoomType.guest.last_name ? currentRoomType.guest.first_name + ' ' + currentRoomType.guest.last_name : currentRoomType.guest.first_name,
                         unit: (_c = (_b = currentRoomType.unit) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString(),
                     },
                 ],
@@ -514,8 +510,9 @@ export class IglBookProperty {
                 sourceOption: this.sourceOption,
                 check_in,
             });
+            // console.log(serviceParams);
             await this.bookingService.doReservation(serviceParams);
-            this.resetBookingData.emit(null);
+            this.resetBookingEvt.emit(null);
         }
         catch (error) {
             console.error('Error booking user:', error);
@@ -543,9 +540,9 @@ export class IglBookProperty {
         return this.page === name;
     }
     render() {
-        return (h(Host, { key: '18f2c41a0e516b024bd005d71a6a205a1b3b017d' }, h("div", { key: 'c2a47b73b8129df7f90aababf4a5f4802a9a8ba4', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '7eb198357142707e09a9c03fb1cf1798867595be', class: 'sideWindow pb-5 pb-md-0 ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: 'd76146a59ea57c584ca58d5b4a6bc80277daa9a7', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '09aaa8dfe270cc94107e1b168d3de514c65ab470', class: "card-header-container mb-2" }, h("h3", { key: '6c90df45408a7c05f8fdf622806a2b302151e260', class: " text-left font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: '08f3e19c67eef5f3b4932088b0ab0e7dd3307bec', class: 'px-2', onIconClickHandler: () => {
+        return (h(Host, { key: 'd92b095dccf9b8357bf9aa5762a8c8027e64a3b9' }, h("div", { key: '62bd9d1f3ca7360a595ce07066cfe701d9937e5a', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '85b490f250821118959ae788a6bc9ab25e2267e4', class: 'sideWindow pb-5 pb-md-0 ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: '974e8f9c723703e233e95397eef0e448deee0645', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '6dcd53f303816b0ee8a8c675f300a0d0012beca1', class: "card-header-container mb-2" }, h("h3", { key: 'd24a6e73d94f46b143b67fc235d97ced1bd27076', class: " text-left font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: '30ee42c3acbe9dd23c82ad0cca8ebacaacaaea37', class: 'px-2', onIconClickHandler: () => {
                 this.closeWindow();
-            } }, h("svg", { key: 'a6c81d2f3ccec77b0dcaf591a44943eae93976ac', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'a6b9e497b4ec5669f056ab3f9fd85e5187c7d629', fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '97dcdef5d58a631b59418d2078c8e405eb4110e6', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: '75570fe6afa82ef4758325eeb4bdce729dfba306', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { key: '1506c8db0668a3bcf398e568f1c49b26cca07de0', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countryNodeList: this.countryNodeList, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
+            } }, h("svg", { key: '6a02c231103e9da3dc69b47a37a7ae8c16768718', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '7b00ab8cca3f81b9301a305a1ba15b74514512d8', fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '878bcbc275736e35981a4599dc9e27ef2a582d7f', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: 'b584227cfce6aa2ab6cc91be6bd3746a0335e638', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { key: '86a266eb6ac13bde0d08034ddab66d2dd247f780', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countryNodeList: this.countryNodeList, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
     }
     static get is() { return "igl-book-property"; }
     static get encapsulation() { return "scoped"; }
@@ -754,8 +751,8 @@ export class IglBookProperty {
                     }
                 }
             }, {
-                "method": "resetBookingData",
-                "name": "resetBookingData",
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
@@ -814,8 +811,8 @@ export class IglBookProperty {
                     "references": {
                         "IToast": {
                             "location": "import",
-                            "path": "@/components/ir-toast/toast",
-                            "id": "src/components/ir-toast/toast.ts::IToast"
+                            "path": "@/components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

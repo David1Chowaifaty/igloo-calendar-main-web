@@ -1,6 +1,6 @@
 import { PaymentOption } from "../../models/payment-options";
 import { EventEmitter } from '../../stencil-public-runtime';
-import { IToast } from '../ir-toast/toast';
+import { IToast } from "../ui/ir-toast/toast";
 export declare class IrPaymentOption {
     propertyid: string;
     ticket: string;

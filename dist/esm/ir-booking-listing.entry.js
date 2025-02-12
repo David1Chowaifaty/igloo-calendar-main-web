@@ -1,12 +1,13 @@
 import { r as registerInstance, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service-def210d8.js';
-import { R as RoomService } from './room.service-c28cfd8f.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service-034395f3.js';
+import { R as RoomService } from './room.service-1e9980b5.js';
 import { l as locales } from './locales.store-a1e3db22.js';
-import { h as hooks, p as formatAmount } from './utils-c6413b11.js';
-import { _ as _formatTime } from './functions-ca711996.js';
-import { g as getPrivateNote } from './booking-f2354caa.js';
+import { f as formatAmount } from './utils-dd6c418e.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { a as _formatTime } from './functions-7c8c67af.js';
+import { g as getPrivateNote } from './booking-b6392140.js';
 import { T as Token } from './Token-a382baa1.js';
-import { i as isSingleUnit } from './calendar-data-a75c9e95.js';
+import { i as isSingleUnit } from './calendar-data-2333f282.js';
 import './index-1d7b1ff2.js';
 import './axios-ab377903.js';
 
@@ -197,7 +198,9 @@ const IrBookingListing = class {
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body",
+            // isInSideBar={true}
+            headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

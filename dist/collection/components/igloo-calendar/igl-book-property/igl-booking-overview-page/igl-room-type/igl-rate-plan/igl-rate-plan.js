@@ -141,8 +141,7 @@ export class IglRatePlan {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            name: booking_store.guest.name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
@@ -157,8 +156,7 @@ export class IglRatePlan {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            name: booking_store.guest.name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,

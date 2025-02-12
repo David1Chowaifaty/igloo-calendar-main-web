@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { RoomBlockDetails } from "../../../models/IBooking";
 import { TAdultChildConstraints, TPropertyButtonsTypes } from "../../../models/igl-book-property";
-import { IToast } from "../../ir-toast/toast";
+import { IToast } from "../../ui/ir-toast/toast";
 import { ICurrency } from "../../../models/calendarData";
 export type IHistoryEntry = {
     dates: {
@@ -44,7 +44,7 @@ export declare class IglBookProperty {
         [key: string]: any;
     }>;
     blockedCreated: EventEmitter<RoomBlockDetails>;
-    resetBookingData: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     animateIrButton: EventEmitter<string>;
     animateIrSelect: EventEmitter<string>;
     toast: EventEmitter<IToast>;

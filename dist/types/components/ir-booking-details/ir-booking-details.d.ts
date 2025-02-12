@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Booking, ExtraService, Guest, IPmsLog } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { IToast } from '../ir-toast/toast';
+import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent } from './types';
@@ -27,12 +27,11 @@ export declare class IrBookingDetails {
     statusData: any[];
     showPaymentDetails: any;
     booking: Booking;
-    countries: ICountry[];
+    countryNodeList: ICountry[];
     calendarData: any;
     guestData: Guest;
     rerenderFlag: boolean;
     sidebarState: BookingDetailsSidebarEvents | null;
-    sidebarPayload: any;
     isUpdateClicked: boolean;
     pms_status: IPmsLog;
     isPMSLogLoading: boolean;
@@ -40,7 +39,6 @@ export declare class IrBookingDetails {
     property_id: number;
     selectedService: ExtraService;
     bedPreference: IEntries[];
-    roomGuest: any;
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
@@ -51,7 +49,7 @@ export declare class IrBookingDetails {
     private printingBaseUrl;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
-    handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
+    handleSideBarEvents(e: CustomEvent<OpenSidebarEvent>): void;
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
     handleEditInitiated(e: CustomEvent<TIglBookPropertyPayload>): void;
@@ -65,6 +63,4 @@ export declare class IrBookingDetails {
     private resetBooking;
     private renderSidebarContent;
     render(): any;
-    private handleRoomCheckout;
-    private handleRoomCheckin;
 }

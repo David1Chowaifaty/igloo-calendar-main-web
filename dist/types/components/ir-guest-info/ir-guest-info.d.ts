@@ -7,12 +7,12 @@ export declare class GuestInfo {
     email: string;
     booking_nbr: string;
     ticket: string;
-    isInSideBar: boolean;
     countries: ICountry[];
+    submit: boolean;
     guest: Guest | null;
     isLoading: boolean;
     closeSideBar: EventEmitter<null>;
-    resetbooking: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     private bookingService;
     private roomService;
     private token;

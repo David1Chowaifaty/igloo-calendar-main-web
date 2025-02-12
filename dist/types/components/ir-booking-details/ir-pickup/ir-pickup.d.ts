@@ -7,13 +7,17 @@ export declare class IrPickup {
     defaultPickupData: IBookingPickupInfo | null;
     numberOfPersons: number;
     bookingNumber: string;
+    bookingDates: {
+        from: string;
+        to: string;
+    };
     isLoading: boolean;
     allowedOptionsByLocation: IAllowedOptions[];
     pickupData: TPickupData;
     vehicleCapacity: number[];
     cause: keyof TPickupData | null;
     closeModal: EventEmitter<null>;
-    resetBookingData: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     private pickupService;
     componentWillLoad(): void;
     handleLocationChange(event: CustomEvent): void;

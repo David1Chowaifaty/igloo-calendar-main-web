@@ -1,0 +1,41 @@
+import { EventEmitter } from '../../../stencil-public-runtime';
+import moment from 'moment';
+export declare class IrDateRange {
+    private element;
+    fromDate: Date;
+    toDate: Date;
+    date: Date;
+    opens: 'left' | 'right' | 'center';
+    autoApply: boolean;
+    firstDay: number;
+    monthNames: string[];
+    daysOfWeek: string[];
+    format: string;
+    separator: string;
+    applyLabel: string;
+    cancelLabel: string;
+    fromLabel: string;
+    toLabel: string;
+    customRangeLabel: string;
+    weekLabel: string;
+    disabled: boolean;
+    singleDatePicker: boolean;
+    minDate: string | Date;
+    maxDate: string | Date;
+    maxSpan: moment.DurationInputArg1;
+    private openDatePickerTimeout;
+    dateChanged: EventEmitter<{
+        start: moment.Moment;
+        end: moment.Moment;
+    }>;
+    dateRangeInput: HTMLElement;
+    handleMinDateChange(): void;
+    datePropChanged(): void;
+    openDatePicker(): Promise<void>;
+    updateDateRangePickerDates(): void;
+    componentWillLoad(): void;
+    componentDidLoad(): void;
+    initializeDateRangePicker(): void;
+    disconnectedCallback(): void;
+    render(): any;
+}

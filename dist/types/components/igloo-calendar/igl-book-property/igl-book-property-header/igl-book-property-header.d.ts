@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TAdultChildConstraints, TPropertyButtonsTypes, TSourceOptions } from '../../../../models/igl-book-property';
-import { IToast } from '../../../ir-toast/toast';
+import { IToast } from "../../../ui/ir-toast/toast";
 export declare class IglBookPropertyHeader {
     splitBookingId: any;
     bookingData: any;

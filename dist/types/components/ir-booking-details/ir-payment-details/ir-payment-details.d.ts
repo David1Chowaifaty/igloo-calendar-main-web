@@ -2,7 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IDueDate, IPayment } from "../../../models/booking.dto";
 import moment from 'moment';
 import { IPaymentAction } from "../../../services/payment.service";
-import { IToast } from "../../ir-toast/toast";
+import { IToast } from "../../ui/ir-toast/toast";
 export declare class IrPaymentDetails {
     bookingDetails: Booking;
     paymentActions: IPaymentAction[];
@@ -16,7 +16,7 @@ export declare class IrPaymentDetails {
     paymentExceptionMessage: string;
     modal_mode: 'delete' | 'save' | null;
     itemToBeAdded: IPayment;
-    resetBookingData: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     resetExposedCancelationDueAmount: EventEmitter<null>;
     toast: EventEmitter<IToast>;
     private paymentService;

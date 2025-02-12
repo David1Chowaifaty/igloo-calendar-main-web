@@ -44,7 +44,7 @@ export class IrBookingExtraNote {
                 Is_Non_Technical_Change: true,
                 extras: prevExtras,
             });
-            this.resetbooking.emit(res);
+            this.resetBookingEvt.emit(res);
             this.closeModal.emit(null);
         }
         catch (error) {
@@ -55,10 +55,10 @@ export class IrBookingExtraNote {
         }
     }
     render() {
-        return (h(Host, { key: '1defc45c744bc8b370e5cc5db0ca5519df5e1cd3', class: 'px-0' }, h("ir-title", { key: 'c26a6497ec317fded8d265acc0254db82cf97512', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("form", { key: 'c2fa6aca28dfeb671129e15061c6ec673151cd79', class: 'px-1', onSubmit: e => {
+        return (h(Host, { key: '785c1b5c3e0e333da6f6cdcbeb6daec8129b9a7a', class: 'px-0' }, h("ir-title", { key: '06bf19533430bdd76dbba1af8f2dd59cbe332aa7', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("form", { key: '7d6918f116af730ffa31d5e28aee16e912161736', class: 'px-1', onSubmit: e => {
                 e.preventDefault();
                 this.savePrivateNote();
-            } }, h("ir-textarea", { key: 'd39a49bffc5a40955c8b0bc2b6695174e30dbe32', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: 'c323384502e8f2af9672287d1cdbea8698068b68', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '962bf088324704fb66c2b3c8aa32fa818bb0bc01', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '1d9a7b797816b131261f0c0a723a63ad4ee46827', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
+            } }, h("ir-textarea", { key: 'd10c9dc60afe789c5c04706ca9bf9bf084ca2660', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: '57159117f5a76719f1795f1b12564acaa5f2940c', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '38c75789799a53172984178813657e7057ecf3cb', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: 'b1afbfbecc0a111459ecbdc9204e0d9e33faa4e2', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
     static get is() { return "ir-booking-extra-note"; }
     static get encapsulation() { return "scoped"; }
@@ -120,8 +120,8 @@ export class IrBookingExtraNote {
                     "references": {}
                 }
             }, {
-                "method": "resetbooking",
-                "name": "resetbooking",
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

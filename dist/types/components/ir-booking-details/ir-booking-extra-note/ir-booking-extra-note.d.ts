@@ -5,7 +5,7 @@ export declare class IrBookingExtraNote {
     isLoading: boolean;
     note: string;
     closeModal: EventEmitter<null>;
-    resetbooking: EventEmitter<Booking | null>;
+    resetBookingEvt: EventEmitter<Booking | null>;
     private bookingService;
     componentWillLoad(): void;
     private setNote;

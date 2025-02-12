@@ -78,7 +78,7 @@ export class IrPaymentDetails {
         try {
             await this.paymentService.AddPayment(this.itemToBeAdded, this.bookingDetails.booking_nbr);
             this.initializeItemToBeAdded();
-            this.resetBookingData.emit(null);
+            this.resetBookingEvt.emit(null);
             this.resetExposedCancelationDueAmount.emit(null);
         }
         catch (error) {
@@ -113,7 +113,7 @@ export class IrPaymentDetails {
             const newPaymentArray = this.bookingDetails.financial.payments.filter((item) => item.id !== this.toBeDeletedItem.id);
             this.bookingDetails = Object.assign(Object.assign({}, this.bookingDetails), { financial: Object.assign(Object.assign({}, this.bookingDetails.financial), { payments: newPaymentArray }) });
             this.confirmModal = !this.confirmModal;
-            this.resetBookingData.emit(null);
+            this.resetBookingEvt.emit(null);
             this.resetExposedCancelationDueAmount.emit(null);
             this.toBeDeletedItem = null;
             this.modal_mode = null;
@@ -159,12 +159,15 @@ export class IrPaymentDetails {
         this.handlePaymentInputChange('date', e.detail.end.format('YYYY-MM-DD'));
     }
     _renderTableRow(item, rowMode = 'normal') {
-        var _a, _b;
-        return (h(Fragment, null, h("tr", null, h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, _formatDate(item.date))) : (h("ir-date-picker", { date: ((_a = this.itemToBeAdded) === null || _a === void 0 ? void 0 : _a.date) ? new Date(this.itemToBeAdded.date) : new Date(), minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), singleDatePicker: true, autoApply: true, onDateChanged: this.handleDateChange.bind(this) }))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-right" }, formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (h("input", { type: "text", class: "border-0 text-center form-control py-0 m-0 w-100", value: this.itemToBeAdded.amount, onBlur: e => {
+        var _a, _b, _c;
+        return (h(Fragment, null, h("tr", null, h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, _formatDate(item.date))) : (h("ir-date-picker", { date: ((_a = this.itemToBeAdded) === null || _a === void 0 ? void 0 : _a.date) ? new Date(this.itemToBeAdded.date) : new Date(), minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
+            // singleDatePicker
+            // autoApply
+            class: "d-flex justify-content-center", onDateChanged: this.handleDateChange.bind(this) }, h("input", { type: "text", slot: "trigger", value: _formatDate((_b = this.itemToBeAdded) === null || _b === void 0 ? void 0 : _b.date), class: "text-center  form-control flex-grow-1 w-100", style: { border: '0', marginLeft: 'auto', marginRight: 'auto', width: '100%' } })))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-right" }, formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (h("input", { type: "text", class: "border-0 text-center form-control py-0 m-0 w-100", value: this.itemToBeAdded.amount, onBlur: e => {
                 e.target.value = Number(this.itemToBeAdded.amount).toFixed(2);
             }, onInput: event => this.handlePaymentInputChange('amount', +event.target.value, event) }))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, item.designation)) : (h("input", { class: "border-0 w-100 form-control py-0 m-0", onInput: event => this.handlePaymentInputChange('designation', event.target.value), type: "text" }))), h("td", { rowSpan: 2, class: 'border payments-height border-light border-bottom-0 text-center' }, h("div", { class: 'payment-actions' }, rowMode === 'add' && (h("ir-button", { variant: "icon", icon_name: "save", style: colorVariants.secondary, isLoading: rowMode === 'add' && isRequestPending('/Do_Payment'), class: 'm-0', onClickHandler: () => {
                 this._processPaymentSave();
-            } })), h("ir-button", { variant: "icon", icon_name: "trash", style: colorVariants.danger, isLoading: ((_b = this.toBeDeletedItem) === null || _b === void 0 ? void 0 : _b.id) === (item === null || item === void 0 ? void 0 : item.id) && isRequestPending('/Cancel_Payment'), onClickHandler: rowMode === 'add'
+            } })), h("ir-button", { variant: "icon", icon_name: "trash", style: colorVariants.danger, isLoading: ((_c = this.toBeDeletedItem) === null || _c === void 0 ? void 0 : _c.id) === (item === null || item === void 0 ? void 0 : item.id) && isRequestPending('/Cancel_Payment'), onClickHandler: rowMode === 'add'
                 ? () => {
                     this.newTableRow = false;
                     this.initializeItemToBeAdded();
@@ -308,8 +311,8 @@ export class IrPaymentDetails {
     }
     static get events() {
         return [{
-                "method": "resetBookingData",
-                "name": "resetBookingData",
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
@@ -353,8 +356,8 @@ export class IrPaymentDetails {
                     "references": {
                         "IToast": {
                             "location": "import",
-                            "path": "@/components/ir-toast/toast",
-                            "id": "src/components/ir-toast/toast.ts::IToast"
+                            "path": "@/components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

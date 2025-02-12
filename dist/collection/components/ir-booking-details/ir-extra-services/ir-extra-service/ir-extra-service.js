@@ -19,14 +19,14 @@ export class IrExtraService {
                 is_remove: true,
                 booking_nbr: this.bookingNumber,
             });
-            this.resetBookingData.emit(null);
+            this.resetBookingEvt.emit(null);
         }
         catch (error) {
             console.log(error);
         }
     }
     render() {
-        return (h(Host, { key: 'cc7f04864115a6cf90bb887920f474fe3c7bd2b0' }, h("div", { key: '7f1f0c8efc43aba08052a6638c3e5fe36da0dd20', class: "p-1" }, h("div", { key: '95b8a79644d367bc8fae1a5cd2293cb6eb364f06', class: 'extra-service-container' }, h("p", { key: '37e289fab2fd6e71d8b72fdc2e6cad5b480f747d', class: "extra-service-description" }, this.service.description), h("div", { key: 'b6a9a273450bdcf5a4d9789fbfd290fdbf5b5517', class: "extra-service-actions" }, this.service.price && h("p", { key: '9471b2970df39fa976de926b6c6575e6519b52a2', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price)), h("ir-button", { key: 'c320a5591408c55f82fa20352c8ffc8893b521ed', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), h("ir-button", { key: '824d7fd7d0b7b931ab4978f9c8526a4ee0577492', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: colorVariants.danger }))), h("div", { key: '4648780d1d83317d1790b9f52ccaec71cadf03c4', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, moment(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-modal", { key: 'ce2b59371c51c67f076b64bbac0c31d40e1e4ad6', autoClose: false, ref: el => (this.irModalRef = el), isLoading: isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales.entries.Lcz_Confirmation, modalBody: `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}` })));
+        return (h(Host, { key: 'dad1fe1f4e948b5b929083455b3b53304904a14e' }, h("div", { key: '0617cc94d515cd5fd6a1b7e97ad36b21ee451e89', class: "p-1" }, h("div", { key: 'f66bfb8d5c8188efed10e117fd049cf9d2bcabf2', class: 'extra-service-container' }, h("p", { key: 'caf0647874fc01078600b8372ecf1f8bebdc3122', class: "extra-service-description" }, this.service.description), h("div", { key: '1392b975f0e748960162622f621d4d248e68da4d', class: "extra-service-actions" }, this.service.price && h("p", { key: '017adcbd4444c615741b085c49f0dbc99dadcc07', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price)), h("ir-button", { key: '351f7427b9b059d1f97d5eb0dea63e807aa8b354', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), h("ir-button", { key: '110c66e9c24eccd9b5c0d420b1249f370a6aef1d', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: colorVariants.danger }))), h("div", { key: '9ba9125488640e354ef40ab1a6fa1f7bb2d95512', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, moment(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-modal", { key: '35ec6d35c1e970894e66a6397e1954ff8e439476', autoClose: false, ref: el => (this.irModalRef = el), isLoading: isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales.entries.Lcz_Confirmation, modalBody: `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}` })));
     }
     static get is() { return "ir-extra-service"; }
     static get encapsulation() { return "scoped"; }
@@ -122,8 +122,8 @@ export class IrExtraService {
                     }
                 }
             }, {
-                "method": "resetBookingData",
-                "name": "resetBookingData",
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

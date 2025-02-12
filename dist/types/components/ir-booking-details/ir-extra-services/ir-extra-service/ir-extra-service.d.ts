@@ -5,7 +5,7 @@ export declare class IrExtraService {
     bookingNumber: string;
     currencySymbol: string;
     editExtraService: EventEmitter<ExtraService>;
-    resetBookingData: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     private irModalRef;
     private bookingService;
     private deleteService;
