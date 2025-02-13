@@ -1,4 +1,5 @@
-import { IPendingActions } from "../../../models/housekeeping";
+import { IPendingActions, Task } from "../../../models/housekeeping";
+import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrHkTasks {
     el: HTMLElement;
     language: string;
@@ -11,18 +12,22 @@ export declare class IrHkTasks {
     selectedRoom: IPendingActions | null;
     archiveOpened: boolean;
     property_id: number;
-    private modalOpenTimeOut;
+    tasks: Task[];
+    selectedTasks: Task[];
+    isSidebarOpen: boolean;
+    clearSelectedHkTasks: EventEmitter<void>;
+    private hkNameCache;
     private roomService;
     private houseKeepingService;
     private token;
+    private modal;
     componentWillLoad(): void;
-    handleResetData(e: CustomEvent): Promise<void>;
     ticketChanged(newValue: string, oldValue: string): void;
-    handleCheckChange(e: CustomEvent, action: IPendingActions): void;
     handleCloseSidebar(e: CustomEvent): void;
-    disconnectedCallback(): void;
-    getPendingActions(): Promise<void>;
-    initializeApp(): Promise<void>;
-    handleConfirm(e: CustomEvent): Promise<void>;
+    private init;
+    private buildHousekeeperNameCache;
+    private updateTasks;
+    private handleHeaderButtonPress;
+    private handleModalConfirmation;
     render(): any;
 }

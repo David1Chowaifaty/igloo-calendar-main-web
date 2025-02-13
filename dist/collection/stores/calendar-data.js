@@ -17,6 +17,7 @@ const initialState = {
     toBeAssignedEvents: [],
     allowed_payment_methods: [],
     pickup_service: undefined,
+    checkin_enabled: true,
     max_nights: 0,
     is_frontdesk_enabled: false,
     taxes: [],
@@ -27,6 +28,7 @@ const initialState = {
     country: undefined,
     is_pms_enabled: false,
     roomHistory: {},
+    is_automatic_check_in_out: false,
 };
 export const { state: calendar_data, onChange: onCalendarDatesChange } = createStore(initialState);
 export function isSingleUnit(id) {

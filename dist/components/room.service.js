@@ -3,6 +3,13 @@ import { l as locales } from './locales.store.js';
 import { a as axios } from './axios.js';
 
 class RoomService {
+    async SetAutomaticCheckInOut(props) {
+        const { data } = await axios.post(`/Set_Automatic_Check_In_Out`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async getExposedProperty(params) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Property`, params);
@@ -22,6 +29,7 @@ class RoomService {
             calendar_data.id = results.id;
             calendar_data.country = results.country;
             calendar_data.name = results.name;
+            calendar_data.is_automatic_check_in_out = results.is_automatic_check_in_out;
             calendar_data.tax_statement = results.tax_statement;
             calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
             calendar_data.is_pms_enabled = results.is_pms_enabled;

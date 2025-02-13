@@ -6,7 +6,7 @@ export declare class IrReservationInformation {
     booking: Booking;
     countries: ICountry[];
     userCountry: ICountry | null;
-    openSidebar: EventEmitter<OpenSidebarEvent>;
+    openSidebar: EventEmitter<OpenSidebarEvent<any>>;
     componentWillLoad(): void;
     private handleEditClick;
     private renderPhoneNumber;

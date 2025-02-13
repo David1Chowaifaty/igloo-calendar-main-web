@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrModal {
     modalTitle: string;
     modalBody: string;
+    showTitle: boolean;
     rightBtnActive: boolean;
     leftBtnActive: boolean;
     rightBtnText: string;

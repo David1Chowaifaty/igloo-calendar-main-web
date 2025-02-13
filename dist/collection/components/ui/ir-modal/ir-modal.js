@@ -3,6 +3,7 @@ export class IrModal {
     constructor() {
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
+        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
@@ -41,13 +42,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: '07d05bfb9ad42b17e2a54cf921dddce2e5632286', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '175d679336961b53d97bf396791506695bf61a81', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '8d1a50dccd4795393b3848b4817bfc2982f4c16d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '962c22365002ee7086211a4db12d378b7dfb888e', class: `ir-alert-content p-2` }, h("div", { key: '9252bd23a4c0169313d1a389812957ae953ebf6f', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '37430830d0071b4dfc45d8608f53e516c6a18c2b', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '6a0a0aa1e0ee25eb20ec7f42b3e98aa456cb6052' }, this.modalBody)), h("div", { key: 'cb055d332296d4c5faacc510d8e78e1507db71b0', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '7f83df9b7ea79d9ba6e7215d5b1fa83ed378c63b', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '2ab608c351e2dee5462b32e3f541560655a6e101', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '1c13a5ce74f4d6368050f3b15916d370c45dbd9c', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'e1e0d7c698d09725f620a272037fdd0acc9663fe', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '2d007183793629b46168325d8011f61123444fd8', class: `ir-alert-header` }, h("p", { key: 'd1a9749f659aabefc9035d102f16a40a623af081' }, this.modalTitle))), h("div", { key: '10f6159f586fb3b90cfd28919b8d859b43a3960a', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'ea1dc2bb41b0557b191c4617a9a5cd9ebc901414' }, this.modalBody)), h("div", { key: 'c1f4d4fec9bafd350318634f2243fc8a8c9075fe', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: 'f3535e03350bc6bcb45e4cc23b077989d655ef41', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'a7fbceaa8ff7e1bfba81c7ebe19c7de62610cd78', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -99,6 +100,23 @@ export class IrModal {
                 "attribute": "modal-body",
                 "reflect": false,
                 "defaultValue": "'Modal Body'"
+            },
+            "showTitle": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "attribute": "show-title",
+                "reflect": false
             },
             "rightBtnActive": {
                 "type": "boolean",

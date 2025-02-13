@@ -11,7 +11,7 @@ const IrIcon = /*@__PURE__*/ proxyCustomElement(class IrIcon extends HTMLElement
         this.icon = 'ft-check';
     }
     render() {
-        return (h("button", { key: 'ad709966d6cd64c8a39a21ac43bf8fb31fce1df3', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '8ffa3ef26eb7ab34bd734c91465aa91210666310', name: "icon" })));
+        return (h("button", { key: '8ed09ccdd73f3f0969cd0133b32ebf72d4d9e7ff', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '3d414972882211b6d2e9e261aa167c8934336697', name: "icon" })));
     }
     static get style() { return IrIconStyle0; }
 }, [6, "ir-icon", {

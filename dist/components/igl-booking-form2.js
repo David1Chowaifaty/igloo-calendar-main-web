@@ -2,13 +2,17 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { b as booking_store } from './booking.store.js';
-import { d as defineCustomElement$9 } from './igl-application-info2.js';
-import { d as defineCustomElement$8 } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$7 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$6 } from './ir-button2.js';
-import { d as defineCustomElement$5 } from './ir-combobox2.js';
-import { d as defineCustomElement$4 } from './ir-date-view2.js';
-import { d as defineCustomElement$3 } from './ir-icons2.js';
+import { c as calendar_data } from './calendar-data.js';
+import { h as hooks } from './moment.js';
+import { d as defineCustomElement$b } from './igl-application-info2.js';
+import { d as defineCustomElement$a } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$9 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$8 } from './ir-button2.js';
+import { d as defineCustomElement$7 } from './ir-combobox2.js';
+import { d as defineCustomElement$6 } from './ir-country-picker2.js';
+import { d as defineCustomElement$5 } from './ir-date-view2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
+import { d as defineCustomElement$3 } from './ir-input-text2.js';
 import { d as defineCustomElement$2 } from './ir-phone-input2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
@@ -129,7 +133,9 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h(Host, { key: '31caaa8df94fcdb0500ec4f866a0fddc55da91bf' }, h("div", { key: 'cc5c9d8ad11ec53b4b6fa7a748b0d96f0279eebf', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '482bd45ff263718459103b95b504e13b8441bf77', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '3ef91da4cdd13bf40162d3a9b7ecf58013a280bb', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '21527fbf33aa9145d5f433508dbbcfdb8e618ead', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        var _a;
+        const showBookAndCheckin = calendar_data.checkin_enabled && hooks(new Date((_a = this.dateRangeData) === null || _a === void 0 ? void 0 : _a.fromDate)).isSame(new Date(), 'day');
+        return (h(Host, { key: '12df69527af5060078b7d2fcd0be3377b23115da' }, h("div", { key: 'c2d4c42fa95ecfb7670a45d122a3625c5f87ad35', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '72f398b82b8f4b826b87c5a02579c899da9a71e9', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'ca7c6f54f93992e295ef74781abc4ba689c2f3d7', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '47e9d07747a3d15bc59a909f02c282317eb0d9d3', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;
@@ -142,7 +148,7 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
                     : undefined })));
         })), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => {
                 this.handleEventData(event, 'propertyBookedBy', 0);
-            } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHandler: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book }))))));
+            } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHandler: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: `mt-1 mt-md-0 flex-fill ${showBookAndCheckin ? 'mr-md-1' : ''}` }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book })), showBookAndCheckin && (h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'bookAndCheckIn', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'bookAndCheckIn' }), text: locales.entries.Lcz_BookAndChekcIn })))))));
     }
     static get style() { return IglBookingFormStyle0; }
 }, [2, "igl-booking-form", {
@@ -169,7 +175,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-combobox", "ir-date-view", "ir-icons", "ir-phone-input", "ir-tooltip"];
+    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-combobox", "ir-country-picker", "ir-date-view", "ir-icons", "ir-input-text", "ir-phone-input", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
@@ -178,35 +184,45 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-country-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-input-text":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

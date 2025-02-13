@@ -236,6 +236,8 @@ export interface RoomUpdateEvent {
     roomCategoryName: string;
 }
 export interface RoomBookingDetails {
+    CHECKIN: boolean;
+    CHECKOUT: boolean;
     ID: string;
     TO_DATE: string;
     ARRIVAL: Arrival;
