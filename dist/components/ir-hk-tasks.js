@@ -52,6 +52,8 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         this.tasks = [];
         this.selectedTasks = [];
         this.isSidebarOpen = undefined;
+        this.isApplyFiltersLoading = undefined;
+        this.filters = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -164,6 +166,7 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
                 return;
             }
             await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, unit_id: t.unit.id })) });
+            await this.fetchTasksWithFilters();
         }
         finally {
             this.selectedTasks = [];
@@ -171,11 +174,34 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
             this.modal.closeModal();
         }
     }
+    async applyFilters(e) {
+        try {
+            this.isApplyFiltersLoading = true;
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.filters = Object.assign({}, e.detail);
+            await this.fetchTasksWithFilters();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isApplyFiltersLoading = false;
+        }
+    }
+    async fetchTasksWithFilters() {
+        const tasks = await this.houseKeepingService.getHkTasks(Object.assign(Object.assign({}, this.filters), { property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().add(2, 'days').format('YYYY-MM-DD') }));
+        if (tasks) {
+            this.updateTasks(tasks);
+        }
+    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", null), h("ir-tasks-table", { onRowSelectChange: e => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+                this.applyFilters(e);
+            } }), h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedTasks = e.detail;
@@ -203,7 +229,9 @@ const IrHkTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTM
         "property_id": [32],
         "tasks": [32],
         "selectedTasks": [32],
-        "isSidebarOpen": [32]
+        "isSidebarOpen": [32],
+        "isApplyFiltersLoading": [32],
+        "filters": [32]
     }, [[0, "closeSideBar", "handleCloseSidebar"]], {
         "ticket": ["ticketChanged"]
     }]);

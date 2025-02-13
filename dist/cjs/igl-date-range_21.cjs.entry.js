@@ -2608,6 +2608,8 @@ const IrHkTasks = class {
         this.tasks = [];
         this.selectedTasks = [];
         this.isSidebarOpen = undefined;
+        this.isApplyFiltersLoading = undefined;
+        this.filters = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -2720,6 +2722,7 @@ const IrHkTasks = class {
                 return;
             }
             await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, unit_id: t.unit.id })) });
+            await this.fetchTasksWithFilters();
         }
         finally {
             this.selectedTasks = [];
@@ -2727,11 +2730,34 @@ const IrHkTasks = class {
             this.modal.closeModal();
         }
     }
+    async applyFilters(e) {
+        try {
+            this.isApplyFiltersLoading = true;
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.filters = Object.assign({}, e.detail);
+            await this.fetchTasksWithFilters();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isApplyFiltersLoading = false;
+        }
+    }
+    async fetchTasksWithFilters() {
+        const tasks = await this.houseKeepingService.getHkTasks(Object.assign(Object.assign({}, this.filters), { property_id: this.property_id, from_date: utils.hooks().format('YYYY-MM-DD'), to_date: utils.hooks().add(2, 'days').format('YYYY-MM-DD') }));
+        if (tasks) {
+            this.updateTasks(tasks);
+        }
+    }
     render() {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), index.h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-tasks-filters", null), index.h("ir-tasks-table", { onRowSelectChange: e => {
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), index.h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+                this.applyFilters(e);
+            } }), index.h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedTasks = e.detail;
@@ -3110,51 +3136,74 @@ const IrTasksFiltersStyle0 = irTasksFiltersCss;
 const IrTasksFilters = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.applyClicked = index.createEvent(this, "applyClicked", 7);
-        this.resetClicked = index.createEvent(this, "resetClicked", 7);
+        this.applyFilters = index.createEvent(this, "applyFilters", 7);
+        this.isLoading = undefined;
         this.filters = {
-            period: '',
-            housekeepers: '',
-            cleaning_frequency: '',
-            dusty_units: '',
-            highlight_check_ins: '',
+            cleaning_periods: {
+                code: '',
+            },
+            housekeepers: {
+                code: '',
+            },
+            cleaning_frequencies: { code: '' },
+            dusty_units: { code: '' },
+            highlight_check_ins: { code: '' },
         };
         this.collapsed = false;
     }
-    generateDaysFilter() {
-        let list = [{ code: '0', value: 'Do not include' }];
-        for (let i = 3; i <= 7; i++) {
-            list.push({ code: i.toString(), value: `Cleaned ${i} ago` });
-        }
-        return list;
+    componentWillLoad() {
+        var _a, _b, _c, _d;
+        this.baseFilters = {
+            cleaning_periods: (_a = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_periods[0],
+            housekeepers: { code: '000' },
+            cleaning_frequencies: (_b = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies[0],
+            dusty_units: (_c = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.dusty_periods[0],
+            highlight_check_ins: (_d = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.highlight_checkin_options[0],
+        };
+        this.filters = Object.assign({}, this.baseFilters);
     }
-    generateCheckinsDaysFilter() {
-        let list = [{ code: '0', value: 'No' }];
-        for (let i = 2; i <= 10; i++) {
-            list.push({ code: i.toString(), value: `Cleaned ${i} ago` });
-        }
-        return list;
+    updateFilter(params) {
+        this.filters = Object.assign(Object.assign({}, this.filters), params);
+    }
+    applyFiltersEvt(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.applyFilters.emit(this.filters);
+    }
+    resetFilters(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.filters = Object.assign({}, this.baseFilters);
+        this.applyFilters.emit(this.filters);
     }
     render() {
-        return (index.h("div", { key: '85752d3d6226fd0d83773261290938ae63a38ac9', class: "card mb-0 p-1 d-flex flex-column" }, index.h("div", { key: '54bbe707d89321eb807fd79e2a67f43d1f94c658', class: "d-flex align-items-center justify-content-between" }, index.h("div", { key: 'd70f4808661a0abb9cd1398701024091afb4ee03', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("svg", { key: 'a61c6830ca00ce5512d1f553ab31e9159c6d2e92', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: '276a9de6b520dfa77375830783623b50f40b77ce', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), index.h("h4", { key: '61fa355e66d235a6075b692d40c30af58765a3dc', class: "m-0 p-0 flex-grow-1" }, "Filters")), index.h("ir-button", { key: '679a68b27cef14dc4fa73d57d6487b74abcc7521', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        return (index.h("div", { key: 'be27d6bb6421fa3b20bd3fa0a58287d5c274cb49', class: "card mb-0 p-1 d-flex flex-column" }, index.h("div", { key: '15e15d7c3bab1acf95d7b2ae14f530da2fd6f9e7', class: "d-flex align-items-center justify-content-between" }, index.h("div", { key: '87f68c3b228315375a65ead5b0196515cd05ea04', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("svg", { key: '7d8371c4606fa0f0aa0dcb23c98e53907c0c9024', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: '09276b28b123e4aa7298b7cd3a8270dc140199e4', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), index.h("h4", { key: 'a791a831d62a59f5871f4adc628db65f9d2af3e2', class: "m-0 p-0 flex-grow-1" }, "Filters")), index.h("ir-button", { key: '6d6cc5512f5709db47a81fe34777e4b42a786b51', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), index.h("div", { key: '5abb5c518042d97f945dedc5882c9f60a68571d0', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, index.h("div", { key: 'e1be9868a9e5ac06e6cd2e5448adc973df756466', class: "d-flex flex-column", style: { gap: '0.5rem' } }, index.h("fieldset", { key: '32e81c862b0f506c389d98e5896b4145107c1df5', class: "pt-1" }, index.h("p", { key: '919c4335f35c7fe0ead055ca9208645c4239b9b6', class: "m-0 p-0" }, "Period"), index.h("ir-select", { key: '80c796c21ac5d2f4a7cc11cd60054474e9b708ec', LabelAvailable: false, showFirstOption: false, data: [
-                { code: '001', value: 'For today' },
-                { code: '002', value: `Until ${utils.hooks().format('DD MMM')}` },
-                { code: '002', value: `Until ${utils.hooks().add(10, 'days').format('DD MMM')}` },
-            ].map(v => ({
-                text: v.value,
+            }, style: { '--icon-size': '1.6rem' } })), index.h("div", { key: 'ca00b24f93d4e76d935fc3bfc4a124ec5ead7c94', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, index.h("div", { key: '2870566bd26be26ef7ddf26d364d548828f8a56f', class: "d-flex flex-column", style: { gap: '0.5rem' } }, index.h("fieldset", { key: '47139f34aff0da09464f443b09e974cdde1c24d7', class: "pt-1" }, index.h("p", { key: 'ab5fe71fbb0710b414177655855f3481f15533a4', class: "m-0 p-0" }, "Period"), index.h("ir-select", { key: 'd58762785c1b7366b2924e54ebec9e28ac2f9cf8', selectedValue: (_b = (_a = this.filters) === null || _a === void 0 ? void 0 : _a.cleaning_periods) === null || _b === void 0 ? void 0 : _b.code, LabelAvailable: false, showFirstOption: false, data: (_c = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_periods.map(v => ({
+                text: v.description,
                 value: v.code,
-            })) })), index.h("fieldset", { key: 'e225c8a7c77f7118678f65299201082d4365d2c1' }, index.h("p", { key: 'fe7251d90e0edd2181c7183d526c59b378cba21e', class: "m-0 p-0" }, "Housekeepers"), index.h("ir-select", { key: 'ef306cbab5ae9ebc6704e311c9f73fbc72f0e2a0', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
-                text: v.value,
+            })), onSelectChange: e => {
+                this.updateFilter({ cleaning_periods: { code: e.detail } });
+            } })), index.h("fieldset", { key: 'f4d525139319bddc39185e1a4584b6175857d6fc' }, index.h("p", { key: '3416125fc0882797779bdd6e7b9f6a5b5cc0636e', class: "m-0 p-0" }, "Housekeepers"), index.h("ir-select", { key: 'f24ddf34fec38d7b84515a01684205fae56b8e90', selectedValue: (_e = (_d = this.filters) === null || _d === void 0 ? void 0 : _d.housekeepers) === null || _e === void 0 ? void 0 : _e.code, LabelAvailable: false, showFirstOption: false, data: [
+                { text: 'All housekeepers', value: '000' },
+                ...(_f = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.housekeepers.map(v => ({
+                    text: v.name,
+                    value: v.id.toString(),
+                })),
+            ], onSelectChange: e => {
+                this.updateFilter({ housekeepers: { code: e.detail } });
+            } })), index.h("fieldset", { key: '81fa307c7c7d6bafa7f6a07dc0b5836f68da7314' }, index.h("p", { key: '7d87638d5a502f14df7819730e64e26bbe79bd43', class: "m-0 p-0" }, "Cleaning frequency"), index.h("ir-select", { key: '28035f4555d33ca7d805b2338e783e6ab3b92b5b', selectedValue: (_h = (_g = this.filters) === null || _g === void 0 ? void 0 : _g.cleaning_frequencies) === null || _h === void 0 ? void 0 : _h.code, LabelAvailable: false, showFirstOption: false, data: (_j = housekeeping_store.housekeeping_store === null || housekeeping_store.housekeeping_store === void 0 ? void 0 : housekeeping_store.housekeeping_store.hk_criteria) === null || _j === void 0 ? void 0 : _j.cleaning_frequencies.map(v => ({
+                text: v.description,
                 value: v.code,
-            })) })), index.h("fieldset", { key: 'cc87d7359c4fd07b4900c0414522c4d0858376be' }, index.h("p", { key: '5a300dc381f60223bbb287824b60bc7f97b4f59d', class: "m-0 p-0" }, "Cleaning frequency"), index.h("ir-select", { key: 'a0cae5416320d73f146f035c311e17dceda24ba5', LabelAvailable: false, showFirstOption: false, data: this.generateDaysFilter().map(v => ({
-                text: v.value,
+            })), onSelectChange: e => {
+                this.updateFilter({ cleaning_frequencies: { code: e.detail } });
+            } })), index.h("fieldset", { key: 'c070ed9b8af3b3b6e734d57dd0a4f5517a1e7cdb' }, index.h("p", { key: '0acb240da9e7a019822f835da90a394821a65da5', class: "m-0 p-0" }, "Dusty units"), index.h("ir-select", { key: 'e37de7fbd35227a9eda776ee80fb195bfedd1659', showFirstOption: false, LabelAvailable: false, data: [{ text: 'test', value: 'hello' }] })), index.h("fieldset", { key: '95fa477a3c187d199b895293994a381f9ff772b1', class: "mb-1" }, index.h("p", { key: 'a8fb456a76794653ff8dd4005ac00c7bd2e5ee3d', class: "m-0 p-0" }, "Highlight check-ins"), index.h("ir-select", { key: '7b4fae6e210fc7a080e9b602f37cbea9545e1928', selectedValue: (_l = (_k = this.filters) === null || _k === void 0 ? void 0 : _k.highlight_check_ins) === null || _l === void 0 ? void 0 : _l.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+                this.updateFilter({ highlight_check_ins: { code: e.detail } });
+            }, data: (_o = (_m = housekeeping_store.housekeeping_store.hk_criteria) === null || _m === void 0 ? void 0 : _m.highlight_checkin_options) === null || _o === void 0 ? void 0 : _o.map(v => ({
+                text: v.description,
                 value: v.code,
-            })) })), index.h("fieldset", { key: 'af40df784a6f864a6b77ba566e06ea4790c02fd2' }, index.h("p", { key: 'e3374dc9c6cb6bdc4ec7a0121299791161a9b143', class: "m-0 p-0" }, "Dusty units"), index.h("ir-select", { key: '6fd0ce55b73ddd5d758b4355ee5341732d232189', showFirstOption: false, LabelAvailable: false, data: [{ text: 'test', value: 'hello' }] })), index.h("fieldset", { key: '6776e8cd83aeaaa451a4dc89db30751fb2898725', class: "mb-1" }, index.h("p", { key: 'f9df883a26559daae0bd2fa24f56df3e3fc4554c', class: "m-0 p-0" }, "Highlight check-ins"), index.h("ir-select", { key: '44b46bc499557c7126102e7bccf2e3320aa0fe23', LabelAvailable: false, showFirstOption: false, data: this.generateCheckinsDaysFilter().map(v => ({
-                text: v.value,
-                value: v.code,
-            })) })), index.h("div", { key: 'cefcaf7ddfc4accf0a612535358ece0c57b7fb55', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, index.h("ir-button", { key: '457e2ef568422ce50dbbed54cdae1ebce0cc03d1', text: "Reset", size: "sm", btn_color: "outline" }), index.h("ir-button", { key: 'cca16672481e5743fae3934edfd89b04456840f9', text: "Apply", size: "sm" }))))));
+            })) })), index.h("div", { key: '7d9c662b289c221429caf61edf95e131ad8b901c', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, index.h("ir-button", { key: '7841b2d963e10a071c76433a8ba0035308b3fe93', text: "Reset", size: "sm", btn_color: "outline", onClickHandler: e => this.applyFiltersEvt(e) }), index.h("ir-button", { key: 'b7a72e070a848824817e51e96ebba802d1a95b79', isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.resetFilters(e) }))))));
     }
 };
 IrTasksFilters.style = IrTasksFiltersStyle0;
@@ -3279,8 +3328,10 @@ const IrTasksTable = class {
         this.emitSelectedTasks();
     }
     emitSelectedTasks() {
+        if (this.tasks.length === 0) {
+            return;
+        }
         const filteredTasks = this.tasks.filter(t => this.selectedIds.includes(t.id));
-        console.log('filteredTasks', filteredTasks);
         this.rowSelectChange.emit(filteredTasks);
     }
     /**
@@ -3304,7 +3355,7 @@ const IrTasksTable = class {
         console.log('here');
     }
     render() {
-        return (index.h("div", { key: '2a231f69e97dc0b7b0723ac9777ab9065ee98170', class: "card h-100 p-1 m-0 table-responsive" }, index.h("table", { key: 'e0a02ae37aad96af22a8303bd28759744da1fcae', class: "table " }, index.h("thead", { key: '14312487c9dbc6f1ae2ef0673dbbf56271427b23' }, index.h("tr", { key: '4dc14dd5fff2975303de5dfa806be2a591f9178f' }, index.h("th", { key: '062345bbbf6dbf0d295b36aeddff640bc3f1d16b' }, index.h("ir-checkbox", { key: 'cf6de3ae06aa0097536885f234fdc934e7200add', checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: 'b6fb6914b16d723f53e381843bd89b2c6eb5c5cd' }, "Period"), index.h("th", { key: '20b23d77de58dff595f1046dc5e262e3bde23a36' }, index.h("span", { key: '843a80d332754d3bf6d4f3061ee18a267f330776' }, "Unit")), index.h("th", { key: '1fa6f6218735d4d08b96f54508892db1480a50bc', class: 'sortable', onClick: () => this.handleSort('status') }, index.h("div", { key: '785c2ff7b4cf51698c5654393cf3a747f605b65a', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: 'e0c88c11c8a2abdd455d35f894cd26a462a3d338' }, "Status"), index.h("svg", { key: 'aa8aa5b273a9f75379c4d835344d1f416470a5ff', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '72aa8ded827f3ce53743b934b24b0205c62f9aab', d: "m21 16-4 4-4-4" }), index.h("path", { key: 'd430489b8aa05ae923115a584f8319842343347c', d: "M17 20V4" }), index.h("path", { key: '8ae29f0eddce87d19e00ab75e63a4a9a4fa5a45b', d: "m3 8 4-4 4 4" }), index.h("path", { key: '0eb17f676c746460c691b27ae10b5db360e4d1c9', d: "M7 4v16" })))), index.h("th", { key: 'e49ef87e98f53244429101449882c8c586c2415d' }, "Hint"), index.h("th", { key: 'fb4130cc06a9306b7f5f94d27f76ade9b01acbf1' }, "A"), index.h("th", { key: '698b4bd3111191cc7da0fde0b69c981554b33519' }, "C"), index.h("th", { key: '98927531b4077dc20f3679f84728944adcaa0c1c' }, "I"), index.h("th", { key: '92432c55e059f273512b86b413ab4949ee25388a', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: '0aa2f3c7fae99ce686e01adea494ca16249d82bb', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '9b2b7eb5782222a234d6222bb2607a4fc1b5834d' }, "Housekeeper"), index.h("svg", { key: '55fa7b1d0792e6a4432587de3bf136d098b4830f', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '7fa6675293a100cbbdc3fda064cf19348e8a40aa', d: "m21 16-4 4-4-4" }), index.h("path", { key: '572b5d5cd21f4171364f8b9176f58ed10b8e6a94', d: "M17 20V4" }), index.h("path", { key: '86e2ca9647f3eba3b531d41817c33c8e502443f5', d: "m3 8 4-4 4 4" }), index.h("path", { key: '9cbabed9adf005963a4ed34ba5b2712ac423154e', d: "M7 4v16" })))))), index.h("tbody", { key: '243eded43e9fc2a37563b25bbf90489fbcfa8e65' }, this.tasks.map(task => {
+        return (index.h("div", { key: '25b5fc05dc0c5e2cff953d01af66a4ef23a84f43', class: "card h-100 p-1 m-0 table-responsive" }, index.h("table", { key: '17a3aa8029bf6be0ddc85a8f7178a1de7374b7e7', class: "table " }, index.h("thead", { key: '2fb5e070c435c73cf00f85e18e6204fe634198d0' }, index.h("tr", { key: '16119ace4803b6c425a7e5ede7b047e4ed39cbbb' }, index.h("th", { key: '7444dae4b7c5a64548065725258eb5ed603ee87c' }, index.h("ir-checkbox", { key: 'dc11a4475d5ca9e3fc6647c3d70ab06fa120aab1', checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: '448c382938f8917289ca5515d51539c89858a232' }, "Period"), index.h("th", { key: '608badd4300c47ffc7407560441f09166de9240e' }, index.h("span", { key: '3ffd1d49ac0d11bc72ab9e10a0825e74e3a3564e' }, "Unit")), index.h("th", { key: '490cd64b8af1a9584cce1764085b79468b8d50ae', class: 'sortable', onClick: () => this.handleSort('status') }, index.h("div", { key: 'cb7677c9ea55bec473905d6a91d90316610ace0c', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '01bc91ab3a261a27fd6768203174412c7fb46f10' }, "Status"), index.h("svg", { key: '9c84e5fc83cb7150ef208a077b51d542fbc09889', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'e697de954bd6d396c6961bcf5fbaa75167ecfcfe', d: "m21 16-4 4-4-4" }), index.h("path", { key: '5903184d8bd083bfb062aac62b761f91855313ea', d: "M17 20V4" }), index.h("path", { key: '17377542bd88c50d7fea70fe9ef2dbd6c378a63e', d: "m3 8 4-4 4 4" }), index.h("path", { key: 'ac741050967b1ef3f1b0d9f7c5f943d5a8e81399', d: "M7 4v16" })))), index.h("th", { key: 'd117a5c23facc9957e787f38583a6697f4458611' }, "Hint"), index.h("th", { key: '81e974891cd2052cbac859f57122e5e0b9de5f4c' }, "A"), index.h("th", { key: '749632a916d4928644b4cc7037bc3ca1b0950af3' }, "C"), index.h("th", { key: '22cf3d18391a28deaa13fff7e2b09d3662067a05' }, "I"), index.h("th", { key: '38e1310c6e5e83a16a2a6e6bd700d1d9ae194934', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: 'adeff533a7a9bb7d02426dd6b2889205187a6cbe', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '336c3531f0831d9e2629b7fa5d2b3de422aa98ba' }, "Housekeeper"), index.h("svg", { key: 'e4952802e16194f7b2a025ab27824eccd74bd095', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'e37a799ae2485625a5e6d8a9fc016045ec0a5a93', d: "m21 16-4 4-4-4" }), index.h("path", { key: '5717e7dabe2cd8369536becf0595d257ebface09', d: "M17 20V4" }), index.h("path", { key: 'aab161d8180675ba9573d053627564d55a5d2a32', d: "m3 8 4-4 4 4" }), index.h("path", { key: '69302cb54d716c1bdbb0a8c858ebb232d8c6a9f7', d: "M7 4v16" })))))), index.h("tbody", { key: 'ef50dead269bd21d5bd030e3febe39a2bdd47778' }, this.tasks.map(task => {
             const isSelected = this.selectedIds.includes(task.id);
             return (index.h("tr", { style: { cursor: 'pointer' }, onClick: () => this.toggleSelection(task.id), class: { 'selected': isSelected, 'task-table-row': true }, key: task.id }, index.h("td", { class: "task-row" }, index.h("ir-checkbox", { checked: isSelected })), index.h("td", { class: "task-row" }, task.date), index.h("td", { class: "task-row" }, task.unit.name), index.h("td", { class: "task-row" }, task.status), index.h("td", { class: "task-row" }, task.hint), index.h("td", { class: "task-row" }, task.adult), index.h("td", { class: "task-row" }, task.child), index.h("td", { class: "task-row" }, task.infant), index.h("td", { class: "w-50 task-row", style: { textAlign: 'start' } }, task.housekeeper)));
         })))));

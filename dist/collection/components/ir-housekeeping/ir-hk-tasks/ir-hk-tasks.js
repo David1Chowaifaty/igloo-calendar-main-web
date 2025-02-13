@@ -26,6 +26,8 @@ export class IrHkTasks {
         this.tasks = [];
         this.selectedTasks = [];
         this.isSidebarOpen = undefined;
+        this.isApplyFiltersLoading = undefined;
+        this.filters = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -138,6 +140,7 @@ export class IrHkTasks {
                 return;
             }
             await this.houseKeepingService.executeHKAction({ actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id, unit_id: t.unit.id })) });
+            await this.fetchTasksWithFilters();
         }
         finally {
             this.selectedTasks = [];
@@ -145,11 +148,34 @@ export class IrHkTasks {
             this.modal.closeModal();
         }
     }
+    async applyFilters(e) {
+        try {
+            this.isApplyFiltersLoading = true;
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.filters = Object.assign({}, e.detail);
+            await this.fetchTasksWithFilters();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isApplyFiltersLoading = false;
+        }
+    }
+    async fetchTasksWithFilters() {
+        const tasks = await this.houseKeepingService.getHkTasks(Object.assign(Object.assign({}, this.filters), { property_id: this.property_id, from_date: moment().format('YYYY-MM-DD'), to_date: moment().add(2, 'days').format('YYYY-MM-DD') }));
+        if (tasks) {
+            this.updateTasks(tasks);
+        }
+    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", null), h("ir-tasks-table", { onRowSelectChange: e => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+                this.applyFilters(e);
+            } }), h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedTasks = e.detail;
@@ -255,7 +281,9 @@ export class IrHkTasks {
             "property_id": {},
             "tasks": {},
             "selectedTasks": {},
-            "isSidebarOpen": {}
+            "isSidebarOpen": {},
+            "isApplyFiltersLoading": {},
+            "filters": {}
         };
     }
     static get events() {
