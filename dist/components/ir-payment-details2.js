@@ -23,21 +23,17 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.resetExposedCancelationDueAmount = createEvent(this, "resetExposedCancelationDueAmount", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.paymentBackground = 'white';
-        this.bookingDetails = undefined;
-        this.paymentActions = undefined;
         this.newTableRow = false;
         this.collapsedPayment = false;
         this.collapsedGuarantee = false;
         this.flag = false;
         this.confirmModal = false;
-        this.toBeDeletedItem = undefined;
         this.paymentDetailsUrl = '';
         this.paymentExceptionMessage = '';
         this.modal_mode = null;
-        this.itemToBeAdded = undefined;
+        this.paymentService = new PaymentService();
+        this.bookingService = new BookingService();
+        this.paymentBackground = 'white';
     }
     handlePaymentGeneration(e) {
         const value = e.detail;

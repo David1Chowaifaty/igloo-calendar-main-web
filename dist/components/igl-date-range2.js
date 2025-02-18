@@ -15,17 +15,13 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         this.__registerHost();
         this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.totalNights = 0;
-        this.fromDateStr = 'from';
-        this.toDateStr = 'to';
-        this.defaultData = undefined;
         this.disabled = false;
-        this.minDate = undefined;
-        this.dateLabel = undefined;
-        this.maxDate = undefined;
         this.withDateDifference = true;
         this.variant = 'default';
         this.renderAgain = false;
+        this.totalNights = 0;
+        this.fromDateStr = 'from';
+        this.toDateStr = 'to';
     }
     componentWillLoad() {
         this.initializeDates();

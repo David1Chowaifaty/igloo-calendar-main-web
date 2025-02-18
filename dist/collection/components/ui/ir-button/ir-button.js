@@ -2,8 +2,6 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrButton {
     constructor() {
-        this.name = undefined;
-        this.text = undefined;
         this.icon = 'ft-save';
         this.btn_color = 'primary';
         this.size = 'md';
@@ -12,15 +10,11 @@ export class IrButton {
         this.btn_disabled = false;
         this.btn_type = 'button';
         this.isLoading = false;
-        this.btn_styles = undefined;
         this.btn_id = v4();
         this.variant = 'default';
-        this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
         this.iconPosition = 'left';
-        this.icon_style = undefined;
-        this.btnStyle = undefined;
-        this.labelStyle = undefined;
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -29,11 +23,6 @@ export class IrButton {
         }
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.buttonEl.classList.remove('bounce-3');
-        void this.buttonEl.offsetWidth;
-        this.buttonEl.classList.add('bounce-3');
-    }
-    async bounce() {
         this.buttonEl.classList.remove('bounce-3');
         void this.buttonEl.offsetWidth;
         this.buttonEl.classList.add('bounce-3');
@@ -74,6 +63,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -91,6 +82,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "text",
                 "reflect": false
             },
@@ -108,6 +101,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon",
                 "reflect": false,
                 "defaultValue": "'ft-save'"
@@ -126,6 +121,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_color",
                 "reflect": false,
                 "defaultValue": "'primary'"
@@ -144,6 +141,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -162,6 +161,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "text-size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -180,6 +181,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_block",
                 "reflect": false,
                 "defaultValue": "true"
@@ -198,6 +201,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -216,6 +221,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_type",
                 "reflect": false,
                 "defaultValue": "'button'"
@@ -234,6 +241,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-loading",
                 "reflect": false,
                 "defaultValue": "false"
@@ -252,6 +261,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_styles",
                 "reflect": false
             },
@@ -269,6 +280,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn_id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -287,6 +300,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -296,7 +311,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"calendar\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\"",
+                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -311,6 +326,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon_name",
                 "reflect": false
             },
@@ -328,6 +345,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "visible-background-on-hover",
                 "reflect": false,
                 "defaultValue": "false"
@@ -346,6 +365,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon-position",
                 "reflect": false,
                 "defaultValue": "'left'"
@@ -364,6 +385,8 @@ export class IrButton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon_style",
                 "reflect": false
             },
@@ -380,7 +403,9 @@ export class IrButton {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "labelStyle": {
                 "type": "unknown",
@@ -395,7 +420,9 @@ export class IrButton {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "renderContentAsHtml": {
                 "type": "boolean",
@@ -411,6 +438,8 @@ export class IrButton {
                     "tags": [],
                     "text": "If true, will render `content` as HTML"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "render-content-as-html",
                 "reflect": false,
                 "defaultValue": "false"
@@ -434,27 +463,6 @@ export class IrButton {
                     "references": {}
                 }
             }];
-    }
-    static get methods() {
-        return {
-            "bounce": {
-                "complexType": {
-                    "signature": "() => Promise<void>",
-                    "parameters": [],
-                    "references": {
-                        "Promise": {
-                            "location": "global",
-                            "id": "global::Promise"
-                        }
-                    },
-                    "return": "Promise<void>"
-                },
-                "docs": {
-                    "text": "",
-                    "tags": []
-                }
-            }
-        };
     }
     static get listeners() {
         return [{

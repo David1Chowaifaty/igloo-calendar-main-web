@@ -8,7 +8,6 @@ export class IrTextArea {
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = 250;
-        this.textareaClassname = undefined;
         this.variant = 'default';
         this.labelWidth = 3;
         this.error = false;
@@ -52,6 +51,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "rows",
                 "reflect": false,
                 "defaultValue": "3"
@@ -70,6 +71,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "cols",
                 "reflect": false,
                 "defaultValue": "5"
@@ -88,6 +91,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "text",
                 "reflect": false,
                 "defaultValue": "''"
@@ -106,6 +111,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false,
                 "defaultValue": "'<label>'"
@@ -124,6 +131,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false,
                 "defaultValue": "'<placeholder>'"
@@ -142,6 +151,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false,
                 "defaultValue": "''"
@@ -160,6 +171,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-length",
                 "reflect": false,
                 "defaultValue": "250"
@@ -178,6 +191,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "textarea-classname",
                 "reflect": false
             },
@@ -195,6 +210,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -213,6 +230,8 @@ export class IrTextArea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-width",
                 "reflect": false,
                 "defaultValue": "3"

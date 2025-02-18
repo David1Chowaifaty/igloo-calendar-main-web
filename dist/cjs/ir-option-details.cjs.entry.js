@@ -2,13 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
-const paymentOption_store = require('./payment-option.store-98e527da.js');
-const irInterceptor_store = require('./ir-interceptor.store-ddd4cdfb.js');
-const locales_store = require('./locales.store-4301bbe8.js');
-const turndown_browser_es = require('./turndown.browser.es-de064f1a.js');
-require('./axios-b86c5465.js');
-require('./index-5e99a1fe.js');
+const index = require('./index-aeea0adf.js');
+const paymentOption_store = require('./payment-option.store-528b2607.js');
+const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
+const locales_store = require('./locales.store-7abd65bc.js');
+const turndown_browser_es = require('./turndown.browser.es-1223c680.js');
+require('./axios-6e678d52.js');
+require('./index-3cfd4bf8.js');
 require('./_commonjsHelpers-68cdf74f.js');
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}.money-transfer-form.sc-ir-option-details{min-height:250px !important}";
@@ -19,11 +19,9 @@ const IrOptionDetails = class {
         index.registerInstance(this, hostRef);
         this.closeModal = index.createEvent(this, "closeModal", 7);
         this.toast = index.createEvent(this, "toast", 7);
-        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
-        this.propertyId = undefined;
-        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
+        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;

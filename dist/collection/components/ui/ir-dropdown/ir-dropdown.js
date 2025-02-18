@@ -47,6 +47,8 @@ export class IrDropdown {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "object": {
@@ -63,6 +65,8 @@ export class IrDropdown {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "object",
                 "reflect": true,
                 "defaultValue": "null"

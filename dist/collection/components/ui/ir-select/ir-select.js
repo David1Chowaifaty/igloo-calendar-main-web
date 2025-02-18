@@ -2,14 +2,8 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrSelect {
     constructor() {
-        this.count = 0;
-        this.name = undefined;
-        this.data = undefined;
         this.label = '<label>';
-        this.selectStyles = undefined;
-        this.selectContainerStyle = undefined;
         this.selectedValue = null;
-        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -25,6 +19,7 @@ export class IrSelect {
         this.select_id = v4();
         this.initial = true;
         this.valid = false;
+        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
@@ -63,7 +58,7 @@ export class IrSelect {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '52e9b9ecc5a0278038b32f29898c450b53a48466', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'f5f6e0a803454d183bc9dc2b590c669e32e3bafa', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: 'fb729cbf454cc787f0cadad7bbe735f2e4fea448', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'e7c42a3748059bfa9e610562bffe1f6ddc72bdd2', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -73,7 +68,7 @@ export class IrSelect {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '16bae4dabcff11a8130694dc1ed93aadfcc54ddd', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'b5d047919a2a82968e4da66bb2867dc82ba9eb73', class: "input-group row m-0" }, label, h("select", { key: '7d88b6806ec47bd7fd4ee695c55b2e851e849527', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: 'ebf4838e49e0f0ceb734879f1935b05d3ce65100', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '3335c35e23f2bcbcbc3c0580a1337bd1baab756c', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '462962f87c736fa764e30e8abad2b59772054f4b', class: "input-group row m-0" }, label, h("select", { key: '9be4f8cbb921e7d62517bcb06cdf90bc368730fa', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '374a4f78aa187eeab255ccf930962264528956e7', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -110,6 +105,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -132,7 +129,9 @@ export class IrSelect {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "label": {
                 "type": "string",
@@ -148,6 +147,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false,
                 "defaultValue": "'<label>'"
@@ -166,6 +167,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "select-styles",
                 "reflect": false
             },
@@ -183,6 +186,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "select-container-style",
                 "reflect": false
             },
@@ -200,6 +205,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "selected-value",
                 "reflect": true,
                 "defaultValue": "null"
@@ -218,6 +225,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "required",
                 "reflect": false
             },
@@ -235,6 +244,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-available",
                 "reflect": false,
                 "defaultValue": "true"
@@ -253,6 +264,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "first-option",
                 "reflect": false,
                 "defaultValue": "'Select'"
@@ -271,6 +284,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "select-style",
                 "reflect": false,
                 "defaultValue": "true"
@@ -289,6 +304,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-first-option",
                 "reflect": false,
                 "defaultValue": "true"
@@ -307,6 +324,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "submited",
                 "reflect": false,
                 "defaultValue": "false"
@@ -325,6 +344,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -343,6 +364,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "text-size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -361,6 +384,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-position",
                 "reflect": false,
                 "defaultValue": "'left'"
@@ -379,6 +404,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-background",
                 "reflect": false,
                 "defaultValue": "null"
@@ -397,6 +424,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-color",
                 "reflect": false,
                 "defaultValue": "'dark'"
@@ -415,6 +444,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-border",
                 "reflect": false,
                 "defaultValue": "'theme'"
@@ -433,6 +464,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-width",
                 "reflect": false,
                 "defaultValue": "3"
@@ -451,6 +484,8 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "select_id",
                 "reflect": false,
                 "defaultValue": "v4()"

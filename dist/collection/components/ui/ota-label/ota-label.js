@@ -3,13 +3,11 @@ import { v4 } from "uuid";
 import locales from "../../../stores/locales.store";
 export class OtaLabel {
     constructor() {
+        this.maxVisibleItems = 3;
+        this.showAll = false;
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };
-        this.label = undefined;
-        this.remarks = undefined;
-        this.maxVisibleItems = 3;
-        this.showAll = false;
     }
     render() {
         if (!this.remarks) {
@@ -46,6 +44,8 @@ export class OtaLabel {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -68,7 +68,9 @@ export class OtaLabel {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "maxVisibleItems": {
                 "type": "number",
@@ -84,6 +86,8 @@ export class OtaLabel {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-visible-items",
                 "reflect": false,
                 "defaultValue": "3"

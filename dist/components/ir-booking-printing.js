@@ -46,19 +46,13 @@ const IrBookingPrinting$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingPrin
         super();
         this.__registerHost();
         this.__attachShadow();
-        // @State() token: string;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
         this.language = 'en';
-        this.propertyid = undefined;
         this.mode = 'default';
-        this.countries = undefined;
-        this.booking = undefined;
-        this.property = undefined;
-        this.guestCountryName = undefined;
-        this.isLoading = undefined;
+        // @State() token: string;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
     }
     componentWillLoad() {
         document.body.style.background = 'white';

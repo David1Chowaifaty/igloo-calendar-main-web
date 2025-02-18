@@ -1,11 +1,8 @@
 import { Fragment, Host, h } from "@stencil/core";
 export class IrExtraServices {
-    constructor() {
-        this.booking = undefined;
-    }
     render() {
         var _a;
-        return (h(Host, { key: '5d5b4b8c096eeb6a5e23574117ab175ce795b2c1', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
+        return (h(Host, { key: '2c13c5e0d17c70776fb892ed7239753c451e2e39', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
     static get is() { return "ir-extra-services"; }
     static get encapsulation() { return "scoped"; }
@@ -44,7 +41,9 @@ export class IrExtraServices {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -5,8 +5,6 @@ export class IrCombobox {
     constructor() {
         this.data = [];
         this.duration = 300;
-        this.placeholder = undefined;
-        this.value = undefined;
         this.disabled = false;
         this.autoFocus = false;
         this.input_id = v4();
@@ -14,7 +12,6 @@ export class IrCombobox {
         this.actualIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
-        this.isItemSelected = undefined;
         this.inputValue = '';
         this.filteredData = [];
         this.componentShouldAutoFocus = false;
@@ -225,6 +222,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "duration": {
@@ -241,6 +240,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "duration",
                 "reflect": false,
                 "defaultValue": "300"
@@ -259,6 +260,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -276,6 +279,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false
             },
@@ -293,6 +298,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -311,6 +318,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-focus",
                 "reflect": false,
                 "defaultValue": "false"
@@ -329,6 +338,8 @@ export class IrCombobox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "input_id",
                 "reflect": false,
                 "defaultValue": "v4()"

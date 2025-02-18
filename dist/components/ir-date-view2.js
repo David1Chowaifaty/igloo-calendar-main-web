@@ -10,11 +10,8 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
     constructor() {
         super();
         this.__registerHost();
-        this.from_date = undefined;
-        this.to_date = undefined;
         this.showDateDifference = true;
         this.dateOption = 'YYYY-MM-DD';
-        this.dates = undefined;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -34,13 +31,13 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         this.convertDate('to_date', this.to_date);
         const fromDate = hooks(this.dates.from_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
         const toDate = hooks(this.dates.to_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
-        this.dates.date_diffrence = calculateDaysBetweenDates(fromDate, toDate);
+        this.dates.date_difference = calculateDaysBetweenDates(fromDate, toDate);
     }
     convertDate(key, date) {
         this.dates = this.dates || {
             from_date: '',
             to_date: '',
-            date_diffrence: 0,
+            date_difference: 0,
         };
         if (!date) {
             return;
@@ -59,7 +56,7 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         }
     }
     render() {
-        return (h(Host, { key: '4e08b9367287d05660cd19caa7ee97fce59078a7', class: "d-flex align-items-center" }, h("span", { key: 'bd72dde338c01fc5bb55081eb03089ced5947b54' }, this.dates.from_date), ' ', h("svg", { key: 'b595f5b85d4e07e5ec5bb0fa4c02807ab2421e2d', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '3e9849e90017b05a17e99692de8e34b89f09987a', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '592b4ece9e44cb7069215de3347ce7390e9f3f1f' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: 'aa09696c78bdb29938cadf55c2e4fc14a6ad5ca0', class: "mx-01" }, this.dates.date_diffrence, '   ', this.dates.date_diffrence > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: 'f2c65eb52caa7e6c3c20a6e3d487038fa576a82c', class: "d-flex align-items-center" }, h("span", { key: '2f3a43246d0a522a803961372d828052c216c06b' }, this.dates.from_date), ' ', h("svg", { key: 'd562bb268a0a4bf74796f76521276331058fe23e', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: 'ff5af7eed5cf47378e912d84218dcd9bffec6f36', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '9edb988899792ff0d28abafad9f80d6a867fa711' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: 'd1abc622f88e8f7679f2dfd24284b1ad6bedcf9f', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],

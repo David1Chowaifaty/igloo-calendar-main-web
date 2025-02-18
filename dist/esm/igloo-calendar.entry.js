@@ -1,16 +1,16 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-c28cfd8f.js';
-import { B as BookingService } from './booking.service-b2fe1cc2.js';
-import { f as formatLegendColors, h as hooks, a as dateToFormattedString, i as isBlockUnit, g as getNextDay, b as addTwoMonthToDate, c as convertDMYToISO, e as computeEndDate } from './utils-c6413b11.js';
-import { E as EventsService } from './events.service-c6b397b5.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-d501646a.js';
-import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-f2354caa.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import { c as calendar_data } from './calendar-data-a75c9e95.js';
-import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-e3b8f067.js';
-import { T as Token } from './Token-a382baa1.js';
-import './axios-ab377903.js';
-import './index-1d7b1ff2.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
+import { R as RoomService } from './room.service-a25b78f4.js';
+import { B as BookingService, h as calendar_dates, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking.service-d8ab95d6.js';
+import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils-d9142878.js';
+import { E as EventsService } from './events.service-4e0136b2.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-a24237b3.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { c as calendar_data } from './calendar-data-14b7fd52.js';
+import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-a8340177.js';
+import { T as Token } from './Token-acf5fbad.js';
+import './axios-aa1335b8.js';
+import './index-e42e9935.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -505,6 +505,15 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
+const nextTick = (() => {
+    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+    if (isPromiseAvailable) {
+        return (cb) => Promise.resolve().then(cb);
+    }
+    else {
+        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+    }
+})();
 const globalThisShim = (() => {
     if (typeof self !== "undefined") {
         return self;
@@ -516,6 +525,8 @@ const globalThisShim = (() => {
         return Function("return this")();
     }
 })();
+const defaultBinaryType = "arraybuffer";
+function createCookieJar() { }
 
 function pick(obj, ...attr) {
     return attr.reduce((acc, k) => {
@@ -568,6 +579,13 @@ function utf8Length(str) {
     }
     return length;
 }
+/**
+ * Generates a random 8-characters string.
+ */
+function randomString() {
+    return (Date.now().toString(36).substring(3) +
+        Math.random().toString(36).substring(2, 5));
+}
 
 // imported from https://github.com/galkn/querystring
 /**
@@ -577,7 +595,7 @@ function utf8Length(str) {
  * @param {Object}
  * @api private
  */
-function encode$1(obj) {
+function encode(obj) {
     let str = '';
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
@@ -626,6 +644,7 @@ class Transport extends Emitter {
         this.opts = opts;
         this.query = opts.query;
         this.socket = opts.socket;
+        this.supportsBinary = !opts.forceBase64;
     }
     /**
      * Emits an error.
@@ -734,115 +753,15 @@ class Transport extends Emitter {
         }
     }
     _query(query) {
-        const encodedQuery = encode$1(query);
+        const encodedQuery = encode(query);
         return encodedQuery.length ? "?" + encodedQuery : "";
     }
 }
 
-// imported from https://github.com/unshiftio/yeast
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split(''), length = 64, map = {};
-let seed = 0, i = 0, prev;
-/**
- * Return a string representing the specified number.
- *
- * @param {Number} num The number to convert.
- * @returns {String} The string representation of the number.
- * @api public
- */
-function encode(num) {
-    let encoded = '';
-    do {
-        encoded = alphabet[num % length] + encoded;
-        num = Math.floor(num / length);
-    } while (num > 0);
-    return encoded;
-}
-/**
- * Yeast: A tiny growing id generator.
- *
- * @returns {String} A unique id.
- * @api public
- */
-function yeast() {
-    const now = encode(+new Date());
-    if (now !== prev)
-        return seed = 0, prev = now;
-    return now + '.' + encode(seed++);
-}
-//
-// Map each character to its index.
-//
-for (; i < length; i++)
-    map[alphabet[i]] = i;
-
-// imported from https://github.com/component/has-cors
-let value = false;
-try {
-    value = typeof XMLHttpRequest !== 'undefined' &&
-        'withCredentials' in new XMLHttpRequest();
-}
-catch (err) {
-    // if XMLHttp support is disabled in IE then it will throw
-    // when trying to create
-}
-const hasCORS = value;
-
-// browser shim for xmlhttprequest module
-function XHR(opts) {
-    const xdomain = opts.xdomain;
-    // XMLHttpRequest can be disabled on IE
-    try {
-        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
-            return new XMLHttpRequest();
-        }
-    }
-    catch (e) { }
-    if (!xdomain) {
-        try {
-            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
-        }
-        catch (e) { }
-    }
-}
-function createCookieJar() { }
-
-function empty() { }
-const hasXHR2 = (function () {
-    const xhr = new XHR({
-        xdomain: false,
-    });
-    return null != xhr.responseType;
-})();
 class Polling extends Transport {
-    /**
-     * XHR Polling constructor.
-     *
-     * @param {Object} opts
-     * @package
-     */
-    constructor(opts) {
-        super(opts);
-        this.polling = false;
-        if (typeof location !== "undefined") {
-            const isSSL = "https:" === location.protocol;
-            let port = location.port;
-            // some user agents have empty `location.port`
-            if (!port) {
-                port = isSSL ? "443" : "80";
-            }
-            this.xd =
-                (typeof location !== "undefined" &&
-                    opts.hostname !== location.hostname) ||
-                    port !== opts.port;
-        }
-        /**
-         * XHR supports binary
-         */
-        const forceBase64 = opts && opts.forceBase64;
-        this.supportsBinary = hasXHR2 && !forceBase64;
-        if (this.opts.withCredentials) {
-            this.cookieJar = createCookieJar();
-        }
+    constructor() {
+        super(...arguments);
+        this._polling = false;
     }
     get name() {
         return "polling";
@@ -854,7 +773,7 @@ class Polling extends Transport {
      * @protected
      */
     doOpen() {
-        this.poll();
+        this._poll();
     }
     /**
      * Pauses polling.
@@ -868,9 +787,9 @@ class Polling extends Transport {
             this.readyState = "paused";
             onPause();
         };
-        if (this.polling || !this.writable) {
+        if (this._polling || !this.writable) {
             let total = 0;
-            if (this.polling) {
+            if (this._polling) {
                 total++;
                 this.once("pollComplete", function () {
                     --total || pause();
@@ -892,8 +811,8 @@ class Polling extends Transport {
      *
      * @private
      */
-    poll() {
-        this.polling = true;
+    _poll() {
+        this._polling = true;
         this.doPoll();
         this.emitReserved("poll");
     }
@@ -921,10 +840,10 @@ class Polling extends Transport {
         // if an event did not trigger closing
         if ("closed" !== this.readyState) {
             // if we got data we're not polling
-            this.polling = false;
+            this._polling = false;
             this.emitReserved("pollComplete");
             if ("open" === this.readyState) {
-                this.poll();
+                this._poll();
             }
         }
     }
@@ -971,22 +890,49 @@ class Polling extends Transport {
         const query = this.query || {};
         // cache busting is forced
         if (false !== this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = yeast();
+            query[this.opts.timestampParam] = randomString();
         }
         if (!this.supportsBinary && !query.sid) {
             query.b64 = 1;
         }
         return this.createUri(schema, query);
     }
+}
+
+// imported from https://github.com/component/has-cors
+let value = false;
+try {
+    value = typeof XMLHttpRequest !== 'undefined' &&
+        'withCredentials' in new XMLHttpRequest();
+}
+catch (err) {
+    // if XMLHttp support is disabled in IE then it will throw
+    // when trying to create
+}
+const hasCORS = value;
+
+function empty() { }
+class BaseXHR extends Polling {
     /**
-     * Creates a request.
+     * XHR Polling constructor.
      *
-     * @param {String} method
-     * @private
+     * @param {Object} opts
+     * @package
      */
-    request(opts = {}) {
-        Object.assign(opts, { xd: this.xd, cookieJar: this.cookieJar }, this.opts);
-        return new Request(this.uri(), opts);
+    constructor(opts) {
+        super(opts);
+        if (typeof location !== "undefined") {
+            const isSSL = "https:" === location.protocol;
+            let port = location.port;
+            // some user agents have empty `location.port`
+            if (!port) {
+                port = isSSL ? "443" : "80";
+            }
+            this.xd =
+                (typeof location !== "undefined" &&
+                    opts.hostname !== location.hostname) ||
+                    port !== opts.port;
+        }
     }
     /**
      * Sends data.
@@ -1026,39 +972,41 @@ class Request extends Emitter {
      * @param {Object} options
      * @package
      */
-    constructor(uri, opts) {
+    constructor(createRequest, uri, opts) {
         super();
+        this.createRequest = createRequest;
         installTimerFunctions(this, opts);
-        this.opts = opts;
-        this.method = opts.method || "GET";
-        this.uri = uri;
-        this.data = undefined !== opts.data ? opts.data : null;
-        this.create();
+        this._opts = opts;
+        this._method = opts.method || "GET";
+        this._uri = uri;
+        this._data = undefined !== opts.data ? opts.data : null;
+        this._create();
     }
     /**
      * Creates the XHR object and sends the request.
      *
      * @private
      */
-    create() {
+    _create() {
         var _a;
-        const opts = pick(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
-        opts.xdomain = !!this.opts.xd;
-        const xhr = (this.xhr = new XHR(opts));
+        const opts = pick(this._opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+        opts.xdomain = !!this._opts.xd;
+        const xhr = (this._xhr = this.createRequest(opts));
         try {
-            xhr.open(this.method, this.uri, true);
+            xhr.open(this._method, this._uri, true);
             try {
-                if (this.opts.extraHeaders) {
+                if (this._opts.extraHeaders) {
+                    // @ts-ignore
                     xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
-                    for (let i in this.opts.extraHeaders) {
-                        if (this.opts.extraHeaders.hasOwnProperty(i)) {
-                            xhr.setRequestHeader(i, this.opts.extraHeaders[i]);
+                    for (let i in this._opts.extraHeaders) {
+                        if (this._opts.extraHeaders.hasOwnProperty(i)) {
+                            xhr.setRequestHeader(i, this._opts.extraHeaders[i]);
                         }
                     }
                 }
             }
             catch (e) { }
-            if ("POST" === this.method) {
+            if ("POST" === this._method) {
                 try {
                     xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
                 }
@@ -1068,46 +1016,48 @@ class Request extends Emitter {
                 xhr.setRequestHeader("Accept", "*/*");
             }
             catch (e) { }
-            (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
+            (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
             // ie6 check
             if ("withCredentials" in xhr) {
-                xhr.withCredentials = this.opts.withCredentials;
+                xhr.withCredentials = this._opts.withCredentials;
             }
-            if (this.opts.requestTimeout) {
-                xhr.timeout = this.opts.requestTimeout;
+            if (this._opts.requestTimeout) {
+                xhr.timeout = this._opts.requestTimeout;
             }
             xhr.onreadystatechange = () => {
                 var _a;
                 if (xhr.readyState === 3) {
-                    (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(xhr);
+                    (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(
+                    // @ts-ignore
+                    xhr.getResponseHeader("set-cookie"));
                 }
                 if (4 !== xhr.readyState)
                     return;
                 if (200 === xhr.status || 1223 === xhr.status) {
-                    this.onLoad();
+                    this._onLoad();
                 }
                 else {
                     // make sure the `error` event handler that's user-set
                     // does not throw in the same tick and gets caught here
                     this.setTimeoutFn(() => {
-                        this.onError(typeof xhr.status === "number" ? xhr.status : 0);
+                        this._onError(typeof xhr.status === "number" ? xhr.status : 0);
                     }, 0);
                 }
             };
-            xhr.send(this.data);
+            xhr.send(this._data);
         }
         catch (e) {
             // Need to defer since .create() is called directly from the constructor
             // and thus the 'error' event can only be only bound *after* this exception
             // occurs.  Therefore, also, we cannot throw here at all.
             this.setTimeoutFn(() => {
-                this.onError(e);
+                this._onError(e);
             }, 0);
             return;
         }
         if (typeof document !== "undefined") {
-            this.index = Request.requestsCount++;
-            Request.requests[this.index] = this;
+            this._index = Request.requestsCount++;
+            Request.requests[this._index] = this;
         }
     }
     /**
@@ -1115,42 +1065,42 @@ class Request extends Emitter {
      *
      * @private
      */
-    onError(err) {
-        this.emitReserved("error", err, this.xhr);
-        this.cleanup(true);
+    _onError(err) {
+        this.emitReserved("error", err, this._xhr);
+        this._cleanup(true);
     }
     /**
      * Cleans up house.
      *
      * @private
      */
-    cleanup(fromError) {
-        if ("undefined" === typeof this.xhr || null === this.xhr) {
+    _cleanup(fromError) {
+        if ("undefined" === typeof this._xhr || null === this._xhr) {
             return;
         }
-        this.xhr.onreadystatechange = empty;
+        this._xhr.onreadystatechange = empty;
         if (fromError) {
             try {
-                this.xhr.abort();
+                this._xhr.abort();
             }
             catch (e) { }
         }
         if (typeof document !== "undefined") {
-            delete Request.requests[this.index];
+            delete Request.requests[this._index];
         }
-        this.xhr = null;
+        this._xhr = null;
     }
     /**
      * Called upon load.
      *
      * @private
      */
-    onLoad() {
-        const data = this.xhr.responseText;
+    _onLoad() {
+        const data = this._xhr.responseText;
         if (data !== null) {
             this.emitReserved("data", data);
             this.emitReserved("success");
-            this.cleanup();
+            this._cleanup();
         }
     }
     /**
@@ -1159,7 +1109,7 @@ class Request extends Emitter {
      * @package
      */
     abort() {
-        this.cleanup();
+        this._cleanup();
     }
 }
 Request.requestsCount = 0;
@@ -1187,42 +1137,56 @@ function unloadHandler() {
         }
     }
 }
-
-const nextTick = (() => {
-    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
-    if (isPromiseAvailable) {
-        return (cb) => Promise.resolve().then(cb);
-    }
-    else {
-        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
-    }
+const hasXHR2 = (function () {
+    const xhr = newRequest({
+        xdomain: false,
+    });
+    return xhr && xhr.responseType !== null;
 })();
-const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
-const defaultBinaryType = "arraybuffer";
+/**
+ * HTTP long-polling based on the built-in `XMLHttpRequest` object.
+ *
+ * Usage: browser
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+ */
+class XHR extends BaseXHR {
+    constructor(opts) {
+        super(opts);
+        const forceBase64 = opts && opts.forceBase64;
+        this.supportsBinary = hasXHR2 && !forceBase64;
+    }
+    request(opts = {}) {
+        Object.assign(opts, { xd: this.xd }, this.opts);
+        return new Request(newRequest, this.uri(), opts);
+    }
+}
+function newRequest(opts) {
+    const xdomain = opts.xdomain;
+    // XMLHttpRequest can be disabled on IE
+    try {
+        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+            return new XMLHttpRequest();
+        }
+    }
+    catch (e) { }
+    if (!xdomain) {
+        try {
+            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+        }
+        catch (e) { }
+    }
+}
 
 // detect ReactNative environment
 const isReactNative = typeof navigator !== "undefined" &&
     typeof navigator.product === "string" &&
     navigator.product.toLowerCase() === "reactnative";
-class WS extends Transport {
-    /**
-     * WebSocket transport constructor.
-     *
-     * @param {Object} opts - connection options
-     * @protected
-     */
-    constructor(opts) {
-        super(opts);
-        this.supportsBinary = !opts.forceBase64;
-    }
+class BaseWS extends Transport {
     get name() {
         return "websocket";
     }
     doOpen() {
-        if (!this.check()) {
-            // let probe timeout
-            return;
-        }
         const uri = this.uri();
         const protocols = this.opts.protocols;
         // React Native only supports the 'headers' option, and will print a warning if anything else is passed
@@ -1233,12 +1197,7 @@ class WS extends Transport {
             opts.headers = this.opts.extraHeaders;
         }
         try {
-            this.ws =
-                !isReactNative
-                    ? protocols
-                        ? new WebSocket(uri, protocols)
-                        : new WebSocket(uri)
-                    : new WebSocket(uri, protocols, opts);
+            this.ws = this.createSocket(uri, protocols, opts);
         }
         catch (err) {
             return this.emitReserved("error", err);
@@ -1277,10 +1236,7 @@ class WS extends Transport {
                 // have a chance of informing us about it yet, in that case send will
                 // throw an error
                 try {
-                    {
-                        // TypeError is thrown when passing the second argument on Safari
-                        this.ws.send(data);
-                    }
+                    this.doWrite(packet, data);
                 }
                 catch (e) {
                 }
@@ -1297,6 +1253,7 @@ class WS extends Transport {
     }
     doClose() {
         if (typeof this.ws !== "undefined") {
+            this.ws.onerror = () => { };
             this.ws.close();
             this.ws = null;
         }
@@ -1311,7 +1268,7 @@ class WS extends Transport {
         const query = this.query || {};
         // append timestamp to URI
         if (this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = yeast();
+            query[this.opts.timestampParam] = randomString();
         }
         // communicate binary support capabilities
         if (!this.supportsBinary) {
@@ -1319,29 +1276,51 @@ class WS extends Transport {
         }
         return this.createUri(schema, query);
     }
-    /**
-     * Feature detection for WebSocket.
-     *
-     * @return {Boolean} whether this transport is available.
-     * @private
-     */
-    check() {
-        return !!WebSocket;
+}
+const WebSocketCtor = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+/**
+ * WebSocket transport based on the built-in `WebSocket` object.
+ *
+ * Usage: browser, Node.js (since v21), Deno, Bun
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+ * @see https://caniuse.com/mdn-api_websocket
+ * @see https://nodejs.org/api/globals.html#websocket
+ */
+class WS extends BaseWS {
+    createSocket(uri, protocols, opts) {
+        return !isReactNative
+            ? protocols
+                ? new WebSocketCtor(uri, protocols)
+                : new WebSocketCtor(uri)
+            : new WebSocketCtor(uri, protocols, opts);
+    }
+    doWrite(_packet, data) {
+        this.ws.send(data);
     }
 }
 
+/**
+ * WebTransport transport based on the built-in `WebTransport` object.
+ *
+ * Usage: browser, Node.js (with the `@fails-components/webtransport` package)
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebTransport
+ * @see https://caniuse.com/webtransport
+ */
 class WT extends Transport {
     get name() {
         return "webtransport";
     }
     doOpen() {
-        // @ts-ignore
-        if (typeof WebTransport !== "function") {
-            return;
+        try {
+            // @ts-ignore
+            this._transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
         }
-        // @ts-ignore
-        this.transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
-        this.transport.closed
+        catch (err) {
+            return this.emitReserved("error", err);
+        }
+        this._transport.closed
             .then(() => {
             this.onClose();
         })
@@ -1349,13 +1328,13 @@ class WT extends Transport {
             this.onError("webtransport error", err);
         });
         // note: we could have used async/await, but that would require some additional polyfills
-        this.transport.ready.then(() => {
-            this.transport.createBidirectionalStream().then((stream) => {
+        this._transport.ready.then(() => {
+            this._transport.createBidirectionalStream().then((stream) => {
                 const decoderStream = createPacketDecoderStream(Number.MAX_SAFE_INTEGER, this.socket.binaryType);
                 const reader = stream.readable.pipeThrough(decoderStream).getReader();
                 const encoderStream = createPacketEncoderStream();
                 encoderStream.readable.pipeTo(stream.writable);
-                this.writer = encoderStream.writable.getWriter();
+                this._writer = encoderStream.writable.getWriter();
                 const read = () => {
                     reader
                         .read()
@@ -1374,7 +1353,7 @@ class WT extends Transport {
                 if (this.query.sid) {
                     packet.data = `{"sid":"${this.query.sid}"}`;
                 }
-                this.writer.write(packet).then(() => this.onOpen());
+                this._writer.write(packet).then(() => this.onOpen());
             });
         });
     }
@@ -1383,7 +1362,7 @@ class WT extends Transport {
         for (let i = 0; i < packets.length; i++) {
             const packet = packets[i];
             const lastPacket = i === packets.length - 1;
-            this.writer.write(packet).then(() => {
+            this._writer.write(packet).then(() => {
                 if (lastPacket) {
                     nextTick(() => {
                         this.writable = true;
@@ -1395,14 +1374,14 @@ class WT extends Transport {
     }
     doClose() {
         var _a;
-        (_a = this.transport) === null || _a === void 0 ? void 0 : _a.close();
+        (_a = this._transport) === null || _a === void 0 ? void 0 : _a.close();
     }
 }
 
 const transports = {
     websocket: WS,
     webtransport: WT,
-    polling: Polling,
+    polling: XHR,
 };
 
 // imported from https://github.com/galkn/parseuri
@@ -1429,7 +1408,7 @@ const parts = [
     'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
 ];
 function parse(str) {
-    if (str.length > 2000) {
+    if (str.length > 8000) {
         throw "URI too long";
     }
     const src = str, b = str.indexOf('['), e = str.indexOf(']');
@@ -1470,28 +1449,71 @@ function queryKey(uri, query) {
     return data;
 }
 
-class Socket$1 extends Emitter {
+const withEventListeners = typeof addEventListener === "function" &&
+    typeof removeEventListener === "function";
+const OFFLINE_EVENT_LISTENERS = [];
+if (withEventListeners) {
+    // within a ServiceWorker, any event handler for the 'offline' event must be added on the initial evaluation of the
+    // script, so we create one single event listener here which will forward the event to the socket instances
+    addEventListener("offline", () => {
+        OFFLINE_EVENT_LISTENERS.forEach((listener) => listener());
+    }, false);
+}
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes without upgrade mechanism, which means that it will keep the first low-level transport that
+ * successfully establishes the connection.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithoutUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithoutUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithUpgrade
+ * @see Socket
+ */
+class SocketWithoutUpgrade extends Emitter {
     /**
      * Socket constructor.
      *
      * @param {String|Object} uri - uri or options
      * @param {Object} opts - options
      */
-    constructor(uri, opts = {}) {
+    constructor(uri, opts) {
         super();
         this.binaryType = defaultBinaryType;
         this.writeBuffer = [];
+        this._prevBufferLen = 0;
+        this._pingInterval = -1;
+        this._pingTimeout = -1;
+        this._maxPayload = -1;
+        /**
+         * The expiration timestamp of the {@link _pingTimeoutTimer} object is tracked, in case the timer is throttled and the
+         * callback is not fired on time. This can happen for example when a laptop is suspended or when a phone is locked.
+         */
+        this._pingTimeoutTime = Infinity;
         if (uri && "object" === typeof uri) {
             opts = uri;
             uri = null;
         }
         if (uri) {
-            uri = parse(uri);
-            opts.hostname = uri.host;
-            opts.secure = uri.protocol === "https" || uri.protocol === "wss";
-            opts.port = uri.port;
-            if (uri.query)
-                opts.query = uri.query;
+            const parsedUri = parse(uri);
+            opts.hostname = parsedUri.host;
+            opts.secure =
+                parsedUri.protocol === "https" || parsedUri.protocol === "wss";
+            opts.port = parsedUri.port;
+            if (parsedUri.query)
+                opts.query = parsedUri.query;
         }
         else if (opts.host) {
             opts.hostname = parse(opts.host).host;
@@ -1515,13 +1537,13 @@ class Socket$1 extends Emitter {
                     : this.secure
                         ? "443"
                         : "80");
-        this.transports = opts.transports || [
-            "polling",
-            "websocket",
-            "webtransport",
-        ];
-        this.writeBuffer = [];
-        this.prevBufferLen = 0;
+        this.transports = [];
+        this._transportsByName = {};
+        opts.transports.forEach((t) => {
+            const transportName = t.prototype.name;
+            this.transports.push(transportName);
+            this._transportsByName[transportName] = t;
+        });
         this.opts = Object.assign({
             path: "/engine.io",
             agent: false,
@@ -1543,37 +1565,33 @@ class Socket$1 extends Emitter {
         if (typeof this.opts.query === "string") {
             this.opts.query = decode(this.opts.query);
         }
-        // set on handshake
-        this.id = null;
-        this.upgrades = null;
-        this.pingInterval = null;
-        this.pingTimeout = null;
-        // set on heartbeat
-        this.pingTimeoutTimer = null;
-        if (typeof addEventListener === "function") {
+        if (withEventListeners) {
             if (this.opts.closeOnBeforeunload) {
                 // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
                 // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
                 // closed/reloaded)
-                this.beforeunloadEventListener = () => {
+                this._beforeunloadEventListener = () => {
                     if (this.transport) {
                         // silently close the transport
                         this.transport.removeAllListeners();
                         this.transport.close();
                     }
                 };
-                addEventListener("beforeunload", this.beforeunloadEventListener, false);
+                addEventListener("beforeunload", this._beforeunloadEventListener, false);
             }
             if (this.hostname !== "localhost") {
-                this.offlineEventListener = () => {
-                    this.onClose("transport close", {
+                this._offlineEventListener = () => {
+                    this._onClose("transport close", {
                         description: "network connection lost",
                     });
                 };
-                addEventListener("offline", this.offlineEventListener, false);
+                OFFLINE_EVENT_LISTENERS.push(this._offlineEventListener);
             }
         }
-        this.open();
+        if (this.opts.withCredentials) {
+            this._cookieJar = createCookieJar();
+        }
+        this._open();
     }
     /**
      * Creates transport of the given type.
@@ -1598,40 +1616,28 @@ class Socket$1 extends Emitter {
             secure: this.secure,
             port: this.port,
         }, this.opts.transportOptions[name]);
-        return new transports[name](opts);
+        return new this._transportsByName[name](opts);
     }
     /**
      * Initializes transport to use and starts probe.
      *
      * @private
      */
-    open() {
-        let transport;
-        if (this.opts.rememberUpgrade &&
-            Socket$1.priorWebsocketSuccess &&
-            this.transports.indexOf("websocket") !== -1) {
-            transport = "websocket";
-        }
-        else if (0 === this.transports.length) {
+    _open() {
+        if (this.transports.length === 0) {
             // Emit error on next tick so it can be listened to
             this.setTimeoutFn(() => {
                 this.emitReserved("error", "No transports available");
             }, 0);
             return;
         }
-        else {
-            transport = this.transports[0];
-        }
+        const transportName = this.opts.rememberUpgrade &&
+            SocketWithoutUpgrade.priorWebsocketSuccess &&
+            this.transports.indexOf("websocket") !== -1
+            ? "websocket"
+            : this.transports[0];
         this.readyState = "opening";
-        // Retry with the next transport if the transport is disabled (jsonp: false)
-        try {
-            transport = this.createTransport(transport);
-        }
-        catch (e) {
-            this.transports.shift();
-            this.open();
-            return;
-        }
+        const transport = this.createTransport(transportName);
         transport.open();
         this.setTransport(transport);
     }
@@ -1648,10 +1654,366 @@ class Socket$1 extends Emitter {
         this.transport = transport;
         // set up transport listeners
         transport
-            .on("drain", this.onDrain.bind(this))
-            .on("packet", this.onPacket.bind(this))
-            .on("error", this.onError.bind(this))
-            .on("close", (reason) => this.onClose("transport close", reason));
+            .on("drain", this._onDrain.bind(this))
+            .on("packet", this._onPacket.bind(this))
+            .on("error", this._onError.bind(this))
+            .on("close", (reason) => this._onClose("transport close", reason));
+    }
+    /**
+     * Called when connection is deemed open.
+     *
+     * @private
+     */
+    onOpen() {
+        this.readyState = "open";
+        SocketWithoutUpgrade.priorWebsocketSuccess =
+            "websocket" === this.transport.name;
+        this.emitReserved("open");
+        this.flush();
+    }
+    /**
+     * Handles a packet.
+     *
+     * @private
+     */
+    _onPacket(packet) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            this.emitReserved("packet", packet);
+            // Socket is live - any packet counts
+            this.emitReserved("heartbeat");
+            switch (packet.type) {
+                case "open":
+                    this.onHandshake(JSON.parse(packet.data));
+                    break;
+                case "ping":
+                    this._sendPacket("pong");
+                    this.emitReserved("ping");
+                    this.emitReserved("pong");
+                    this._resetPingTimeout();
+                    break;
+                case "error":
+                    const err = new Error("server error");
+                    // @ts-ignore
+                    err.code = packet.data;
+                    this._onError(err);
+                    break;
+                case "message":
+                    this.emitReserved("data", packet.data);
+                    this.emitReserved("message", packet.data);
+                    break;
+            }
+        }
+    }
+    /**
+     * Called upon handshake completion.
+     *
+     * @param {Object} data - handshake obj
+     * @private
+     */
+    onHandshake(data) {
+        this.emitReserved("handshake", data);
+        this.id = data.sid;
+        this.transport.query.sid = data.sid;
+        this._pingInterval = data.pingInterval;
+        this._pingTimeout = data.pingTimeout;
+        this._maxPayload = data.maxPayload;
+        this.onOpen();
+        // In case open handler closes socket
+        if ("closed" === this.readyState)
+            return;
+        this._resetPingTimeout();
+    }
+    /**
+     * Sets and resets ping timeout timer based on server pings.
+     *
+     * @private
+     */
+    _resetPingTimeout() {
+        this.clearTimeoutFn(this._pingTimeoutTimer);
+        const delay = this._pingInterval + this._pingTimeout;
+        this._pingTimeoutTime = Date.now() + delay;
+        this._pingTimeoutTimer = this.setTimeoutFn(() => {
+            this._onClose("ping timeout");
+        }, delay);
+        if (this.opts.autoUnref) {
+            this._pingTimeoutTimer.unref();
+        }
+    }
+    /**
+     * Called on `drain` event
+     *
+     * @private
+     */
+    _onDrain() {
+        this.writeBuffer.splice(0, this._prevBufferLen);
+        // setting prevBufferLen = 0 is very important
+        // for example, when upgrading, upgrade packet is sent over,
+        // and a nonzero prevBufferLen could cause problems on `drain`
+        this._prevBufferLen = 0;
+        if (0 === this.writeBuffer.length) {
+            this.emitReserved("drain");
+        }
+        else {
+            this.flush();
+        }
+    }
+    /**
+     * Flush write buffers.
+     *
+     * @private
+     */
+    flush() {
+        if ("closed" !== this.readyState &&
+            this.transport.writable &&
+            !this.upgrading &&
+            this.writeBuffer.length) {
+            const packets = this._getWritablePackets();
+            this.transport.send(packets);
+            // keep track of current length of writeBuffer
+            // splice writeBuffer and callbackBuffer on `drain`
+            this._prevBufferLen = packets.length;
+            this.emitReserved("flush");
+        }
+    }
+    /**
+     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+     * long-polling)
+     *
+     * @private
+     */
+    _getWritablePackets() {
+        const shouldCheckPayloadSize = this._maxPayload &&
+            this.transport.name === "polling" &&
+            this.writeBuffer.length > 1;
+        if (!shouldCheckPayloadSize) {
+            return this.writeBuffer;
+        }
+        let payloadSize = 1; // first packet type
+        for (let i = 0; i < this.writeBuffer.length; i++) {
+            const data = this.writeBuffer[i].data;
+            if (data) {
+                payloadSize += byteLength(data);
+            }
+            if (i > 0 && payloadSize > this._maxPayload) {
+                return this.writeBuffer.slice(0, i);
+            }
+            payloadSize += 2; // separator + packet type
+        }
+        return this.writeBuffer;
+    }
+    /**
+     * Checks whether the heartbeat timer has expired but the socket has not yet been notified.
+     *
+     * Note: this method is private for now because it does not really fit the WebSocket API, but if we put it in the
+     * `write()` method then the message would not be buffered by the Socket.IO client.
+     *
+     * @return {boolean}
+     * @private
+     */
+    /* private */ _hasPingExpired() {
+        if (!this._pingTimeoutTime)
+            return true;
+        const hasExpired = Date.now() > this._pingTimeoutTime;
+        if (hasExpired) {
+            this._pingTimeoutTime = 0;
+            nextTick(() => {
+                this._onClose("ping timeout");
+            }, this.setTimeoutFn);
+        }
+        return hasExpired;
+    }
+    /**
+     * Sends a message.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    write(msg, options, fn) {
+        this._sendPacket("message", msg, options, fn);
+        return this;
+    }
+    /**
+     * Sends a message. Alias of {@link Socket#write}.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    send(msg, options, fn) {
+        this._sendPacket("message", msg, options, fn);
+        return this;
+    }
+    /**
+     * Sends a packet.
+     *
+     * @param {String} type: packet type.
+     * @param {String} data.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @private
+     */
+    _sendPacket(type, data, options, fn) {
+        if ("function" === typeof data) {
+            fn = data;
+            data = undefined;
+        }
+        if ("function" === typeof options) {
+            fn = options;
+            options = null;
+        }
+        if ("closing" === this.readyState || "closed" === this.readyState) {
+            return;
+        }
+        options = options || {};
+        options.compress = false !== options.compress;
+        const packet = {
+            type: type,
+            data: data,
+            options: options,
+        };
+        this.emitReserved("packetCreate", packet);
+        this.writeBuffer.push(packet);
+        if (fn)
+            this.once("flush", fn);
+        this.flush();
+    }
+    /**
+     * Closes the connection.
+     */
+    close() {
+        const close = () => {
+            this._onClose("forced close");
+            this.transport.close();
+        };
+        const cleanupAndClose = () => {
+            this.off("upgrade", cleanupAndClose);
+            this.off("upgradeError", cleanupAndClose);
+            close();
+        };
+        const waitForUpgrade = () => {
+            // wait for upgrade to finish since we can't send packets while pausing a transport
+            this.once("upgrade", cleanupAndClose);
+            this.once("upgradeError", cleanupAndClose);
+        };
+        if ("opening" === this.readyState || "open" === this.readyState) {
+            this.readyState = "closing";
+            if (this.writeBuffer.length) {
+                this.once("drain", () => {
+                    if (this.upgrading) {
+                        waitForUpgrade();
+                    }
+                    else {
+                        close();
+                    }
+                });
+            }
+            else if (this.upgrading) {
+                waitForUpgrade();
+            }
+            else {
+                close();
+            }
+        }
+        return this;
+    }
+    /**
+     * Called upon transport error
+     *
+     * @private
+     */
+    _onError(err) {
+        SocketWithoutUpgrade.priorWebsocketSuccess = false;
+        if (this.opts.tryAllTransports &&
+            this.transports.length > 1 &&
+            this.readyState === "opening") {
+            this.transports.shift();
+            return this._open();
+        }
+        this.emitReserved("error", err);
+        this._onClose("transport error", err);
+    }
+    /**
+     * Called upon transport close.
+     *
+     * @private
+     */
+    _onClose(reason, description) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            // clear timers
+            this.clearTimeoutFn(this._pingTimeoutTimer);
+            // stop event from firing again for transport
+            this.transport.removeAllListeners("close");
+            // ensure transport won't stay open
+            this.transport.close();
+            // ignore further transport communication
+            this.transport.removeAllListeners();
+            if (withEventListeners) {
+                if (this._beforeunloadEventListener) {
+                    removeEventListener("beforeunload", this._beforeunloadEventListener, false);
+                }
+                if (this._offlineEventListener) {
+                    const i = OFFLINE_EVENT_LISTENERS.indexOf(this._offlineEventListener);
+                    if (i !== -1) {
+                        OFFLINE_EVENT_LISTENERS.splice(i, 1);
+                    }
+                }
+            }
+            // set ready state
+            this.readyState = "closed";
+            // clear session id
+            this.id = null;
+            // emit close event
+            this.emitReserved("close", reason, description);
+            // clean buffers after, so users can still
+            // grab the buffers on `close` event
+            this.writeBuffer = [];
+            this._prevBufferLen = 0;
+        }
+    }
+}
+SocketWithoutUpgrade.protocol = protocol$1;
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see Socket
+ */
+class SocketWithUpgrade extends SocketWithoutUpgrade {
+    constructor() {
+        super(...arguments);
+        this._upgrades = [];
+    }
+    onOpen() {
+        super.onOpen();
+        if ("open" === this.readyState && this.opts.upgrade) {
+            for (let i = 0; i < this._upgrades.length; i++) {
+                this._probe(this._upgrades[i]);
+            }
+        }
     }
     /**
      * Probes a transport.
@@ -1659,10 +2021,10 @@ class Socket$1 extends Emitter {
      * @param {String} name - transport name
      * @private
      */
-    probe(name) {
+    _probe(name) {
         let transport = this.createTransport(name);
         let failed = false;
-        Socket$1.priorWebsocketSuccess = false;
+        SocketWithoutUpgrade.priorWebsocketSuccess = false;
         const onTransportOpen = () => {
             if (failed)
                 return;
@@ -1675,7 +2037,8 @@ class Socket$1 extends Emitter {
                     this.emitReserved("upgrading", transport);
                     if (!transport)
                         return;
-                    Socket$1.priorWebsocketSuccess = "websocket" === transport.name;
+                    SocketWithoutUpgrade.priorWebsocketSuccess =
+                        "websocket" === transport.name;
                     this.transport.pause(() => {
                         if (failed)
                             return;
@@ -1741,7 +2104,7 @@ class Socket$1 extends Emitter {
         transport.once("close", onTransportClose);
         this.once("close", onclose);
         this.once("upgrading", onupgrade);
-        if (this.upgrades.indexOf("webtransport") !== -1 &&
+        if (this._upgrades.indexOf("webtransport") !== -1 &&
             name !== "webtransport") {
             // favor WebTransport
             this.setTimeoutFn(() => {
@@ -1754,288 +2117,9 @@ class Socket$1 extends Emitter {
             transport.open();
         }
     }
-    /**
-     * Called when connection is deemed open.
-     *
-     * @private
-     */
-    onOpen() {
-        this.readyState = "open";
-        Socket$1.priorWebsocketSuccess = "websocket" === this.transport.name;
-        this.emitReserved("open");
-        this.flush();
-        // we check for `readyState` in case an `open`
-        // listener already closed the socket
-        if ("open" === this.readyState && this.opts.upgrade) {
-            let i = 0;
-            const l = this.upgrades.length;
-            for (; i < l; i++) {
-                this.probe(this.upgrades[i]);
-            }
-        }
-    }
-    /**
-     * Handles a packet.
-     *
-     * @private
-     */
-    onPacket(packet) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            this.emitReserved("packet", packet);
-            // Socket is live - any packet counts
-            this.emitReserved("heartbeat");
-            this.resetPingTimeout();
-            switch (packet.type) {
-                case "open":
-                    this.onHandshake(JSON.parse(packet.data));
-                    break;
-                case "ping":
-                    this.sendPacket("pong");
-                    this.emitReserved("ping");
-                    this.emitReserved("pong");
-                    break;
-                case "error":
-                    const err = new Error("server error");
-                    // @ts-ignore
-                    err.code = packet.data;
-                    this.onError(err);
-                    break;
-                case "message":
-                    this.emitReserved("data", packet.data);
-                    this.emitReserved("message", packet.data);
-                    break;
-            }
-        }
-    }
-    /**
-     * Called upon handshake completion.
-     *
-     * @param {Object} data - handshake obj
-     * @private
-     */
     onHandshake(data) {
-        this.emitReserved("handshake", data);
-        this.id = data.sid;
-        this.transport.query.sid = data.sid;
-        this.upgrades = this.filterUpgrades(data.upgrades);
-        this.pingInterval = data.pingInterval;
-        this.pingTimeout = data.pingTimeout;
-        this.maxPayload = data.maxPayload;
-        this.onOpen();
-        // In case open handler closes socket
-        if ("closed" === this.readyState)
-            return;
-        this.resetPingTimeout();
-    }
-    /**
-     * Sets and resets ping timeout timer based on server pings.
-     *
-     * @private
-     */
-    resetPingTimeout() {
-        this.clearTimeoutFn(this.pingTimeoutTimer);
-        this.pingTimeoutTimer = this.setTimeoutFn(() => {
-            this.onClose("ping timeout");
-        }, this.pingInterval + this.pingTimeout);
-        if (this.opts.autoUnref) {
-            this.pingTimeoutTimer.unref();
-        }
-    }
-    /**
-     * Called on `drain` event
-     *
-     * @private
-     */
-    onDrain() {
-        this.writeBuffer.splice(0, this.prevBufferLen);
-        // setting prevBufferLen = 0 is very important
-        // for example, when upgrading, upgrade packet is sent over,
-        // and a nonzero prevBufferLen could cause problems on `drain`
-        this.prevBufferLen = 0;
-        if (0 === this.writeBuffer.length) {
-            this.emitReserved("drain");
-        }
-        else {
-            this.flush();
-        }
-    }
-    /**
-     * Flush write buffers.
-     *
-     * @private
-     */
-    flush() {
-        if ("closed" !== this.readyState &&
-            this.transport.writable &&
-            !this.upgrading &&
-            this.writeBuffer.length) {
-            const packets = this.getWritablePackets();
-            this.transport.send(packets);
-            // keep track of current length of writeBuffer
-            // splice writeBuffer and callbackBuffer on `drain`
-            this.prevBufferLen = packets.length;
-            this.emitReserved("flush");
-        }
-    }
-    /**
-     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
-     * long-polling)
-     *
-     * @private
-     */
-    getWritablePackets() {
-        const shouldCheckPayloadSize = this.maxPayload &&
-            this.transport.name === "polling" &&
-            this.writeBuffer.length > 1;
-        if (!shouldCheckPayloadSize) {
-            return this.writeBuffer;
-        }
-        let payloadSize = 1; // first packet type
-        for (let i = 0; i < this.writeBuffer.length; i++) {
-            const data = this.writeBuffer[i].data;
-            if (data) {
-                payloadSize += byteLength(data);
-            }
-            if (i > 0 && payloadSize > this.maxPayload) {
-                return this.writeBuffer.slice(0, i);
-            }
-            payloadSize += 2; // separator + packet type
-        }
-        return this.writeBuffer;
-    }
-    /**
-     * Sends a message.
-     *
-     * @param {String} msg - message.
-     * @param {Object} options.
-     * @param {Function} callback function.
-     * @return {Socket} for chaining.
-     */
-    write(msg, options, fn) {
-        this.sendPacket("message", msg, options, fn);
-        return this;
-    }
-    send(msg, options, fn) {
-        this.sendPacket("message", msg, options, fn);
-        return this;
-    }
-    /**
-     * Sends a packet.
-     *
-     * @param {String} type: packet type.
-     * @param {String} data.
-     * @param {Object} options.
-     * @param {Function} fn - callback function.
-     * @private
-     */
-    sendPacket(type, data, options, fn) {
-        if ("function" === typeof data) {
-            fn = data;
-            data = undefined;
-        }
-        if ("function" === typeof options) {
-            fn = options;
-            options = null;
-        }
-        if ("closing" === this.readyState || "closed" === this.readyState) {
-            return;
-        }
-        options = options || {};
-        options.compress = false !== options.compress;
-        const packet = {
-            type: type,
-            data: data,
-            options: options,
-        };
-        this.emitReserved("packetCreate", packet);
-        this.writeBuffer.push(packet);
-        if (fn)
-            this.once("flush", fn);
-        this.flush();
-    }
-    /**
-     * Closes the connection.
-     */
-    close() {
-        const close = () => {
-            this.onClose("forced close");
-            this.transport.close();
-        };
-        const cleanupAndClose = () => {
-            this.off("upgrade", cleanupAndClose);
-            this.off("upgradeError", cleanupAndClose);
-            close();
-        };
-        const waitForUpgrade = () => {
-            // wait for upgrade to finish since we can't send packets while pausing a transport
-            this.once("upgrade", cleanupAndClose);
-            this.once("upgradeError", cleanupAndClose);
-        };
-        if ("opening" === this.readyState || "open" === this.readyState) {
-            this.readyState = "closing";
-            if (this.writeBuffer.length) {
-                this.once("drain", () => {
-                    if (this.upgrading) {
-                        waitForUpgrade();
-                    }
-                    else {
-                        close();
-                    }
-                });
-            }
-            else if (this.upgrading) {
-                waitForUpgrade();
-            }
-            else {
-                close();
-            }
-        }
-        return this;
-    }
-    /**
-     * Called upon transport error
-     *
-     * @private
-     */
-    onError(err) {
-        Socket$1.priorWebsocketSuccess = false;
-        this.emitReserved("error", err);
-        this.onClose("transport error", err);
-    }
-    /**
-     * Called upon transport close.
-     *
-     * @private
-     */
-    onClose(reason, description) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            // clear timers
-            this.clearTimeoutFn(this.pingTimeoutTimer);
-            // stop event from firing again for transport
-            this.transport.removeAllListeners("close");
-            // ensure transport won't stay open
-            this.transport.close();
-            // ignore further transport communication
-            this.transport.removeAllListeners();
-            if (typeof removeEventListener === "function") {
-                removeEventListener("beforeunload", this.beforeunloadEventListener, false);
-                removeEventListener("offline", this.offlineEventListener, false);
-            }
-            // set ready state
-            this.readyState = "closed";
-            // clear session id
-            this.id = null;
-            // emit close event
-            this.emitReserved("close", reason, description);
-            // clean buffers after, so users can still
-            // grab the buffers on `close` event
-            this.writeBuffer = [];
-            this.prevBufferLen = 0;
-        }
+        this._upgrades = this._filterUpgrades(data.upgrades);
+        super.onHandshake(data);
     }
     /**
      * Filters upgrades, returning only those matching client transports.
@@ -2043,18 +2127,46 @@ class Socket$1 extends Emitter {
      * @param {Array} upgrades - server upgrades
      * @private
      */
-    filterUpgrades(upgrades) {
+    _filterUpgrades(upgrades) {
         const filteredUpgrades = [];
-        let i = 0;
-        const j = upgrades.length;
-        for (; i < j; i++) {
+        for (let i = 0; i < upgrades.length; i++) {
             if (~this.transports.indexOf(upgrades[i]))
                 filteredUpgrades.push(upgrades[i]);
         }
         return filteredUpgrades;
     }
 }
-Socket$1.protocol = protocol$1;
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * @example
+ * import { Socket } from "engine.io-client";
+ *
+ * const socket = new Socket();
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see SocketWithUpgrade
+ */
+class Socket$1 extends SocketWithUpgrade {
+    constructor(uri, opts = {}) {
+        const o = typeof uri === "object" ? uri : opts;
+        if (!o.transports ||
+            (o.transports && typeof o.transports[0] === "string")) {
+            o.transports = (o.transports || ["polling", "websocket", "webtransport"])
+                .map((transportName) => transports[transportName])
+                .filter((t) => !!t);
+        }
+        super(uri, o);
+    }
+}
 
 /**
  * URL parser.
@@ -2808,6 +2920,7 @@ class Socket extends Emitter {
      * @return self
      */
     emit(ev, ...args) {
+        var _a, _b, _c;
         if (RESERVED_EVENTS.hasOwnProperty(ev)) {
             throw new Error('"' + ev.toString() + '" is a reserved event name');
         }
@@ -2829,12 +2942,11 @@ class Socket extends Emitter {
             this._registerAckCallback(id, ack);
             packet.id = id;
         }
-        const isTransportWritable = this.io.engine &&
-            this.io.engine.transport &&
-            this.io.engine.transport.writable;
-        const discardPacket = this.flags.volatile && (!isTransportWritable || !this.connected);
+        const isTransportWritable = (_b = (_a = this.io.engine) === null || _a === void 0 ? void 0 : _a.transport) === null || _b === void 0 ? void 0 : _b.writable;
+        const isConnected = this.connected && !((_c = this.io.engine) === null || _c === void 0 ? void 0 : _c._hasPingExpired());
+        const discardPacket = this.flags.volatile && !isTransportWritable;
         if (discardPacket) ;
-        else if (this.connected) {
+        else if (isConnected) {
             this.notifyOutgoingListeners(packet);
             this.packet(packet);
         }
@@ -3557,6 +3669,9 @@ class Manager extends Emitter {
         if (!arguments.length)
             return this._reconnection;
         this._reconnection = !!v;
+        if (!v) {
+            this.skipReconnect = true;
+        }
         return this;
     }
     reconnectionAttempts(v) {
@@ -3685,7 +3800,9 @@ class Manager extends Emitter {
         this.emitReserved("open");
         // add new subs
         const socket = this.engine;
-        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), on(this.decoder, "decoded", this.ondecoded.bind(this)));
+        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), 
+        // @ts-ignore
+        on(this.decoder, "decoded", this.ondecoded.bind(this)));
     }
     /**
      * Called upon a ping.
@@ -3791,8 +3908,6 @@ class Manager extends Emitter {
         this.skipReconnect = true;
         this._reconnecting = false;
         this.onclose("forced close");
-        if (this.engine)
-            this.engine.close();
     }
     /**
      * Alias for close()
@@ -3803,12 +3918,18 @@ class Manager extends Emitter {
         return this._close();
     }
     /**
-     * Called upon engine close.
+     * Called when:
+     *
+     * - the low-level engine is closed
+     * - the parser encountered a badly formatted packet
+     * - all sockets are disconnected
      *
      * @private
      */
     onclose(reason, description) {
+        var _a;
         this.cleanup();
+        (_a = this.engine) === null || _a === void 0 ? void 0 : _a.close();
         this.backoff.reset();
         this._readyState = "closed";
         this.emitReserved("close", reason, description);
@@ -3926,6 +4047,22 @@ const IglooCalendar = class {
         this.calculateUnassignedDates = createEvent(this, "calculateUnassignedDates", 7);
         this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent", 7);
         this.revertBooking = createEvent(this, "revertBooking", 7);
+        this.ticket = '';
+        this.calendarData = new Object();
+        this.days = new Array();
+        this.scrollViewDragging = false;
+        this.dialogData = null;
+        this.bookingItem = null;
+        this.editBookingItem = null;
+        this.showLegend = false;
+        this.showPaymentDetails = false;
+        this.showToBeAssigned = false;
+        this.unassignedDates = {};
+        this.roomNightsData = null;
+        this.renderAgain = false;
+        this.showBookProperty = false;
+        this.totalAvailabilityQueue = [];
+        this.isAuthenticated = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.eventsService = new EventsService();
@@ -3953,32 +4090,6 @@ const IglooCalendar = class {
             document.removeEventListener('mousemove', this.onScrollContentMoveHandler);
             document.removeEventListener('mouseup', this.onScrollContentMoveEndHandler);
         };
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.language = undefined;
-        this.loadingMessage = undefined;
-        this.currencyName = undefined;
-        this.ticket = '';
-        this.p = undefined;
-        this.calendarData = new Object();
-        this.property_id = undefined;
-        this.days = new Array();
-        this.scrollViewDragging = false;
-        this.dialogData = null;
-        this.bookingItem = null;
-        this.editBookingItem = null;
-        this.showLegend = false;
-        this.showPaymentDetails = false;
-        this.showToBeAssigned = false;
-        this.unassignedDates = {};
-        this.roomNightsData = null;
-        this.renderAgain = false;
-        this.showBookProperty = false;
-        this.totalAvailabilityQueue = [];
-        this.highlightedDate = undefined;
-        this.calDates = undefined;
-        this.isAuthenticated = false;
     }
     componentWillLoad() {
         this.init();
@@ -4012,11 +4123,11 @@ const IglooCalendar = class {
         }
     }
     handleShowDialog(event) {
-        var _a;
-        event.stopImmediatePropagation();
-        event.stopPropagation();
         this.dialogData = event.detail;
-        (_a = this.calendarModalEl) === null || _a === void 0 ? void 0 : _a.openModal();
+        let modal = this.element.querySelector('ir-modal');
+        if (modal) {
+            modal.openModal();
+        }
     }
     handleShowRoomNightsDialog(event) {
         this.roomNightsData = event.detail;
@@ -4115,21 +4226,6 @@ const IglooCalendar = class {
             }
         });
     }
-    renderModalBody() {
-        var _a, _b;
-        switch ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) {
-            case 'checkin': {
-                return `Are you sure you want to Check In this unit?`;
-            }
-            case 'checkout': {
-                return 'Are you sure you want to Check Out this unit?';
-            }
-            case 'reallocate':
-                return ((_b = this.dialogData) === null || _b === void 0 ? void 0 : _b.description) || '';
-            default:
-                return 'Unknown modal content';
-        }
-    }
     setUpCalendarData(roomResp, bookingResp) {
         console.log(roomResp);
         this.calendarData.currency = roomResp['My_Result'].currency;
@@ -4166,7 +4262,6 @@ const IglooCalendar = class {
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
-                    include_units_hk_status: true,
                 });
                 roomResp = propertyData;
                 propertyId = propertyData.My_Result.id;
@@ -4182,7 +4277,6 @@ const IglooCalendar = class {
                     id: this.propertyid,
                     language: this.language,
                     is_backend: true,
-                    include_units_hk_status: true,
                 }));
             }
             const results = await Promise.all(requests);
@@ -4241,7 +4335,6 @@ const IglooCalendar = class {
         else {
             result = JSON.parse(PAYLOAD);
         }
-        console.log(KEY, result);
         const reasonHandlers = {
             DORESERVATION: this.handleDoReservation,
             BLOCK_EXPOSED_UNIT: this.handleBlockExposedUnit,
@@ -4253,8 +4346,6 @@ const IglooCalendar = class {
             CHANGE_IN_DUE_AMOUNT: this.handleChangeInDueAmount,
             CHANGE_IN_BOOK_STATUS: this.handleChangeInBookStatus,
             NON_TECHNICAL_CHANGE_IN_BOOKING: this.handleNonTechnicalChangeInBooking,
-            ROOM_STATUS_CHANGED: this.handleRoomStatusChanged,
-            UNIT_HK_STATUS_CHANGED: this.handleUnitHKStatusChanged,
         };
         const handler = reasonHandlers[REASON];
         if (handler) {
@@ -4262,35 +4353,6 @@ const IglooCalendar = class {
         }
         else {
             console.warn(`Unhandled REASON: ${REASON}`);
-        }
-    }
-    handleRoomStatusChanged(result) {
-        // console.log(result);
-        this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
-                ...this.calendarData.bookingEvents.map(e => {
-                    if (e.IDENTIFIER === result.room_identifier) {
-                        return Object.assign(Object.assign({}, e), { CHECKIN: result.status === '001', CHECKOUT: result.status === '002', STATUS: bookingStatus[result.status === '001' ? '000' : '003'] });
-                    }
-                    return e;
-                }),
-            ] });
-    }
-    handleUnitHKStatusChanged(result) {
-        console.log('hk unit change', result);
-        const updatedRooms = [...this.calendarData.roomsInfo];
-        const changedRoomTypeIdx = updatedRooms.findIndex((roomType) => roomType.id === result.ROOM_CATEGORY_ID);
-        if (changedRoomTypeIdx !== -1) {
-            const changedRoomType = Object.assign({}, updatedRooms[changedRoomTypeIdx]);
-            const changedPhysicalRoomIdx = changedRoomType.physicalrooms.findIndex(room => room.id === result.PR_ID);
-            if (changedPhysicalRoomIdx !== -1) {
-                const updatedPhysicalRooms = [...changedRoomType.physicalrooms];
-                const targetPhysicalRoom = Object.assign({}, updatedPhysicalRooms[changedPhysicalRoomIdx]);
-                targetPhysicalRoom.hk_status = result.HKS_CODE;
-                updatedPhysicalRooms[changedPhysicalRoomIdx] = targetPhysicalRoom;
-                changedRoomType.physicalrooms = updatedPhysicalRooms;
-                updatedRooms[changedRoomTypeIdx] = changedRoomType;
-                this.calendarData = Object.assign(Object.assign({}, this.calendarData), { roomsInfo: updatedRooms });
-            }
         }
     }
     async handleDoReservation(result) {
@@ -4302,7 +4364,6 @@ const IglooCalendar = class {
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleAssignExposedRoom(result) {
-        console.log(result);
         const transformedBooking = transformNewBooking(result);
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
@@ -4393,30 +4454,20 @@ const IglooCalendar = class {
             bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
             bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
             if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
-                if (calendar_data.checkin_enabled) {
-                    if (bookingEvent.CHECKOUT) {
-                        bookingEvent.STATUS = bookingStatus['003'];
-                    }
-                    if (bookingEvent.CHECKIN) {
+                const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+                const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+                if (bookingEvent.STATUS !== 'PENDING') {
+                    if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
                         bookingEvent.STATUS = bookingStatus['000'];
                     }
-                }
-                else {
-                    const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-                    const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
-                    if (bookingEvent.STATUS !== 'PENDING') {
-                        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
-                            bookingEvent.STATUS = bookingStatus['000'];
-                        }
-                        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
-                            bookingEvent.STATUS = bookingStatus['000'];
-                        }
-                        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
-                            bookingEvent.STATUS = bookingStatus['000'];
-                        }
-                        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
-                            bookingEvent.STATUS = bookingStatus['003'];
-                        }
+                    else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+                        bookingEvent.STATUS = bookingStatus['000'];
+                    }
+                    else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+                        bookingEvent.STATUS = bookingStatus['000'];
+                    }
+                    else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+                        bookingEvent.STATUS = bookingStatus['003'];
                     }
                 }
             }
@@ -4745,52 +4796,18 @@ const IglooCalendar = class {
         }
     }
     handleModalConfirm() {
-        var _a;
-        // Helper to reset modal state
-        const resetModalState = () => {
+        const { pool, toRoomId, from_date, to_date } = this.dialogData;
+        this.eventsService
+            .reallocateEvent(pool, toRoomId, from_date, to_date)
+            .then(() => {
             this.dialogData = null;
-        };
-        try {
-            switch ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) {
-                case 'checkin':
-                case 'checkout': {
-                    const { bookingNumber, roomIdentifier } = this.dialogData;
-                    const status = this.dialogData.reason === 'checkin' ? '001' : '002';
-                    this.bookingService.handleExposedRoomInOut({ booking_nbr: bookingNumber, room_identifier: roomIdentifier, status }).finally(resetModalState);
-                    break;
-                }
-                case 'reallocate': {
-                    if (!this.dialogData) {
-                        console.warn('No dialog data available for reallocation.');
-                        return;
-                    }
-                    const { pool, toRoomId, from_date, to_date } = this.dialogData;
-                    // Handle room reallocation
-                    this.eventsService
-                        .reallocateEvent(pool, toRoomId, from_date, to_date)
-                        .then(resetModalState)
-                        .catch(() => {
-                        console.error('Reallocation failed. Reverting booking.');
-                        this.revertBooking.emit(pool);
-                    })
-                        .finally(resetModalState);
-                    break;
-                }
-                default:
-                    resetModalState();
-                    break;
-            }
-        }
-        catch (error) {
-            console.error('Error handling modal confirm:', error);
-            resetModalState();
-        }
+        })
+            .catch(() => {
+            this.revertBooking.emit(pool);
+        });
     }
     handleModalCancel() {
-        var _a;
-        if (((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate') {
-            this.revertBooking.emit(this.dialogData.pool);
-        }
+        this.revertBooking.emit(this.dialogData.pool);
         this.dialogData = null;
     }
     handleRoomNightsDialogClose(e) {
@@ -4800,7 +4817,6 @@ const IglooCalendar = class {
         this.roomNightsData = null;
     }
     handleSideBarToggle(e) {
-        var _a;
         if (e.detail) {
             if (this.editBookingItem) {
                 this.editBookingItem = null;
@@ -4809,7 +4825,7 @@ const IglooCalendar = class {
                 this.revertBooking.emit(this.roomNightsData.pool);
                 this.roomNightsData = null;
             }
-            if (((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate') {
+            if (this.dialogData) {
                 this.revertBooking.emit(this.dialogData.pool);
                 this.dialogData = null;
             }
@@ -4819,15 +4835,15 @@ const IglooCalendar = class {
         this.bookingItem = null;
     }
     render() {
-        var _a, _b, _c;
+        var _a, _b;
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: 'ae1625bd334541c40cb740999fcee48b875abd5a' }, h("ir-toast", { key: 'b7ea75abaa7cd4d695e55f1e2156d61badbeaf37' }), h("ir-interceptor", { key: '55df4aeeefe6d1d4ab7888cb56d46c4f43fd0bbf' }), h("div", { key: '8821d628d3d105d909c4ada0caff6f5657adb076', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
+        return (h(Host, { key: 'e2acb464fc51699511b89d1d03c5d498886da06d' }, h("ir-toast", { key: '2293812d3f5d94350e73085a10a7084b284d42a0' }), h("ir-interceptor", { key: 'd54a46fbc3ed46cee946d19dfeffe52192157f95' }), h("div", { key: '1213041cca08f23f32b69d0e0afacee2fdb0ee50', id: "iglooCalendar", class: "igl-calendar" }, this.shouldRenderCalendarView() ? ([
             this.showToBeAssigned ? (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
             this.showLegend ? (h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) })) : null,
-            h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
-        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: 'fc6770993c33b569f09baaf95f1b17f8ef4eec45', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '9a65afb427168cf192d325e16f2ca0c90d8f06bd', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: 'e95668f47386ab6acd417e94a50cd9f077dab615', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'e4e02e1d97e196a5ec6eb0c4dc24d5d8f3e58a49', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '2c1d9a5dfcc764d31ded936e47e5be37e40bf131', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_a = this.dialogData) === null || _a === void 0 ? void 0 : _a.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+            h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { language: this.language, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))),
+        ]) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '5fa32190e02834857b5f3d41cbc068edd5aa3518', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countryNodeList: this.countryNodeList, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'c4af1310c05a3bb11cda99a561fd6182cc9c7849', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: this.roomNightsData ? 'white' : '#F2F3F8' } }, this.roomNightsData && (h("ir-room-nights", { key: '76a7b6071b8814f1128d647db36e8fb36111e8f9', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '7d0a59f6f1752bc3f9b13fe6c8889125c5a96d85', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-modal", { key: '3b6041d63d8e4cc2e9a2e21cc7a206c6592ccda0', modalTitle: '', rightBtnActive: this.dialogData ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: this.dialogData ? this.dialogData.description : '', onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return getElement(this); }
     static get watchers() { return {

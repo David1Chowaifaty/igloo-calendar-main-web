@@ -4992,7 +4992,7 @@ function parent(object, path) {
  * _.isElement('<body>');
  * // => false
  */
-function isElement$1(value) {
+function isElement$2(value) {
   return isObjectLike(value) && value.nodeType === 1 && !isPlainObject(value);
 }
 
@@ -6161,9 +6161,9 @@ diff.fastDiff = fastDiff;
     ];
 }
 
-const version = '43.2.0';
+const version = '43.3.1';
 // The second argument is not a month. It is `monthIndex` and starts from `0`.
-const releaseDate = new Date(2024, 9, 2);
+const releaseDate = new Date(2024, 10, 6);
 /* istanbul ignore next -- @preserve */ if (globalThis.CKEDITOR_VERSION) {
     /**
 	 * This error is thrown when, due to a mistake in the way CKEditor&nbsp;5 was installed,
@@ -7637,7 +7637,7 @@ function initObservable(observable) {
  * In case if it's a DOM Element it will leave references to DOM Elements instead of cloning them.
  * If it's a function it will leave reference to actuall function.
  */ function leaveItemReferences(value) {
-    return isElement$1(value) || typeof value === 'function' ? value : undefined;
+    return isElement$2(value) || typeof value === 'function' ? value : undefined;
 }
 
 /**
@@ -8852,7 +8852,7 @@ const rectProperties = [
         limiter = limiter();
     }
     const positionedElementAncestor = getPositionedAncestor(element);
-    const constrainedViewportRect = getConstrainedViewportRect$1(viewportOffsetConfig);
+    const constrainedViewportRect = getConstrainedViewportRect(viewportOffsetConfig);
     const elementRect = new Rect(element);
     const visibleTargetRect = getVisibleViewportIntersectionRect(target, constrainedViewportRect);
     let bestPosition;
@@ -8902,7 +8902,7 @@ const rectProperties = [
 }
 /**
  * Returns a viewport `Rect` shrunk by the viewport offset config from all sides.
- */ function getConstrainedViewportRect$1(viewportOffsetConfig) {
+ */ function getConstrainedViewportRect(viewportOffsetConfig) {
     viewportOffsetConfig = Object.assign({
         top: 0,
         bottom: 0,
@@ -10490,7 +10490,8 @@ function getNumberOfLanguages(translations) {
 }
 
 /**
- * Allows observing a group of `Element`s whether at least one of them is focused.
+ * Allows observing a group of DOM `Element`s or {@link module:ui/view~View view instances} whether at least one of them (or their child)
+ * is focused.
  *
  * Used by the {@link module:core/editor/editor~Editor} in order to track whether the focus is still within the application,
  * or were used outside of its UI.
@@ -10502,26 +10503,88 @@ function getNumberOfLanguages(translations) {
  * Check out the {@glink framework/deep-dive/ui/focus-tracking "Deep dive into focus tracking"} guide to learn more.
  */ class FocusTracker extends /* #__PURE__ */ DomEmitterMixin(/* #__PURE__ */ ObservableMixin()) {
     /**
-	 * List of registered elements.
+	 * List of registered DOM elements.
 	 *
 	 * @internal
 	 */ _elements = new Set();
     /**
-	 * Event loop timeout.
-	 */ _nextEventLoopTimeout = null;
+	 * List of views with external focus trackers that contribute to the state of this focus tracker.
+	 *
+	 * @internal
+	 */ _externalViews = new Set();
+    /**
+	 * Asynchronous blur event timeout.
+	 */ _blurTimeout = null;
+    // @if CK_DEBUG_FOCUSTRACKER // public _label?: string;
     constructor(){
         super();
         this.set('isFocused', false);
         this.set('focusedElement', null);
+    // @if CK_DEBUG_FOCUSTRACKER // FocusTracker._instances.push( this );
     }
     /**
-	 * List of registered elements.
+	 * List of registered DOM elements.
+	 *
+	 * **Note**: The list does do not include elements from {@link #externalViews}.
 	 */ get elements() {
         return Array.from(this._elements.values());
     }
     /**
-	 * Starts tracking the specified element.
-	 */ add(element) {
+	 * List of external focusable views that contribute to the state of this focus tracker. See {@link #add} to learn more.
+	 */ get externalViews() {
+        return Array.from(this._externalViews.values());
+    }
+    /**
+	 * Starts tracking a specified DOM element or a {@link module:ui/view~View} instance.
+	 *
+	 * * If a DOM element is passed, the focus tracker listens to the `focus` and `blur` events on this element.
+	 * Tracked elements are listed in {@link #elements}.
+	 * * If a {@link module:ui/view~View} instance is passed that has a `FocusTracker` instance ({@link ~ViewWithFocusTracker}),
+	 * the external focus tracker's state ({@link #isFocused}, {@link #focusedElement}) starts contributing to the current tracker instance.
+	 * This allows for increasing the "reach" of a focus tracker instance, by connecting two or more focus trackers together when DOM
+	 * elements they track are located in different subtrees in DOM. External focus trackers are listed in {@link #externalViews}.
+	 * * If a {@link module:ui/view~View} instance is passed that has no `FocusTracker` (**not** a {@link ~ViewWithFocusTracker}),
+	 * its {@link module:ui/view~View#element} is used to track focus like any other DOM element.
+	 */ add(elementOrView) {
+        if (isElement$1(elementOrView)) {
+            this._addElement(elementOrView);
+        } else {
+            if (isViewWithFocusTracker(elementOrView)) {
+                this._addView(elementOrView);
+            } else {
+                if (!elementOrView.element) {
+                    /**
+					 * The {@link module:ui/view~View} added to the {@link module:utils/focustracker~FocusTracker} does not have an
+					 * {@link module:ui/view~View#element}. Make sure the view is {@link module:ui/view~View#render} before adding
+					 * it to the focus tracker.
+					 *
+					 * @error focustracker-add-view-missing-element
+					 */ throw new CKEditorError('focustracker-add-view-missing-element', {
+                        focusTracker: this,
+                        view: elementOrView
+                    });
+                }
+                this._addElement(elementOrView.element);
+            }
+        }
+    }
+    /**
+	 * Stops tracking focus in the specified DOM element or a {@link module:ui/view~View view instance}. See {@link #add} to learn more.
+	 */ remove(elementOrView) {
+        if (isElement$1(elementOrView)) {
+            this._removeElement(elementOrView);
+        } else {
+            if (isViewWithFocusTracker(elementOrView)) {
+                this._removeView(elementOrView);
+            } else {
+                // Assuming that if the view was successfully added, it must have come with an existing #element.
+                this._removeElement(elementOrView.element);
+            }
+        }
+    }
+    /**
+	 * Adds a DOM element to the focus tracker and starts listening to the `focus` and `blur` events on it.
+	 */ _addElement(element) {
         if (this._elements.has(element)) {
             /**
 			 * This element is already tracked by {@link module:utils/focustracker~FocusTracker}.
@@ -10529,50 +10592,199 @@ function getNumberOfLanguages(translations) {
 			 * @error focustracker-add-element-already-exist
 			 */ throw new CKEditorError('focustracker-add-element-already-exist', this);
         }
-        this.listenTo(element, 'focus', ()=>this._focus(element), {
+        this.listenTo(element, 'focus', ()=>{
+            // @if CK_DEBUG_FOCUSTRACKER // console.log( `"${ getName( this ) }": Focus with useCapture on DOM element` );
+            const externalFocusedViewInSubtree = this.externalViews.find((view)=>isExternalViewSubtreeFocused(element, view));
+            if (externalFocusedViewInSubtree) {
+                this._focus(externalFocusedViewInSubtree.element);
+            } else {
+                this._focus(element);
+            }
+        }, {
             useCapture: true
         });
-        this.listenTo(element, 'blur', ()=>this._blur(), {
+        this.listenTo(element, 'blur', ()=>{
+            // @if CK_DEBUG_FOCUSTRACKER // console.log( `"${ getName( this ) }": Blur with useCapture on DOM element` );
+            this._blur();
+        }, {
             useCapture: true
         });
         this._elements.add(element);
     }
     /**
-	 * Stops tracking the specified element and stops listening on this element.
-	 */ remove(element) {
-        if (element === this.focusedElement) {
-            this._blur();
-        }
+	 * Removes a DOM element from the focus tracker.
+	 */ _removeElement(element) {
         if (this._elements.has(element)) {
             this.stopListening(element);
             this._elements.delete(element);
         }
+        if (element === this.focusedElement) {
+            this._blur();
+        }
+    }
+    /**
+	 * Adds an external {@link module:ui/view~View view instance} to this focus tracker and makes it contribute to this focus tracker's
+	 * state either by its `View#element` or by its `View#focusTracker` instance.
+	 */ _addView(view) {
+        if (view.element) {
+            this._addElement(view.element);
+        }
+        this.listenTo(view.focusTracker, 'change:focusedElement', ()=>{
+            // @if CK_DEBUG_FOCUSTRACKER // console.log(
+            // @if CK_DEBUG_FOCUSTRACKER // 	`"${ getName( this ) }": Related "${ getName( view.focusTracker ) }"#focusedElement = `,
+            // @if CK_DEBUG_FOCUSTRACKER // 	view.focusTracker.focusedElement
+            // @if CK_DEBUG_FOCUSTRACKER // );
+            if (view.focusTracker.focusedElement) {
+                if (view.element) {
+                    this._focus(view.element);
+                }
+            } else {
+                this._blur();
+            }
+        });
+        this._externalViews.add(view);
+    }
+    /**
+	 * Removes an external {@link module:ui/view~View view instance} from this focus tracker.
+	 */ _removeView(view) {
+        if (view.element) {
+            this._removeElement(view.element);
+        }
+        this.stopListening(view.focusTracker);
+        this._externalViews.delete(view);
     }
     /**
 	 * Destroys the focus tracker by:
-	 * - Disabling all event listeners attached to tracked elements.
-	 * - Removing all tracked elements that were previously added.
+	 * - Disabling all event listeners attached to tracked elements or external views.
+	 * - Removing all tracked elements and views that were previously added.
 	 */ destroy() {
         this.stopListening();
+        this._elements.clear();
+        this._externalViews.clear();
+        this.isFocused = false;
+        this.focusedElement = null;
     }
     /**
-	 * Stores currently focused element and set {@link #isFocused} as `true`.
+	 * Stores currently focused element as {@link #focusedElement} and sets {@link #isFocused} `true`.
 	 */ _focus(element) {
-        clearTimeout(this._nextEventLoopTimeout);
+        // @if CK_DEBUG_FOCUSTRACKER // console.log( `"${ getName( this ) }": _focus() on element`, element );
+        this._clearBlurTimeout();
         this.focusedElement = element;
         this.isFocused = true;
     }
     /**
-	 * Clears currently focused element and set {@link #isFocused} as `false`.
-	 * This method uses `setTimeout` to change order of fires `blur` and `focus` events.
+	 * Clears currently {@link #focusedElement} and sets {@link #isFocused} `false`.
+	 *
+	 * This method uses `setTimeout()` to change order of `blur` and `focus` events calls, ensuring that moving focus between
+	 * two elements within a single focus tracker's scope, will not cause `[ blurA, focusB ]` sequence but just `[ focusB ]`.
+	 * The former would cause a momentary change of `#isFocused` to `false` which is not desired because any logic listening to
+	 * a focus tracker state would experience UI flashes and glitches as the user focus travels across the UI.
 	 */ _blur() {
-        clearTimeout(this._nextEventLoopTimeout);
-        this._nextEventLoopTimeout = setTimeout(()=>{
+        const isAnyElementFocused = this.elements.find((element)=>element.contains(document.activeElement));
+        // Avoid blurs originating from external FTs when the focus still remains in one of the #elements.
+        if (isAnyElementFocused) {
+            return;
+        }
+        const isAnyExternalViewFocused = this.externalViews.find((view)=>{
+            // Do not consider external views's focus trackers as focused if there's a blur timeout pending.
+            return view.focusTracker.isFocused && !view.focusTracker._blurTimeout;
+        });
+        // Avoid unnecessary DOM blurs coming from #elements when the focus still remains in one of #externalViews.
+        if (isAnyExternalViewFocused) {
+            return;
+        }
+        this._clearBlurTimeout();
+        this._blurTimeout = setTimeout(()=>{
+            // @if CK_DEBUG_FOCUSTRACKER // console.log( `"${ getName( this ) }": Blur.` );
             this.focusedElement = null;
             this.isFocused = false;
         }, 0);
     }
+    /**
+	 * Clears the asynchronous blur event timeout on demand. See {@link #_blur} to learn more.
+	 */ _clearBlurTimeout() {
+        clearTimeout(this._blurTimeout);
+        this._blurTimeout = null;
+    }
 }
+/**
+ * Checks whether a view is an instance of {@link ~ViewWithFocusTracker}.
+ */ function isViewWithFocusTracker(view) {
+    return 'focusTracker' in view && view.focusTracker instanceof FocusTracker;
+}
+function isElement$1(value) {
+    return isElement$2(value);
+}
+function isExternalViewSubtreeFocused(subTreeRoot, view) {
+    if (isFocusedView(subTreeRoot, view)) {
+        return true;
+    }
+    return !!view.focusTracker.externalViews.find((view)=>isFocusedView(subTreeRoot, view));
+}
+function isFocusedView(subTreeRoot, view) {
+    // Note: You cannot depend on externalView.focusTracker.focusedElement because blurs are asynchronous and the value may
+    // be outdated when moving focus between two elements. Using document.activeElement instead.
+    return !!view.element && view.element.contains(document.activeElement) && subTreeRoot.contains(view.element);
+} // @if CK_DEBUG_FOCUSTRACKER // declare global {
+ // @if CK_DEBUG_FOCUSTRACKER // 	interface Window {
+ // @if CK_DEBUG_FOCUSTRACKER // 		logFocusTrackers: Function;
+ // @if CK_DEBUG_FOCUSTRACKER // 	}
+ // @if CK_DEBUG_FOCUSTRACKER // }
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // function getName( focusTracker: FocusTracker ): string {
+ // @if CK_DEBUG_FOCUSTRACKER // 	return focusTracker._label || 'Unknown';
+ // @if CK_DEBUG_FOCUSTRACKER // }
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // function logState(
+ // @if CK_DEBUG_FOCUSTRACKER // 	focusTracker: FocusTracker,
+ // @if CK_DEBUG_FOCUSTRACKER // 	keysToLog: Array<string> = [ 'isFocused', 'focusedElement' ]
+ // @if CK_DEBUG_FOCUSTRACKER // ): string {
+ // @if CK_DEBUG_FOCUSTRACKER // 	keysToLog.forEach( key => { console.log( `${ key }=`, focusTracker[ key ] ) } );
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.log( 'elements', focusTracker.elements );
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.log( 'externalViews', focusTracker.externalViews );
+ // @if CK_DEBUG_FOCUSTRACKER // }
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // window.logFocusTrackers = (
+ // @if CK_DEBUG_FOCUSTRACKER // 	filter = () => true,
+ // @if CK_DEBUG_FOCUSTRACKER // 	keysToLog: Array<string>
+ // @if CK_DEBUG_FOCUSTRACKER // ): void => {
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.group( 'FocusTrackers' );
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 	for ( const focusTracker of FocusTracker._instances ) {
+ // @if CK_DEBUG_FOCUSTRACKER // 		if ( filter( focusTracker ) ) {
+ // @if CK_DEBUG_FOCUSTRACKER // 			console.group( `"${ getName( focusTracker ) }"` );
+ // @if CK_DEBUG_FOCUSTRACKER // 			logState( focusTracker, keysToLog );
+ // @if CK_DEBUG_FOCUSTRACKER // 			console.groupEnd();
+ // @if CK_DEBUG_FOCUSTRACKER // 		}
+ // @if CK_DEBUG_FOCUSTRACKER // 	}
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.groupEnd();
+ // @if CK_DEBUG_FOCUSTRACKER // };
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // window.logFocusTrackerTree = (
+ // @if CK_DEBUG_FOCUSTRACKER // 	rootFocusTracker: FocusTracker,
+ // @if CK_DEBUG_FOCUSTRACKER // 	filter = () => true,
+ // @if CK_DEBUG_FOCUSTRACKER // 	keysToLog: Array<string>
+ // @if CK_DEBUG_FOCUSTRACKER // ): void => {
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.group( 'FocusTrackers tree' );
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 	logBranch( rootFocusTracker, filter );
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 	function logBranch( focusTracker, filter ) {
+ // @if CK_DEBUG_FOCUSTRACKER // 		console.group( `"${ getName( focusTracker ) }"` );
+ // @if CK_DEBUG_FOCUSTRACKER // 		logState( focusTracker, keysToLog );
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 		for ( const externalView of focusTracker.externalViews ) {
+ // @if CK_DEBUG_FOCUSTRACKER // 			if ( filter( externalView.focusTracker ) ) {
+ // @if CK_DEBUG_FOCUSTRACKER // 				logBranch( externalView.focusTracker, filter );
+ // @if CK_DEBUG_FOCUSTRACKER // 			}
+ // @if CK_DEBUG_FOCUSTRACKER // 		}
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 		console.groupEnd();
+ // @if CK_DEBUG_FOCUSTRACKER // 	}
+ // @if CK_DEBUG_FOCUSTRACKER //
+ // @if CK_DEBUG_FOCUSTRACKER // 	console.groupEnd();
+ // @if CK_DEBUG_FOCUSTRACKER // };
 
 /**
  * Keystroke handler allows registering callbacks for given keystrokes.
@@ -19278,7 +19490,8 @@ const UNSAFE_ELEMENT_REPLACEMENT_ATTRIBUTE = 'data-ck-unsafe-element';
         this.renderingMode = renderingMode;
         this.blockFillerMode = blockFillerMode || (renderingMode === 'editing' ? 'br' : 'nbsp');
         this.preElements = [
-            'pre'
+            'pre',
+            'textarea'
         ];
         this.blockElements = [
             'address',
@@ -20307,6 +20520,8 @@ const UNSAFE_ELEMENT_REPLACEMENT_ATTRIBUTE = 'data-ck-unsafe-element';
             // for inline objects can verify if the element is empty.
             if (this._isInlineObjectElement(viewElement)) {
                 inlineNodes.push(viewElement);
+                // Inline object content should be handled as a flow-root.
+                this._processDomInlineNodes(null, nestedInlineNodes, options);
             } else {
                 // It's an inline element that is not an object (like <b>, <i>) or a block element.
                 for (const inlineNode of nestedInlineNodes){
@@ -22488,6 +22703,16 @@ function getFiles(nativeDataTransfer) {
 	 * Attributes set on this node.
 	 */ _attrs;
     /**
+	 * Index of this node in its parent or `null` if the node has no parent.
+	 *
+	 * @internal
+	 */ _index = null;
+    /**
+	 * Offset at which this node starts in its parent or `null` if the node has no parent.
+	 *
+	 * @internal
+	 */ _startOffset = null;
+    /**
 	 * Creates a model node.
 	 *
 	 * This is an abstract class, so this constructor should not be used directly.
@@ -22504,49 +22729,31 @@ function getFiles(nativeDataTransfer) {
     }
     /**
 	 * Index of this node in its parent or `null` if the node has no parent.
-	 *
-	 * Accessing this property throws an error if this node's parent element does not contain it.
-	 * This means that model tree got broken.
 	 */ get index() {
-        let pos;
-        if (!this.parent) {
-            return null;
-        }
-        if ((pos = this.parent.getChildIndex(this)) === null) {
-            throw new CKEditorError('model-node-not-found-in-parent', this);
-        }
-        return pos;
+        return this._index;
     }
     /**
 	 * Offset at which this node starts in its parent. It is equal to the sum of {@link #offsetSize offsetSize}
 	 * of all its previous siblings. Equals to `null` if node has no parent.
-	 *
-	 * Accessing this property throws an error if this node's parent element does not contain it.
-	 * This means that model tree got broken.
 	 */ get startOffset() {
-        let pos;
-        if (!this.parent) {
-            return null;
-        }
-        if ((pos = this.parent.getChildStartOffset(this)) === null) {
-            throw new CKEditorError('model-node-not-found-in-parent', this);
-        }
-        return pos;
+        return this._startOffset;
     }
     /**
-	 * Offset size of this node. Represents how much "offset space" is occupied by the node in it's parent.
-	 * It is important for {@link module:engine/model/position~Position position}. When node has `offsetSize` greater than `1`, position
-	 * can be placed between that node start and end. `offsetSize` greater than `1` is for nodes that represents more
-	 * than one entity, i.e. {@link module:engine/model/text~Text text node}.
+	 * Offset size of this node.
+	 *
+	 * Represents how much "offset space" is occupied by the node in its parent. It is important for
+	 * {@link module:engine/model/position~Position position}. When node has `offsetSize` greater than `1`, position can be placed between
+	 * that node start and end. `offsetSize` greater than `1` is for nodes that represents more than one entity, i.e.
+	 * a {@link module:engine/model/text~Text text node}.
 	 */ get offsetSize() {
         return 1;
     }
     /**
-	 * Offset at which this node ends in it's parent. It is equal to the sum of this node's
+	 * Offset at which this node ends in its parent. It is equal to the sum of this node's
 	 * {@link module:engine/model/node~Node#startOffset start offset} and {@link #offsetSize offset size}.
 	 * Equals to `null` if the node has no parent.
 	 */ get endOffset() {
-        if (!this.parent) {
+        if (this.startOffset === null) {
             return null;
         }
         return this.startOffset + this.offsetSize;
@@ -22739,7 +22946,7 @@ function getFiles(nativeDataTransfer) {
         return new this.constructor(this._attrs);
     }
     /**
-	 * Removes this node from it's parent.
+	 * Removes this node from its parent.
 	 *
 	 * @internal
 	 * @see module:engine/model/writer~Writer#remove
@@ -22799,7 +23006,14 @@ Node$1.prototype.is = function(type) {
 	 * Nodes contained in this node list.
 	 */ _nodes = [];
     /**
-	 * Creates an empty node list.
+	 * This array maps numbers (offsets) to node that is placed at that offset.
+	 *
+	 * This array is similar to `_nodes` with the difference that one node may occupy multiple consecutive items in the array.
+	 *
+	 * This array is needed to quickly retrieve a node that is placed at given offset.
+	 */ _offsetToNode = [];
+    /**
+	 * Creates a node list.
 	 *
 	 * @internal
 	 * @param nodes Nodes contained in this node list.
@@ -22823,7 +23037,7 @@ Node$1.prototype.is = function(type) {
     /**
 	 * Sum of {@link module:engine/model/node~Node#offsetSize offset sizes} of all nodes contained inside this node list.
 	 */ get maxOffset() {
-        return this._nodes.reduce((sum, node)=>sum + node.offsetSize, 0);
+        return this._offsetToNode.length;
     }
     /**
 	 * Gets the node at the given index. Returns `null` if incorrect index was passed.
@@ -22831,30 +23045,29 @@ Node$1.prototype.is = function(type) {
         return this._nodes[index] || null;
     }
     /**
-	 * Returns an index of the given node. Returns `null` if given node is not inside this node list.
-	 */ getNodeIndex(node) {
-        const index = this._nodes.indexOf(node);
-        return index == -1 ? null : index;
+	 * Gets the node at the given offset. Returns `null` if incorrect offset was passed.
+	 */ getNodeAtOffset(offset) {
+        return this._offsetToNode[offset] || null;
     }
     /**
-	 * Returns the starting offset of given node. Starting offset is equal to the sum of
-	 * {@link module:engine/model/node~Node#offsetSize offset sizes} of all nodes that are before this node in this node list.
+	 * Returns an index of the given node or `null` if given node does not have a parent.
+	 *
+	 * This is an alias to {@link module:engine/model/node~Node#index}.
+	 */ getNodeIndex(node) {
+        return node.index;
+    }
+    /**
+	 * Returns the offset at which given node is placed in its parent or `null` if given node does not have a parent.
+	 *
+	 * This is an alias to {@link module:engine/model/node~Node#startOffset}.
 	 */ getNodeStartOffset(node) {
-        const index = this.getNodeIndex(node);
-        if (index === null) {
-            return null;
-        }
-        let sum = 0;
-        for(let i = 0; i < index; i++){
-            sum += this._nodes[i].offsetSize;
-        }
-        return sum;
+        return node.startOffset;
     }
     /**
 	 * Converts index to offset in node list.
 	 *
-	 * Returns starting offset of a node that is at given index. Throws {@link module:utils/ckeditorerror~CKEditorError CKEditorError}
-	 * `model-nodelist-index-out-of-bounds` if given index is less than `0` or more than {@link #length}.
+	 * Throws {@link module:utils/ckeditorerror~CKEditorError CKEditorError} `model-nodelist-index-out-of-bounds` if given index is less
+	 * than `0` or more than {@link #length}.
 	 */ indexToOffset(index) {
         if (index == this._nodes.length) {
             return this.maxOffset;
@@ -22872,17 +23085,14 @@ Node$1.prototype.is = function(type) {
     /**
 	 * Converts offset in node list to index.
 	 *
-	 * Returns index of a node that occupies given offset. Throws {@link module:utils/ckeditorerror~CKEditorError CKEditorError}
-	 * `model-nodelist-offset-out-of-bounds` if given offset is less than `0` or more than {@link #maxOffset}.
+	 * Throws {@link module:utils/ckeditorerror~CKEditorError CKEditorError} `model-nodelist-offset-out-of-bounds` if given offset is less
+	 * than `0` or more than {@link #maxOffset}.
 	 */ offsetToIndex(offset) {
-        let totalOffset = 0;
-        for (const node of this._nodes){
-            if (offset >= totalOffset && offset < totalOffset + node.offsetSize) {
-                return this.getNodeIndex(node);
-            }
-            totalOffset += node.offsetSize;
+        if (offset == this._offsetToNode.length) {
+            return this._nodes.length;
         }
-        if (totalOffset != offset) {
+        const node = this._offsetToNode[offset];
+        if (!node) {
             /**
 			 * Given offset cannot be found in the node list.
 			 *
@@ -22894,7 +23104,7 @@ Node$1.prototype.is = function(type) {
                 nodeList: this
             });
         }
-        return this.length;
+        return this.getNodeIndex(node);
     }
     /**
 	 * Inserts given nodes at given index.
@@ -22913,7 +23123,18 @@ Node$1.prototype.is = function(type) {
 				 */ throw new CKEditorError('model-nodelist-insertnodes-not-node', this);
             }
         }
-        this._nodes = spliceArray(this._nodes, Array.from(nodes), index, 0);
+        const nodesArray = Array.from(nodes);
+        const offsetsArray = makeOffsetsArray(nodesArray);
+        let offset = this.indexToOffset(index);
+        // Splice nodes array and offsets array into the nodelist.
+        this._nodes = spliceArray(this._nodes, nodesArray, index, 0);
+        this._offsetToNode = spliceArray(this._offsetToNode, offsetsArray, offset, 0);
+        // Refresh indexes and offsets for nodes inside this node list. We need to do this for all inserted nodes and all nodes after them.
+        for(let i = index; i < this._nodes.length; i++){
+            this._nodes[i]._index = i;
+            this._nodes[i]._startOffset = offset;
+            offset += this._nodes[i].offsetSize;
+        }
     }
     /**
 	 * Removes one or more nodes starting at the given index.
@@ -22923,7 +23144,26 @@ Node$1.prototype.is = function(type) {
 	 * @param howMany Number of nodes to remove.
 	 * @returns Array containing removed nodes.
 	 */ _removeNodes(indexStart, howMany = 1) {
-        return this._nodes.splice(indexStart, howMany);
+        if (howMany == 0) {
+            return [];
+        }
+        // Remove nodes from this nodelist.
+        let offset = this.indexToOffset(indexStart);
+        const nodes = this._nodes.splice(indexStart, howMany);
+        const lastNode = nodes[nodes.length - 1];
+        const removedOffsetSum = lastNode.startOffset + lastNode.offsetSize - offset;
+        this._offsetToNode.splice(offset, removedOffsetSum);
+        // Reset index and start offset properties for the removed nodes -- they do not have a parent anymore.
+        for (const node of nodes){
+            node._index = null;
+            node._startOffset = null;
+        }
+        for(let i = indexStart; i < this._nodes.length; i++){
+            this._nodes[i]._index = i;
+            this._nodes[i]._startOffset = offset;
+            offset += this._nodes[i].offsetSize;
+        }
+        return nodes;
     }
     /**
 	 * Converts `NodeList` instance to an array containing nodes that were inserted in the node list. Nodes
@@ -22933,6 +23173,18 @@ Node$1.prototype.is = function(type) {
 	 */ toJSON() {
         return this._nodes.map((node)=>node.toJSON());
     }
+}
+/**
+ * Creates an array of nodes in the format as in {@link module:engine/model/nodelist~NodeList#_offsetToNode}, i.e. one node will
+ * occupy multiple items if its offset size is greater than one.
+ */ function makeOffsetsArray(nodes) {
+    const offsets = [];
+    for (const node of nodes){
+        const start = offsets.length;
+        offsets.length += node.offsetSize;
+        offsets.fill(node, start);
+    }
+    return offsets;
 }
 
 // @if CK_DEBUG_ENGINE // const { convertMapToStringifiedObject } = require( '../dev-utils/utils' );
@@ -23228,9 +23480,20 @@ TextProxy.prototype.is = function(type) {
         return this.childCount === 0;
     }
     /**
-	 * Gets the child at the given index.
+	 * Gets the child at the given index. Returns `null` if incorrect index was passed.
+	 *
+	 * @param index Index in this element.
+	 * @returns Child node.
 	 */ getChild(index) {
         return this._children.getNode(index);
+    }
+    /**
+	 * Gets the child at the given offset. Returns `null` if incorrect index was passed.
+	 *
+	 * @param offset Offset in this element.
+	 * @returns Child node.
+	 */ getChildAtOffset(offset) {
+        return this._children.getNodeAtOffset(offset);
     }
     /**
 	 * Returns an iterator that iterates over all of this element's children.
@@ -23287,8 +23550,8 @@ TextProxy.prototype.is = function(type) {
 	 */ getNodeByPath(relativePath) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias, consistent-this
         let node = this;
-        for (const index of relativePath){
-            node = node.getChild(node.offsetToIndex(index));
+        for (const offset of relativePath){
+            node = node.getChildAtOffset(offset);
         }
         return node;
     }
@@ -23838,7 +24101,7 @@ function formatReturnValue(type, item, previousPosition, nextPosition, length) {
 	 */ get parent() {
         let parent = this.root;
         for(let i = 0; i < this.path.length - 1; i++){
-            parent = parent.getChild(parent.offsetToIndex(this.path[i]));
+            parent = parent.getChildAtOffset(this.path[i]);
             if (!parent) {
                 /**
 				 * The position's path is incorrect. This means that a position does not point to
@@ -23880,14 +24143,14 @@ function formatReturnValue(type, item, previousPosition, nextPosition, length) {
         return getTextNodeAtPosition(this, this.parent);
     }
     /**
-	 * Node directly after this position or `null` if this position is in text node.
+	 * Node directly after this position. Returns `null` if this position is at the end of its parent, or if it is in a text node.
 	 */ get nodeAfter() {
         // Cache the parent and reuse for performance reasons. See #6579 and #6582.
         const parent = this.parent;
         return getNodeAfterPosition(this, parent, getTextNodeAtPosition(this, parent));
     }
     /**
-	 * Node directly before this position or `null` if this position is in text node.
+	 * Node directly before this position. Returns `null` if this position is at the start of its parent, or if it is in a text node.
 	 */ get nodeBefore() {
         // Cache the parent and reuse for performance reasons. See #6579 and #6582.
         const parent = this.parent;
@@ -23902,6 +24165,21 @@ function formatReturnValue(type, item, previousPosition, nextPosition, length) {
 	 * Is `true` if position is at the end of its {@link module:engine/model/position~Position#parent parent}, `false` otherwise.
 	 */ get isAtEnd() {
         return this.offset == this.parent.maxOffset;
+    }
+    /**
+	 * Checks whether the position is valid in current model tree, that is whether it points to an existing place in the model.
+	 */ isValid() {
+        if (this.offset < 0) {
+            return false;
+        }
+        let parent = this.root;
+        for(let i = 0; i < this.path.length - 1; i++){
+            parent = parent.getChildAtOffset(this.path[i]);
+            if (!parent) {
+                return false;
+            }
+        }
+        return this.offset <= parent.maxOffset;
     }
     /**
 	 * Checks whether this position is before or after given position.
@@ -24540,9 +24818,10 @@ Position.prototype.is = function(type) {
  * * {@link module:engine/model/position~getNodeAfterPosition}
  * * {@link module:engine/model/position~getNodeBeforePosition}
  *
+ * @param position
  * @param positionParent The parent of the given position.
  */ function getTextNodeAtPosition(position, positionParent) {
-    const node = positionParent.getChild(positionParent.offsetToIndex(position.offset));
+    const node = positionParent.getChildAtOffset(position.offset);
     if (node && node.is('$text') && node.startOffset < position.offset) {
         return node;
     }
@@ -24567,13 +24846,14 @@ Position.prototype.is = function(type) {
  * * {@link module:engine/model/position~getTextNodeAtPosition}
  * * {@link module:engine/model/position~getNodeBeforePosition}
  *
+ * @param position Position to check.
  * @param positionParent The parent of the given position.
  * @param textNode Text node at the given position.
  */ function getNodeAfterPosition(position, positionParent, textNode) {
     if (textNode !== null) {
         return null;
     }
-    return positionParent.getChild(positionParent.offsetToIndex(position.offset));
+    return positionParent.getChildAtOffset(position.offset);
 }
 /**
  * Returns the node before the given position.
@@ -24585,6 +24865,7 @@ Position.prototype.is = function(type) {
  * * {@link module:engine/model/position~getTextNodeAtPosition}
  * * {@link module:engine/model/position~getNodeAfterPosition}
  *
+ * @param position Position to check.
  * @param positionParent The parent of the given position.
  * @param textNode Text node at the given position.
  */ function getNodeBeforePosition(position, positionParent, textNode) {
@@ -41637,7 +41918,7 @@ const graveyardName = '$graveyard';
 	 * @param range A range to check.
 	 * @returns `true` if `range` is valid, `false` otherwise.
 	 */ _validateSelectionRange(range) {
-        return validateTextNodePosition(range.start) && validateTextNodePosition(range.end);
+        return range.start.isValid() && range.end.isValid() && validateTextNodePosition(range.start) && validateTextNodePosition(range.end);
     }
     /**
 	 * Performs post-fixer loops. Executes post-fixer callbacks as long as none of them has done any changes to the model.
@@ -42214,10 +42495,18 @@ Marker.prototype.is = function(type) {
     /**
 	 * Gets the child at the given index. Returns `null` if incorrect index was passed.
 	 *
-	 * @param index Index of child.
+	 * @param index Index in this document fragment.
 	 * @returns Child node.
 	 */ getChild(index) {
         return this._children.getNode(index);
+    }
+    /**
+	 * Gets the child at the given offset. Returns `null` if incorrect index was passed.
+	 *
+	 * @param offset Offset in this document fragment.
+	 * @returns Child node.
+	 */ getChildAtOffset(offset) {
+        return this._children.getNodeAtOffset(offset);
     }
     /**
 	 * Returns an iterator that iterates over all of this document fragment's children.
@@ -42261,8 +42550,8 @@ Marker.prototype.is = function(type) {
 	 */ getNodeByPath(relativePath) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias, consistent-this
         let node = this;
-        for (const index of relativePath){
-            node = node.getChild(node.offsetToIndex(index));
+        for (const offset of relativePath){
+            node = node.getChildAtOffset(offset);
         }
         return node;
     }
@@ -46750,7 +47039,7 @@ function isObject(structure) {
                 //
                 // If one element was initially set in `elementOrData`, then use that original element to restart the editor.
                 // This is for compatibility purposes with single-root editor types.
-                if (isElement$1(this._elementOrData)) {
+                if (isElement$2(this._elementOrData)) {
                     return this.create(this._elementOrData, updatedConfig, updatedConfig.context);
                 } else {
                     return this.create(this._editables, updatedConfig, updatedConfig.context);
@@ -46912,7 +47201,7 @@ function isObject(structure) {
 	 */ _cloneEditorConfiguration(config) {
         return cloneDeepWith(config, (value, key)=>{
             // Leave DOM references.
-            if (isElement$1(value)) {
+            if (isElement$2(value)) {
                 return value;
             }
             if (key === 'context') {
@@ -47515,6 +47804,16 @@ const mainQueueId = Symbol('MainQueueId');
     /**
 	 * @inheritDoc
 	 */ static get isContextPlugin() {
+        return false;
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return false;
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isPremiumPlugin() {
         return false;
     }
 }
@@ -48511,6 +48810,16 @@ const mainQueueId = Symbol('MainQueueId');
 	 * @inheritDoc
 	 */ static get isContextPlugin() {
         return true;
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return false;
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isPremiumPlugin() {
+        return false;
     }
 }
 
@@ -49664,6 +49973,11 @@ ElementApiMixin.updateSourceElement = ElementApiMixin(Object).prototype.updateSo
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'PendingActions';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -54340,6 +54654,7 @@ const toPx$6 = /* #__PURE__ */ toUnit('px');
                         class: [
                             'ck',
                             'ck-dialog',
+                            bind.if('isModal', 'ck-dialog_modal'),
                             bind.to('className')
                         ],
                         role: 'dialog',
@@ -54403,7 +54718,8 @@ const toPx$6 = /* #__PURE__ */ toUnit('px');
     /**
 	 * Returns the element that should be used as a drag handle.
 	 */ get dragHandleElement() {
-        if (this.headerView) {
+        // Modals should not be draggable.
+        if (this.headerView && !this.isModal) {
             return this.headerView.element;
         } else {
             return null;
@@ -54612,9 +54928,30 @@ const toPx$6 = /* #__PURE__ */ toUnit('px');
         return new Rect(this.element.firstElementChild);
     }
     /**
-	 * Calculates the viewport rect.
+	 * Returns a viewport `Rect` shrunk by the viewport offset config from all sides.
+	 *
+	 * TODO: This is a duplicate from position.ts module. It should either be exported there or land somewhere in utils.
 	 */ _getViewportRect() {
-        return getConstrainedViewportRect(this._getViewportOffset());
+        const viewportRect = new Rect(global$1.window);
+        // Modals should not be restricted by the viewport offsets as they are always displayed on top of the page.
+        if (this.isModal) {
+            return viewportRect;
+        }
+        const viewportOffset = {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            ...this._getViewportOffset()
+        };
+        viewportRect.top += viewportOffset.top;
+        viewportRect.height -= viewportOffset.top;
+        viewportRect.bottom -= viewportOffset.bottom;
+        viewportRect.height -= viewportOffset.bottom;
+        viewportRect.left += viewportOffset.left;
+        viewportRect.right -= viewportOffset.right;
+        viewportRect.width -= viewportOffset.left + viewportOffset.right;
+        return viewportRect;
     }
     /**
 	 * Collects all focusable elements inside the dialog parts
@@ -54658,25 +54995,6 @@ const toPx$6 = /* #__PURE__ */ toUnit('px');
         return buttonView;
     }
 }
-// Returns a viewport `Rect` shrunk by the viewport offset config from all sides.
-// TODO: This is a duplicate from position.ts module. It should either be exported there or land somewhere in utils.
-function getConstrainedViewportRect(viewportOffset) {
-    viewportOffset = Object.assign({
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0
-    }, viewportOffset);
-    const viewportRect = new Rect(global$1.window);
-    viewportRect.top += viewportOffset.top;
-    viewportRect.height -= viewportOffset.top;
-    viewportRect.bottom -= viewportOffset.bottom;
-    viewportRect.height -= viewportOffset.bottom;
-    viewportRect.left += viewportOffset.left;
-    viewportRect.right -= viewportOffset.right;
-    viewportRect.width -= viewportOffset.left + viewportOffset.right;
-    return viewportRect;
-}
 
 /**
  * The dialog controller class. It is used to show and hide the {@link module:ui/dialog/dialogview~DialogView}.
@@ -54703,6 +55021,11 @@ function getConstrainedViewportRect(viewportOffset) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ constructor(editor){
         super(editor);
         const t = editor.t;
@@ -54724,6 +55047,12 @@ function getConstrainedViewportRect(viewportOffset) {
                 }
             ]
         });
+    }
+    /**
+	 * @inheritDoc
+	 */ destroy() {
+        super.destroy();
+        this._unlockBodyScroll();
     }
     /**
 	 * Initiates listeners for the `show` and `hide` events emitted by this plugin.
@@ -54901,6 +55230,9 @@ function getConstrainedViewportRect(viewportOffset) {
         if (!position) {
             position = isModal ? DialogViewPosition.SCREEN_CENTER : DialogViewPosition.EDITOR_CENTER;
         }
+        if (isModal) {
+            this._lockBodyScroll();
+        }
         view.set({
             position,
             _isVisible: true,
@@ -54938,6 +55270,9 @@ function getConstrainedViewportRect(viewportOffset) {
         }
         const editor = this.editor;
         const view = this.view;
+        if (view.isModal) {
+            this._unlockBodyScroll();
+        }
         // Reset the content view to prevent its children from being destroyed in the standard
         // View#destroy() (and collections) chain. If the content children were left in there,
         // they would have to be re-created by the feature using the dialog every time the dialog
@@ -54953,6 +55288,16 @@ function getConstrainedViewportRect(viewportOffset) {
         this.id = null;
         this.isOpen = false;
         Dialog._visibleDialogPlugin = null;
+    }
+    /**
+	 * Makes the <body> unscrollable (e.g. when the modal shows up).
+	 */ _lockBodyScroll() {
+        document.documentElement.classList.add('ck-dialog-scroll-locked');
+    }
+    /**
+	 * Makes the <body> scrollable again (e.g. once the modal hides).
+	 */ _unlockBodyScroll() {
+        document.documentElement.classList.remove('ck-dialog-scroll-locked');
     }
 }
 
@@ -55249,6 +55594,11 @@ var accessibilityIcon = "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/20
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'AccessibilityHelp';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -57857,7 +58207,7 @@ const POSITION_OFF_SCREEN = {
  * Returns the DOM element for given object or null, if there is none,
  * e.g. when the passed object is a Rect instance or so.
  */ function getDomElement(object) {
-    if (isElement$1(object)) {
+    if (isElement$2(object)) {
         return object;
     }
     if (isRange(object)) {
@@ -58126,13 +58476,13 @@ const NESTED_TOOLBAR_ICONS = /* #__PURE__ */ (()=>({
         this.focusTracker.add(this.element);
         // Children added before rendering should be known to the #focusTracker.
         for (const item of this.items){
-            this.focusTracker.add(item.element);
+            this.focusTracker.add(item);
         }
         this.items.on('add', (evt, item)=>{
-            this.focusTracker.add(item.element);
+            this.focusTracker.add(item);
         });
         this.items.on('remove', (evt, item)=>{
-            this.focusTracker.remove(item.element);
+            this.focusTracker.remove(item);
         });
         // Start listening for the keystrokes coming from #element.
         this.keystrokes.listenTo(this.element);
@@ -59073,6 +59423,7 @@ const NESTED_TOOLBAR_ICONS = /* #__PURE__ */ (()=>({
         toolbarView.items.addMany(buttons);
     }
     dropdownView.panelView.children.add(toolbarView);
+    dropdownView.focusTracker.add(toolbarView);
     toolbarView.items.delegate('execute').to(dropdownView);
 }
 /**
@@ -59137,9 +59488,21 @@ const NESTED_TOOLBAR_ICONS = /* #__PURE__ */ (()=>({
         },
         contextElements: ()=>[
                 dropdownView.element,
-                ...dropdownView.focusTracker.elements
+                // Include all elements connected to the dropdown's focus tracker, but exclude those that are direct children
+                // of DropdownView#element. They would be identified as descendants of #element anyway upon clicking and would
+                // not contribute to the logic.
+                ...getFocusTrackerTreeElements(dropdownView.focusTracker).filter((element)=>!dropdownView.element.contains(element))
             ]
     });
+}
+/**
+ * Returns all DOM elements connected to a DropdownView's focus tracker, either directly (same DOM sub-tree)
+ * or indirectly (external views registered in the focus tracker).
+ */ function getFocusTrackerTreeElements(focusTracker) {
+    return [
+        ...focusTracker.elements,
+        ...focusTracker.externalViews.flatMap((view)=>getFocusTrackerTreeElements(view.focusTracker))
+    ];
 }
 /**
  * Adds a behavior to a dropdownView that closes the dropdown view on "execute" event.
@@ -59613,7 +59976,7 @@ const BALLOON_CLASS = 'ck-tooltip';
 	 */ _onLeaveOrBlur(evt, { target, relatedTarget }) {
         if (evt.name === 'mouseleave') {
             // Don't act when the event does not concern a DOM element (e.g. a mouseleave out of an entire document),
-            if (!isElement$1(target)) {
+            if (!isElement$2(target)) {
                 return;
             }
             const balloonElement = this.balloonPanelView.element;
@@ -59744,7 +60107,7 @@ const BALLOON_CLASS = 'ck-tooltip';
     }
 }
 function getDescendantWithTooltip(element) {
-    if (!isElement$1(element)) {
+    if (!isElement$2(element)) {
         return null;
     }
     return element.closest('[data-cke-tooltip-text]:not([data-cke-tooltip-disabled])');
@@ -61744,11 +62107,11 @@ function isMenuDefinition(definition) {
 	 * @param toolbarView A instance of the toolbar to be registered.
 	 */ addToolbar(toolbarView, options = {}) {
         if (toolbarView.isRendered) {
-            this.focusTracker.add(toolbarView.element);
+            this.focusTracker.add(toolbarView);
             this.editor.keystrokes.listenTo(toolbarView.element);
         } else {
             toolbarView.once('render', ()=>{
-                this.focusTracker.add(toolbarView.element);
+                this.focusTracker.add(toolbarView);
                 this.editor.keystrokes.listenTo(toolbarView.element);
             });
         }
@@ -62413,6 +62776,11 @@ const toPx$4 = /* #__PURE__ */ toUnit('px');
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ContextualBalloon';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -64045,6 +64413,11 @@ const TYPING_INPUT_TYPES_ANDROID = [
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const model = editor.model;
@@ -64878,6 +65251,11 @@ const DELETE_EVENT_TYPES = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const view = editor.editing.view;
@@ -64957,6 +65335,11 @@ const DELETE_EVENT_TYPES = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Typing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -65259,6 +65642,11 @@ const DELETE_EVENT_TYPES = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'TwoStepCaretMovement';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -65928,6 +66316,11 @@ const DEFAULT_TRANSFORMATIONS = [
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ constructor(editor){
         super(editor);
         editor.config.define('typing', {
@@ -66529,6 +66922,11 @@ const DEFAULT_TRANSFORMATIONS = [
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ afterInit() {
         const editor = this.editor;
         const t = this.editor.t;
@@ -66766,6 +67164,11 @@ const DEFAULT_TRANSFORMATIONS = [
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Autosave';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -67046,6 +67449,11 @@ const BOLD$1 = 'bold';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = this.editor.t;
@@ -67140,6 +67548,11 @@ const BOLD = 'bold';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -67179,6 +67592,11 @@ const BOLD = 'bold';
 	 */ static get pluginName() {
         return 'Bold';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 const ITALIC$1 = 'italic';
@@ -67192,6 +67610,11 @@ const ITALIC$1 = 'italic';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ItalicEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -67247,6 +67670,11 @@ const ITALIC = 'italic';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -67286,6 +67714,11 @@ const ITALIC = 'italic';
 	 */ static get pluginName() {
         return 'Italic';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 const UNDERLINE$1 = 'underline';
@@ -67299,6 +67732,11 @@ const UNDERLINE$1 = 'underline';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'UnderlineEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -67351,6 +67789,11 @@ const UNDERLINE = 'underline';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -67389,6 +67832,11 @@ const UNDERLINE = 'underline';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Underline';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -67567,6 +68015,11 @@ const ENTER_EVENT_TYPES = {
 	 */ static get pluginName() {
         return 'Enter';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
     init() {
         const editor = this.editor;
         const view = editor.editing.view;
@@ -67708,6 +68161,11 @@ function insertBreak(model, writer, position) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ShiftEnter';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     init() {
         const editor = this.editor;
@@ -68145,6 +68603,11 @@ const PLUGIN_DISABLED_EDITING_ROOT_CLASS = 'ck-widget__type-around_disabled';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'WidgetTypeAround';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -69067,6 +69530,11 @@ function selectionWillShrink(selection, isForward) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ static get requires() {
         return [
             WidgetTypeAround,
@@ -69868,6 +70336,11 @@ const listElements = [
         return 'ClipboardMarkersUtils';
     }
     /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
 	 * Registers marker name as copyable in clipboard pipeline.
 	 *
 	 * @param markerName Name of marker that can be copied.
@@ -70431,6 +70904,11 @@ const listElements = [
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ static get requires() {
         return [
             ClipboardMarkersUtils
@@ -70659,6 +71137,11 @@ const toPx = /* #__PURE__ */ toUnit('px');
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'DragDropTarget';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -70979,6 +71462,11 @@ const toPx = /* #__PURE__ */ toUnit('px');
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         this.listenTo(editor, 'change:isReadOnly', (evt, name, isReadOnly)=>{
@@ -71175,6 +71663,11 @@ const toPx = /* #__PURE__ */ toUnit('px');
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'DragDrop';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -71653,6 +72146,11 @@ const toPx = /* #__PURE__ */ toUnit('px');
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ static get requires() {
         return [
             ClipboardPipeline
@@ -71740,6 +72238,11 @@ const toPx = /* #__PURE__ */ toUnit('px');
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Clipboard';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -72228,7 +72731,7 @@ function getInitialData(sourceElementOrData) {
     return isElement(sourceElementOrData) ? getDataFromElement(sourceElementOrData) : sourceElementOrData;
 }
 function isElement(value) {
-    return isElement$1(value);
+    return isElement$2(value);
 }
 
 /**
@@ -72303,6 +72806,11 @@ const SELECT_ALL_KEYSTROKE = /* #__PURE__ */ parseKeystroke('Ctrl+A');
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.t;
@@ -72340,6 +72848,11 @@ var selectAllIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SelectAllUI';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -72399,6 +72912,11 @@ var selectAllIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SelectAll';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -72684,6 +73202,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.t;
@@ -72764,6 +73287,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'UndoUI';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -72927,6 +73455,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 */ static get pluginName() {
         return 'Undo';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 /**
@@ -72967,6 +73500,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Essentials';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -73123,6 +73661,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Paragraph';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -74554,6 +75097,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         for (const definition of defaultConfig.block){
             this.registerBlockElement(definition);
@@ -74767,6 +75315,11 @@ var defaultConfig = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'DataFilter';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -75471,6 +76024,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         if (!this.editor.plugins.has('CodeBlockEditing')) {
             return;
@@ -75581,6 +76139,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register', (evt, definition)=>{
@@ -75675,6 +76238,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         if (!editor.plugins.has('HeadingEditing')) {
@@ -75745,6 +76313,11 @@ var defaultConfig = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ImageElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -75933,6 +76506,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         // Stop here if MediaEmbed plugin is not provided or the integrator wants to output markup with previews as
@@ -76042,6 +76620,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register:script', (evt, definition)=>{
@@ -76090,6 +76673,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'TableElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -76248,6 +76836,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register:style', (evt, definition)=>{
@@ -76296,6 +76889,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ListElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -76474,6 +77072,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         const dataSchema = this.editor.plugins.get(DataSchema);
@@ -76622,6 +77225,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'GeneralHtmlSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -76886,6 +77494,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const properties = [
@@ -77042,6 +77655,12 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
             dispatcher.on('attribute:linkHref:imageBlock', (evt, data, { writer, mapper })=>{
                 const viewFigure = mapper.toViewElement(data.item);
                 const linkInImage = Array.from(viewFigure.getChildren()).find((child)=>child.is('element', 'a'));
+                // It's not guaranteed that the anchor is present in the image block during execution of this dispatcher.
+                // It might have been removed during the execution of unlink command that runs the image link downcast dispatcher
+                // that is executed before this one and removes the anchor from the image block.
+                if (!linkInImage) {
+                    return;
+                }
                 for (const item of this._definitions){
                     const attributes = toMap(item.attributes);
                     if (item.callback(data.attributeNewValue)) {
@@ -77591,6 +78210,11 @@ const EXTERNAL_LINKS_REGEXP = /^(https?:)?\/\//;
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'LinkEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -78296,6 +78920,11 @@ const VISUAL_SELECTION_MARKER_NAME = 'link-ui';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = this.editor.t;
@@ -78907,6 +79536,11 @@ const URL_GROUP_IN_MATCH = 2;
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const selection = editor.model.document.selection;
@@ -79126,6 +79760,11 @@ function linkIsAlreadySet(range) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Link';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -82273,6 +82912,11 @@ canParseHTMLNatively() ? root.DOMParser : createHTMLParser();
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const schema = editor.model.schema;
@@ -82366,6 +83010,11 @@ var pageBreakIcon = "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/s
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         // Add pageBreak button to feature components.
@@ -82420,6 +83069,11 @@ var pageBreakIcon = "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/s
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'PageBreak';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -82692,6 +83346,11 @@ const COMMAND_FORCE_DISABLE_ID = 'SourceEditingMode';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SourceEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -83027,6 +83686,10 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
         super();
         this.__registerHost();
         this.textChange = createEvent(this, "textChange", 7);
+        this.plugins = [];
+        this.pluginsMode = 'add';
+        this.toolbarItems = [];
+        this.toolbarItemsMode = 'add';
         this.baseToolbarItems = ['undo', 'redo', '|', 'sourceEditing', '|', 'bold', 'italic', 'underline'];
         this.basePlugins = [
             SourceEditing,
@@ -83048,13 +83711,6 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
             ShiftEnter,
             FullPage,
         ];
-        this.value = undefined;
-        this.error = undefined;
-        this.placeholder = undefined;
-        this.plugins = [];
-        this.pluginsMode = 'add';
-        this.toolbarItems = [];
-        this.toolbarItemsMode = 'add';
     }
     componentDidLoad() {
         this.initEditor();
@@ -83139,7 +83795,7 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
         }
     }
     render() {
-        return (h(Host, { key: '9f91b4db285310a4cfb0d988833945dc470da0c4' }, h("div", { key: '405691736d712bd401312fc33ceaf7ea85c25225', id: "editor" })));
+        return (h(Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     get el() { return this; }
     static get watchers() { return {

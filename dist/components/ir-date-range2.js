@@ -9,11 +9,6 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         super();
         this.__registerHost();
         this.dateChanged = createEvent(this, "dateChanged", 7);
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.date = undefined;
-        this.opens = undefined;
-        this.autoApply = undefined;
         this.firstDay = 1;
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -27,8 +22,6 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         this.weekLabel = 'W';
         this.disabled = false;
         this.singleDatePicker = false;
-        this.minDate = undefined;
-        this.maxDate = undefined;
         this.maxSpan = {
             days: 240,
         };
@@ -115,7 +108,7 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '3c35902ef4bedc6288fa2bc7ab34ba1b9ecc6862' }, h("input", { key: 'b8bbe6f0e1b1c5a5f73dd42a362885f42c0d630e', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'b0fcc63c52e82825c97e5a44cceea83c55286842' }, h("input", { key: '9d3b63e9eaad7aea298bd73ff64a580420d028c5', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {

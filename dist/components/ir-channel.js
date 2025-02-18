@@ -115,17 +115,13 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
     constructor() {
         super();
         this.__registerHost();
-        this.roomService = new RoomService();
-        this.channelService = new ChannelService();
-        this.token = new Token();
         this.ticket = '';
-        this.propertyid = undefined;
-        this.language = undefined;
-        this.baseurl = undefined;
-        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
+        this.roomService = new RoomService();
+        this.channelService = new ChannelService();
+        this.token = new Token();
     }
     componentWillLoad() {
         this.isLoading = true;

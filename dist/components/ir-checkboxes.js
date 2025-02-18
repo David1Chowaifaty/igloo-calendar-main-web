@@ -6,8 +6,8 @@ const IrCheckBoxes = /*@__PURE__*/ proxyCustomElement(class IrCheckBoxes extends
         super();
         this.__registerHost();
         this.checkboxesChange = createEvent(this, "checkboxesChange", 7);
-        this.checkedCheckboxes = [];
         this.checkboxes = [];
+        this.checkedCheckboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {
@@ -25,7 +25,7 @@ const IrCheckBoxes = /*@__PURE__*/ proxyCustomElement(class IrCheckBoxes extends
         }
     }
     render() {
-        return (h("div", { key: '4c9178d85efc6c17d69d6edcf3e434078b42fee0' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (h("div", { key: 'efb5b987a5fc1d46d695e4d653cab20252515f63' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 }, [0, "ir-checkboxes", {
         "checkboxes": [16]

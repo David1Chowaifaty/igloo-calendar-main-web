@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { h as housekeeping_store } from './housekeeping.store.js';
-import { H as HouseKeepingService } from './housekeeping.service.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-icon2.js';
@@ -28,11 +27,10 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
         this.__registerHost();
         this.modalClosed = createEvent(this, "modalClosed", 7);
         this.resetData = createEvent(this, "resetData", 7);
-        this.housekeepingService = new HouseKeepingService();
-        this.user = undefined;
         this.isOpen = false;
         this.selectedId = '';
         this.loadingBtn = null;
+        this.housekeepingService = new HouseKeepingService();
     }
     async closeModal() {
         this.isOpen = false;

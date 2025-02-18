@@ -12,7 +12,6 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         super();
         this.__registerHost();
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.eventType = undefined;
         this.disabled = true;
     }
     isEventType(event) {

@@ -19,6 +19,10 @@ import { EventsService } from "../../../services/events.service";
 import locales from "../../../stores/locales.store";
 export class IglBookingEvent {
     constructor() {
+        this.is_vacation_rental = false;
+        this.allBookingEvents = [];
+        this.renderElement = false;
+        this.isShrinking = null;
         this.dayWidth = 0;
         this.eventSpace = 8;
         this.vertSpace = 10;
@@ -36,15 +40,6 @@ export class IglBookingEvent {
         this.handleMouseMoveBind = this.handleMouseMove.bind(this);
         this.handleMouseUpBind = this.handleMouseUp.bind(this);
         this.handleClickOutsideBind = this.handleClickOutside.bind(this);
-        this.currency = undefined;
-        this.is_vacation_rental = false;
-        this.language = undefined;
-        this.bookingEvent = undefined;
-        this.allBookingEvents = [];
-        this.countryNodeList = undefined;
-        this.renderElement = false;
-        this.position = undefined;
-        this.isShrinking = null;
     }
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
@@ -216,7 +211,7 @@ export class IglBookingEvent {
                                         fromDate = moment(to_date, 'YYYY-MM-DD').subtract(defaultDiffDays, 'days').format('YYYY-MM-DD');
                                     }
                                 }
-                                this.showDialog.emit(Object.assign(Object.assign({ reason: 'reallocate' }, event.detail), { description, title: '', hideConfirmButton, from_date: fromDate, to_date: toDate }));
+                                this.showDialog.emit(Object.assign(Object.assign({}, event.detail), { description, title: '', hideConfirmButton, from_date: fromDate, to_date: toDate }));
                             }
                             else {
                                 // if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
@@ -697,14 +692,14 @@ export class IglBookingEvent {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: 'f2d030d8ae673f322429d27c8468ebe733eea3b0', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '32529bef8b165626328ea850be93106e2d6b9797', class: `bookingEventBase  ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: 'fddc1ed6f87a87f359bb8e6705a20a87cf9882c7', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '3a2fe7e68e86bfcfeb3a48633b4c1a662ea34a6d', class: `bookingEventBase ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '067a2ad748be3f1080fdd7f685b786002d60fdf3', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'de02521b112436a7a599fe2bbc89f5c33bc4b2d8' }, h("div", { key: '7b23e48a8cff97c2726fb6002cf8ea9888393c05', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '4583609a8c40e74c95821408ecb1a92fe5bc39ef', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '6669c000370257671042bebf68339a6b19610d1c', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '51aeebc3b53ec518585833a25745426ff1328abd' }, h("div", { key: '5181fd2af5f41c3d163a280e4ec1165ec9a7ece0', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '9817a3e67dcac8b647b4dbe36a3ebb5fec71e2b9', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }
@@ -735,6 +730,8 @@ export class IglBookingEvent {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -752,6 +749,8 @@ export class IglBookingEvent {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is_vacation_rental",
                 "reflect": false,
                 "defaultValue": "false"
@@ -770,6 +769,8 @@ export class IglBookingEvent {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -786,7 +787,9 @@ export class IglBookingEvent {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "allBookingEvents": {
                 "type": "unknown",
@@ -802,6 +805,8 @@ export class IglBookingEvent {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "countryNodeList": {
@@ -818,6 +823,8 @@ export class IglBookingEvent {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "country-node-list",
                 "reflect": false
             }
@@ -908,13 +915,13 @@ export class IglBookingEvent {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "CalendarModalEvent",
-                    "resolved": "{ reason: \"checkin\" | \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload",
+                    "original": "IReallocationPayload",
+                    "resolved": "IReallocationPayload",
                     "references": {
-                        "CalendarModalEvent": {
+                        "IReallocationPayload": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::CalendarModalEvent"
+                            "id": "src/models/property-types.ts::IReallocationPayload"
                         }
                     }
                 }

@@ -2,11 +2,6 @@ import { h, Host } from "@stencil/core";
 import moment from "moment";
 export class IrDateRange {
     constructor() {
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.date = undefined;
-        this.opens = undefined;
-        this.autoApply = undefined;
         this.firstDay = 1;
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -20,8 +15,6 @@ export class IrDateRange {
         this.weekLabel = 'W';
         this.disabled = false;
         this.singleDatePicker = false;
-        this.minDate = undefined;
-        this.maxDate = undefined;
         this.maxSpan = {
             days: 240,
         };
@@ -108,7 +101,7 @@ export class IrDateRange {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '3c35902ef4bedc6288fa2bc7ab34ba1b9ecc6862' }, h("input", { key: 'b8bbe6f0e1b1c5a5f73dd42a362885f42c0d630e', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'b0fcc63c52e82825c97e5a44cceea83c55286842' }, h("input", { key: '9d3b63e9eaad7aea298bd73ff64a580420d028c5', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "scoped"; }
@@ -142,7 +135,9 @@ export class IrDateRange {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "toDate": {
                 "type": "unknown",
@@ -162,7 +157,9 @@ export class IrDateRange {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "date": {
                 "type": "unknown",
@@ -182,7 +179,9 @@ export class IrDateRange {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "opens": {
                 "type": "string",
@@ -198,6 +197,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "opens",
                 "reflect": false
             },
@@ -215,6 +216,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-apply",
                 "reflect": false
             },
@@ -232,6 +235,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "first-day",
                 "reflect": false,
                 "defaultValue": "1"
@@ -250,6 +255,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
             },
             "daysOfWeek": {
@@ -266,6 +273,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']"
             },
             "format": {
@@ -282,6 +291,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "format",
                 "reflect": false,
                 "defaultValue": "'MMM DD, YYYY'"
@@ -300,6 +311,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "separator",
                 "reflect": false,
                 "defaultValue": "' - '"
@@ -318,6 +331,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "apply-label",
                 "reflect": false,
                 "defaultValue": "'Apply'"
@@ -336,6 +351,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "cancel-label",
                 "reflect": false,
                 "defaultValue": "'Cancel'"
@@ -354,6 +371,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from-label",
                 "reflect": false,
                 "defaultValue": "'Form'"
@@ -372,6 +391,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to-label",
                 "reflect": false,
                 "defaultValue": "'To'"
@@ -390,6 +411,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "custom-range-label",
                 "reflect": false,
                 "defaultValue": "'Custom'"
@@ -408,6 +431,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "week-label",
                 "reflect": false,
                 "defaultValue": "'W'"
@@ -426,6 +451,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -444,6 +471,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "single-date-picker",
                 "reflect": false,
                 "defaultValue": "false"
@@ -467,6 +496,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-date",
                 "reflect": false
             },
@@ -489,6 +520,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-date",
                 "reflect": false
             },
@@ -511,6 +544,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-span",
                 "reflect": false,
                 "defaultValue": "{\r\n    days: 240,\r\n  }"

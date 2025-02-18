@@ -1,10 +1,8 @@
 import { Host, h } from "@stencil/core";
 export class IrTooltip {
     constructor() {
-        this.message = undefined;
         this.withHtml = true;
         this.customSlot = false;
-        this.open = undefined;
     }
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {
@@ -20,14 +18,14 @@ export class IrTooltip {
         }
     }
     render() {
-        return (h(Host, { key: '0e79f05f74221c0d03264f4c3a5fe1d91c4c5c07', class: "m-0 p-0" }, h("span", { key: 'b364f9b412bf48cf8162433766668d92bfbd8183', class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        return (h(Host, { key: '807df8d14b69aca83794f106d6e90264e17815bf', class: "m-0 p-0" }, h("span", { key: 'd0a76f1e8b94b5496e6357663e29cc65fb78a44d', class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: '38ef3fe9bf76012e90aa70c7c9ffa6f524ee5494', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '8deeb805fd07ace3fb9210808ed1ab38ac6148a6', class: "tooltip-arrow" }), h("div", { key: '3d61fd14ee9823d8de7fab4a4d42e9b360d05256', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '040f8c1c4bb53651eb5514dd6379441b8e5cc68c', innerHTML: this.message }))))));
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: 'a8abccc4a8d6579fe095ea050c67af81329efd32', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '9fe9d1383e8713a73c34732f130e03b041ecd2ef', class: "tooltip-arrow" }), h("div", { key: '4f33f089b7d3d92e5dbfbe1c52699f4576271f68', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '241cd06dff89e2e7a7a9bcbc6cfde3e3ca8a0e2d', innerHTML: this.message }))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "scoped"; }
@@ -57,6 +55,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "message",
                 "reflect": true
             },
@@ -74,6 +74,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "with-html",
                 "reflect": false,
                 "defaultValue": "true"
@@ -92,6 +94,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "custom-slot",
                 "reflect": false,
                 "defaultValue": "false"

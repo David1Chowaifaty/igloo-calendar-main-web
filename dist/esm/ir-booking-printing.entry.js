@@ -1,13 +1,13 @@
-import { h, r as registerInstance, F as Fragment } from './index-c553b3dc.js';
-import { h as hooks, p as formatAmount } from './utils-c6413b11.js';
-import { _ as _formatTime } from './functions-ca711996.js';
-import { c as calculateDaysBetweenDates } from './booking-f2354caa.js';
-import { B as BookingService } from './booking.service-b2fe1cc2.js';
-import { R as RoomService } from './room.service-c28cfd8f.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import './axios-ab377903.js';
-import './index-1d7b1ff2.js';
-import './calendar-data-a75c9e95.js';
+import { h, r as registerInstance, F as Fragment } from './index-1d2aa5ad.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { _ as _formatTime } from './functions-14871918.js';
+import { B as BookingService, c as calculateDaysBetweenDates } from './booking.service-d8ab95d6.js';
+import { R as RoomService } from './room.service-a25b78f4.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { f as formatAmount } from './utils-d9142878.js';
+import './axios-aa1335b8.js';
+import './index-e42e9935.js';
+import './calendar-data-14b7fd52.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -46,19 +46,13 @@ const IrBookingPrintingStyle0 = irBookingPrintingCss;
 const IrBookingPrinting = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        // @State() token: string;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
         this.language = 'en';
-        this.propertyid = undefined;
         this.mode = 'default';
-        this.countries = undefined;
-        this.booking = undefined;
-        this.property = undefined;
-        this.guestCountryName = undefined;
-        this.isLoading = undefined;
+        // @State() token: string;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
     }
     componentWillLoad() {
         document.body.style.background = 'white';

@@ -7,16 +7,17 @@ const IrLabel = /*@__PURE__*/ proxyCustomElement(class IrLabel extends HTMLEleme
     constructor() {
         super();
         this.__registerHost();
-        this.labelText = undefined;
-        this.content = undefined;
         this.display = 'flex';
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
+        /** Object representing the image used within the label */
         this.image = null;
+        /** Renders a country-type image style (vs. a 'logo') */
         this.isCountryImage = false;
+        /** Additional CSS classes or style for the image */
         this.imageStyle = '';
+        /** If true, label will ignore checking for an empty content */
         this.ignoreEmptyContent = false;
-        this.placeholder = undefined;
-        this.containerStyle = undefined;
     }
     render() {
         var _a, _b, _c;

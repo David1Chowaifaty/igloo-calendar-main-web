@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
-const turndown_browser_es = require('./turndown.browser.es-de064f1a.js');
+const index = require('./index-aeea0adf.js');
+const turndown_browser_es = require('./turndown.browser.es-1223c680.js');
 require('./_commonjsHelpers-68cdf74f.js');
 
 /**
@@ -708,6 +708,11 @@ const startCase$1 = startCase;
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ afterInit() {
         const editor = this.editor;
         const t = this.editor.t;
@@ -945,6 +950,11 @@ const startCase$1 = startCase;
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Autosave';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -1225,6 +1235,11 @@ const BOLD$1 = 'bold';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = this.editor.t;
@@ -1319,6 +1334,11 @@ const BOLD = 'bold';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -1358,6 +1378,11 @@ const BOLD = 'bold';
 	 */ static get pluginName() {
         return 'Bold';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 const ITALIC$1 = 'italic';
@@ -1371,6 +1396,11 @@ const ITALIC$1 = 'italic';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ItalicEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -1426,6 +1456,11 @@ const ITALIC = 'italic';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -1465,6 +1500,11 @@ const ITALIC = 'italic';
 	 */ static get pluginName() {
         return 'Italic';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 const UNDERLINE$1 = 'underline';
@@ -1478,6 +1518,11 @@ const UNDERLINE$1 = 'underline';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'UnderlineEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -1530,6 +1575,11 @@ const UNDERLINE = 'underline';
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.locale.t;
@@ -1568,6 +1618,11 @@ const UNDERLINE = 'underline';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Underline';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -2098,6 +2153,11 @@ const SELECT_ALL_KEYSTROKE = /* #__PURE__ */ turndown_browser_es.parseKeystroke(
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.t;
@@ -2135,6 +2195,11 @@ var selectAllIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SelectAllUI';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -2194,6 +2259,11 @@ var selectAllIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SelectAll';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -2479,6 +2549,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const t = editor.t;
@@ -2559,6 +2634,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'UndoUI';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -2722,6 +2802,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 */ static get pluginName() {
         return 'Undo';
     }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
 }
 
 /**
@@ -2762,6 +2847,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Essentials';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -2918,6 +3008,11 @@ function isRangeContainedByAnyOtherRange(range, ranges) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'Paragraph';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -4349,6 +4444,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         for (const definition of defaultConfig.block){
             this.registerBlockElement(definition);
@@ -4562,6 +4662,11 @@ var defaultConfig = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'DataFilter';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -5266,6 +5371,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         if (!this.editor.plugins.has('CodeBlockEditing')) {
             return;
@@ -5376,6 +5486,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register', (evt, definition)=>{
@@ -5470,6 +5585,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         if (!editor.plugins.has('HeadingEditing')) {
@@ -5540,6 +5660,11 @@ var defaultConfig = {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ImageElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -5728,6 +5853,11 @@ var defaultConfig = {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         // Stop here if MediaEmbed plugin is not provided or the integrator wants to output markup with previews as
@@ -5837,6 +5967,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register:script', (evt, definition)=>{
@@ -5885,6 +6020,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'TableElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -6043,6 +6183,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         dataFilter.on('register:style', (evt, definition)=>{
@@ -6091,6 +6236,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'ListElementSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -6269,6 +6419,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const dataFilter = this.editor.plugins.get(DataFilter);
         const dataSchema = this.editor.plugins.get(DataSchema);
@@ -6417,6 +6572,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'GeneralHtmlSupport';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -6681,6 +6841,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const properties = [
@@ -6814,6 +6979,11 @@ function modelToViewMediaAttributeConverter(mediaElementName) {
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         const schema = editor.model.schema;
@@ -6907,6 +7077,11 @@ var pageBreakIcon = "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/s
     }
     /**
 	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
+    }
+    /**
+	 * @inheritDoc
 	 */ init() {
         const editor = this.editor;
         // Add pageBreak button to feature components.
@@ -6961,6 +7136,11 @@ var pageBreakIcon = "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/s
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'PageBreak';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
 }
 
@@ -7233,6 +7413,11 @@ const COMMAND_FORCE_DISABLE_ID = 'SourceEditingMode';
 	 * @inheritDoc
 	 */ static get pluginName() {
         return 'SourceEditing';
+    }
+    /**
+	 * @inheritDoc
+	 */ static get isOfficialPlugin() {
+        return true;
     }
     /**
 	 * @inheritDoc
@@ -7567,6 +7752,10 @@ const IrTextEditor = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.textChange = index.createEvent(this, "textChange", 7);
+        this.plugins = [];
+        this.pluginsMode = 'add';
+        this.toolbarItems = [];
+        this.toolbarItemsMode = 'add';
         this.baseToolbarItems = ['undo', 'redo', '|', 'sourceEditing', '|', 'bold', 'italic', 'underline'];
         this.basePlugins = [
             SourceEditing,
@@ -7588,13 +7777,6 @@ const IrTextEditor = class {
             turndown_browser_es.ShiftEnter,
             FullPage,
         ];
-        this.value = undefined;
-        this.error = undefined;
-        this.placeholder = undefined;
-        this.plugins = [];
-        this.pluginsMode = 'add';
-        this.toolbarItems = [];
-        this.toolbarItemsMode = 'add';
     }
     componentDidLoad() {
         this.initEditor();
@@ -7679,7 +7861,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '9f91b4db285310a4cfb0d988833945dc470da0c4' }, index.h("div", { key: '405691736d712bd401312fc33ceaf7ea85c25225', id: "editor" })));
+        return (index.h(index.Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, index.h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

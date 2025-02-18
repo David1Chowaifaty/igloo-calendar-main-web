@@ -1,8 +1,6 @@
 import { Host, h } from "@stencil/core";
 export class IrTitle {
     constructor() {
-        this.label = undefined;
-        this.borderShown = undefined;
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }
@@ -15,9 +13,9 @@ export class IrTitle {
         }
     }
     render() {
-        return (h(Host, { key: 'c6f2a4c0a9c2c0f1bccddd49d1a02f9f8d32980e' }, h("h4", { key: 'ae7e15d4f94def4c943009c31220098aca0638e4', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'd980fe105247f0fac1e5d7fa314593ef5646983c', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: 'e1297ecec78af390426bbbca1375d1f8ce9edc78' }, h("h4", { key: 'cddb7ea247d9c00915af2c4797ed50ba13d532ad', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '3be4b719f4880888255625c957243861bfaa52da', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '95de551cbe7da6d3665c4730804d10ca508d684e', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'c793f3180222451694206d1fb4b8843477464874', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'b0ad02c0b78ae9b358fb99eb4b3b1c1cf6f91080', class: 'title-body' }, h("slot", { key: '167fa58539d7c5f0072a7f9360ef17239c7d1c36', name: "title-body" })))));
+            } }, h("svg", { key: '6206497f19ac3a7e3832c4d0c8dc106b72b9edcd', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '898334469eb59827b033faeb16dfa24f4c175473', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'fe9ba3d1a40bdf4f1a9477e1457a8a3d5554b5dd', class: 'title-body' }, h("slot", { key: '48079f28fecd1216618a20dee03cf2a358797ee8', name: "title-body" })))));
     }
     static get is() { return "ir-title"; }
     static get encapsulation() { return "scoped"; }
@@ -47,25 +45,10 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
-            },
-            "borderShown": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "attribute": "border-shown",
-                "reflect": true
             },
             "displayContext": {
                 "type": "string",
@@ -81,6 +64,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display-context",
                 "reflect": true,
                 "defaultValue": "'default'"
@@ -99,6 +84,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "justify-content",
                 "reflect": true,
                 "defaultValue": "'start'"

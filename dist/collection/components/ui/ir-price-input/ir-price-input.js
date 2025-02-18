@@ -2,6 +2,14 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrPriceInput {
     constructor() {
+        /** The AutoValidate for the input, optional */
+        this.autoValidate = true;
+        /** Placeholder text for the input */
+        this.placeholder = '';
+        /** Initial value for the input */
+        this.value = '';
+        /** Whether the input is required */
+        this.required = false;
         this.handleInputChange = (event) => {
             const target = event.target;
             this.value = target.value;
@@ -20,20 +28,6 @@ export class IrPriceInput {
             // Emit the focus event
             this.inputFocus.emit();
         };
-        this.label = undefined;
-        this.inputStyle = undefined;
-        this.labelStyle = undefined;
-        this.disabled = undefined;
-        this.currency = undefined;
-        this.autoValidate = true;
-        this.wrapKey = undefined;
-        this.zod = undefined;
-        this.placeholder = '';
-        this.value = '';
-        this.required = false;
-        this.minValue = undefined;
-        this.maxValue = undefined;
-        this.error = undefined;
     }
     componentWillLoad() {
         if (this.el.id) {
@@ -63,13 +57,13 @@ export class IrPriceInput {
     }
     render() {
         var _a, _b;
-        return (h("fieldset", { key: 'a8ad1c1197cd75f73fc3f0d73e317402382e50a4', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: '5582283cecd411a19f58aa8f8ec90fcecf96eefc', class: "input-group-prepend" }, h("span", { key: '009d92a210df65783b882075e27092ade3073576', class: `input-group-text 
+        return (h("fieldset", { key: '4d65b00e007f99811a0a54cdab2c483ae8ccc115', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: 'dee73737d388877602030923e5f6d8616facdf64', class: "input-group-prepend" }, h("span", { key: '461785de6d327e2441aae9f3dcebf26df023581f', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '1c0a0181229e917c54c271d1c5e62aaa5f842e06', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '73627b3d320d34f429ada4b3436de4de08165f07', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '77bb61bccca8b737bad5a041e4a34dead6ee7059', class: `input-group-prepend` }, h("span", { key: '14158069b42f2df59c229f37d14748bdffa5b656', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '72dd8284d1ed972e39bbd466294a00a07ff5b804', disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '66b09dbdccaeeba4d5f8ad3ef2ec85c36a64b8b4', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'e6e5bbe0d9e9ed199873cd447ff2ba3171fdc18b', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '5fbfac3895bc2faaf70c87aecea32d4b37382583', class: `input-group-prepend` }, h("span", { key: '546b9bb4f89d71a39d1ffe74d4b3f2d7c11646d6', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '18489c0165b2c3c2c3851279cd8cd5a262f84d47', disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -103,6 +97,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The label for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -120,6 +116,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Extra classnames for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "input-style",
                 "reflect": false
             },
@@ -137,6 +135,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Extra classnames for the label, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-style",
                 "reflect": false
             },
@@ -154,6 +154,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The disabled for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false
             },
@@ -171,6 +173,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The Currency for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -188,6 +192,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The AutoValidate for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-validate",
                 "reflect": false,
                 "defaultValue": "true"
@@ -206,6 +212,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Indicates the key to wrap the value (e.g., 'price' or 'cost')"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "wrap-key",
                 "reflect": false
             },
@@ -228,7 +236,9 @@ export class IrPriceInput {
                 "docs": {
                     "tags": [],
                     "text": "A Zod schema for validating the input\r\nExample: z.coerce.number()"
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "placeholder": {
                 "type": "string",
@@ -244,6 +254,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Placeholder text for the input"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false,
                 "defaultValue": "''"
@@ -262,6 +274,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Initial value for the input"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false,
                 "defaultValue": "''"
@@ -280,6 +294,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Whether the input is required"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "required",
                 "reflect": false,
                 "defaultValue": "false"
@@ -298,6 +314,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Minimum value for the price"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-value",
                 "reflect": false
             },
@@ -315,6 +333,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Maximum value for the price"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-value",
                 "reflect": false
             }

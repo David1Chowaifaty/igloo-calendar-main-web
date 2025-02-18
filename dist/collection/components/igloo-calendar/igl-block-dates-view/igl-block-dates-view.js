@@ -3,6 +3,8 @@ import { BookingService } from "../../../services/booking.service";
 import locales from "../../../stores/locales.store";
 export class IglBlockDatesView {
     constructor() {
+        this.isEventHover = false;
+        this.renderAgain = false;
         this.blockDatesData = {
             RELEASE_AFTER_HOURS: 0,
             OPTIONAL_REASON: '',
@@ -10,14 +12,6 @@ export class IglBlockDatesView {
         }; // Change of property name might require updates in booking-event-hover
         this.releaseList = [];
         this.bookingService = new BookingService();
-        this.defaultData = undefined;
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.entryDate = undefined;
-        this.entryHour = undefined;
-        this.isEventHover = false;
-        this.entryMinute = undefined;
-        this.renderAgain = false;
     }
     async componentWillLoad() {
         try {
@@ -79,7 +73,8 @@ export class IglBlockDatesView {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: 'bd47c87076b88f1a27685749b6cb2fe2ebac8644' }, h("div", { key: 'e47719d7fb7e5cd339222bef1cf7a3cdc8c0d7c5', class: `m-0 p-0 mb-1` }, h("div", { key: 'b62663cb32850bdb7047d52b87483a35950cb4b1', class: "text-left p-0" }, h("ir-date-view", { key: '140433c5de6cf987703cf42f8530b0109323ef35', from_date: this.fromDate, dateOption: "DD MMM YYYY", showDateDifference: false, to_date: this.toDate }))), h("div", { key: 'a192149471505b441610acb8257174da9c4c08d0', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '825bcf39baac6486c0d3c7832e9e8713b08d3196', class: "mb-1 " }, h("label", { key: 'bd43ce09822ce7af6c1ac6a120d25db5c751d63f', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '764e3b1d4edd8145d448d30ed1c8b7a33116322d', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '21bac22756ea7920b17586fd44360b2ca4451d29', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '1fb8c1b0fd3a1348f9fed590d082c040a1e6faab', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
+        console.log({ fromDate: this.fromDate, toDate: this.toDate });
+        return (h(Host, { key: '79d6fe64a539852193d2b3263f2ba3108f5182a0' }, h("div", { key: 'abedca637d853a05e00bf0e45bca52d8ad13281a', class: `m-0 p-0 mb-1` }, h("div", { key: 'deef0e7ba2e9bc87b670d13aa085c6b0f0bca9a4', class: "text-left p-0" }, h("ir-date-view", { key: 'a836824d9a9060e53e3815e55f2483f0aee1e2be', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: '59c23634a134abd8ca5af3ca2ec62ee14142f2e9', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '708537f3aa05a085039d4cf190f4047f177814ee', class: "mb-1 " }, h("label", { key: '9f2c4192e9cc5491b1091da528c418ef1f3b176a', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '29071fd37ac7aae0ad6c51c0d02550586b3e3a63', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: 'eb455c4d53182f84d1cb7f7a5a66fe49db69fdbe', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: 'f65ba30ae5da4d778cf98fc5310753419711545b', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
     static get is() { return "igl-block-dates-view"; }
     static get encapsulation() { return "scoped"; }
@@ -108,7 +103,9 @@ export class IglBlockDatesView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "fromDate": {
                 "type": "string",
@@ -124,6 +121,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from-date",
                 "reflect": false
             },
@@ -141,6 +140,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to-date",
                 "reflect": false
             },
@@ -158,6 +159,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "entry-date",
                 "reflect": false
             },
@@ -175,6 +178,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "entry-hour",
                 "reflect": false
             },
@@ -192,6 +197,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-event-hover",
                 "reflect": false,
                 "defaultValue": "false"
@@ -210,6 +217,8 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "entry-minute",
                 "reflect": false
             }

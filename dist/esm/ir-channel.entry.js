@@ -1,12 +1,12 @@
-import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-c553b3dc.js';
-import { R as RoomService } from './room.service-c28cfd8f.js';
-import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-a03c634b.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import { C as ChannelService } from './channel.service-52227efa.js';
-import { T as Token } from './Token-a382baa1.js';
-import './calendar-data-a75c9e95.js';
-import './index-1d7b1ff2.js';
-import './axios-ab377903.js';
+import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-1d2aa5ad.js';
+import { R as RoomService } from './room.service-a25b78f4.js';
+import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-92261163.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { C as ChannelService } from './channel.service-590e4c2e.js';
+import { T as Token } from './Token-acf5fbad.js';
+import './calendar-data-14b7fd52.js';
+import './index-e42e9935.js';
+import './axios-aa1335b8.js';
 
 const actions = (entries) => [
     {
@@ -105,17 +105,13 @@ const IrChannelStyle0 = irChannelCss;
 const IrChannel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.roomService = new RoomService();
-        this.channelService = new ChannelService();
-        this.token = new Token();
         this.ticket = '';
-        this.propertyid = undefined;
-        this.language = undefined;
-        this.baseurl = undefined;
-        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
+        this.roomService = new RoomService();
+        this.channelService = new ChannelService();
+        this.token = new Token();
     }
     componentWillLoad() {
         this.isLoading = true;

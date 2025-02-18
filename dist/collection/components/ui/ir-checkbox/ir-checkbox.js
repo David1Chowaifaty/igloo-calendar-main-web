@@ -3,10 +3,7 @@ import { v4 } from "uuid";
 export class IrCheckbox {
     constructor() {
         this.checked = false;
-        this.label = undefined;
         this.checkboxId = v4();
-        this.name = undefined;
-        this.disabled = undefined;
         this.currentChecked = false;
     }
     handleCheckedChange(newValue) {
@@ -31,7 +28,7 @@ export class IrCheckbox {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h(Host, { key: 'df59ba742a643cc246dd9b71243448aa1f7e9264' }, h("button", { key: 'df2ae40a45ec984748a0805c2bc4ffd03158e769', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: 'df4ee57368cb7947875fbcdc467f6345741b931b', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '50819b4f18134223067575ce35f1305a2353508d', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), h("input", { key: '61fb9f19ace02d7768608d94400aebb7d4469ad1', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '0e04f261ae10c1f054917c756f9e15f2a381b053', htmlFor: this.checkboxId }, this.label)));
+        return (h(Host, { key: 'd967ee1d0101a840c1e3e6a2ccfc0ed71caafdea' }, h("button", { key: '05658ad74a001fff0ef1d6f24a7d985bc1adbfde', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: '8cb8746f174e95d5ce51a6e4aaaaea65b40216cf', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '3789f5bee1d17440b73b1f4c091804b0c69f6bf0', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), h("input", { key: '7bee79b85b2287fcaebcd28bb98fc70f50ff7b06', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '01c406f83e8e765f6b132e169de3e0314be4e9af', htmlFor: this.checkboxId }, this.label)));
     }
     static get is() { return "ir-checkbox"; }
     static get encapsulation() { return "scoped"; }
@@ -61,6 +58,8 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "checked",
                 "reflect": false,
                 "defaultValue": "false"
@@ -79,6 +78,8 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -96,6 +97,8 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "checkbox-id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -114,6 +117,8 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -131,6 +136,8 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false
             }

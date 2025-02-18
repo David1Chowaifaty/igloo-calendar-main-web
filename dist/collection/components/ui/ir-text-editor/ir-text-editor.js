@@ -2,6 +2,10 @@ import { h, Host } from "@stencil/core";
 import { ClassicEditor, AccessibilityHelp, Autoformat, AutoLink, Autosave, Bold, Essentials, Italic, Paragraph, SelectAll, TextTransformation, Undo, Underline, PageBreak, Enter, GeneralHtmlSupport, ShiftEnter, SourceEditing, FullPage, } from "ckeditor5";
 export class IrTextEditor {
     constructor() {
+        this.plugins = [];
+        this.pluginsMode = 'add';
+        this.toolbarItems = [];
+        this.toolbarItemsMode = 'add';
         this.baseToolbarItems = ['undo', 'redo', '|', 'sourceEditing', '|', 'bold', 'italic', 'underline'];
         this.basePlugins = [
             SourceEditing,
@@ -23,13 +27,6 @@ export class IrTextEditor {
             ShiftEnter,
             FullPage,
         ];
-        this.value = undefined;
-        this.error = undefined;
-        this.placeholder = undefined;
-        this.plugins = [];
-        this.pluginsMode = 'add';
-        this.toolbarItems = [];
-        this.toolbarItemsMode = 'add';
     }
     componentDidLoad() {
         this.initEditor();
@@ -114,7 +111,7 @@ export class IrTextEditor {
         }
     }
     render() {
-        return (h(Host, { key: '9f91b4db285310a4cfb0d988833945dc470da0c4' }, h("div", { key: '405691736d712bd401312fc33ceaf7ea85c25225', id: "editor" })));
+        return (h(Host, { key: 'da4f7fa01386c810a86c5a3dab3b6e9c38aee60c' }, h("div", { key: '74466b640dbdb07af04348581e31ec5ab17c83e7', id: "editor" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {
@@ -143,6 +140,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false
             },
@@ -160,6 +159,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false
             },
@@ -177,6 +178,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -200,6 +203,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "pluginsMode": {
@@ -216,6 +221,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "plugins-mode",
                 "reflect": false,
                 "defaultValue": "'add'"
@@ -240,6 +247,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "toolbarItemsMode": {
@@ -256,6 +265,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "toolbar-items-mode",
                 "reflect": false,
                 "defaultValue": "'add'"

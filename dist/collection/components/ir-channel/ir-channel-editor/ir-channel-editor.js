@@ -5,9 +5,7 @@ import { Host, h } from "@stencil/core";
 export class IrChannelEditor {
     constructor() {
         var _a, _b, _c;
-        this.channelService = new ChannelService();
         this.channel_status = null;
-        this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
         this.status = false;
@@ -21,6 +19,7 @@ export class IrChannelEditor {
             { id: 'channel_booking', name: (_c = locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_ChannelBooking, disabled: true },
         ];
         this.selectedRoomType = [];
+        this.channelService = new ChannelService();
     }
     componentWillLoad() {
         if (this.channel_status === 'edit') {
@@ -74,9 +73,9 @@ export class IrChannelEditor {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '9b082116235e743ac50ec987e22edf8dfaa8a33e', class: " d-flex flex-column h-100" }, h("nav", { key: '392c687fb6dfdec8770099b54cb8ad8054fd0b3d', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: '3c15cfef205278bae533c20eb648d68589175790', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: 'c501ab1f57add3037ec86f49183cec04aa7f02bc', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: '870d871f72e61c5c2224f241e762fa3ec887d130', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (h(Host, { key: 'c7d799f710898c75ccb17dd5200eadce46347217', class: " d-flex flex-column h-100" }, h("nav", { key: 'c26b4b0a722729c9bab52a1086bb3e62f7f2d05f', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: 'db3603eb4dbd1c710106b4637d926d042d291243', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: '0f92f13d4a34b7e1733e4438f7c774a5473c35fc', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), h("ir-icon", { key: '592a75da569c9be807f4f1fcd6285dd15a0e7c4d', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '27b6b6cddeda848abcbf14955b734be5f6117efa', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'cccaee7d2f47aead5b82f02afc70b6d6a3649700', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: 'b312368581293c053867494030699fafeb50bdd5', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: '4ba57681217ea203696941630226261464160a60', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: 'ecc6238e165f8eff90861f7392f9fd6e7b9af88a', isLoading: this.isLoading, onClickHandler: () => {
+            } }, h("svg", { key: 'fde72cd63bc957c0f314b689ac7f9abf55807c84', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '498f87755b60519a9ae33deb4674d8da75c6cfd1', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '5e3d62255c35ca106942acf80031b626eca8fce9', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: '4b5834092b9cdeb03eb25a69e302ef9c8b0fd8fb', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: 'c6f3a3f2a4caf3cf1b551ecc88616476ec5c8e0d', isLoading: this.isLoading, onClickHandler: () => {
                 if (!channels_data.isConnectedToChannel) {
                     this.toast.emit({
                         type: 'error',
@@ -116,6 +115,8 @@ export class IrChannelEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "channel_status",
                 "reflect": false,
                 "defaultValue": "null"
@@ -134,6 +135,8 @@ export class IrChannelEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false
             }

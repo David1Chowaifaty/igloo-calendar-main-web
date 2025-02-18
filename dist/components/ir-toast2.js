@@ -30,7 +30,7 @@ const IrToast = /*@__PURE__*/ proxyCustomElement(class IrToast extends HTMLEleme
         }
     }
     render() {
-        return h(Host, { key: 'ea98d399bbc38dec1a526d40800030a1563cdd7a' });
+        return h(Host, { key: 'b7b4b02d8a3b6475f187f032d9a56d673bde8a2f' });
     }
     get element() { return this; }
     static get style() { return IrToastStyle0; }

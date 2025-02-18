@@ -2,15 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
-const room_service = require('./room.service-415aa9c4.js');
-const channel_store = require('./channel.store-9da77951.js');
-const locales_store = require('./locales.store-4301bbe8.js');
-const channel_service = require('./channel.service-32940a1b.js');
-const Token = require('./Token-a4c2b5d8.js');
-require('./calendar-data-7e342bed.js');
-require('./index-5e99a1fe.js');
-require('./axios-b86c5465.js');
+const index = require('./index-aeea0adf.js');
+const room_service = require('./room.service-74d4091a.js');
+const channel_store = require('./channel.store-f5ff1505.js');
+const locales_store = require('./locales.store-7abd65bc.js');
+const channel_service = require('./channel.service-854cb7ed.js');
+const Token = require('./Token-049041c2.js');
+require('./calendar-data-819782c8.js');
+require('./index-3cfd4bf8.js');
+require('./axios-6e678d52.js');
 
 const actions = (entries) => [
     {
@@ -109,17 +109,13 @@ const IrChannelStyle0 = irChannelCss;
 const IrChannel = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.roomService = new room_service.RoomService();
-        this.channelService = new channel_service.ChannelService();
-        this.token = new Token.Token();
         this.ticket = '';
-        this.propertyid = undefined;
-        this.language = undefined;
-        this.baseurl = undefined;
-        this.p = undefined;
         this.channel_status = null;
         this.modal_cause = null;
         this.isLoading = false;
+        this.roomService = new room_service.RoomService();
+        this.channelService = new channel_service.ChannelService();
+        this.token = new Token.Token();
     }
     componentWillLoad() {
         this.isLoading = true;

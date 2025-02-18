@@ -13,28 +13,24 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         this.comboboxValue = createEvent(this, "comboboxValue", 7);
         this.inputCleared = createEvent(this, "inputCleared", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.bookingService = new BookingService();
-        this.no_result_found = '';
         this.duration = 300;
         this.placeholder = '';
-        this.propertyId = undefined;
         this.isSplitBooking = false;
         this.type = 'text';
         this.name = '';
         this.inputId = v4();
         this.required = false;
         this.disabled = false;
-        this.value = undefined;
         this.from_date = '';
         this.to_date = '';
-        this.danger_border = undefined;
         this.inputValue = '';
         this.data = [];
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
-        this.isItemSelected = undefined;
         this.inputFocused = false;
+        this.bookingService = new BookingService();
+        this.no_result_found = '';
     }
     componentWillLoad() {
         this.no_result_found = locales.entries.Lcz_NoResultsFound;
@@ -237,7 +233,7 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         this.isComboBoxVisible = false;
     }
     render() {
-        return (h(Host, { key: '2281946d226993a2347cd8a8f41ef7da49de5cc4' }, h("div", { key: 'd415d0e92da524fe4d5a24159ef727c588dc863a', class: 'd-flex align-items-center ' }, h("label", { key: '753cb346786baaed3891cbdef320656368aa70df', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: '340d478501aaf51d3a23f582a03aeec2c592b831', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: '93bda7e8640492661c2a595121cbb4243c93887d', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: '59df20d3860677fa4c939ecba0bf4c81b61e5b84', required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: '9890805e3a57e3444bb76525fe2bfa707b0592c4', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: '1f965ce80f6e7af02f645c50faa9cc9b1710e11e', class: 'sr-only' }, "clear input"), h("svg", { key: '696b895c903765d405aec842e551f4187caa99e3', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '1afac33a6b2bdc3898b448ec3390df640ca289b3', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
+        return (h(Host, { key: 'c5af6053628f0580bfe780985f823c62c63902a1' }, h("div", { key: '24af5dc1746490cbdb4b68d5798f785e8988de9b', class: 'd-flex align-items-center ' }, h("label", { key: '9c317eb72327f028ed98898034bcabb519a2d8d0', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: '18cb9104d0df6a8cdd3c455c9b6f45b35ca46c83', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: '94457491eb02122d72fd196d70dc688d3b57de1e', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: '4ace6aa51af01de7bebb1c8ad0562afc49145592', required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: '0426dd885dd4c39535c55ad0b28fa3521690e184', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: '93f395236693763f96d7e9a1e3511f7581870dd3', class: 'sr-only' }, "clear input"), h("svg", { key: 'd681794ce64f75d943967ab232e635b41f85bf69', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '3db2cb46d6242870f86a9293b8d7229f65378895', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
     }
     get el() { return this; }
     static get style() { return IrAutocompleteStyle0; }

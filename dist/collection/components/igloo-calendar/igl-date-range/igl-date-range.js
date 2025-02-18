@@ -4,17 +4,13 @@ import { calculateDaysBetweenDates } from "../../../utils/booking";
 import moment from "moment";
 export class IglDateRange {
     constructor() {
-        this.totalNights = 0;
-        this.fromDateStr = 'from';
-        this.toDateStr = 'to';
-        this.defaultData = undefined;
         this.disabled = false;
-        this.minDate = undefined;
-        this.dateLabel = undefined;
-        this.maxDate = undefined;
         this.withDateDifference = true;
         this.variant = 'default';
         this.renderAgain = false;
+        this.totalNights = 0;
+        this.fromDateStr = 'from';
+        this.toDateStr = 'to';
     }
     componentWillLoad() {
         this.initializeDates();
@@ -112,7 +108,9 @@ export class IglDateRange {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "disabled": {
                 "type": "boolean",
@@ -128,6 +126,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": true,
                 "defaultValue": "false"
@@ -146,6 +146,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-date",
                 "reflect": false
             },
@@ -163,6 +165,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "date-label",
                 "reflect": false
             },
@@ -180,6 +184,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-date",
                 "reflect": false
             },
@@ -197,6 +203,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "with-date-difference",
                 "reflect": false,
                 "defaultValue": "true"
@@ -215,6 +223,8 @@ export class IglDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"

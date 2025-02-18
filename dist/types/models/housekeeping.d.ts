@@ -2,14 +2,6 @@ export interface IExposedHouseKeepingSetup {
     statuses: IHKStatuses[];
     housekeepers: IHouseKeepers[];
     units_assignments: IUnitAssignments;
-    cleaning_frequencies: ExposedHKSetup[];
-    cleaning_periods: ExposedHKSetup[];
-    dusty_periods: ExposedHKSetup[];
-    highlight_checkin_options: ExposedHKSetup[];
-}
-export interface ExposedHKSetup {
-    code: string;
-    description: string;
 }
 export interface IHouseKeepers {
     id: number;
@@ -98,16 +90,4 @@ export interface IPendingActions {
     housekeeper: IHouseKeepers;
     status: IHKStatuses;
     unit: IUnit;
-}
-export interface Task {
-    id: string;
-    adult: number;
-    child: number;
-    date: string;
-    hint: string;
-    hkm_id: number;
-    infant: number;
-    status: string;
-    unit: IUnit;
-    housekeeper: string;
 }

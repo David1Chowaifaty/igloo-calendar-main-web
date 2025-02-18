@@ -1,10 +1,10 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-c553b3dc.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-404dbac8.js';
-import { i as isRequestPending } from './ir-interceptor.store-651abd9c.js';
-import { l as locales } from './locales.store-a1e3db22.js';
-import { L as Link } from './turndown.browser.es-721ae98b.js';
-import './axios-ab377903.js';
-import './index-1d7b1ff2.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-037119f8.js';
+import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { L as Link } from './turndown.browser.es-84d4e63d.js';
+import './axios-aa1335b8.js';
+import './index-e42e9935.js';
 import './_commonjsHelpers-1c8beb5f.js';
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}.money-transfer-form.sc-ir-option-details{min-height:250px !important}";
@@ -15,11 +15,9 @@ const IrOptionDetails = class {
         registerInstance(this, hostRef);
         this.closeModal = createEvent(this, "closeModal", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.paymentOptionService = new PaymentOptionService();
-        this.propertyId = undefined;
-        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
+        this.paymentOptionService = new PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;

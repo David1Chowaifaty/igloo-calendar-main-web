@@ -61,11 +61,9 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.paymentOptionService = new PaymentOptionService();
-        this.propertyId = undefined;
-        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
+        this.paymentOptionService = new PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;

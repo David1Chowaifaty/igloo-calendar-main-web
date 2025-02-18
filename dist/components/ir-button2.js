@@ -10,8 +10,6 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         super();
         this.__registerHost();
         this.clickHandler = createEvent(this, "clickHandler", 7);
-        this.name = undefined;
-        this.text = undefined;
         this.icon = 'ft-save';
         this.btn_color = 'primary';
         this.size = 'md';
@@ -20,15 +18,11 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.btn_disabled = false;
         this.btn_type = 'button';
         this.isLoading = false;
-        this.btn_styles = undefined;
         this.btn_id = v4();
         this.variant = 'default';
-        this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
         this.iconPosition = 'left';
-        this.icon_style = undefined;
-        this.btnStyle = undefined;
-        this.labelStyle = undefined;
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -37,10 +31,6 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         }
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.buttonEl.classList.remove('bounce-3');
-        this.buttonEl.classList.add('bounce-3');
-    }
-    async bounce() {
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
     }
@@ -73,8 +63,7 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         "icon_style": [8],
         "btnStyle": [16],
         "labelStyle": [16],
-        "renderContentAsHtml": [4, "render-content-as-html"],
-        "bounce": [64]
+        "renderContentAsHtml": [4, "render-content-as-html"]
     }, [[16, "animateIrButton", "handleButtonAnimation"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

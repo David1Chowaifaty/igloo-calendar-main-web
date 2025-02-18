@@ -15,7 +15,6 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = 250;
-        this.textareaClassname = undefined;
         this.variant = 'default';
         this.labelWidth = 3;
         this.error = false;

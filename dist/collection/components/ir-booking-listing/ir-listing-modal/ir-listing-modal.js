@@ -6,14 +6,12 @@ import { PaymentService } from "../../../services/payment.service";
 import moment from "moment";
 export class IrListingModal {
     constructor() {
-        this.bookingListingsService = new BookingListingService();
-        this.paymentService = new PaymentService();
         this.modalTitle = 'Modal Title';
-        this.editBooking = undefined;
         this.isOpen = false;
         this.deletionStage = 1;
-        this.selectedDesignation = undefined;
         this.loadingBtn = null;
+        this.bookingListingsService = new BookingListingService();
+        this.paymentService = new PaymentService();
     }
     componentWillLoad() {
         this.selectedDesignation = booking_listing.settlement_methods[0].name;
@@ -150,6 +148,8 @@ export class IrListingModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "modal-title",
                 "reflect": false,
                 "defaultValue": "'Modal Title'"
@@ -159,7 +159,7 @@ export class IrListingModal {
                 "mutable": false,
                 "complexType": {
                     "original": "{ booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' }",
-                    "resolved": "{ booking: Booking; cause: \"delete\" | \"guest\" | \"payment\" | \"edit\"; }",
+                    "resolved": "{ booking: Booking; cause: \"guest\" | \"delete\" | \"payment\" | \"edit\"; }",
                     "references": {
                         "Booking": {
                             "location": "import",
@@ -173,7 +173,9 @@ export class IrListingModal {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -2,17 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
+const index = require('./index-aeea0adf.js');
 
 const IrSpan = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.text = undefined;
     }
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (index.h("span", { key: 'e64347616fe5e44a437558426a59b33433847a39' }, this.text));
+        return (index.h("span", { key: 'bb5441b5cd07025682841d64f6a4a9b2dc0fa12b' }, this.text));
     }
 };
 

@@ -11,6 +11,15 @@ import Token from "../../models/Token";
 import { isSingleUnit } from "../../stores/calendar-data";
 export class IrBookingListing {
     constructor() {
+        this.language = '';
+        this.ticket = '';
+        this.rowCount = 10;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
         this.token = new Token();
@@ -20,17 +29,6 @@ export class IrBookingListing {
             '003': 'badge-danger',
             '004': 'badge-danger',
         };
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.rowCount = 10;
-        this.p = undefined;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
     }
     componentWillLoad() {
         updateUserSelection('end_row', this.rowCount);
@@ -153,7 +151,7 @@ export class IrBookingListing {
             _o.map(booking => {
                 var _a, _b, _c;
                 let confirmationBG = this.statusColors[booking.status.code];
-                return (h("tr", { key: booking.booking_nbr }, h("td", { class: "text-left" }, h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr })), h("td", null, h("p", { class: "p-0 m-0 date-p" }, moment(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("p", { class: "p-0 m-0 secondary-p" }, _formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), h("td", null, h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), h("div", { class: "text-left" }, h("div", { class: "d-flex align-items-center" }, h("div", { class: "booking_name m-0 p-0" }, h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
+                return (h("tr", { key: booking.booking_nbr }, h("td", { class: "text-left" }, h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), h("td", null, h("p", { class: "p-0 m-0 date-p" }, moment(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("p", { class: "p-0 m-0 secondary-p" }, _formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), h("td", null, h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), h("div", { class: "text-left" }, h("div", { class: "d-flex align-items-center" }, h("div", { class: "booking_name m-0 p-0" }, h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
                         width: 'fit-content',
                         padding: '0',
                         margin: '0',
@@ -192,7 +190,9 @@ export class IrBookingListing {
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body",
+            // isInSideBar={true}
+            headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
     }
     static get is() { return "ir-booking-listing"; }
     static get encapsulation() { return "scoped"; }
@@ -222,6 +222,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
@@ -240,6 +242,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -258,6 +262,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -275,6 +281,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "row-count",
                 "reflect": false,
                 "defaultValue": "10"
@@ -293,6 +301,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

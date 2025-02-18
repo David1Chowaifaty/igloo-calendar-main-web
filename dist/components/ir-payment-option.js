@@ -22,18 +22,15 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
-        this.paymentOptionService = new PaymentOptionService();
-        this.roomService = new RoomService();
-        this.token = new Token();
-        this.propertyid = undefined;
-        this.ticket = undefined;
-        this.p = undefined;
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
+        this.paymentOptionService = new PaymentOptionService();
+        this.roomService = new RoomService();
+        this.token = new Token();
     }
     componentWillLoad() {
         if (this.ticket !== '') {

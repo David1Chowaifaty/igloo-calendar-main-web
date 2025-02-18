@@ -2,10 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-d0d7c4d0.js');
-const Token = require('./Token-a4c2b5d8.js');
-const utils = require('./utils-b5af6709.js');
-require('./axios-b86c5465.js');
+const index = require('./index-aeea0adf.js');
+const Token = require('./Token-049041c2.js');
+const utils = require('./utils-b07b7e84.js');
+require('./axios-6e678d52.js');
+require('./moment-1780b03a.js');
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 const IrBookingStyle0 = irBookingCss;
@@ -13,11 +14,8 @@ const IrBookingStyle0 = irBookingCss;
 const IrBooking = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.token = new Token.Token();
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.bookingNumber = undefined;
         this.isAuthenticated = false;
+        this.token = new Token.Token();
     }
     componentWillLoad() {
         const isAuthenticated = utils.checkUserAuthState();

@@ -5,6 +5,10 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import calendar_data from "../../../../stores/calendar-data";
 export class IglBookPropertyHeader {
     constructor() {
+        this.splitBookingId = '';
+        this.bookingData = '';
+        this.sourceOptions = [];
+        this.showSplitBookingOption = false;
         this.sourceOption = {
             code: '',
             description: '',
@@ -12,20 +16,6 @@ export class IglBookPropertyHeader {
             id: '',
             type: '',
         };
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.minDate = undefined;
-        this.sourceOptions = [];
-        this.message = undefined;
-        this.bookingDataDefaultDateRange = undefined;
-        this.showSplitBookingOption = false;
-        this.adultChildConstraints = undefined;
-        this.splitBookings = undefined;
-        this.adultChildCount = undefined;
-        this.dateRangeData = undefined;
-        this.bookedByInfoData = undefined;
-        this.defaultDaterange = undefined;
-        this.propertyId = undefined;
     }
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: moment(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: moment(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
@@ -152,6 +142,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "split-booking-id",
                 "reflect": false,
                 "defaultValue": "''"
@@ -170,6 +162,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-data",
                 "reflect": false,
                 "defaultValue": "''"
@@ -188,6 +182,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-date",
                 "reflect": false
             },
@@ -211,6 +207,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "message": {
@@ -227,6 +225,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "message",
                 "reflect": false
             },
@@ -243,7 +243,9 @@ export class IglBookPropertyHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "showSplitBookingOption": {
                 "type": "boolean",
@@ -259,6 +261,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-split-booking-option",
                 "reflect": false,
                 "defaultValue": "false"
@@ -282,7 +286,9 @@ export class IglBookPropertyHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "splitBookings": {
                 "type": "unknown",
@@ -297,7 +303,9 @@ export class IglBookPropertyHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "adultChildCount": {
                 "type": "unknown",
@@ -312,7 +320,9 @@ export class IglBookPropertyHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "dateRangeData": {
                 "type": "any",
@@ -328,6 +338,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "date-range-data",
                 "reflect": false
             },
@@ -345,6 +357,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booked-by-info-data",
                 "reflect": false
             },
@@ -361,7 +375,9 @@ export class IglBookPropertyHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "propertyId": {
                 "type": "number",
@@ -377,6 +393,8 @@ export class IglBookPropertyHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             }
