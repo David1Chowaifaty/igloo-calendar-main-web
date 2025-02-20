@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { B as BookingService } from './booking.service-4039a7f9.js';
-import { t as transformNewBooking } from './booking-456e89b8.js';
-import { i as isBlockUnit, h as hooks, t as findCountry, p as formatAmount } from './utils-d7ffde72.js';
-import { E as EventsService } from './events.service-e8e079f6.js';
+import { B as BookingService } from './booking.service-4f925067.js';
+import { t as transformNewBooking } from './booking-aa2212d7.js';
+import { i as isBlockUnit, h as hooks, t as findCountry, p as formatAmount } from './utils-dec94d9c.js';
+import { E as EventsService } from './events.service-a73bf71c.js';
 import { l as locales } from './locales.store-eb2a5c52.js';
 import { c as calendar_data } from './calendar-data-a578c03e.js';
 import './axios-aa1335b8.js';

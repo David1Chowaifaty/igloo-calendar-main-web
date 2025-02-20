@@ -4,6 +4,7 @@ export declare class IrSecureTasks {
     bookingNumber: string;
     isAuthenticated: boolean;
     private token;
+    currentPage: string;
     componentWillLoad(): void;
     private handleAuthFinish;
     render(): any;

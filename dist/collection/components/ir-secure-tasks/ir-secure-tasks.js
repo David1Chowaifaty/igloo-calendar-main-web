@@ -22,7 +22,11 @@ export class IrSecureTasks {
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })));
+        return (h(Host, null, h("ul", { class: "nav nav-tabs" }, h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
+                this.currentPage = 'hk';
+            } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
+                this.currentPage = 'tasks';
+            } }, "Tasks"))), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
     }
     static get is() { return "ir-secure-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -99,7 +103,8 @@ export class IrSecureTasks {
     }
     static get states() {
         return {
-            "isAuthenticated": {}
+            "isAuthenticated": {},
+            "currentPage": {}
         };
     }
 }
