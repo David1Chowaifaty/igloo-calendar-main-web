@@ -139,7 +139,8 @@ export class IrBookingEngine {
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
-        app_store.analytics = Analytics('google', 'G-8BH7GRG0G7');
+        app_store.analytics = Analytics('google', 'G-NCREF4XPHZ');
+        // app_store.analytics = Analytics('google', 'G-8BH7GRG0G7');
         const [currencies, languages] = await Promise.all(requests);
         this.currencies = currencies;
         this.languages = languages;
