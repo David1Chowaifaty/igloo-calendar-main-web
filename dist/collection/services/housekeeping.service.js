@@ -35,8 +35,19 @@ export class HouseKeepingService {
     }
     async getHKPendingActions(params) {
         const { data } = await axios.post(`/Get_HK_Pending_Actions`, Object.assign({}, params));
-        updateHKStore('pending_housekeepers', [...data['My_Result']]);
+        updateHKStore('pending_housekeepers', [...data['My_Result']].map(d => ({ original: d, selected: false })));
         return data['My_Result'];
+    }
+    async setExposedUnitHKStatus(params) {
+        const { data } = await axios.post(`/Set_Exposed_Unit_HK_Status`, Object.assign({}, params));
+        return data['My_Result'];
+    }
+    async getHkTasks(params) {
+        const { data } = await axios.post('/Get_HK_Tasks', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
     async executeHKAction(params) {
         await axios.post(`/Execute_HK_Action`, Object.assign({}, params));

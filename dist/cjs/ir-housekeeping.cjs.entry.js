@@ -4,12 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
 const Token = require('./Token-049041c2.js');
-const housekeeping_service = require('./housekeeping.service-378593f3.js');
-const room_service = require('./room.service-74d4091a.js');
+const housekeeping_service = require('./housekeeping.service-579a1b92.js');
+const room_service = require('./room.service-a8c2c6cd.js');
+const calendarData = require('./calendar-data-cd8e8374.js');
+const housekeeping_store = require('./housekeeping.store-d0cb71d9.js');
 require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
-require('./calendar-data-819782c8.js');
 require('./locales.store-7abd65bc.js');
+require('./index-3cfd4bf8.js');
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
 const IrHousekeepingStyle0 = irHousekeepingCss;
@@ -55,7 +56,7 @@ const IrHousekeeping = class {
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            housekeeping_store.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
             const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
             if (this.propertyid) {
                 requests.unshift(this.roomService.getExposedProperty({
@@ -77,7 +78,17 @@ const IrHousekeeping = class {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("ir-unit-status", { class: "mb-1" }), index.h("ir-hk-team", { class: "mb-1" }))));
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("h4", { class: "mb-2" }, "Housekeeping & Check-In Setup"), index.h("div", { class: "card p-1" }, index.h("ir-title", { borderShown: true, label: "Check-In Mode" }), index.h("div", { class: 'd-flex align-items-center' }, index.h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), index.h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.roomService.SetAutomaticCheckInOut({
+                    property_id: this.propertyid,
+                    flag: e.detail === 'auto',
+                });
+            }, data: [
+                { text: `Yes, as per the property's policy.`, value: 'auto' },
+                { text: 'No, I will do it manually. ', value: 'manual' },
+            ] }))), index.h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

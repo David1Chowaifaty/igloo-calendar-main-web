@@ -13,9 +13,9 @@ export class IrTitle {
         }
     }
     render() {
-        return (h(Host, { key: 'e1297ecec78af390426bbbca1375d1f8ce9edc78' }, h("h4", { key: 'cddb7ea247d9c00915af2c4797ed50ba13d532ad', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '3be4b719f4880888255625c957243861bfaa52da', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '35bfab9494f790faa650317d5260f27a34f86a71' }, h("h4", { key: '0ffeb3acea80446dbbd8179b5b953b0223223944', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '603d6b2daeeaf4c30eeaad9a7f3c3abf4c57e078', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '6206497f19ac3a7e3832c4d0c8dc106b72b9edcd', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '898334469eb59827b033faeb16dfa24f4c175473', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'fe9ba3d1a40bdf4f1a9477e1457a8a3d5554b5dd', class: 'title-body' }, h("slot", { key: '48079f28fecd1216618a20dee03cf2a358797ee8', name: "title-body" })))));
+            } }, h("svg", { key: 'fe1fb9aa970a979bb859be985e8161b00caf70dc', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'e13732a28702c1b0046c4466643b9aa57b537a07', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '8a1855ac54c8cb6660734af737cdc85bf6a97477', class: 'title-body' }, h("slot", { key: '31d99895428c931859a51271f1791906b3e204c9', name: "title-body" })))));
     }
     static get is() { return "ir-title"; }
     static get encapsulation() { return "scoped"; }
@@ -49,6 +49,25 @@ export class IrTitle {
                 "setter": false,
                 "attribute": "label",
                 "reflect": false
+            },
+            "borderShown": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "border-shown",
+                "reflect": true
             },
             "displayContext": {
                 "type": "string",

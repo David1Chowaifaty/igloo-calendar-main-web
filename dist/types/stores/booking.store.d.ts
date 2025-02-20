@@ -29,7 +29,8 @@ export interface IRatePlanSelection {
     };
 }
 export interface RatePlanGuest {
-    name: string;
+    first_name: string;
+    last_name: string;
     unit: string | null;
     bed_preference: string | null;
     infant_nbr: number | null;

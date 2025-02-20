@@ -195,6 +195,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'arrow-right-from-bracket': {
+        d: string;
+        viewBox: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

@@ -35,14 +35,9 @@ export class ToBeAssignedService {
             throw new Error(error);
         }
     }
-    async assignUnit(booking_nbr, identifier, pr_id) {
+    async assignUnit(props) {
         try {
-            const { data } = await axios.post(`/Assign_Exposed_Room`, {
-                booking_nbr,
-                identifier,
-                pr_id,
-                extras,
-            });
+            const { data } = await axios.post(`/Assign_Exposed_Room`, Object.assign(Object.assign({}, props), { extras }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
