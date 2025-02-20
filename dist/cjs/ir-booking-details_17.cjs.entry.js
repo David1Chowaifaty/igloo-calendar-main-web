@@ -4,19 +4,18 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
 const axios = require('./axios-6e678d52.js');
-const booking_service = require('./booking.service-1fb0d277.js');
-const room_service = require('./room.service-a8c2c6cd.js');
-const locales_store = require('./locales.store-7abd65bc.js');
+const booking_service = require('./booking.service-85aed90b.js');
+const room_service = require('./room.service-33279e69.js');
+const locales_store = require('./locales.store-03c357e0.js');
 const payment_service = require('./payment.service-3c37bbce.js');
 const Token = require('./Token-049041c2.js');
-const calendarData = require('./calendar-data-cd8e8374.js');
+const calendarData = require('./calendar-data-2d79fb14.js');
 const utils = require('./utils-e0a83322.js');
-const booking = require('./booking-603668c5.js');
+const booking = require('./booking-f0d987ca.js');
 const icons = require('./icons-a189d33a.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
+const irInterceptor_store = require('./ir-interceptor.store-564b951f.js');
 const functions = require('./functions-2b408efb.js');
 const index$1 = require('./index-b31fbbfb.js');
-require('./index-3cfd4bf8.js');
 
 const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden;--ir-dialog-max-width:20rem}.sc-ir-booking-details-h *.sc-ir-booking-details{font-family:inherit !important}.font-medium.sc-ir-booking-details{font-weight:600}.sc-ir-booking-details-h th.sc-ir-booking-details{font-weight:600}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.loading-container.sc-ir-booking-details{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0.2rem 0.3rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}.dialog-title.sc-ir-booking-details{width:fit-content}";
 const IrBookingDetailsStyle0 = irBookingDetailsCss;

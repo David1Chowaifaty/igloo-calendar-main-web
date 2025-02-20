@@ -1,0 +1,2 @@
+import{c as e}from"./p-90fc30ae.js";const n={default_properties:undefined,hk_criteria:undefined,hk_tasks:undefined,pending_housekeepers:[]};const{state:s}=e(n);function t(e,n){s[e]=n}function i(){return s.default_properties}export{i as g,s as h,t as u};
+//# sourceMappingURL=p-77f02a45.js.map

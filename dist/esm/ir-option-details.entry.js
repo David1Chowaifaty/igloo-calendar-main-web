@@ -1,10 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-037119f8.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import { l as locales } from './locales.store-95a78d6b.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-f80d30d7.js';
+import { i as isRequestPending } from './ir-interceptor.store-247ea933.js';
+import { l as locales } from './locales.store-eb2a5c52.js';
 import { L as Link } from './turndown.browser.es-84d4e63d.js';
 import './axios-aa1335b8.js';
-import './index-e42e9935.js';
 import './_commonjsHelpers-1c8beb5f.js';
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}.money-transfer-form.sc-ir-option-details{min-height:250px !important}";

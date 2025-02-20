@@ -3,18 +3,17 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
-const room_service = require('./room.service-a8c2c6cd.js');
-const booking_service = require('./booking.service-1fb0d277.js');
+const room_service = require('./room.service-33279e69.js');
+const booking_service = require('./booking.service-85aed90b.js');
 const utils = require('./utils-e0a83322.js');
-const events_service = require('./events.service-8261eb7f.js');
+const events_service = require('./events.service-f98f7f8d.js');
 const toBeAssigned_service = require('./toBeAssigned.service-d5102311.js');
-const booking = require('./booking-603668c5.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-const calendarData = require('./calendar-data-cd8e8374.js');
-const unassigned_dates_store = require('./unassigned_dates.store-d54b2759.js');
+const booking = require('./booking-f0d987ca.js');
+const locales_store = require('./locales.store-03c357e0.js');
+const calendarData = require('./calendar-data-2d79fb14.js');
+const unassigned_dates_store = require('./unassigned_dates.store-60c4d759.js');
 const Token = require('./Token-049041c2.js');
 require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";

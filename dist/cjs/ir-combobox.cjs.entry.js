@@ -3,9 +3,8 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
-const locales_store = require('./locales.store-7abd65bc.js');
+const locales_store = require('./locales.store-03c357e0.js');
 const v4 = require('./v4-9b297151.js');
-require('./index-3cfd4bf8.js');
 
 const irComboboxCss = ".sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0;box-sizing:border-box}ul.sc-ir-combobox{position:absolute;box-sizing:border-box;margin:0;margin-top:2px;width:max-content;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto;min-width:100%}ul[data-position='bottom-right'].sc-ir-combobox{right:0}.list-item-image.sc-ir-combobox{height:1rem;aspect-ratio:4/3;border-radius:4px;margin-right:10px}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox{display:flex;align-items:center;flex-wrap:wrap;gap:3px}ul.sc-ir-combobox li.sc-ir-combobox p.sc-ir-combobox{margin:0;padding:0}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}";
 const IrComboboxStyle0 = irComboboxCss;

@@ -69,6 +69,7 @@
     "components/ir-login/ir-login.js",
     "components/ir-payment-option/ir-payment-option.js",
     "components/ir-payment-option/ir-option-details/ir-option-details.js",
+    "components/ir-secure-tasks/ir-secure-tasks.js",
     "components/ir-title/ir-title.js",
     "components/ui/ir-autocomplete/ir-autocomplete.js",
     "components/ui/ir-button/ir-button.js",

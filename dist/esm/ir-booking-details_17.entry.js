@@ -1,18 +1,17 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, g as getElement, H as Host } from './index-1d2aa5ad.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingService } from './booking.service-451141a2.js';
-import { R as RoomService } from './room.service-7d6a9238.js';
-import { l as locales } from './locales.store-95a78d6b.js';
+import { B as BookingService } from './booking.service-4039a7f9.js';
+import { R as RoomService } from './room.service-039e7b49.js';
+import { l as locales } from './locales.store-eb2a5c52.js';
 import { P as PaymentService } from './payment.service-56b6590d.js';
 import { T as Token } from './Token-acf5fbad.js';
-import { c as calendar_data, i as isSingleUnit } from './calendar-data-e1b88280.js';
-import { h as hooks, p as formatAmount, z, Z as ZodError, u as renderTime } from './utils-0ecaed12.js';
-import { g as getPrivateNote, f as formatName } from './booking-e490449d.js';
+import { c as calendar_data, i as isSingleUnit } from './calendar-data-a578c03e.js';
+import { h as hooks, p as formatAmount, z, Z as ZodError, u as renderTime } from './utils-d7ffde72.js';
+import { g as getPrivateNote, f as formatName } from './booking-456e89b8.js';
 import { c as colorVariants } from './icons-bcb47550.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-93621e3d.js';
+import { i as isRequestPending } from './ir-interceptor.store-247ea933.js';
+import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-88d6d448.js';
 import { I as IMask } from './index-1207b1f1.js';
-import './index-e42e9935.js';
 
 const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden;--ir-dialog-max-width:20rem}.sc-ir-booking-details-h *.sc-ir-booking-details{font-family:inherit !important}.font-medium.sc-ir-booking-details{font-weight:600}.sc-ir-booking-details-h th.sc-ir-booking-details{font-weight:600}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.loading-container.sc-ir-booking-details{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0.2rem 0.3rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}.dialog-title.sc-ir-booking-details{width:fit-content}";
 const IrBookingDetailsStyle0 = irBookingDetailsCss;
