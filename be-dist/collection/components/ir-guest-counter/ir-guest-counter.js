@@ -3,14 +3,14 @@ import { calculateInfantNumber } from "../../utils/utils";
 import { h } from "@stencil/core";
 export class IrGuestCounter {
     constructor() {
+        // Properties
         this.minAdultCount = 1;
         this.maxAdultCount = 5;
         this.minChildrenCount = 0;
         this.maxChildrenCount = 5;
         this.childMaxAge = 17;
-        this.child = undefined;
-        this.adults = undefined;
         this.error = false;
+        // Local state
         this.adultCount = this.minAdultCount;
         this.childrenCount = this.minChildrenCount;
         this.childrenAges = [];
@@ -86,7 +86,7 @@ export class IrGuestCounter {
     }
     render() {
         var _a;
-        return (h("div", { key: '44d54a27b1eb6d66067b64f561a827245f9490e1', class: "counter-container p-4" }, h("div", { key: 'b86477055f78dd3e509e42394d4dca3ccabbf177', class: "counter-item" }, h("div", { key: 'f34ef680b60e7ada0c73f3b066083239cd31628c' }, h("p", { key: '650ce754f6bf7d6d658b7d8ad8c88f5acafbb732', class: "main-text" }, "Adults"), h("p", { key: 'bb1716a6c2935ad2b0d72027718928b120016d4f', class: "secondary-text" }, "Ages ", this.childMaxAge + 1, "+")), h("div", { key: 'bc791a3fee6205ff072bae4698ff5a3de0a510ac', class: "counter-buttons-group" }, h("ir-button", { key: '4ecd9d902f8228d241a83aa77682ecaf22f6be13', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'b5150db9b3383d8625f04f7b39cbccb481d05c43' }, this.adultCount), h("ir-button", { key: 'ce1a5343711f140d27808edd9e23918bb031dfb0', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: '52feb7f94a3358823b31fcec5f59488e697d451f', class: "counter-item" }, h("div", { key: '2e1e25021533af193b6f14992f678de593e2b59b' }, h("p", { key: '10b53703250a8606c4bfc0b3c1a2dbce9a47572b', class: "main-text" }, "Children"), h("p", { key: '07654127bcc8ed68ff2d4f2fb999faeb29daea44', class: "secondary-text" }, "Ages 0-", this.childMaxAge)), h("div", { key: '22001ced0074ad137eda58fe9bb9de155ac2c19f', class: "counter-buttons-group" }, h("ir-button", { key: 'f6b30abe45a7a115a096050a455cc7c339e4e2f7', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '2a88a5ed6524d288cd43dfa33a60cac5f9157373' }, this.childrenCount), h("ir-button", { key: '636499c38b51e7291d458fb875d1b961c7e81d5b', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
+        return (h("div", { key: '663b4e612d8ba085a84b3648d65551b33287c1e8', class: "counter-container p-4" }, h("div", { key: '819bea032ff84629e829e0d43d9b68f55ad5779d', class: "counter-item" }, h("div", { key: '50f27134254274b3fe3fc906fc68b12cbea743d5' }, h("p", { key: 'd69e426e5d7588c8adb312f8f1e902fa8ccfc67f', class: "main-text" }, "Adults"), h("p", { key: 'b3a32ddbc06d1e2094af6f0798c1dd00fe6bb55c', class: "secondary-text" }, "Ages ", this.childMaxAge + 1, "+")), h("div", { key: 'cb013b8465487a279618e3c45e67ec1b5dd13de4', class: "counter-buttons-group" }, h("ir-button", { key: '3d611bf0e7524a1e8094bb518d4d24a939f03e4d', iconName: "minus", disabled: this.adultCount === this.minAdultCount, variants: "icon", onButtonClick: this.decrementAdultCount.bind(this), "aria-label": "Decrease adult count", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: '462e2d7f52071ae4c153660b732ed59f87ff3b98' }, this.adultCount), h("ir-button", { key: 'c30f053c5c704d3c2789e400e077b72d6d4beb77', iconName: "plus", disabled: this.adultCount === this.maxAdultCount, variants: "icon", onButtonClick: this.incrementAdultCount.bind(this), "aria-label": "Increase adult count", svgClassName: "h-[14px] w-[12.25px]" }))), this.childMaxAge > 0 && (h("div", { key: 'e16aa63f22081ab70e14f625cee5236fe6d1a65b', class: "counter-item" }, h("div", { key: 'fc0987a8f3aad10109927d4dc6c4a964a2a67040' }, h("p", { key: '3a3bf38162bf4a1d68d79cffd0b5d036d7a9797e', class: "main-text" }, "Children"), h("p", { key: 'b6b9a9aa4ac0b65e8497c87f79cc13709111be04', class: "secondary-text" }, "Ages 0-", this.childMaxAge)), h("div", { key: '60d70170073ffbf25732942c45c1e126441da4b0', class: "counter-buttons-group" }, h("ir-button", { key: 'f59613110648ba54e5a1207ed3eeac2bdc42c70d', disabled: this.childrenCount === this.minChildrenCount, variants: "icon", onButtonClick: this.decrementChildrenCount.bind(this), "aria-label": "Decrease child count", iconName: "minus", svgClassName: "h-[14px] w-[12.25px]" }), h("p", { key: 'e948b2ece4a11c5c1c7e395e79a62dbd76171408' }, this.childrenCount), h("ir-button", { key: '7f63e0454365ef4e841873618f1f33b58672799f', disabled: this.childrenCount === this.maxChildrenCount, variants: "icon", onButtonClick: this.incrementChildrenCount.bind(this), "aria-label": "Increase child count", iconName: "plus", svgClassName: "h-[14px] w-[12.25px]" })))), (_a = this.childrenAges) === null || _a === void 0 ? void 0 :
             _a.map((v, i) => (h("div", null, h("ir-select", { addDummyOption: true, value: v, key: `child_${i}_age`, "data-state": this.error && v === '' ? 'error' : '', variant: "double-line", label: `Child ${i + 1} age`, onValueChange: e => {
                     const prev = [...this.childrenAges];
                     prev[i] = e.detail.toString();
@@ -95,7 +95,7 @@ export class IrGuestCounter {
                 }, data: [...Array(this.childMaxAge + 1)].map((_, index) => ({
                     id: index.toString(),
                     value: index === 0 ? localizedWords.entries['Lcz_under1'] : index.toString(),
-                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'f724267e48a7d5f40ac339da4bd137e060e3759f', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
+                })) }), this.error && v === '' && h("p", { class: 'm-0 p-0 text-xs text-red-500' }, localizedWords.entries.Lcz_enterchildage)))), h("ir-button", { key: 'cadff0ba02fd437ab7654818e2b6265a0194c0fe', onButtonClick: this.addChildrenAndAdult.bind(this), size: "md", class: "done-button",
             // label={localizedWords.entries.Lcz_Done}
             label: "Done", "aria-label": "Confirm selection" })));
     }
@@ -127,6 +127,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-adult-count",
                 "reflect": false,
                 "defaultValue": "1"
@@ -145,6 +147,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-adult-count",
                 "reflect": false,
                 "defaultValue": "5"
@@ -163,6 +167,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-children-count",
                 "reflect": false,
                 "defaultValue": "0"
@@ -181,6 +187,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-children-count",
                 "reflect": false,
                 "defaultValue": "5"
@@ -199,6 +207,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "child-max-age",
                 "reflect": false,
                 "defaultValue": "17"
@@ -217,6 +227,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "child",
                 "reflect": false
             },
@@ -234,6 +246,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "adults",
                 "reflect": false
             },
@@ -251,6 +265,8 @@ export class IrGuestCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"

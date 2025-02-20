@@ -1,9 +1,5 @@
 import { h } from "@stencil/core";
 export class IrAccomodations {
-    constructor() {
-        this.amenities = undefined;
-        this.bookingAttributes = undefined;
-    }
     checkAmenity(code) {
         return this.amenities.find(a => a.code === code);
     }
@@ -50,7 +46,9 @@ export class IrAccomodations {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "bookingAttributes": {
                 "type": "unknown",
@@ -71,7 +69,9 @@ export class IrAccomodations {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

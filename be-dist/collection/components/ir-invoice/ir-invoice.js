@@ -12,19 +12,7 @@ import InvoiceSkeleton from "./InvoiceSkeleton";
 import Token from "../../models/Token";
 export class IrInvoice {
     constructor() {
-        this.token = new Token();
-        this.propertyService = new PropertyService();
-        this.commonService = new CommonService();
-        this.authService = new AuthService();
-        this.paymentService = new PaymentService();
-        this.bookingListingAppService = new BookingListingAppService();
-        this.payment_option = null;
-        this.amount = null;
-        this.email = undefined;
-        this.propertyId = undefined;
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.language = undefined;
-        this.bookingNbr = undefined;
         this.isConfermation = true;
         this.status = 1;
         this.perma_link = null;
@@ -35,14 +23,19 @@ export class IrInvoice {
         this.locationShown = true;
         this.be = false;
         this.version = '2.0';
-        this.booking = undefined;
         this.isAuthenticated = false;
         this.isLoading = false;
         this.cancelation_message = null;
         this.guarantee_message = null;
-        this.cancelationMessage = undefined;
-        this.amountToBePayed = undefined;
         this.cancelation_policies = [];
+        this.token = new Token();
+        this.propertyService = new PropertyService();
+        this.commonService = new CommonService();
+        this.authService = new AuthService();
+        this.paymentService = new PaymentService();
+        this.bookingListingAppService = new BookingListingAppService();
+        this.payment_option = null;
+        this.amount = null;
     }
     async componentWillLoad() {
         if (!this.baseUrl) {
@@ -62,18 +55,6 @@ export class IrInvoice {
             this.token.setToken(token);
         }
         this.fetchData();
-    }
-    detectPaymentOrigin() {
-        var _a, _b;
-        console.log(this.booking.extras);
-        if (!this.booking.extras) {
-            return null;
-        }
-        const code = (_a = this.booking.extras.find(e => e.key === 'payment_code')) === null || _a === void 0 ? void 0 : _a.value;
-        if (!code) {
-            return null;
-        }
-        return (_b = app_store.property.allowed_payment_methods.find(apm => apm.code === code)) !== null && _b !== void 0 ? _b : null;
     }
     async handleBookingNumberChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -104,7 +85,7 @@ export class IrInvoice {
         }
         const results = await Promise.all(requests);
         this.booking = results[0];
-        this.payment_option = this.detectPaymentOrigin();
+        this.payment_option = this.bookingListingAppService.detectPaymentOrigin(this.booking);
         const book_date = new Date(this.booking.booked_on.date);
         book_date.setHours(this.booking.booked_on.hour + 1);
         book_date.setMinutes(this.booking.booked_on.minute);
@@ -216,8 +197,8 @@ export class IrInvoice {
             return (h("div", { class: "flex  flex-col gap-4 " }, h(InvoiceSkeleton, null)));
         }
         const google_maps_url = `http://maps.google.com/maps?q=${app_store.property.location.latitude},${app_store.property.location.longitude}`;
-        const { cancel } = this.bookingListingAppService.getBookingActions(this.booking);
-        return (h(Host, null, h("ir-interceptor", null), h("main", { class: "relative flex w-full flex-col space-y-5" }, this.headerShown && (h("section", { class: "sticky top-0 z-50 m-0  w-full  p-0" }, h("ir-nav", { class: 'm-0 p-0', showBookingCode: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: this.be }))), h("section", { class: `flex-1 ${this.be ? '' : 'invoice-container mx-auto w-full max-w-6xl'}` }, this.headerMessageShown && isBefore(new Date(), new Date(this.booking.to_date)) ? (h("div", { class: 'invoice-container' }, h("p", { class: `flex items-center gap-4 text-xl font-medium ${this.status === 1 ? 'text-green-600' : 'text-red-500'} ${this.be ? '' : ''}` }, h("ir-icons", { name: this.status === 1 ? 'check' : 'xmark' }), h("span", null, " ", this.status === 1 ? localizedWords.entries.Lcz_YourBookingIsConfirmed : localizedWords.entries.Lcz_YourPaymentIsUnsuccesful)), this.status === 1 && h("p", null, localizedWords.entries.Lcz_AnEmailHasBeenSent.replace('%1', this.booking.guest.email)))) : (h("div", { class: 'invoice-container' }, h("p", { class: 'text-xl font-medium ' }, localizedWords.entries.Lcz_ThisBookingIs.replace('%1', this.booking.status.description)))), h("div", { class: `flex  ${this.locationShown ? 'w-full' : 'w-full'} gap-16 ` }, h("div", { class: `invoice-container ${this.locationShown ? 'w-full' : 'w-full'}` }, h("section", { class: "flex flex-col gap-4 md:flex-row md:items-center" }, this.status === 1 ? (h("a", { href: google_maps_url, target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_GetDirections)) : (this.payment_option.is_payment_gateway && (h("ir-button", { variants: "outline", label: localizedWords.entries.Lcz_RetryPayment, onButtonClick: () => this.processPayment() }))), h("a", { href: this.getPropertyEmail(), target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_MessageProperty), cancel.show && (h("ir-button", { class: 'w-full md:w-fit', variants: "outline", label: localizedWords.entries.Lcz_CancelBooking, onButtonClick: async () => {
+        const { cancel, payment } = this.bookingListingAppService.getBookingActions(this.booking);
+        return (h(Host, null, h("ir-interceptor", null), h("main", { class: "relative flex w-full flex-col space-y-5" }, this.headerShown && (h("section", { class: "sticky top-0 z-50 m-0  w-full  p-0" }, h("ir-nav", { class: 'm-0 p-0', showBookingCode: false, website: (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.space_theme.website, logo: (_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.space_theme) === null || _c === void 0 ? void 0 : _c.logo, menuShown: this.be }))), h("section", { class: `flex-1 ${this.be ? '' : 'invoice-container mx-auto w-full max-w-6xl'}` }, this.headerMessageShown && isBefore(new Date(), new Date(this.booking.to_date)) ? (h("div", { class: 'invoice-container' }, h("p", { class: `flex items-center gap-4 text-xl font-medium ${this.status === 1 ? 'text-green-600' : 'text-red-500'} ${this.be ? '' : ''}` }, h("ir-icons", { name: this.status === 1 ? 'check' : 'xmark' }), h("span", null, " ", this.status === 1 ? localizedWords.entries.Lcz_YourBookingIsConfirmed : localizedWords.entries.Lcz_YourPaymentIsUnsuccesful)), this.status === 1 && h("p", null, localizedWords.entries.Lcz_AnEmailHasBeenSent.replace('%1', this.booking.guest.email)))) : (h("div", { class: 'invoice-container' }, h("p", { class: 'text-xl font-medium ' }, localizedWords.entries.Lcz_ThisBookingIs.replace('%1', this.booking.status.description)))), h("div", { class: `flex  ${this.locationShown ? 'w-full' : 'w-full'} gap-16 ` }, h("div", { class: `invoice-container ${this.locationShown ? 'w-full' : 'w-full'}` }, h("section", { class: "flex flex-col gap-4 md:flex-row md:items-center" }, payment.show && this.status === 1 && (h("ir-button", { label: payment.label, class: 'w-full text-center md:w-fit', onButtonClick: () => this.processPayment() })), this.status === 1 ? (h("a", { href: google_maps_url, target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_GetDirections)) : (this.payment_option.is_payment_gateway && (h("ir-button", { class: 'w-full text-center md:w-fit', label: localizedWords.entries.Lcz_RetryPayment + ' ' + payment.formattedAmount, onButtonClick: () => this.processPayment() }))), h("a", { href: this.getPropertyEmail(), target: "_blank", class: cn(`button-outline`, 'flex items-center justify-center'), "data-size": "sm" }, localizedWords.entries.Lcz_MessageProperty), cancel.show && (h("ir-button", { class: 'w-full md:w-fit', variants: "outline", label: localizedWords.entries.Lcz_CancelBooking, onButtonClick: async () => {
                 this.bookingCancelation.openDialog();
             } }))), h("section", { class: "booking-info" }, h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookingReference, " ", h("span", null, this.booking.booking_nbr)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_BookedBy, ' ', h("span", null, this.booking.guest.first_name, " ", this.booking.guest.last_name)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_CheckIn, ": ", h("span", null, format(this.booking.from_date, 'eee, dd MMM yyyy'), " "), h("span", null, localizedWords.entries.Lcz_From, " ", (_d = app_store.property) === null || _d === void 0 ? void 0 :
             _d.time_constraints.check_in_from)), h("p", { class: "booking-info-text" }, localizedWords.entries.Lcz_CheckOut, ": ", h("span", null, format(this.booking.to_date, 'eee, dd MMM yyyy'), " "), h("span", null, localizedWords.entries.Lcz_Before, " ", (_e = app_store.property) === null || _e === void 0 ? void 0 :
@@ -254,6 +235,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "email",
                 "reflect": false
             },
@@ -271,6 +254,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -288,6 +273,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "base-url",
                 "reflect": false,
                 "defaultValue": "'https://gateway.igloorooms.com/IRBE'"
@@ -306,6 +293,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -323,6 +312,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-nbr",
                 "reflect": false
             },
@@ -340,6 +331,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-confermation",
                 "reflect": false,
                 "defaultValue": "true"
@@ -358,6 +351,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "status",
                 "reflect": false,
                 "defaultValue": "1"
@@ -376,6 +371,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "perma_link",
                 "reflect": false,
                 "defaultValue": "null"
@@ -394,6 +391,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "a-name",
                 "reflect": false,
                 "defaultValue": "null"
@@ -412,6 +411,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "header-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -430,6 +431,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "footer-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -448,6 +451,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "header-message-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -466,6 +471,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "location-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -484,6 +491,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "be",
                 "reflect": false,
                 "defaultValue": "false"
@@ -502,6 +511,8 @@ export class IrInvoice {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "version",
                 "reflect": false,
                 "defaultValue": "'2.0'"

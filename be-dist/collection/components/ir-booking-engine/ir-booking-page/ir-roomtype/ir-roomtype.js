@@ -5,8 +5,6 @@ import { h } from "@stencil/core";
 export class IrRoomtype {
     constructor() {
         this.display = 'default';
-        this.roomtype = undefined;
-        this.shouldHideMlsRateplans = undefined;
     }
     componentWillLoad() {
         this.checkRateplans();
@@ -68,6 +66,8 @@ export class IrRoomtype {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display",
                 "reflect": true,
                 "defaultValue": "'default'"
@@ -91,7 +91,9 @@ export class IrRoomtype {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -1,5 +1,6 @@
 import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/common";
 import { Affiliate, IEntries, IExposedProperty } from "../models/property";
+import { TAnalytics } from "../services/app/Analytics/index";
 import { Locale } from 'date-fns/locale';
 export type UserPreference = {
     language_id: string;
@@ -22,6 +23,7 @@ export type TSource = {
 };
 export interface IAppStore {
     childrenStartAge?: number;
+    analytics: TAnalytics;
     nonBookableNights: Record<string, null>;
     currencies: TCurrency[];
     localizedWords: string[];
@@ -35,7 +37,7 @@ export interface IAppStore {
         property_id: number;
         injected: boolean;
         roomtype_id: number | null;
-        affiliate: Affiliate;
+        affiliate: Affiliate | null;
         tag: string | null;
         source: TSource | null;
         hideGoogleSignIn: boolean;

@@ -6,14 +6,10 @@ import app_store from "../../stores/app.store";
 import { BookingService } from "../../services/api/booking.service";
 export class IrBookingCancellation {
     constructor() {
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.property_id = undefined;
-        this.booking = undefined;
-        this.isLoading = undefined;
         this.isOpen = false;
         this.policies = [];
-        this.cancellationMessage = undefined;
+        this.paymentService = new PaymentService();
+        this.bookingService = new BookingService();
     }
     async init() {
         try {
@@ -107,6 +103,8 @@ export class IrBookingCancellation {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property_id",
                 "reflect": false
             },
@@ -129,7 +127,9 @@ export class IrBookingCancellation {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

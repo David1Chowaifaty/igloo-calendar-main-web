@@ -3,6 +3,7 @@ import { enUS } from "date-fns/locale";
 const initialState = {
     nonBookableNights: null,
     childrenStartAge: 3,
+    analytics: null,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: enUS,

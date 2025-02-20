@@ -2,8 +2,6 @@ import localizedWords from "../../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
 export class IrPagination {
     constructor() {
-        this.total = undefined;
-        this.current = undefined;
         this.minPageShown = 7;
     }
     getPages() {
@@ -65,6 +63,8 @@ export class IrPagination {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "total",
                 "reflect": false
             },
@@ -82,6 +82,8 @@ export class IrPagination {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "current",
                 "reflect": false
             },
@@ -99,6 +101,8 @@ export class IrPagination {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-page-shown",
                 "reflect": false,
                 "defaultValue": "7"

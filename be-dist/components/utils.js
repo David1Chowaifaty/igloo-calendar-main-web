@@ -50217,6 +50217,9 @@ class VariationService {
      * @returns {string} A formatted string describing the variation adjusted for infants.
      */
     formatVariationBasedOnInfants(params) {
+        if (!params.baseVariation) {
+            return;
+        }
         const variation = this.getVariationBasedOnInfants(params);
         return this.formatVariation(variation, params.infants);
     }
@@ -50241,6 +50244,9 @@ class VariationService {
      * @returns {Variation} The matching variation or the base variation if no match is found.
      */
     getVariationBasedOnInfants({ variations, baseVariation, infants }) {
+        if (!baseVariation) {
+            return;
+        }
         const { adult_nbr, child_nbr } = baseVariation;
         return variations.find(v => v.adult_nbr === adult_nbr && v.child_nbr === Math.max(0, child_nbr - Math.max(0, infants))) || baseVariation;
     }
@@ -50472,6 +50478,15 @@ function calculateTotalRooms() {
             }, 0));
     }, 0);
 }
+function clearCheckoutRooms() {
+    booking_store.ratePlanSelections = Object.fromEntries(Object.entries(booking_store.ratePlanSelections).map(([roomTypeId, roomTypeSelection]) => [
+        roomTypeId,
+        Object.fromEntries(Object.entries(roomTypeSelection).map(([ratePlanId, ratePlan]) => [
+            ratePlanId,
+            Object.assign(Object.assign({}, ratePlan), { checkoutVariations: [], checkoutBedSelection: [], checkoutSmokingSelection: [] }),
+        ])),
+    ]));
+}
 
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
 
@@ -50485,33 +50500,33 @@ Object.defineProperty(exports, Symbol.toStringTag, {
   value: 'Module'
 });
 const CLASS_PART_SEPARATOR = '-';
-function createClassUtils(config) {
+const createClassGroupUtils = config => {
   const classMap = createClassMap(config);
   const {
     conflictingClassGroups,
     conflictingClassGroupModifiers
   } = config;
-  function getClassGroupId(className) {
+  const getClassGroupId = className => {
     const classParts = className.split(CLASS_PART_SEPARATOR);
     // Classes like `-inset-1` produce an empty string as first classPart. We assume that classes for negative values are used correctly and remove it from classParts.
     if (classParts[0] === '' && classParts.length !== 1) {
       classParts.shift();
     }
     return getGroupRecursive(classParts, classMap) || getGroupIdForArbitraryProperty(className);
-  }
-  function getConflictingClassGroupIds(classGroupId, hasPostfixModifier) {
+  };
+  const getConflictingClassGroupIds = (classGroupId, hasPostfixModifier) => {
     const conflicts = conflictingClassGroups[classGroupId] || [];
     if (hasPostfixModifier && conflictingClassGroupModifiers[classGroupId]) {
       return [...conflicts, ...conflictingClassGroupModifiers[classGroupId]];
     }
     return conflicts;
-  }
+  };
   return {
     getClassGroupId,
     getConflictingClassGroupIds
   };
-}
-function getGroupRecursive(classParts, classPartObject) {
+};
+const getGroupRecursive = (classParts, classPartObject) => {
   if (classParts.length === 0) {
     return classPartObject.classGroupId;
   }
@@ -50528,9 +50543,9 @@ function getGroupRecursive(classParts, classPartObject) {
   return classPartObject.validators.find(({
     validator
   }) => validator(classRest))?.classGroupId;
-}
+};
 const arbitraryPropertyRegex = /^\[(.+)\]$/;
-function getGroupIdForArbitraryProperty(className) {
+const getGroupIdForArbitraryProperty = className => {
   if (arbitraryPropertyRegex.test(className)) {
     const arbitraryPropertyClassName = arbitraryPropertyRegex.exec(className)[1];
     const property = arbitraryPropertyClassName?.substring(0, arbitraryPropertyClassName.indexOf(':'));
@@ -50539,11 +50554,11 @@ function getGroupIdForArbitraryProperty(className) {
       return 'arbitrary..' + property;
     }
   }
-}
+};
 /**
  * Exported for testing only
  */
-function createClassMap(config) {
+const createClassMap = config => {
   const {
     theme,
     prefix
@@ -50557,8 +50572,8 @@ function createClassMap(config) {
     processClassesRecursively(classGroup, classMap, classGroupId, theme);
   });
   return classMap;
-}
-function processClassesRecursively(classGroup, classPartObject, classGroupId, theme) {
+};
+const processClassesRecursively = (classGroup, classPartObject, classGroupId, theme) => {
   classGroup.forEach(classDefinition => {
     if (typeof classDefinition === 'string') {
       const classPartObjectToEdit = classDefinition === '' ? classPartObject : getPart(classPartObject, classDefinition);
@@ -50580,8 +50595,8 @@ function processClassesRecursively(classGroup, classPartObject, classGroupId, th
       processClassesRecursively(classGroup, getPart(classPartObject, key), classGroupId, theme);
     });
   });
-}
-function getPart(classPartObject, path) {
+};
+const getPart = (classPartObject, path) => {
   let currentClassPartObject = classPartObject;
   path.split(CLASS_PART_SEPARATOR).forEach(pathPart => {
     if (!currentClassPartObject.nextPart.has(pathPart)) {
@@ -50593,11 +50608,9 @@ function getPart(classPartObject, path) {
     currentClassPartObject = currentClassPartObject.nextPart.get(pathPart);
   });
   return currentClassPartObject;
-}
-function isThemeGetter(func) {
-  return func.isThemeGetter;
-}
-function getPrefixedClassGroupEntries(classGroupEntries, prefix) {
+};
+const isThemeGetter = func => func.isThemeGetter;
+const getPrefixedClassGroupEntries = (classGroupEntries, prefix) => {
   if (!prefix) {
     return classGroupEntries;
   }
@@ -50613,10 +50626,10 @@ function getPrefixedClassGroupEntries(classGroupEntries, prefix) {
     });
     return [classGroupId, prefixedClassGroup];
   });
-}
+};
 
 // LRU cache inspired from hashlru (https://github.com/dominictarr/hashlru/blob/v1.0.4/index.js) but object replaced with Map to improve performance
-function createLruCache(maxCacheSize) {
+const createLruCache = maxCacheSize => {
   if (maxCacheSize < 1) {
     return {
       get: () => undefined,
@@ -50626,7 +50639,7 @@ function createLruCache(maxCacheSize) {
   let cacheSize = 0;
   let cache = new Map();
   let previousCache = new Map();
-  function update(key, value) {
+  const update = (key, value) => {
     cache.set(key, value);
     cacheSize++;
     if (cacheSize > maxCacheSize) {
@@ -50634,7 +50647,7 @@ function createLruCache(maxCacheSize) {
       previousCache = cache;
       cache = new Map();
     }
-  }
+  };
   return {
     get(key) {
       let value = cache.get(key);
@@ -50654,15 +50667,18 @@ function createLruCache(maxCacheSize) {
       }
     }
   };
-}
+};
 const IMPORTANT_MODIFIER = '!';
-function createSplitModifiers(config) {
-  const separator = config.separator;
+const createParseClassName = config => {
+  const {
+    separator,
+    experimentalParseClassName
+  } = config;
   const isSeparatorSingleCharacter = separator.length === 1;
   const firstSeparatorCharacter = separator[0];
   const separatorLength = separator.length;
-  // splitModifiers inspired by https://github.com/tailwindlabs/tailwindcss/blob/v3.2.2/src/util/splitAtTopLevelOnly.js
-  return function splitModifiers(className) {
+  // parseClassName inspired by https://github.com/tailwindlabs/tailwindcss/blob/v3.2.2/src/util/splitAtTopLevelOnly.js
+  const parseClassName = className => {
     const modifiers = [];
     let bracketDepth = 0;
     let modifierStart = 0;
@@ -50697,13 +50713,20 @@ function createSplitModifiers(config) {
       maybePostfixModifierPosition
     };
   };
-}
+  if (experimentalParseClassName) {
+    return className => experimentalParseClassName({
+      className,
+      parseClassName
+    });
+  }
+  return parseClassName;
+};
 /**
  * Sorts modifiers according to following schema:
  * - Predefined modifiers are sorted alphabetically
  * - When an arbitrary variant appears, it must be preserved which modifiers are before and after it
  */
-function sortModifiers(modifiers) {
+const sortModifiers = modifiers => {
   if (modifiers.length <= 1) {
     return modifiers;
   }
@@ -50720,18 +50743,16 @@ function sortModifiers(modifiers) {
   });
   sortedModifiers.push(...unsortedModifiers.sort());
   return sortedModifiers;
-}
-function createConfigUtils(config) {
-  return {
-    cache: createLruCache(config.cacheSize),
-    splitModifiers: createSplitModifiers(config),
-    ...createClassUtils(config)
-  };
-}
+};
+const createConfigUtils = config => ({
+  cache: createLruCache(config.cacheSize),
+  parseClassName: createParseClassName(config),
+  ...createClassGroupUtils(config)
+});
 const SPLIT_CLASSES_REGEX = /\s+/;
-function mergeClassList(classList, configUtils) {
+const mergeClassList = (classList, configUtils) => {
   const {
-    splitModifiers,
+    parseClassName,
     getClassGroupId,
     getConflictingClassGroupIds
   } = configUtils;
@@ -50742,61 +50763,51 @@ function mergeClassList(classList, configUtils) {
    * @example 'hover:focus:bg-color'
    * @example 'md:!pr'
    */
-  const classGroupsInConflict = new Set();
-  return classList.trim().split(SPLIT_CLASSES_REGEX).map(originalClassName => {
+  const classGroupsInConflict = [];
+  const classNames = classList.trim().split(SPLIT_CLASSES_REGEX);
+  let result = '';
+  for (let index = classNames.length - 1; index >= 0; index -= 1) {
+    const originalClassName = classNames[index];
     const {
       modifiers,
       hasImportantModifier,
       baseClassName,
       maybePostfixModifierPosition
-    } = splitModifiers(originalClassName);
-    let classGroupId = getClassGroupId(maybePostfixModifierPosition ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
+    } = parseClassName(originalClassName);
     let hasPostfixModifier = Boolean(maybePostfixModifierPosition);
+    let classGroupId = getClassGroupId(hasPostfixModifier ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
     if (!classGroupId) {
-      if (!maybePostfixModifierPosition) {
-        return {
-          isTailwindClass: false,
-          originalClassName
-        };
+      if (!hasPostfixModifier) {
+        // Not a Tailwind class
+        result = originalClassName + (result.length > 0 ? ' ' + result : result);
+        continue;
       }
       classGroupId = getClassGroupId(baseClassName);
       if (!classGroupId) {
-        return {
-          isTailwindClass: false,
-          originalClassName
-        };
+        // Not a Tailwind class
+        result = originalClassName + (result.length > 0 ? ' ' + result : result);
+        continue;
       }
       hasPostfixModifier = false;
     }
     const variantModifier = sortModifiers(modifiers).join(':');
     const modifierId = hasImportantModifier ? variantModifier + IMPORTANT_MODIFIER : variantModifier;
-    return {
-      isTailwindClass: true,
-      modifierId,
-      classGroupId,
-      originalClassName,
-      hasPostfixModifier
-    };
-  }).reverse()
-  // Last class in conflict wins, so we need to filter conflicting classes in reverse order.
-  .filter(parsed => {
-    if (!parsed.isTailwindClass) {
-      return true;
-    }
-    const {
-      modifierId,
-      classGroupId,
-      hasPostfixModifier
-    } = parsed;
     const classId = modifierId + classGroupId;
-    if (classGroupsInConflict.has(classId)) {
-      return false;
+    if (classGroupsInConflict.includes(classId)) {
+      // Tailwind class omitted due to conflict
+      continue;
     }
-    classGroupsInConflict.add(classId);
-    getConflictingClassGroupIds(classGroupId, hasPostfixModifier).forEach(group => classGroupsInConflict.add(modifierId + group));
-    return true;
-  }).reverse().map(parsed => parsed.originalClassName).join(' ');
-}
+    classGroupsInConflict.push(classId);
+    const conflictGroups = getConflictingClassGroupIds(classGroupId, hasPostfixModifier);
+    for (let i = 0; i < conflictGroups.length; ++i) {
+      const group = conflictGroups[i];
+      classGroupsInConflict.push(modifierId + group);
+    }
+    // Tailwind class not in conflict
+    result = originalClassName + (result.length > 0 ? ' ' + result : result);
+  }
+  return result;
+};
 
 /**
  * The code in this file is copied from https://github.com/lukeed/clsx and modified to suit the needs of tailwind-merge better.
@@ -50822,7 +50833,7 @@ function twJoin() {
   }
   return string;
 }
-function toValue(mix) {
+const toValue = mix => {
   if (typeof mix === 'string') {
     return mix;
   }
@@ -50837,7 +50848,7 @@ function toValue(mix) {
     }
   }
   return string;
-}
+};
 function createTailwindMerge(createConfigFirst, ...createConfigRest) {
   let configUtils;
   let cacheGet;
@@ -50864,11 +50875,11 @@ function createTailwindMerge(createConfigFirst, ...createConfigRest) {
     return functionToCall(twJoin.apply(null, arguments));
   };
 }
-function fromTheme(key) {
+const fromTheme = key => {
   const themeGetter = theme => theme[key] || [];
   themeGetter.isThemeGetter = true;
   return themeGetter;
-}
+};
 const arbitraryValueRegex = /^\[(?:([a-z-]+):)?(.+)\]$/i;
 const fractionRegex = /^\d+\/\d+$/;
 const stringLengths = /*#__PURE__*/new Set(['px', 'full', 'screen']);
@@ -50878,48 +50889,22 @@ const colorFunctionRegex = /^(rgba?|hsla?|hwb|(ok)?(lab|lch))\(.+\)$/;
 // Shadow always begins with x and y offset separated by underscore optionally prepended by inset
 const shadowRegex = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/;
 const imageRegex = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/;
-function isLength(value) {
-  return isNumber(value) || stringLengths.has(value) || fractionRegex.test(value);
-}
-function isArbitraryLength(value) {
-  return getIsArbitraryValue(value, 'length', isLengthOnly);
-}
-function isNumber(value) {
-  return Boolean(value) && !Number.isNaN(Number(value));
-}
-function isArbitraryNumber(value) {
-  return getIsArbitraryValue(value, 'number', isNumber);
-}
-function isInteger(value) {
-  return Boolean(value) && Number.isInteger(Number(value));
-}
-function isPercent(value) {
-  return value.endsWith('%') && isNumber(value.slice(0, -1));
-}
-function isArbitraryValue(value) {
-  return arbitraryValueRegex.test(value);
-}
-function isTshirtSize(value) {
-  return tshirtUnitRegex.test(value);
-}
+const isLength = value => isNumber(value) || stringLengths.has(value) || fractionRegex.test(value);
+const isArbitraryLength = value => getIsArbitraryValue(value, 'length', isLengthOnly);
+const isNumber = value => Boolean(value) && !Number.isNaN(Number(value));
+const isArbitraryNumber = value => getIsArbitraryValue(value, 'number', isNumber);
+const isInteger = value => Boolean(value) && Number.isInteger(Number(value));
+const isPercent = value => value.endsWith('%') && isNumber(value.slice(0, -1));
+const isArbitraryValue = value => arbitraryValueRegex.test(value);
+const isTshirtSize = value => tshirtUnitRegex.test(value);
 const sizeLabels = /*#__PURE__*/new Set(['length', 'size', 'percentage']);
-function isArbitrarySize(value) {
-  return getIsArbitraryValue(value, sizeLabels, isNever);
-}
-function isArbitraryPosition(value) {
-  return getIsArbitraryValue(value, 'position', isNever);
-}
+const isArbitrarySize = value => getIsArbitraryValue(value, sizeLabels, isNever);
+const isArbitraryPosition = value => getIsArbitraryValue(value, 'position', isNever);
 const imageLabels = /*#__PURE__*/new Set(['image', 'url']);
-function isArbitraryImage(value) {
-  return getIsArbitraryValue(value, imageLabels, isImage);
-}
-function isArbitraryShadow(value) {
-  return getIsArbitraryValue(value, '', isShadow);
-}
-function isAny() {
-  return true;
-}
-function getIsArbitraryValue(value, label, testValue) {
+const isArbitraryImage = value => getIsArbitraryValue(value, imageLabels, isImage);
+const isArbitraryShadow = value => getIsArbitraryValue(value, '', isShadow);
+const isAny = () => true;
+const getIsArbitraryValue = (value, label, testValue) => {
   const result = arbitraryValueRegex.exec(value);
   if (result) {
     if (result[1]) {
@@ -50928,22 +50913,15 @@ function getIsArbitraryValue(value, label, testValue) {
     return testValue(result[2]);
   }
   return false;
-}
-function isLengthOnly(value) {
-  // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
-  // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
-  // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  return lengthUnitRegex.test(value) && !colorFunctionRegex.test(value);
-}
-function isNever() {
-  return false;
-}
-function isShadow(value) {
-  return shadowRegex.test(value);
-}
-function isImage(value) {
-  return imageRegex.test(value);
-}
+};
+const isLengthOnly = value =>
+// `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
+// For example, `hsl(0 0% 0%)` would be classified as a length without this check.
+// I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
+lengthUnitRegex.test(value) && !colorFunctionRegex.test(value);
+const isNever = () => false;
+const isShadow = value => shadowRegex.test(value);
+const isImage = value => imageRegex.test(value);
 const validators = /*#__PURE__*/Object.defineProperty({
   __proto__: null,
   isAny,
@@ -50962,7 +50940,7 @@ const validators = /*#__PURE__*/Object.defineProperty({
 }, Symbol.toStringTag, {
   value: 'Module'
 });
-function getDefaultConfig() {
+const getDefaultConfig = () => {
   const colors = fromTheme('colors');
   const spacing = fromTheme('spacing');
   const blur = fromTheme('blur');
@@ -50996,11 +50974,10 @@ function getDefaultConfig() {
   const getNumberWithAutoAndArbitrary = () => ['auto', isNumber, isArbitraryValue];
   const getPositions = () => ['bottom', 'center', 'left', 'left-bottom', 'left-top', 'right', 'right-bottom', 'right-top', 'top'];
   const getLineStyles = () => ['solid', 'dashed', 'dotted', 'double', 'none'];
-  const getBlendModes = () => ['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity', 'plus-lighter'];
+  const getBlendModes = () => ['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'];
   const getAlign = () => ['start', 'end', 'center', 'between', 'around', 'evenly', 'stretch'];
   const getZeroAndEmpty = () => ['', '0', isArbitraryValue];
   const getBreaks = () => ['auto', 'avoid', 'all', 'avoid-page', 'page', 'left', 'right', 'column'];
-  const getNumber = () => [isNumber, isArbitraryNumber];
   const getNumberAndArbitrary = () => [isNumber, isArbitraryValue];
   return {
     cacheSize: 500,
@@ -51009,12 +50986,12 @@ function getDefaultConfig() {
       colors: [isAny],
       spacing: [isLength, isArbitraryLength],
       blur: ['none', '', isTshirtSize, isArbitraryValue],
-      brightness: getNumber(),
+      brightness: getNumberAndArbitrary(),
       borderColor: [colors],
       borderRadius: ['none', '', 'full', isTshirtSize, isArbitraryValue],
       borderSpacing: getSpacingWithArbitrary(),
       borderWidth: getLengthWithEmptyAndArbitrary(),
-      contrast: getNumber(),
+      contrast: getNumberAndArbitrary(),
       grayscale: getZeroAndEmpty(),
       hueRotate: getNumberAndArbitrary(),
       invert: getZeroAndEmpty(),
@@ -51023,10 +51000,10 @@ function getDefaultConfig() {
       gradientColorStopPositions: [isPercent, isArbitraryLength],
       inset: getSpacingWithAutoAndArbitrary(),
       margin: getSpacingWithAutoAndArbitrary(),
-      opacity: getNumber(),
+      opacity: getNumberAndArbitrary(),
       padding: getSpacingWithArbitrary(),
-      saturate: getNumber(),
-      scale: getNumber(),
+      saturate: getNumberAndArbitrary(),
+      scale: getNumberAndArbitrary(),
       sepia: getZeroAndEmpty(),
       skew: getNumberAndArbitrary(),
       space: getSpacingWithArbitrary(),
@@ -51727,7 +51704,7 @@ function getDefaultConfig() {
        * Font Variant Numeric
        * @see https://tailwindcss.com/docs/font-variant-numeric
        */
-      'fvn-fraction': ['diagonal-fractions', 'stacked-fractons'],
+      'fvn-fraction': ['diagonal-fractions', 'stacked-fractions'],
       /**
        * Letter Spacing
        * @see https://tailwindcss.com/docs/letter-spacing
@@ -52252,6 +52229,20 @@ function getDefaultConfig() {
         'border-y': [borderColor]
       }],
       /**
+       * Border Color S
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      'border-color-s': [{
+        'border-s': [borderColor]
+      }],
+      /**
+       * Border Color E
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      'border-color-e': [{
+        'border-e': [borderColor]
+      }],
+      /**
        * Border Color Top
        * @see https://tailwindcss.com/docs/border-color
        */
@@ -52381,7 +52372,7 @@ function getDefaultConfig() {
        * @see https://tailwindcss.com/docs/mix-blend-mode
        */
       'mix-blend': [{
-        'mix-blend': getBlendModes()
+        'mix-blend': [...getBlendModes(), 'plus-lighter', 'plus-darker']
       }],
       /**
        * Background Blend Mode
@@ -52997,7 +52988,7 @@ function getDefaultConfig() {
       'border-w': ['border-w-s', 'border-w-e', 'border-w-t', 'border-w-r', 'border-w-b', 'border-w-l'],
       'border-w-x': ['border-w-r', 'border-w-l'],
       'border-w-y': ['border-w-t', 'border-w-b'],
-      'border-color': ['border-color-t', 'border-color-r', 'border-color-b', 'border-color-l'],
+      'border-color': ['border-color-s', 'border-color-e', 'border-color-t', 'border-color-r', 'border-color-b', 'border-color-l'],
       'border-color-x': ['border-color-r', 'border-color-l'],
       'border-color-y': ['border-color-t', 'border-color-b'],
       'scroll-m': ['scroll-mx', 'scroll-my', 'scroll-ms', 'scroll-me', 'scroll-mt', 'scroll-mr', 'scroll-mb', 'scroll-ml'],
@@ -53015,22 +53006,24 @@ function getDefaultConfig() {
       'font-size': ['leading']
     }
   };
-}
+};
 
 /**
  * @param baseConfig Config where other config will be merged into. This object will be mutated.
  * @param configExtension Partial config to merge into the `baseConfig`.
  */
-function mergeConfigs(baseConfig, {
+const mergeConfigs = (baseConfig, {
   cacheSize,
   prefix,
   separator,
+  experimentalParseClassName,
   extend = {},
   override = {}
-}) {
+}) => {
   overrideProperty(baseConfig, 'cacheSize', cacheSize);
   overrideProperty(baseConfig, 'prefix', prefix);
   overrideProperty(baseConfig, 'separator', separator);
+  overrideProperty(baseConfig, 'experimentalParseClassName', experimentalParseClassName);
   for (const configKey in override) {
     overrideConfigProperties(baseConfig[configKey], override[configKey]);
   }
@@ -53038,20 +53031,20 @@ function mergeConfigs(baseConfig, {
     mergeConfigProperties(baseConfig[key], extend[key]);
   }
   return baseConfig;
-}
-function overrideProperty(baseObject, overrideKey, overrideValue) {
+};
+const overrideProperty = (baseObject, overrideKey, overrideValue) => {
   if (overrideValue !== undefined) {
     baseObject[overrideKey] = overrideValue;
   }
-}
-function overrideConfigProperties(baseObject, overrideObject) {
+};
+const overrideConfigProperties = (baseObject, overrideObject) => {
   if (overrideObject) {
     for (const key in overrideObject) {
       overrideProperty(baseObject, key, overrideObject[key]);
     }
   }
-}
-function mergeConfigProperties(baseObject, mergeObject) {
+};
+const mergeConfigProperties = (baseObject, mergeObject) => {
   if (mergeObject) {
     for (const key in mergeObject) {
       const mergeValue = mergeObject[key];
@@ -53060,10 +53053,8 @@ function mergeConfigProperties(baseObject, mergeObject) {
       }
     }
   }
-}
-function extendTailwindMerge(configExtension, ...createConfig) {
-  return typeof configExtension === 'function' ? createTailwindMerge(getDefaultConfig, configExtension, ...createConfig) : createTailwindMerge(() => mergeConfigs(getDefaultConfig(), configExtension), ...createConfig);
-}
+};
+const extendTailwindMerge = (configExtension, ...createConfig) => typeof configExtension === 'function' ? createTailwindMerge(getDefaultConfig, configExtension, ...createConfig) : createTailwindMerge(() => mergeConfigs(getDefaultConfig(), configExtension), ...createConfig);
 const twMerge = /*#__PURE__*/createTailwindMerge(getDefaultConfig);
 exports.createTailwindMerge = createTailwindMerge;
 exports.extendTailwindMerge = extendTailwindMerge;
@@ -53441,6 +53432,6 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 
-export { runScriptAndRemove as A, calculateTotalCost as B, detectCardType as C, validateBooking as D, destroyBookingCookie as E, generateCheckoutUrl as F, injectHTMLAndRunScript as G, renderPropertyLocation as H, renderTime as I, formatImageAlt as J, updateRoomParams as K, reserveRooms as L, getVisibleInventory as M, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, isSameWeek$1 as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, localizedWords as l, manageAnchorSession as m, getUserPreference as n, validateAgentCode as o, matchLocale as p, checkGhs as q, setDefaultLocale as r, startOfWeek$1 as s, toDate$1 as t, checkAffiliate as u, validateCoupon as v, formatFullLocation as w, formatAmount as x, calculateTotalRooms as y, getDateDifference as z };
+export { getDateDifference as A, runScriptAndRemove as B, calculateTotalCost as C, clearCheckoutRooms as D, validateBooking as E, destroyBookingCookie as F, generateCheckoutUrl as G, detectCardType as H, renderPropertyLocation as I, renderTime as J, formatImageAlt as K, updateRoomParams as L, reserveRooms as M, getVisibleInventory as N, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, defaultOptions$1 as e, enUS as f, isSameWeek$1 as g, modifyQueryParam as h, injectHTML as i, modifyBookingStore as j, getAbbreviatedWeekdays as k, localizedWords as l, manageAnchorSession as m, injectHTMLAndRunScript as n, getUserPreference as o, validateAgentCode as p, matchLocale as q, checkGhs as r, startOfWeek$1 as s, toDate$1 as t, setDefaultLocale as u, validateCoupon as v, checkAffiliate as w, formatFullLocation as x, formatAmount as y, calculateTotalRooms as z };
 
 //# sourceMappingURL=utils.js.map

@@ -1,11 +1,7 @@
 import { h } from "@stencil/core";
 export class IrSkeleton {
-    constructor() {
-        this.customClasses = undefined;
-        this.styles = undefined;
-    }
     render() {
-        return h("div", { key: '8aef3bc296f08c6aefa05d27d916d9683ea5468f', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
+        return h("div", { key: '87c2a49c94e6cb8800aadfaac769a015d192a9e6', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
     }
     static get is() { return "ir-skeleton"; }
     static get encapsulation() { return "shadow"; }
@@ -35,6 +31,8 @@ export class IrSkeleton {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "custom-classes",
                 "reflect": false
             },
@@ -51,7 +49,9 @@ export class IrSkeleton {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

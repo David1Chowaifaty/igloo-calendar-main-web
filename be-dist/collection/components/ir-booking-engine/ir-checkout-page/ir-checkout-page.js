@@ -4,26 +4,27 @@ import { AuthService } from "../../../services/api/auth.service";
 import { PaymentService } from "../../../services/api/payment.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
-import booking_store, { calculateTotalRooms, validateBooking } from "../../../stores/booking";
+import booking_store, { calculateTotalCost, calculateTotalRooms, clearCheckoutRooms, validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
-import { destroyBookingCookie, detectCardType, generateCheckoutUrl, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
+import { destroyBookingCookie, generateCheckoutUrl, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import { ZodError } from "zod";
 export class IrCheckoutPage {
     constructor() {
+        this.isLoading = false;
+        this.selectedPaymentMethod = null;
+        this.isBookingConfirmed = false;
         this.propertyService = new PropertyService();
         this.paymentService = new PaymentService();
         this.authService = new AuthService();
-        this.isLoading = false;
-        this.error = undefined;
-        this.selectedPaymentMethod = null;
-        this.prepaymentAmount = undefined;
-        this.isBookingConfirmed = false;
     }
     async componentWillLoad() {
+        var _a, _b, _c;
         this.calculateTotalPrepaymentAmount();
+        const { totalAmount } = calculateTotalCost();
+        (_a = app_store.analytics) === null || _a === void 0 ? void 0 : _a.trackCheckout({ currency: (_c = (_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.currency_id) === null || _c === void 0 ? void 0 : _c.toString(), value: totalAmount === null || totalAmount === void 0 ? void 0 : totalAmount.toString() });
     }
     async calculateTotalPrepaymentAmount() {
         try {
@@ -59,7 +60,7 @@ export class IrCheckoutPage {
         return true;
     }
     validatePayment() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f;
         if (booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams) === null || _a === void 0 ? void 0 : _a.agent) === null || _b === void 0 ? void 0 : _b.payment_mode.code) === '001') {
             return true;
         }
@@ -84,10 +85,10 @@ export class IrCheckoutPage {
                 expiryDate: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_month,
                 cvc: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cvc,
             });
-            const cardType = detectCardType((_h = (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.cardNumber) === null || _h === void 0 ? void 0 : _h.replace(/ /g, ''));
-            if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes(cardType === null || cardType === void 0 ? void 0 : cardType.toLowerCase()))) {
-                return false;
-            }
+            // const cardType = detectCardType((checkout_store.payment as any)?.cardNumber?.replace(/ /g, ''));
+            // if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes((cardType === 'AMEX' ? 'American Express' : cardType)?.toLowerCase()))) {
+            //   return false;
+            // }
             return true;
         }
         catch (error) {
@@ -158,7 +159,7 @@ export class IrCheckoutPage {
         }
     }
     async processBooking() {
-        var _a, _b;
+        var _a, _b, _c;
         try {
             const result = await this.propertyService.bookUser();
             this.isBookingConfirmed = true;
@@ -170,7 +171,13 @@ export class IrCheckoutPage {
             if (conversionTag && conversionTag.value) {
                 this.modifyConversionTag(conversionTag.value);
             }
-            if (!this.selectedPaymentMethod || !((_b = this.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.is_payment_gateway) || this.prepaymentAmount === 0) {
+            (_b = app_store.analytics) === null || _b === void 0 ? void 0 : _b.trackPurchase({
+                currency: app_store.userPreferences.currency_id,
+                roomnights: (getDateDifference(new Date(result.from_date), new Date(result.to_date)) * calculateTotalRooms()).toString(),
+                transaction_id: result.booking_nbr,
+                value: result.financial.total_amount.toString(),
+            });
+            if (!this.selectedPaymentMethod || !((_c = this.selectedPaymentMethod) === null || _c === void 0 ? void 0 : _c.is_payment_gateway) || this.prepaymentAmount === 0) {
                 app_store.invoice = {
                     email: booking_store.booking.guest.email,
                     booking_number: booking_store.booking.booking_nbr,
@@ -244,6 +251,7 @@ export class IrCheckoutPage {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
+                clearCheckoutRooms();
             }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error })))));
     }
     static get is() { return "ir-checkout-page"; }

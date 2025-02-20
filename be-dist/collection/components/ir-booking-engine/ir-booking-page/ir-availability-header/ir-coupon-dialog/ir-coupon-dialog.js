@@ -5,8 +5,6 @@ import { cn, validateCoupon } from "../../../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
 export class IrCouponDialog {
     constructor() {
-        this.coupon = undefined;
-        this.validationMessage = undefined;
         this.isValid = false;
     }
     activateCoupon() {

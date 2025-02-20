@@ -6,9 +6,8 @@ import { differenceInCalendarDays, format } from "date-fns";
 import localization_store from "../../../../stores/app.store";
 export class IrBookingCard {
     constructor() {
-        this.bookingListingAppService = new BookingListingAppService();
-        this.booking = undefined;
         this.aff = false;
+        this.bookingListingAppService = new BookingListingAppService();
     }
     componentWillLoad() {
         if (!this.booking) {
@@ -70,7 +69,9 @@ export class IrBookingCard {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "aff": {
                 "type": "boolean",
@@ -86,6 +87,8 @@ export class IrBookingCard {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "false"

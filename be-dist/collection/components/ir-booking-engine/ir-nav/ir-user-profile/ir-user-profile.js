@@ -10,13 +10,13 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import localizedWords from "../../../../stores/localization.store";
 export class IrUserProfile {
     constructor() {
-        this.propertyService = new PropertyService();
-        this.commonService = new CommonService();
         this.user_data = {};
         this.be = true;
         this.user = {};
         this.isLoading = false;
         this.isPageLoading = false;
+        this.propertyService = new PropertyService();
+        this.commonService = new CommonService();
     }
     async componentWillLoad() {
         await this.fetchData();
@@ -157,7 +157,7 @@ export class IrUserProfile {
                 "mutable": false,
                 "complexType": {
                     "original": "TGuest",
-                    "resolved": "{ address?: string; city?: string; country_id?: number; dob?: string; email?: string; first_name?: string; id?: number; last_name?: string; mobile?: number; subscribe_to_news_letter?: boolean; country_phone_prefix?: string; alternative_email?: string; }",
+                    "resolved": "{ address?: string; id?: number; email?: string; first_name?: string; last_name?: string; country_id?: number; country_phone_prefix?: string; city?: string; dob?: string; mobile?: number; subscribe_to_news_letter?: boolean; alternative_email?: string; }",
                     "references": {
                         "TGuest": {
                             "location": "import",
@@ -172,6 +172,8 @@ export class IrUserProfile {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{}"
             },
             "be": {
@@ -188,6 +190,8 @@ export class IrUserProfile {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "be",
                 "reflect": false,
                 "defaultValue": "true"

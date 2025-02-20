@@ -6,8 +6,8 @@ import { formatAmount, getDateDifference } from "../../../../utils/utils";
 import { BookingListingAppService } from "../../../../services/app/booking-listing.service";
 export class IrBookingDetailsView {
     constructor() {
-        this.bookingListingAppService = new BookingListingAppService();
         this.booking = null;
+        this.bookingListingAppService = new BookingListingAppService();
     }
     componentWillLoad() {
         var _a, _b;
@@ -96,6 +96,8 @@ export class IrBookingDetailsView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             }
         };

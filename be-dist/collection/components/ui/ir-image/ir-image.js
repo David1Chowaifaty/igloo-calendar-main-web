@@ -1,13 +1,8 @@
 import { h } from "@stencil/core";
 export class IrImage {
     constructor() {
-        this.src = undefined;
-        this.thumbnail = undefined;
-        this.blurhash = undefined;
         this.width = 32;
         this.height = 32;
-        this.alt = undefined;
-        this.blurDataUrl = undefined;
         this.loaded = false;
     }
     async componentWillLoad() {
@@ -34,7 +29,7 @@ export class IrImage {
         }
     }
     render() {
-        return (h("div", { key: 'b1c56eb42015b3a5f32715868a294209efe5cb38', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '7479e68b92021799336254cf4a39292a4eafeb68', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: '236a241170b2695c249ec377d69ea95e84b0ec77', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: '28118a5347364bb43e387674055e69ef5332fadf', ref: el => {
+        return (h("div", { key: '3982f205efa492378981d36e379b36ee21dfebce', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '0eb61cc3d67236f5c58c001becc07c6d0998a6c9', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: '60326c29218735c22beb6e40fe6e534bd1b531c0', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: '5f3334638ab8951340e54512d1e2d02710bb0723', ref: el => {
                 this.imageRef = el;
                 // Removed checkImageCached() from here
             }, src: this.src, class: `original  visible`,
@@ -71,6 +66,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "src",
                 "reflect": false
             },
@@ -88,6 +85,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "thumbnail",
                 "reflect": false
             },
@@ -105,6 +104,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "blurhash",
                 "reflect": false
             },
@@ -122,6 +123,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "width",
                 "reflect": false,
                 "defaultValue": "32"
@@ -140,6 +143,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "height",
                 "reflect": false,
                 "defaultValue": "32"
@@ -158,6 +163,8 @@ export class IrImage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "alt",
                 "reflect": false
             }

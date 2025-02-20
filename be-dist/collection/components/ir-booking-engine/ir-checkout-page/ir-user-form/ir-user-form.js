@@ -7,7 +7,6 @@ import { Fragment, h } from "@stencil/core";
 export class IrUserForm {
     constructor() {
         this.propertyService = new PropertyService();
-        this.errors = undefined;
     }
     async componentWillLoad() {
         this.propertyService.fetchSetupEntries();
@@ -119,7 +118,7 @@ export class IrUserForm {
                         "ZodIssue": {
                             "location": "import",
                             "path": "zod",
-                            "id": ""
+                            "id": "node_modules::ZodIssue"
                         }
                     }
                 },
@@ -128,7 +127,9 @@ export class IrUserForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

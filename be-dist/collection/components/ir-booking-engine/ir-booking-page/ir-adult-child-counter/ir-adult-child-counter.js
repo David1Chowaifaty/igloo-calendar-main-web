@@ -6,7 +6,6 @@ export class IrAdultChildCounter {
         this.adultCount = 2;
         this.childrenCount = 0;
         this.infant_nbr = 0;
-        this.error = undefined;
         this.minAdultCount = 0;
         this.minChildrenCount = 0;
         this.maxAdultCount = 10;
@@ -139,6 +138,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "adult-count",
                 "reflect": false,
                 "defaultValue": "2"
@@ -157,6 +158,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "children-count",
                 "reflect": false,
                 "defaultValue": "0"
@@ -175,6 +178,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "infant_nbr",
                 "reflect": false,
                 "defaultValue": "0"
@@ -193,6 +198,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false
             },
@@ -210,6 +217,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-adult-count",
                 "reflect": false,
                 "defaultValue": "0"
@@ -228,6 +237,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-children-count",
                 "reflect": false,
                 "defaultValue": "0"
@@ -246,6 +257,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-adult-count",
                 "reflect": false,
                 "defaultValue": "10"
@@ -264,6 +277,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-children-count",
                 "reflect": false,
                 "defaultValue": "10"
@@ -282,6 +297,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "child-max-age",
                 "reflect": false,
                 "defaultValue": "0"
@@ -300,6 +317,8 @@ export class IrAdultChildCounter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             }
         };

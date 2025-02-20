@@ -5,6 +5,17 @@ import { getAbbreviatedWeekdays } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 export class IrCalendar {
     constructor() {
+        this.fromDate = null;
+        this.toDate = null;
+        this.minDate = addYears(new Date(), -24);
+        this.maxDate = addYears(new Date(), 24);
+        this.maxSpanDays = 90;
+        this.showPrice = false;
+        this.locale = enUS;
+        this.date = new Date();
+        this.selectedDate = null;
+        this.hoveredDate = null;
+        this.weekdays = [];
         this.handleKeyDown = (e) => {
             if (e.key === 'ArrowLeft') {
                 this.decrementDate();
@@ -22,19 +33,6 @@ export class IrCalendar {
                 this.selectDay(this.selectedDate);
             }
         };
-        this.fromDate = null;
-        this.toDate = null;
-        this.minDate = addYears(new Date(), -24);
-        this.maxDate = addYears(new Date(), 24);
-        this.dateModifiers = undefined;
-        this.maxSpanDays = 90;
-        this.showPrice = false;
-        this.locale = enUS;
-        this.date = new Date();
-        this.selectedDate = null;
-        this.displayedDays = undefined;
-        this.hoveredDate = null;
-        this.weekdays = [];
     }
     componentWillLoad() {
         var _a;
@@ -135,7 +133,7 @@ export class IrCalendar {
     }
     render() {
         const { month, days } = this.displayedDays;
-        return (h("div", { key: 'b46aefa2cf7243e0a78a63702bb328000d003bd5', class: 'date-picker' }, h("table", { key: 'cc8950176757ce22c80c8f535fae3c6387227f89', class: "calendar ", role: "grid" }, h("thead", { key: 'd080975f5b54cc097b5ce05e797238dc667cf4b2' }, h("tr", { key: 'c162e7ebffb9adaf29f25e44ef434f55d47ab289', class: "calendar-header" }, h("th", { key: 'cece26bbad034d5f8e773fdb6c2bfdc5fec55926', colSpan: 7 }, h("div", { key: 'e0b852cd7575e7e146ff638553bae0b126e024d0', class: "month-navigation" }, h("button", { key: '063ad4b926623c991a7fbb86f16849c7dd4fab5c', name: "previous month", class: "navigation-buttons", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { key: '9fff746bc4f1be344e15d3880a25a6b41f4d8c23', class: "sr-only" }, "previous month"), h("svg", { key: 'feb04507b454980851ff87d8059f85a8527cc720', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: 'c62a1b8e4dcbe05258b4db29c0930567374c07f2', fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" }))), h("span", { key: '708fea39efdf16785a12789aad02db0ba7b0fd17' }, format(month, 'MMMM yyyy', { locale: this.locale })), h("button", { key: 'd449b67f833325527117b6bba0d0eb1a12d8189b', name: "next month", class: "navigation-buttons", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { key: '46a7adb02923e366de32ce33cf2613d91b40c832', class: "sr-only " }, "next month"), h("svg", { key: '3b11933c401dd570b81357a2afc9c9c940024980', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: '5f036cf8294d172630a200e91bd63089950378d9', fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))))), h("tr", { key: 'afa61d4bb74c15ff8ca9e6b59b099cc08d906a23', class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday))))), h("tbody", { key: 'e3ec67bd633dba95a70f851d52ce1140ecb3273f', class: "days-grid" }, days
+        return (h("div", { key: '900cecc49d0b85c002071d475eb5b5f115352890', class: 'date-picker' }, h("table", { key: '9ffc94c28eecd95d51cd4fc5569f0c846256d4c5', class: "calendar ", role: "grid" }, h("thead", { key: '749215395e0134e9de3e585dccbb56fce3262399' }, h("tr", { key: '0d7b0b86ed24c8b7dd5e9a1c800c458f810892b2', class: "calendar-header" }, h("th", { key: '3b7f98f4be221740e8748838c2ac02e7951317f4', colSpan: 7 }, h("div", { key: '181b097e59396e1a023ea47b1260bf7b883ee113', class: "month-navigation" }, h("button", { key: '3b8f8a6c789dc6d18a222766e2fd917f355e6da8', name: "previous month", class: "navigation-buttons", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { key: '1877882554c5ce4ad664854641aa52bbf06ec8a5', class: "sr-only" }, "previous month"), h("svg", { key: '46c6e00f58b902628c43beaf52fca76b56a99424', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: '1fc63400a0df14da17886c70ea3629ece66a7ad9', fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" }))), h("span", { key: 'f1de745555cc4a48aedd6f160cc75e7bbd134304' }, format(month, 'MMMM yyyy', { locale: this.locale })), h("button", { key: '207758c780c8ef85ebf45c94fd4fc6395be18211', name: "next month", class: "navigation-buttons", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { key: '5c2a2b44a85e23e0593174818f4e219d81e8302e', class: "sr-only " }, "next month"), h("svg", { key: 'c2ea51289aafe383160ebc153e4f86eb77bb734f', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: 'b6511385c97f0d4401f4414bfce8a88930e2ce51', fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))))), h("tr", { key: 'edc8876766a9429c05ac7ace5131284d036b9c63', class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday))))), h("tbody", { key: '979482cacbd347ff575eefe05bc71de57ee5715b', class: "days-grid" }, days
             .reduce((acc, day, index) => {
             const weekIndex = Math.floor(index / 7);
             if (!acc[weekIndex]) {
@@ -189,6 +187,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "toDate": {
@@ -210,6 +210,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "minDate": {
@@ -231,6 +233,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "addYears(new Date(), -24)"
             },
             "maxDate": {
@@ -252,6 +256,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "addYears(new Date(), 24)"
             },
             "dateModifiers": {
@@ -273,7 +279,9 @@ export class IrCalendar {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "maxSpanDays": {
                 "type": "number",
@@ -289,6 +297,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-span-days",
                 "reflect": false,
                 "defaultValue": "90"
@@ -307,6 +317,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-price",
                 "reflect": false,
                 "defaultValue": "false"
@@ -321,7 +333,7 @@ export class IrCalendar {
                         "Locale": {
                             "location": "import",
                             "path": "date-fns",
-                            "id": ""
+                            "id": "node_modules::Locale"
                         }
                     }
                 },
@@ -331,6 +343,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "enUS"
             },
             "date": {
@@ -352,6 +366,8 @@ export class IrCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "new Date()"
             }
         };

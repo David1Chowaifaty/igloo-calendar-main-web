@@ -56,15 +56,15 @@ export declare const ICardProcessing: z.ZodUnion<[z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     code?: "001";
     cardNumber?: string;
+    cvc?: string;
     cardHolderName?: string;
     expiry_month?: string;
     expiry_year?: string;
-    cvc?: string;
 }, {
     code?: "001";
     cardNumber?: string;
+    cvc?: string;
     cardHolderName?: string;
     expiry_month?: string;
     expiry_year?: string;
-    cvc?: string;
 }>]>;

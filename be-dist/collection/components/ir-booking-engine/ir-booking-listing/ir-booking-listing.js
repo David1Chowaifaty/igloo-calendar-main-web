@@ -9,12 +9,7 @@ import { Fragment, Host, h } from "@stencil/core";
 import axios from "axios";
 export class IrBookingListing {
     constructor() {
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
-        this.token = new Token();
-        this.propertyid = undefined;
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.language = undefined;
         this.headerShown = true;
         this.footerShown = true;
         this.maxPages = 10;
@@ -32,6 +27,9 @@ export class IrBookingListing {
         this.selectedBooking = null;
         this.isAffiliate = false;
         this.isSignedIn = false;
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
+        this.token = new Token();
     }
     async componentWillLoad() {
         var _a;
@@ -227,6 +225,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -244,6 +244,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "base-url",
                 "reflect": false,
                 "defaultValue": "'https://gateway.igloorooms.com/IRBE'"
@@ -262,6 +264,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -279,6 +283,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "header-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -297,6 +303,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "footer-shown",
                 "reflect": false,
                 "defaultValue": "true"
@@ -315,6 +323,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-pages",
                 "reflect": false,
                 "defaultValue": "10"
@@ -333,6 +343,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "perma_link",
                 "reflect": false,
                 "defaultValue": "null"
@@ -351,6 +363,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "a-name",
                 "reflect": false,
                 "defaultValue": "null"
@@ -369,6 +383,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-all-bookings",
                 "reflect": false,
                 "defaultValue": "true"
@@ -387,6 +403,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "be",
                 "reflect": false,
                 "defaultValue": "false"
@@ -405,6 +423,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{ screen: 'bookings', params: null }"
             },
             "aff": {
@@ -421,6 +441,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "null"
@@ -439,6 +461,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "version",
                 "reflect": false,
                 "defaultValue": "'2.0'"
@@ -457,6 +481,8 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
                 "defaultValue": "true"

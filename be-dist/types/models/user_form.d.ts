@@ -11,27 +11,27 @@ export declare const IrUserFormData: z.ZodObject<{
     country_phone_prefix: z.ZodString;
     id: z.ZodDefault<z.ZodNullable<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
+    id?: number;
+    email?: string;
+    message?: string;
     firstName?: string;
     lastName?: string;
-    email?: string;
     mobile_number?: number;
     arrival_time?: string;
-    message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
     country_phone_prefix?: string;
-    id?: number;
 }, {
+    id?: number;
+    email?: string;
+    message?: string;
     firstName?: string;
     lastName?: string;
-    email?: string;
     mobile_number?: number;
     arrival_time?: string;
-    message?: string;
     bookingForSomeoneElse?: boolean;
     country_id?: number;
     country_phone_prefix?: string;
-    id?: number;
 }>;
 export type TUserFormData = z.infer<typeof IrUserFormData>;
 export declare const IrGuest: z.ZodObject<{
@@ -49,29 +49,29 @@ export declare const IrGuest: z.ZodObject<{
     alternative_email: z.ZodNullable<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     address?: string;
-    city?: string;
-    country_id?: number;
-    dob?: string;
+    id?: number;
     email?: string;
     first_name?: string;
-    id?: number;
     last_name?: string;
+    country_id?: number;
+    country_phone_prefix?: string;
+    city?: string;
+    dob?: string;
     mobile?: number;
     subscribe_to_news_letter?: boolean;
-    country_phone_prefix?: string;
     alternative_email?: string;
 }, {
     address?: string;
-    city?: string;
-    country_id?: number;
-    dob?: string;
+    id?: number;
     email?: string;
     first_name?: string;
-    id?: number;
     last_name?: string;
+    country_id?: number;
+    country_phone_prefix?: string;
+    city?: string;
+    dob?: string;
     mobile?: number;
     subscribe_to_news_letter?: boolean;
-    country_phone_prefix?: string;
     alternative_email?: string;
 }>;
 export type TGuest = z.infer<typeof IrGuest>;

@@ -5,14 +5,14 @@ export declare const ZCurrency: z.ZodObject<{
     symbol: z.ZodString;
     id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
+    symbol?: string;
     code?: string;
     name?: string;
-    symbol?: string;
     id?: number;
 }, {
+    symbol?: string;
     code?: string;
     name?: string;
-    symbol?: string;
     id?: number;
 }>;
 export type TCurrency = z.infer<typeof ZCurrency>;

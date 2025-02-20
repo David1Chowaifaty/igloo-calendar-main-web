@@ -24,14 +24,6 @@ import { calculateInfantNumber, modifyQueryParam } from "../../../../utils/utils
 export class IrAvailabilityHeader {
     constructor() {
         var _a;
-        this.errorCause = null;
-        this.popoverInstance = null;
-        this.propertyService = new PropertyService();
-        this.validator = new QueryStringValidator();
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.adultCount = undefined;
-        this.childrenCount = undefined;
         this.ages = '';
         this.target = null;
         this.isLoading = false;
@@ -48,6 +40,10 @@ export class IrAvailabilityHeader {
             is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
             agent_id: ((_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.id) || 0,
         };
+        this.errorCause = null;
+        this.popoverInstance = null;
+        this.propertyService = new PropertyService();
+        this.validator = new QueryStringValidator();
     }
     componentWillLoad() {
         const { property_id } = app_store.app_data;
@@ -215,7 +211,7 @@ export class IrAvailabilityHeader {
         }
     }
     async checkAvailability() {
-        var _a;
+        var _a, _b;
         const params = ExposedBookingAvailability.parse(this.exposedBookingAvailabilityParams);
         if (app_store.app_data.injected) {
             const { from_date, to_date, adult_nbr, child_nbr, infant_nbr } = params;
@@ -243,13 +239,15 @@ export class IrAvailabilityHeader {
             this.errorCause.push('adult_child');
             return;
         }
+        console.log('analytics', app_store.analytics);
+        (_a = app_store.analytics) === null || _a === void 0 ? void 0 : _a.trackSearch({ from_date: params.from_date, to_date: params.to_date });
         booking_store.bookingAvailabilityParams = Object.assign(Object.assign({}, booking_store.bookingAvailabilityParams), { from_date: new Date(params.from_date), to_date: new Date(params.to_date), adult_nbr: params.adult_nbr, child_nbr: params.child_nbr });
         this.scrollToRoomType.emit(null);
         booking_store.resetBooking = true;
-        const _b = this.exposedBookingAvailabilityParams, { infant_nbr } = _b, rest = __rest(_b, ["infant_nbr"]);
+        const _c = this.exposedBookingAvailabilityParams, { infant_nbr } = _c, rest = __rest(_c, ["infant_nbr"]);
         await this.propertyService.getExposedBookingAvailability(Object.assign(Object.assign({}, rest), { child_nbr: this.exposedBookingAvailabilityParams.child_nbr,
             // child_nbr: this.exposedBookingAvailabilityParams.child_nbr - this.exposedBookingAvailabilityParams.infant_nbr,
-            promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: ((_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.id) || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon, is_in_affiliate_mode: !!app_store.app_data.affiliate, affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null }));
+            promo_key: booking_store.bookingAvailabilityParams.coupon || '', is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false, agent_id: ((_b = booking_store.bookingAvailabilityParams.agent) === null || _b === void 0 ? void 0 : _b.id) || 0, is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon, is_in_affiliate_mode: !!app_store.app_data.affiliate, affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null }));
         app_store.fetchedBooking = true;
     }
     async handleCheckAvailability() {
@@ -313,18 +311,18 @@ export class IrAvailabilityHeader {
         const show_loyalty = (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.promotions) === null || _b === void 0 ? void 0 : _b.some(p => p.is_loyalty);
         const show_coupon = (_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.promotions) === null || _d === void 0 ? void 0 : _d.some(p => p.is_loyalty);
         const showPromotions = ((_e = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _e === void 0 ? void 0 : _e.promotions) && (show_coupon || show_loyalty);
-        return (h("div", { key: '9297df5b28360897f5aa1b814bc5054dbd9b1d23', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '157dbd82e21ed329ac46e547426e621ba717532e', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: '749af7818c1e52e8cffac142fcfdffd72716ae36', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
+        return (h("div", { key: '432c5a9714ae74c060edd60816b7913d29d5f788', class: `availability-container ${showPromotions ? 'promotions' : ''} xl:text-cyan-50` }, h("div", { key: '9369ac58d542c9e2da7187d2a744d527ef0d0d4b', class: `availability-inputs ${showPromotions ? 'promotions' : ''}` }, h("ir-date-popup", { key: 'b9ba761273d7e093accc45909853ac8f942caebc', "data-state": ((_f = this.errorCause) === null || _f === void 0 ? void 0 : _f.find(c => c === 'date')) ? 'error' : '', dates: {
                 start: ((_g = this.exposedBookingAvailabilityParams) === null || _g === void 0 ? void 0 : _g.from_date) ? new Date(this.exposedBookingAvailabilityParams.from_date) : null,
                 end: ((_h = this.exposedBookingAvailabilityParams) === null || _h === void 0 ? void 0 : _h.to_date) ? new Date(this.exposedBookingAvailabilityParams.to_date) : null,
-            }, class: "date-popup" }), h("ir-adult-child-counter", { key: 'b0584414c0b98db62ce7eccf0c241ad9b65fac5c', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: booking_store.childrenAges, onCheckAvailability: () => this.handleCheckAvailability() }), h("div", { key: 'fb4c2d500b5c650e8b028d820054b61472d2a4dc', class: 'hidden sm:block' }, h("ir-button", { key: 'a8f50ed6dc78a807b4edcbc98f10cbae3968c40d', isLoading: this.isLoading, onButtonClick: e => {
+            }, class: "date-popup" }), h("ir-adult-child-counter", { key: '070839f373e29c55d37454c794dfa0128ee2be46', "data-state": ((_j = this.errorCause) === null || _j === void 0 ? void 0 : _j.find(c => c === 'adult_child')) ? 'error' : '', adultCount: this.exposedBookingAvailabilityParams.adult_nbr, childrenCount: this.exposedBookingAvailabilityParams.child_nbr, minAdultCount: 0, maxAdultCount: app_store.property.adult_child_constraints.adult_max_nbr, maxChildrenCount: app_store.property.adult_child_constraints.child_max_nbr, childMaxAge: app_store.property.adult_child_constraints.child_max_age, class: "adult-child-counter", ref: el => (this.personCounter = el), baseChildrenAges: booking_store.childrenAges, onCheckAvailability: () => this.handleCheckAvailability() }), h("div", { key: '03845aa62842e8db65a7fb3ea5a0bd1a574492be', class: 'hidden sm:block' }, h("ir-button", { key: '29d89a2544ee76bbc642b4569f3b11c6963ce247', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: 'b3be264cef60ebb27e942d1511f88c1a389454da', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '19f71c50b09c3b40515715e387913c31a0d8bdc0', isLoading: this.isLoading, onButtonClick: e => {
+            }, size: "pill", variants: "icon-primary", iconName: "search", label: "Check availability" })), h("div", { key: 'd15befe265a4e16d090eaf970bc6427bd30deea3', class: "full-width-on-mobile sm:hidden" }, h("ir-button", { key: '6e67a9116de16aa285b25ad9b25d7d689db4523f', isLoading: this.isLoading, onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleCheckAvailability();
-            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '8d6c3db4ae06882ded06311f846fe19591f7f591', class: "promotions-container" }, h("ir-coupon-dialog", { key: '4dad3dfaa4a54c2b3bdca27da2d207f6d52d2cc6', class: "coupon-dialog" }), h("ir-loyalty", { key: '8ab6c5b6a715ecd47305d1225822bcc15a4e516f', class: "loyalty" })))));
+            }, size: "md", label: localizedWords.entries.Lcz_Search, buttonStyles: { width: '100%' } }))), ((_k = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _k === void 0 ? void 0 : _k.promotions) && (h("div", { key: '75f6ddb11407faa0c805aeb085fee317667d7273', class: "promotions-container" }, h("ir-coupon-dialog", { key: 'fdbfab0fe8d4c7ef2c09bc9f6893c91fc1015685', class: "coupon-dialog" }), h("ir-loyalty", { key: '09136175e05070313bdcd28dca0642e2719147ff', class: "loyalty" })))));
     }
     static get is() { return "ir-availability-header"; }
     static get encapsulation() { return "shadow"; }
@@ -354,6 +352,8 @@ export class IrAvailabilityHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from-date",
                 "reflect": false
             },
@@ -371,6 +371,8 @@ export class IrAvailabilityHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to-date",
                 "reflect": false
             },
@@ -388,6 +390,8 @@ export class IrAvailabilityHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "adult-count",
                 "reflect": false
             },
@@ -405,6 +409,8 @@ export class IrAvailabilityHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "children-count",
                 "reflect": false
             },
@@ -422,6 +428,8 @@ export class IrAvailabilityHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ages",
                 "reflect": false,
                 "defaultValue": "''"

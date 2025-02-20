@@ -8,10 +8,7 @@ import IMask from "imask";
 export class IrPaymentView {
     constructor() {
         this.prepaymentAmount = 0;
-        this.errors = undefined;
-        this.selectedPaymentMethod = undefined;
         this.cardType = '';
-        this.paymentDetails = undefined;
     }
     componentWillLoad() {
         this.setPaymentMethod();
@@ -201,11 +198,8 @@ export class IrPaymentView {
         return null;
     }
     render() {
-        var _a, _b;
         const hasAgentWithCode001 = booking_store.bookingAvailabilityParams.agent && booking_store.bookingAvailabilityParams.agent.payment_mode.code === '001';
-        return (h("div", { key: '2319e132ce3aaae3df7ede918a113a53e004f152', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'f027a7f819932cab7e2eb276820503636e351f67' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '628771deec170da14ce91485ea0a0b6f11d301dd', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: 'ed575c37af97f66d491064f6bbda18ae872b7da0', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
-            _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
+        return (h("div", { key: '2319e132ce3aaae3df7ede918a113a53e004f152', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'f027a7f819932cab7e2eb276820503636e351f67' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '628771deec170da14ce91485ea0a0b6f11d301dd', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit)));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
@@ -235,6 +229,8 @@ export class IrPaymentView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "prepayment-amount",
                 "reflect": false,
                 "defaultValue": "0"
@@ -253,7 +249,7 @@ export class IrPaymentView {
                         "ZodIssue": {
                             "location": "import",
                             "path": "zod",
-                            "id": ""
+                            "id": "node_modules::ZodIssue"
                         }
                     }
                 },
@@ -262,7 +258,9 @@ export class IrPaymentView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

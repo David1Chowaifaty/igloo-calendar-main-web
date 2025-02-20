@@ -5,6 +5,17 @@ import { getAbbreviatedWeekdays } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 export class IrDateRange {
     constructor() {
+        this.fromDate = null;
+        this.toDate = null;
+        this.minDate = addYears(new Date(), -24);
+        this.maxDate = addYears(new Date(), 24);
+        this.maxSpanDays = 90;
+        this.showPrice = false;
+        this.locale = enUS;
+        this.selectedDates = { start: new Date(), end: new Date() };
+        this.displayedDaysArr = [];
+        this.hoveredDate = null;
+        this.weekdays = [];
         this.handleKeyDown = (e) => {
             if (e.key === 'ArrowLeft') {
                 this.decrementDate();
@@ -13,18 +24,6 @@ export class IrDateRange {
                 this.incrementDate();
             }
         };
-        this.fromDate = null;
-        this.toDate = null;
-        this.minDate = addYears(new Date(), -24);
-        this.maxDate = addYears(new Date(), 24);
-        this.dateModifiers = undefined;
-        this.maxSpanDays = 90;
-        this.showPrice = false;
-        this.locale = enUS;
-        this.selectedDates = { start: new Date(), end: new Date() };
-        this.displayedDaysArr = [];
-        this.hoveredDate = null;
-        this.weekdays = [];
     }
     componentWillLoad() {
         var _a;
@@ -195,7 +194,7 @@ export class IrDateRange {
     }
     render() {
         const maxSpanDays = this.selectedDates.start && addDays(this.selectedDates.start, this.maxSpanDays);
-        return (h("div", { key: '9f4f8f477cfc553260c1f303f56a5b9416aafd6a', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, format(month.month, 'MMMM yyyy', { locale: this.locale })), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
+        return (h("div", { key: '60fb0f42ea1239f84634c6afd659ef31c1f508d7', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, format(month.month, 'MMMM yyyy', { locale: this.locale })), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
             .reduce((acc, day, index) => {
             const weekIndex = Math.floor(index / 7);
             if (!acc[weekIndex]) {
@@ -253,6 +252,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "toDate": {
@@ -274,6 +275,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "minDate": {
@@ -295,6 +298,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "addYears(new Date(), -24)"
             },
             "maxDate": {
@@ -316,6 +321,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "addYears(new Date(), 24)"
             },
             "dateModifiers": {
@@ -337,7 +344,9 @@ export class IrDateRange {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "maxSpanDays": {
                 "type": "number",
@@ -353,6 +362,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-span-days",
                 "reflect": false,
                 "defaultValue": "90"
@@ -371,6 +382,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-price",
                 "reflect": false,
                 "defaultValue": "false"
@@ -385,7 +398,7 @@ export class IrDateRange {
                         "Locale": {
                             "location": "import",
                             "path": "date-fns",
-                            "id": ""
+                            "id": "node_modules::Locale"
                         }
                     }
                 },
@@ -395,6 +408,8 @@ export class IrDateRange {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "enUS"
             }
         };

@@ -81,4 +81,5 @@ export declare function calculateTotalCost(config?: CostCalculationConfig): {
 };
 export declare function validateBooking(): boolean;
 export declare function calculateTotalRooms(): any;
+export declare function clearCheckoutRooms(): void;
 export default booking_store;

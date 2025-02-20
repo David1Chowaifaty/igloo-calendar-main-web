@@ -1,14 +1,12 @@
 import { h } from "@stencil/core";
 export class IrBadge {
     constructor() {
-        this.label = undefined;
         this.variant = 'default';
         this.size = 'sm';
-        this.withDot = undefined;
         this.backgroundShown = true;
     }
     render() {
-        return h("p", { key: '02df9cce9fff122a1bbcdb100549d7d65c1004b5', class: `size-${this.size} badge ${this.variant} ${this.backgroundShown ? '' : 'transparent'}` }, this.label);
+        return h("p", { key: '7d00bc1a83888766f4ed741b1b5c9f870fabdfaa', class: `size-${this.size} badge ${this.variant} ${this.backgroundShown ? '' : 'transparent'}` }, this.label);
     }
     static get is() { return "ir-badge"; }
     static get encapsulation() { return "shadow"; }
@@ -38,6 +36,8 @@ export class IrBadge {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -55,6 +55,8 @@ export class IrBadge {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -73,6 +75,8 @@ export class IrBadge {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "size",
                 "reflect": false,
                 "defaultValue": "'sm'"
@@ -91,6 +95,8 @@ export class IrBadge {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "with-dot",
                 "reflect": false
             },
@@ -108,6 +114,8 @@ export class IrBadge {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "background-shown",
                 "reflect": false,
                 "defaultValue": "true"

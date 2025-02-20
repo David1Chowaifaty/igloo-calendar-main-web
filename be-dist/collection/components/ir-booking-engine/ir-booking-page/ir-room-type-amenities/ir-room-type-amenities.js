@@ -2,8 +2,6 @@ import { h } from "@stencil/core";
 import localizedWords from "../../../../stores/localization.store";
 export class IrRoomTypeAmenities {
     constructor() {
-        this.aminities = undefined;
-        this.roomType = undefined;
         this._amenities = [];
     }
     componentWillLoad() {
@@ -85,7 +83,9 @@ export class IrRoomTypeAmenities {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "roomType": {
                 "type": "unknown",
@@ -106,7 +106,9 @@ export class IrRoomTypeAmenities {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

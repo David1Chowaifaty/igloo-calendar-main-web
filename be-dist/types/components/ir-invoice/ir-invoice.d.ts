@@ -36,7 +36,6 @@ export declare class IrInvoice {
     private bookingCancelation;
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
-    private detectPaymentOrigin;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     fetchData(language?: string, resetLanguage?: boolean): Promise<void>;
     openPrivacyPolicy(e: CustomEvent): Promise<void>;

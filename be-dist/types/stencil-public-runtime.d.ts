@@ -989,7 +989,6 @@ export declare namespace JSXBase {
     interface LabelHTMLAttributes<T> extends HTMLAttributes<T> {
         form?: string;
         htmlFor?: string;
-        htmlfor?: string;
     }
     interface LiHTMLAttributes<T> extends HTMLAttributes<T> {
         value?: string | string[] | number;
@@ -1016,6 +1015,8 @@ export declare namespace JSXBase {
         autoPlay?: boolean;
         autoplay?: boolean | string;
         controls?: boolean;
+        controlslist?: 'nodownload' | 'nofullscreen' | 'noremoteplayback';
+        controlsList?: 'nodownload' | 'nofullscreen' | 'noremoteplayback';
         crossOrigin?: string;
         crossorigin?: string;
         loop?: boolean;
@@ -1100,7 +1101,6 @@ export declare namespace JSXBase {
     interface OutputHTMLAttributes<T> extends HTMLAttributes<T> {
         form?: string;
         htmlFor?: string;
-        htmlfor?: string;
         name?: string;
     }
     interface ParamHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -1566,6 +1566,10 @@ export declare namespace JSXBase {
         onSubmitCapture?: (event: Event) => void;
         onInvalid?: (event: Event) => void;
         onInvalidCapture?: (event: Event) => void;
+        onBeforeToggle?: (event: Event) => void;
+        onBeforeToggleCapture?: (event: Event) => void;
+        onToggle?: (event: Event) => void;
+        onToggleCapture?: (event: Event) => void;
         onLoad?: (event: Event) => void;
         onLoadCapture?: (event: Event) => void;
         onError?: (event: Event) => void;

@@ -9,23 +9,14 @@ import localizedWords from "../../stores/localization.store";
 import Token from "../../models/Token";
 export class IrBookingWidget {
     constructor() {
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.token = new Token();
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
         this.position = 'fixed';
-        this.contentContainerStyle = undefined;
         this.propertyId = 42;
         this.perma_link = null;
         this.p = null;
         this.language = 'en';
         this.roomTypeId = null;
         this.aff = null;
-        this.delay = 200;
-        this.isPopoverOpen = undefined;
-        this.dateModifiers = undefined;
-        this.isLoading = undefined;
-        this.isGuestPopoverOpen = undefined;
+        this.delay = 300;
         this.dates = {
             from_date: null,
             to_date: null,
@@ -36,6 +27,10 @@ export class IrBookingWidget {
             infants: 0,
             childrenAges: [],
         };
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.token = new Token();
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
     }
     componentWillLoad() {
         this.initApp();
@@ -222,6 +217,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "position",
                 "reflect": true,
                 "defaultValue": "'fixed'"
@@ -245,7 +242,9 @@ export class IrBookingWidget {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "propertyId": {
                 "type": "number",
@@ -261,6 +260,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property-id",
                 "reflect": false,
                 "defaultValue": "42"
@@ -279,6 +280,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "perma_link",
                 "reflect": false,
                 "defaultValue": "null"
@@ -297,6 +300,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false,
                 "defaultValue": "null"
@@ -315,6 +320,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -333,6 +340,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "room-type-id",
                 "reflect": false,
                 "defaultValue": "null"
@@ -351,6 +360,8 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "null"
@@ -369,9 +380,11 @@ export class IrBookingWidget {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "delay",
                 "reflect": false,
-                "defaultValue": "200"
+                "defaultValue": "300"
             }
         };
     }

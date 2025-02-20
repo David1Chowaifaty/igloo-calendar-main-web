@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Placement } from '@popperjs/core';
 export declare class IrPopover {

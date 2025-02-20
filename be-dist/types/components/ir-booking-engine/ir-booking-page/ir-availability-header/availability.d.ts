@@ -16,14 +16,14 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     is_in_affiliate_mode: z.ZodDefault<z.ZodBoolean>;
     affiliate_id: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
-    propertyid?: number;
     from_date?: string;
     to_date?: string;
-    room_type_ids?: string[];
     adult_nbr?: number;
     child_nbr?: number;
     infant_nbr?: number;
     language?: string;
+    room_type_ids?: string[];
+    propertyid?: number;
     currency_ref?: string;
     is_in_loyalty_mode?: boolean;
     promo_key?: string;
@@ -32,14 +32,14 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     is_in_affiliate_mode?: boolean;
     affiliate_id?: number;
 }, {
-    propertyid?: number;
     from_date?: string;
     to_date?: string;
-    room_type_ids?: string[];
     adult_nbr?: number;
     child_nbr?: number;
     infant_nbr?: number;
     language?: string;
+    room_type_ids?: string[];
+    propertyid?: number;
     currency_ref?: string;
     is_in_loyalty_mode?: boolean;
     promo_key?: string;

@@ -3,11 +3,11 @@ export declare const ZAllowedLocation: z.ZodObject<{
     description: z.ZodString;
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    description?: string;
     id?: number;
+    description?: string;
 }, {
-    description?: string;
     id?: number;
+    description?: string;
 }>;
 export declare const ZVehicle: z.ZodObject<{
     code: z.ZodString;
@@ -40,14 +40,14 @@ export declare const ZAllowedOptions: z.ZodObject<{
         symbol: z.ZodString;
         id: z.ZodOptional<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }>;
     id: z.ZodNumber;
@@ -55,11 +55,11 @@ export declare const ZAllowedOptions: z.ZodObject<{
         description: z.ZodString;
         id: z.ZodNumber;
     }, "strip", z.ZodTypeAny, {
-        description?: string;
         id?: number;
+        description?: string;
     }, {
-        description?: string;
         id?: number;
+        description?: string;
     }>;
     vehicle: z.ZodObject<{
         code: z.ZodString;
@@ -85,18 +85,18 @@ export declare const ZAllowedOptions: z.ZodObject<{
         description?: string;
     }>;
 }, "strip", z.ZodTypeAny, {
-    amount?: number;
-    currency?: {
-        code?: string;
-        name?: string;
-        symbol?: string;
-        id?: number;
-    };
     id?: number;
     location?: {
+        id?: number;
         description?: string;
+    };
+    currency?: {
+        symbol?: string;
+        code?: string;
+        name?: string;
         id?: number;
     };
+    amount?: number;
     vehicle?: {
         code?: string;
         description?: string;
@@ -107,18 +107,18 @@ export declare const ZAllowedOptions: z.ZodObject<{
         description?: string;
     };
 }, {
-    amount?: number;
-    currency?: {
-        code?: string;
-        name?: string;
-        symbol?: string;
-        id?: number;
-    };
     id?: number;
     location?: {
+        id?: number;
         description?: string;
+    };
+    currency?: {
+        symbol?: string;
+        code?: string;
+        name?: string;
         id?: number;
     };
+    amount?: number;
     vehicle?: {
         code?: string;
         description?: string;
@@ -140,14 +140,14 @@ export declare const PickupFormData: z.ZodObject<{
         symbol: z.ZodString;
         id: z.ZodOptional<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }>;
     arrival_time: z.ZodString;
@@ -160,14 +160,14 @@ export declare const PickupFormData: z.ZodObject<{
             symbol: z.ZodString;
             id: z.ZodOptional<z.ZodNumber>;
         }, "strip", z.ZodTypeAny, {
+            symbol?: string;
             code?: string;
             name?: string;
-            symbol?: string;
             id?: number;
         }, {
+            symbol?: string;
             code?: string;
             name?: string;
-            symbol?: string;
             id?: number;
         }>;
         id: z.ZodNumber;
@@ -175,11 +175,11 @@ export declare const PickupFormData: z.ZodObject<{
             description: z.ZodString;
             id: z.ZodNumber;
         }, "strip", z.ZodTypeAny, {
-            description?: string;
             id?: number;
+            description?: string;
         }, {
-            description?: string;
             id?: number;
+            description?: string;
         }>;
         vehicle: z.ZodObject<{
             code: z.ZodString;
@@ -205,18 +205,18 @@ export declare const PickupFormData: z.ZodObject<{
             description?: string;
         }>;
     }, "strip", z.ZodTypeAny, {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -227,18 +227,18 @@ export declare const PickupFormData: z.ZodObject<{
             description?: string;
         };
     }, {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -252,30 +252,30 @@ export declare const PickupFormData: z.ZodObject<{
     vehicle_type_code: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     location?: number;
-    flight_details?: string;
-    due_upon_booking?: string;
-    number_of_vehicles?: number;
     currency?: {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     };
     arrival_time?: string;
+    flight_details?: string;
+    due_upon_booking?: string;
+    number_of_vehicles?: number;
     arrival_date?: string;
     selected_option?: {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -289,30 +289,30 @@ export declare const PickupFormData: z.ZodObject<{
     vehicle_type_code?: string;
 }, {
     location?: number;
-    flight_details?: string;
-    due_upon_booking?: string;
-    number_of_vehicles?: number;
     currency?: {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     };
     arrival_time?: string;
+    flight_details?: string;
+    due_upon_booking?: string;
+    number_of_vehicles?: number;
     arrival_date?: string;
     selected_option?: {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -332,14 +332,14 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
         symbol: z.ZodString;
         id: z.ZodOptional<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }, {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     }>;
     date: z.ZodString;
@@ -355,14 +355,14 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             symbol: z.ZodString;
             id: z.ZodOptional<z.ZodNumber>;
         }, "strip", z.ZodTypeAny, {
+            symbol?: string;
             code?: string;
             name?: string;
-            symbol?: string;
             id?: number;
         }, {
+            symbol?: string;
             code?: string;
             name?: string;
-            symbol?: string;
             id?: number;
         }>;
         id: z.ZodNumber;
@@ -370,11 +370,11 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             description: z.ZodString;
             id: z.ZodNumber;
         }, "strip", z.ZodTypeAny, {
-            description?: string;
             id?: number;
+            description?: string;
         }, {
-            description?: string;
             id?: number;
+            description?: string;
         }>;
         vehicle: z.ZodObject<{
             code: z.ZodString;
@@ -400,18 +400,18 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             description?: string;
         }>;
     }, "strip", z.ZodTypeAny, {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -422,18 +422,18 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             description?: string;
         };
     }, {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -446,30 +446,29 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
     }>;
     total: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
+    details?: string;
+    date?: string;
     currency?: {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     };
-    date?: string;
-    details?: string;
-    hour?: number;
     minute?: number;
-    nbr_of_units?: number;
+    hour?: number;
     selected_option?: {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -480,32 +479,32 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             description?: string;
         };
     };
+    nbr_of_units?: number;
     total?: number;
 }, {
+    details?: string;
+    date?: string;
     currency?: {
+        symbol?: string;
         code?: string;
         name?: string;
-        symbol?: string;
         id?: number;
     };
-    date?: string;
-    details?: string;
-    hour?: number;
     minute?: number;
-    nbr_of_units?: number;
+    hour?: number;
     selected_option?: {
-        amount?: number;
-        currency?: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-            id?: number;
-        };
         id?: number;
         location?: {
+            id?: number;
             description?: string;
+        };
+        currency?: {
+            symbol?: string;
+            code?: string;
+            name?: string;
             id?: number;
         };
+        amount?: number;
         vehicle?: {
             code?: string;
             description?: string;
@@ -516,6 +515,7 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
             description?: string;
         };
     };
+    nbr_of_units?: number;
     total?: number;
 }>;
 export declare const ZDueParams: z.ZodObject<{
@@ -526,13 +526,13 @@ export declare const ZDueParams: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     code?: string;
     amount?: number;
-    numberOfPersons?: number;
     number_of_vehicles?: number;
+    numberOfPersons?: number;
 }, {
     code?: string;
     amount?: number;
-    numberOfPersons?: number;
     number_of_vehicles?: number;
+    numberOfPersons?: number;
 }>;
 export type TAllowedOptions = z.infer<typeof ZAllowedOptions>;
 export type TAllowedLocation = z.infer<typeof ZAllowedLocation>;

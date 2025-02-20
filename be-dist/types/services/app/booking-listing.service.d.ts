@@ -7,6 +7,7 @@ type TBookingActions = {
     payment: {
         show: boolean;
         label: string;
+        formattedAmount: string;
     };
     view: {
         show: boolean;
@@ -14,6 +15,7 @@ type TBookingActions = {
     };
 };
 export declare class BookingListingAppService {
+    detectPaymentOrigin(booking: Booking): import("../../models/property").AllowedPaymentMethod;
     getBookingActions(booking: Booking): TBookingActions;
 }
 export {};

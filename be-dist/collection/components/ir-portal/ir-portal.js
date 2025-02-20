@@ -5,7 +5,6 @@ const Z_INDEX = '9005';
 const ID_PORTAL = 'ir-portal';
 export class IrPortal {
     constructor() {
-        this.reference = undefined;
         this.offset = DEFAULT_OFFSET;
     }
     componentDidLoad() {
@@ -59,7 +58,7 @@ export class IrPortal {
         });
     }
     render() {
-        return (h(Host, { key: '61bff58cc0b44fdb293213e9dbe1e5fc62c3ac2c' }, h("slot", { key: '30fcd89157f3919a130a1513d14ec2ee5c196b59', name: "portal-body" })));
+        return (h(Host, { key: '45094922877c90affa89da24d7477c85e05d28e4' }, h("slot", { key: '315fc443709ec63f7a9736a57bbe8b16951210f4', name: "portal-body" })));
     }
     static get is() { return "ir-portal"; }
     static get encapsulation() { return "shadow"; }
@@ -93,7 +92,9 @@ export class IrPortal {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "offset": {
                 "type": "number",
@@ -109,6 +110,8 @@ export class IrPortal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "offset",
                 "reflect": false,
                 "defaultValue": "DEFAULT_OFFSET"

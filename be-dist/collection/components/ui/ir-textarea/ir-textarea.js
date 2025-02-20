@@ -4,28 +4,10 @@ export class IrTextarea {
     constructor() {
         this.inputId = v4();
         this.leftIcon = false;
-        this.value = undefined;
-        this.name = undefined;
-        this.placeholder = undefined;
-        this.inputid = undefined;
-        this.class = undefined;
-        this.required = undefined;
-        this.disabled = undefined;
-        this.readonly = undefined;
-        this.maxlength = undefined;
-        this.min = undefined;
-        this.max = undefined;
-        this.step = undefined;
-        this.pattern = undefined;
-        this.autocomplete = undefined;
-        this.autofocus = undefined;
-        this.size = undefined;
-        this.multiple = undefined;
         this.error = false;
-        this.label = undefined;
     }
     render() {
-        return (h("div", { key: '7ab324dbc891684527f2efcfcae079276a1fbb55', class: `textarea-container ${this.value ? 'has-value' : ''}` }, h("textarea", { key: 'dd8e734c333b1adcbd8c538e0328ae0f8ad0b39a', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, maxLength: this.maxlength, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }), h("label", { key: 'd4798ab00382a98ee75423e79bab104d4ad871cb', htmlFor: this.inputid }, this.label)));
+        return (h("div", { key: 'eba4a916e9b99365e5fa90203fd933361ac3cd82', class: `textarea-container ${this.value ? 'has-value' : ''}` }, h("textarea", { key: '82acc94f82e86d821d88d196dc7c9d593ec41ce7', name: this.name, autoFocus: this.autofocus, disabled: this.disabled, value: this.value, class: this.error ? 'error' : '', id: this.inputId, maxLength: this.maxlength, onFocus: e => this.inputFocus.emit(e), onBlur: e => this.inputBlur.emit(e), onInput: e => this.textChanged.emit(e.target.value) }), h("label", { key: '4fd78ff5dddb66d0b2b8d13ca8b757f0e8a12496', htmlFor: this.inputid }, this.label)));
     }
     static get is() { return "ir-textarea"; }
     static get encapsulation() { return "shadow"; }
@@ -55,6 +37,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "input-id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -73,6 +57,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "left-icon",
                 "reflect": true,
                 "defaultValue": "false"
@@ -91,6 +77,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false
             },
@@ -108,6 +96,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "name",
                 "reflect": true
             },
@@ -125,6 +115,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": true
             },
@@ -142,6 +134,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "inputid",
                 "reflect": true
             },
@@ -159,6 +153,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "class",
                 "reflect": true
             },
@@ -176,6 +172,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "required",
                 "reflect": true
             },
@@ -193,6 +191,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": true
             },
@@ -210,6 +210,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "readonly",
                 "reflect": true
             },
@@ -227,6 +229,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "maxlength",
                 "reflect": true
             },
@@ -244,6 +248,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min",
                 "reflect": true
             },
@@ -261,6 +267,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max",
                 "reflect": true
             },
@@ -278,6 +286,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "step",
                 "reflect": true
             },
@@ -295,6 +305,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "pattern",
                 "reflect": true
             },
@@ -312,6 +324,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "autocomplete",
                 "reflect": true
             },
@@ -329,6 +343,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "autofocus",
                 "reflect": true
             },
@@ -346,6 +362,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "size",
                 "reflect": true
             },
@@ -363,6 +381,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "multiple",
                 "reflect": true
             },
@@ -380,6 +400,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
@@ -398,6 +420,8 @@ export class IrTextarea {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             }

@@ -4,10 +4,6 @@ import localizedWords from "../../../../stores/localization.store";
 import { validateAgentCode } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBookingCode {
-    constructor() {
-        this.code = undefined;
-        this.validationMessage = undefined;
-    }
     handleSubmit(e) {
         e.preventDefault();
         if (app_store.app_data.isAgentMode) {

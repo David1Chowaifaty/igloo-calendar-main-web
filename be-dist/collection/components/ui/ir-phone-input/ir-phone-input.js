@@ -8,6 +8,11 @@ import localizedWords from "../../../stores/localization.store";
 import phone_input_store from "./phone.store";
 export class IrPhoneInput {
     constructor() {
+        this.mode = 'country_code_and_prefix';
+        this.isVisible = false;
+        this.currentHighlightedIndex = -1;
+        this.filteredCountries = [];
+        this.inputValue = '';
         this.popoverInstance = null;
         this.commonService = new CommonService();
         this.handleOutsideClick = (event) => {
@@ -25,16 +30,6 @@ export class IrPhoneInput {
             }
             return;
         };
-        this.error = undefined;
-        this.mobile_number = undefined;
-        this.country_phone_prefix = undefined;
-        this.country_code = undefined;
-        this.mode = 'country_code_and_prefix';
-        this.isVisible = false;
-        this.currentHighlightedIndex = -1;
-        this.selectedItem = undefined;
-        this.filteredCountries = [];
-        this.inputValue = '';
     }
     async componentWillLoad() {
         await this.initializeCountries();
@@ -236,13 +231,13 @@ export class IrPhoneInput {
         inputValue = inputValue.replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
-        this.textChange.emit({ phone_prefix: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.id.toString(), mobile: this.inputValue });
+        this.textChange.emit({ phone_prefix: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.phone_prefix.toString(), mobile: this.inputValue });
     }
     render() {
         var _a, _b, _c;
-        return (h("div", { key: 'f40421fd4d737f58fdab1a43795b0b120d5da6ea', ref: el => (this.triggerElement = el), class: "phone-input-container" }, h("div", { key: 'eda0bc52bdabac0badc4bb7a92097c3f14fc3611', class: `input-trigger ${this.error ? 'error' : ''}` }, h("div", { key: '9450c12e45ef49212404394bbeb6ccb9e9a480c4', class: "input-section" }, h("label", { key: 'fe90c6f8f01abb120886364392fea6c220410c34', htmlFor: "country_picker" }, localizedWords.entries.Lcz_Country), h("div", { key: '81d2879accc91fa6af456f29f9fae9e50fd884a3', id: "country_picker", onClick: () => {
+        return (h("div", { key: '025912ca7cf54ca9e7c44ed40a0c5fa13c93229a', ref: el => (this.triggerElement = el), class: "phone-input-container" }, h("div", { key: 'e43bafb24159c2c53b4f782c9fe46c901ca0948d', class: `input-trigger ${this.error ? 'error' : ''}` }, h("div", { key: '5322ca56adebe01e7662dcd534360aa73ea34ed8', class: "input-section" }, h("label", { key: '129d372fb347d4833b9b2290e587cb53d0aa3301', htmlFor: "country_picker" }, localizedWords.entries.Lcz_Country), h("div", { key: '226a349032c620256434f35c85f80278898a6891', id: "country_picker", onClick: () => {
                 this.toggleVisibility();
-            }, class: "input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { loading: "lazy", src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "flag-icon" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: '52149ee2cf4aaf112508bd66cc2bbc2945d31afc', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: '299009a360b9f68f3b19be4c97ce72acba70294c', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '4d6200345c3ed5c518be08a4107b34cc6735eb97', class: "input-section" }, h("label", { key: '8e016e7e462a93043c0eaccc74fefaf332f39c27', htmlFor: "phone_number" }, localizedWords.entries.Lcz_MobileNumber), h("input", { key: '22fc37dfc47ef55feea97fed7f5d4e5314540cd5', type: "phone", ref: el => (this.phoneInput = el), onBlur: e => this.phoneInputBlur.emit(e), onFocus: e => this.phoneInputFocus.emit(e), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: '5d780f3dffa2402fa46bfad9eafd47fd93c2e981', ref: el => (this.contentElement = el), class: "dropdown-container" }, this.isVisible && (h("ul", { key: 'f4f929098ecd3fde98c66ea2fe00424c58932173', class: "dropdown-content" }, h("li", { key: '4b918c892cb0098b7a0c7c67c946b95059685716', class: "filter-container" }, h("ir-icons", { key: '09a6bc2c7063077743b1a700a83aa1af34c6c59b', name: "search", svgClassName: "filter-icon" }), h("input", { key: '5c50ac9679c400ceb36a4952c2f5480559e49503', placeholder: localizedWords.entries.Lcz_Search, ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option", onClick: () => {
+            }, class: "input-subtrigger" }, this.selectedItem ? (h(Fragment, null, h("img", { loading: "lazy", src: (_a = this.selectedItem) === null || _a === void 0 ? void 0 : _a.flag, alt: (_b = this.selectedItem) === null || _b === void 0 ? void 0 : _b.name, class: "flag-icon" }), h("span", null, (_c = this.selectedItem) === null || _c === void 0 ? void 0 : _c.phone_prefix))) : (h("span", null, "Select")), h("svg", { key: '44d3aedfcfb957851da04835f4be3fa583de6be4', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'b114024ebe3f145fb66802e82527bd3cbd10acea', d: "M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" })))), h("div", { key: '9d532f37dc221f489604d202c667428b96714616', class: "input-section" }, h("label", { key: 'af1c7aa79dbbba5cc23335675b7c974922b71688', htmlFor: "phone_number" }, localizedWords.entries.Lcz_MobileNumber), h("input", { key: 'e90078372a2e379f5ee2aa9754392e01da649688', type: "phone", ref: el => (this.phoneInput = el), onBlur: e => this.phoneInputBlur.emit(e), onFocus: e => this.phoneInputFocus.emit(e), onInput: e => this.handleInputChange(e), id: "phone_number", value: this.inputValue, class: "input-subtrigger" }))), h("div", { key: '90dac7c0afda777980da4f0095f03123871acde2', ref: el => (this.contentElement = el), class: "dropdown-container" }, this.isVisible && (h("ul", { key: '55be14c4fa00a9c4464b5f32c6ae84ce4a578e3e', class: "dropdown-content" }, h("li", { key: '373bbdfffcbaf2b26a2b26f55cdd360228e29718', class: "filter-container" }, h("ir-icons", { key: 'c4fd7c0fad2f1fb770bbd4e63e67fecb0aa280a0', name: "search", svgClassName: "filter-icon" }), h("input", { key: '48c82c0e80f2a41b90b1a977ec4881c446bf249e', placeholder: localizedWords.entries.Lcz_Search, ref: el => (this.searchInput = el), type: "text", onInput: this.handleFilterInputChange.bind(this), class: "filter-input", onKeyDown: this.handleAutoCompleteKeyDown.bind(this) })), this.filteredCountries.map((value, index) => (h("li", { "data-state": this.currentHighlightedIndex === index ? 'checked' : 'unchecked', "data-highlighted": this.currentHighlightedIndex === index ? 'true' : 'false', class: "combobox-item", key: index, role: "option", onClick: () => {
                 this.selectItem(index);
             }, onMouseOver: () => {
                 this.currentHighlightedIndex = index;
@@ -276,6 +271,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false
             },
@@ -293,6 +290,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "mobile_number",
                 "reflect": false
             },
@@ -310,6 +309,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "country_phone_prefix",
                 "reflect": false
             },
@@ -327,6 +328,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "country_code",
                 "reflect": false
             },
@@ -344,6 +347,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "mode",
                 "reflect": false,
                 "defaultValue": "'country_code_and_prefix'"

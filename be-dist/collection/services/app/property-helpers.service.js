@@ -25,7 +25,6 @@ export class PropertyHelpers {
             const { adult_nbr, child_nbr } = data.My_Params_Check_Availability;
             const sortedRoomTypes = this.sortRoomTypes(newRoomtypes, { adult_nbr, child_nbr });
             booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
-            booking_store.tax_statement = { message: data.My_Result.tax_statement };
             booking_store.enableBooking = true;
         }
         catch (error) {
@@ -66,23 +65,15 @@ export class PropertyHelpers {
     }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
-            var _a, _b, _c, _d;
+            var _a, _b;
             // Priority to available rooms
             if (a.is_available_to_book && !b.is_available_to_book)
                 return -1;
             if (!a.is_available_to_book && b.is_available_to_book)
                 return 1;
-            // Check for variations where is_calculated is true and amount is 0 or null
-            const zeroCalculatedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
-            const zeroCalculatedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
-            // Prioritize these types to be before inventory 0 but after all available ones
-            if (zeroCalculatedA && !zeroCalculatedB)
-                return 1;
-            if (!zeroCalculatedA && zeroCalculatedB)
-                return -1;
             // Check for exact matching variations based on user criteria
-            const matchA = (_c = a.rateplans) === null || _c === void 0 ? void 0 : _c.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
-            const matchB = (_d = b.rateplans) === null || _d === void 0 ? void 0 : _d.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            const matchA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            const matchB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
             if (matchA && !matchB)
                 return -1;
             if (!matchA && matchB)
@@ -94,9 +85,46 @@ export class PropertyHelpers {
                 return -1;
             if (maxVariationA > maxVariationB)
                 return 1;
+            //Sort by roomtype name
+            const rtName1 = a.name.toLowerCase();
+            const rtName2 = b.name.toLowerCase();
+            if (rtName1 < rtName2) {
+                return -1;
+            }
+            if (rtName1 > rtName2) {
+                return 1;
+            }
             return 0;
         });
     }
+    // private sortRoomTypes(roomTypes: RoomType[], userCriteria: { adult_nbr: number; child_nbr: number }): RoomType[] {
+    //   return roomTypes.sort((a, b) => {
+    //     // Priority to available rooms
+    //     if (a.is_available_to_book && !b.is_available_to_book) return -1;
+    //     if (!a.is_available_to_book && b.is_available_to_book) return 1;
+    //     // Check for variations where is_calculated is true and amount is 0 or null
+    //     const zeroCalculatedA = a.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
+    //     const zeroCalculatedB = b.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
+    //     // Prioritize these types to be before inventory 0 but after all available ones
+    //     if (zeroCalculatedA && !zeroCalculatedB) return 1;
+    //     if (!zeroCalculatedA && zeroCalculatedB) return -1;
+    //     // Check for exact matching variations based on user criteria
+    //     const matchA = a.rateplans?.some(plan =>
+    //       plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr),
+    //     );
+    //     const matchB = b.rateplans?.some(plan =>
+    //       plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr),
+    //     );
+    //     if (matchA && !matchB) return -1;
+    //     if (!matchA && matchB) return 1;
+    //     // Sort by the highest variation amount
+    //     const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
+    //     const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
+    //     if (maxVariationA < maxVariationB) return -1;
+    //     if (maxVariationA > maxVariationB) return 1;
+    //     return 0;
+    //   });
+    // }
     sortVariations(variations) {
         return variations.sort((a, b) => {
             // Sort by adult_nbr in descending order first

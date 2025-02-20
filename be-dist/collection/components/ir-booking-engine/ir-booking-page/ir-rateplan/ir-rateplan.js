@@ -7,15 +7,11 @@ import { PaymentService } from "../../../../services/api/payment.service";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 export class IrRateplan {
     constructor() {
-        this.paymentService = new PaymentService();
         this.display = 'default';
-        this.ratePlan = undefined;
-        this.visibleInventory = undefined;
-        this.roomTypeInventory = undefined;
-        this.roomTypeId = undefined;
         this.isLoading = false;
         this.cancelationMessage = '';
         this.isRatePlanAvailable = true;
+        this.paymentService = new PaymentService();
     }
     componentWillLoad() {
         this.checkAvailability();
@@ -47,7 +43,7 @@ export class IrRateplan {
         this.cancelationMessage = (_b = this.paymentService.getCancelationMessage((_a = this.visibleInventory.selected_variation) === null || _a === void 0 ? void 0 : _a.applicable_policies, true)) === null || _b === void 0 ? void 0 : _b.message;
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26;
         if (!this.ratePlan.is_targeting_travel_agency && booking_store.bookingAvailabilityParams.agent) {
             return null;
         }
@@ -62,11 +58,11 @@ export class IrRateplan {
                 if (e.detail) {
                     this.fetchCancelationMessage();
                 }
-            } })))), this.isLoading ? (h("div", { class: "grid place-items-center md:hidden" }, h("ir-skeleton", { class: "h-4 w-12" }))) : (h(Fragment, null, this.isRatePlanAvailable ? (((_h = (_g = this.visibleInventory) === null || _g === void 0 ? void 0 : _g.selected_variation) === null || _h === void 0 ? void 0 : _h.discounted_amount) && (h("div", { class: "rateplan-pricing-mobile" }, ((_k = (_j = this.visibleInventory) === null || _j === void 0 ? void 0 : _j.selected_variation) === null || _k === void 0 ? void 0 : _k.discount_pct) > 0 && (h("p", { class: "rateplan-discounted-amount" }, formatAmount((_m = (_l = this.visibleInventory) === null || _l === void 0 ? void 0 : _l.selected_variation) === null || _m === void 0 ? void 0 : _m.amount, app_store.userPreferences.currency_id, 0))), h("p", { class: "rateplan-amount" }, formatAmount((_p = (_o = this.visibleInventory) === null || _o === void 0 ? void 0 : _o.selected_variation) === null || _p === void 0 ? void 0 : _p.discounted_amount, app_store.userPreferences.currency_id, 0))))) : (h("p", { class: "no-availability" }, localizedWords.entries.Lcz_NotAvailable))))), h("div", { class: 'flex items-center', style: { alignItems: 'center' } }, h("div", { class: "rateplan-description flex-1" }, h("p", { class: "rateplan-custom-text grid-view", innerHTML: this.ratePlan.custom_text }), h("div", { class: "flex items-center justify-between" }, this.ratePlan.is_non_refundable ? (h("p", { class: "rateplan-tooltip text-xs", style: { color: 'var(--ir-green)' } }, localizedWords.entries.Lcz_NonRefundable)) : (this.ratePlan.is_available_to_book && (h("ir-tooltip", { labelColors: isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip`, open_behavior: "click", label: isInFreeCancelationZone ? localizedWords.entries.Lcz_FreeCancellation : localizedWords.entries.Lcz_IfICancel, message: `${((_q = this.cancelationMessage) !== null && _q !== void 0 ? _q : '') || ((_r = this.ratePlan.cancelation) !== null && _r !== void 0 ? _r : '')} ${(_s = this.ratePlan.guarantee) !== null && _s !== void 0 ? _s : ''}`, onTooltipOpenChange: e => {
+            } })))), this.isLoading ? (h("div", { class: "grid place-items-center md:hidden" }, h("ir-skeleton", { class: "h-4 w-12" }))) : (h(Fragment, null, this.isRatePlanAvailable ? (((_h = (_g = this.visibleInventory) === null || _g === void 0 ? void 0 : _g.selected_variation) === null || _h === void 0 ? void 0 : _h.discounted_amount) && (h("div", { class: "rateplan-pricing-mobile" }, ((_k = (_j = this.visibleInventory) === null || _j === void 0 ? void 0 : _j.selected_variation) === null || _k === void 0 ? void 0 : _k.discount_pct) > 0 && (h("p", { class: "rateplan-discounted-amount" }, formatAmount((_m = (_l = this.visibleInventory) === null || _l === void 0 ? void 0 : _l.selected_variation) === null || _m === void 0 ? void 0 : _m.amount, app_store.userPreferences.currency_id, 0))), h("p", { class: "rateplan-amount" }, formatAmount((_p = (_o = this.visibleInventory) === null || _o === void 0 ? void 0 : _o.selected_variation) === null || _p === void 0 ? void 0 : _p.discounted_amount, app_store.userPreferences.currency_id, 0))))) : (h("p", { class: "no-availability" }, localizedWords.entries.Lcz_NotAvailable))))), h("div", { class: 'flex items-center', style: { alignItems: 'center' } }, h("div", { class: "rateplan-description flex-1" }, h("div", { class: "flex justify-between gap-4" }, h("p", { class: "rateplan-custom-text grid-view", innerHTML: this.ratePlan.custom_text }), ((_r = (_q = this.visibleInventory) === null || _q === void 0 ? void 0 : _q.selected_variation) === null || _r === void 0 ? void 0 : _r.discount_pct) > 0 && this.ratePlan.custom_text && (h("p", { class: `rateplan-discount ${app_store.app_data.displayMode === 'default' ? 'ir-default' : ''}` }, `-${Number((_t = (_s = this.visibleInventory) === null || _s === void 0 ? void 0 : _s.selected_variation) === null || _t === void 0 ? void 0 : _t.discount_pct).toPrecision(2)}%`))), h("div", { class: "flex items-center justify-between" }, this.ratePlan.is_non_refundable ? (h("p", { class: "rateplan-tooltip text-xs", style: { color: 'var(--ir-green)' } }, localizedWords.entries.Lcz_NonRefundable)) : (this.ratePlan.is_available_to_book && (h("ir-tooltip", { labelColors: isInFreeCancelationZone ? 'green' : 'default', class: `rateplan-tooltip`, open_behavior: "click", label: isInFreeCancelationZone ? localizedWords.entries.Lcz_FreeCancellation : localizedWords.entries.Lcz_IfICancel, message: `${((_u = this.cancelationMessage) !== null && _u !== void 0 ? _u : '') || ((_v = this.ratePlan.cancelation) !== null && _v !== void 0 ? _v : '')} ${(_w = this.ratePlan.guarantee) !== null && _w !== void 0 ? _w : ''}`, onTooltipOpenChange: e => {
                 if (e.detail) {
                     this.fetchCancelationMessage();
                 }
-            } }))), getDateDifference((_t = booking_store.bookingAvailabilityParams.from_date) !== null && _t !== void 0 ? _t : new Date(), (_u = booking_store.bookingAvailabilityParams.to_date) !== null && _u !== void 0 ? _u : new Date()) > 1 && (h("p", { class: "rateplan-amount-per-night grid-view" }, `${formatAmount((_w = (_v = this.visibleInventory) === null || _v === void 0 ? void 0 : _v.selected_variation) === null || _w === void 0 ? void 0 : _w.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`))), this.display === 'default' && h("p", { class: "rateplan-custom-text", innerHTML: this.ratePlan.custom_text }))), !this.ratePlan.is_available_to_book && this.ratePlan.not_available_reason.includes('MLS') && (h("p", { class: "mls_alert_grid" }, localizedWords.entries.Lcz_MLS_Alert.replace('{0}', (_x = this.ratePlan.not_available_reason) === null || _x === void 0 ? void 0 : _x.replace('MLS-', ''))))), this.isRatePlanAvailable && (h("div", { class: `rateplan-details ${this.ratePlan.custom_text ? 'rateplan-details-no-custom-text' : ''}` }, this.isLoading ? (h("div", { class: "col-span-6 w-full " }, h("ir-skeleton", { class: "block h-12 w-full" }))) : (h(Fragment, null, h("div", { class: "rateplan-travelers" }, this.ratePlan.variations && this.ratePlan.is_available_to_book && (h("ir-select", { class: "rateplan-select-travelers", label: 'Travelers', value: this.ratePlan.variations
+            } }))), h("div", { class: "flex gap-4" }, getDateDifference((_x = booking_store.bookingAvailabilityParams.from_date) !== null && _x !== void 0 ? _x : new Date(), (_y = booking_store.bookingAvailabilityParams.to_date) !== null && _y !== void 0 ? _y : new Date()) > 1 && (h("p", { class: "rateplan-amount-per-night grid-view" }, `${formatAmount((_0 = (_z = this.visibleInventory) === null || _z === void 0 ? void 0 : _z.selected_variation) === null || _0 === void 0 ? void 0 : _0.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`)), ((_2 = (_1 = this.visibleInventory) === null || _1 === void 0 ? void 0 : _1.selected_variation) === null || _2 === void 0 ? void 0 : _2.discount_pct) > 0 && !this.ratePlan.custom_text && (h("p", { class: `rateplan-discount ${app_store.app_data.displayMode === 'default' ? 'ir-default' : ''}` }, `-${Number((_4 = (_3 = this.visibleInventory) === null || _3 === void 0 ? void 0 : _3.selected_variation) === null || _4 === void 0 ? void 0 : _4.discount_pct).toPrecision(2)}%`)))), this.display === 'default' && h("p", { class: "rateplan-custom-text", innerHTML: this.ratePlan.custom_text }))), !this.ratePlan.is_available_to_book && this.ratePlan.not_available_reason.includes('MLS') && (h("p", { class: "mls_alert_grid" }, localizedWords.entries.Lcz_MLS_Alert.replace('{0}', (_5 = this.ratePlan.not_available_reason) === null || _5 === void 0 ? void 0 : _5.replace('MLS-', ''))))), this.isRatePlanAvailable && (h("div", { class: `rateplan-details ${this.ratePlan.custom_text ? 'rateplan-details-no-custom-text' : ''}` }, this.isLoading ? (h("div", { class: "col-span-6 w-full " }, h("ir-skeleton", { class: "block h-12 w-full" }))) : (h(Fragment, null, h("div", { class: "rateplan-travelers" }, this.ratePlan.variations && this.ratePlan.is_available_to_book && (h("ir-select", { class: "rateplan-select-travelers", label: 'Travelers', value: this.ratePlan.variations
                 .findIndex(f => {
                 var _a, _b, _c, _d;
                 return `${f.adult_nbr}_a_${f.child_nbr}_c` ===
@@ -78,11 +74,11 @@ export class IrRateplan {
                 id: i.toString(),
                 value: this.formatVariation(v),
                 html: true,
-            })) }))), !((_y = this.ratePlan.not_available_reason) === null || _y === void 0 ? void 0 : _y.includes('MLS')) ? (h(Fragment, null, ((_0 = (_z = this.visibleInventory) === null || _z === void 0 ? void 0 : _z.selected_variation) === null || _0 === void 0 ? void 0 : _0.discounted_amount) && (h(Fragment, null, ((_2 = (_1 = this.visibleInventory) === null || _1 === void 0 ? void 0 : _1.selected_variation) === null || _2 === void 0 ? void 0 : _2.discount_pct) > 0 && (h("div", { class: "rateplan-pricing" }, h("p", { class: "rateplan-discounted-amount" }, formatAmount((_4 = (_3 = this.visibleInventory) === null || _3 === void 0 ? void 0 : _3.selected_variation) === null || _4 === void 0 ? void 0 : _4.amount, app_store.userPreferences.currency_id, 0)), h("p", { class: "rateplan-discount" }, `-${Number((_6 = (_5 = this.visibleInventory) === null || _5 === void 0 ? void 0 : _5.selected_variation) === null || _6 === void 0 ? void 0 : _6.discount_pct).toPrecision(2)}%`))), h("div", { class: "rateplan-final-pricing", "data-style": ((_8 = (_7 = this.visibleInventory) === null || _7 === void 0 ? void 0 : _7.selected_variation) === null || _8 === void 0 ? void 0 : _8.discount_pct) > 0 ? '' : 'full-width' }, h("p", { class: "rateplan-amount" }, formatAmount((_10 = (_9 = this.visibleInventory) === null || _9 === void 0 ? void 0 : _9.selected_variation) === null || _10 === void 0 ? void 0 : _10.discounted_amount, app_store.userPreferences.currency_id, 0)), getDateDifference((_11 = booking_store.bookingAvailabilityParams.from_date) !== null && _11 !== void 0 ? _11 : new Date(), (_12 = booking_store.bookingAvailabilityParams.to_date) !== null && _12 !== void 0 ? _12 : new Date()) >
-            1 && (h("p", { class: "rateplan-amount-per-night" }, `${formatAmount((_14 = (_13 = this.visibleInventory) === null || _13 === void 0 ? void 0 : _13.selected_variation) === null || _14 === void 0 ? void 0 : _14.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`))))), ((_15 = this.visibleInventory) === null || _15 === void 0 ? void 0 : _15.reserved) > 0 ? (h("ir-select", { onValueChange: e => {
+            })) }))), !((_6 = this.ratePlan.not_available_reason) === null || _6 === void 0 ? void 0 : _6.includes('MLS')) ? (h(Fragment, null, ((_8 = (_7 = this.visibleInventory) === null || _7 === void 0 ? void 0 : _7.selected_variation) === null || _8 === void 0 ? void 0 : _8.discounted_amount) && (h(Fragment, null, ((_10 = (_9 = this.visibleInventory) === null || _9 === void 0 ? void 0 : _9.selected_variation) === null || _10 === void 0 ? void 0 : _10.discount_pct) > 0 && (h("div", { class: "rateplan-pricing" }, h("p", { class: "rateplan-discounted-amount" }, formatAmount((_12 = (_11 = this.visibleInventory) === null || _11 === void 0 ? void 0 : _11.selected_variation) === null || _12 === void 0 ? void 0 : _12.amount, app_store.userPreferences.currency_id, 0)), h("p", { class: "rateplan-discount" }, `-${Number((_14 = (_13 = this.visibleInventory) === null || _13 === void 0 ? void 0 : _13.selected_variation) === null || _14 === void 0 ? void 0 : _14.discount_pct).toPrecision(2)}%`))), h("div", { class: "rateplan-final-pricing", "data-style": ((_16 = (_15 = this.visibleInventory) === null || _15 === void 0 ? void 0 : _15.selected_variation) === null || _16 === void 0 ? void 0 : _16.discount_pct) > 0 ? '' : 'full-width' }, h("p", { class: "rateplan-amount" }, formatAmount((_18 = (_17 = this.visibleInventory) === null || _17 === void 0 ? void 0 : _17.selected_variation) === null || _18 === void 0 ? void 0 : _18.discounted_amount, app_store.userPreferences.currency_id, 0)), getDateDifference((_19 = booking_store.bookingAvailabilityParams.from_date) !== null && _19 !== void 0 ? _19 : new Date(), (_20 = booking_store.bookingAvailabilityParams.to_date) !== null && _20 !== void 0 ? _20 : new Date()) >
+            1 && (h("p", { class: "rateplan-amount-per-night" }, `${formatAmount((_22 = (_21 = this.visibleInventory) === null || _21 === void 0 ? void 0 : _21.selected_variation) === null || _22 === void 0 ? void 0 : _22.amount_per_night, app_store.userPreferences.currency_id, 0)}/${localizedWords.entries.Lcz_night}`))))), ((_23 = this.visibleInventory) === null || _23 === void 0 ? void 0 : _23.reserved) > 0 ? (h("ir-select", { onValueChange: e => {
                 reserveRooms(this.roomTypeId, this.ratePlan.id, Number(e.detail));
                 this.animateBookingButton.emit(null);
-            }, label: localizedWords.entries.Lcz_Rooms, value: (_16 = this.visibleInventory) === null || _16 === void 0 ? void 0 : _16.reserved, class: "rateplan-select-rooms", data: (_17 = [...new Array(this.roomTypeInventory + 1)]) === null || _17 === void 0 ? void 0 : _17.map((_, i) => {
+            }, label: localizedWords.entries.Lcz_Rooms, value: (_24 = this.visibleInventory) === null || _24 === void 0 ? void 0 : _24.reserved, class: "rateplan-select-rooms", data: (_25 = [...new Array(this.roomTypeInventory + 1)]) === null || _25 === void 0 ? void 0 : _25.map((_, i) => {
                 var _a, _b, _c;
                 return ({
                     id: i,
@@ -95,7 +91,7 @@ export class IrRateplan {
             }), containerStyle: 'triggerStyle', customStyles: 'selectStyle' })) : (h("ir-button", { disabled: isInventoryFull || isRequestPending('/Check_Availability'), class: "rateplan-select-rooms w-full", buttonStyles: { background: 'white', opacity: isInventoryFull ? '0.5' : '1' }, label: localizedWords.entries.Lcz_Select, variants: "outline-primary", onButtonClick: () => {
                 reserveRooms(this.roomTypeId, this.ratePlan.id, 1);
                 this.animateBookingButton.emit(null);
-            } })))) : (h("p", { class: "mls_alert" }, localizedWords.entries.Lcz_MLS_Alert.replace('{0}', (_18 = this.ratePlan.not_available_reason) === null || _18 === void 0 ? void 0 : _18.replace('MLS-', ''))))))))));
+            } })))) : (h("p", { class: "mls_alert" }, localizedWords.entries.Lcz_MLS_Alert.replace('{0}', (_26 = this.ratePlan.not_available_reason) === null || _26 === void 0 ? void 0 : _26.replace('MLS-', ''))))))))));
     }
     formatVariation(v) {
         const adults = `${v.adult_nbr} ${v.adult_nbr === 1 ? localizedWords.entries.Lcz_Adult.toLowerCase() : localizedWords.entries.Lcz_Adults.toLowerCase()}`;
@@ -130,6 +126,8 @@ export class IrRateplan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display",
                 "reflect": true,
                 "defaultValue": "'default'"
@@ -153,7 +151,9 @@ export class IrRateplan {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "visibleInventory": {
                 "type": "unknown",
@@ -179,7 +179,9 @@ export class IrRateplan {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "roomTypeInventory": {
                 "type": "number",
@@ -195,6 +197,8 @@ export class IrRateplan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "room-type-inventory",
                 "reflect": false
             },
@@ -212,6 +216,8 @@ export class IrRateplan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "room-type-id",
                 "reflect": false
             }

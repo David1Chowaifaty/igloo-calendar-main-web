@@ -39,6 +39,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "mode",
                 "reflect": false,
                 "defaultValue": "'multi'"
@@ -57,6 +59,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false,
                 "defaultValue": "null"
@@ -75,6 +79,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "active-link",
                 "reflect": false,
                 "defaultValue": "'single_booking'"

@@ -10,6 +10,8 @@ import { format } from "date-fns";
 import IMask from "imask";
 export class IrPickup {
     constructor() {
+        this.vehicleCapacity = [];
+        this.allowedOptionsByLocation = [];
         this.pickupService = new PickupService();
         this.time_mask = {
             mask: 'HH:MM',
@@ -32,9 +34,6 @@ export class IrPickup {
             lazy: false,
             placeholderChar: '_',
         };
-        this.errors = undefined;
-        this.vehicleCapacity = [];
-        this.allowedOptionsByLocation = [];
     }
     componentWillLoad() {
         var _a;
@@ -202,7 +201,7 @@ export class IrPickup {
                         "ZodIssue": {
                             "location": "import",
                             "path": "zod",
-                            "id": ""
+                            "id": "node_modules::ZodIssue"
                         }
                     }
                 },
@@ -211,7 +210,9 @@ export class IrPickup {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

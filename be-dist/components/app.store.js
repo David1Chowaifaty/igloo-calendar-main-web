@@ -5,6 +5,7 @@ var locale = {};
 const initialState = {
     nonBookableNights: null,
     childrenStartAge: 3,
+    analytics: null,
     currentPage: 'booking',
     dir: 'LTR',
     selectedLocale: locale.enUS,

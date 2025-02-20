@@ -5,12 +5,12 @@ import { Host, h } from "@stencil/core";
 import { addDays, format } from "date-fns";
 export class IrDatePopup {
     constructor() {
-        this.minDate = addDays(new Date(), 0);
         this.dates = {
             start: null,
             end: null,
         };
         this.isPopoverOpen = false;
+        this.minDate = addDays(new Date(), 0);
     }
     handleDatesChange() {
         if (this.dates.end && this.isPopoverOpen) {
@@ -77,6 +77,8 @@ export class IrDatePopup {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{\r\n    start: null,\r\n    end: null,\r\n  }"
             }
         };

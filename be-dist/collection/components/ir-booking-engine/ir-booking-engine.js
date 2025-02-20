@@ -8,42 +8,28 @@ import { checkAffiliate, checkGhs, getUserPreference, matchLocale, setDefaultLoc
 import Stack from "../../models/stack";
 import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
+import { Analytics } from "../../services/app/Analytics/index";
 export class IrBookingEngine {
     constructor() {
-        this.version = '2.59';
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
-        this.token = new Token();
-        this.propertyId = undefined;
-        this.injected = undefined;
         this.rt_id = null;
         this.rp_id = null;
+        //extra props
         this.perma_link = null;
         this.p = null;
-        this.checkin = undefined;
-        this.checkout = undefined;
-        this.language = undefined;
         this.adults = '2';
-        this.child = undefined;
-        this.ages = undefined;
-        this.cur = undefined;
-        this.aff = undefined;
-        this.stag = undefined;
         this.property = null;
         this.source = null;
         this.hideGoogleSignIn = true;
         this.origin = null;
         this.view = 'default';
-        this.coupon = undefined;
-        this.loyalty = undefined;
-        this.agent_code = undefined;
-        this.selectedLocale = undefined;
-        this.currencies = undefined;
-        this.languages = undefined;
         this.isLoading = false;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
+        this.version = '2.594';
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
+        this.token = new Token();
     }
     async componentWillLoad() {
         console.log(`version:${this.version}`);
@@ -153,6 +139,7 @@ export class IrBookingEngine {
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
+        app_store.analytics = Analytics('google', 'G-8BH7GRG0G7');
         const [currencies, languages] = await Promise.all(requests);
         this.currencies = currencies;
         this.languages = languages;
@@ -331,6 +318,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -348,6 +337,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "injected",
                 "reflect": false
             },
@@ -365,6 +356,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "rt_id",
                 "reflect": false,
                 "defaultValue": "null"
@@ -383,6 +376,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "rp_id",
                 "reflect": false,
                 "defaultValue": "null"
@@ -401,6 +396,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "perma_link",
                 "reflect": false,
                 "defaultValue": "null"
@@ -419,6 +416,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false,
                 "defaultValue": "null"
@@ -437,6 +436,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "checkin",
                 "reflect": false
             },
@@ -454,6 +455,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "checkout",
                 "reflect": false
             },
@@ -471,6 +474,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -488,6 +493,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "adults",
                 "reflect": false,
                 "defaultValue": "'2'"
@@ -506,6 +513,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "child",
                 "reflect": false
             },
@@ -523,6 +532,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ages",
                 "reflect": false
             },
@@ -540,6 +551,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "cur",
                 "reflect": false
             },
@@ -557,6 +570,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "aff",
                 "reflect": false
             },
@@ -574,6 +589,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "stag",
                 "reflect": false
             },
@@ -597,6 +614,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "source": {
@@ -619,6 +638,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "hideGoogleSignIn": {
@@ -635,6 +656,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "hide-google-sign-in",
                 "reflect": false,
                 "defaultValue": "true"
@@ -653,6 +676,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "origin",
                 "reflect": false,
                 "defaultValue": "null"
@@ -671,6 +696,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "view",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -689,6 +716,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "coupon",
                 "reflect": false
             },
@@ -706,6 +735,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "loyalty",
                 "reflect": false
             },
@@ -723,6 +754,8 @@ export class IrBookingEngine {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "agent_code",
                 "reflect": false
             }

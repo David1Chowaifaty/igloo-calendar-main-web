@@ -11,13 +11,6 @@ import localizedWords from "../../../../stores/localization.store";
 import localization_store from "../../../../stores/app.store";
 export class IrBookingOverview {
     constructor() {
-        this.bookingListingService = new BookingListingService();
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
-        this.bookingListingAppService = new BookingListingAppService();
-        this.paymentService = new PaymentService();
-        this.propertyid = undefined;
-        this.language = undefined;
         this.maxPages = 10;
         this.showAllBookings = true;
         this.be = false;
@@ -29,11 +22,13 @@ export class IrBookingOverview {
         this.bookingNumber = null;
         this.page_mode = 'multi';
         this.activeLink = 'single_booking';
-        this.selectedBooking = undefined;
         this.selectedMenuIds = {};
         this.hoveredBooking = null;
-        this.cancellationMessage = undefined;
-        this.amountToBePayed = undefined;
+        this.bookingListingService = new BookingListingService();
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
+        this.bookingListingAppService = new BookingListingAppService();
+        this.paymentService = new PaymentService();
     }
     async componentWillLoad() {
         if (!this.propertyid) {
@@ -313,6 +308,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -330,6 +327,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -347,6 +346,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-pages",
                 "reflect": false,
                 "defaultValue": "10"
@@ -365,6 +366,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-all-bookings",
                 "reflect": false,
                 "defaultValue": "true"
@@ -383,6 +386,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "be",
                 "reflect": false,
                 "defaultValue": "false"
@@ -401,6 +406,8 @@ export class IrBookingOverview {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "aff",
                 "reflect": false,
                 "defaultValue": "false"

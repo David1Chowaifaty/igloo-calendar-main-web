@@ -2,7 +2,6 @@
 import { h } from "@stencil/core";
 export class IrModal {
     constructor() {
-        this.element = undefined;
         this.isOpen = false;
     }
     componentWillLoad() {
@@ -123,7 +122,7 @@ export class IrModal {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '7ad09a8d6832f90f8bed6b929a83075f0c659351', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: '59767eee0f34301c7c3242cb5f4729a168a1cb61', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
+        return (h("ir-dialog", { key: '19535c10f48de820bbb1124a1bacc62a244ede89', ref: el => (this.dialogRef = el) }, h("ir-auth", { key: '8cca3afbfebeab6264ab08dacbb57e25ce192abe', slot: "modal-body", onCloseDialog: () => this.closeModal() })));
     }
     static get is() { return "ir-modal"; }
     static get originalStyleUrls() {
@@ -156,7 +155,9 @@ export class IrModal {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

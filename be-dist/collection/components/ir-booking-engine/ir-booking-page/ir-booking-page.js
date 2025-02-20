@@ -5,17 +5,6 @@ import { cn, formatAmount, getDateDifference } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 export class IrBookingPage {
-    constructor() {
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.adultCount = undefined;
-        this.ages = undefined;
-        this.childrenCount = undefined;
-        this.selectedLocale = undefined;
-        this.property = undefined;
-        this.currencies = undefined;
-        this.languages = undefined;
-    }
     componentWillLoad() {
         this.property = Object.assign({}, app_store.property);
         onAppDataChange('property', (newValue) => {
@@ -137,6 +126,8 @@ export class IrBookingPage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from-date",
                 "reflect": false
             },
@@ -154,6 +145,8 @@ export class IrBookingPage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to-date",
                 "reflect": false
             },
@@ -171,6 +164,8 @@ export class IrBookingPage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "adult-count",
                 "reflect": false
             },
@@ -188,6 +183,8 @@ export class IrBookingPage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ages",
                 "reflect": false
             },
@@ -205,6 +202,8 @@ export class IrBookingPage {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "children-count",
                 "reflect": false
             }

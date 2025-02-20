@@ -7,7 +7,6 @@ export class IrPropertyGallery {
     constructor() {
         this.display = 'default';
         this.property_state = 'gallery';
-        this.roomType = undefined;
         this.activeIndex = 0;
     }
     handleOpenGallery(e) {
@@ -105,6 +104,8 @@ export class IrPropertyGallery {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display",
                 "reflect": true,
                 "defaultValue": "'default'"
@@ -123,6 +124,8 @@ export class IrPropertyGallery {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "property_state",
                 "reflect": false,
                 "defaultValue": "'gallery'"
@@ -146,7 +149,9 @@ export class IrPropertyGallery {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }
