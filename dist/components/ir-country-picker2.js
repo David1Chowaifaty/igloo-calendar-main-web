@@ -57,21 +57,21 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: '7c4578abd6e25983923ca791fd765fdc77bdf3c1', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'e1ad37f2a090dcb76ad1836c874d5342eee23f27', onTextChange: e => {
+        return (h("form", { key: 'aa0217b2e49cc9a00f70738ce7521bed0fed46f6', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '7a23543c3afe951886b243ec69fce20d4bff82b8', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
                 this.inputValue = e.detail;
                 this.filterCountries();
-            }, label: this.label, error: this.error, placeholder: "", class: "m-0 p-0", value: this.inputValue, id: "dropdownMenuCombobox", LabelAvailable: !!this.label, "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", onInputFocus: () => this.scrollToSelected(), onInputBlur: () => (this.searching = false) }), h("div", { key: 'b45efdfc5b8a42db93e9dc74042235de11df22a4', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '15e066d8af04660c4c6d3b60b5aec54d38552815' }, h("button", { key: 'a0a8740d4c89f23e61d50f7a3f0af6a49e70ab4e', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            }, label: this.label, error: this.error, placeholder: "", class: "m-0 p-0", value: this.inputValue, id: "dropdownMenuCombobox", LabelAvailable: !!this.label, "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", onInputFocus: () => this.scrollToSelected(), onInputBlur: () => (this.searching = false) }), h("div", { key: 'd381b5553bcea78326a02d05e95f837b97c62ac3', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'cb5b9f4f8dba42e716defd775f09f43c9d85cf5a' }, h("button", { key: '1c237791ca448b0a663b4e699b2bebbae09c6504', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: '5e675f41806c905562ac526b4544ac1e6bc53356', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'f9fd564d904173629ba7372ed9e5fec19fb44cc6', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: 'f9d8e260d9085900bbeedd21aa0d00002637fff2', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: '1597d9d353db99238cffdc980b2edd74be11f204', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'bbeb15ecc63e15a7937991ad94c597c1f7d5f560', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: 'd057800844adcfea86b7026bde4a985d4834e4e5', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '87ac990167b87b16f25d9e5e9bfbaf749543a23a', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '8cccbabbad3050fe25734bbcad233a7ee4b0fc69', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]

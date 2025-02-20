@@ -25,7 +25,7 @@ export declare class HouseKeepingService {
         };
         cleaning_frequencies?: string;
         dusty_units?: string;
-        highlight_check_ins?: string;
+        highlight_window?: string;
     }): Promise<any>;
     executeHKAction(params: {
         actions: {

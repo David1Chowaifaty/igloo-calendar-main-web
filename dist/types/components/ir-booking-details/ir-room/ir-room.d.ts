@@ -26,6 +26,7 @@ export declare class IrRoom {
     isLoading: boolean;
     modalReason: RoomModalReason;
     mainGuest: SharedPerson;
+    isModelOpen: boolean;
     deleteFinished: EventEmitter<string>;
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
@@ -42,6 +43,7 @@ export declare class IrRoom {
     private handleModalConfirmation;
     private deleteRoom;
     private formatVariation;
+    private getSmokingLabel;
     private getBedName;
     private renderModalMessage;
     private handleCheckIn;

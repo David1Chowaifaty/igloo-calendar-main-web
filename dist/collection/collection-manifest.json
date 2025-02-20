@@ -33,6 +33,8 @@
     "components/ir-booking-details/ir-extra-services/ir-extra-services.js",
     "components/ir-booking-details/ir-extra-services/ir-extra-service/ir-extra-service.js",
     "components/ir-booking-details/ir-extra-services/ir-extra-service-config/ir-extra-service-config.js",
+    "components/ir-booking-details/ir-ota-services/ir-ota-services.js",
+    "components/ir-booking-details/ir-ota-services/ir-ota-service/ir-ota-service.js",
     "components/ir-booking-details/ir-payment-details/ir-payment-details.js",
     "components/ir-booking-details/ir-payment-details/ir-payment-actions/ir-payment-actions.js",
     "components/ir-booking-details/ir-pickup/ir-pickup.js",

@@ -38,6 +38,7 @@ export declare class IrPaymentDetails {
         end: moment.Moment;
     }>): void;
     _renderTableRow(item: IPayment, rowMode?: 'add' | 'normal'): any;
+    private formatCurrency;
     private bookingGuarantee;
     private checkPaymentCode;
     private getPaymentMethod;

@@ -192,7 +192,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             housekeepers,
             cleaning_frequencies: cleaning_frequencies.code,
             dusty_units: dusty_units.code,
-            highlight_check_ins: highlight_check_ins.code,
+            highlight_window: highlight_check_ins.code,
             property_id: this.property_id,
             from_date: hooks().format('YYYY-MM-DD'),
             to_date: cleaning_periods.code,

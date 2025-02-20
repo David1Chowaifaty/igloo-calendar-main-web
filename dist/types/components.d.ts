@@ -15,7 +15,7 @@ import { CalendarModalEvent, IRoomNightsData, IRoomNightsDataEventPayload } from
 import { IPageTwoDataUpdateProps } from "./models/models";
 import { RatePlan, RoomType } from "./models/property";
 import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
-import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, Room, SharedPerson } from "./models/booking.dto";
+import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, OtaService, Room, SharedPerson } from "./models/booking.dto";
 import { OpenSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
@@ -38,7 +38,7 @@ export { CalendarModalEvent, IRoomNightsData, IRoomNightsDataEventPayload } from
 export { IPageTwoDataUpdateProps } from "./models/models";
 export { RatePlan, RoomType } from "./models/property";
 export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
-export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, Room, SharedPerson } from "./models/booking.dto";
+export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, OtaService, Room, SharedPerson } from "./models/booking.dto";
 export { OpenSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
@@ -791,6 +791,12 @@ export namespace Components {
     }
     interface IrOptionDetails {
         "propertyId": string;
+    }
+    interface IrOtaService {
+        "service": OtaService;
+    }
+    interface IrOtaServices {
+        "services": OtaService[];
     }
     interface IrPaymentActions {
         "booking": Booking;
@@ -2449,6 +2455,18 @@ declare global {
         prototype: HTMLIrOptionDetailsElement;
         new (): HTMLIrOptionDetailsElement;
     };
+    interface HTMLIrOtaServiceElement extends Components.IrOtaService, HTMLStencilElement {
+    }
+    var HTMLIrOtaServiceElement: {
+        prototype: HTMLIrOtaServiceElement;
+        new (): HTMLIrOtaServiceElement;
+    };
+    interface HTMLIrOtaServicesElement extends Components.IrOtaServices, HTMLStencilElement {
+    }
+    var HTMLIrOtaServicesElement: {
+        prototype: HTMLIrOtaServicesElement;
+        new (): HTMLIrOtaServicesElement;
+    };
     interface HTMLIrPaymentActionsElementEventMap {
         "generatePayment": IPaymentAction;
     }
@@ -2926,6 +2944,8 @@ declare global {
         "ir-login": HTMLIrLoginElement;
         "ir-modal": HTMLIrModalElement;
         "ir-option-details": HTMLIrOptionDetailsElement;
+        "ir-ota-service": HTMLIrOtaServiceElement;
+        "ir-ota-services": HTMLIrOtaServicesElement;
         "ir-payment-actions": HTMLIrPaymentActionsElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
         "ir-payment-option": HTMLIrPaymentOptionElement;
@@ -3825,6 +3845,12 @@ declare namespace LocalJSX {
         "onToast"?: (event: IrOptionDetailsCustomEvent<IToast>) => void;
         "propertyId"?: string;
     }
+    interface IrOtaService {
+        "service"?: OtaService;
+    }
+    interface IrOtaServices {
+        "services"?: OtaService[];
+    }
     interface IrPaymentActions {
         "booking"?: Booking;
         "onGeneratePayment"?: (event: IrPaymentActionsCustomEvent<IPaymentAction>) => void;
@@ -4215,6 +4241,8 @@ declare namespace LocalJSX {
         "ir-login": IrLogin;
         "ir-modal": IrModal;
         "ir-option-details": IrOptionDetails;
+        "ir-ota-service": IrOtaService;
+        "ir-ota-services": IrOtaServices;
         "ir-payment-actions": IrPaymentActions;
         "ir-payment-details": IrPaymentDetails;
         "ir-payment-option": IrPaymentOption;
@@ -4320,6 +4348,8 @@ declare module "@stencil/core" {
             "ir-login": LocalJSX.IrLogin & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-option-details": LocalJSX.IrOptionDetails & JSXBase.HTMLAttributes<HTMLIrOptionDetailsElement>;
+            "ir-ota-service": LocalJSX.IrOtaService & JSXBase.HTMLAttributes<HTMLIrOtaServiceElement>;
+            "ir-ota-services": LocalJSX.IrOtaServices & JSXBase.HTMLAttributes<HTMLIrOtaServicesElement>;
             "ir-payment-actions": LocalJSX.IrPaymentActions & JSXBase.HTMLAttributes<HTMLIrPaymentActionsElement>;
             "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
             "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;

@@ -9,11 +9,11 @@ export class IrTasksHeader {
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '3431ff6010b60d9648cd428ccdf4df48f1c79c54', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: '3c21f2b0ad1fce3f51c07d6047ce7da2fb262bfd' }, "Housekeeping Tasks"), h("div", { key: '6198b889632d7b36699dc414d987f32c19c70a1c', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: '9c5b658fe21c199be07f7483445bcceeda83bce8', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
+        return (h("div", { key: '7436da2916d4143ce980d37e902d863d730c64d2', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: 'da2cc88f796d97aa49a8657bf7b50605a27b1202' }, "Housekeeping Tasks"), h("div", { key: '70cd45c5b82d2b92a3a6a0f4f6d2bb874e708627', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'ef279318d82b66910c2926f26477876183820d9a', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            } }), h("ir-button", { key: 'd49aa22f788294f06d6626a380ed3d7435a19614', onClickHandler: e => {
+            } }), h("ir-button", { key: 'b5ba4d73ad75674c1fc1ea74fd697e846134938a', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
