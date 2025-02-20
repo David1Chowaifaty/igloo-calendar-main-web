@@ -1,11 +1,10 @@
 import { r as registerInstance, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service-00c1ca27.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service-328655f0.js';
 import { R as RoomService } from './room.service-7d6a9238.js';
 import { l as locales } from './locales.store-95a78d6b.js';
-import { f as formatAmount } from './utils-3494ac13.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { a as _formatTime } from './functions-7c8c67af.js';
-import { g as getPrivateNote } from './booking-f4c6143a.js';
+import { h as hooks, p as formatAmount } from './utils-0ecaed12.js';
+import { _ as _formatTime } from './functions-93621e3d.js';
+import { g as getPrivateNote } from './booking-e490449d.js';
 import { T as Token } from './Token-acf5fbad.js';
 import { i as isSingleUnit } from './calendar-data-e1b88280.js';
 import './index-e42e9935.js';

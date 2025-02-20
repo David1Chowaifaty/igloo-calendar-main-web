@@ -1,6 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { h as housekeeping_store, g as getDefaultProperties } from './housekeeping.store-fc63756c.js';
-import { H as HouseKeepingService } from './housekeeping.service-0ee80d82.js';
+import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-3517d93a.js';
 import { l as locales } from './locales.store-95a78d6b.js';
 import { c as calendar_data } from './calendar-data-e1b88280.js';
 import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';

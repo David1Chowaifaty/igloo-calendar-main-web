@@ -104,6 +104,7 @@ export interface Task {
     adult: number;
     child: number;
     date: string;
+    is_highlight: boolean;
     hint: string;
     hkm_id: number;
     infant: number;
