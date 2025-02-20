@@ -2,7 +2,7 @@ import { injectHTML } from "../../../utils/utils";
 export class GoogleConversion {
     constructor(conversionId) {
         this.conversionId = conversionId;
-        this.init();
+        // this.init();
     }
     init() {
         if (GoogleConversion.initialized)
