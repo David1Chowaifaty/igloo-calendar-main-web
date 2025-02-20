@@ -1,15 +1,16 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { R as RoomService } from './room.service-039e7b49.js';
-import { B as BookingService } from './booking.service-4f925067.js';
-import { g as formatLegendColors, h as hooks, f as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, n as computeEndDate } from './utils-dec94d9c.js';
-import { E as EventsService } from './events.service-a73bf71c.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-28729d2d.js';
-import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, e as getPrivateNote, c as calculateDaysBetweenDates } from './booking-aa2212d7.js';
-import { l as locales } from './locales.store-eb2a5c52.js';
-import { c as calendar_data } from './calendar-data-a578c03e.js';
-import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-e7fd26f1.js';
+import { R as RoomService } from './room.service-7d6a9238.js';
+import { B as BookingService } from './booking.service-451141a2.js';
+import { f as formatLegendColors, h as hooks, a as dateToFormattedString, i as isBlockUnit, g as getNextDay, b as addTwoMonthToDate, c as convertDMYToISO, e as computeEndDate } from './utils-0ecaed12.js';
+import { E as EventsService } from './events.service-b9b22980.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-5d3bf101.js';
+import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-e490449d.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { c as calendar_data } from './calendar-data-e1b88280.js';
+import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-a8340177.js';
 import { T as Token } from './Token-acf5fbad.js';
 import './axios-aa1335b8.js';
+import './index-e42e9935.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";

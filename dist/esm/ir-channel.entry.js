@@ -1,10 +1,11 @@
 import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { R as RoomService } from './room.service-039e7b49.js';
-import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-33a3e470.js';
-import { l as locales } from './locales.store-eb2a5c52.js';
-import { C as ChannelService } from './channel.service-637b130c.js';
+import { R as RoomService } from './room.service-7d6a9238.js';
+import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-92261163.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { C as ChannelService } from './channel.service-f8e8c973.js';
 import { T as Token } from './Token-acf5fbad.js';
-import './calendar-data-a578c03e.js';
+import './calendar-data-e1b88280.js';
+import './index-e42e9935.js';
 import './axios-aa1335b8.js';
 
 const actions = (entries) => [

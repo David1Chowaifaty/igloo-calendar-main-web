@@ -20,6 +20,12 @@ export declare class HouseKeepingService {
         property_id: number;
         from_date: string;
         to_date: string;
+        housekeepers?: {
+            ids: number[];
+        };
+        cleaning_frequencies?: string;
+        dusty_units?: string;
+        highlight_check_ins?: string;
     }): Promise<any>;
     executeHKAction(params: {
         actions: {

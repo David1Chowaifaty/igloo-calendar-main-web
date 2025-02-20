@@ -89,7 +89,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             }
             this.property_id = propertyId;
             const requests = [
-                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().add(2, 'days').format('YYYY-MM-DD') }),
+                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().format('YYYY-MM-DD') }),
                 this.houseKeepingService.getExposedHKSetup(this.property_id),
                 this.roomService.fetchLanguage(this.language),
             ];
@@ -184,7 +184,17 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         }
     }
     async fetchTasksWithFilters() {
-        const tasks = await this.houseKeepingService.getHkTasks(Object.assign(Object.assign({}, this.filters), { property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().add(2, 'days').format('YYYY-MM-DD') }));
+        console.log(this.filters);
+        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = this.filters;
+        const tasks = await this.houseKeepingService.getHkTasks({
+            housekeepers,
+            cleaning_frequencies: cleaning_frequencies.code,
+            dusty_units: dusty_units.code,
+            highlight_check_ins: highlight_check_ins.code,
+            property_id: this.property_id,
+            from_date: hooks().format('YYYY-MM-DD'),
+            to_date: cleaning_periods.code,
+        });
         if (tasks) {
             this.updateTasks(tasks);
         }

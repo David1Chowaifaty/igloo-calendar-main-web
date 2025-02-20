@@ -1,6 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-ee4647c6.js';
-import { l as locales } from './locales.store-eb2a5c52.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-3517d93a.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import './index-e42e9935.js';
 import './axios-aa1335b8.js';
 
 const irUnitStatusCss = ".sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}";

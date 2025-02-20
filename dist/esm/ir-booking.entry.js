@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-1d2aa5ad.js';
 import { T as Token } from './Token-acf5fbad.js';
-import { c as checkUserAuthState, m as manageAnchorSession } from './utils-dec94d9c.js';
+import { n as checkUserAuthState, o as manageAnchorSession } from './utils-0ecaed12.js';
 import './axios-aa1335b8.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
