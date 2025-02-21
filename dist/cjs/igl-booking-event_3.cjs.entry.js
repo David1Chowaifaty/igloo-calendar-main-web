@@ -1141,11 +1141,11 @@ const IrInteractiveTitle = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'd5b62493f5d35c407b38b28d4b0d2205c7e1ff25', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '0f2d8dd9b0869f2f1efc5e53b7102327262cc651', class: "popover-title", style: {
+        return (index.h(index.Host, { key: 'cc975a5b36c273e88f2a0c616352630c2f912da1', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '67d0c2f448fcdbe6829c4e55ca960d8b4420bd75', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, index.h("span", { key: 'baa3683eff83681d04ece2d4b773415a4bc03541', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (index.h("div", { key: '50b0a20344761f5be712e5851cd9fc93b69b38d3', title: "This unit is dirty", class: `hk-dot` }, index.h("svg", { key: '7fa7ab37ab6562ceac21b6e71aa3656f7551dd87', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, index.h("path", { key: '5b12f4d4440cc6f9f06f7c6bc7e2d4f060f8b6d7',
+            } }, index.h("span", { key: '6883079172ce8645a8322a69e48062c5239ce853', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (index.h("div", { key: '7f779f4103b887b6d36082d4130a5cf7a6828d8c', title: "This unit is dirty", class: `hk-dot` }, index.h("svg", { key: '65fbf4b7ceeb831002817d353ddf3278a9b42082', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, index.h("path", { key: '266df4415d437368d5a4dc9eb3183bc54a8de88e',
             // fill="currentColor"
             d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }

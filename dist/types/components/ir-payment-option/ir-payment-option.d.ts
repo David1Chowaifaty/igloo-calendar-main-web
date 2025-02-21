@@ -27,6 +27,7 @@ export declare class IrPaymentOption {
     private initServices;
     private modifyPaymentList;
     private handleCheckChange;
+    private changePaymentMethod;
     private showEditButton;
     render(): any;
 }

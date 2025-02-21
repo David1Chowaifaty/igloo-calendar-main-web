@@ -368,6 +368,7 @@ export namespace Components {
         "checkboxId": string;
         "checked": boolean;
         "disabled": boolean;
+        "indeterminate": boolean;
         "label": string;
         "name": string;
     }
@@ -839,8 +840,10 @@ export namespace Components {
         "bookingNumber": string;
     }
     interface IrPopover {
+        "content": string;
         "irPopoverLeft": string;
-        "popoverTitle": string;
+        "placement": 'top' | 'bottom' | 'left' | 'right' | 'auto';
+        "trigger": 'focus' | 'click' | 'hover';
     }
     interface IrPriceInput {
         /**
@@ -1257,6 +1260,10 @@ export interface IrHkUnassignedUnitsCustomEvent<T> extends CustomEvent<T> {
 export interface IrHkUserCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkUserElement;
+}
+export interface IrHousekeepingCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHousekeepingElement;
 }
 export interface IrIconCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2281,7 +2288,18 @@ declare global {
         prototype: HTMLIrHkUserElement;
         new (): HTMLIrHkUserElement;
     };
+    interface HTMLIrHousekeepingElementEventMap {
+        "toast": IToast;
+    }
     interface HTMLIrHousekeepingElement extends Components.IrHousekeeping, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHousekeepingElementEventMap>(type: K, listener: (this: HTMLIrHousekeepingElement, ev: IrHousekeepingCustomEvent<HTMLIrHousekeepingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHousekeepingElementEventMap>(type: K, listener: (this: HTMLIrHousekeepingElement, ev: IrHousekeepingCustomEvent<HTMLIrHousekeepingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrHousekeepingElement: {
         prototype: HTMLIrHousekeepingElement;
@@ -3380,6 +3398,7 @@ declare namespace LocalJSX {
         "checkboxId"?: string;
         "checked"?: boolean;
         "disabled"?: boolean;
+        "indeterminate"?: boolean;
         "label"?: string;
         "name"?: string;
         "onCheckChange"?: (event: IrCheckboxCustomEvent<boolean>) => void;
@@ -3610,6 +3629,7 @@ declare namespace LocalJSX {
     }
     interface IrHousekeeping {
         "language"?: string;
+        "onToast"?: (event: IrHousekeepingCustomEvent<IToast>) => void;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
@@ -3900,8 +3920,10 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
     }
     interface IrPopover {
+        "content"?: string;
         "irPopoverLeft"?: string;
-        "popoverTitle"?: string;
+        "placement"?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
+        "trigger"?: 'focus' | 'click' | 'hover';
     }
     interface IrPriceInput {
         /**

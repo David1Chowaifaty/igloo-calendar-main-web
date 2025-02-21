@@ -18,6 +18,7 @@ export declare class IrTasksTable {
      * The sort direction: ASC or DESC.
      */
     sortDirection: 'ASC' | 'DESC';
+    checkableTasks: Task[];
     animateCleanedButton: EventEmitter<null>;
     rowSelectChange: EventEmitter<Task[]>;
     componentWillLoad(): void;
@@ -27,6 +28,7 @@ export declare class IrTasksTable {
      */
     private handleSort;
     handleClearSelectedHkTasks(e: CustomEvent): void;
+    handleTasksChange(newTasks: Task[]): void;
     /**
      * Helper to sort tasks array in state.
      */
@@ -49,5 +51,26 @@ export declare class IrTasksTable {
      * Toggles selection on all visible tasks at once.
      */
     private toggleSelectAll;
+    /**
+     * Assigns checkable tasks based on predefined criteria.
+     *
+     * This method filters tasks and determines which ones are eligible
+     * to be selected using checkboxes. A task is considered "checkable"
+     * if its date is today or earlier.
+     *
+     * The filtered tasks are stored in `this.checkableTasks`, ensuring
+     * only relevant tasks can be interacted with by users.
+     */
+    private assignCheckableTasks;
+    /**
+     * Determines if a task is checkable.
+     *
+     * A task is considered checkable if its date is today or any day before.
+     * This prevents users from selecting tasks with future dates.
+     *
+     * @param {string} date - The task's date in 'YYYY-MM-DD' format.
+     * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
+     */
+    private isCheckable;
     render(): any;
 }

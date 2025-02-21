@@ -1,12 +1,13 @@
 export declare class IrPopover {
     el: HTMLElement;
-    popoverTitle: string;
-    isHovered: boolean;
-    showPopover: boolean;
+    content: string;
     irPopoverLeft: string;
-    componentWillLoad(): void;
-    handleMouseEnter: () => void;
-    handleMouseLeave: () => void;
-    checkTitleWidth(): void;
+    placement: 'top' | 'bottom' | 'left' | 'right' | 'auto';
+    trigger: 'focus' | 'click' | 'hover';
+    private initialized;
+    private popoverTrigger;
+    componentDidLoad(): void;
+    initializePopover(): void;
+    disconnectedCallback(): void;
     render(): any;
 }

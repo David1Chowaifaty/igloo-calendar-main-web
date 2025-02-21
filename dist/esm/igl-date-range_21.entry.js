@@ -183,7 +183,7 @@ const IrCheckbox = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h(Host, { key: '3187f8986e166da0bfe1dae14714687a17923f0e' }, h("button", { key: '60ac9e655bb52c36be7be76cb5cbfa68f1cc2a09', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: 'ec1e2c3f3f0e4e15e3dfa8da967988228acaa836', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '741457f2078802c30f38ceaf5a00d802330e5dc8', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), h("input", { key: '69233440ac83af2d556e9e291fc7c94c1e1f5db3', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: 'c7f2659a6f24f452d435f4acafe79f480887ee8a', htmlFor: this.checkboxId }, this.label)));
+        return (h(Host, { key: '34fe9e362149dbc1064812600492bb03ae3cbe6b' }, h("button", { key: 'f485b024ce708a7d3a56883912069d821e2d26bf', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked || this.indeterminate ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: '028b72abc14950f5fac81c7d4fff4e753f35d6e5', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '5410ae48c0fc6d3ea23e6ec4d52a65948fd978b0', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" }))), this.indeterminate && (h("svg", { key: 'fe833882aa5a5a3a58fc846420fdb6af40e11d07', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '350372fc3d0995669729a51bdc453d8f3834b28b', fill: "currentColor", d: "M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" })))), h("input", { key: '4f01e6bdb4ed6c53ba648a7cb2c6e16c61d7e504', type: "checkbox", indeterminate: this.indeterminate, "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '8b6084635021922bebf40047e1140a2127785389', htmlFor: this.checkboxId }, this.label)));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -2341,7 +2341,7 @@ const IrDatePicker = class {
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: 'de0a3c7a7a0b67dc00cc42b40ff57e43af13782f', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: '1b08d0d551ce3c7ed7dc75c05f10f13131bf7077', name: "trigger" }), h("input", { key: 'fff3477ca850db6f63a68f2ffbc46141e404e59d', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '8d7a539b3f88dd6042af82d3bb1c133fb1f8a0bd', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: 'c461d25180cd128d900b6b58313e92fe73062a29', name: "trigger" }), h("input", { key: '88d26d25452fc1956af9da6346f7ef2fd3db389d', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -2458,7 +2458,7 @@ const IrDateRange = class {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '8a0bc7e81094770089de24003b71d592df07d3f3' }, h("input", { key: 'd84aad9a6d8f27200ffd8eed5634d6ae79b7cfb7', class: "date-range-input", type: "text", disabled: this.disabled })));
+        return (h(Host, { key: 'dbbf06701a3cb322676dc210f33bea54f21d47a0' }, h("input", { key: '2117fe91637779065505166eec77163dfd495023', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return getElement(this); }
     static get watchers() { return {
@@ -2812,7 +2812,7 @@ const IrIcon = class {
         this.icon = 'ft-check';
     }
     render() {
-        return (h("button", { key: 'ffa4ae58b1257244041e368eb6e595b5ca7593fb', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'b6e3c78c418eb5672ba5228f3e4114669f4cb3c4', name: "icon" })));
+        return (h("button", { key: 'a740d9ab2ceb31eb7aa0d6f945a39cd676d4bcc3', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '59c721a51836c9d1eee03f931c9fab6cb4e19a00', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;
@@ -2911,7 +2911,7 @@ const IrInterceptor = class {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'e5ab3521c012deb09582244c5d9ace68f4612b10' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'ea775c5f730347c8a4aa771235dbfe62176e7b5a', class: "loadingScreenContainer" }, h("div", { key: '29a812bde5e180b752c16907a35f5cde5b0daa7d', class: "loaderContainer" }, h("span", { key: 'c9065abf7671e4464db216672fc5214b8281461e', class: "page-loader" }))))));
+        return (h(Host, { key: '14421f48428f3cd024ca9313486a63ceb080b212' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'dbbecc8a92bfebb58ffce37fa73146e2d093856b', class: "loadingScreenContainer" }, h("div", { key: 'dfce9bce199082ab4d2e7fe3457154f486a58316', class: "loaderContainer" }, h("span", { key: '39cef7553cfce55b4bd3aa5632e948b80307f802', class: "page-loader" }))))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -2925,7 +2925,7 @@ const IrLoadingScreen = class {
         this.message = '';
     }
     render() {
-        return (h(Host, { key: 'a445022c4ab42997dda6b3194d8723669300dd43' }, h("span", { key: '5a027791c126a620a7f7088ff9fbf14ccb66fd3d', class: "loader" })));
+        return (h(Host, { key: 'e824e74348a0699956eb7ff003af22f0ec1bb070' }, h("span", { key: '7d6c351b9ddc16b70f5537efdd2dd032b198aa37', class: "loader" })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;
@@ -2978,13 +2978,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: 'b07d52ff61b815c4a08aef5fd1ea3db9944011ab', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '3d0a93cabdffbf4a0d56ddc7e41a80634392cb81', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '5403f237e942b2ff6f3a76c2d3a9ef40aa58095d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'afe6f964ed3459e254c738e22b5506c27520414d', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '396662f520905ce9d0f351147d52877414af0977', class: `ir-alert-header` }, h("p", { key: '12729ece4a9313fee4b4e79b4d4beb7bd986caa7' }, this.modalTitle))), h("div", { key: 'da239d0a329f331e087cf3f1daffd64474e90ffe', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'c82222ff30eac5af543bf7a089cd96c50e4613c7' }, this.modalBody)), h("div", { key: 'bc8af6d641aeadbe5b7f55205ee538337b03b85d', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: 'f68e60448cd5f6b180ff6dca870f011c32d232a8', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'e5852cadeb7265bf855e5cc1fbded1a189afa8d3', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '3010f020d387b410c95daed7b96b8c693537ed49', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '357140c64219bf03ca1234162ef213ad99c9e19e', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'b64272d9719bffb5e8dd17e28d1af79c693977f0', class: `ir-alert-header` }, h("p", { key: '39e0497bda038d26dde44fd236e23196dfe6c686' }, this.modalTitle))), h("div", { key: 'e430f3e72cf10f0bce5982bdbb1b87fd009a200b', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '5a3f521a2849a12be5ca9d543c371761bc36113c' }, this.modalBody)), h("div", { key: '9262f15d77f08aa88307b05ac45c2024cd670b48', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '5a9c331909aaa886e423d4ac023f242d35c92e91', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '48ebe85b41569b7428bc88f0805f0cc9e29088ce', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -3053,7 +3053,7 @@ const IrSelect = class {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '6e351a894987707a05f7c716a664163fdc44eba7', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'a96742fe09c3f81ed2e1c40127ca9ac2b44fdfc2', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '84cf127e34720608ed9c8e829b2a08a02f794941', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'd6dc19c3ed580edb547d768f113a7d0ca8c36277', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -3063,7 +3063,7 @@ const IrSelect = class {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: 'dac748ff5141d4280389cd32b038dce2d1bbda22', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '5570e4704cb298312fffb29fe4a83f8b141102c0', class: "input-group row m-0" }, label, h("select", { key: 'b4f18890b7e7cb29f868f00a3701659e5474d8b0', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '382fe97b6155e63de5dcb0b811d5f15ffee8199e', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '4b96a9e1a9ddb10f19678e44e693357955a8be13', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '9ed7abaee7eb5251d2f01d20344d548cbae45466', class: "input-group row m-0" }, label, h("select", { key: '10d4e0291b20b19c969e7ea3b20e455450200691', ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '751453f907e007060168055ff21bbc3eb7bf2a81', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -3132,12 +3132,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: 'b459dabe43c9f354cad098f5a013d6852c8d7883', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: 'b2eed7a5ae1e98bc8d635aa00b9fe35d63f4effa', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '02c7c23f32cbbeaabad534d5c62caad0c284e8ae', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '2b492f232a06ec77cd2c35a1d904159d5ce46c86', class: 'sidebar-title' }, h("p", { key: 'c33c506d464a8588d1c4e4c44d16bb400458f4ca', class: 'p-0 m-0' }, this.label), h("div", { key: '57bc9f7013a4f35b5cb245255612885881cda4ec', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '5e9868a5f5f0771aff6ff37310db94126615a934', class: "", onIconClickHandler: () => {
+            h("div", { key: '54a1e1679664cddfa24ae65839ba27993ee23464', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'c26abd29a8d51c320511abddb8918f478d4d41e8', class: 'sidebar-title' }, h("p", { key: '2809968dc5bfd6c3d4250aac0486b1a363e67a8e', class: 'p-0 m-0' }, this.label), h("div", { key: '1fbaf16bb47313a28dde2197b5f5df0f1e1e0031', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '2c6ad581f21f17ef643ba54352a1c7bd07d7e785', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'da71b44c476565daa7b6c6184987554dfc135796', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '52b56c2e4c3ca7994e1f6a4375f3352e58f47369', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '8aef5fc1282aa27f29f4a480afaf178525bf5dc8', name: "sidebar-body" })),
+                } }, h("svg", { key: '4fc4919ab0cda2a394c1f67393219758d38369e2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '5af9db7bf32e06174470620b7445a885b6017083', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '03782cfa47902d2b4f670ea22cf144ea941c7df2', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {
@@ -3247,7 +3247,7 @@ const IrTasksHeader = class {
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '7436da2916d4143ce980d37e902d863d730c64d2', class: "d-flex align-items-center justify-content-between" }, h("h4", { key: 'da2cc88f796d97aa49a8657bf7b50605a27b1202' }, "Housekeeping Tasks"), h("div", { key: '70cd45c5b82d2b92a3a6a0f4f6d2bb874e708627', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'ef279318d82b66910c2926f26477876183820d9a', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
+        return (h("div", { key: '7436da2916d4143ce980d37e902d863d730c64d2', class: "d-flex align-items-center justify-content-between" }, h("h3", { key: 'da2cc88f796d97aa49a8657bf7b50605a27b1202' }, "Housekeeping Tasks"), h("div", { key: '70cd45c5b82d2b92a3a6a0f4f6d2bb874e708627', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'ef279318d82b66910c2926f26477876183820d9a', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
@@ -3260,7 +3260,7 @@ const IrTasksHeader = class {
 };
 IrTasksHeader.style = IrTasksHeaderStyle0;
 
-const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.sortable.sc-ir-tasks-table{transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}.task-row.sc-ir-tasks-table,.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.25rem 0.5rem !important;white-space:nowrap;max-width:max-content !important;border:0}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{text-align:start}.task-table-row.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover{background:#e2e6ea3f !important}.selected.sc-ir-tasks-table{background:#e3f3fa !important}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e6ea;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#dae0e5;border-color:#d3d9df}";
+const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.sortable.sc-ir-tasks-table{transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}.task-row.sc-ir-tasks-table,.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.25rem 0.5rem !important;white-space:nowrap;max-width:max-content !important;border:0}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{text-align:start}.table-container.sc-ir-tasks-table{max-height:80vh}.task-table-row.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover{background:#e2e6ea3f !important}.selected.sc-ir-tasks-table{background:#e3f3fa !important}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e6ea;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#dae0e5;border-color:#d3d9df}";
 const IrTasksTableStyle0 = irTasksTableCss;
 
 const IrTasksTable = class {
@@ -3285,9 +3285,13 @@ const IrTasksTable = class {
          * The sort direction: ASC or DESC.
          */
         this.sortDirection = 'ASC';
+        this.checkableTasks = [];
     }
     componentWillLoad() {
         this.sortTasks('date', 'ASC');
+        if (this.tasks) {
+            this.assignCheckableTasks();
+        }
     }
     /**
      * Sorts the tasks by the given key. If no direction is provided,
@@ -3308,6 +3312,12 @@ const IrTasksTable = class {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.selectedIds = [];
+    }
+    handleTasksChange(newTasks) {
+        if (newTasks === null || newTasks === void 0 ? void 0 : newTasks.length) {
+            this.selectedIds = [];
+            this.assignCheckableTasks();
+        }
     }
     /**
      * Helper to sort tasks array in state.
@@ -3374,7 +3384,7 @@ const IrTasksTable = class {
      * Checks if every row is selected.
      */
     get allSelected() {
-        return this.tasks.length > 0 && this.selectedIds.length === this.tasks.length;
+        return this.checkableTasks.length > 0 && this.selectedIds.length === this.checkableTasks.length;
     }
     /**
      * Toggles selection on all visible tasks at once.
@@ -3384,19 +3394,52 @@ const IrTasksTable = class {
             this.selectedIds = [];
         }
         else {
-            this.selectedIds = this.tasks.map(task => task.id);
+            this.selectedIds = this.checkableTasks.map(t => t.id);
             this.animateCleanedButton.emit(null);
         }
         this.emitSelectedTasks();
-        console.log('here');
+    }
+    /**
+     * Assigns checkable tasks based on predefined criteria.
+     *
+     * This method filters tasks and determines which ones are eligible
+     * to be selected using checkboxes. A task is considered "checkable"
+     * if its date is today or earlier.
+     *
+     * The filtered tasks are stored in `this.checkableTasks`, ensuring
+     * only relevant tasks can be interacted with by users.
+     */
+    assignCheckableTasks() {
+        const tasks = [];
+        this.tasks.forEach(task => {
+            if (this.isCheckable(task.date)) {
+                tasks.push(task);
+            }
+        });
+        this.checkableTasks = [...tasks];
+    }
+    /**
+     * Determines if a task is checkable.
+     *
+     * A task is considered checkable if its date is today or any day before.
+     * This prevents users from selecting tasks with future dates.
+     *
+     * @param {string} date - The task's date in 'YYYY-MM-DD' format.
+     * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
+     */
+    isCheckable(date) {
+        return hooks(date, 'YYYY-MM-DD').isSameOrBefore(hooks(), 'days');
     }
     render() {
-        return (h("div", { key: 'efce2880f3eb4efc93508e5f29681203ddccf03f', class: "card h-100 p-1 m-0 table-responsive" }, h("table", { key: 'ef777af10ef1a8a3de79925e06657c2b3bc17402', class: "table" }, h("thead", { key: '6aa1600f9d6410bd3a787d917b00a47250f154e4', class: "table-header" }, h("tr", { key: 'fa6fae8180807a5f01b6071da33020b84ca6f76f' }, h("th", { key: '4e0e0122ab9a5d8b668a37cb803334ad1dd0807c' }, h("ir-checkbox", { key: 'd7c3221702ed2a7cf14388d877641f0297d8b80a', checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), h("th", { key: '5747791a6934bb4c6874207c4dfff284262a6bcc' }, "Period"), h("th", { key: '44bc830ab976da7f3b32dce5a217f671b5a363a9' }, h("span", { key: '36f805d7f9285824f2808f81370f57ebcb6fa267' }, "Unit")), h("th", { key: 'eadcc79eefa1e88813c3cd01287fc1e7033b31c1', class: 'sortable', onClick: () => this.handleSort('status') }, h("div", { key: '0546ffbb627ef3a2cb2b73881aafea9b85000cd4', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: 'd90c2b8155fa208a4c1fe69c2264285a5e825dad' }, "Status"), h("svg", { key: '39d808bab5b0759feefdd0a88f496b2bbdd048ef', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '221edfbaaac0c405ea4bf0d398d48d5dec5f61c6', d: "m21 16-4 4-4-4" }), h("path", { key: 'd75236b106045a0c775ab0eaf3fa196125d7988f', d: "M17 20V4" }), h("path", { key: 'ea091683a5e2d74be80f418037c7dc170bc6d1a9', d: "m3 8 4-4 4 4" }), h("path", { key: 'ba5ef2c8bb16d330ea70ecf12671e4569075c00e', d: "M7 4v16" })))), h("th", { key: '7d1a031260882acf95b1a11ec2b7f8f6bef46cee' }, "Hint"), h("th", { key: '08338436a75911c85f253e6be3ebdf75cd84a89f' }, "A"), h("th", { key: '1723e7f30fb8690faad8917a8f4d78bfd1f2053e' }, "C"), h("th", { key: '644c6b85e1214636343361248ddae88330d2357f' }, "I"), h("th", { key: 'e0b9f6ec148ccc7f81b7a500f5ec0d97645298fa', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, h("div", { key: 'dc78248c54cdf52c5ffc00dc20cea0fc25781674', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: '0f59d0a39e12bc1f58685f87a21ae1bfeee1b339' }, "Housekeeper"), h("svg", { key: 'ada559e023b26690acea53ddcea31d89ed34ad6d', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'ac5b4af7515b2b2a843607c99b7022ce65f7c0ee', d: "m21 16-4 4-4-4" }), h("path", { key: 'f04f39eb8b7160d6a36a0e00b205ca5f54b42e8c', d: "M17 20V4" }), h("path", { key: 'ec3b53a2755d37dd262559c4f3db82461edf4e8c', d: "m3 8 4-4 4 4" }), h("path", { key: '0dcf830210fbb93ef712761352aba59f2808f7c6', d: "M7 4v16" })))))), h("tbody", { key: '6b4e1c497ccb63c6d4c36bd7ec10c4e207e08841' }, this.tasks.length === 0 && (h("tr", { key: '381e634e05da7219c882c900800b51d45531fbdf' }, h("td", { key: 'aaee2df2a919bcfdbe29ff748091c9d1fadaec73', colSpan: 9, class: "text-center" }, h("div", { key: '63e5b66e9adfcaa959701809cd03de8e7f027212', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, h("span", { key: '94c856f16ac159d89072cd033e36f9d59a2e83e3' }, " No Tasks Found"))))), this.tasks.map(task => {
+        return (h("div", { key: 'fc9dda23977fffdd04f8655f9f82062548212ffe', class: "card table-container h-100 p-1 m-0 table-responsive" }, h("table", { key: 'cb4aead87deefb12d9dd52adaa511873e58889fc', class: "table" }, h("thead", { key: 'bcaa1ab8556487f05d4195bd54514ad5be9208a5', class: "table-header" }, h("tr", { key: '9e7c6b9acd79878e4b3a4b9eec5cfd05f7e8d220' }, h("th", { key: '1853b1e03e7a7a27c1fea2b1f3e3258649e82b47' }, h("ir-checkbox", { key: '6def043b67399a40a5373692f127cafdec51dd83', indeterminate: this.selectedIds.length > 0 && this.selectedIds.length < this.checkableTasks.length, checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), h("th", { key: '1ece345cf42459cc7ad2dc8483ea1c4dd472e2de' }, "Period"), h("th", { key: '163930a2a555f88eefad7fe3f0ce037a2518b1ac' }, "Unit"), h("th", { key: 'c7dc41891519d09fe3aa312425253927d90da7d6', class: 'sortable', onClick: () => this.handleSort('status') }, h("div", { key: '15a928a88154758c418fb100a7da99ab506f144f', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: '28cec0d19ad35f900ce4c6af875465e2bf5c77dd' }, "Status"), h("svg", { key: '58828376506766b4d1ff81dab70a0e8ed71ea565', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '84ffa522abbb4ae26f65136a3b7ada912d9e920a', d: "m21 16-4 4-4-4" }), h("path", { key: 'dd0265a6784574b7727f0d176542804ee21473a3', d: "M17 20V4" }), h("path", { key: 'ea591f02b71f890c2d14cc0f29cd7011c9b4b180', d: "m3 8 4-4 4 4" }), h("path", { key: '4e39a2b96b1f703d10f021673264ae288cf97930', d: "M7 4v16" })))), h("th", { key: '886923603db1d592d0f2f6b6cd1cccfa6902580e' }, "Hint"), h("th", { key: '82a192f393b16f5850bd645153d134c96f9dd17e' }, "A"), h("th", { key: '9c55d5ccd5d99c3a2b3ca020d9472cbae35fa225' }, "C"), h("th", { key: '8923090e83da67911c43f3742d749a58d166f9f8' }, "I"), h("th", { key: '92466709679c26d9ff90e11e358422a973221e75', style: { textAlign: 'start' }, class: 'sortable', onClick: () => this.handleSort('housekeeper') }, h("div", { key: '558328722d52215ee55edb5a8e90143545dfc4d8', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: '40affa35fb0fe3cd03d3ceff139d6880e36c6429' }, "Housekeeper"), h("svg", { key: '7b086189ac415a6f18e67dec5899d3e194db86d6', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '7494bd2c04d5744f7efce948eaaca143e7204956', d: "m21 16-4 4-4-4" }), h("path", { key: '84288f8d12fc26c2b9a7fc412f5abbf7eae9d5c0', d: "M17 20V4" }), h("path", { key: 'f5a319533123e96bd059f13ff6c0a73ac628b0de', d: "m3 8 4-4 4 4" }), h("path", { key: '65e6e3b566d2d189b4c7eee080e50b880e3786a8', d: "M7 4v16" })))))), h("tbody", { key: 'd6815b8d2aa586e21717a5142d8307886c0f3dcd' }, this.tasks.length === 0 && (h("tr", { key: 'da2c02d59e26c9b2ccb71a2c15d52e5f1f333218' }, h("td", { key: '857b9f6c09f177740f6681f2839ed959090d07f9', colSpan: 9, class: "text-center" }, h("div", { key: '15ee8f767b2a0f6184cb9a71b47a745a28c7a9e0', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, h("span", { key: 'd2aaefeea5c731470b6423cbec24900ec0e354ff' }, " No Tasks Found"))))), this.tasks.map(task => {
             var _a;
             const isSelected = this.selectedIds.includes(task.id);
-            return (h("tr", { style: { cursor: 'pointer' }, onClick: () => this.toggleSelection(task.id), class: { 'selected': isSelected, 'task-table-row': true }, key: task.id }, h("td", { class: "task-row" }, h("ir-checkbox", { checked: isSelected })), h("td", { class: "task-row" }, task.date), h("td", { class: "task-row" }, h("span", { class: { 'highlighted-unit': task.is_highlight } }, task.unit.name)), h("td", { class: "task-row" }, task.status.description), h("td", { class: "task-row" }, task.hint), h("td", { class: "task-row" }, task.adult), h("td", { class: "task-row" }, task.child), h("td", { class: "task-row" }, task.infant), h("td", { class: "w-50 task-row", style: { textAlign: 'start' } }, (_a = task.housekeeper) !== null && _a !== void 0 ? _a : 'Unassigned')));
+            return (h("tr", { style: { cursor: 'pointer' }, onClick: () => this.toggleSelection(task.id), class: { 'selected': isSelected, 'task-table-row': true }, key: task.id }, h("td", { class: "task-row" }, this.isCheckable(task.date) && h("ir-checkbox", { checked: isSelected })), h("td", { class: "task-row" }, task.formatted_date), h("td", { class: "task-row" }, h("span", { class: { 'highlighted-unit': task.is_highlight } }, task.unit.name)), h("td", { class: "task-row" }, task.status.description), h("td", { class: "task-row" }, task.hint), h("td", { class: "task-row" }, task.adult), h("td", { class: "task-row" }, task.child), h("td", { class: "task-row" }, task.infant), h("td", { class: "w-50 task-row", style: { textAlign: 'start' } }, (_a = task.housekeeper) !== null && _a !== void 0 ? _a : 'Unassigned')));
         })))));
     }
+    static get watchers() { return {
+        "tasks": ["handleTasksChange"]
+    }; }
 };
 IrTasksTable.style = IrTasksTableStyle0;
 
@@ -3419,9 +3462,9 @@ const IrTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: 'be55c3210114bf53f0194bc5993d3cedbe05a613' }, h("h4", { key: '7a9f5785921cf5f35a60e510cc45df7bdc98bc30', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'f12135e183ef07029ba7a59bc9c925c341c5f9e7', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '316438140add7602a0fe3df35b0bcbf797b23236' }, h("h4", { key: 'aa143990770ea5d0066a84270096589d498b982a', class: "text-left font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'a7ac790fc147d4074f36fce48e3e895537d9ef38', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '13230d479975ff61cc63c80ce7b2b7864de1d973', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '0b068af5d281be1a19873096d7195049bedd38ba', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '4866e854c1109ca813b0e5db51b4c61b9dd1f1bb', class: 'title-body' }, h("slot", { key: 'd1f7774b1bedab61005bf7969c9816a33250b0c7', name: "title-body" })))));
+            } }, h("svg", { key: 'a5bf9d65b8fbb4c5fd521c4ce10955791389a442', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '1161f00c5b8c4e129ba58dc21ea859325c257fe5', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '70dd8e65ba3e1c00b6be1af90f4ef42a24dea7e6', class: 'title-body' }, h("slot", { key: '14275d5eb1505b3141bc0c69121053b58050c85b', name: "title-body" })))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -3459,7 +3502,7 @@ const IrToast = class {
         }
     }
     render() {
-        return h(Host, { key: '44b3ffda4430f823dbe98954e750a22260fc4add' });
+        return h(Host, { key: 'a21f3a5f3de5b418da685c6db63ae351512a4993' });
     }
     get element() { return getElement(this); }
 };

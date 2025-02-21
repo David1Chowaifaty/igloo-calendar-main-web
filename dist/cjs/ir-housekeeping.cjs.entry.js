@@ -17,6 +17,7 @@ const IrHousekeepingStyle0 = irHousekeepingCss;
 const IrHousekeeping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.toast = index.createEvent(this, "toast", 7);
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
@@ -73,18 +74,30 @@ const IrHousekeeping = class {
             this.isLoading = false;
         }
     }
+    saveAutomaticCheckInCheckout(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        try {
+            this.roomService.SetAutomaticCheckInOut({
+                property_id: this.propertyid,
+                flag: e.detail === 'auto',
+            });
+            this.toast.emit({
+                position: 'top-right',
+                title: 'Saved Successfully',
+                description: '',
+                type: 'success',
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
     render() {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("h4", { class: "mb-2" }, "Housekeeping & Check-In Setup"), index.h("div", { class: "card p-1" }, index.h("ir-title", { borderShown: true, label: "Check-In Mode" }), index.h("div", { class: 'd-flex align-items-center' }, index.h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), index.h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.roomService.SetAutomaticCheckInOut({
-                    property_id: this.propertyid,
-                    flag: e.detail === 'auto',
-                });
-            }, data: [
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("h3", { class: "mb-2" }, "Housekeeping & Check-In Setup"), index.h("div", { class: "card p-1" }, index.h("ir-title", { borderShown: true, label: "Check-In Mode" }), index.h("div", { class: 'd-flex align-items-center' }, index.h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), index.h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: `Yes, as per the property's policy.`, value: 'auto' },
                 { text: 'No, I will do it manually. ', value: 'manual' },
             ] }))), index.h("ir-hk-team", { class: "mb-1" }))));

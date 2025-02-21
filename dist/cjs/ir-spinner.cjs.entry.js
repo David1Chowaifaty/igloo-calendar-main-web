@@ -42,7 +42,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: '69c16aca6966f63a7b31ce3c4404b38187186cbf' });
+        return index.h(index.Host, { key: 'e2804001f20990d76c62c95cea52aa62697265dc' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

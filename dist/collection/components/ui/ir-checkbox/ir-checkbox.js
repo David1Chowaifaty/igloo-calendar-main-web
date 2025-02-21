@@ -28,7 +28,7 @@ export class IrCheckbox {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h(Host, { key: '3187f8986e166da0bfe1dae14714687a17923f0e' }, h("button", { key: '60ac9e655bb52c36be7be76cb5cbfa68f1cc2a09', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: 'ec1e2c3f3f0e4e15e3dfa8da967988228acaa836', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '741457f2078802c30f38ceaf5a00d802330e5dc8', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), h("input", { key: '69233440ac83af2d556e9e291fc7c94c1e1f5db3', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: 'c7f2659a6f24f452d435f4acafe79f480887ee8a', htmlFor: this.checkboxId }, this.label)));
+        return (h(Host, { key: '34fe9e362149dbc1064812600492bb03ae3cbe6b' }, h("button", { key: 'f485b024ce708a7d3a56883912069d821e2d26bf', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked || this.indeterminate ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: '028b72abc14950f5fac81c7d4fff4e753f35d6e5', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '5410ae48c0fc6d3ea23e6ec4d52a65948fd978b0', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" }))), this.indeterminate && (h("svg", { key: 'fe833882aa5a5a3a58fc846420fdb6af40e11d07', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '350372fc3d0995669729a51bdc453d8f3834b28b', fill: "currentColor", d: "M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" })))), h("input", { key: '4f01e6bdb4ed6c53ba648a7cb2c6e16c61d7e504', type: "checkbox", indeterminate: this.indeterminate, "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '8b6084635021922bebf40047e1140a2127785389', htmlFor: this.checkboxId }, this.label)));
     }
     static get is() { return "ir-checkbox"; }
     static get encapsulation() { return "scoped"; }
@@ -120,6 +120,25 @@ export class IrCheckbox {
                 "getter": false,
                 "setter": false,
                 "attribute": "name",
+                "reflect": false
+            },
+            "indeterminate": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "indeterminate",
                 "reflect": false
             },
             "disabled": {

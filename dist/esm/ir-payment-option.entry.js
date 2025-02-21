@@ -138,7 +138,7 @@ const IrPaymentOption = class {
         const is_active = e.detail;
         const newOption = Object.assign(Object.assign({}, po), { is_active, property_id: this.propertyid });
         if (po.code !== '005' && !po.is_payment_gateway) {
-            await this.paymentOptionService.HandlePaymentMethod(newOption);
+            await this.changePaymentMethod(newOption);
             this.modifyPaymentList(newOption);
             if (po.code === '000' && is_active && this.paymentOptions.filter(p => p.code !== '000').every(p => p.is_active === false || p.is_active === null)) {
                 this.toast.emit({
@@ -159,9 +159,23 @@ const IrPaymentOption = class {
             payment_option_store.selectedOption = newOption;
         }
         else {
-            await this.paymentOptionService.HandlePaymentMethod(newOption);
+            await this.changePaymentMethod(newOption);
         }
         this.modifyPaymentList(newOption);
+    }
+    async changePaymentMethod(newOption) {
+        try {
+            await this.paymentOptionService.HandlePaymentMethod(newOption);
+            this.toast.emit({
+                position: 'top-right',
+                title: 'Saved Successfully',
+                description: '',
+                type: 'success',
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     showEditButton(po) {
         var _a;
