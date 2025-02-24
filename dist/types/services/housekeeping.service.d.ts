@@ -1,8 +1,15 @@
 import { RoomHkStatus } from "../models/booking.dto";
-import { IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
+import { ArchivedTask, IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
 export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
     getExposedHKStatusCriteria(property_id: number): Promise<IExposedHouseKeepingSetup>;
+    getArchivedHKTasks(params: {
+        property_id: number;
+        from_date: string;
+        to_date: string;
+        filtered_by_hkm?: number[];
+        filtered_by_unit?: number[];
+    }): Promise<ArchivedTask[] | null>;
     setExposedInspectionMode(property_id: number, mode: IInspectionMode): Promise<any>;
     manageExposedAssignedUnitToHKM(property_id: number, assignments: IPropertyHousekeepingAssignment[]): Promise<any>;
     editExposedHKM(params: THKUser, is_to_remove?: boolean): Promise<any>;

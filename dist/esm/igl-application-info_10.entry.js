@@ -1,10 +1,11 @@
 import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment } from './index-1d2aa5ad.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as reserveRooms, a as resetBookingStore, u as updateRoomParams, g as getVisibleInventory } from './booking.service-451141a2.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as reserveRooms, a as resetBookingStore, u as updateRoomParams, g as getVisibleInventory } from './booking.service-669fd221.js';
 import { l as locales } from './locales.store-95a78d6b.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-e1b88280.js';
-import { p as formatAmount, h as hooks, j as extras, m as getReleaseHoursString, a as dateToFormattedString, z, v as validateEmail } from './utils-0ecaed12.js';
+import { o as formatAmount, h as extras, l as getReleaseHoursString, a as dateToFormattedString, z, v as validateEmail } from './utils-130c2742.js';
 import { v as v4 } from './v4-964634d6.js';
-import { c as calculateDaysBetweenDates } from './booking-e490449d.js';
+import { c as calculateDaysBetweenDates } from './booking-474f3a5d.js';
+import { h as hooks } from './moment-ab846cee.js';
 import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
 import './axios-aa1335b8.js';
 import './index-e42e9935.js';

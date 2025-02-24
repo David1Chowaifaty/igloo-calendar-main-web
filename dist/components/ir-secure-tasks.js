@@ -1,13 +1,11 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
 import { s as checkUserAuthState, t as manageAnchorSession } from './utils.js';
-import { d as defineCustomElement$x } from './igl-date-range2.js';
-import { d as defineCustomElement$w } from './ir-button2.js';
-import { d as defineCustomElement$v } from './ir-checkbox2.js';
-import { d as defineCustomElement$u } from './ir-combobox2.js';
-import { d as defineCustomElement$t } from './ir-date-picker2.js';
-import { d as defineCustomElement$s } from './ir-date-range2.js';
-import { d as defineCustomElement$r } from './ir-date-view2.js';
+import { d as defineCustomElement$v } from './igl-date-range2.js';
+import { d as defineCustomElement$u } from './ir-button2.js';
+import { d as defineCustomElement$t } from './ir-checkbox2.js';
+import { d as defineCustomElement$s } from './ir-combobox2.js';
+import { d as defineCustomElement$r } from './ir-date-range2.js';
 import { d as defineCustomElement$q } from './ir-delete-modal2.js';
 import { d as defineCustomElement$p } from './ir-hk-archive2.js';
 import { d as defineCustomElement$o } from './ir-hk-tasks2.js';
@@ -78,7 +76,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-secure-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-combobox", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-delete-modal", "ir-hk-archive", "ir-hk-tasks", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-housekeeping", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-login", "ir-modal", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-switch", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-textarea", "ir-title", "ir-toast"];
+    const components = ["ir-secure-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-combobox", "ir-date-range", "ir-delete-modal", "ir-hk-archive", "ir-hk-tasks", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-housekeeping", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-login", "ir-modal", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-switch", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-textarea", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-secure-tasks":
             if (!customElements.get(tagName)) {
@@ -87,35 +85,25 @@ function defineCustomElement$1() {
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$v();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$u();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$t();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
-            }
-            break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$t();
-            }
-            break;
-        case "ir-date-range":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$s();
             }
             break;
-        case "ir-date-view":
+        case "ir-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$r();
             }

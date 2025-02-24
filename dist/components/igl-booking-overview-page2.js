@@ -2,16 +2,14 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from 
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { h as hooks } from './moment.js';
 import { b as booking_store } from './booking.store.js';
-import { d as defineCustomElement$e } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$d } from './igl-book-property-header2.js';
-import { d as defineCustomElement$c } from './igl-date-range2.js';
-import { d as defineCustomElement$b } from './igl-rate-plan2.js';
-import { d as defineCustomElement$a } from './igl-room-type2.js';
-import { d as defineCustomElement$9 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
-import { d as defineCustomElement$7 } from './ir-date-picker2.js';
-import { d as defineCustomElement$6 } from './ir-date-range2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
+import { d as defineCustomElement$c } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$b } from './igl-book-property-header2.js';
+import { d as defineCustomElement$a } from './igl-date-range2.js';
+import { d as defineCustomElement$9 } from './igl-rate-plan2.js';
+import { d as defineCustomElement$8 } from './igl-room-type2.js';
+import { d as defineCustomElement$7 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$6 } from './ir-button2.js';
+import { d as defineCustomElement$5 } from './ir-date-range2.js';
 import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-price-input2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
@@ -71,7 +69,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-overview-page", "igl-book-property-footer", "igl-book-property-header", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-autocomplete", "ir-button", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-icons", "ir-price-input", "ir-select", "ir-tooltip"];
+    const components = ["igl-booking-overview-page", "igl-book-property-footer", "igl-book-property-header", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-autocomplete", "ir-button", "ir-date-range", "ir-icons", "ir-price-input", "ir-select", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
@@ -80,50 +78,40 @@ function defineCustomElement() {
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$c();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$b();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$a();
             }
             break;
         case "igl-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$9();
             }
             break;
         case "igl-room-type":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$8();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$7();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
-            }
-            break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$7();
-            }
-            break;
-        case "ir-date-range":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-date-view":
+        case "ir-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

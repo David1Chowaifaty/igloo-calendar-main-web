@@ -10,11 +10,14 @@ class HouseKeepingService {
         return data['My_Result'];
     }
     async getExposedHKStatusCriteria(property_id) {
-        const { data } = await axios.post(`/Get_Exposed_HK_Status_Criteria`, {
-            property_id,
-        });
+        const { data } = await axios.post(`/Get_Exposed_HK_Status_Criteria`, { property_id });
         updateHKStore('hk_tasks', data['My_Result']);
         return data['My_Result'];
+    }
+    async getArchivedHKTasks(params) {
+        var _a;
+        const { data } = await axios.post(`/Get_Archived_HK_Tasks`, params);
+        return (_a = data['My_Result']) !== null && _a !== void 0 ? _a : [];
     }
     async setExposedInspectionMode(property_id, mode) {
         const { data } = await axios.post(`/Set_Exposed_Inspection_Mode`, {

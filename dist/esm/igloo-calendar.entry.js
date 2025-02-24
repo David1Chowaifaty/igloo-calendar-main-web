@@ -1,10 +1,11 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
 import { R as RoomService } from './room.service-7d6a9238.js';
-import { B as BookingService } from './booking.service-451141a2.js';
-import { f as formatLegendColors, h as hooks, a as dateToFormattedString, i as isBlockUnit, g as getNextDay, b as addTwoMonthToDate, c as convertDMYToISO, e as computeEndDate } from './utils-0ecaed12.js';
-import { E as EventsService } from './events.service-b9b22980.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-5d3bf101.js';
-import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-e490449d.js';
+import { B as BookingService } from './booking.service-669fd221.js';
+import { f as formatLegendColors, a as dateToFormattedString, i as isBlockUnit, g as getNextDay, b as addTwoMonthToDate, c as convertDMYToISO, e as computeEndDate } from './utils-130c2742.js';
+import { E as EventsService } from './events.service-359c2663.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-e85589a9.js';
+import { a as calendar_dates, b as bookingStatus, t as transformNewBooking, d as transformNewBLockedRooms, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-474f3a5d.js';
 import { l as locales } from './locales.store-95a78d6b.js';
 import { c as calendar_data } from './calendar-data-e1b88280.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-a8340177.js';

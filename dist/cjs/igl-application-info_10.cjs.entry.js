@@ -3,12 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
-const booking_service = require('./booking.service-1fb0d277.js');
+const booking_service = require('./booking.service-63e512f9.js');
 const locales_store = require('./locales.store-7abd65bc.js');
 const calendarData = require('./calendar-data-cd8e8374.js');
-const utils = require('./utils-e0a83322.js');
+const utils = require('./utils-b07b7e84.js');
 const v4 = require('./v4-9b297151.js');
-const booking = require('./booking-603668c5.js');
+const booking = require('./booking-b7e12404.js');
+const moment = require('./moment-1780b03a.js');
 const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
 require('./axios-6e678d52.js');
 require('./index-3cfd4bf8.js');
@@ -403,7 +404,7 @@ class IglBookPropertyService {
         const days = [];
         while (currentDate <= endDate) {
             days.push({
-                date: utils.hooks(currentDate).format('YYYY-MM-DD'),
+                date: moment.hooks(currentDate).format('YYYY-MM-DD'),
                 amount: amount,
                 cost: null,
             });
@@ -417,7 +418,7 @@ class IglBookPropertyService {
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
-        const total_days = booking.calculateDaysBetweenDates(utils.hooks(check_in).format('YYYY-MM-DD'), utils.hooks(check_out).format('YYYY-MM-DD'));
+        const total_days = booking.calculateDaysBetweenDates(moment.hooks(check_in).format('YYYY-MM-DD'), moment.hooks(check_out).format('YYYY-MM-DD'));
         const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
             if (is_amount_modified) {
                 return view_mode === '002' ? rp_amount : rp_amount / total_days;
@@ -450,8 +451,8 @@ class IglBookPropertyService {
                                 infant_nbr: rateplan.guest[i].infant_nbr,
                             },
                             bed_preference: rateplan.guest[i].bed_preference,
-                            from_date: utils.hooks(check_in).format('YYYY-MM-DD'),
-                            to_date: utils.hooks(check_out).format('YYYY-MM-DD'),
+                            from_date: moment.hooks(check_in).format('YYYY-MM-DD'),
+                            to_date: moment.hooks(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
                             days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr)),
@@ -542,15 +543,15 @@ class IglBookPropertyService {
                         extras: utils.extras,
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
-                            from_date: utils.hooks(fromDate).format('YYYY-MM-DD'),
-                            to_date: utils.hooks(toDate).format('YYYY-MM-DD'),
+                            from_date: moment.hooks(fromDate).format('YYYY-MM-DD'),
+                            to_date: moment.hooks(toDate).format('YYYY-MM-DD'),
                             remark: bookedByInfoData.message || null,
                             booking_nbr: '',
                             property: {
                                 id: context.propertyid,
                             },
                             booked_on: {
-                                date: utils.hooks().format('YYYY-MM-DD'),
+                                date: moment.hooks().format('YYYY-MM-DD'),
                                 hour: new Date().getHours(),
                                 minute: new Date().getMinutes(),
                             },
@@ -952,8 +953,8 @@ const IglBookProperty = class {
         this.bedPreferenceType = res.bedPreferenceType;
     }
     async checkBookingAvailability() {
-        const from_date = utils.hooks(this.dateRangeData.fromDate).format('YYYY-MM-DD');
-        const to_date = utils.hooks(this.dateRangeData.toDate).format('YYYY-MM-DD');
+        const from_date = moment.hooks(this.dateRangeData.fromDate).format('YYYY-MM-DD');
+        const to_date = moment.hooks(this.dateRangeData.toDate).format('YYYY-MM-DD');
         const is_in_agent_mode = this.sourceOption['type'] === 'TRAVEL_AGENCY';
         try {
             const room_type_ids_to_update = this.isEventType('EDIT_BOOKING') ? [this.defaultData.RATE_TYPE] : [];
@@ -1227,7 +1228,7 @@ const IglBookPropertyHeader = class {
         };
     }
     getSplitBookingList() {
-        return (index.h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, index.h("label", { class: "mr-lg-1" }, locales_store.locales.entries.Lcz_Tobooking, "# "), index.h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, index.h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: utils.hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: utils.hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales_store.locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
+        return (index.h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, index.h("label", { class: "mr-lg-1" }, locales_store.locales.entries.Lcz_Tobooking, "# "), index.h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, index.h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: moment.hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: moment.hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales_store.locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
                 e.stopImmediatePropagation();
                 this.spiltBookingSelected.emit(e.detail);
             }, isSplitBooking: true }))));
@@ -1278,14 +1279,14 @@ const IglBookPropertyHeader = class {
             });
         }
         else if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
-            const initialToDate = utils.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date));
-            const initialFromDate = utils.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date));
-            const selectedFromDate = utils.hooks(new Date(this.dateRangeData.fromDate));
-            const selectedToDate = utils.hooks(new Date(this.dateRangeData.toDate));
+            const initialToDate = moment.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date));
+            const initialFromDate = moment.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date));
+            const selectedFromDate = moment.hooks(new Date(this.dateRangeData.fromDate));
+            const selectedToDate = moment.hooks(new Date(this.dateRangeData.toDate));
             if (selectedToDate.isBefore(initialFromDate) || selectedFromDate.isAfter(initialToDate)) {
                 this.toast.emit({
                     type: 'error',
-                    title: `${locales_store.locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', utils.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', utils.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
+                    title: `${locales_store.locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', moment.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', moment.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
                     description: '',
                     position: 'top-right',
                 });
@@ -1302,7 +1303,7 @@ const IglBookPropertyHeader = class {
         else if (this.minDate && new Date(this.dateRangeData.fromDate).getTime() > new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date).getTime()) {
             this.toast.emit({
                 type: 'error',
-                title: `${locales_store.locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', utils.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', utils.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
+                title: `${locales_store.locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', moment.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', moment.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
                 description: '',
                 position: 'top-right',
             });
@@ -1320,7 +1321,7 @@ const IglBookPropertyHeader = class {
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (index.h(index.Host, { key: '4c29a2eec60f42ff3ad8ea4801768c9d9337f5d9' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), index.h("div", { key: 'bceb41f981e8616c21ad69eea833c5c04d6eb007', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, index.h("fieldset", { key: '22e510da347af156ed5e440dce1adfd4649320b3', class: "mt-lg-0 mr-1 " }, index.h("igl-date-range", { key: '5464a3acac49e2828bdd82ee7b84ce34507f99ed', variant: "booking", dateLabel: locales_store.locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? utils.hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), index.h("p", { key: 'f8469cb724794d1716b89b58817698e8ddd03f2d', class: "text-right mt-1 message-label" }, calendarData.calendar_data.tax_statement)));
+        return (index.h(index.Host, { key: '4c29a2eec60f42ff3ad8ea4801768c9d9337f5d9' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), index.h("div", { key: 'bceb41f981e8616c21ad69eea833c5c04d6eb007', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, index.h("fieldset", { key: '22e510da347af156ed5e440dce1adfd4649320b3', class: "mt-lg-0 mr-1 " }, index.h("igl-date-range", { key: '5464a3acac49e2828bdd82ee7b84ce34507f99ed', variant: "booking", dateLabel: locales_store.locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? moment.hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), index.h("p", { key: 'f8469cb724794d1716b89b58817698e8ddd03f2d', class: "text-right mt-1 message-label" }, calendarData.calendar_data.tax_statement)));
     }
 };
 IglBookPropertyHeader.style = IglBookPropertyHeaderStyle0;
@@ -1425,7 +1426,7 @@ const IglBookingForm = class {
     }
     render() {
         var _a;
-        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && utils.hooks(new Date((_a = this.dateRangeData) === null || _a === void 0 ? void 0 : _a.fromDate)).isSame(new Date(), 'day');
+        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && moment.hooks(new Date((_a = this.dateRangeData) === null || _a === void 0 ? void 0 : _a.fromDate)).isSame(new Date(), 'day');
         return (index.h(index.Host, { key: '12df69527af5060078b7d2fcd0be3377b23115da' }, index.h("div", { key: 'c2d4c42fa95ecfb7670a45d122a3625c5f87ad35', class: "d-flex flex-wrap" }, index.h("ir-date-view", { key: '72f398b82b8f4b826b87c5a02579c899da9a71e9', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (index.h("div", { key: 'ca7c6f54f93992e295ef74781abc4ba689c2f3d7', class: "mt-1 mt-md-0 text-right" }, locales_store.locales.entries.Lcz_TotalPrice, " ", index.h("span", { key: '47e9d07747a3d15bc59a909f02c282317eb0d9d3', class: "font-weight-bold font-medium-1" }, utils.formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_service.booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
@@ -1462,8 +1463,8 @@ const IglBookingOverviewPage = class {
         if (!this.isEventType('EDIT_BOOKING')) {
             return;
         }
-        const from_date = utils.hooks(this.bookingData.FROM_DATE, 'YYYY-MM-DD');
-        const today = utils.hooks();
+        const from_date = moment.hooks(this.bookingData.FROM_DATE, 'YYYY-MM-DD');
+        const today = moment.hooks();
         if (from_date.isAfter(today)) {
             return today.add(-2, 'weeks').format('YYYY-MM-DD');
         }

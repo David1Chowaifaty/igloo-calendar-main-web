@@ -160,16 +160,16 @@ export class IrHkTasks {
         }
     }
     async fetchTasksWithFilters() {
-        console.log(this.filters);
-        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = this.filters;
+        var _a;
+        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
         const tasks = await this.houseKeepingService.getHkTasks({
             housekeepers,
-            cleaning_frequencies: cleaning_frequencies.code,
-            dusty_units: dusty_units.code,
-            highlight_window: highlight_check_ins.code,
+            cleaning_frequencies: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
+            dusty_units: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
+            highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
             property_id: this.property_id,
             from_date: moment().format('YYYY-MM-DD'),
-            to_date: cleaning_periods.code,
+            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment().format('YYYY-MM-DD'),
         });
         if (tasks) {
             this.updateTasks(tasks);
@@ -189,7 +189,7 @@ export class IrHkTasks {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
-            }, showCloseButton: false }, h("ir-hk-archive", { slot: "sidebar-body" }))));
+            }, showCloseButton: false }, this.isSidebarOpen && h("ir-hk-archive", { propertyId: this.property_id, slot: "sidebar-body" }))));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }

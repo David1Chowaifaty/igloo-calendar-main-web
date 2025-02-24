@@ -4,7 +4,7 @@ export class IrIcon {
         this.icon = 'ft-check';
     }
     render() {
-        return (h("button", { key: 'a740d9ab2ceb31eb7aa0d6f945a39cd676d4bcc3', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '59c721a51836c9d1eee03f931c9fab6cb4e19a00', name: "icon" })));
+        return (h("button", { key: 'd64ce3c491b847e9a8790224415088322dd81101', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '0e10404beb2eb691ad7161e88a1ba693b1c97e57', name: "icon" })));
     }
     static get is() { return "ir-icon"; }
     static get encapsulation() { return "scoped"; }

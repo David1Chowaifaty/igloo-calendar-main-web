@@ -1,22 +1,25 @@
+import { ArchivedTask } from "../../../../models/housekeeping";
+export type ArchivesFilters = {
+    from_date: string;
+    to_date: string;
+    filtered_by_hkm?: number[];
+    filtered_by_unit?: number[];
+};
 export declare class IrHkArchive {
-    selectedDates: {
-        start: string;
-        end: string;
-    };
-    data: {
-        id: number;
-        date: string;
-        hk_id: number;
-        housekeeper: string;
-        unit: {
-            id: number;
-            name: string;
-        };
-        booking_nbr: number;
-    }[];
+    propertyId: string | number;
+    filters: ArchivesFilters;
+    data: (ArchivedTask & {
+        id: string;
+    })[];
+    isLoading: 'search' | 'excel' | null;
+    private houseKeepingService;
+    private units;
     componentWillLoad(): void;
-    initializeData(): Promise<void>;
+    private setUpUnits;
+    private initializeData;
+    private getArchivedTasks;
     handleDateRangeChange(e: CustomEvent): void;
+    private updateFilters;
     searchArchive(e: CustomEvent): Promise<void>;
     exportArchive(e: CustomEvent): Promise<void>;
     render(): any;

@@ -3,12 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
-const toBeAssigned_service = require('./toBeAssigned.service-d5102311.js');
+const toBeAssigned_service = require('./toBeAssigned.service-7b957bdb.js');
 const locales_store = require('./locales.store-7abd65bc.js');
 const calendarData = require('./calendar-data-cd8e8374.js');
-const utils = require('./utils-e0a83322.js');
+const moment = require('./moment-1780b03a.js');
 const v4 = require('./v4-9b297151.js');
 require('./axios-6e678d52.js');
+require('./utils-b07b7e84.js');
 require('./index-3cfd4bf8.js');
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}";
@@ -140,7 +141,7 @@ const IglTbaBookingView = class {
         if (!calendarData.calendar_data.checkin_enabled) {
             return false;
         }
-        if (utils.hooks(new Date()).isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && utils.hooks(new Date()).isBefore(new Date(this.eventData.TO_DATE), 'days')) {
+        if (moment.hooks(new Date()).isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && moment.hooks(new Date()).isBefore(new Date(this.eventData.TO_DATE), 'days')) {
             return true;
         }
         return false;

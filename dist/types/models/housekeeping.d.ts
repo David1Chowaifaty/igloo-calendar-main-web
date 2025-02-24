@@ -99,6 +99,12 @@ export interface IPendingActions {
     status: IHKStatuses;
     unit: IUnit;
 }
+export interface ArchivedTask {
+    booking_nbr: string;
+    date: string;
+    house_keeper: string;
+    unit: string;
+}
 export interface Task {
     id: string;
     adult: number;

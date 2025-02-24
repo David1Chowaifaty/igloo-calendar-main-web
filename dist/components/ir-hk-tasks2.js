@@ -6,12 +6,10 @@ import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$j } from './igl-date-range2.js';
-import { d as defineCustomElement$i } from './ir-button2.js';
-import { d as defineCustomElement$h } from './ir-checkbox2.js';
-import { d as defineCustomElement$g } from './ir-date-picker2.js';
-import { d as defineCustomElement$f } from './ir-date-range2.js';
-import { d as defineCustomElement$e } from './ir-date-view2.js';
+import { d as defineCustomElement$h } from './igl-date-range2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$f } from './ir-checkbox2.js';
+import { d as defineCustomElement$e } from './ir-date-range2.js';
 import { d as defineCustomElement$d } from './ir-hk-archive2.js';
 import { d as defineCustomElement$c } from './ir-icon2.js';
 import { d as defineCustomElement$b } from './ir-icons2.js';
@@ -186,16 +184,16 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         }
     }
     async fetchTasksWithFilters() {
-        console.log(this.filters);
-        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = this.filters;
+        var _a;
+        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
         const tasks = await this.houseKeepingService.getHkTasks({
             housekeepers,
-            cleaning_frequencies: cleaning_frequencies.code,
-            dusty_units: dusty_units.code,
-            highlight_window: highlight_check_ins.code,
+            cleaning_frequencies: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
+            dusty_units: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
+            highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
             property_id: this.property_id,
             from_date: hooks().format('YYYY-MM-DD'),
-            to_date: cleaning_periods.code,
+            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || hooks().format('YYYY-MM-DD'),
         });
         if (tasks) {
             this.updateTasks(tasks);
@@ -215,7 +213,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
-            }, showCloseButton: false }, h("ir-hk-archive", { slot: "sidebar-body" }))));
+            }, showCloseButton: false }, this.isSidebarOpen && h("ir-hk-archive", { propertyId: this.property_id, slot: "sidebar-body" }))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -245,7 +243,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-hk-archive", "ir-icon", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-sidebar", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-title", "ir-toast"];
+    const components = ["ir-hk-tasks", "igl-date-range", "ir-button", "ir-checkbox", "ir-date-range", "ir-hk-archive", "ir-icon", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-select", "ir-sidebar", "ir-tasks-filters", "ir-tasks-header", "ir-tasks-table", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-tasks":
             if (!customElements.get(tagName)) {
@@ -254,30 +252,20 @@ function defineCustomElement() {
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$h();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$g();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
-            }
-            break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$g();
-            }
-            break;
-        case "ir-date-range":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-date-view":
+        case "ir-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
