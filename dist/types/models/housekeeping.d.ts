@@ -112,6 +112,7 @@ export interface Task {
     status: TaskStatus;
     unit: IUnit;
     housekeeper: string;
+    booking_nbr: string | null;
 }
 export type TaskStatus = {
     code: string;

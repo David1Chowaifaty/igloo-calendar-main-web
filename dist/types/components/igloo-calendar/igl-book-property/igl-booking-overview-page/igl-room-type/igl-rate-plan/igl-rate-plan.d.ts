@@ -15,7 +15,7 @@ export declare class IglRatePlan {
     bookingType: string;
     isBookDisabled: boolean;
     visibleInventory: IRatePlanSelection;
-    gotoSplitPageTwoEvent: EventEmitter<{
+    buttonClicked: EventEmitter<{
         [key: string]: any;
     }>;
     private disableForm;

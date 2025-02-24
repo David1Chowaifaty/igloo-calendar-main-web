@@ -3744,7 +3744,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         if (this.required && !this.initial) {
             className = `${className} border-danger`;
         }
-        return (h("div", { class: "form-group" }, h("div", { class: "input-group row m-0" }, label, h("input", { "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
+        return (h("div", { class: "form-group" }, h("div", { class: "input-group row m-0" }, label, h("input", { style: this.inputForcedStyle, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                 this.inputFocused = true;
                 this.inputFocus.emit(e);
             }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));
@@ -3783,6 +3783,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         "autoValidate": [4, "auto-validate"],
         "zod": [16],
         "wrapKey": [1, "wrap-key"],
+        "inputForcedStyle": [16],
         "initial": [32],
         "inputFocused": [32],
         "isError": [32]

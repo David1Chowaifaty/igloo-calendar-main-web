@@ -262,7 +262,7 @@ export class IglCalBody {
     render() {
         var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'dc3e463844d4f7e83a82816b7449ee66022ca137' }, h("div", { key: '6b6b5261c081d2f37f24425db70a66fc8cc32abe', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39ccb6ae207e5241f45927825150e301d75fa5b2', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: '2e25adbda38b3b827876aeb3daa79afc9ed77db4', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
+        return (h(Host, { key: 'dc3e463844d4f7e83a82816b7449ee66022ca137' }, h("div", { key: '6b6b5261c081d2f37f24425db70a66fc8cc32abe', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '39ccb6ae207e5241f45927825150e301d75fa5b2', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: '86f442657f59da102e42c7d91fc7d9ffbfaf2b8b', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
                 var _a, _b;
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -282,6 +282,7 @@ export class IglCalBody {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
+                this.hkModal.closeModal();
             } })));
     }
     renderModalBody() {

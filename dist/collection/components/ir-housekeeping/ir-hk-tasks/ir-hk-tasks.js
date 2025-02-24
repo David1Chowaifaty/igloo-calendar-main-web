@@ -134,7 +134,7 @@ export class IrHkTasks {
                 return;
             }
             await this.houseKeepingService.executeHKAction({
-                actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id })),
+                actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
             await this.fetchTasksWithFilters();
         }

@@ -53,6 +53,10 @@ export declare class IrInputText {
     zod?: ZodType<any, any>;
     /** Key to wrap the value (e.g., 'price' or 'cost') */
     wrapKey?: string;
+    /** Forcing css style to the input */
+    inputForcedStyle?: {
+        [key: string]: string;
+    };
     initial: boolean;
     inputFocused: boolean;
     isError: boolean;
