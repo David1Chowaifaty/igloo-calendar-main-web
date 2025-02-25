@@ -134,7 +134,7 @@ const IrInputText = class {
     }
     render() {
         if (this.variant === 'icon') {
-            return (index.h("fieldset", { class: "position-relative has-icon-left input-container" }, index.h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, index.h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, index.h("slot", { name: "icon" }))), index.h("input", { "data-state": !!this.value ? '' : this.mask ? 'empty' : '', ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
+            return (index.h("fieldset", { class: "position-relative has-icon-left input-container" }, index.h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, index.h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, index.h("slot", { name: "icon" }))), index.h("input", { "data-testid": this.testId, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
                     this.inputFocused = true;
                     this.inputFocus.emit(e);
                 }, required: this.required, onBlur: this.handleBlur.bind(this), disabled: this.disabled, class: `ir-input form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: this.id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
@@ -150,7 +150,7 @@ const IrInputText = class {
         if (this.required && !this.initial) {
             className = `${className} border-danger`;
         }
-        return (index.h("div", { class: "form-group" }, index.h("div", { class: "input-group row m-0" }, label, index.h("input", { style: this.inputForcedStyle, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
+        return (index.h("div", { class: "form-group" }, index.h("div", { class: "input-group row m-0" }, label, index.h("input", { "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                 this.inputFocused = true;
                 this.inputFocus.emit(e);
             }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));

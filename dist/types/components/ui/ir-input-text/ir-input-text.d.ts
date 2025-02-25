@@ -57,6 +57,8 @@ export declare class IrInputText {
     inputForcedStyle?: {
         [key: string]: string;
     };
+    /** Input id for testing purposes*/
+    testId: string;
     initial: boolean;
     inputFocused: boolean;
     isError: boolean;

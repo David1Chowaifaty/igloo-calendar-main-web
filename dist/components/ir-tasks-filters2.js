@@ -16,9 +16,7 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
             cleaning_periods: {
                 code: '',
             },
-            housekeepers: {
-                ids: [],
-            },
+            housekeepers: '000',
             cleaning_frequencies: { code: '' },
             dusty_units: { code: '' },
             highlight_check_ins: { code: '' },
@@ -34,7 +32,7 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
             dusty_units: (_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.dusty_periods[0],
             highlight_check_ins: (_e = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _e === void 0 ? void 0 : _e.highlight_checkin_options[0],
         };
-        this.filters = Object.assign({}, this.baseFilters);
+        this.filters = Object.assign(Object.assign({}, this.baseFilters), { housekeepers: '000' });
     }
     updateFilter(params) {
         this.filters = Object.assign(Object.assign({}, this.filters), params);
@@ -42,55 +40,58 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
     applyFiltersEvt(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.applyFilters.emit(this.filters);
+        this.applyFilters.emit(Object.assign(Object.assign({}, this.filters), { housekeepers: {
+                ids: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers.ids : [Number(this.filters.housekeepers)],
+            } }));
     }
     resetFilters(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.filters = Object.assign({}, this.baseFilters);
-        this.applyFilters.emit(this.filters);
+        this.filters = Object.assign(Object.assign({}, this.baseFilters), { housekeepers: '000' });
+        this.applyFilters.emit(Object.assign(Object.assign({}, this.filters), { housekeepers: {
+                ids: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers.ids : [Number(this.filters.housekeepers)],
+            } }));
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
-        return (h("div", { key: '0ab43eb17ea5044643fa26c5f38dbdb3bdec2cbc', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: 'eb1602381b1a0c0592f8a566c1602461b9af3e70', class: "d-flex align-items-center justify-content-between" }, h("div", { key: '9399faadd850f3bdf2ba0540f200846905f60050', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '9334fcfa03a8cc031b285d400da37500035e693e', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '67cf103696b99d01c2bedbdd5e69f6e816845491', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: 'e471386eedc5bd07a4c11ecc5c7feb05a134841d', class: "m-0 p-0 flex-grow-1" }, "Filters")), h("ir-button", { key: 'bea4ff677eb2243bcb1eb99897bce6be6439a6cf', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+        return (h("div", { key: '0ec313724c0e62ea7a3d96e7019bcedeed15afb9', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: '0117be01e984859e80138b77059627b84c292ecf', class: "d-flex align-items-center justify-content-between" }, h("div", { key: '8af4853a39ec66255d1530d70886df1cd25a64ab', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '4a28078d74691942d42df46a717ca3f529a61b72', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '7c690e4480236e523af962b00cb1d7146bebd116', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '93edd37e61bf45d9a98389416d636c18e53408ce', class: "m-0 p-0 flex-grow-1" }, "Filters")), h("ir-button", { key: '1ae51cef2cb767f3e4560aa2d00c2479fcc9ff24', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '61bb78025e3b420132c31484768ad3cd62c892fa', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, h("div", { key: '32963c826f7ddb25e1d0afde01c19ab08dfde307', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '6b60a4303ab726c6ab7f8af444db2cacd211d574', class: "pt-1" }, h("p", { key: '1cd81ad57e0b696774ff5d5bdfc0a201e51f1ff8', class: "m-0 p-0" }, "Period"), h("ir-select", { key: '3c6ac5b7e73ba08e680fc5137409a2181f617db3', selectedValue: (_b = (_a = this.filters) === null || _a === void 0 ? void 0 : _a.cleaning_periods) === null || _b === void 0 ? void 0 : _b.code, LabelAvailable: false, showFirstOption: false, data: (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_periods.map(v => ({
+            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '8d19ad7af48f1203c1e15bc712f7c7573a1ec2a4', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, h("div", { key: 'dc35675a83a9c33e531fdc433a8a88e82f5d7325', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: 'c4879b1de11434c421b0351c6308078c27cd1350', class: "pt-1" }, h("p", { key: '48e1694eb79c8e32e132e74be9dbf109b2b21e4f', class: "m-0 p-0" }, "Period"), h("ir-select", { key: 'ba4ddb3d5599135a2adc5598b7fa1e095d52712d', testId: "period", selectedValue: (_b = (_a = this.filters) === null || _a === void 0 ? void 0 : _a.cleaning_periods) === null || _b === void 0 ? void 0 : _b.code, LabelAvailable: false, showFirstOption: false, data: (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_periods.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 this.updateFilter({ cleaning_periods: { code: e.detail } });
-            } })), h("fieldset", { key: '5b1895c331210a54a3dd250f1310ace91484ea3e' }, h("p", { key: '4adc903639e33a90d5e1fef57b46e81af504b713', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: '78fbc5fd97262f8b2d5ff60f95764f5996a6e34c', selectedValue: ((_e = (_d = this.filters) === null || _d === void 0 ? void 0 : _d.housekeepers) === null || _e === void 0 ? void 0 : _e.ids.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_g = (_f = this.filters) === null || _f === void 0 ? void 0 : _f.housekeepers) === null || _g === void 0 ? void 0 : _g.ids[0].toString(), LabelAvailable: false, showFirstOption: false, data: [
+            } })), h("fieldset", { key: '32b9ac3e46318181cd55b3e4cdd169c77aa5c594' }, h("p", { key: '639a791d9166070b8bef3ddab5de700ca2ee9ea7', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: '8562ea39145cec38cae70ebc0fde622657d213be', testId: "housekeepers", selectedValue: (_d = this.filters) === null || _d === void 0 ? void 0 : _d.housekeepers, LabelAvailable: false, showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
-                ...(_h = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _h === void 0 ? void 0 : _h.housekeepers.map(v => ({
+                ...(_e = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _e === void 0 ? void 0 : _e.housekeepers.map(v => ({
                     text: v.name,
                     value: v.id.toString(),
                 })),
             ], onSelectChange: e => {
-                var _a, _b;
-                if (e.detail === '000') {
-                    this.updateFilter({ housekeepers: { ids: (_b = (_a = this.baseFilters) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.ids } });
-                }
-                else {
-                    this.updateFilter({ housekeepers: { ids: [e.detail] } });
-                }
-            } })), h("fieldset", { key: '6ecf776f5d4b7b781a5e2d6669fe1e65b063802f' }, h("p", { key: '77871f09f24f97ff5890582fd3ba31ae02ec4353', class: "m-0 p-0" }, "Cleaning frequency"), h("ir-select", { key: '85acf32bacb79792f51c3e02b1d9f06f21eda32b', selectedValue: (_k = (_j = this.filters) === null || _j === void 0 ? void 0 : _j.cleaning_frequencies) === null || _k === void 0 ? void 0 : _k.code, LabelAvailable: false, showFirstOption: false, data: (_l = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _l === void 0 ? void 0 : _l.cleaning_frequencies.map(v => ({
+                // if (e.detail === '000') {
+                //   this.updateFilter({ housekeepers: { ids: this.baseFilters?.housekeepers?.ids } });
+                // } else {
+                //   this.updateFilter({ housekeepers: { ids: [e.detail] } });
+                // }
+                this.updateFilter({ housekeepers: e.detail });
+            } })), h("fieldset", { key: '3c5fe437940c618b60fafb4b33fd66530207cfa4' }, h("p", { key: '0c11529ca2dbb44d78f88ddc6ca48186fac1994b', class: "m-0 p-0" }, "Cleaning frequency"), h("ir-select", { key: '18f036eb471ea6146c29aaa5892245c334fa1ccc', testId: "cleaning_frequency", selectedValue: (_g = (_f = this.filters) === null || _f === void 0 ? void 0 : _f.cleaning_frequencies) === null || _g === void 0 ? void 0 : _g.code, LabelAvailable: false, showFirstOption: false, data: (_h = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _h === void 0 ? void 0 : _h.cleaning_frequencies.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 this.updateFilter({ cleaning_frequencies: { code: e.detail } });
-            } })), h("fieldset", { key: '215b34c96ab6ad5c6c73902bf0aa7b6896a2b3ba' }, h("p", { key: '589af6173a26da7a89750dfabfe284a666ffe2d7', class: "m-0 p-0" }, "Dusty units"), h("ir-select", { key: 'bc165763d8c246eaa98b00bee28d851d7e2ce9d3', showFirstOption: false, LabelAvailable: false, data: (_o = (_m = housekeeping_store.hk_criteria) === null || _m === void 0 ? void 0 : _m.dusty_periods) === null || _o === void 0 ? void 0 : _o.map(v => ({
+            } })), h("fieldset", { key: 'a99c67293a2c7b27dee45a1efcc32f37d2e0f2f5' }, h("p", { key: 'ac2c85ced416e3c4deea32f80bc533a0212e1e83', class: "m-0 p-0" }, "Dusty units"), h("ir-select", { key: '7c3f89b1e396ba986e1c552cc05978ec7cc9e3d1', testId: "dusty_units", showFirstOption: false, LabelAvailable: false, selectedValue: (_k = (_j = this.filters) === null || _j === void 0 ? void 0 : _j.dusty_units) === null || _k === void 0 ? void 0 : _k.code, data: (_m = (_l = housekeeping_store.hk_criteria) === null || _l === void 0 ? void 0 : _l.dusty_periods) === null || _m === void 0 ? void 0 : _m.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ dusty_units: { code: e.detail } });
-            } })), h("fieldset", { key: '99a2999710db6e6f0cfcb348a91a09cd9efc51f4', class: "mb-1" }, h("p", { key: '54e6871b20061b6046ff4fbfde7bd204dc8dca9d', class: "m-0 p-0" }, "Highlight check-ins"), h("ir-select", { key: '0c6fb939e4134364a3a3dec082bec3e1510ddbc8', selectedValue: (_q = (_p = this.filters) === null || _p === void 0 ? void 0 : _p.highlight_check_ins) === null || _q === void 0 ? void 0 : _q.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+            } })), h("fieldset", { key: 'c6bd557041f372c8d995547ae3fb5b32db3bc381', class: "mb-1" }, h("p", { key: '1a5a2beefcacb1c5ae894b9a0b4f97284dc1555c', class: "m-0 p-0" }, "Highlight check-ins"), h("ir-select", { key: 'e0538b0ed68b33cfb54efd0dd9d9201eae17ef86', testId: "highlight_check_ins", selectedValue: (_p = (_o = this.filters) === null || _o === void 0 ? void 0 : _o.highlight_check_ins) === null || _p === void 0 ? void 0 : _p.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
                 this.updateFilter({ highlight_check_ins: { code: e.detail } });
-            }, data: (_s = (_r = housekeeping_store.hk_criteria) === null || _r === void 0 ? void 0 : _r.highlight_checkin_options) === null || _s === void 0 ? void 0 : _s.map(v => ({
+            }, data: (_r = (_q = housekeeping_store.hk_criteria) === null || _q === void 0 ? void 0 : _q.highlight_checkin_options) === null || _r === void 0 ? void 0 : _r.map(v => ({
                 text: v.description,
                 value: v.code,
-            })) })), h("div", { key: 'd3515ace3b9e39bc36acf6b0fd4c4394917ccbc8', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'd34fa4c4d73d508db73ff494487c0c6137e2a530', btn_type: "button", text: "Reset", size: "sm", btn_color: "outline", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '25da376cac7e3f2acff20577678f2c81d78c79f6', btn_type: "button", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+            })) })), h("div", { key: '18e0e2a0822388e7fd9578df5a8ad9387657604c', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'b1758b4fa3ec6c6604674f3916875f29f4256339', btn_type: "button", "data-testid": "reset", text: "Reset", size: "sm", btn_color: "outline", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '01f4f0b94103cee574a3b88989a36573e6191777', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
     static get style() { return IrTasksFiltersStyle0; }
 }, [2, "ir-tasks-filters", {
