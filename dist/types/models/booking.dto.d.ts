@@ -270,8 +270,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     description?: string;
-    booking_system_id?: number;
     cost?: number;
+    booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
     price?: number;
@@ -279,8 +279,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     system_id?: number;
 }, {
     description?: string;
-    booking_system_id?: number;
     cost?: number;
+    booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
     price?: number;

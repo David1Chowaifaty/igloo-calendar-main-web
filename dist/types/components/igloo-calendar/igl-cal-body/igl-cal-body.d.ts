@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { PhysicalRoom, RoomType } from "../../../models/booking.dto";
+import { ICountry } from "../../../models/IBooking";
 export type RoomCategory = RoomType & {
     expanded: boolean;
 };
@@ -12,7 +13,7 @@ export declare class IglCalBody {
     today: String;
     currency: any;
     language: string;
-    countryNodeList: any;
+    countries: ICountry[];
     highlightedDate: string;
     dragOverElement: string;
     renderAgain: boolean;

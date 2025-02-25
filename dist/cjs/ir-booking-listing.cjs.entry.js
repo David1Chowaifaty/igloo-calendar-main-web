@@ -9,7 +9,7 @@ const locales_store = require('./locales.store-7abd65bc.js');
 const utils = require('./utils-b07b7e84.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const booking = require('./booking-b7e12404.js');
+const booking = require('./booking-cd01c1ff.js');
 const Token = require('./Token-049041c2.js');
 const calendarData = require('./calendar-data-cd8e8374.js');
 require('./index-3cfd4bf8.js');

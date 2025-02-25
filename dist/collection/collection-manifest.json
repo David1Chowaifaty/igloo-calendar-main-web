@@ -1,8 +1,8 @@
 {
   "entries": [
+    "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
     "components/igl-book-property-container/igl-book-property-container.js",
-    "components/igloo-calendar/igloo-calendar.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
     "components/igloo-calendar/igl-book-property/igl-book-property.js",
     "components/igloo-calendar/igl-book-property/igl-book-property-footer/igl-book-property-footer.js",

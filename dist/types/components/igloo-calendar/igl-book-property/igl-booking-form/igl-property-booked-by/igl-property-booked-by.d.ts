@@ -10,7 +10,7 @@ export declare class IglPropertyBookedBy {
     dataUpdateEvent: EventEmitter<{
         [key: string]: any;
     }>;
-    countryNodeList: ICountry[];
+    countries: ICountry[];
     propertyId: number;
     isButtonPressed: boolean;
     private bookingService;

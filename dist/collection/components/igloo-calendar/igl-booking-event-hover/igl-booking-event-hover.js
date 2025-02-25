@@ -65,13 +65,13 @@ export class IglBookingEventHover {
         return this.bookingEvent.PHONE;
     }
     getCountry() {
-        return findCountry(this.bookingEvent.COUNTRY, this.countryNodeList).name;
+        return findCountry(this.bookingEvent.COUNTRY, this.countries).name;
     }
     getPhoneCode() {
         if (this.bookingEvent.PHONE_PREFIX) {
             return this.bookingEvent.PHONE_PREFIX;
         }
-        return findCountry(this.bookingEvent.COUNTRY, this.countryNodeList).phone_prefix;
+        return findCountry(this.bookingEvent.COUNTRY, this.countries).phone_prefix;
     }
     renderPhone() {
         return this.bookingEvent.COUNTRY ? `${this.bookingEvent.is_direct ? this.getPhoneCode() + '-' : ''}${this.getPhoneNumber()} - ${this.getCountry()}` : this.getPhoneNumber();
@@ -183,7 +183,23 @@ export class IglBookingEventHover {
         this.handleBookingOption('ADD_ROOM', eventData);
     }
     handleCustomerCheckIn() {
-        this.showDialog.emit({ reason: 'checkin', bookingNumber: this.bookingEvent.BOOKING_NUMBER, roomIdentifier: this.bookingEvent.IDENTIFIER, roomName: '', roomUnit: '' });
+        var _a, _b;
+        const { adult_nbr, children_nbr, infant_nbr } = this.bookingEvent.ROOM_INFO.occupancy;
+        this.showDialog.emit({
+            reason: 'checkin',
+            bookingNumber: this.bookingEvent.BOOKING_NUMBER,
+            roomIdentifier: this.bookingEvent.IDENTIFIER,
+            roomName: '',
+            roomUnit: '',
+            sidebarPayload: {
+                identifier: this.bookingEvent.IDENTIFIER,
+                bookingNumber: this.bookingEvent.BOOKING_NUMBER,
+                checkin: false,
+                roomName: (_b = (_a = this.bookingEvent.ROOM_INFO.unit) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : '',
+                sharing_persons: this.bookingEvent.ROOM_INFO.sharing_persons,
+                totalGuests: adult_nbr + children_nbr + infant_nbr,
+            },
+        });
     }
     handleCustomerCheckOut() {
         this.showDialog.emit({ reason: 'checkout', bookingNumber: this.bookingEvent.BOOKING_NUMBER, roomIdentifier: this.bookingEvent.IDENTIFIER, roomName: '', roomUnit: '' });
@@ -363,7 +379,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: '5b48e600516d7f92d93d2a24191a5182b8b8b6ac' }, h("div", { key: '3e0304f0c57cfcf9ca494c2d954c0871c02e27f3', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'f5c0e936a30b180ee4e43e31720482705b666070', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '4ee7f157387fc59931bcdf1aadc5530ba35d77d1' }, h("div", { key: '37a52f861a2b528bf99b4308c25279f7ea40212f', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'd46abe0affdba84900faa7ffc6c35be0b47e4193', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
@@ -435,7 +451,7 @@ export class IglBookingEventHover {
                 "attribute": "currency",
                 "reflect": false
             },
-            "countryNodeList": {
+            "countries": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
@@ -560,7 +576,7 @@ export class IglBookingEventHover {
                 },
                 "complexType": {
                     "original": "CalendarModalEvent",
-                    "resolved": "{ reason: \"checkin\" | \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload",
+                    "resolved": "{ reason: \"checkin\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; sidebarPayload: RoomGuestsPayload & { bookingNumber: string; }; } | { reason: \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload",
                     "references": {
                         "CalendarModalEvent": {
                             "location": "import",

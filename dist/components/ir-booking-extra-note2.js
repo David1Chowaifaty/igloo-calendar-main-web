@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
 import { B as BookingService } from './booking.service.js';
-import { e as getPrivateNote } from './booking.js';
+import { f as getPrivateNote } from './booking.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-icon2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
@@ -67,10 +67,10 @@ const IrBookingExtraNote = /*@__PURE__*/ proxyCustomElement(class IrBookingExtra
         }
     }
     render() {
-        return (h(Host, { key: '55765277d086b87bd1a3f1395149d117aceff8f7', class: 'px-0' }, h("ir-title", { key: '2e2f2adee4d507c1112df700cc170a517f4a2468', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("form", { key: '6a2c5b3223bdb0c1433b72ba5ab2fc328d2b7c97', class: 'px-1', onSubmit: e => {
+        return (h(Host, { key: 'cf5bac068f25478958a805e1f2b04c662b1047dd', class: 'px-0' }, h("ir-title", { key: '68d72cdc4970555d93e2f7756f6db9daa6d9918d', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("form", { key: '219fc23138c3633794eec9e14a61d8c8c05a656c', class: 'px-1', onSubmit: e => {
                 e.preventDefault();
                 this.savePrivateNote();
-            } }, h("ir-textarea", { key: '0e6d6e916698462ed018ef73bebe7659aa66ffdf', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: 'b0ba7c92ef87266846445748ab63e9a4ec84714a', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: 'aff53e1975d8b17689fd2eec71ad876d11844f8b', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '7d512db7bf4e447211bba3b3b5f5b9dd1723401d', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
+            } }, h("ir-textarea", { key: '3e683c4cd4eb68e0f16c8e94a70c9bc4081882d4', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: '2ef8aa41170e0ba37726b0fa3460ebf66f2e8bc0', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: 'd71bf759ebb65ab3f65b1a012dc46293b26134c6', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '490208d87ac5c6f4d7ee24a0943b721d6f09d204', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
     static get style() { return IrBookingExtraNoteStyle0; }
 }, [2, "ir-booking-extra-note", {

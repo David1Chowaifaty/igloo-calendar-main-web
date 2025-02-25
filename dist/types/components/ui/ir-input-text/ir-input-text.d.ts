@@ -59,6 +59,8 @@ export declare class IrInputText {
     };
     /** Input id for testing purposes*/
     testId: string;
+    /** Input max character length*/
+    maxLength: number;
     initial: boolean;
     inputFocused: boolean;
     isError: boolean;

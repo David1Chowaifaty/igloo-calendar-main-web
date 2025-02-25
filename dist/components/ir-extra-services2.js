@@ -15,7 +15,7 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
     }
     render() {
         var _a;
-        return (h(Host, { key: '5d5b4b8c096eeb6a5e23574117ab175ce795b2c1', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
+        return (h(Host, { key: '4c328124a8e958b35b0bd5287ec447e4006b6471', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
     static get style() { return IrExtraServicesStyle0; }
 }, [2, "ir-extra-services", {

@@ -18,6 +18,10 @@ export interface UnitHkStatusChangePayload {
     My_Room_category: null;
     My_Hkm: null;
 }
+export type CalendarSidebarState = {
+    type: 'room-guests' | 'booking-details' | 'add-days';
+    payload: any;
+};
 export declare class IglooCalendar {
     propertyid: number;
     from_date: string;
@@ -57,6 +61,7 @@ export declare class IglooCalendar {
         to: string;
     };
     isAuthenticated: boolean;
+    calendarSidebarState: CalendarSidebarState;
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
     calculateUnassignedDates: EventEmitter;
@@ -65,11 +70,12 @@ export declare class IglooCalendar {
         toDate: string;
     }>;
     revertBooking: EventEmitter;
+    openCalendarSidebar: EventEmitter<CalendarSidebarState>;
     private bookingService;
     private roomService;
     private eventsService;
     private toBeAssignedService;
-    private countryNodeList;
+    private countries;
     private visibleCalendarCells;
     private scrollContainer;
     private today;
@@ -81,6 +87,7 @@ export declare class IglooCalendar {
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
+    handleCalendarSidbarEvents(ev: CustomEvent): Promise<void>;
     scrollPageToRoom(event: CustomEvent): void;
     handleShowDialog(event: CustomEvent): void;
     handleShowRoomNightsDialog(event: CustomEvent<IRoomNightsData>): void;

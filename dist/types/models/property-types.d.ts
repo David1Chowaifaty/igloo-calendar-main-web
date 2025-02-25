@@ -1,3 +1,4 @@
+import { RoomGuestsPayload } from "../components/ir-booking-details/types";
 export interface IRoomService {
     calendar_legends: CalendarLegend[];
     currency: Currency;
@@ -62,7 +63,16 @@ export interface IRoomNightsData {
 export type CalendarModalReason = 'checkin' | 'checkout' | 'reallocate' | null;
 export type CalendarModalEvent = CheckinCheckoutEventPayload | ReallocateEventPayload;
 type CheckinCheckoutEventPayload = {
-    reason: 'checkin' | 'checkout';
+    reason: 'checkin';
+    bookingNumber: string;
+    roomIdentifier: string;
+    roomUnit: string;
+    roomName: string;
+    sidebarPayload: RoomGuestsPayload & {
+        bookingNumber: string;
+    };
+} | {
+    reason: 'checkout';
     bookingNumber: string;
     roomIdentifier: string;
     roomUnit: string;

@@ -8,7 +8,7 @@ export declare class IglBookingEventHover {
     };
     bubbleInfoTop: boolean;
     currency: any;
-    countryNodeList: ICountry[];
+    countries: ICountry[];
     is_vacation_rental: boolean;
     isLoading: string;
     shouldHideUnassignUnit: boolean;
