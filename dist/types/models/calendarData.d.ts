@@ -1,6 +1,7 @@
 import { ICountry, RoomDetail, STATUS } from './IBooking';
 import { TAdultChildConstraints } from './igl-book-property';
 export interface CalendarDataDetails {
+    is_automatic_check_in_out: boolean;
     adultChildConstraints: TAdultChildConstraints;
     allowedBookingSources: IAllowedBookingSources[];
     currency: IPickupCurrency;

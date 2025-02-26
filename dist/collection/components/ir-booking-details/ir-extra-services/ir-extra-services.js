@@ -2,7 +2,7 @@ import { Fragment, Host, h } from "@stencil/core";
 export class IrExtraServices {
     render() {
         var _a;
-        return (h(Host, { key: '987a62c9a43284566841257739eb4293d75d6083', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
+        return (h(Host, { key: '76f0e7236b024fde2aa3fb945b45b067202308b7', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
     static get is() { return "ir-extra-services"; }
     static get encapsulation() { return "scoped"; }
@@ -23,7 +23,7 @@ export class IrExtraServices {
                 "mutable": false,
                 "complexType": {
                     "original": "Pick<Booking, 'currency' | 'extra_services' | 'booking_nbr'>",
-                    "resolved": "{ currency: Currency; booking_nbr: string; extra_services: { description?: string; booking_system_id?: number; cost?: number; currency_id?: number; end_date?: string; price?: number; start_date?: string; system_id?: number; }[]; }",
+                    "resolved": "{ currency: Currency; booking_nbr: string; extra_services: { description?: string; cost?: number; booking_system_id?: number; currency_id?: number; end_date?: string; price?: number; start_date?: string; system_id?: number; }[]; }",
                     "references": {
                         "Pick": {
                             "location": "global",

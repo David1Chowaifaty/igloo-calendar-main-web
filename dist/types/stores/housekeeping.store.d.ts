@@ -7,7 +7,10 @@ export interface IHouseKeepingStore {
         language: string;
     };
     hk_tasks: IHKTasks;
-    pending_housekeepers: IPendingActions[];
+    pending_housekeepers: {
+        original: IPendingActions;
+        selected?: boolean;
+    }[];
 }
 export declare const housekeeping_store: IHouseKeepingStore;
 export declare function updateHKStore(key: keyof IHouseKeepingStore, value: any): void;

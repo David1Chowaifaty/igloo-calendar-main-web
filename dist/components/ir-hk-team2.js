@@ -1,21 +1,23 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { h as housekeeping_store } from './housekeeping.service.js';
+import { h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$d } from './ir-button2.js';
-import { d as defineCustomElement$c } from './ir-combobox2.js';
-import { d as defineCustomElement$b } from './ir-delete-modal2.js';
-import { d as defineCustomElement$a } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$9 } from './ir-hk-user2.js';
-import { d as defineCustomElement$8 } from './ir-icon2.js';
-import { d as defineCustomElement$7 } from './ir-icons2.js';
-import { d as defineCustomElement$6 } from './ir-input-text2.js';
-import { d as defineCustomElement$5 } from './ir-phone-input2.js';
-import { d as defineCustomElement$4 } from './ir-select2.js';
-import { d as defineCustomElement$3 } from './ir-sidebar2.js';
-import { d as defineCustomElement$2 } from './ir-switch2.js';
+import { d as defineCustomElement$f } from './ir-button2.js';
+import { d as defineCustomElement$e } from './ir-combobox2.js';
+import { d as defineCustomElement$d } from './ir-delete-modal2.js';
+import { d as defineCustomElement$c } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$b } from './ir-hk-user2.js';
+import { d as defineCustomElement$a } from './ir-icon2.js';
+import { d as defineCustomElement$9 } from './ir-icons2.js';
+import { d as defineCustomElement$8 } from './ir-input-text2.js';
+import { d as defineCustomElement$7 } from './ir-phone-input2.js';
+import { d as defineCustomElement$6 } from './ir-popover2.js';
+import { d as defineCustomElement$5 } from './ir-select2.js';
+import { d as defineCustomElement$4 } from './ir-sidebar2.js';
+import { d as defineCustomElement$3 } from './ir-switch2.js';
+import { d as defineCustomElement$2 } from './ir-textarea2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
-const irHkTeamCss = ".sc-ir-hk-team-h{display:block}th.sc-ir-hk-team,td.sc-ir-hk-team{text-align:left !important;width:fit-content !important}input.sc-ir-hk-team{border:none;margin:0;width:120px}input.sc-ir-hk-team:focus{outline:none}.table-container.sc-ir-hk-team{padding:10px 0;overflow-x:auto;max-width:100%;width:max-content}.table.sc-ir-hk-team,th.sc-ir-hk-team,td.sc-ir-hk-team{border-color:white !important}thead.sc-ir-hk-team{border:0 !important}table.sc-ir-hk-team{border:0 !important}.icons-container.sc-ir-hk-team{display:flex;align-items:center;justify-content:center;gap:4px}.text-center.sc-ir-hk-team{text-align:center !important}.assignments-container.sc-ir-hk-team,.unassigned-container.sc-ir-hk-team{display:flex;align-items:center}.gap-16.sc-ir-hk-team{gap:16px}.unassigned-container.sc-ir-hk-team{gap:4px}.justify-between.sc-ir-hk-team{justify-content:space-between;margin-bottom:10px}.assignments-container.sc-ir-hk-team p.sc-ir-hk-team,h4.sc-ir-hk-team{margin:0}.outline-btn.sc-ir-hk-team{background:white;border:1px solid var(--blue);color:var(--blue);border-radius:5px;font-size:12px;padding:1px 0.25rem !important;margin:0}.outline-btn.sc-ir-hk-team:hover{color:white;background:var(--blue)}@media only screen and (min-width: 900px){td.sc-ir-hk-team{min-width:140px !important;width:max-content !important}}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-team{width:max-content !important}}";
+const irHkTeamCss = ".sc-ir-hk-team-h{display:block}th.sc-ir-hk-team,td.sc-ir-hk-team{text-align:left !important;width:fit-content !important}.table-container.sc-ir-hk-team{padding:10px 0;overflow-x:auto;max-width:100%;width:max-content}.table.sc-ir-hk-team,th.sc-ir-hk-team,td.sc-ir-hk-team{border:0 !important;white-space:nowrap;width:max-content;max-width:max-content;padding:0;margin:0}thead.sc-ir-hk-team{border:0 !important}table.sc-ir-hk-team{border:0 !important}.icons-container.sc-ir-hk-team{display:flex;align-items:center;justify-content:center;gap:4px}.text-center.sc-ir-hk-team{text-align:center !important}.assignments-container.sc-ir-hk-team,.unassigned-container.sc-ir-hk-team{display:flex;align-items:center}.gap-16.sc-ir-hk-team{gap:16px}.unassigned-container.sc-ir-hk-team{gap:4px}.justify-between.sc-ir-hk-team{justify-content:space-between;margin-bottom:10px}.assignments-container.sc-ir-hk-team p.sc-ir-hk-team,h4.sc-ir-hk-team{margin:0}.outline-btn.sc-ir-hk-team{background:white;border:1px solid var(--blue);color:var(--blue);border-radius:5px;font-size:12px;padding:1px 0.25rem !important;margin:0}.outline-btn.sc-ir-hk-team:hover{color:white;background:var(--blue)}@media only screen and (min-width: 900px){td.sc-ir-hk-team{min-width:140px !important;width:max-content !important}}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-team{width:max-content !important}}";
 const IrHkTeamStyle0 = irHkTeamCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
@@ -72,23 +74,26 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
     }
     render() {
         var _a;
+        if (!housekeeping_store.hk_criteria) {
+            return null;
+        }
         const { assigned, total, un_assigned } = housekeeping_store.hk_criteria.units_assignments;
-        return (h(Host, { key: '915d126b199047af53aebe1275e75e662eaa4a38', class: "card p-1" }, h("section", { key: '9632049670b3df59ddbdaf8f1fdb42501bd0aaf6' }, h("ir-title", { key: 'd977037ef6cf3edcfbac6c18bad646d52dc895ea', label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { key: '953b7a8f07efc37a660f23b61913cf96d01bbcc7', slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { key: '41740adeec1f20231d115ced375e57258aee01fc', class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { key: 'e74f4717439736793563d64f9b947725d7681ac1', class: 'm-0 p-0' }, assigned, " ", h("span", { key: 'c4af1d3d3a8c743e360bb82c26ffaa1b46c4fe7b' }, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { key: 'a9890939cdb9ea6d99ee7bc67d3764cf97014407', class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { key: 'adf0bd1c73bf95f4e8b90d5e93df60e548f266b5', class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { key: 'f31ed255eddf9305094ecc50ee8156725768cd5f', class: "table-container" }, h("table", { key: '0bfd861d127f165112847d36c1fc92bb4c4c7791', class: "table" }, h("thead", { key: '63b439b2d984ede8fa0c2630bd14c6492d876fa4' }, h("tr", { key: '8f3754d82d867cde5fe67f005e9f0228accfd2e8' }, h("th", { key: '40d0bdd886cbbdd5b4c80942db17b971b52127cf', class: "text-left" }, locales.entries.Lcz_Name), h("th", { key: '3ab7a13098930b7a809147ec05d0a9871e0138cb' }, locales.entries.Lcz_Mobile), h("th", { key: '647d42329dbdd6da20450eb532ea2aafaf93d55c' }, locales.entries.Lcz_Username), h("th", { key: '85ee9cbbee7bb990b5dee4677f787b1451affc55' }, locales.entries.Lcz_Note), h("th", { key: '7a9702b4fceb772a231642db1569b3b6ae9ff965' }, locales.entries.Lcz_UnitsAssigned), h("th", { key: '60133214c3ceeab59df49e28eb6cbfa26dce18e3', class: "text-center" }, h("ir-icon", { key: '8328153016c88b099648b3ed3cbc0dc5fc973022', title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { class: "card p-1" }, h("section", null, h("ir-title", { label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { class: 'm-0 p-0' }, assigned, " ", h("span", null, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { class: " table-responsive" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Name), h("th", null, locales.entries.Lcz_Mobile), h("th", null, locales.entries.Lcz_Username), h("th", null, locales.entries.Lcz_Note), h("th", null, locales.entries.Lcz_UnitsAssigned), h("th", { class: "text-center" }, h("ir-icon", { title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
                     user: null,
                 };
-            } }, h("svg", { key: '523d2c901733a1dd91446bc4eca9fc38a2bd7c2a', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '57f3c049ea4bdd01c8e5b36022ae38e8fcf5ea48', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", { key: 'a1613434593e5d775b8eff40aa9a7d7a331016d6' }, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id }, h("td", { class: "text-left" }, hk.name), h("td", null, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, hk.note), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "text-center" }, h("div", { class: "icons-container" }, h("ir-icon", { title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
+            } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", null, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id }, h("td", { class: "text-left" }, hk.name), h("td", null, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, !hk.note ? ('N/A') : hk.note.length > 50 ? (h("ir-popover", { content: hk.note }, h("span", null, hk.note.slice(0, 50), "..."))) : (hk.note)), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "text-center" }, h("div", { class: "icons-container" }, h("ir-icon", { title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                 const user = __rest(hk, ["assigned_units", "is_soft_deleted", "is_active"]);
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: true,
                     user,
                 };
-            }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))), h("span", null, " \u00A0"), h("ir-icon", { title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => this.handleDeletion(hk) }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))))))))))), h("ir-sidebar", { key: '6c58f4eed7b66f892b8cf260ad2d3f8f56562d6d', showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
+            }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))), h("span", null, " \u00A0"), h("ir-icon", { title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => this.handleDeletion(hk) }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))))))))))), h("ir-sidebar", { showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
                 '--sidebar-width': this.currentTrigger ? (this.currentTrigger.type === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), ((_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.type) === 'delete' && h("ir-delete-modal", { key: 'ef007883ff4f9f39e2e41f40c1f053f6268af197', user: this.currentTrigger.user })));
+            } }, this.renderCurrentTrigger()), ((_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.type) === 'delete' && h("ir-delete-modal", { user: this.currentTrigger.user })));
     }
     get el() { return this; }
     static get style() { return IrHkTeamStyle0; }
@@ -99,7 +104,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-team", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-select", "ir-sidebar", "ir-switch", "ir-title"];
+    const components = ["ir-hk-team", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-switch", "ir-textarea", "ir-title"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
@@ -108,60 +113,70 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-phone-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-popover":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-switch":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-textarea":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

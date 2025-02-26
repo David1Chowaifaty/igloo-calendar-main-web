@@ -22,10 +22,10 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         event.stopImmediatePropagation();
         event.stopPropagation();
         const opt = event.detail;
-        this.eventDatas = this.eventDatas.filter((eventData) => eventData.ID != opt.data.ID);
+        this.eventDatas = this.eventDatas.filter(eventData => eventData.ID != opt.data.ID);
         this.calendarData.bookingEvents.push(opt.data);
         this.assignUnitEvent.emit({
-            key: "assignUnit",
+            key: 'assignUnit',
             data: {
                 RT_ID: this.categoryId,
                 selectedDate: this.selectedDate,
@@ -38,13 +38,14 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         // }
     }
     getEventView(categoryId, eventDatas) {
-        return eventDatas.map((eventData, ind) => (h("igl-tba-booking-view", { calendarData: this.calendarData, selectedDate: this.selectedDate, eventData: eventData, categoriesData: this.categoriesData, categoryId: categoryId, categoryIndex: this.categoryIndex, eventIndex: ind, onAssignRoomEvent: (evt) => this.handleAssignRoomEvent(evt) })));
+        return eventDatas.map((eventData, ind) => (h("igl-tba-booking-view", { calendarData: this.calendarData, selectedDate: this.selectedDate, eventData: eventData, categoriesData: this.categoriesData, categoryId: categoryId, categoryIndex: this.categoryIndex, eventIndex: ind, onAssignRoomEvent: evt => this.handleAssignRoomEvent(evt) })));
     }
     renderView() {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '75a76c857d95ee0ac6a35d8fbd00a897453d242c' }, h("div", { key: 'e79421ad8df39d0ee13acc2fdde5f976425408c5', class: "sectionContainer" }, h("div", { key: '65563fe11551e04694568476cc2173b03f070ef0', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId].name), this.getEventView(this.categoryId, this.eventDatas))));
+        var _a;
+        return (h(Host, { key: 'b3dc75c5a434b0c6b9119ac8c6ff07021b6fc758' }, h("div", { key: '3ad1226be8b14c0a67cdf9317b8db9f73aee0dfb', class: "sectionContainer" }, h("div", { key: '1e4762d229a29725d1b49b47ca4d713d19131fe4', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get style() { return IglTbaCategoryViewStyle0; }
 }, [2, "igl-tba-category-view", {

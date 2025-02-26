@@ -12,7 +12,7 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
     constructor() {
         super();
         this.__registerHost();
-        this.gotoSplitPageTwoEvent = createEvent(this, "gotoSplitPageTwoEvent", 7);
+        this.buttonClicked = createEvent(this, "buttonClicked", 7);
         this.ratePricingMode = [];
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
@@ -50,8 +50,7 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
     }
     // Navigate to the next page for booking
     bookProperty() {
-        this.handleDataChange('totalRooms', { target: { value: '1' } });
-        this.gotoSplitPageTwoEvent.emit({ key: 'gotoSplitPage', data: '' });
+        this.buttonClicked.emit({ key: 'next' });
     }
     // Render the rate amount
     renderRate() {
@@ -132,12 +131,12 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: 'f9389efb778a33c0773ceef26a784bfab719c197' }, h("div", { key: '6c5ca4a5b71121d0133975c0fa24ba578570b412', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: '688597600c55863a3d7bf4ba1624cd8b25056ce4', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && h("ir-tooltip", { key: 'f307b00ac6ef3fd4912a7b9abfdc89eb6c994c97', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0" }, h("ir-price-input", { disabled: disableForm, onTextChange: e => this.updateRateplanSelection({
+        return (h(Host, { key: 'e579356cc01f53f6505197c62f5f16f9215f431e' }, h("div", { key: 'a0ff235e94cc24fade4f19215a80621c6d59e98f', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: '1082f39622f248078a56d83e61f1b7765fe46c78', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && h("ir-tooltip", { key: 'f8609a72097d91d1c7304251a9d1681d83428fd4', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0 flex-grow-1" }, h("ir-price-input", { disabled: disableForm, onTextChange: e => this.updateRateplanSelection({
                 is_amount_modified: true,
                 rp_amount: Number(e.detail),
-            }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: v4(), onChange: evt => this.updateRateplanSelection({
+            }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none w-100 flex-grow-1", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: v4(), onChange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
-            }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-lg-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 mt-lg-0 ml-md-1 mt-md-1 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
+            }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-lg-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 ml-md-1 mt-md-0 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -145,7 +144,8 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                     rooms: 1,
                     guest: [
                         {
-                            name: booking_store.guest.name,
+                            last_name: booking_store.guest.last_name,
+                            first_name: booking_store.guest.first_name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
@@ -160,7 +160,8 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                     rooms: 1,
                     guest: [
                         {
-                            name: booking_store.guest.name,
+                            last_name: booking_store.guest.last_name,
+                            first_name: booking_store.guest.first_name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,

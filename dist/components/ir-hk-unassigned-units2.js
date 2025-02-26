@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service.js';
+import { H as HouseKeepingService } from './housekeeping.service.js';
 import { c as calendar_data } from './calendar-data.js';
+import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$6 } from './ir-button2.js';
 import { d as defineCustomElement$5 } from './ir-icon2.js';
@@ -89,7 +90,7 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
             }
             return (_a = roomType.physicalrooms) === null || _a === void 0 ? void 0 : _a.map(physical_room => {
                 var _a, _b, _c;
-                let taken = !((_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.find(unit => unit.id === physical_room.id));
+                let taken = !((_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.find(unit => unit.id.toString() === physical_room.id.toString()));
                 let housekeeper = [];
                 const assignedRoom = this.assignedUnits.get(physical_room.id);
                 if (assignedRoom && assignedRoom.is_to_assign) {
@@ -109,7 +110,7 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
         });
     }
     render() {
-        return (h(Host, { key: 'd526536938646fdecd884b46d23476e44aff0c28' }, h("ir-title", { key: '936d85cd7496004612923e07ff92734d1233ca79', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '775fec5d09fc0e8eac4f29e912f79721e8366f2b', class: "px-1" }, h("table", { key: '77a87fa8325e7bcb5f6580edc5c9f0e41c7a6785' }, h("thead", { key: '4c42abafd9c6fdba0eac2ddaad562303feaab489' }, h("th", { key: '709e8dd12d1fde01e8aaab4aaa134dc494908716', class: "sr-only" }, "room name"), h("th", { key: '6ba54990fea09c6c4f144aa99b619ad6d7aafc11', class: "sr-only" }, "housekeeper name"), h("th", { key: '7967befe1cf518bf41f8f88d03d890c2374c895a', class: "sr-only" }, "actions")), h("tbody", { key: '825cfe73410ee2d4328a53f6100dfdba53c5d7b7' }, this.renderRooms())), h("div", { key: '7e3a43f5c8b5bbc8b3fa5ff71231418e36178140', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'd19890f44c49b5131e41e1c517e29782e6c3c7d0', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '487276c6d3eba14c6b9f025b180cb37a53a3041f', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
+        return (h(Host, { key: '7699136ab461081bd8dbb247182d1f89f01990d4' }, h("ir-title", { key: 'ad35388dcc9c17d523b7ee3364ffc9fbdb622c43', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '7d0e404fffaa9b332513b9026ab38a282aca5ebb', class: "px-1" }, h("table", { key: '6a20f03b0e40de629c30d2d892fa87fd6d25c5f4' }, h("thead", { key: '8724e6ffa1c86d0972c381e83b51954b174641ac' }, h("th", { key: 'eba120c36637bc39da2657742f36eba3690963b3', class: "sr-only" }, "room name"), h("th", { key: '0df32c33ae5c91a9793fd4f2327b07637447c204', class: "sr-only" }, "housekeeper name"), h("th", { key: '4add854fb9a3e6bbf29710474306209f1799b835', class: "sr-only" }, "actions")), h("tbody", { key: 'ad615af5a4cdfbb95ced1cd9b7635e97d2ee027c' }, this.renderRooms())), h("div", { key: '8dce4d344f70d9706c7e49ff9d20d604fdb132e3', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '554d4ddb16a1f3c53b0ffb3404a138c20bd7acb0', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '9d4a1ca5e3d70e5f372c0ba1b650a182bd797b60', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
     }
     static get style() { return IrHkUnassignedUnitsStyle0; }
 }, [2, "ir-hk-unassigned-units", {

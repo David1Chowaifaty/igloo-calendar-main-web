@@ -1,41 +1,128 @@
-// import { HouseKeepingService } from '@/services/housekeeping.service';
-// import housekeeping_store from '@/stores/housekeeping.store';
+import { HouseKeepingService } from "../../../../services/housekeeping.service";
+import calendar_data from "../../../../stores/calendar-data";
+import housekeeping_store from "../../../../stores/housekeeping.store";
+import { isRequestPending } from "../../../../stores/ir-interceptor.store";
+import locales from "../../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
+import { v4 } from "uuid";
 export class IrHkArchive {
     constructor() {
-        this.selectedDates = {
-            start: moment().add(-90, 'days').format('YYYY-MM-DD'),
-            end: moment().format('YYYY-MM-DD'),
+        this.filters = {
+            from_date: moment().add(-90, 'days').format('YYYY-MM-DD'),
+            to_date: moment().format('YYYY-MM-DD'),
+            filtered_by_hkm: [],
+            filtered_by_unit: [],
         };
+        this.data = [];
+        this.isLoading = null;
+        this.houseKeepingService = new HouseKeepingService();
+        this.units = [];
     }
-    // private houseKeepingService = new HouseKeepingService();
     componentWillLoad() {
         this.initializeData();
+        this.setUpUnits();
     }
-    async initializeData() { }
+    setUpUnits() {
+        const units = [];
+        calendar_data.roomsInfo.forEach(r => {
+            r.physicalrooms.forEach(room => {
+                units.push({ id: room.id, name: room.name });
+            });
+        });
+        this.units = units;
+    }
+    async initializeData() {
+        await this.getArchivedTasks();
+    }
+    async getArchivedTasks() {
+        var _a;
+        const res = await this.houseKeepingService.getArchivedHKTasks(Object.assign({ property_id: Number(this.propertyId) }, this.filters));
+        this.data = (_a = [...(res || [])]) === null || _a === void 0 ? void 0 : _a.map(t => (Object.assign(Object.assign({}, t), { id: v4() })));
+    }
     handleDateRangeChange(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         const { start, end } = e.detail;
-        this.selectedDates = {
-            start: start.format('YYYY-MM-DD'),
-            end: end.format('YYYY-MM-DD'),
-        };
+        this.updateFilters({
+            from_date: start.format('YYYY-MM-DD'),
+            to_date: end.format('YYYY-MM-DD'),
+        });
+    }
+    updateFilters(props) {
+        this.filters = Object.assign(Object.assign({}, this.filters), props);
     }
     async searchArchive(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.isLoading = 'search';
+            await this.getArchivedTasks();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isLoading = null;
+        }
     }
     async exportArchive(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.isLoading = 'excel';
+            this.getArchivedTasks();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isLoading = null;
+        }
     }
     render() {
-        return (h(Host, { key: '247ea495bc6cb461c13965611075e288ac11677f' }, h("ir-title", { key: '302735b02cf60abf9d06d05b313c421029d09c38', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '3ebd33bdd72689798368563db5816d15a919d1e5', class: "px-1" }, h("div", { key: '95107591425f6030d7ff7a5883660ef0cfc40ca9', class: "d-flex" }, h("ir-select", { key: '0d0d8aedf3022ca0dc0e071eefe3f86fe2f85b3a', class: "w-100", LabelAvailable: false, data: [], firstOption: "All units" }), h("ir-select", { key: '398964cc9b7b1dc44e190d25920000bc3afd9457', class: "ml-1 w-100", LabelAvailable: false, data: [], firstOption: "All housekeepers" })), h("div", { key: '504ac5b9c5ed026d1d39acbed0d3ebe161cbe5b4', class: "d-flex mt-1 align-items-center" }, h("igl-date-range", { key: '9eb07735646122c678967d2f47d422923a2c1091', class: "mr-1", withDateDifference: false, minDate: moment().add(-90, 'days').format('YYYY-MM-DD'), defaultData: {
-                fromDate: this.selectedDates.start,
-                toDate: this.selectedDates.end,
-            } }), h("ir-icon", { key: '23d74cf767a4a235b7cbafa430f4c89cc643fcb6', onIconClickHandler: this.searchArchive.bind(this), class: "mr-1" }, h("svg", { key: '48c6eac91a487e2ab531a7873f5d862b45156bdc', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { key: '07e2fe515f80e4b07a0908fa4863fbb80dd49dfd', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("ir-icon", { key: 'b54fe763b4449ab7b68631258b711bc87b9e4ea2', onIconClickHandler: this.exportArchive.bind(this) }, h("svg", { key: 'e208f79f74534cb1267fc857b26610bfd12d76a2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "15", viewBox: "0 0 384 512" }, h("path", { key: '7d72377b6096b5549b49f84f021a1b24045af140', fill: "currentColor", d: "M48 448V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm90.9 233.3c-8.1-10.5-23.2-12.3-33.7-4.2s-12.3 23.2-4.2 33.7L161.6 320l-44.5 57.3c-8.1 10.5-6.3 25.5 4.2 33.7s25.5 6.3 33.7-4.2L192 359.1l37.1 47.6c8.1 10.5 23.2 12.3 33.7 4.2s12.3-23.2 4.2-33.7L222.4 320l44.5-57.3c8.1-10.5 6.3-25.5-4.2-33.7s-25.5-6.3-33.7 4.2L192 280.9l-37.1-47.6z" })))))));
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+        return (h(Host, { key: '8f6c5f0d34da398af4b91503e9887869658c9d9a' }, h("ir-title", { key: '223a61303a256b0f4f3ce54f23e37785e109e3c2', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '2b5a9d08d157c9df25e48eee93a3fee7ec01bb10', class: "px-1" }, h("div", { key: '1a4c0cfbf285b8120d7e1035a38d7582ba1f05d8', class: "d-flex" }, h("ir-select", { key: '5e8a7942d29933cad1e6b1b51e30f4d4fdc2b5f2', class: "w-100", showFirstOption: false, LabelAvailable: false, data: [
+                { text: 'All units', value: '000' },
+                ,
+                ...(_a = this.units) === null || _a === void 0 ? void 0 : _a.map(v => ({
+                    text: v.name,
+                    value: v.id.toString(),
+                })),
+            ], onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                if (e.detail === '000') {
+                    this.updateFilters({ filtered_by_unit: [] });
+                }
+                else {
+                    this.updateFilters({ filtered_by_unit: [e.detail] });
+                }
+            } }), h("ir-select", { key: '5b241d760c651bac50ab3cc1b4a15d803b409a4c', class: "ml-1 w-100", selectedValue: ((_c = (_b = this.filters) === null || _b === void 0 ? void 0 : _b.filtered_by_hkm) === null || _c === void 0 ? void 0 : _c.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_e = (_d = this.filters) === null || _d === void 0 ? void 0 : _d.filtered_by_hkm[0]) === null || _e === void 0 ? void 0 : _e.toString(), LabelAvailable: false, showFirstOption: false, data: [
+                { text: 'All housekeepers', value: '000' },
+                ...(_f = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.housekeepers.map(v => ({
+                    text: v.name,
+                    value: v.id.toString(),
+                })),
+            ], onSelectChange: e => {
+                if (e.detail === '000') {
+                    this.updateFilters({ filtered_by_hkm: [] });
+                }
+                else {
+                    this.updateFilters({ filtered_by_hkm: [e.detail] });
+                }
+            } })), h("div", { key: '2624cf1c6e38629612cdbbc02e3808bdd52e7001', class: "d-flex mt-1 align-items-center" }, h("igl-date-range", { key: 'aca6d8ab8d88a05dfc262102e9ca16d5d602c3c5', class: "mr-1", dateLabel: locales.entries.Lcz_Dates, minDate: moment().add(-90, 'days').format('YYYY-MM-DD'), defaultData: {
+                fromDate: this.filters.from_date,
+                toDate: this.filters.to_date,
+            } }), h("ir-button", { key: '55d829353d3ae948bffd6a85d4f02b858ed0420f', title: (_g = locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '2f90c93b71c8b3ba29b1f54209a2c6a6b63da6dd', title: (_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), ((_j = this.data) === null || _j === void 0 ? void 0 : _j.length) === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, "No Results Found")) : (h("table", { class: "mt-2" }, h("thead", null, h("th", { class: "sr-only" }, "period"), h("th", { class: "sr-only" }, "housekeeper name"), h("th", { class: "sr-only" }, "unit"), h("th", { class: "sr-only" }, "booking number")), h("tbody", null, (_k = this.data) === null || _k === void 0 ? void 0 : _k.map(d => (h("tr", { key: d.id }, h("td", { class: "pr-2" }, d.date), h("td", { class: "px-2" }, d.house_keeper), h("td", { class: "px-2" }, d.unit), h("td", { class: "px-2" }, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+                width: 'fit-content',
+                padding: '0',
+                margin: '0',
+            }, labelStyle: {
+                padding: '0',
+            }, text: d.booking_nbr.toString(), onClick: () => {
+                window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
+            } })) : ('N/A')))))))))));
     }
     static get is() { return "ir-hk-archive"; }
     static get encapsulation() { return "scoped"; }
@@ -49,9 +136,34 @@ export class IrHkArchive {
             "$": ["ir-hk-archive.css"]
         };
     }
+    static get properties() {
+        return {
+            "propertyId": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | number",
+                    "resolved": "number | string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "property-id",
+                "reflect": false
+            }
+        };
+    }
     static get states() {
         return {
-            "selectedDates": {}
+            "filters": {},
+            "data": {},
+            "isLoading": {}
         };
     }
     static get listeners() {

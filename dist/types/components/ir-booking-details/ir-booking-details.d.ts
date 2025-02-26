@@ -27,11 +27,12 @@ export declare class IrBookingDetails {
     statusData: any[];
     showPaymentDetails: any;
     booking: Booking;
-    countryNodeList: ICountry[];
+    countries: ICountry[];
     calendarData: any;
     guestData: Guest;
     rerenderFlag: boolean;
     sidebarState: BookingDetailsSidebarEvents | null;
+    sidebarPayload: any;
     isUpdateClicked: boolean;
     pms_status: IPmsLog;
     isPMSLogLoading: boolean;
@@ -39,6 +40,7 @@ export declare class IrBookingDetails {
     property_id: number;
     selectedService: ExtraService;
     bedPreference: IEntries[];
+    roomGuest: any;
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
@@ -49,7 +51,7 @@ export declare class IrBookingDetails {
     private printingBaseUrl;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
-    handleSideBarEvents(e: CustomEvent<OpenSidebarEvent>): void;
+    handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
     handleEditInitiated(e: CustomEvent<TIglBookPropertyPayload>): void;
@@ -63,4 +65,6 @@ export declare class IrBookingDetails {
     private resetBooking;
     private renderSidebarContent;
     render(): any;
+    private handleRoomCheckout;
+    private handleRoomCheckin;
 }

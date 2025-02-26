@@ -29,5 +29,6 @@ export declare class IrButton {
     clickHandler: EventEmitter<any>;
     private buttonEl;
     handleButtonAnimation(e: CustomEvent): void;
+    bounce(): Promise<void>;
     render(): any;
 }

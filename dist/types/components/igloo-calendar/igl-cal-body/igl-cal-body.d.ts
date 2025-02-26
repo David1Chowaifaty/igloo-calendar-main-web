@@ -1,27 +1,32 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { RoomType } from "../../../models/booking.dto";
+import { PhysicalRoom, RoomType } from "../../../models/booking.dto";
+import { ICountry } from "../../../models/IBooking";
 export type RoomCategory = RoomType & {
     expanded: boolean;
 };
 export declare class IglCalBody {
-    showBookingPopup: EventEmitter;
-    scrollPageToRoom: EventEmitter;
     isScrollViewDragging: boolean;
+    propertyId: number;
     calendarData: {
         [key: string]: any;
     };
     today: String;
     currency: any;
     language: string;
-    countryNodeList: any;
+    countries: ICountry[];
+    highlightedDate: string;
     dragOverElement: string;
     renderAgain: boolean;
-    highlightedDate: string;
+    selectedRoom: PhysicalRoom;
     addBookingDatasEvent: EventEmitter<any[]>;
+    showBookingPopup: EventEmitter;
+    scrollPageToRoom: EventEmitter;
     private selectedRooms;
     private fromRoomId;
     private newEvent;
     private currentDate;
+    private hkModal;
+    private housekeepingService;
     componentWillLoad(): void;
     dragOverHighlightElementHandler(event: CustomEvent): void;
     gotoRoom(event: CustomEvent): void;
@@ -31,7 +36,7 @@ export declare class IglCalBody {
     getCategoryName(roomCategory: any): any;
     getCategoryId(roomCategory: any): any;
     getTotalPhysicalRooms(roomCategory: any): number;
-    getCategoryRooms(roomCategory: RoomCategory): any[];
+    getCategoryRooms(roomCategory: RoomCategory): PhysicalRoom[];
     getRoomName(roomInfo: any): any;
     getRoomId(roomInfo: any): any;
     getRoomById(physicalRooms: any, roomId: any): any;
@@ -62,4 +67,5 @@ export declare class IglCalBody {
     private getRoomsByCategory;
     getRoomRows(): any;
     render(): any;
+    private renderModalBody;
 }

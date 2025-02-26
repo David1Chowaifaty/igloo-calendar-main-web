@@ -1,6 +1,8 @@
 import { Host, h } from "@stencil/core";
 import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
+import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { HouseKeepingService } from "../../../services/housekeeping.service";
 export class IglCalBody {
     constructor() {
         this.dragOverElement = '';
@@ -8,6 +10,7 @@ export class IglCalBody {
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
+        this.housekeepingService = new HouseKeepingService();
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -221,7 +224,7 @@ export class IglCalBody {
         if (this.getTotalPhysicalRooms(roomCategory) <= 1 || !roomCategory.is_active) {
             return null;
         }
-        return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-popover", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
+        return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
     }
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
@@ -239,7 +242,10 @@ export class IglCalBody {
             if (!room.is_active) {
                 return null;
             }
-            return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room) }, h("ir-popover", { popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
+            return (h("div", { class: "roomRow" }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room), onClick: () => {
+                    this.selectedRoom = room;
+                    this.hkModal.openModal();
+                } }, h("ir-interactive-title", { hkStatus: room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory)));
         });
     }
     getRoomRows() {
@@ -254,9 +260,49 @@ export class IglCalBody {
         });
     }
     render() {
-        var _a;
+        var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: 'e201cf91fb2f0b51a00705d8068082dd562ef084' }, h("div", { key: '0db536f1ca3d22e610841bf03c7800985cdf1790', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '5de73be925c2307d2e30bd592d1aa80fe3d8846e', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countryNodeList: this.countryNodeList, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() })))))));
+        return (h(Host, { key: '046c13ee7b974bb5d7a530c9d2a1281103b260bb' }, h("div", { key: '68bce43cae6a11d2fba8c549be726c858f6763d3', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'dd1ddae83d3aaf93dfea1150c1d4e2e0943e0f51', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => (h("igl-booking-event", { language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }))))), h("ir-modal", { key: '55a964044ede161fa447c24e4a5dd4d62eae793b', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: async (e) => {
+                var _a, _b;
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                await this.housekeepingService.setExposedUnitHKStatus({
+                    property_id: this.propertyId,
+                    // housekeeper: this.selectedRoom?.housekeeper ? { id: this.selectedRoom?.housekeeper?.id } : null,
+                    status: {
+                        code: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '002' : '001',
+                    },
+                    unit: {
+                        id: (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.id,
+                    },
+                });
+                this.selectedRoom = null;
+                this.hkModal.closeModal();
+            }, autoClose: false, isLoading: isRequestPending('/Set_Exposed_Unit_HK_Status'), onCancelModal: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.selectedRoom = null;
+                this.hkModal.closeModal();
+            } })));
+    }
+    renderModalBody() {
+        var _a, _b;
+        if (!this.selectedRoom) {
+            return null;
+        }
+        return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
+            _a.name, " status to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean', "?"))
+        // <ir-select
+        //   LabelAvailable={false}
+        //   showFirstOption={false}
+        //   selectedValue={this.selectedRoom?.hk_status === '001' ? '001' : '002'}
+        //   data={[
+        //     { text: 'Clean', value: '001' },
+        //     { text: 'Dirty', value: '002' },
+        //   ]}
+        //   onSelectChange={e => (this.selectedHKStatus = e.detail)}
+        // ></ir-select>
+        );
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
@@ -289,6 +335,25 @@ export class IglCalBody {
                 "getter": false,
                 "setter": false,
                 "attribute": "is-scroll-view-dragging",
+                "reflect": false
+            },
+            "propertyId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "property-id",
                 "reflect": false
             },
             "calendarData": {
@@ -368,13 +433,19 @@ export class IglCalBody {
                 "attribute": "language",
                 "reflect": false
             },
-            "countryNodeList": {
-                "type": "any",
+            "countries": {
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
+                    "original": "ICountry[]",
+                    "resolved": "ICountry[]",
+                    "references": {
+                        "ICountry": {
+                            "location": "import",
+                            "path": "@/models/IBooking",
+                            "id": "src/models/IBooking.ts::ICountry"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
@@ -383,9 +454,7 @@ export class IglCalBody {
                     "text": ""
                 },
                 "getter": false,
-                "setter": false,
-                "attribute": "country-node-list",
-                "reflect": false
+                "setter": false
             },
             "highlightedDate": {
                 "type": "string",
@@ -411,11 +480,27 @@ export class IglCalBody {
     static get states() {
         return {
             "dragOverElement": {},
-            "renderAgain": {}
+            "renderAgain": {},
+            "selectedRoom": {}
         };
     }
     static get events() {
         return [{
+                "method": "addBookingDatasEvent",
+                "name": "addBookingDatasEvent",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "any[]",
+                    "resolved": "any[]",
+                    "references": {}
+                }
+            }, {
                 "method": "showBookingPopup",
                 "name": "showBookingPopup",
                 "bubbles": true,
@@ -443,21 +528,6 @@ export class IglCalBody {
                 "complexType": {
                     "original": "any",
                     "resolved": "any",
-                    "references": {}
-                }
-            }, {
-                "method": "addBookingDatasEvent",
-                "name": "addBookingDatasEvent",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "any[]",
-                    "resolved": "any[]",
                     "references": {}
                 }
             }];
