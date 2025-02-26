@@ -38,6 +38,7 @@ export declare class IrTextEditor {
     toolbarConfig?: ToolbarConfig;
     /** Emits current HTML content whenever it changes */
     textChange: EventEmitter<string>;
+    editorValue: string;
     /** Private, non-reactive Quill editor instance */
     private editor;
     private editorContainer;
@@ -48,5 +49,6 @@ export declare class IrTextEditor {
     disconnectedCallback(): void;
     private get computedToolbar();
     private setEditorValue;
+    private updateHistoryButtons;
     render(): any;
 }
