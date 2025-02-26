@@ -1,150 +1,114 @@
-import { h, Host } from "@stencil/core";
-import { ClassicEditor, AccessibilityHelp, Autoformat, AutoLink, Autosave, Bold, Essentials, Italic, Paragraph, SelectAll, TextTransformation, Undo, Underline, PageBreak, Enter, GeneralHtmlSupport, ShiftEnter, SourceEditing, FullPage, } from "ckeditor5";
+import { h } from "@stencil/core";
+import Quill from "quill";
+function buildToolbar(config) {
+    const toolbar = [];
+    const textFormats = [];
+    if (config.bold)
+        textFormats.push('bold');
+    if (config.italic)
+        textFormats.push('italic');
+    if (config.underline)
+        textFormats.push('underline');
+    if (config.strike)
+        textFormats.push('strike');
+    if (textFormats.length) {
+        toolbar.push(textFormats);
+    }
+    if (config.link)
+        toolbar.push(['link']);
+    if (config.image)
+        toolbar.push(['image']);
+    if (config.video)
+        toolbar.push(['video']);
+    if (config.clean)
+        toolbar.push(['clean']);
+    return toolbar;
+}
 export class IrTextEditor {
     constructor() {
-        this.plugins = [];
-        this.pluginsMode = 'add';
-        this.toolbarItems = [];
-        this.toolbarItemsMode = 'add';
-        this.baseToolbarItems = ['undo', 'redo', '|', 'sourceEditing', '|', 'bold', 'italic', 'underline'];
-        this.basePlugins = [
-            SourceEditing,
-            GeneralHtmlSupport,
-            AccessibilityHelp,
-            Autoformat,
-            AutoLink,
-            Autosave,
-            Bold,
-            Underline,
-            PageBreak,
-            Essentials,
-            Enter,
-            Italic,
-            Paragraph,
-            SelectAll,
-            TextTransformation,
-            Undo,
-            ShiftEnter,
-            FullPage,
-        ];
+        /** Initial HTML content */
+        this.value = '';
+        /** If true, makes the editor read-only */
+        this.readOnly = false;
+        /** Determines if the current user can edit the content */
+        this.userCanEdit = true;
     }
     componentDidLoad() {
-        this.initEditor();
-    }
-    onValueChanged(newValue) {
-        if (this.editorInstance) {
-            const currentEditorValue = this.editorInstance.getData();
-            if (newValue !== currentEditorValue) {
-                this.editorInstance.setData(newValue);
-            }
-        }
-    }
-    onErrorChanged(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            const editorElement = this.el.querySelector('.ck-content');
-            if (editorElement) {
-                console.log('first');
-                editorElement.classList.toggle('error', newValue);
-            }
-        }
-    }
-    async initEditor() {
-        const plugins = this.pluginsMode === 'replace' ? this.plugins : this.basePlugins.concat(this.plugins);
-        const items = this.toolbarItemsMode === 'replace' ? this.toolbarItems : this.baseToolbarItems.concat(this.toolbarItems);
-        const editorConfig = {
-            toolbar: {
-                items,
-                shouldNotGroupWhenFull: false,
+        const options = {
+            modules: {
+                toolbar: this.computedToolbar,
             },
-            plugins,
-            initialData: this.value,
-            htmlSupport: {
-                allow: [
-                    {
-                        name: /^(b|strong|br|p)$/,
-                        attributes: true,
-                        classes: true,
-                        styles: true,
-                    },
-                ],
-            },
-            // licenseKey: '',
             placeholder: this.placeholder,
+            readOnly: !this.userCanEdit || this.readOnly,
+            theme: 'snow',
         };
-        if (this.editorInstance) {
-            return;
+        this.editor = new Quill(this.editorContainer, options);
+        if (this.value) {
+            this.setEditorValue(this.value);
         }
-        const editorElement = this.el.querySelector('#editor');
-        try {
-            this.editorInstance = await ClassicEditor.create(editorElement, editorConfig);
-            this.editorInstance.editing.view.document.on('clipboardInput', (evt, data) => {
-                const textData = data.dataTransfer.getData('text/plain');
-                const htmlRegex = /<\/?[a-z][\s\S]*>/i;
-                if (htmlRegex.test(textData)) {
-                    // Process the text containing HTML tags
-                    const fragment = this.editorInstance.data.htmlProcessor.toView(textData);
-                    data.content = fragment;
-                    // Prevent the default handling
-                    evt.stop();
-                    // Fire the 'inputTransformation' event manually
-                    this.editorInstance.plugins.get('ClipboardPipeline').fire('inputTransformation', { content: fragment });
+        this.editor.on('text-change', (_, __, source) => {
+            if (source === 'user' && this.maxLength) {
+                const plainText = this.editor.getText();
+                const effectiveLength = plainText.endsWith('\n') ? plainText.length - 1 : plainText.length;
+                if (effectiveLength > this.maxLength) {
+                    const excess = effectiveLength - this.maxLength;
+                    this.editor.deleteText(this.maxLength, excess, 'user');
+                    return;
                 }
-            });
-            this.editorInstance.model.document.on('change:data', () => {
-                const editorData = this.editorInstance.getData();
-                this.handletextChange(editorData);
-            });
-            this.editorInstance.plugins.get('Enter').fire('');
-        }
-        catch (error) {
-            console.error('There was a problem initializing the editor:', error);
+            }
+            const html = this.editor.root.innerHTML;
+            this.textChange.emit(html);
+        });
+    }
+    handleValueChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.setEditorValue(newValue);
         }
     }
-    handletextChange(data) {
-        this.textChange.emit(data);
+    onReadOnlyChange(newVal) {
+        if (this.editor) {
+            this.editor.enable(this.userCanEdit && !newVal);
+        }
+    }
+    onUserCanEditChange(newVal) {
+        if (this.editor) {
+            this.editor.enable(newVal && !this.readOnly);
+        }
     }
     disconnectedCallback() {
-        if (this.editorInstance) {
-            this.editorInstance.destroy().catch((error) => {
-                console.error('Error destroying editor:', error);
-            });
+        if (this.editor) {
+            this.editor = null;
         }
     }
+    get computedToolbar() {
+        return this.toolbarConfig ? buildToolbar(this.toolbarConfig) : [['bold', 'italic', 'underline', 'strike'], ['link'], ['clean']];
+    }
+    setEditorValue(value) {
+        if (!this.editor) {
+            return;
+        }
+        this.editor.clipboard.dangerouslyPasteHTML(value);
+        requestAnimationFrame(() => {
+            const length = this.editor.getLength();
+            this.editor.setSelection(length - 1, 0);
+        });
+    }
     render() {
-        return (h(Host, { key: 'd6efaa6667624dc1a34bd747ebabd8ad2ce053d2' }, h("div", { key: '9e3c5f48b11959a3fc56e9ac058639adf6a5b4bf', id: "editor" })));
+        return (h("div", { key: '6866da246ee94adb8b250b85c1a2c7669ba0a2bf', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: 'faad61cddd164e2d1f01fd365e3127b30a760d8a', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-text-editor.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-text-editor.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css"]
         };
     }
     static get properties() {
         return {
-            "value": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "value",
-                "reflect": false
-            },
             "error": {
                 "type": "boolean",
                 "mutable": false,
@@ -164,6 +128,85 @@ export class IrTextEditor {
                 "attribute": "error",
                 "reflect": false
             },
+            "maxLength": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "max-length",
+                "reflect": false
+            },
+            "value": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Initial HTML content"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "value",
+                "reflect": false,
+                "defaultValue": "''"
+            },
+            "readOnly": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "If true, makes the editor read-only"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "read-only",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "userCanEdit": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Determines if the current user can edit the content"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "user-can-edit",
+                "reflect": false,
+                "defaultValue": "true"
+            },
             "placeholder": {
                 "type": "string",
                 "mutable": false,
@@ -176,100 +219,35 @@ export class IrTextEditor {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Placeholder text"
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
-            "plugins": {
+            "toolbarConfig": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "(string | PluginConstructor)[]",
-                    "resolved": "(string | PluginConstructor)[]",
+                    "original": "ToolbarConfig",
+                    "resolved": "ToolbarConfig",
                     "references": {
-                        "PluginConstructor": {
-                            "location": "import",
-                            "path": "ckeditor5",
-                            "id": "node_modules::PluginConstructor"
+                        "ToolbarConfig": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/work-rony/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
+                            "id": "src/components/ui/ir-text-editor/ir-text-editor.tsx::ToolbarConfig"
                         }
                     }
                 },
                 "required": false,
-                "optional": false,
+                "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Type-safe toolbar configuration.\r\nFor example, you can pass:\r\n\r\n{\r\n  bold: true,\r\n  italic: true,\r\n  underline: true,\r\n  strike: false,\r\n  link: true,\r\n  clean: true\r\n}"
                 },
                 "getter": false,
-                "setter": false,
-                "defaultValue": "[]"
-            },
-            "pluginsMode": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "'replace' | 'add'",
-                    "resolved": "\"add\" | \"replace\"",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "plugins-mode",
-                "reflect": false,
-                "defaultValue": "'add'"
-            },
-            "toolbarItems": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "ToolbarConfigItem[]",
-                    "resolved": "ToolbarConfigItem[]",
-                    "references": {
-                        "ToolbarConfigItem": {
-                            "location": "import",
-                            "path": "ckeditor5",
-                            "id": "node_modules::ToolbarConfigItem"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "[]"
-            },
-            "toolbarItemsMode": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "'replace' | 'add'",
-                    "resolved": "\"add\" | \"replace\"",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "toolbar-items-mode",
-                "reflect": false,
-                "defaultValue": "'add'"
+                "setter": false
             }
         };
     }
@@ -282,7 +260,7 @@ export class IrTextEditor {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emits current HTML content whenever it changes"
                 },
                 "complexType": {
                     "original": "string",
@@ -295,10 +273,13 @@ export class IrTextEditor {
     static get watchers() {
         return [{
                 "propName": "value",
-                "methodName": "onValueChanged"
+                "methodName": "handleValueChange"
             }, {
-                "propName": "error",
-                "methodName": "onErrorChanged"
+                "propName": "readOnly",
+                "methodName": "onReadOnlyChange"
+            }, {
+                "propName": "userCanEdit",
+                "methodName": "onUserCanEditChange"
             }];
     }
 }

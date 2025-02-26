@@ -1,6 +1,5 @@
 import { IglBookPropertyPayloadPlusBooking } from "../../models/igl-book-property";
 import { EventEmitter } from '../../stencil-public-runtime';
-import { ICountry } from "../../models/IBooking";
 export declare class IglBookPropertyContainer {
     language: string;
     ticket: string;
@@ -11,7 +10,7 @@ export declare class IglBookPropertyContainer {
     withIrToastAndInterceptor: boolean;
     bookingItem: IglBookPropertyPayloadPlusBooking | null;
     showPaymentDetails: any;
-    countries: ICountry[];
+    countryNodeList: any;
     calendarData: any;
     resetBookingData: EventEmitter<null>;
     private bookingService;

@@ -2,7 +2,6 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { IPageTwoDataUpdateProps } from "../../../../models/models";
 import { IglBookPropertyPayloadEditBooking, TPropertyButtonsTypes } from '../../../../models/igl-book-property';
 import { ICurrency } from "../../../../models/calendarData";
-import { ICountry } from "../../../../models/IBooking";
 export declare class IglBookingForm {
     showPaymentDetails: boolean;
     currency: ICurrency;
@@ -22,7 +21,7 @@ export declare class IglBookingForm {
     bedPreferenceType: any;
     selectedRooms: Map<string, Map<string, any>>;
     isLoading: string;
-    countries: ICountry[];
+    countryNodeList: any;
     selectedGuestData: any;
     defaultGuestData: IglBookPropertyPayloadEditBooking;
     selectedBookedByData: any;

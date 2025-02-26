@@ -27,11 +27,6 @@ export class IrButton {
         void this.buttonEl.offsetWidth;
         this.buttonEl.classList.add('bounce-3');
     }
-    async bounce() {
-        this.buttonEl.classList.remove('bounce-3');
-        void this.buttonEl.offsetWidth;
-        this.buttonEl.classList.add('bounce-3');
-    }
     render() {
         if (this.variant === 'icon') {
             return (h("button", { id: this.btn_id, class: `icon-button ${this.btn_styles} ${this.visibleBackgroundOnHover ? 'hovered_bg' : ''}`, ref: el => (this.buttonEl = el), onClick: () => this.clickHandler.emit(), type: this.btn_type, disabled: this.btn_disabled }, this.isLoading ? h("span", { class: "icon-loader" }) : h("ir-icons", { class: 'm-0 p-0', name: this.icon_name })));
@@ -316,7 +311,7 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"calendar\" | \"user\" | \"file\" | \"edit\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\"",
+                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"user\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -468,27 +463,6 @@ export class IrButton {
                     "references": {}
                 }
             }];
-    }
-    static get methods() {
-        return {
-            "bounce": {
-                "complexType": {
-                    "signature": "() => Promise<void>",
-                    "parameters": [],
-                    "references": {
-                        "Promise": {
-                            "location": "global",
-                            "id": "global::Promise"
-                        }
-                    },
-                    "return": "Promise<void>"
-                },
-                "docs": {
-                    "text": "",
-                    "tags": []
-                }
-            }
-        };
     }
     static get listeners() {
         return [{

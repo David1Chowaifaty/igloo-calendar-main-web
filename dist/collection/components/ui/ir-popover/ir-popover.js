@@ -1,35 +1,38 @@
 import { Host, h } from "@stencil/core";
 export class IrPopover {
     constructor() {
+        this.isHovered = false;
+        this.showPopover = false;
         this.irPopoverLeft = '10px';
-        this.placement = 'auto';
-        this.trigger = 'focus';
-        this.initialized = false;
+        this.handleMouseEnter = () => {
+            if (!this.showPopover) {
+                return;
+            }
+            if (this.showPopover) {
+                this.isHovered = true;
+            }
+        };
+        this.handleMouseLeave = () => {
+            if (!this.showPopover) {
+                return;
+            }
+            this.isHovered = false;
+        };
     }
-    componentDidLoad() {
-        if (this.initialized) {
-            return;
-        }
-        this.initializePopover();
+    componentWillLoad() {
+        this.checkTitleWidth();
     }
-    initializePopover() {
-        $(this.popoverTrigger).popover({
-            trigger: this.trigger,
-            content: this.content,
-            placement: this.placement,
+    checkTitleWidth() {
+        requestAnimationFrame(() => {
+            const titleElement = this.el.querySelector('.popover-title');
+            if (titleElement) {
+                const width = titleElement.scrollWidth;
+                this.showPopover = width > 150; // Show popover if title width exceeds 170px
+            }
         });
-        this.initialized = true;
-    }
-    disconnectedCallback() {
-        $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'b2cf674ba9e317d6fcbfda21f652600eee66be8c', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                cursor: 'pointer',
-            } }, h("slot", null))) : (h("button", { class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
+        return (h(Host, { key: 'eab4b1ef7d4e218554bc590a8914ad8ae303bc93', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'd9bee2856edd1b05be2de9f979b96d3002629725', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '7e4cb25e228c93aa490065039a1bb667e01de724', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     static get is() { return "ir-popover"; }
     static get encapsulation() { return "scoped"; }
@@ -45,7 +48,7 @@ export class IrPopover {
     }
     static get properties() {
         return {
-            "content": {
+            "popoverTitle": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -61,7 +64,7 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content",
+                "attribute": "popover-title",
                 "reflect": false
             },
             "irPopoverLeft": {
@@ -83,47 +86,13 @@ export class IrPopover {
                 "attribute": "ir-popover-left",
                 "reflect": false,
                 "defaultValue": "'10px'"
-            },
-            "placement": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "'top' | 'bottom' | 'left' | 'right' | 'auto'",
-                    "resolved": "\"auto\" | \"bottom\" | \"left\" | \"right\" | \"top\"",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "placement",
-                "reflect": false,
-                "defaultValue": "'auto'"
-            },
-            "trigger": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "'focus' | 'click' | 'hover'",
-                    "resolved": "\"click\" | \"focus\" | \"hover\"",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "trigger",
-                "reflect": false,
-                "defaultValue": "'focus'"
             }
+        };
+    }
+    static get states() {
+        return {
+            "isHovered": {},
+            "showPopover": {}
         };
     }
     static get elementRef() { return "el"; }

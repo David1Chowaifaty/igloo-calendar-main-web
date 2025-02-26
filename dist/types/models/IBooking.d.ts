@@ -236,8 +236,6 @@ export interface RoomUpdateEvent {
     roomCategoryName: string;
 }
 export interface RoomBookingDetails {
-    CHECKIN: boolean;
-    CHECKOUT: boolean;
     ID: string;
     TO_DATE: string;
     ARRIVAL: Arrival;
@@ -282,8 +280,6 @@ export interface RoomBookingDetails {
         from_date: string;
         to_date: string;
     };
-    BASE_STATUS_CODE: string;
-    ROOM_INFO: Pick<Room, 'occupancy' | 'sharing_persons' | 'unit' | 'in_out'>;
 }
 export interface ISource {
     code: string;

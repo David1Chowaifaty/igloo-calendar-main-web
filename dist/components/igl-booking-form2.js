@@ -2,17 +2,13 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { b as booking_store } from './booking.store.js';
-import { c as calendar_data } from './calendar-data.js';
-import { h as hooks } from './moment.js';
-import { d as defineCustomElement$b } from './igl-application-info2.js';
-import { d as defineCustomElement$a } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$9 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
-import { d as defineCustomElement$7 } from './ir-combobox2.js';
-import { d as defineCustomElement$6 } from './ir-country-picker2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
-import { d as defineCustomElement$4 } from './ir-icons2.js';
-import { d as defineCustomElement$3 } from './ir-input-text2.js';
+import { d as defineCustomElement$9 } from './igl-application-info2.js';
+import { d as defineCustomElement$8 } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$7 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$6 } from './ir-button2.js';
+import { d as defineCustomElement$5 } from './ir-combobox2.js';
+import { d as defineCustomElement$4 } from './ir-date-view2.js';
+import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-phone-input2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
@@ -116,9 +112,7 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        var _a;
-        const showBookAndCheckin = calendar_data.checkin_enabled && hooks(new Date((_a = this.dateRangeData) === null || _a === void 0 ? void 0 : _a.fromDate)).isSame(new Date(), 'day');
-        return (h(Host, { key: 'ebb5f30a5cc44d7c21db8d9019803799e57a6481' }, h("div", { key: '112aadea020b4e7c8cab30ccdf3303b63e8baabb', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '55faf747ac52ecfe81ca0c700f6f256ef628c07c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '66adb7cbfecff20e99d9558fc57f99fbb3a2b55d', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '96cdcad5efd65f00287f020ee9d7fae01dcb4d44', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        return (h(Host, { key: '6ddc60843d28a901c23c5df759424c1fba3ad899' }, h("div", { key: 'b626a7d1675b3826ee474524cebd09a5bf6b6df2', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '75762b1466e068f3f655bfda58d49c28b330474a', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '00fe43edf8b7f066c0dc8690f805b2a7a7d800ed', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'dee2b9958c18c2f3a2502313e7308766f05f1445', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;
@@ -129,9 +123,9 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
                         unit: this.bookingData.currentRoomType.unit,
                     }
                     : undefined })));
-        })), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countries: this.countries, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => {
+        })), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countryNodeList: this.countryNodeList, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => {
                 this.handleEventData(event, 'propertyBookedBy', 0);
-            } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHandler: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: `mt-1 mt-md-0 flex-fill ${showBookAndCheckin ? 'mr-md-1' : ''}` }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book })), showBookAndCheckin && (h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'bookAndCheckIn', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'bookAndCheckIn' }), text: locales.entries.Lcz_BookAndChekcIn })))))));
+            } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHandler: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book }))))));
     }
     static get style() { return IglBookingFormStyle0; }
 }, [2, "igl-booking-form", {
@@ -147,7 +141,7 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
         "bedPreferenceType": [8, "bed-preference-type"],
         "selectedRooms": [16],
         "isLoading": [513, "is-loading"],
-        "countries": [16],
+        "countryNodeList": [8, "country-node-list"],
         "selectedGuestData": [8, "selected-guest-data"],
         "defaultGuestData": [16],
         "selectedBookedByData": [32],
@@ -158,7 +152,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-combobox", "ir-country-picker", "ir-date-view", "ir-icons", "ir-input-text", "ir-phone-input", "ir-tooltip"];
+    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-button", "ir-combobox", "ir-date-view", "ir-icons", "ir-phone-input", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
@@ -167,45 +161,35 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$9();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$8();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$7();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$6();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
-            }
-            break;
-        case "ir-country-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
-            }
-            break;
-        case "ir-icons":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-input-text":
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

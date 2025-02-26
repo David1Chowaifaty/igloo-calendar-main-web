@@ -1,15 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { H as HouseKeepingService } from './housekeeping.service.js';
+import { H as HouseKeepingService, g as getDefaultProperties } from './housekeeping.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { g as getDefaultProperties } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
-import { d as defineCustomElement$7 } from './ir-combobox2.js';
-import { d as defineCustomElement$6 } from './ir-icon2.js';
-import { d as defineCustomElement$5 } from './ir-icons2.js';
-import { d as defineCustomElement$4 } from './ir-input-text2.js';
-import { d as defineCustomElement$3 } from './ir-phone-input2.js';
-import { d as defineCustomElement$2 } from './ir-textarea2.js';
+import { d as defineCustomElement$7 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-combobox2.js';
+import { d as defineCustomElement$5 } from './ir-icon2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
+import { d as defineCustomElement$3 } from './ir-input-text2.js';
+import { d as defineCustomElement$2 } from './ir-phone-input2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
 function validateForm(data, rules) {
@@ -143,10 +141,10 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
-        return (h(Host, { key: '8f458081d2a9c897945ce17cc5ecc2c010b3677c' }, h("ir-title", { key: '904a852abf166a080a9a258635d1b3ab6613568b', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: '9daa44dc55390ee398534303ef0fd80fa6a98bb5', class: "px-1" }, h("ir-input-text", { key: 'f6f85ec219666bb7af0a5df6b83e5de343963955', error: ((_b = (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 0, label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this) }), h("ir-phone-input", { key: '619aba99806270026107718c0ee53cfeeb95946e', placeholder: locales.entries.Lcz_Mobile, error: ((_d = (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) === null || _d === void 0 ? void 0 : _d.length) > 0, language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
+        return (h(Host, { key: '77b714ba6870758c4b884fd7eae2db3c9b239a8a' }, h("ir-title", { key: 'a4a1ecc0ae45c2e4a3d010f8b76957c7cfc693bc', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: '6abe853f81c6a288923ccbf18cc4d20c8ecdbdb3', class: "px-1" }, h("ir-input-text", { key: '9aa8b57ab5603fa527ef13d8ce4a5c8fd261d15a', error: ((_b = (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 0, label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this) }), h("ir-phone-input", { key: 'a3b3a9531168755d15cd8ef2b83d7294a537634f', placeholder: locales.entries.Lcz_Mobile, error: ((_d = (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) === null || _d === void 0 ? void 0 : _d.length) > 0, language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
                 this.updateUserField('phone_prefix', e.detail.phone_prefix);
                 this.updateUserField('mobile', e.detail.mobile);
-            } }), h("ir-input-text", { key: '7c45b57a37f1d16d54b5da3e26127ea6ad154f79', disabled: this.user !== null, label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: '3d2bb3df66348c66935b87b3c7fb3f9e4cbe44ea', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", error: ((_g = (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password) === null || _g === void 0 ? void 0 : _g.length) > 0, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-textarea", { key: '36659757a0a3f3cf5bbefc11ca74dffb9330055d', variant: "prepend", maxLength: 250, label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: '4cebc36492da88c751ed1fdc7610348b716fb955', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '6e7419db96d9cefe029c0555b64f73b5e2cef819', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '51666bbc1f01e2ae0652c6595f40c20ded3a96d8', isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
+            } }), h("ir-input-text", { key: '4e29fdbdf76588b4e678fa60832638d8d0741f29', disabled: this.user !== null, label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: 'd4827e6a221078ee5252eb5650b7ab56c86e9ebc', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", error: ((_g = (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password) === null || _g === void 0 ? void 0 : _g.length) > 0, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-input-text", { key: '826062559b5bbce52c28be261ff0e931b550160f', label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: '7f63625f03b12f7e313b93cd65c1cb741097e001', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'bda00194c907df9e40728cdbf571c96a05496c8c', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'cb324d51b75cd316ed57d511e1df3775465dffee', isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
     }
     static get style() { return IrHkUserStyle0; }
 }, [2, "ir-hk-user", {
@@ -160,7 +158,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-user", "ir-button", "ir-combobox", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-textarea", "ir-title"];
+    const components = ["ir-hk-user", "ir-button", "ir-combobox", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-title"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
@@ -169,35 +167,30 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$7();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$6();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$4();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-phone-input":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-textarea":
+        case "ir-phone-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

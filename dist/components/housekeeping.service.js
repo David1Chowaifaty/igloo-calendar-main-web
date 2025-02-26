@@ -1,5 +1,19 @@
-import { u as updateHKStore } from './housekeeping.store.js';
+import { c as createStore } from './index2.js';
 import { a as axios } from './axios.js';
+
+const initialValue = {
+    default_properties: undefined,
+    hk_criteria: undefined,
+    hk_tasks: undefined,
+    pending_housekeepers: [],
+};
+const { state: housekeeping_store } = createStore(initialValue);
+function updateHKStore(key, value) {
+    housekeeping_store[key] = value;
+}
+function getDefaultProperties() {
+    return housekeeping_store.default_properties;
+}
 
 class HouseKeepingService {
     async getExposedHKSetup(property_id) {
@@ -10,14 +24,11 @@ class HouseKeepingService {
         return data['My_Result'];
     }
     async getExposedHKStatusCriteria(property_id) {
-        const { data } = await axios.post(`/Get_Exposed_HK_Status_Criteria`, { property_id });
+        const { data } = await axios.post(`/Get_Exposed_HK_Status_Criteria`, {
+            property_id,
+        });
         updateHKStore('hk_tasks', data['My_Result']);
         return data['My_Result'];
-    }
-    async getArchivedHKTasks(params) {
-        var _a;
-        const { data } = await axios.post(`/Get_Archived_HK_Tasks`, params);
-        return (_a = data['My_Result']) !== null && _a !== void 0 ? _a : [];
     }
     async setExposedInspectionMode(property_id, mode) {
         const { data } = await axios.post(`/Set_Exposed_Inspection_Mode`, {
@@ -39,19 +50,8 @@ class HouseKeepingService {
     }
     async getHKPendingActions(params) {
         const { data } = await axios.post(`/Get_HK_Pending_Actions`, Object.assign({}, params));
-        updateHKStore('pending_housekeepers', [...data['My_Result']].map(d => ({ original: d, selected: false })));
+        updateHKStore('pending_housekeepers', [...data['My_Result']]);
         return data['My_Result'];
-    }
-    async setExposedUnitHKStatus(params) {
-        const { data } = await axios.post(`/Set_Exposed_Unit_HK_Status`, Object.assign({}, params));
-        return data['My_Result'];
-    }
-    async getHkTasks(params) {
-        const { data } = await axios.post('/Get_HK_Tasks', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
     }
     async executeHKAction(params) {
         await axios.post(`/Execute_HK_Action`, Object.assign({}, params));
@@ -62,6 +62,6 @@ class HouseKeepingService {
     }
 }
 
-export { HouseKeepingService as H };
+export { HouseKeepingService as H, getDefaultProperties as g, housekeeping_store as h, updateHKStore as u };
 
 //# sourceMappingURL=housekeeping.service.js.map

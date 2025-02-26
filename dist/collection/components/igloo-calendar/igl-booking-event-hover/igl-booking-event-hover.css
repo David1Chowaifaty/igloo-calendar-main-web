@@ -59,7 +59,7 @@
 }
 
 .iglPopOver.infoBubble {
-  min-width: 350px;
+  width: 350px;
 }
 
 .iglPopOver.blockedView {

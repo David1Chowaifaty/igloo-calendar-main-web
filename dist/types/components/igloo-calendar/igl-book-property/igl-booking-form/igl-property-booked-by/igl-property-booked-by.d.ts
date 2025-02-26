@@ -10,7 +10,7 @@ export declare class IglPropertyBookedBy {
     dataUpdateEvent: EventEmitter<{
         [key: string]: any;
     }>;
-    countries: ICountry[];
+    countryNodeList: ICountry[];
     propertyId: number;
     isButtonPressed: boolean;
     private bookingService;
@@ -27,9 +27,8 @@ export declare class IglPropertyBookedBy {
     private assignCountryCode;
     private initializeDateData;
     private populateBookedByData;
-    private handleDataChange;
-    private handleCountryChange;
-    private handleNumberInput;
+    handleDataChange(key: any, event: any): void;
+    handleNumberInput(key: any, event: InputEvent): void;
     checkUser(): Promise<void>;
     private updateGuest;
     handleComboboxChange(e: CustomEvent): void;

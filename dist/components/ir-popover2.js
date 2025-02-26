@@ -1,49 +1,52 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
-const irPopoverCss = ".sc-ir-popover-h{display:block;width:100%}*.sc-ir-popover{box-sizing:border-box}.popover-trigger.sc-ir-popover{all:unset;cursor:pointer}.popover-trigger.sc-ir-popover:hover,.popover-trigger.sc-ir-popover:focus{color:#000}";
+const irPopoverCss = ".sc-ir-popover-h{display:block;width:100%}*.sc-ir-popover{box-sizing:border-box}.popover-title.sc-ir-popover{position:relative;width:100%;height:100%;margin:0;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:10;left:0}.popover-container.sc-ir-popover{position:absolute;bottom:0px;left:var(--ir-popover-left, 10px);background:rgb(0, 0, 0);color:white;min-width:100%;box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 10px;z-index:9999;padding:3.5px 7px;border-radius:5px;pointer-events:none;opacity:0;transition:all 100ms ease;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-style:normal;font-weight:400;line-height:1.45;text-decoration:none;text-shadow:none;font-size:0.875rem}.popover-container[data-state='show'].sc-ir-popover{opacity:1}";
 const IrPopoverStyle0 = irPopoverCss;
 
 const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
+        this.isHovered = false;
+        this.showPopover = false;
         this.irPopoverLeft = '10px';
-        this.placement = 'auto';
-        this.trigger = 'focus';
-        this.initialized = false;
+        this.handleMouseEnter = () => {
+            if (!this.showPopover) {
+                return;
+            }
+            if (this.showPopover) {
+                this.isHovered = true;
+            }
+        };
+        this.handleMouseLeave = () => {
+            if (!this.showPopover) {
+                return;
+            }
+            this.isHovered = false;
+        };
     }
-    componentDidLoad() {
-        if (this.initialized) {
-            return;
-        }
-        this.initializePopover();
+    componentWillLoad() {
+        this.checkTitleWidth();
     }
-    initializePopover() {
-        $(this.popoverTrigger).popover({
-            trigger: this.trigger,
-            content: this.content,
-            placement: this.placement,
+    checkTitleWidth() {
+        requestAnimationFrame(() => {
+            const titleElement = this.el.querySelector('.popover-title');
+            if (titleElement) {
+                const width = titleElement.scrollWidth;
+                this.showPopover = width > 150; // Show popover if title width exceeds 170px
+            }
         });
-        this.initialized = true;
-    }
-    disconnectedCallback() {
-        $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'b2cf674ba9e317d6fcbfda21f652600eee66be8c', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                cursor: 'pointer',
-            } }, h("slot", null))) : (h("button", { class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
+        return (h(Host, { key: 'eab4b1ef7d4e218554bc590a8914ad8ae303bc93', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'd9bee2856edd1b05be2de9f979b96d3002629725', class: "popover-title", onMouseLeave: this.handleMouseLeave, onMouseEnter: this.handleMouseEnter }, this.popoverTitle), this.showPopover && this.isHovered && (h("div", { key: '7e4cb25e228c93aa490065039a1bb667e01de724', "data-state": "show", class: "popover-container" }, this.popoverTitle))));
     }
     get el() { return this; }
     static get style() { return IrPopoverStyle0; }
-}, [6, "ir-popover", {
-        "content": [1],
+}, [2, "ir-popover", {
+        "popoverTitle": [1, "popover-title"],
         "irPopoverLeft": [1, "ir-popover-left"],
-        "placement": [1],
-        "trigger": [1]
+        "isHovered": [32],
+        "showPopover": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

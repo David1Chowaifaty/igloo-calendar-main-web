@@ -1,12 +1,9 @@
 import Token from "../../../models/Token";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { RoomService } from "../../../services/room.service";
-import housekeeping_store from "../../../stores/housekeeping.store";
-import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import housekeeping_store, { updateHKStore } from "../../../stores/housekeeping.store";
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
-import moment from "moment";
-import { v4 } from "uuid";
 export class IrHkTasks {
     constructor() {
         this.language = '';
@@ -16,9 +13,6 @@ export class IrHkTasks {
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
-        this.tasks = [];
-        this.selectedTasks = [];
-        this.hkNameCache = {};
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
@@ -26,170 +20,140 @@ export class IrHkTasks {
     componentWillLoad() {
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
-            this.init();
+            this.initializeApp();
         }
+    }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { arrival, arrival_time, housekeeper, unit, status } = this.selectedRoom;
+        this.houseKeepingService.executeHKAction({
+            property_id: this.propertyid,
+            arrival,
+            arrival_time,
+            housekeeper: {
+                id: housekeeper.id,
+            },
+            status: {
+                code: status.code,
+            },
+            unit: {
+                id: unit.id,
+            },
+        });
+        await this.houseKeepingService.getExposedHKSetup(this.property_id);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
         this.token.setToken(this.ticket);
-        this.init();
+        this.initializeApp();
+    }
+    handleCheckChange(e, action) {
+        if (e.detail) {
+            this.selectedRoom = action;
+            this.modalOpenTimeOut = setTimeout(() => {
+                const modal = this.el.querySelector('ir-modal');
+                if (modal) {
+                    modal.openModal();
+                }
+            }, 50);
+        }
     }
     handleCloseSidebar(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.isSidebarOpen = false;
+        this.archiveOpened = false;
     }
-    async init() {
+    disconnectedCallback() {
+        if (this.modalOpenTimeOut) {
+            clearTimeout(this.modalOpenTimeOut);
+        }
+    }
+    async getPendingActions() {
+        await this.houseKeepingService.getHKPendingActions({
+            property_id: this.property_id,
+            bracket: {
+                code: this.selectedDuration,
+            },
+            housekeeper: {
+                id: +this.selectedHouseKeeper,
+            },
+        });
+    }
+    async initializeApp() {
         try {
             this.isLoading = true;
             let propertyId = this.propertyid;
-            if (!this.propertyid && !this.p) {
-                throw new Error('Property ID or username is required');
-            }
-            // let roomResp = null;
             if (!propertyId) {
-                console.log(propertyId);
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
-                    include_units_hk_status: true,
                 });
-                // roomResp = propertyData;
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: moment().format('YYYY-MM-DD'), to_date: moment().format('YYYY-MM-DD') }),
-                this.houseKeepingService.getExposedHKSetup(this.property_id),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const requests = [this.houseKeepingService.getExposedHKStatusCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
             if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
+                requests.unshift(this.roomService.getExposedProperty({
+                    id: propertyId,
                     language: this.language,
                     is_backend: true,
-                    include_units_hk_status: true,
                 }));
             }
-            const results = await Promise.all(requests);
-            const tasks = results[0];
-            if (tasks) {
-                this.updateTasks(tasks);
-            }
+            await Promise.all(requests);
+            this.selectedDuration = housekeeping_store.hk_tasks.brackets[0].code;
+            await this.getPendingActions();
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
         finally {
             this.isLoading = false;
         }
     }
-    buildHousekeeperNameCache() {
-        var _a, _b;
-        this.hkNameCache = {};
-        (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.forEach(hk => {
-            if (hk.id != null && hk.name != null) {
-                this.hkNameCache[hk.id] = hk.name;
-            }
-        });
-    }
-    updateTasks(tasks) {
-        this.buildHousekeeperNameCache();
-        this.tasks = tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4(), housekeeper: (() => {
-                var _a, _b, _c;
-                const name = this.hkNameCache[t.hkm_id];
-                if (name) {
-                    return name;
-                }
-                const hkName = (_c = (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
-                this.hkNameCache[t.hkm_id] = hkName;
-                return hkName;
-            })() })));
-    }
-    handleHeaderButtonPress(e) {
-        var _a;
+    async handleConfirm(e) {
+        e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation();
-        const { name } = e.detail;
-        switch (name) {
-            case 'cleaned':
-                (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
-                break;
-            case 'export':
-                break;
-            case 'archive':
-                this.isSidebarOpen = true;
-                break;
-        }
-    }
-    async handleModalConfirmation(e) {
         try {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            if (this.selectedTasks.length === 0) {
-                return;
-            }
-            await this.houseKeepingService.executeHKAction({
-                actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
-            });
-            await this.fetchTasksWithFilters();
-        }
-        finally {
-            this.selectedTasks = [];
-            this.clearSelectedHkTasks.emit();
-            this.modal.closeModal();
-        }
-    }
-    async applyFilters(e) {
-        try {
-            this.isApplyFiltersLoading = true;
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.filters = Object.assign({}, e.detail);
-            await this.fetchTasksWithFilters();
+            await this.getPendingActions();
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
         finally {
-            this.isApplyFiltersLoading = false;
-        }
-    }
-    async fetchTasksWithFilters() {
-        var _a;
-        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
-        const tasks = await this.houseKeepingService.getHkTasks({
-            housekeepers,
-            cleaning_frequencies: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
-            dusty_units: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
-            highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
-            property_id: this.property_id,
-            from_date: moment().format('YYYY-MM-DD'),
-            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment().format('YYYY-MM-DD'),
-        });
-        if (tasks) {
-            this.updateTasks(tasks);
+            this.selectedRoom = null;
         }
     }
     render() {
+        var _a;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
-                this.applyFilters(e);
-            } }), h("ir-tasks-table", { onRowSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.selectedTasks = e.detail;
-            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, side: 'right', id: "editGuestInfo", onIrSidebarToggle: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isSidebarOpen = false;
-            }, showCloseButton: false }, this.isSidebarOpen && h("ir-hk-archive", { propertyId: this.property_id, slot: "sidebar-body" }))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2" }, h("ir-title", { class: "d-none d-md-flex", label: locales.entries.Lcz_HousekeepingTasks, justifyContent: "space-between" }, h("ir-button", { slot: "title-body", text: locales.entries.Lcz_Archive, size: "sm" })), h("div", { class: "d-flex align-items-center mb-2 justify-content-between d-md-none" }, h("ir-title", { class: "mb-0", label: locales.entries.Lcz_HousekeepingTasks, justifyContent: "space-between" }), h("ir-button", { slot: "title-body", text: locales.entries.Lcz_Archive, size: "sm", onClickHandler: () => (this.archiveOpened = true) })), h("div", { class: "d-flex flex-column flex-sm-row align-items-center mb-1  select-container" }, h("ir-select", { selectedValue: this.selectedDuration, onSelectChange: e => {
+                this.selectedDuration = e.detail;
+                this.getPendingActions();
+            }, data: housekeeping_store.hk_tasks.brackets.map(bracket => ({
+                text: bracket.description,
+                value: bracket.code,
+            })), class: "mb-1 w-100 mb-sm-0", showFirstOption: false, LabelAvailable: false }), h("ir-select", { onSelectChange: e => {
+                this.selectedHouseKeeper = e.detail;
+                this.getPendingActions();
+            }, selectedValue: this.selectedHouseKeeper, data: [
+                { text: 'All housekeepers', value: '0' },
+                ...housekeeping_store.hk_tasks.housekeepers.map(bracket => ({
+                    text: bracket.name,
+                    value: bracket.id.toString(),
+                })),
+            ], showFirstOption: false, LabelAvailable: false, class: "ml-sm-2 w-100" })), h("div", { class: "card p-1" }, h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Unit), h("th", { class: "text-left" }, locales.entries.Lcz_Status), h("th", { class: "text-left" }, locales.entries.Lcz_Arrivaldate), h("th", { class: "text-left" }, locales.entries.Lcz_ArrivalTime), h("th", { class: "text-left" }, locales.entries.Lcz_Housekeeper), h("th", { class: "text-center" }, locales.entries.Lcz_Done))), h("tbody", null, (_a = housekeeping_store.pending_housekeepers) === null || _a === void 0 ? void 0 : _a.map(action => {
+            var _a;
+            return (h("tr", { key: action.housekeeper.id }, h("td", { class: "text-left" }, action.unit.name), h("td", { class: "text-left" }, action.status.description), h("td", { class: "text-left" }, action.arrival), h("td", { class: "text-left" }, action.arrival_time), h("td", { class: "text-left" }, action.housekeeper.name), h("td", null, h("div", { class: "checkbox-container" }, h("ir-checkbox", { onCheckChange: e => this.handleCheckChange(e, action), checked: ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.unit.id) === action.unit.id })))));
+        })))))), this.selectedRoom && (h("ir-modal", { leftBtnText: locales.entries.Lcz_No, rightBtnText: locales.entries.Lcz_Yes, onConfirmModal: this.handleConfirm.bind(this), onCancelModal: () => (this.selectedRoom = null), modalBody: `Is ${this.selectedRoom.unit.name} cleaned?` }))));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -292,31 +256,8 @@ export class IrHkTasks {
             "selectedHouseKeeper": {},
             "selectedRoom": {},
             "archiveOpened": {},
-            "property_id": {},
-            "tasks": {},
-            "selectedTasks": {},
-            "isSidebarOpen": {},
-            "isApplyFiltersLoading": {},
-            "filters": {}
+            "property_id": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "clearSelectedHkTasks",
-                "name": "clearSelectedHkTasks",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
-                }
-            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {
@@ -327,6 +268,12 @@ export class IrHkTasks {
     }
     static get listeners() {
         return [{
+                "name": "resetData",
+                "method": "handleResetData",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "closeSideBar",
                 "method": "handleCloseSidebar",
                 "target": undefined,

@@ -16,13 +16,6 @@ import { getMyBookings } from "../utils/booking";
 import booking_store from "../stores/booking.store";
 import calendar_data from "../stores/calendar-data";
 export class BookingService {
-    async handleExposedRoomInOut(props) {
-        const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data;
-    }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Calendar`, {
@@ -70,13 +63,6 @@ export class BookingService {
         catch (error) {
             console.error(error);
         }
-    }
-    async handleExposedRoomGuests(props) {
-        const { data } = await axios.post('/Handle_Exposed_Room_Guests', props);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data;
     }
     async fetchGuest(email) {
         try {
@@ -218,9 +204,9 @@ export class BookingService {
             throw new Error(error);
         }
     }
-    async getSetupEntriesByTableName(TBL_NAME) {
+    async getBedPreferences() {
         const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
-            TBL_NAME,
+            TBL_NAME: '_BED_PREFERENCE_TYPE',
         });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);

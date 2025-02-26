@@ -1,7 +1,6 @@
 import Token from "../../models/Token";
 import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
-import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
 export class IrHousekeeping {
@@ -62,33 +61,11 @@ export class IrHousekeeping {
             this.isLoading = false;
         }
     }
-    saveAutomaticCheckInCheckout(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            this.roomService.SetAutomaticCheckInOut({
-                property_id: this.propertyid,
-                flag: e.detail === 'auto',
-            });
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, "Housekeeping & Check-In Setup"), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
-                { text: `Yes, as per the property's policy.`, value: 'auto' },
-                { text: 'No, I will do it manually. ', value: 'manual' },
-            ] }))), h("ir-hk-team", { class: "mb-1" }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("ir-unit-status", { class: "mb-1" }), h("ir-hk-team", { class: "mb-1" }))));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }
@@ -188,30 +165,6 @@ export class IrHousekeeping {
         return {
             "isLoading": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
-                }
-            }];
     }
     static get watchers() {
         return [{

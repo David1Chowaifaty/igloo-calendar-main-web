@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 
-const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
+const irDateRangeCss = ".sc-ir-date-range-h{display:block}";
 const IrDateRangeStyle0 = irDateRangeCss;
 
 const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends HTMLElement {
@@ -108,7 +108,7 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '1b3fb96abc168105659b8a556b70ac4b9487c546' }, h("input", { key: 'b7c7e638434476299a7ac5fbe37bf72d4ed4efd9', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: '16ae3c50f1b031b7bebcf7c66ca7aac0923c8af2' }, h("input", { key: '35a6f74dfb8664d5a74c551e7fc5381d84f0d12d', class: "date-range-input", type: "text", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {

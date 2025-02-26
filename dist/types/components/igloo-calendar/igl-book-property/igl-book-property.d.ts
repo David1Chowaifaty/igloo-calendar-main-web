@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ICountry, RoomBlockDetails } from "../../../models/IBooking";
+import { RoomBlockDetails } from "../../../models/IBooking";
 import { TAdultChildConstraints, TPropertyButtonsTypes } from "../../../models/igl-book-property";
 import { IToast } from "../../ui/ir-toast/toast";
 import { ICurrency } from "../../../models/calendarData";
@@ -15,7 +15,7 @@ export declare class IglBookProperty {
     propertyid: number;
     allowedBookingSources: any;
     language: string;
-    countries: ICountry[];
+    countryNodeList: any;
     showPaymentDetails: boolean;
     currency: ICurrency;
     bookingData: {

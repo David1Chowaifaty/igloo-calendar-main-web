@@ -41,7 +41,8 @@ export class IglRatePlan {
     }
     // Navigate to the next page for booking
     bookProperty() {
-        this.buttonClicked.emit({ key: 'next' });
+        this.handleDataChange('totalRooms', { target: { value: '1' } });
+        this.gotoSplitPageTwoEvent.emit({ key: 'gotoSplitPage', data: '' });
     }
     // Render the rate amount
     renderRate() {
@@ -122,12 +123,12 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '6286c964b9442aee74d73f7849bea4ea2b6f1417' }, h("div", { key: '7edc64f1c6db5c4aee2ecc73caa5f69237db7700', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: 'ad1c6fb7ee2b1e7aeaa40d3758590e7c7b348d1e', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && h("ir-tooltip", { key: '24dc7923939121db46349ad67eb9283179f2b112', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0 flex-grow-1" }, h("ir-price-input", { disabled: disableForm, onTextChange: e => this.updateRateplanSelection({
+        return (h(Host, { key: 'f9389efb778a33c0773ceef26a784bfab719c197' }, h("div", { key: '6c5ca4a5b71121d0133975c0fa24ba578570b412', class: `d-flex m-0 p-0 ${isAvailableToBook ? 'flex-column flex-lg-row align-items-lg-center justify-content-lg-between' : 'align-items-center justify-content-between'}` }, h("div", { key: '688597600c55863a3d7bf4ba1624cd8b25056ce4', class: "rateplan-name-container d-flex align-items-center", style: { gap: '0.5rem' } }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: "font-weight-bold" }, ratePlan.name.split('/')[0]), h("span", null, "/", ratePlan.name.split('/')[1]))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && h("ir-tooltip", { key: 'f307b00ac6ef3fd4912a7b9abfdc89eb6c994c97', message: this.getTooltipMessages() })), isAvailableToBook ? (h("div", { class: "d-md-flex justify-content-md-end align-items-md-center flex-fill rateplan-container" }, h("div", { class: "mt-1 mt-md-0 flex-fill max-w-300" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: disableForm, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('adult_child_offering', evt) }, formattedVariations === null || formattedVariations === void 0 ? void 0 : formattedVariations.map(variation => (h("option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))))), h("div", { class: "m-0 p-0 mt-1 mt-md-0 d-flex justify-content-between align-items-md-center ml-md-1" }, h("div", { class: "d-flex m-0 p-0 rate-total-night-view mt-0" }, h("ir-price-input", { disabled: disableForm, onTextChange: e => this.updateRateplanSelection({
                 is_amount_modified: true,
                 rp_amount: Number(e.detail),
-            }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none w-100 flex-grow-1", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: uuidv4(), onChange: evt => this.updateRateplanSelection({
+            }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: uuidv4(), onChange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
-            }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-lg-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 ml-md-1 mt-md-0 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
+            }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-lg-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: uuidv4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 mt-lg-0 ml-md-1 mt-md-1 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -135,8 +136,7 @@ export class IglRatePlan {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            name: booking_store.guest.name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
@@ -151,8 +151,7 @@ export class IglRatePlan {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            name: booking_store.guest.name,
                             unit: null,
                             bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
@@ -344,8 +343,8 @@ export class IglRatePlan {
     }
     static get events() {
         return [{
-                "method": "buttonClicked",
-                "name": "buttonClicked",
+                "method": "gotoSplitPageTwoEvent",
+                "name": "gotoSplitPageTwoEvent",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

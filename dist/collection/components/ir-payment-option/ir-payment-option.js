@@ -17,7 +17,7 @@ export class IrPaymentOption {
         this.token = new Token();
     }
     componentWillLoad() {
-        if (this.ticket !== '') {
+        if (!!this.ticket) {
             this.token.setToken(this.ticket);
             this.init();
         }
@@ -36,14 +36,7 @@ export class IrPaymentOption {
     handleCloseModal(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        console.log(e.detail);
         this.closeModal(e.detail);
-    }
-    log(message, ...optionalParams) {
-        if (this.hideLogs) {
-            return;
-        }
-        console.log(message, ...optionalParams);
     }
     closeModal(newOption) {
         var _a, _b;
@@ -71,7 +64,6 @@ export class IrPaymentOption {
             }
             this.isLoading = true;
             let propertyId = this.propertyid;
-            console.log('pror id', propertyId);
             if (!propertyId) {
                 console.log('fetching property id');
                 const propertyData = await this.roomService.getExposedProperty({
@@ -86,11 +78,6 @@ export class IrPaymentOption {
                 this.paymentOptionService.GetPropertyPaymentMethods(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_PAYMENT_BACK']),
             ]);
-            this.log('---feteched data---');
-            this.log('paymentOptions', paymentOptions);
-            this.log('propertyOptions', propertyOptions);
-            this.log('languageTexts', languageTexts);
-            this.log('---feteched data---');
             locales.entries = languageTexts.entries;
             locales.direction = languageTexts.direction;
             this.propertyOptionsById = new Map(propertyOptions === null || propertyOptions === void 0 ? void 0 : propertyOptions.map(o => [o.id, o]));
@@ -107,7 +94,6 @@ export class IrPaymentOption {
         }
         finally {
             this.isLoading = false;
-            this.log('end fetching data');
         }
     }
     initServices() {
@@ -178,15 +164,9 @@ export class IrPaymentOption {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
-        this.log('----loading conditions----');
-        this.log('isLoading', this.isLoading);
-        this.log('paymentOptions', this.paymentOptions);
-        this.log('----loading conditions----');
         if (this.isLoading === true || (this.paymentOptions && this.paymentOptions.length === 0)) {
-            this.log('rendering the loading view');
             return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, h("span", { class: "payment-option-loader" }))));
         }
-        this.log('rendering the payment option');
         return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 mr-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_PaymentOptions)), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "text-left" }, (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_PaymentMethod), h("th", { scope: "col" }, (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Status), h("th", { scope: "col", class: "actions-header" }, (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Action))), h("tbody", { class: "" }, (_e = this.paymentOptions) === null || _e === void 0 ? void 0 : _e.map(po => {
             var _a;
             if (po.code === '004') {

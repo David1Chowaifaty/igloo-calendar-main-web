@@ -41,13 +41,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: 'e05d1c2679a51e060f7ef4509040c8ed6c220b55', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '99500ef19353042131473b603b9403149de42ded', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '77f7ea222556f327dd5caecd912358929e9ecff5', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '087e9eedf8351450111998341c5e61d678226663', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '519428fe81e1212248cb16b247a209d492111986', class: `ir-alert-header` }, h("p", { key: '020144cc8d657dd3fe1ba26d2ee159eaf4934ccc' }, this.modalTitle))), h("div", { key: 'db821bb013292f74c749e918fa74e1cfa58d2deb', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '8faaeea6b2c983682dab45b94f46f4e09d480db7' }, this.modalBody)), h("div", { key: '27fca3576d3a6c20af23a5b7bfbe555a8c969741', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '4b267b6805becb607c3873f840f74ce32ca0e064', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'a2dac254598200861ed522f432afca84b65110db', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: 'eaa992efbe685d94d334b406e23124e60ff77997', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '820b4f01aa016371c2bc6de859280d1fb4190e60', class: `ir-alert-content p-2` }, h("div", { key: '12ce875980a1f2579145f575159e04749dde8f87', class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }), h("div", { key: '2c08a998167381db81a16d5b1d6433b2a27045d9', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'a28f96e36bf18d59063fe52b257d844aa25fdb63' }, this.modalBody)), h("div", { key: '097e088ff65a9a4ad18c8cf7edc448c0e0746e87', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: 'd1a63b66035cedabff42966829d04c4e7a8888dc', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '54cf7014a3d5d8a1057ba85ef8668f35599ef89f', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -103,25 +103,6 @@ export class IrModal {
                 "attribute": "modal-body",
                 "reflect": false,
                 "defaultValue": "'Modal Body'"
-            },
-            "showTitle": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "show-title",
-                "reflect": false
             },
             "rightBtnActive": {
                 "type": "boolean",

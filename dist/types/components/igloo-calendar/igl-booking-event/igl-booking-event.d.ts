@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { IRoomNightsData, CalendarModalEvent } from "../../../models/property-types";
+import { IReallocationPayload, IRoomNightsData } from "../../../models/property-types";
 import { IToast } from "../../ui/ir-toast/toast";
-import { ICountry } from "../../../models/IBooking";
 export declare class IglBookingEvent {
     private element;
     currency: any;
@@ -13,12 +12,12 @@ export declare class IglBookingEvent {
     allBookingEvents: {
         [key: string]: any;
     };
-    countries: ICountry[];
+    countryNodeList: any;
     hideBubbleInfo: EventEmitter;
     updateEventData: EventEmitter;
     dragOverEventData: EventEmitter;
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
-    showDialog: EventEmitter<CalendarModalEvent>;
+    showDialog: EventEmitter<IReallocationPayload>;
     resetStreachedBooking: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     updateBookingEvent: EventEmitter<{

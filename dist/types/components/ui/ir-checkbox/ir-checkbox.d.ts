@@ -4,7 +4,6 @@ export declare class IrCheckbox {
     label: string;
     checkboxId: string;
     name: string;
-    indeterminate: boolean;
     disabled: boolean;
     currentChecked: boolean;
     checkChange: EventEmitter<boolean>;

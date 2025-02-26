@@ -35,7 +35,7 @@ const IrCheckbox = /*@__PURE__*/ proxyCustomElement(class IrCheckbox extends HTM
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h(Host, { key: '0aa0874f49d11d1532f90f1b53f67dd599a0e52d' }, h("button", { key: '81573b2783db8374174b874e052509184fe8f81d', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked || this.indeterminate ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: '922a9c77d79ebbf8fa1f8333852dc6953c9a2d41', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: 'b1ca2456ab98144fe41ec5cbe7585c60d42054f8', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" }))), this.indeterminate && (h("svg", { key: '683f0aac07b5a5b676ca4bea99f57f0247432c62', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: 'd175d515253dc601b8b5984643f9606f8ff172e0', fill: "currentColor", d: "M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" })))), h("input", { key: '908cf13905cf185716404977ea2d2a7b99ea4890', type: "checkbox", indeterminate: this.indeterminate, "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '2a945e9166d5939867c1b167e96deb737d82b87d', htmlFor: this.checkboxId }, this.label)));
+        return (h(Host, { key: '0be954a1e54e05fb1e4d4ed8f2963e0671c5af7f' }, h("button", { key: '564d2e0a14d6cee4b47be2a1ce092a4af6415e87', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (h("svg", { key: '7df2cf3605b93998a8a17edeabfa5844c3494fb1', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '066951c35ee0eed0c1b6031e9a694b21ae94671f', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" })))), h("input", { key: 'ead77ad67f2ddbd493fa6cb54563b8495dd85605', type: "checkbox", "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && h("label", { key: '1c03b61a5666b4ec504da5b65d834938600f6871', htmlFor: this.checkboxId }, this.label)));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -46,7 +46,6 @@ const IrCheckbox = /*@__PURE__*/ proxyCustomElement(class IrCheckbox extends HTM
         "label": [1],
         "checkboxId": [1, "checkbox-id"],
         "name": [1],
-        "indeterminate": [4],
         "disabled": [4],
         "currentChecked": [32]
     }, undefined, {

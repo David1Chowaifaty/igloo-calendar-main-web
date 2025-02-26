@@ -21,7 +21,6 @@ export declare class IrPaymentOption {
     ticketChanged(newValue: string, oldValue: string): void;
     init(): void;
     handleCloseModal(e: CustomEvent): void;
-    private log;
     private closeModal;
     private fetchData;
     private initServices;

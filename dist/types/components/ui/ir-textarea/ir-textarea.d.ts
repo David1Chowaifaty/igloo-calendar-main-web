@@ -10,6 +10,9 @@ export declare class IrTextArea {
     textareaClassname: string;
     variant: 'default' | 'prepend';
     labelWidth: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+    styles: {
+        [key: string]: string;
+    };
     error: boolean;
     textChange: EventEmitter<string>;
     handleAriaInvalidChange(newValue: any): void;

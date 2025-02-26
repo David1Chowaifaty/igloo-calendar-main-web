@@ -3,7 +3,6 @@ import { dateDifference, isBlockUnit } from "./utils";
 import axios from "axios";
 import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
-import calendar_data from "../stores/calendar-data";
 export async function getMyBookings(months) {
     const myBookings = [];
     const stayStatus = await getStayStatus();
@@ -65,7 +64,7 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatus) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = moment(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = moment(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -99,7 +98,7 @@ function getDefaultData(cell, stayStatus) {
             },
         };
     }
-    if (cell.booking.booking_nbr.toString() === '77054273380') {
+    if (cell.booking.booking_nbr.toString() === '23080178267') {
         console.log('booking', cell);
     }
     // if (cell.booking.booking_nbr === '61249849') {
@@ -109,14 +108,13 @@ function getDefaultData(cell, stayStatus) {
     // }
     const bookingFromDate = moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE;
     const bookingToDate = moment(cell.room.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.to_date : cell.DATE;
-    const mainGuest = (_a = cell.room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
     return {
         ID: cell.POOL,
         FROM_DATE: bookingFromDate,
         TO_DATE: bookingToDate,
         NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
-        STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
-        NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name),
+        STATUS: bookingStatus[(_a = cell.booking) === null || _a === void 0 ? void 0 : _a.status.code],
+        NAME: formatName(cell.room.guest.first_name, cell.room.guest.last_name),
         IDENTIFIER: cell.room.identifier,
         PR_ID: cell.pr_id,
         POOL: cell.POOL,
@@ -124,7 +122,7 @@ function getDefaultData(cell, stayStatus) {
         NOTES: cell.booking.is_direct ? cell.booking.remark : null,
         PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
         is_direct: cell.booking.is_direct,
-        BALANCE: (_c = cell.booking.financial) === null || _c === void 0 ? void 0 : _c.due_amount,
+        BALANCE: (_b = cell.booking.financial) === null || _b === void 0 ? void 0 : _b.due_amount,
         channel_booking_nbr: cell.booking.channel_booking_nbr,
         ARRIVAL_TIME: cell.booking.arrival.description,
         defaultDates: {
@@ -136,7 +134,7 @@ function getDefaultData(cell, stayStatus) {
         PHONE_PREFIX: cell.booking.guest.country_phone_prefix,
         IS_EDITABLE: cell.booking.is_editable,
         ARRIVAL: cell.booking.arrival,
-        PHONE: (_d = cell.booking.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
+        PHONE: (_c = cell.booking.guest.mobile_without_prefix) !== null && _c !== void 0 ? _c : '',
         RATE: cell.room.total,
         RATE_PLAN: cell.room.rateplan.name,
         SPLIT_BOOKING: false,
@@ -149,22 +147,12 @@ function getDefaultData(cell, stayStatus) {
         ROOMS: cell.booking.rooms,
         cancelation: cell.room.rateplan.cancelation,
         guarantee: cell.room.rateplan.guarantee,
-        TOTAL_PRICE: (_e = cell.booking.financial) === null || _e === void 0 ? void 0 : _e.gross_total,
+        TOTAL_PRICE: (_d = cell.booking.financial) === null || _d === void 0 ? void 0 : _d.gross_total,
         COUNTRY: cell.booking.guest.country_id,
         FROM_DATE_STR: cell.booking.format.from_date,
         TO_DATE_STR: cell.booking.format.to_date,
         adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
         SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
-        //TODO:Implement checkin-checkout
-        CHECKIN: ((_f = cell.room.in_out) === null || _f === void 0 ? void 0 : _f.code) === '001',
-        CHECKOUT: ((_g = cell.room.in_out) === null || _g === void 0 ? void 0 : _g.code) === '002',
-        ROOM_INFO: {
-            occupancy: cell.room.occupancy,
-            sharing_persons: cell.room.sharing_persons,
-            unit: cell.room.unit,
-            in_out: cell.room.in_out,
-        },
-        BASE_STATUS_CODE: (_h = cell.booking.status) === null || _h === void 0 ? void 0 : _h.code,
     };
 }
 // function updateBookingWithStayData(data: any, cell: CellType): any {
@@ -181,48 +169,6 @@ function getDefaultData(cell, stayStatus) {
 //   }
 //   return data;
 // }
-export function getRoomStatus(params) {
-    const { in_out, status_code, from_date, to_date } = params;
-    if (calendar_data.checkin_enabled) {
-        if ((in_out === null || in_out === void 0 ? void 0 : in_out.code) === '001') {
-            return bookingStatus['000'];
-        }
-        else if ((in_out === null || in_out === void 0 ? void 0 : in_out.code) === '002') {
-            if (!calendar_data.is_automatic_check_in_out) {
-                const now = moment();
-                const toDate = moment(to_date, 'YYYY-MM-DD');
-                const fromDate = moment(from_date, 'YYYY-MM-DD');
-                if ((now.isSame(toDate, 'days') && now.isAfter(fromDate, 'days') && now.hour() >= 12) || now.isAfter(toDate, 'days')) {
-                    return bookingStatus['003'];
-                }
-                else {
-                    return bookingStatus['002'];
-                }
-            }
-        }
-        return bookingStatus[status_code || '001'];
-    }
-    else {
-        const now = moment();
-        const toDate = moment(to_date, 'YYYY-MM-DD');
-        const fromDate = moment(from_date, 'YYYY-MM-DD');
-        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
-            return bookingStatus['000'];
-        }
-        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
-            return bookingStatus['000'];
-        }
-        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
-            return bookingStatus['000'];
-        }
-        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
-            return bookingStatus['003'];
-        }
-        else {
-            return bookingStatus[status_code || '001'];
-        }
-    }
-}
 function addOrUpdateBooking(cell, myBookings, stayStatus) {
     const index = myBookings.findIndex(booking => booking.POOL === cell.POOL);
     if (index === -1) {
@@ -243,19 +189,48 @@ export function getPrivateNote(extras) {
 }
 export function transformNewBooking(data) {
     let bookings = [];
+    //console.log(data);
+    const renderStatus = room => {
+        const now = moment();
+        const toDate = moment(room.to_date, 'YYYY-MM-DD');
+        const fromDate = moment(room.from_date, 'YYYY-MM-DD');
+        if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+            return bookingStatus['000'];
+        }
+        else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+            return bookingStatus['000'];
+        }
+        else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+            return bookingStatus['000'];
+        }
+        else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+            return bookingStatus['003'];
+        }
+        else {
+            return bookingStatus[(data === null || data === void 0 ? void 0 : data.status.code) || '001'];
+        }
+        // if (toDate.isBefore(now, 'day') || (toDate.isSame(now, 'day') && now.hour() >= 12)) {
+        //   return bookingStatus['003'];
+        // } else {
+        //   return bookingStatus[fromDate.isSameOrBefore(now, 'day') ? '000' : data?.status.code || '001'];
+        // }
+    };
     const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
     rooms.forEach(room => {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c;
         const bookingFromDate = moment(room.from_date, 'YYYY-MM-DD').isAfter(moment(calendar_dates.fromDate, 'YYYY-MM-DD')) ? room.from_date : calendar_dates.fromDate;
         const bookingToDate = room.to_date;
+        console.log(`
+  bookingFromDate:${bookingFromDate},\n
+  roomFromDate:${room.from_date},\n
+  bookingToDate:${bookingToDate},\n
+  roomToDate:${bookingToDate}\n
+      `);
         if (moment(room.to_date, 'YYYY-MM-DD').isBefore(moment(calendar_dates.fromDate, 'YYYY-MM-DD'))) {
             return;
         }
-        const mainGuest = (_a = room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
         // console.log('bookingToDate:', bookingToDate, 'bookingFromDate:', bookingFromDate, 'room from date:', room.from_date, 'room to date', room.to_date);
         bookings.push({
-            CHECKIN: false,
-            CHECKOUT: false,
             ID: room['assigned_units_pool'],
             TO_DATE: bookingToDate,
             FROM_DATE: bookingFromDate,
@@ -263,15 +238,10 @@ export function transformNewBooking(data) {
             NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
             ARRIVAL: data.arrival,
             IS_EDITABLE: true,
-            BALANCE: (_b = data.financial) === null || _b === void 0 ? void 0 : _b.due_amount,
-            STATUS: getRoomStatus({
-                in_out: room.in_out,
-                from_date: room.from_date,
-                to_date: room.to_date,
-                status_code: (_c = data.status) === null || _c === void 0 ? void 0 : _c.code,
-            }),
-            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name),
-            PHONE: (_d = data.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
+            BALANCE: (_a = data.financial) === null || _a === void 0 ? void 0 : _a.due_amount,
+            STATUS: renderStatus(room),
+            NAME: formatName(room.guest.first_name, room.guest.last_name),
+            PHONE: (_b = data.guest.mobile_without_prefix) !== null && _b !== void 0 ? _b : '',
             ENTRY_DATE: '12-12-2023',
             PHONE_PREFIX: data.guest.country_phone_prefix,
             RATE: room.total,
@@ -289,7 +259,7 @@ export function transformNewBooking(data) {
             BOOKING_NUMBER: data.booking_nbr,
             cancelation: room.rateplan.cancelation,
             guarantee: room.rateplan.guarantee,
-            TOTAL_PRICE: (_e = data.financial) === null || _e === void 0 ? void 0 : _e.gross_total,
+            TOTAL_PRICE: (_c = data.financial) === null || _c === void 0 ? void 0 : _c.gross_total,
             COUNTRY: data.guest.country_id,
             FROM_DATE_STR: data.format.from_date,
             TO_DATE_STR: data.format.to_date,
@@ -305,13 +275,6 @@ export function transformNewBooking(data) {
                 from_date: room.from_date,
                 to_date: room.to_date,
             },
-            ROOM_INFO: {
-                occupancy: room.occupancy,
-                sharing_persons: room.sharing_persons,
-                unit: room.unit,
-                in_out: room.in_out,
-            },
-            BASE_STATUS_CODE: (_f = data.status) === null || _f === void 0 ? void 0 : _f.code,
         });
     });
     return bookings;

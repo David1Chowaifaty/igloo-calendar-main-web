@@ -54,7 +54,6 @@ export class IglToBeAssigned {
         }
     }
     handleAssignUnit(event) {
-        var _a, _b;
         const opt = event.detail;
         const data = opt.data;
         event.stopImmediatePropagation();
@@ -64,9 +63,19 @@ export class IglToBeAssigned {
                 this.isLoading = true;
                 this.noScroll = true;
             }
-            this.data[data.selectedDate].categories[data.RT_ID] = (_b = (_a = this.data[data.selectedDate]) === null || _a === void 0 ? void 0 : _a.categories[data.RT_ID]) === null || _b === void 0 ? void 0 : _b.filter(eventData => eventData.ID != data.assignEvent.ID);
+            this.data[data.selectedDate].categories[data.RT_ID] = this.data[data.selectedDate].categories[data.RT_ID].filter(eventData => eventData.ID != data.assignEvent.ID);
             this.calendarData = data.calendarData;
+            // this.calendarData.bookingEvents.push(data.assignEvent);
+            // if (!this.data[data.selectedDate].categories[data.RT_ID].length) {
+            //   delete this.data[data.selectedDate].categories[data.RT_ID];
+            //   if (!Object.keys(this.data[data.selectedDate].categories).length) {
+            //     delete this.data[data.selectedDate];
+            //     //this.orderedDatesList = this.orderedDatesList.filter(dateStamp => dateStamp != data.selectedDate);
+            //     //this.selectedDate = this.orderedDatesList.length ? this.orderedDatesList[0] : null;
+            //   }
+            // }
             this.renderView();
+            // this.reduceAvailableUnitEvent.emit({key: "reduceAvailableDays", data: {selectedDate: data.selectedDate}});
         }
     }
     async updateCategories(key, calendarData) {
@@ -201,7 +210,7 @@ export class IglToBeAssigned {
     }
     render() {
         var _a;
-        return (h(Host, { key: 'fedb60e26bf0aa6ea55030168f1fb975fb79bb7c', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: 'b1078e3c177ec5c082da5d851020c5efcb95b842' }, h("div", { key: '7506331f6a3fc1e17f9e4b3053229097ff8378a7' }, h("div", { key: '5aebe47c2d4c59ac0f1c61e3402ae9bd9710a983', class: "stickyHeader pt-1" }, h("div", { key: 'f2d8a5b5e5ed8e4a7f304193060d76bc8c5d4bb4', class: 'assignment_header' }, h("p", { key: 'f4993b8b5d68e8bc8beda7bd3ea5e92c83ee8af5', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: '970090b5174369ae989daa0998474e5e065b799c', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: '08007ccb46a8f9ed9e64207141e7616f6cf313c0' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, (_a = this.orderedDatesList) === null || _a === void 0 ? void 0 : _a.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: '61eec78d4b7df418d0da62d750def590326a6f98', class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
+        return (h(Host, { key: '01ef3fafe1ca49c05cb4e2a3785c28235f243d4f', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: '6323b227d0fac56f5788110fe865b13bc682e678' }, h("div", { key: '4ef8274f07a902055b61248365734d51f65c7670' }, h("div", { key: '07f5207ac11807120eee1b75f82fb655367aaa81', class: "stickyHeader pt-1" }, h("div", { key: 'c277217265a009f098708874e55e1aaa6012852a', class: 'assignment_header' }, h("p", { key: '622a61be313b22de1aef6f9c6812bfaba853dcef', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: '5a261f1ee05b6ced9c192d59f625b40fa0dc1d1f', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: '036807b741056d0b232b9139287175dd0080d246' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, (_a = this.orderedDatesList) === null || _a === void 0 ? void 0 : _a.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: 'ae516baab6138345ea651df0712edbd9812cd24d', class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
     }
     static get is() { return "igl-to-be-assigned"; }
     static get encapsulation() { return "scoped"; }

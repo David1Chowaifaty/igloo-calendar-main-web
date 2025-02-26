@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { Host, h, } from "@stencil/core";
 export class IglTbaCategoryView {
     constructor() {
         this.categoriesData = {};
@@ -12,10 +12,10 @@ export class IglTbaCategoryView {
         event.stopImmediatePropagation();
         event.stopPropagation();
         const opt = event.detail;
-        this.eventDatas = this.eventDatas.filter(eventData => eventData.ID != opt.data.ID);
+        this.eventDatas = this.eventDatas.filter((eventData) => eventData.ID != opt.data.ID);
         this.calendarData.bookingEvents.push(opt.data);
         this.assignUnitEvent.emit({
-            key: 'assignUnit',
+            key: "assignUnit",
             data: {
                 RT_ID: this.categoryId,
                 selectedDate: this.selectedDate,
@@ -28,14 +28,13 @@ export class IglTbaCategoryView {
         // }
     }
     getEventView(categoryId, eventDatas) {
-        return eventDatas.map((eventData, ind) => (h("igl-tba-booking-view", { calendarData: this.calendarData, selectedDate: this.selectedDate, eventData: eventData, categoriesData: this.categoriesData, categoryId: categoryId, categoryIndex: this.categoryIndex, eventIndex: ind, onAssignRoomEvent: evt => this.handleAssignRoomEvent(evt) })));
+        return eventDatas.map((eventData, ind) => (h("igl-tba-booking-view", { calendarData: this.calendarData, selectedDate: this.selectedDate, eventData: eventData, categoriesData: this.categoriesData, categoryId: categoryId, categoryIndex: this.categoryIndex, eventIndex: ind, onAssignRoomEvent: (evt) => this.handleAssignRoomEvent(evt) })));
     }
     renderView() {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        var _a;
-        return (h(Host, { key: '586d0e583af2d3ec3c6659835343497b168f0783' }, h("div", { key: '52626f585c4280fb1d0fd00d6e9a87b5e4daa1b7', class: "sectionContainer" }, h("div", { key: '3825b7b838057995a63e11a9dd934393b0485703', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '75a76c857d95ee0ac6a35d8fbd00a897453d242c' }, h("div", { key: 'e79421ad8df39d0ee13acc2fdde5f976425408c5', class: "sectionContainer" }, h("div", { key: '65563fe11551e04694568476cc2173b03f070ef0', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId].name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get is() { return "igl-tba-category-view"; }
     static get encapsulation() { return "scoped"; }

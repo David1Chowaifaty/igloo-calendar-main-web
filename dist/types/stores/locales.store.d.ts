@@ -4,12 +4,6 @@ export interface ILocale {
 }
 export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords & LocalizationPAYMENTBACK) | null;
 export type LocalizationStrings = {
-    Lcz_AssignedAndChecIn: string;
-    Lcz_PersonsSharingRoom: string;
-    Lcz_Documents: string;
-    Lcz_Nationality: string;
-    Lcz_MainGuest: string;
-    Lcz_DOB: string;
     Lcz_AnyInfant: string;
     Lcz_Policies: string;
     Lcz_SmokingOptions: string;
