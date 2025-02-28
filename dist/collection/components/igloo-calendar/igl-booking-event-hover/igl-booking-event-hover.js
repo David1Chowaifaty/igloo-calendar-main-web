@@ -123,15 +123,20 @@ export class IglBookingEventHover {
         return false;
     }
     canCheckOut() {
+        var _a, _b, _c, _d;
         if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
             return false;
         }
         if (this.isCheckedIn()) {
             return true;
         }
-        else {
-            return false;
+        const now = moment();
+        if (((_b = (_a = this.bookingEvent.ROOM_INFO) === null || _a === void 0 ? void 0 : _a.in_out) === null || _b === void 0 ? void 0 : _b.code) === '000' &&
+            moment().isSameOrAfter(new Date(this.bookingEvent.TO_DATE), 'days') &&
+            compareTime(now.toDate(), createDateWithOffsetAndHour((_c = calendar_data.checkin_checkout_hours) === null || _c === void 0 ? void 0 : _c.offset, (_d = calendar_data.checkin_checkout_hours) === null || _d === void 0 ? void 0 : _d.hour))) {
+            return true;
         }
+        return false;
     }
     handleBlockDateUpdate(event) {
         event.stopImmediatePropagation();
@@ -383,7 +388,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'e0eb66dcffc1c5c2cb29db4c7077eef4895d50cb' }, h("div", { key: 'afeff14c94354d52b3776de0fc7ce6471ed8de95', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '4146b9bac2a895a30695ce27aa2dfd6d2d7b362c', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '3d12ee06fc3d545d832adf9bad70a419db084907' }, h("div", { key: 'f3d1953f7167b39f0d3b96c9e4b73f701bc3e428', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'a35de5f8d66df7b8ecb3ef51b36368f3c06b486b', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
