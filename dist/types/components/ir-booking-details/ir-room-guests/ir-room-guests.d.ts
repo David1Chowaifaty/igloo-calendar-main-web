@@ -49,7 +49,7 @@ export declare class IrRoomGuests {
     submitted: boolean;
     propertyCountry: ICountry;
     closeModal: EventEmitter<null>;
-    resetbooking: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     private bookingService;
     componentWillLoad(): void;
     private init;

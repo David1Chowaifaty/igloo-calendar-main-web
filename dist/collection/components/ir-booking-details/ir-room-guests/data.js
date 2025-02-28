@@ -1,5 +1,5 @@
 import moment from "moment";
-import IMask from "imask";
+import { MaskedRange } from "imask";
 export const defaultGuest = {
     id: -1,
     full_name: '',
@@ -37,21 +37,22 @@ export const dateMask = {
     format: date => moment(date).format('DD/MM/YYYY'),
     parse: str => moment(str, 'DD/MM/YYYY').toDate(),
     autofix: true,
+    placeholderChar: '_',
     blocks: {
         YYYY: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1970,
             to: new Date().getFullYear(),
             placeholderChar: 'Y',
         },
         MM: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1,
             to: 12,
             placeholderChar: 'M',
         },
         DD: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1,
             to: 31,
             placeholderChar: 'D',

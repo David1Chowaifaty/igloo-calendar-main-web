@@ -3,7 +3,7 @@ import { Z as ZSharedPersons, a as ZSharedPerson, b as ZIdInfo } from './booking
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { I as IMask, d as defineCustomElement$4 } from './ir-input-text2.js';
+import { M as MaskedRange, d as defineCustomElement$4 } from './ir-input-text2.js';
 import { B as BookingService } from './booking.service.js';
 import { Z as ZodError } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
@@ -51,21 +51,22 @@ const dateMask = {
     format: date => hooks(date).format('DD/MM/YYYY'),
     parse: str => hooks(str, 'DD/MM/YYYY').toDate(),
     autofix: true,
+    placeholderChar: '_',
     blocks: {
         YYYY: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1970,
             to: new Date().getFullYear(),
             placeholderChar: 'Y',
         },
         MM: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1,
             to: 12,
             placeholderChar: 'M',
         },
         DD: {
-            mask: IMask.MaskedRange,
+            mask: MaskedRange,
             from: 1,
             to: 31,
             placeholderChar: 'D',
@@ -81,7 +82,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         super();
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
-        this.resetbooking = createEvent(this, "resetbooking", 7);
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         /**
          * An array of people sharing the room.
          * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
@@ -139,7 +140,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
             guests = [...this.sharedPersons];
         }
         guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: new Date(g.dob).getFullYear() === 1900 ? null : g.dob })));
-        this.guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? hooks(new Date(g.dob)).format('DD/MM/YYYY') : '' })));
+        this.guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? hooks(new Date(g.dob)).format('DD/MM/YYYY') : '', country_id: g.country ? g.country.id : null })));
     }
     updateGuestInfo(index, params) {
         const tempGuests = [...this.guests];
@@ -166,7 +167,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                 });
             }
             this.closeModal.emit(null);
-            this.resetbooking.emit(null);
+            this.resetBookingEvt.emit(null);
         }
         catch (error) {
             console.log(error);
@@ -183,7 +184,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         }
         return (h("div", { class: "h-100 d-flex flex-column", style: { minWidth: '300px' } }, h("ir-title", { class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), h("section", { class: 'd-flex flex-column px-1 h-100 ' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
             var _a, _b;
-            return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "First name"), h("ir-input-text", { class: "flex-grow-1 h-100", id: `first_name_${idx}`, zod: ZSharedPerson.pick({ first_name: true }), error: !!this.error['first_name'], autoValidate: false, wrapKey: "first_name", LabelAvailable: false, submitted: this.submitted, placeholder: "First name", onTextChange: e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxLength: 40 })), h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "Last name"), h("ir-input-text", { maxLength: 40, class: "flex-grow-1 h-100", id: `last_name_${idx}`, zod: ZSharedPerson.pick({ last_name: true }), error: !!this.error['last_name'], autoValidate: false, wrapKey: "last_name", LabelAvailable: false, submitted: this.submitted, placeholder: "Last name", onTextChange: e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name })), h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'], autoValidate: false, wrapKey: "dob", submitted: this.submitted, mask: dateMask, LabelAvailable: false, placeholder: "dd/mm/yyyy", onTextChange: e => {
+            return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "First name"), h("ir-input-text", { class: "flex-grow-1 h-100", id: `first_name_${idx}`, zod: ZSharedPerson.pick({ first_name: true }), error: !!this.error['first_name'], autoValidate: false, wrapKey: "first_name", LabelAvailable: false, submitted: this.submitted, placeholder: "First name", onTextChange: e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxLength: 40 })), h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "Last name"), h("ir-input-text", { maxLength: 40, class: "flex-grow-1 h-100", id: `last_name_${idx}`, zod: ZSharedPerson.pick({ last_name: true }), error: !!this.error['last_name'], autoValidate: false, wrapKey: "last_name", LabelAvailable: false, submitted: this.submitted, placeholder: "Last name", onTextChange: e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name })), h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'], autoValidate: false, wrapKey: "dob", submitted: this.submitted, mask: dateMask, LabelAvailable: false, placeholder: "", onTextChange: e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
                 }, value: guest.dob })), h("div", { class: " m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "mx-0 flex-grow-1  h-100" }, h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: (_a = this.countries) === null || _a === void 0 ? void 0 : _a.find(c => { var _a, _b, _c; return ((_a = c.id) === null || _a === void 0 ? void 0 : _a.toString()) === ((_c = (_b = guest.country) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString()); }), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail.id.toString(), country: e.detail }), countries: this.countries }))), h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, h("ir-select", { selectForcedStyles: {
                     borderTopRightRadius: '0px',

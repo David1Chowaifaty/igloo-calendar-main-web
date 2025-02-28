@@ -37,6 +37,7 @@ export declare class IrRoom {
     private bookingService;
     componentWillLoad(): void;
     handleClick(e: any): void;
+    handleRoomDataChange(): void;
     private getDateStr;
     private handleEditClick;
     private openModal;

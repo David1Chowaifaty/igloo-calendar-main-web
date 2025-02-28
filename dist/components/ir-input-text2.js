@@ -3809,6 +3809,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IMask as I, IrInputText as a, defineCustomElement as d };
+export { IrInputText as I, MaskedRange as M, defineCustomElement as d };
 
 //# sourceMappingURL=ir-input-text2.js.map

@@ -9,15 +9,15 @@ export class IrTasksHeader {
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '9c7b0158cf4d190aed602ae94ab540b11bef29dc', class: "d-flex align-items-center justify-content-between" }, h("h3", { key: 'b99190b7e737350ae0fdd540eba29295b0f5be58' }, "Housekeeping Tasks"), h("div", { key: 'a1ad5b48f4ebb0f90e65b88586b08004aaef4527', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: 'ed4758a84920ec23bf9290336749d0687d3404fd', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
+        return (h("div", { key: '258b84bcae51b7655b521594708b7ef2d6d3ee60', class: "d-flex align-items-center justify-content-between" }, h("h3", { key: 'b819fb78537c52444bfc1189f6d5f2f8544a4ed4' }, "Housekeeping Tasks"), h("div", { key: '94e11c5b647272694ea6eb551a1fbb45dd1c1254', class: "d-flex align-items-center", style: { gap: '1rem' } }, h("ir-button", { key: '532ca57b0a865224c69b3bc79fae44cdc49f996d', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            } }), h("ir-button", { key: '6a40e2426fdafe5995125818310acf9406e7f8e4', size: "sm", btn_color: "outline", text: "Archive", onClickHandler: e => {
+            } }), h("ir-button", { key: '7ce1b541a6cb576a170a61278265af5b23cf47e2', size: "sm", btn_color: "outline", text: "Archive", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '4a221d8f272a5c9417aee10b1d04099bdb66a814', onClickHandler: e => {
+            } }), h("ir-button", { key: 'b9499980a8e245ea3eb831576150ac71f41bed97', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });

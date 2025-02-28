@@ -87,11 +87,20 @@ export declare class IrDatePicker {
         start: moment.Moment;
         end: moment.Moment;
     }>;
+    datePickerFocus: EventEmitter<void>;
+    datePickerBlur: EventEmitter<void>;
     private pickerRef;
     private datePicker;
     private openDatePickerTimeout?;
+    private triggerSlot;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    /**
+     * Set up focus handling for the custom trigger slot
+     */
+    private setupTriggerFocusHandling;
+    private handleTriggerFocus;
+    private handleTriggerClick;
     datePropChanged(newDate: string | Date | null, oldDate: string | Date | null): void;
     minDatePropChanged(newVal: string | Date, oldVal: string | Date): void;
     maxDatePropChanged(newVal: string | Date, oldVal: string | Date): void;

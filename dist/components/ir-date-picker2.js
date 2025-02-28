@@ -1829,6 +1829,8 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         super();
         this.__registerHost();
         this.dateChanged = createEvent(this, "dateChanged", 7);
+        this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
+        this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
         /**
          * Determines whether the date picker is rendered inline or in a pop-up.
          * If `true`, the picker is always visible inline.
@@ -1896,6 +1898,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
          */
         this.emitEmptyDate = false;
         this.currentDate = null;
+        this.triggerSlot = null;
     }
     componentWillLoad() {
         // Sync initial @Prop to internal state
@@ -1905,6 +1908,36 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
     }
     componentDidLoad() {
         this.initializeDatepicker();
+        this.setupTriggerFocusHandling();
+    }
+    /**
+     * Set up focus handling for the custom trigger slot
+     */
+    setupTriggerFocusHandling() {
+        if (!this.customPicker)
+            return;
+        // Get the slot element
+        const slotEl = this.el.querySelector('[slot="trigger"]');
+        console.log('slotEl', slotEl);
+        if (!slotEl)
+            return;
+        // We'll consider the first assigned element as our trigger
+        this.triggerSlot = slotEl;
+        // Add focus event listener to the trigger element
+        this.triggerSlot.addEventListener('focus', this.handleTriggerFocus.bind(this));
+        // Also handle click events on the trigger
+        this.triggerSlot.addEventListener('click', this.handleTriggerClick.bind(this));
+    }
+    handleTriggerFocus() {
+        if (this.disabled)
+            return;
+        this.openDatePicker();
+    }
+    handleTriggerClick(event) {
+        if (this.disabled)
+            return;
+        event.preventDefault();
+        this.openDatePicker();
     }
     datePropChanged(newDate, oldDate) {
         if (this.isSameDates(newDate, oldDate)) {
@@ -1959,7 +1992,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
             this.currentDate = null;
             return;
         }
-        // If it’s a truly new date, select it
+        // If it's a truly new date, select it
         if (!this.isSameDates(this.currentDate, valid)) {
             this.currentDate = valid;
             if (this.forceDestroyOnUpdate) {
@@ -1989,6 +2022,12 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
             locale: default_1,
             showOtherMonths: this.showOtherMonths,
             selectOtherMonths: this.selectOtherMonths,
+            onHide: () => {
+                this.datePickerBlur.emit();
+            },
+            onShow: () => {
+                this.datePickerFocus.emit();
+            },
             onSelect: ({ date }) => {
                 if (!date || !(date instanceof Date)) {
                     if (this.emitEmptyDate) {
@@ -2036,10 +2075,15 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         if (this.openDatePickerTimeout) {
             clearTimeout(this.openDatePickerTimeout);
         }
+        // Clean up event listeners
+        if (this.triggerSlot) {
+            this.triggerSlot.removeEventListener('focus', this.handleTriggerFocus);
+            this.triggerSlot.removeEventListener('click', this.handleTriggerClick);
+        }
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: '2a9555ffc14dbb15abef5cae13d282c9bd9f2e69', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: 'e83b6b1734260d7312e292dcd10d057e56a5f8dd', name: "trigger" }), h("input", { key: 'e0a6288e9f91a0973ce8a77675e69ea25351b052', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: 'ca0ffcf7906ec89eea06764938b57bdfb05e0438', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: 'c410d125fbb87a6036fec8ed7b1f19922f810df3', name: "trigger" }), h("input", { key: '149a71e8f7b4c82c06fb0898df32651794844737', type: "button", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     get el() { return this; }
     static get watchers() { return {
