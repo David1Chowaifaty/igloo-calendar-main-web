@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { C as ChannelService } from './channel.service-f8e8c973.js';
+import { C as ChannelService } from './channel.service-51b75b1f.js';
 import { o as onChannelChange, c as channels_data } from './channel.store-92261163.js';
 import { l as locales } from './locales.store-95a78d6b.js';
-import './calendar-data-e1b88280.js';
+import './calendar-data-ce538d8c.js';
 import './index-e42e9935.js';
 import './axios-aa1335b8.js';
 

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { a as calendar_dates } from './booking.js';
+import { d as calendar_dates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';

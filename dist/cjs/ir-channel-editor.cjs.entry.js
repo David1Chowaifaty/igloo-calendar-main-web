@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
-const channel_service = require('./channel.service-31367c3e.js');
+const channel_service = require('./channel.service-7ad45ea8.js');
 const channel_store = require('./channel.store-f5ff1505.js');
 const locales_store = require('./locales.store-7abd65bc.js');
-require('./calendar-data-cd8e8374.js');
+require('./calendar-data-eb8212ff.js');
 require('./index-3cfd4bf8.js');
 require('./axios-6e678d52.js');
 

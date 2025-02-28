@@ -31,6 +31,8 @@ export declare class IrPriceInput {
     minValue?: number;
     /** Maximum value for the price */
     maxValue?: number;
+    /** Unique id for testing */
+    testId?: string;
     /** Error*/
     error: boolean;
     /** Emits the current value on change */

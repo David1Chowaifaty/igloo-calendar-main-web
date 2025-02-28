@@ -5,6 +5,7 @@ const initialState = {
         child_max_nbr: 0,
         child_max_age: 0,
     },
+    checkin_checkout_hours: null,
     allowedBookingSources: [],
     currency: undefined,
     endingDate: 0,
