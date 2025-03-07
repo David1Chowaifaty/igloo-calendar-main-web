@@ -47,6 +47,7 @@ export interface IUnit {
     housekeeper: null;
     id: number;
     name: string;
+    is_active: boolean;
 }
 export interface IUnitAssignments {
     assigned: number;

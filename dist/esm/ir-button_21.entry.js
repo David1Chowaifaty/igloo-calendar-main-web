@@ -455,7 +455,8 @@ const IrDeleteModal = class {
                     .map(m => ({
                     value: m.id.toString(),
                     text: m.name,
-                })) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' }))))),
+                }))
+                    .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' }))))),
         ];
     }
 };
@@ -521,7 +522,7 @@ const IrHkTeam = class {
             return null;
         }
         const { assigned, total, un_assigned } = housekeeping_store.hk_criteria.units_assignments;
-        return (h(Host, { class: "card p-1" }, h("section", null, h("ir-title", { label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { class: 'm-0 p-0' }, assigned, " ", h("span", null, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { class: "mt-1 table-responsive" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Name), h("th", null, locales.entries.Lcz_Mobile), h("th", null, locales.entries.Lcz_Username), h("th", null, locales.entries.Lcz_Note), h("th", null, locales.entries.Lcz_UnitsAssigned), h("th", { class: "text-center" }, h("ir-icon", { title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { class: "card p-1" }, h("section", null, h("ir-title", { label: locales.entries.Lcz_HousekeepingTeam, justifyContent: "space-between" }, h("div", { slot: "title-body", class: "assignments-container gap-16 m-0" }, h("p", { class: "font-weight-bold m-0 p-0" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { class: 'm-0 p-0' }, assigned, " ", h("span", null, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("button", { class: "outline-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }) }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { class: 'm-0 p-0' }, locales.entries.Lcz_AsAnOption)), h("section", { class: "mt-1 table-responsive" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Name), h("th", null, locales.entries.Lcz_Mobile), h("th", null, locales.entries.Lcz_Username), h("th", null, locales.entries.Lcz_UnitsAssigned), h("th", { class: "text-center" }, h("ir-icon", { title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
