@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import "bootstrap";
 export class IrPopover {
     constructor() {
         this.irPopoverLeft = '10px';
@@ -26,12 +27,12 @@ export class IrPopover {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'd206a1ade3ad3f08d56e45591a7b6675439fc20a', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: '8326e066bfb745fd0de81f796079b1ae317c24c7', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 cursor: 'pointer',
-            } }, h("slot", null))) : (h("button", { class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
+            } }, h("slot", null))) : (h("button", { tabindex: "0", class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
     }
     static get is() { return "ir-popover"; }
     static get originalStyleUrls() {

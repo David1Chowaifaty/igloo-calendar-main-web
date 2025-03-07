@@ -317,7 +317,7 @@ const IglCalBody = class {
             return null;
         }
         return (index.h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
-            _a.name, " status to ", index.h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean', "?"))
+            _a.name, " to ", index.h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean', "?"))
         // <ir-select
         //   LabelAvailable={false}
         //   showFirstOption={false}

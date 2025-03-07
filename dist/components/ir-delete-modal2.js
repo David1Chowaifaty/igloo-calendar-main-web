@@ -2,12 +2,11 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
-import { d as defineCustomElement$3 } from './ir-icon2.js';
+import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
-const irDeleteModalCss = ".backdropModal.sc-ir-delete-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-delete-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-delete-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-delete-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-delete-modal{z-index:1001 !important}.modal-dialog.sc-ir-delete-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-delete-modal{gap:10px}.exit-icon.sc-ir-delete-modal{position:absolute;right:10px;top:5px;margin:0}.ir-modal.sc-ir-delete-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-delete-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
+const irDeleteModalCss = ":host{font-size:1rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.ir-alert-footer{gap:10px}.exit-icon{position:absolute;right:10px;top:5px;margin:0}";
 const IrDeleteModalStyle0 = irDeleteModalCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
@@ -34,11 +33,22 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
         this.housekeepingService = new HouseKeepingService();
     }
     async closeModal() {
-        this.isOpen = false;
-        this.modalClosed.emit(null);
+        if (this.modalEl) {
+            $(this.modalEl).modal('hide');
+            this.isOpen = false;
+            this.modalClosed.emit(null);
+        }
     }
     async openModal() {
-        this.isOpen = true;
+        if (this.modalEl) {
+            $(this.modalEl).modal({
+                focus: true,
+                backdrop: true,
+                keyboard: true,
+            });
+            $(this.modalEl).modal('show');
+            this.isOpen = true;
+        }
     }
     async btnClickHandler(event) {
         let target = event.target;
@@ -73,25 +83,18 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
     }
     render() {
         if (!this.user) {
-            return null;
+            return;
         }
-        return [
-            h("div", { class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
-                    this.closeModal();
-                } }),
-            h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, this.isOpen && (h("div", { class: `ir-alert-content p-2` }, h("div", { class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }, h("p", { class: "p-0 my-0 mb-1" }, this.user.assigned_units.length > 0 ? locales.entries.Lcz_AssignUnitsTo : locales.entries.Lcz_ConfirmDeletion), h("ir-icon", { class: "exit-icon", style: { cursor: 'pointer' }, onClick: () => {
-                    this.closeModal();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.user.assigned_units.length > 0 && (h("div", { class: "modal-body text-left p-0 mb-2" }, h("ir-select", { firstOption: locales.entries.Lcz_nobody, selectedValue: this.selectedId, onSelectChange: e => (this.selectedId = e.detail), LabelAvailable: false, data: housekeeping_store.hk_criteria.housekeepers
-                    .filter(hk => hk.id !== this.user.id)
-                    .map(m => ({
-                    value: m.id.toString(),
-                    text: m.name,
-                }))
-                    .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' }))))),
-        ];
+        return (h("div", { "aria-modal": this.isOpen ? 'true' : 'false', class: "modal fade", ref: el => (this.modalEl = el), tabindex: "-1" }, h("div", { class: "modal-dialog modal-dialog-centered" }, h("div", { class: "modal-content" }, h("div", { class: "modal-body" }, h("div", { class: `ir-alert-header mb-1 d-flex align-items-center justify-content-between border-0 py-0 m-0 ` }, h("p", { class: "p-0 my-0 modal-title" }, this.user.assigned_units.length > 0 ? locales.entries.Lcz_AssignUnitsTo : locales.entries.Lcz_ConfirmDeletion), h("ir-button", { class: "exit-icon", variant: "icon", icon_name: "xmark", onClickHandler: () => this.closeModal() })), this.user.assigned_units.length > 0 && (h("div", { class: "modal-body text-left p-0 mb-2" }, h("ir-select", { firstOption: locales.entries.Lcz_nobody, selectedValue: this.selectedId, onSelectChange: e => (this.selectedId = e.detail), LabelAvailable: false, data: housekeeping_store.hk_criteria.housekeepers
+                .filter(hk => hk.id !== this.user.id)
+                .map(m => ({
+                value: m.id.toString(),
+                text: m.name,
+            }))
+                .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' })))))));
     }
     static get style() { return IrDeleteModalStyle0; }
-}, [2, "ir-delete-modal", {
+}, [0, "ir-delete-modal", {
         "user": [16],
         "isOpen": [32],
         "selectedId": [32],
@@ -103,7 +106,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-delete-modal", "ir-button", "ir-icon", "ir-icons", "ir-select"];
+    const components = ["ir-delete-modal", "ir-button", "ir-icons", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
@@ -111,11 +114,6 @@ function defineCustomElement() {
             }
             break;
         case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-icon":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

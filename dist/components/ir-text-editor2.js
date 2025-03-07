@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement as HTMLElement$1, createEvent, h } from '@stencil/core/internal/client';
-import { c as commonjsGlobal, g as getDefaultExportFromCjs } from './_commonjsHelpers.js';
+import { c as commonjsGlobal, a as getDefaultExportFromCjs } from './_commonjsHelpers.js';
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;

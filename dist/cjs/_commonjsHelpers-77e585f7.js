@@ -1,3 +1,5 @@
+'use strict';
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getDefaultExportFromCjs (x) {
@@ -19,6 +21,8 @@ function getAugmentedNamespace(n) {
 	return a;
 }
 
-export { getDefaultExportFromCjs as a, commonjsGlobal as c, getAugmentedNamespace as g };
+exports.commonjsGlobal = commonjsGlobal;
+exports.getAugmentedNamespace = getAugmentedNamespace;
+exports.getDefaultExportFromCjs = getDefaultExportFromCjs;
 
-//# sourceMappingURL=_commonjsHelpers.js.map
+//# sourceMappingURL=_commonjsHelpers-77e585f7.js.map
