@@ -199,6 +199,10 @@ declare const icons: {
         d: string;
         viewBox: string;
     };
+    note: {
+        d: string;
+        viewBox: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

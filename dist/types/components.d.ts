@@ -268,6 +268,7 @@ export namespace Components {
         "placeholder": string;
         "propertyId": number;
         "required": boolean;
+        "testId": string;
         "to_date": string;
         "type": 'email' | 'text' | 'password' | 'number' | 'search';
         "value": string;
@@ -395,6 +396,7 @@ export namespace Components {
         "error": boolean;
         "label": string;
         "propertyCountry": ICountry;
+        "testId": string;
     }
     interface IrDatePicker {
         /**
@@ -594,6 +596,10 @@ export namespace Components {
           * Whether the input should auto-validate
          */
         "autoValidate"?: boolean;
+        /**
+          * To clear all the Input base styling
+         */
+        "clearBaseStyles": boolean;
         /**
           * Whether the input is disabled
          */
@@ -839,6 +845,7 @@ export namespace Components {
         "language": string;
         "phone_prefix": string | null;
         "placeholder": string;
+        "testId": string;
         "token": string;
         "value": string;
     }
@@ -858,6 +865,7 @@ export namespace Components {
         "content": string;
         "irPopoverLeft": string;
         "placement": 'top' | 'bottom' | 'left' | 'right' | 'auto';
+        "renderContentAsHtml": boolean;
         "trigger": 'focus' | 'click' | 'hover';
     }
     interface IrPriceInput {
@@ -993,6 +1001,10 @@ export namespace Components {
     interface IrSelect {
         "LabelAvailable": boolean;
         "data": selectOption[];
+        /**
+          * Whether the select has an error
+         */
+        "error": boolean;
         "firstOption": string;
         "label": string;
         "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
@@ -3323,6 +3335,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         "propertyId"?: number;
         "required"?: boolean;
+        "testId"?: string;
         "to_date"?: string;
         "type"?: 'email' | 'text' | 'password' | 'number' | 'search';
         "value"?: string;
@@ -3470,6 +3483,7 @@ declare namespace LocalJSX {
         "label"?: string;
         "onCountryChange"?: (event: IrCountryPickerCustomEvent<ICountry>) => void;
         "propertyCountry"?: ICountry;
+        "testId"?: string;
     }
     interface IrDatePicker {
         /**
@@ -3696,6 +3710,10 @@ declare namespace LocalJSX {
           * Whether the input should auto-validate
          */
         "autoValidate"?: boolean;
+        /**
+          * To clear all the Input base styling
+         */
+        "clearBaseStyles"?: boolean;
         /**
           * Whether the input is disabled
          */
@@ -3958,6 +3976,7 @@ declare namespace LocalJSX {
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;
         "phone_prefix"?: string | null;
         "placeholder"?: string;
+        "testId"?: string;
         "token"?: string;
         "value"?: string;
     }
@@ -3979,6 +3998,7 @@ declare namespace LocalJSX {
         "content"?: string;
         "irPopoverLeft"?: string;
         "placement"?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
+        "renderContentAsHtml"?: boolean;
         "trigger"?: 'focus' | 'click' | 'hover';
     }
     interface IrPriceInput {
@@ -4136,6 +4156,10 @@ declare namespace LocalJSX {
     interface IrSelect {
         "LabelAvailable"?: boolean;
         "data"?: selectOption[];
+        /**
+          * Whether the select has an error
+         */
+        "error"?: boolean;
         "firstOption"?: string;
         "label"?: string;
         "labelBackground"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;

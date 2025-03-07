@@ -12,6 +12,7 @@ export declare class IrHkUser {
     closeSideBar: EventEmitter<null>;
     private housekeepingService;
     private default_properties;
+    private housekeeperSchema;
     componentWillLoad(): Promise<void>;
     updateUserField(key: keyof THKUser, value: any): void;
     addUser(): Promise<void>;

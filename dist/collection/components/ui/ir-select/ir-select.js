@@ -17,6 +17,8 @@ export class IrSelect {
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
+        /** Whether the select has an error */
+        this.error = false;
         this.initial = true;
         this.valid = false;
         this.count = 0;
@@ -58,7 +60,7 @@ export class IrSelect {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '590219e25a47979c44b82b5a11e7e22341277591', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'd5c1aaf7f012de9df27f8907de117adf25cf1e12', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '9f58d7e9c4f62950224c6a5b37b58b3f52a6cd1b', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'b5312949bc4cdbf3ccd33aeed63f78cd35b44622', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -68,7 +70,7 @@ export class IrSelect {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '489de30c309dea93fdc237f2f9f209eb04ec952a', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '6ba818a18cac58800fff1b5416294c9dd7f736a6', class: "input-group row m-0" }, label, h("select", { key: '399e916b16ab75714f40b2f6988e90897a36bb60', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: 'ba12f53882ed68bdb70898ed23409d1cda58b05a', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '920c7882ea11321d339da60418fba05a0f3329f2', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '497102051542723f0e868c39e87c009690e36b31', class: "input-group row m-0" }, label, h("select", { key: '6cc78e22e35bfd191c38aa301a85791fc655b2c2', "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: 'b88327bc04ad8d888c6fdc8ed52ffbc65eb7513c', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -525,6 +527,26 @@ export class IrSelect {
                 "setter": false,
                 "attribute": "test-id",
                 "reflect": false
+            },
+            "error": {
+                "type": "boolean",
+                "mutable": true,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the select has an error"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "error",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }

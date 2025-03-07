@@ -6,6 +6,7 @@ export declare class IrCountryPicker {
     error: boolean;
     propertyCountry: ICountry;
     label: string;
+    testId: string;
     inputValue: string;
     selectedCountry: ICountry;
     filteredCountries: ICountry[];

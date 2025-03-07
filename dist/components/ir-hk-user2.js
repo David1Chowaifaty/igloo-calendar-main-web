@@ -3,6 +3,7 @@ import { H as HouseKeepingService } from './housekeeping.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { g as getDefaultProperties } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
+import { z, Z as ZodError } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-combobox2.js';
 import { d as defineCustomElement$6 } from './ir-icon2.js';
@@ -11,56 +12,6 @@ import { d as defineCustomElement$4 } from './ir-input-text2.js';
 import { d as defineCustomElement$3 } from './ir-phone-input2.js';
 import { d as defineCustomElement$2 } from './ir-textarea2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
-
-function validateForm(data, rules) {
-    let isValid = true;
-    const errors = {};
-    for (const fieldName in rules) {
-        const rulesForField = rules[fieldName];
-        const value = data[fieldName];
-        if (!rulesForField)
-            continue;
-        errors[fieldName] = [];
-        // Required
-        if (rulesForField.required && (value === null || value === undefined || value === '')) {
-            isValid = false;
-            errors[fieldName].push('This field is required.');
-        }
-        // String Length
-        if (typeof value === 'string') {
-            if (rulesForField.minLength !== undefined && value.length < rulesForField.minLength) {
-                isValid = false;
-                errors[fieldName].push(`Minimum length is ${rulesForField.minLength}.`);
-            }
-            if (rulesForField.maxLength !== undefined && value.length > rulesForField.maxLength) {
-                isValid = false;
-                errors[fieldName].push(`Maximum length is ${rulesForField.maxLength}.`);
-            }
-        }
-        // Numeric Range
-        if (typeof value === 'number') {
-            if (rulesForField.minValue !== undefined && value < rulesForField.minValue) {
-                isValid = false;
-                errors[fieldName].push(`Minimum value is ${rulesForField.minValue}.`);
-            }
-            if (rulesForField.maxValue !== undefined && value > rulesForField.maxValue) {
-                isValid = false;
-                errors[fieldName].push(`Maximum value is ${rulesForField.maxValue}.`);
-            }
-        }
-        // Regular Expression
-        if (rulesForField.pattern && !rulesForField.pattern.test(String(value))) {
-            isValid = false;
-            errors[fieldName].push('Invalid format.');
-        }
-        // Custom Validation
-        if (rulesForField.custom && !rulesForField.custom(value)) {
-            isValid = false;
-            errors[fieldName].push('Custom validation failed.');
-        }
-    }
-    return { isValid, errors };
-}
 
 const irHkUserCss = ".sc-ir-hk-user-h{display:block}";
 const IrHkUserStyle0 = irHkUserCss;
@@ -90,6 +41,12 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
             token: '',
             language: '',
         };
+        this.housekeeperSchema = z.object({
+            name: z.string().min(2),
+            mobile: z.string().min(1).max(14),
+            password: z.string().min(5),
+            username: z.string().min(2),
+        });
     }
     async componentWillLoad() {
         const { token, language, property_id } = getDefaultProperties();
@@ -108,16 +65,7 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
     async addUser() {
         try {
             this.isLoading = true;
-            const validationRules = {
-                name: { required: true },
-                mobile: { required: true },
-                password: { required: true, minLength: 5 },
-            };
-            const validationResult = validateForm(this.userInfo, validationRules);
-            if (!validationResult.isValid) {
-                this.errors = validationResult.errors;
-                return;
-            }
+            this.housekeeperSchema.parse(this.userInfo);
             if (this.errors) {
                 this.errors = null;
             }
@@ -126,6 +74,13 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
             this.closeSideBar.emit(null);
         }
         catch (error) {
+            const e = {};
+            if (error instanceof ZodError) {
+                error.issues.map(err => {
+                    e[err.path[0]] = true;
+                });
+                this.errors = e;
+            }
             console.error(error);
         }
         finally {
@@ -143,10 +98,12 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
-        return (h(Host, { key: '6b4f05c779c2a5bf5838e249ebca5c8480ba3fdb' }, h("ir-title", { key: 'a0f2754a455510d4ba69d4e556ec103b6f3d42f7', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: 'cabbf602731d1406957aaeaea15b2cd6b0ee0b99', class: "px-1" }, h("ir-input-text", { key: '84f4ccbead0afb54be9b3e744d1f2391b63be01b', error: ((_b = (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 0, label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this) }), h("ir-phone-input", { key: 'ee87cac79fcf6e2173103878909084a991cd566d', placeholder: locales.entries.Lcz_Mobile, error: ((_d = (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) === null || _d === void 0 ? void 0 : _d.length) > 0, language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
+        return (h(Host, { key: '7565ebaaec7a1806c6eaea9bdf323d09f6bbbf9c' }, h("ir-title", { key: 'b5f9a7f655184776084aadf26b3389e2880fa738', class: "px-1", displayContext: "sidebar", label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }), h("section", { key: 'b4c320c8b3809445cc3455938310bd61d5a1a8e3', class: "px-1" }, h("ir-input-text", { key: 'bebf2654050d248a263fbc7b0df397701404ba2f', zod: this.housekeeperSchema.pick({ name: true }), wrapKey: "name", error: ((_a = this.errors) === null || _a === void 0 ? void 0 : _a.name) && !((_b = this.userInfo) === null || _b === void 0 ? void 0 : _b.name), label: locales.entries.Lcz_Name, placeholder: locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-phone-input", { key: '78dc71652b0ba791cdb7aa5ed8bfffa7ec7576a8', placeholder: locales.entries.Lcz_Mobile, error: ((_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile) && !((_d = this.userInfo) === null || _d === void 0 ? void 0 : _d.mobile), language: this.default_properties.language, token: this.default_properties.token, default_country: calendar_data.country.id, phone_prefix: (_e = this.user) === null || _e === void 0 ? void 0 : _e.phone_prefix, label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
                 this.updateUserField('phone_prefix', e.detail.phone_prefix);
                 this.updateUserField('mobile', e.detail.mobile);
-            } }), h("ir-input-text", { key: 'bcebafe1bf31dc354f00c972fe382ada667fdbed', disabled: this.user !== null, label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: '0549add6ae94ef347f9e04e608b50db7fa45c341', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", error: ((_g = (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password) === null || _g === void 0 ? void 0 : _g.length) > 0, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-textarea", { key: '4385017f6abe1ed980a239c2f25908ded047f2dd', variant: "prepend", maxLength: 250, label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: '882638be3f1f51fce07167b99e5eca12d4c7b0ff', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'b45a48caac45c4918dc6e039c5690c90dd95dce1', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'd6fc549c426019b95e3292e46f8628af414e4b30', isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
+            } }), h("ir-input-text", { key: 'a4c50d77eb520baae22fa5027ae91df6f05b0fc4', zod: this.housekeeperSchema.pick({ username: true }), wrapKey: "username", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.username) && !this.userInfo.username,
+            // disabled={this.user !== null}
+            label: locales.entries.Lcz_Username, placeholder: locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), h("ir-input-text", { key: 'd315858e10322b3344bed39e1a108a40c6d626a5', label: locales.entries.Lcz_Password, placeholder: locales.entries.Lcz_MinimumCharacter, value: this.userInfo.password, type: "password", zod: this.housekeeperSchema.pick({ password: true }), wrapKey: "password", error: ((_g = this.errors) === null || _g === void 0 ? void 0 : _g.password) && !this.userInfo.password, onTextChange: e => this.updateUserField('password', e.detail) }), h("ir-textarea", { key: '1689141f072bf90ac37720108e1e1ef861303d5e', variant: "prepend", maxLength: 250, label: locales.entries.Lcz_Note, placeholder: locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) }), h("div", { key: '4a0a158e05f611d103243f6e4a67863351d2d295', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '244331b8024bd2b9c4b9146f90fe70f8b064aa72', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '9fb265b6387171a9b93a1e583dad7269b9bab219', isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
     }
     static get style() { return IrHkUserStyle0; }
 }, [2, "ir-hk-user", {

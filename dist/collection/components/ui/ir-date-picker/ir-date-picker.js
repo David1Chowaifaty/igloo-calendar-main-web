@@ -92,7 +92,6 @@ export class IrDatePicker {
             return;
         // Get the slot element
         const slotEl = this.el.querySelector('[slot="trigger"]');
-        console.log('slotEl', slotEl);
         if (!slotEl)
             return;
         // We'll consider the first assigned element as our trigger
@@ -257,7 +256,7 @@ export class IrDatePicker {
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: 'ca0ffcf7906ec89eea06764938b57bdfb05e0438', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: 'c410d125fbb87a6036fec8ed7b1f19922f810df3', name: "trigger" }), h("input", { key: '149a71e8f7b4c82c06fb0898df32651794844737', type: "button", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '519be67e59fbde2a0add5007629b4bd4386e69f5', class: "ir-date-picker-trigger" }, this.customPicker && h("slot", { key: 'd7b00e7d37b2d37a80b7e92fd917cd538519d3a1', name: "trigger" }), h("input", { key: '52854c791bf617bc94799af445cb1fe2fc50d0f8', type: "button", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {

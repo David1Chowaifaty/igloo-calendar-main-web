@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
-const irPopoverCss = ".sc-ir-popover-h{display:block;width:100%}*.sc-ir-popover{box-sizing:border-box}.popover-trigger.sc-ir-popover{all:unset;cursor:pointer}.popover-trigger.sc-ir-popover:hover,.popover-trigger.sc-ir-popover:focus{color:#000}";
+const irPopoverCss = ":host{display:block;width:100%}*{box-sizing:border-box}.popover-trigger{all:unset;cursor:pointer}.popover-trigger:hover,.popover-trigger:focus{color:#000}";
 const IrPopoverStyle0 = irPopoverCss;
 
 const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLElement {
@@ -10,6 +10,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
         this.irPopoverLeft = '10px';
         this.placement = 'auto';
         this.trigger = 'focus';
+        this.renderContentAsHtml = false;
         this.initialized = false;
     }
     componentDidLoad() {
@@ -23,6 +24,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
             trigger: this.trigger,
             content: this.content,
             placement: this.placement,
+            html: this.renderContentAsHtml,
         });
         this.initialized = true;
     }
@@ -30,7 +32,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '527d6318e1ca5c3b176b805865f313758253ff6f', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
+        return (h(Host, { key: 'd206a1ade3ad3f08d56e45591a7b6675439fc20a', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -39,11 +41,12 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
     }
     get el() { return this; }
     static get style() { return IrPopoverStyle0; }
-}, [6, "ir-popover", {
+}, [4, "ir-popover", {
         "content": [1],
         "irPopoverLeft": [1, "ir-popover-left"],
         "placement": [1],
-        "trigger": [1]
+        "trigger": [1],
+        "renderContentAsHtml": [4, "render-content-as-html"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

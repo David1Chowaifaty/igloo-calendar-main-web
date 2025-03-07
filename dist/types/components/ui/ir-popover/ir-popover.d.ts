@@ -4,6 +4,7 @@ export declare class IrPopover {
     irPopoverLeft: string;
     placement: 'top' | 'bottom' | 'left' | 'right' | 'auto';
     trigger: 'focus' | 'click' | 'hover';
+    renderContentAsHtml: boolean;
     private initialized;
     private popoverTrigger;
     componentDidLoad(): void;

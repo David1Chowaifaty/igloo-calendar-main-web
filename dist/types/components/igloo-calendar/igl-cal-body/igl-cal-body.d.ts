@@ -55,7 +55,7 @@ export declare class IglCalBody {
     showNewBookingPopup(data: any): void;
     renderElement(): void;
     getGeneralCategoryDayColumns(addClass: string, isCategory: boolean, index: number): any[];
-    getGeneralRoomDayColumns(roomId: string, roomCategory: RoomCategory): any;
+    getGeneralRoomDayColumns(roomId: string, roomCategory: RoomCategory, roomName: string): any;
     toggleCategory(roomCategory: RoomCategory): void;
     getRoomCategoryRow(roomCategory: RoomCategory, index: number): any;
     /**

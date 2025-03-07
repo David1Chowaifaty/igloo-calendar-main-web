@@ -4,6 +4,7 @@ export class IrPopover {
         this.irPopoverLeft = '10px';
         this.placement = 'auto';
         this.trigger = 'focus';
+        this.renderContentAsHtml = false;
         this.initialized = false;
     }
     componentDidLoad() {
@@ -17,6 +18,7 @@ export class IrPopover {
             trigger: this.trigger,
             content: this.content,
             placement: this.placement,
+            html: this.renderContentAsHtml,
         });
         this.initialized = true;
     }
@@ -24,7 +26,7 @@ export class IrPopover {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '527d6318e1ca5c3b176b805865f313758253ff6f', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
+        return (h(Host, { key: 'd206a1ade3ad3f08d56e45591a7b6675439fc20a', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -32,7 +34,6 @@ export class IrPopover {
             } }, h("slot", null))) : (h("button", { class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
     }
     static get is() { return "ir-popover"; }
-    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-popover.css"]
@@ -123,6 +124,26 @@ export class IrPopover {
                 "attribute": "trigger",
                 "reflect": false,
                 "defaultValue": "'focus'"
+            },
+            "renderContentAsHtml": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "render-content-as-html",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }

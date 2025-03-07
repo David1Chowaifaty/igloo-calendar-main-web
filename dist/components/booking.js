@@ -74,7 +74,7 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${hooks(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatus) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = hooks(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = hooks(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -150,7 +150,7 @@ function getDefaultData(cell, stayStatus) {
         RATE_PLAN: cell.room.rateplan.name,
         SPLIT_BOOKING: false,
         RATE_PLAN_ID: cell.room.rateplan.id,
-        RATE_TYPE: 1,
+        RATE_TYPE: (_f = (_e = cell.room) === null || _e === void 0 ? void 0 : _e.roomtype) === null || _f === void 0 ? void 0 : _f.id,
         ADULTS_COUNT: cell.room.occupancy.adult_nbr,
         CHILDREN_COUNT: cell.room.occupancy.children_nbr,
         origin: cell.booking.origin,
@@ -158,22 +158,22 @@ function getDefaultData(cell, stayStatus) {
         ROOMS: cell.booking.rooms,
         cancelation: cell.room.rateplan.cancelation,
         guarantee: cell.room.rateplan.guarantee,
-        TOTAL_PRICE: (_e = cell.booking.financial) === null || _e === void 0 ? void 0 : _e.gross_total,
+        TOTAL_PRICE: (_g = cell.booking.financial) === null || _g === void 0 ? void 0 : _g.gross_total,
         COUNTRY: cell.booking.guest.country_id,
         FROM_DATE_STR: cell.booking.format.from_date,
         TO_DATE_STR: cell.booking.format.to_date,
         adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
         SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
         //TODO:Implement checkin-checkout
-        CHECKIN: ((_f = cell.room.in_out) === null || _f === void 0 ? void 0 : _f.code) === '001',
-        CHECKOUT: ((_g = cell.room.in_out) === null || _g === void 0 ? void 0 : _g.code) === '002',
+        CHECKIN: ((_h = cell.room.in_out) === null || _h === void 0 ? void 0 : _h.code) === '001',
+        CHECKOUT: ((_j = cell.room.in_out) === null || _j === void 0 ? void 0 : _j.code) === '002',
         ROOM_INFO: {
             occupancy: cell.room.occupancy,
             sharing_persons: cell.room.sharing_persons,
             unit: cell.room.unit,
             in_out: cell.room.in_out,
         },
-        BASE_STATUS_CODE: (_h = cell.booking.status) === null || _h === void 0 ? void 0 : _h.code,
+        BASE_STATUS_CODE: (_k = cell.booking.status) === null || _k === void 0 ? void 0 : _k.code,
     };
 }
 // function updateBookingWithStayData(data: any, cell: CellType): any {

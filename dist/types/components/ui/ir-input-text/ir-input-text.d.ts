@@ -61,6 +61,8 @@ export declare class IrInputText {
     testId: string;
     /** Input max character length*/
     maxLength: number;
+    /** To clear all the Input base styling*/
+    clearBaseStyles: boolean;
     initial: boolean;
     inputFocused: boolean;
     isError: boolean;
@@ -74,6 +76,7 @@ export declare class IrInputText {
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleMaskChange(): void;
+    handleValueChange(newValue: string, oldValue: string): void;
     watchHandler2(newValue: boolean): void;
     handleErrorChange(newValue: boolean, oldValue: boolean): void;
     handleAriaInvalidChange(newValue: string): void;

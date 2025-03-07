@@ -1,9 +1,9 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { a as axios } from './axios.js';
-import { r as renderTime } from './utils.js';
+import { r as renderTime, z, Z as ZodError } from './utils.js';
 import { M as MaskedRange, d as defineCustomElement$3 } from './ir-input-text2.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-picker2.js';
@@ -59,32 +59,65 @@ class PickupService {
         });
         return locations;
     }
-    validateForm(params) {
-        if (params.arrival_time.split(':').length !== 2) {
-            return {
-                error: true,
-                cause: 'arrival_time',
-            };
+    createPickupSchema(minDate, maxDate) {
+        return z.object({
+            arrival_date: z
+                .string()
+                .regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Invalid date format, expected YYYY-MM-DD' })
+                .refine(dateStr => {
+                const date = hooks(dateStr, 'YYYY-MM-DD', true);
+                const min = hooks(minDate, 'YYYY-MM-DD', true);
+                const max = hooks(maxDate, 'YYYY-MM-DD', true);
+                return date.isValid() && min.isValid() && max.isValid() && date.isBetween(min, max, undefined, '[]');
+            }, { message: `arrival_date must be between ${minDate} and ${maxDate}` }),
+            arrival_time: z
+                .string()
+                .regex(/^\d{2}:\d{2}$/, { message: 'Invalid time format. Expected HH:MM' })
+                .refine(time => {
+                const [hours, minutes] = time.split(':').map(Number);
+                return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
+            }, { message: 'Time values are out of range' }),
+            flight_details: z.string().nonempty({ message: 'Flight details cannot be empty' }),
+            vehicle_type_code: z.string().nonempty({ message: 'Vehicle type code cannot be empty' }),
+            number_of_vehicles: z.coerce.number().min(1, { message: 'At least one vehicle is required' }),
+        });
+    }
+    validateForm(params, schema) {
+        try {
+            schema.parse(params);
+            return { error: false };
         }
-        if (params.flight_details === '') {
-            return {
-                error: true,
-                cause: 'flight_details',
-            };
+        catch (error) {
+            console.log(error);
+            if (error instanceof ZodError) {
+                return { error: true, cause: error.issues[0].path.toString() };
+            }
         }
-        if (params.vehicle_type_code === '') {
-            return {
-                error: true,
-                cause: 'vehicle_type_code',
-            };
-        }
-        if (params.number_of_vehicles === 0) {
-            return {
-                error: true,
-                cause: 'number_of_vehicles',
-            };
-        }
-        return { error: false };
+        // if (params.arrival_time.split(':').length !== 2) {
+        //   return {
+        //     error: true,
+        //     cause: 'arrival_time',
+        //   };
+        // }
+        // if (params.flight_details === '') {
+        //   return {
+        //     error: true,
+        //     cause: 'flight_details',
+        //   };
+        // }
+        // if (params.vehicle_type_code === '') {
+        //   return {
+        //     error: true,
+        //     cause: 'vehicle_type_code',
+        //   };
+        // }
+        // if (params.number_of_vehicles === 0) {
+        //   return {
+        //     error: true,
+        //     cause: 'number_of_vehicles',
+        //   };
+        // }
+        // return { error: false };
     }
     getNumberOfVehicles(capacity, numberOfPersons) {
         let total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
@@ -133,12 +166,31 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
             vehicle_type_code: '',
             currency: undefined,
             arrival_time: '',
-            arrival_date: hooks().format('YYYY-MM-DD'),
+            arrival_date: null,
             selected_option: undefined,
         };
         this.vehicleCapacity = [];
         this.cause = null;
         this.pickupService = new PickupService();
+        this.arrival_time_mask = {
+            mask: 'HH:mm',
+            blocks: {
+                HH: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 23,
+                    placeholderChar: 'H',
+                },
+                mm: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 59,
+                    placeholderChar: 'm',
+                },
+            },
+            lazy: false,
+            placeholderChar: '_',
+        };
     }
     componentWillLoad() {
         if (this.defaultPickupData) {
@@ -147,6 +199,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
             this.allowedOptionsByLocation = calendar_data.pickup_service.allowed_options.filter(option => option.location.id === transformedData.location);
             this.pickupData = Object.assign({}, transformedData);
         }
+        this.pickupSchema = this.pickupService.createPickupSchema(this.bookingDates.from, this.bookingDates.to);
     }
     handleLocationChange(event) {
         event.stopImmediatePropagation();
@@ -170,58 +223,6 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                     number_of_vehicles: this.vehicleCapacity[0],
                 })
                     .toFixed(2), vehicle_type_code: locationChoice.vehicle.code, currency: locationChoice.currency });
-            const input = this.el.querySelector('#pickup-time');
-            if (!input) {
-                setTimeout(() => {
-                    this.initializeInputMask();
-                }, 100);
-            }
-        }
-    }
-    initializeInputMask() {
-        const input = this.el.querySelector('#pickup-time');
-        // if (this.pickupData) {
-        //   (input as HTMLInputElement).value = this.pickupData.arrival_time;
-        // }
-        if (input) {
-            Inputmask('Hh:Mm', {
-                placeholder: 'HH:mm',
-                definitions: {
-                    H: {
-                        validator: '[0-2]',
-                    },
-                    h: {
-                        validator: function (ch, maskset, pos) {
-                            var firstDigit = maskset.buffer[pos - 1];
-                            if (firstDigit === '2') {
-                                return /[0-3]/.test(ch);
-                            }
-                            else {
-                                return /[0-9]/.test(ch);
-                            }
-                        },
-                    },
-                    M: {
-                        validator: '[0-5]',
-                    },
-                    m: {
-                        validator: '[0-9]',
-                    },
-                },
-                insertMode: true,
-                showMaskOnHover: false,
-                inputmode: 'numeric',
-                alias: 'datetime',
-                oncomplete: () => {
-                    this.updatePickupData('arrival_time', input.value);
-                },
-                oncleared: () => {
-                    this.updatePickupData('arrival_time', '');
-                },
-                onincomplete: () => {
-                    this.updatePickupData('arrival_time', input.value);
-                },
-            }).mask(input);
         }
     }
     handleVehicleQuantityChange(e) {
@@ -237,11 +238,6 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                 number_of_vehicles: value,
             })
                 .toFixed(2) });
-    }
-    componentDidLoad() {
-        if (this.defaultPickupData) {
-            this.initializeInputMask();
-        }
     }
     handleVehicleTypeChange(e) {
         if (e.detail === '') {
@@ -268,7 +264,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
     async savePickup() {
         try {
             this.isLoading = true;
-            const isValid = this.pickupService.validateForm(this.pickupData);
+            const isValid = this.pickupService.validateForm(this.pickupData, this.pickupSchema);
             if (isValid.error) {
                 this.cause = isValid.cause;
                 return;
@@ -289,34 +285,20 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
     }
     render() {
         var _a;
-        return (h(Host, { key: '278ca97847a89137370ddbdeec1027b4b017b0b7', class: 'p-0' }, h("ir-title", { key: '29ab67e9b5598ac9cea4db765c1b931471e4b5d3', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_Pickup, displayContext: "sidebar" }), h("section", { key: '391405fcc66e671527c635d4875aa246b90cf577', class: 'px-1' }, h("ir-select", { key: 'f0cd9d8ea7bf6cf52a657562e99c3066a75435b9', selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (h(Fragment, { key: '7dc8a9e1328d94499cb227283e73fa776c75d86c' }, h("div", { key: '59637a0b102cf09326694bbc95a51022f734bb6b', class: 'd-flex' }, h("div", { key: 'c6670908cf0247c15f806b7a8aad21b0d4bcee56', class: "form-group  mr-1" }, h("div", { key: 'e01976aa647c8f9140b9c1b2cc657efc0fa4465d', class: "input-group row m-0" }, h("div", { key: '7fe3e598d99cad185a7e79f2e718a0121c246102', class: `input-group-prepend col-5 p-0 text-dark border-0` }, h("label", { key: 'e2780a1e690e90479b55b4ccc1996bf9932f3fc2', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales.entries.Lcz_ArrivalDate)), h("div", { key: 'c66f011cba5c2fb6443a1d57c0d452a06916c055', class: "form-control form-control-md col-7 d-flex align-items-center pl-0" }, h("ir-date-picker", { key: 'bbcdfdb36a6aa1edcc7edbad22e974f8712a7faf', date: this.pickupData.arrival_date, maxDate: (_a = this.bookingDates) === null || _a === void 0 ? void 0 : _a.to, minDate: this.bookingDates.from, onDateChanged: evt => {
+        return (h(Host, { key: '71b4947185f9c8e27b4e07c256fa1b1e4799f421', class: 'p-0' }, h("ir-title", { key: '4765181c9556450e364357c426fd8bef203a190e', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_Pickup, displayContext: "sidebar" }), h("section", { key: '72743728f8b2e7b82079a5e435fae8a3c384b93f', class: 'px-1' }, h("ir-select", { key: '12d16b7899344d823089255dc09962e1ea7444fd', testId: "pickup_location", selectedValue: this.pickupData.location, selectContainerStyle: "mb-1", onSelectChange: this.handleLocationChange.bind(this), firstOption: locales.entries.Lcz_Pickup_NoThankYou, class: 'm-0 mb-1', LabelAvailable: false, data: this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom) }), this.pickupData.location > 0 && (h("div", { key: '7c99e5d404926ac0a4af65bfc70cee104ce35e4a', class: "m-0 p-0", "data-testid": "pickup_body" }, h("div", { key: '9f056d0540f85cfc386cef1da96840da880d181f', class: 'd-flex' }, h("div", { key: 'ac05deffe5567e6653273e825488a70ee5ebe0dc', class: "form-group  mr-1" }, h("div", { key: '291e1845c9bc165e3d204ae8072564ddc2da0c44', class: "input-group row m-0" }, h("div", { key: '9c33a25ca097a954964c5df32f66584710d24be4', class: `input-group-prepend col-5 p-0 text-dark border-0` }, h("label", { key: 'd3baadf77bb0d0b534e8704eaf4077b7e10bd656', class: `input-group-text  flex-grow-1 text-dark border-theme ` }, locales.entries.Lcz_ArrivalDate)), h("div", { key: 'ddebf0dd06e47f8ea4a04ea7d2d795887590a3cd', class: "form-control  form-control-md col-7 d-flex align-items-center px-0 mx-0", style: { border: '0' } }, h("ir-date-picker", { key: '4edce48f18f3a10a8f65b96a08bdcae3ed99d824', "data-testid": "pickup_arrival_date", date: this.pickupData.arrival_date, minDate: this.bookingDates.from, maxDate: (_a = this.bookingDates) === null || _a === void 0 ? void 0 : _a.to, emitEmptyDate: true, "aria-invalid": this.cause === 'arrival_date' && !this.pickupData.arrival_date ? 'true' : 'false', onDateChanged: evt => {
                 var _a;
                 this.updatePickupData('arrival_date', (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD'));
-            } }, h("input", { key: '8436d4b9e55dd93278525fbbba81c4d7d44c3ab1', type: "text", slot: "trigger", value: hooks(this.pickupData.arrival_date).format('MMM DD, YYYY'), class: "form-control input-sm text-center", style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%' } }))))), h("ir-input-text", { key: 'b1ab6ff8c2fb567e8bc2ccd7c66b555148f6d785', value: this.pickupData.arrival_time, error: this.cause === 'arrival_time' && !this.pickupData.arrival_time, label: locales.entries.Lcz_Time, inputStyles: "col-sm-4", mask: {
-                mask: 'HH:mm',
-                blocks: {
-                    HH: {
-                        mask: MaskedRange,
-                        from: 0,
-                        to: 23,
-                        placeholderChar: 'H',
-                    },
-                    mm: {
-                        mask: MaskedRange,
-                        from: 0,
-                        to: 59,
-                        placeholderChar: 'm',
-                    },
-                },
-                lazy: false,
-                placeholderChar: '_',
-            }, onTextChange: e => this.updatePickupData('arrival_time', e.detail) })), h("ir-input-text", { key: 'ef20a2ab90530e033da431002d15e7d05aecf9e5', value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails, onTextChange: e => this.updatePickupData('flight_details', e.detail), placeholder: "", inputStyles: this.cause === 'flight_details' ? 'border-danger' : '' }), h("ir-select", { key: '63fcf2130950918a384500361efbf1ee22d45cf1', selectContainerStyle: "mb-1", selectStyles: this.cause === 'vehicle_type_code' ? 'border-danger' : '', onSelectChange: this.handleVehicleTypeChange.bind(this), firstOption: locales.entries.Lcz_Select, selectedValue: this.pickupData.vehicle_type_code, class: 'm-0', LabelAvailable: false, data: this.allowedOptionsByLocation.map(option => ({
+            } }, h("input", { key: '654a11674b81226563b40ec028f47fbba3c285b3', type: "text", slot: "trigger", value: this.pickupData.arrival_date ? hooks(this.pickupData.arrival_date).format('MMM DD, YYYY') : null, class: `form-control input-sm ${this.cause === 'arrival_date' && !this.pickupData.arrival_date ? 'border-danger' : ''} text-center`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } }))))), h("ir-input-text", { key: '2a4686fe35846d3221d4b333401d7347393a94da',
+            // error={this.cause === 'arrival_time'&&this.pickupSchema.pick({ arrival_time: true }).safeParse(this.pickupData.arrival_time)}
+            wrapKey: "arrival_time", testId: "pickup_arrival_time",
+            // autoValidate={false}
+            value: this.pickupData.arrival_time, zod: this.pickupSchema.pick({ arrival_time: true }), label: locales.entries.Lcz_Time, inputStyles: "col-sm-4", "data-state": this.cause === 'arrival_time' ? 'error' : '', mask: this.arrival_time_mask, onTextChange: e => this.updatePickupData('arrival_time', e.detail) })), h("ir-input-text", { key: '60b3d3f8156f86ddb7e6731d2a3119a9c1e2feca', testId: "pickup_flight_details", value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails, onTextChange: e => this.updatePickupData('flight_details', e.detail), placeholder: "", error: this.cause === 'flight_details' && !this.pickupData.flight_details }), h("ir-select", { key: 'd92df810c70a87ffac04b17d360c40d8da389b98', testId: "pickup_vehicle_type_code", selectContainerStyle: "mb-1", error: this.cause === 'vehicle_type_code', onSelectChange: this.handleVehicleTypeChange.bind(this), firstOption: locales.entries.Lcz_Select, selectedValue: this.pickupData.vehicle_type_code, class: 'm-0', LabelAvailable: false, data: this.allowedOptionsByLocation.map(option => ({
                 text: option.vehicle.description,
                 value: option.vehicle.code,
-            })) }), h("div", { key: 'c8c26d042ba630c75aad8b419a958e54eb7ac3df', class: 'd-flex flex-column flex-md-row' }, h("ir-select", { key: '47eb981f190ad18587294eccc28b525d228bbb03', labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectStyles: this.cause === 'number_of_vehicles' ? 'border-danger' : '', selectedValue: this.pickupData.number_of_vehicles, labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
+            })) }), h("div", { key: '7b5deb57cc1ad4c42a8ec2c56396507669454578', class: 'd-flex flex-column flex-md-row' }, h("ir-select", { key: 'f2a789261add2bd89f97a0efbe51d62853864314', showFirstOption: false, testId: "pickup_number_of_vehicles", labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectedValue: this.pickupData.number_of_vehicles, error: this.cause === 'number_of_vehicles', labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
                 text: i,
                 value: i,
-            })) }), h("ir-input-text", { key: '55a9392be31bcc531804c88c2fc0bbcb6508841e', labelBorder: "theme", readonly: true, value: this.pickupData.due_upon_booking, labelWidth: 7, label: `${locales.entries.Lcz_DueUponBooking}  ${this.pickupData.currency.symbol}`, placeholder: "", class: "" })))), h("div", { key: '2795a56cae26d47fbf31e53f4bf7251158e6845d', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '610c39a03d0f668a5af3515103bb1cab2c63c3ad', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  ${this.defaultPickupData || this.pickupData.location !== -1 ? 'mr-sm-1' : ''}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: '90ec488a7ce74b788995b1d49b911cf3f923ec44', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", onClick: this.savePickup.bind(this) }))))));
+            })) }), h("ir-input-text", { key: 'ae247712ef13407644a521b44a3c92ba7d62da9e', labelBorder: "theme", readonly: true, value: this.pickupData.due_upon_booking, labelWidth: 7, label: `${locales.entries.Lcz_DueUponBooking}  ${this.pickupData.currency.symbol}`, placeholder: "", class: "" })))), h("div", { key: '93a7d8912977a7df60a0d935ebe2795548284486', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '16b4165404c5349ceb7fcdc7df7b69616b5b015e', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  ${this.defaultPickupData || this.pickupData.location !== -1 ? 'mr-sm-1' : ''}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: '4df7f1438a6cdb2efb1a83da6adcc12d11959fba', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", onClick: this.savePickup.bind(this) }))))));
     }
     get el() { return this; }
     static get style() { return IrPickupStyle0; }

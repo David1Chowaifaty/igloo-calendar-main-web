@@ -364,7 +364,7 @@ export class IglBookingEventHover {
     }
     getNewBookingOptions() {
         const shouldDisplayButtons = this.bookingEvent.roomsInfo[0].rateplans.some(rate => rate.is_active);
-        return (h("div", { class: `iglPopOver d-flex flex-column newBookingOptions ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left`, style: { gap: '0.5rem' } }, shouldDisplayButtons ? (h(Fragment, null, h("ir-button", { size: "sm", btn_block: true, text: locales.entries.Lcz_CreateNewBooking, onClickHandler: _ => {
+        return (h("div", { class: `iglPopOver d-flex flex-column newBookingOptions ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left`, style: { gap: '0.5rem' } }, shouldDisplayButtons ? (h(Fragment, null, h("ir-button", { size: "sm", btn_block: true, "data-testid": "bar_booking_btn", text: locales.entries.Lcz_CreateNewBooking, onClickHandler: _ => {
                 this.handleBookingOption('BAR_BOOKING');
             } }), this.hasSplitBooking() && (
         // <div class="mb-1">
@@ -388,7 +388,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: '3d12ee06fc3d545d832adf9bad70a419db084907' }, h("div", { key: 'f3d1953f7167b39f0d3b96c9e4b73f701bc3e428', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'a35de5f8d66df7b8ecb3ef51b36368f3c06b486b', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'e9f572f082eea0967c3ef0d1545b836a3dcb0047' }, h("div", { key: '4a4ae05518b10f45987f6a8be65afa1f16a826d9', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'efdebd0d582303c771493fe6572d2200f0f21548', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

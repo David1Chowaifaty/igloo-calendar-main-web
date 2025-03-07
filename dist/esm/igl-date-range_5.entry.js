@@ -1,0 +1,568 @@
+import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, g as getElement } from './index-1d2aa5ad.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { f as calculateDaysBetweenDates } from './booking-4a184cf6.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { B as BookingService } from './booking.service-5a1c917c.js';
+import { v as v4 } from './v4-964634d6.js';
+import './index-e42e9935.js';
+import './utils-fa28bf7d.js';
+import './axios-aa1335b8.js';
+import './calendar-data-ce538d8c.js';
+
+const iglDateRangeCss = ".sc-igl-date-range-h{display:flex;align-items:center !important;font-size:14px !important}.date-range-input.sc-igl-date-range{margin:0;padding:0;display:flex;flex:1;cursor:pointer;width:100%;user-select:none;font-size:14px !important}.iglRangeNights.sc-igl-date-range{margin:0;padding:0}.date-view.sc-igl-date-range{position:absolute;background:white;pointer-events:none;cursor:pointer;display:block;margin-left:14px;margin-right:14px;font-size:13.65px !important;display:flex;align-items:center;inset:0}.date-view.sc-igl-date-range svg.sc-igl-date-range{padding:0 !important;margin:0;margin-right:10px}.calendarPickerContainer.sc-igl-date-range{display:flex !important;position:relative !important;text-align:left;align-items:center !important;padding:0 !important;margin:0;border:1px solid var(--ir-date-range-border, #379ff2);width:var(--ir-date-range-width, 245px);transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.calendarPickerContainer.sc-igl-date-range:focus-within{border-color:#379ff2}.calendarPickerContainer[data-state='disabled'].sc-igl-date-range{border:0px;width:280px}.date-view[data-state='disabled'].sc-igl-date-range,.date-range-input[data-state='disabled'].sc-igl-date-range{margin:0;cursor:default}.date-range-container-cn.sc-igl-date-range{position:relative;width:fit-content}.date-range-container-cn.sc-igl-date-range:focus-within .date-range-container.sc-igl-date-range{border:1px solid #379ff2}.date-range-container.sc-igl-date-range{position:relative;gap:1rem;font-size:0.975rem;line-height:1.45;border-radius:0.21rem;border:1px solid #cacfe7;color:#3b4781;padding:0.75rem 1rem;box-sizing:border-box !important;font-weight:400;background-color:#fff;background-clip:padding-box;height:2rem;pointer-events:none;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.date-range-container-cn.sc-igl-date-range .date-range-input.sc-igl-date-range{position:absolute;width:100% !important;inset:0;cursor:pointer}.date-range-container.disabled.sc-igl-date-range{border:none;padding-left:0;padding-right:0}.date-range-input[data-state='disabled'].sc-igl-date-range{cursor:default}";
+const IglDateRangeStyle0 = iglDateRangeCss;
+
+const IglDateRange = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
+        this.toast = createEvent(this, "toast", 7);
+        this.disabled = false;
+        this.withDateDifference = true;
+        this.variant = 'default';
+        this.renderAgain = false;
+        this.totalNights = 0;
+        this.fromDateStr = 'from';
+        this.toDateStr = 'to';
+    }
+    componentWillLoad() {
+        this.initializeDates();
+    }
+    handleDataChange(newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+            this.initializeDates();
+        }
+    }
+    initializeDates() {
+        let dt = new Date();
+        dt.setHours(0, 0, 0, 0);
+        dt.setDate(dt.getDate() + 1);
+        if (this.defaultData) {
+            if (this.defaultData.fromDate) {
+                this.fromDate = new Date(this.defaultData.fromDate);
+                this.fromDate.setHours(0, 0, 0, 0);
+                this.fromDateStr = this.getFormattedDateString(this.fromDate);
+            }
+            if (this.defaultData.toDate) {
+                this.toDate = new Date(this.defaultData.toDate);
+                this.toDate.setHours(0, 0, 0, 0);
+                this.toDateStr = this.getFormattedDateString(this.toDate);
+            }
+        }
+        if (this.fromDate && this.toDate) {
+            this.calculateTotalNights();
+            // this.handleDateSelectEvent('selectedDateRange', {
+            //   fromDate: this.fromDate.getTime(),
+            //   toDate: this.toDate.getTime(),
+            //   fromDateStr: this.fromDateStr,
+            //   toDateStr: this.toDateStr,
+            //   dateDifference: this.totalNights,
+            // });
+        }
+        return [this.fromDateStr, this.toDateStr];
+    }
+    calculateTotalNights() {
+        this.totalNights = calculateDaysBetweenDates(hooks(this.fromDate).format('YYYY-MM-DD'), hooks(this.toDate).format('YYYY-MM-DD'));
+    }
+    getFormattedDateString(dt) {
+        return dt.getDate() + ' ' + dt.toLocaleString('default', { month: 'short' }).toLowerCase() + ' ' + dt.getFullYear();
+    }
+    handleDateSelectEvent(key, data = '') {
+        this.dateSelectEvent.emit({ key, data });
+    }
+    handleDateChange(evt) {
+        const { start, end } = evt.detail;
+        this.fromDate = start.toDate();
+        this.toDate = end.toDate();
+        this.calculateTotalNights();
+        this.handleDateSelectEvent('selectedDateRange', {
+            fromDate: this.fromDate.getTime(),
+            toDate: this.toDate.getTime(),
+            fromDateStr: start.format('DD MMM YYYY'),
+            toDateStr: end.format('DD MMM YYYY'),
+            dateDifference: this.totalNights,
+        });
+        this.renderAgain = !this.renderAgain;
+    }
+    render() {
+        if (this.variant === 'booking') {
+            return (h("div", { class: `p-0 m-0 date-range-container-cn` }, h("ir-date-range", { maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
+                    this.handleDateChange(evt);
+                } }), h("div", { class: `d-flex align-items-center m-0  date-range-container ${this.disabled ? 'disabled' : ''}` }, h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("span", null, hooks(this.fromDate).format('MMM DD, YYYY')), h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", null, hooks(this.toDate).format('MMM DD, YYYY')), this.totalNights && h("span", { class: "m-0 p-0" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        }
+        return (h(Host, null, h("div", { class: `p-0 m-0 date-range-container-cn` }, h("ir-date-range", { maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
+                this.handleDateChange(evt);
+            } }), h("div", { class: `d-flex align-items-center m-0  date-range-container ${this.disabled ? 'disabled' : ''}` }, h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("span", null, hooks(this.fromDate).format('MMM DD, YYYY')), h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", null, hooks(this.toDate).format('MMM DD, YYYY'))))));
+    }
+    static get watchers() { return {
+        "defaultData": ["handleDataChange"]
+    }; }
+};
+IglDateRange.style = IglDateRangeStyle0;
+
+const irAutocompleteCss = ".sc-ir-autocomplete-h{display:block;position:relative}.selected.sc-ir-autocomplete{color:#fff;text-decoration:none;background-color:#666ee8}input.sc-ir-autocomplete{width:100%;position:relative;border-top-left-radius:0px !important;border-left:0 !important;border-bottom-left-radius:0px !important}label.sc-ir-autocomplete{margin:0;border-top-right-radius:0px !important;border-right:0 !important;border-bottom-right-radius:0px !important;width:fit-content;display:flex;align-items:center;padding-right:3px !important;justify-content:center;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}label[data-state='focused'].sc-ir-autocomplete{border-color:var(--blue)}.combobox.sc-ir-autocomplete{margin:0;top:30px;min-width:100%;width:max-content;display:block;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto}.dropdown-item.sc-ir-autocomplete{cursor:pointer}button.sc-ir-autocomplete{all:unset;right:4px}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete,span.sc-ir-autocomplete,loader-container.sc-ir-autocomplete{padding:5px 16px;margin:0px;margin-top:2px;width:100%}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete{cursor:pointer}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete:hover{background:#f4f5fa}.combobox.sc-ir-autocomplete p[data-selected].sc-ir-autocomplete,.combobox.sc-ir-autocomplete p[data-selected].sc-ir-autocomplete:hover{color:#fff;text-decoration:none;background-color:#666ee8}.loader.sc-ir-autocomplete{width:14px;height:14px;border:2px solid #0f0f0f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
+const IrAutocompleteStyle0 = irAutocompleteCss;
+
+const IrAutocomplete = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.comboboxValue = createEvent(this, "comboboxValue", 7);
+        this.inputCleared = createEvent(this, "inputCleared", 7);
+        this.toast = createEvent(this, "toast", 7);
+        this.duration = 300;
+        this.placeholder = '';
+        this.isSplitBooking = false;
+        this.type = 'text';
+        this.name = '';
+        this.inputId = v4();
+        this.required = false;
+        this.disabled = false;
+        this.from_date = '';
+        this.to_date = '';
+        this.inputValue = '';
+        this.data = [];
+        this.selectedIndex = -1;
+        this.isComboBoxVisible = false;
+        this.isLoading = true;
+        this.inputFocused = false;
+        this.bookingService = new BookingService();
+        this.no_result_found = '';
+    }
+    componentWillLoad() {
+        this.no_result_found = locales.entries.Lcz_NoResultsFound;
+    }
+    handleKeyDown(event) {
+        var _a;
+        const dataSize = this.data.length;
+        const itemHeight = this.getHeightOfPElement();
+        if (dataSize > 0) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    event.preventDefault();
+                    this.selectedIndex = (this.selectedIndex - 1 + dataSize) % dataSize;
+                    this.adjustScrollPosition(itemHeight);
+                    break;
+                case 'ArrowDown':
+                    event.preventDefault();
+                    this.selectedIndex = (this.selectedIndex + 1) % dataSize;
+                    this.adjustScrollPosition(itemHeight);
+                    break;
+                case 'Enter':
+                case ' ':
+                case 'ArrowRight':
+                    event.preventDefault();
+                    this.selectItem(this.selectedIndex);
+                    break;
+                case 'Escape':
+                    (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+                    this.isComboBoxVisible = false;
+                    break;
+            }
+        }
+    }
+    getHeightOfPElement() {
+        const combobox = this.el.querySelector('.combobox');
+        if (combobox) {
+            const pItem = combobox.querySelector('p');
+            return pItem ? pItem.offsetHeight : 0;
+        }
+        return 0;
+    }
+    adjustScrollPosition(itemHeight, visibleHeight = 250) {
+        const combobox = this.el.querySelector('.combobox');
+        if (combobox) {
+            const margin = 2;
+            const itemTotalHeight = itemHeight + margin;
+            const selectedPosition = itemTotalHeight * this.selectedIndex;
+            let newScrollTop = selectedPosition - visibleHeight / 2 + itemHeight / 2;
+            newScrollTop = Math.max(0, Math.min(newScrollTop, combobox.scrollHeight - visibleHeight));
+            combobox.scrollTo({
+                top: newScrollTop,
+                behavior: 'auto',
+            });
+        }
+    }
+    selectItem(index) {
+        if (this.data[index]) {
+            this.isItemSelected = true;
+            this.comboboxValue.emit({ key: 'select', data: this.data[index] });
+            this.inputValue = '';
+            this.resetCombobox();
+        }
+    }
+    debounceFetchData() {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.fetchData();
+        }, this.duration);
+    }
+    async fetchData() {
+        try {
+            this.isLoading = true;
+            let data = [];
+            if (!this.isSplitBooking) {
+                data = await this.bookingService.fetchExposedGuest(this.inputValue, this.propertyId);
+            }
+            else {
+                if (this.inputValue.split(' ').length === 1) {
+                    data = await this.bookingService.fetchExposedBookings(this.inputValue, this.propertyId, this.from_date, this.to_date);
+                }
+            }
+            this.data = data;
+            if (!this.isComboBoxVisible) {
+                this.isComboBoxVisible = true;
+            }
+        }
+        catch (error) {
+            console.log('error', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    handleInputChange(event) {
+        this.inputValue = event.target.value;
+        if (this.inputValue) {
+            this.debounceFetchData();
+        }
+        else {
+            clearTimeout(this.debounceTimer);
+            this.resetCombobox(false);
+        }
+    }
+    handleDocumentClick(event) {
+        const target = event.target;
+        if (!this.el.contains(target)) {
+            this.isComboBoxVisible = false;
+        }
+    }
+    handleBlur() {
+        this.inputFocused = false;
+        setTimeout(() => {
+            if (this.isDropdownItem(document.activeElement)) {
+                return;
+            }
+            if (this.isSplitBooking) {
+                if (!this.isItemSelected) {
+                    if (this.data.length > 0) {
+                        this.comboboxValue.emit({ key: 'blur', data: this.inputValue });
+                    }
+                    else {
+                        if (this.inputValue !== '') {
+                            this.toast.emit({
+                                type: 'error',
+                                description: '',
+                                title: `The Booking #${this.inputValue} is not Available`,
+                                position: 'top-right',
+                            });
+                            this.inputCleared.emit();
+                        }
+                    }
+                    this.inputValue = '';
+                    this.resetCombobox();
+                }
+                else {
+                    this.isItemSelected = false;
+                }
+            }
+            else {
+                if (!this.isItemSelected) {
+                    this.comboboxValue.emit({ key: 'blur', data: this.inputValue });
+                    this.inputValue = '';
+                    this.resetCombobox();
+                }
+                else {
+                    this.isItemSelected = false;
+                }
+            }
+        }, 200);
+    }
+    isDropdownItem(element) {
+        return element && element.closest('.combobox');
+    }
+    disconnectedCallback() {
+        var _a, _b, _c, _d;
+        clearTimeout(this.debounceTimer);
+        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('blur', this.handleBlur);
+        (_b = this.inputRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('click', this.selectItem);
+        (_c = this.inputRef) === null || _c === void 0 ? void 0 : _c.removeEventListener('keydown', this.handleKeyDown);
+        (_d = this.inputRef) === null || _d === void 0 ? void 0 : _d.removeEventListener('focus', this.handleFocus);
+    }
+    handleItemKeyDown(event, index) {
+        var _a;
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowRight') {
+            this.selectItem(index);
+            event.preventDefault();
+        }
+        else if (event.key === 'Escape') {
+            this.isComboBoxVisible = false;
+            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+            event.preventDefault();
+        }
+        else {
+            return;
+        }
+    }
+    renderDropdown() {
+        var _a;
+        if (this.inputValue !== '') {
+            return (h("div", { class: `position-absolute dropdown-menu  rounded combobox` }, (_a = this.data) === null || _a === void 0 ? void 0 :
+                _a.map((d, index) => (h("p", { role: "button", class: "dropdown-item", onKeyDown: e => this.handleItemKeyDown(e, index), "data-selected": this.selectedIndex === index, tabIndex: 0, onClick: () => this.selectItem(index) }, this.isSplitBooking ? (h(Fragment, null, `${d.booking_nbr} ${d.guest.first_name} ${d.guest.last_name}`)) : (h("div", { class: 'd-flex align-items-center flex-fill' }, h("p", { class: 'p-0 m-0' }, `${d.email}`, " ", h("span", { class: 'p-0 m-0' }, ` - ${d.first_name} ${d.last_name}`))))))), this.isLoading && (h("div", { class: "loader-container d-flex align-items-center justify-content-center" }, h("div", { class: "loader" }))), this.data.length === 0 && !this.isLoading && h("span", { class: 'text-center' }, this.no_result_found)));
+        }
+    }
+    handleFocus() {
+        this.isComboBoxVisible = true;
+        this.inputFocused = true;
+    }
+    clearInput() {
+        this.inputValue = '';
+        this.resetCombobox();
+        this.inputCleared.emit(null);
+    }
+    resetCombobox(withblur = true) {
+        var _a;
+        if (withblur) {
+            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+        }
+        this.data = [];
+        this.selectedIndex = -1;
+        this.isComboBoxVisible = false;
+    }
+    render() {
+        return (h(Host, { key: 'e595d23b87769f63a1b46adfacfc62a5d726077e' }, h("div", { key: 'aa09059c1167411703ab8e5440dbf7996bf7b1dd', class: 'd-flex align-items-center ' }, h("label", { key: 'e95aac52d92901dc8a70d87802836882ed8deb47', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: '28a096db870aaf00827c71f9f919180a0a26b829', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: '29d738e00d0c8860301b0dea82028b4b25245634', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: 'ed020ab980eb944e3dac9fc121de6f967a3db915', "data-testid": this.testId, required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: 'f455ecba783a715846b6657ce132faf5aabeebb9', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: 'dfd6421bd6fc2347e13adbaa1a60629847db6448', class: 'sr-only' }, "clear input"), h("svg", { key: '138879a95b21227ece5b9d3722ca03af80953a1d', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'aed5d3b53494d4253f4994f81e39e9e6b41b09b2', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
+    }
+    get el() { return getElement(this); }
+};
+IrAutocomplete.style = IrAutocompleteStyle0;
+
+const irCountryPickerCss = ".sc-ir-country-picker-h{display:block;margin:0;padding:0;box-sizing:border-box}.combobox-menu.sc-ir-country-picker{max-height:200px;overflow:auto}";
+const IrCountryPickerStyle0 = irCountryPickerCss;
+
+const IrCountryPicker = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.countryChange = createEvent(this, "countryChange", 7);
+        this.countries = [];
+        this.filteredCountries = [];
+        this.searching = false;
+    }
+    componentWillLoad() {
+        this.filteredCountries = [...this.countries];
+        if (this.country) {
+            this.inputValue = this.country.name;
+            this.selectedCountry = this.country;
+        }
+    }
+    handleCountryChange(newCountry, oldCountry) {
+        if ((newCountry === null || newCountry === void 0 ? void 0 : newCountry.id) !== (oldCountry === null || oldCountry === void 0 ? void 0 : oldCountry.id)) {
+            this.inputValue = this.country.name;
+            this.selectedCountry = newCountry;
+        }
+    }
+    filterCountries() {
+        if (this.inputValue === '' && this.country) {
+            this.selectCountry(null);
+        }
+        clearTimeout(this.debounceTimeout);
+        this.debounceTimeout = setTimeout(() => {
+            if (!this.inputValue) {
+                this.filteredCountries = [...this.countries];
+            }
+            else {
+                this.filteredCountries = this.countries.filter(c => c.name.toLowerCase().includes(this.inputValue.toLowerCase()));
+            }
+        }, 300);
+    }
+    selectCountry(c) {
+        this.selectedCountry = c;
+        this.inputValue = c.name;
+        this.filteredCountries = [...this.countries];
+        this.countryChange.emit(c);
+    }
+    scrollToSelected() {
+        setTimeout(() => {
+            const dropdownItem = document.querySelector(`.dropdown-item.active`);
+            if (dropdownItem) {
+                dropdownItem.scrollIntoView({ behavior: 'instant', block: 'center' });
+            }
+        }, 100);
+    }
+    render() {
+        var _a, _b, _c;
+        const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
+        return (h("form", { key: 'ef30f7bfdacd2f896eef023f9ca9cbec12f1b287', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '7f1d04daf04c3642f08ed23a899c6a929bb388ce', onTextChange: e => {
+                if (!this.searching) {
+                    this.searching = true;
+                }
+                this.inputValue = e.detail;
+                this.filterCountries();
+            }, testId: this.testId, label: this.label, error: this.error, placeholder: "", class: "m-0 p-0", value: this.inputValue, id: "dropdownMenuCombobox", LabelAvailable: !!this.label, "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", onInputFocus: () => this.scrollToSelected(), onInputBlur: () => (this.searching = false) }), h("div", { key: '9d11df92490dd5974558c3d0b9861bf909d3a782', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '2f3ffe12022ac68d3a1bb9101a3e1aaa9f63776b' }, h("button", { key: '02ef1896a13a3a7f5ecc0cfe692f3d3167fa5fc1', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+                this.selectCountry(this.propertyCountry);
+            } }, h("img", { key: '9f6417561b94ee7146bf6a93b3cb677dcf24bf79', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'fbceb99f4bf1a82dc14f84ab8b8b40de952b7464', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: 'f6be359ce636a3205035da97cc0804d7420f5207', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            _b.map(c => {
+                var _a;
+                return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
+                        this.selectCountry(c);
+                    } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '27bba5ea7d1ccf6e58eef918787158771f880913', class: "dropdown-item-text" }, "Invalid Country"))));
+    }
+    static get watchers() { return {
+        "country": ["handleCountryChange"]
+    }; }
+};
+IrCountryPicker.style = IrCountryPickerStyle0;
+
+const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
+const IrDateRangeStyle0 = irDateRangeCss;
+
+const IrDateRange = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.dateChanged = createEvent(this, "dateChanged", 7);
+        this.firstDay = 1;
+        this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        this.format = 'MMM DD, YYYY';
+        this.separator = ' - ';
+        this.applyLabel = 'Apply';
+        this.cancelLabel = 'Cancel';
+        this.fromLabel = 'Form';
+        this.toLabel = 'To';
+        this.customRangeLabel = 'Custom';
+        this.weekLabel = 'W';
+        this.disabled = false;
+        this.singleDatePicker = false;
+        this.maxSpan = {
+            days: 240,
+        };
+    }
+    handleMinDateChange() {
+        $(this.dateRangeInput).data('daterangepicker').remove();
+        this.initializeDateRangePicker();
+    }
+    datePropChanged() {
+        this.updateDateRangePickerDates();
+    }
+    async openDatePicker() {
+        this.openDatePickerTimeout = setTimeout(() => {
+            this.dateRangeInput.click();
+        }, 20);
+    }
+    updateDateRangePickerDates() {
+        const picker = $(this.dateRangeInput).data('daterangepicker');
+        if (!picker) {
+            console.error('Date range picker not initialized.');
+            return;
+        }
+        // Adjust how dates are set based on whether it's a single date picker or range picker.
+        if (this.singleDatePicker) {
+            const newDate = this.date ? hooks(this.date) : hooks();
+            picker.setStartDate(newDate);
+            picker.setEndDate(newDate); // For single date picker, start and end date might be the same.
+        }
+        else {
+            const newStartDate = this.fromDate ? hooks(this.fromDate) : hooks();
+            const newEndDate = this.toDate ? hooks(this.toDate) : newStartDate.clone().add(1, 'days');
+            picker.setStartDate(newStartDate);
+            picker.setEndDate(newEndDate);
+        }
+    }
+    componentWillLoad() {
+        if (!document.getElementById('ir-daterangepicker-style')) {
+            const style = document.createElement('style');
+            style.id = 'ir-daterangepicker-style';
+            style.textContent = `
+        .daterangepicker {
+          margin-top: 14px;
+        }
+      `;
+            document.head.appendChild(style);
+        }
+    }
+    componentDidLoad() {
+        this.dateRangeInput = this.element.querySelector('.date-range-input');
+        this.initializeDateRangePicker();
+        this.updateDateRangePickerDates();
+    }
+    initializeDateRangePicker() {
+        $(this.dateRangeInput).daterangepicker({
+            singleDatePicker: this.singleDatePicker,
+            opens: this.opens,
+            startDate: hooks(this.fromDate),
+            endDate: hooks(this.toDate),
+            minDate: hooks(this.minDate || hooks(new Date()).format('YYYY-MM-DD')),
+            maxDate: this.maxDate ? hooks(this.maxDate) : undefined,
+            maxSpan: this.maxSpan,
+            autoApply: this.autoApply,
+            locale: {
+                format: this.format,
+                separator: this.separator,
+                applyLabel: this.applyLabel,
+                cancelLabel: this.cancelLabel,
+                fromLabel: this.fromLabel,
+                toLabel: this.toLabel,
+                customRangeLabel: this.customRangeLabel,
+                weekLabel: this.weekLabel,
+                daysOfWeek: this.daysOfWeek,
+                monthNames: this.monthNames,
+                firstDay: this.firstDay,
+            },
+        }, (start, end) => {
+            this.dateChanged.emit({ start, end });
+        });
+    }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        $(this.dateRangeInput).data('daterangepicker').remove();
+    }
+    render() {
+        return (h(Host, { key: 'b72b6f8d54df4d07391f92911d32aff63048ab16' }, h("input", { key: 'ef23bbd71a76dc94254df9e7a881730c3cb02124', class: "date-range-input", type: "button", disabled: this.disabled })));
+    }
+    get element() { return getElement(this); }
+    static get watchers() { return {
+        "minDate": ["handleMinDateChange"],
+        "date": ["datePropChanged"]
+    }; }
+};
+IrDateRange.style = IrDateRangeStyle0;
+
+const irTooltipCss = ".sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}";
+const IrTooltipStyle0 = irTooltipCss;
+
+const IrTooltip = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.withHtml = true;
+        this.customSlot = false;
+    }
+    toggleOpen(shouldOpen) {
+        if (this.tooltipTimeout) {
+            clearTimeout(this.tooltipTimeout);
+        }
+        if (shouldOpen) {
+            this.tooltipTimeout = setTimeout(() => {
+                this.open = true;
+            }, 300);
+        }
+        else {
+            this.open = false;
+        }
+    }
+    render() {
+        return (h(Host, { key: '32b1f8b73559c72243b6452d36cddbac9906392f', class: "m-0 p-0" }, h("span", { key: '8796418727a58a2a75f3013fd1957b58a9f0a6a3', class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
+        //   <path
+        //     fill="#6b6f82"
+        //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
+        //   />
+        // </svg>
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: '5b51c90fb1158870c4a024b57c5216d10e154599', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '30db9d9bcd6bd0590bd57422753671ad31c2538f', class: "tooltip-arrow" }), h("div", { key: '1b7804704cb18e09ec1f7139db17e4c5cdcdecde', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: 'fd3168fcba101b202a165b4301643d4d0e705439', innerHTML: this.message }))))));
+    }
+};
+IrTooltip.style = IrTooltipStyle0;
+
+export { IglDateRange as igl_date_range, IrAutocomplete as ir_autocomplete, IrCountryPicker as ir_country_picker, IrDateRange as ir_date_range, IrTooltip as ir_tooltip };
+
+//# sourceMappingURL=igl-date-range_5.entry.js.map
