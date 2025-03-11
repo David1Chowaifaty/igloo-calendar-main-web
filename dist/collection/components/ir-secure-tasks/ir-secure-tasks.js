@@ -22,11 +22,16 @@ export class IrSecureTasks {
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ul", { class: "nav nav-tabs" }, h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
+        return (h(Host, null, h("div", { class: "d-flex align-items-center justify-content-between" }, h("ul", { class: "nav nav-tabs" }, h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
                 this.currentPage = 'hk';
             } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
                 this.currentPage = 'tasks';
-            } }, "Tasks"))), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
+            } }, "Tasks"))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
+                sessionStorage.removeItem('backend_anchor');
+                this.token = null;
+                this.token.setToken(null);
+                this.isAuthenticated = false;
+            } }, "Logout")), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
     }
     static get is() { return "ir-secure-tasks"; }
     static get encapsulation() { return "scoped"; }

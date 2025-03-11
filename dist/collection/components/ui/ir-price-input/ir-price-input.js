@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import IMask from "imask";
 export class IrPriceInput {
     constructor() {
         /** The AutoValidate for the input, optional */
@@ -10,18 +11,32 @@ export class IrPriceInput {
         this.value = '';
         /** Whether the input is required */
         this.required = false;
-        this.handleInputChange = (event) => {
-            const target = event.target;
-            this.value = target.value;
-            // Emit the change event
-            this.textChange.emit(this.value);
+        this.opts = {
+            mask: Number,
+            scale: 2,
+            radix: '.',
+            mapToRadix: [','],
+            normalizeZeros: true,
+            padFractionalZeros: true,
+            thousandsSeparator: ',',
+        };
+        this.handleInputChange = () => {
+            // The value is already being updated by the mask's 'accept' event
+            // Just validate here if needed
+            this.validateInput(this.value);
         };
         this.handleBlur = () => {
             this.validateInput(this.value);
-            // Emit the blur event
+            // Format to 2 decimal places on blur
             if (this.value) {
-                this.value = parseFloat(this.value).toFixed(2);
+                const numValue = parseFloat(this.value);
+                this.value = numValue.toFixed(2);
+                // Update the mask value to show the formatted value
+                if (this.mask) {
+                    this.mask.value = this.value;
+                }
             }
+            // Emit the blur event
             this.inputBlur.emit(this.value);
         };
         this.handleFocus = () => {
@@ -36,6 +51,37 @@ export class IrPriceInput {
         else {
             this.id = v4();
         }
+    }
+    componentDidLoad() {
+        if (!this.mask) {
+            this.initializeMask();
+        }
+    }
+    initializeMask() {
+        // Create options object with min/max if provided
+        const maskOpts = Object.assign({}, this.opts);
+        if (this.minValue !== undefined) {
+            maskOpts['min'] = this.minValue;
+        }
+        if (this.maxValue !== undefined) {
+            maskOpts['max'] = this.maxValue;
+        }
+        this.mask = IMask(this.inputRef, maskOpts);
+        // Set initial value if provided
+        if (this.value) {
+            this.mask.value = this.value;
+        }
+        this.mask.on('accept', () => {
+            const isEmpty = this.inputRef.value.trim() === '' || this.mask.unmaskedValue === '';
+            if (isEmpty) {
+                this.value = '';
+                this.textChange.emit(null);
+            }
+            else {
+                this.value = this.mask.unmaskedValue;
+                this.textChange.emit(this.value);
+            }
+        });
     }
     hasSpecialClass(className) {
         return this.el.classList.contains(className);
@@ -57,17 +103,17 @@ export class IrPriceInput {
     }
     render() {
         var _a, _b;
-        return (h("fieldset", { key: '53213e36be8e603f3ed354bfbb26364e07993bc4', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: '4e7732e37104d58cec2cbaf4849d8b797794b32c', class: "input-group-prepend" }, h("span", { key: 'b816eb6e26ed0c5cb694fbbca88ce07e2effa9b0', class: `input-group-text 
+        return (h("fieldset", { key: '5fefac193563f797de729ed3aba3b0efb3e2969e', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: 'd638a82ad4e591c40c6a51a128a55b754b270224', class: "input-group-prepend" }, h("span", { key: '3e46783b9c0f53531cbac8aaf64427929d560dfd', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '552a6f7007153ed892404f00e256d27a7c2c2c30', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'e9fe50c3d271958b6c0857d507a3b8e5dee18654', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '694122b38a0fb07cffacf51cd6c93bf1e8c75593', class: `input-group-prepend` }, h("span", { key: '6d74a9815696b1039750048855d714537d31acc7', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '07f3e4dbd8c5cd66abd1c7233dd6b6a3ee2baa03', "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: 'bc8c4bbcef7d5e16690a500d314614abfc628872', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '61d1286a405270a766aab3202706af940c68562a', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '3e209246aeedaa247fdd287670b970c273c42a02', class: `input-group-prepend` }, h("span", { key: '9a71ec0c62925b9986f1705d663b1f533263c886', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '89b4e50ddfa5abbd6fb9855eeee2b203f16edf91', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
-              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "number", step: "0.01", "aria-label": (_a = this.el.ariaLabel) !== null && _a !== void 0 ? _a : 'price-input', "aria-describedby": (_b = this.el.ariaDescription) !== null && _b !== void 0 ? _b : 'price-input', value: this.value }))));
+              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, "aria-label": (_a = this.el.ariaLabel) !== null && _a !== void 0 ? _a : 'price-input', "aria-describedby": (_b = this.el.ariaDescription) !== null && _b !== void 0 ? _b : 'price-input' }))));
     }
     static get is() { return "ir-price-input"; }
     static get encapsulation() { return "scoped"; }

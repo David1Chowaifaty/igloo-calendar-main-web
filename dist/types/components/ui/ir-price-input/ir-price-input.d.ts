@@ -42,7 +42,12 @@ export declare class IrPriceInput {
     /** Emits the current value on focus */
     inputFocus: EventEmitter<void>;
     private id;
+    private opts;
+    private mask;
+    private inputRef;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    private initializeMask;
     private hasSpecialClass;
     private validateInput;
     private handleInputChange;
