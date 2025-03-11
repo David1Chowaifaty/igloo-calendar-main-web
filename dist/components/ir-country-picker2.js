@@ -10,6 +10,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         this.__registerHost();
         this.countryChange = createEvent(this, "countryChange", 7);
         this.countries = [];
+        this.autoValidate = false;
         this.filteredCountries = [];
         this.searching = false;
     }
@@ -21,8 +22,9 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         }
     }
     handleCountryChange(newCountry, oldCountry) {
+        var _a;
         if ((newCountry === null || newCountry === void 0 ? void 0 : newCountry.id) !== (oldCountry === null || oldCountry === void 0 ? void 0 : oldCountry.id)) {
-            this.inputValue = this.country.name;
+            this.inputValue = (_a = this.country) === null || _a === void 0 ? void 0 : _a.name;
             this.selectedCountry = newCountry;
         }
     }
@@ -42,7 +44,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     }
     selectCountry(c) {
         this.selectedCountry = c;
-        this.inputValue = c.name;
+        this.inputValue = c === null || c === void 0 ? void 0 : c.name;
         this.filteredCountries = [...this.countries];
         this.countryChange.emit(c);
     }
@@ -57,21 +59,26 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: 'ef30f7bfdacd2f896eef023f9ca9cbec12f1b287', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '7f1d04daf04c3642f08ed23a899c6a929bb388ce', onTextChange: e => {
+        return (h("form", { key: 'a943f8aea6aa5dd8b91b95d4ed36d9ed414ea258', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '38466f51410dc05aaca8a0a0f6a7dc977dc21a0a', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
                 this.inputValue = e.detail;
                 this.filterCountries();
-            }, testId: this.testId, label: this.label, error: this.error, placeholder: "", class: "m-0 p-0", value: this.inputValue, id: "dropdownMenuCombobox", LabelAvailable: !!this.label, "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", onInputFocus: () => this.scrollToSelected(), onInputBlur: () => (this.searching = false) }), h("div", { key: '9d11df92490dd5974558c3d0b9861bf909d3a782', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '2f3ffe12022ac68d3a1bb9101a3e1aaa9f63776b' }, h("button", { key: '02ef1896a13a3a7f5ecc0cfe692f3d3167fa5fc1', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            }, testId: this.testId, autoValidate: this.autoValidate, label: this.label, error: this.error, placeholder: "", class: "m-0 p-0", value: this.inputValue, id: "dropdownMenuCombobox", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", onInputFocus: () => this.scrollToSelected(), onInputBlur: () => {
+                this.searching = false;
+                if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
+                    this.selectCountry(this.filteredCountries[0]);
+                }
+            } }), h("div", { key: '06232928600025719bec5d70ca1a5f69ef47862f', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'facc5d9b7fef79d8761bbae2f0714a0ae1d93292' }, h("button", { key: '9e8dc732c5795cdbf460ffe6521deaeef1b3c706', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: '9f6417561b94ee7146bf6a93b3cb677dcf24bf79', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'fbceb99f4bf1a82dc14f84ab8b8b40de952b7464', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: 'f6be359ce636a3205035da97cc0804d7420f5207', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: '1341992c30da58ecb800d81a4f0f8fedf93e3b3d', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: '57bdf6558d73652236d3c13abfc3544317769156', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '0a1089104705d00376542070459cf9938ff1e4b8', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '27bba5ea7d1ccf6e58eef918787158771f880913', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '484d919d0581386ae8e61c4232a68726bed860e5', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]
@@ -84,6 +91,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         "propertyCountry": [16],
         "label": [1],
         "testId": [1, "test-id"],
+        "autoValidate": [4, "auto-validate"],
         "inputValue": [32],
         "selectedCountry": [32],
         "filteredCountries": [32],

@@ -1,4 +1,4 @@
-import { z } from './utils.js';
+import { z } from './index3.js';
 import { h as hooks } from './moment.js';
 
 // export const ZIdInfo = z.object({
@@ -84,13 +84,14 @@ const ZSharedPerson = z.object({
         .optional(),
     dob: z
         .string()
+        .nullable()
         .optional()
-        .refine(value => value === undefined || hooks(value, 'DD/MM/YYYY', true).isValid() || value === '', 'Invalid date format')
+        .refine(value => value === undefined || hooks(value, 'DD/MM/YYYY', true).isValid() || value === '' || value === null, 'Invalid date format')
         .transform(value => {
-        if (value === undefined || value === '')
+        if (value === undefined || value === '' || value === null)
             return null;
         const isDDMMYYYY = hooks(value, 'DD/MM/YYYY', true).isValid();
-        return isDDMMYYYY ? null : value;
+        return isDDMMYYYY ? null : hooks(value, 'DD/MM/YYYY').format('YYYY-MM-DD');
     }),
     id_info: ZIdInfo.optional(),
 });

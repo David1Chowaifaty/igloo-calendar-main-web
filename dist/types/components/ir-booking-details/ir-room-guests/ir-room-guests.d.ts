@@ -46,8 +46,8 @@ export declare class IrRoomGuests {
     idTypes: IEntries[];
     error: Record<string, boolean>;
     isLoading: boolean;
-    submitted: boolean;
     propertyCountry: ICountry;
+    autoValidate: boolean;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private bookingService;

@@ -16,6 +16,7 @@ export declare class IrPickup {
     pickupData: TPickupData;
     vehicleCapacity: number[];
     cause: keyof TPickupData | null;
+    autoValidate: boolean;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private pickupService;

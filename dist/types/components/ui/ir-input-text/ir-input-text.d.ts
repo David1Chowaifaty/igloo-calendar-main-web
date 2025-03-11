@@ -15,8 +15,6 @@ export declare class IrInputText {
     inputStyles: string;
     /** Whether the input field is required */
     required: boolean;
-    /** Determines if the label is displayed */
-    LabelAvailable: boolean;
     /** Whether the input field is read-only */
     readonly: boolean;
     /** Input type (e.g., text, password, email) */
@@ -25,8 +23,6 @@ export declare class IrInputText {
     submitted: boolean;
     /** Whether to apply default input styling */
     inputStyle: boolean;
-    /** Size of the input field: small (sm), medium (md), or large (lg) */
-    size: 'sm' | 'md' | 'lg';
     /** Text size inside the input field */
     textSize: 'sm' | 'md' | 'lg';
     /** Position of the label: left, right, or center */
@@ -51,6 +47,8 @@ export declare class IrInputText {
     autoValidate?: boolean;
     /** A Zod schema for validating the input */
     zod?: ZodType<any, any>;
+    /** A Zod parse type for validating the input */
+    asyncParse?: boolean;
     /** Key to wrap the value (e.g., 'price' or 'cost') */
     wrapKey?: string;
     /** Forcing css style to the input */
@@ -63,26 +61,24 @@ export declare class IrInputText {
     maxLength: number;
     /** To clear all the Input base styling*/
     clearBaseStyles: boolean;
-    initial: boolean;
+    /** To clear all the Input base styling*/
+    errorMessage: string;
     inputFocused: boolean;
-    isError: boolean;
     textChange: EventEmitter<any>;
     inputBlur: EventEmitter<FocusEvent>;
     inputFocus: EventEmitter<FocusEvent>;
     private inputRef;
     private maskInstance;
-    /**Input Id */
     private id;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleMaskChange(): void;
-    handleValueChange(newValue: string, oldValue: string): void;
-    watchHandler2(newValue: boolean): void;
     handleErrorChange(newValue: boolean, oldValue: boolean): void;
-    handleAriaInvalidChange(newValue: string): void;
+    handleValueChange(newValue: string, oldValue: string): void;
+    private initMask;
     private validateInput;
     private handleInputChange;
-    private initMask;
+    private updateErrorState;
     private handleBlur;
     render(): any;
 }

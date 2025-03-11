@@ -7,6 +7,7 @@ export declare class IrCountryPicker {
     propertyCountry: ICountry;
     label: string;
     testId: string;
+    autoValidate: boolean;
     inputValue: string;
     selectedCountry: ICountry;
     filteredCountries: ICountry[];

@@ -41,6 +41,7 @@ export class IrHousekeeping {
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
+                    include_sales_rate_plans: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
@@ -51,6 +52,7 @@ export class IrHousekeeping {
                     id: propertyId,
                     language: this.language,
                     is_backend: true,
+                    include_sales_rate_plans: true,
                 }));
             }
             await Promise.all(requests);

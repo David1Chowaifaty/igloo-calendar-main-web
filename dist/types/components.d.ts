@@ -391,6 +391,7 @@ export namespace Components {
         "extraResources": string;
     }
     interface IrCountryPicker {
+        "autoValidate": boolean;
         "countries": ICountry[];
         "country": ICountry;
         "error": boolean;
@@ -589,9 +590,9 @@ export namespace Components {
     }
     interface IrInputText {
         /**
-          * Determines if the label is displayed
+          * A Zod parse type for validating the input
          */
-        "LabelAvailable": boolean;
+        "asyncParse"?: boolean;
         /**
           * Whether the input should auto-validate
          */
@@ -608,6 +609,10 @@ export namespace Components {
           * Whether the input has an error
          */
         "error": boolean;
+        /**
+          * To clear all the Input base styling
+         */
+        "errorMessage": string;
         /**
           * Forcing css style to the input
          */
@@ -668,10 +673,6 @@ export namespace Components {
           * Whether the input field is required
          */
         "required": boolean;
-        /**
-          * Size of the input field: small (sm), medium (md), or large (lg)
-         */
-        "size": 'sm' | 'md' | 'lg';
         /**
           * Whether the form has been submitted
          */
@@ -819,6 +820,12 @@ export namespace Components {
     }
     interface IrOtaServices {
         "services": OtaService[];
+    }
+    interface IrPasswordValidator {
+        /**
+          * The password string to validate
+         */
+        "password": string;
     }
     interface IrPaymentActions {
         "booking": Booking;
@@ -1058,6 +1065,8 @@ export namespace Components {
     interface IrTasksTable {
         "tasks": Task[];
     }
+    interface IrTestCmp {
+    }
     interface IrTextEditor {
         "error": boolean;
         "maxLength": number;
@@ -1090,6 +1099,7 @@ export namespace Components {
         "placeholder": string;
         "rows": number;
         "styles": { [key: string]: string };
+        "testId": string;
         "text": string;
         "textareaClassname": string;
         "value": string;
@@ -1128,6 +1138,16 @@ export namespace Components {
         "label": string;
         "maxVisibleItems": number;
         "remarks": IOtaNotes[];
+    }
+    interface RequirementCheck {
+        /**
+          * Whether this requirement has been satisfied (true/false).
+         */
+        "isValid": boolean;
+        /**
+          * The requirement text to display (e.g. "At least one lowercase letter").
+         */
+        "text": string;
     }
 }
 export interface IglBlockDatesViewCustomEvent<T> extends CustomEvent<T> {
@@ -2537,6 +2557,12 @@ declare global {
         prototype: HTMLIrOtaServicesElement;
         new (): HTMLIrOtaServicesElement;
     };
+    interface HTMLIrPasswordValidatorElement extends Components.IrPasswordValidator, HTMLStencilElement {
+    }
+    var HTMLIrPasswordValidatorElement: {
+        prototype: HTMLIrPasswordValidatorElement;
+        new (): HTMLIrPasswordValidatorElement;
+    };
     interface HTMLIrPaymentActionsElementEventMap {
         "generatePayment": IPaymentAction;
     }
@@ -2857,6 +2883,12 @@ declare global {
         prototype: HTMLIrTasksTableElement;
         new (): HTMLIrTasksTableElement;
     };
+    interface HTMLIrTestCmpElement extends Components.IrTestCmp, HTMLStencilElement {
+    }
+    var HTMLIrTestCmpElement: {
+        prototype: HTMLIrTestCmpElement;
+        new (): HTMLIrTestCmpElement;
+    };
     interface HTMLIrTextEditorElementEventMap {
         "textChange": string;
     }
@@ -2943,6 +2975,12 @@ declare global {
         prototype: HTMLOtaLabelElement;
         new (): HTMLOtaLabelElement;
     };
+    interface HTMLRequirementCheckElement extends Components.RequirementCheck, HTMLStencilElement {
+    }
+    var HTMLRequirementCheckElement: {
+        prototype: HTMLRequirementCheckElement;
+        new (): HTMLRequirementCheckElement;
+    };
     interface HTMLElementTagNameMap {
         "igl-application-info": HTMLIglApplicationInfoElement;
         "igl-block-dates-view": HTMLIglBlockDatesViewElement;
@@ -3016,6 +3054,7 @@ declare global {
         "ir-option-details": HTMLIrOptionDetailsElement;
         "ir-ota-service": HTMLIrOtaServiceElement;
         "ir-ota-services": HTMLIrOtaServicesElement;
+        "ir-password-validator": HTMLIrPasswordValidatorElement;
         "ir-payment-actions": HTMLIrPaymentActionsElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
         "ir-payment-option": HTMLIrPaymentOptionElement;
@@ -3038,6 +3077,7 @@ declare global {
         "ir-tasks-filters": HTMLIrTasksFiltersElement;
         "ir-tasks-header": HTMLIrTasksHeaderElement;
         "ir-tasks-table": HTMLIrTasksTableElement;
+        "ir-test-cmp": HTMLIrTestCmpElement;
         "ir-text-editor": HTMLIrTextEditorElement;
         "ir-textarea": HTMLIrTextareaElement;
         "ir-title": HTMLIrTitleElement;
@@ -3045,6 +3085,7 @@ declare global {
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
         "ota-label": HTMLOtaLabelElement;
+        "requirement-check": HTMLRequirementCheckElement;
     }
 }
 declare namespace LocalJSX {
@@ -3477,6 +3518,7 @@ declare namespace LocalJSX {
         "extraResources"?: string;
     }
     interface IrCountryPicker {
+        "autoValidate"?: boolean;
         "countries"?: ICountry[];
         "country"?: ICountry;
         "error"?: boolean;
@@ -3703,9 +3745,9 @@ declare namespace LocalJSX {
     }
     interface IrInputText {
         /**
-          * Determines if the label is displayed
+          * A Zod parse type for validating the input
          */
-        "LabelAvailable"?: boolean;
+        "asyncParse"?: boolean;
         /**
           * Whether the input should auto-validate
          */
@@ -3722,6 +3764,10 @@ declare namespace LocalJSX {
           * Whether the input has an error
          */
         "error"?: boolean;
+        /**
+          * To clear all the Input base styling
+         */
+        "errorMessage"?: string;
         /**
           * Forcing css style to the input
          */
@@ -3785,10 +3831,6 @@ declare namespace LocalJSX {
           * Whether the input field is required
          */
         "required"?: boolean;
-        /**
-          * Size of the input field: small (sm), medium (md), or large (lg)
-         */
-        "size"?: 'sm' | 'md' | 'lg';
         /**
           * Whether the form has been submitted
          */
@@ -3944,6 +3986,12 @@ declare namespace LocalJSX {
     }
     interface IrOtaServices {
         "services"?: OtaService[];
+    }
+    interface IrPasswordValidator {
+        /**
+          * The password string to validate
+         */
+        "password"?: string;
     }
     interface IrPaymentActions {
         "booking"?: Booking;
@@ -4219,6 +4267,8 @@ declare namespace LocalJSX {
         "onRowSelectChange"?: (event: IrTasksTableCustomEvent<Task[]>) => void;
         "tasks"?: Task[];
     }
+    interface IrTestCmp {
+    }
     interface IrTextEditor {
         "error"?: boolean;
         "maxLength"?: number;
@@ -4256,6 +4306,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         "rows"?: number;
         "styles"?: { [key: string]: string };
+        "testId"?: string;
         "text"?: string;
         "textareaClassname"?: string;
         "value"?: string;
@@ -4296,6 +4347,16 @@ declare namespace LocalJSX {
         "label"?: string;
         "maxVisibleItems"?: number;
         "remarks"?: IOtaNotes[];
+    }
+    interface RequirementCheck {
+        /**
+          * Whether this requirement has been satisfied (true/false).
+         */
+        "isValid"?: boolean;
+        /**
+          * The requirement text to display (e.g. "At least one lowercase letter").
+         */
+        "text"?: string;
     }
     interface IntrinsicElements {
         "igl-application-info": IglApplicationInfo;
@@ -4370,6 +4431,7 @@ declare namespace LocalJSX {
         "ir-option-details": IrOptionDetails;
         "ir-ota-service": IrOtaService;
         "ir-ota-services": IrOtaServices;
+        "ir-password-validator": IrPasswordValidator;
         "ir-payment-actions": IrPaymentActions;
         "ir-payment-details": IrPaymentDetails;
         "ir-payment-option": IrPaymentOption;
@@ -4392,6 +4454,7 @@ declare namespace LocalJSX {
         "ir-tasks-filters": IrTasksFilters;
         "ir-tasks-header": IrTasksHeader;
         "ir-tasks-table": IrTasksTable;
+        "ir-test-cmp": IrTestCmp;
         "ir-text-editor": IrTextEditor;
         "ir-textarea": IrTextarea;
         "ir-title": IrTitle;
@@ -4399,6 +4462,7 @@ declare namespace LocalJSX {
         "ir-tooltip": IrTooltip;
         "ir-unit-status": IrUnitStatus;
         "ota-label": OtaLabel;
+        "requirement-check": RequirementCheck;
     }
 }
 export { LocalJSX as JSX };
@@ -4477,6 +4541,7 @@ declare module "@stencil/core" {
             "ir-option-details": LocalJSX.IrOptionDetails & JSXBase.HTMLAttributes<HTMLIrOptionDetailsElement>;
             "ir-ota-service": LocalJSX.IrOtaService & JSXBase.HTMLAttributes<HTMLIrOtaServiceElement>;
             "ir-ota-services": LocalJSX.IrOtaServices & JSXBase.HTMLAttributes<HTMLIrOtaServicesElement>;
+            "ir-password-validator": LocalJSX.IrPasswordValidator & JSXBase.HTMLAttributes<HTMLIrPasswordValidatorElement>;
             "ir-payment-actions": LocalJSX.IrPaymentActions & JSXBase.HTMLAttributes<HTMLIrPaymentActionsElement>;
             "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
             "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
@@ -4499,6 +4564,7 @@ declare module "@stencil/core" {
             "ir-tasks-filters": LocalJSX.IrTasksFilters & JSXBase.HTMLAttributes<HTMLIrTasksFiltersElement>;
             "ir-tasks-header": LocalJSX.IrTasksHeader & JSXBase.HTMLAttributes<HTMLIrTasksHeaderElement>;
             "ir-tasks-table": LocalJSX.IrTasksTable & JSXBase.HTMLAttributes<HTMLIrTasksTableElement>;
+            "ir-test-cmp": LocalJSX.IrTestCmp & JSXBase.HTMLAttributes<HTMLIrTestCmpElement>;
             "ir-text-editor": LocalJSX.IrTextEditor & JSXBase.HTMLAttributes<HTMLIrTextEditorElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
@@ -4506,6 +4572,7 @@ declare module "@stencil/core" {
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
             "ota-label": LocalJSX.OtaLabel & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
+            "requirement-check": LocalJSX.RequirementCheck & JSXBase.HTMLAttributes<HTMLRequirementCheckElement>;
         }
     }
 }

@@ -11,6 +11,7 @@ export declare class GuestInfo {
     countries: ICountry[];
     guest: Guest | null;
     isLoading: boolean;
+    autoValidate: boolean;
     closeSideBar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private bookingService;

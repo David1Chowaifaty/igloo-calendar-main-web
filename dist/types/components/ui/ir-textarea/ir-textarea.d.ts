@@ -13,6 +13,7 @@ export declare class IrTextArea {
     styles: {
         [key: string]: string;
     };
+    testId: string;
     error: boolean;
     textChange: EventEmitter<string>;
     handleAriaInvalidChange(newValue: any): void;

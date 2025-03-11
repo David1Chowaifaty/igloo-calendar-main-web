@@ -78,7 +78,7 @@ export declare const ZSharedPerson: z.ZodObject<{
     first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     country_id: z.ZodOptional<z.ZodNumber>;
-    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
+    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodNullable<z.ZodString>>, string, string>, string, string>;
     id_info: z.ZodOptional<z.ZodObject<{
         type: z.ZodObject<{
             code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
@@ -136,7 +136,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
     first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
     country_id: z.ZodOptional<z.ZodNumber>;
-    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodString>, string, string>, string, string>;
+    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodNullable<z.ZodString>>, string, string>, string, string>;
     id_info: z.ZodOptional<z.ZodObject<{
         type: z.ZodObject<{
             code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;

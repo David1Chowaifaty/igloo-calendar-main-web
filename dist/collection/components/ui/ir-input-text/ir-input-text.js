@@ -3,14 +3,8 @@ import { v4 } from "uuid";
 import IMask from "imask";
 export class IrInputText {
     constructor() {
-        /** Label text for the input */
-        this.label = '';
-        /** Placeholder text for the input */
-        this.placeholder = '';
         /** Additional inline styles for the input */
         this.inputStyles = '';
-        /** Determines if the label is displayed */
-        this.LabelAvailable = true;
         /** Whether the input field is read-only */
         this.readonly = false;
         /** Input type (e.g., text, password, email) */
@@ -19,8 +13,6 @@ export class IrInputText {
         this.submitted = false;
         /** Whether to apply default input styling */
         this.inputStyle = true;
-        /** Size of the input field: small (sm), medium (md), or large (lg) */
-        this.size = 'md';
         /** Text size inside the input field */
         this.textSize = 'md';
         /** Position of the label: left, right, or center */
@@ -41,9 +33,7 @@ export class IrInputText {
         this.error = false;
         /** Whether the input should auto-validate */
         this.autoValidate = true;
-        this.initial = true;
         this.inputFocused = false;
-        this.isError = false;
     }
     componentWillLoad() {
         if (this.el.id) {
@@ -60,66 +50,67 @@ export class IrInputText {
     handleMaskChange() {
         this.initMask();
     }
-    handleValueChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.validateInput(this.value);
-        }
-    }
-    watchHandler2(newValue) {
-        if (newValue && this.required) {
-            this.initial = false;
-        }
-    }
     handleErrorChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.validateInput(this.value, true);
         }
     }
-    handleAriaInvalidChange(newValue) {
-        if (newValue === 'true') {
-            this.isError = true;
+    handleValueChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.validateInput(this.value);
         }
-        else {
-            this.isError = false;
-        }
-    }
-    validateInput(value, forceValidation = false) {
-        if (!this.autoValidate && !forceValidation) {
-            return;
-        }
-        if (this.zod) {
-            try {
-                this.zod.parse(this.wrapKey ? { [this.wrapKey]: value } : value); // Validate the value using the Zod schema
-                this.error = false; // Clear the error if valid
-            }
-            catch (error) {
-                console.log(error);
-                this.error = true; // Set the error message
-            }
-        }
-    }
-    handleInputChange(event) {
-        this.initial = false;
-        const value = event.target.value;
-        if (this.maskInstance) {
-            this.maskInstance.value = value;
-        }
-        const maskedValue = this.maskInstance ? this.maskInstance.value : value;
-        this.textChange.emit(maskedValue);
     }
     initMask() {
         if (!this.mask || this.maskInstance) {
             return;
         }
         this.maskInstance = IMask(this.inputRef, this.mask);
-        // Listen to mask changes to keep input value in sync
         this.maskInstance.on('accept', () => {
-            this.inputRef.value = this.maskInstance.value; // Update the input field
-            this.textChange.emit(this.maskInstance.value); // Emit the masked value
+            const isEmpty = this.inputRef.value.trim() === '' || this.maskInstance.unmaskedValue === '';
+            if (isEmpty) {
+                this.inputRef.value = '';
+                this.textChange.emit(null);
+            }
+            else {
+                this.inputRef.value = this.maskInstance.value;
+                this.textChange.emit(this.maskInstance.value);
+            }
         });
     }
-    // Function that handles the blur events
-    // it validates the input and emits the blur event
+    async validateInput(value, forceValidation = false) {
+        if (!this.autoValidate && !forceValidation) {
+            return;
+        }
+        if (this.zod) {
+            try {
+                if (!this.asyncParse) {
+                    this.zod.parse(this.wrapKey ? { [this.wrapKey]: value } : value);
+                }
+                else {
+                    await this.zod.parseAsync(this.wrapKey ? { [this.wrapKey]: value } : value);
+                }
+                if (this.error) {
+                    this.updateErrorState(false);
+                }
+            }
+            catch (error) {
+                this.updateErrorState(true);
+            }
+        }
+    }
+    handleInputChange(event) {
+        const value = event.target.value;
+        const isEmpty = value === '';
+        if (this.maskInstance) {
+            this.maskInstance.value = value;
+        }
+        const maskedValue = isEmpty ? null : this.maskInstance ? this.maskInstance.value : value;
+        this.textChange.emit(maskedValue);
+    }
+    updateErrorState(b) {
+        this.error = b;
+        this.inputRef.setAttribute('aria-invalid', b ? 'true' : 'false');
+    }
     handleBlur(e) {
         this.validateInput(this.value, this.submitted);
         this.inputFocused = false;
@@ -127,28 +118,17 @@ export class IrInputText {
     }
     render() {
         if (this.variant === 'icon') {
-            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${(this.error || this.isError) && 'danger-border'}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { maxLength: this.maxLength, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', ref: el => (this.inputRef = el), type: this.type, onFocus: e => {
+            return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${this.error ? 'danger-border' : ''}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { maxLength: this.maxLength, "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? undefined : this.mask ? 'empty' : undefined, id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${this.error ? 'danger-border' : ''}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                     this.inputFocused = true;
                     this.inputFocus.emit(e);
-                }, required: this.required, onBlur: this.handleBlur.bind(this), disabled: this.disabled, class: `ir-input form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${(this.error || this.isError) && 'danger-border'}`, id: this.id, value: this.value, placeholder: this.placeholder, onInput: this.handleInputChange.bind(this) })));
+                }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })));
         }
-        let className = 'form-control';
-        let label = (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.id, class: ` input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
-        if (!this.LabelAvailable) {
-            label = '';
-        }
-        if (this.inputStyle === false) {
-            className = '';
-        }
-        if (this.required && !this.initial) {
-            className = `${className} border-danger`;
-        }
-        return (h("div", { class: "form-group" }, h("div", { class: "input-group row m-0" }, label, h("input", { "aria-invalid": this.error ? 'true' : 'false', maxLength: this.maxLength, "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? '' : this.mask ? 'empty' : '', id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: this.clearBaseStyles
+        return (h("div", { class: 'form-group' }, h("div", { class: "input-group row m-0" }, this.label && (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : ''))), h("input", { maxLength: this.maxLength, "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? undefined : this.mask ? 'empty' : undefined, id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: this.clearBaseStyles
                 ? `${this.inputStyles}`
-                : `ir-input ${className} ${this.error || this.isError ? 'border-danger' : ''} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12} ${this.readonly && 'bg-white'} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
+                : `${this.error ? 'border-danger' : ''} form-control text-${this.textSize} col-${this.label ? 12 - this.labelWidth : 12} ${this.readonly ? 'bg-white' : ''} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                 this.inputFocused = true;
                 this.inputFocus.emit(e);
-            }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled }))));
+            }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })), this.errorMessage && this.error && h("p", { class: "error-message" }, this.errorMessage)));
     }
     static get is() { return "ir-input-text"; }
     static get encapsulation() { return "scoped"; }
@@ -219,8 +199,7 @@ export class IrInputText {
                 "getter": false,
                 "setter": false,
                 "attribute": "label",
-                "reflect": false,
-                "defaultValue": "''"
+                "reflect": false
             },
             "placeholder": {
                 "type": "string",
@@ -239,8 +218,7 @@ export class IrInputText {
                 "getter": false,
                 "setter": false,
                 "attribute": "placeholder",
-                "reflect": false,
-                "defaultValue": "''"
+                "reflect": false
             },
             "inputStyles": {
                 "type": "string",
@@ -280,26 +258,6 @@ export class IrInputText {
                 "setter": false,
                 "attribute": "required",
                 "reflect": false
-            },
-            "LabelAvailable": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Determines if the label is displayed"
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "label-available",
-                "reflect": false,
-                "defaultValue": "true"
             },
             "readonly": {
                 "type": "boolean",
@@ -380,26 +338,6 @@ export class IrInputText {
                 "attribute": "input-style",
                 "reflect": false,
                 "defaultValue": "true"
-            },
-            "size": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "'sm' | 'md' | 'lg'",
-                    "resolved": "\"lg\" | \"md\" | \"sm\"",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Size of the input field: small (sm), medium (md), or large (lg)"
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "size",
-                "reflect": false,
-                "defaultValue": "'md'"
             },
             "textSize": {
                 "type": "string",
@@ -649,6 +587,25 @@ export class IrInputText {
                 "getter": false,
                 "setter": false
             },
+            "asyncParse": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "A Zod parse type for validating the input"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "async-parse",
+                "reflect": false
+            },
             "wrapKey": {
                 "type": "string",
                 "mutable": false,
@@ -741,14 +698,31 @@ export class IrInputText {
                 "setter": false,
                 "attribute": "clear-base-styles",
                 "reflect": false
+            },
+            "errorMessage": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "To clear all the Input base styling"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "error-message",
+                "reflect": false
             }
         };
     }
     static get states() {
         return {
-            "initial": {},
-            "inputFocused": {},
-            "isError": {}
+            "inputFocused": {}
         };
     }
     static get events() {
@@ -815,17 +789,11 @@ export class IrInputText {
                 "propName": "mask",
                 "methodName": "handleMaskChange"
             }, {
-                "propName": "value",
-                "methodName": "handleValueChange"
-            }, {
-                "propName": "submitted",
-                "methodName": "watchHandler2"
-            }, {
                 "propName": "error",
                 "methodName": "handleErrorChange"
             }, {
-                "propName": "aria-invalid",
-                "methodName": "handleAriaInvalidChange"
+                "propName": "value",
+                "methodName": "handleValueChange"
             }];
     }
 }

@@ -85,11 +85,15 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
         }
         return calendar_data.roomsInfo.map(roomType => {
             var _a;
+            console.log(roomType);
             if (!roomType.is_active) {
                 return null;
             }
             return (_a = roomType.physicalrooms) === null || _a === void 0 ? void 0 : _a.map(physical_room => {
                 var _a, _b, _c;
+                if (!physical_room['is_active']) {
+                    return null;
+                }
                 let taken = !((_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.find(unit => unit.id.toString() === physical_room.id.toString()));
                 let housekeeper = [];
                 const assignedRoom = this.assignedUnits.get(physical_room.id);
@@ -110,7 +114,7 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
         });
     }
     render() {
-        return (h(Host, { key: '363c469ff0444ae1c70291c3a3d032d14be3a5ec' }, h("ir-title", { key: '8b81fdb7ba4511878ff091f4b7f3452c4c442c58', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '739c11195917e613836c549dc3b82dd8815f03c8', class: "px-1" }, h("table", { key: 'd4cbf8887ccd755127ac2a7c6b899b870cace4ed' }, h("thead", { key: '43baea61922eba86ddba7a70806a695660b8e052' }, h("th", { key: '60784488610173506c0a65060a9b3f49273f3c99', class: "sr-only" }, "room name"), h("th", { key: 'c528571c73b74b59fb53f0e3b1878bfe5ce17293', class: "sr-only" }, "housekeeper name"), h("th", { key: '11958cf8f61e004573583ac33d5015c712fb846f', class: "sr-only" }, "actions")), h("tbody", { key: '3970f77754e0b57ba38baf191204f4205e411e7a' }, this.renderRooms())), h("div", { key: '028d9d8e220193f69581c833bead49544658c468', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'b0547abc53048fa3946520e5d6d6ca03765ed8b3', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '1b7f49df41e8fe6845940dfc50e7e76c2ae151a8', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
+        return (h(Host, { key: 'ac07131077a7aa1ca35e1b860c0c93264768a86d' }, h("ir-title", { key: '8f11b354e7a94cda397b620faf5d54f3df180470', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'b969e5a5b44ce22bf821b36f40e228d31c9d2c2f', class: "px-1" }, h("table", { key: '4f594847afd8106dbaf171596613add61bd1cec5' }, h("thead", { key: '7e2a025920ab119a77cf1bc33257998c2de0bd5d' }, h("th", { key: 'f0ec00ab2d8e9833b1f7ef9b82b05708cb58b0da', class: "sr-only" }, "room name"), h("th", { key: '99163790be9163b6a4f8993d8e21c9a588c0a674', class: "sr-only" }, "housekeeper name"), h("th", { key: 'ee8f28f71a48cdb60a78b9b72fdf2c1958cc3029', class: "sr-only" }, "actions")), h("tbody", { key: 'bc3c17615891f6fe4c09dae4d87b37eed01bc6d7' }, this.renderRooms())), h("div", { key: '0a3aa19052057268fe026061a9859c49f574450b', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '557c5ffb08dffd48de31bded2ea0bccfe5b56761', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '0eed677c5be02c8bc6b7d5e74b5ac942e2efc4c2', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
     }
     static get style() { return IrHkUnassignedUnitsStyle0; }
 }, [2, "ir-hk-unassigned-units", {

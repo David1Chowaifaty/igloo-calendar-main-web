@@ -9,6 +9,7 @@ export declare class RoomService {
         is_backend?: boolean;
         aname?: string;
         include_units_hk_status?: boolean;
+        include_sales_rate_plans?: boolean;
     }): Promise<any>;
     fetchLanguage(code: string, sections?: string[]): Promise<{
         entries: any;
