@@ -175,7 +175,9 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
             console.log(error);
             if (error instanceof ZodError) {
                 let errors = {};
-                error.issues.map(e => ({ [e.path[0].toString()]: true }));
+                error.issues.forEach(e => {
+                    errors[e.path[1]] = true;
+                });
                 this.error = Object.assign({}, errors);
             }
         }

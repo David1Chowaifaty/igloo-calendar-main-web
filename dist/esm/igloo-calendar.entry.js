@@ -1,16 +1,17 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { R as RoomService } from './room.service-2d4db296.js';
-import { B as BookingService } from './booking.service-3ab215f9.js';
-import { g as formatLegendColors, f as dateToFormattedString, i as isBlockUnit, h as getNextDay, j as addTwoMonthToDate, k as convertDMYToISO, l as computeEndDate } from './utils-eafb81b9.js';
-import { E as EventsService } from './events.service-bb4ab806.js';
+import { R as RoomService } from './room.service-0fe1d11d.js';
+import { B as BookingService } from './booking.service-86378c1a.js';
+import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils-2356b37d.js';
+import { E as EventsService } from './events.service-2ef655cd.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-9c452b26.js';
-import { a as calendar_dates, b as getRoomStatus, t as transformNewBooking, d as transformNewBLockedRooms, e as bookingStatus, f as getPrivateNote, c as calculateDaysBetweenDates } from './booking-fa0d3def.js';
-import { l as locales } from './locales.store-eb2a5c52.js';
-import { c as calendar_data } from './calendar-data-ebfcfb6a.js';
-import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-e7fd26f1.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-9359f7ba.js';
+import { b as calendar_dates, d as getRoomStatus, t as transformNewBooking, e as transformNewBLockedRooms, h as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-a8d7f5cc.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import { c as calendar_data } from './calendar-data-ce538d8c.js';
+import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-a8340177.js';
 import { T as Token } from './Token-acf5fbad.js';
 import './axios-aa1335b8.js';
+import './index-e42e9935.js';
 import './index-502f9842.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
