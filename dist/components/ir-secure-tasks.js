@@ -34,7 +34,7 @@ import { d as defineCustomElement$4 } from './ir-title2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
-const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}";
+const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks extends HTMLElement {
@@ -60,15 +60,13 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("div", { class: "px-1 nav d-flex align-items-center justify-content-between" }, h("ul", { class: " d-flex align-items-center nav-tabs" }, h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
+        return (h(Host, null, h("div", { class: "px-1 nav  d-flex align-items-center justify-content-between" }, h("ul", { class: "nav nav-tabs" }, h("li", { class: " nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
                 this.currentPage = 'hk';
             } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
                 this.currentPage = 'tasks';
             } }, "Tasks"))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
                 sessionStorage.removeItem('backend_anchor');
-                this.token.setToken(null);
-                this.isAuthenticated = false;
-                // window.location.reload();
+                window.location.reload();
             } }, "Logout")), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
     }
     static get style() { return IrSecureTasksStyle0; }
