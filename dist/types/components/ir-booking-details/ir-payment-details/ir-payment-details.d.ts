@@ -27,7 +27,7 @@ export declare class IrPaymentDetails {
     initializeItemToBeAdded(): void;
     _processPaymentSave(): Promise<void>;
     _handleSave(): Promise<void>;
-    handlePaymentInputChange(key: keyof IPayment, value: any, event?: InputEvent): void;
+    handlePaymentInputChange(key: keyof IPayment, value: any, event?: CustomEvent): void;
     cancelPayment(): Promise<void>;
     handleConfirmModal(e: CustomEvent): Promise<void>;
     openModal(): void;

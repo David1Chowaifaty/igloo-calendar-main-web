@@ -3,16 +3,17 @@ import { _ as _formatDate } from './functions.js';
 import { B as BookingService } from './booking.service.js';
 import { h as hooks } from './moment.js';
 import { P as PaymentService } from './payment.service.js';
-import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
+import { c as colorVariants, d as defineCustomElement$5 } from './ir-icons2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$6 } from './ir-button2.js';
-import { d as defineCustomElement$5 } from './ir-date-picker2.js';
-import { d as defineCustomElement$3 } from './ir-label2.js';
-import { d as defineCustomElement$2 } from './ir-modal2.js';
-import { d as defineCustomElement$1 } from './ir-payment-actions2.js';
+import { d as defineCustomElement$7 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-date-picker2.js';
+import { d as defineCustomElement$4 } from './ir-label2.js';
+import { d as defineCustomElement$3 } from './ir-modal2.js';
+import { d as defineCustomElement$2 } from './ir-payment-actions2.js';
+import { d as defineCustomElement$1 } from './ir-price-input2.js';
 
 const irPaymentDetailsCss = ".sm-margin-right.sc-ir-payment-details{margin-right:5px !important;background:#000}.action_icons.sc-ir-payment-details{width:60px}.w-60.sc-ir-payment-details{width:100px;padding:0 5px}.payments-height.sc-ir-payment-details{height:30px}.payment_date.sc-ir-payment-details{width:100px}.iframeHeight.sc-ir-payment-details{height:max-content;height:22.5rem}.designation.sc-ir-payment-details{width:120px}.total-cost-container.sc-ir-payment-details{background:#7cbebe;color:white;padding:0.5rem;border-radius:5px}.payment-actions.sc-ir-payment-details{display:flex;align-items:center;justify-content:center;height:100%;gap:0.5rem}.payment_action_beta_container.sc-ir-payment-details{border:1px solid var(--red);position:relative;padding:4px;box-sizing:border-box;border-radius:4px}.beta.sc-ir-payment-details{position:absolute;top:4px;background:var(--red);color:white;padding:0.2rem 0.3rem;font-size:12px;border-radius:4px;right:4px;margin:0}";
 const IrPaymentDetailsStyle0 = irPaymentDetailsCss;
@@ -169,15 +170,23 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.handlePaymentInputChange('date', e.detail.end.format('YYYY-MM-DD'));
     }
     _renderTableRow(item, rowMode = 'normal') {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         return (h(Fragment, null, h("tr", null, h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, _formatDate(item.date))) : (h("ir-date-picker", { date: ((_a = this.itemToBeAdded) === null || _a === void 0 ? void 0 : _a.date) ? new Date(this.itemToBeAdded.date) : new Date(), minDate: hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
             // singleDatePicker
             // autoApply
-            class: "d-flex justify-content-center", onDateChanged: this.handleDateChange.bind(this) }, h("input", { type: "text", slot: "trigger", value: _formatDate((_b = this.itemToBeAdded) === null || _b === void 0 ? void 0 : _b.date), class: "text-center  form-control flex-grow-1 w-100", style: { border: '0', marginLeft: 'auto', marginRight: 'auto', width: '100%' } })))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-right" }, formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (h("input", { type: "text", class: "border-0 text-center form-control py-0 m-0 w-100", value: this.itemToBeAdded.amount, onBlur: e => {
-                e.target.value = Number(this.itemToBeAdded.amount).toFixed(2);
-            }, onInput: event => this.handlePaymentInputChange('amount', +event.target.value, event) }))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, item.designation)) : (h("input", { class: "border-0 w-100 form-control py-0 m-0", onInput: event => this.handlePaymentInputChange('designation', event.target.value), type: "text" }))), h("td", { rowSpan: 2, class: 'border payments-height border-light border-bottom-0 text-center' }, h("div", { class: 'payment-actions' }, rowMode === 'add' && (h("ir-button", { variant: "icon", icon_name: "save", style: colorVariants.secondary, isLoading: rowMode === 'add' && isRequestPending('/Do_Payment'), class: 'm-0', onClickHandler: () => {
+            class: "d-flex justify-content-center", onDateChanged: this.handleDateChange.bind(this) }, h("input", { type: "text", slot: "trigger", value: _formatDate((_b = this.itemToBeAdded) === null || _b === void 0 ? void 0 : _b.date), class: "text-center  form-control flex-grow-1 w-100", style: { border: '0', marginLeft: 'auto', marginRight: 'auto', width: '100%' } })))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center ' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-right" }, formatAmount(this.bookingDetails.currency.symbol, item.amount))) : (
+        // <input
+        //   type="text"
+        //   class="border-0 text-center form-control py-0 m-0 w-100"
+        //   value={this.itemToBeAdded.amount}
+        //   onBlur={e => {
+        //     (e.target as HTMLInputElement).value = Number(this.itemToBeAdded.amount).toFixed(2);
+        //   }}
+        //   onInput={event => this.handlePaymentInputChange('amount', +(event.target as HTMLInputElement).value, event)}
+        // ></input>
+        h("ir-price-input", { value: (_c = this.itemToBeAdded.amount) === null || _c === void 0 ? void 0 : _c.toString(), onTextChange: e => this.handlePaymentInputChange('amount', Number(e.detail), e), inputStyle: "border-0 rounded-0 text-center py-0 m-0 w-100" }))), h("td", { class: 'border payments-height border-light border-bottom-0 text-center' }, rowMode === 'normal' ? (h("span", { class: "sm-padding-left" }, item.designation)) : (h("input", { class: "border-0 w-100 form-control py-0 m-0", onInput: event => this.handlePaymentInputChange('designation', event.target.value), type: "text" }))), h("td", { rowSpan: 2, class: 'border payments-height border-light border-bottom-0 text-center' }, h("div", { class: 'payment-actions' }, rowMode === 'add' && (h("ir-button", { variant: "icon", icon_name: "save", style: colorVariants.secondary, isLoading: rowMode === 'add' && isRequestPending('/Do_Payment'), class: 'm-0', onClickHandler: () => {
                 this._processPaymentSave();
-            } })), h("ir-button", { variant: "icon", icon_name: "trash", style: colorVariants.danger, isLoading: ((_c = this.toBeDeletedItem) === null || _c === void 0 ? void 0 : _c.id) === (item === null || item === void 0 ? void 0 : item.id) && isRequestPending('/Cancel_Payment'), onClickHandler: rowMode === 'add'
+            } })), h("ir-button", { variant: "icon", icon_name: "trash", style: colorVariants.danger, isLoading: ((_d = this.toBeDeletedItem) === null || _d === void 0 ? void 0 : _d.id) === (item === null || item === void 0 ? void 0 : item.id) && isRequestPending('/Cancel_Payment'), onClickHandler: rowMode === 'add'
                 ? () => {
                     this.newTableRow = false;
                     this.initializeItemToBeAdded();
@@ -285,7 +294,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-button", "ir-date-picker", "ir-icons", "ir-label", "ir-modal", "ir-payment-actions"];
+    const components = ["ir-payment-details", "ir-button", "ir-date-picker", "ir-icons", "ir-label", "ir-modal", "ir-payment-actions", "ir-price-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
@@ -294,30 +303,35 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-payment-actions":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-price-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }
