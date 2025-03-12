@@ -27,10 +27,7 @@ export declare class PickupService {
         vehicle_type_code?: string;
         number_of_vehicles?: number;
     }>;
-    validateForm(params: TPickupData, schema: any): {
-        error: boolean;
-        cause?: keyof TPickupData;
-    };
+    validateForm(params: TPickupData, schema: any): {};
     getNumberOfVehicles(capacity: number, numberOfPersons: number): number[];
     private getPickUpPersonStatus;
     updateDue(params: TDueParams): number;

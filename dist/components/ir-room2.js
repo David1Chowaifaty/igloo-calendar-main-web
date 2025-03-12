@@ -1,13 +1,14 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { b as _getDay } from './functions.js';
-import { j as formatName } from './booking.js';
+import { h as formatName } from './booking2.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
-import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
+import { c as colorVariants } from './icons.js';
 import { f as formatAmount } from './utils.js';
 import { B as BookingService } from './booking.service.js';
 import { d as defineCustomElement$6 } from './ir-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-view2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-label2.js';
 import { d as defineCustomElement$2 } from './ir-modal2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';

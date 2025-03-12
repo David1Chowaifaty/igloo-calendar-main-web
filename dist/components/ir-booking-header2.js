@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
+import { c as colorVariants } from './icons.js';
 import { c as calendar_data } from './calendar-data.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
@@ -8,6 +8,7 @@ import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-dialog2.js';
 import { d as defineCustomElement$6 } from './ir-events-log2.js';
 import { d as defineCustomElement$5 } from './ir-icon2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-pms-logs2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';

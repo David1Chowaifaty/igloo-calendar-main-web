@@ -76,12 +76,16 @@ export class PickupService {
     validateForm(params, schema) {
         try {
             schema.parse(params);
-            return { error: false };
+            return null;
         }
         catch (error) {
             console.log(error);
+            const err = {};
             if (error instanceof ZodError) {
-                return { error: true, cause: error.issues[0].path.toString() };
+                error.issues.forEach(e => {
+                    err[e.path[0]] = true;
+                });
+                return err;
             }
         }
         // if (params.arrival_time.split(':').length !== 2) {

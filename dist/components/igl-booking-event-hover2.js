@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { e as extras, g as getReleaseHoursString, h as findCountry, f as formatAmount } from './utils.js';
+import { a as findCountry, f as formatAmount } from './utils.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.service2.js';
+import { e as extras, g as getReleaseHoursString } from './utils2.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { a as compareTime, b as createDateWithOffsetAndHour } from './booking.js';
+import { a as compareTime, b as createDateWithOffsetAndHour } from './booking2.js';
 import { d as defineCustomElement$6 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-view2.js';

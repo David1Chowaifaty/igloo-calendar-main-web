@@ -1,18 +1,21 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
 import { R as RoomService } from './room.service-0fe1d11d.js';
-import { B as BookingService } from './booking.service-86378c1a.js';
-import { h as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, j as getNextDay, k as addTwoMonthToDate, l as convertDMYToISO, m as computeEndDate } from './utils-2356b37d.js';
-import { E as EventsService } from './events.service-2ef655cd.js';
+import { B as BookingService } from './booking.service-44624118.js';
+import { a as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, b as getNextDay, c as addTwoMonthToDate, h as convertDMYToISO, j as computeEndDate } from './utils-4021542d.js';
+import { E as EventsService } from './events.service-fe6a0411.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-9359f7ba.js';
-import { b as calendar_dates, d as getRoomStatus, t as transformNewBooking, e as transformNewBLockedRooms, h as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-a8d7f5cc.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-202b35d2.js';
+import { a as getRoomStatus, t as transformNewBooking, b as transformNewBLockedRooms, d as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-cd34d9d6.js';
+import { c as calendar_dates } from './calendar-dates.store-b368debb.js';
 import { l as locales } from './locales.store-95a78d6b.js';
 import { c as calendar_data } from './calendar-data-ce538d8c.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-a8340177.js';
 import { T as Token } from './Token-acf5fbad.js';
 import './axios-aa1335b8.js';
+import './utils-05ffd40c.js';
 import './index-e42e9935.js';
 import './index-502f9842.js';
+import './booking.service-88f8bf5f.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";

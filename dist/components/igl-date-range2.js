@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { c as calculateDaysBetweenDates } from './booking.js';
+import { c as calculateDaysBetweenDates } from './booking2.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-date-range2.js';
 
