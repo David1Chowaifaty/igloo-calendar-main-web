@@ -2,7 +2,7 @@ import app_store from "../../../../../stores/app.store";
 import localization_store from "../../../../../stores/app.store";
 import localizedWords from "../../../../../stores/localization.store";
 import { Host, h } from "@stencil/core";
-import { addDays, format } from "date-fns";
+import moment from "moment/min/moment-with-locales";
 export class IrDatePopup {
     constructor() {
         this.dates = {
@@ -10,26 +10,27 @@ export class IrDatePopup {
             end: null,
         };
         this.isPopoverOpen = false;
-        this.minDate = addDays(new Date(), 0);
+        this.minDate = moment();
     }
     handleDatesChange() {
         if (this.dates.end && this.isPopoverOpen) {
             this.popover.toggleVisibility();
         }
     }
-    componentWillLoad() {
-        this.minDate.setHours(0, 0, 0, 0);
-    }
     dateTrigger() {
-        return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })) : (h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
+        return (h("div", { class: "popover-trigger relative w-full sm:w-fit", slot: "trigger", "data-state": this.isPopoverOpen ? 'opened' : 'closed' }, h("ir-icons", { name: "calendar", svgClassName: "size-[18px]" }), h("div", { class: "flex h-[3rem] flex-1 flex-col justify-center gap-0.5" }, h("p", { class: "label" }, localizedWords.entries.Lcz_Dates), h("div", { class: "dates" }, this.dates.start ? (this.dates.start.locale(localization_store.selectedLocale).format('MMM DD')) : (
+        // format(this.dates.start, 'MMM dd', { locale: localization_store.selectedLocale })
+        h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckIn)), h("span", null, " - "), this.dates.end ? (this.dates.end.locale(localization_store.selectedLocale).format('MMM DD')) : (
+        // format(this.dates.end, 'MMM dd', { locale: localization_store.selectedLocale })
+        h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: '09b97e9afa736ba83765e365cf42ead35cd40f66' }, h("ir-popover", { key: '325551e45ffc06a42a784e3655f5bd5b3b19373d', showCloseButton: false, placement: "bottom-start", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Host, { key: '3ab860083d32bef0bffa40c0a77e9e8bb460919d' }, h("ir-popover", { key: 'b9e66feedda1a9b802dd99010c96c5025487b8dd', showCloseButton: false, placement: "bottom-start", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
-                    this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: addDays(this.dates.start, 1) }));
+                    this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: this.dates.start.add(1, 'days') }));
                 }
-            } }, this.dateTrigger(), h("div", { key: 'ed8e64a5c3e6ce1acfb916b8be6b55a1a3ad5354', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm  " }, h("ir-date-range", { key: '285d0d672759080ee1b0f65acc772ba61753eca7', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: '1d690b0ae850c2d8310c11abfbf51a32a8db58a1', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm  " }, h("ir-date-range", { key: 'a4e06d578686a2eeb6ab7c16ba89e83aabc266fd', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
     }
     getDateModifiers() {
         var _a;
@@ -62,12 +63,13 @@ export class IrDatePopup {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{ start: Date | null; end: Date | null }",
-                    "resolved": "{ start: Date; end: Date; }",
+                    "original": "{ start: Moment | null; end: Moment | null }",
+                    "resolved": "{ start: Moment; end: Moment; }",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -100,12 +102,13 @@ export class IrDatePopup {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ start: Date | null; end: Date | null }",
-                    "resolved": "{ start: Date; end: Date; }",
+                    "original": "{ start: Moment | null; end: Moment | null }",
+                    "resolved": "{ start: Moment; end: Moment; }",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 }

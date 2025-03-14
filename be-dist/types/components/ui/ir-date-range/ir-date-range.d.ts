@@ -1,48 +1,48 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { Locale } from 'date-fns';
 import { IDateModifiers, IDateModifierOptions } from './ir-date-range.types';
+import moment, { Moment } from 'moment/min/moment-with-locales';
 export declare class IrDateRange {
-    fromDate: Date | null;
-    toDate: Date | null;
-    minDate: Date;
-    maxDate: Date;
+    fromDate: Moment | null;
+    toDate: Moment | null;
+    minDate: Moment;
+    maxDate: Moment;
     dateModifiers: IDateModifiers;
     maxSpanDays: number;
     showPrice: boolean;
-    locale: Locale;
+    locale: string;
     selectedDates: {
-        start: Date | null;
-        end: Date | null;
+        start: Moment | null;
+        end: Moment | null;
     };
     displayedDaysArr: {
-        month: Date;
-        days: Date[];
+        month: Moment;
+        days: Moment[];
     }[];
-    hoveredDate: Date | null;
+    hoveredDate: Moment | null;
     dateChange: EventEmitter<{
         start: Date | null;
         end: Date | null;
     }>;
     weekdays: string[];
     componentWillLoad(): void;
-    handleLocale(newValue: Locale, oldLocale: Locale): void;
-    handleFromDateChange(newValue: Date, oldValue: Date): void;
-    handleToDateChange(newValue: Date, oldValue: Date): void;
-    getMonthDays(month: Date): {
-        month: Date;
-        days: Date[];
+    handleLocale(newValue: string, oldLocale: string): void;
+    handleFromDateChange(newValue: Moment | null, oldValue: Moment | null): void;
+    handleToDateChange(newValue: Moment | null, oldValue: Moment | null): void;
+    getMonthDays(month: Moment): {
+        month: moment.Moment;
+        days: moment.Moment[];
     };
     handleKeyDown: (e: KeyboardEvent) => void;
     decrementDate(): void;
     incrementDate(): void;
     goToNextMonth(e: MouseEvent): void;
     goToPreviousMonth(e: MouseEvent): void;
-    selectDay(day: Date): void;
+    selectDay(day: Moment): void;
     resetHours(): void;
-    handleMouseEnter(day: Date): void;
+    handleMouseEnter(day: Moment): void;
     handleMouseLeave(): void;
-    isDaySelected(day: Date): boolean;
+    isDaySelected(day: Moment): boolean;
     getMonthStyles(index: number): "margin-horizontal" | "margin-right" | "margin-right margin-left" | "margin-left";
-    checkDatePresence(day: Date): IDateModifierOptions;
+    checkDatePresence(day: Moment): IDateModifierOptions;
     render(): any;
 }

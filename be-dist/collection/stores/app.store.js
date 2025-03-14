@@ -1,12 +1,11 @@
 import { createStore } from "@stencil/store";
-import { enUS } from "date-fns/locale";
+import moment from "moment/min/moment-with-locales";
 const initialState = {
     nonBookableNights: null,
     childrenStartAge: 3,
-    analytics: null,
     currentPage: 'booking',
     dir: 'LTR',
-    selectedLocale: enUS,
+    selectedLocale: 'en',
     localizedWords: [],
     userPreferences: {
         currency_id: 'usd',
@@ -46,6 +45,7 @@ export function changeLocale(dir, locale) {
     document.body.dir = dir;
     app_store.dir = dir;
     app_store.selectedLocale = locale;
+    moment.locale(locale);
 }
 export function updateUserPreference(params) {
     app_store.userPreferences = Object.assign(Object.assign({}, app_store.userPreferences), params);

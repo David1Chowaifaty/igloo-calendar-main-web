@@ -1,41 +1,41 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { Locale } from 'date-fns';
+import moment, { Moment } from 'moment/min/moment-with-locales';
 import { IDateModifierOptions, IDateModifiers } from '../ir-date-range/ir-date-range.types';
 export declare class IrCalendar {
-    fromDate: Date | null;
-    toDate: Date | null;
-    minDate: Date;
-    maxDate: Date;
+    fromDate: Moment | null;
+    toDate: Moment | null;
+    minDate: Moment;
+    maxDate: Moment;
     dateModifiers: IDateModifiers;
     maxSpanDays: number;
     showPrice: boolean;
-    locale: Locale;
-    date: Date;
-    selectedDate: Date;
+    locale: string;
+    date: Moment;
+    selectedDate: Moment;
     displayedDays: {
-        month: Date;
-        days: Date[];
+        month: Moment;
+        days: Moment[];
     };
-    hoveredDate: Date | null;
-    dateChange: EventEmitter<Date>;
+    hoveredDate: Moment | null;
+    dateChange: EventEmitter<Moment>;
     weekdays: string[];
     componentWillLoad(): void;
-    handleDateChange(newDate: Date, oldDate: Date): void;
-    handleLocale(newValue: Locale, oldLocale: Locale): void;
-    getMonthDays(month: Date): {
-        month: Date;
-        days: Date[];
+    handleDateChange(newDate: Moment, oldDate: Moment): void;
+    handleLocale(newValue: string, oldLocale: string): void;
+    getMonthDays(month: Moment): {
+        month: moment.Moment;
+        days: any[];
     };
     handleKeyDown: (e: KeyboardEvent) => void;
     decrementDate(): void;
     incrementDate(): void;
     goToNextMonth(e: MouseEvent): void;
     goToPreviousMonth(e: MouseEvent): void;
-    selectDay(day: Date): void;
+    selectDay(day: Moment): void;
     resetHours(): void;
-    handleMouseEnter(day: Date): void;
+    handleMouseEnter(day: Moment): void;
     handleMouseLeave(): void;
-    isDaySelected(day: Date): boolean;
-    checkDatePresence(day: Date): IDateModifierOptions;
+    isDaySelected(day: Moment): boolean;
+    checkDatePresence(day: Moment): IDateModifierOptions;
     render(): any;
 }

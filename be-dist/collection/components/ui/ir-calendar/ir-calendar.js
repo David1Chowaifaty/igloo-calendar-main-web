@@ -1,18 +1,17 @@
 import { h } from "@stencil/core";
-import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek, addDays, isSameDay, isBefore, isAfter, addYears, isToday, } from "date-fns";
-import { enUS } from "date-fns/locale";
+import moment from "moment/min/moment-with-locales";
 import { getAbbreviatedWeekdays } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 export class IrCalendar {
     constructor() {
         this.fromDate = null;
         this.toDate = null;
-        this.minDate = addYears(new Date(), -24);
-        this.maxDate = addYears(new Date(), 24);
+        this.minDate = moment().add(-24, 'years');
+        this.maxDate = moment().add(24, 'years');
         this.maxSpanDays = 90;
         this.showPrice = false;
-        this.locale = enUS;
-        this.date = new Date();
+        this.locale = 'en';
+        this.date = moment();
         this.selectedDate = null;
         this.hoveredDate = null;
         this.weekdays = [];
@@ -24,10 +23,10 @@ export class IrCalendar {
                 this.incrementDate();
             }
             else if (e.key === 'ArrowUp') {
-                this.selectedDate = addDays(new Date(this.selectedDate), -7);
+                this.selectedDate = this.selectedDate.clone().add(-7, 'days');
             }
             else if (e.key === 'ArrowDown') {
-                this.selectedDate = addDays(new Date(this.selectedDate), 7);
+                this.selectedDate = this.selectedDate.clone().add(7, 'days');
             }
             else if (e.key === ' ' || e.key === 'Enter') {
                 this.selectDay(this.selectedDate);
@@ -38,72 +37,78 @@ export class IrCalendar {
         var _a;
         this.weekdays = getAbbreviatedWeekdays(this.locale);
         this.resetHours();
-        const currentMonth = (_a = this.fromDate) !== null && _a !== void 0 ? _a : new Date();
-        console.log('currentMonth', currentMonth);
+        const currentMonth = (_a = this.fromDate) !== null && _a !== void 0 ? _a : moment();
         this.displayedDays = Object.assign({}, this.getMonthDays(currentMonth));
         this.selectedDate = this.date;
+        moment.locale(this.locale);
     }
     handleDateChange(newDate, oldDate) {
-        if (!isSameDay(newDate, oldDate)) {
+        if (!newDate.isSame(oldDate, 'day')) {
             this.selectedDate = newDate;
         }
     }
     handleLocale(newValue, oldLocale) {
         if (newValue !== oldLocale) {
+            moment.locale(this.locale);
             this.weekdays = getAbbreviatedWeekdays(newValue);
         }
     }
     getMonthDays(month) {
+        const startDate = month.clone().startOf('month').startOf('week').add(1, 'day');
+        const endDate = month.clone().endOf('month').endOf('week').add(1, 'day');
+        const days = [];
+        let day = startDate.clone();
+        while (day.isBefore(endDate)) {
+            days.push(day.clone());
+            day = day.clone().add(1, 'day');
+        }
         return {
             month,
-            days: eachDayOfInterval({
-                start: startOfWeek(startOfMonth(month), { weekStartsOn: 1, locale: this.locale }),
-                end: endOfWeek(endOfMonth(month), { weekStartsOn: 1, locale: this.locale }),
-            }),
+            days,
         };
     }
     decrementDate() {
         if (this.selectedDate) {
-            this.selectedDate = addDays(new Date(this.selectedDate), -1);
+            this.selectedDate = this.selectedDate.clone().add(-1, 'days');
         }
     }
     incrementDate() {
         if (this.selectedDate) {
-            this.selectedDate = addDays(new Date(this.selectedDate), 1);
+            this.selectedDate = this.selectedDate.clone().add(1, 'days');
         }
     }
     goToNextMonth(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        const currentSecondMonth = this.displayedDays.month;
-        const newSecondMonth = addMonths(currentSecondMonth, 1);
-        if (isBefore(endOfMonth(newSecondMonth), this.minDate) || isAfter(startOfMonth(newSecondMonth), this.maxDate)) {
+        const currentMonth = this.displayedDays.month;
+        const newMonth = currentMonth.clone().add(1, 'month');
+        if (newMonth.endOf('month').isBefore(this.minDate) || newMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
-        this.displayedDays = Object.assign({}, this.getMonthDays(newSecondMonth));
+        this.displayedDays = Object.assign({}, this.getMonthDays(newMonth));
     }
     goToPreviousMonth(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        const currentFirstMonth = this.displayedDays.month;
-        const newFirstMonth = addMonths(currentFirstMonth, -1);
-        if (isBefore(endOfMonth(newFirstMonth), this.minDate) || isAfter(startOfMonth(newFirstMonth), this.maxDate)) {
+        const currentMonth = this.displayedDays.month;
+        const newMonth = currentMonth.clone().add(-1, 'month');
+        if (newMonth.endOf('month').isBefore(this.minDate) || newMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
-        this.displayedDays = Object.assign({}, this.getMonthDays(newFirstMonth));
+        this.displayedDays = Object.assign({}, this.getMonthDays(newMonth));
     }
     selectDay(day) {
         this.selectedDate = day;
         this.dateChange.emit(this.selectedDate);
     }
     resetHours() {
-        this.minDate.setHours(0, 0, 0, 0);
-        this.maxDate.setHours(0, 0, 0, 0);
+        this.minDate = this.minDate.clone().startOf('day');
+        this.maxDate = this.maxDate.clone().startOf('day');
         if (this.fromDate) {
-            this.fromDate.setHours(0, 0, 0, 0);
+            this.fromDate = this.fromDate.clone().startOf('day');
         }
         if (this.toDate) {
-            this.toDate.setHours(0, 0, 0, 0);
+            this.toDate = this.toDate.clone().startOf('day');
         }
     }
     handleMouseEnter(day) {
@@ -113,18 +118,13 @@ export class IrCalendar {
         this.hoveredDate = null;
     }
     isDaySelected(day) {
-        var _a;
-        const date = new Date(day);
-        date.setHours(0, 0, 0, 0);
-        const start = new Date((_a = this.selectedDate) !== null && _a !== void 0 ? _a : new Date());
-        start.setHours(0, 0, 0, 0);
-        return isSameDay(date, start);
+        return day.isSame(this.selectedDate, 'day');
     }
     checkDatePresence(day) {
         if (!this.dateModifiers) {
             return;
         }
-        const formatedDate = format(day, 'yyyy-MM-dd');
+        const formatedDate = day.format('YYYY-MM-DD');
         const result = this.dateModifiers[formatedDate];
         if (result) {
             return result;
@@ -133,7 +133,7 @@ export class IrCalendar {
     }
     render() {
         const { month, days } = this.displayedDays;
-        return (h("div", { key: '900cecc49d0b85c002071d475eb5b5f115352890', class: 'date-picker' }, h("table", { key: '9ffc94c28eecd95d51cd4fc5569f0c846256d4c5', class: "calendar ", role: "grid" }, h("thead", { key: '749215395e0134e9de3e585dccbb56fce3262399' }, h("tr", { key: '0d7b0b86ed24c8b7dd5e9a1c800c458f810892b2', class: "calendar-header" }, h("th", { key: '3b7f98f4be221740e8748838c2ac02e7951317f4', colSpan: 7 }, h("div", { key: '181b097e59396e1a023ea47b1260bf7b883ee113', class: "month-navigation" }, h("button", { key: '3b8f8a6c789dc6d18a222766e2fd917f355e6da8', name: "previous month", class: "navigation-buttons", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { key: '1877882554c5ce4ad664854641aa52bbf06ec8a5', class: "sr-only" }, "previous month"), h("svg", { key: '46c6e00f58b902628c43beaf52fca76b56a99424', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: '1fc63400a0df14da17886c70ea3629ece66a7ad9', fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" }))), h("span", { key: 'f1de745555cc4a48aedd6f160cc75e7bbd134304' }, format(month, 'MMMM yyyy', { locale: this.locale })), h("button", { key: '207758c780c8ef85ebf45c94fd4fc6395be18211', name: "next month", class: "navigation-buttons", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { key: '5c2a2b44a85e23e0593174818f4e219d81e8302e', class: "sr-only " }, "next month"), h("svg", { key: 'c2ea51289aafe383160ebc153e4f86eb77bb734f', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: 'b6511385c97f0d4401f4414bfce8a88930e2ce51', fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))))), h("tr", { key: 'edc8876766a9429c05ac7ace5131284d036b9c63', class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday))))), h("tbody", { key: '979482cacbd347ff575eefe05bc71de57ee5715b', class: "days-grid" }, days
+        return (h("div", { key: 'e8a9e196aad7e8395e0509a8562973d763d06e1f', class: 'date-picker' }, h("table", { key: '3872454867f498d42a7cc0a7c525deca1276fecc', class: "calendar ", role: "grid" }, h("thead", { key: 'eea75968cf867ed2c0ddcd7710e00a10d1049f8a' }, h("tr", { key: '9a22aa955989dd39f1fe09b3d804b3d1a797daed', class: "calendar-header" }, h("th", { key: '2956e1df0a9afeba83ddd21d070faac938ea19a8', colSpan: 7 }, h("div", { key: 'e10e3d160853501d57846e3cc6efb8ff294e1913', class: "month-navigation" }, h("button", { key: '814321355e618c1137893f8999b0244d9d85c59d', name: "previous month", class: "navigation-buttons", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { key: '4dc3406ce4027ea8a0517eee9998a577a7158e46', class: "sr-only" }, "previous month"), h("svg", { key: '33946179ffbdbf3fd30a0ac1a221e3d9beb26475', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: '33c778403bc5a0e71f98f8c5a4d87433c1ac2113', fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" }))), h("span", { key: 'f1e977a916730eff7c289c8d6e213ae0a576cd0c' }, month.locale(this.locale).format('MMMM YYYY')), h("button", { key: '07f3388ed0129954b9fd97ec092b9d06be60ef95', name: "next month", class: "navigation-buttons", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { key: '8088c32c72f50102a11f89c0997ca7ec57681c3c', class: "sr-only " }, "next month"), h("svg", { key: '9dd6e9d7aead9af2404e40ac5db6259a3143fe59', xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { key: '9acfebc54bda5fc769eb49d87048048ab66df0f0', fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))))), h("tr", { key: 'a0058a2f69f239eff9b0048fdf9d7dee430901a9', class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday))))), h("tbody", { key: '2221d89d808dd3287d7bbfae5aa32c564f2b8ff6', class: "days-grid" }, days
             .reduce((acc, day, index) => {
             const weekIndex = Math.floor(index / 7);
             if (!acc[weekIndex]) {
@@ -143,15 +143,12 @@ export class IrCalendar {
             return acc;
         }, [])
             .map(week => (h("tr", { class: "week-row", role: "row" }, week.map((day) => {
-            day.setHours(0, 0, 0, 0);
             const checkedDate = this.checkDatePresence(day);
-            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(),
-                // onKeyDown={this.handleKeyDown.bind(this)}
-                onClick: e => {
+            return (h("td", { class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month, 'month') && (h("button", { disabled: day.isBefore(this.minDate) || day.isAfter(this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.selectDay(day);
-                }, "aria-label": `${format(day, 'EEEE, MMMM do yyyy', { locale: this.locale })} ${isBefore(day, this.minDate) || isAfter(day, this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": this.isDaySelected(day), class: `day-button` }, h("p", { class: `day ${isToday(day) ? 'current-date' : ''}` }, format(day, 'd', { locale: this.locale })), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
+                }, "aria-label": `${day.locale(this.locale).format('dddd, MMMM Do YYYY')} ${day.isBefore(this.minDate) || day.isAfter(this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": day.isBefore(this.minDate) || day.isAfter(this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": this.isDaySelected(day), class: `day-button` }, h("p", { class: `day ${day.isSame(moment(), 'day') ? 'current-date' : ''}` }, day.format('D')), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
         }))))))));
     }
     static get is() { return "ir-calendar"; }
@@ -170,14 +167,15 @@ export class IrCalendar {
         return {
             "fromDate": {
                 "type": "unknown",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
-                    "original": "Date | null",
-                    "resolved": "Date",
+                    "original": "Moment | null",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -193,14 +191,15 @@ export class IrCalendar {
             },
             "toDate": {
                 "type": "unknown",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
-                    "original": "Date | null",
-                    "resolved": "Date",
+                    "original": "Moment | null",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -216,14 +215,15 @@ export class IrCalendar {
             },
             "minDate": {
                 "type": "unknown",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -235,18 +235,19 @@ export class IrCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "addYears(new Date(), -24)"
+                "defaultValue": "moment().add(-24, 'years')"
             },
             "maxDate": {
                 "type": "unknown",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -258,7 +259,7 @@ export class IrCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "addYears(new Date(), 24)"
+                "defaultValue": "moment().add(24, 'years')"
             },
             "dateModifiers": {
                 "type": "unknown",
@@ -324,18 +325,12 @@ export class IrCalendar {
                 "defaultValue": "false"
             },
             "locale": {
-                "type": "unknown",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "Locale",
-                    "resolved": "Locale",
-                    "references": {
-                        "Locale": {
-                            "location": "import",
-                            "path": "date-fns",
-                            "id": "node_modules::Locale"
-                        }
-                    }
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 },
                 "required": false,
                 "optional": false,
@@ -345,18 +340,21 @@ export class IrCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "enUS"
+                "attribute": "locale",
+                "reflect": true,
+                "defaultValue": "'en'"
             },
             "date": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -368,7 +366,7 @@ export class IrCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "new Date()"
+                "defaultValue": "moment()"
             }
         };
     }
@@ -392,12 +390,13 @@ export class IrCalendar {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 }

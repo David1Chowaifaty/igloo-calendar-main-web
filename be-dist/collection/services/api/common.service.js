@@ -3,12 +3,12 @@ import app_store from "../../stores/app.store";
 import localizedWords from "../../stores/localization.store";
 export class CommonService {
     async getCurrencies() {
-        const { data } = await axios.post(`/Get_Exposed_Currencies`);
+        const { data } = await axios.post(`/Get_Exposed_Currencies`, {});
         app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
     async getExposedLanguages() {
-        const { data } = await axios.post(`/Get_Exposed_Languages`);
+        const { data } = await axios.post(`/Get_Exposed_Languages`, {});
         app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }

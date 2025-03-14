@@ -1,17 +1,14 @@
 import { z } from 'zod';
 export declare const ZCreditCardSchemaWithCvc: z.ZodObject<{
     cardNumber: z.ZodEffects<z.ZodString, string, string>;
-    cvc: z.ZodString;
     cardHolderName: z.ZodString;
     expiryDate: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     cardNumber?: string;
-    cvc?: string;
     cardHolderName?: string;
     expiryDate?: string;
 }, {
     cardNumber?: string;
-    cvc?: string;
     cardHolderName?: string;
     expiryDate?: string;
 }>;
@@ -56,15 +53,15 @@ export declare const ICardProcessing: z.ZodUnion<[z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     code?: "001";
     cardNumber?: string;
-    cvc?: string;
     cardHolderName?: string;
     expiry_month?: string;
     expiry_year?: string;
+    cvc?: string;
 }, {
     code?: "001";
     cardNumber?: string;
-    cvc?: string;
     cardHolderName?: string;
     expiry_month?: string;
     expiry_year?: string;
+    cvc?: string;
 }>]>;

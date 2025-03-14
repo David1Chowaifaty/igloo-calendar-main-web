@@ -4,11 +4,11 @@ import { CommonService } from "../../../../services/api/common.service";
 import { PropertyService } from "../../../../services/api/property.service";
 import { BookingListingAppService } from "../../../../services/app/booking-listing.service";
 import { cn, formatAmount, formatFullLocation, runScriptAndRemove } from "../../../../utils/utils";
-import { differenceInCalendarDays, format } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 import app_store from "../../../../stores/app.store";
 import { PaymentService } from "../../../../services/api/payment.service";
 import localizedWords from "../../../../stores/localization.store";
-import localization_store from "../../../../stores/app.store";
+import moment from "moment/min/moment-with-locales";
 export class IrBookingOverview {
     constructor() {
         this.maxPages = 10;
@@ -249,7 +249,7 @@ export class IrBookingOverview {
                     this.hoveredBooking = booking.booking_nbr;
                 }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("th", { class: "ir-table-cell", "data-state": "affiliate", colSpan: 7 }, booking.property.name, " ", h("span", { class: 'property-location' }, formatFullLocation(booking.property))))), h("tr", { class: "ir-table-row group-hover", onMouseEnter: () => {
                     this.hoveredBooking = booking.booking_nbr;
-                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, h("ir-badge", { label: booking.status.description, variant: this.getBadgeVariant(booking.status.code) })), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, booking.booking_nbr), h("td", { class: "ir-table-cell  md:hidden lg:table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, format(new Date(booking.booked_on.date), 'dd-MMM-yyyy', { locale: localization_store.selectedLocale })), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, format(new Date(booking.from_date), 'dd-MMM-yyyy', { locale: localization_store.selectedLocale })), h("td", { class: "ir-table-cell lowercase", "data-state": this.aff ? 'booking-affiliate' : '' }, totalNights, " ", totalNights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, formatAmount(booking.total, booking.currency.code)), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, payment.show || cancel.show ? (h("div", { class: 'ct-menu-container' }, h("button", { onClick: () => {
+                }, onMouseLeave: () => (this.hoveredBooking = null), key: booking.booking_nbr, "data-state": this.hoveredBooking === booking.booking_nbr ? 'hovered' : '' }, h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, h("ir-badge", { label: booking.status.description, variant: this.getBadgeVariant(booking.status.code) })), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, booking.booking_nbr), h("td", { class: "ir-table-cell text-start  md:hidden lg:table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, moment(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, moment(booking.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("td", { class: "ir-table-cell lowercase", "data-state": this.aff ? 'booking-affiliate' : '' }, totalNights, " ", totalNights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, formatAmount(booking.total, booking.currency.code)), h("td", { class: "ir-table-cell", "data-state": this.aff ? 'booking-affiliate' : '' }, payment.show || cancel.show ? (h("div", { class: 'ct-menu-container' }, h("button", { onClick: () => {
                     var _a;
                     this.selectedBooking = booking;
                     this.handleBlEvents((_a = this.selectedMenuIds[booking.booking_nbr]) !== null && _a !== void 0 ? _a : menuItems[0].id);

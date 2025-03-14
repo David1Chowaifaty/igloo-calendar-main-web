@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { a as app_store } from './app.store.js';
-import { A as getDateDifference, l as localizedWords, d as dateFns, y as formatAmount } from './utils.js';
+import { b as app_store } from './app.store.js';
+import { t as getDateDifference, l as localizedWords, d as dateFns, q as formatAmount } from './utils.js';
 import { B as BookingListingAppService } from './booking-listing.service.js';
+import { h as hooks } from './moment.js';
 import { d as defineCustomElement$7 } from './ir-alert-dialog2.js';
 import { d as defineCustomElement$6 } from './ir-booking-cancellation2.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
@@ -27,7 +28,7 @@ const IrBookingDetailsView$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingD
         this.email = email;
     }
     renderBookingDetailHeader() {
-        const total_nights = getDateDifference(new Date(this.booking.from_date), new Date(this.booking.to_date));
+        const total_nights = getDateDifference(hooks(this.booking.from_date, 'YYYY-MM-DD'), hooks(this.booking.to_date, 'YYYY-MM-DD'));
         const nbr_of_persons = this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr;
         const total_rooms = this.booking.rooms.length;
         return `${total_nights} ${total_nights > 1 ? localizedWords.entries.Lcz_Nights : localizedWords.entries.Lcz_night} - ${nbr_of_persons}

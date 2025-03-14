@@ -8,7 +8,6 @@ import { checkAffiliate, checkGhs, getUserPreference, matchLocale, setDefaultLoc
 import Stack from "../../models/stack";
 import { checkout_store } from "../../stores/checkout.store";
 import Token from "../../models/Token";
-import { Analytics } from "../../services/app/Analytics/index";
 export class IrBookingEngine {
     constructor() {
         this.rt_id = null;
@@ -25,7 +24,7 @@ export class IrBookingEngine {
         this.isLoading = false;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
-        this.version = '2.594';
+        this.version = '2.596';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -139,8 +138,6 @@ export class IrBookingEngine {
         if (app_store.is_signed_in) {
             requests.push(this.propertyService.getExposedGuest());
         }
-        app_store.analytics = Analytics('google', 'G-NCREF4XPHZ');
-        // app_store.analytics = Analytics('google', 'G-8BH7GRG0G7');
         const [currencies, languages] = await Promise.all(requests);
         this.currencies = currencies;
         this.languages = languages;
@@ -244,8 +241,8 @@ export class IrBookingEngine {
         booking_store.resetBooking = false;
         await this.propertyService.getExposedBookingAvailability({
             propertyid: app_store.app_data.property_id,
-            from_date: format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-            to_date: format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+            from_date: booking_store.bookingAvailabilityParams.from_date,
+            to_date: booking_store.bookingAvailabilityParams.to_date,
             room_type_ids: [],
             adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
             child_nbr: booking_store.bookingAvailabilityParams.child_nbr,

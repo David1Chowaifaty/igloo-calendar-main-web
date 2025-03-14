@@ -1,8 +1,9 @@
+import moment from 'moment';
 import { z } from 'zod';
 export declare const ExposedBookingAvailability: z.ZodObject<{
     propertyid: z.ZodNumber;
-    from_date: z.ZodString;
-    to_date: z.ZodString;
+    from_date: z.ZodType<moment.Moment, z.ZodTypeDef, moment.Moment>;
+    to_date: z.ZodType<moment.Moment, z.ZodTypeDef, moment.Moment>;
     room_type_ids: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
     adult_nbr: z.ZodNumber;
     child_nbr: z.ZodNumber;
@@ -16,12 +17,12 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     is_in_affiliate_mode: z.ZodDefault<z.ZodBoolean>;
     affiliate_id: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
-    from_date?: string;
-    to_date?: string;
     adult_nbr?: number;
     child_nbr?: number;
     infant_nbr?: number;
     language?: string;
+    from_date?: moment.Moment;
+    to_date?: moment.Moment;
     room_type_ids?: string[];
     propertyid?: number;
     currency_ref?: string;
@@ -32,12 +33,12 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     is_in_affiliate_mode?: boolean;
     affiliate_id?: number;
 }, {
-    from_date?: string;
-    to_date?: string;
     adult_nbr?: number;
     child_nbr?: number;
     infant_nbr?: number;
     language?: string;
+    from_date?: moment.Moment;
+    to_date?: moment.Moment;
     room_type_ids?: string[];
     propertyid?: number;
     currency_ref?: string;

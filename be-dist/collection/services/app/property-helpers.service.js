@@ -9,7 +9,7 @@ export class PropertyHelpers {
             booking_nbr: null,
             is_remove: false,
             currency: pickup.currency,
-            date: pickup.arrival_date,
+            date: pickup.arrival_date.format('YYYY-MM-DD'),
             details: pickup.flight_details || null,
             hour: Number(hour),
             minute: Number(minute),
@@ -56,7 +56,7 @@ export class PropertyHelpers {
         return { first_name: names[0] || null, last_name: names[1] || null };
     }
     async fetchAvailabilityData(props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, props), { room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+        const response = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, props), { from_date: props.from_date.locale('en').format('YYYY-MM-DD'), to_date: props.to_date.locale('en').format('YYYY-MM-DD'), room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
         const result = response.data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);

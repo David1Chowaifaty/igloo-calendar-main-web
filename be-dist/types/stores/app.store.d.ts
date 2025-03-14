@@ -1,7 +1,5 @@
 import { ICurrency, IExposedLanguages, pages, TCurrency, TDirection } from "../models/common";
 import { Affiliate, IEntries, IExposedProperty } from "../models/property";
-import { TAnalytics } from "../services/app/Analytics/index";
-import { Locale } from 'date-fns/locale';
 export type UserPreference = {
     language_id: string;
     currency_id: string;
@@ -23,12 +21,11 @@ export type TSource = {
 };
 export interface IAppStore {
     childrenStartAge?: number;
-    analytics: TAnalytics;
     nonBookableNights: Record<string, null>;
     currencies: TCurrency[];
     localizedWords: string[];
     dir: TDirection;
-    selectedLocale: Locale;
+    selectedLocale: string;
     userPreferences: UserPreference;
     app_data: {
         view: 'extended' | 'default';
@@ -37,7 +34,7 @@ export interface IAppStore {
         property_id: number;
         injected: boolean;
         roomtype_id: number | null;
-        affiliate: Affiliate | null;
+        affiliate: Affiliate;
         tag: string | null;
         source: TSource | null;
         hideGoogleSignIn: boolean;
@@ -67,7 +64,7 @@ export interface IAppStore {
     } | null;
 }
 declare const app_store: IAppStore, onAppDataChange: import("@stencil/store/dist/types").OnChangeHandler<IAppStore>;
-export declare function changeLocale(dir: TDirection, locale: Locale): void;
+export declare function changeLocale(dir: TDirection, locale: string): void;
 export declare function updateUserPreference(params: Partial<UserPreference>): void;
 export { onAppDataChange };
 export default app_store;

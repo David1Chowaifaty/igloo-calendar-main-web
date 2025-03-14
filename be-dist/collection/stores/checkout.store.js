@@ -1,11 +1,12 @@
 import { createStore } from "@stencil/store";
-import { format } from "date-fns";
+import booking_store from "./booking";
+import moment from "moment";
 const initialState = {
     userFormData: {},
     prepaymentAmount: 0,
     modifiedGuestName: false,
     pickup: {
-        arrival_date: format(new Date(), 'yyyy-MM-dd'),
+        arrival_date: moment(booking_store.bookingAvailabilityParams.from_date),
     },
     payment: null,
     agreed_to_services: true,
@@ -17,7 +18,7 @@ export function updateUserFormData(key, value) {
 export function updatePickupFormData(key, value) {
     if (key === 'location' && value === null) {
         checkout_store.pickup = {
-            arrival_date: format(new Date(), 'yyyy-MM-dd'),
+            arrival_date: moment(booking_store.bookingAvailabilityParams.from_date),
             location: null,
         };
     }

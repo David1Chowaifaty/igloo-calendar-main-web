@@ -1,4 +1,4 @@
-import { a as app_store } from './app.store.js';
+import { b as app_store } from './app.store.js';
 import { a as axios } from './axios.js';
 import { P as PropertyService } from './property.service.js';
 import { m as manageAnchorSession } from './utils.js';

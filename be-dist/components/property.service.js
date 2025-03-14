@@ -1,6 +1,6 @@
 import { b as booking_store, d as dateFns, i as injectHTML, V as VariationService } from './utils.js';
 import { a as axios } from './axios.js';
-import { a as app_store } from './app.store.js';
+import { b as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
 
 class PropertyHelpers {
@@ -11,7 +11,7 @@ class PropertyHelpers {
             booking_nbr: null,
             is_remove: false,
             currency: pickup.currency,
-            date: pickup.arrival_date,
+            date: pickup.arrival_date.format('YYYY-MM-DD'),
             details: pickup.flight_details || null,
             hour: Number(hour),
             minute: Number(minute),
@@ -58,7 +58,7 @@ class PropertyHelpers {
         return { first_name: names[0] || null, last_name: names[1] || null };
     }
     async fetchAvailabilityData(props, roomtypeIds, rateplanIds) {
-        const response = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, props), { room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
+        const response = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, props), { from_date: props.from_date.locale('en').format('YYYY-MM-DD'), to_date: props.to_date.locale('en').format('YYYY-MM-DD'), room_type_ids: roomtypeIds, rate_plan_ids: rateplanIds, skip_getting_assignable_units: true, is_specific_variation: true, is_backend: false }));
         const result = response.data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -361,8 +361,8 @@ class PropertyService {
                                 infant_nbr: rp.infant_nbr[index],
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
-                            from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                            to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                            from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+                            to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
                             notes: null,
                             // days: this.propertyHelpers.generateDays(
                             //   booking_store.bookingAvailabilityParams.from_date,
@@ -438,8 +438,8 @@ class PropertyService {
                 promo_key: (_m = booking_store.bookingAvailabilityParams.coupon) !== null && _m !== void 0 ? _m : null,
                 booking: {
                     booking_nbr: '',
-                    from_date: dateFns.format(booking_store.bookingAvailabilityParams.from_date, 'yyyy-MM-dd'),
-                    to_date: dateFns.format(booking_store.bookingAvailabilityParams.to_date, 'yyyy-MM-dd'),
+                    from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+                    to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
                     remark: checkout_store.userFormData.message || null,
                     property: {
                         id: app_store.app_data.property_id,

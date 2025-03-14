@@ -1,18 +1,17 @@
 import { h } from "@stencil/core";
-import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek, addDays, isSameDay, isBefore, isAfter, addYears, isToday, } from "date-fns";
-import { enUS } from "date-fns/locale";
+import moment from "moment/min/moment-with-locales";
 import { getAbbreviatedWeekdays } from "../../../utils/utils";
 import localizedWords from "../../../stores/localization.store";
 export class IrDateRange {
     constructor() {
         this.fromDate = null;
         this.toDate = null;
-        this.minDate = addYears(new Date(), -24);
-        this.maxDate = addYears(new Date(), 24);
+        this.minDate = moment().add(-24, 'years');
+        this.maxDate = moment().add(24, 'years');
         this.maxSpanDays = 90;
         this.showPrice = false;
-        this.locale = enUS;
-        this.selectedDates = { start: new Date(), end: new Date() };
+        this.locale = 'en';
+        this.selectedDates = { start: moment(), end: moment() };
         this.displayedDaysArr = [];
         this.hoveredDate = null;
         this.weekdays = [];
@@ -26,54 +25,51 @@ export class IrDateRange {
         };
     }
     componentWillLoad() {
-        var _a;
         this.weekdays = getAbbreviatedWeekdays(this.locale);
         this.resetHours();
         this.selectedDates = {
             start: this.fromDate,
             end: this.toDate,
         };
-        const currentMonth = (_a = this.fromDate) !== null && _a !== void 0 ? _a : new Date();
-        const nextMonth = addMonths(currentMonth, 1);
+        const currentMonth = this.fromDate ? this.fromDate.clone() : moment();
+        const nextMonth = currentMonth.clone().add(1, 'month');
         this.displayedDaysArr = [this.getMonthDays(currentMonth), this.getMonthDays(nextMonth)];
     }
     handleLocale(newValue, oldLocale) {
         if (newValue !== oldLocale) {
+            moment.locale(newValue);
             this.weekdays = getAbbreviatedWeekdays(newValue);
         }
     }
     handleFromDateChange(newValue, oldValue) {
-        if (!isSameDay(newValue || new Date(), oldValue || new Date())) {
+        if (!(newValue !== null && newValue !== void 0 ? newValue : moment()).isSame(oldValue !== null && oldValue !== void 0 ? oldValue : moment(), 'days')) {
             this.selectedDates = Object.assign(Object.assign({}, this.selectedDates), { start: newValue });
         }
     }
     handleToDateChange(newValue, oldValue) {
-        if (!isSameDay(newValue || new Date(), oldValue || new Date())) {
+        if (!(newValue !== null && newValue !== void 0 ? newValue : moment()).isSame(oldValue !== null && oldValue !== void 0 ? oldValue : moment(), 'days')) {
             this.selectedDates = Object.assign(Object.assign({}, this.selectedDates), { end: newValue });
         }
     }
     getMonthDays(month) {
         return {
-            month,
-            days: eachDayOfInterval({
-                start: startOfWeek(startOfMonth(month), { weekStartsOn: 1, locale: this.locale }),
-                end: endOfWeek(endOfMonth(month), { weekStartsOn: 1, locale: this.locale }),
-            }),
+            month: month.clone(),
+            days: Array.from({ length: month.daysInMonth() }, (_, i) => month.clone().startOf('month').add(i, 'days')),
         };
     }
     decrementDate() {
         if (this.selectedDates.start && this.selectedDates.end) {
             this.selectedDates = {
-                start: addDays(new Date(this.selectedDates.start), -1),
-                end: new Date(this.selectedDates.end),
+                start: this.selectedDates.start.clone().add(-1, 'days'),
+                end: this.selectedDates.end.clone(),
             };
         }
     }
     incrementDate() {
         if (this.selectedDates.start && this.selectedDates.end) {
             this.selectedDates = {
-                start: new Date(this.selectedDates.start),
-                end: addDays(new Date(this.selectedDates.end), 1),
+                start: this.selectedDates.start.clone(),
+                end: this.selectedDates.end.clone().add(1, 'days'),
             };
         }
     }
@@ -81,8 +77,8 @@ export class IrDateRange {
         e.stopPropagation();
         e.stopImmediatePropagation();
         const currentSecondMonth = this.displayedDaysArr[1].month;
-        const newSecondMonth = addMonths(currentSecondMonth, 1);
-        if (isBefore(endOfMonth(newSecondMonth), this.minDate) || isAfter(startOfMonth(newSecondMonth), this.maxDate)) {
+        const newSecondMonth = currentSecondMonth.clone().add(1, 'months');
+        if (newSecondMonth.endOf('month').isBefore(this.minDate) || newSecondMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
         this.displayedDaysArr = [this.displayedDaysArr[1], this.getMonthDays(newSecondMonth)];
@@ -91,8 +87,8 @@ export class IrDateRange {
         e.stopPropagation();
         e.stopImmediatePropagation();
         const currentFirstMonth = this.displayedDaysArr[0].month;
-        const newFirstMonth = addMonths(currentFirstMonth, -1);
-        if (isBefore(endOfMonth(newFirstMonth), this.minDate) || isAfter(startOfMonth(newFirstMonth), this.maxDate)) {
+        const newFirstMonth = currentFirstMonth.clone().add(-1, 'month');
+        if (newFirstMonth.endOf('month').isBefore(this.minDate) || newFirstMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
         this.displayedDaysArr = [this.getMonthDays(newFirstMonth), this.displayedDaysArr[0]];
@@ -100,82 +96,81 @@ export class IrDateRange {
     selectDay(day) {
         let isDateDisabled = false;
         if (this.dateModifiers) {
-            isDateDisabled = !!this.dateModifiers[format(day, 'yyyy-MM-dd')];
+            isDateDisabled = !!this.dateModifiers[day.format('YYYY-MM-DD')];
         }
         if (isDateDisabled && !this.selectedDates.start) {
             return;
         }
-        if (isSameDay(new Date(this.selectedDates.start), new Date(day)) || isSameDay(new Date(this.selectedDates.end), new Date(day))) {
-            this.selectedDates = { start: day, end: null };
+        if ((this.selectedDates.start && day.isSame(this.selectedDates.start, 'day')) || (this.selectedDates.end && day.isSame(this.selectedDates.end, 'day'))) {
+            this.selectedDates = { start: day.clone(), end: null };
         }
         else {
             if (this.selectedDates.start === null) {
-                this.selectedDates = { start: day, end: null };
+                this.selectedDates = { start: day.clone(), end: null };
             }
             else {
                 if (this.selectedDates.end === null) {
-                    if (isBefore(day, this.selectedDates.start)) {
+                    if (day.isBefore(this.selectedDates.start)) {
                         if (isDateDisabled) {
                             return;
                         }
-                        this.selectedDates = { start: day, end: null };
+                        this.selectedDates = { start: day.clone(), end: null };
                     }
                     else {
-                        this.selectedDates = Object.assign(Object.assign({}, this.selectedDates), { end: day });
+                        this.selectedDates = { start: this.selectedDates.start.clone(), end: day.clone() };
                     }
                 }
                 else {
                     if (!isDateDisabled) {
-                        this.selectedDates = { start: day, end: null };
+                        this.selectedDates = { start: day.clone(), end: null };
                     }
                 }
             }
         }
-        this.dateChange.emit(this.selectedDates);
+        // Convert Moment to Date for the event emission
+        const startDate = this.selectedDates.start ? this.selectedDates.start.toDate() : null;
+        const endDate = this.selectedDates.end ? this.selectedDates.end.toDate() : null;
+        this.dateChange.emit({ start: startDate, end: endDate });
     }
     resetHours() {
-        this.minDate.setHours(0, 0, 0, 0);
-        this.maxDate.setHours(0, 0, 0, 0);
+        this.minDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        this.maxDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         if (this.fromDate) {
-            this.fromDate.setHours(0, 0, 0, 0);
+            this.fromDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         }
         if (this.toDate) {
-            this.toDate.setHours(0, 0, 0, 0);
+            this.toDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         }
     }
     handleMouseEnter(day) {
-        this.hoveredDate = day;
+        this.hoveredDate = day.clone();
     }
     handleMouseLeave() {
         this.hoveredDate = null;
     }
     isDaySelected(day) {
-        var _a;
-        const date = new Date(day);
-        date.setHours(0, 0, 0, 0);
-        const start = new Date((_a = this.selectedDates.start) !== null && _a !== void 0 ? _a : new Date());
-        start.setHours(0, 0, 0, 0);
-        const end = this.selectedDates.end ? new Date(this.selectedDates.end) : this.hoveredDate;
-        end === null || end === void 0 ? void 0 : end.setHours(0, 0, 0, 0);
-        if (this.selectedDates.start && !this.selectedDates.end && this.hoveredDate && isAfter(this.hoveredDate, start)) {
-            if (isAfter(date, start) && isBefore(date, end)) {
+        const date = day.clone();
+        const start = this.selectedDates.start ? this.selectedDates.start.clone() : moment();
+        const end = this.selectedDates.end ? this.selectedDates.end.clone() : this.hoveredDate;
+        if (this.selectedDates.start && !this.selectedDates.end && this.hoveredDate && this.hoveredDate.isAfter(start)) {
+            if (date.isAfter(start) && date.isBefore(end)) {
                 return true;
             }
         }
-        else if (isAfter(date, start) && this.selectedDates.end && isBefore(date, end)) {
+        else if (date.isAfter(start) && this.selectedDates.end && date.isBefore(end)) {
             return true;
         }
         return false;
     }
     getMonthStyles(index) {
         if (index === 0) {
-            if (!isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate)) {
+            if (!this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate)) {
                 return 'margin-horizontal';
             }
             return 'margin-right';
         }
         else {
-            if (!isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate)) {
+            if (!this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate)) {
                 return 'margin-right margin-left';
             }
             return 'margin-left';
@@ -185,7 +180,7 @@ export class IrDateRange {
         if (!this.dateModifiers) {
             return;
         }
-        const formatedDate = format(day, 'yyyy-MM-dd');
+        const formatedDate = day.format('YYYY-MM-DD');
         const result = this.dateModifiers[formatedDate];
         if (result) {
             return result;
@@ -193,31 +188,35 @@ export class IrDateRange {
         return;
     }
     render() {
-        const maxSpanDays = this.selectedDates.start && addDays(this.selectedDates.start, this.maxSpanDays);
-        return (h("div", { key: '60fb0f42ea1239f84634c6afd659ef31c1f508d7', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && isAfter(startOfMonth(this.displayedDaysArr[0].month), this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, format(month.month, 'MMMM yyyy', { locale: this.locale })), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && isBefore(endOfMonth(this.displayedDaysArr[1].month), this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
-            .reduce((acc, day, index) => {
-            const weekIndex = Math.floor(index / 7);
-            if (!acc[weekIndex]) {
-                acc[weekIndex] = [];
-            }
-            acc[weekIndex].push(day);
-            return acc;
-        }, [])
-            .map(week => (h("tr", { class: "week-row", role: "row" }, week.map((day) => {
-            var _a, _b, _c, _d;
-            day.setHours(0, 0, 0, 0);
-            const checkedDate = this.checkDatePresence(day);
-            return (h("td", { class: "day-cell", key: format(day, 'yyyy-MM-dd'), role: "gridcell" }, isSameMonth(day, month.month) && (h("button", { disabled: isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (this.selectedDates.start && isAfter(day, maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    this.selectDay(day);
-                }, style: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) && this.selectedDates.start && { cursor: 'pointer' }, title: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_NoAvailability) !== null && _b !== void 0 ? _b : 'No availability' : '', "aria-unavailable": (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-label": `${format(day, 'EEEE, MMMM do yyyy', { locale: this.locale })} ${isBefore(day, this.minDate) || isAfter(day, this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": isBefore(day, this.minDate) || isAfter(day, this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isSameDay(new Date(this.selectedDates.start), new Date(day))) ||
-                    this.isDaySelected(day) ||
-                    (this.selectedDates.end && isSameDay(new Date((_c = this.selectedDates.end) !== null && _c !== void 0 ? _c : new Date()), new Date(day))), class: `day-button  ${this.selectedDates.start && isSameDay(new Date(this.selectedDates.start), new Date(day)) ? 'day-range-start' : ''}
-                          ${this.selectedDates.end && isSameDay(new Date((_d = this.selectedDates.end) !== null && _d !== void 0 ? _d : new Date()), new Date(day)) ? 'day-range-end' : ''}  
+        const maxSpanDays = this.selectedDates.start ? this.selectedDates.start.clone().add(this.maxSpanDays, 'days') : null;
+        return (h("div", { key: '0c8bbc005be28b7cef371016c9a54a513bd0f7ce', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => {
+            var _a;
+            return (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, month.month.locale((_a = this.locale) !== null && _a !== void 0 ? _a : 'en').format('MMMM YYYY')), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
+                .reduce((acc, day, index) => {
+                const weekIndex = Math.floor(index / 7);
+                if (!acc[weekIndex]) {
+                    acc[weekIndex] = [];
+                }
+                acc[weekIndex].push(day);
+                return acc;
+            }, [])
+                .map(week => (h("tr", { class: "week-row", role: "row" }, week.map((day) => {
+                var _a, _b;
+                const checkedDate = this.checkDatePresence(day);
+                return (h("td", { class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month.month, 'month') && (h("button", { disabled: day.isBefore(this.minDate) ||
+                        day.isAfter(this.maxDate) ||
+                        (this.selectedDates.start && maxSpanDays && day.isAfter(maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        this.selectDay(day);
+                    }, style: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) && this.selectedDates.start && { cursor: 'pointer' }, title: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? ((_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_NoAvailability) !== null && _b !== void 0 ? _b : 'No availability') : '', "aria-unavailable": (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-label": `${day.format('dddd, MMMM Do YYYY')} ${day.isBefore(this.minDate) || day.isAfter(this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": day.isBefore(this.minDate) || day.isAfter(this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && day.isSame(this.selectedDates.start, 'day')) ||
+                        this.isDaySelected(day) ||
+                        (this.selectedDates.end && day.isSame(this.selectedDates.end, 'day')), class: `day-button  ${this.selectedDates.start && day.isSame(this.selectedDates.start, 'day') ? 'day-range-start' : ''}
+                          ${this.selectedDates.end && day.isSame(this.selectedDates.end, 'day') ? 'day-range-end' : ''}  
                             ${this.isDaySelected(day) ? 'highlight' : ''}
-                            ` }, h("p", { class: `day ${isToday(day) ? 'current-date' : ''}` }, format(day, 'd', { locale: this.locale })), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
-        }))))))))));
+                            ` }, h("p", { class: `day ${day.isSame(moment(), 'day') ? 'current-date' : ''}` }, day.locale(this.locale).format('D')), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
+            })))))));
+        })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "shadow"; }
@@ -237,12 +236,13 @@ export class IrDateRange {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Date | null",
-                    "resolved": "Date",
+                    "original": "Moment | null",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -260,12 +260,13 @@ export class IrDateRange {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Date | null",
-                    "resolved": "Date",
+                    "original": "Moment | null",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -283,12 +284,13 @@ export class IrDateRange {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -300,18 +302,19 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "addYears(new Date(), -24)"
+                "defaultValue": "moment().add(-24, 'years')"
             },
             "maxDate": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Date",
-                    "resolved": "Date",
+                    "original": "Moment",
+                    "resolved": "Moment",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment/min/moment-with-locales",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -323,7 +326,7 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "addYears(new Date(), 24)"
+                "defaultValue": "moment().add(24, 'years')"
             },
             "dateModifiers": {
                 "type": "unknown",
@@ -389,18 +392,12 @@ export class IrDateRange {
                 "defaultValue": "false"
             },
             "locale": {
-                "type": "unknown",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "Locale",
-                    "resolved": "Locale",
-                    "references": {
-                        "Locale": {
-                            "location": "import",
-                            "path": "date-fns",
-                            "id": "node_modules::Locale"
-                        }
-                    }
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 },
                 "required": false,
                 "optional": false,
@@ -410,7 +407,9 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "enUS"
+                "attribute": "locale",
+                "reflect": true,
+                "defaultValue": "'en'"
             }
         };
     }

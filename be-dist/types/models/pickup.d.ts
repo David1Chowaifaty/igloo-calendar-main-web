@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import moment from 'moment';
 export declare const ZAllowedLocation: z.ZodObject<{
     description: z.ZodString;
     id: z.ZodNumber;
@@ -151,7 +152,7 @@ export declare const PickupFormData: z.ZodObject<{
         id?: number;
     }>;
     arrival_time: z.ZodString;
-    arrival_date: z.ZodString;
+    arrival_date: z.ZodType<moment.Moment, z.ZodTypeDef, moment.Moment>;
     selected_option: z.ZodObject<{
         amount: z.ZodNumber;
         currency: z.ZodObject<{
@@ -262,7 +263,7 @@ export declare const PickupFormData: z.ZodObject<{
     flight_details?: string;
     due_upon_booking?: string;
     number_of_vehicles?: number;
-    arrival_date?: string;
+    arrival_date?: moment.Moment;
     selected_option?: {
         id?: number;
         location?: {
@@ -299,7 +300,7 @@ export declare const PickupFormData: z.ZodObject<{
     flight_details?: string;
     due_upon_booking?: string;
     number_of_vehicles?: number;
-    arrival_date?: string;
+    arrival_date?: moment.Moment;
     selected_option?: {
         id?: number;
         location?: {
@@ -448,14 +449,14 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     details?: string;
     date?: string;
+    hour?: number;
+    minute?: number;
     currency?: {
         symbol?: string;
         code?: string;
         name?: string;
         id?: number;
     };
-    minute?: number;
-    hour?: number;
     selected_option?: {
         id?: number;
         location?: {
@@ -484,14 +485,14 @@ export declare const ZBookingPickupInfo: z.ZodObject<{
 }, {
     details?: string;
     date?: string;
+    hour?: number;
+    minute?: number;
     currency?: {
         symbol?: string;
         code?: string;
         name?: string;
         id?: number;
     };
-    minute?: number;
-    hour?: number;
     selected_option?: {
         id?: number;
         location?: {

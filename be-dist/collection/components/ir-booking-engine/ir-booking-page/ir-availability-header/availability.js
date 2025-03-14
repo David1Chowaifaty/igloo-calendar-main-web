@@ -1,8 +1,13 @@
+import moment from "moment";
 import { z } from "zod";
 export const ExposedBookingAvailability = z.object({
     propertyid: z.coerce.number(),
-    from_date: z.string().min(2),
-    to_date: z.string().min(2),
+    from_date: z.custom((val) => moment.isMoment(val), {
+        message: 'from_date must be a valid Moment value',
+    }),
+    to_date: z.custom((val) => moment.isMoment(val), {
+        message: 'to_date must be a valid Moment value',
+    }),
     room_type_ids: z.string().array().optional().default([]),
     adult_nbr: z.number().min(1),
     child_nbr: z.number().min(0),

@@ -4,7 +4,7 @@ import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import axios from "axios";
 import app_store from "../../stores/app.store";
-import { addDays, addYears, format } from "date-fns";
+import moment from "moment/min/moment-with-locales";
 import localizedWords from "../../stores/localization.store";
 import Token from "../../models/Token";
 export class IrBookingWidget {
@@ -73,8 +73,8 @@ export class IrBookingWidget {
                 this.commonService.getExposedLanguage(),
                 this.propertyService.getExposedNonBookableNights({
                     porperty_id: this.propertyId,
-                    from_date: format(new Date(), 'yyyy-MM-dd'),
-                    to_date: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+                    from_date: moment().format('YYYY-MM-DD'),
+                    to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
                     perma_link: this.perma_link,
                     aname: this.p,
                 }),
@@ -106,8 +106,8 @@ export class IrBookingWidget {
         const currentDomain = `${app_store.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
-        const fromDate = from_date ? `checkin=${format(from_date, 'yyyy-MM-dd')}` : '';
-        const toDate = to_date ? `checkout=${format(to_date, 'yyyy-MM-dd')}` : '';
+        const fromDate = from_date ? `checkin=${moment(from_date).format('YYYY-MM-DD')}` : '';
+        const toDate = to_date ? `checkout=${moment(to_date).format('YYYY-MM-DD')}` : '';
         const adults = adultCount > 0 ? `adults=${adultCount}` : '';
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
         const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
@@ -131,7 +131,18 @@ export class IrBookingWidget {
         return nights;
     }
     renderDateTrigger() {
-        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), this.dates && this.dates.from_date && this.dates.to_date ? (h("div", null, h("p", null, h("span", null, format(this.dates.from_date, 'MMM dd')), h("span", null, " - "), h("span", null, format(this.dates.to_date, 'MMM dd'))))) : (h("div", null, h("p", null, "Your dates")))));
+        var _a, _b;
+        const from = (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date;
+        const to = (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date;
+        let fromLabel = '';
+        let toLabel = '';
+        if (from) {
+            fromLabel = moment(from).format('DD MMM YYYY');
+        }
+        if (to) {
+            toLabel = moment(to).format('DD MMM YYYY');
+        }
+        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), fromLabel && toLabel ? (h("div", null, h("p", null, h("span", null, fromLabel), h("span", null, " - "), h("span", null, toLabel)))) : (h("div", null, h("p", null, "Your dates")))));
     }
     renderAdultChildTrigger() {
         const { adultCount, childrenCount } = this.guests;
@@ -172,11 +183,11 @@ export class IrBookingWidget {
         return (h(Fragment, null, h("div", { class: "booking-widget-container", ref: el => (this.containerRef = el), style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { autoAdjust: false, allowFlip: false, class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen) {
-                    if (!this.dates.to_date && this.dates.from_date) {
-                        this.dates = Object.assign(Object.assign({}, this.dates), { to_date: addDays(this.dates.from_date, 1) });
+                    if (this.dates.from_date && !this.dates.to_date) {
+                        this.dates = Object.assign(Object.assign({}, this.dates), { to_date: moment(this.dates.from_date).add(1, 'days').toDate() });
                     }
                 }
-            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: addDays(new Date(), -1), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, onDateChange: e => {
+            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: moment().add(-1, 'days'), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: ((_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date) ? moment(this.dates.from_date) : null, toDate: ((_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date) ? moment(this.dates.to_date) : null, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, onDateChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { end, start } = e.detail;

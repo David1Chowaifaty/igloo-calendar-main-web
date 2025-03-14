@@ -4,12 +4,13 @@ import { AuthService } from "../../../services/api/auth.service";
 import { PaymentService } from "../../../services/api/payment.service";
 import { PropertyService } from "../../../services/api/property.service";
 import app_store from "../../../stores/app.store";
-import booking_store, { calculateTotalCost, calculateTotalRooms, clearCheckoutRooms, validateBooking } from "../../../stores/booking";
+import booking_store, { calculateTotalRooms, clearCheckoutRooms, validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
 import { destroyBookingCookie, generateCheckoutUrl, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
+import moment from "moment";
 import { ZodError } from "zod";
 export class IrCheckoutPage {
     constructor() {
@@ -21,10 +22,7 @@ export class IrCheckoutPage {
         this.authService = new AuthService();
     }
     async componentWillLoad() {
-        var _a, _b, _c;
         this.calculateTotalPrepaymentAmount();
-        const { totalAmount } = calculateTotalCost();
-        (_a = app_store.analytics) === null || _a === void 0 ? void 0 : _a.trackCheckout({ currency: (_c = (_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.currency_id) === null || _c === void 0 ? void 0 : _c.toString(), value: totalAmount === null || totalAmount === void 0 ? void 0 : totalAmount.toString() });
     }
     async calculateTotalPrepaymentAmount() {
         try {
@@ -60,7 +58,7 @@ export class IrCheckoutPage {
         return true;
     }
     validatePayment() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e;
         if (booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams) === null || _a === void 0 ? void 0 : _a.agent) === null || _b === void 0 ? void 0 : _b.payment_mode.code) === '001') {
             return true;
         }
@@ -83,7 +81,7 @@ export class IrCheckoutPage {
                 cardNumber: (_d = (_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.cardNumber) === null || _d === void 0 ? void 0 : _d.replace(/ /g, ''),
                 cardHolderName: checkout_store.payment.cardHolderName,
                 expiryDate: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_month,
-                cvc: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cvc,
+                // cvc: (checkout_store.payment as any)?.cvc,
             });
             // const cardType = detectCardType((checkout_store.payment as any)?.cardNumber?.replace(/ /g, ''));
             // if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes((cardType === 'AMEX' ? 'American Express' : cardType)?.toLowerCase()))) {
@@ -159,7 +157,7 @@ export class IrCheckoutPage {
         }
     }
     async processBooking() {
-        var _a, _b, _c;
+        var _a, _b;
         try {
             const result = await this.propertyService.bookUser();
             this.isBookingConfirmed = true;
@@ -171,13 +169,7 @@ export class IrCheckoutPage {
             if (conversionTag && conversionTag.value) {
                 this.modifyConversionTag(conversionTag.value);
             }
-            (_b = app_store.analytics) === null || _b === void 0 ? void 0 : _b.trackPurchase({
-                currency: app_store.userPreferences.currency_id,
-                roomnights: (getDateDifference(new Date(result.from_date), new Date(result.to_date)) * calculateTotalRooms()).toString(),
-                transaction_id: result.booking_nbr,
-                value: result.financial.total_amount.toString(),
-            });
-            if (!this.selectedPaymentMethod || !((_c = this.selectedPaymentMethod) === null || _c === void 0 ? void 0 : _c.is_payment_gateway) || this.prepaymentAmount === 0) {
+            if (!this.selectedPaymentMethod || !((_b = this.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.is_payment_gateway) || this.prepaymentAmount === 0) {
                 app_store.invoice = {
                     email: booking_store.booking.guest.email,
                     booking_number: booking_store.booking.booking_nbr,
@@ -212,7 +204,7 @@ export class IrCheckoutPage {
         var _a, _b, _c, _d;
         const booking = booking_store.booking;
         tag = tag.replace(/\$\$total_price\$\$/g, booking.financial.total_amount.toString());
-        tag = tag.replace(/\$\$total_roomnights\$\$/g, (getDateDifference(new Date(booking.from_date), new Date(booking.to_date)) * calculateTotalRooms()).toString());
+        tag = tag.replace(/\$\$total_roomnights\$\$/g, (getDateDifference(moment(booking.from_date, 'YYYY-MM-DD'), moment(booking.to_date, 'YYYY-MM-DD')) * calculateTotalRooms()).toString());
         tag = tag.replace(/\$\$booking_xref\$\$/g, booking.booking_nbr.toString());
         tag = tag.replace(/\$\$curr\$\$/g, (_b = (_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.currency_id) === null || _b === void 0 ? void 0 : _b.toString());
         tag = tag.replace(/\$\$cur_code\$\$/g, (_d = (_c = app_store.userPreferences) === null || _c === void 0 ? void 0 : _c.currency_id) === null || _d === void 0 ? void 0 : _d.toString());

@@ -1,13 +1,13 @@
 import { c as createStore } from './index2.js';
-import './index5.js';
-import { d as dateFns } from './utils.js';
+import { b as booking_store } from './utils.js';
+import { h as hooks } from './moment.js';
 
 const initialState = {
     userFormData: {},
     prepaymentAmount: 0,
     modifiedGuestName: false,
     pickup: {
-        arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
+        arrival_date: hooks(booking_store.bookingAvailabilityParams.from_date),
     },
     payment: null,
     agreed_to_services: true,
@@ -19,7 +19,7 @@ function updateUserFormData(key, value) {
 function updatePickupFormData(key, value) {
     if (key === 'location' && value === null) {
         checkout_store.pickup = {
-            arrival_date: dateFns.format(new Date(), 'yyyy-MM-dd'),
+            arrival_date: hooks(booking_store.bookingAvailabilityParams.from_date),
             location: null,
         };
     }

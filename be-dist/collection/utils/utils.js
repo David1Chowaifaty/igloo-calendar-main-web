@@ -1,29 +1,36 @@
 import app_store, { changeLocale, updateUserPreference } from "../stores/app.store";
 import booking_store, { modifyBookingStore } from "../stores/booking";
 import clsx from "clsx";
-import { addDays, differenceInCalendarDays, format, isBefore } from "date-fns";
-import { ar, es, fr, de, pl, uk, ru, el, enUS } from "date-fns/locale";
+import { addDays, isBefore } from "date-fns";
 import { twMerge } from "tailwind-merge";
-// import DOMPurify from 'dompurify';
+import moment from "moment/min/moment-with-locales";
+import "moment/locale/ar";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/de";
+import "moment/locale/pl";
+import "moment/locale/uk";
+import "moment/locale/ru";
+import "moment/locale/el";
 const localeMap = {
-    en: enUS,
-    ar: ar,
-    fr: fr,
-    es: es,
-    de: de,
-    pl: pl,
-    ua: uk,
-    ru: ru,
-    el: el,
+    en: 'en',
+    ar: 'ar',
+    fr: 'fr',
+    es: 'es',
+    de: 'de',
+    pl: 'pl',
+    ua: 'uk',
+    ru: 'ru',
+    el: 'el',
 };
 export function matchLocale(locale) {
-    return localeMap[locale.toLowerCase()] || enUS;
+    return localeMap[locale.toLowerCase()] || 'en';
 }
 export function getAbbreviatedWeekdays(locale) {
-    const baseDate = new Date(2020, 5, 7);
+    const baseDate = moment();
     let weekdays = [];
     for (let i = 0; i < 7; i++) {
-        const weekday = format(addDays(baseDate, i), 'eee', { locale });
+        const weekday = baseDate.clone().add(i, 'days').locale(locale).format('ddd');
         weekdays.push(weekday);
     }
     return weekdays.slice(1, 7).concat(weekdays.slice(0, 1));
@@ -66,7 +73,8 @@ export const formatAmount = (amount, currency = 'USD', decimals = 2) => {
     return numberFormatter.format(amount);
 };
 export function getDateDifference(date1, date2) {
-    return differenceInCalendarDays(date2, date1);
+    // return differenceInCalendarDays(date2, date1);
+    return date2.diff(date1, 'days');
 }
 export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
@@ -358,7 +366,7 @@ export function modifyQueryParam(param, value, options = { reload: false, replac
         return;
     }
     const url = new URL(window.location.href);
-    if (value === null) {
+    if (!value) {
         url.searchParams.delete(param); // Remove the query parameter
     }
     else {

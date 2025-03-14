@@ -87,7 +87,7 @@ export class IrPaymentView {
         checkout_store.payment.code = payment_code;
     }
     renderPaymentMethod() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         if (app_store.property.allowed_payment_methods.length === 0) {
             return;
         }
@@ -140,30 +140,10 @@ export class IrPaymentView {
                     const target = e.target;
                     if (target.hasAttribute('data-state'))
                         target.removeAttribute('data-state');
-                } }, h("svg", { slot: "right-icon", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M2 7C2 6.20435 2.31607 5.44129 2.87868 4.87868C3.44129 4.31607 4.20435 4 5 4H19C19.7956 4 20.5587 4.31607 21.1213 4.87868C21.6839 5.44129 22 6.20435 22 7V8H2V7ZM2 10V17C2 17.7956 2.31607 18.5587 2.87868 19.1213C3.44129 19.6839 4.20435 20 5 20H19C19.7956 20 20.5587 19.6839 21.1213 19.1213C21.6839 18.5587 22 17.7956 22 17V10H2ZM7 12C6.73478 12 6.48043 12.1054 6.29289 12.2929C6.10536 12.4804 6 12.7348 6 13C6 13.2652 6.10536 13.5196 6.29289 13.7071C6.48043 13.8946 6.73478 14 7 14H12C12.2652 14 12.5196 13.8946 12.7071 13.7071C12.8946 13.5196 13 13.2652 13 13C13 12.7348 12.8946 12.4804 12.7071 12.2929C12.5196 12.1054 12.2652 12 12 12H7Z", fill: "#EAECF0" }), h("rect", { x: "14.5", y: "11.5", width: "6", height: "3", rx: "0.5", stroke: "#FE4F42" })))), h("fieldset", { class: "w-full" }, h("ir-input", { autocomplete: "cc-csc", onInputBlur: e => {
-                    var _a;
-                    const cvcSchema = ZCreditCardSchemaWithCvc.pick({ cvc: true });
-                    const cvcValidation = cvcSchema.safeParse({ cvc: (_a = checkout_store.payment) === null || _a === void 0 ? void 0 : _a.cvc });
-                    const target = e.target;
-                    if (!cvcValidation.success) {
-                        target.setAttribute('data-state', 'error');
-                        target.setAttribute('aria-invalid', 'true');
-                    }
-                    else {
-                        if (target.hasAttribute('aria-invalid')) {
-                            target.setAttribute('aria-invalid', 'false');
-                        }
-                    }
-                }, onInputFocus: e => {
-                    const target = e.target;
-                    if (target.hasAttribute('data-state'))
-                        target.removeAttribute('data-state');
-                }, "data-state": ((_e = this.errors) === null || _e === void 0 ? void 0 : _e.cvc) ? 'error' : '', label: localizedWords.entries.Lcz_SecurityCode, maxlength: 4, tooltip: localizedWords.entries.Lcz_SecurityCodeHint, placeholder: "", onTextChanged: e => {
-                    checkout_store.payment = Object.assign(Object.assign({}, checkout_store.payment), { cvc: e.detail });
-                }, class: "w-full", rightIcon: true }, h("svg", { class: 'cursor-pointer', slot: "right-icon", width: "20", height: "16", viewBox: "0 0 20 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("title", null, localizedWords.entries.Lcz_SecurityCodeHint), h("path", { d: "M0 3C0 1.34315 1.34315 0 3 0H17C18.6569 0 20 1.34315 20 3V13C20 14.6569 18.6569 16 17 16H3C1.34315 16 0 14.6569 0 13V3Z", fill: "#EAECF0" }), h("path", { d: "M2 8C2 7.44772 2.44772 7 3 7H17C17.5523 7 18 7.44772 18 8C18 8.55228 17.5523 9 17 9H3C2.44772 9 2 8.55228 2 8Z", fill: "#8B8B8B" }), h("path", { d: "M2 4C2 3.44772 2.44772 3 3 3H5C5.55228 3 6 3.44772 6 4C6 4.55228 5.55228 5 5 5H3C2.44772 5 2 4.55228 2 4Z", fill: "white" }), h("path", { d: "M10 11C10 10.4477 10.4477 10 11 10H15C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14H11C10.4477 14 10 13.5523 10 13V11Z", fill: "#FE4F42" }), h("path", { d: "M11 11H15V13H11V11Z", fill: "#EAECF0" }))))))));
+                } }, h("svg", { slot: "right-icon", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M2 7C2 6.20435 2.31607 5.44129 2.87868 4.87868C3.44129 4.31607 4.20435 4 5 4H19C19.7956 4 20.5587 4.31607 21.1213 4.87868C21.6839 5.44129 22 6.20435 22 7V8H2V7ZM2 10V17C2 17.7956 2.31607 18.5587 2.87868 19.1213C3.44129 19.6839 4.20435 20 5 20H19C19.7956 20 20.5587 19.6839 21.1213 19.1213C21.6839 18.5587 22 17.7956 22 17V10H2ZM7 12C6.73478 12 6.48043 12.1054 6.29289 12.2929C6.10536 12.4804 6 12.7348 6 13C6 13.2652 6.10536 13.5196 6.29289 13.7071C6.48043 13.8946 6.73478 14 7 14H12C12.2652 14 12.5196 13.8946 12.7071 13.7071C12.8946 13.5196 13 13.2652 13 13C13 12.7348 12.8946 12.4804 12.7071 12.2929C12.5196 12.1054 12.2652 12 12 12H7Z", fill: "#EAECF0" }), h("rect", { x: "14.5", y: "11.5", width: "6", height: "3", rx: "0.5", stroke: "#FE4F42" }))))))));
         if (this.selectedPaymentMethod === '005') {
-            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, ((_g = (_f = this.paymentDetails) === null || _f === void 0 ? void 0 : _f.filteredMap) === null || _g === void 0 ? void 0 : _g.length) === 1 && h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_j = (_h = method.localizables) === null || _h === void 0 ? void 0 : _h.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _j === void 0 ? void 0 : _j.description) ||
-                    ((_l = (_k = method.localizables) === null || _k === void 0 ? void 0 : _k.find(d => d.language.code.toLowerCase() === 'en')) === null || _l === void 0 ? void 0 : _l.description) }))));
+            return (h("div", { class: "flex w-full gap-4" }, h("div", { class: "flex-1 space-y-1.5" }, ((_f = (_e = this.paymentDetails) === null || _e === void 0 ? void 0 : _e.filteredMap) === null || _f === void 0 ? void 0 : _f.length) === 1 && h("p", null, method.description), h("p", { class: "text-xs text-gray-700", innerHTML: ((_h = (_g = method.localizables) === null || _g === void 0 ? void 0 : _g.find(d => d.language.code.toLowerCase() === app_store.userPreferences.language_id.toLowerCase())) === null || _h === void 0 ? void 0 : _h.description) ||
+                    ((_k = (_j = method.localizables) === null || _j === void 0 ? void 0 : _j.find(d => d.language.code.toLowerCase() === 'en')) === null || _k === void 0 ? void 0 : _k.description) }))));
         }
     }
     renderPaymentOptions() {
@@ -199,7 +179,7 @@ export class IrPaymentView {
     }
     render() {
         const hasAgentWithCode001 = booking_store.bookingAvailabilityParams.agent && booking_store.bookingAvailabilityParams.agent.payment_mode.code === '001';
-        return (h("div", { key: '2319e132ce3aaae3df7ede918a113a53e004f152', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'f027a7f819932cab7e2eb276820503636e351f67' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '628771deec170da14ce91485ea0a0b6f11d301dd', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit)));
+        return (h("div", { key: '71c327f9baf36d3c6ff32bf80ec83a401cfe0279', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: '46a02116c5b93d7c923454ed90b836d043c98538' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '38621e98281b3f4324c88f7518be2c7f284444fa', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit)));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
