@@ -90,9 +90,7 @@ export function updateInventory(roomTypeId) {
     }
 }
 export function updateRoomParams({ ratePlanId, roomTypeId, params }) {
-    console.log(ratePlanId, roomTypeId, params);
     booking_store.ratePlanSelections = Object.assign(Object.assign({}, booking_store.ratePlanSelections), { [Number(roomTypeId)]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[Number(roomTypeId)]), { [ratePlanId]: Object.assign(Object.assign({}, booking_store.ratePlanSelections[roomTypeId][ratePlanId]), params) }) });
-    console.log(booking_store.ratePlanSelections);
 }
 export function reserveRooms({ ratePlanId, roomTypeId, rooms, guest }) {
     var _a;
@@ -108,13 +106,10 @@ export function reserveRooms({ ratePlanId, roomTypeId, rooms, guest }) {
         throw new Error('Invalid rate plan');
     }
     let newGuest = Array.from({ length: rooms }, () => ({ first_name: '', last_name: '', unit: null, bed_preference: null, infant_nbr: null }));
-    console.log('guest', guest);
     if (guest) {
         newGuest = guest;
     }
-    console.log('newGuest', newGuest);
     if (!booking_store.ratePlanSelections[roomTypeId][ratePlanId]) {
-        console.log('new guest', newGuest);
         booking_store.ratePlanSelections[roomTypeId][ratePlanId] = {
             guestName: null,
             reserved: 0,

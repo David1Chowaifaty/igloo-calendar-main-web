@@ -31,7 +31,6 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
                     //   roomId = this.initialRoomIds.roomId;
                     // }
                     const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                    console.log(visibleInventory);
                     return (h("igl-rate-plan", {
                         // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
                         // index={index}
