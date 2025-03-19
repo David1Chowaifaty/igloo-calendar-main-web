@@ -1,7 +1,7 @@
 import { h, proxyCustomElement, HTMLElement, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
-import { c as calculateDaysBetweenDates } from './booking2.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';

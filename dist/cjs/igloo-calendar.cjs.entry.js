@@ -4,22 +4,19 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-aeea0adf.js');
 const room_service = require('./room.service-e0eb710b.js');
-const booking_service = require('./booking.service-b1d45257.js');
-const utils = require('./utils-7e967296.js');
-const events_service = require('./events.service-0210fb98.js');
+const booking_service = require('./booking.service-8f8cf75f.js');
+const utils = require('./utils-5b3bf1d4.js');
+const events_service = require('./events.service-2c5c6d42.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-038c1fc3.js');
-const booking = require('./booking-a306bca9.js');
-const calendarDates_store = require('./calendar-dates.store-3ca78a15.js');
+const toBeAssigned_service = require('./toBeAssigned.service-1609f699.js');
+const booking = require('./booking-1fe69117.js');
 const locales_store = require('./locales.store-7abd65bc.js');
 const calendarData = require('./calendar-data-eb8212ff.js');
 const unassigned_dates_store = require('./unassigned_dates.store-d54b2759.js');
 const Token = require('./Token-049041c2.js');
 require('./axios-6e678d52.js');
-require('./utils-73c0aebf.js');
 require('./index-3cfd4bf8.js');
 require('./index-db8b30d9.js');
-require('./booking.service-fd6d3dd9.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -4316,8 +4313,8 @@ const IglooCalendar = class {
                 roomResp = results[results.length - 1];
             }
             const [bookingResp, countries] = results;
-            calendarDates_store.calendar_dates.days = bookingResp.days;
-            calendarDates_store.calendar_dates.months = bookingResp.months;
+            booking.calendar_dates.days = bookingResp.days;
+            booking.calendar_dates.months = bookingResp.months;
             this.setRoomsData(roomResp);
             this.countries = countries;
             this.setUpCalendarData(roomResp, bookingResp);
@@ -4331,8 +4328,8 @@ const IglooCalendar = class {
             this.days = bookingResp.days;
             this.calendarData.days = this.days;
             this.calendarData.monthsInfo = bookingResp.months;
-            calendarDates_store.calendar_dates.fromDate = this.calendarData.from_date;
-            calendarDates_store.calendar_dates.toDate = this.calendarData.to_date;
+            booking.calendar_dates.fromDate = this.calendarData.from_date;
+            booking.calendar_dates.toDate = this.calendarData.to_date;
             setTimeout(() => {
                 this.scrollToElement(this.today);
             }, 200);
@@ -4533,7 +4530,7 @@ const IglooCalendar = class {
         });
     }
     updateTotalAvailability() {
-        let days = [...calendarDates_store.calendar_dates.days];
+        let days = [...booking.calendar_dates.days];
         this.totalAvailabilityQueue.forEach(queue => {
             let selectedDate = new Date(queue.date);
             selectedDate.setMilliseconds(0);
@@ -4550,7 +4547,7 @@ const IglooCalendar = class {
                 }
             }
         });
-        calendarDates_store.calendar_dates.days = [...days];
+        booking.calendar_dates.days = [...days];
     }
     setRoomsData(roomServiceResp) {
         var _a, _b;
@@ -4671,7 +4668,7 @@ const IglooCalendar = class {
         if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
             this.calendarData.startingDate = new Date(fromDate).getTime();
             this.calendarData.from_date = fromDate;
-            calendarDates_store.calendar_dates.fromDate = this.calendarData.from_date;
+            booking.calendar_dates.fromDate = this.calendarData.from_date;
             this.days = [...results.days, ...this.days];
             let newMonths = [...results.months];
             if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
@@ -4688,13 +4685,13 @@ const IglooCalendar = class {
                 }
                 return true;
             });
-            calendarDates_store.calendar_dates.days = this.days;
+            booking.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
         }
         else {
             this.calendarData.endingDate = new Date(toDate).getTime();
             this.calendarData.to_date = toDate;
-            calendarDates_store.calendar_dates.toDate = this.calendarData.to_date;
+            booking.calendar_dates.toDate = this.calendarData.to_date;
             let newMonths = [...results.months];
             this.days = [...this.days, ...results.days];
             if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
@@ -4712,7 +4709,7 @@ const IglooCalendar = class {
                 }
                 return true;
             });
-            calendarDates_store.calendar_dates.days = this.days;
+            booking.calendar_dates.days = this.days;
             //calendar_dates.months = bookingResp.months;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...this.calendarData.monthsInfo, ...newMonths], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
             const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);

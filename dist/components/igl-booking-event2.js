@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { t as transformNewBooking } from './booking2.js';
+import { t as transformNewBooking } from './booking.js';
 import { i as isBlockUnit } from './utils.js';
 import { h as hooks } from './moment.js';
 import { E as EventsService, d as defineCustomElement$6 } from './igl-booking-event-hover2.js';

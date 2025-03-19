@@ -5,7 +5,7 @@ import { l as locales } from './locales.store.js';
 import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
-import { f as getPrivateNote } from './booking2.js';
+import { i as getPrivateNote } from './booking.js';
 import { T as Token } from './Token.js';
 import { i as isSingleUnit } from './calendar-data.js';
 import { d as defineCustomElement$U } from './igl-application-info2.js';

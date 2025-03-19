@@ -3,7 +3,7 @@ import { B as BookingService } from './booking.service.js';
 import { e as extras, g as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { V as VariationService, d as defineCustomElement$n } from './igl-application-info2.js';
 import { b as booking_store, m as modifyBookingStore, c as calculateTotalRooms, r as reserveRooms, a as resetBookingStore } from './booking.store.js';
-import { c as calculateDaysBetweenDates } from './booking2.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';

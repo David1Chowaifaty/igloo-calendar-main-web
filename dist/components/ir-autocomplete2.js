@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service2.js';
+import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';
 import { v as v4 } from './v4.js';
 

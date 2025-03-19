@@ -1,12 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
-import { b as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, c as getNextDay, h as addTwoMonthToDate, j as convertDMYToISO, k as computeEndDate } from './utils.js';
+import { j as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, k as getNextDay, l as addTwoMonthToDate, m as convertDMYToISO, n as computeEndDate } from './utils.js';
 import { E as EventsService, d as defineCustomElement$W } from './igl-booking-event-hover2.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
-import { g as getRoomStatus, t as transformNewBooking, d as transformNewBLockedRooms, e as bookingStatus, f as getPrivateNote, c as calculateDaysBetweenDates } from './booking2.js';
-import { c as calendar_dates } from './calendar-dates.store.js';
+import { d as calendar_dates, e as getRoomStatus, t as transformNewBooking, f as transformNewBLockedRooms, h as bookingStatus, i as getPrivateNote, c as calculateDaysBetweenDates } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';

@@ -1,13 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { f as formatAmount } from './utils.js';
-import { c as colorVariants } from './icons.js';
+import { c as colorVariants, d as defineCustomElement$2 } from './ir-icons2.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { B as BookingService } from './booking.service.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-view2.js';
-import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-modal2.js';
 
 const irExtraServiceCss = ".sc-ir-extra-service-h{display:block}.extra-service-container.sc-ir-extra-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-service-container.sc-ir-extra-service *.sc-ir-extra-service{padding:0;margin:0;box-sizing:border-box}.extra-service-actions.sc-ir-extra-service{display:flex;align-items:center;gap:0.5rem}.extra-service-conditional-date.sc-ir-extra-service{margin-top:0.5rem}";

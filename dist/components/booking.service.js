@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { e as extras, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils2.js';
+import { e as extras, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { g as getMyBookings } from './booking.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';

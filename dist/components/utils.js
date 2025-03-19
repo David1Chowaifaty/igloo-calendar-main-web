@@ -1,6 +1,24 @@
 import { h as hooks } from './moment.js';
 import { z } from './index3.js';
 
+function convertDateToCustomFormat(dayWithWeekday, monthWithYear) {
+    const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
+    const date = hooks(dateStr, 'DD MMM YYYY');
+    if (!date.isValid()) {
+        throw new Error('Invalid Date');
+    }
+    return date.format('D_M_YYYY');
+}
+function convertDateToTime(dayWithWeekday, monthWithYear) {
+    const date = hooks(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY').toDate();
+    date.setHours(0, 0, 0, 0);
+    return date.getTime();
+}
+function dateDifference(FROM_DATE, TO_DATE) {
+    const startDate = new Date(FROM_DATE);
+    const endDate = new Date(TO_DATE);
+    return Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+}
 function dateToFormattedString(date) {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // +1 because months are 0-based in JS
@@ -136,6 +154,6 @@ function checkUserAuthState() {
     return null;
 }
 
-export { findCountry as a, formatLegendColors as b, getNextDay as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, addTwoMonthToDate as h, isBlockUnit as i, convertDMYToISO as j, computeEndDate as k, getDaysArray as l, convertDatePrice as m, formatDate as n, checkUserAuthState as o, manageAnchorSession as p, renderTime as r, validateEmail as v };
+export { convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, findCountry as h, isBlockUnit as i, formatLegendColors as j, getNextDay as k, addTwoMonthToDate as l, convertDMYToISO as m, computeEndDate as n, getDaysArray as o, convertDatePrice as p, formatDate as q, renderTime as r, checkUserAuthState as s, manageAnchorSession as t, validateEmail as v };
 
 //# sourceMappingURL=utils.js.map
