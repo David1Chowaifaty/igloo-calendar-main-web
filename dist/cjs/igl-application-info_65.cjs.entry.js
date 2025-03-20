@@ -10009,13 +10009,13 @@ const IrBookingDetails = class {
         }
     }
     render() {
-        var _a;
+        var _a, _b, _c;
         if (!this.booking) {
             return (index.h("div", { class: 'loading-container' }, index.h("ir-spinner", null)));
         }
         return [
             index.h(index.Fragment, null, !this.is_from_front_desk && (index.h(index.Fragment, null, index.h("ir-toast", null), index.h("ir-interceptor", null)))),
-            index.h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt }),
+            index.h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.status) === null || _b === void 0 ? void 0 : _b.code) }),
             index.h("div", { class: "fluid-container p-1 text-left mx-0" }, index.h("div", { class: "row m-0" }, index.h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, index.h("ir-reservation-information", { countries: this.countries, booking: this.booking }), index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (index.h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } }))), index.h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index$1) => {
                 const showCheckin = this.handleRoomCheckin(room);
                 const showCheckout = this.handleRoomCheckout(room);
@@ -10024,7 +10024,7 @@ const IrBookingDetails = class {
                     index$1 !== this.booking.rooms.length - 1 && index.h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), index.h("ir-pickup-view", { booking: this.booking }), index.h("section", null, index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, locales_store.locales.entries.Lcz_ExtraServices), index.h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), index.h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), index.h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, index.h("ir-payment-details", { paymentActions: this.paymentActions, bookingDetails: this.booking })))),
-            index.h("ir-modal", { modalBody: (_a = this.modalState) === null || _a === void 0 ? void 0 : _a.message, leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, autoClose: false, isLoading: irInterceptor_store.isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+            index.h("ir-modal", { modalBody: (_c = this.modalState) === null || _c === void 0 ? void 0 : _c.message, leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, autoClose: false, isLoading: irInterceptor_store.isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
                     this.handleModalConfirm(e);
                 }, onCancelModal: () => {
                     this.modalRef.closeModal();
@@ -10205,11 +10205,11 @@ const IrBookingHeader = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'pms' });
-            } })), this.hasReceipt && index.h("ir-button", { key: '3958f16c564eb521ae476c7eb34d91e1331f641f', variant: "icon", id: "receipt", icon_name: "reciept", class: "", style: { '--icon-size': '1.65rem' } }), this.hasPrint && index.h("ir-button", { key: '9499131044098b79a711e946e14966e8b4070787', variant: "icon", id: "print", icon_name: "print", class: "", style: { '--icon-size': '1.65rem' } }), this.hasEmail && index.h("ir-button", { key: 'c9b0444009c046ba4118624c37f1a02d9c07d18d', variant: "icon", id: "email", icon_name: "email", class: "", style: { '--icon-size': '1.65rem' } }), this.hasDelete && index.h("ir-button", { key: '46b332caa166c774713dbec9c43668954b744cf9', variant: "icon", id: "book-delete", icon_name: "trash", class: "", style: Object.assign(Object.assign({}, colorVariants.danger), { '--icon-size': '1.65rem' }) }), this.hasMenu && index.h("ir-button", { key: 'b534d7e0ecfc279f27a42690a7d0473ed8563d7a', variant: "icon", class: "mr-1", id: "menu", icon_name: "menu_list", style: { '--icon-size': '1.65rem' } }), this.hasCloseButton && (index.h("ir-button", { key: '97459a2f1842d06aae631c3c2d72d315cd178100', id: "close", variant: "icon", style: { '--icon-size': '1.65rem' }, icon_name: "xmark", class: "ml-2", onClickHandler: e => {
+            } })), this.hasReceipt && index.h("ir-button", { key: '3958f16c564eb521ae476c7eb34d91e1331f641f', variant: "icon", id: "receipt", icon_name: "reciept", class: "", style: { '--icon-size': '1.65rem' } }), this.hasPrint && index.h("ir-button", { key: '9499131044098b79a711e946e14966e8b4070787', variant: "icon", id: "print", icon_name: "print", class: "", style: { '--icon-size': '1.65rem' } }), this.hasEmail && index.h("ir-button", { key: '87bbefeccc3fbf95a254bdc80008dc53fec6b6c8', variant: "icon", id: "email", title: "Email this booking", icon_name: "email", class: "", style: { '--icon-size': '1.65rem' } }), this.hasDelete && index.h("ir-button", { key: '5711c4e3830ab135430197328919be944f75fde0', variant: "icon", id: "book-delete", icon_name: "trash", class: "", style: Object.assign(Object.assign({}, colorVariants.danger), { '--icon-size': '1.65rem' }) }), this.hasMenu && index.h("ir-button", { key: '7586a198c6a90e60fa972cf1d792f9a6eef6c860', variant: "icon", class: "mr-1", id: "menu", icon_name: "menu_list", style: { '--icon-size': '1.65rem' } }), this.hasCloseButton && (index.h("ir-button", { key: '652558bcca49b7da81b6b055865f1f560552dbd0', id: "close", variant: "icon", style: { '--icon-size': '1.65rem' }, icon_name: "xmark", class: "ml-2", onClickHandler: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeSidebar.emit(null);
-            } })))), index.h("ir-dialog", { key: 'cc8a8715649804f0512b28343c193109fccb806f', onOpenChange: e => {
+            } })))), index.h("ir-dialog", { key: '268efefc750dc7a4fcc13bfe463d087efa416c9b', onOpenChange: e => {
                 if (!e.detail) {
                     this.currentDialogStatus = null;
                 }
