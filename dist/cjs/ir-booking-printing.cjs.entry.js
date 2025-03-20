@@ -3,8 +3,8 @@
 var index = require('./index-Dt9a74kn.js');
 var moment = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-Dymcds4T.js');
-var utils = require('./utils-F4FSH4yM.js');
-var booking_service = require('./booking.service-xWFk8qcr.js');
+var utils = require('./utils-DsSIYMbI.js');
+var booking_service = require('./booking.service-DJJTZu-7.js');
 var room_service = require('./room.service-DC3utEzM.js');
 var locales_store = require('./locales.store-CJveOVzn.js');
 require('./index-CLqkDPTC.js');

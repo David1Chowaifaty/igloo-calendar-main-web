@@ -203,6 +203,10 @@ declare const icons: {
         d: string;
         viewBox: string;
     };
+    email: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

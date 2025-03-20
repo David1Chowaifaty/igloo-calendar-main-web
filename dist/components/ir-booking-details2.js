@@ -7,6 +7,7 @@ import { P as PaymentService } from './payment.service.js';
 import { T as Token } from './Token.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
+import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$O } from './igl-application-info2.js';
 import { d as defineCustomElement$N } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$M } from './igl-book-property2.js';
@@ -94,6 +95,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         this.sidebarState = null;
         this.isUpdateClicked = false;
         this.isPMSLogLoading = false;
+        this.modalState = null;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.paymentService = new PaymentService();
@@ -125,6 +127,14 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                 return;
             case 'close':
                 this.closeSidebar.emit(null);
+                return;
+            case 'email':
+                this.modalState = {
+                    type: 'email',
+                    message: locales.entries.Lcz_EmailBookingto.replace('%1', this.booking.guest.email),
+                    loading: isRequestPending('/Send_Booking_Confirmation_Email'),
+                };
+                this.modalRef.openModal();
                 return;
             case 'print':
                 this.openPrintingScreen();
@@ -291,6 +301,17 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             console.log(error);
         }
     }
+    async handleModalConfirm(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        switch (this.modalState.type) {
+            case 'email':
+                await this.bookingService.sendBookingConfirmationEmail(this.booking.booking_nbr, this.language);
+                break;
+        }
+        this.modalState = null;
+        this.modalRef.closeModal();
+    }
     renderSidebarContent() {
         var _a, _b, _c, _d, _e, _f;
         const handleClose = () => {
@@ -317,6 +338,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         }
     }
     render() {
+        var _a;
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
@@ -331,6 +353,11 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                     index !== this.booking.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, bookingDetails: this.booking })))),
+            h("ir-modal", { modalBody: (_a = this.modalState) === null || _a === void 0 ? void 0 : _a.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+                    this.handleModalConfirm(e);
+                }, onCancelModal: () => {
+                    this.modalRef.closeModal();
+                } }),
             h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -399,7 +426,8 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         "property_id": [32],
         "selectedService": [32],
         "bedPreference": [32],
-        "roomGuest": [32]
+        "roomGuest": [32],
+        "modalState": [32]
     }, [[0, "openSidebar", "handleSideBarEvents"], [0, "clickHandler", "handleIconClick"], [0, "resetExposedCancelationDueAmount", "handleResetExposedCancellationDueAmount"], [0, "editInitiated", "handleEditInitiated"], [0, "resetBookingEvt", "handleResetBooking"], [0, "editExtraService", "handleEditExtraService"]], {
         "ticket": ["ticketChanged"]
     }]);

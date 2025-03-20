@@ -361,8 +361,8 @@ async function transformNewBLockedRooms(data) {
     };
 }
 function calculateDaysBetweenDates(from_date, to_date) {
-    const startDate = hooks(from_date, 'YYYY-MM-DD');
-    const endDate = hooks(to_date, 'YYYY-MM-DD');
+    const startDate = hooks(from_date, 'YYYY-MM-DD').startOf('day');
+    const endDate = hooks(to_date, 'YYYY-MM-DD').endOf('day');
     const daysDiff = endDate.diff(startDate, 'days');
     return daysDiff || 1;
 }
@@ -566,7 +566,7 @@ function canCheckIn({ from_date, to_date, isCheckedIn }) {
     return false;
 }
 
-export { getRoomStatus as A, transformNewBLockedRooms as B, bookingStatus as C, getNextDay as D, addTwoMonthToDate as E, computeEndDate as F, convertDMYToISO as G, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, canCheckIn as h, isBlockUnit as i, getPrivateNote as j, calculateDaysBetweenDates as k, formatAmount as l, formatName as m, getDaysArray as n, convertDatePrice as o, formatDate as p, getReleaseHoursString as q, findCountry as r, compareTime as s, transformNewBooking as t, createDateWithOffsetAndHour as u, validateEmail as v, checkUserAuthState as w, manageAnchorSession as x, renderTime as y, formatLegendColors as z };
+export { getRoomStatus as A, transformNewBLockedRooms as B, bookingStatus as C, getNextDay as D, addTwoMonthToDate as E, computeEndDate as F, convertDMYToISO as G, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, calculateDaysBetweenDates as h, isBlockUnit as i, canCheckIn as j, getPrivateNote as k, formatAmount as l, formatName as m, getDaysArray as n, convertDatePrice as o, formatDate as p, getReleaseHoursString as q, findCountry as r, compareTime as s, transformNewBooking as t, createDateWithOffsetAndHour as u, validateEmail as v, checkUserAuthState as w, manageAnchorSession as x, renderTime as y, formatLegendColors as z };
 //# sourceMappingURL=utils.js.map
 
 //# sourceMappingURL=utils.js.map

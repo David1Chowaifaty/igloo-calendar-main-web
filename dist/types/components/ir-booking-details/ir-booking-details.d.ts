@@ -41,6 +41,11 @@ export declare class IrBookingDetails {
     selectedService: ExtraService;
     bedPreference: IEntries[];
     roomGuest: any;
+    modalState: {
+        type: 'email' | (string & {});
+        message: string;
+        loading: boolean;
+    };
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
@@ -49,6 +54,7 @@ export declare class IrBookingDetails {
     private paymentService;
     private token;
     private printingBaseUrl;
+    modalRef: HTMLIrModalElement;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
@@ -63,6 +69,7 @@ export declare class IrBookingDetails {
     private handleCloseBookingWindow;
     private handleDeleteFinish;
     private resetBooking;
+    private handleModalConfirm;
     private renderSidebarContent;
     render(): any;
     private handleRoomCheckout;

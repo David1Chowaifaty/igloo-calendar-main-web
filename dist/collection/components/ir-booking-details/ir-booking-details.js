@@ -7,6 +7,7 @@ import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
 import calendar_data from "../../stores/calendar-data";
 import moment from "moment";
+import { isRequestPending } from "../../stores/ir-interceptor.store";
 export class IrBookingDetails {
     constructor() {
         // Setup Data
@@ -36,6 +37,7 @@ export class IrBookingDetails {
         this.sidebarState = null;
         this.isUpdateClicked = false;
         this.isPMSLogLoading = false;
+        this.modalState = null;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.paymentService = new PaymentService();
@@ -67,6 +69,14 @@ export class IrBookingDetails {
                 return;
             case 'close':
                 this.closeSidebar.emit(null);
+                return;
+            case 'email':
+                this.modalState = {
+                    type: 'email',
+                    message: locales.entries.Lcz_EmailBookingto.replace('%1', this.booking.guest.email),
+                    loading: isRequestPending('/Send_Booking_Confirmation_Email'),
+                };
+                this.modalRef.openModal();
                 return;
             case 'print':
                 this.openPrintingScreen();
@@ -233,6 +243,17 @@ export class IrBookingDetails {
             console.log(error);
         }
     }
+    async handleModalConfirm(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        switch (this.modalState.type) {
+            case 'email':
+                await this.bookingService.sendBookingConfirmationEmail(this.booking.booking_nbr, this.language);
+                break;
+        }
+        this.modalState = null;
+        this.modalRef.closeModal();
+    }
     renderSidebarContent() {
         var _a, _b, _c, _d, _e, _f;
         const handleClose = () => {
@@ -259,6 +280,7 @@ export class IrBookingDetails {
         }
     }
     render() {
+        var _a;
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
@@ -273,6 +295,11 @@ export class IrBookingDetails {
                     index !== this.booking.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { paymentActions: this.paymentActions, bookingDetails: this.booking })))),
+            h("ir-modal", { modalBody: (_a = this.modalState) === null || _a === void 0 ? void 0 : _a.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+                    this.handleModalConfirm(e);
+                }, onCancelModal: () => {
+                    this.modalRef.closeModal();
+                } }),
             h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -655,7 +682,8 @@ export class IrBookingDetails {
             "property_id": {},
             "selectedService": {},
             "bedPreference": {},
-            "roomGuest": {}
+            "roomGuest": {},
+            "modalState": {}
         };
     }
     static get events() {

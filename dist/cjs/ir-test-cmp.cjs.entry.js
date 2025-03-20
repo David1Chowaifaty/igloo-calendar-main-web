@@ -16,7 +16,7 @@ const IrTestCmp = class {
     }
     render() {
         var _a;
-        return (index$1.h(index$1.Host, { key: '67e322e1220e07bec65be691cb22f31c2e8743bb', class: "card p-4" }, index$1.h("form", { key: '2a2df17c8efb685d6f75f4eb5bdc1a91a5efcbad', onSubmit: e => {
+        return (index$1.h(index$1.Host, { key: '2c30a32a61ef3c4b31e8f4db7ecd8108a14b3dbf', class: "card p-4" }, index$1.h("form", { key: '0952dcdeb1c98f07bade20a499eacf7d11bef406', onSubmit: e => {
                 e.preventDefault();
                 try {
                     this.error = null;
@@ -35,7 +35,7 @@ const IrTestCmp = class {
                     }
                     console.log(error);
                 }
-            } }, index$1.h("ir-input-text", { key: 'c647d8c59338ae9ede1455e6ae2826a91087325d', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), index$1.h("p", { key: '987f7e8bdc78ea63e5a1aa205f457a6f28d8e88e' }, " ", this.user.password), " ", index$1.h("button", { key: '0ba45bda8efd56b312cf72d7d16566066a399ba0', class: 'btn btn-primary' }, "Submit"))));
+            } }, index$1.h("ir-input-text", { key: '378e186051b94b6bdacfbe03000902419580b495', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), index$1.h("p", { key: '343306be772197bb6dc07a67fe6dd4f4a8bb6b6a' }, " ", this.user.password), " ", index$1.h("button", { key: '15a935e160a32597febdcfaf3fa113179318c57b', class: 'btn btn-primary' }, "Submit"))));
     }
 };
 IrTestCmp.style = irTestCmpCss;

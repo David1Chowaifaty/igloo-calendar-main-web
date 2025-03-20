@@ -23,6 +23,16 @@ export class BookingService {
         }
         return data;
     }
+    async sendBookingConfirmationEmail(booking_nbr, language) {
+        const { data } = await axios.post(`/Send_Booking_Confirmation_Email`, {
+            booking_nbr,
+            language,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Calendar`, {

@@ -9,6 +9,7 @@ export declare class IrBookingHeader {
     hasDelete: boolean;
     hasMenu: boolean;
     hasCloseButton: boolean;
+    hasEmail: boolean;
     bookingStatus: string | null;
     currentDialogStatus: BookingDetailsDialogEvents;
     toast: EventEmitter<IToast>;

@@ -2,12 +2,12 @@
 
 var index = require('./index-Dt9a74kn.js');
 var Token = require('./Token-BY5U68ai.js');
-var booking_service = require('./booking.service-xWFk8qcr.js');
+var booking_service = require('./booking.service-DJJTZu-7.js');
 var room_service = require('./room.service-DC3utEzM.js');
 var locales_store = require('./locales.store-CJveOVzn.js');
 require('./axios-DG0YPAll.js');
 require('./_commonjsHelpers-B83fTs8d.js');
-require('./utils-F4FSH4yM.js');
+require('./utils-DsSIYMbI.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');
 require('./calendar-data-CC4kt7DA.js');

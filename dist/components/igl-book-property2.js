@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { k as calculateDaysBetweenDates, e as extras, q as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
+import { h as calculateDaysBetweenDates, e as extras, q as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { V as VariationService, d as defineCustomElement$n } from './igl-application-info2.js';
 import { b as booking_store, m as modifyBookingStore, c as calculateTotalRooms, a as resetBookingStore, r as reserveRooms } from './booking.store.js';
 import { h as hooks } from './moment.js';

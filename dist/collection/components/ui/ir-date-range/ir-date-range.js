@@ -101,7 +101,7 @@ export class IrDateRange {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '65e45d6a9662a57f91209ffc92fb792a0494d3cf' }, h("input", { key: '062bde45516de7a367fd59b118c8be6c0372364a', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: 'b8a6cba31eada88a9341194faa09eca1e25e62a4' }, h("input", { key: '1a25bf3f3064a0d9a6cd990dcb9bb0a0da6e0e5e', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "scoped"; }
