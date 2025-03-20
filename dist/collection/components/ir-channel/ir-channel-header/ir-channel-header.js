@@ -66,6 +66,8 @@ export class IrChannelHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             }
         };

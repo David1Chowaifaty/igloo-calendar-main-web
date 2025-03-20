@@ -3,9 +3,21 @@ import moment from "moment";
 export class IrTasksTable {
     constructor() {
         this.tasks = [];
+        /**
+         * Tracks which task IDs are currently selected via checkboxes.
+         */
         this.selectedIds = [];
+        /**
+         * Controls whether the "Confirm Clean" modal is shown.
+         */
         this.showConfirmModal = false;
+        /**
+         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
+         */
         this.sortKey = 'date';
+        /**
+         * The sort direction: ASC or DESC.
+         */
         this.sortDirection = 'ASC';
         this.checkableTasks = [];
     }
@@ -202,6 +214,8 @@ export class IrTasksTable {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             }
         };

@@ -2,10 +2,6 @@ import { Host, h } from "@stencil/core";
 import { formatAmount } from "../../../../utils/utils";
 import moment from "moment";
 export class IrPaymentActions {
-    constructor() {
-        this.booking = undefined;
-        this.paymentAction = undefined;
-    }
     render() {
         var _a, _b;
         if (((_a = this.paymentAction) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) == 0) {
@@ -51,7 +47,9 @@ export class IrPaymentActions {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "paymentAction": {
                 "type": "unknown",
@@ -72,7 +70,9 @@ export class IrPaymentActions {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

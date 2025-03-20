@@ -1,20 +1,16 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { b as calculateDaysBetweenDates } from './utils.js';
+import { k as calculateDaysBetweenDates } from './utils.js';
 import { h as hooks } from './moment.js';
 
 const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
-const IrDateViewStyle0 = irDateViewCss;
 
 const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.from_date = undefined;
-        this.to_date = undefined;
         this.showDateDifference = true;
         this.dateOption = 'YYYY-MM-DD';
-        this.dates = undefined;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -65,7 +61,7 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         "from_date": ["handleFromDateChange"],
         "to_date": ["handleToDateChange"]
     }; }
-    static get style() { return IrDateViewStyle0; }
+    static get style() { return irDateViewCss; }
 }, [2, "ir-date-view", {
         "from_date": [1],
         "to_date": [1],
@@ -91,5 +87,6 @@ function defineCustomElement() {
 }
 
 export { IrDateView as I, defineCustomElement as d };
+//# sourceMappingURL=ir-date-view2.js.map
 
 //# sourceMappingURL=ir-date-view2.js.map

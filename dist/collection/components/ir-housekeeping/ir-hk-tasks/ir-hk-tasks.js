@@ -9,25 +9,19 @@ import moment from "moment";
 import { v4 } from "uuid";
 export class IrHkTasks {
     constructor() {
-        this.hkNameCache = {};
-        this.roomService = new RoomService();
-        this.houseKeepingService = new HouseKeepingService();
-        this.token = new Token();
         this.language = '';
         this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
-        this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
-        this.isSidebarOpen = undefined;
-        this.isApplyFiltersLoading = undefined;
-        this.filters = undefined;
+        this.hkNameCache = {};
+        this.roomService = new RoomService();
+        this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -225,6 +219,8 @@ export class IrHkTasks {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
@@ -243,6 +239,8 @@ export class IrHkTasks {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -261,6 +259,8 @@ export class IrHkTasks {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -278,6 +278,8 @@ export class IrHkTasks {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

@@ -9,19 +9,13 @@ import locales from "../../stores/locales.store";
 import { formatAmount } from "../../utils/utils";
 export class IrBookingPrinting {
     constructor() {
-        // @State() token: string;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
         this.language = 'en';
-        this.propertyid = undefined;
         this.mode = 'default';
-        this.countries = undefined;
-        this.booking = undefined;
-        this.property = undefined;
-        this.guestCountryName = undefined;
-        this.isLoading = undefined;
+        // @State() token: string;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
     }
     componentWillLoad() {
         document.body.style.background = 'white';
@@ -169,6 +163,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "token",
                 "reflect": false,
                 "defaultValue": "''"
@@ -187,6 +183,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false,
                 "defaultValue": "''"
@@ -205,6 +203,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -223,6 +223,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -240,6 +242,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "mode",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -258,6 +262,8 @@ export class IrBookingPrinting {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "countries",
                 "reflect": false
             }

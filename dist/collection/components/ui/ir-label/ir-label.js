@@ -1,16 +1,17 @@
 import { h, Host } from "@stencil/core";
 export class IrLabel {
     constructor() {
-        this.labelText = undefined;
-        this.content = undefined;
         this.display = 'flex';
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
+        /** Object representing the image used within the label */
         this.image = null;
+        /** Renders a country-type image style (vs. a 'logo') */
         this.isCountryImage = false;
+        /** Additional CSS classes or style for the image */
         this.imageStyle = '';
+        /** If true, label will ignore checking for an empty content */
         this.ignoreEmptyContent = false;
-        this.placeholder = undefined;
-        this.containerStyle = undefined;
     }
     render() {
         var _a, _b, _c;
@@ -48,6 +49,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "The text to display as the label's title"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-text",
                 "reflect": false
             },
@@ -65,6 +68,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "The main text or HTML content to display"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "content",
                 "reflect": false
             },
@@ -82,6 +87,8 @@ export class IrLabel {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display",
                 "reflect": false,
                 "defaultValue": "'flex'"
@@ -100,6 +107,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "If true, will render `content` as HTML"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "render-content-as-html",
                 "reflect": false,
                 "defaultValue": "false"
@@ -118,6 +127,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "Object representing the image used within the label"
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             },
             "isCountryImage": {
@@ -134,6 +145,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "Renders a country-type image style (vs. a 'logo')"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-country-image",
                 "reflect": false,
                 "defaultValue": "false"
@@ -152,6 +165,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "Additional CSS classes or style for the image"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "image-style",
                 "reflect": false,
                 "defaultValue": "''"
@@ -170,6 +185,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "If true, label will ignore checking for an empty content"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ignore-empty-content",
                 "reflect": false,
                 "defaultValue": "false"
@@ -188,6 +205,8 @@ export class IrLabel {
                     "tags": [],
                     "text": "Placeholder text to display if content is empty"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -204,7 +223,9 @@ export class IrLabel {
                 "docs": {
                     "tags": [],
                     "text": "inline styles for the component container"
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

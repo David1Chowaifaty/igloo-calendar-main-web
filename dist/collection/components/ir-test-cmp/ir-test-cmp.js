@@ -6,7 +6,6 @@ export class IrTestCmp {
         this.user = {
             password: '',
         };
-        this.error = undefined;
         this.autoValidate = false;
     }
     render() {

@@ -3,22 +3,16 @@ import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 export class IrPhoneInput {
     constructor() {
-        // private cmp_countries: ICountry[] = [];
-        this.bookingService = new BookingService();
-        this.label = undefined;
         this.value = '';
         this.disabled = false;
         this.error = false;
-        this.token = undefined;
-        this.language = undefined;
         this.default_country = null;
         this.phone_prefix = null;
-        this.placeholder = undefined;
         this.countries = [];
-        this.testId = undefined;
         this.inputValue = '';
         this.isDropdownVisible = false;
-        this.currentCountry = undefined;
+        // private cmp_countries: ICountry[] = [];
+        this.bookingService = new BookingService();
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {
@@ -120,6 +114,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -137,6 +133,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false,
                 "defaultValue": "''"
@@ -155,6 +153,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -173,6 +173,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
@@ -191,6 +193,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "token",
                 "reflect": false
             },
@@ -208,6 +212,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -225,6 +231,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "default_country",
                 "reflect": false,
                 "defaultValue": "null"
@@ -243,6 +251,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "phone_prefix",
                 "reflect": false,
                 "defaultValue": "null"
@@ -261,6 +271,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -284,6 +296,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "testId": {
@@ -300,6 +314,8 @@ export class IrPhoneInput {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             }

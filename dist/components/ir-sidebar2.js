@@ -2,7 +2,6 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { d as defineCustomElement$1 } from './ir-icon2.js';
 
 const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-100%;bottom:0;width:var(--sidebar-width, 30rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:200;overflow-y:hidden;color:var(--sidebar-color, #000);background:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:scroll}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
-const IrSidebarStyle0 = irSidebarCss;
 
 const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLElement {
     constructor() {
@@ -10,12 +9,9 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.__registerHost();
         this.__attachShadow();
         this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
-        this.name = undefined;
         this.side = 'right';
         this.showCloseButton = true;
         this.open = false;
-        this.sidebarStyles = undefined;
-        this.label = undefined;
     }
     applyStyles() {
         for (const property in this.sidebarStyles) {
@@ -70,7 +66,7 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
     static get watchers() { return {
         "sidebarStyles": ["handleSidebarStylesChange"]
     }; }
-    static get style() { return IrSidebarStyle0; }
+    static get style() { return irSidebarCss; }
 }, [1, "ir-sidebar", {
         "name": [1],
         "side": [1],
@@ -102,5 +98,6 @@ function defineCustomElement() {
 }
 
 export { IrSidebar as I, defineCustomElement as d };
+//# sourceMappingURL=ir-sidebar2.js.map
 
 //# sourceMappingURL=ir-sidebar2.js.map

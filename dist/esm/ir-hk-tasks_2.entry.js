@@ -1,41 +1,35 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-2ef79026.js';
-import { T as Token } from './Token-1cce2f6d.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-6d6b2ec1.js';
-import { R as RoomService } from './room.service-5eccb4f4.js';
-import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
-import { l as locales } from './locales.store-b3d58c68.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { v as v4 } from './v4-964634d6.js';
-import { c as calendar_data } from './calendar-data-707a10db.js';
-import './axios-2aba0cfc.js';
-import './index-5395b195.js';
+import { r as registerInstance, c as createEvent, h, H as Host, a as getElement } from './index-jhiFt_tX.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-BFNHYo2T.js';
+import { R as RoomService } from './room.service-CheK7apf.js';
+import { i as isRequestPending } from './ir-interceptor.store-C5Y_S4JJ.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import { h as hooks } from './moment-Mki5YqAR.js';
+import { v as v4 } from './v4-DD3477fe.js';
+import { c as calendar_data } from './calendar-data-D2MMPhx6.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
+import './index-C7eXIDl2.js';
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
-const IrHkTasksStyle0 = irHkTasksCss;
 
 const IrHkTasks = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.clearSelectedHkTasks = createEvent(this, "clearSelectedHkTasks", 7);
-        this.hkNameCache = {};
-        this.roomService = new RoomService();
-        this.houseKeepingService = new HouseKeepingService();
-        this.token = new Token();
+        this.clearSelectedHkTasks = createEvent(this, "clearSelectedHkTasks");
         this.language = '';
         this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
-        this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
-        this.isSidebarOpen = undefined;
-        this.isApplyFiltersLoading = undefined;
-        this.filters = undefined;
+        this.hkNameCache = {};
+        this.roomService = new RoomService();
+        this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -210,23 +204,20 @@ const IrHkTasks = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrHkTasks.style = IrHkTasksStyle0;
+IrHkTasks.style = irHkTasksCss;
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
-const IrHousekeepingStyle0 = irHousekeepingCss;
 
 const IrHousekeeping = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
+        this.toast = createEvent(this, "toast");
+        this.language = '';
+        this.ticket = '';
+        this.isLoading = false;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.isLoading = false;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -311,8 +302,9 @@ const IrHousekeeping = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrHousekeeping.style = IrHousekeepingStyle0;
+IrHousekeeping.style = irHousekeepingCss;
 
 export { IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping };
+//# sourceMappingURL=ir-hk-tasks.ir-housekeeping.entry.js.map
 
 //# sourceMappingURL=ir-hk-tasks_2.entry.js.map

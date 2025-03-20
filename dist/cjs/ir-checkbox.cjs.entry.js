@@ -1,23 +1,16 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
-const v4 = require('./v4-9b297151.js');
+var index = require('./index-Dt9a74kn.js');
+var v4 = require('./v4-Bq3ldsQe.js');
 
 const irCheckboxCss = ".sc-ir-checkbox-h{display:flex;align-items:center;width:fit-content}button.sc-ir-checkbox{all:unset}.CheckboxRoot.sc-ir-checkbox{background-color:white;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.CheckboxRoot.sc-ir-checkbox:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3);pointer-events:none}.CheckboxRoot[data-state='checked'].sc-ir-checkbox{background-color:#1e9ff2;color:white;border-color:#1e9ff2}input[type='checkbox'].sc-ir-checkbox{background-color:initial;cursor:default;appearance:auto;box-sizing:border-box;margin:3px 3px 3px 4px;padding:initial;border:initial}.checkbox.sc-ir-checkbox{transform:translateX(-100%);position:absolute;pointer-events:none;opacity:0;margin:0px;width:20px;height:20px}";
-const IrCheckboxStyle0 = irCheckboxCss;
 
 const IrCheckbox = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.checkChange = index.createEvent(this, "checkChange", 7);
+        this.checkChange = index.createEvent(this, "checkChange");
         this.checked = false;
-        this.label = undefined;
         this.checkboxId = v4.v4();
-        this.name = undefined;
-        this.indeterminate = undefined;
-        this.disabled = undefined;
         this.currentChecked = false;
     }
     handleCheckedChange(newValue) {
@@ -48,8 +41,9 @@ const IrCheckbox = class {
         "checked": ["handleCheckedChange"]
     }; }
 };
-IrCheckbox.style = IrCheckboxStyle0;
+IrCheckbox.style = irCheckboxCss;
 
 exports.ir_checkbox = IrCheckbox;
+//# sourceMappingURL=ir-checkbox.entry.cjs.js.map
 
 //# sourceMappingURL=ir-checkbox.cjs.entry.js.map

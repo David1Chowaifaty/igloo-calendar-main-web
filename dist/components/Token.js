@@ -78,5 +78,6 @@ class MissingTokenError extends Error {
 }
 
 export { Token as T };
+//# sourceMappingURL=Token.js.map
 
 //# sourceMappingURL=Token.js.map

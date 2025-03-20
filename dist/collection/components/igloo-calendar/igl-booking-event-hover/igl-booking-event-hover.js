@@ -8,16 +8,11 @@ import { compareTime, createDateWithOffsetAndHour } from "../../../utils/booking
 //import { transformNewBLockedRooms } from '../../../utils/booking';
 export class IglBookingEventHover {
     constructor() {
+        this.bubbleInfoTop = false;
+        this.is_vacation_rental = false;
+        this.shouldHideUnassignUnit = false;
         this.eventService = new EventsService();
         this.hideButtons = false;
-        this.bookingEvent = undefined;
-        this.bubbleInfoTop = false;
-        this.currency = undefined;
-        this.countries = undefined;
-        this.is_vacation_rental = false;
-        this.isLoading = undefined;
-        this.shouldHideUnassignUnit = false;
-        this.canCheckInOrCheckout = undefined;
     }
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -428,7 +423,9 @@ export class IglBookingEventHover {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "bubbleInfoTop": {
                 "type": "boolean",
@@ -444,6 +441,8 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "bubble-info-top",
                 "reflect": false,
                 "defaultValue": "false"
@@ -462,6 +461,8 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -484,7 +485,9 @@ export class IglBookingEventHover {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "is_vacation_rental": {
                 "type": "boolean",
@@ -500,6 +503,8 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is_vacation_rental",
                 "reflect": false,
                 "defaultValue": "false"

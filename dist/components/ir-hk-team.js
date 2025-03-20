@@ -4,5 +4,6 @@ const IrHkTeam = IrHkTeam$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHkTeam, defineCustomElement };
+//# sourceMappingURL=ir-hk-team.js.map
 
 //# sourceMappingURL=ir-hk-team.js.map

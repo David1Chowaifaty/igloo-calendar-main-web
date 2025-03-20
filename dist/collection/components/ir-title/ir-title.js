@@ -1,8 +1,6 @@
 import { Host, h } from "@stencil/core";
 export class IrTitle {
     constructor() {
-        this.label = undefined;
-        this.borderShown = undefined;
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }
@@ -47,6 +45,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -64,6 +64,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "border-shown",
                 "reflect": true
             },
@@ -81,6 +83,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "display-context",
                 "reflect": true,
                 "defaultValue": "'default'"
@@ -99,6 +103,8 @@ export class IrTitle {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "justify-content",
                 "reflect": true,
                 "defaultValue": "'start'"

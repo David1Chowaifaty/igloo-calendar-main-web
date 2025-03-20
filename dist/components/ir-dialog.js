@@ -4,5 +4,6 @@ const IrDialog = IrDialog$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDialog, defineCustomElement };
+//# sourceMappingURL=ir-dialog.js.map
 
 //# sourceMappingURL=ir-dialog.js.map

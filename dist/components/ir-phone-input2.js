@@ -4,29 +4,22 @@ import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$1 } from './ir-combobox2.js';
 
 const irPhoneInputCss = ".sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-right:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;left:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}";
-const IrPhoneInputStyle0 = irPhoneInputCss;
 
 const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
         this.textChange = createEvent(this, "textChange", 7);
-        // private cmp_countries: ICountry[] = [];
-        this.bookingService = new BookingService();
-        this.label = undefined;
         this.value = '';
         this.disabled = false;
         this.error = false;
-        this.token = undefined;
-        this.language = undefined;
         this.default_country = null;
         this.phone_prefix = null;
-        this.placeholder = undefined;
         this.countries = [];
-        this.testId = undefined;
         this.inputValue = '';
         this.isDropdownVisible = false;
-        this.currentCountry = undefined;
+        // private cmp_countries: ICountry[] = [];
+        this.bookingService = new BookingService();
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {
@@ -105,7 +98,7 @@ const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends
         "value": ["handleValueChange"],
         "phone_prefix": ["handlePhoneChange"]
     }; }
-    static get style() { return IrPhoneInputStyle0; }
+    static get style() { return irPhoneInputCss; }
 }, [2, "ir-phone-input", {
         "label": [1],
         "value": [1],
@@ -145,5 +138,6 @@ function defineCustomElement() {
 }
 
 export { IrPhoneInput as I, defineCustomElement as d };
+//# sourceMappingURL=ir-phone-input2.js.map
 
 //# sourceMappingURL=ir-phone-input2.js.map

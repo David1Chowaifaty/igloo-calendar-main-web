@@ -1,21 +1,17 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index$1 = require('./index-e13bd197.js');
-const index = require('./index-a8af909e.js');
+var index$1 = require('./index-Dt9a74kn.js');
+var index = require('./index-CLqkDPTC.js');
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
-const IrTestCmpStyle0 = irTestCmpCss;
 
-const userSchema = index.z.object({ password: index.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
+const userSchema = index.libExports.z.object({ password: index.libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp = class {
     constructor(hostRef) {
         index$1.registerInstance(this, hostRef);
         this.user = {
             password: '',
         };
-        this.error = undefined;
         this.autoValidate = false;
     }
     render() {
@@ -31,7 +27,7 @@ const IrTestCmp = class {
                 }
                 catch (error) {
                     const er = {};
-                    if (error instanceof index.ZodError) {
+                    if (error instanceof index.libExports.ZodError) {
                         error.issues.forEach(e => {
                             er[e.path[0]] = true;
                         });
@@ -42,8 +38,9 @@ const IrTestCmp = class {
             } }, index$1.h("ir-input-text", { key: 'c647d8c59338ae9ede1455e6ae2826a91087325d', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), index$1.h("p", { key: '987f7e8bdc78ea63e5a1aa205f457a6f28d8e88e' }, " ", this.user.password), " ", index$1.h("button", { key: '0ba45bda8efd56b312cf72d7d16566066a399ba0', class: 'btn btn-primary' }, "Submit"))));
     }
 };
-IrTestCmp.style = IrTestCmpStyle0;
+IrTestCmp.style = irTestCmpCss;
 
 exports.ir_test_cmp = IrTestCmp;
+//# sourceMappingURL=ir-test-cmp.entry.cjs.js.map
 
 //# sourceMappingURL=ir-test-cmp.cjs.entry.js.map

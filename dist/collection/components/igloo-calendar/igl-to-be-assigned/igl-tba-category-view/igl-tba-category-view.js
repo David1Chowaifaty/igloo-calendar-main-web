@@ -1,12 +1,7 @@
 import { Host, h } from "@stencil/core";
 export class IglTbaCategoryView {
     constructor() {
-        this.calendarData = undefined;
-        this.selectedDate = undefined;
         this.categoriesData = {};
-        this.categoryId = undefined;
-        this.eventDatas = undefined;
-        this.categoryIndex = undefined;
         this.renderAgain = false;
     }
     // private localEventDatas;
@@ -69,7 +64,9 @@ export class IglTbaCategoryView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "selectedDate": {
                 "type": "any",
@@ -85,6 +82,8 @@ export class IglTbaCategoryView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "selected-date",
                 "reflect": false
             },
@@ -102,6 +101,8 @@ export class IglTbaCategoryView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{}"
             },
             "categoryId": {
@@ -118,6 +119,8 @@ export class IglTbaCategoryView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "category-id",
                 "reflect": false
             },
@@ -135,6 +138,8 @@ export class IglTbaCategoryView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "event-datas",
                 "reflect": false
             },
@@ -152,6 +157,8 @@ export class IglTbaCategoryView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "category-index",
                 "reflect": false
             }

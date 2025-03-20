@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { F as checkUserAuthState, G as manageAnchorSession } from './utils.js';
+import { w as checkUserAuthState, x as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$R } from './igl-application-info2.js';
 import { d as defineCustomElement$Q } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$P } from './igl-book-property2.js';
@@ -55,17 +55,13 @@ import { d as defineCustomElement$3 } from './ir-tooltip2.js';
 import { d as defineCustomElement$2 } from './ota-label2.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
-const IrBookingStyle0 = irBookingCss;
 
 const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.token = new Token();
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.bookingNumber = undefined;
         this.isAuthenticated = false;
+        this.token = new Token();
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
@@ -85,7 +81,7 @@ const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTM
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
         return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
-    static get style() { return IrBookingStyle0; }
+    static get style() { return irBookingCss; }
 }, [2, "ir-booking", {
         "propertyid": [2],
         "p": [1],
@@ -370,5 +366,6 @@ const IrBooking = IrBooking$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrBooking, defineCustomElement };
+//# sourceMappingURL=ir-booking.js.map
 
 //# sourceMappingURL=ir-booking.js.map

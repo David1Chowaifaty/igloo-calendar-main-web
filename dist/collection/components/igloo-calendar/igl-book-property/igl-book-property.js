@@ -8,6 +8,10 @@ import booking_store, { calculateTotalRooms, modifyBookingStore, reserveRooms, r
 import moment from "moment";
 export class IglBookProperty {
     constructor() {
+        this.showPaymentDetails = false;
+        this.adultChildCount = { adult: 0, child: 0 };
+        this.renderAgain = false;
+        this.bookingHistory = [];
         this.initialRoomIds = null;
         this.showSplitBookingOption = false;
         this.sourceOptions = [];
@@ -21,20 +25,6 @@ export class IglBookProperty {
         this.bookPropertyService = new IglBookPropertyService();
         this.updatedBooking = false;
         this.MAX_HISTORY_LENGTH = 2;
-        this.propertyid = undefined;
-        this.allowedBookingSources = undefined;
-        this.language = undefined;
-        this.countries = undefined;
-        this.showPaymentDetails = false;
-        this.currency = undefined;
-        this.bookingData = undefined;
-        this.adultChildConstraints = undefined;
-        this.adultChildCount = { adult: 0, child: 0 };
-        this.renderAgain = false;
-        this.dateRangeData = undefined;
-        this.defaultData = undefined;
-        this.isLoading = undefined;
-        this.bookingHistory = [];
     }
     async componentWillLoad() {
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -576,6 +566,8 @@ export class IglBookProperty {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -593,6 +585,8 @@ export class IglBookProperty {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "allowed-booking-sources",
                 "reflect": false
             },
@@ -610,6 +604,8 @@ export class IglBookProperty {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -632,7 +628,9 @@ export class IglBookProperty {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "showPaymentDetails": {
                 "type": "boolean",
@@ -648,6 +646,8 @@ export class IglBookProperty {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-payment-details",
                 "reflect": false,
                 "defaultValue": "false"
@@ -671,7 +671,9 @@ export class IglBookProperty {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "bookingData": {
                 "type": "unknown",
@@ -686,7 +688,9 @@ export class IglBookProperty {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "adultChildConstraints": {
                 "type": "unknown",
@@ -707,7 +711,9 @@ export class IglBookProperty {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

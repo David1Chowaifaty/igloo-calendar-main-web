@@ -8,6 +8,10 @@ import { colorVariants } from "../../ui/ir-icons/icons";
 //import { updateCategories } from '@/utils/events.utils';
 export class IglToBeAssigned {
     constructor() {
+        this.showDatesList = false;
+        this.renderAgain = false;
+        this.orderedDatesList = [];
+        this.noScroll = false;
         this.isGotoToBeAssignedDate = false;
         this.isLoading = true;
         this.selectedDate = null;
@@ -15,16 +19,6 @@ export class IglToBeAssigned {
         this.today = new Date();
         this.categoriesData = {};
         this.toBeAssignedService = new ToBeAssignedService();
-        this.unassignedDatesProp = undefined;
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.calendarData = undefined;
-        this.loadingMessage = undefined;
-        this.showDatesList = false;
-        this.renderAgain = false;
-        this.orderedDatesList = [];
-        this.noScroll = false;
     }
     componentWillLoad() {
         this.reArrangeData();
@@ -237,6 +231,8 @@ export class IglToBeAssigned {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "unassigned-dates-prop",
                 "reflect": false
             },
@@ -254,6 +250,8 @@ export class IglToBeAssigned {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -271,6 +269,8 @@ export class IglToBeAssigned {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from_date",
                 "reflect": false
             },
@@ -288,6 +288,8 @@ export class IglToBeAssigned {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to_date",
                 "reflect": false
             },
@@ -304,7 +306,9 @@ export class IglToBeAssigned {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

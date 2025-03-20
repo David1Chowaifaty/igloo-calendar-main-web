@@ -5,14 +5,12 @@ import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
 const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;min-width:20vw;height:100%}@media (min-width: 768px){.collapse-btn.sc-ir-tasks-filters{display:none}#hkTasksFiltersCollapse.collapse.sc-ir-tasks-filters:not(.show){display:block}}";
-const IrTasksFiltersStyle0 = irTasksFiltersCss;
 
 const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
         this.applyFilters = createEvent(this, "applyFilters", 7);
-        this.isLoading = undefined;
         this.filters = {
             cleaning_periods: {
                 code: '',
@@ -94,7 +92,7 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
                 value: v.code,
             })) })), h("div", { key: 'a8b6b6e72f1f7583cbbea736dd93dfb10979b8bd', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'cabe53f241ece2af883389c90e6dddac684bf755', btn_type: "button", "data-testid": "reset", text: "Reset", size: "sm", btn_color: "outline", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: 'a30070b9b4abc988e24227f4cf2c45c12dda7cbe', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
-    static get style() { return IrTasksFiltersStyle0; }
+    static get style() { return irTasksFiltersCss; }
 }, [2, "ir-tasks-filters", {
         "isLoading": [4, "is-loading"],
         "filters": [32],
@@ -130,5 +128,6 @@ function defineCustomElement() {
 }
 
 export { IrTasksFilters as I, defineCustomElement as d };
+//# sourceMappingURL=ir-tasks-filters2.js.map
 
 //# sourceMappingURL=ir-tasks-filters2.js.map

@@ -1,15 +1,20 @@
 import { h } from "@stencil/core";
 export class IrDrawer {
     constructor() {
+        this.showDrawer = false;
+        /**
+         * The placement of the drawer
+         */
+        this.placement = 'right';
+        /**
+         * Is the drawer open?
+         */
+        this.open = false;
         this.toggleDrawer = () => {
             this.open = !this.open;
             this.showDrawer = this.open;
             this.drawerChange.emit(this.open);
         };
-        this.showDrawer = false;
-        this.drawerTitle = undefined;
-        this.placement = 'right';
-        this.open = false;
     }
     componentDidLoad() {
         if (this.open) {
@@ -63,6 +68,8 @@ export class IrDrawer {
                     "tags": [],
                     "text": "The title of the drawer"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "drawer-title",
                 "reflect": false
             },
@@ -80,6 +87,8 @@ export class IrDrawer {
                     "tags": [],
                     "text": "The placement of the drawer"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placement",
                 "reflect": false,
                 "defaultValue": "'right'"
@@ -98,6 +107,8 @@ export class IrDrawer {
                     "tags": [],
                     "text": "Is the drawer open?"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "open",
                 "reflect": true,
                 "defaultValue": "false"

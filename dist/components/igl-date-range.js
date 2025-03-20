@@ -4,5 +4,6 @@ const IglDateRange = IglDateRange$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglDateRange, defineCustomElement };
+//# sourceMappingURL=igl-date-range.js.map
 
 //# sourceMappingURL=igl-date-range.js.map

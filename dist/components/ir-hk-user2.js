@@ -4,7 +4,7 @@ import { a as axios } from './axios.js';
 import { c as calendar_data } from './calendar-data.js';
 import { g as getDefaultProperties } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { z, Z as ZodError } from './index3.js';
+import { l as libExports } from './index3.js';
 import { d as defineCustomElement$a } from './ir-button2.js';
 import { d as defineCustomElement$9 } from './ir-combobox2.js';
 import { d as defineCustomElement$8 } from './ir-icon2.js';
@@ -24,7 +24,6 @@ class UserService {
 }
 
 const irHkUserCss = ".sc-ir-hk-user-h{display:block}";
-const IrHkUserStyle0 = irHkUserCss;
 
 const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLElement {
     constructor() {
@@ -32,25 +31,6 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
         this.__registerHost();
         this.resetData = createEvent(this, "resetData", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
-        this.housekeepingService = new HouseKeepingService();
-        this.default_properties = {
-            token: '',
-            language: '',
-        };
-        this.housekeeperSchema = z.object({
-            name: z.string().min(2),
-            mobile: z.string().min(1).max(14),
-            password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/),
-            username: z
-                .string()
-                .min(3)
-                .refine(async (name) => {
-                if (name.length >= 3) {
-                    return !(await new UserService().checkUserExistence({ UserName: name }));
-                }
-                return true;
-            }, { message: 'Username already exists.' }),
-        });
         this.user = null;
         this.isEdit = false;
         this.isLoading = false;
@@ -67,7 +47,25 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
         };
         this.errors = null;
         this.showPasswordValidation = false;
-        this.isUsernameTaken = undefined;
+        this.housekeepingService = new HouseKeepingService();
+        this.default_properties = {
+            token: '',
+            language: '',
+        };
+        this.housekeeperSchema = libExports.z.object({
+            name: libExports.z.string().min(2),
+            mobile: libExports.z.string().min(1).max(14),
+            password: libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/),
+            username: libExports.z
+                .string()
+                .min(3)
+                .refine(async (name) => {
+                if (name.length >= 3) {
+                    return !(await new UserService().checkUserExistence({ UserName: name }));
+                }
+                return true;
+            }, { message: 'Username already exists.' }),
+        });
     }
     async componentWillLoad() {
         const { token, language, property_id } = getDefaultProperties();
@@ -102,7 +100,7 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
         }
         catch (error) {
             const e = {};
-            if (error instanceof ZodError) {
+            if (error instanceof libExports.ZodError) {
                 error.issues.map(err => {
                     e[err.path[0]] = true;
                 });
@@ -134,7 +132,7 @@ const IrHkUser = /*@__PURE__*/ proxyCustomElement(class IrHkUser extends HTMLEle
                     this.showPasswordValidation = false;
             }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { key: 'e8a46728c6183fbc35946f61ecdb1c9798659a5c', password: this.userInfo.password }), h("div", { key: '099289c8e9529abd6aee8158560fda2b19443862', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '2523a6b0c8a931d752b14c15ce209b3015fc383e', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'f5242591530fbbbd7371fb44f4f3e8d2a5ded1bd', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save })))));
     }
-    static get style() { return IrHkUserStyle0; }
+    static get style() { return irHkUserCss; }
 }, [2, "ir-hk-user", {
         "user": [16],
         "isEdit": [4, "is-edit"],
@@ -210,5 +208,6 @@ function defineCustomElement() {
 }
 
 export { IrHkUser as I, defineCustomElement as d };
+//# sourceMappingURL=ir-hk-user2.js.map
 
 //# sourceMappingURL=ir-hk-user2.js.map

@@ -4,5 +4,6 @@ const IrDatePicker = IrDatePicker$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDatePicker, defineCustomElement };
+//# sourceMappingURL=ir-date-picker.js.map
 
 //# sourceMappingURL=ir-date-picker.js.map

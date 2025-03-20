@@ -15,5 +15,6 @@ function getDefaultProperties() {
 }
 
 export { getDefaultProperties as g, housekeeping_store as h, updateHKStore as u };
+//# sourceMappingURL=housekeeping.store.js.map
 
 //# sourceMappingURL=housekeeping.store.js.map

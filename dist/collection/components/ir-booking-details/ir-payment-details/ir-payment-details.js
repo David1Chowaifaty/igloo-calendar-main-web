@@ -10,21 +10,17 @@ import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
 export class IrPaymentDetails {
     constructor() {
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.paymentBackground = 'white';
-        this.bookingDetails = undefined;
-        this.paymentActions = undefined;
         this.newTableRow = false;
         this.collapsedPayment = false;
         this.collapsedGuarantee = false;
         this.flag = false;
         this.confirmModal = false;
-        this.toBeDeletedItem = undefined;
         this.paymentDetailsUrl = '';
         this.paymentExceptionMessage = '';
         this.modal_mode = null;
-        this.itemToBeAdded = undefined;
+        this.paymentService = new PaymentService();
+        this.bookingService = new BookingService();
+        this.paymentBackground = 'white';
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
@@ -292,7 +288,9 @@ export class IrPaymentDetails {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "paymentActions": {
                 "type": "unknown",
@@ -313,7 +311,9 @@ export class IrPaymentDetails {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

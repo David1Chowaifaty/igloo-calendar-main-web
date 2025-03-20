@@ -70,7 +70,6 @@ class ChannelService {
 }
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
-const IrChannelEditorStyle0 = irChannelEditorCss;
 
 const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor extends HTMLElement {
     constructor() {
@@ -80,9 +79,7 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.toast = createEvent(this, "toast", 7);
         var _a, _b, _c;
-        this.channelService = new ChannelService();
         this.channel_status = null;
-        this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
         this.status = false;
@@ -96,6 +93,7 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
             { id: 'channel_booking', name: (_c = locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_ChannelBooking, disabled: true },
         ];
         this.selectedRoomType = [];
+        this.channelService = new ChannelService();
     }
     componentWillLoad() {
         if (this.channel_status === 'edit') {
@@ -163,7 +161,7 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
                 this.saveConnectedChannel();
             }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
     }
-    static get style() { return IrChannelEditorStyle0; }
+    static get style() { return irChannelEditorCss; }
 }, [2, "ir-channel-editor", {
         "channel_status": [1],
         "ticket": [1],
@@ -223,5 +221,6 @@ function defineCustomElement() {
 }
 
 export { ChannelService as C, IrChannelEditor as I, defineCustomElement as d };
+//# sourceMappingURL=ir-channel-editor2.js.map
 
 //# sourceMappingURL=ir-channel-editor2.js.map

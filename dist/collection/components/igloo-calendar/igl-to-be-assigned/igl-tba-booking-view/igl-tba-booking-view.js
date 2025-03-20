@@ -5,19 +5,14 @@ import locales from "../../../../stores/locales.store";
 import { canCheckIn } from "../../../../utils/utils";
 export class IglTbaBookingView {
     constructor() {
-        this.highlightSection = false;
-        this.allRoomsList = [];
-        this.toBeAssignedService = new ToBeAssignedService();
-        this.calendarData = undefined;
-        this.selectedDate = undefined;
         this.eventData = {};
         this.categoriesData = {};
-        this.categoryId = undefined;
-        this.categoryIndex = undefined;
-        this.eventIndex = undefined;
         this.renderAgain = false;
         this.selectedRoom = -1;
         this.isLoading = null;
+        this.highlightSection = false;
+        this.allRoomsList = [];
+        this.toBeAssignedService = new ToBeAssignedService();
     }
     componentShouldUpdate(newValue, oldValue, propName) {
         if (propName === 'selectedDate' && newValue !== oldValue) {
@@ -194,7 +189,9 @@ export class IglTbaBookingView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "selectedDate": {
                 "type": "any",
@@ -210,6 +207,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "selected-date",
                 "reflect": false
             },
@@ -227,6 +226,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{}"
             },
             "categoriesData": {
@@ -243,6 +244,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "{}"
             },
             "categoryId": {
@@ -259,6 +262,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "category-id",
                 "reflect": false
             },
@@ -276,6 +281,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "category-index",
                 "reflect": false
             },
@@ -293,6 +300,8 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "event-index",
                 "reflect": false
             }

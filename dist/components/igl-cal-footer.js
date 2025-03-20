@@ -4,5 +4,6 @@ const IglCalFooter = IglCalFooter$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglCalFooter, defineCustomElement };
+//# sourceMappingURL=igl-cal-footer.js.map
 
 //# sourceMappingURL=igl-cal-footer.js.map

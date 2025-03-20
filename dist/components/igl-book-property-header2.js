@@ -12,7 +12,6 @@ import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
 const iglBookPropertyHeaderCss = ".sc-igl-book-property-header-h{display:block}.sourceContainer.sc-igl-book-property-header{max-width:350px}.message-label.sc-igl-book-property-header{font-size:80%}";
-const IglBookPropertyHeaderStyle0 = iglBookPropertyHeaderCss;
 
 const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookPropertyHeader extends HTMLElement {
     constructor() {
@@ -27,6 +26,10 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
         this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
+        this.splitBookingId = '';
+        this.bookingData = '';
+        this.sourceOptions = [];
+        this.showSplitBookingOption = false;
         this.sourceOption = {
             code: '',
             description: '',
@@ -34,20 +37,6 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             id: '',
             type: '',
         };
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.minDate = undefined;
-        this.sourceOptions = [];
-        this.message = undefined;
-        this.bookingDataDefaultDateRange = undefined;
-        this.showSplitBookingOption = false;
-        this.adultChildConstraints = undefined;
-        this.splitBookings = undefined;
-        this.adultChildCount = undefined;
-        this.dateRangeData = undefined;
-        this.bookedByInfoData = undefined;
-        this.defaultDaterange = undefined;
-        this.propertyId = undefined;
     }
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
@@ -153,7 +142,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
         return (h(Host, { key: '8a493acd5162c153bf1bb75c08113952db1f21a4' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: '1d85800c0e2f7527c8498b258678dc82dfa8deed', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'b51396939774c316305b0f0ff7b41c75aa3adbf5', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: '78bdf78a5066582d1d0b8c81dd3396ead4b6e611', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '062c9d04f0e9692a52da6f4a96c7503ecb7847f2', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
-    static get style() { return IglBookPropertyHeaderStyle0; }
+    static get style() { return iglBookPropertyHeaderCss; }
 }, [2, "igl-book-property-header", {
         "splitBookingId": [8, "split-booking-id"],
         "bookingData": [8, "booking-data"],
@@ -215,5 +204,6 @@ function defineCustomElement() {
 }
 
 export { IglBookPropertyHeader as I, defineCustomElement as d };
+//# sourceMappingURL=igl-book-property-header2.js.map
 
 //# sourceMappingURL=igl-book-property-header2.js.map

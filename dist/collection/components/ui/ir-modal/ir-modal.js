@@ -3,7 +3,6 @@ export class IrModal {
     constructor() {
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
-        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
@@ -79,6 +78,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "modal-title",
                 "reflect": false,
                 "defaultValue": "'Modal Title'"
@@ -97,6 +98,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "modal-body",
                 "reflect": false,
                 "defaultValue": "'Modal Body'"
@@ -115,6 +118,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-title",
                 "reflect": false
             },
@@ -132,6 +137,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "right-btn-active",
                 "reflect": false,
                 "defaultValue": "true"
@@ -150,6 +157,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "left-btn-active",
                 "reflect": false,
                 "defaultValue": "true"
@@ -168,6 +177,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "right-btn-text",
                 "reflect": false,
                 "defaultValue": "'Confirm'"
@@ -186,6 +197,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "left-btn-text",
                 "reflect": false,
                 "defaultValue": "'Close'"
@@ -204,6 +217,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-loading",
                 "reflect": false,
                 "defaultValue": "false"
@@ -222,6 +237,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-close",
                 "reflect": false,
                 "defaultValue": "true"
@@ -240,6 +257,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "right-btn-color",
                 "reflect": false,
                 "defaultValue": "'primary'"
@@ -258,6 +277,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "left-btn-color",
                 "reflect": false,
                 "defaultValue": "'secondary'"
@@ -276,6 +297,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "btn-position",
                 "reflect": false,
                 "defaultValue": "'right'"
@@ -294,6 +317,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon-available",
                 "reflect": false,
                 "defaultValue": "false"
@@ -312,6 +337,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "icon",
                 "reflect": false,
                 "defaultValue": "''"
@@ -330,6 +357,8 @@ export class IrModal {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "item",
                 "reflect": false,
                 "defaultValue": "{}"

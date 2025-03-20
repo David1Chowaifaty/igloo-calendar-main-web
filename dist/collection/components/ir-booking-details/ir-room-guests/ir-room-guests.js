@@ -8,21 +8,26 @@ import { BookingService } from "../../../services/booking.service";
 import { ZodError } from "zod";
 export class IrRoomGuests {
     constructor() {
-        this.bookingService = new BookingService();
-        this.roomName = undefined;
-        this.identifier = undefined;
+        /**
+         * An array of people sharing the room.
+         * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+         */
         this.sharedPersons = [];
+        /**
+         * The total number of guests for the room.
+         * Determines how many guest input forms to display in the UI.
+         */
         this.totalGuests = 0;
-        this.countries = undefined;
-        this.checkIn = undefined;
+        /**
+         * The language used for displaying text content in the component.
+         * Defaults to English ('en'), but can be set to other supported languages.
+         */
         this.language = 'en';
-        this.bookingNumber = undefined;
         this.guests = [];
         this.idTypes = [];
         this.error = {};
-        this.isLoading = undefined;
-        this.propertyCountry = undefined;
         this.autoValidate = false;
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.init();
@@ -153,6 +158,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "The name of the room currently being displayed.\r\nUsed to label the room in the user interface for clarity."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "room-name",
                 "reflect": false
             },
@@ -170,6 +177,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "A unique identifier for the room.\r\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "identifier",
                 "reflect": false
             },
@@ -193,6 +202,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "An array of people sharing the room.\r\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "totalGuests": {
@@ -209,6 +220,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "The total number of guests for the room.\r\nDetermines how many guest input forms to display in the UI."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "total-guests",
                 "reflect": false,
                 "defaultValue": "0"
@@ -232,7 +245,9 @@ export class IrRoomGuests {
                 "docs": {
                     "tags": [],
                     "text": "A list of available countries.\r\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "checkIn": {
                 "type": "boolean",
@@ -248,6 +263,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "A boolean indicating whether the room is in the process of being checked in.\r\nIf true, additional actions like saving the room state as \"checked in\" are performed."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "check-in",
                 "reflect": false
             },
@@ -265,6 +282,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "The language used for displaying text content in the component.\r\nDefaults to English ('en'), but can be set to other supported languages."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -283,6 +302,8 @@ export class IrRoomGuests {
                     "tags": [],
                     "text": "A unique booking number associated with the room.\r\nThis is used for backend operations like saving guest information or checking in the room."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             }

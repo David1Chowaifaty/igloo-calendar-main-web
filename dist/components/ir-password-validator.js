@@ -4,5 +4,6 @@ const IrPasswordValidator = IrPasswordValidator$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPasswordValidator, defineCustomElement };
+//# sourceMappingURL=ir-password-validator.js.map
 
 //# sourceMappingURL=ir-password-validator.js.map

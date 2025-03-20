@@ -26,13 +26,12 @@ function buildToolbar(config) {
 }
 export class IrTextEditor {
     constructor() {
-        this.error = undefined;
-        this.maxLength = undefined;
+        /** Initial HTML content */
         this.value = '';
+        /** If true, makes the editor read-only */
         this.readOnly = false;
+        /** Determines if the current user can edit the content */
         this.userCanEdit = true;
-        this.placeholder = undefined;
-        this.toolbarConfig = undefined;
         this.editorValue = '';
     }
     componentDidLoad() {
@@ -182,6 +181,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false
             },
@@ -199,6 +200,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-length",
                 "reflect": false
             },
@@ -216,6 +219,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": "Initial HTML content"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false,
                 "defaultValue": "''"
@@ -234,6 +239,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": "If true, makes the editor read-only"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "read-only",
                 "reflect": false,
                 "defaultValue": "false"
@@ -252,6 +259,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": "Determines if the current user can edit the content"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "user-can-edit",
                 "reflect": false,
                 "defaultValue": "true"
@@ -270,6 +279,8 @@ export class IrTextEditor {
                     "tags": [],
                     "text": "Placeholder text"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -292,7 +303,9 @@ export class IrTextEditor {
                 "docs": {
                     "tags": [],
                     "text": "Type-safe toolbar configuration.\r\nFor example, you can pass:\r\n\r\n{\r\n  bold: true,\r\n  italic: true,\r\n  underline: true,\r\n  strike: false,\r\n  link: true,\r\n  clean: true\r\n}"
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

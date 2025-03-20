@@ -4,5 +4,6 @@ const IglBookPropertyHeader = IglBookPropertyHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBookPropertyHeader, defineCustomElement };
+//# sourceMappingURL=igl-book-property-header.js.map
 
 //# sourceMappingURL=igl-book-property-header.js.map

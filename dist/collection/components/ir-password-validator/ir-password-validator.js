@@ -1,6 +1,9 @@
 import { h } from "@stencil/core";
 export class IrPasswordValidator {
     constructor() {
+        /**
+         * The password string to validate
+         */
         this.password = '';
     }
     get validLength() {
@@ -64,6 +67,8 @@ export class IrPasswordValidator {
                     "tags": [],
                     "text": "The password string to validate"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "password",
                 "reflect": false,
                 "defaultValue": "''"

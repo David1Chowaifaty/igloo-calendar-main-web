@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 
 const irTextareaCss = ".prepend-textarea.sc-ir-textarea{padding:0 !important}.ta-prepend-text.sc-ir-textarea{width:100%}";
-const IrTextareaStyle0 = irTextareaCss;
 
 const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTMLElement {
     constructor() {
@@ -15,11 +14,8 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = 250;
-        this.textareaClassname = undefined;
         this.variant = 'default';
         this.labelWidth = 3;
-        this.styles = undefined;
-        this.testId = undefined;
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -36,7 +32,7 @@ const IrTextArea = /*@__PURE__*/ proxyCustomElement(class IrTextArea extends HTM
     static get watchers() { return {
         "aria-invalid": ["handleAriaInvalidChange"]
     }; }
-    static get style() { return IrTextareaStyle0; }
+    static get style() { return irTextareaCss; }
 }, [2, "ir-textarea", {
         "rows": [2],
         "cols": [2],
@@ -69,5 +65,6 @@ function defineCustomElement() {
 }
 
 export { IrTextArea as I, defineCustomElement as d };
+//# sourceMappingURL=ir-textarea2.js.map
 
 //# sourceMappingURL=ir-textarea2.js.map

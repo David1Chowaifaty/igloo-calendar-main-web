@@ -4,11 +4,8 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrDateView {
     constructor() {
-        this.from_date = undefined;
-        this.to_date = undefined;
         this.showDateDifference = true;
         this.dateOption = 'YYYY-MM-DD';
-        this.dates = undefined;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -92,6 +89,8 @@ export class IrDateView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from_date",
                 "reflect": false
             },
@@ -118,6 +117,8 @@ export class IrDateView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to_date",
                 "reflect": false
             },
@@ -135,6 +136,8 @@ export class IrDateView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-date-difference",
                 "reflect": false,
                 "defaultValue": "true"
@@ -153,6 +156,8 @@ export class IrDateView {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "date-option",
                 "reflect": false,
                 "defaultValue": "'YYYY-MM-DD'"

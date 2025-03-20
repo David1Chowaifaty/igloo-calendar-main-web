@@ -3,7 +3,6 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const irTasksHeaderCss = ".sc-ir-tasks-header-h{display:block}";
-const IrTasksHeaderStyle0 = irTasksHeaderCss;
 
 const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader extends HTMLElement {
     constructor() {
@@ -32,7 +31,7 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
                 this.headerButtonPress.emit({ name: 'cleaned' });
             }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
     }
-    static get style() { return IrTasksHeaderStyle0; }
+    static get style() { return irTasksHeaderCss; }
 }, [2, "ir-tasks-header", {
         "isCleanedEnabled": [4, "is-cleaned-enabled"]
     }, [[16, "animateCleanedButton", "handleCleanedButtonAnimation"]]]);
@@ -61,5 +60,6 @@ function defineCustomElement() {
 }
 
 export { IrTasksHeader as I, defineCustomElement as d };
+//# sourceMappingURL=ir-tasks-header2.js.map
 
 //# sourceMappingURL=ir-tasks-header2.js.map

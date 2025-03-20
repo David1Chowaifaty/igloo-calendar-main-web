@@ -1,8 +1,5 @@
 import { h } from "@stencil/core";
 export class IrOtaService {
-    constructor() {
-        this.service = undefined;
-    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;
         return (h("div", { key: '1741f2dfb779c09c9936676b44ac3976dc29e578', class: "p-1" }, h("div", { key: '3dc758711e779642be432bef70d49027d8acc419', class: "m-0 p-0 d-flex align-items-center justify-content-between" }, h("p", { key: '15423dcc139dbbe025fa1799e4caff12d8d3043b', class: "m-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("b", { key: '6d0733e8d76b94c96ef1c13efe46a4b7dc23fa96' }, this.service.name), h("span", { key: 'b92a12ca5ed7e305e4db7ee91da6219048d8673a', class: "p-0 m-0" }, (_b = (_a = this.service) === null || _a === void 0 ? void 0 : _a.persons) === null || _b === void 0 ? void 0 :
@@ -42,7 +39,9 @@ export class IrOtaService {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

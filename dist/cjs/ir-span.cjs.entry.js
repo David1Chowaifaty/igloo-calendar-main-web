@@ -1,13 +1,10 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
+var index = require('./index-Dt9a74kn.js');
 
 const IrSpan = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.text = undefined;
     }
     connectedCallback() { }
     disconnectedCallback() { }
@@ -17,5 +14,6 @@ const IrSpan = class {
 };
 
 exports.ir_span = IrSpan;
+//# sourceMappingURL=ir-span.entry.cjs.js.map
 
 //# sourceMappingURL=ir-span.cjs.entry.js.map

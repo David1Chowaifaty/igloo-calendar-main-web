@@ -6,8 +6,8 @@ const IrCheckBoxes = /*@__PURE__*/ proxyCustomElement(class IrCheckBoxes extends
         super();
         this.__registerHost();
         this.checkboxesChange = createEvent(this, "checkboxesChange", 7);
-        this.checkedCheckboxes = [];
         this.checkboxes = [];
+        this.checkedCheckboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {
@@ -53,5 +53,6 @@ const IrCheckboxes = IrCheckBoxes;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrCheckboxes, defineCustomElement };
+//# sourceMappingURL=ir-checkboxes.js.map
 
 //# sourceMappingURL=ir-checkboxes.js.map

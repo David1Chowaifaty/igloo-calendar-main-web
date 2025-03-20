@@ -1,11 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { c as channels_data, t as testConnection, a as selectChannel, u as updateChannelSettings } from './channel.store.js';
+import { c as channels_data, t as testConnection, s as selectChannel, u as updateChannelSettings } from './channel.store.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$2 } from './ir-combobox2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const irChannelGeneralCss = ".sc-ir-channel-general-h{display:block}.label-style.sc-ir-channel-general{width:6.25rem;text-align:end;padding-right:0.625rem !important}.connection-status.sc-ir-channel-general{display:flex;align-items:center;justify-content:space-between;margin-top:0.625rem !important}.connection-title.sc-ir-channel-general{border-bottom:1px solid #e4e5ec}.ml-18.sc-ir-channel-general{margin-left:18% !important}.status-message.sc-ir-channel-general{display:flex;align-items:center;gap:0.3125rem;font-size:0.81rem;margin:0;padding:0}";
-const IrChannelGeneralStyle0 = irChannelGeneralCss;
 
 const IrChannelGeneral = /*@__PURE__*/ proxyCustomElement(class IrChannelGeneral extends HTMLElement {
     constructor() {
@@ -54,7 +53,7 @@ const IrChannelGeneral = /*@__PURE__*/ proxyCustomElement(class IrChannelGeneral
             class: `form-control  flex-fill bg-white ${this.buttonClicked && !((_g = channels_data.channel_settings) === null || _g === void 0 ? void 0 : _g.hotel_id) && 'border-danger'}`, value: (_h = channels_data.channel_settings) === null || _h === void 0 ? void 0 : _h.hotel_id, onInput: e => updateChannelSettings('hotel_id', e.target.value) }))), h("div", { key: 'ebf8b78fc5d1a61fc5b1886ff3a47560970ce829', class: "connection-status" }, h("div", { key: '82cdaccef64c7916b7528d9f7c621565e614e538', class: "status-message" }, this.connection_status_message &&
             (this.status ? h("ir-icons", { name: "circle_check", style: { color: 'green' } }) : h("ir-icons", { name: "danger", style: { color: 'yellow' } })), h("span", { key: 'ffe8e540b454bc9129315bfeecd07b8a58cc7d96' }, this.connection_status_message)), h("button", { key: '682f75f928875e3e1a2d22fca513affa15c3ea2b', class: "btn btn-outline-secondary btn-sm", type: "submit" }, (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_TestConnection)))))));
     }
-    static get style() { return IrChannelGeneralStyle0; }
+    static get style() { return irChannelGeneralCss; }
 }, [2, "ir-channel-general", {
         "channel_status": [1],
         "buttonClicked": [32],
@@ -86,5 +85,6 @@ function defineCustomElement() {
 }
 
 export { IrChannelGeneral as I, defineCustomElement as d };
+//# sourceMappingURL=ir-channel-general2.js.map
 
 //# sourceMappingURL=ir-channel-general2.js.map

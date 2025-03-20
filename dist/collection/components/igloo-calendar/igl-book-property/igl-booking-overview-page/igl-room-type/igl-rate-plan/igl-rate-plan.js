@@ -4,14 +4,9 @@ import locales from "../../../../../../stores/locales.store";
 import booking_store, { reserveRooms, updateRoomParams } from "../../../../../../stores/booking.store";
 export class IglRatePlan {
     constructor() {
-        this.ratePlan = undefined;
-        this.roomTypeId = undefined;
         this.ratePricingMode = [];
-        this.currency = undefined;
-        this.shouldBeDisabled = undefined;
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
-        this.visibleInventory = undefined;
     }
     // Determine if the form inputs should be disabled
     disableForm() {
@@ -219,7 +214,9 @@ export class IglRatePlan {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "roomTypeId": {
                 "type": "number",
@@ -235,6 +232,8 @@ export class IglRatePlan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "room-type-id",
                 "reflect": false
             },
@@ -257,6 +256,8 @@ export class IglRatePlan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "currency": {
@@ -272,7 +273,9 @@ export class IglRatePlan {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "shouldBeDisabled": {
                 "type": "boolean",
@@ -288,6 +291,8 @@ export class IglRatePlan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "should-be-disabled",
                 "reflect": false
             },
@@ -305,6 +310,8 @@ export class IglRatePlan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-type",
                 "reflect": false,
                 "defaultValue": "'PLUS_BOOKING'"
@@ -323,6 +330,8 @@ export class IglRatePlan {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-book-disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -346,7 +355,9 @@ export class IglRatePlan {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

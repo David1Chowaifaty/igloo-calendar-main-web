@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { u as getPrivateNote, f as formatAmount } from './utils.js';
+import { j as getPrivateNote, l as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
 import { T as Token } from './Token.js';
@@ -64,12 +64,20 @@ import { d as defineCustomElement$3 } from './ir-tooltip2.js';
 import { d as defineCustomElement$2 } from './ota-label2.js';
 
 const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.room-service.sc-ir-booking-listing{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%;padding:0.25rem 0}.room-name-container.sc-ir-booking-listing{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.booking_guest_name.sc-ir-booking-listing{width:fit-content;padding:0 !important;margin:0}.booking_guest_name.sc-ir-booking-listing .button-text.sc-ir-booking-listing{padding:0 !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
-const IrBookingListingStyle0 = irBookingListingCss;
 
 const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListing extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
+        this.language = '';
+        this.ticket = '';
+        this.rowCount = 10;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
         this.token = new Token();
@@ -79,17 +87,6 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
             '003': 'badge-danger',
             '004': 'badge-danger',
         };
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.rowCount = 10;
-        this.p = undefined;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
     }
     componentWillLoad() {
         updateUserSelection('end_row', this.rowCount);
@@ -257,7 +254,7 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrBookingListingStyle0; }
+    static get style() { return irBookingListingCss; }
 }, [2, "ir-booking-listing", {
         "language": [1],
         "ticket": [1],
@@ -566,5 +563,6 @@ const IrBookingListing = IrBookingListing$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrBookingListing, defineCustomElement };
+//# sourceMappingURL=ir-booking-listing.js.map
 
 //# sourceMappingURL=ir-booking-listing.js.map

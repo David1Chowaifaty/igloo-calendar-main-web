@@ -4,5 +4,6 @@ const IglLegends = IglLegends$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglLegends, defineCustomElement };
+//# sourceMappingURL=igl-legends.js.map
 
 //# sourceMappingURL=igl-legends.js.map

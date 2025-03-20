@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { e as extras, g as getMyBookings, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
+import { e as extras, g as getMyBookings, c as convertDateToTime, b as convertDateToCustomFormat, d as dateToFormattedString } from './utils.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 
@@ -514,5 +514,6 @@ class BookingService {
 }
 
 export { BookingService as B };
+//# sourceMappingURL=booking.service.js.map
 
 //# sourceMappingURL=booking.service.js.map

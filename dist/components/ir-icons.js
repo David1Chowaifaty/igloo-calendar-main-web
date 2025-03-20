@@ -4,5 +4,6 @@ const IrIcons = IrIcons$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrIcons, defineCustomElement };
+//# sourceMappingURL=ir-icons.js.map
 
 //# sourceMappingURL=ir-icons.js.map

@@ -8,18 +8,10 @@ import { formatAmount } from "../../../utils/utils";
 import { BookingService } from "../../../services/booking.service";
 export class IrRoom {
     constructor() {
-        this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.bookingIndex = undefined;
-        this.isEditable = undefined;
-        this.room = undefined;
-        this.mealCodeName = undefined;
-        this.myRoomTypeFoodCat = undefined;
+        // Currency
         this.currency = 'USD';
         this.language = 'en';
-        this.legendData = undefined;
-        this.roomsInfo = undefined;
-        this.bedPreferences = undefined;
+        // Booleans Conditions
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -28,8 +20,8 @@ export class IrRoom {
         this.collapsed = false;
         this.isLoading = false;
         this.modalReason = null;
-        this.mainGuest = undefined;
         this.isModelOpen = false;
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.mainGuest = this.getMainGuest();
@@ -318,7 +310,9 @@ export class IrRoom {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "bookingIndex": {
                 "type": "number",
@@ -334,6 +328,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-index",
                 "reflect": false
             },
@@ -351,6 +347,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-editable",
                 "reflect": false
             },
@@ -373,7 +371,9 @@ export class IrRoom {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "mealCodeName": {
                 "type": "string",
@@ -389,6 +389,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "meal-code-name",
                 "reflect": false
             },
@@ -406,6 +408,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "my-room-type-food-cat",
                 "reflect": false
             },
@@ -423,6 +427,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency",
                 "reflect": false,
                 "defaultValue": "'USD'"
@@ -441,6 +447,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -459,6 +467,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "legend-data",
                 "reflect": false
             },
@@ -476,6 +486,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "rooms-info",
                 "reflect": false
             },
@@ -498,7 +510,9 @@ export class IrRoom {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "hasRoomEdit": {
                 "type": "boolean",
@@ -514,6 +528,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-room-edit",
                 "reflect": false,
                 "defaultValue": "false"
@@ -532,6 +548,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-room-delete",
                 "reflect": false,
                 "defaultValue": "false"
@@ -550,6 +568,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-room-add",
                 "reflect": false,
                 "defaultValue": "false"
@@ -568,6 +588,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-check-in",
                 "reflect": false,
                 "defaultValue": "false"
@@ -586,6 +608,8 @@ export class IrRoom {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-check-out",
                 "reflect": false,
                 "defaultValue": "false"

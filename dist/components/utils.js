@@ -1,5 +1,5 @@
 import { h as hooks } from './moment.js';
-import { z } from './index3.js';
+import { l as libExports } from './index3.js';
 import { c as calendar_data } from './calendar-data.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
@@ -11,7 +11,7 @@ const initialState = {
     fromDate: '',
     toDate: '',
 };
-const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
+const { state: calendar_dates} = createStore(initialState);
 
 async function getMyBookings(months) {
     const myBookings = [];
@@ -489,7 +489,7 @@ function validateEmail(email) {
     if (email === '') {
         return true;
     }
-    const parsedEmailResults = z.string().email().safeParse(email);
+    const parsedEmailResults = libExports.z.string().email().safeParse(email);
     return !parsedEmailResults.success;
 }
 function formatAmount(currency, amount) {
@@ -566,6 +566,7 @@ function canCheckIn({ from_date, to_date, isCheckedIn }) {
     return false;
 }
 
-export { renderTime as A, formatName as B, getDaysArray as C, convertDatePrice as D, formatDate as E, checkUserAuthState as F, manageAnchorSession as G, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, getReleaseHoursString as h, isBlockUnit as i, findCountry as j, canCheckIn as k, compareTime as l, createDateWithOffsetAndHour as m, calendar_dates as n, dateDifference as o, formatLegendColors as p, getRoomStatus as q, transformNewBLockedRooms as r, bookingStatus as s, transformNewBooking as t, getPrivateNote as u, validateEmail as v, getNextDay as w, addTwoMonthToDate as x, convertDMYToISO as y, computeEndDate as z };
+export { getRoomStatus as A, transformNewBLockedRooms as B, bookingStatus as C, getNextDay as D, addTwoMonthToDate as E, computeEndDate as F, convertDMYToISO as G, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, canCheckIn as h, isBlockUnit as i, getPrivateNote as j, calculateDaysBetweenDates as k, formatAmount as l, formatName as m, getDaysArray as n, convertDatePrice as o, formatDate as p, getReleaseHoursString as q, findCountry as r, compareTime as s, transformNewBooking as t, createDateWithOffsetAndHour as u, validateEmail as v, checkUserAuthState as w, manageAnchorSession as x, renderTime as y, formatLegendColors as z };
+//# sourceMappingURL=utils.js.map
 
 //# sourceMappingURL=utils.js.map

@@ -1,36 +1,29 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-2ef79026.js';
-import { T as Token } from './Token-1cce2f6d.js';
-import { B as BookingService } from './booking.service-888c5833.js';
-import { R as RoomService } from './room.service-5eccb4f4.js';
-import { l as locales } from './locales.store-b3d58c68.js';
-import './axios-2aba0cfc.js';
-import './utils-41400f8e.js';
-import './moment-ab846cee.js';
-import './index-b6ec889a.js';
-import './calendar-data-707a10db.js';
-import './index-5395b195.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-jhiFt_tX.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { B as BookingService } from './booking.service-DlYLJvbd.js';
+import { R as RoomService } from './room.service-CheK7apf.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
+import './utils-DvgsFSip.js';
+import './moment-Mki5YqAR.js';
+import './index-DeW5X45W.js';
+import './calendar-data-D2MMPhx6.js';
+import './index-C7eXIDl2.js';
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
-const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
 
 const IglBookPropertyContainer = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.resetBookingData = createEvent(this, "resetBookingData", 7);
+        this.resetBookingData = createEvent(this, "resetBookingData");
+        this.language = '';
+        this.ticket = '';
+        this.withIrToastAndInterceptor = true;
+        this.calendarData = {};
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
-        this.language = '';
-        this.ticket = '';
-        this.p = undefined;
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.withIrToastAndInterceptor = true;
-        this.bookingItem = undefined;
-        this.showPaymentDetails = undefined;
-        this.countries = undefined;
-        this.calendarData = {};
     }
     setRoomsData(roomServiceResp) {
         var _a, _b;
@@ -118,8 +111,9 @@ const IglBookPropertyContainer = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IglBookPropertyContainer.style = IglBookPropertyContainerStyle0;
+IglBookPropertyContainer.style = iglBookPropertyContainerCss;
 
 export { IglBookPropertyContainer as igl_book_property_container };
+//# sourceMappingURL=igl-book-property-container.entry.js.map
 
 //# sourceMappingURL=igl-book-property-container.entry.js.map

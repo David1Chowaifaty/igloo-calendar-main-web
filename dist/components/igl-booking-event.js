@@ -4,5 +4,6 @@ const IglBookingEvent = IglBookingEvent$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBookingEvent, defineCustomElement };
+//# sourceMappingURL=igl-booking-event.js.map
 
 //# sourceMappingURL=igl-booking-event.js.map

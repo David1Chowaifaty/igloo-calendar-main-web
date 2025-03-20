@@ -8,12 +8,6 @@ import { _formatDate } from "../../functions";
 export class IrExtraServiceConfig {
     constructor() {
         this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.service = undefined;
-        this.s_service = undefined;
-        this.error = undefined;
-        this.fromDateClicked = undefined;
-        this.toDateClicked = undefined;
     }
     // private d1: HTMLDivElement;
     // private d1_0: HTMLDivElement;
@@ -148,7 +142,9 @@ export class IrExtraServiceConfig {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "service": {
                 "type": "unknown",
@@ -169,7 +165,9 @@ export class IrExtraServiceConfig {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -1,45 +1,37 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
-const Token = require('./Token-b49ba031.js');
-const housekeeping_service = require('./housekeeping.service-9317004f.js');
-const room_service = require('./room.service-d1c4a756.js');
-const irInterceptor_store = require('./ir-interceptor.store-f1d56830.js');
-const locales_store = require('./locales.store-6a07d85d.js');
-const moment = require('./moment-1780b03a.js');
-const v4 = require('./v4-9b297151.js');
-const calendarData = require('./calendar-data-2c2bb35f.js');
-require('./axios-bc0bd15c.js');
-require('./index-4337b3d3.js');
+var index = require('./index-Dt9a74kn.js');
+var Token = require('./Token-BY5U68ai.js');
+var housekeeping_service = require('./housekeeping.service-Cv3FpQZ1.js');
+var room_service = require('./room.service-DC3utEzM.js');
+var irInterceptor_store = require('./ir-interceptor.store-CcYE4FKe.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+var moment = require('./moment-CdViwxPQ.js');
+var v4 = require('./v4-Bq3ldsQe.js');
+var calendarData = require('./calendar-data-CC4kt7DA.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
+require('./index-PIkoJJtF.js');
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
-const IrHkTasksStyle0 = irHkTasksCss;
 
 const IrHkTasks = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.clearSelectedHkTasks = index.createEvent(this, "clearSelectedHkTasks", 7);
-        this.hkNameCache = {};
-        this.roomService = new room_service.RoomService();
-        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
-        this.token = new Token.Token();
+        this.clearSelectedHkTasks = index.createEvent(this, "clearSelectedHkTasks");
         this.language = '';
         this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
-        this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
-        this.isSidebarOpen = undefined;
-        this.isApplyFiltersLoading = undefined;
-        this.filters = undefined;
+        this.hkNameCache = {};
+        this.roomService = new room_service.RoomService();
+        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
+        this.token = new Token.Token();
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -214,23 +206,20 @@ const IrHkTasks = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrHkTasks.style = IrHkTasksStyle0;
+IrHkTasks.style = irHkTasksCss;
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
-const IrHousekeepingStyle0 = irHousekeepingCss;
 
 const IrHousekeeping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.toast = index.createEvent(this, "toast", 7);
+        this.toast = index.createEvent(this, "toast");
+        this.language = '';
+        this.ticket = '';
+        this.isLoading = false;
         this.roomService = new room_service.RoomService();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.token = new Token.Token();
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.isLoading = false;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -315,9 +304,10 @@ const IrHousekeeping = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrHousekeeping.style = IrHousekeepingStyle0;
+IrHousekeeping.style = irHousekeepingCss;
 
 exports.ir_hk_tasks = IrHkTasks;
 exports.ir_housekeeping = IrHousekeeping;
+//# sourceMappingURL=ir-hk-tasks.ir-housekeeping.entry.cjs.js.map
 
 //# sourceMappingURL=ir-hk-tasks_2.cjs.entry.js.map

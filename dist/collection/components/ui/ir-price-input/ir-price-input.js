@@ -3,6 +3,14 @@ import { v4 } from "uuid";
 import IMask from "imask";
 export class IrPriceInput {
     constructor() {
+        /** The AutoValidate for the input, optional */
+        this.autoValidate = true;
+        /** Placeholder text for the input */
+        this.placeholder = '';
+        /** Initial value for the input */
+        this.value = '';
+        /** Whether the input is required */
+        this.required = false;
         this.opts = {
             mask: Number,
             scale: 2,
@@ -35,21 +43,6 @@ export class IrPriceInput {
             // Emit the focus event
             this.inputFocus.emit();
         };
-        this.label = undefined;
-        this.inputStyle = undefined;
-        this.labelStyle = undefined;
-        this.disabled = undefined;
-        this.currency = undefined;
-        this.autoValidate = true;
-        this.wrapKey = undefined;
-        this.zod = undefined;
-        this.placeholder = '';
-        this.value = '';
-        this.required = false;
-        this.minValue = undefined;
-        this.maxValue = undefined;
-        this.testId = undefined;
-        this.error = undefined;
     }
     componentWillLoad() {
         if (this.el.id) {
@@ -150,6 +143,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The label for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -167,6 +162,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Extra classnames for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "input-style",
                 "reflect": false
             },
@@ -184,6 +181,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Extra classnames for the label, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label-style",
                 "reflect": false
             },
@@ -201,6 +200,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The disabled for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false
             },
@@ -218,6 +219,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The Currency for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -235,6 +238,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "The AutoValidate for the input, optional"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-validate",
                 "reflect": false,
                 "defaultValue": "true"
@@ -253,6 +258,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Indicates the key to wrap the value (e.g., 'price' or 'cost')"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "wrap-key",
                 "reflect": false
             },
@@ -266,7 +273,7 @@ export class IrPriceInput {
                         "ZodType": {
                             "location": "import",
                             "path": "zod",
-                            "id": ""
+                            "id": "node_modules::ZodType"
                         }
                     }
                 },
@@ -275,7 +282,9 @@ export class IrPriceInput {
                 "docs": {
                     "tags": [],
                     "text": "A Zod schema for validating the input\r\nExample: z.coerce.number()"
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "placeholder": {
                 "type": "string",
@@ -291,6 +300,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Placeholder text for the input"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false,
                 "defaultValue": "''"
@@ -309,6 +320,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Initial value for the input"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "value",
                 "reflect": false,
                 "defaultValue": "''"
@@ -327,6 +340,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Whether the input is required"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "required",
                 "reflect": false,
                 "defaultValue": "false"
@@ -345,6 +360,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Minimum value for the price"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-value",
                 "reflect": false
             },
@@ -362,6 +379,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Maximum value for the price"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-value",
                 "reflect": false
             },
@@ -379,6 +398,8 @@ export class IrPriceInput {
                     "tags": [],
                     "text": "Unique id for testing"
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             }

@@ -4,5 +4,6 @@ const IrHkUnassignedUnits = IrHkUnassignedUnits$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHkUnassignedUnits, defineCustomElement };
+//# sourceMappingURL=ir-hk-unassigned-units.js.map
 
 //# sourceMappingURL=ir-hk-unassigned-units.js.map

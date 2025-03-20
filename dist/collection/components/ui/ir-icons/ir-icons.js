@@ -1,11 +1,6 @@
 import { h } from "@stencil/core";
 import icons from "./icons";
 export class IrIcons {
-    constructor() {
-        this.name = undefined;
-        this.svgClassName = undefined;
-        this.color = undefined;
-    }
     render() {
         const svgPath = icons[this.name] || null;
         if (!svgPath) {
@@ -32,7 +27,7 @@ export class IrIcons {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"calendar\" | \"note\" | \"user\" | \"file\" | \"server\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\"",
+                    "resolved": "\"print\" | \"key\" | \"search\" | \"save\" | \"check\" | \"calendar\" | \"note\" | \"user\" | \"danger\" | \"clock\" | \"heart-fill\" | \"envelope-circle-check\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"heart\" | \"user_group\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -47,6 +42,8 @@ export class IrIcons {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -64,6 +61,8 @@ export class IrIcons {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "svg-class-name",
                 "reflect": false
             },
@@ -81,6 +80,8 @@ export class IrIcons {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "color",
                 "reflect": false
             }

@@ -1,11 +1,10 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { z, Z as ZodError } from './index3.js';
+import { l as libExports } from './index3.js';
 import { d as defineCustomElement$2 } from './ir-input-text2.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
-const IrTestCmpStyle0 = irTestCmpCss;
 
-const userSchema = z.object({ password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
+const userSchema = libExports.z.object({ password: libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTMLElement {
     constructor() {
         super();
@@ -13,7 +12,6 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
         this.user = {
             password: '',
         };
-        this.error = undefined;
         this.autoValidate = false;
     }
     render() {
@@ -29,7 +27,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
                 }
                 catch (error) {
                     const er = {};
-                    if (error instanceof ZodError) {
+                    if (error instanceof libExports.ZodError) {
                         error.issues.forEach(e => {
                             er[e.path[0]] = true;
                         });
@@ -39,7 +37,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
                 }
             } }, h("ir-input-text", { key: 'c647d8c59338ae9ede1455e6ae2826a91087325d', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '987f7e8bdc78ea63e5a1aa205f457a6f28d8e88e' }, " ", this.user.password), " ", h("button", { key: '0ba45bda8efd56b312cf72d7d16566066a399ba0', class: 'btn btn-primary' }, "Submit"))));
     }
-    static get style() { return IrTestCmpStyle0; }
+    static get style() { return irTestCmpCss; }
 }, [2, "ir-test-cmp", {
         "user": [32],
         "error": [32],
@@ -68,5 +66,6 @@ const IrTestCmp = IrTestCmp$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTestCmp, defineCustomElement };
+//# sourceMappingURL=ir-test-cmp.js.map
 
 //# sourceMappingURL=ir-test-cmp.js.map

@@ -4,5 +4,6 @@ const IrSelect = IrSelect$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrSelect, defineCustomElement };
+//# sourceMappingURL=ir-select.js.map
 
 //# sourceMappingURL=ir-select.js.map

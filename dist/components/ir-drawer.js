@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 
 const irDrawerCss = ".app-drawer{position:fixed;top:0;left:0;width:100%;height:100%;visibility:hidden;z-index:1000}.app-drawer--open{visibility:visible}.app-drawer-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.5);opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.app-drawer--open .app-drawer-overlay{opacity:1;pointer-events:auto}.app-drawer-content{position:fixed;top:0;height:100%;width:300px;background-color:white;box-shadow:0 0 10px rgba(0, 0, 0, 0.2);transform:translateX(-100%);transition:transform 0.3s ease-in-out;display:flex;flex-direction:column}.app-drawer--open .app-drawer-content{transform:translateX(0)}.app-drawer-content--right{right:0;transform:translateX(100%)}.app-drawer--open .app-drawer-content--right{transform:translateX(0)}.app-drawer-header{padding:16px;border-bottom:1px solid #ccc;position:sticky;top:0;background-color:white;z-index:1}.app-drawer-body{padding:16px;overflow-y:auto;flex-grow:1}.app-drawer-footer{padding:16px;border-top:1px solid #ccc;position:sticky;bottom:0;background-color:white;z-index:1}";
-const IrDrawerStyle0 = irDrawerCss;
 
 const IrDrawer$1 = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLElement {
     constructor() {
@@ -10,15 +9,20 @@ const IrDrawer$1 = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLE
         this.__attachShadow();
         this.drawerChange = createEvent(this, "drawerChange", 7);
         this.drawerCloseRequested = createEvent(this, "drawerCloseRequested", 7);
+        this.showDrawer = false;
+        /**
+         * The placement of the drawer
+         */
+        this.placement = 'right';
+        /**
+         * Is the drawer open?
+         */
+        this.open = false;
         this.toggleDrawer = () => {
             this.open = !this.open;
             this.showDrawer = this.open;
             this.drawerChange.emit(this.open);
         };
-        this.showDrawer = false;
-        this.drawerTitle = undefined;
-        this.placement = 'right';
-        this.open = false;
     }
     componentDidLoad() {
         if (this.open) {
@@ -48,7 +52,7 @@ const IrDrawer$1 = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLE
     static get watchers() { return {
         "open": ["openHandler"]
     }; }
-    static get style() { return IrDrawerStyle0; }
+    static get style() { return irDrawerCss; }
 }, [1, "ir-drawer", {
         "drawerTitle": [1, "drawer-title"],
         "placement": [1],
@@ -76,5 +80,6 @@ const IrDrawer = IrDrawer$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDrawer, defineCustomElement };
+//# sourceMappingURL=ir-drawer.js.map
 
 //# sourceMappingURL=ir-drawer.js.map

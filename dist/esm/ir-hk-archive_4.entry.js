@@ -1,22 +1,19 @@
-import { r as registerInstance, h, H as Host, c as createEvent } from './index-2ef79026.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-6d6b2ec1.js';
-import { c as calendar_data } from './calendar-data-707a10db.js';
-import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
-import { l as locales } from './locales.store-b3d58c68.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { v as v4 } from './v4-964634d6.js';
-import './index-5395b195.js';
-import './axios-2aba0cfc.js';
+import { r as registerInstance, h, H as Host, c as createEvent } from './index-jhiFt_tX.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-BFNHYo2T.js';
+import { c as calendar_data } from './calendar-data-D2MMPhx6.js';
+import { i as isRequestPending } from './ir-interceptor.store-C5Y_S4JJ.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import { h as hooks } from './moment-Mki5YqAR.js';
+import { v as v4 } from './v4-DD3477fe.js';
+import './index-C7eXIDl2.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
 
 const irHkArchiveCss = ".sc-ir-hk-archive-h{display:block}";
-const IrHkArchiveStyle0 = irHkArchiveCss;
 
 const IrHkArchive = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.houseKeepingService = new HouseKeepingService();
-        this.units = [];
-        this.propertyId = undefined;
         this.filters = {
             from_date: hooks().add(-90, 'days').format('YYYY-MM-DD'),
             to_date: hooks().format('YYYY-MM-DD'),
@@ -25,6 +22,8 @@ const IrHkArchive = class {
         };
         this.data = [];
         this.isLoading = null;
+        this.houseKeepingService = new HouseKeepingService();
+        this.units = [];
     }
     componentWillLoad() {
         this.initializeData();
@@ -132,16 +131,14 @@ const IrHkArchive = class {
             } })) : ('N/A')))))))))));
     }
 };
-IrHkArchive.style = IrHkArchiveStyle0;
+IrHkArchive.style = irHkArchiveCss;
 
 const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;min-width:20vw;height:100%}@media (min-width: 768px){.collapse-btn.sc-ir-tasks-filters{display:none}#hkTasksFiltersCollapse.collapse.sc-ir-tasks-filters:not(.show){display:block}}";
-const IrTasksFiltersStyle0 = irTasksFiltersCss;
 
 const IrTasksFilters = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.applyFilters = createEvent(this, "applyFilters", 7);
-        this.isLoading = undefined;
+        this.applyFilters = createEvent(this, "applyFilters");
         this.filters = {
             cleaning_periods: {
                 code: '',
@@ -224,15 +221,14 @@ const IrTasksFilters = class {
             })) })), h("div", { key: 'a8b6b6e72f1f7583cbbea736dd93dfb10979b8bd', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'cabe53f241ece2af883389c90e6dddac684bf755', btn_type: "button", "data-testid": "reset", text: "Reset", size: "sm", btn_color: "outline", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: 'a30070b9b4abc988e24227f4cf2c45c12dda7cbe', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
 };
-IrTasksFilters.style = IrTasksFiltersStyle0;
+IrTasksFilters.style = irTasksFiltersCss;
 
 const irTasksHeaderCss = ".sc-ir-tasks-header-h{display:block}";
-const IrTasksHeaderStyle0 = irTasksHeaderCss;
 
 const IrTasksHeader = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.headerButtonPress = createEvent(this, "headerButtonPress", 7);
+        this.headerButtonPress = createEvent(this, "headerButtonPress");
         this.isCleanedEnabled = false;
     }
     handleCleanedButtonAnimation(e) {
@@ -256,20 +252,31 @@ const IrTasksHeader = class {
             }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
     }
 };
-IrTasksHeader.style = IrTasksHeaderStyle0;
+IrTasksHeader.style = irTasksHeaderCss;
 
 const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.sortable.sc-ir-tasks-table{transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}.task-row.sc-ir-tasks-table,.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.25rem 0.5rem !important;white-space:nowrap;max-width:max-content !important;border:0}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{text-align:start}.table-container.sc-ir-tasks-table{max-height:80vh}.task-table-row.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover{background:#e2e6ea3f !important}.selected.sc-ir-tasks-table{background:#e3f3fa !important}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e6ea;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#dae0e5;border-color:#d3d9df}";
-const IrTasksTableStyle0 = irTasksTableCss;
 
 const IrTasksTable = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.animateCleanedButton = createEvent(this, "animateCleanedButton", 7);
-        this.rowSelectChange = createEvent(this, "rowSelectChange", 7);
+        this.animateCleanedButton = createEvent(this, "animateCleanedButton");
+        this.rowSelectChange = createEvent(this, "rowSelectChange");
         this.tasks = [];
+        /**
+         * Tracks which task IDs are currently selected via checkboxes.
+         */
         this.selectedIds = [];
+        /**
+         * Controls whether the "Confirm Clean" modal is shown.
+         */
         this.showConfirmModal = false;
+        /**
+         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
+         */
         this.sortKey = 'date';
+        /**
+         * The sort direction: ASC or DESC.
+         */
         this.sortDirection = 'ASC';
         this.checkableTasks = [];
     }
@@ -436,8 +443,9 @@ const IrTasksTable = class {
         "tasks": ["handleTasksChange"]
     }; }
 };
-IrTasksTable.style = IrTasksTableStyle0;
+IrTasksTable.style = irTasksTableCss;
 
 export { IrHkArchive as ir_hk_archive, IrTasksFilters as ir_tasks_filters, IrTasksHeader as ir_tasks_header, IrTasksTable as ir_tasks_table };
+//# sourceMappingURL=ir-hk-archive.ir-tasks-filters.ir-tasks-header.ir-tasks-table.entry.js.map
 
 //# sourceMappingURL=ir-hk-archive_4.entry.js.map

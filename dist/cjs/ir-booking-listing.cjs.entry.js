@@ -1,26 +1,33 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
-const booking_listing_service = require('./booking_listing.service-59a4c382.js');
-const room_service = require('./room.service-d1c4a756.js');
-const locales_store = require('./locales.store-6a07d85d.js');
-const utils = require('./utils-dc371512.js');
-const moment = require('./moment-1780b03a.js');
-const functions = require('./functions-1d46da3c.js');
-const Token = require('./Token-b49ba031.js');
-const calendarData = require('./calendar-data-2c2bb35f.js');
-require('./index-4337b3d3.js');
-require('./axios-bc0bd15c.js');
-require('./index-a8af909e.js');
+var index = require('./index-Dt9a74kn.js');
+var booking_listing_service = require('./booking_listing.service-CReGkEmc.js');
+var room_service = require('./room.service-DC3utEzM.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+var utils = require('./utils-F4FSH4yM.js');
+var moment = require('./moment-CdViwxPQ.js');
+var functions = require('./functions-Dymcds4T.js');
+var Token = require('./Token-BY5U68ai.js');
+var calendarData = require('./calendar-data-CC4kt7DA.js');
+require('./index-PIkoJJtF.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
+require('./index-CLqkDPTC.js');
 
 const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.room-service.sc-ir-booking-listing{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%;padding:0.25rem 0}.room-name-container.sc-ir-booking-listing{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.booking_guest_name.sc-ir-booking-listing{width:fit-content;padding:0 !important;margin:0}.booking_guest_name.sc-ir-booking-listing .button-text.sc-ir-booking-listing{padding:0 !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
-const IrBookingListingStyle0 = irBookingListingCss;
 
 const IrBookingListing = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.language = '';
+        this.ticket = '';
+        this.rowCount = 10;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
         this.bookingListingService = new booking_listing_service.BookingListingService();
         this.roomService = new room_service.RoomService();
         this.token = new Token.Token();
@@ -30,17 +37,6 @@ const IrBookingListing = class {
             '003': 'badge-danger',
             '004': 'badge-danger',
         };
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.rowCount = 10;
-        this.p = undefined;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
     }
     componentWillLoad() {
         booking_listing_service.updateUserSelection('end_row', this.rowCount);
@@ -209,8 +205,9 @@ const IrBookingListing = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrBookingListing.style = IrBookingListingStyle0;
+IrBookingListing.style = irBookingListingCss;
 
 exports.ir_booking_listing = IrBookingListing;
+//# sourceMappingURL=ir-booking-listing.entry.cjs.js.map
 
 //# sourceMappingURL=ir-booking-listing.cjs.entry.js.map

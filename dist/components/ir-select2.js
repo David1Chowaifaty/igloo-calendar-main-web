@@ -2,22 +2,14 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { v as v4 } from './v4.js';
 
 const irSelectCss = ".border-theme.sc-ir-select{border:1px solid #cacfe7}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}.bounce-3.sc-ir-select{animation:bounce 1s 1}";
-const IrSelectStyle0 = irSelectCss;
 
 const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
         this.selectChange = createEvent(this, "selectChange", 7);
-        this.count = 0;
-        this.name = undefined;
-        this.data = undefined;
         this.label = '<label>';
-        this.selectStyles = undefined;
-        this.selectForcedStyles = undefined;
-        this.selectContainerStyle = undefined;
         this.selectedValue = null;
-        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -31,10 +23,11 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
-        this.testId = undefined;
+        /** Whether the select has an error */
         this.error = false;
         this.initial = true;
         this.valid = false;
+        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
@@ -96,7 +89,7 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         "selectedValue": ["watchHandler"],
         "submited": ["watchHandler2"]
     }; }
-    static get style() { return IrSelectStyle0; }
+    static get style() { return irSelectCss; }
 }, [2, "ir-select", {
         "name": [1],
         "data": [16],
@@ -142,5 +135,6 @@ function defineCustomElement() {
 }
 
 export { IrSelect as I, defineCustomElement as d };
+//# sourceMappingURL=ir-select2.js.map
 
 //# sourceMappingURL=ir-select2.js.map

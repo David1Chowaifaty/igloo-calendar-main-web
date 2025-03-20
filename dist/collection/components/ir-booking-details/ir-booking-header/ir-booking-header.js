@@ -6,6 +6,7 @@ import { h } from "@stencil/core";
 import { BookingService } from "../../../services/booking.service";
 export class IrBookingHeader {
     constructor() {
+        this.bookingStatus = null;
         this.confirmationBG = {
             '001': 'bg-ir-orange',
             '002': 'bg-ir-green',
@@ -13,14 +14,6 @@ export class IrBookingHeader {
             '004': 'bg-ir-red',
         };
         this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.hasReceipt = undefined;
-        this.hasPrint = undefined;
-        this.hasDelete = undefined;
-        this.hasMenu = undefined;
-        this.hasCloseButton = undefined;
-        this.bookingStatus = null;
-        this.currentDialogStatus = undefined;
     }
     handleSelectChange(e) {
         e.stopPropagation();
@@ -121,7 +114,9 @@ export class IrBookingHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "hasReceipt": {
                 "type": "boolean",
@@ -137,6 +132,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-receipt",
                 "reflect": false
             },
@@ -154,6 +151,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-print",
                 "reflect": false
             },
@@ -171,6 +170,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-delete",
                 "reflect": false
             },
@@ -188,6 +189,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-menu",
                 "reflect": false
             },
@@ -205,6 +208,8 @@ export class IrBookingHeader {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "has-close-button",
                 "reflect": false
             }

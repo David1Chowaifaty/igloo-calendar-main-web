@@ -2,7 +2,6 @@ import { h } from "@stencil/core";
 import housekeeping_store from "../../../../stores/housekeeping.store";
 export class IrTasksFilters {
     constructor() {
-        this.isLoading = undefined;
         this.filters = {
             cleaning_periods: {
                 code: '',
@@ -112,6 +111,8 @@ export class IrTasksFilters {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-loading",
                 "reflect": false
             }

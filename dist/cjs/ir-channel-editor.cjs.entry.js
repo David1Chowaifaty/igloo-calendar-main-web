@@ -1,28 +1,24 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
-const channel_service = require('./channel.service-afc1b99c.js');
-const channel_store = require('./channel.store-0b870549.js');
-const locales_store = require('./locales.store-6a07d85d.js');
-require('./calendar-data-2c2bb35f.js');
-require('./index-4337b3d3.js');
-require('./axios-bc0bd15c.js');
+var index = require('./index-Dt9a74kn.js');
+var channel_service = require('./channel.service-Cy8nWYRU.js');
+var channel_store = require('./channel.store-CsQBmbfL.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+require('./calendar-data-CC4kt7DA.js');
+require('./index-PIkoJJtF.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
-const IrChannelEditorStyle0 = irChannelEditorCss;
 
 const IrChannelEditor = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.saveChannelFinished = index.createEvent(this, "saveChannelFinished", 7);
-        this.closeSideBar = index.createEvent(this, "closeSideBar", 7);
-        this.toast = index.createEvent(this, "toast", 7);
+        this.saveChannelFinished = index.createEvent(this, "saveChannelFinished");
+        this.closeSideBar = index.createEvent(this, "closeSideBar");
+        this.toast = index.createEvent(this, "toast");
         var _a, _b, _c;
-        this.channelService = new channel_service.ChannelService();
         this.channel_status = null;
-        this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
         this.status = false;
@@ -36,6 +32,7 @@ const IrChannelEditor = class {
             { id: 'channel_booking', name: (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_ChannelBooking, disabled: true },
         ];
         this.selectedRoomType = [];
+        this.channelService = new channel_service.ChannelService();
     }
     componentWillLoad() {
         if (this.channel_status === 'edit') {
@@ -104,8 +101,9 @@ const IrChannelEditor = class {
             }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save })));
     }
 };
-IrChannelEditor.style = IrChannelEditorStyle0;
+IrChannelEditor.style = irChannelEditorCss;
 
 exports.ir_channel_editor = IrChannelEditor;
+//# sourceMappingURL=ir-channel-editor.entry.cjs.js.map
 
 //# sourceMappingURL=ir-channel-editor.cjs.entry.js.map

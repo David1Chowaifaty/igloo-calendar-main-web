@@ -4,5 +4,6 @@ const IrListingModal = IrListingModal$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrListingModal, defineCustomElement };
+//# sourceMappingURL=ir-listing-modal.js.map
 
 //# sourceMappingURL=ir-listing-modal.js.map

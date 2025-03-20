@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { b as _getDay } from './functions.js';
-import { B as formatName, f as formatAmount } from './utils.js';
+import { m as formatName, l as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
@@ -12,7 +12,6 @@ import { d as defineCustomElement$2 } from './ir-modal2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const irRoomCss = ".light-blue-bg.sc-ir-room{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px;display:block;max-width:100px;box-sizing:border-box;display:inline-block;overflow:hidden;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room span.sc-ir-room{display:inline;white-space:normal;line-height:1.5;word-break:break-word}.room_statements.sc-ir-room b.sc-ir-room{display:inline;margin-right:5px}.payment-container.sc-ir-room{position:absolute;right:1rem;height:fit-content}.sc-ir-room-h{position:relative}.sm-mr.sc-ir-room{margin-right:3px}.subtotal_row.sc-ir-room{padding-top:8px;font-weight:600}.room_actions_btns.sc-ir-room{gap:0.5rem}.night-cost.sc-ir-room{color:#7cbebe}.mx-0-5.sc-ir-room{margin-left:2px !important;margin-right:2px !important}.tax-width.sc-ir-room{font-size:10px}.sm-mb-1.sc-ir-room{margin-bottom:5px !important}.sm-mt-1.sc-ir-room{margin-top:5px !important}.mx-01.sc-ir-room{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
-const IrRoomStyle0 = irRoomCss;
 
 const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement {
     constructor() {
@@ -24,18 +23,10 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         this.editInitiated = createEvent(this, "editInitiated", 7);
         this.resetbooking = createEvent(this, "resetbooking", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.bookingIndex = undefined;
-        this.isEditable = undefined;
-        this.room = undefined;
-        this.mealCodeName = undefined;
-        this.myRoomTypeFoodCat = undefined;
+        // Currency
         this.currency = 'USD';
         this.language = 'en';
-        this.legendData = undefined;
-        this.roomsInfo = undefined;
-        this.bedPreferences = undefined;
+        // Booleans Conditions
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -44,8 +35,8 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         this.collapsed = false;
         this.isLoading = false;
         this.modalReason = null;
-        this.mainGuest = undefined;
         this.isModelOpen = false;
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.mainGuest = this.getMainGuest();
@@ -303,7 +294,7 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
     static get watchers() { return {
         "room": ["handleRoomDataChange"]
     }; }
-    static get style() { return IrRoomStyle0; }
+    static get style() { return irRoomCss; }
 }, [2, "ir-room", {
         "booking": [16],
         "bookingIndex": [2, "booking-index"],
@@ -374,5 +365,6 @@ function defineCustomElement() {
 }
 
 export { IrRoom as I, defineCustomElement as d };
+//# sourceMappingURL=ir-room2.js.map
 
 //# sourceMappingURL=ir-room2.js.map

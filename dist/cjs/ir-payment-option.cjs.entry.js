@@ -1,35 +1,30 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-e13bd197.js');
-const paymentOption_store = require('./payment-option.store-973fe09f.js');
-const room_service = require('./room.service-d1c4a756.js');
-const locales_store = require('./locales.store-6a07d85d.js');
-const Token = require('./Token-b49ba031.js');
-require('./axios-bc0bd15c.js');
-require('./index-4337b3d3.js');
-require('./calendar-data-2c2bb35f.js');
+var index = require('./index-Dt9a74kn.js');
+var paymentOption_store = require('./payment-option.store-Cwcm2sdk.js');
+var room_service = require('./room.service-DC3utEzM.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+var Token = require('./Token-BY5U68ai.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
+require('./index-PIkoJJtF.js');
+require('./calendar-data-CC4kt7DA.js');
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrPaymentOptionStyle0 = irPaymentOptionCss;
 
 const IrPaymentOption = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.toast = index.createEvent(this, "toast", 7);
-        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
-        this.roomService = new room_service.RoomService();
-        this.token = new Token.Token();
-        this.propertyid = undefined;
-        this.ticket = undefined;
-        this.p = undefined;
+        this.toast = index.createEvent(this, "toast");
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
+        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
+        this.roomService = new room_service.RoomService();
+        this.token = new Token.Token();
     }
     componentWillLoad() {
         if (!!this.ticket) {
@@ -199,8 +194,9 @@ const IrPaymentOption = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrPaymentOption.style = IrPaymentOptionStyle0;
+IrPaymentOption.style = irPaymentOptionCss;
 
 exports.ir_payment_option = IrPaymentOption;
+//# sourceMappingURL=ir-payment-option.entry.cjs.js.map
 
 //# sourceMappingURL=ir-payment-option.cjs.entry.js.map

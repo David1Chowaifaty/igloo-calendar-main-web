@@ -1,25 +1,21 @@
-import { r as registerInstance, h, H as Host } from './index-2ef79026.js';
-import { T as Token } from './Token-1cce2f6d.js';
-import { F as checkUserAuthState, G as manageAnchorSession } from './utils-41400f8e.js';
-import './axios-2aba0cfc.js';
-import './moment-ab846cee.js';
-import './index-b6ec889a.js';
-import './calendar-data-707a10db.js';
-import './index-5395b195.js';
-import './locales.store-b3d58c68.js';
+import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { c as checkUserAuthState, m as manageAnchorSession } from './utils-DvgsFSip.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
+import './moment-Mki5YqAR.js';
+import './index-DeW5X45W.js';
+import './calendar-data-D2MMPhx6.js';
+import './index-C7eXIDl2.js';
+import './locales.store-BsXBgatZ.js';
 
 const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
-const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.token = new Token();
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.bookingNumber = undefined;
         this.isAuthenticated = false;
-        this.currentPage = undefined;
+        this.token = new Token();
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
@@ -47,8 +43,9 @@ const IrSecureTasks = class {
             } }, "Logout")), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
     }
 };
-IrSecureTasks.style = IrSecureTasksStyle0;
+IrSecureTasks.style = irSecureTasksCss;
 
 export { IrSecureTasks as ir_secure_tasks };
+//# sourceMappingURL=ir-secure-tasks.entry.js.map
 
 //# sourceMappingURL=ir-secure-tasks.entry.js.map

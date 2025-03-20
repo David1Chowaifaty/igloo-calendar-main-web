@@ -5,8 +5,6 @@ import locales from "../../../../stores/locales.store";
 export class IrEventsLog {
     constructor() {
         this.bookingService = new BookingService();
-        this.bookingNumber = undefined;
-        this.bookingEvents = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -51,6 +49,8 @@ export class IrEventsLog {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             }

@@ -6,14 +6,12 @@ import { updateHKStore } from "../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
 export class IrHousekeeping {
     constructor() {
+        this.language = '';
+        this.ticket = '';
+        this.isLoading = false;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
-        this.language = '';
-        this.ticket = '';
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.isLoading = false;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -122,6 +120,8 @@ export class IrHousekeeping {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
@@ -140,6 +140,8 @@ export class IrHousekeeping {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -158,6 +160,8 @@ export class IrHousekeeping {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -175,6 +179,8 @@ export class IrHousekeeping {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

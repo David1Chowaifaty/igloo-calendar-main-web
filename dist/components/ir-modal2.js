@@ -3,7 +3,6 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const irModalCss = ".backdropModal.sc-ir-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-modal{padding:10px;background:white;border-radius:5px}.ir-alert-header.sc-ir-modal{display:flex;font-size:1rem;font-weight:700}.modal.sc-ir-modal{z-index:1001 !important}.modal-dialog.sc-ir-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-modal{gap:10px}.ir-modal.sc-ir-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
-const IrModalStyle0 = irModalCss;
 
 const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLElement {
     constructor() {
@@ -13,7 +12,6 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
         this.cancelModal = createEvent(this, "cancelModal", 7);
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
-        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
@@ -61,7 +59,7 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
             h("div", { key: 'd59e98b496cfbda68670a3b82589fb7f8f86867d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '0555da27b08060dd9c455bf1d715eef328b7e028', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '6d9366de580681be315ba4dc281edc7b87277195', class: `ir-alert-header` }, h("p", { key: '2641d0fd587f03bffb33a0e2fd5ea3e42b03d648' }, this.modalTitle))), h("div", { key: '3bac9339325c05abbfc73d75f5129ea316317e47', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '969e22df8709b7025e73a2778228eeddacd19dc7' }, this.modalBody)), h("div", { key: '440f9fd592fa0381785e35f242d532fbecd1372c', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: 'f6518f9600af3d1805fd988903524d2826760cc5', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'f9a39a919cde765abb0b6b4ae168fe05fcaf94ae', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
-    static get style() { return IrModalStyle0; }
+    static get style() { return irModalCss; }
 }, [2, "ir-modal", {
         "modalTitle": [1, "modal-title"],
         "modalBody": [1, "modal-body"],
@@ -107,5 +105,6 @@ function defineCustomElement() {
 }
 
 export { IrModal as I, defineCustomElement as d };
+//# sourceMappingURL=ir-modal2.js.map
 
 //# sourceMappingURL=ir-modal2.js.map

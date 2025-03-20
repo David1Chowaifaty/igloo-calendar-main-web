@@ -1,20 +1,20 @@
-import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-2ef79026.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-888c5833.js';
-import { l as locales } from './locales.store-b3d58c68.js';
-import { i as isSingleUnit, c as calendar_data } from './calendar-data-707a10db.js';
-import { f as formatAmount, c as calculateDaysBetweenDates, e as extras, g as getReleaseHoursString, d as dateToFormattedString, t as transformNewBooking, i as isBlockUnit, a as findCountry, b as canCheckIn, h as compareTime, j as createDateWithOffsetAndHour, k as calendar_dates, l as dateDifference, v as validateEmail, m as formatLegendColors, n as getRoomStatus, o as transformNewBLockedRooms, p as bookingStatus, q as getPrivateNote, r as getNextDay, s as addTwoMonthToDate, u as convertDMYToISO, w as computeEndDate, x as renderTime, y as formatName, z as getDaysArray, A as convertDatePrice, B as formatDate } from './utils-41400f8e.js';
-import { v as v4 } from './v4-964634d6.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-e23984f0.js';
-import { a as axios } from './axios-2aba0cfc.js';
-import { H as HouseKeepingService } from './housekeeping.service-6d6b2ec1.js';
-import { c as createStore } from './index-5395b195.js';
-import { z, Z as ZodError } from './index-b6ec889a.js';
-import { R as RoomService } from './room.service-5eccb4f4.js';
-import { T as Token } from './Token-1cce2f6d.js';
-import { P as PaymentService } from './payment.service-086e7ef9.js';
-import { c as commonjsGlobal } from './_commonjsHelpers-e7f67fd8.js';
-import { _ as _formatDate, a as _formatTime, b as _getDay } from './functions-7c8c67af.js';
+import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, a as getElement } from './index-jhiFt_tX.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-DlYLJvbd.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import { i as isSingleUnit, c as calendar_data } from './calendar-data-D2MMPhx6.js';
+import { f as formatAmount, i as calculateDaysBetweenDates, e as extras, j as getReleaseHoursString, h as dateToFormattedString, t as transformNewBooking, k as isBlockUnit, l as findCountry, n as canCheckIn, o as compareTime, p as createDateWithOffsetAndHour, q as calendar_dates, r as dateDifference, v as validateEmail, s as formatLegendColors, u as getRoomStatus, w as transformNewBLockedRooms, x as bookingStatus, g as getPrivateNote, y as getNextDay, z as addTwoMonthToDate, A as computeEndDate, B as convertDMYToISO, C as renderTime, D as formatName, E as getDaysArray, F as convertDatePrice, G as formatDate } from './utils-DvgsFSip.js';
+import { v as v4 } from './v4-DD3477fe.js';
+import { h as hooks } from './moment-Mki5YqAR.js';
+import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-C5Y_S4JJ.js';
+import { a as axios } from './axios-8ipPhlJK.js';
+import { H as HouseKeepingService } from './housekeeping.service-BFNHYo2T.js';
+import { c as createStore } from './index-C7eXIDl2.js';
+import { l as libExports } from './index-DeW5X45W.js';
+import { R as RoomService } from './room.service-CheK7apf.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { P as PaymentService } from './payment.service-C1UVKrOf.js';
+import { g as getDefaultExportFromCjs } from './_commonjsHelpers-E-ZsRS8r.js';
+import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-CIqUU5YU.js';
 
 class VariationService {
     /**
@@ -73,21 +73,15 @@ class VariationService {
 }
 
 const iglApplicationInfoCss = ".sc-igl-application-info-h{display:block}.rate_amount.sc-igl-application-info{display:none;padding:0;margin:0}.booking-header.sc-igl-application-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;gap:0.5rem}.non-ref-span.sc-igl-application-info{font-size:12px;color:var(--green)}.booking-roomtype-title.sc-igl-application-info{font-size:1.25rem;margin-right:0.5rem;margin:0;padding:0}.booking-details-container.sc-igl-application-info{display:flex;align-items:center;justify-content:space-between;padding:0;margin:0}.booking-rateplan.sc-igl-application-info{display:flex;align-items:center;gap:0.5rem;margin:0;padding:0}.booking-rateplan-name.sc-igl-application-info{font-weight:bold;margin:0;padding:0}.booking-tooltip.sc-igl-application-info{margin-right:0.5rem;margin:0;padding:0}.booking-variation.sc-igl-application-info{margin:0;padding:0}.booking-price.sc-igl-application-info{margin:0;padding:0}.booking-footer.sc-igl-application-info{display:flex;align-items:center;justify-content:space-between;padding:0;margin-bottom:0.5rem}.booking-details-container.sc-igl-application-info{display:none}@media (min-width: 768px){.booking-header.sc-igl-application-info{justify-content:flex-start}.booking-footer.sc-igl-application-info,.booking-price.sc-igl-application-info{display:none}.booking-details-container.sc-igl-application-info,.rate_amount.sc-igl-application-info{display:inline-flex;gap:0.5rem}}@media only screen and (min-width: 908px){.aplicationInfoContainer.sc-igl-application-info{max-width:100%}.guest-info-container.sc-igl-application-info{max-width:300px}.preference-select-container.sc-igl-application-info{max-width:250px}}";
-const IglApplicationInfoStyle0 = iglApplicationInfoCss;
 
 const IglApplicationInfo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.variationService = new VariationService();
-        this.rateplanSelection = undefined;
-        this.guestInfo = undefined;
-        this.currency = undefined;
         this.bedPreferenceType = [];
         this.bookingType = 'PLUS_BOOKING';
-        this.roomIndex = undefined;
         this.totalNights = 1;
-        this.baseData = undefined;
         this.isButtonPressed = false;
+        this.variationService = new VariationService();
     }
     componentWillLoad() {
         var _a, _b;
@@ -209,15 +203,16 @@ const IglApplicationInfo = class {
         })))))));
     }
 };
-IglApplicationInfo.style = IglApplicationInfoStyle0;
+IglApplicationInfo.style = iglApplicationInfoCss;
 
 const iglBlockDatesViewCss = ".sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}";
-const IglBlockDatesViewStyle0 = iglBlockDatesViewCss;
 
 const IglBlockDatesView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
+        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent");
+        this.isEventHover = false;
+        this.renderAgain = false;
         this.blockDatesData = {
             RELEASE_AFTER_HOURS: 0,
             OPTIONAL_REASON: '',
@@ -225,14 +220,6 @@ const IglBlockDatesView = class {
         }; // Change of property name might require updates in booking-event-hover
         this.releaseList = [];
         this.bookingService = new BookingService();
-        this.defaultData = undefined;
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.entryDate = undefined;
-        this.entryHour = undefined;
-        this.isEventHover = false;
-        this.entryMinute = undefined;
-        this.renderAgain = false;
     }
     async componentWillLoad() {
         try {
@@ -298,7 +285,7 @@ const IglBlockDatesView = class {
         return (h(Host, { key: '4ffc45122df7d7705bab33d7e386dd326a481fcc' }, h("div", { key: '2a9d45fb706d53bb4910a82f6bee7f15422ff3d3', class: `m-0 p-0 mb-1` }, h("div", { key: 'ce124218d25985a495c0a2e33b1889cc37da71b8', class: "text-left p-0" }, h("ir-date-view", { key: '8e5432df65a71d2cadffb925022d7bf9a9cbdcd5', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: '3dba37945542c68e16746de93c826df72754ffd0', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '68cdc2ef1bf3ece43240193c540ac12a7944f502', class: "mb-1 " }, h("label", { key: '83d62cc392e0e773a3cd54e0cf521072c601b338', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '3f108642e21c5c4bdeff720193cca2fa77296de1', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '21a8cdefd347cc9d3b1eb8305eb52abc3fcec981', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '0af733e59e7133a7efaea6fb3c1f843570e7c9a7', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
 };
-IglBlockDatesView.style = IglBlockDatesViewStyle0;
+IglBlockDatesView.style = iglBlockDatesViewCss;
 
 var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -633,17 +620,20 @@ class IglBookPropertyService {
 }
 
 const iglBookPropertyCss = ".sc-igl-book-property-h{position:fixed;top:0;right:0;width:100vw;height:100vh;z-index:99}.card-title.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%}.card-header-container.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%;display:flex;align-items:center;box-sizing:border-box;padding:1rem 0;justify-content:space-between}.card-header-container.sc-igl-book-property h3.sc-igl-book-property{padding:0;margin:0}.scrollContent.sc-igl-book-property{height:calc(100% - 79px);overflow:auto;position:relative}.background-overlay.sc-igl-book-property{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-book-property{height:calc(100% - 79px);overflow:auto}.gap-30.sc-igl-book-property{gap:30px}.block-date.sc-igl-book-property{width:100%}.sideWindow.sc-igl-book-property{position:absolute;top:0;right:0;height:100%;background-color:#ffffff;width:100vw;overflow-y:auto;padding-bottom:85px !important}.card.sc-igl-book-property{top:0;z-index:1000}.close.sc-igl-book-property{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-book-property{position:absolute;top:18px;right:33px;outline:none}button.sc-igl-book-property:not(:disabled),[type='button'].sc-igl-book-property:not(:disabled){cursor:pointer}@media only screen and (min-width: 1200px){.sideWindow.sc-igl-book-property{max-width:70%}}@media only screen and (min-width: 2000px){.sideWindow.sc-igl-book-property{max-width:40%}}@media only screen and (min-width: 768px) and (max-width: 1200px){.sideWindow.sc-igl-book-property{max-width:90%}}@media only screen and (min-width: 600px) and (max-width: 768px){.sideWindow.sc-igl-book-property{max-width:75%}}@media only screen and (min-width: 641px){.block-date.sc-igl-book-property{max-width:450px;padding-bottom:0 !important}}";
-const IglBookPropertyStyle0 = iglBookPropertyCss;
 
 const IglBookProperty = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeBookingWindow = createEvent(this, "closeBookingWindow", 7);
-        this.blockedCreated = createEvent(this, "blockedCreated", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.animateIrButton = createEvent(this, "animateIrButton", 7);
-        this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
-        this.toast = createEvent(this, "toast", 7);
+        this.closeBookingWindow = createEvent(this, "closeBookingWindow");
+        this.blockedCreated = createEvent(this, "blockedCreated");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        this.animateIrButton = createEvent(this, "animateIrButton");
+        this.animateIrSelect = createEvent(this, "animateIrSelect");
+        this.toast = createEvent(this, "toast");
+        this.showPaymentDetails = false;
+        this.adultChildCount = { adult: 0, child: 0 };
+        this.renderAgain = false;
+        this.bookingHistory = [];
         this.initialRoomIds = null;
         this.showSplitBookingOption = false;
         this.sourceOptions = [];
@@ -657,20 +647,6 @@ const IglBookProperty = class {
         this.bookPropertyService = new IglBookPropertyService();
         this.updatedBooking = false;
         this.MAX_HISTORY_LENGTH = 2;
-        this.propertyid = undefined;
-        this.allowedBookingSources = undefined;
-        this.language = undefined;
-        this.countries = undefined;
-        this.showPaymentDetails = false;
-        this.currency = undefined;
-        this.bookingData = undefined;
-        this.adultChildConstraints = undefined;
-        this.adultChildCount = { adult: 0, child: 0 };
-        this.renderAgain = false;
-        this.dateRangeData = undefined;
-        this.defaultData = undefined;
-        this.isLoading = undefined;
-        this.bookingHistory = [];
     }
     async componentWillLoad() {
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -1183,16 +1159,14 @@ const IglBookProperty = class {
             } }, h("svg", { key: 'f7ed44a98b57e3e783063b932910d40b16dad543', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '587f7b262674a2846ba97e2c712f9703dfd4541a', fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: '0191a98e5d62fceb4eca7c04358b65bc5531efcd', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: '1ba3f02fa0f71eead6d22c3dc06b15162559e4ba', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { key: 'f31b7b68ce6ffa6071c15dded1ad6183db220ba2', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
     }
 };
-IglBookProperty.style = IglBookPropertyStyle0;
+IglBookProperty.style = iglBookPropertyCss;
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{display:block;margin:0;padding:0}.sc-igl-book-property-footer-h>*.sc-igl-book-property-footer{margin:auto;padding:auto}.gap-30.sc-igl-book-property-footer{gap:30px}";
-const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;
 
 const IglBookPropertyFooter = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.eventType = undefined;
+        this.buttonClicked = createEvent(this, "buttonClicked");
         this.disabled = true;
     }
     isEventType(event) {
@@ -1221,23 +1195,26 @@ const IglBookPropertyFooter = class {
         return (h(Host, { key: 'bd00491c082b60527772f3193d4d85354f7a7eb2' }, h("div", { key: '78f664ec54eef5aef70c58550885945958d76dd4', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, isRequestPending('/Get_Exposed_Booking_Availability'), 'angles_right'))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, false, 'angles_right'))))));
     }
 };
-IglBookPropertyFooter.style = IglBookPropertyFooterStyle0;
+IglBookPropertyFooter.style = iglBookPropertyFooterCss;
 
 const iglBookPropertyHeaderCss = ".sc-igl-book-property-header-h{display:block}.sourceContainer.sc-igl-book-property-header{max-width:350px}.message-label.sc-igl-book-property-header{font-size:80%}";
-const IglBookPropertyHeaderStyle0 = iglBookPropertyHeaderCss;
 
 const IglBookPropertyHeader = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.splitBookingDropDownChange = createEvent(this, "splitBookingDropDownChange", 7);
-        this.sourceDropDownChange = createEvent(this, "sourceDropDownChange", 7);
-        this.adultChild = createEvent(this, "adultChild", 7);
-        this.checkClicked = createEvent(this, "checkClicked", 7);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
-        this.animateIrButton = createEvent(this, "animateIrButton", 7);
-        this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
+        this.splitBookingDropDownChange = createEvent(this, "splitBookingDropDownChange");
+        this.sourceDropDownChange = createEvent(this, "sourceDropDownChange");
+        this.adultChild = createEvent(this, "adultChild");
+        this.checkClicked = createEvent(this, "checkClicked");
+        this.buttonClicked = createEvent(this, "buttonClicked");
+        this.toast = createEvent(this, "toast");
+        this.spiltBookingSelected = createEvent(this, "spiltBookingSelected");
+        this.animateIrButton = createEvent(this, "animateIrButton");
+        this.animateIrSelect = createEvent(this, "animateIrSelect");
+        this.splitBookingId = '';
+        this.bookingData = '';
+        this.sourceOptions = [];
+        this.showSplitBookingOption = false;
         this.sourceOption = {
             code: '',
             description: '',
@@ -1245,20 +1222,6 @@ const IglBookPropertyHeader = class {
             id: '',
             type: '',
         };
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.minDate = undefined;
-        this.sourceOptions = [];
-        this.message = undefined;
-        this.bookingDataDefaultDateRange = undefined;
-        this.showSplitBookingOption = false;
-        this.adultChildConstraints = undefined;
-        this.splitBookings = undefined;
-        this.adultChildCount = undefined;
-        this.dateRangeData = undefined;
-        this.bookedByInfoData = undefined;
-        this.defaultDaterange = undefined;
-        this.propertyId = undefined;
     }
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
@@ -1365,7 +1328,7 @@ const IglBookPropertyHeader = class {
         return (h(Host, { key: '8a493acd5162c153bf1bb75c08113952db1f21a4' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: '1d85800c0e2f7527c8498b258678dc82dfa8deed', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'b51396939774c316305b0f0ff7b41c75aa3adbf5', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: '78bdf78a5066582d1d0b8c81dd3396ead4b6e611', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '062c9d04f0e9692a52da6f4a96c7503ecb7847f2', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
 };
-IglBookPropertyHeader.style = IglBookPropertyHeaderStyle0;
+IglBookPropertyHeader.style = iglBookPropertyHeaderCss;
 
 class EventsService {
     constructor() {
@@ -1419,7 +1382,6 @@ class EventsService {
 }
 
 const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;border-radius:4px;transform:skewX(-22deg)}.bookingEventBase.skewedLeft.sc-igl-booking-event::before{content:'';position:absolute;top:0px;bottom:0;left:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:right;transform:skewX(22deg);border-radius:4px;border-top-left-radius:0;border-bottom-left-radius:0}.bookingEventBase.skewedRight.sc-igl-booking-event::before{content:'';position:absolute;top:0;bottom:0;right:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:left;transform:skewX(22deg);border-radius:4px;border-top-right-radius:0;border-bottom-right-radius:0}.bookingEventBase.border.skewedLeft.sc-igl-booking-event::before{border:2px solid #424242;border-right:0;border-left:0;border-top-right-radius:0;border-bottom-right-radius:0;top:-1px;height:20px;left:-4px}.ota-booking-event.sc-igl-booking-event{border-width:2px !important}.bookingEventBase.border.skewedRight.sc-igl-booking-event::before{border:2px solid #424242;border-left:0;border-right:0;border-top-left-radius:0;border-bottom-left-radius:0;top:-1px;height:20px;right:-4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.leftSide.skewedLeft.sc-igl-booking-event{transform:skewX(0)}.rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
-const IglBookingEventStyle0 = iglBookingEventCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -1436,14 +1398,18 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 const IglBookingEvent = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.hideBubbleInfo = createEvent(this, "hideBubbleInfo", 7);
-        this.updateEventData = createEvent(this, "updateEventData", 7);
-        this.dragOverEventData = createEvent(this, "dragOverEventData", 7);
-        this.showRoomNightsDialog = createEvent(this, "showRoomNightsDialog", 7);
-        this.showDialog = createEvent(this, "showDialog", 7);
-        this.resetStreachedBooking = createEvent(this, "resetStreachedBooking", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.updateBookingEvent = createEvent(this, "updateBookingEvent", 7);
+        this.hideBubbleInfo = createEvent(this, "hideBubbleInfo");
+        this.updateEventData = createEvent(this, "updateEventData");
+        this.dragOverEventData = createEvent(this, "dragOverEventData");
+        this.showRoomNightsDialog = createEvent(this, "showRoomNightsDialog");
+        this.showDialog = createEvent(this, "showDialog");
+        this.resetStreachedBooking = createEvent(this, "resetStreachedBooking");
+        this.toast = createEvent(this, "toast");
+        this.updateBookingEvent = createEvent(this, "updateBookingEvent");
+        this.is_vacation_rental = false;
+        this.allBookingEvents = [];
+        this.renderElement = false;
+        this.isShrinking = null;
         this.dayWidth = 0;
         this.eventSpace = 8;
         this.vertSpace = 10;
@@ -1461,15 +1427,6 @@ const IglBookingEvent = class {
         this.handleMouseMoveBind = this.handleMouseMove.bind(this);
         this.handleMouseUpBind = this.handleMouseUp.bind(this);
         this.handleClickOutsideBind = this.handleClickOutside.bind(this);
-        this.currency = undefined;
-        this.is_vacation_rental = false;
-        this.language = undefined;
-        this.bookingEvent = undefined;
-        this.allBookingEvents = [];
-        this.countries = undefined;
-        this.renderElement = false;
-        this.position = undefined;
-        this.isShrinking = null;
     }
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
@@ -1643,6 +1600,7 @@ const IglBookingEvent = class {
                                         fromDate = hooks(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
                                     }
                                 }
+                                console.warn({ fromDate, toDate });
                                 this.showDialog.emit(Object.assign(Object.assign({ reason: 'reallocate' }, event.detail), { description, title: '', hideConfirmButton, from_date: fromDate, to_date: toDate }));
                             }
                             else {
@@ -2128,41 +2086,35 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: 'fe16a378fe308beb1ffe53750ee4b850f09cfcfb', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'a2a3a65b2947969f7145bb28dde580144fd65f2c', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '129536ef29d20bd0bbddcebc7e0259111c49311c', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '7c34751ee69f26aae5db02f3f4604c6d95014cb3', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '7e859affed54f7a76fab6c7cbcaa8f94f999e627', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: 'ee4020ecc2accfa641bf871f5158467114f6cfa9' }, h("div", { key: 'f50e3fe1a67ea593d7bdc4c132ab5f5e781c342b', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '84c3a004ac0fa937c87a9890ee33557d2d45b5bc', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: 'ff0793ee0bd59a32ff53ee9e21134e2230885d59', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: '25545eed74fc3870ffa78a196aba53d0a4e0db06' }, h("div", { key: '120102e229f077767c71cf72105275e657c80311', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'b20a77d9342a9a0210296280481871c8a42f0eb3', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return getElement(this); }
 };
-IglBookingEvent.style = IglBookingEventStyle0;
+IglBookingEvent.style = iglBookingEventCss;
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
-const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
 
 const IglBookingEventHover = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
-        this.hideBubbleInfo = createEvent(this, "hideBubbleInfo", 7);
-        this.deleteButton = createEvent(this, "deleteButton", 7);
-        this.bookingCreated = createEvent(this, "bookingCreated", 7);
-        this.showDialog = createEvent(this, "showDialog", 7);
+        this.showBookingPopup = createEvent(this, "showBookingPopup");
+        this.hideBubbleInfo = createEvent(this, "hideBubbleInfo");
+        this.deleteButton = createEvent(this, "deleteButton");
+        this.bookingCreated = createEvent(this, "bookingCreated");
+        this.showDialog = createEvent(this, "showDialog");
+        this.bubbleInfoTop = false;
+        this.is_vacation_rental = false;
+        this.shouldHideUnassignUnit = false;
         this.eventService = new EventsService();
         this.hideButtons = false;
-        this.bookingEvent = undefined;
-        this.bubbleInfoTop = false;
-        this.currency = undefined;
-        this.countries = undefined;
-        this.is_vacation_rental = false;
-        this.isLoading = undefined;
-        this.shouldHideUnassignUnit = false;
-        this.canCheckInOrCheckout = undefined;
     }
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -2551,33 +2503,15 @@ const IglBookingEventHover = class {
         "bookingEvent": ["handleBookingEventChange"]
     }; }
 };
-IglBookingEventHover.style = IglBookingEventHoverStyle0;
+IglBookingEventHover.style = iglBookingEventHoverCss;
 
 const iglBookingFormCss = ".sc-igl-booking-form-h{display:block}.card-title.sc-igl-booking-form{border-bottom:1px solid #e4e5ec}.scrollContent.sc-igl-booking-form{height:calc(100% - 79px);overflow:auto;position:relative}.background-overlay.sc-igl-booking-form{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-booking-form{height:calc(100% - 79px);overflow:auto}.sideWindow.sc-igl-booking-form{position:absolute;top:0;right:0;height:100%;background-color:#ffffff}.close.sc-igl-booking-form{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-booking-form{position:absolute;top:18px;right:33px;outline:none}button.sc-igl-booking-form:not(:disabled),[type='button'].sc-igl-booking-form:not(:disabled){cursor:pointer}.row.sc-igl-booking-form{padding:0 0 0 15px;margin:0}";
-const IglBookingFormStyle0 = iglBookingFormCss;
 
 const IglBookingForm = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.showPaymentDetails = undefined;
-        this.currency = undefined;
-        this.isEditOrAddRoomEvent = undefined;
-        this.dateRangeData = undefined;
-        this.bookingData = undefined;
-        this.showSplitBookingOption = undefined;
-        this.language = undefined;
-        this.bookedByInfoData = undefined;
-        this.propertyId = undefined;
-        this.bedPreferenceType = undefined;
-        this.selectedRooms = undefined;
-        this.isLoading = undefined;
-        this.countries = undefined;
-        this.selectedGuestData = undefined;
-        this.defaultGuestData = undefined;
-        this.selectedBookedByData = undefined;
-        this.guestData = undefined;
+        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent");
+        this.buttonClicked = createEvent(this, "buttonClicked");
         this.selectedUnits = {};
     }
     componentWillLoad() {
@@ -2687,30 +2621,14 @@ const IglBookingForm = class {
             } })), this.isEditOrAddRoomEvent ? (h("div", { class: "d-flex p-0 mb-1 mt-2" }, h("div", { class: "flex-fill mr-2" }, h("ir-button", { icon: "", text: locales.entries.Lcz_Back, class: "full-width", btn_color: "secondary", btn_styles: "justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }) })), h("div", { class: "flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'save', onClickHandler: () => this.buttonClicked.emit({ key: 'save' }), btn_styles: "full-width align-items-center justify-content-center", text: locales.entries.Lcz_Save })))) : (h("div", { class: "d-flex flex-column flex-md-row p-0 mb-1 mt-2 justify-content-md-between align-items-md-center" }, h("div", { class: "flex-fill mr-md-1" }, h("ir-button", { icon_name: "angles_left", btn_color: "secondary", btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'back' }), text: locales.entries.Lcz_Back, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })), h("div", { class: `mt-1 mt-md-0 flex-fill ${showBookAndCheckin ? 'mr-md-1' : ''}` }, h("ir-button", { isLoading: this.isLoading === 'book', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'book' }), text: locales.entries.Lcz_Book })), showBookAndCheckin && (h("div", { class: "mt-1 mt-md-0 flex-fill" }, h("ir-button", { isLoading: this.isLoading === 'bookAndCheckIn', btn_styles: "full-width align-items-center justify-content-center", onClickHandler: () => this.buttonClicked.emit({ key: 'bookAndCheckIn' }), text: locales.entries.Lcz_BookAndChekcIn })))))));
     }
 };
-IglBookingForm.style = IglBookingFormStyle0;
+IglBookingForm.style = iglBookingFormCss;
 
 const iglBookingOverviewPageCss = ".sc-igl-booking-overview-page-h{display:block}.sc-igl-booking-overview-page-h>*.sc-igl-booking-overview-page{margin:0;padding:auto}.scrollContent.sc-igl-booking-overview-page{height:calc(100% - 79px);overflow:auto;position:relative}.loading-container.sc-igl-booking-overview-page{display:flex;align-items:center;justify-content:center;height:100%;background:white;position:absolute;inset:0;z-index:100}.loader.sc-igl-booking-overview-page{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}";
-const IglBookingOverviewPageStyle0 = iglBookingOverviewPageCss;
 
 const IglBookingOverviewPage = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.roomsDataUpdate = createEvent(this, "roomsDataUpdate", 7);
-        this.bookingData = undefined;
-        this.propertyId = undefined;
-        this.message = undefined;
-        this.showSplitBookingOption = undefined;
-        this.eventType = undefined;
-        this.currency = undefined;
-        this.adultChildConstraints = undefined;
-        this.ratePricingMode = undefined;
-        this.dateRangeData = undefined;
-        this.defaultDaterange = undefined;
-        this.selectedRooms = undefined;
-        this.adultChildCount = undefined;
-        this.sourceOptions = undefined;
-        this.bookedByInfoData = undefined;
-        this.initialRoomIds = undefined;
+        this.roomsDataUpdate = createEvent(this, "roomsDataUpdate");
     }
     getSplitBookings() {
         return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];
@@ -2736,32 +2654,22 @@ const IglBookingOverviewPage = class {
             adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: '75b76ec416d05336f7ad94f68f1e04ce4bf08687', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) })))))), h("igl-book-property-footer", { key: 'b12d6b4eb25a8e0c5fe950e7d727e98277207873', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type })));
     }
 };
-IglBookingOverviewPage.style = IglBookingOverviewPageStyle0;
+IglBookingOverviewPage.style = iglBookingOverviewPageCss;
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:#e0e0e0}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid rgba(186, 191, 199, 0.5)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
-const IglCalBodyStyle0 = iglCalBodyCss;
 
 const IglCalBody = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.addBookingDatasEvent = createEvent(this, "addBookingDatasEvent", 7);
-        this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
-        this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
+        this.addBookingDatasEvent = createEvent(this, "addBookingDatasEvent");
+        this.showBookingPopup = createEvent(this, "showBookingPopup");
+        this.scrollPageToRoom = createEvent(this, "scrollPageToRoom");
+        this.dragOverElement = '';
+        this.renderAgain = false;
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
         this.housekeepingService = new HouseKeepingService();
-        this.isScrollViewDragging = undefined;
-        this.propertyId = undefined;
-        this.calendarData = undefined;
-        this.today = undefined;
-        this.currency = undefined;
-        this.language = undefined;
-        this.countries = undefined;
-        this.highlightedDate = undefined;
-        this.dragOverElement = '';
-        this.renderAgain = false;
-        this.selectedRoom = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -3061,18 +2969,14 @@ const IglCalBody = class {
         );
     }
 };
-IglCalBody.style = IglCalBodyStyle0;
+IglCalBody.style = iglCalBodyCss;
 
 const iglCalFooterCss = ".sc-igl-cal-footer-h{display:block;position:sticky;bottom:0;width:max-content;z-index:3}.footerCell.sc-igl-cal-footer{display:-moz-inline-grid;display:-ms-inline-grid;display:inline-grid;position:-webkit-sticky;position:sticky;bottom:0;width:58px;height:40px;background:#fff;vertical-align:top;border-top:1px solid #e0e0e0}.bottomLeftCell.sc-igl-cal-footer{left:-1px;z-index:2;width:170px;text-align:left;padding-left:15px;color:#000000}.footerCell.sc-igl-cal-footer i.sc-igl-cal-footer{margin-right:5px}.legendBtn.sc-igl-cal-footer{color:#41bff3;cursor:pointer}.isOnline.sc-igl-cal-footer i.sc-igl-cal-footer{color:#2f9c3f;font-weight:bold}.isOffline.sc-igl-cal-footer i.sc-igl-cal-footer{font-weight:bold}.isOffline.sc-igl-cal-footer{color:#a40000}.dayTitle.sc-igl-cal-footer{font-size:0.8em;font-weight:600;display:grid;user-select:none}.currentDay.sc-igl-cal-footer .dayTitle.sc-igl-cal-footer{font-weight:bold}.currentDay.sc-igl-cal-footer{background-color:#e3f3fa}.dayCapacityPercent.sc-igl-cal-footer{font-size:0.75em}.badge-pill.sc-igl-cal-footer{padding-left:1em;padding-right:1em;font-size:0.7em;margin-bottom:2px}";
-const IglCalFooterStyle0 = iglCalFooterCss;
 
 const IglCalFooter = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.optionEvent = createEvent(this, "optionEvent", 7);
-        this.calendarData = undefined;
-        this.today = undefined;
-        this.highlightedDate = undefined;
+        this.optionEvent = createEvent(this, "optionEvent");
     }
     // private isOnline:boolean = false;
     handleOptionEvent(key, data = '') {
@@ -3082,7 +2986,7 @@ const IglCalFooter = class {
         return (h(Host, { key: '4cf5f10d76ff672f2e5aee83d0e8465e650b6aa9', class: "footerContainer" }, h("div", { key: '19377e69618c9553ca3445264b20f0eb17dbd4dd', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: 'c8c9effa7b4579b8fc0bdcd33d67f4a078b69365', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '04aafc80cf5a63197cd77f80b8d7a63bfd25536c', class: "la la-square" }), h("u", { key: '5829c75b17035ef51640f7c4595455957f3b8ee9' }, locales.entries.Lcz_Legend), h("span", { key: 'ff50eb0037fd801ae43c925604eb7bbad2c4fa42' }, " - v99.195"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
-IglCalFooter.style = IglCalFooterStyle0;
+IglCalFooter.style = iglCalFooterCss;
 
 class ToBeAssignedService {
     async getUnassignedDates(propertyid, from_date, to_date) {
@@ -3498,26 +3402,19 @@ const colorVariants = {
 };
 
 const iglCalHeaderCss = ".sc-igl-cal-header-h{display:block;position:absolute;top:0;height:100%}.svg-icon.sc-igl-cal-header{height:20px;width:20px}.darkGrey.sc-igl-cal-header{background:#ececec}.btn.sc-igl-cal-header{pointer-events:auto}.stickyCell.sc-igl-cal-header{display:-ms-inline-grid;display:-moz-inline-grid;display:inline-grid;position:-webkit-sticky;position:sticky;top:0px;height:82px;display:inline-block;vertical-align:top;z-index:2}.headersContainer.sc-igl-cal-header{background-color:#ffffff}.headerCell.sc-igl-cal-header{display:inline-grid;width:58px;height:58px;vertical-align:top;background-color:#ffffff;border-bottom:1px solid #e0e0e0}.monthsContainer.sc-igl-cal-header{height:20px;background-color:#ffffff;margin-bottom:0.2em}.monthCell.sc-igl-cal-header{display:inline-grid;height:20px;background-color:#ececec;border-right:1px solid #c7c7c7;vertical-align:top}.monthCell.sc-igl-cal-header:nth-child(odd){background-color:#dddddd}.monthTitle.sc-igl-cal-header{overflow:hidden;text-overflow:ellipsis;font-size:0.9em;text-transform:uppercase;font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.topLeftCell.sc-igl-cal-header{left:0px;z-index:3;width:170px;background-color:#ffffff;display:-ms-inline-grid;display:-moz-inline-grid;display:inline-grid}.datePickerHidden.sc-igl-cal-header{position:absolute;height:100%;width:100%;opacity:0;cursor:pointer;z-index:1}.date_btn.sc-igl-cal-header{cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}.date_btn.sc-igl-cal-header:hover{background:#f6f6f6;border-radius:0.3rem}.caledarBtns.sc-igl-cal-header{position:relative;cursor:pointer;padding:0.4rem}.caledarBtns.sc-igl-cal-header:hover{background-color:#f6f6f6}.dayTitle.sc-igl-cal-header{font-size:0.8em;font-weight:600;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.currentDay.sc-igl-cal-header .dayTitle.sc-igl-cal-header{font-weight:bold}.currentDay.sc-igl-cal-header{background-color:#e3f3fa}.dayCapacityPercent.sc-igl-cal-header{font-size:0.75em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.badge-pill.sc-igl-cal-header{padding:3px 1em;font-size:0.8em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.pointer.sc-igl-cal-header{cursor:pointer}.searchContiner.sc-igl-cal-header{padding-left:10px;padding-right:10px}.searchListContainer.sc-igl-cal-header{background:#fff;border:1px solid #ccc;border-bottom:none}.searchListItem.sc-igl-cal-header{background:white;border-bottom:1px solid #ccc;padding-left:8px}.badge-light.sc-igl-cal-header{background-color:#999999;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.min-width-full.sc-igl-cal-header{min-width:100%}";
-const IglCalHeaderStyle0 = iglCalHeaderCss;
 
 const IglCalHeader = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.optionEvent = createEvent(this, "optionEvent", 7);
-        this.gotoRoomEvent = createEvent(this, "gotoRoomEvent", 7);
-        this.gotoToBeAssignedDate = createEvent(this, "gotoToBeAssignedDate", 7);
+        this.optionEvent = createEvent(this, "optionEvent");
+        this.gotoRoomEvent = createEvent(this, "gotoRoomEvent");
+        this.gotoToBeAssignedDate = createEvent(this, "gotoToBeAssignedDate");
+        this.renderAgain = false;
+        this.unassignedRoomsNumber = {};
         this.searchValue = '';
         this.searchList = [];
         this.roomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
-        this.calendarData = undefined;
-        this.today = undefined;
-        this.propertyid = undefined;
-        this.unassignedDates = undefined;
-        this.to_date = undefined;
-        this.highlightedDate = undefined;
-        this.renderAgain = false;
-        this.unassignedRoomsNumber = {};
     }
     componentWillLoad() {
         try {
@@ -3676,27 +3573,22 @@ const IglCalHeader = class {
         "unassignedDates": ["handleCalendarDataChanged"]
     }; }
 };
-IglCalHeader.style = IglCalHeaderStyle0;
+IglCalHeader.style = iglCalHeaderCss;
 
 const iglDateRangeCss = ".sc-igl-date-range-h{display:flex;align-items:center !important;font-size:14px !important}.date-range-input.sc-igl-date-range{margin:0;padding:0;display:flex;flex:1;cursor:pointer;width:100%;user-select:none;font-size:14px !important}.iglRangeNights.sc-igl-date-range{margin:0;padding:0}.date-view.sc-igl-date-range{position:absolute;background:white;pointer-events:none;cursor:pointer;display:block;margin-left:14px;margin-right:14px;font-size:13.65px !important;display:flex;align-items:center;inset:0}.date-view.sc-igl-date-range svg.sc-igl-date-range{padding:0 !important;margin:0;margin-right:10px}.calendarPickerContainer.sc-igl-date-range{display:flex !important;position:relative !important;text-align:left;align-items:center !important;padding:0 !important;margin:0;border:1px solid var(--ir-date-range-border, #379ff2);width:var(--ir-date-range-width, 245px);transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.calendarPickerContainer.sc-igl-date-range:focus-within{border-color:#379ff2}.calendarPickerContainer[data-state='disabled'].sc-igl-date-range{border:0px;width:280px}.date-view[data-state='disabled'].sc-igl-date-range,.date-range-input[data-state='disabled'].sc-igl-date-range{margin:0;cursor:default}.date-range-container-cn.sc-igl-date-range{position:relative;width:fit-content}.date-range-container-cn.sc-igl-date-range:focus-within .date-range-container.sc-igl-date-range{border:1px solid #379ff2}.date-range-container.sc-igl-date-range{position:relative;gap:1rem;font-size:0.975rem;line-height:1.45;border-radius:0.21rem;border:1px solid #cacfe7;color:#3b4781;padding:0.75rem 1rem;box-sizing:border-box !important;font-weight:400;background-color:#fff;background-clip:padding-box;height:2rem;pointer-events:none;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.date-range-container-cn.sc-igl-date-range .date-range-input.sc-igl-date-range{position:absolute;width:100% !important;inset:0;cursor:pointer}.date-range-container.disabled.sc-igl-date-range{border:none;padding-left:0;padding-right:0}.date-range-input[data-state='disabled'].sc-igl-date-range{cursor:default}";
-const IglDateRangeStyle0 = iglDateRangeCss;
 
 const IglDateRange = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.totalNights = 0;
-        this.fromDateStr = 'from';
-        this.toDateStr = 'to';
-        this.defaultData = undefined;
+        this.dateSelectEvent = createEvent(this, "dateSelectEvent");
+        this.toast = createEvent(this, "toast");
         this.disabled = false;
-        this.minDate = undefined;
-        this.dateLabel = undefined;
-        this.maxDate = undefined;
         this.withDateDifference = true;
         this.variant = 'default';
         this.renderAgain = false;
+        this.totalNights = 0;
+        this.fromDateStr = 'from';
+        this.toDateStr = 'to';
     }
     componentWillLoad() {
         this.initializeDates();
@@ -3771,16 +3663,14 @@ const IglDateRange = class {
         "defaultData": ["handleDataChange"]
     }; }
 };
-IglDateRange.style = IglDateRangeStyle0;
+IglDateRange.style = iglDateRangeCss;
 
 const iglLegendsCss = ".sc-igl-legends-h{display:block}.legendHeader.sc-igl-legends{font-weight:500;letter-spacing:0.05rem;font-size:1.12rem;padding-top:5px;margin-bottom:1rem}.legendCloseBtn.sc-igl-legends{position:absolute;top:50%;right:0;cursor:pointer;font-size:1.75em;line-height:1em;padding:0.4rem;display:flex;align-items:center;justify-content:center;border-radius:3px;transform:translateY(-50%)}.legendCloseBtn.sc-igl-legends:hover{background-color:#f6f6f6}.stickyHeader.sc-igl-legends{position:-webkit-sticky;position:sticky;top:0;background-color:#ffffff;z-index:1}.legendRow.sc-igl-legends{position:relative;vertical-align:middle;margin-bottom:0.3rem}.legendRow.sc-igl-legends div.sc-igl-legends{display:inline-block;vertical-align:middle}.legend_skew.sc-igl-legends,.legend_skew-bordered.sc-igl-legends,.legend_skewsplit.sc-igl-legends{transform:skew(-30deg);width:15px;height:16px}.legend_skew-bordered.sc-igl-legends{border:1px solid black}.legend_circle.sc-igl-legends{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px}.legend_skewsplit.sc-igl-legends{border-right:2px solid #000000}.headerCell.sc-igl-legends .blueColor.sc-igl-legends{background-color:#31bef1}.greenColor.sc-igl-legends{background-color:#45b16d}.yellowColor.sc-igl-legends{background-color:#f4d552}.greyColor.sc-igl-legends{background-color:#a0a0a0}.redColor.sc-igl-legends{background-color:#f34752}.pinkColor.sc-igl-legends{background-color:#f9b4b7}.legendCalendar.sc-igl-legends .legendRow.sc-igl-legends{margin-bottom:0}.legendCalendar.sc-igl-legends .legendRow.sc-igl-legends:first-child .legendCal.sc-igl-legends{background-color:#ececec}.legendCalendar.sc-igl-legends .legendRow.sc-igl-legends div.sc-igl-legends{display:inline-block;vertical-align:middle;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.total-availability.sc-igl-legends{font-size:1em !important}.legendCalendar.sc-igl-legends .legendCal.sc-igl-legends{width:80px;height:25px;text-align:center;display:inline-grid !important;align-content:center;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.legendCalendar.sc-igl-legends .legendCal.sc-igl-legends .badge.sc-igl-legends{margin-top:0.2rem;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.legendCalendar.sc-igl-legends .legendCal.legendCal-h2.sc-igl-legends{height:40px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.br-t.sc-igl-legends{border-top:1px solid #a0a0a0}.br-s.sc-igl-legends{border-left:1px solid #a0a0a0;border-right:1px solid #a0a0a0}.br-bt.sc-igl-legends{border-bottom:1px solid #a0a0a0}.highphenLegend.sc-igl-legends{font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.highphenLegend.sc-igl-legends::before{width:12px;height:0.5px;content:' ';background-color:#000000;vertical-align:middle;display:inline-block;margin-left:5px;margin-right:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.badge-pill.sc-igl-legends{padding:3px 1em;font-size:0.8em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.headerCell.sc-igl-legends{width:70px;display:flex;align-items:center;justify-content:center}.dayTitle.sc-igl-legends{font-size:0.8em;font-weight:600;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.dayCapacityPercent.sc-igl-legends{font-size:0.75em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}";
-const IglLegendsStyle0 = iglLegendsCss;
 
 const IglLegends = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.optionEvent = createEvent(this, "optionEvent", 7);
-        this.legendData = undefined;
+        this.optionEvent = createEvent(this, "optionEvent");
     }
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
@@ -3789,26 +3679,22 @@ const IglLegends = class {
         return (h(Host, { key: '7c6f6f45519c6b38afcd4676feeee23e90dd5e54', class: "legendContainer pr-1 text-left" }, h("div", { key: 'd5c904979a1c216185a6f573eb0e7d2844950fd8', class: 'w-full' }, h("div", { key: 'c13b31c747a54b2192023e27265e996edfcd345b', class: 'w-full' }, h("div", { key: '3768507a824e125d7823f9f2a808ef0726a35480', class: "stickyHeader pt-1 " }, h("p", { key: '741585c87605efb82f8ffd61dc94c7391c9a8e67', class: "legendHeader" }, locales.entries.Lcz_Legend), h("div", { key: '052344a6eba12aa7b3676100ef0883649326f360', class: "legendCloseBtn", onClick: () => this.handleOptionEvent('closeSideMenu') }, h("svg", { key: '91778d01bb9ee1e557b719b668a597548527239c', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '2284be1e2e2344ee0b5bb2eef9dd10ad537cb7be', fill: "#6b6f82", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" }))), h("hr", { key: '0a234d32f65038872cbcc3750944d1c01ac311d8' })), h("div", { key: 'abde1013f3d2d4a060eb646de375c8de844da940', class: "mt-2 pl-1" }, this.legendData.map(legendInfo => (h("div", { class: "legendRow " }, h("div", { class: `legend_${legendInfo.design} mr-1`, style: { backgroundColor: legendInfo.color } }), h("span", { class: "font-small-3" }, legendInfo.name))))), h("hr", { key: 'bafeb99dde0d7f04431ee7fb70c8ce10bc098b28' }), h("div", { key: '486131297e672dad2926eab7815b84a5e4c61ec7', class: "mt-2" }, h("div", { key: '67e01c05b4a2005777152177a751a45c5310f1ca', class: "legendCalendar" }, h("div", { key: '35a3851db2a39f3c50504bed8d65f35fa6ade64b', class: "legendRow align-items-center" }, h("div", { key: '05009b54dbc005bbed611bb2b08f86a89c6b5ffd', class: "legendCal br-t br-s br-bt" }, h("strong", { key: 'ae6cfbf15eb893267839dd6eee0cea8518011b5f' }, "MAR 2022")), h("div", { key: 'f005a567e18cc53a5f03f5a09a7bb814372c994f', class: "highphenLegend" }, locales.entries.Lcz_MonthAndYear)), h("div", { key: '13ac0e8d7eee0d658783b35e3fd0634667ac26bd', class: "legendRow" }, h("div", { key: '572c5ed29117e4877a828630c44a53b1e1e2a445', class: "legendCal headerCell align-items-center br-s" }, h("span", { key: '965b5407f15dce2db1014c290eb2739f08ff2e0c', class: "badge badge-info  badge-pill" }, "3")), h("div", { key: 'fba2f11b2dd374ddef2f3db5c4a7ab2c72888833', class: "highphenLegend" }, h("div", { key: 'b23ca536ec1906e47574ce4e6dd36d8d3f80bc96' }, locales.entries.Lcz_UnassignedUnits))), h("div", { key: 'fdfe5954c069ef7dbe90583ba018b47d08eb216f', class: "legendRow" }, h("div", { key: '888093644f5a176adbc36a89b6cc7044e027bfd5', class: "legendCal dayTitle br-s" }, "Fri 18"), h("div", { key: '1f673a06682ae2d61b4887d176d882ca61093fea', class: "highphenLegend" }, locales.entries.Lcz_Date)), h("div", { key: '51d22d67338759082f0bd4fa4850aeb9b0cbb85d', class: "legendRow" }, h("div", { key: 'fbeae48592ecdb8bc60a83c2cb16547e1a63d71b', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), h("div", { key: '8d687f6c653e3989fff2cd94feea412a0a0ecf76', class: "highphenLegend" }, locales.entries.Lcz_Occupancy)), h("div", { key: '64591b3996afc8f2f26bc90ddb8c1e7984ff8ba0', class: "legendRow" }, h("div", { key: '60462887c86bd549aa8fae7a8e14489a28cf24b6', class: "legendCal br-s br-bt  font-weight-bold total-availability" }, "20"), h("div", { key: 'dda94ef152308518e1a53342d8f67916ebd8c064', class: "highphenLegend" }, locales.entries.Lcz_TotalAvailability))))))));
     }
 };
-IglLegends.style = IglLegendsStyle0;
+IglLegends.style = iglLegendsCss;
 
 const iglPropertyBookedByCss = ".sc-igl-property-booked-by-h{display:block}.row.sc-igl-property-booked-by{padding:0 0 0 15px;margin:0}.bookedByEmailContainer.sc-igl-property-booked-by{flex:auto;max-width:350px}.bookedDetailsForm.sc-igl-property-booked-by label.sc-igl-property-booked-by{min-width:125px;max-width:125px}.row.sc-igl-booking-form.sc-igl-property-booked-by{padding:0 !important}.bookedDetailsForm.sc-igl-property-booked-by .form-group.sc-igl-property-booked-by{margin-bottom:10px !important}.bookedDetailsForm.sc-igl-property-booked-by .checkBoxContainer.sc-igl-property-booked-by input.sc-igl-property-booked-by{height:1.2rem !important;width:30px}.controlContainer.sc-igl-property-booked-by textarea.sc-igl-property-booked-by{height:60px !important}.margin3.sc-igl-property-booked-by{margin-bottom:5px !important}@media (min-width: 768px){.bookedByEmailContainer.sc-igl-property-booked-by{margin-left:37px}}";
-const IglPropertyBookedByStyle0 = iglPropertyBookedByCss;
 
 const IglPropertyBookedBy = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
+        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent");
+        this.showPaymentDetails = false;
+        this.countries = [];
+        this.isButtonPressed = false;
         this.bookingService = new BookingService();
         this.arrivalTimeList = [];
         this.expiryMonths = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         this.expiryYears = [];
         this.currentMonth = '01';
-        this.language = undefined;
-        this.showPaymentDetails = false;
-        this.defaultData = undefined;
-        this.countries = [];
-        this.propertyId = undefined;
-        this.isButtonPressed = false;
         this.bookedByData = {
             id: undefined,
             email: '',
@@ -3903,7 +3789,7 @@ const IglPropertyBookedBy = class {
         var _a;
         try {
             const email = this.bookedByData.email;
-            if (z.string().email().safeParse(email).success) {
+            if (libExports.z.string().email().safeParse(email).success) {
                 const res = await this.bookingService.getUserInfo(email);
                 if (res !== null) {
                     this.bookedByData = Object.assign(Object.assign({}, this.bookedByData), { id: res.id, firstName: res.first_name, lastName: res.last_name, contactNumber: res.mobile_without_prefix, countryId: res.country_id, isdCode: (_a = res === null || res === void 0 ? void 0 : res.country_phone_prefix) !== null && _a !== void 0 ? _a : res.isdCode.toString() });
@@ -3940,7 +3826,7 @@ const IglPropertyBookedBy = class {
         const { key, data } = e.detail;
         console.log(key, data);
         if (key === 'blur') {
-            if (z.string().email().safeParse(data).success) {
+            if (libExports.z.string().email().safeParse(data).success) {
                 this.bookedByData.email = data;
                 this.checkUser();
             }
@@ -4023,23 +3909,17 @@ const IglPropertyBookedBy = class {
             } }))), h("div", { key: '4e5b41e8ccb9d7151e44aa927e4564b627273e79', class: "form-group  p-0 d-flex flex-column flex-md-row align-items-md-center" }, h("label", { key: '12871cf6abe76fa8a22d2a361501a50ee7c0a3c3', class: "p-0 m-0 margin3" }, locales.entries.Lcz_YourArrivalTime), h("div", { key: '320be9468c2529bc0898781696f6d2d03bdef124', class: "p-0 m-0  controlContainer flex-fill" }, h("select", { key: '52d1548ae9e4945824c6cd67f60997dd3ad33c97', "data-testid": "arrival_time", class: `form-control input-sm pr-0 ${this.isButtonPressed && this.bookedByData.selectedArrivalTime.code === '' && 'border-danger'}`, id: v4(), onChange: event => this.handleDataChange('selectedArrivalTime', event) }, this.arrivalTimeList.map(time => (h("option", { value: time.CODE_NAME, selected: this.bookedByData.selectedArrivalTime.code === time.CODE_NAME }, time.CODE_VALUE_EN))))))), h("div", { key: 'd63da0acc1d08e4d134323dc81a95dcff0e1516c', class: "p-0 flex-fill  ml-md-3" }, h("div", { key: 'dfab9d501502b1fb5b6760eca5fac7c2e070129b', class: "  p-0 d-flex flex-column flex-md-row align-items-md-center " }, h("label", { key: 'c1d9474e1b6ca51f42346112842834b5c44f768f', class: "p-0 m-0 margin3" }, locales.entries.Lcz_AnyMessageForUs), h("div", { key: 'dcf004afd641350d0f38b64b9a9dcef0759f591d', class: "p-0 m-0  controlContainer flex-fill " }, h("textarea", { key: '1573809bd4d40bd309fbf62cbbd6c172f17e59a0', "data-testid": "note", id: v4(), rows: 4, class: "form-control ", name: "message", value: this.bookedByData.message, onInput: event => this.handleDataChange('message', event) }))), this.showPaymentDetails && (h(Fragment, { key: '55115690403ca32153c9089ff67f1fb01bcf364f' }, h("div", { key: '816db14460c9d0e3a971a9944a7c3ead1778a027', class: "form-group mt-md-1  p-0 d-flex flex-column flex-md-row align-items-md-center" }, h("label", { key: 'd2e3ecea48a62e130cdc0bf28b952d2eaf470d85', class: "p-0 m-0 margin3" }, locales.entries.Lcz_CardNumber), h("div", { key: '7292d3acca38da8e54a18fe7bb9b80560a3090cb', class: "p-0 m-0  controlContainer flex-fill" }, h("input", { key: 'aad5a7b9b8f33ba7ec2e4b8a6bebf8bd502f0d90', class: "form-control", type: "text", placeholder: "", pattern: "0-9 ", id: v4(), value: this.bookedByData.cardNumber, onInput: event => this.handleNumberInput('cardNumber', event) }))), h("div", { key: '91574942a6d4ad2e2b29f68ee852c05512214c15', class: "form-group  p-0 d-flex flex-column flex-md-row align-items-md-center" }, h("label", { key: '90f839c725bcf3f5255698f37675a6f7e873d450', class: "p-0 m-0 margin3" }, locales.entries.Lcz_CardHolderName), h("div", { key: 'eaf4ea1468797eb56341655eaeee000951f3c672', class: "p-0 m-0  controlContainer flex-fill" }, h("input", { key: '26e4b07708d9e6a9f6fbeb26ad0a4aa76dc2c771', class: "form-control", type: "text", placeholder: "", pattern: "0-9 ", id: v4(), value: this.bookedByData.cardHolderName, onInput: event => this.handleDataChange('cardHolderName', event) }))), h("div", { key: 'dc7bd5262030ef8dd2ba3ee818f0bc8ad091f795', class: "form-group  p-0 d-flex flex-column flex-md-row align-items-md-center" }, h("label", { key: '09e241c4e8cd005ffbcf5dcafa514eeccea5946f', class: "p-0 m-0 margin3" }, locales.entries.Lcz_ExpiryDate), h("div", { key: '4e7c1cb3fe57039abf5eb01dcb6d91822990af09', class: "p-0 m-0 row  controlContainer flex-fill" }, h("div", { key: '0be9deda49ad550e1d8e066b8e66e0971d77a08c', class: "p-0 m-0" }, h("select", { key: 'efd8ea8e1ef4578458c621984b0312721c5ed856', class: "form-control input-sm pr-0", id: v4(), onChange: event => this.handleDataChange('expiryMonth', event) }, this.expiryMonths.map(month => (h("option", { value: month, selected: month === this.bookedByData.expiryMonth }, month))))), h("div", { key: '210f7b0e23119654747c55bc8b012841bb1ddd92', class: "p-0 m-0 ml-1" }, h("select", { key: '72dda6b9fd99d4b1483acfc14a2bf158a64f059c', class: "form-control input-sm pr-0", id: v4(), onChange: event => this.handleDataChange('expiryYear', event) }, this.expiryYears.map((year, index) => (h("option", { value: year, selected: index === this.bookedByData.expiryYear }, year))))))))), h("div", { key: 'e71a6e88aa0f05dcad1854d7b43439340a7b2861', class: "form-group mt-1 p-0 d-flex flex-row align-items-center" }, h("label", { key: 'a93837531cc88aa09cff62d7789121a815fd218c', class: "p-0 m-0", htmlFor: 'emailTheGuestId' }, locales.entries.Lcz_EmailTheGuest), h("div", { key: '503228d349ff709a5648193fdb8dea351e67f92b', class: "p-0 m-0  controlContainer flex-fill checkBoxContainer" }, h("input", { key: '7b91131274cf35ac29500b71c5efd968af563841', class: "form-control", type: "checkbox", checked: this.bookedByData.emailGuest, id: 'emailTheGuestId', onChange: event => this.handleDataChange('emailGuest', event) }))))))));
     }
 };
-IglPropertyBookedBy.style = IglPropertyBookedByStyle0;
+IglPropertyBookedBy.style = iglPropertyBookedByCss;
 
 const iglRatePlanCss = ".sc-igl-rate-plan-h{display:block;margin-bottom:0.5rem}.currency.sc-igl-rate-plan{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-igl-rate-plan{font-size:14px;line-height:0;padding:0;height:0;border-left:0}.rate-input-container.sc-igl-rate-plan{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-igl-rate-plan{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:white;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-igl-rate-plan span[data-state='focus'].sc-igl-rate-plan{border-color:var(--blue)}.input-group-prepend.sc-igl-rate-plan span[data-disabled].sc-igl-rate-plan{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.non-ref-span.sc-igl-rate-plan{font-size:12px;color:var(--green)}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0.5rem !important}.rateplan-container.sc-igl-rate-plan{margin-top:0.5rem}@media only screen and (min-width: 1200px){.rateplan-name-container.sc-igl-rate-plan{width:40%;margin-top:0}.rateplan-container.sc-igl-rate-plan{width:40%}}@media only screen and (min-width: 991px){.max-w-300.sc-igl-rate-plan{max-width:200px}.rate-input-container.sc-igl-rate-plan{max-width:50px}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0 !important}}@media only screen and (min-width: 991px) and (max-width: 1300px){.rateplan-name-container.sc-igl-rate-plan{width:40%}.price-amount.sc-igl-rate-plan{max-width:150px !important}}@media only screen and (max-width: 768px){.booking-btn.sc-igl-rate-plan{width:100%}}.total-nights-container.sc-igl-rate-plan{width:max-content}.nightBorder.sc-igl-rate-plan{border-left-width:0;border-top-right-radius:3px !important;border-bottom-right-radius:3px !important}";
-const IglRatePlanStyle0 = iglRatePlanCss;
 
 const IglRatePlan = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.ratePlan = undefined;
-        this.roomTypeId = undefined;
+        this.buttonClicked = createEvent(this, "buttonClicked");
         this.ratePricingMode = [];
-        this.currency = undefined;
-        this.shouldBeDisabled = undefined;
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
-        this.visibleInventory = undefined;
     }
     // Determine if the form inputs should be disabled
     disableForm() {
@@ -4215,27 +4095,20 @@ const IglRatePlan = class {
             } }, visibleInventory.reserved === 1 ? locales.entries.Lcz_Current : locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "btn btn-primary booking-btn mt-md-0 btn-sm ml-md-1 mt-1", onClick: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "text-danger m-0 p-0" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
     }
 };
-IglRatePlan.style = IglRatePlanStyle0;
+IglRatePlan.style = iglRatePlanCss;
 
 const iglRoomTypeCss = ".sc-igl-room-type-h{display:block}.margin-bottom-8.sc-igl-room-type{margin-bottom:8px !important}";
-const IglRoomTypeStyle0 = iglRoomTypeCss;
 
 const IglRoomType = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
-        this.roomType = undefined;
+        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent");
         this.bookingType = 'PLUS_BOOKING';
-        this.dateDifference = undefined;
         this.ratePricingMode = [];
         this.roomInfoId = null;
-        this.currency = undefined;
-        this.initialRoomIds = undefined;
-        this.isBookDisabled = undefined;
         this.selectedRooms = [];
-        this.totalRooms = undefined;
         this.roomsDistributions = [];
+        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     }
     render() {
         var _a, _b;
@@ -4263,32 +4136,26 @@ const IglRoomType = class {
             })));
     }
 };
-IglRoomType.style = IglRoomTypeStyle0;
+IglRoomType.style = iglRoomTypeCss;
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}";
-const IglTbaBookingViewStyle0 = iglTbaBookingViewCss;
 
 const IglTbaBookingView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
-        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar", 7);
-        this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
-        this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
-        this.assignRoomEvent = createEvent(this, "assignRoomEvent", 7);
-        this.highlightSection = false;
-        this.allRoomsList = [];
-        this.toBeAssignedService = new ToBeAssignedService();
-        this.calendarData = undefined;
-        this.selectedDate = undefined;
+        this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent");
+        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar");
+        this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent");
+        this.scrollPageToRoom = createEvent(this, "scrollPageToRoom");
+        this.assignRoomEvent = createEvent(this, "assignRoomEvent");
         this.eventData = {};
         this.categoriesData = {};
-        this.categoryId = undefined;
-        this.categoryIndex = undefined;
-        this.eventIndex = undefined;
         this.renderAgain = false;
         this.selectedRoom = -1;
         this.isLoading = null;
+        this.highlightSection = false;
+        this.allRoomsList = [];
+        this.toBeAssignedService = new ToBeAssignedService();
     }
     componentShouldUpdate(newValue, oldValue, propName) {
         if (propName === 'selectedDate' && newValue !== oldValue) {
@@ -4439,21 +4306,15 @@ const IglTbaBookingView = class {
         return (h(Host, { key: 'ddfffbf607b8456edaca6d66bfab97952acae661' }, h("div", { key: 'd8e261480c39724d53c535ceb5ba2b932911031c', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '57bd27884f6ff1cafc44dc38581c48acba1eb48a', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '5c64826f602080d010099c6567d294d39ec0c374', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '20e3a1b89b16c66bb89c69f18feed937a3b23ba7', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '100dc949b49bee919666e66e51dc8a45fb1ebfed', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '37364d9ea798dea4cd2a3c1b1c97333cb2b38a98', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: '9925338a9c82b99b5c91cd5cf6b0da985797e59d', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '3dda9204dd6ee5ed028e843972d9db7ea62d33df', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '580645c7484862eff1ebb0b907b347bcbdd5cdc8' }))));
     }
 };
-IglTbaBookingView.style = IglTbaBookingViewStyle0;
+IglTbaBookingView.style = iglTbaBookingViewCss;
 
 const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}";
-const IglTbaCategoryViewStyle0 = iglTbaCategoryViewCss;
 
 const IglTbaCategoryView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.assignUnitEvent = createEvent(this, "assignUnitEvent", 7);
-        this.calendarData = undefined;
-        this.selectedDate = undefined;
+        this.assignUnitEvent = createEvent(this, "assignUnitEvent");
         this.categoriesData = {};
-        this.categoryId = undefined;
-        this.eventDatas = undefined;
-        this.categoryIndex = undefined;
         this.renderAgain = false;
     }
     // private localEventDatas;
@@ -4490,19 +4351,22 @@ const IglTbaCategoryView = class {
         return (h(Host, { key: 'b3dc75c5a434b0c6b9119ac8c6ff07021b6fc758' }, h("div", { key: '3ad1226be8b14c0a67cdf9317b8db9f73aee0dfb', class: "sectionContainer" }, h("div", { key: '1e4762d229a29725d1b49b47ca4d713d19131fe4', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
 };
-IglTbaCategoryView.style = IglTbaCategoryViewStyle0;
+IglTbaCategoryView.style = iglTbaCategoryViewCss;
 
 const iglToBeAssignedCss = ".sc-igl-to-be-assigned-h{display:block}.custom-dropdown.sc-igl-to-be-assigned{cursor:pointer;padding:5px 10px;width:min-content;margin-left:auto;margin-right:auto}.dropdown-toggle.sc-igl-to-be-assigned{all:unset;display:flex;width:max-content;align-items:center;gap:10px}.close_btn_style.sc-igl-to-be-assigned{padding:0.4rem}.close_btn_style.sc-igl-to-be-assigned:hover{background-color:#f6f6f6}.dropdown-menu.sc-igl-to-be-assigned{max-height:250px;overflow-y:auto}.tobeAssignedHeader.sc-igl-to-be-assigned{font-weight:500;letter-spacing:0.05rem;font-size:1.12rem;padding:0;margin:0}.assignment_header.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:space-between;padding-top:5px;margin-bottom:1rem}.dropdown-toggle.sc-igl-to-be-assigned::after{content:none;display:none}.dropdown-toggle.sc-igl-to-be-assigned .caret-icon.sc-igl-to-be-assigned{transition:transform 0.2s ease}.show.sc-igl-to-be-assigned .caret-icon.sc-igl-to-be-assigned{transform:rotate(-180deg)}.stickyHeader.sc-igl-to-be-assigned{position:-webkit-sticky;position:sticky;top:0;background-color:#ffffff;z-index:1}.pointer.sc-igl-to-be-assigned{cursor:pointer}.dots.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-igl-to-be-assigned{width:5px;height:5px;margin:5px 4px 0;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-igl-to-be-assigned:nth-child(2){animation-delay:0.2s}.dot.sc-igl-to-be-assigned:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}";
-const IglToBeAssignedStyle0 = iglToBeAssignedCss;
 
 const IglToBeAssigned = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.optionEvent = createEvent(this, "optionEvent", 7);
-        this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent", 7);
-        this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
-        this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
-        this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
+        this.optionEvent = createEvent(this, "optionEvent");
+        this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent");
+        this.showBookingPopup = createEvent(this, "showBookingPopup");
+        this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent");
+        this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent");
+        this.showDatesList = false;
+        this.renderAgain = false;
+        this.orderedDatesList = [];
+        this.noScroll = false;
         this.isGotoToBeAssignedDate = false;
         this.isLoading = true;
         this.selectedDate = null;
@@ -4510,16 +4374,6 @@ const IglToBeAssigned = class {
         this.today = new Date();
         this.categoriesData = {};
         this.toBeAssignedService = new ToBeAssignedService();
-        this.unassignedDatesProp = undefined;
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.calendarData = undefined;
-        this.loadingMessage = undefined;
-        this.showDatesList = false;
-        this.renderAgain = false;
-        this.orderedDatesList = [];
-        this.noScroll = false;
     }
     componentWillLoad() {
         this.reArrangeData();
@@ -4708,7 +4562,7 @@ const IglToBeAssigned = class {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]
     }; }
 };
-IglToBeAssigned.style = IglToBeAssignedStyle0;
+IglToBeAssigned.style = iglToBeAssignedCss;
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -4909,7 +4763,6 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
-    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -4969,15 +4822,14 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* READ_HEADER */;
+    let state = 0 /* State.READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
-    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* READ_HEADER */) {
+                if (state === 0 /* State.READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -4985,24 +4837,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* READ_PAYLOAD */;
+                        state = 3 /* State.READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
-                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -5015,7 +4867,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* READ_PAYLOAD */;
+                    state = 3 /* State.READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -5023,7 +4875,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* READ_HEADER */;
+                    state = 0 /* State.READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);
@@ -5205,6 +5057,15 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
+const nextTick = (() => {
+    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+    if (isPromiseAvailable) {
+        return (cb) => Promise.resolve().then(cb);
+    }
+    else {
+        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+    }
+})();
 const globalThisShim = (() => {
     if (typeof self !== "undefined") {
         return self;
@@ -5216,6 +5077,8 @@ const globalThisShim = (() => {
         return Function("return this")();
     }
 })();
+const defaultBinaryType = "arraybuffer";
+function createCookieJar() { }
 
 function pick$1(obj, ...attr) {
     return attr.reduce((acc, k) => {
@@ -5268,6 +5131,13 @@ function utf8Length(str) {
     }
     return length;
 }
+/**
+ * Generates a random 8-characters string.
+ */
+function randomString() {
+    return (Date.now().toString(36).substring(3) +
+        Math.random().toString(36).substring(2, 5));
+}
 
 // imported from https://github.com/galkn/querystring
 /**
@@ -5277,7 +5147,7 @@ function utf8Length(str) {
  * @param {Object}
  * @api private
  */
-function encode$1(obj) {
+function encode(obj) {
     let str = '';
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
@@ -5326,6 +5196,7 @@ class Transport extends Emitter {
         this.opts = opts;
         this.query = opts.query;
         this.socket = opts.socket;
+        this.supportsBinary = !opts.forceBase64;
     }
     /**
      * Emits an error.
@@ -5434,115 +5305,15 @@ class Transport extends Emitter {
         }
     }
     _query(query) {
-        const encodedQuery = encode$1(query);
+        const encodedQuery = encode(query);
         return encodedQuery.length ? "?" + encodedQuery : "";
     }
 }
 
-// imported from https://github.com/unshiftio/yeast
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split(''), length = 64, map = {};
-let seed = 0, i = 0, prev;
-/**
- * Return a string representing the specified number.
- *
- * @param {Number} num The number to convert.
- * @returns {String} The string representation of the number.
- * @api public
- */
-function encode(num) {
-    let encoded = '';
-    do {
-        encoded = alphabet[num % length] + encoded;
-        num = Math.floor(num / length);
-    } while (num > 0);
-    return encoded;
-}
-/**
- * Yeast: A tiny growing id generator.
- *
- * @returns {String} A unique id.
- * @api public
- */
-function yeast() {
-    const now = encode(+new Date());
-    if (now !== prev)
-        return seed = 0, prev = now;
-    return now + '.' + encode(seed++);
-}
-//
-// Map each character to its index.
-//
-for (; i < length; i++)
-    map[alphabet[i]] = i;
-
-// imported from https://github.com/component/has-cors
-let value = false;
-try {
-    value = typeof XMLHttpRequest !== 'undefined' &&
-        'withCredentials' in new XMLHttpRequest();
-}
-catch (err) {
-    // if XMLHttp support is disabled in IE then it will throw
-    // when trying to create
-}
-const hasCORS = value;
-
-// browser shim for xmlhttprequest module
-function XHR(opts) {
-    const xdomain = opts.xdomain;
-    // XMLHttpRequest can be disabled on IE
-    try {
-        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
-            return new XMLHttpRequest();
-        }
-    }
-    catch (e) { }
-    if (!xdomain) {
-        try {
-            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
-        }
-        catch (e) { }
-    }
-}
-function createCookieJar() { }
-
-function empty() { }
-const hasXHR2 = (function () {
-    const xhr = new XHR({
-        xdomain: false,
-    });
-    return null != xhr.responseType;
-})();
 class Polling extends Transport {
-    /**
-     * XHR Polling constructor.
-     *
-     * @param {Object} opts
-     * @package
-     */
-    constructor(opts) {
-        super(opts);
-        this.polling = false;
-        if (typeof location !== "undefined") {
-            const isSSL = "https:" === location.protocol;
-            let port = location.port;
-            // some user agents have empty `location.port`
-            if (!port) {
-                port = isSSL ? "443" : "80";
-            }
-            this.xd =
-                (typeof location !== "undefined" &&
-                    opts.hostname !== location.hostname) ||
-                    port !== opts.port;
-        }
-        /**
-         * XHR supports binary
-         */
-        const forceBase64 = opts && opts.forceBase64;
-        this.supportsBinary = hasXHR2 && !forceBase64;
-        if (this.opts.withCredentials) {
-            this.cookieJar = createCookieJar();
-        }
+    constructor() {
+        super(...arguments);
+        this._polling = false;
     }
     get name() {
         return "polling";
@@ -5554,7 +5325,7 @@ class Polling extends Transport {
      * @protected
      */
     doOpen() {
-        this.poll();
+        this._poll();
     }
     /**
      * Pauses polling.
@@ -5568,9 +5339,9 @@ class Polling extends Transport {
             this.readyState = "paused";
             onPause();
         };
-        if (this.polling || !this.writable) {
+        if (this._polling || !this.writable) {
             let total = 0;
-            if (this.polling) {
+            if (this._polling) {
                 total++;
                 this.once("pollComplete", function () {
                     --total || pause();
@@ -5592,8 +5363,8 @@ class Polling extends Transport {
      *
      * @private
      */
-    poll() {
-        this.polling = true;
+    _poll() {
+        this._polling = true;
         this.doPoll();
         this.emitReserved("poll");
     }
@@ -5621,10 +5392,10 @@ class Polling extends Transport {
         // if an event did not trigger closing
         if ("closed" !== this.readyState) {
             // if we got data we're not polling
-            this.polling = false;
+            this._polling = false;
             this.emitReserved("pollComplete");
             if ("open" === this.readyState) {
-                this.poll();
+                this._poll();
             }
         }
     }
@@ -5671,22 +5442,49 @@ class Polling extends Transport {
         const query = this.query || {};
         // cache busting is forced
         if (false !== this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = yeast();
+            query[this.opts.timestampParam] = randomString();
         }
         if (!this.supportsBinary && !query.sid) {
             query.b64 = 1;
         }
         return this.createUri(schema, query);
     }
+}
+
+// imported from https://github.com/component/has-cors
+let value = false;
+try {
+    value = typeof XMLHttpRequest !== 'undefined' &&
+        'withCredentials' in new XMLHttpRequest();
+}
+catch (err) {
+    // if XMLHttp support is disabled in IE then it will throw
+    // when trying to create
+}
+const hasCORS = value;
+
+function empty() { }
+class BaseXHR extends Polling {
     /**
-     * Creates a request.
+     * XHR Polling constructor.
      *
-     * @param {String} method
-     * @private
+     * @param {Object} opts
+     * @package
      */
-    request(opts = {}) {
-        Object.assign(opts, { xd: this.xd, cookieJar: this.cookieJar }, this.opts);
-        return new Request(this.uri(), opts);
+    constructor(opts) {
+        super(opts);
+        if (typeof location !== "undefined") {
+            const isSSL = "https:" === location.protocol;
+            let port = location.port;
+            // some user agents have empty `location.port`
+            if (!port) {
+                port = isSSL ? "443" : "80";
+            }
+            this.xd =
+                (typeof location !== "undefined" &&
+                    opts.hostname !== location.hostname) ||
+                    port !== opts.port;
+        }
     }
     /**
      * Sends data.
@@ -5726,39 +5524,41 @@ class Request extends Emitter {
      * @param {Object} options
      * @package
      */
-    constructor(uri, opts) {
+    constructor(createRequest, uri, opts) {
         super();
+        this.createRequest = createRequest;
         installTimerFunctions(this, opts);
-        this.opts = opts;
-        this.method = opts.method || "GET";
-        this.uri = uri;
-        this.data = undefined !== opts.data ? opts.data : null;
-        this.create();
+        this._opts = opts;
+        this._method = opts.method || "GET";
+        this._uri = uri;
+        this._data = undefined !== opts.data ? opts.data : null;
+        this._create();
     }
     /**
      * Creates the XHR object and sends the request.
      *
      * @private
      */
-    create() {
+    _create() {
         var _a;
-        const opts = pick$1(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
-        opts.xdomain = !!this.opts.xd;
-        const xhr = (this.xhr = new XHR(opts));
+        const opts = pick$1(this._opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+        opts.xdomain = !!this._opts.xd;
+        const xhr = (this._xhr = this.createRequest(opts));
         try {
-            xhr.open(this.method, this.uri, true);
+            xhr.open(this._method, this._uri, true);
             try {
-                if (this.opts.extraHeaders) {
+                if (this._opts.extraHeaders) {
+                    // @ts-ignore
                     xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
-                    for (let i in this.opts.extraHeaders) {
-                        if (this.opts.extraHeaders.hasOwnProperty(i)) {
-                            xhr.setRequestHeader(i, this.opts.extraHeaders[i]);
+                    for (let i in this._opts.extraHeaders) {
+                        if (this._opts.extraHeaders.hasOwnProperty(i)) {
+                            xhr.setRequestHeader(i, this._opts.extraHeaders[i]);
                         }
                     }
                 }
             }
             catch (e) { }
-            if ("POST" === this.method) {
+            if ("POST" === this._method) {
                 try {
                     xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
                 }
@@ -5768,46 +5568,48 @@ class Request extends Emitter {
                 xhr.setRequestHeader("Accept", "*/*");
             }
             catch (e) { }
-            (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
+            (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
             // ie6 check
             if ("withCredentials" in xhr) {
-                xhr.withCredentials = this.opts.withCredentials;
+                xhr.withCredentials = this._opts.withCredentials;
             }
-            if (this.opts.requestTimeout) {
-                xhr.timeout = this.opts.requestTimeout;
+            if (this._opts.requestTimeout) {
+                xhr.timeout = this._opts.requestTimeout;
             }
             xhr.onreadystatechange = () => {
                 var _a;
                 if (xhr.readyState === 3) {
-                    (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(xhr);
+                    (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(
+                    // @ts-ignore
+                    xhr.getResponseHeader("set-cookie"));
                 }
                 if (4 !== xhr.readyState)
                     return;
                 if (200 === xhr.status || 1223 === xhr.status) {
-                    this.onLoad();
+                    this._onLoad();
                 }
                 else {
                     // make sure the `error` event handler that's user-set
                     // does not throw in the same tick and gets caught here
                     this.setTimeoutFn(() => {
-                        this.onError(typeof xhr.status === "number" ? xhr.status : 0);
+                        this._onError(typeof xhr.status === "number" ? xhr.status : 0);
                     }, 0);
                 }
             };
-            xhr.send(this.data);
+            xhr.send(this._data);
         }
         catch (e) {
             // Need to defer since .create() is called directly from the constructor
             // and thus the 'error' event can only be only bound *after* this exception
             // occurs.  Therefore, also, we cannot throw here at all.
             this.setTimeoutFn(() => {
-                this.onError(e);
+                this._onError(e);
             }, 0);
             return;
         }
         if (typeof document !== "undefined") {
-            this.index = Request.requestsCount++;
-            Request.requests[this.index] = this;
+            this._index = Request.requestsCount++;
+            Request.requests[this._index] = this;
         }
     }
     /**
@@ -5815,42 +5617,42 @@ class Request extends Emitter {
      *
      * @private
      */
-    onError(err) {
-        this.emitReserved("error", err, this.xhr);
-        this.cleanup(true);
+    _onError(err) {
+        this.emitReserved("error", err, this._xhr);
+        this._cleanup(true);
     }
     /**
      * Cleans up house.
      *
      * @private
      */
-    cleanup(fromError) {
-        if ("undefined" === typeof this.xhr || null === this.xhr) {
+    _cleanup(fromError) {
+        if ("undefined" === typeof this._xhr || null === this._xhr) {
             return;
         }
-        this.xhr.onreadystatechange = empty;
+        this._xhr.onreadystatechange = empty;
         if (fromError) {
             try {
-                this.xhr.abort();
+                this._xhr.abort();
             }
             catch (e) { }
         }
         if (typeof document !== "undefined") {
-            delete Request.requests[this.index];
+            delete Request.requests[this._index];
         }
-        this.xhr = null;
+        this._xhr = null;
     }
     /**
      * Called upon load.
      *
      * @private
      */
-    onLoad() {
-        const data = this.xhr.responseText;
+    _onLoad() {
+        const data = this._xhr.responseText;
         if (data !== null) {
             this.emitReserved("data", data);
             this.emitReserved("success");
-            this.cleanup();
+            this._cleanup();
         }
     }
     /**
@@ -5859,7 +5661,7 @@ class Request extends Emitter {
      * @package
      */
     abort() {
-        this.cleanup();
+        this._cleanup();
     }
 }
 Request.requestsCount = 0;
@@ -5887,42 +5689,56 @@ function unloadHandler() {
         }
     }
 }
-
-const nextTick = (() => {
-    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
-    if (isPromiseAvailable) {
-        return (cb) => Promise.resolve().then(cb);
-    }
-    else {
-        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
-    }
+const hasXHR2 = (function () {
+    const xhr = newRequest({
+        xdomain: false,
+    });
+    return xhr && xhr.responseType !== null;
 })();
-const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
-const defaultBinaryType = "arraybuffer";
+/**
+ * HTTP long-polling based on the built-in `XMLHttpRequest` object.
+ *
+ * Usage: browser
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+ */
+class XHR extends BaseXHR {
+    constructor(opts) {
+        super(opts);
+        const forceBase64 = opts && opts.forceBase64;
+        this.supportsBinary = hasXHR2 && !forceBase64;
+    }
+    request(opts = {}) {
+        Object.assign(opts, { xd: this.xd }, this.opts);
+        return new Request(newRequest, this.uri(), opts);
+    }
+}
+function newRequest(opts) {
+    const xdomain = opts.xdomain;
+    // XMLHttpRequest can be disabled on IE
+    try {
+        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+            return new XMLHttpRequest();
+        }
+    }
+    catch (e) { }
+    if (!xdomain) {
+        try {
+            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+        }
+        catch (e) { }
+    }
+}
 
 // detect ReactNative environment
 const isReactNative = typeof navigator !== "undefined" &&
     typeof navigator.product === "string" &&
     navigator.product.toLowerCase() === "reactnative";
-class WS extends Transport {
-    /**
-     * WebSocket transport constructor.
-     *
-     * @param {Object} opts - connection options
-     * @protected
-     */
-    constructor(opts) {
-        super(opts);
-        this.supportsBinary = !opts.forceBase64;
-    }
+class BaseWS extends Transport {
     get name() {
         return "websocket";
     }
     doOpen() {
-        if (!this.check()) {
-            // let probe timeout
-            return;
-        }
         const uri = this.uri();
         const protocols = this.opts.protocols;
         // React Native only supports the 'headers' option, and will print a warning if anything else is passed
@@ -5933,12 +5749,7 @@ class WS extends Transport {
             opts.headers = this.opts.extraHeaders;
         }
         try {
-            this.ws =
-                !isReactNative
-                    ? protocols
-                        ? new WebSocket(uri, protocols)
-                        : new WebSocket(uri)
-                    : new WebSocket(uri, protocols, opts);
+            this.ws = this.createSocket(uri, protocols, opts);
         }
         catch (err) {
             return this.emitReserved("error", err);
@@ -5977,10 +5788,7 @@ class WS extends Transport {
                 // have a chance of informing us about it yet, in that case send will
                 // throw an error
                 try {
-                    {
-                        // TypeError is thrown when passing the second argument on Safari
-                        this.ws.send(data);
-                    }
+                    this.doWrite(packet, data);
                 }
                 catch (e) {
                 }
@@ -5997,6 +5805,7 @@ class WS extends Transport {
     }
     doClose() {
         if (typeof this.ws !== "undefined") {
+            this.ws.onerror = () => { };
             this.ws.close();
             this.ws = null;
         }
@@ -6011,7 +5820,7 @@ class WS extends Transport {
         const query = this.query || {};
         // append timestamp to URI
         if (this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = yeast();
+            query[this.opts.timestampParam] = randomString();
         }
         // communicate binary support capabilities
         if (!this.supportsBinary) {
@@ -6019,29 +5828,51 @@ class WS extends Transport {
         }
         return this.createUri(schema, query);
     }
-    /**
-     * Feature detection for WebSocket.
-     *
-     * @return {Boolean} whether this transport is available.
-     * @private
-     */
-    check() {
-        return !!WebSocket;
+}
+const WebSocketCtor = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+/**
+ * WebSocket transport based on the built-in `WebSocket` object.
+ *
+ * Usage: browser, Node.js (since v21), Deno, Bun
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+ * @see https://caniuse.com/mdn-api_websocket
+ * @see https://nodejs.org/api/globals.html#websocket
+ */
+class WS extends BaseWS {
+    createSocket(uri, protocols, opts) {
+        return !isReactNative
+            ? protocols
+                ? new WebSocketCtor(uri, protocols)
+                : new WebSocketCtor(uri)
+            : new WebSocketCtor(uri, protocols, opts);
+    }
+    doWrite(_packet, data) {
+        this.ws.send(data);
     }
 }
 
+/**
+ * WebTransport transport based on the built-in `WebTransport` object.
+ *
+ * Usage: browser, Node.js (with the `@fails-components/webtransport` package)
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WebTransport
+ * @see https://caniuse.com/webtransport
+ */
 class WT extends Transport {
     get name() {
         return "webtransport";
     }
     doOpen() {
-        // @ts-ignore
-        if (typeof WebTransport !== "function") {
-            return;
+        try {
+            // @ts-ignore
+            this._transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
         }
-        // @ts-ignore
-        this.transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
-        this.transport.closed
+        catch (err) {
+            return this.emitReserved("error", err);
+        }
+        this._transport.closed
             .then(() => {
             this.onClose();
         })
@@ -6049,13 +5880,13 @@ class WT extends Transport {
             this.onError("webtransport error", err);
         });
         // note: we could have used async/await, but that would require some additional polyfills
-        this.transport.ready.then(() => {
-            this.transport.createBidirectionalStream().then((stream) => {
+        this._transport.ready.then(() => {
+            this._transport.createBidirectionalStream().then((stream) => {
                 const decoderStream = createPacketDecoderStream(Number.MAX_SAFE_INTEGER, this.socket.binaryType);
                 const reader = stream.readable.pipeThrough(decoderStream).getReader();
                 const encoderStream = createPacketEncoderStream();
                 encoderStream.readable.pipeTo(stream.writable);
-                this.writer = encoderStream.writable.getWriter();
+                this._writer = encoderStream.writable.getWriter();
                 const read = () => {
                     reader
                         .read()
@@ -6074,7 +5905,7 @@ class WT extends Transport {
                 if (this.query.sid) {
                     packet.data = `{"sid":"${this.query.sid}"}`;
                 }
-                this.writer.write(packet).then(() => this.onOpen());
+                this._writer.write(packet).then(() => this.onOpen());
             });
         });
     }
@@ -6083,7 +5914,7 @@ class WT extends Transport {
         for (let i = 0; i < packets.length; i++) {
             const packet = packets[i];
             const lastPacket = i === packets.length - 1;
-            this.writer.write(packet).then(() => {
+            this._writer.write(packet).then(() => {
                 if (lastPacket) {
                     nextTick(() => {
                         this.writable = true;
@@ -6095,14 +5926,14 @@ class WT extends Transport {
     }
     doClose() {
         var _a;
-        (_a = this.transport) === null || _a === void 0 ? void 0 : _a.close();
+        (_a = this._transport) === null || _a === void 0 ? void 0 : _a.close();
     }
 }
 
 const transports = {
     websocket: WS,
     webtransport: WT,
-    polling: Polling,
+    polling: XHR,
 };
 
 // imported from https://github.com/galkn/parseuri
@@ -6129,7 +5960,7 @@ const parts = [
     'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
 ];
 function parse(str) {
-    if (str.length > 2000) {
+    if (str.length > 8000) {
         throw "URI too long";
     }
     const src = str, b = str.indexOf('['), e = str.indexOf(']');
@@ -6170,28 +6001,71 @@ function queryKey(uri, query) {
     return data;
 }
 
-class Socket$1 extends Emitter {
+const withEventListeners = typeof addEventListener === "function" &&
+    typeof removeEventListener === "function";
+const OFFLINE_EVENT_LISTENERS = [];
+if (withEventListeners) {
+    // within a ServiceWorker, any event handler for the 'offline' event must be added on the initial evaluation of the
+    // script, so we create one single event listener here which will forward the event to the socket instances
+    addEventListener("offline", () => {
+        OFFLINE_EVENT_LISTENERS.forEach((listener) => listener());
+    }, false);
+}
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes without upgrade mechanism, which means that it will keep the first low-level transport that
+ * successfully establishes the connection.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithoutUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithoutUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithUpgrade
+ * @see Socket
+ */
+class SocketWithoutUpgrade extends Emitter {
     /**
      * Socket constructor.
      *
      * @param {String|Object} uri - uri or options
      * @param {Object} opts - options
      */
-    constructor(uri, opts = {}) {
+    constructor(uri, opts) {
         super();
         this.binaryType = defaultBinaryType;
         this.writeBuffer = [];
+        this._prevBufferLen = 0;
+        this._pingInterval = -1;
+        this._pingTimeout = -1;
+        this._maxPayload = -1;
+        /**
+         * The expiration timestamp of the {@link _pingTimeoutTimer} object is tracked, in case the timer is throttled and the
+         * callback is not fired on time. This can happen for example when a laptop is suspended or when a phone is locked.
+         */
+        this._pingTimeoutTime = Infinity;
         if (uri && "object" === typeof uri) {
             opts = uri;
             uri = null;
         }
         if (uri) {
-            uri = parse(uri);
-            opts.hostname = uri.host;
-            opts.secure = uri.protocol === "https" || uri.protocol === "wss";
-            opts.port = uri.port;
-            if (uri.query)
-                opts.query = uri.query;
+            const parsedUri = parse(uri);
+            opts.hostname = parsedUri.host;
+            opts.secure =
+                parsedUri.protocol === "https" || parsedUri.protocol === "wss";
+            opts.port = parsedUri.port;
+            if (parsedUri.query)
+                opts.query = parsedUri.query;
         }
         else if (opts.host) {
             opts.hostname = parse(opts.host).host;
@@ -6215,13 +6089,13 @@ class Socket$1 extends Emitter {
                     : this.secure
                         ? "443"
                         : "80");
-        this.transports = opts.transports || [
-            "polling",
-            "websocket",
-            "webtransport",
-        ];
-        this.writeBuffer = [];
-        this.prevBufferLen = 0;
+        this.transports = [];
+        this._transportsByName = {};
+        opts.transports.forEach((t) => {
+            const transportName = t.prototype.name;
+            this.transports.push(transportName);
+            this._transportsByName[transportName] = t;
+        });
         this.opts = Object.assign({
             path: "/engine.io",
             agent: false,
@@ -6243,37 +6117,33 @@ class Socket$1 extends Emitter {
         if (typeof this.opts.query === "string") {
             this.opts.query = decode(this.opts.query);
         }
-        // set on handshake
-        this.id = null;
-        this.upgrades = null;
-        this.pingInterval = null;
-        this.pingTimeout = null;
-        // set on heartbeat
-        this.pingTimeoutTimer = null;
-        if (typeof addEventListener === "function") {
+        if (withEventListeners) {
             if (this.opts.closeOnBeforeunload) {
                 // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
                 // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
                 // closed/reloaded)
-                this.beforeunloadEventListener = () => {
+                this._beforeunloadEventListener = () => {
                     if (this.transport) {
                         // silently close the transport
                         this.transport.removeAllListeners();
                         this.transport.close();
                     }
                 };
-                addEventListener("beforeunload", this.beforeunloadEventListener, false);
+                addEventListener("beforeunload", this._beforeunloadEventListener, false);
             }
             if (this.hostname !== "localhost") {
-                this.offlineEventListener = () => {
-                    this.onClose("transport close", {
+                this._offlineEventListener = () => {
+                    this._onClose("transport close", {
                         description: "network connection lost",
                     });
                 };
-                addEventListener("offline", this.offlineEventListener, false);
+                OFFLINE_EVENT_LISTENERS.push(this._offlineEventListener);
             }
         }
-        this.open();
+        if (this.opts.withCredentials) {
+            this._cookieJar = createCookieJar();
+        }
+        this._open();
     }
     /**
      * Creates transport of the given type.
@@ -6298,40 +6168,28 @@ class Socket$1 extends Emitter {
             secure: this.secure,
             port: this.port,
         }, this.opts.transportOptions[name]);
-        return new transports[name](opts);
+        return new this._transportsByName[name](opts);
     }
     /**
      * Initializes transport to use and starts probe.
      *
      * @private
      */
-    open() {
-        let transport;
-        if (this.opts.rememberUpgrade &&
-            Socket$1.priorWebsocketSuccess &&
-            this.transports.indexOf("websocket") !== -1) {
-            transport = "websocket";
-        }
-        else if (0 === this.transports.length) {
+    _open() {
+        if (this.transports.length === 0) {
             // Emit error on next tick so it can be listened to
             this.setTimeoutFn(() => {
                 this.emitReserved("error", "No transports available");
             }, 0);
             return;
         }
-        else {
-            transport = this.transports[0];
-        }
+        const transportName = this.opts.rememberUpgrade &&
+            SocketWithoutUpgrade.priorWebsocketSuccess &&
+            this.transports.indexOf("websocket") !== -1
+            ? "websocket"
+            : this.transports[0];
         this.readyState = "opening";
-        // Retry with the next transport if the transport is disabled (jsonp: false)
-        try {
-            transport = this.createTransport(transport);
-        }
-        catch (e) {
-            this.transports.shift();
-            this.open();
-            return;
-        }
+        const transport = this.createTransport(transportName);
         transport.open();
         this.setTransport(transport);
     }
@@ -6348,10 +6206,366 @@ class Socket$1 extends Emitter {
         this.transport = transport;
         // set up transport listeners
         transport
-            .on("drain", this.onDrain.bind(this))
-            .on("packet", this.onPacket.bind(this))
-            .on("error", this.onError.bind(this))
-            .on("close", (reason) => this.onClose("transport close", reason));
+            .on("drain", this._onDrain.bind(this))
+            .on("packet", this._onPacket.bind(this))
+            .on("error", this._onError.bind(this))
+            .on("close", (reason) => this._onClose("transport close", reason));
+    }
+    /**
+     * Called when connection is deemed open.
+     *
+     * @private
+     */
+    onOpen() {
+        this.readyState = "open";
+        SocketWithoutUpgrade.priorWebsocketSuccess =
+            "websocket" === this.transport.name;
+        this.emitReserved("open");
+        this.flush();
+    }
+    /**
+     * Handles a packet.
+     *
+     * @private
+     */
+    _onPacket(packet) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            this.emitReserved("packet", packet);
+            // Socket is live - any packet counts
+            this.emitReserved("heartbeat");
+            switch (packet.type) {
+                case "open":
+                    this.onHandshake(JSON.parse(packet.data));
+                    break;
+                case "ping":
+                    this._sendPacket("pong");
+                    this.emitReserved("ping");
+                    this.emitReserved("pong");
+                    this._resetPingTimeout();
+                    break;
+                case "error":
+                    const err = new Error("server error");
+                    // @ts-ignore
+                    err.code = packet.data;
+                    this._onError(err);
+                    break;
+                case "message":
+                    this.emitReserved("data", packet.data);
+                    this.emitReserved("message", packet.data);
+                    break;
+            }
+        }
+    }
+    /**
+     * Called upon handshake completion.
+     *
+     * @param {Object} data - handshake obj
+     * @private
+     */
+    onHandshake(data) {
+        this.emitReserved("handshake", data);
+        this.id = data.sid;
+        this.transport.query.sid = data.sid;
+        this._pingInterval = data.pingInterval;
+        this._pingTimeout = data.pingTimeout;
+        this._maxPayload = data.maxPayload;
+        this.onOpen();
+        // In case open handler closes socket
+        if ("closed" === this.readyState)
+            return;
+        this._resetPingTimeout();
+    }
+    /**
+     * Sets and resets ping timeout timer based on server pings.
+     *
+     * @private
+     */
+    _resetPingTimeout() {
+        this.clearTimeoutFn(this._pingTimeoutTimer);
+        const delay = this._pingInterval + this._pingTimeout;
+        this._pingTimeoutTime = Date.now() + delay;
+        this._pingTimeoutTimer = this.setTimeoutFn(() => {
+            this._onClose("ping timeout");
+        }, delay);
+        if (this.opts.autoUnref) {
+            this._pingTimeoutTimer.unref();
+        }
+    }
+    /**
+     * Called on `drain` event
+     *
+     * @private
+     */
+    _onDrain() {
+        this.writeBuffer.splice(0, this._prevBufferLen);
+        // setting prevBufferLen = 0 is very important
+        // for example, when upgrading, upgrade packet is sent over,
+        // and a nonzero prevBufferLen could cause problems on `drain`
+        this._prevBufferLen = 0;
+        if (0 === this.writeBuffer.length) {
+            this.emitReserved("drain");
+        }
+        else {
+            this.flush();
+        }
+    }
+    /**
+     * Flush write buffers.
+     *
+     * @private
+     */
+    flush() {
+        if ("closed" !== this.readyState &&
+            this.transport.writable &&
+            !this.upgrading &&
+            this.writeBuffer.length) {
+            const packets = this._getWritablePackets();
+            this.transport.send(packets);
+            // keep track of current length of writeBuffer
+            // splice writeBuffer and callbackBuffer on `drain`
+            this._prevBufferLen = packets.length;
+            this.emitReserved("flush");
+        }
+    }
+    /**
+     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+     * long-polling)
+     *
+     * @private
+     */
+    _getWritablePackets() {
+        const shouldCheckPayloadSize = this._maxPayload &&
+            this.transport.name === "polling" &&
+            this.writeBuffer.length > 1;
+        if (!shouldCheckPayloadSize) {
+            return this.writeBuffer;
+        }
+        let payloadSize = 1; // first packet type
+        for (let i = 0; i < this.writeBuffer.length; i++) {
+            const data = this.writeBuffer[i].data;
+            if (data) {
+                payloadSize += byteLength(data);
+            }
+            if (i > 0 && payloadSize > this._maxPayload) {
+                return this.writeBuffer.slice(0, i);
+            }
+            payloadSize += 2; // separator + packet type
+        }
+        return this.writeBuffer;
+    }
+    /**
+     * Checks whether the heartbeat timer has expired but the socket has not yet been notified.
+     *
+     * Note: this method is private for now because it does not really fit the WebSocket API, but if we put it in the
+     * `write()` method then the message would not be buffered by the Socket.IO client.
+     *
+     * @return {boolean}
+     * @private
+     */
+    /* private */ _hasPingExpired() {
+        if (!this._pingTimeoutTime)
+            return true;
+        const hasExpired = Date.now() > this._pingTimeoutTime;
+        if (hasExpired) {
+            this._pingTimeoutTime = 0;
+            nextTick(() => {
+                this._onClose("ping timeout");
+            }, this.setTimeoutFn);
+        }
+        return hasExpired;
+    }
+    /**
+     * Sends a message.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    write(msg, options, fn) {
+        this._sendPacket("message", msg, options, fn);
+        return this;
+    }
+    /**
+     * Sends a message. Alias of {@link Socket#write}.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    send(msg, options, fn) {
+        this._sendPacket("message", msg, options, fn);
+        return this;
+    }
+    /**
+     * Sends a packet.
+     *
+     * @param {String} type: packet type.
+     * @param {String} data.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @private
+     */
+    _sendPacket(type, data, options, fn) {
+        if ("function" === typeof data) {
+            fn = data;
+            data = undefined;
+        }
+        if ("function" === typeof options) {
+            fn = options;
+            options = null;
+        }
+        if ("closing" === this.readyState || "closed" === this.readyState) {
+            return;
+        }
+        options = options || {};
+        options.compress = false !== options.compress;
+        const packet = {
+            type: type,
+            data: data,
+            options: options,
+        };
+        this.emitReserved("packetCreate", packet);
+        this.writeBuffer.push(packet);
+        if (fn)
+            this.once("flush", fn);
+        this.flush();
+    }
+    /**
+     * Closes the connection.
+     */
+    close() {
+        const close = () => {
+            this._onClose("forced close");
+            this.transport.close();
+        };
+        const cleanupAndClose = () => {
+            this.off("upgrade", cleanupAndClose);
+            this.off("upgradeError", cleanupAndClose);
+            close();
+        };
+        const waitForUpgrade = () => {
+            // wait for upgrade to finish since we can't send packets while pausing a transport
+            this.once("upgrade", cleanupAndClose);
+            this.once("upgradeError", cleanupAndClose);
+        };
+        if ("opening" === this.readyState || "open" === this.readyState) {
+            this.readyState = "closing";
+            if (this.writeBuffer.length) {
+                this.once("drain", () => {
+                    if (this.upgrading) {
+                        waitForUpgrade();
+                    }
+                    else {
+                        close();
+                    }
+                });
+            }
+            else if (this.upgrading) {
+                waitForUpgrade();
+            }
+            else {
+                close();
+            }
+        }
+        return this;
+    }
+    /**
+     * Called upon transport error
+     *
+     * @private
+     */
+    _onError(err) {
+        SocketWithoutUpgrade.priorWebsocketSuccess = false;
+        if (this.opts.tryAllTransports &&
+            this.transports.length > 1 &&
+            this.readyState === "opening") {
+            this.transports.shift();
+            return this._open();
+        }
+        this.emitReserved("error", err);
+        this._onClose("transport error", err);
+    }
+    /**
+     * Called upon transport close.
+     *
+     * @private
+     */
+    _onClose(reason, description) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            // clear timers
+            this.clearTimeoutFn(this._pingTimeoutTimer);
+            // stop event from firing again for transport
+            this.transport.removeAllListeners("close");
+            // ensure transport won't stay open
+            this.transport.close();
+            // ignore further transport communication
+            this.transport.removeAllListeners();
+            if (withEventListeners) {
+                if (this._beforeunloadEventListener) {
+                    removeEventListener("beforeunload", this._beforeunloadEventListener, false);
+                }
+                if (this._offlineEventListener) {
+                    const i = OFFLINE_EVENT_LISTENERS.indexOf(this._offlineEventListener);
+                    if (i !== -1) {
+                        OFFLINE_EVENT_LISTENERS.splice(i, 1);
+                    }
+                }
+            }
+            // set ready state
+            this.readyState = "closed";
+            // clear session id
+            this.id = null;
+            // emit close event
+            this.emitReserved("close", reason, description);
+            // clean buffers after, so users can still
+            // grab the buffers on `close` event
+            this.writeBuffer = [];
+            this._prevBufferLen = 0;
+        }
+    }
+}
+SocketWithoutUpgrade.protocol = protocol$1;
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
+ *
+ * @example
+ * import { SocketWithUpgrade, WebSocket } from "engine.io-client";
+ *
+ * const socket = new SocketWithUpgrade({
+ *   transports: [WebSocket]
+ * });
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see Socket
+ */
+class SocketWithUpgrade extends SocketWithoutUpgrade {
+    constructor() {
+        super(...arguments);
+        this._upgrades = [];
+    }
+    onOpen() {
+        super.onOpen();
+        if ("open" === this.readyState && this.opts.upgrade) {
+            for (let i = 0; i < this._upgrades.length; i++) {
+                this._probe(this._upgrades[i]);
+            }
+        }
     }
     /**
      * Probes a transport.
@@ -6359,10 +6573,10 @@ class Socket$1 extends Emitter {
      * @param {String} name - transport name
      * @private
      */
-    probe(name) {
+    _probe(name) {
         let transport = this.createTransport(name);
         let failed = false;
-        Socket$1.priorWebsocketSuccess = false;
+        SocketWithoutUpgrade.priorWebsocketSuccess = false;
         const onTransportOpen = () => {
             if (failed)
                 return;
@@ -6375,7 +6589,8 @@ class Socket$1 extends Emitter {
                     this.emitReserved("upgrading", transport);
                     if (!transport)
                         return;
-                    Socket$1.priorWebsocketSuccess = "websocket" === transport.name;
+                    SocketWithoutUpgrade.priorWebsocketSuccess =
+                        "websocket" === transport.name;
                     this.transport.pause(() => {
                         if (failed)
                             return;
@@ -6441,7 +6656,7 @@ class Socket$1 extends Emitter {
         transport.once("close", onTransportClose);
         this.once("close", onclose);
         this.once("upgrading", onupgrade);
-        if (this.upgrades.indexOf("webtransport") !== -1 &&
+        if (this._upgrades.indexOf("webtransport") !== -1 &&
             name !== "webtransport") {
             // favor WebTransport
             this.setTimeoutFn(() => {
@@ -6454,288 +6669,9 @@ class Socket$1 extends Emitter {
             transport.open();
         }
     }
-    /**
-     * Called when connection is deemed open.
-     *
-     * @private
-     */
-    onOpen() {
-        this.readyState = "open";
-        Socket$1.priorWebsocketSuccess = "websocket" === this.transport.name;
-        this.emitReserved("open");
-        this.flush();
-        // we check for `readyState` in case an `open`
-        // listener already closed the socket
-        if ("open" === this.readyState && this.opts.upgrade) {
-            let i = 0;
-            const l = this.upgrades.length;
-            for (; i < l; i++) {
-                this.probe(this.upgrades[i]);
-            }
-        }
-    }
-    /**
-     * Handles a packet.
-     *
-     * @private
-     */
-    onPacket(packet) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            this.emitReserved("packet", packet);
-            // Socket is live - any packet counts
-            this.emitReserved("heartbeat");
-            this.resetPingTimeout();
-            switch (packet.type) {
-                case "open":
-                    this.onHandshake(JSON.parse(packet.data));
-                    break;
-                case "ping":
-                    this.sendPacket("pong");
-                    this.emitReserved("ping");
-                    this.emitReserved("pong");
-                    break;
-                case "error":
-                    const err = new Error("server error");
-                    // @ts-ignore
-                    err.code = packet.data;
-                    this.onError(err);
-                    break;
-                case "message":
-                    this.emitReserved("data", packet.data);
-                    this.emitReserved("message", packet.data);
-                    break;
-            }
-        }
-    }
-    /**
-     * Called upon handshake completion.
-     *
-     * @param {Object} data - handshake obj
-     * @private
-     */
     onHandshake(data) {
-        this.emitReserved("handshake", data);
-        this.id = data.sid;
-        this.transport.query.sid = data.sid;
-        this.upgrades = this.filterUpgrades(data.upgrades);
-        this.pingInterval = data.pingInterval;
-        this.pingTimeout = data.pingTimeout;
-        this.maxPayload = data.maxPayload;
-        this.onOpen();
-        // In case open handler closes socket
-        if ("closed" === this.readyState)
-            return;
-        this.resetPingTimeout();
-    }
-    /**
-     * Sets and resets ping timeout timer based on server pings.
-     *
-     * @private
-     */
-    resetPingTimeout() {
-        this.clearTimeoutFn(this.pingTimeoutTimer);
-        this.pingTimeoutTimer = this.setTimeoutFn(() => {
-            this.onClose("ping timeout");
-        }, this.pingInterval + this.pingTimeout);
-        if (this.opts.autoUnref) {
-            this.pingTimeoutTimer.unref();
-        }
-    }
-    /**
-     * Called on `drain` event
-     *
-     * @private
-     */
-    onDrain() {
-        this.writeBuffer.splice(0, this.prevBufferLen);
-        // setting prevBufferLen = 0 is very important
-        // for example, when upgrading, upgrade packet is sent over,
-        // and a nonzero prevBufferLen could cause problems on `drain`
-        this.prevBufferLen = 0;
-        if (0 === this.writeBuffer.length) {
-            this.emitReserved("drain");
-        }
-        else {
-            this.flush();
-        }
-    }
-    /**
-     * Flush write buffers.
-     *
-     * @private
-     */
-    flush() {
-        if ("closed" !== this.readyState &&
-            this.transport.writable &&
-            !this.upgrading &&
-            this.writeBuffer.length) {
-            const packets = this.getWritablePackets();
-            this.transport.send(packets);
-            // keep track of current length of writeBuffer
-            // splice writeBuffer and callbackBuffer on `drain`
-            this.prevBufferLen = packets.length;
-            this.emitReserved("flush");
-        }
-    }
-    /**
-     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
-     * long-polling)
-     *
-     * @private
-     */
-    getWritablePackets() {
-        const shouldCheckPayloadSize = this.maxPayload &&
-            this.transport.name === "polling" &&
-            this.writeBuffer.length > 1;
-        if (!shouldCheckPayloadSize) {
-            return this.writeBuffer;
-        }
-        let payloadSize = 1; // first packet type
-        for (let i = 0; i < this.writeBuffer.length; i++) {
-            const data = this.writeBuffer[i].data;
-            if (data) {
-                payloadSize += byteLength(data);
-            }
-            if (i > 0 && payloadSize > this.maxPayload) {
-                return this.writeBuffer.slice(0, i);
-            }
-            payloadSize += 2; // separator + packet type
-        }
-        return this.writeBuffer;
-    }
-    /**
-     * Sends a message.
-     *
-     * @param {String} msg - message.
-     * @param {Object} options.
-     * @param {Function} callback function.
-     * @return {Socket} for chaining.
-     */
-    write(msg, options, fn) {
-        this.sendPacket("message", msg, options, fn);
-        return this;
-    }
-    send(msg, options, fn) {
-        this.sendPacket("message", msg, options, fn);
-        return this;
-    }
-    /**
-     * Sends a packet.
-     *
-     * @param {String} type: packet type.
-     * @param {String} data.
-     * @param {Object} options.
-     * @param {Function} fn - callback function.
-     * @private
-     */
-    sendPacket(type, data, options, fn) {
-        if ("function" === typeof data) {
-            fn = data;
-            data = undefined;
-        }
-        if ("function" === typeof options) {
-            fn = options;
-            options = null;
-        }
-        if ("closing" === this.readyState || "closed" === this.readyState) {
-            return;
-        }
-        options = options || {};
-        options.compress = false !== options.compress;
-        const packet = {
-            type: type,
-            data: data,
-            options: options,
-        };
-        this.emitReserved("packetCreate", packet);
-        this.writeBuffer.push(packet);
-        if (fn)
-            this.once("flush", fn);
-        this.flush();
-    }
-    /**
-     * Closes the connection.
-     */
-    close() {
-        const close = () => {
-            this.onClose("forced close");
-            this.transport.close();
-        };
-        const cleanupAndClose = () => {
-            this.off("upgrade", cleanupAndClose);
-            this.off("upgradeError", cleanupAndClose);
-            close();
-        };
-        const waitForUpgrade = () => {
-            // wait for upgrade to finish since we can't send packets while pausing a transport
-            this.once("upgrade", cleanupAndClose);
-            this.once("upgradeError", cleanupAndClose);
-        };
-        if ("opening" === this.readyState || "open" === this.readyState) {
-            this.readyState = "closing";
-            if (this.writeBuffer.length) {
-                this.once("drain", () => {
-                    if (this.upgrading) {
-                        waitForUpgrade();
-                    }
-                    else {
-                        close();
-                    }
-                });
-            }
-            else if (this.upgrading) {
-                waitForUpgrade();
-            }
-            else {
-                close();
-            }
-        }
-        return this;
-    }
-    /**
-     * Called upon transport error
-     *
-     * @private
-     */
-    onError(err) {
-        Socket$1.priorWebsocketSuccess = false;
-        this.emitReserved("error", err);
-        this.onClose("transport error", err);
-    }
-    /**
-     * Called upon transport close.
-     *
-     * @private
-     */
-    onClose(reason, description) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            // clear timers
-            this.clearTimeoutFn(this.pingTimeoutTimer);
-            // stop event from firing again for transport
-            this.transport.removeAllListeners("close");
-            // ensure transport won't stay open
-            this.transport.close();
-            // ignore further transport communication
-            this.transport.removeAllListeners();
-            if (typeof removeEventListener === "function") {
-                removeEventListener("beforeunload", this.beforeunloadEventListener, false);
-                removeEventListener("offline", this.offlineEventListener, false);
-            }
-            // set ready state
-            this.readyState = "closed";
-            // clear session id
-            this.id = null;
-            // emit close event
-            this.emitReserved("close", reason, description);
-            // clean buffers after, so users can still
-            // grab the buffers on `close` event
-            this.writeBuffer = [];
-            this.prevBufferLen = 0;
-        }
+        this._upgrades = this._filterUpgrades(data.upgrades);
+        super.onHandshake(data);
     }
     /**
      * Filters upgrades, returning only those matching client transports.
@@ -6743,18 +6679,46 @@ class Socket$1 extends Emitter {
      * @param {Array} upgrades - server upgrades
      * @private
      */
-    filterUpgrades(upgrades) {
+    _filterUpgrades(upgrades) {
         const filteredUpgrades = [];
-        let i = 0;
-        const j = upgrades.length;
-        for (; i < j; i++) {
+        for (let i = 0; i < upgrades.length; i++) {
             if (~this.transports.indexOf(upgrades[i]))
                 filteredUpgrades.push(upgrades[i]);
         }
         return filteredUpgrades;
     }
 }
-Socket$1.protocol = protocol$1;
+/**
+ * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
+ * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
+ *
+ * This class comes with an upgrade mechanism, which means that once the connection is established with the first
+ * low-level transport, it will try to upgrade to a better transport.
+ *
+ * @example
+ * import { Socket } from "engine.io-client";
+ *
+ * const socket = new Socket();
+ *
+ * socket.on("open", () => {
+ *   socket.send("hello");
+ * });
+ *
+ * @see SocketWithoutUpgrade
+ * @see SocketWithUpgrade
+ */
+let Socket$1 = class Socket extends SocketWithUpgrade {
+    constructor(uri, opts = {}) {
+        const o = typeof uri === "object" ? uri : opts;
+        if (!o.transports ||
+            (o.transports && typeof o.transports[0] === "string")) {
+            o.transports = (o.transports || ["polling", "websocket", "webtransport"])
+                .map((transportName) => transports[transportName])
+                .filter((t) => !!t);
+        }
+        super(uri, o);
+    }
+};
 
 /**
  * URL parser.
@@ -7258,12 +7222,12 @@ class BinaryReconstructor {
     }
 }
 
-const parser = /*#__PURE__*/Object.freeze({
+var parser = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    protocol: protocol,
-    get PacketType () { return PacketType; },
+    Decoder: Decoder,
     Encoder: Encoder,
-    Decoder: Decoder
+    get PacketType () { return PacketType; },
+    protocol: protocol
 });
 
 function on(obj, ev, fn) {
@@ -7508,6 +7472,7 @@ class Socket extends Emitter {
      * @return self
      */
     emit(ev, ...args) {
+        var _a, _b, _c;
         if (RESERVED_EVENTS.hasOwnProperty(ev)) {
             throw new Error('"' + ev.toString() + '" is a reserved event name');
         }
@@ -7529,12 +7494,11 @@ class Socket extends Emitter {
             this._registerAckCallback(id, ack);
             packet.id = id;
         }
-        const isTransportWritable = this.io.engine &&
-            this.io.engine.transport &&
-            this.io.engine.transport.writable;
-        const discardPacket = this.flags.volatile && (!isTransportWritable || !this.connected);
+        const isTransportWritable = (_b = (_a = this.io.engine) === null || _a === void 0 ? void 0 : _a.transport) === null || _b === void 0 ? void 0 : _b.writable;
+        const isConnected = this.connected && !((_c = this.io.engine) === null || _c === void 0 ? void 0 : _c._hasPingExpired());
+        const discardPacket = this.flags.volatile && !isTransportWritable;
         if (discardPacket) ;
-        else if (this.connected) {
+        else if (isConnected) {
             this.notifyOutgoingListeners(packet);
             this.packet(packet);
         }
@@ -8257,6 +8221,9 @@ class Manager extends Emitter {
         if (!arguments.length)
             return this._reconnection;
         this._reconnection = !!v;
+        if (!v) {
+            this.skipReconnect = true;
+        }
         return this;
     }
     reconnectionAttempts(v) {
@@ -8385,7 +8352,9 @@ class Manager extends Emitter {
         this.emitReserved("open");
         // add new subs
         const socket = this.engine;
-        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), on(this.decoder, "decoded", this.ondecoded.bind(this)));
+        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), 
+        // @ts-ignore
+        on(this.decoder, "decoded", this.ondecoded.bind(this)));
     }
     /**
      * Called upon a ping.
@@ -8491,8 +8460,6 @@ class Manager extends Emitter {
         this.skipReconnect = true;
         this._reconnecting = false;
         this.onclose("forced close");
-        if (this.engine)
-            this.engine.close();
     }
     /**
      * Alias for close()
@@ -8503,12 +8470,18 @@ class Manager extends Emitter {
         return this._close();
     }
     /**
-     * Called upon engine close.
+     * Called when:
+     *
+     * - the low-level engine is closed
+     * - the parser encountered a badly formatted packet
+     * - all sockets are disconnected
      *
      * @private
      */
     onclose(reason, description) {
+        var _a;
         this.cleanup();
+        (_a = this.engine) === null || _a === void 0 ? void 0 : _a.close();
         this.backoff.reset();
         this._readyState = "closed";
         this.emitReserved("close", reason, description);
@@ -8616,17 +8589,32 @@ Object.assign(lookup, {
 });
 
 const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
-const IglooCalendarStyle0 = iglooCalendarCss;
 
 const IglooCalendar = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dragOverHighlightElement = createEvent(this, "dragOverHighlightElement", 7);
-        this.moveBookingTo = createEvent(this, "moveBookingTo", 7);
-        this.calculateUnassignedDates = createEvent(this, "calculateUnassignedDates", 7);
-        this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent", 7);
-        this.revertBooking = createEvent(this, "revertBooking", 7);
-        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar", 7);
+        this.dragOverHighlightElement = createEvent(this, "dragOverHighlightElement");
+        this.moveBookingTo = createEvent(this, "moveBookingTo");
+        this.calculateUnassignedDates = createEvent(this, "calculateUnassignedDates");
+        this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent");
+        this.revertBooking = createEvent(this, "revertBooking");
+        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar");
+        this.ticket = '';
+        this.calendarData = new Object();
+        this.days = new Array();
+        this.scrollViewDragging = false;
+        this.dialogData = null;
+        this.bookingItem = null;
+        this.editBookingItem = null;
+        this.showLegend = false;
+        this.showPaymentDetails = false;
+        this.showToBeAssigned = false;
+        this.unassignedDates = {};
+        this.roomNightsData = null;
+        this.renderAgain = false;
+        this.showBookProperty = false;
+        this.totalAvailabilityQueue = [];
+        this.isAuthenticated = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.eventsService = new EventsService();
@@ -8654,33 +8642,6 @@ const IglooCalendar = class {
             document.removeEventListener('mousemove', this.onScrollContentMoveHandler);
             document.removeEventListener('mouseup', this.onScrollContentMoveEndHandler);
         };
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.language = undefined;
-        this.loadingMessage = undefined;
-        this.currencyName = undefined;
-        this.ticket = '';
-        this.p = undefined;
-        this.calendarData = new Object();
-        this.property_id = undefined;
-        this.days = new Array();
-        this.scrollViewDragging = false;
-        this.dialogData = null;
-        this.bookingItem = null;
-        this.editBookingItem = null;
-        this.showLegend = false;
-        this.showPaymentDetails = false;
-        this.showToBeAssigned = false;
-        this.unassignedDates = {};
-        this.roomNightsData = null;
-        this.renderAgain = false;
-        this.showBookProperty = false;
-        this.totalAvailabilityQueue = [];
-        this.highlightedDate = undefined;
-        this.calDates = undefined;
-        this.isAuthenticated = false;
-        this.calendarSidebarState = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -9529,40 +9490,34 @@ const IglooCalendar = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IglooCalendar.style = IglooCalendarStyle0;
+IglooCalendar.style = iglooCalendarCss;
 
 const irAutocompleteCss = ".sc-ir-autocomplete-h{display:block;position:relative}.selected.sc-ir-autocomplete{color:#fff;text-decoration:none;background-color:#666ee8}input.sc-ir-autocomplete{width:100%;position:relative;border-top-left-radius:0px !important;border-left:0 !important;border-bottom-left-radius:0px !important}label.sc-ir-autocomplete{margin:0;border-top-right-radius:0px !important;border-right:0 !important;border-bottom-right-radius:0px !important;width:fit-content;display:flex;align-items:center;padding-right:3px !important;justify-content:center;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}label[data-state='focused'].sc-ir-autocomplete{border-color:var(--blue)}.combobox.sc-ir-autocomplete{margin:0;top:30px;min-width:100%;width:max-content;display:block;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto}.dropdown-item.sc-ir-autocomplete{cursor:pointer}button.sc-ir-autocomplete{all:unset;right:4px}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete,span.sc-ir-autocomplete,loader-container.sc-ir-autocomplete{padding:5px 16px;margin:0px;margin-top:2px;width:100%}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete{cursor:pointer}.combobox.sc-ir-autocomplete p.sc-ir-autocomplete:hover{background:#f4f5fa}.combobox.sc-ir-autocomplete p[data-selected].sc-ir-autocomplete,.combobox.sc-ir-autocomplete p[data-selected].sc-ir-autocomplete:hover{color:#fff;text-decoration:none;background-color:#666ee8}.loader.sc-ir-autocomplete{width:14px;height:14px;border:2px solid #0f0f0f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrAutocompleteStyle0 = irAutocompleteCss;
 
 const IrAutocomplete = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.comboboxValue = createEvent(this, "comboboxValue", 7);
-        this.inputCleared = createEvent(this, "inputCleared", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.bookingService = new BookingService();
-        this.no_result_found = '';
+        this.comboboxValue = createEvent(this, "comboboxValue");
+        this.inputCleared = createEvent(this, "inputCleared");
+        this.toast = createEvent(this, "toast");
         this.duration = 300;
         this.placeholder = '';
-        this.propertyId = undefined;
         this.isSplitBooking = false;
         this.type = 'text';
         this.name = '';
         this.inputId = v4();
         this.required = false;
         this.disabled = false;
-        this.value = undefined;
         this.from_date = '';
         this.to_date = '';
-        this.danger_border = undefined;
-        this.testId = undefined;
         this.inputValue = '';
         this.data = [];
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
-        this.isItemSelected = undefined;
         this.inputFocused = false;
+        this.bookingService = new BookingService();
+        this.no_result_found = '';
     }
     componentWillLoad() {
         this.no_result_found = locales.entries.Lcz_NoResultsFound;
@@ -9769,32 +9724,27 @@ const IrAutocomplete = class {
     }
     get el() { return getElement(this); }
 };
-IrAutocomplete.style = IrAutocompleteStyle0;
+IrAutocomplete.style = irAutocompleteCss;
 
 const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden;--ir-dialog-max-width:20rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-booking-details-h *.sc-ir-booking-details{font-family:inherit !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.font-medium.sc-ir-booking-details{font-weight:600}.sc-ir-booking-details-h th.sc-ir-booking-details{font-weight:600}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.loading-container.sc-ir-booking-details{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0.2rem 0.3rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}.dialog-title.sc-ir-booking-details{width:fit-content}";
-const IrBookingDetailsStyle0 = irBookingDetailsCss;
 
 const IrBookingDetails = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
-        this.bookingChanged = createEvent(this, "bookingChanged", 7);
-        this.closeSidebar = createEvent(this, "closeSidebar", 7);
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.paymentService = new PaymentService();
-        this.token = new Token();
-        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+        this.toast = createEvent(this, "toast");
+        this.bookingChanged = createEvent(this, "bookingChanged");
+        this.closeSidebar = createEvent(this, "closeSidebar");
+        // Setup Data
         this.language = 'en';
         this.ticket = '';
         this.bookingNumber = '';
-        this.propertyid = undefined;
         this.is_from_front_desk = false;
-        this.p = undefined;
+        // Booleans Conditions
         this.hasPrint = false;
         this.hasReceipt = false;
         this.hasDelete = false;
         this.hasMenu = false;
+        // Room Booleans
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -9803,22 +9753,19 @@ const IrBookingDetails = class {
         this.hasCloseButton = false;
         this.bookingItem = null;
         this.statusData = [];
-        this.showPaymentDetails = undefined;
-        this.booking = undefined;
-        this.countries = undefined;
         this.calendarData = {};
+        // Guest Data
         this.guestData = null;
+        // Rerender Flag
         this.rerenderFlag = false;
         this.sidebarState = null;
-        this.sidebarPayload = undefined;
         this.isUpdateClicked = false;
-        this.pms_status = undefined;
         this.isPMSLogLoading = false;
-        this.paymentActions = undefined;
-        this.property_id = undefined;
-        this.selectedService = undefined;
-        this.bedPreference = undefined;
-        this.roomGuest = undefined;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.paymentService = new PaymentService();
+        this.token = new Token();
+        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -10085,20 +10032,18 @@ const IrBookingDetails = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrBookingDetails.style = IrBookingDetailsStyle0;
+IrBookingDetails.style = irBookingDetailsCss;
 
 const irBookingExtraNoteCss = ".sc-ir-booking-extra-note-h{display:block}";
-const IrBookingExtraNoteStyle0 = irBookingExtraNoteCss;
 
 const IrBookingExtraNote = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeModal = createEvent(this, "closeModal", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.bookingService = new BookingService();
-        this.booking = undefined;
+        this.closeModal = createEvent(this, "closeModal");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
         this.isLoading = false;
         this.note = '';
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         if (this.booking.extras) {
@@ -10152,18 +10097,18 @@ const IrBookingExtraNote = class {
             } }, h("ir-textarea", { key: 'f870b32e58755044492a1091f7bb6b8bbb809218', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: 'df3149f215902252add907d13e61ff9d6576be4a', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '257a03aa87abf356f65254bbe5365689f77dbb1b', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '48eee1c4907feea517a0025f7e1b9a670f27dc56', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
 };
-IrBookingExtraNote.style = IrBookingExtraNoteStyle0;
+IrBookingExtraNote.style = irBookingExtraNoteCss;
 
 const irBookingHeaderCss = ".sc-ir-booking-header-h{display:block}.confirmed.sc-ir-booking-header{color:#fff;display:flex;align-items:center}.bg-ir-green.sc-ir-booking-header{background:#629a4c;padding:0.2rem 0.3rem}.bg-ir-red.sc-ir-booking-header{background:#ff4961;padding:0.2rem 0.3rem}.bg-ir-orange.sc-ir-booking-header{background:#ff9149;padding:0.2rem 0.3rem}";
-const IrBookingHeaderStyle0 = irBookingHeaderCss;
 
 const IrBookingHeader = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
-        this.closeSidebar = createEvent(this, "closeSidebar", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.openSidebar = createEvent(this, "openSidebar", 7);
+        this.toast = createEvent(this, "toast");
+        this.closeSidebar = createEvent(this, "closeSidebar");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        this.openSidebar = createEvent(this, "openSidebar");
+        this.bookingStatus = null;
         this.confirmationBG = {
             '001': 'bg-ir-orange',
             '002': 'bg-ir-green',
@@ -10171,14 +10116,6 @@ const IrBookingHeader = class {
             '004': 'bg-ir-red',
         };
         this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.hasReceipt = undefined;
-        this.hasPrint = undefined;
-        this.hasDelete = undefined;
-        this.hasMenu = undefined;
-        this.hasCloseButton = undefined;
-        this.bookingStatus = null;
-        this.currentDialogStatus = undefined;
     }
     handleSelectChange(e) {
         e.stopPropagation();
@@ -10247,17 +10184,14 @@ const IrBookingHeader = class {
             }, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': '400px' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody())));
     }
 };
-IrBookingHeader.style = IrBookingHeaderStyle0;
+IrBookingHeader.style = irBookingHeaderCss;
 
 const irButtonCss = ".sc-ir-button-h{--icon-button-color:#6b6f82;--icon-button-hover-color:#104064}.button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}.btn-link.sc-ir-button{color:var(--blue, #1e9ff2)}.ir-button-class.sc-ir-button{display:inline-flex !important;justify-content:center;align-items:center;box-sizing:border-box}.btn-outline.sc-ir-button{background:transparent;border:1px solid #104064;color:#104064}.btn-outline.sc-ir-button:hover,.btn-outline.sc-ir-button:active{background:#104064;color:white}.icon-button.sc-ir-button{all:unset;box-sizing:border-box;border-radius:0.25rem;display:inline-flex;align-items:center;justify-content:center;color:var(--icon-button-color);padding:0.2rem;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.icon-button.sc-ir-button:hover{color:var(--icon-button-hover-color)}.icon-button.sc-ir-button:hover.hovered_bg{background:var('--ir-icon-bg-hover', #f6f6f6)}.icon-button.sc-ir-button:disabled{pointer-events:none}.icon-loader.sc-ir-button{margin:0;padding:0;width:var(--icon-size, 1.25rem);height:var(--icon-size, 1.25rem);border-radius:50%;background:radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));-webkit-mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);animation:l13 1s infinite linear}.btn_loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l13{100%{transform:rotate(1turn)}}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrButtonStyle0 = irButtonCss;
 
 const IrButton = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.clickHandler = createEvent(this, "clickHandler", 7);
-        this.name = undefined;
-        this.text = undefined;
+        this.clickHandler = createEvent(this, "clickHandler");
         this.icon = 'ft-save';
         this.btn_color = 'primary';
         this.size = 'md';
@@ -10266,15 +10200,11 @@ const IrButton = class {
         this.btn_disabled = false;
         this.btn_type = 'button';
         this.isLoading = false;
-        this.btn_styles = undefined;
         this.btn_id = v4();
         this.variant = 'default';
-        this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
         this.iconPosition = 'left';
-        this.icon_style = undefined;
-        this.btnStyle = undefined;
-        this.labelStyle = undefined;
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -10300,21 +10230,18 @@ const IrButton = class {
             (this.renderContentAsHtml ? (h("span", { class: "button-text m-0", innerHTML: this.text, style: this.labelStyle })) : (h("span", { style: this.labelStyle, class: "button-text m-0" }, this.text))), this.isLoading ? h("div", { class: "btn_loader m-0 p-0" }) : this.iconPosition === 'right' && h("ir-icons", { style: this.icon_style, name: this.icon_name })));
     }
 };
-IrButton.style = IrButtonStyle0;
+IrButton.style = irButtonCss;
 
 const irComboboxCss = ".sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0;box-sizing:border-box}ul.sc-ir-combobox{position:absolute;box-sizing:border-box;margin:0;margin-top:2px;width:max-content;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto;min-width:100%}ul[data-position='bottom-right'].sc-ir-combobox{right:0}.list-item-image.sc-ir-combobox{height:1rem;aspect-ratio:4/3;border-radius:4px;margin-right:10px}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox{display:flex;align-items:center;flex-wrap:wrap;gap:3px}ul.sc-ir-combobox li.sc-ir-combobox p.sc-ir-combobox{margin:0;padding:0}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}";
-const IrComboboxStyle0 = irComboboxCss;
 
 const IrCombobox = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.comboboxValueChange = createEvent(this, "comboboxValueChange", 7);
-        this.inputCleared = createEvent(this, "inputCleared", 7);
-        this.toast = createEvent(this, "toast", 7);
+        this.comboboxValueChange = createEvent(this, "comboboxValueChange");
+        this.inputCleared = createEvent(this, "inputCleared");
+        this.toast = createEvent(this, "toast");
         this.data = [];
         this.duration = 300;
-        this.placeholder = undefined;
-        this.value = undefined;
         this.disabled = false;
         this.autoFocus = false;
         this.input_id = v4();
@@ -10322,7 +10249,6 @@ const IrCombobox = class {
         this.actualIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
-        this.isItemSelected = undefined;
         this.inputValue = '';
         this.filteredData = [];
         this.componentShouldAutoFocus = false;
@@ -10504,7 +10430,7 @@ const IrCombobox = class {
         "isComboBoxVisible": ["watchHandler"]
     }; }
 };
-IrCombobox.style = IrComboboxStyle0;
+IrCombobox.style = irComboboxCss;
 
 const onlineResources = [
     // {
@@ -10621,21 +10547,13 @@ const IrCommon = class {
 };
 
 const irCountryPickerCss = ".sc-ir-country-picker-h{display:block;margin:0;padding:0;box-sizing:border-box}.combobox-menu.sc-ir-country-picker{max-height:200px;overflow:auto}";
-const IrCountryPickerStyle0 = irCountryPickerCss;
 
 const IrCountryPicker = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.countryChange = createEvent(this, "countryChange", 7);
+        this.countryChange = createEvent(this, "countryChange");
         this.countries = [];
-        this.country = undefined;
-        this.error = undefined;
-        this.propertyCountry = undefined;
-        this.label = undefined;
-        this.testId = undefined;
         this.autoValidate = false;
-        this.inputValue = undefined;
-        this.selectedCountry = undefined;
         this.filteredCountries = [];
         this.searching = false;
     }
@@ -10709,7 +10627,7 @@ const IrCountryPicker = class {
         "country": ["handleCountryChange"]
     }; }
 };
-IrCountryPicker.style = IrCountryPickerStyle0;
+IrCountryPicker.style = irCountryPickerCss;
 
 var top = 'top';
 var bottom = 'bottom';
@@ -10854,7 +10772,7 @@ function effect$2(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const applyStyles$1 = {
+var applyStyles$1 = {
   name: 'applyStyles',
   enabled: true,
   phase: 'write',
@@ -11169,7 +11087,7 @@ function effect$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const arrow$1 = {
+var arrow$1 = {
   name: 'arrow',
   enabled: true,
   phase: 'main',
@@ -11336,7 +11254,7 @@ function computeStyles(_ref5) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const computeStyles$1 = {
+var computeStyles$1 = {
   name: 'computeStyles',
   enabled: true,
   phase: 'beforeWrite',
@@ -11383,7 +11301,7 @@ function effect(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const eventListeners = {
+var eventListeners = {
   name: 'eventListeners',
   enabled: true,
   phase: 'write',
@@ -11693,7 +11611,6 @@ function detectOverflow(state, options) {
   var popperOffsets = computeOffsets({
     reference: referenceClientRect,
     element: popperRect,
-    strategy: 'absolute',
     placement: placement
   });
   var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
@@ -11889,7 +11806,7 @@ function flip(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const flip$1 = {
+var flip$1 = {
   name: 'flip',
   enabled: true,
   phase: 'main',
@@ -11951,7 +11868,7 @@ function hide(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const hide$1 = {
+var hide$1 = {
   name: 'hide',
   enabled: true,
   phase: 'main',
@@ -12003,7 +11920,7 @@ function offset(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const offset$1 = {
+var offset$1 = {
   name: 'offset',
   enabled: true,
   phase: 'main',
@@ -12021,13 +11938,12 @@ function popperOffsets(_ref) {
   state.modifiersData[name] = computeOffsets({
     reference: state.rects.reference,
     element: state.rects.popper,
-    strategy: 'absolute',
     placement: state.placement
   });
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const popperOffsets$1 = {
+var popperOffsets$1 = {
   name: 'popperOffsets',
   enabled: true,
   phase: 'read',
@@ -12162,7 +12078,7 @@ function preventOverflow(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-const preventOverflow$1 = {
+var preventOverflow$1 = {
   name: 'preventOverflow',
   enabled: true,
   phase: 'main',
@@ -12502,61 +12418,131 @@ var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-var airDatepicker = {exports: {}};
+var airDatepicker$1 = {exports: {}};
 
-(function (module, exports) {
-!function(e,t){module.exports=t();}(commonjsGlobal,(function(){return function(){var e={d:function(t,i){for(var s in i)e.o(i,s)&&!e.o(t,s)&&Object.defineProperty(t,s,{enumerable:!0,get:i[s]});},o:function(e,t){return Object.prototype.hasOwnProperty.call(e,t)}},t={};e.d(t,{default:function(){return R}});var i={days:"days",months:"months",years:"years",day:"day",month:"month",year:"year",eventChangeViewDate:"changeViewDate",eventChangeCurrentView:"changeCurrentView",eventChangeFocusDate:"changeFocusDate",eventChangeSelectedDate:"changeSelectedDate",eventChangeTime:"changeTime",eventChangeLastSelectedDate:"changeLastSelectedDate",actionSelectDate:"selectDate",actionUnselectDate:"unselectDate",cssClassWeekend:"-weekend-"},s={classes:"",inline:!1,locale:{days:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],daysShort:["Вос","Пон","Вто","Сре","Чет","Пят","Суб"],daysMin:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],monthsShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],today:"Сегодня",clear:"Очистить",dateFormat:"dd.MM.yyyy",timeFormat:"HH:mm",firstDay:1},startDate:new Date,firstDay:"",weekends:[6,0],dateFormat:"",altField:"",altFieldDateFormat:"T",toggleSelected:!0,keyboardNav:!0,selectedDates:!1,container:"",isMobile:!1,visible:!1,position:"bottom left",offset:12,view:i.days,minView:i.days,showOtherMonths:!0,selectOtherMonths:!0,moveToOtherMonthsOnSelect:!0,showOtherYears:!0,selectOtherYears:!0,moveToOtherYearsOnSelect:!0,minDate:"",maxDate:"",disableNavWhenOutOfRange:!0,multipleDates:!1,multipleDatesSeparator:", ",range:!1,dynamicRange:!0,buttons:!1,monthsField:"monthsShort",showEvent:"focus",autoClose:!1,fixedHeight:!1,prevHtml:'<svg><path d="M 17,12 l -5,5 l 5,5"></path></svg>',nextHtml:'<svg><path d="M 14,12 l 5,5 l -5,5"></path></svg>',navTitles:{days:"MMMM, <i>yyyy</i>",months:"yyyy",years:"yyyy1 - yyyy2"},timepicker:!1,onlyTimepicker:!1,dateTimeSeparator:" ",timeFormat:"",minHours:0,maxHours:24,minMinutes:0,maxMinutes:59,hoursStep:1,minutesStep:1,onSelect:!1,onChangeViewDate:!1,onChangeView:!1,onRenderCell:!1,onShow:!1,onHide:!1,onClickDayName:!1};function a(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:document;return "string"==typeof e?t.querySelector(e):e}function n(){let{tagName:e="div",className:t="",innerHtml:i="",id:s="",attrs:a={}}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=document.createElement(e);return t&&n.classList.add(...t.split(" ")),s&&(n.id=s),i&&(n.innerHTML=i),a&&r(n,a),n}function r(e,t){for(let[i,s]of Object.entries(t))void 0!==s&&e.setAttribute(i,s);return e}function o(e){return new Date(e.getFullYear(),e.getMonth()+1,0).getDate()}function h(e){let t=e.getHours(),{hours:i,dayPeriod:s}=l(t);return {year:e.getFullYear(),month:e.getMonth(),fullMonth:e.getMonth()+1<10?"0"+(e.getMonth()+1):e.getMonth()+1,date:e.getDate(),fullDate:e.getDate()<10?"0"+e.getDate():e.getDate(),day:e.getDay(),hours:t,fullHours:d(t),hours12:i,dayPeriod:s,fullHours12:d(i),minutes:e.getMinutes(),fullMinutes:e.getMinutes()<10?"0"+e.getMinutes():e.getMinutes()}}function l(e){return {dayPeriod:e>11?"pm":"am",hours:e%12==0?12:e%12}}function d(e){return e<10?"0"+e:e}function c(e){let t=10*Math.floor(e.getFullYear()/10);return [t,t+9]}function u(){let e=[];for(var t=arguments.length,i=new Array(t),s=0;s<t;s++)i[s]=arguments[s];return i.forEach((t=>{if("object"==typeof t)for(let i in t)t[i]&&e.push(i);else t&&e.push(t);})),e.join(" ")}function p(e,t){let s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:i.days;if(!e||!t)return !1;let a=h(e),n=h(t);return {[i.days]:a.date===n.date&&a.month===n.month&&a.year===n.year,[i.months]:a.month===n.month&&a.year===n.year,[i.years]:a.year===n.year}[s]}function m(e,t,i){let s=g(e,!1).getTime(),a=g(t,!1).getTime();return i?s>=a:s>a}function v(e,t){return !m(e,t,!0)}function g(e){let t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],i=new Date(e.getTime());return "boolean"!=typeof t||t||function(e){e.setHours(0,0,0,0);}(i),i}function D(e,t,i){e.length?e.forEach((e=>{e.addEventListener(t,i);})):e.addEventListener(t,i);}function y(e,t){return !(!e||e===document||e instanceof DocumentFragment)&&(e.matches(t)?e:y(e.parentNode,t))}function f(e,t,i){return e>i?i:e<t?t:e}function w(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];return i.filter((e=>e)).forEach((t=>{for(let[i,s]of Object.entries(t))if(void 0!==s&&"[object Object]"===s.toString()){let t=void 0!==e[i]?e[i].toString():void 0,a=s.toString(),n=Array.isArray(s)?[]:{};e[i]=e[i]?t!==a?n:e[i]:n,w(e[i],s);}else e[i]=s;})),e}function b(e){let t=e;return e instanceof Date||("string"==typeof e&&/^\d{4}-\d{2}-\d{2}$/.test(e)&&(e+="T00:00:00"),t=new Date(e)),isNaN(t.getTime())&&(console.log(`Unable to convert value "${e}" to Date object`),t=!1),t}function k(e){let t="\\s|\\.|-|/|\\\\|,|\\$|\\!|\\?|:|;";return new RegExp("(^|>|"+t+")("+e+")($|<|"+t+")","g")}function $(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}class C{constructor(){let{type:e,date:t,dp:i,opts:s,body:a}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};$(this,"focus",(()=>{this.$cell.classList.add("-focus-"),this.focused=!0;})),$(this,"removeFocus",(()=>{this.$cell.classList.remove("-focus-"),this.focused=!1;})),$(this,"select",(()=>{this.$cell.classList.add("-selected-"),this.selected=!0;})),$(this,"removeSelect",(()=>{this.$cell.classList.remove("-selected-","-range-from-","-range-to-"),this.selected=!1;})),$(this,"onChangeSelectedDate",(()=>{this.isDisabled||(this._handleSelectedStatus(),this.opts.range&&this._handleRangeStatus());})),$(this,"onChangeFocusDate",(e=>{if(!e)return void(this.focused&&this.removeFocus());let t=p(e,this.date,this.type);t?this.focus():!t&&this.focused&&this.removeFocus(),this.opts.range&&this._handleRangeStatus();})),$(this,"render",(()=>(this.$cell.innerHTML=this._getHtml(),this._handleClasses(),this.$cell))),this.type=e,this.singleType=this.type.slice(0,-1),this.date=t,this.dp=i,this.opts=s,this.body=a,this.customData=!1,this.init();}init(){var e;let{onRenderCell:t}=this.opts;t&&(this.customData=t({date:this.date,cellType:this.singleType,datepicker:this.dp})),this._createElement(),this._bindDatepickerEvents(),null!==(e=this.customData)&&void 0!==e&&e.disabled&&this.dp.disableDate(this.date);}_bindDatepickerEvents(){this.dp.on(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.on(i.eventChangeFocusDate,this.onChangeFocusDate);}unbindDatepickerEvents(){this.dp.off(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.off(i.eventChangeFocusDate,this.onChangeFocusDate);}_createElement(){var e;let{year:t,month:i,date:s}=h(this.date),a=(null===(e=this.customData)||void 0===e?void 0:e.attrs)||{};this.$cell=n({attrs:{"data-year":t,"data-month":i,"data-date":s,...a}}),this.$cell.adpCell=this;}_getClassName(){var e;let t=new Date,{selectOtherMonths:s,selectOtherYears:a}=this.opts,{minDate:n,maxDate:r,isDateDisabled:o}=this.dp,{day:l}=h(this.date),d=this._isOutOfMinMaxRange(),c=o(this.date),m=u("air-datepicker-cell",`-${this.singleType}-`,{"-current-":p(t,this.date,this.type),"-min-date-":n&&p(n,this.date,this.type),"-max-date-":r&&p(r,this.date,this.type)}),v="";switch(this.type){case i.days:v=u({"-weekend-":this.dp.isWeekend(l),"-other-month-":this.isOtherMonth,"-disabled-":this.isOtherMonth&&!s||d||c});break;case i.months:v=u({"-disabled-":d});break;case i.years:v=u({"-other-decade-":this.isOtherDecade,"-disabled-":d||this.isOtherDecade&&!a});}return u(m,v,null===(e=this.customData)||void 0===e?void 0:e.classes).split(" ")}_getHtml(){var e;let{year:t,month:s,date:a}=h(this.date),{showOtherMonths:n,showOtherYears:r}=this.opts;if(null!==(e=this.customData)&&void 0!==e&&e.html)return this.customData.html;switch(this.type){case i.days:return !n&&this.isOtherMonth?"":a;case i.months:return this.dp.locale[this.opts.monthsField][s];case i.years:return !r&&this.isOtherDecade?"":t}}_isOutOfMinMaxRange(){let{minDate:e,maxDate:t}=this.dp,{type:s,date:a}=this,{month:n,year:r,date:o}=h(a),l=s===i.days,d=s===i.years,c=!!e&&new Date(r,d?e.getMonth():n,l?o:e.getDate()),u=!!t&&new Date(r,d?t.getMonth():n,l?o:t.getDate());return e&&t?v(c,e)||m(u,t):e?v(c,e):t?m(u,t):void 0}destroy(){this.unbindDatepickerEvents();}_handleRangeStatus(){const{selectedDates:e,focusDate:t,rangeDateTo:i,rangeDateFrom:s}=this.dp,a=e.length;if(!a)return;let n=s,r=i;if(1===a&&t){const i=m(t,e[0]);n=i?e[0]:t,r=i?t:e[0];}let o=u({"-in-range-":n&&r&&(h=this.date,l=n,d=r,m(h,l)&&v(h,d)),"-range-from-":n&&p(this.date,n,this.type),"-range-to-":r&&p(this.date,r,this.type)});var h,l,d;this.$cell.classList.remove("-range-from-","-range-to-","-in-range-"),o&&this.$cell.classList.add(...o.split(" "));}_handleSelectedStatus(){let e=this.dp._checkIfDateIsSelected(this.date,this.type);e?this.select():!e&&this.selected&&this.removeSelect();}_handleInitialFocusStatus(){p(this.dp.focusDate,this.date,this.type)&&this.focus();}_handleClasses(){this.$cell.setAttribute("class",""),this._handleInitialFocusStatus(),this.dp.hasSelectedDates&&(this._handleSelectedStatus(),this.dp.opts.range&&this._handleRangeStatus()),this.$cell.classList.add(...this._getClassName());}get isDisabled(){return this.$cell.matches(".-disabled-")}get isOtherMonth(){return this.dp.isOtherMonth(this.date)}get isOtherDecade(){return this.dp.isOtherDecade(this.date)}}function _(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}let M={[i.days]:`<div class="air-datepicker-body--day-names"></div><div class="air-datepicker-body--cells -${i.days}-"></div>`,[i.months]:`<div class="air-datepicker-body--cells -${i.months}-"></div>`,[i.years]:`<div class="air-datepicker-body--cells -${i.years}-"></div>`};const S=".air-datepicker-cell";class T{constructor(e){let{dp:t,type:s,opts:a}=e;_(this,"handleClick",(e=>{let t=e.target.closest(S).adpCell;if(t.isDisabled)return;if(!this.dp.isMinViewReached)return void this.dp.down();let i=this.dp._checkIfDateIsSelected(t.date,t.type);i?this.dp._handleAlreadySelectedDates(i,t.date):this.dp.selectDate(t.date);})),_(this,"handleDayNameClick",(e=>{let t=e.target.getAttribute("data-day-index");this.opts.onClickDayName({dayIndex:Number(t),datepicker:this.dp});})),_(this,"onChangeCurrentView",(e=>{e!==this.type?this.hide():(this.show(),this.render());})),_(this,"onMouseOverCell",(e=>{let t=y(e.target,S);this.dp.setFocusDate(!!t&&t.adpCell.date);})),_(this,"onMouseOutCell",(()=>{this.dp.setFocusDate(!1);})),_(this,"onClickBody",(e=>{let{onClickDayName:t}=this.opts,i=e.target;i.closest(S)&&this.handleClick(e),t&&i.closest(".air-datepicker-body--day-name")&&this.handleDayNameClick(e);})),_(this,"onMouseDown",(e=>{this.pressed=!0;let t=y(e.target,S),i=t&&t.adpCell;p(i.date,this.dp.rangeDateFrom)&&(this.rangeFromFocused=!0),p(i.date,this.dp.rangeDateTo)&&(this.rangeToFocused=!0);})),_(this,"onMouseMove",(e=>{if(!this.pressed||!this.dp.isMinViewReached)return;e.preventDefault();let t=y(e.target,S),i=t&&t.adpCell,{selectedDates:s,rangeDateTo:a,rangeDateFrom:n}=this.dp;if(!i||i.isDisabled)return;let{date:r}=i;if(2===s.length){if(this.rangeFromFocused&&!m(r,a)){let{hours:e,minutes:t}=h(n);r.setHours(e),r.setMinutes(t),this.dp.rangeDateFrom=r,this.dp.replaceDate(n,r);}if(this.rangeToFocused&&!v(r,n)){let{hours:e,minutes:t}=h(a);r.setHours(e),r.setMinutes(t),this.dp.rangeDateTo=r,this.dp.replaceDate(a,r);}}})),_(this,"onMouseUp",(()=>{this.pressed=!1,this.rangeFromFocused=!1,this.rangeToFocused=!1;})),_(this,"onChangeViewDate",((e,t)=>{if(!this.isVisible)return;let s=c(e),a=c(t);switch(this.dp.currentView){case i.days:if(p(e,t,i.months))return;break;case i.months:if(p(e,t,i.years))return;break;case i.years:if(s[0]===a[0]&&s[1]===a[1])return}this.render();})),_(this,"render",(()=>{this.destroyCells(),this._generateCells(),this.cells.forEach((e=>{this.$cells.appendChild(e.render());}));})),this.dp=t,this.type=s,this.opts=a,this.cells=[],this.$el="",this.pressed=!1,this.isVisible=!0,this.init();}init(){this._buildBaseHtml(),this.type===i.days&&this.renderDayNames(),this.render(),this._bindEvents(),this._bindDatepickerEvents();}_bindEvents(){let{range:e,dynamicRange:t}=this.opts;D(this.$el,"mouseover",this.onMouseOverCell),D(this.$el,"mouseout",this.onMouseOutCell),D(this.$el,"click",this.onClickBody),e&&t&&(D(this.$el,"mousedown",this.onMouseDown),D(this.$el,"mousemove",this.onMouseMove),D(window.document,"mouseup",this.onMouseUp));}_bindDatepickerEvents(){this.dp.on(i.eventChangeViewDate,this.onChangeViewDate),this.dp.on(i.eventChangeCurrentView,this.onChangeCurrentView);}_buildBaseHtml(){this.$el=n({className:`air-datepicker-body -${this.type}-`,innerHtml:M[this.type]}),this.$names=a(".air-datepicker-body--day-names",this.$el),this.$cells=a(".air-datepicker-body--cells",this.$el);}_getDayNamesHtml(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.dp.locale.firstDay,t="",s=this.dp.isWeekend,{onClickDayName:a}=this.opts,n=e,r=0;for(;r<7;){let e=n%7;t+=`<div class="${u("air-datepicker-body--day-name",{[i.cssClassWeekend]:s(e),"-clickable-":!!a})}" data-day-index='${e}'>${this.dp.locale.daysMin[e]}</div>`,r++,n++;}return t}renderDayNames(){this.$names.innerHTML=this._getDayNamesHtml();}_generateCell(e){let{type:t,dp:i,opts:s}=this;return new C({type:t,dp:i,opts:s,date:e,body:this})}_generateCells(){T.getDatesFunction(this.type)(this.dp,(e=>{this.cells.push(this._generateCell(e));}));}show(){this.isVisible=!0,this.$el.classList.remove("-hidden-");}hide(){this.isVisible=!1,this.$el.classList.add("-hidden-");}destroyCells(){this.cells.forEach((e=>e.destroy())),this.cells=[],this.$cells.innerHTML="";}destroy(){this.destroyCells(),this.dp.off(i.eventChangeViewDate,this.onChangeViewDate),this.dp.off(i.eventChangeCurrentView,this.onChangeCurrentView);}static getDaysDates(e,t){let{viewDate:i,opts:{fixedHeight:s},locale:{firstDay:a}}=e,n=o(i),{year:r,month:l}=h(i),d=new Date(r,l,1),c=new Date(r,l,n),u=d.getDay()-a,p=6-c.getDay()+a;u=u<0?u+7:u,p=p>6?p-7:p;let m=function(e,t){let{year:i,month:s,date:a}=h(e);return new Date(i,s,a-t)}(d,u),v=n+u+p,g=m.getDate(),{year:D,month:y}=h(m),f=0;s&&(v=42);const w=[];for(;f<v;){let e=new Date(D,y,g+f);t&&t(e),w.push(e),f++;}return w}static getMonthsDates(e,t){let{year:i}=e.parsedViewDate,s=0,a=[];for(;s<12;){const e=new Date(i,s);a.push(e),t&&t(e),s++;}return a}static getYearsDates(e,t){let i=c(e.viewDate),s=i[0]-1,a=i[1]+1,n=s,r=[];for(;n<=a;){const e=new Date(n,0);r.push(e),t&&t(e),n++;}return r}static getDatesFunction(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:i.days;return {[i.days]:T.getDaysDates,[i.months]:T.getMonthsDates,[i.years]:T.getYearsDates}[e]}}function F(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}class V{constructor(e){let{dp:t,opts:i}=e;F(this,"onClickNav",(e=>{let t=y(e.target,".air-datepicker-nav--action");if(!t)return;let i=t.dataset.action;this.dp[i]();})),F(this,"onChangeViewDate",(()=>{this.render(),this._resetNavStatus(),this.handleNavStatus();})),F(this,"onChangeCurrentView",(()=>{this.render(),this._resetNavStatus(),this.handleNavStatus();})),F(this,"onClickNavTitle",(()=>{this.dp.isFinalView||this.dp.up();})),F(this,"update",(()=>{let{prevHtml:e,nextHtml:t}=this.opts;this.$prev.innerHTML=e,this.$next.innerHTML=t,this._resetNavStatus(),this.render(),this.handleNavStatus();})),F(this,"renderDelay",(()=>{setTimeout(this.render);})),F(this,"render",(()=>{this.$title.innerHTML=this._getTitle(),function(e,t){for(let i in t)t[i]?e.classList.add(i):e.classList.remove(i);}(this.$title,{"-disabled-":this.dp.isFinalView});})),this.dp=t,this.opts=i,this.init();}init(){this._createElement(),this._buildBaseHtml(),this._defineDOM(),this.render(),this.handleNavStatus(),this._bindEvents(),this._bindDatepickerEvents();}_defineDOM(){this.$title=a(".air-datepicker-nav--title",this.$el),this.$prev=a('[data-action="prev"]',this.$el),this.$next=a('[data-action="next"]',this.$el);}_bindEvents(){this.$el.addEventListener("click",this.onClickNav),this.$title.addEventListener("click",this.onClickNavTitle);}_bindDatepickerEvents(){this.dp.on(i.eventChangeViewDate,this.onChangeViewDate),this.dp.on(i.eventChangeCurrentView,this.onChangeCurrentView),this.isNavIsFunction&&(this.dp.on(i.eventChangeSelectedDate,this.renderDelay),this.dp.opts.timepicker&&this.dp.on(i.eventChangeTime,this.render));}destroy(){this.dp.off(i.eventChangeViewDate,this.onChangeViewDate),this.dp.off(i.eventChangeCurrentView,this.onChangeCurrentView),this.isNavIsFunction&&(this.dp.off(i.eventChangeSelectedDate,this.renderDelay),this.dp.opts.timepicker&&this.dp.off(i.eventChangeTime,this.render));}_createElement(){this.$el=n({tagName:"nav",className:"air-datepicker-nav"});}_getTitle(){let{dp:e,opts:t}=this,i=t.navTitles[e.currentView];return "function"==typeof i?i(e):e.formatDate(e.viewDate,i)}handleNavStatus(){let{disableNavWhenOutOfRange:e}=this.opts,{minDate:t,maxDate:s}=this.dp;if(!t&&!s||!e)return;let{year:a,month:n}=this.dp.parsedViewDate,r=!!t&&h(t),o=!!s&&h(s);switch(this.dp.currentView){case i.days:t&&r.month>=n&&r.year>=a&&this._disableNav("prev"),s&&o.month<=n&&o.year<=a&&this._disableNav("next");break;case i.months:t&&r.year>=a&&this._disableNav("prev"),s&&o.year<=a&&this._disableNav("next");break;case i.years:{let e=c(this.dp.viewDate);t&&r.year>=e[0]&&this._disableNav("prev"),s&&o.year<=e[1]&&this._disableNav("next");break}}}_disableNav(e){a('[data-action="'+e+'"]',this.$el).classList.add("-disabled-");}_resetNavStatus(){!function(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];e.length?e.forEach((e=>{e.classList.remove(...i);})):e.classList.remove(...i);}(this.$el.querySelectorAll(".air-datepicker-nav--action"),"-disabled-");}_buildBaseHtml(){let{prevHtml:e,nextHtml:t}=this.opts;this.$el.innerHTML=`<div class="air-datepicker-nav--action" data-action="prev">${e}</div><div class="air-datepicker-nav--title"></div><div class="air-datepicker-nav--action" data-action="next">${t}</div>`;}get isNavIsFunction(){let{navTitles:e}=this.opts;return Object.keys(e).find((t=>"function"==typeof e[t]))}}var x={today:{content:e=>e.locale.today,onClick:e=>e.setViewDate(new Date)},clear:{content:e=>e.locale.clear,onClick:e=>e.clear()}};class H{constructor(e){let{dp:t,opts:i}=e;this.dp=t,this.opts=i,this.init();}init(){this.createElement(),this.render();}createElement(){this.$el=n({className:"air-datepicker-buttons"});}destroy(){this.$el.parentNode.removeChild(this.$el);}clearHtml(){return this.$el.innerHTML="",this}generateButtons(){let{buttons:e}=this.opts;Array.isArray(e)||(e=[e]),e.forEach((e=>{let t=e;"string"==typeof e&&x[e]&&(t=x[e]);let i=this.createButton(t);t.onClick&&this.attachEventToButton(i,t.onClick),this.$el.appendChild(i);}));}attachEventToButton(e,t){e.addEventListener("click",(()=>{t(this.dp);}));}createButton(e){let{content:t,className:i,tagName:s="button",attrs:a={}}=e;return n({tagName:s,innerHtml:`<span tabindex='-1'>${"function"==typeof t?t(this.dp):t}</span>`,className:u("air-datepicker-button",i),attrs:a})}render(){this.generateButtons();}}function E(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}class L{constructor(){let{opts:e,dp:t}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};E(this,"toggleTimepickerIsActive",(e=>{this.dp.timepickerIsActive=e;})),E(this,"onChangeSelectedDate",(e=>{let{date:t,updateTime:i=!1}=e;t&&(this.setMinMaxTime(t),this.setCurrentTime(!!i&&t),this.addTimeToDate(t));})),E(this,"onChangeLastSelectedDate",(e=>{e&&(this.setTime(e),this.render());})),E(this,"onChangeInputRange",(e=>{let t=e.target;this[t.getAttribute("name")]=t.value,this.updateText(),this.dp.trigger(i.eventChangeTime,{hours:this.hours,minutes:this.minutes});})),E(this,"onMouseEnterLeave",(e=>{let t=e.target.getAttribute("name"),i=this.$minutesText;"hours"===t&&(i=this.$hoursText),i.classList.toggle("-focus-");})),E(this,"onFocus",(()=>{this.toggleTimepickerIsActive(!0);})),E(this,"onBlur",(()=>{this.toggleTimepickerIsActive(!1);})),this.opts=e,this.dp=t;let{timeFormat:s}=this.dp.locale;s&&(s.match(k("h"))||s.match(k("hh")))&&(this.ampm=!0),this.init();}init(){this.setTime(this.dp.lastSelectedDate||this.dp.viewDate),this.createElement(),this.buildHtml(),this.defineDOM(),this.render(),this.bindDatepickerEvents(),this.bindDOMEvents();}bindDatepickerEvents(){this.dp.on(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.on(i.eventChangeLastSelectedDate,this.onChangeLastSelectedDate);}bindDOMEvents(){let e="input";navigator.userAgent.match(/trident/gi)&&(e="change"),D(this.$ranges,e,this.onChangeInputRange),D(this.$ranges,"mouseenter",this.onMouseEnterLeave),D(this.$ranges,"mouseleave",this.onMouseEnterLeave),D(this.$ranges,"focus",this.onFocus),D(this.$ranges,"mousedown",this.onFocus),D(this.$ranges,"blur",this.onBlur);}createElement(){this.$el=n({className:u("air-datepicker-time",{"-am-pm-":this.dp.ampm})});}destroy(){this.dp.off(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.off(i.eventChangeLastSelectedDate,this.onChangeLastSelectedDate),this.$el.parentNode.removeChild(this.$el);}buildHtml(){let{ampm:e,hours:t,displayHours:i,minutes:s,minHours:a,minMinutes:n,maxHours:r,maxMinutes:o,dayPeriod:h,opts:{hoursStep:l,minutesStep:c}}=this;this.$el.innerHTML=`<div class="air-datepicker-time--current">   <span class="air-datepicker-time--current-hours">${d(i)}</span>   <span class="air-datepicker-time--current-colon">:</span>   <span class="air-datepicker-time--current-minutes">${d(s)}</span>   `+(e?`<span class='air-datepicker-time--current-ampm'>${h}</span>`:"")+'</div><div class="air-datepicker-time--sliders">   <div class="air-datepicker-time--row">'+`      <input type="range" name="hours" value="${t}" min="${a}" max="${r}" step="${l}"/>   </div>   <div class="air-datepicker-time--row">`+`      <input type="range" name="minutes" value="${s}" min="${n}" max="${o}" step="${c}"/>   </div></div>`;}defineDOM(){let e=e=>a(e,this.$el);this.$ranges=this.$el.querySelectorAll('[type="range"]'),this.$hours=e('[name="hours"]'),this.$minutes=e('[name="minutes"]'),this.$hoursText=e(".air-datepicker-time--current-hours"),this.$minutesText=e(".air-datepicker-time--current-minutes"),this.$ampm=e(".air-datepicker-time--current-ampm");}setTime(e){this.setMinMaxTime(e),this.setCurrentTime(e);}addTimeToDate(e){e&&(e.setHours(this.hours),e.setMinutes(this.minutes));}setMinMaxTime(e){if(this.setMinMaxTimeFromOptions(),e){let{minDate:t,maxDate:i}=this.dp;t&&p(e,t)&&this.setMinTimeFromMinDate(t),i&&p(e,i)&&this.setMaxTimeFromMaxDate(i);}}setCurrentTime(e){let{hours:t,minutes:i}=e?h(e):this;this.hours=f(t,this.minHours,this.maxHours),this.minutes=f(i,this.minMinutes,this.maxMinutes);}setMinMaxTimeFromOptions(){let{minHours:e,minMinutes:t,maxHours:i,maxMinutes:s}=this.opts;this.minHours=f(e,0,23),this.minMinutes=f(t,0,59),this.maxHours=f(i,0,23),this.maxMinutes=f(s,0,59);}setMinTimeFromMinDate(e){let{lastSelectedDate:t}=this.dp;this.minHours=e.getHours(),t&&t.getHours()>e.getHours()?this.minMinutes=this.opts.minMinutes:this.minMinutes=e.getMinutes();}setMaxTimeFromMaxDate(e){let{lastSelectedDate:t}=this.dp;this.maxHours=e.getHours(),t&&t.getHours()<e.getHours()?this.maxMinutes=this.opts.maxMinutes:this.maxMinutes=e.getMinutes();}updateSliders(){r(this.$hours,{min:this.minHours,max:this.maxHours}).value=this.hours,r(this.$minutes,{min:this.minMinutes,max:this.maxMinutes}).value=this.minutes;}updateText(){this.$hoursText.innerHTML=d(this.displayHours),this.$minutesText.innerHTML=d(this.minutes),this.ampm&&(this.$ampm.innerHTML=this.dayPeriod);}set hours(e){this._hours=e;let{hours:t,dayPeriod:i}=l(e);this.displayHours=this.ampm?t:e,this.dayPeriod=i;}get hours(){return this._hours}render(){this.updateSliders(),this.updateText();}}function O(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}class A{constructor(e){let{dp:t,opts:i}=e;O(this,"pressedKeys",new Set),O(this,"hotKeys",new Map([[[["Control","ArrowRight"],["Control","ArrowUp"]],e=>e.month++],[[["Control","ArrowLeft"],["Control","ArrowDown"]],e=>e.month--],[[["Shift","ArrowRight"],["Shift","ArrowUp"]],e=>e.year++],[[["Shift","ArrowLeft"],["Shift","ArrowDown"]],e=>e.year--],[[["Alt","ArrowRight"],["Alt","ArrowUp"]],e=>e.year+=10],[[["Alt","ArrowLeft"],["Alt","ArrowDown"]],e=>e.year-=10],[["Control","Shift","ArrowUp"],(e,t)=>t.up()]])),O(this,"handleHotKey",(e=>{let t=this.hotKeys.get(e),i=h(this.getInitialFocusDate());t(i,this.dp);let{year:s,month:a,date:n}=i,r=o(new Date(s,a));r<n&&(n=r);let l=this.dp.getClampedDate(new Date(s,a,n));this.dp.setFocusDate(l,{viewDateTransition:!0});})),O(this,"isHotKeyPressed",(()=>{let e=!1,t=this.pressedKeys.size,i=e=>this.pressedKeys.has(e);for(let[s]of this.hotKeys){if(e)break;if(Array.isArray(s[0]))s.forEach((a=>{e||t!==a.length||(e=a.every(i)&&s);}));else {if(t!==s.length)continue;e=s.every(i)&&s;}}return e})),O(this,"isArrow",(e=>e>=37&&e<=40)),O(this,"onKeyDown",(e=>{let{key:t,which:i}=e,{dp:s,dp:{focusDate:a},opts:n}=this;this.registerKey(t);let r=this.isHotKeyPressed();if(r)return e.preventDefault(),void this.handleHotKey(r);if(this.isArrow(i))return e.preventDefault(),void this.focusNextCell(t);if("Enter"===t){if(s.currentView!==n.minView)return void s.down();if(a){let e=s._checkIfDateIsSelected(a);return void(e?s._handleAlreadySelectedDates(e,a):s.selectDate(a))}}"Escape"===t&&this.dp.hide();})),O(this,"onKeyUp",(e=>{this.removeKey(e.key);})),this.dp=t,this.opts=i,this.init();}init(){this.bindKeyboardEvents();}bindKeyboardEvents(){let{$el:e}=this.dp;e.addEventListener("keydown",this.onKeyDown),e.addEventListener("keyup",this.onKeyUp);}destroy(){let{$el:e}=this.dp;e.removeEventListener("keydown",this.onKeyDown),e.removeEventListener("keyup",this.onKeyUp),this.hotKeys=null,this.pressedKeys=null;}getInitialFocusDate(){let{focusDate:e,currentView:t,selectedDates:s,parsedViewDate:{year:a,month:n}}=this.dp,r=e||s[s.length-1];if(!r)switch(t){case i.days:r=new Date(a,n,(new Date).getDate());break;case i.months:r=new Date(a,n,1);break;case i.years:r=new Date(a,0,1);}return r}focusNextCell(e){let t=this.getInitialFocusDate(),{currentView:s}=this.dp,{days:a,months:n,years:r}=i,o=h(t),l=o.year,d=o.month,c=o.date;switch(e){case"ArrowLeft":s===a&&(c-=1),s===n&&(d-=1),s===r&&(l-=1);break;case"ArrowUp":s===a&&(c-=7),s===n&&(d-=3),s===r&&(l-=4);break;case"ArrowRight":s===a&&(c+=1),s===n&&(d+=1),s===r&&(l+=1);break;case"ArrowDown":s===a&&(c+=7),s===n&&(d+=3),s===r&&(l+=4);}let u=this.dp.getClampedDate(new Date(l,d,c));this.dp.setFocusDate(u,{viewDateTransition:!0});}registerKey(e){this.pressedKeys.add(e);}removeKey(e){this.pressedKeys.delete(e);}}let N={on(e,t){this.__events||(this.__events={}),this.__events[e]?this.__events[e].push(t):this.__events[e]=[t];},off(e,t){this.__events&&this.__events[e]&&(this.__events[e]=this.__events[e].filter((e=>e!==t)));},removeAllEvents(){this.__events={};},trigger(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];this.__events&&this.__events[e]&&this.__events[e].forEach((e=>{e(...i);}));}};function I(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}let P="",j="",B=!1;class R{static buildGlobalContainer(e){B=!0,P=n({className:e,id:e}),a("body").appendChild(P);}constructor(e,t){var r=this;if(I(this,"viewIndexes",[i.days,i.months,i.years]),I(this,"next",(()=>{let{year:e,month:t}=this.parsedViewDate;switch(this.currentView){case i.days:this.setViewDate(new Date(e,t+1,1));break;case i.months:this.setViewDate(new Date(e+1,t,1));break;case i.years:this.setViewDate(new Date(e+10,0,1));}})),I(this,"prev",(()=>{let{year:e,month:t}=this.parsedViewDate;switch(this.currentView){case i.days:this.setViewDate(new Date(e,t-1,1));break;case i.months:this.setViewDate(new Date(e-1,t,1));break;case i.years:this.setViewDate(new Date(e-10,0,1));}})),I(this,"_finishHide",(()=>{this.hideAnimation=!1,this._destroyComponents(),this.$container.removeChild(this.$datepicker);})),I(this,"setPosition",(function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("function"==typeof(e=e||r.opts.position))return void(r.customHide=e({$datepicker:r.$datepicker,$target:r.$el,$pointer:r.$pointer,isViewChange:t,done:r._finishHide}));let i,s,{isMobile:a}=r.opts,n=r.$el.getBoundingClientRect(),o=r.$el.getBoundingClientRect(),h=r.$datepicker.offsetParent,l=r.$el.offsetParent,d=r.$datepicker.getBoundingClientRect(),c=e.split(" "),u=window.scrollY,p=window.scrollX,m=r.opts.offset,v=c[0],g=c[1];if(a)r.$datepicker.style.cssText="left: 50%; top: 50%";else {if(h===l&&h!==document.body&&(o={top:r.$el.offsetTop,left:r.$el.offsetLeft,width:n.width,height:r.$el.offsetHeight},u=0,p=0),h!==l&&h!==document.body){let e=h.getBoundingClientRect();o={top:n.top-e.top,left:n.left-e.left,width:n.width,height:n.height},u=0,p=0;}switch(v){case"top":i=o.top-d.height-m;break;case"right":s=o.left+o.width+m;break;case"bottom":i=o.top+o.height+m;break;case"left":s=o.left-d.width-m;}switch(g){case"top":i=o.top;break;case"right":s=o.left+o.width-d.width;break;case"bottom":i=o.top+o.height-d.height;break;case"left":s=o.left;break;case"center":/left|right/.test(v)?i=o.top+o.height/2-d.height/2:s=o.left+o.width/2-d.width/2;}r.$datepicker.style.cssText=`left: ${s+p}px; top: ${i+u}px`;}})),I(this,"_setInputValue",(()=>{let{opts:e,$altField:t,locale:{dateFormat:i}}=this,{altFieldDateFormat:s,altField:a}=e;a&&t&&(t.value=this._getInputValue(s)),this.$el.value=this._getInputValue(i);})),I(this,"_getInputValue",(e=>{let{selectedDates:t,opts:i}=this,{multipleDates:s,multipleDatesSeparator:a}=i;if(!t.length)return "";let n="function"==typeof e,r=n?e(s?t:t[0]):t.map((t=>this.formatDate(t,e)));return r=n?r:r.join(a),r})),I(this,"_checkIfDateIsSelected",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i.days,s=!1;return r.selectedDates.some((i=>{let a=p(e,i,t);return s=a&&i,a})),s})),I(this,"_scheduleCallAfterTransition",(e=>{this._cancelScheduledCall(),e&&e(!1),this._onTransitionEnd=()=>{e&&e(!0);},this.$datepicker.addEventListener("transitionend",this._onTransitionEnd,{once:!0});})),I(this,"_cancelScheduledCall",(()=>{this.$datepicker.removeEventListener("transitionend",this._onTransitionEnd);})),I(this,"setViewDate",(e=>{if(!((e=b(e))instanceof Date))return;if(p(e,this.viewDate))return;let t=this.viewDate;this.viewDate=e;let{onChangeViewDate:s}=this.opts;if(s){let{month:e,year:t}=this.parsedViewDate;s({month:e,year:t,decade:this.curDecade});}this.trigger(i.eventChangeViewDate,e,t);})),I(this,"setFocusDate",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};(!e||(e=b(e))instanceof Date)&&(r.focusDate=e,r.trigger(i.eventChangeFocusDate,e,t));})),I(this,"setCurrentView",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(r.viewIndexes.includes(e)){if(r.currentView=e,r.elIsInput&&r.visible&&r.setPosition(void 0,!0),r.trigger(i.eventChangeCurrentView,e),!r.views[e]){let t=r.views[e]=new T({dp:r,opts:r.opts,type:e});r.shouldUpdateDOM&&r.$content.appendChild(t.$el);}r.opts.onChangeView&&!t.silent&&r.opts.onChangeView(e);}})),I(this,"_updateLastSelectedDate",(e=>{this.lastSelectedDate=e,this.trigger(i.eventChangeLastSelectedDate,e);})),I(this,"destroy",(()=>{if(this.isDestroyed)return;let{showEvent:e,isMobile:t}=this.opts,i=this.$datepicker.parentNode;i&&i.removeChild(this.$datepicker),this.$el.removeEventListener(e,this._onFocus),this.$el.removeEventListener("blur",this._onBlur),window.removeEventListener("resize",this._onResize),t&&this._removeMobileAttributes(),this.keyboardNav&&this.keyboardNav.destroy(),this.views=null,this.nav=null,this.$datepicker=null,this.opts={},this.$customContainer=null,this.viewDate=null,this.focusDate=null,this.selectedDates=[],this.rangeDateFrom=null,this.rangeDateTo=null,this.isDestroyed=!0;})),I(this,"update",(function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},s=w({},r.opts),{silent:a}=t;w(r.opts,e);let{timepicker:n,buttons:o,range:h,selectedDates:l,isMobile:d}=r.opts,c=r.visible||r.treatAsInline;r._createMinMaxDates(),r._limitViewDateByMaxMinDates(),r._handleLocale(),l&&(r.selectedDates=[],r.selectDate(l,{silent:a})),e.view&&r.setCurrentView(e.view,{silent:a}),r._setInputValue(),s.range&&!h?(r.rangeDateTo=!1,r.rangeDateFrom=!1):!s.range&&h&&r.selectedDates.length&&(r.rangeDateFrom=r.selectedDates[0],r.rangeDateTo=r.selectedDates[1]),s.timepicker&&!n?(c&&r.timepicker.destroy(),r.timepicker=!1,r.$timepicker.parentNode.removeChild(r.$timepicker)):!s.timepicker&&n&&r._addTimepicker(),!s.buttons&&o?r._addButtons():s.buttons&&!o?(r.buttons.destroy(),r.$buttons.parentNode.removeChild(r.$buttons)):c&&s.buttons&&o&&r.buttons.clearHtml().render(),!s.isMobile&&d?(r.treatAsInline||j||r._createMobileOverlay(),r._addMobileAttributes(),r.visible&&r._showMobileOverlay()):s.isMobile&&!d&&(r._removeMobileAttributes(),r.visible&&(j.classList.remove("-active-"),"function"!=typeof r.opts.position&&r.setPosition())),c&&(r.nav.update(),r.views[r.currentView].render(),r.currentView===i.days&&r.views[r.currentView].renderDayNames());})),I(this,"disableDate",((e,t)=>{(Array.isArray(e)?e:[e]).forEach((e=>{let i=b(e);if(!i)return;let s=t?"delete":"add";this.disabledDates[s](this.formatDate(i,"yyyy-MM-dd"));let a=this.getCell(i,this.currentViewSingular);a&&a.adpCell.render();}),[]);})),I(this,"enableDate",(e=>{this.disableDate(e,!0);})),I(this,"isDateDisabled",(e=>{let t=b(e);return this.disabledDates.has(this.formatDate(t,"yyyy-MM-dd"))})),I(this,"isOtherMonth",(e=>{let{month:t}=h(e);return t!==this.parsedViewDate.month})),I(this,"isOtherYear",(e=>{let{year:t}=h(e);return t!==this.parsedViewDate.year})),I(this,"isOtherDecade",(e=>{let{year:t}=h(e),[i,s]=c(this.viewDate);return t<i||t>s})),I(this,"_onChangeSelectedDate",(e=>{let{silent:t}=e;setTimeout((()=>{this._setInputValue(),this.opts.onSelect&&!t&&this._triggerOnSelect();}));})),I(this,"_onChangeFocusedDate",(function(e){let{viewDateTransition:t}=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(!e)return;let i=!1;t&&(i=r.isOtherMonth(e)||r.isOtherYear(e)||r.isOtherDecade(e)),i&&r.setViewDate(e),r.opts.onFocus&&r.opts.onFocus({datepicker:r,date:e});})),I(this,"_onChangeTime",(e=>{let{hours:t,minutes:i}=e,s=new Date,{lastSelectedDate:a,opts:{onSelect:n}}=this,r=a;a||(r=s);let o=this.getCell(r,this.currentViewSingular),h=o&&o.adpCell;h&&h.isDisabled||(r.setHours(t),r.setMinutes(i),a?(this._setInputValue(),n&&this._triggerOnSelect()):this.selectDate(r));})),I(this,"_onFocus",(e=>{this.visible||this.show();})),I(this,"_onBlur",(e=>{this.inFocus||!this.visible||this.opts.isMobile||this.hide();})),I(this,"_onMouseDown",(e=>{this.inFocus=!0;})),I(this,"_onMouseUp",(e=>{this.inFocus=!1,this.$el.focus();})),I(this,"_onResize",(()=>{this.visible&&"function"!=typeof this.opts.position&&this.setPosition();})),I(this,"_onClickOverlay",(()=>{this.visible&&this.hide();})),I(this,"getViewDates",(function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:i.days;return T.getDatesFunction(e)(r)})),I(this,"isWeekend",(e=>this.opts.weekends.includes(e))),I(this,"getClampedDate",(e=>{let{minDate:t,maxDate:i}=this,s=e;return i&&m(e,i)?s=i:t&&v(e,t)&&(s=t),s})),this.$el=a(e),!this.$el)return;this.$datepicker=n({className:"air-datepicker"}),this.opts=w({},s,t),this.$customContainer=!!this.opts.container&&a(this.opts.container),this.$altField=a(this.opts.altField||!1);let{view:o,startDate:l}=this.opts;l||(this.opts.startDate=new Date),"INPUT"===this.$el.nodeName&&(this.elIsInput=!0),this.inited=!1,this.visible=!1,this.viewDate=b(this.opts.startDate),this.focusDate=!1,this.initialReadonly=this.$el.getAttribute("readonly"),this.customHide=!1,this.currentView=o,this.selectedDates=[],this.disabledDates=new Set,this.isDestroyed=!1,this.views={},this.keys=[],this.rangeDateFrom="",this.rangeDateTo="",this.timepickerIsActive=!1,this.treatAsInline=this.opts.inline||!this.elIsInput,this.init();}init(){let{opts:e,treatAsInline:t,opts:{inline:i,isMobile:s,selectedDates:n,keyboardNav:r,onlyTimepicker:o}}=this,h=a("body");(!B||B&&P&&!h.contains(P))&&!i&&this.elIsInput&&!this.$customContainer&&R.buildGlobalContainer(R.defaultGlobalContainerId),!s||j||t||this._createMobileOverlay(),this._handleLocale(),this._bindSubEvents(),this._createMinMaxDates(),this._limitViewDateByMaxMinDates(),this.elIsInput&&(i||this._bindEvents(),r&&!o&&(this.keyboardNav=new A({dp:this,opts:e}))),n&&this.selectDate(n,{silent:!0}),this.opts.visible&&!t&&this.show(),s&&!t&&this.$el.setAttribute("readonly",!0),t&&this._createComponents();}_createMobileOverlay(){j=n({className:"air-datepicker-overlay"}),P.appendChild(j);}_createComponents(){let{opts:e,treatAsInline:t,opts:{inline:i,buttons:s,timepicker:a,position:n,classes:r,onlyTimepicker:o,isMobile:h}}=this;this._buildBaseHtml(),this.elIsInput&&(i||this._setPositionClasses(n)),!i&&this.elIsInput||this.$datepicker.classList.add("-inline-"),r&&this.$datepicker.classList.add(...r.split(" ")),o&&this.$datepicker.classList.add("-only-timepicker-"),h&&!t&&this._addMobileAttributes(),this.views[this.currentView]=new T({dp:this,type:this.currentView,opts:e}),this.nav=new V({dp:this,opts:e}),a&&this._addTimepicker(),s&&this._addButtons(),this.$content.appendChild(this.views[this.currentView].$el),this.$nav.appendChild(this.nav.$el);}_destroyComponents(){for(let e in this.views)this.views[e].destroy();this.views={},this.nav.destroy(),this.timepicker&&this.timepicker.destroy();}_addMobileAttributes(){j.addEventListener("click",this._onClickOverlay),this.$datepicker.classList.add("-is-mobile-"),this.$el.setAttribute("readonly",!0);}_removeMobileAttributes(){j.removeEventListener("click",this._onClickOverlay),this.$datepicker.classList.remove("-is-mobile-"),this.initialReadonly||""===this.initialReadonly||this.$el.removeAttribute("readonly");}_createMinMaxDates(){let{minDate:e,maxDate:t}=this.opts;this.minDate=!!e&&b(e),this.maxDate=!!t&&b(t);}_addTimepicker(){this.$timepicker=n({className:"air-datepicker--time"}),this.$datepicker.appendChild(this.$timepicker),this.timepicker=new L({dp:this,opts:this.opts}),this.$timepicker.appendChild(this.timepicker.$el);}_addButtons(){this.$buttons=n({className:"air-datepicker--buttons"}),this.$datepicker.appendChild(this.$buttons),this.buttons=new H({dp:this,opts:this.opts}),this.$buttons.appendChild(this.buttons.$el);}_bindSubEvents(){this.on(i.eventChangeSelectedDate,this._onChangeSelectedDate),this.on(i.eventChangeFocusDate,this._onChangeFocusedDate),this.on(i.eventChangeTime,this._onChangeTime);}_buildBaseHtml(){let{inline:e}=this.opts;var t,i;this.elIsInput?e?(t=this.$datepicker,(i=this.$el).parentNode.insertBefore(t,i.nextSibling)):this.$container.appendChild(this.$datepicker):this.$el.appendChild(this.$datepicker),this.$datepicker.innerHTML='<i class="air-datepicker--pointer"></i><div class="air-datepicker--navigation"></div><div class="air-datepicker--content"></div>',this.$content=a(".air-datepicker--content",this.$datepicker),this.$pointer=a(".air-datepicker--pointer",this.$datepicker),this.$nav=a(".air-datepicker--navigation",this.$datepicker);}_handleLocale(){let{locale:e,dateFormat:t,firstDay:i,timepicker:s,onlyTimepicker:a,timeFormat:n,dateTimeSeparator:r}=this.opts;var o;this.locale=(o=e,JSON.parse(JSON.stringify(o))),t&&(this.locale.dateFormat=t),void 0!==n&&""!==n&&(this.locale.timeFormat=n);let{timeFormat:h}=this.locale;if(""!==i&&(this.locale.firstDay=i),s&&"function"!=typeof t){let e=h?r:"";this.locale.dateFormat=[this.locale.dateFormat,h||""].join(e);}a&&"function"!=typeof t&&(this.locale.dateFormat=this.locale.timeFormat);}_setPositionClasses(e){if("function"==typeof e)return void this.$datepicker.classList.add("-custom-position-");let t=(e=e.split(" "))[0],i=`air-datepicker -${t}-${e[1]}- -from-${t}-`;this.$datepicker.classList.add(...i.split(" "));}_bindEvents(){this.$el.addEventListener(this.opts.showEvent,this._onFocus),this.$el.addEventListener("blur",this._onBlur),this.$datepicker.addEventListener("mousedown",this._onMouseDown),this.$datepicker.addEventListener("mouseup",this._onMouseUp),window.addEventListener("resize",this._onResize);}_limitViewDateByMaxMinDates(){let{viewDate:e,minDate:t,maxDate:i}=this;i&&m(e,i)&&this.setViewDate(i),t&&v(e,t)&&this.setViewDate(t);}formatDate(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.viewDate,t=arguments.length>1?arguments[1]:void 0;if(e=b(e),!(e instanceof Date))return;let i=t,s=this.locale,a=h(e),n=a.dayPeriod,r=c(e),o=R.replacer,l={T:e.getTime(),m:a.minutes,mm:a.fullMinutes,h:a.hours12,hh:a.fullHours12,H:a.hours,HH:a.fullHours,aa:n,AA:n.toUpperCase(),E:s.daysShort[a.day],EEEE:s.days[a.day],d:a.date,dd:a.fullDate,M:a.month+1,MM:a.fullMonth,MMM:s.monthsShort[a.month],MMMM:s.months[a.month],yy:a.year.toString().slice(-2),yyyy:a.year,yyyy1:r[0],yyyy2:r[1]};for(let[e,t]of Object.entries(l))i=o(i,k(e),t);return i}down(e){this._handleUpDownActions(e,"down");}up(e){this._handleUpDownActions(e,"up");}selectDate(e){let t,s=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},{currentView:a,parsedViewDate:n,selectedDates:r}=this,{updateTime:o}=s,{moveToOtherMonthsOnSelect:h,moveToOtherYearsOnSelect:l,multipleDates:d,range:c,autoClose:u,onBeforeSelect:p}=this.opts,v=r.length;if(Array.isArray(e))return e.forEach((e=>{this.selectDate(e,s);})),new Promise((e=>{setTimeout(e);}));if((e=b(e))instanceof Date){if(p&&!p({date:e,datepicker:this}))return Promise.resolve();if(a===i.days&&e.getMonth()!==n.month&&h&&(t=new Date(e.getFullYear(),e.getMonth(),1)),a===i.years&&e.getFullYear()!==n.year&&l&&(t=new Date(e.getFullYear(),0,1)),t&&this.setViewDate(t),d&&!c){if(v===d)return;this._checkIfDateIsSelected(e)||r.push(e);}else if(c)switch(v){case 1:r.push(e),this.rangeDateTo||(this.rangeDateTo=e),m(this.rangeDateFrom,this.rangeDateTo)&&(this.rangeDateTo=this.rangeDateFrom,this.rangeDateFrom=e),this.selectedDates=[this.rangeDateFrom,this.rangeDateTo];break;case 2:this.selectedDates=[e],this.rangeDateFrom=e,this.rangeDateTo="";break;default:this.selectedDates=[e],this.rangeDateFrom=e;}else this.selectedDates=[e];return this.trigger(i.eventChangeSelectedDate,{action:i.actionSelectDate,silent:null==s?void 0:s.silent,date:e,updateTime:o}),this._updateLastSelectedDate(e),u&&!this.timepickerIsActive&&this.visible&&(d||c?c&&1===v&&this.hide():this.hide()),new Promise((e=>{setTimeout(e);}))}}unselectDate(e){let t=this.selectedDates,s=this;if((e=b(e))instanceof Date)return t.some(((a,n)=>{if(p(a,e))return t.splice(n,1),s.selectedDates.length?(s.rangeDateTo="",s.rangeDateFrom=t[0],s._updateLastSelectedDate(s.selectedDates[s.selectedDates.length-1])):(s.rangeDateFrom="",s.rangeDateTo="",s._updateLastSelectedDate(!1)),this.trigger(i.eventChangeSelectedDate,{action:i.actionUnselectDate,date:e}),!0}))}replaceDate(e,t){let s=this.selectedDates.find((t=>p(t,e,this.currentView))),a=this.selectedDates.indexOf(s);a<0||p(this.selectedDates[a],t,this.currentView)||(this.selectedDates[a]=t,this.trigger(i.eventChangeSelectedDate,{action:i.actionSelectDate,date:t,updateTime:!0}),this._updateLastSelectedDate(t));}clear(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return this.selectedDates=[],this.rangeDateFrom=!1,this.rangeDateTo=!1,this.lastSelectedDate=!1,this.trigger(i.eventChangeSelectedDate,{action:i.actionUnselectDate,silent:e.silent}),new Promise((e=>{setTimeout(e);}))}show(){let{onShow:e,isMobile:t}=this.opts;this._cancelScheduledCall(),this.visible||this.hideAnimation||this._createComponents(),this.setPosition(this.opts.position),this.$datepicker.classList.add("-active-"),this.visible=!0,e&&this._scheduleCallAfterTransition(e),t&&this._showMobileOverlay();}hide(){let{onHide:e,isMobile:t}=this.opts,i=this._hasTransition();this.visible=!1,this.hideAnimation=!0,this.$datepicker.classList.remove("-active-"),this.customHide&&this.customHide(),this.elIsInput&&this.$el.blur(),this._scheduleCallAfterTransition((t=>{!this.customHide&&(t&&i||!t&&!i)&&this._finishHide(),e&&e(t);})),t&&j.classList.remove("-active-");}_triggerOnSelect(){let e=[],t=[],{selectedDates:i,locale:s,opts:{onSelect:a,multipleDates:n,range:r}}=this,o=n||r,h="function"==typeof s.dateFormat;i.length&&(e=i.map(g),t=h?n?s.dateFormat(e):e.map((e=>s.dateFormat(e))):e.map((e=>this.formatDate(e,s.dateFormat)))),a({date:o?e:e[0],formattedDate:o?t:t[0],datepicker:this});}_handleAlreadySelectedDates(e,t){let{selectedDates:i,rangeDateFrom:s,rangeDateTo:a}=this,{range:n,toggleSelected:r}=this.opts,o=i.length,h="function"==typeof r?r({datepicker:this,date:t}):r,l=Boolean(n&&1===o&&e),d=l?g(t):t;n&&!h&&(2!==o&&this.selectDate(d),2===o&&p(s,a))||(h?this.unselectDate(d):this._updateLastSelectedDate(l?d:e));}_handleUpDownActions(e,t){if(!((e=b(e||this.focusDate||this.viewDate))instanceof Date))return;let i="up"===t?this.viewIndex+1:this.viewIndex-1;i>2&&(i=2),i<0&&(i=0),this.setViewDate(new Date(e.getFullYear(),e.getMonth(),1)),this.setCurrentView(this.viewIndexes[i]);}getCell(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i.day;if(!((e=b(e))instanceof Date))return;let{year:s,month:a,date:n}=h(e),r=`[data-year="${s}"]`,o=`[data-month="${a}"]`,l={[i.day]:`${r}${o}[data-date="${n}"]`,[i.month]:`${r}${o}`,[i.year]:`${r}`};return this.views[this.currentView]?this.views[this.currentView].$el.querySelector(l[t]):void 0}_showMobileOverlay(){j.classList.add("-active-");}_hasTransition(){return window.getComputedStyle(this.$datepicker).getPropertyValue("transition-duration").split(", ").reduce(((e,t)=>parseFloat(t)+e),0)>0}get shouldUpdateDOM(){return this.visible||this.treatAsInline}get parsedViewDate(){return h(this.viewDate)}get currentViewSingular(){return this.currentView.slice(0,-1)}get curDecade(){return c(this.viewDate)}get viewIndex(){return this.viewIndexes.indexOf(this.currentView)}get isFinalView(){return this.currentView===i.years}get hasSelectedDates(){return this.selectedDates.length>0}get isMinViewReached(){return this.currentView===this.opts.minView||this.currentView===i.days}get $container(){return this.$customContainer||P}static replacer(e,t,i){return e.replace(t,(function(e,t,s,a){return t+i+a}))}}var K;return I(R,"defaults",s),I(R,"version","3.5.3"),I(R,"defaultGlobalContainerId","air-datepicker-global-container"),K=R.prototype,Object.assign(K,N),t.default}()}));
-}(airDatepicker));
+var airDatepicker = airDatepicker$1.exports;
 
-const AirDatepicker = airDatepicker.exports;
+var hasRequiredAirDatepicker;
+
+function requireAirDatepicker () {
+	if (hasRequiredAirDatepicker) return airDatepicker$1.exports;
+	hasRequiredAirDatepicker = 1;
+	(function (module, exports) {
+		!function(e,t){module.exports=t();}(airDatepicker,(function(){return function(){var e={d:function(t,i){for(var s in i)e.o(i,s)&&!e.o(t,s)&&Object.defineProperty(t,s,{enumerable:true,get:i[s]});},o:function(e,t){return Object.prototype.hasOwnProperty.call(e,t)}},t={};e.d(t,{default:function(){return R}});var i={days:"days",months:"months",years:"years",day:"day",month:"month",year:"year",eventChangeViewDate:"changeViewDate",eventChangeCurrentView:"changeCurrentView",eventChangeFocusDate:"changeFocusDate",eventChangeSelectedDate:"changeSelectedDate",eventChangeTime:"changeTime",eventChangeLastSelectedDate:"changeLastSelectedDate",actionSelectDate:"selectDate",actionUnselectDate:"unselectDate",cssClassWeekend:"-weekend-"},s={classes:"",inline:false,locale:{days:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],daysShort:["Вос","Пон","Вто","Сре","Чет","Пят","Суб"],daysMin:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],monthsShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],today:"Сегодня",clear:"Очистить",dateFormat:"dd.MM.yyyy",timeFormat:"HH:mm",firstDay:1},startDate:new Date,firstDay:"",weekends:[6,0],dateFormat:"",altField:"",altFieldDateFormat:"T",toggleSelected:true,keyboardNav:true,selectedDates:false,container:"",isMobile:false,visible:false,position:"bottom left",offset:12,view:i.days,minView:i.days,showOtherMonths:true,selectOtherMonths:true,moveToOtherMonthsOnSelect:true,showOtherYears:true,selectOtherYears:true,moveToOtherYearsOnSelect:true,minDate:"",maxDate:"",disableNavWhenOutOfRange:true,multipleDates:false,multipleDatesSeparator:", ",range:false,dynamicRange:true,buttons:false,monthsField:"monthsShort",showEvent:"focus",autoClose:false,fixedHeight:false,prevHtml:'<svg><path d="M 17,12 l -5,5 l 5,5"></path></svg>',nextHtml:'<svg><path d="M 14,12 l 5,5 l -5,5"></path></svg>',navTitles:{days:"MMMM, <i>yyyy</i>",months:"yyyy",years:"yyyy1 - yyyy2"},timepicker:false,onlyTimepicker:false,dateTimeSeparator:" ",timeFormat:"",minHours:0,maxHours:24,minMinutes:0,maxMinutes:59,hoursStep:1,minutesStep:1,onSelect:false,onChangeViewDate:false,onChangeView:false,onRenderCell:false,onShow:false,onHide:false,onClickDayName:false};function a(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:document;return "string"==typeof e?t.querySelector(e):e}function n(){let{tagName:e="div",className:t="",innerHtml:i="",id:s="",attrs:a={}}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=document.createElement(e);return t&&n.classList.add(...t.split(" ")),s&&(n.id=s),i&&(n.innerHTML=i),a&&r(n,a),n}function r(e,t){for(let[i,s]of Object.entries(t)) void 0!==s&&e.setAttribute(i,s);return e}function o(e){return new Date(e.getFullYear(),e.getMonth()+1,0).getDate()}function h(e){let t=e.getHours(),{hours:i,dayPeriod:s}=l(t);return {year:e.getFullYear(),month:e.getMonth(),fullMonth:e.getMonth()+1<10?"0"+(e.getMonth()+1):e.getMonth()+1,date:e.getDate(),fullDate:e.getDate()<10?"0"+e.getDate():e.getDate(),day:e.getDay(),hours:t,fullHours:d(t),hours12:i,dayPeriod:s,fullHours12:d(i),minutes:e.getMinutes(),fullMinutes:e.getMinutes()<10?"0"+e.getMinutes():e.getMinutes()}}function l(e){return {dayPeriod:e>11?"pm":"am",hours:e%12==0?12:e%12}}function d(e){return e<10?"0"+e:e}function c(e){let t=10*Math.floor(e.getFullYear()/10);return [t,t+9]}function u(){let e=[];for(var t=arguments.length,i=new Array(t),s=0;s<t;s++)i[s]=arguments[s];return i.forEach((t=>{if("object"==typeof t)for(let i in t)t[i]&&e.push(i);else t&&e.push(t);})),e.join(" ")}function p(e,t){let s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:i.days;if(!e||!t)return  false;let a=h(e),n=h(t);return {[i.days]:a.date===n.date&&a.month===n.month&&a.year===n.year,[i.months]:a.month===n.month&&a.year===n.year,[i.years]:a.year===n.year}[s]}function m(e,t,i){let s=g(e,false).getTime(),a=g(t,false).getTime();return i?s>=a:s>a}function v(e,t){return !m(e,t,true)}function g(e){let t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],i=new Date(e.getTime());return "boolean"!=typeof t||t||function(e){e.setHours(0,0,0,0);}(i),i}function D(e,t,i){e.length?e.forEach((e=>{e.addEventListener(t,i);})):e.addEventListener(t,i);}function y(e,t){return !(!e||e===document||e instanceof DocumentFragment)&&(e.matches(t)?e:y(e.parentNode,t))}function f(e,t,i){return e>i?i:e<t?t:e}function w(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];return i.filter((e=>e)).forEach((t=>{for(let[i,s]of Object.entries(t))if(void 0!==s&&"[object Object]"===s.toString()){let t=void 0!==e[i]?e[i].toString():void 0,a=s.toString(),n=Array.isArray(s)?[]:{};e[i]=e[i]?t!==a?n:e[i]:n,w(e[i],s);}else e[i]=s;})),e}function b(e){let t=e;return e instanceof Date||("string"==typeof e&&/^\d{4}-\d{2}-\d{2}$/.test(e)&&(e+="T00:00:00"),t=new Date(e)),isNaN(t.getTime())&&(console.log(`Unable to convert value "${e}" to Date object`),t=false),t}function k(e){let t="\\s|\\.|-|/|\\\\|,|\\$|\\!|\\?|:|;";return new RegExp("(^|>|"+t+")("+e+")($|<|"+t+")","g")}function $(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}class C{constructor(){let{type:e,date:t,dp:i,opts:s,body:a}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};$(this,"focus",(()=>{this.$cell.classList.add("-focus-"),this.focused=true;})),$(this,"removeFocus",(()=>{this.$cell.classList.remove("-focus-"),this.focused=false;})),$(this,"select",(()=>{this.$cell.classList.add("-selected-"),this.selected=true;})),$(this,"removeSelect",(()=>{this.$cell.classList.remove("-selected-","-range-from-","-range-to-"),this.selected=false;})),$(this,"onChangeSelectedDate",(()=>{this.isDisabled||(this._handleSelectedStatus(),this.opts.range&&this._handleRangeStatus());})),$(this,"onChangeFocusDate",(e=>{if(!e)return void(this.focused&&this.removeFocus());let t=p(e,this.date,this.type);t?this.focus():!t&&this.focused&&this.removeFocus(),this.opts.range&&this._handleRangeStatus();})),$(this,"render",(()=>(this.$cell.innerHTML=this._getHtml(),this._handleClasses(),this.$cell))),this.type=e,this.singleType=this.type.slice(0,-1),this.date=t,this.dp=i,this.opts=s,this.body=a,this.customData=false,this.init();}init(){var e;let{onRenderCell:t}=this.opts;t&&(this.customData=t({date:this.date,cellType:this.singleType,datepicker:this.dp})),this._createElement(),this._bindDatepickerEvents(),null!==(e=this.customData)&&void 0!==e&&e.disabled&&this.dp.disableDate(this.date);}_bindDatepickerEvents(){this.dp.on(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.on(i.eventChangeFocusDate,this.onChangeFocusDate);}unbindDatepickerEvents(){this.dp.off(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.off(i.eventChangeFocusDate,this.onChangeFocusDate);}_createElement(){var e;let{year:t,month:i,date:s}=h(this.date),a=(null===(e=this.customData)||void 0===e?void 0:e.attrs)||{};this.$cell=n({attrs:{"data-year":t,"data-month":i,"data-date":s,...a}}),this.$cell.adpCell=this;}_getClassName(){var e;let t=new Date,{selectOtherMonths:s,selectOtherYears:a}=this.opts,{minDate:n,maxDate:r,isDateDisabled:o}=this.dp,{day:l}=h(this.date),d=this._isOutOfMinMaxRange(),c=o(this.date),m=u("air-datepicker-cell",`-${this.singleType}-`,{"-current-":p(t,this.date,this.type),"-min-date-":n&&p(n,this.date,this.type),"-max-date-":r&&p(r,this.date,this.type)}),v="";switch(this.type){case i.days:v=u({"-weekend-":this.dp.isWeekend(l),"-other-month-":this.isOtherMonth,"-disabled-":this.isOtherMonth&&!s||d||c});break;case i.months:v=u({"-disabled-":d});break;case i.years:v=u({"-other-decade-":this.isOtherDecade,"-disabled-":d||this.isOtherDecade&&!a});}return u(m,v,null===(e=this.customData)||void 0===e?void 0:e.classes).split(" ")}_getHtml(){var e;let{year:t,month:s,date:a}=h(this.date),{showOtherMonths:n,showOtherYears:r}=this.opts;if(null!==(e=this.customData)&&void 0!==e&&e.html)return this.customData.html;switch(this.type){case i.days:return !n&&this.isOtherMonth?"":a;case i.months:return this.dp.locale[this.opts.monthsField][s];case i.years:return !r&&this.isOtherDecade?"":t}}_isOutOfMinMaxRange(){let{minDate:e,maxDate:t}=this.dp,{type:s,date:a}=this,{month:n,year:r,date:o}=h(a),l=s===i.days,d=s===i.years,c=!!e&&new Date(r,d?e.getMonth():n,l?o:e.getDate()),u=!!t&&new Date(r,d?t.getMonth():n,l?o:t.getDate());return e&&t?v(c,e)||m(u,t):e?v(c,e):t?m(u,t):void 0}destroy(){this.unbindDatepickerEvents();}_handleRangeStatus(){const{selectedDates:e,focusDate:t,rangeDateTo:i,rangeDateFrom:s}=this.dp,a=e.length;if(!a)return;let n=s,r=i;if(1===a&&t){const i=m(t,e[0]);n=i?e[0]:t,r=i?t:e[0];}let o=u({"-in-range-":n&&r&&(h=this.date,l=n,d=r,m(h,l)&&v(h,d)),"-range-from-":n&&p(this.date,n,this.type),"-range-to-":r&&p(this.date,r,this.type)});var h,l,d;this.$cell.classList.remove("-range-from-","-range-to-","-in-range-"),o&&this.$cell.classList.add(...o.split(" "));}_handleSelectedStatus(){let e=this.dp._checkIfDateIsSelected(this.date,this.type);e?this.select():!e&&this.selected&&this.removeSelect();}_handleInitialFocusStatus(){p(this.dp.focusDate,this.date,this.type)&&this.focus();}_handleClasses(){this.$cell.setAttribute("class",""),this._handleInitialFocusStatus(),this.dp.hasSelectedDates&&(this._handleSelectedStatus(),this.dp.opts.range&&this._handleRangeStatus()),this.$cell.classList.add(...this._getClassName());}get isDisabled(){return this.$cell.matches(".-disabled-")}get isOtherMonth(){return this.dp.isOtherMonth(this.date)}get isOtherDecade(){return this.dp.isOtherDecade(this.date)}}function _(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}let M={[i.days]:`<div class="air-datepicker-body--day-names"></div><div class="air-datepicker-body--cells -${i.days}-"></div>`,[i.months]:`<div class="air-datepicker-body--cells -${i.months}-"></div>`,[i.years]:`<div class="air-datepicker-body--cells -${i.years}-"></div>`};const S=".air-datepicker-cell";class T{constructor(e){let{dp:t,type:s,opts:a}=e;_(this,"handleClick",(e=>{let t=e.target.closest(S).adpCell;if(t.isDisabled)return;if(!this.dp.isMinViewReached)return void this.dp.down();let i=this.dp._checkIfDateIsSelected(t.date,t.type);i?this.dp._handleAlreadySelectedDates(i,t.date):this.dp.selectDate(t.date);})),_(this,"handleDayNameClick",(e=>{let t=e.target.getAttribute("data-day-index");this.opts.onClickDayName({dayIndex:Number(t),datepicker:this.dp});})),_(this,"onChangeCurrentView",(e=>{e!==this.type?this.hide():(this.show(),this.render());})),_(this,"onMouseOverCell",(e=>{let t=y(e.target,S);this.dp.setFocusDate(!!t&&t.adpCell.date);})),_(this,"onMouseOutCell",(()=>{this.dp.setFocusDate(false);})),_(this,"onClickBody",(e=>{let{onClickDayName:t}=this.opts,i=e.target;i.closest(S)&&this.handleClick(e),t&&i.closest(".air-datepicker-body--day-name")&&this.handleDayNameClick(e);})),_(this,"onMouseDown",(e=>{this.pressed=true;let t=y(e.target,S),i=t&&t.adpCell;p(i.date,this.dp.rangeDateFrom)&&(this.rangeFromFocused=true),p(i.date,this.dp.rangeDateTo)&&(this.rangeToFocused=true);})),_(this,"onMouseMove",(e=>{if(!this.pressed||!this.dp.isMinViewReached)return;e.preventDefault();let t=y(e.target,S),i=t&&t.adpCell,{selectedDates:s,rangeDateTo:a,rangeDateFrom:n}=this.dp;if(!i||i.isDisabled)return;let{date:r}=i;if(2===s.length){if(this.rangeFromFocused&&!m(r,a)){let{hours:e,minutes:t}=h(n);r.setHours(e),r.setMinutes(t),this.dp.rangeDateFrom=r,this.dp.replaceDate(n,r);}if(this.rangeToFocused&&!v(r,n)){let{hours:e,minutes:t}=h(a);r.setHours(e),r.setMinutes(t),this.dp.rangeDateTo=r,this.dp.replaceDate(a,r);}}})),_(this,"onMouseUp",(()=>{this.pressed=false,this.rangeFromFocused=false,this.rangeToFocused=false;})),_(this,"onChangeViewDate",((e,t)=>{if(!this.isVisible)return;let s=c(e),a=c(t);switch(this.dp.currentView){case i.days:if(p(e,t,i.months))return;break;case i.months:if(p(e,t,i.years))return;break;case i.years:if(s[0]===a[0]&&s[1]===a[1])return}this.render();})),_(this,"render",(()=>{this.destroyCells(),this._generateCells(),this.cells.forEach((e=>{this.$cells.appendChild(e.render());}));})),this.dp=t,this.type=s,this.opts=a,this.cells=[],this.$el="",this.pressed=false,this.isVisible=true,this.init();}init(){this._buildBaseHtml(),this.type===i.days&&this.renderDayNames(),this.render(),this._bindEvents(),this._bindDatepickerEvents();}_bindEvents(){let{range:e,dynamicRange:t}=this.opts;D(this.$el,"mouseover",this.onMouseOverCell),D(this.$el,"mouseout",this.onMouseOutCell),D(this.$el,"click",this.onClickBody),e&&t&&(D(this.$el,"mousedown",this.onMouseDown),D(this.$el,"mousemove",this.onMouseMove),D(window.document,"mouseup",this.onMouseUp));}_bindDatepickerEvents(){this.dp.on(i.eventChangeViewDate,this.onChangeViewDate),this.dp.on(i.eventChangeCurrentView,this.onChangeCurrentView);}_buildBaseHtml(){this.$el=n({className:`air-datepicker-body -${this.type}-`,innerHtml:M[this.type]}),this.$names=a(".air-datepicker-body--day-names",this.$el),this.$cells=a(".air-datepicker-body--cells",this.$el);}_getDayNamesHtml(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.dp.locale.firstDay,t="",s=this.dp.isWeekend,{onClickDayName:a}=this.opts,n=e,r=0;for(;r<7;){let e=n%7;t+=`<div class="${u("air-datepicker-body--day-name",{[i.cssClassWeekend]:s(e),"-clickable-":!!a})}" data-day-index='${e}'>${this.dp.locale.daysMin[e]}</div>`,r++,n++;}return t}renderDayNames(){this.$names.innerHTML=this._getDayNamesHtml();}_generateCell(e){let{type:t,dp:i,opts:s}=this;return new C({type:t,dp:i,opts:s,date:e,body:this})}_generateCells(){T.getDatesFunction(this.type)(this.dp,(e=>{this.cells.push(this._generateCell(e));}));}show(){this.isVisible=true,this.$el.classList.remove("-hidden-");}hide(){this.isVisible=false,this.$el.classList.add("-hidden-");}destroyCells(){this.cells.forEach((e=>e.destroy())),this.cells=[],this.$cells.innerHTML="";}destroy(){this.destroyCells(),this.dp.off(i.eventChangeViewDate,this.onChangeViewDate),this.dp.off(i.eventChangeCurrentView,this.onChangeCurrentView);}static getDaysDates(e,t){let{viewDate:i,opts:{fixedHeight:s},locale:{firstDay:a}}=e,n=o(i),{year:r,month:l}=h(i),d=new Date(r,l,1),c=new Date(r,l,n),u=d.getDay()-a,p=6-c.getDay()+a;u=u<0?u+7:u,p=p>6?p-7:p;let m=function(e,t){let{year:i,month:s,date:a}=h(e);return new Date(i,s,a-t)}(d,u),v=n+u+p,g=m.getDate(),{year:D,month:y}=h(m),f=0;s&&(v=42);const w=[];for(;f<v;){let e=new Date(D,y,g+f);t&&t(e),w.push(e),f++;}return w}static getMonthsDates(e,t){let{year:i}=e.parsedViewDate,s=0,a=[];for(;s<12;){const e=new Date(i,s);a.push(e),t&&t(e),s++;}return a}static getYearsDates(e,t){let i=c(e.viewDate),s=i[0]-1,a=i[1]+1,n=s,r=[];for(;n<=a;){const e=new Date(n,0);r.push(e),t&&t(e),n++;}return r}static getDatesFunction(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:i.days;return {[i.days]:T.getDaysDates,[i.months]:T.getMonthsDates,[i.years]:T.getYearsDates}[e]}}function F(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}class V{constructor(e){let{dp:t,opts:i}=e;F(this,"onClickNav",(e=>{let t=y(e.target,".air-datepicker-nav--action");if(!t)return;let i=t.dataset.action;this.dp[i]();})),F(this,"onChangeViewDate",(()=>{this.render(),this._resetNavStatus(),this.handleNavStatus();})),F(this,"onChangeCurrentView",(()=>{this.render(),this._resetNavStatus(),this.handleNavStatus();})),F(this,"onClickNavTitle",(()=>{this.dp.isFinalView||this.dp.up();})),F(this,"update",(()=>{let{prevHtml:e,nextHtml:t}=this.opts;this.$prev.innerHTML=e,this.$next.innerHTML=t,this._resetNavStatus(),this.render(),this.handleNavStatus();})),F(this,"renderDelay",(()=>{setTimeout(this.render);})),F(this,"render",(()=>{this.$title.innerHTML=this._getTitle(),function(e,t){for(let i in t)t[i]?e.classList.add(i):e.classList.remove(i);}(this.$title,{"-disabled-":this.dp.isFinalView});})),this.dp=t,this.opts=i,this.init();}init(){this._createElement(),this._buildBaseHtml(),this._defineDOM(),this.render(),this.handleNavStatus(),this._bindEvents(),this._bindDatepickerEvents();}_defineDOM(){this.$title=a(".air-datepicker-nav--title",this.$el),this.$prev=a('[data-action="prev"]',this.$el),this.$next=a('[data-action="next"]',this.$el);}_bindEvents(){this.$el.addEventListener("click",this.onClickNav),this.$title.addEventListener("click",this.onClickNavTitle);}_bindDatepickerEvents(){this.dp.on(i.eventChangeViewDate,this.onChangeViewDate),this.dp.on(i.eventChangeCurrentView,this.onChangeCurrentView),this.isNavIsFunction&&(this.dp.on(i.eventChangeSelectedDate,this.renderDelay),this.dp.opts.timepicker&&this.dp.on(i.eventChangeTime,this.render));}destroy(){this.dp.off(i.eventChangeViewDate,this.onChangeViewDate),this.dp.off(i.eventChangeCurrentView,this.onChangeCurrentView),this.isNavIsFunction&&(this.dp.off(i.eventChangeSelectedDate,this.renderDelay),this.dp.opts.timepicker&&this.dp.off(i.eventChangeTime,this.render));}_createElement(){this.$el=n({tagName:"nav",className:"air-datepicker-nav"});}_getTitle(){let{dp:e,opts:t}=this,i=t.navTitles[e.currentView];return "function"==typeof i?i(e):e.formatDate(e.viewDate,i)}handleNavStatus(){let{disableNavWhenOutOfRange:e}=this.opts,{minDate:t,maxDate:s}=this.dp;if(!t&&!s||!e)return;let{year:a,month:n}=this.dp.parsedViewDate,r=!!t&&h(t),o=!!s&&h(s);switch(this.dp.currentView){case i.days:t&&r.month>=n&&r.year>=a&&this._disableNav("prev"),s&&o.month<=n&&o.year<=a&&this._disableNav("next");break;case i.months:t&&r.year>=a&&this._disableNav("prev"),s&&o.year<=a&&this._disableNav("next");break;case i.years:{let e=c(this.dp.viewDate);t&&r.year>=e[0]&&this._disableNav("prev"),s&&o.year<=e[1]&&this._disableNav("next");break}}}_disableNav(e){a('[data-action="'+e+'"]',this.$el).classList.add("-disabled-");}_resetNavStatus(){!function(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];e.length?e.forEach((e=>{e.classList.remove(...i);})):e.classList.remove(...i);}(this.$el.querySelectorAll(".air-datepicker-nav--action"),"-disabled-");}_buildBaseHtml(){let{prevHtml:e,nextHtml:t}=this.opts;this.$el.innerHTML=`<div class="air-datepicker-nav--action" data-action="prev">${e}</div><div class="air-datepicker-nav--title"></div><div class="air-datepicker-nav--action" data-action="next">${t}</div>`;}get isNavIsFunction(){let{navTitles:e}=this.opts;return Object.keys(e).find((t=>"function"==typeof e[t]))}}var x={today:{content:e=>e.locale.today,onClick:e=>e.setViewDate(new Date)},clear:{content:e=>e.locale.clear,onClick:e=>e.clear()}};class H{constructor(e){let{dp:t,opts:i}=e;this.dp=t,this.opts=i,this.init();}init(){this.createElement(),this.render();}createElement(){this.$el=n({className:"air-datepicker-buttons"});}destroy(){this.$el.parentNode.removeChild(this.$el);}clearHtml(){return this.$el.innerHTML="",this}generateButtons(){let{buttons:e}=this.opts;Array.isArray(e)||(e=[e]),e.forEach((e=>{let t=e;"string"==typeof e&&x[e]&&(t=x[e]);let i=this.createButton(t);t.onClick&&this.attachEventToButton(i,t.onClick),this.$el.appendChild(i);}));}attachEventToButton(e,t){e.addEventListener("click",(()=>{t(this.dp);}));}createButton(e){let{content:t,className:i,tagName:s="button",attrs:a={}}=e;return n({tagName:s,innerHtml:`<span tabindex='-1'>${"function"==typeof t?t(this.dp):t}</span>`,className:u("air-datepicker-button",i),attrs:a})}render(){this.generateButtons();}}function E(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}class L{constructor(){let{opts:e,dp:t}=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};E(this,"toggleTimepickerIsActive",(e=>{this.dp.timepickerIsActive=e;})),E(this,"onChangeSelectedDate",(e=>{let{date:t,updateTime:i=false}=e;t&&(this.setMinMaxTime(t),this.setCurrentTime(!!i&&t),this.addTimeToDate(t));})),E(this,"onChangeLastSelectedDate",(e=>{e&&(this.setTime(e),this.render());})),E(this,"onChangeInputRange",(e=>{let t=e.target;this[t.getAttribute("name")]=t.value,this.updateText(),this.dp.trigger(i.eventChangeTime,{hours:this.hours,minutes:this.minutes});})),E(this,"onMouseEnterLeave",(e=>{let t=e.target.getAttribute("name"),i=this.$minutesText;"hours"===t&&(i=this.$hoursText),i.classList.toggle("-focus-");})),E(this,"onFocus",(()=>{this.toggleTimepickerIsActive(true);})),E(this,"onBlur",(()=>{this.toggleTimepickerIsActive(false);})),this.opts=e,this.dp=t;let{timeFormat:s}=this.dp.locale;s&&(s.match(k("h"))||s.match(k("hh")))&&(this.ampm=true),this.init();}init(){this.setTime(this.dp.lastSelectedDate||this.dp.viewDate),this.createElement(),this.buildHtml(),this.defineDOM(),this.render(),this.bindDatepickerEvents(),this.bindDOMEvents();}bindDatepickerEvents(){this.dp.on(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.on(i.eventChangeLastSelectedDate,this.onChangeLastSelectedDate);}bindDOMEvents(){let e="input";navigator.userAgent.match(/trident/gi)&&(e="change"),D(this.$ranges,e,this.onChangeInputRange),D(this.$ranges,"mouseenter",this.onMouseEnterLeave),D(this.$ranges,"mouseleave",this.onMouseEnterLeave),D(this.$ranges,"focus",this.onFocus),D(this.$ranges,"mousedown",this.onFocus),D(this.$ranges,"blur",this.onBlur);}createElement(){this.$el=n({className:u("air-datepicker-time",{"-am-pm-":this.dp.ampm})});}destroy(){this.dp.off(i.eventChangeSelectedDate,this.onChangeSelectedDate),this.dp.off(i.eventChangeLastSelectedDate,this.onChangeLastSelectedDate),this.$el.parentNode.removeChild(this.$el);}buildHtml(){let{ampm:e,hours:t,displayHours:i,minutes:s,minHours:a,minMinutes:n,maxHours:r,maxMinutes:o,dayPeriod:h,opts:{hoursStep:l,minutesStep:c}}=this;this.$el.innerHTML=`<div class="air-datepicker-time--current">   <span class="air-datepicker-time--current-hours">${d(i)}</span>   <span class="air-datepicker-time--current-colon">:</span>   <span class="air-datepicker-time--current-minutes">${d(s)}</span>   `+(e?`<span class='air-datepicker-time--current-ampm'>${h}</span>`:"")+'</div><div class="air-datepicker-time--sliders">   <div class="air-datepicker-time--row">'+`      <input type="range" name="hours" value="${t}" min="${a}" max="${r}" step="${l}"/>   </div>   <div class="air-datepicker-time--row">`+`      <input type="range" name="minutes" value="${s}" min="${n}" max="${o}" step="${c}"/>   </div></div>`;}defineDOM(){let e=e=>a(e,this.$el);this.$ranges=this.$el.querySelectorAll('[type="range"]'),this.$hours=e('[name="hours"]'),this.$minutes=e('[name="minutes"]'),this.$hoursText=e(".air-datepicker-time--current-hours"),this.$minutesText=e(".air-datepicker-time--current-minutes"),this.$ampm=e(".air-datepicker-time--current-ampm");}setTime(e){this.setMinMaxTime(e),this.setCurrentTime(e);}addTimeToDate(e){e&&(e.setHours(this.hours),e.setMinutes(this.minutes));}setMinMaxTime(e){if(this.setMinMaxTimeFromOptions(),e){let{minDate:t,maxDate:i}=this.dp;t&&p(e,t)&&this.setMinTimeFromMinDate(t),i&&p(e,i)&&this.setMaxTimeFromMaxDate(i);}}setCurrentTime(e){let{hours:t,minutes:i}=e?h(e):this;this.hours=f(t,this.minHours,this.maxHours),this.minutes=f(i,this.minMinutes,this.maxMinutes);}setMinMaxTimeFromOptions(){let{minHours:e,minMinutes:t,maxHours:i,maxMinutes:s}=this.opts;this.minHours=f(e,0,23),this.minMinutes=f(t,0,59),this.maxHours=f(i,0,23),this.maxMinutes=f(s,0,59);}setMinTimeFromMinDate(e){let{lastSelectedDate:t}=this.dp;this.minHours=e.getHours(),t&&t.getHours()>e.getHours()?this.minMinutes=this.opts.minMinutes:this.minMinutes=e.getMinutes();}setMaxTimeFromMaxDate(e){let{lastSelectedDate:t}=this.dp;this.maxHours=e.getHours(),t&&t.getHours()<e.getHours()?this.maxMinutes=this.opts.maxMinutes:this.maxMinutes=e.getMinutes();}updateSliders(){r(this.$hours,{min:this.minHours,max:this.maxHours}).value=this.hours,r(this.$minutes,{min:this.minMinutes,max:this.maxMinutes}).value=this.minutes;}updateText(){this.$hoursText.innerHTML=d(this.displayHours),this.$minutesText.innerHTML=d(this.minutes),this.ampm&&(this.$ampm.innerHTML=this.dayPeriod);}set hours(e){this._hours=e;let{hours:t,dayPeriod:i}=l(e);this.displayHours=this.ampm?t:e,this.dayPeriod=i;}get hours(){return this._hours}render(){this.updateSliders(),this.updateText();}}function O(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}class A{constructor(e){let{dp:t,opts:i}=e;O(this,"pressedKeys",new Set),O(this,"hotKeys",new Map([[[["Control","ArrowRight"],["Control","ArrowUp"]],e=>e.month++],[[["Control","ArrowLeft"],["Control","ArrowDown"]],e=>e.month--],[[["Shift","ArrowRight"],["Shift","ArrowUp"]],e=>e.year++],[[["Shift","ArrowLeft"],["Shift","ArrowDown"]],e=>e.year--],[[["Alt","ArrowRight"],["Alt","ArrowUp"]],e=>e.year+=10],[[["Alt","ArrowLeft"],["Alt","ArrowDown"]],e=>e.year-=10],[["Control","Shift","ArrowUp"],(e,t)=>t.up()]])),O(this,"handleHotKey",(e=>{let t=this.hotKeys.get(e),i=h(this.getInitialFocusDate());t(i,this.dp);let{year:s,month:a,date:n}=i,r=o(new Date(s,a));r<n&&(n=r);let l=this.dp.getClampedDate(new Date(s,a,n));this.dp.setFocusDate(l,{viewDateTransition:true});})),O(this,"isHotKeyPressed",(()=>{let e=false,t=this.pressedKeys.size,i=e=>this.pressedKeys.has(e);for(let[s]of this.hotKeys){if(e)break;if(Array.isArray(s[0]))s.forEach((a=>{e||t!==a.length||(e=a.every(i)&&s);}));else {if(t!==s.length)continue;e=s.every(i)&&s;}}return e})),O(this,"isArrow",(e=>e>=37&&e<=40)),O(this,"onKeyDown",(e=>{let{key:t,which:i}=e,{dp:s,dp:{focusDate:a},opts:n}=this;this.registerKey(t);let r=this.isHotKeyPressed();if(r)return e.preventDefault(),void this.handleHotKey(r);if(this.isArrow(i))return e.preventDefault(),void this.focusNextCell(t);if("Enter"===t){if(s.currentView!==n.minView)return void s.down();if(a){let e=s._checkIfDateIsSelected(a);return void(e?s._handleAlreadySelectedDates(e,a):s.selectDate(a))}}"Escape"===t&&this.dp.hide();})),O(this,"onKeyUp",(e=>{this.removeKey(e.key);})),this.dp=t,this.opts=i,this.init();}init(){this.bindKeyboardEvents();}bindKeyboardEvents(){let{$el:e}=this.dp;e.addEventListener("keydown",this.onKeyDown),e.addEventListener("keyup",this.onKeyUp);}destroy(){let{$el:e}=this.dp;e.removeEventListener("keydown",this.onKeyDown),e.removeEventListener("keyup",this.onKeyUp),this.hotKeys=null,this.pressedKeys=null;}getInitialFocusDate(){let{focusDate:e,currentView:t,selectedDates:s,parsedViewDate:{year:a,month:n}}=this.dp,r=e||s[s.length-1];if(!r)switch(t){case i.days:r=new Date(a,n,(new Date).getDate());break;case i.months:r=new Date(a,n,1);break;case i.years:r=new Date(a,0,1);}return r}focusNextCell(e){let t=this.getInitialFocusDate(),{currentView:s}=this.dp,{days:a,months:n,years:r}=i,o=h(t),l=o.year,d=o.month,c=o.date;switch(e){case "ArrowLeft":s===a&&(c-=1),s===n&&(d-=1),s===r&&(l-=1);break;case "ArrowUp":s===a&&(c-=7),s===n&&(d-=3),s===r&&(l-=4);break;case "ArrowRight":s===a&&(c+=1),s===n&&(d+=1),s===r&&(l+=1);break;case "ArrowDown":s===a&&(c+=7),s===n&&(d+=3),s===r&&(l+=4);}let u=this.dp.getClampedDate(new Date(l,d,c));this.dp.setFocusDate(u,{viewDateTransition:true});}registerKey(e){this.pressedKeys.add(e);}removeKey(e){this.pressedKeys.delete(e);}}let N={on(e,t){this.__events||(this.__events={}),this.__events[e]?this.__events[e].push(t):this.__events[e]=[t];},off(e,t){this.__events&&this.__events[e]&&(this.__events[e]=this.__events[e].filter((e=>e!==t)));},removeAllEvents(){this.__events={};},trigger(e){for(var t=arguments.length,i=new Array(t>1?t-1:0),s=1;s<t;s++)i[s-1]=arguments[s];this.__events&&this.__events[e]&&this.__events[e].forEach((e=>{e(...i);}));}};function I(e,t,i){return (t=function(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var i=e[Symbol.toPrimitive];if(void 0!==i){var s=i.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return "symbol"==typeof t?t:String(t)}(t))in e?Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true,writable:true}):e[t]=i,e}let P="",j="",B=false;class R{static buildGlobalContainer(e){B=true,P=n({className:e,id:e}),a("body").appendChild(P);}constructor(e,t){var r=this;if(I(this,"viewIndexes",[i.days,i.months,i.years]),I(this,"next",(()=>{let{year:e,month:t}=this.parsedViewDate;switch(this.currentView){case i.days:this.setViewDate(new Date(e,t+1,1));break;case i.months:this.setViewDate(new Date(e+1,t,1));break;case i.years:this.setViewDate(new Date(e+10,0,1));}})),I(this,"prev",(()=>{let{year:e,month:t}=this.parsedViewDate;switch(this.currentView){case i.days:this.setViewDate(new Date(e,t-1,1));break;case i.months:this.setViewDate(new Date(e-1,t,1));break;case i.years:this.setViewDate(new Date(e-10,0,1));}})),I(this,"_finishHide",(()=>{this.hideAnimation=false,this._destroyComponents(),this.$container.removeChild(this.$datepicker);})),I(this,"setPosition",(function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("function"==typeof(e=e||r.opts.position))return void(r.customHide=e({$datepicker:r.$datepicker,$target:r.$el,$pointer:r.$pointer,isViewChange:t,done:r._finishHide}));let i,s,{isMobile:a}=r.opts,n=r.$el.getBoundingClientRect(),o=r.$el.getBoundingClientRect(),h=r.$datepicker.offsetParent,l=r.$el.offsetParent,d=r.$datepicker.getBoundingClientRect(),c=e.split(" "),u=window.scrollY,p=window.scrollX,m=r.opts.offset,v=c[0],g=c[1];if(a)r.$datepicker.style.cssText="left: 50%; top: 50%";else {if(h===l&&h!==document.body&&(o={top:r.$el.offsetTop,left:r.$el.offsetLeft,width:n.width,height:r.$el.offsetHeight},u=0,p=0),h!==l&&h!==document.body){let e=h.getBoundingClientRect();o={top:n.top-e.top,left:n.left-e.left,width:n.width,height:n.height},u=0,p=0;}switch(v){case "top":i=o.top-d.height-m;break;case "right":s=o.left+o.width+m;break;case "bottom":i=o.top+o.height+m;break;case "left":s=o.left-d.width-m;}switch(g){case "top":i=o.top;break;case "right":s=o.left+o.width-d.width;break;case "bottom":i=o.top+o.height-d.height;break;case "left":s=o.left;break;case "center":/left|right/.test(v)?i=o.top+o.height/2-d.height/2:s=o.left+o.width/2-d.width/2;}r.$datepicker.style.cssText=`left: ${s+p}px; top: ${i+u}px`;}})),I(this,"_setInputValue",(()=>{let{opts:e,$altField:t,locale:{dateFormat:i}}=this,{altFieldDateFormat:s,altField:a}=e;a&&t&&(t.value=this._getInputValue(s)),this.$el.value=this._getInputValue(i);})),I(this,"_getInputValue",(e=>{let{selectedDates:t,opts:i}=this,{multipleDates:s,multipleDatesSeparator:a}=i;if(!t.length)return "";let n="function"==typeof e,r=n?e(s?t:t[0]):t.map((t=>this.formatDate(t,e)));return r=n?r:r.join(a),r})),I(this,"_checkIfDateIsSelected",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i.days,s=false;return r.selectedDates.some((i=>{let a=p(e,i,t);return s=a&&i,a})),s})),I(this,"_scheduleCallAfterTransition",(e=>{this._cancelScheduledCall(),e&&e(false),this._onTransitionEnd=()=>{e&&e(true);},this.$datepicker.addEventListener("transitionend",this._onTransitionEnd,{once:true});})),I(this,"_cancelScheduledCall",(()=>{this.$datepicker.removeEventListener("transitionend",this._onTransitionEnd);})),I(this,"setViewDate",(e=>{if(!((e=b(e))instanceof Date))return;if(p(e,this.viewDate))return;let t=this.viewDate;this.viewDate=e;let{onChangeViewDate:s}=this.opts;if(s){let{month:e,year:t}=this.parsedViewDate;s({month:e,year:t,decade:this.curDecade});}this.trigger(i.eventChangeViewDate,e,t);})),I(this,"setFocusDate",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};(!e||(e=b(e))instanceof Date)&&(r.focusDate=e,r.trigger(i.eventChangeFocusDate,e,t));})),I(this,"setCurrentView",(function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(r.viewIndexes.includes(e)){if(r.currentView=e,r.elIsInput&&r.visible&&r.setPosition(void 0,true),r.trigger(i.eventChangeCurrentView,e),!r.views[e]){let t=r.views[e]=new T({dp:r,opts:r.opts,type:e});r.shouldUpdateDOM&&r.$content.appendChild(t.$el);}r.opts.onChangeView&&!t.silent&&r.opts.onChangeView(e);}})),I(this,"_updateLastSelectedDate",(e=>{this.lastSelectedDate=e,this.trigger(i.eventChangeLastSelectedDate,e);})),I(this,"destroy",(()=>{if(this.isDestroyed)return;let{showEvent:e,isMobile:t}=this.opts,i=this.$datepicker.parentNode;i&&i.removeChild(this.$datepicker),this.$el.removeEventListener(e,this._onFocus),this.$el.removeEventListener("blur",this._onBlur),window.removeEventListener("resize",this._onResize),t&&this._removeMobileAttributes(),this.keyboardNav&&this.keyboardNav.destroy(),this.views=null,this.nav=null,this.$datepicker=null,this.opts={},this.$customContainer=null,this.viewDate=null,this.focusDate=null,this.selectedDates=[],this.rangeDateFrom=null,this.rangeDateTo=null,this.isDestroyed=true;})),I(this,"update",(function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},s=w({},r.opts),{silent:a}=t;w(r.opts,e);let{timepicker:n,buttons:o,range:h,selectedDates:l,isMobile:d}=r.opts,c=r.visible||r.treatAsInline;r._createMinMaxDates(),r._limitViewDateByMaxMinDates(),r._handleLocale(),l&&(r.selectedDates=[],r.selectDate(l,{silent:a})),e.view&&r.setCurrentView(e.view,{silent:a}),r._setInputValue(),s.range&&!h?(r.rangeDateTo=false,r.rangeDateFrom=false):!s.range&&h&&r.selectedDates.length&&(r.rangeDateFrom=r.selectedDates[0],r.rangeDateTo=r.selectedDates[1]),s.timepicker&&!n?(c&&r.timepicker.destroy(),r.timepicker=false,r.$timepicker.parentNode.removeChild(r.$timepicker)):!s.timepicker&&n&&r._addTimepicker(),!s.buttons&&o?r._addButtons():s.buttons&&!o?(r.buttons.destroy(),r.$buttons.parentNode.removeChild(r.$buttons)):c&&s.buttons&&o&&r.buttons.clearHtml().render(),!s.isMobile&&d?(r.treatAsInline||j||r._createMobileOverlay(),r._addMobileAttributes(),r.visible&&r._showMobileOverlay()):s.isMobile&&!d&&(r._removeMobileAttributes(),r.visible&&(j.classList.remove("-active-"),"function"!=typeof r.opts.position&&r.setPosition())),c&&(r.nav.update(),r.views[r.currentView].render(),r.currentView===i.days&&r.views[r.currentView].renderDayNames());})),I(this,"disableDate",((e,t)=>{(Array.isArray(e)?e:[e]).forEach((e=>{let i=b(e);if(!i)return;let s=t?"delete":"add";this.disabledDates[s](this.formatDate(i,"yyyy-MM-dd"));let a=this.getCell(i,this.currentViewSingular);a&&a.adpCell.render();}),[]);})),I(this,"enableDate",(e=>{this.disableDate(e,true);})),I(this,"isDateDisabled",(e=>{let t=b(e);return this.disabledDates.has(this.formatDate(t,"yyyy-MM-dd"))})),I(this,"isOtherMonth",(e=>{let{month:t}=h(e);return t!==this.parsedViewDate.month})),I(this,"isOtherYear",(e=>{let{year:t}=h(e);return t!==this.parsedViewDate.year})),I(this,"isOtherDecade",(e=>{let{year:t}=h(e),[i,s]=c(this.viewDate);return t<i||t>s})),I(this,"_onChangeSelectedDate",(e=>{let{silent:t}=e;setTimeout((()=>{this._setInputValue(),this.opts.onSelect&&!t&&this._triggerOnSelect();}));})),I(this,"_onChangeFocusedDate",(function(e){let{viewDateTransition:t}=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(!e)return;let i=false;t&&(i=r.isOtherMonth(e)||r.isOtherYear(e)||r.isOtherDecade(e)),i&&r.setViewDate(e),r.opts.onFocus&&r.opts.onFocus({datepicker:r,date:e});})),I(this,"_onChangeTime",(e=>{let{hours:t,minutes:i}=e,s=new Date,{lastSelectedDate:a,opts:{onSelect:n}}=this,r=a;a||(r=s);let o=this.getCell(r,this.currentViewSingular),h=o&&o.adpCell;h&&h.isDisabled||(r.setHours(t),r.setMinutes(i),a?(this._setInputValue(),n&&this._triggerOnSelect()):this.selectDate(r));})),I(this,"_onFocus",(e=>{this.visible||this.show();})),I(this,"_onBlur",(e=>{this.inFocus||!this.visible||this.opts.isMobile||this.hide();})),I(this,"_onMouseDown",(e=>{this.inFocus=true;})),I(this,"_onMouseUp",(e=>{this.inFocus=false,this.$el.focus();})),I(this,"_onResize",(()=>{this.visible&&"function"!=typeof this.opts.position&&this.setPosition();})),I(this,"_onClickOverlay",(()=>{this.visible&&this.hide();})),I(this,"getViewDates",(function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:i.days;return T.getDatesFunction(e)(r)})),I(this,"isWeekend",(e=>this.opts.weekends.includes(e))),I(this,"getClampedDate",(e=>{let{minDate:t,maxDate:i}=this,s=e;return i&&m(e,i)?s=i:t&&v(e,t)&&(s=t),s})),this.$el=a(e),!this.$el)return;this.$datepicker=n({className:"air-datepicker"}),this.opts=w({},s,t),this.$customContainer=!!this.opts.container&&a(this.opts.container),this.$altField=a(this.opts.altField||false);let{view:o,startDate:l}=this.opts;l||(this.opts.startDate=new Date),"INPUT"===this.$el.nodeName&&(this.elIsInput=true),this.inited=false,this.visible=false,this.viewDate=b(this.opts.startDate),this.focusDate=false,this.initialReadonly=this.$el.getAttribute("readonly"),this.customHide=false,this.currentView=o,this.selectedDates=[],this.disabledDates=new Set,this.isDestroyed=false,this.views={},this.keys=[],this.rangeDateFrom="",this.rangeDateTo="",this.timepickerIsActive=false,this.treatAsInline=this.opts.inline||!this.elIsInput,this.init();}init(){let{opts:e,treatAsInline:t,opts:{inline:i,isMobile:s,selectedDates:n,keyboardNav:r,onlyTimepicker:o}}=this,h=a("body");(!B||B&&P&&!h.contains(P))&&!i&&this.elIsInput&&!this.$customContainer&&R.buildGlobalContainer(R.defaultGlobalContainerId),!s||j||t||this._createMobileOverlay(),this._handleLocale(),this._bindSubEvents(),this._createMinMaxDates(),this._limitViewDateByMaxMinDates(),this.elIsInput&&(i||this._bindEvents(),r&&!o&&(this.keyboardNav=new A({dp:this,opts:e}))),n&&this.selectDate(n,{silent:true}),this.opts.visible&&!t&&this.show(),s&&!t&&this.$el.setAttribute("readonly",true),t&&this._createComponents();}_createMobileOverlay(){j=n({className:"air-datepicker-overlay"}),P.appendChild(j);}_createComponents(){let{opts:e,treatAsInline:t,opts:{inline:i,buttons:s,timepicker:a,position:n,classes:r,onlyTimepicker:o,isMobile:h}}=this;this._buildBaseHtml(),this.elIsInput&&(i||this._setPositionClasses(n)),!i&&this.elIsInput||this.$datepicker.classList.add("-inline-"),r&&this.$datepicker.classList.add(...r.split(" ")),o&&this.$datepicker.classList.add("-only-timepicker-"),h&&!t&&this._addMobileAttributes(),this.views[this.currentView]=new T({dp:this,type:this.currentView,opts:e}),this.nav=new V({dp:this,opts:e}),a&&this._addTimepicker(),s&&this._addButtons(),this.$content.appendChild(this.views[this.currentView].$el),this.$nav.appendChild(this.nav.$el);}_destroyComponents(){for(let e in this.views)this.views[e].destroy();this.views={},this.nav.destroy(),this.timepicker&&this.timepicker.destroy();}_addMobileAttributes(){j.addEventListener("click",this._onClickOverlay),this.$datepicker.classList.add("-is-mobile-"),this.$el.setAttribute("readonly",true);}_removeMobileAttributes(){j.removeEventListener("click",this._onClickOverlay),this.$datepicker.classList.remove("-is-mobile-"),this.initialReadonly||""===this.initialReadonly||this.$el.removeAttribute("readonly");}_createMinMaxDates(){let{minDate:e,maxDate:t}=this.opts;this.minDate=!!e&&b(e),this.maxDate=!!t&&b(t);}_addTimepicker(){this.$timepicker=n({className:"air-datepicker--time"}),this.$datepicker.appendChild(this.$timepicker),this.timepicker=new L({dp:this,opts:this.opts}),this.$timepicker.appendChild(this.timepicker.$el);}_addButtons(){this.$buttons=n({className:"air-datepicker--buttons"}),this.$datepicker.appendChild(this.$buttons),this.buttons=new H({dp:this,opts:this.opts}),this.$buttons.appendChild(this.buttons.$el);}_bindSubEvents(){this.on(i.eventChangeSelectedDate,this._onChangeSelectedDate),this.on(i.eventChangeFocusDate,this._onChangeFocusedDate),this.on(i.eventChangeTime,this._onChangeTime);}_buildBaseHtml(){let{inline:e}=this.opts;var t,i;this.elIsInput?e?(t=this.$datepicker,(i=this.$el).parentNode.insertBefore(t,i.nextSibling)):this.$container.appendChild(this.$datepicker):this.$el.appendChild(this.$datepicker),this.$datepicker.innerHTML='<i class="air-datepicker--pointer"></i><div class="air-datepicker--navigation"></div><div class="air-datepicker--content"></div>',this.$content=a(".air-datepicker--content",this.$datepicker),this.$pointer=a(".air-datepicker--pointer",this.$datepicker),this.$nav=a(".air-datepicker--navigation",this.$datepicker);}_handleLocale(){let{locale:e,dateFormat:t,firstDay:i,timepicker:s,onlyTimepicker:a,timeFormat:n,dateTimeSeparator:r}=this.opts;var o;this.locale=(o=e,JSON.parse(JSON.stringify(o))),t&&(this.locale.dateFormat=t),void 0!==n&&""!==n&&(this.locale.timeFormat=n);let{timeFormat:h}=this.locale;if(""!==i&&(this.locale.firstDay=i),s&&"function"!=typeof t){let e=h?r:"";this.locale.dateFormat=[this.locale.dateFormat,h||""].join(e);}a&&"function"!=typeof t&&(this.locale.dateFormat=this.locale.timeFormat);}_setPositionClasses(e){if("function"==typeof e)return void this.$datepicker.classList.add("-custom-position-");let t=(e=e.split(" "))[0],i=`air-datepicker -${t}-${e[1]}- -from-${t}-`;this.$datepicker.classList.add(...i.split(" "));}_bindEvents(){this.$el.addEventListener(this.opts.showEvent,this._onFocus),this.$el.addEventListener("blur",this._onBlur),this.$datepicker.addEventListener("mousedown",this._onMouseDown),this.$datepicker.addEventListener("mouseup",this._onMouseUp),window.addEventListener("resize",this._onResize);}_limitViewDateByMaxMinDates(){let{viewDate:e,minDate:t,maxDate:i}=this;i&&m(e,i)&&this.setViewDate(i),t&&v(e,t)&&this.setViewDate(t);}formatDate(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.viewDate,t=arguments.length>1?arguments[1]:void 0;if(e=b(e),!(e instanceof Date))return;let i=t,s=this.locale,a=h(e),n=a.dayPeriod,r=c(e),o=R.replacer,l={T:e.getTime(),m:a.minutes,mm:a.fullMinutes,h:a.hours12,hh:a.fullHours12,H:a.hours,HH:a.fullHours,aa:n,AA:n.toUpperCase(),E:s.daysShort[a.day],EEEE:s.days[a.day],d:a.date,dd:a.fullDate,M:a.month+1,MM:a.fullMonth,MMM:s.monthsShort[a.month],MMMM:s.months[a.month],yy:a.year.toString().slice(-2),yyyy:a.year,yyyy1:r[0],yyyy2:r[1]};for(let[e,t]of Object.entries(l))i=o(i,k(e),t);return i}down(e){this._handleUpDownActions(e,"down");}up(e){this._handleUpDownActions(e,"up");}selectDate(e){let t,s=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},{currentView:a,parsedViewDate:n,selectedDates:r}=this,{updateTime:o}=s,{moveToOtherMonthsOnSelect:h,moveToOtherYearsOnSelect:l,multipleDates:d,range:c,autoClose:u,onBeforeSelect:p}=this.opts,v=r.length;if(Array.isArray(e))return e.forEach((e=>{this.selectDate(e,s);})),new Promise((e=>{setTimeout(e);}));if((e=b(e))instanceof Date){if(p&&!p({date:e,datepicker:this}))return Promise.resolve();if(a===i.days&&e.getMonth()!==n.month&&h&&(t=new Date(e.getFullYear(),e.getMonth(),1)),a===i.years&&e.getFullYear()!==n.year&&l&&(t=new Date(e.getFullYear(),0,1)),t&&this.setViewDate(t),d&&!c){if(v===d)return;this._checkIfDateIsSelected(e)||r.push(e);}else if(c)switch(v){case 1:r.push(e),this.rangeDateTo||(this.rangeDateTo=e),m(this.rangeDateFrom,this.rangeDateTo)&&(this.rangeDateTo=this.rangeDateFrom,this.rangeDateFrom=e),this.selectedDates=[this.rangeDateFrom,this.rangeDateTo];break;case 2:this.selectedDates=[e],this.rangeDateFrom=e,this.rangeDateTo="";break;default:this.selectedDates=[e],this.rangeDateFrom=e;}else this.selectedDates=[e];return this.trigger(i.eventChangeSelectedDate,{action:i.actionSelectDate,silent:null==s?void 0:s.silent,date:e,updateTime:o}),this._updateLastSelectedDate(e),u&&!this.timepickerIsActive&&this.visible&&(d||c?c&&1===v&&this.hide():this.hide()),new Promise((e=>{setTimeout(e);}))}}unselectDate(e){let t=this.selectedDates,s=this;if((e=b(e))instanceof Date)return t.some(((a,n)=>{if(p(a,e))return t.splice(n,1),s.selectedDates.length?(s.rangeDateTo="",s.rangeDateFrom=t[0],s._updateLastSelectedDate(s.selectedDates[s.selectedDates.length-1])):(s.rangeDateFrom="",s.rangeDateTo="",s._updateLastSelectedDate(false)),this.trigger(i.eventChangeSelectedDate,{action:i.actionUnselectDate,date:e}),true}))}replaceDate(e,t){let s=this.selectedDates.find((t=>p(t,e,this.currentView))),a=this.selectedDates.indexOf(s);a<0||p(this.selectedDates[a],t,this.currentView)||(this.selectedDates[a]=t,this.trigger(i.eventChangeSelectedDate,{action:i.actionSelectDate,date:t,updateTime:true}),this._updateLastSelectedDate(t));}clear(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return this.selectedDates=[],this.rangeDateFrom=false,this.rangeDateTo=false,this.lastSelectedDate=false,this.trigger(i.eventChangeSelectedDate,{action:i.actionUnselectDate,silent:e.silent}),new Promise((e=>{setTimeout(e);}))}show(){let{onShow:e,isMobile:t}=this.opts;this._cancelScheduledCall(),this.visible||this.hideAnimation||this._createComponents(),this.setPosition(this.opts.position),this.$datepicker.classList.add("-active-"),this.visible=true,e&&this._scheduleCallAfterTransition(e),t&&this._showMobileOverlay();}hide(){let{onHide:e,isMobile:t}=this.opts,i=this._hasTransition();this.visible=false,this.hideAnimation=true,this.$datepicker.classList.remove("-active-"),this.customHide&&this.customHide(),this.elIsInput&&this.$el.blur(),this._scheduleCallAfterTransition((t=>{!this.customHide&&(t&&i||!t&&!i)&&this._finishHide(),e&&e(t);})),t&&j.classList.remove("-active-");}_triggerOnSelect(){let e=[],t=[],{selectedDates:i,locale:s,opts:{onSelect:a,multipleDates:n,range:r}}=this,o=n||r,h="function"==typeof s.dateFormat;i.length&&(e=i.map(g),t=h?n?s.dateFormat(e):e.map((e=>s.dateFormat(e))):e.map((e=>this.formatDate(e,s.dateFormat)))),a({date:o?e:e[0],formattedDate:o?t:t[0],datepicker:this});}_handleAlreadySelectedDates(e,t){let{selectedDates:i,rangeDateFrom:s,rangeDateTo:a}=this,{range:n,toggleSelected:r}=this.opts,o=i.length,h="function"==typeof r?r({datepicker:this,date:t}):r,l=Boolean(n&&1===o&&e),d=l?g(t):t;n&&!h&&(2!==o&&this.selectDate(d),2===o&&p(s,a))||(h?this.unselectDate(d):this._updateLastSelectedDate(l?d:e));}_handleUpDownActions(e,t){if(!((e=b(e||this.focusDate||this.viewDate))instanceof Date))return;let i="up"===t?this.viewIndex+1:this.viewIndex-1;i>2&&(i=2),i<0&&(i=0),this.setViewDate(new Date(e.getFullYear(),e.getMonth(),1)),this.setCurrentView(this.viewIndexes[i]);}getCell(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i.day;if(!((e=b(e))instanceof Date))return;let{year:s,month:a,date:n}=h(e),r=`[data-year="${s}"]`,o=`[data-month="${a}"]`,l={[i.day]:`${r}${o}[data-date="${n}"]`,[i.month]:`${r}${o}`,[i.year]:`${r}`};return this.views[this.currentView]?this.views[this.currentView].$el.querySelector(l[t]):void 0}_showMobileOverlay(){j.classList.add("-active-");}_hasTransition(){return window.getComputedStyle(this.$datepicker).getPropertyValue("transition-duration").split(", ").reduce(((e,t)=>parseFloat(t)+e),0)>0}get shouldUpdateDOM(){return this.visible||this.treatAsInline}get parsedViewDate(){return h(this.viewDate)}get currentViewSingular(){return this.currentView.slice(0,-1)}get curDecade(){return c(this.viewDate)}get viewIndex(){return this.viewIndexes.indexOf(this.currentView)}get isFinalView(){return this.currentView===i.years}get hasSelectedDates(){return this.selectedDates.length>0}get isMinViewReached(){return this.currentView===this.opts.minView||this.currentView===i.days}get $container(){return this.$customContainer||P}static replacer(e,t,i){return e.replace(t,(function(e,t,s,a){return t+i+a}))}}var K;return I(R,"defaults",s),I(R,"version","3.5.3"),I(R,"defaultGlobalContainerId","air-datepicker-global-container"),K=R.prototype,Object.assign(K,N),t.default}()})); 
+	} (airDatepicker$1));
+	return airDatepicker$1.exports;
+}
+
+var airDatepickerExports = requireAirDatepicker();
+var AirDatepicker = /*@__PURE__*/getDefaultExportFromCjs(airDatepickerExports);
 
 var en = {};
 
-Object.defineProperty(en, "__esModule", {
-  value: true
-});
-var default_1 = en.default = void 0;
-var _default = {
-  days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  today: 'Today',
-  clear: 'Clear',
-  dateFormat: 'MM/dd/yyyy',
-  timeFormat: 'hh:mm aa',
-  firstDay: 0
-};
-default_1 = en.default = _default;
+var hasRequiredEn;
+
+function requireEn () {
+	if (hasRequiredEn) return en;
+	hasRequiredEn = 1;
+
+	Object.defineProperty(en, "__esModule", {
+	  value: true
+	});
+	en.default = void 0;
+	var _default = {
+	  days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	  daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	  daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+	  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	  monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	  today: 'Today',
+	  clear: 'Clear',
+	  dateFormat: 'MM/dd/yyyy',
+	  timeFormat: 'hh:mm aa',
+	  firstDay: 0
+	};
+	en.default = _default;
+	return en;
+}
+
+var enExports = requireEn();
+var localeEn = /*@__PURE__*/getDefaultExportFromCjs(enExports);
 
 const irDatePickerCss = ".air-datepicker-cell.-year-.-other-decade-,.air-datepicker-cell.-day-.-other-month-{color:var(--adp-color-other-month)}.air-datepicker-cell.-year-.-other-decade-:hover,.air-datepicker-cell.-day-.-other-month-:hover{color:var(--adp-color-other-month-hover)}.-disabled-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-disabled-.-focus-.air-datepicker-cell.-day-.-other-month-{color:var(--adp-color-other-month)}.-selected-.air-datepicker-cell.-year-.-other-decade-,.-selected-.air-datepicker-cell.-day-.-other-month-{color:#fff;background:var(--adp-background-color-selected-other-month)}.-selected-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-selected-.-focus-.air-datepicker-cell.-day-.-other-month-{background:var(--adp-background-color-selected-other-month-focused)}.-in-range-.air-datepicker-cell.-year-.-other-decade-,.-in-range-.air-datepicker-cell.-day-.-other-month-{background-color:var(--adp-background-color-in-range);color:var(--adp-color)}.-in-range-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-in-range-.-focus-.air-datepicker-cell.-day-.-other-month-{background-color:var(--adp-background-color-in-range-focused)}.air-datepicker-cell.-year-.-other-decade-:empty,.air-datepicker-cell.-day-.-other-month-:empty{background:none;border:none}.air-datepicker-cell{border-radius:var(--adp-cell-border-radius);box-sizing:border-box;cursor:pointer;display:flex;position:relative;align-items:center;justify-content:center;z-index:1}.air-datepicker-cell.-focus-{background:var(--adp-cell-background-color-hover)}.air-datepicker-cell.-current-{color:var(--adp-color-current-date)}.air-datepicker-cell.-current-.-focus-{color:var(--adp-color)}.air-datepicker-cell.-current-.-in-range-{color:var(--adp-color-current-date)}.air-datepicker-cell.-disabled-{cursor:default;color:var(--adp-color-disabled)}.air-datepicker-cell.-disabled-.-focus-{color:var(--adp-color-disabled)}.air-datepicker-cell.-disabled-.-in-range-{color:var(--adp-color-disabled-in-range)}.air-datepicker-cell.-disabled-.-current-.-focus-{color:var(--adp-color-disabled)}.air-datepicker-cell.-in-range-{background:var(--adp-cell-background-color-in-range);border-radius:0}.air-datepicker-cell.-in-range-:hover,.air-datepicker-cell.-in-range-.-focus-{background:var(--adp-cell-background-color-in-range-hover)}.air-datepicker-cell.-range-from-{border:1px solid var(--adp-cell-border-color-in-range);background-color:var(--adp-cell-background-color-in-range);border-radius:var(--adp-cell-border-radius) 0 0 var(--adp-cell-border-radius)}.air-datepicker-cell.-range-to-{border:1px solid var(--adp-cell-border-color-in-range);background-color:var(--adp-cell-background-color-in-range);border-radius:0 var(--adp-cell-border-radius) var(--adp-cell-border-radius) 0}.air-datepicker-cell.-range-to-.-range-from-{border-radius:var(--adp-cell-border-radius)}.air-datepicker-cell.-selected-{color:#fff;border:none;background:var(--adp-cell-background-color-selected)}.air-datepicker-cell.-selected-.-current-{color:#fff;background:var(--adp-cell-background-color-selected)}.air-datepicker-cell.-selected-.-focus-{background:var(--adp-cell-background-color-selected-hover)}.air-datepicker-body{transition:all var(--adp-transition-duration) var(--adp-transition-ease)}.air-datepicker-body.-hidden-{display:none}.air-datepicker-body--day-names{display:grid;grid-template-columns:repeat(7, var(--adp-day-cell-width));margin:8px 0 3px}.air-datepicker-body--day-name{color:var(--adp-day-name-color);display:flex;align-items:center;justify-content:center;flex:1;text-align:center;text-transform:uppercase;font-size:.8em}.air-datepicker-body--day-name.-clickable-{cursor:pointer}.air-datepicker-body--day-name.-clickable-:hover{color:var(--adp-day-name-color-hover)}.air-datepicker-body--cells{display:grid}.air-datepicker-body--cells.-days-{grid-template-columns:repeat(7, var(--adp-day-cell-width));grid-auto-rows:var(--adp-day-cell-height)}.air-datepicker-body--cells.-months-{grid-template-columns:repeat(3, 1fr);grid-auto-rows:var(--adp-month-cell-height)}.air-datepicker-body--cells.-years-{grid-template-columns:repeat(4, 1fr);grid-auto-rows:var(--adp-year-cell-height)}.air-datepicker-nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--adp-border-color-inner);min-height:var(--adp-nav-height);padding:var(--adp-padding);box-sizing:content-box}.-only-timepicker- .air-datepicker-nav{display:none}.air-datepicker-nav--title,.air-datepicker-nav--action{display:flex;cursor:pointer;align-items:center;justify-content:center}.air-datepicker-nav--action{width:var(--adp-nav-action-size);border-radius:var(--adp-border-radius);-webkit-user-select:none;-moz-user-select:none;user-select:none}.air-datepicker-nav--action:hover{background:var(--adp-background-color-hover)}.air-datepicker-nav--action:active{background:var(--adp-background-color-active)}.air-datepicker-nav--action.-disabled-{visibility:hidden}.air-datepicker-nav--action svg{width:32px;height:32px}.air-datepicker-nav--action path{fill:none;stroke:var(--adp-nav-arrow-color);stroke-width:2px}.air-datepicker-nav--title{border-radius:var(--adp-border-radius);padding:0 8px}.air-datepicker-nav--title i{font-style:normal;color:var(--adp-nav-color-secondary);margin-left:.3em}.air-datepicker-nav--title:hover{background:var(--adp-background-color-hover)}.air-datepicker-nav--title:active{background:var(--adp-background-color-active)}.air-datepicker-nav--title.-disabled-{cursor:default;background:none}.air-datepicker-buttons{display:grid;grid-auto-columns:1fr;grid-auto-flow:column}.air-datepicker-button{display:inline-flex;color:var(--adp-btn-color);border-radius:var(--adp-btn-border-radius);cursor:pointer;height:var(--adp-btn-height);border:none;background:rgba(255,255,255,0)}.air-datepicker-button:hover{color:var(--adp-btn-color-hover);background:var(--adp-btn-background-color-hover)}.air-datepicker-button:focus{color:var(--adp-btn-color-hover);background:var(--adp-btn-background-color-hover);outline:none}.air-datepicker-button:active{background:var(--adp-btn-background-color-active)}.air-datepicker-button span{outline:none;display:flex;align-items:center;justify-content:center;width:100%;height:100%}.air-datepicker-time{display:grid;grid-template-columns:max-content 1fr;grid-column-gap:12px;align-items:center;position:relative;padding:0 var(--adp-time-padding-inner)}.-only-timepicker- .air-datepicker-time{border-top:none}.air-datepicker-time--current{display:flex;align-items:center;flex:1;font-size:14px;text-align:center}.air-datepicker-time--current-colon{margin:0 2px 3px;line-height:1}.air-datepicker-time--current-hours,.air-datepicker-time--current-minutes{line-height:1;font-size:19px;font-family:\"Century Gothic\",CenturyGothic,AppleGothic,sans-serif;position:relative;z-index:1}.air-datepicker-time--current-hours:after,.air-datepicker-time--current-minutes:after{content:\"\";background:var(--adp-background-color-hover);border-radius:var(--adp-border-radius);position:absolute;left:-2px;top:-3px;right:-2px;bottom:-2px;z-index:-1;opacity:0}.air-datepicker-time--current-hours.-focus-:after,.air-datepicker-time--current-minutes.-focus-:after{opacity:1}.air-datepicker-time--current-ampm{text-transform:uppercase;align-self:flex-end;color:var(--adp-time-day-period-color);margin-left:6px;font-size:11px;margin-bottom:1px}.air-datepicker-time--row{display:flex;align-items:center;font-size:11px;height:17px;background:linear-gradient(to right, var(--adp-time-track-color), var(--adp-time-track-color)) left 50%/100% var(--adp-time-track-height) no-repeat}.air-datepicker-time--row:first-child{margin-bottom:4px}.air-datepicker-time--row input[type=range]{background:none;cursor:pointer;flex:1;height:100%;width:100%;padding:0;margin:0;-webkit-appearance:none}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none}.air-datepicker-time--row input[type=range]::-ms-tooltip{display:none}.air-datepicker-time--row input[type=range]:hover::-webkit-slider-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:hover::-moz-range-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:hover::-ms-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:focus{outline:none}.air-datepicker-time--row input[type=range]:focus::-webkit-slider-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]:focus::-moz-range-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]:focus::-ms-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-webkit-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-moz-range-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-moz-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-ms-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-ms-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{margin-top:calc(var(--adp-time-thumb-size)/2*-1)}.air-datepicker-time--row input[type=range]::-webkit-slider-runnable-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-moz-range-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-fill-lower{background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-fill-upper{background:rgba(0,0,0,0)}.air-datepicker{--adp-font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";--adp-font-size:14px;--adp-width:246px;--adp-z-index:100;--adp-padding:4px;--adp-grid-areas:\"nav\" \"body\" \"timepicker\" \"buttons\";--adp-transition-duration:.3s;--adp-transition-ease:ease-out;--adp-transition-offset:8px;--adp-background-color:#fff;--adp-background-color-hover:#f0f0f0;--adp-background-color-active:#eaeaea;--adp-background-color-in-range:rgba(92, 196, 239, .1);--adp-background-color-in-range-focused:rgba(92, 196, 239, .2);--adp-background-color-selected-other-month-focused:#8ad5f4;--adp-background-color-selected-other-month:#a2ddf6;--adp-color:#4a4a4a;--adp-color-secondary:#9c9c9c;--adp-accent-color:#4eb5e6;--adp-color-current-date:var(--adp-accent-color);--adp-color-other-month:#dedede;--adp-color-disabled:#aeaeae;--adp-color-disabled-in-range:#939393;--adp-color-other-month-hover:#c5c5c5;--adp-border-color:#dbdbdb;--adp-border-color-inner:#efefef;--adp-border-radius:4px;--adp-border-color-inline:#d7d7d7;--adp-nav-height:32px;--adp-nav-arrow-color:var(--adp-color-secondary);--adp-nav-action-size:32px;--adp-nav-color-secondary:var(--adp-color-secondary);--adp-day-name-color:#ff9a19;--adp-day-name-color-hover:#8ad5f4;--adp-day-cell-width:1fr;--adp-day-cell-height:32px;--adp-month-cell-height:42px;--adp-year-cell-height:56px;--adp-pointer-size:10px;--adp-poiner-border-radius:2px;--adp-pointer-offset:14px;--adp-cell-border-radius:4px;--adp-cell-background-color-hover:var(--adp-background-color-hover);--adp-cell-background-color-selected:#5cc4ef;--adp-cell-background-color-selected-hover:#45bced;--adp-cell-background-color-in-range:rgba(92, 196, 239, 0.1);--adp-cell-background-color-in-range-hover:rgba(92, 196, 239, 0.2);--adp-cell-border-color-in-range:var(--adp-cell-background-color-selected);--adp-btn-height:32px;--adp-btn-color:var(--adp-accent-color);--adp-btn-color-hover:var(--adp-color);--adp-btn-border-radius:var(--adp-border-radius);--adp-btn-background-color-hover:var(--adp-background-color-hover);--adp-btn-background-color-active:var(--adp-background-color-active);--adp-time-track-height:1px;--adp-time-track-color:#dedede;--adp-time-track-color-hover:#b1b1b1;--adp-time-thumb-size:12px;--adp-time-padding-inner:10px;--adp-time-day-period-color:var(--adp-color-secondary);--adp-mobile-font-size:16px;--adp-mobile-nav-height:40px;--adp-mobile-width:320px;--adp-mobile-day-cell-height:38px;--adp-mobile-month-cell-height:48px;--adp-mobile-year-cell-height:64px}.air-datepicker-overlay{--adp-overlay-background-color:rgba(0, 0, 0, .3);--adp-overlay-transition-duration:.3s;--adp-overlay-transition-ease:ease-out;--adp-overlay-z-index:99}.air-datepicker{background:var(--adp-background-color);border:1px solid var(--adp-border-color);box-shadow:0 4px 12px rgba(0,0,0,.15);border-radius:var(--adp-border-radius);box-sizing:content-box;display:grid;grid-template-columns:1fr;grid-template-rows:repeat(4, max-content);grid-template-areas:var(--adp-grid-areas);font-family:var(--adp-font-family),sans-serif;font-size:var(--adp-font-size);color:var(--adp-color);width:var(--adp-width);position:absolute;transition:opacity var(--adp-transition-duration) var(--adp-transition-ease),transform var(--adp-transition-duration) var(--adp-transition-ease);z-index:var(--adp-z-index)}.air-datepicker:not(.-custom-position-){opacity:0}.air-datepicker.-from-top-{transform:translateY(calc(var(--adp-transition-offset) * -1))}.air-datepicker.-from-right-{transform:translateX(var(--adp-transition-offset))}.air-datepicker.-from-bottom-{transform:translateY(var(--adp-transition-offset))}.air-datepicker.-from-left-{transform:translateX(calc(var(--adp-transition-offset) * -1))}.air-datepicker.-active-:not(.-custom-position-){transform:translate(0, 0);opacity:1}.air-datepicker.-active-.-custom-position-{transition:none}.air-datepicker.-inline-{border-color:var(--adp-border-color-inline);box-shadow:none;position:static;left:auto;right:auto;opacity:1;transform:none}.air-datepicker.-inline- .air-datepicker--pointer{display:none}.air-datepicker.-is-mobile-{--adp-font-size:var(--adp-mobile-font-size);--adp-day-cell-height:var(--adp-mobile-day-cell-height);--adp-month-cell-height:var(--adp-mobile-month-cell-height);--adp-year-cell-height:var(--adp-mobile-year-cell-height);--adp-nav-height:var(--adp-mobile-nav-height);--adp-nav-action-size:var(--adp-mobile-nav-height);position:fixed;width:var(--adp-mobile-width);border:none}.air-datepicker.-is-mobile- *{-webkit-tap-highlight-color:rgba(0,0,0,0)}.air-datepicker.-is-mobile- .air-datepicker--pointer{display:none}.air-datepicker.-is-mobile-:not(.-custom-position-){transform:translate(-50%, calc(-50% + var(--adp-transition-offset)))}.air-datepicker.-is-mobile-.-active-:not(.-custom-position-){transform:translate(-50%, -50%)}.air-datepicker.-custom-position-{transition:none}.air-datepicker-global-container{position:absolute;left:0;top:0}.air-datepicker--pointer{--pointer-half-size:calc(var(--adp-pointer-size) / 2);position:absolute;width:var(--adp-pointer-size);height:var(--adp-pointer-size);z-index:-1}.air-datepicker--pointer:after{content:\"\";position:absolute;background:#fff;border-top:1px solid var(--adp-border-color-inline);border-right:1px solid var(--adp-border-color-inline);border-top-right-radius:var(--adp-poiner-border-radius);width:var(--adp-pointer-size);height:var(--adp-pointer-size);box-sizing:border-box}.-top-left- .air-datepicker--pointer,.-top-center- .air-datepicker--pointer,.-top-right- .air-datepicker--pointer,[data-popper-placement^=top] .air-datepicker--pointer{top:calc(100% - var(--pointer-half-size) + 1px)}.-top-left- .air-datepicker--pointer:after,.-top-center- .air-datepicker--pointer:after,.-top-right- .air-datepicker--pointer:after,[data-popper-placement^=top] .air-datepicker--pointer:after{transform:rotate(135deg)}.-right-top- .air-datepicker--pointer,.-right-center- .air-datepicker--pointer,.-right-bottom- .air-datepicker--pointer,[data-popper-placement^=right] .air-datepicker--pointer{right:calc(100% - var(--pointer-half-size) + 1px)}.-right-top- .air-datepicker--pointer:after,.-right-center- .air-datepicker--pointer:after,.-right-bottom- .air-datepicker--pointer:after,[data-popper-placement^=right] .air-datepicker--pointer:after{transform:rotate(225deg)}.-bottom-left- .air-datepicker--pointer,.-bottom-center- .air-datepicker--pointer,.-bottom-right- .air-datepicker--pointer,[data-popper-placement^=bottom] .air-datepicker--pointer{bottom:calc(100% - var(--pointer-half-size) + 1px)}.-bottom-left- .air-datepicker--pointer:after,.-bottom-center- .air-datepicker--pointer:after,.-bottom-right- .air-datepicker--pointer:after,[data-popper-placement^=bottom] .air-datepicker--pointer:after{transform:rotate(315deg)}.-left-top- .air-datepicker--pointer,.-left-center- .air-datepicker--pointer,.-left-bottom- .air-datepicker--pointer,[data-popper-placement^=left] .air-datepicker--pointer{left:calc(100% - var(--pointer-half-size) + 1px)}.-left-top- .air-datepicker--pointer:after,.-left-center- .air-datepicker--pointer:after,.-left-bottom- .air-datepicker--pointer:after,[data-popper-placement^=left] .air-datepicker--pointer:after{transform:rotate(45deg)}.-top-left- .air-datepicker--pointer,.-bottom-left- .air-datepicker--pointer{left:var(--adp-pointer-offset)}.-top-right- .air-datepicker--pointer,.-bottom-right- .air-datepicker--pointer{right:var(--adp-pointer-offset)}.-top-center- .air-datepicker--pointer,.-bottom-center- .air-datepicker--pointer{left:calc(50% - var(--adp-pointer-size)/2)}.-left-top- .air-datepicker--pointer,.-right-top- .air-datepicker--pointer{top:var(--adp-pointer-offset)}.-left-bottom- .air-datepicker--pointer,.-right-bottom- .air-datepicker--pointer{bottom:var(--adp-pointer-offset)}.-left-center- .air-datepicker--pointer,.-right-center- .air-datepicker--pointer{top:calc(50% - var(--adp-pointer-size)/2)}.air-datepicker--navigation{grid-area:nav}.air-datepicker--content{box-sizing:content-box;padding:var(--adp-padding);grid-area:body}.-only-timepicker- .air-datepicker--content{display:none}.air-datepicker--time{grid-area:timepicker}.air-datepicker--buttons{grid-area:buttons}.air-datepicker--buttons,.air-datepicker--time{padding:var(--adp-padding);border-top:1px solid var(--adp-border-color-inner)}.air-datepicker-overlay{position:fixed;background:var(--adp-overlay-background-color);left:0;top:0;width:0;height:0;opacity:0;transition:opacity var(--adp-overlay-transition-duration) var(--adp-overlay-transition-ease),left 0s,height 0s,width 0s;transition-delay:0s,var(--adp-overlay-transition-duration),var(--adp-overlay-transition-duration),var(--adp-overlay-transition-duration);z-index:var(--adp-overlay-z-index)}.air-datepicker-overlay.-active-{opacity:1;width:100%;height:100%;transition:opacity var(--adp-overlay-transition-duration) var(--adp-overlay-transition-ease),height 0s,width 0s}:host{display:block}.air-datepicker{font-size:auto}.air-datepicker-body--day-name{color:#000;font-weight:700}.air-datepicker-cell.-selected-,.air-datepicker-cell.-selected-.-focus-,.air-datepicker-cell.-selected-.-current-{background:#1e9ff2}.air-datepicker-cell.-disabled-{text-decoration:line-through}.air-datepicker-cell.-current-{color:#1e9ff2}.ir-date-picker-trigger{position:relative;box-sizing:border-box;width:fit-content;height:fit-content}.ir-date-picker-element{position:absolute;inset:0;opacity:0;cursor:pointer}";
-const IrDatePickerStyle0 = irDatePickerCss;
 
 const IrDatePicker = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dateChanged = createEvent(this, "dateChanged", 7);
-        this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
-        this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
-        this.triggerSlot = null;
+        this.dateChanged = createEvent(this, "dateChanged");
+        this.datePickerFocus = createEvent(this, "datePickerFocus");
+        this.datePickerBlur = createEvent(this, "datePickerBlur");
+        /**
+         * Determines whether the date picker is rendered inline or in a pop-up.
+         * If `true`, the picker is always visible inline.
+         */
         this.inline = false;
+        /**
+         * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
         this.date = null;
+        /**
+         * Enables multiple dates.
+         * If `true`, multiple selection is allowed.
+         * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
         this.multipleDates = false;
+        /**
+         * Whether the picker should allow range selection (start and end date).
+         */
         this.range = false;
+        /**
+         * Format for the date as it appears in the input field.
+         * Follows the `AirDatepicker` format rules.
+         */
         this.dateFormat = 'yyyy-MM-dd';
+        /**
+         * Enables the timepicker functionality (select hours and minutes).
+         */
         this.timepicker = false;
-        this.minDate = undefined;
-        this.maxDate = undefined;
+        /**
+         * Disables the input and prevents interaction.
+         */
         this.disabled = false;
+        /**
+         * Closes the picker automatically after a date is selected.
+         */
         this.autoClose = true;
+        /**
+         * Shows days from previous/next month in the current month's calendar.
+         */
         this.showOtherMonths = true;
+        /**
+         * Allows selecting days from previous/next month shown in the current view.
+         */
         this.selectOtherMonths = true;
+        /**
+         * Controls how the date picker is triggered.
+         * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
+         * - **`false`**: A default button input is used to open the picker.
+         *
+         * Defaults to `true`.
+         */
         this.customPicker = true;
-        this.container = undefined;
+        /**
+         * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
+         * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
+         * but note that it may affect performance if triggered frequently.
+         * Defaults to `false`.
+         */
         this.forceDestroyOnUpdate = false;
+        /**
+         * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
+         * Otherwise, empty-date changes will be ignored (no event emitted).
+         *
+         * Defaults to `false`.
+         */
         this.emitEmptyDate = false;
         this.currentDate = null;
+        this.triggerSlot = null;
     }
     componentWillLoad() {
         // Sync initial @Prop to internal state
@@ -12676,7 +12662,7 @@ const IrDatePicker = class {
             minDate: this.minDate,
             maxDate: this.maxDate,
             autoClose: this.autoClose,
-            locale: default_1,
+            locale: localeEn,
             showOtherMonths: this.showOtherMonths,
             selectOtherMonths: this.selectOtherMonths,
             onHide: () => {
@@ -12749,20 +12735,14 @@ const IrDatePicker = class {
         "maxDate": ["maxDatePropChanged"]
     }; }
 };
-IrDatePicker.style = IrDatePickerStyle0;
+IrDatePicker.style = irDatePickerCss;
 
 const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
-const IrDateRangeStyle0 = irDateRangeCss;
 
 const IrDateRange = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dateChanged = createEvent(this, "dateChanged", 7);
-        this.fromDate = undefined;
-        this.toDate = undefined;
-        this.date = undefined;
-        this.opens = undefined;
-        this.autoApply = undefined;
+        this.dateChanged = createEvent(this, "dateChanged");
         this.firstDay = 1;
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -12776,8 +12756,6 @@ const IrDateRange = class {
         this.weekLabel = 'W';
         this.disabled = false;
         this.singleDatePicker = false;
-        this.minDate = undefined;
-        this.maxDate = undefined;
         this.maxSpan = {
             days: 240,
         };
@@ -12872,19 +12850,15 @@ const IrDateRange = class {
         "date": ["datePropChanged"]
     }; }
 };
-IrDateRange.style = IrDateRangeStyle0;
+IrDateRange.style = irDateRangeCss;
 
 const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
-const IrDateViewStyle0 = irDateViewCss;
 
 const IrDateView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.from_date = undefined;
-        this.to_date = undefined;
         this.showDateDifference = true;
         this.dateOption = 'YYYY-MM-DD';
-        this.dates = undefined;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -12936,15 +12910,14 @@ const IrDateView = class {
         "to_date": ["handleToDateChange"]
     }; }
 };
-IrDateView.style = IrDateViewStyle0;
+IrDateView.style = irDateViewCss;
 
 const irDialogCss = ":host{display:block;margin:0;padding:0;box-sizing:border-box}.backdrop{opacity:0;background:rgba(0, 0, 0, 0.2);position:fixed;inset:0;z-index:99999998}.backdrop[data-state='opened']{animation:overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards}.backdrop[data-state='closed']{opacity:0;pointer-events:none}.modal-container{box-sizing:border-box;margin:0;box-shadow:hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;position:fixed;z-index:99999999;overflow-y:auto;top:50%;left:50%;background:white;transform:translate(-50%, -50%);width:90%;min-height:fit-content;height:fit-content;max-width:var(--ir-dialog-max-width, 40rem);max-height:85vh;border-radius:8px;padding:0;animation:contentShow 300ms cubic-bezier(0.16, 1, 0.3, 1)}.modal-footer ::slotted(*){flex-direction:row;align-items:center;justify-content:end;gap:8px;--ir-btn-width:inherit}.modal-footer{--ir-btn-width:100%}.modal-title ::slotted(*){font-size:18px;font-weight:600;color:#101828;margin-bottom:8px}.modal-body ::slotted(*){font-size:14px;font-weight:400;color:#475467;padding:0;margin:0}@keyframes overlayShow{from{opacity:0}to{opacity:1}}@keyframes contentShow{from{opacity:0;transform:translate(-50%, -48%) scale(0.96)}to{opacity:1;transform:translate(-50%, -50%) scale(1)}}.dialog-close-button{position:absolute;top:15px;right:15px}";
-const IrDialogStyle0 = irDialogCss;
 
 const IrDialog = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.openChange = createEvent(this, "openChange", 7);
+        this.openChange = createEvent(this, "openChange");
         this.open = false;
         this.isOpen = false;
     }
@@ -13024,17 +12997,14 @@ const IrDialog = class {
         "open": ["handleOpenChange"]
     }; }
 };
-IrDialog.style = IrDialogStyle0;
+IrDialog.style = irDialogCss;
 
 const irEventsLogCss = ".sc-ir-events-log-h{display:block}.beta.sc-ir-events-log{background:var(--red);color:white;padding:0.2rem 0.3rem;font-size:12px;border-radius:4px;margin:0}.event-row.sc-ir-events-log{padding-bottom:0.5rem}.list-title.sc-ir-events-log{margin:0;padding:0;font-size:14px;font-weight:bold;width:fit-content}.list-item.sc-ir-events-log{margin:0;padding:0;font-size:14px;margin-left:5px;width:fit-content}.list-item.green.sc-ir-events-log{color:#629a4c;font-weight:600}.list-item.red.sc-ir-events-log{color:#ff4961;font-weight:600}.dates-row.sc-ir-events-log{display:flex;align-items:center;gap:0.875rem}";
-const IrEventsLogStyle0 = irEventsLogCss;
 
 const IrEventsLog = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.bookingService = new BookingService();
-        this.bookingNumber = undefined;
-        this.bookingEvents = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -13052,20 +13022,16 @@ const IrEventsLog = class {
         return (h("div", { key: '04e6166cf19a0f69bb0feff697b2c917268b77da', class: "p-1" }, h("div", { key: 'f77f8a53609b3347fc62a1d3fba553b353d03d1b', class: "d-flex  align-items-center", style: { gap: '0.5rem' } }, h("h3", { key: '3c478f8fa441343fec9867c39fa2e47820341507', class: " text-left p-0 m-0  dialog-title " }, locales.entries.Lcz_EventsLog)), isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { style: { opacity: '0' } }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, (_a = this.bookingEvents) === null || _a === void 0 ? void 0 : _a.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
     }
 };
-IrEventsLog.style = IrEventsLogStyle0;
+IrEventsLog.style = irEventsLogCss;
 
 const irExtraServiceCss = ".sc-ir-extra-service-h{display:block}.extra-service-container.sc-ir-extra-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-service-container.sc-ir-extra-service *.sc-ir-extra-service{padding:0;margin:0;box-sizing:border-box}.extra-service-actions.sc-ir-extra-service{display:flex;align-items:center;gap:0.5rem}.extra-service-conditional-date.sc-ir-extra-service{margin-top:0.5rem}";
-const IrExtraServiceStyle0 = irExtraServiceCss;
 
 const IrExtraService = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.editExtraService = createEvent(this, "editExtraService", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.editExtraService = createEvent(this, "editExtraService");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
         this.bookingService = new BookingService();
-        this.service = undefined;
-        this.bookingNumber = undefined;
-        this.currencySymbol = undefined;
     }
     async deleteService() {
         try {
@@ -13084,7 +13050,7 @@ const IrExtraService = class {
         return (h(Host, { key: '759eab2819901c18b77c527f307722ab9e0dd24a' }, h("div", { key: '2914dafdafb7085741e46867e822b8f5380b45a0', class: "p-1" }, h("div", { key: '42b40100dfc12647c1b8bf9d95abe39e65c78833', class: 'extra-service-container' }, h("p", { key: 'f56eca07d89dfb9c04d7b958c49c74c71719fb67', class: "extra-service-description" }, this.service.description), h("div", { key: '60b34a66d7fce3e464390ee7708165deae0a46e5', class: "extra-service-actions" }, this.service.price && h("p", { key: '644725195134d4e29227a9dfc4284f35280924cd', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price)), h("ir-button", { key: '5f46c42965cf1e8d9bfbd7726c0b23458237554f', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), h("ir-button", { key: '9eaaf9e67d28a868cf303ab4d921861fdd7f7604', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: colorVariants.danger }))), h("div", { key: '8bf9816cb5119e66efe48e48ddca69e55b486c0b', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-modal", { key: 'e633b9669af101ec6a491083faa396925312f279', autoClose: false, ref: el => (this.irModalRef = el), isLoading: isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales.entries.Lcz_Confirmation, modalBody: `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}` })));
     }
 };
-IrExtraService.style = IrExtraServiceStyle0;
+IrExtraService.style = irExtraServiceCss;
 
 // export const ZIdInfo = z.object({
 //   type: z.object({
@@ -13107,31 +13073,31 @@ IrExtraService.style = IrExtraServiceStyle0;
  * - `type.description`: Same pattern for description (but no min length).
  * - `number`: Validates if non-empty string it should be at least 2 chars.
  */
-const ZIdInfo = z.object({
-    type: z.object({
-        code: z
+const ZIdInfo = libExports.z.object({
+    type: libExports.z.object({
+        code: libExports.z
             .union([
             // If provided and non-empty, must have at least 3 chars
-            z.string().min(3),
+            libExports.z.string().min(3),
             // or it can be an empty string
-            z.literal(''),
+            libExports.z.literal(''),
         ])
             .optional(), // or undefined
-        description: z
+        description: libExports.z
             .union([
             // If provided and non-empty, no special min
-            z.string(),
+            libExports.z.string(),
             // or it can be empty string
-            z.literal(''),
+            libExports.z.literal(''),
         ])
             .optional(),
     }),
-    number: z
+    number: libExports.z
         .union([
         // If provided and non-empty, must have at least 2 chars
-        z.string().min(2),
+        libExports.z.string().min(2),
         // or it can be empty string
-        z.literal(''),
+        libExports.z.literal(''),
     ])
         .optional(),
 });
@@ -13143,31 +13109,31 @@ const ZIdInfo = z.object({
  * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
  * - `id_info`: The nested object above; can also be omitted entirely.
  */
-const ZSharedPerson = z.object({
-    id: z.number().optional(),
+const ZSharedPerson = libExports.z.object({
+    id: libExports.z.number().optional(),
     // full_name: z
     //   .union([
     //     z.string().min(2), // if provided and non-empty, must have min length 2
     //     z.literal(''), // or it can be empty string
     //   ])
     //   .optional(),
-    first_name: z
+    first_name: libExports.z
         .union([
-        z.string().min(2), // if provided and non-empty, must have min length 2
-        z.literal(''), // or it can be empty string
+        libExports.z.string().min(2), // if provided and non-empty, must have min length 2
+        libExports.z.literal(''), // or it can be empty string
     ])
         .optional(),
-    last_name: z
+    last_name: libExports.z
         .union([
-        z.string().min(2), // if provided and non-empty, must have min length 2
-        z.literal(''), // or it can be empty string
+        libExports.z.string().min(2), // if provided and non-empty, must have min length 2
+        libExports.z.literal(''), // or it can be empty string
     ])
         .optional(),
-    country_id: z.coerce
+    country_id: libExports.z.coerce
         .number()
         .min(0) // if provided, must be >= 0
         .optional(),
-    dob: z
+    dob: libExports.z
         .string()
         .nullable()
         .optional()
@@ -13180,33 +13146,26 @@ const ZSharedPerson = z.object({
     }),
     id_info: ZIdInfo.optional(),
 });
-const ZSharedPersons = z.array(ZSharedPerson);
-const ExtraServiceSchema = z.object({
-    booking_system_id: z.number().optional(),
-    cost: z.coerce.number().nullable(),
-    currency_id: z.number().min(1),
-    description: z.string().min(1),
-    end_date: z.string().nullable(),
-    price: z.coerce.number(),
-    start_date: z.string().nullable(),
-    system_id: z.number().optional(),
+const ZSharedPersons = libExports.z.array(ZSharedPerson);
+const ExtraServiceSchema = libExports.z.object({
+    booking_system_id: libExports.z.number().optional(),
+    cost: libExports.z.coerce.number().nullable(),
+    currency_id: libExports.z.number().min(1),
+    description: libExports.z.string().min(1),
+    end_date: libExports.z.string().nullable(),
+    price: libExports.z.coerce.number(),
+    start_date: libExports.z.string().nullable(),
+    system_id: libExports.z.number().optional(),
 });
 
 const irExtraServiceConfigCss = ".sc-ir-extra-service-config-h{display:block;--ir-input-border-color:#cacfe7}.sc-ir-extra-service-config-h .input-group-text.sc-ir-extra-service-config{border-color:var(--ir-input-border-color)}.currency-ph.sc-ir-extra-service-config{padding:0;margin:0;color:#3b4781;display:flex;align-items:center;justify-content:center;padding:0 0 0 0.25rem;border-top:1px solid var(--ir-input-border-color);border-bottom:1px solid var(--ir-input-border-color);border-left:1px solid transparent;transition:border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;transition:border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.service-description-input.sc-ir-extra-service-config{height:70px !important}.service-description.sc-ir-extra-service-config .input-group-prepend.sc-ir-extra-service-config{background-color:#f4f5fa;border:1px solid var(--ir-input-border-color);border-top-left-radius:0.25rem;border-bottom-left-radius:0.25rem}.service-date-container.sc-ir-extra-service-config{padding:0;margin:0;display:flex;align-items:center;position:relative;width:100%;justify-content:center}.service-date-container.sc-ir-extra-service-config .btn-container.sc-ir-extra-service-config{position:absolute;right:5px;margin:0;display:flex;align-items:center;justify-content:center;padding:0}.service-description.sc-ir-extra-service-config .input-group-text.sc-ir-extra-service-config{height:fit-content;border:0;padding-top:0.75rem !important}.price-input-group.sc-ir-extra-service-config:focus-within .currency-ph.sc-ir-extra-service-config,.cost-input-group.sc-ir-extra-service-config:focus-within .currency-ph.sc-ir-extra-service-config{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-left:1px solid #1e9ff2}.currency-ph[data-state='error'].sc-ir-extra-service-config{border-color:var(--red, #ff4961)}.price-input.sc-ir-extra-service-config:focus{border-right-width:1px !important}.is-invalid.sc-ir-extra-service-config{background-image:none !important}.price-input.sc-ir-extra-service-config,.cost-input.sc-ir-extra-service-config{border-left:0}.row-group.sc-ir-extra-service-config{display:flex;flex-direction:column;gap:0.5rem}@media (min-width: 640px){.row-group.sc-ir-extra-service-config{flex-direction:row;align-items:center;gap:0}.cost-label.sc-ir-extra-service-config{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0}.until-prepend.sc-ir-extra-service-config,.cost-input-placeholder.sc-ir-extra-service-config{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.date-from.sc-ir-extra-service-config,.price-input.sc-ir-extra-service-config{border-right-width:0 !important;border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}}.date-focused.sc-ir-extra-service-config{border-color:#1e9ff2}";
-const IrExtraServiceConfigStyle0 = irExtraServiceConfigCss;
 
 const IrExtraServiceConfig = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeModal = createEvent(this, "closeModal", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.closeModal = createEvent(this, "closeModal");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
         this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.service = undefined;
-        this.s_service = undefined;
-        this.error = undefined;
-        this.fromDateClicked = undefined;
-        this.toDateClicked = undefined;
     }
     // private d1: HTMLDivElement;
     // private d1_0: HTMLDivElement;
@@ -13229,7 +13188,7 @@ const IrExtraServiceConfig = class {
             this.closeModal.emit(null);
         }
         catch (error) {
-            if (error instanceof ZodError) {
+            if (error instanceof libExports.ZodError) {
                 this.error = true;
             }
             console.error(error);
@@ -13305,44 +13264,35 @@ const IrExtraServiceConfig = class {
             value: (_p = (_o = this.s_service) === null || _o === void 0 ? void 0 : _o.cost) === null || _p === void 0 ? void 0 : _p.toString(), zod: ExtraServiceSchema.pick({ cost: true }), onTextChange: e => this.updateService({ cost: parseFloat(e.detail) }), wrapKey: "cost", "aria-label": "Cost", "aria-describedby": "service cost" })), h("div", { key: 'fbcc36545af1103d19c2576330a4704b8a224e17', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: 'e9b0748ebadf364a5818979feda39d4f7abe9f1d', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: 'b441e69417505a02d2a183c2cf969d53564d03d9', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Do_Booking_Extra_Service'), text: locales.entries.Lcz_Save, btn_color: "primary", onClick: this.saveAmenity.bind(this) })))));
     }
 };
-IrExtraServiceConfig.style = IrExtraServiceConfigStyle0;
+IrExtraServiceConfig.style = irExtraServiceConfigCss;
 
 const irExtraServicesCss = ".sc-ir-extra-services-h{display:block}";
-const IrExtraServicesStyle0 = irExtraServicesCss;
 
 const IrExtraServices = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.booking = undefined;
     }
     render() {
         var _a;
         return (h(Host, { key: '76f0e7236b024fde2aa3fb945b45b067202308b7', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
 };
-IrExtraServices.style = IrExtraServicesStyle0;
+IrExtraServices.style = irExtraServicesCss;
 
 const irGuestInfoCss = ".input-group-text.sc-ir-guest-info{min-width:10rem;text-align:left}.mobilePrefixSelect.sc-ir-guest-info{border-right-width:0;border-top-right-radius:0;border-bottom-right-radius:0}.mobilePrefixInput.sc-ir-guest-info{border-top-left-radius:0;border-bottom-left-radius:0}.check-container.sc-ir-guest-info{position:relative;cursor:pointer;font-size:14px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;align-items:center}.check-container.sc-ir-guest-info input.sc-ir-guest-info{position:relative;opacity:0;cursor:pointer;height:0;width:0}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info{position:relative;top:0;left:0;height:20px;width:20px;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info{background-color:#1e9ff2;border-color:#1e9ff2}.checkmark.sc-ir-guest-info:after{content:'';position:absolute;display:none}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info:after{display:block}.check-label.sc-ir-guest-info{margin-left:10px !important}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info:after{left:6px;top:3px;width:6px;height:10px;border:solid white;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.ir-card-header.sc-ir-guest-info{width:100%;border-bottom:1px solid #e4e5ec}.close-icon.sc-ir-guest-info{margin:0}.border-theme.sc-ir-guest-info{border:1px solid #cacfe7}.loading-container.sc-ir-guest-info{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
-const IrGuestInfoStyle0 = irGuestInfoCss;
 
 const GuestInfo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeSideBar = createEvent(this, "closeSideBar", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.token = new Token();
-        this.language = undefined;
-        this.headerShown = undefined;
-        this.email = undefined;
-        this.booking_nbr = undefined;
-        this.ticket = undefined;
-        this.isInSideBar = undefined;
-        this.countries = undefined;
+        this.closeSideBar = createEvent(this, "closeSideBar");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        // @State() submit: boolean = false;
         this.guest = null;
         this.isLoading = false;
         this.autoValidate = false;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.token = new Token();
     }
     async componentWillLoad() {
         if (this.ticket) {
@@ -13434,32 +13384,27 @@ const GuestInfo = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-GuestInfo.style = IrGuestInfoStyle0;
+GuestInfo.style = irGuestInfoCss;
 
 const irIconCss = ".sc-ir-icon-h{margin:0;padding:0}.icon-button.sc-ir-icon{all:unset;margin:0;padding:0;color:#6b6f82}.icon-button.sc-ir-icon:hover{cursor:pointer;color:#104064}";
-const IrIconStyle0 = irIconCss;
 
 const IrIcon = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.iconClickHandler = createEvent(this, "iconClickHandler", 7);
+        this.iconClickHandler = createEvent(this, "iconClickHandler");
         this.icon = 'ft-check';
     }
     render() {
         return (h("button", { key: '0530c86346c262a78d5da0f375c909b49abd483b', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'd80abd236e7ea0ad2d3e8e43410928ce4cfd953a', name: "icon" })));
     }
 };
-IrIcon.style = IrIconStyle0;
+IrIcon.style = irIconCss;
 
 const irIconsCss = ".sc-ir-icons-h{display:block;box-sizing:border-box;margin:0;padding:0}.icon.sc-ir-icons{height:var(--icon-size, 1.25rem);width:var(--icon-size, 1.25rem);margin:0;padding:0}";
-const IrIconsStyle0 = irIconsCss;
 
 const IrIcons = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.name = undefined;
-        this.svgClassName = undefined;
-        this.color = undefined;
     }
     render() {
         const svgPath = icons[this.name] || null;
@@ -13469,7 +13414,7 @@ const IrIcons = class {
         return (h("svg", { xmlns: "http://www.w3.org/2000/svg", color: this.color, viewBox: svgPath.viewBox, class: `icon ${this.svgClassName}` }, h("path", { fill: "currentColor", d: svgPath.d })));
     }
 };
-IrIcons.style = IrIconsStyle0;
+IrIcons.style = irIconsCss;
 
 /** Checks if value is string */
 function isString(str) {
@@ -13980,7 +13925,7 @@ class InputHistory {
     return this.go(-1);
   }
   redo() {
-    return this.go(+1);
+    return this.go(1);
   }
   clear() {
     this.states.length = 0;
@@ -17070,43 +17015,43 @@ try {
 } catch {}
 
 const irInputTextCss = ".sc-ir-input-text-h{margin:0;padding:0;display:inline}.border-theme.sc-ir-input-text{border:1px solid #cacfe7}.icon-container.sc-ir-input-text{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}input.sc-ir-input-text:focus{border-color:#1e9ff2 !important}.error-message.sc-ir-input-text{font-size:0.875rem;padding:0;margin:0.5rem 0 0;color:var(--red, #ff4961)}.ir-input[data-state='empty'].sc-ir-input-text{color:#bbbfc6}.input-container.sc-ir-input-text{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.input-container.sc-ir-input-text input.sc-ir-input-text{padding-left:5px !important;padding-right:5px !important;border-left:0;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.icon-container[data-state='focus'].sc-ir-input-text{border-color:var(--blue)}.icon-container[data-disabled].sc-ir-input-text{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.danger-border.sc-ir-input-text{border-color:var(--red, #ff4961)}";
-const IrInputTextStyle0 = irInputTextCss;
 
 const IrInputText = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.textChange = createEvent(this, "textChange", 7);
-        this.inputBlur = createEvent(this, "inputBlur", 7);
-        this.inputFocus = createEvent(this, "inputFocus", 7);
-        this.name = undefined;
-        this.value = undefined;
-        this.label = undefined;
-        this.placeholder = undefined;
+        this.textChange = createEvent(this, "textChange");
+        this.inputBlur = createEvent(this, "inputBlur");
+        this.inputFocus = createEvent(this, "inputFocus");
+        /** Additional inline styles for the input */
         this.inputStyles = '';
-        this.required = undefined;
+        /** Whether the input field is read-only */
         this.readonly = false;
+        /** Input type (e.g., text, password, email) */
         this.type = 'text';
+        /** Whether the form has been submitted */
         this.submitted = false;
+        /** Whether to apply default input styling */
         this.inputStyle = true;
+        /** Text size inside the input field */
         this.textSize = 'md';
+        /** Position of the label: left, right, or center */
         this.labelPosition = 'left';
+        /** Background color of the label */
         this.labelBackground = null;
+        /** Text color of the label */
         this.labelColor = 'dark';
+        /** Border color/style of the label */
         this.labelBorder = 'theme';
+        /** Label width as a fraction of 12 columns (1-11) */
         this.labelWidth = 3;
+        /** Variant of the input: default or icon */
         this.variant = 'default';
+        /** Whether the input is disabled */
         this.disabled = false;
+        /** Whether the input has an error */
         this.error = false;
-        this.mask = undefined;
+        /** Whether the input should auto-validate */
         this.autoValidate = true;
-        this.zod = undefined;
-        this.asyncParse = undefined;
-        this.wrapKey = undefined;
-        this.inputForcedStyle = undefined;
-        this.testId = undefined;
-        this.maxLength = undefined;
-        this.clearBaseStyles = undefined;
-        this.errorMessage = undefined;
         this.inputFocused = false;
     }
     componentWillLoad() {
@@ -17211,17 +17156,14 @@ const IrInputText = class {
         "value": ["handleValueChange"]
     }; }
 };
-IrInputText.style = IrInputTextStyle0;
+IrInputText.style = irInputTextCss;
 
 const irInteractiveTitleCss = ".sc-ir-interactive-title-h{display:block;width:100%;--hk-green:green}*.sc-ir-interactive-title{box-sizing:border-box}.popover-title.sc-ir-interactive-title{position:relative;width:100%;height:100%;margin:0;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:10;left:0;display:flex;align-items:center}.popover-container.sc-ir-interactive-title{position:absolute;bottom:0px;left:var(--ir-popover-left, 10px);background:rgb(0, 0, 0);color:white;min-width:100%;box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 10px;z-index:9999;padding:3.5px 7px;border-radius:5px;pointer-events:none;opacity:0;transition:all 100ms ease;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-style:normal;font-weight:400;line-height:1.45;text-decoration:none;text-shadow:none;font-size:0.875rem}.popover-container[data-state='show'].sc-ir-interactive-title{opacity:1}.hk-dot.sc-ir-interactive-title{inset:0;position:absolute;display:flex;align-items:center;justify-content:center;width:fit-content;padding:4px;left:auto;padding-inline:var(--ir-popover-left);color:var(--dot-color, #ffffff)}";
-const IrInteractiveTitleStyle0 = irInteractiveTitleCss;
 
 const IrInteractiveTitle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.popoverTitle = undefined;
         this.irPopoverLeft = '10px';
-        this.hkStatus = undefined;
         this.cropSize = 15;
     }
     // private hkStatusColors = {
@@ -17265,15 +17207,14 @@ const IrInteractiveTitle = class {
     }
     get el() { return getElement(this); }
 };
-IrInteractiveTitle.style = IrInteractiveTitleStyle0;
+IrInteractiveTitle.style = irInteractiveTitleCss;
 
 const irInterceptorCss = ".page-loader.sc-ir-interceptor{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-interceptor{padding:20px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:white}.loadingScreenContainer.sc-ir-interceptor{position:fixed;top:0;left:0;height:100vh;width:100vw;z-index:100000;background:rgba(0, 0, 0, 0.2);pointer-events:all;display:flex;align-items:center;justify-content:center}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrInterceptorStyle0 = irInterceptorCss;
 
 const IrInterceptor = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
+        this.toast = createEvent(this, "toast");
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
@@ -17347,24 +17288,24 @@ const IrInterceptor = class {
         return (h(Host, { key: 'de0ee3943816c758d2c8f6948eb256fe8b01e355' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '39dd3562b8e73d56422385ca2546147481668b13', class: "loadingScreenContainer" }, h("div", { key: '23f8856cde4e50a2c7a17e9c326598188930229b', class: "loaderContainer" }, h("span", { key: '83ae9e5c996e03044a2d3d3ee03d48f08485fe76', class: "page-loader" }))))));
     }
 };
-IrInterceptor.style = IrInterceptorStyle0;
+IrInterceptor.style = irInterceptorCss;
 
 const irLabelCss = ".logo.sc-ir-label{height:1.5rem;width:1.5rem}.sc-ir-label-h{display:flex;gap:5px;align-items:center}.icon.sc-ir-label{margin-left:3px;padding:0;margin-top:0;display:flex;align-items:center}.label_message.sc-ir-label{margin:0 3px;padding:0}.label_title.sc-ir-label{min-width:max-content;padding:0;margin:0;font-weight:600}.label_placeholder.sc-ir-label{color:#cacfe7;padding:0 !important;margin:0 !important}.icon-container.sc-ir-label{margin:0;padding:0}.country.sc-ir-label{height:16px;width:23px;border-radius:3px}svg.sc-ir-label{margin:0;padding:0}.label_wrapper_inline.sc-ir-label{display:inline;max-width:100%;gap:5px;margin-bottom:5px}.label_wrapper_flex.sc-ir-label{display:flex;align-items:center;gap:5px;max-width:100%;margin-bottom:5px}.label_title.sc-ir-label{font-weight:600;white-space:nowrap;display:inline}.label_message.sc-ir-label{display:inline;white-space:normal;word-break:break-word}";
-const IrLabelStyle0 = irLabelCss;
 
 const IrLabel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.labelText = undefined;
-        this.content = undefined;
         this.display = 'flex';
+        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
+        /** Object representing the image used within the label */
         this.image = null;
+        /** Renders a country-type image style (vs. a 'logo') */
         this.isCountryImage = false;
+        /** Additional CSS classes or style for the image */
         this.imageStyle = '';
+        /** If true, label will ignore checking for an empty content */
         this.ignoreEmptyContent = false;
-        this.placeholder = undefined;
-        this.containerStyle = undefined;
     }
     render() {
         var _a, _b, _c;
@@ -17375,10 +17316,9 @@ const IrLabel = class {
         return (h(Host, { class: this.image ? 'align-items-center' : '' }, h("div", { class: `${this.display === 'inline' ? 'label_wrapper_inline' : 'label_wrapper_flex'} `, style: this.containerStyle }, this.labelText && h("p", { class: "label_title" }, this.labelText), h("slot", { name: "prefix" }), this.image && (h("img", { src: this.image.src, alt: (_a = this.image.alt) !== null && _a !== void 0 ? _a : this.image.src, class: `p-0 m-0 ${this.isCountryImage ? 'country' : 'logo'} ${(_b = this.image.style) !== null && _b !== void 0 ? _b : ''} ${(_c = this.imageStyle) !== null && _c !== void 0 ? _c : ''}` })), this.content ? (this.renderContentAsHtml ? (h("p", { class: "label_message", innerHTML: this.content })) : (h("p", { class: "label_message" }, this.content))) : (h("p", { class: "label_placeholder" }, this.placeholder)), h("slot", null), h("slot", { name: "suffix" }))));
     }
 };
-IrLabel.style = IrLabelStyle0;
+IrLabel.style = irLabelCss;
 
 const irLoadingScreenCss = ".sc-ir-loading-screen-h{display:fixed;height:100vh;width:100vw;z-index:1000;top:0;left:0;display:flex;align-items:center;justify-content:center;background:white}.loader.sc-ir-loading-screen{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-loading-screen{position:absolute;z-index:100001;padding:20px;top:50%;left:50%;transform:translate(-50%, -50%);background:white;display:flex;align-items:center;justify-content:center;gap:20px;border-radius:5px}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrLoadingScreenStyle0 = irLoadingScreenCss;
 
 const IrLoadingScreen = class {
     constructor(hostRef) {
@@ -17389,19 +17329,17 @@ const IrLoadingScreen = class {
         return (h(Host, { key: '5fd3fe4fe29c193ff2abfbbc89356f4b242319e6' }, h("span", { key: 'ed88bf2faef53c5e6f573645a8eca2b88df30fd1', class: "loader" })));
     }
 };
-IrLoadingScreen.style = IrLoadingScreenStyle0;
+IrLoadingScreen.style = irLoadingScreenCss;
 
 const irModalCss = ".backdropModal.sc-ir-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-modal{padding:10px;background:white;border-radius:5px}.ir-alert-header.sc-ir-modal{display:flex;font-size:1rem;font-weight:700}.modal.sc-ir-modal{z-index:1001 !important}.modal-dialog.sc-ir-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-modal{gap:10px}.ir-modal.sc-ir-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
-const IrModalStyle0 = irModalCss;
 
 const IrModal = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.confirmModal = createEvent(this, "confirmModal", 7);
-        this.cancelModal = createEvent(this, "cancelModal", 7);
+        this.confirmModal = createEvent(this, "confirmModal");
+        this.cancelModal = createEvent(this, "cancelModal");
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
-        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
@@ -17450,17 +17388,14 @@ const IrModal = class {
         ];
     }
 };
-IrModal.style = IrModalStyle0;
+IrModal.style = irModalCss;
 
 const irPaymentActionsCss = ".sc-ir-payment-actions-h{display:block}.sc-ir-payment-actions-h p.sc-ir-payment-actions,.sc-ir-payment-actions-h div.sc-ir-payment-actions,.sc-ir-payment-actions-h span.sc-ir-payment-actions,.sc-ir-payment-actions-h ir-icons.sc-ir-payment-actions{box-sizing:border-box;padding:0;margin:0}.action-container.sc-ir-payment-actions td.sc-ir-payment-actions{padding:0px 0.5rem;padding-bottom:0.5rem}.action-container.sc-ir-payment-actions .amount_action.sc-ir-payment-actions{padding-inline-start:0}.overdue_action.sc-ir-payment-actions{color:#ff4961;border-radius:0.25rem;display:flex;align-items:center;gap:0.5rem}.future_action.sc-ir-payment-actions{border-radius:0.25rem;color:#1e9ff2;display:flex;align-items:center;justify-content:start;gap:0.5rem}.date_action.sc-ir-payment-actions{font-weight:500}.amount_action.sc-ir-payment-actions{font-weight:600}";
-const IrPaymentActionsStyle0 = irPaymentActionsCss;
 
 const IrPaymentActions = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.generatePayment = createEvent(this, "generatePayment", 7);
-        this.booking = undefined;
-        this.paymentAction = undefined;
+        this.generatePayment = createEvent(this, "generatePayment");
     }
     render() {
         var _a, _b;
@@ -17475,32 +17410,27 @@ const IrPaymentActions = class {
         })))));
     }
 };
-IrPaymentActions.style = IrPaymentActionsStyle0;
+IrPaymentActions.style = irPaymentActionsCss;
 
 const irPaymentDetailsCss = ".sc-ir-payment-details-h{font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-payment-details-h *.sc-ir-payment-details{font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sm-margin-right.sc-ir-payment-details{margin-right:5px !important;background:#000}.action_icons.sc-ir-payment-details{width:60px}.w-60.sc-ir-payment-details{width:100px;padding:0 5px}.payments-height.sc-ir-payment-details{height:30px}.payment_date.sc-ir-payment-details{width:100px}.iframeHeight.sc-ir-payment-details{height:max-content;height:22.5rem}.designation.sc-ir-payment-details{width:120px}.total-cost-container.sc-ir-payment-details{background:#7cbebe;color:white;padding:0.5rem;border-radius:5px}.payment-actions.sc-ir-payment-details{display:flex;align-items:center;justify-content:center;height:100%;gap:0.5rem}.payment_action_beta_container.sc-ir-payment-details{border:1px solid var(--red);position:relative;padding:4px;box-sizing:border-box;border-radius:4px}.beta.sc-ir-payment-details{position:absolute;top:4px;background:var(--red);color:white;padding:0.2rem 0.3rem;font-size:12px;border-radius:4px;right:4px;margin:0}";
-const IrPaymentDetailsStyle0 = irPaymentDetailsCss;
 
 const IrPaymentDetails = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.resetExposedCancelationDueAmount = createEvent(this, "resetExposedCancelationDueAmount", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.paymentBackground = 'white';
-        this.bookingDetails = undefined;
-        this.paymentActions = undefined;
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        this.resetExposedCancelationDueAmount = createEvent(this, "resetExposedCancelationDueAmount");
+        this.toast = createEvent(this, "toast");
         this.newTableRow = false;
         this.collapsedPayment = false;
         this.collapsedGuarantee = false;
         this.flag = false;
         this.confirmModal = false;
-        this.toBeDeletedItem = undefined;
         this.paymentDetailsUrl = '';
         this.paymentExceptionMessage = '';
         this.modal_mode = null;
-        this.itemToBeAdded = undefined;
+        this.paymentService = new PaymentService();
+        this.bookingService = new BookingService();
+        this.paymentBackground = 'white';
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
@@ -17739,31 +17669,24 @@ const IrPaymentDetails = class {
         "bookingDetails": ["handleBookingDetails"]
     }; }
 };
-IrPaymentDetails.style = IrPaymentDetailsStyle0;
+IrPaymentDetails.style = irPaymentDetailsCss;
 
 const irPhoneInputCss = ".sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-right:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;left:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}";
-const IrPhoneInputStyle0 = irPhoneInputCss;
 
 const IrPhoneInput = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.textChange = createEvent(this, "textChange", 7);
-        // private cmp_countries: ICountry[] = [];
-        this.bookingService = new BookingService();
-        this.label = undefined;
+        this.textChange = createEvent(this, "textChange");
         this.value = '';
         this.disabled = false;
         this.error = false;
-        this.token = undefined;
-        this.language = undefined;
         this.default_country = null;
         this.phone_prefix = null;
-        this.placeholder = undefined;
         this.countries = [];
-        this.testId = undefined;
         this.inputValue = '';
         this.isDropdownVisible = false;
-        this.currentCountry = undefined;
+        // private cmp_countries: ICountry[] = [];
+        this.bookingService = new BookingService();
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {
@@ -17843,7 +17766,7 @@ const IrPhoneInput = class {
         "phone_prefix": ["handlePhoneChange"]
     }; }
 };
-IrPhoneInput.style = IrPhoneInputStyle0;
+IrPhoneInput.style = irPhoneInputCss;
 
 class PickupService {
     async savePickup(params, booking_nbr, is_remove) {
@@ -17893,8 +17816,8 @@ class PickupService {
         return locations;
     }
     createPickupSchema(minDate, maxDate) {
-        return z.object({
-            arrival_date: z
+        return libExports.z.object({
+            arrival_date: libExports.z
                 .string()
                 .regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Invalid date format, expected YYYY-MM-DD' })
                 .refine(dateStr => {
@@ -17903,16 +17826,16 @@ class PickupService {
                 const max = hooks(maxDate, 'YYYY-MM-DD', true);
                 return date.isValid() && min.isValid() && max.isValid() && date.isBetween(min, max, undefined, '[]');
             }, { message: `arrival_date must be between ${minDate} and ${maxDate}` }),
-            arrival_time: z
+            arrival_time: libExports.z
                 .string()
                 .regex(/^\d{2}:\d{2}$/, { message: 'Invalid time format. Expected HH:MM' })
                 .refine(time => {
                 const [hours, minutes] = time.split(':').map(Number);
                 return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
             }, { message: 'Time values are out of range' }),
-            flight_details: z.string().nonempty({ message: 'Flight details cannot be empty' }),
-            vehicle_type_code: z.string().nonempty({ message: 'Vehicle type code cannot be empty' }),
-            number_of_vehicles: z.coerce.number().min(1, { message: 'At least one vehicle is required' }),
+            flight_details: libExports.z.string().nonempty({ message: 'Flight details cannot be empty' }),
+            vehicle_type_code: libExports.z.string().nonempty({ message: 'Vehicle type code cannot be empty' }),
+            number_of_vehicles: libExports.z.coerce.number().min(1, { message: 'At least one vehicle is required' }),
         });
     }
     validateForm(params, schema) {
@@ -17923,7 +17846,7 @@ class PickupService {
         catch (error) {
             console.log(error);
             const err = {};
-            if (error instanceof ZodError) {
+            if (error instanceof libExports.ZodError) {
                 error.issues.forEach(e => {
                     err[e.path[0]] = true;
                 });
@@ -17984,13 +17907,29 @@ class PickupService {
 }
 
 const irPickupCss = ".sc-ir-pickup-h{display:block}.custom-card-container.sc-ir-pickup{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e5ec}.card-title.sc-ir-pickup{flex:1}.border-theme.sc-ir-pickup{border:1px solid #cacfe7}";
-const IrPickupStyle0 = irPickupCss;
 
 const IrPickup = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeModal = createEvent(this, "closeModal", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.closeModal = createEvent(this, "closeModal");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        this.numberOfPersons = 0;
+        this.isLoading = false;
+        this.allowedOptionsByLocation = [];
+        this.pickupData = {
+            location: -1,
+            flight_details: '',
+            due_upon_booking: '',
+            number_of_vehicles: 1,
+            vehicle_type_code: '',
+            currency: undefined,
+            arrival_time: '',
+            arrival_date: null,
+            selected_option: undefined,
+        };
+        this.vehicleCapacity = [];
+        this.cause = null;
+        this.autoValidate = false;
         this.pickupService = new PickupService();
         this.arrival_time_mask = {
             mask: 'HH:mm',
@@ -18011,27 +17950,6 @@ const IrPickup = class {
             lazy: false,
             placeholderChar: '_',
         };
-        this.defaultPickupData = undefined;
-        this.numberOfPersons = 0;
-        this.bookingNumber = undefined;
-        this.bookingDates = undefined;
-        this.isLoading = false;
-        this.allowedOptionsByLocation = [];
-        this.pickupData = {
-            location: -1,
-            flight_details: '',
-            due_upon_booking: '',
-            number_of_vehicles: 1,
-            vehicle_type_code: '',
-            currency: undefined,
-            arrival_time: '',
-            arrival_date: null,
-            selected_option: undefined,
-        };
-        this.vehicleCapacity = [];
-        this.cause = null;
-        this.errors = undefined;
-        this.autoValidate = false;
     }
     componentWillLoad() {
         if (this.defaultPickupData) {
@@ -18139,15 +18057,13 @@ const IrPickup = class {
     }
     get el() { return getElement(this); }
 };
-IrPickup.style = IrPickupStyle0;
+IrPickup.style = irPickupCss;
 
 const irPickupViewCss = ".sc-ir-pickup-view-h{display:block}";
-const IrPickupViewStyle0 = irPickupViewCss;
 
 const IrPickupView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.booking = undefined;
     }
     render() {
         if (!calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {
@@ -18156,17 +18072,14 @@ const IrPickupView = class {
         return (h(Host, null, h("div", { class: "mb-1" }, h("div", { class: 'd-flex w-100 mb-1 align-items-center justify-content-between' }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_Pickup), h("ir-button", { id: "pickup", "data-testid": "new_pickup_btn", variant: "icon", icon_name: "edit", style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }) })), this.booking.pickup_info && (h("div", { class: 'card' }, h("div", { class: 'p-1' }, h("div", { class: 'd-flex align-items-center py-0 my-0 pickup-margin' }, h("p", { class: 'font-weight-bold mr-1 py-0 my-0' }, locales.entries.Lcz_Date, ": ", h("span", { class: 'font-weight-normal' }, hooks(this.booking.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), this.booking.pickup_info.hour && this.booking.pickup_info.minute && (h("p", { class: 'font-weight-bold flex-fill py-0 my-0' }, locales.entries.Lcz_Time, ":", h("span", { class: 'font-weight-normal' }, " ", _formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString())))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_DueUponBooking, ":", ' ', h("span", { class: 'font-weight-normal' }, this.booking.pickup_info.currency.symbol, this.booking.pickup_info.total))), h("p", { class: 'font-weight-bold py-0 my-0' }, locales.entries.Lcz_FlightDetails, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.details}`)), h("p", { class: 'py-0 my-0 pickup-margin' }, `${this.booking.pickup_info.selected_option.vehicle.description}`), h("p", { class: 'font-weight-bold py-0 my-0 pickup-margin' }, locales.entries.Lcz_NbrOfVehicles, ":", h("span", { class: 'font-weight-normal' }, " ", `${this.booking.pickup_info.nbr_of_units}`)), h("p", { class: 'small py-0 my-0 pickup-margin' }, calendar_data.pickup_service.pickup_instruction.description, calendar_data.pickup_service.pickup_cancelation_prepayment.description)))))));
     }
 };
-IrPickupView.style = IrPickupViewStyle0;
+IrPickupView.style = irPickupViewCss;
 
 const irPmsLogsCss = ".sc-ir-pms-logs-h{display:block}.dialog-container-height.sc-ir-pms-logs{height:4rem}.list-title.sc-ir-pms-logs{margin:0;padding:0;font-size:14px;font-weight:bold;width:fit-content}.list-item.sc-ir-pms-logs{margin:0;padding:0;font-size:14px;margin-left:5px;width:fit-content}.list-item.green.sc-ir-pms-logs{color:#629a4c;font-weight:600}.list-item.red.sc-ir-pms-logs{color:#ff4961;font-weight:600}";
-const IrPmsLogsStyle0 = irPmsLogsCss;
 
 const IrPmsLogs = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.bookingService = new BookingService();
-        this.bookingNumber = undefined;
-        this.pmsLogs = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -18185,17 +18098,24 @@ const IrPmsLogs = class {
             _b.sent_date, " ", _formatTime((_c = this.pmsLogs) === null || _c === void 0 ? void 0 : _c.sent_hour.toString(), (_d = this.pmsLogs) === null || _d === void 0 ? void 0 : _d.sent_minute.toString()))) : (h("p", { class: `list-item ${((_e = this.pmsLogs) === null || _e === void 0 ? void 0 : _e.sent_date) ? 'green' : 'red'}` }, ((_f = this.pmsLogs) === null || _f === void 0 ? void 0 : _f.is_acknowledged) ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))), h("div", { class: "d-flex align-items-center p-0 m-0" }, h("h4", { class: "list-title p-0 m-0" }, locales.entries.Lcz_Acknowledged), h("p", { class: `list-item  ${((_g = this.pmsLogs) === null || _g === void 0 ? void 0 : _g.is_acknowledged) ? 'green' : 'red'}` }, ((_h = this.pmsLogs) === null || _h === void 0 ? void 0 : _h.is_acknowledged) ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))))));
     }
 };
-IrPmsLogs.style = IrPmsLogsStyle0;
+IrPmsLogs.style = irPmsLogsCss;
 
 const irPriceInputCss = ".sc-ir-price-input-h{display:block;--ir-input-border-color:#cacfe7;flex:1 1 0%}.sc-ir-price-input-h .input-group-text.sc-ir-price-input{border-color:var(--ir-input-border-color)}.sc-ir-price-input-h .form-control.sc-ir-price-input,.currency-label.sc-ir-price-input{font-size:14px !important}.ir-bl-lbl-none.sc-ir-price-input,.ir-bl-input-none.sc-ir-price-input{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.ir-br-lbl-none.sc-ir-price-input,.ir-br-input-none.sc-ir-price-input{border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}.ir-br-none.sc-ir-price-input{border-right:none}.ir-bl-none.sc-ir-price-input{border-left:none}.rate-input-container.sc-ir-price-input{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1;padding:0 !important}[class='special-style'].sc-ir-price-input-h .rate-input.sc-ir-price-input{background:black !important}.rate-input.sc-ir-price-input{font-size:0.875rem;line-height:0;padding:0;height:0;box-sizing:border-box;border-left:0;padding-left:0px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.currency-label.with-label.sc-ir-price-input{border-radius:0}.currency-label.sc-ir-price-input{box-sizing:border-box;color:#3b4781;border:1px solid #cacfe7;font-size:0.875rem;height:2rem;background:white;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;pointer-events:none;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.currency-label.disabled.sc-ir-price-input,.rate-input.sc-ir-price-input:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.price-input-group.sc-ir-price-input:focus-within .currency-label.sc-ir-price-input{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-left:1px solid #1e9ff2}[data-state='error'].sc-ir-price-input-h .currency-label.sc-ir-price-input,[data-state='error'].sc-ir-price-input-h .rate-input.sc-ir-price-input,.error.sc-ir-price-input{border-color:var(--red, #ff4961) !important}.price-input.sc-ir-price-input:focus{border-right-width:1px !important}.is-invalid.sc-ir-price-input{background-image:none !important}";
-const IrPriceInputStyle0 = irPriceInputCss;
 
 const IrPriceInput = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.textChange = createEvent(this, "textChange", 7);
-        this.inputBlur = createEvent(this, "inputBlur", 7);
-        this.inputFocus = createEvent(this, "inputFocus", 7);
+        this.textChange = createEvent(this, "textChange");
+        this.inputBlur = createEvent(this, "inputBlur");
+        this.inputFocus = createEvent(this, "inputFocus");
+        /** The AutoValidate for the input, optional */
+        this.autoValidate = true;
+        /** Placeholder text for the input */
+        this.placeholder = '';
+        /** Initial value for the input */
+        this.value = '';
+        /** Whether the input is required */
+        this.required = false;
         this.opts = {
             mask: Number,
             scale: 2,
@@ -18228,21 +18148,6 @@ const IrPriceInput = class {
             // Emit the focus event
             this.inputFocus.emit();
         };
-        this.label = undefined;
-        this.inputStyle = undefined;
-        this.labelStyle = undefined;
-        this.disabled = undefined;
-        this.currency = undefined;
-        this.autoValidate = true;
-        this.wrapKey = undefined;
-        this.zod = undefined;
-        this.placeholder = '';
-        this.value = '';
-        this.required = false;
-        this.minValue = undefined;
-        this.maxValue = undefined;
-        this.testId = undefined;
-        this.error = undefined;
     }
     componentWillLoad() {
         if (this.el.id) {
@@ -18317,17 +18222,14 @@ const IrPriceInput = class {
     }
     get el() { return getElement(this); }
 };
-IrPriceInput.style = IrPriceInputStyle0;
+IrPriceInput.style = irPriceInputCss;
 
 const irReservationInformationCss = ".sc-ir-reservation-information-h{display:block}";
-const IrReservationInformationStyle0 = irReservationInformationCss;
 
 const IrReservationInformation = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.booking = undefined;
-        this.countries = undefined;
+        this.openSidebar = createEvent(this, "openSidebar");
         this.userCountry = null;
     }
     componentWillLoad() {
@@ -18380,32 +18282,23 @@ const IrReservationInformation = class {
         return (h("div", { key: '52e0c6ed819056ca9834896966b6326e4bcdea04', class: "card" }, h("div", { key: 'abda23bbb0b515408e79374048f763e705feea3b', class: "p-1" }, h("p", { key: '6bb740232342e002b5f40e904ccf293d06a8abf9' }, this.booking.property.name || ''), h("ir-label", { key: 'd9ea8614dbf70c9225a8b9f5414ace9172614e46', labelText: `${locales.entries.Lcz_Source}:`, content: this.booking.origin.Label, image: { src: this.booking.origin.Icon, alt: this.booking.origin.Label } }), h("ir-label", { key: '54b4781fe2c20df01e0698bedf5b3f999228ad40', renderContentAsHtml: true, labelText: `${locales.entries.Lcz_BookedOn}:`, content: `${_formatDate(this.booking.booked_on.date)}&nbsp&nbsp&nbsp&nbsp${_formatTime(this.booking.booked_on.hour.toString(), this.booking.booked_on.minute.toString())}` }), h("ir-label", { key: '71e27e771b670de685a2322d203ca6195808896f', labelText: `${locales.entries.Lcz_BookedBy}:`, content: `${this.booking.guest.first_name} ${this.booking.guest.last_name}` }, ((_a = this.booking.guest) === null || _a === void 0 ? void 0 : _a.nbr_confirmed_bookings) > 1 && !this.booking.agent && (h("div", { key: 'a2dc46b93e0fcef314a9b87060edc39ed9fb69ee', class: 'm-0 p-0', slot: "prefix" }, h("ir-tooltip", { key: 'a1e7f9eb168a9fead41ebe458de2c15e99ba5704', message: `${locales.entries.Lcz_BookingsNbr}`.replace('%1', this.booking.guest.nbr_confirmed_bookings.toString()), customSlot: true }, h("div", { key: '16d888e420896ea882658247d70e1a87a753ccac', class: "d-flex align-items-center m-0 p-0", slot: "tooltip-trigger", style: { gap: '0.25rem' } }, h("p", { key: 'aac1127831334e48473de7c9ab83f572ed2d5db5', class: 'p-0 m-0', style: { color: '#FB0AAD' } }, this.booking.guest.nbr_confirmed_bookings), h("ir-icons", { key: 'f93df03433d3568bf1b082b75411cc3c63f869c1', style: { '--icon-size': '1rem' }, color: "#FB0AAD", name: "heart-fill" }))))), h("ir-button", { key: '19a560a3047cb5dab62766a3b86c61d5b69b0f76', slot: "suffix", variant: "icon", icon_name: 'edit', style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.1rem' }), onClickHandler: e => this.handleEditClick(e, 'guest') })), this.booking.guest.mobile && h("ir-label", { key: 'f86532532d626db568ad8ae429b9be257c278fa5', labelText: `${locales.entries.Lcz_Phone}:`, content: this.renderPhoneNumber() }), !this.booking.agent && h("ir-label", { key: 'd759f5f1cdac2c777e52ecb2ea69a69a39e04368', labelText: `${locales.entries.Lcz_Email}:`, content: this.booking.guest.email }), this.booking.guest.alternative_email && h("ir-label", { key: 'c4cd77949aad2a822837a682658e6f5a8b7e2af4', labelText: `${locales.entries.Lcz_AlternativeEmail}:`, content: this.booking.guest.alternative_email }), ((_c = (_b = this.booking) === null || _b === void 0 ? void 0 : _b.guest) === null || _c === void 0 ? void 0 : _c.address) && h("ir-label", { key: 'b66396ca3881de10dc758c8b940717687be98813', labelText: `${locales.entries.Lcz_Address}:`, content: this.booking.guest.address }), this.userCountry && (h("ir-label", { key: 'c478965e62987e9e8445332adcb451290abcf1d4', labelText: `${locales.entries.Lcz_Country}:`, isCountryImage: true, content: this.userCountry.name, image: { src: this.userCountry.flag, alt: this.userCountry.name } })), ((_d = this.booking.guest) === null || _d === void 0 ? void 0 : _d.notes) && h("ir-label", { key: '3bbcadf774cbb352455b846532190fe84307b642', display: "inline", labelText: `${locales.entries.Lcz_GuestPrivateNote}:`, content: (_e = this.booking.guest) === null || _e === void 0 ? void 0 : _e.notes }), this.booking.is_direct && h("ir-label", { key: '2dac954d57c8dc08b5950dfc2e2b8b7895fc5cca', labelText: `${locales.entries.Lcz_ArrivalTime}:`, content: this.booking.arrival.description }), this.booking.promo_key && h("ir-label", { key: '4b3e27155efde950197bbb76e741ee3a1c1d882a', labelText: `${locales.entries.Lcz_Coupon}:`, content: this.booking.promo_key }), this.booking.is_in_loyalty_mode && !this.booking.promo_key && (h("div", { key: '19d497e591c438ab6d60fab1b3b1c349eb0c45b3', class: "d-flex align-items-center" }, h("svg", { key: 'cbecd46848e704e592bd3b1b32ad0e49c3215920', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'fd6680a9ded4231f87a4aaa4cd2826dc07662f20', fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" })), h("p", { key: '09d3cfa2d9b6c04c2954bcda2f4c0d6f51ff690c', class: "m-0 p-0 ml-1" }, locales.entries.Lcz_LoyaltyDiscountApplied))), this.booking.is_direct ? (h("ir-label", { labelText: `${locales.entries.Lcz_GuestRemark}:`, display: "inline", content: this.booking.remark })) : (h("ota-label", { class: 'm-0 p-0', label: `${locales.entries.Lcz_ChannelNotes || 'Channel notes'}:`, remarks: this.booking.ota_notes, maxVisibleItems: (_f = this.booking.ota_notes) === null || _f === void 0 ? void 0 : _f.length })), h("div", { key: '104b17b7c78152e4e9ebfe36d68027425bbab40e', class: "d-flex align-items-center justify-content-between" }, h("ir-label", { key: '1b3b054677ed49628c7537f55745f8f08223138f', labelText: `${locales.entries.Lcz_BookingPrivateNote}:`, placeholder: locales.entries.Lcz_VisibleToHotelOnly, content: privateNote, display: privateNote ? 'inline' : 'flex' }), h("ir-button", { key: '8dfc629425bce1c0f8b97673e9422c4397bcd0c6', variant: "icon", icon_name: "edit", style: colorVariants.secondary, onClickHandler: e => this.handleEditClick(e, 'extra_note') })))));
     }
 };
-IrReservationInformation.style = IrReservationInformationStyle0;
+IrReservationInformation.style = irReservationInformationCss;
 
 const irRoomCss = ".light-blue-bg.sc-ir-room{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px;display:block;max-width:100px;box-sizing:border-box;display:inline-block;overflow:hidden;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room span.sc-ir-room{display:inline;white-space:normal;line-height:1.5;word-break:break-word}.room_statements.sc-ir-room b.sc-ir-room{display:inline;margin-right:5px}.payment-container.sc-ir-room{position:absolute;right:1rem;height:fit-content}.sc-ir-room-h{position:relative}.sm-mr.sc-ir-room{margin-right:3px}.subtotal_row.sc-ir-room{padding-top:8px;font-weight:600}.room_actions_btns.sc-ir-room{gap:0.5rem}.night-cost.sc-ir-room{color:#7cbebe}.mx-0-5.sc-ir-room{margin-left:2px !important;margin-right:2px !important}.tax-width.sc-ir-room{font-size:10px}.sm-mb-1.sc-ir-room{margin-bottom:5px !important}.sm-mt-1.sc-ir-room{margin-top:5px !important}.mx-01.sc-ir-room{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
-const IrRoomStyle0 = irRoomCss;
 
 const IrRoom = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.deleteFinished = createEvent(this, "deleteFinished", 7);
-        this.pressCheckIn = createEvent(this, "pressCheckIn", 7);
-        this.pressCheckOut = createEvent(this, "pressCheckOut", 7);
-        this.editInitiated = createEvent(this, "editInitiated", 7);
-        this.resetbooking = createEvent(this, "resetbooking", 7);
-        this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.bookingService = new BookingService();
-        this.booking = undefined;
-        this.bookingIndex = undefined;
-        this.isEditable = undefined;
-        this.room = undefined;
-        this.mealCodeName = undefined;
-        this.myRoomTypeFoodCat = undefined;
+        this.deleteFinished = createEvent(this, "deleteFinished");
+        this.pressCheckIn = createEvent(this, "pressCheckIn");
+        this.pressCheckOut = createEvent(this, "pressCheckOut");
+        this.editInitiated = createEvent(this, "editInitiated");
+        this.resetbooking = createEvent(this, "resetbooking");
+        this.openSidebar = createEvent(this, "openSidebar");
+        // Currency
         this.currency = 'USD';
         this.language = 'en';
-        this.legendData = undefined;
-        this.roomsInfo = undefined;
-        this.bedPreferences = undefined;
+        // Booleans Conditions
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -18414,8 +18307,8 @@ const IrRoom = class {
         this.collapsed = false;
         this.isLoading = false;
         this.modalReason = null;
-        this.mainGuest = undefined;
         this.isModelOpen = false;
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.mainGuest = this.getMainGuest();
@@ -18674,7 +18567,7 @@ const IrRoom = class {
         "room": ["handleRoomDataChange"]
     }; }
 };
-IrRoom.style = IrRoomStyle0;
+IrRoom.style = irRoomCss;
 
 const defaultGuest = {
     id: -1,
@@ -18737,28 +18630,32 @@ const dateMask = {
 };
 
 const irRoomGuestsCss = ".sc-ir-room-guests-h{display:block;height:100%;position:relative;text-align:start !important}.id-select.sc-ir-room-guests{border-top-right-radius:0;border-bottom-right-radius:0;border-right-width:0}.sc-ir-room-guests-h{display:block;width:100%}.guest-grid.sc-ir-room-guests>*.sc-ir-room-guests{height:100%}.guests-labels.sc-ir-room-guests{display:none}.guest_label.sc-ir-room-guests{width:100px;color:#6b6f82}.sharing_persons_label.sc-ir-room-guests{display:none}.loading-container.sc-ir-room-guests{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.guest_document.sc-ir-room-guests input.sc-ir-room-guests{border-top-left-radius:0;border-bottom-left-radius:0}.guests-labels.sc-ir-room-guests *.sc-ir-room-guests,.sharing_persons_label.sc-ir-room-guests{margin-bottom:0.5rem;padding-bottom:0}@media (min-width: 768px){.sharing_persons_label.sc-ir-room-guests{display:block}.guest_country_picker.sc-ir-room-guests{margin-bottom:3px}.guest-grid.sc-ir-room-guests{display:grid;grid-template-columns:2fr 2fr 2fr 2fr 5fr;gap:0.5rem;align-items:flex-start}.guest_label.sc-ir-room-guests,.sharing_persons_heading.sc-ir-room-guests,.main_guest_heading.sc-ir-room-guests{display:none}}";
-const IrRoomGuestsStyle0 = irRoomGuestsCss;
 
 const IrRoomGuests = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeModal = createEvent(this, "closeModal", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.bookingService = new BookingService();
-        this.roomName = undefined;
-        this.identifier = undefined;
+        this.closeModal = createEvent(this, "closeModal");
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt");
+        /**
+         * An array of people sharing the room.
+         * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+         */
         this.sharedPersons = [];
+        /**
+         * The total number of guests for the room.
+         * Determines how many guest input forms to display in the UI.
+         */
         this.totalGuests = 0;
-        this.countries = undefined;
-        this.checkIn = undefined;
+        /**
+         * The language used for displaying text content in the component.
+         * Defaults to English ('en'), but can be set to other supported languages.
+         */
         this.language = 'en';
-        this.bookingNumber = undefined;
         this.guests = [];
         this.idTypes = [];
         this.error = {};
-        this.isLoading = undefined;
-        this.propertyCountry = undefined;
         this.autoValidate = false;
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.init();
@@ -18828,7 +18725,7 @@ const IrRoomGuests = class {
         }
         catch (error) {
             console.log(error);
-            if (error instanceof ZodError) {
+            if (error instanceof libExports.ZodError) {
                 let errors = {};
                 error.issues.forEach(e => {
                     errors[e.path[1]] = true;
@@ -18862,27 +18759,14 @@ const IrRoomGuests = class {
         })), h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));
     }
 };
-IrRoomGuests.style = IrRoomGuestsStyle0;
+IrRoomGuests.style = irRoomGuestsCss;
 
 const irRoomNightsCss = ".sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0;position:relative}.loading-container.sc-ir-room-nights{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.close-icon.sc-ir-room-nights{position:absolute;top:18px;right:33px;outline:none}.close.sc-ir-room-nights{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-left:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-left:5px !important;padding-right:5px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}";
-const IrRoomNightsStyle0 = irRoomNightsCss;
 
 const IrRoomNights = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
-        this.bookingService = new BookingService();
-        this.bookingNumber = undefined;
-        this.propertyId = undefined;
-        this.language = undefined;
-        this.identifier = undefined;
-        this.toDate = undefined;
-        this.fromDate = undefined;
-        this.pool = undefined;
-        this.ticket = undefined;
-        this.defaultDates = undefined;
-        this.bookingEvent = undefined;
-        this.selectedRoom = undefined;
+        this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog");
         this.rates = [];
         this.isLoading = false;
         this.initialLoading = false;
@@ -18891,6 +18775,7 @@ const IrRoomNights = class {
         this.defaultTotalNights = 0;
         this.isInputFocused = -1;
         this.dates = { from_date: new Date(), to_date: new Date() };
+        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
@@ -19075,24 +18960,16 @@ const IrRoomNights = class {
             _b.name, " ", ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name), h("button", { type: "button", class: "close close-icon", onClick: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }, h("ir-icon", { icon: "ft-x", class: 'm-0' })))), h("section", { class: 'text-left px-2' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${formatDate(hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), h("section", { class: 'd-flex align-items-center mt-2 px-2' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "ml-1 full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
-IrRoomNights.style = IrRoomNightsStyle0;
+IrRoomNights.style = irRoomNightsCss;
 
 const irSelectCss = ".border-theme.sc-ir-select{border:1px solid #cacfe7}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}.bounce-3.sc-ir-select{animation:bounce 1s 1}";
-const IrSelectStyle0 = irSelectCss;
 
 const IrSelect = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.selectChange = createEvent(this, "selectChange", 7);
-        this.count = 0;
-        this.name = undefined;
-        this.data = undefined;
+        this.selectChange = createEvent(this, "selectChange");
         this.label = '<label>';
-        this.selectStyles = undefined;
-        this.selectForcedStyles = undefined;
-        this.selectContainerStyle = undefined;
         this.selectedValue = null;
-        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -19106,10 +18983,11 @@ const IrSelect = class {
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
-        this.testId = undefined;
+        /** Whether the select has an error */
         this.error = false;
         this.initial = true;
         this.valid = false;
+        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
@@ -19172,21 +19050,17 @@ const IrSelect = class {
         "submited": ["watchHandler2"]
     }; }
 };
-IrSelect.style = IrSelectStyle0;
+IrSelect.style = irSelectCss;
 
 const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-100%;bottom:0;width:var(--sidebar-width, 30rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:200;overflow-y:hidden;color:var(--sidebar-color, #000);background:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:scroll}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
-const IrSidebarStyle0 = irSidebarCss;
 
 const IrSidebar = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
-        this.name = undefined;
+        this.irSidebarToggle = createEvent(this, "irSidebarToggle");
         this.side = 'right';
         this.showCloseButton = true;
         this.open = false;
-        this.sidebarStyles = undefined;
-        this.label = undefined;
     }
     applyStyles() {
         for (const property in this.sidebarStyles) {
@@ -19242,18 +19116,14 @@ const IrSidebar = class {
         "sidebarStyles": ["handleSidebarStylesChange"]
     }; }
 };
-IrSidebar.style = IrSidebarStyle0;
+IrSidebar.style = irSidebarCss;
 
 const irSpinnerCss = ":host{width:var(--ir-spinner-size, 1.25rem);height:var(--ir-spinner-size, 1.25rem);border:var(--ir-spinner-border-width, 2.5px) solid var(--ir-spinner-color, #3f3f3f);border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrSpinnerStyle0 = irSpinnerCss;
 
 const IrSpinner = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.size = undefined;
-        this.borderWidth = undefined;
         this.unit = 'rem';
-        this.color = undefined;
     }
     componentWillLoad() {
         this.initStyles();
@@ -19295,15 +19165,14 @@ const IrSpinner = class {
         "color": ["handleSpinnerColorChange"]
     }; }
 };
-IrSpinner.style = IrSpinnerStyle0;
+IrSpinner.style = irSpinnerCss;
 
 const irTextareaCss = ".prepend-textarea.sc-ir-textarea{padding:0 !important}.ta-prepend-text.sc-ir-textarea{width:100%}";
-const IrTextareaStyle0 = irTextareaCss;
 
 const IrTextArea = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.textChange = createEvent(this, "textChange", 7);
+        this.textChange = createEvent(this, "textChange");
         this.rows = 3;
         this.cols = 5;
         this.text = '';
@@ -19311,11 +19180,8 @@ const IrTextArea = class {
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = 250;
-        this.textareaClassname = undefined;
         this.variant = 'default';
         this.labelWidth = 3;
-        this.styles = undefined;
-        this.testId = undefined;
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -19333,17 +19199,14 @@ const IrTextArea = class {
         "aria-invalid": ["handleAriaInvalidChange"]
     }; }
 };
-IrTextArea.style = IrTextareaStyle0;
+IrTextArea.style = irTextareaCss;
 
 const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[border-shown].sc-ir-title-h{border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important;padding-bottom:15px}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
-const IrTitleStyle0 = irTitleCss;
 
 const IrTitle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeSideBar = createEvent(this, "closeSideBar", 7);
-        this.label = undefined;
-        this.borderShown = undefined;
+        this.closeSideBar = createEvent(this, "closeSideBar");
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }
@@ -19365,10 +19228,9 @@ const IrTitle = class {
         "justifyContent": ["handleJustifyContentChange"]
     }; }
 };
-IrTitle.style = IrTitleStyle0;
+IrTitle.style = irTitleCss;
 
 const irToastCss = "button.sc-ir-toast,p.sc-ir-toast,h3.sc-ir-toast,div.sc-ir-toast{all:unset}.sc-ir-toast-h{--rd-viewport-padding:25px;--rd-success:#2b9a66;position:fixed;bottom:0;right:0;display:flex;flex-direction:column;padding:var(--rd-viewport-padding);gap:10px;max-width:100vw;margin:0;list-style:none;z-index:2147483647;outline:none;pointer-events:none;-webkit-user-select:none;user-select:none}@media (prefers-color-scheme: dark){.sc-ir-toast-h{--rd-success:#33b074}}p.sc-ir-toast{color:hsla(222.2, 84%, 4.9%, 0.8);font-size:13px;line-height:1.3}h1.sc-ir-toast,h2.sc-ir-toast,h3.sc-ir-toast,h4.sc-ir-toast,h5.sc-ir-toast,h6.sc-ir-toast{font-weight:500;color:hsl(222.2, 84%, 4.9%);font-size:15px}[position='top-left'].sc-ir-toast-h{top:0;left:0}[position='top-right'].sc-ir-toast-h{top:0;right:0}[position='bottom-left'].sc-ir-toast-h{bottom:0;left:0}[position='bottom-right'].sc-ir-toast-h{bottom:0;right:0}.icon-container.sc-ir-toast{height:25px;width:25px;border-radius:25px;display:flex;align-items:center;justify-content:center;padding:0;margin:0}.icon-container.sc-ir-toast>svg.sc-ir-toast{margin:0;color:white;stroke-width:5px}.success.sc-ir-toast{background-color:var(--rd-success)}.error.sc-ir-toast{background-color:red}.ToastRoot.sc-ir-toast{background-color:hsl(0, 0%, 100%);border-radius:0.5rem;box-shadow:hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;padding:15px;display:grid;grid-template-areas:'title action' 'description action';grid-template-columns:auto max-content;column-gap:15px;align-items:center;pointer-events:none;opacity:0;border:1px solid hsl(214.3, 31.8%, 91.4%);position:relative}.ToastRoot[data-state='open'].sc-ir-toast{pointer-events:all;animation:slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1)}.ToastRoot[data-state='closed'].sc-ir-toast{pointer-events:none;animation:hide 100ms ease-in}@-webkit-keyframes slideIn{from{transform:translateX(var(--rd-offset-width))}to{transform:translateX(0)}}@keyframes slideIn{from{transform:translateX(var(--rd-offset-width))}to{transform:translateX(0)}}.ToastTitle.sc-ir-toast{grid-area:title;font-weight:500;color:hsl(222.2, 84%, 4.9%);font-size:15px}.ToastDescription.sc-ir-toast{grid-area:description;margin:0;margin-top:5px;color:hsla(222.2, 84%, 4.9%, 0.8);font-size:13px;line-height:1.3;overflow:hidden;text-overflow:ellipsis}.ToastAction.sc-ir-toast{grid-area:action}";
-const IrToastStyle0 = irToastCss;
 
 const IrToast = class {
     constructor(hostRef) {
@@ -19400,18 +19262,15 @@ const IrToast = class {
     }
     get element() { return getElement(this); }
 };
-IrToast.style = IrToastStyle0;
+IrToast.style = irToastCss;
 
 const irTooltipCss = ".sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}";
-const IrTooltipStyle0 = irTooltipCss;
 
 const IrTooltip = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.message = undefined;
         this.withHtml = true;
         this.customSlot = false;
-        this.open = undefined;
     }
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {
@@ -19437,21 +19296,18 @@ const IrTooltip = class {
         h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: '63b3dde4079424555e5b852480feac03d36d25ac', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '32efa412dbd99ecc400e44983dd101f3ad2f2915', class: "tooltip-arrow" }), h("div", { key: '42435e09655aed3d6f15bd0799e07b3478409696', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: 'd464e564abea5ae3f7b6ec622ad76ff05e7f51d7', innerHTML: this.message }))))));
     }
 };
-IrTooltip.style = IrTooltipStyle0;
+IrTooltip.style = irTooltipCss;
 
 const otaLabelCss = "*.sc-ota-label{margin:0;padding:0}.sc-ota-label-h{display:flex;margin-bottom:5px;gap:5px;width:100%}.label_title.sc-ota-label{min-width:max-content;padding:0;margin:0;font-weight:600}ul.sc-ota-label{margin:0 3px;padding:0;list-style:none;overflow:hidden;width:100%;word-wrap:break-word !important;overflow-wrap:break-word !important}li.sc-ota-label{width:100%;line-height:1.5;margin:0;padding:0;word-wrap:break-word !important;overflow-wrap:break-word !important}button.sc-ota-label{background:white;color:var(--blue);padding:0;margin:0;margin-left:3px;font-size:12px;border:0}button.sc-ota-label:hover{color:#355270}";
-const OtaLabelStyle0 = otaLabelCss;
 
 const OtaLabel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.maxVisibleItems = 3;
+        this.showAll = false;
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };
-        this.label = undefined;
-        this.remarks = undefined;
-        this.maxVisibleItems = 3;
-        this.showAll = false;
     }
     render() {
         if (!this.remarks) {
@@ -19461,8 +19317,9 @@ const OtaLabel = class {
         return (h(Host, null, h("p", { class: 'label_title' }, this.label), h("ul", null, displayedRemarks.map((remark, index) => (h("li", { key: v4() }, "- ", remark.statement, ' ', this.remarks.length > this.maxVisibleItems && index === displayedRemarks.length - 1 && (h("button", { onClick: this.toggleShowAll }, this.showAll ? locales.entries.Lcz_ShowLess : locales.entries.Lcz_ShowMore))))))));
     }
 };
-OtaLabel.style = OtaLabelStyle0;
+OtaLabel.style = otaLabelCss;
 
 export { IglApplicationInfo as igl_application_info, IglBlockDatesView as igl_block_dates_view, IglBookProperty as igl_book_property, IglBookPropertyFooter as igl_book_property_footer, IglBookPropertyHeader as igl_book_property_header, IglBookingEvent as igl_booking_event, IglBookingEventHover as igl_booking_event_hover, IglBookingForm as igl_booking_form, IglBookingOverviewPage as igl_booking_overview_page, IglCalBody as igl_cal_body, IglCalFooter as igl_cal_footer, IglCalHeader as igl_cal_header, IglDateRange as igl_date_range, IglLegends as igl_legends, IglPropertyBookedBy as igl_property_booked_by, IglRatePlan as igl_rate_plan, IglRoomType as igl_room_type, IglTbaBookingView as igl_tba_booking_view, IglTbaCategoryView as igl_tba_category_view, IglToBeAssigned as igl_to_be_assigned, IglooCalendar as igloo_calendar, IrAutocomplete as ir_autocomplete, IrBookingDetails as ir_booking_details, IrBookingExtraNote as ir_booking_extra_note, IrBookingHeader as ir_booking_header, IrButton as ir_button, IrCombobox as ir_combobox, IrCommon as ir_common, IrCountryPicker as ir_country_picker, IrDatePicker as ir_date_picker, IrDateRange as ir_date_range, IrDateView as ir_date_view, IrDialog as ir_dialog, IrEventsLog as ir_events_log, IrExtraService as ir_extra_service, IrExtraServiceConfig as ir_extra_service_config, IrExtraServices as ir_extra_services, GuestInfo as ir_guest_info, IrIcon as ir_icon, IrIcons as ir_icons, IrInputText as ir_input_text, IrInteractiveTitle as ir_interactive_title, IrInterceptor as ir_interceptor, IrLabel as ir_label, IrLoadingScreen as ir_loading_screen, IrModal as ir_modal, IrPaymentActions as ir_payment_actions, IrPaymentDetails as ir_payment_details, IrPhoneInput as ir_phone_input, IrPickup as ir_pickup, IrPickupView as ir_pickup_view, IrPmsLogs as ir_pms_logs, IrPriceInput as ir_price_input, IrReservationInformation as ir_reservation_information, IrRoom as ir_room, IrRoomGuests as ir_room_guests, IrRoomNights as ir_room_nights, IrSelect as ir_select, IrSidebar as ir_sidebar, IrSpinner as ir_spinner, IrTextArea as ir_textarea, IrTitle as ir_title, IrToast as ir_toast, IrTooltip as ir_tooltip, OtaLabel as ota_label };
+//# sourceMappingURL=igl-application-info.igl-block-dates-view.igl-book-property.igl-book-property-footer.igl-book-property-header.igl-booking-event.igl-booking-event-hover.igl-booking-form.igl-booking-overview-page.igl-cal-body.igl-cal-footer.igl-cal-header.igl-date-range.igl-legends.igl-property-booked-by.igl-rate-plan.igl-room-type.igl-tba-booking-view.igl-tba-category-view.igl-to-be-assigned.igloo-calendar.ir-autocomplete.ir-booking-details.ir-booking-extra-note.ir-booking-header.ir-button.ir-combobox.ir-common.ir-country-picker.ir-date-picker.ir-date-range.ir-date-view.ir-dialog.ir-events-log.ir-extra-service.ir-extra-service-config.ir-extra-services.ir-guest-info.ir-icon.ir-icons.ir-input-text.ir-interactive-title.ir-interceptor.ir-label.ir-loading-screen.ir-modal.ir-payment-actions.ir-payment-details.ir-phone-input.ir-pickup.ir-pickup-view.ir-pms-logs.ir-price-input.ir-reservation-information.ir-room.ir-room-guests.ir-room-nights.ir-select.ir-sidebar.ir-spinner.ir-textarea.ir-title.ir-toast.ir-tooltip.ota-label.entry.js.map
 
 //# sourceMappingURL=igl-application-info_65.entry.js.map

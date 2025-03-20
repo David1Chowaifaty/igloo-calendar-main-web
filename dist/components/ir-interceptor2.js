@@ -3,7 +3,6 @@ import { a as axios } from './axios.js';
 import { a as interceptor_requests } from './ir-interceptor.store.js';
 
 const irInterceptorCss = ".page-loader.sc-ir-interceptor{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-interceptor{padding:20px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:white}.loadingScreenContainer.sc-ir-interceptor{position:fixed;top:0;left:0;height:100vh;width:100vw;z-index:100000;background:rgba(0, 0, 0, 0.2);pointer-events:all;display:flex;align-items:center;justify-content:center}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrInterceptorStyle0 = irInterceptorCss;
 
 const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor extends HTMLElement {
     constructor() {
@@ -82,7 +81,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
     render() {
         return (h(Host, { key: 'de0ee3943816c758d2c8f6948eb256fe8b01e355' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '39dd3562b8e73d56422385ca2546147481668b13', class: "loadingScreenContainer" }, h("div", { key: '23f8856cde4e50a2c7a17e9c326598188930229b', class: "loaderContainer" }, h("span", { key: '83ae9e5c996e03044a2d3d3ee03d48f08485fe76', class: "page-loader" }))))));
     }
-    static get style() { return IrInterceptorStyle0; }
+    static get style() { return irInterceptorCss; }
 }, [2, "ir-interceptor", {
         "handledEndpoints": [16],
         "isShown": [32],
@@ -106,5 +105,6 @@ function defineCustomElement() {
 }
 
 export { IrInterceptor as I, defineCustomElement as d };
+//# sourceMappingURL=ir-interceptor2.js.map
 
 //# sourceMappingURL=ir-interceptor2.js.map

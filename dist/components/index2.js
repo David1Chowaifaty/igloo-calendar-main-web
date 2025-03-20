@@ -36,7 +36,7 @@ const cleanupElements = debounce((map) => {
     for (let key of map.keys()) {
         map.set(key, map.get(key).filter(isConnected));
     }
-}, 2000);
+}, 2_000);
 const stencilSubscription = () => {
     if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
@@ -69,7 +69,7 @@ const stencilSubscription = () => {
 const unwrap = (val) => (typeof val === 'function' ? val() : val);
 const createObservableMap = (defaultState, shouldUpdate = (a, b) => a !== b) => {
     const unwrappedState = unwrap(defaultState);
-    let states = new Map(Object.entries(unwrappedState !== null && unwrappedState !== void 0 ? unwrappedState : {}));
+    let states = new Map(Object.entries(unwrappedState ?? {}));
     const handlers = {
         dispose: [],
         get: [],
@@ -77,10 +77,9 @@ const createObservableMap = (defaultState, shouldUpdate = (a, b) => a !== b) => 
         reset: [],
     };
     const reset = () => {
-        var _a;
         // When resetting the state, the default state may be a function - unwrap it to invoke it.
         // otherwise, the state won't be properly reset
-        states = new Map(Object.entries((_a = unwrap(defaultState)) !== null && _a !== void 0 ? _a : {}));
+        states = new Map(Object.entries(unwrap(defaultState) ?? {}));
         handlers.reset.forEach((cb) => cb());
     };
     const dispose = () => {
@@ -192,5 +191,6 @@ const createStore = (defaultState, shouldUpdate) => {
 };
 
 export { createStore as c };
+//# sourceMappingURL=index2.js.map
 
 //# sourceMappingURL=index2.js.map

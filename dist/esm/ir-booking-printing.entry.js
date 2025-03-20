@@ -1,14 +1,15 @@
-import { h, r as registerInstance, F as Fragment } from './index-2ef79026.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { a as _formatTime } from './functions-7c8c67af.js';
-import { c as calculateDaysBetweenDates, f as formatAmount } from './utils-41400f8e.js';
-import { B as BookingService } from './booking.service-888c5833.js';
-import { R as RoomService } from './room.service-5eccb4f4.js';
-import { l as locales } from './locales.store-b3d58c68.js';
-import './index-b6ec889a.js';
-import './calendar-data-707a10db.js';
-import './index-5395b195.js';
-import './axios-2aba0cfc.js';
+import { h, r as registerInstance, F as Fragment } from './index-jhiFt_tX.js';
+import { h as hooks } from './moment-Mki5YqAR.js';
+import { _ as _formatTime } from './functions-CIqUU5YU.js';
+import { i as calculateDaysBetweenDates, f as formatAmount } from './utils-DvgsFSip.js';
+import { B as BookingService } from './booking.service-DlYLJvbd.js';
+import { R as RoomService } from './room.service-CheK7apf.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import './index-DeW5X45W.js';
+import './calendar-data-D2MMPhx6.js';
+import './index-C7eXIDl2.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -42,24 +43,17 @@ const BeLogoFooter = (_a) => {
 };
 
 const irBookingPrintingCss = "p,div,section,span{margin:0;padding:0;box-sizing:border-box}:host{display:block;font-size:16px;font-weight:600;color:rgb(102, 102, 102);box-sizing:border-box}.main-container{padding:30px 15px;max-width:900px;margin-left:auto;margin-right:auto;}.label-title{padding:0;margin:0;color:rgb(51, 51, 51);font-weight:700}.label-value{padding-left:4px;color:rgb(102, 102, 102);font-weight:600}.booking-details,.pickup-container{padding:15px 0;border-top:1px solid rgb(128, 128, 128);border-bottom:1px solid rgb(128, 128, 128)}.accommodation-summary{display:flex;align-items:center;justify-content:space-between;padding:15px 0;flex-wrap:wrap;gap:10px}.booking-dates{color:rgb(51, 51, 51);font-weight:700;padding:0;margin:0}.roomtype-title td{padding-top:25px;padding-right:10px}.policies{font-size:14px}.policies-container{padding:10px 1px 15px 1px}.policies{padding-inline:1px}.room_amount_day{padding:5px}.room_amount_day.amount{font-weight:700;text-transform:capitalize}.room_amount_day.rate{font-weight:700;color:rgb(51, 51, 51)}.pricing-summary{width:100%;text-align:end;padding-left:10px;padding-bottom:15px}.room_amount.date{color:#333;background:#efefef}.room_amount.amount{margin-bottom:10px}.pricing-breakdown{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:4px}.property_name,.booked_on_date,.invoice_reference{color:rgb(51, 51, 51);font-size:14px;font-weight:700}.booking-number{font-size:20px;font-weight:600}.header{display:flex;justify-content:space-between;padding-bottom:15px}.booked_on_date{font-weight:600}.reservation-details{display:flex;align-items:center;justify-content:flex-end}.origin-icon{height:40px;width:40px}.invoice_reference{text-align:end}.billing_header{color:#333;box-sizing:border-box;font-size:16px}.billing_cell{text-align:left}.billing_table{padding:10px 0}.billing_table caption{text-align:start;font-size:18px;padding:10px 0px 15px}.pickup-details{display:flex;align-items:center;flex-wrap:wrap}.pickup_title{padding:10px 0px 15px}.car_name{color:#333;font-weight:bold;padding-right:10px}.pickup-details .label-title{padding-right:10px}.billing_reference{width:40px}.room_amount_container{display:flex;flex-direction:column}.room_amount{padding:2px;min-width:70px}.room_amount_empty{color:white;pointer-events:none;user-select:none;-webkit-user-drag:none;display:none}.room_amount_rate{display:none;color:#333;font-size:16px;font-weight:bold}.room_amount_main_container{display:flex;flex-wrap:wrap;}@media only screen and (min-width: 768px){.room_amount_container{flex-direction:column}.billing_header,.billing_cell{padding:10px}.billing_reference{width:auto}.room_amount_empty{display:block}.room_amount_rate{display:block}}";
-const IrBookingPrintingStyle0 = irBookingPrintingCss;
 
 const IrBookingPrinting = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        // @State() token: string;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
         this.token = '';
         this.bookingNumber = '';
         this.language = 'en';
-        this.propertyid = undefined;
         this.mode = 'default';
-        this.countries = undefined;
-        this.booking = undefined;
-        this.property = undefined;
-        this.guestCountryName = undefined;
-        this.isLoading = undefined;
+        // @State() token: string;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
     }
     componentWillLoad() {
         document.body.style.background = 'white';
@@ -183,8 +177,9 @@ const IrBookingPrinting = class {
         "token": ["ticketChanged"]
     }; }
 };
-IrBookingPrinting.style = IrBookingPrintingStyle0;
+IrBookingPrinting.style = irBookingPrintingCss;
 
 export { IrBookingPrinting as ir_booking_printing };
+//# sourceMappingURL=ir-booking-printing.entry.js.map
 
 //# sourceMappingURL=ir-booking-printing.entry.js.map

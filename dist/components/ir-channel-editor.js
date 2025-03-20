@@ -4,5 +4,6 @@ const IrChannelEditor = IrChannelEditor$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrChannelEditor, defineCustomElement };
+//# sourceMappingURL=ir-channel-editor.js.map
 
 //# sourceMappingURL=ir-channel-editor.js.map

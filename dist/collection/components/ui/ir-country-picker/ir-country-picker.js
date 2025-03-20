@@ -2,14 +2,7 @@ import { Fragment, h } from "@stencil/core";
 export class IrCountryPicker {
     constructor() {
         this.countries = [];
-        this.country = undefined;
-        this.error = undefined;
-        this.propertyCountry = undefined;
-        this.label = undefined;
-        this.testId = undefined;
         this.autoValidate = false;
-        this.inputValue = undefined;
-        this.selectedCountry = undefined;
         this.filteredCountries = [];
         this.searching = false;
     }
@@ -113,6 +106,8 @@ export class IrCountryPicker {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "[]"
             },
             "country": {
@@ -134,7 +129,9 @@ export class IrCountryPicker {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "error": {
                 "type": "boolean",
@@ -150,6 +147,8 @@ export class IrCountryPicker {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "error",
                 "reflect": false
             },
@@ -172,7 +171,9 @@ export class IrCountryPicker {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "label": {
                 "type": "string",
@@ -188,6 +189,8 @@ export class IrCountryPicker {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -205,6 +208,8 @@ export class IrCountryPicker {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             },
@@ -222,6 +227,8 @@ export class IrCountryPicker {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-validate",
                 "reflect": false,
                 "defaultValue": "false"

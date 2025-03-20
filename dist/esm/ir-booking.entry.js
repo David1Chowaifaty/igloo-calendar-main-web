@@ -1,24 +1,21 @@
-import { r as registerInstance, h, H as Host } from './index-2ef79026.js';
-import { T as Token } from './Token-1cce2f6d.js';
-import { F as checkUserAuthState, G as manageAnchorSession } from './utils-41400f8e.js';
-import './axios-2aba0cfc.js';
-import './moment-ab846cee.js';
-import './index-b6ec889a.js';
-import './calendar-data-707a10db.js';
-import './index-5395b195.js';
-import './locales.store-b3d58c68.js';
+import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { c as checkUserAuthState, m as manageAnchorSession } from './utils-DvgsFSip.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
+import './moment-Mki5YqAR.js';
+import './index-DeW5X45W.js';
+import './calendar-data-D2MMPhx6.js';
+import './index-C7eXIDl2.js';
+import './locales.store-BsXBgatZ.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
-const IrBookingStyle0 = irBookingCss;
 
 const IrBooking = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.token = new Token();
-        this.propertyid = undefined;
-        this.p = undefined;
-        this.bookingNumber = undefined;
         this.isAuthenticated = false;
+        this.token = new Token();
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
@@ -39,8 +36,9 @@ const IrBooking = class {
         return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
 };
-IrBooking.style = IrBookingStyle0;
+IrBooking.style = irBookingCss;
 
 export { IrBooking as ir_booking };
+//# sourceMappingURL=ir-booking.entry.js.map
 
 //# sourceMappingURL=ir-booking.entry.js.map

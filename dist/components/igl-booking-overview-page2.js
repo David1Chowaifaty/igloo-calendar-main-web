@@ -16,28 +16,12 @@ import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const iglBookingOverviewPageCss = ".sc-igl-booking-overview-page-h{display:block}.sc-igl-booking-overview-page-h>*.sc-igl-booking-overview-page{margin:0;padding:auto}.scrollContent.sc-igl-booking-overview-page{height:calc(100% - 79px);overflow:auto;position:relative}.loading-container.sc-igl-booking-overview-page{display:flex;align-items:center;justify-content:center;height:100%;background:white;position:absolute;inset:0;z-index:100}.loader.sc-igl-booking-overview-page{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}";
-const IglBookingOverviewPageStyle0 = iglBookingOverviewPageCss;
 
 const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBookingOverviewPage extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
         this.roomsDataUpdate = createEvent(this, "roomsDataUpdate", 7);
-        this.bookingData = undefined;
-        this.propertyId = undefined;
-        this.message = undefined;
-        this.showSplitBookingOption = undefined;
-        this.eventType = undefined;
-        this.currency = undefined;
-        this.adultChildConstraints = undefined;
-        this.ratePricingMode = undefined;
-        this.dateRangeData = undefined;
-        this.defaultDaterange = undefined;
-        this.selectedRooms = undefined;
-        this.adultChildCount = undefined;
-        this.sourceOptions = undefined;
-        this.bookedByInfoData = undefined;
-        this.initialRoomIds = undefined;
     }
     getSplitBookings() {
         return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];
@@ -62,7 +46,7 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
             // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
             adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: '75b76ec416d05336f7ad94f68f1e04ce4bf08687', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, (_a = booking_store.roomTypes) === null || _a === void 0 ? void 0 : _a.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) })))))), h("igl-book-property-footer", { key: 'b12d6b4eb25a8e0c5fe950e7d727e98277207873', class: 'p-0 mb-1 mt-3', eventType: this.bookingData.event_type })));
     }
-    static get style() { return IglBookingOverviewPageStyle0; }
+    static get style() { return iglBookingOverviewPageCss; }
 }, [2, "igl-booking-overview-page", {
         "bookingData": [8, "booking-data"],
         "propertyId": [2, "property-id"],
@@ -155,5 +139,6 @@ function defineCustomElement() {
 }
 
 export { IglBookingOverviewPage as I, defineCustomElement as d };
+//# sourceMappingURL=igl-booking-overview-page2.js.map
 
 //# sourceMappingURL=igl-booking-overview-page2.js.map

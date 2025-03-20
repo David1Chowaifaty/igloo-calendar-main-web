@@ -4,5 +4,6 @@ const IrSwitch = IrSwitch$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrSwitch, defineCustomElement };
+//# sourceMappingURL=ir-switch.js.map
 
 //# sourceMappingURL=ir-switch.js.map

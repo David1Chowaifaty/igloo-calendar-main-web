@@ -5,10 +5,10 @@ import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
 export class IrHkUnassignedUnits {
     constructor() {
-        this.assignedUnits = new Map();
-        this.housekeepingService = new HouseKeepingService();
         this.user = null;
         this.renderAgain = false;
+        this.assignedUnits = new Map();
+        this.housekeepingService = new HouseKeepingService();
     }
     assignUnit(unit_id, hk_id, checked) {
         if (this.user) {
@@ -136,6 +136,8 @@ export class IrHkUnassignedUnits {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "defaultValue": "null"
             }
         };

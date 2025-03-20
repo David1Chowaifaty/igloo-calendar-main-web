@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { f as formatAmount } from './utils.js';
+import { l as formatAmount } from './utils.js';
 import { c as colorVariants, d as defineCustomElement$2 } from './ir-icons2.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
@@ -10,7 +10,6 @@ import { d as defineCustomElement$3 } from './ir-date-view2.js';
 import { d as defineCustomElement$1 } from './ir-modal2.js';
 
 const irExtraServiceCss = ".sc-ir-extra-service-h{display:block}.extra-service-container.sc-ir-extra-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-service-container.sc-ir-extra-service *.sc-ir-extra-service{padding:0;margin:0;box-sizing:border-box}.extra-service-actions.sc-ir-extra-service{display:flex;align-items:center;gap:0.5rem}.extra-service-conditional-date.sc-ir-extra-service{margin-top:0.5rem}";
-const IrExtraServiceStyle0 = irExtraServiceCss;
 
 const IrExtraService = /*@__PURE__*/ proxyCustomElement(class IrExtraService extends HTMLElement {
     constructor() {
@@ -19,9 +18,6 @@ const IrExtraService = /*@__PURE__*/ proxyCustomElement(class IrExtraService ext
         this.editExtraService = createEvent(this, "editExtraService", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.bookingService = new BookingService();
-        this.service = undefined;
-        this.bookingNumber = undefined;
-        this.currencySymbol = undefined;
     }
     async deleteService() {
         try {
@@ -39,7 +35,7 @@ const IrExtraService = /*@__PURE__*/ proxyCustomElement(class IrExtraService ext
     render() {
         return (h(Host, { key: '759eab2819901c18b77c527f307722ab9e0dd24a' }, h("div", { key: '2914dafdafb7085741e46867e822b8f5380b45a0', class: "p-1" }, h("div", { key: '42b40100dfc12647c1b8bf9d95abe39e65c78833', class: 'extra-service-container' }, h("p", { key: 'f56eca07d89dfb9c04d7b958c49c74c71719fb67', class: "extra-service-description" }, this.service.description), h("div", { key: '60b34a66d7fce3e464390ee7708165deae0a46e5', class: "extra-service-actions" }, this.service.price && h("p", { key: '644725195134d4e29227a9dfc4284f35280924cd', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price)), h("ir-button", { key: '5f46c42965cf1e8d9bfbd7726c0b23458237554f', id: `serviceEdit-${this.service.booking_system_id}`, class: "extra-service-edit-btn m-0 p-0", variant: "icon", icon_name: "edit", style: colorVariants.secondary, onClickHandler: () => this.editExtraService.emit(this.service) }), h("ir-button", { key: '9eaaf9e67d28a868cf303ab4d921861fdd7f7604', class: "extra-service-delete-btn m-0 p-0", variant: "icon", onClickHandler: () => this.irModalRef.openModal(), id: `roomDelete-${this.service.booking_system_id}`, icon_name: "trash", style: colorVariants.danger }))), h("div", { key: '8bf9816cb5119e66efe48e48ddca69e55b486c0b', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-modal", { key: 'e633b9669af101ec6a491083faa396925312f279', autoClose: false, ref: el => (this.irModalRef = el), isLoading: isRequestPending('/Do_Booking_Extra_Service'), onConfirmModal: this.deleteService.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales.entries.Lcz_Confirmation, modalBody: `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}` })));
     }
-    static get style() { return IrExtraServiceStyle0; }
+    static get style() { return irExtraServiceCss; }
 }, [2, "ir-extra-service", {
         "service": [16],
         "bookingNumber": [1, "booking-number"],
@@ -80,5 +76,6 @@ function defineCustomElement() {
 }
 
 export { IrExtraService as I, defineCustomElement as d };
+//# sourceMappingURL=ir-extra-service2.js.map
 
 //# sourceMappingURL=ir-extra-service2.js.map

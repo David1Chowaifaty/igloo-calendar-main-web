@@ -3,7 +3,6 @@ import locales from "../../../../stores/locales.store";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 export class IglBookPropertyFooter {
     constructor() {
-        this.eventType = undefined;
         this.disabled = true;
     }
     isEventType(event) {
@@ -59,6 +58,8 @@ export class IglBookPropertyFooter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "event-type",
                 "reflect": false
             },
@@ -76,6 +77,8 @@ export class IglBookPropertyFooter {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "true"

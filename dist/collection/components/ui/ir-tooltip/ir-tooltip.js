@@ -1,10 +1,8 @@
 import { Host, h } from "@stencil/core";
 export class IrTooltip {
     constructor() {
-        this.message = undefined;
         this.withHtml = true;
         this.customSlot = false;
-        this.open = undefined;
     }
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {
@@ -57,6 +55,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "message",
                 "reflect": true
             },
@@ -74,6 +74,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "with-html",
                 "reflect": false,
                 "defaultValue": "true"
@@ -92,6 +94,8 @@ export class IrTooltip {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "custom-slot",
                 "reflect": false,
                 "defaultValue": "false"

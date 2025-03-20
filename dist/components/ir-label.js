@@ -4,5 +4,6 @@ const IrLabel = IrLabel$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrLabel, defineCustomElement };
+//# sourceMappingURL=ir-label.js.map
 
 //# sourceMappingURL=ir-label.js.map

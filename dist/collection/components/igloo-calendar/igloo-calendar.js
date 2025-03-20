@@ -14,6 +14,22 @@ import { addUnassignedDates, handleUnAssignedDatesChange, removeUnassignedDates 
 import Token from "../../models/Token";
 export class IglooCalendar {
     constructor() {
+        this.ticket = '';
+        this.calendarData = new Object();
+        this.days = new Array();
+        this.scrollViewDragging = false;
+        this.dialogData = null;
+        this.bookingItem = null;
+        this.editBookingItem = null;
+        this.showLegend = false;
+        this.showPaymentDetails = false;
+        this.showToBeAssigned = false;
+        this.unassignedDates = {};
+        this.roomNightsData = null;
+        this.renderAgain = false;
+        this.showBookProperty = false;
+        this.totalAvailabilityQueue = [];
+        this.isAuthenticated = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.eventsService = new EventsService();
@@ -41,33 +57,6 @@ export class IglooCalendar {
             document.removeEventListener('mousemove', this.onScrollContentMoveHandler);
             document.removeEventListener('mouseup', this.onScrollContentMoveEndHandler);
         };
-        this.propertyid = undefined;
-        this.from_date = undefined;
-        this.to_date = undefined;
-        this.language = undefined;
-        this.loadingMessage = undefined;
-        this.currencyName = undefined;
-        this.ticket = '';
-        this.p = undefined;
-        this.calendarData = new Object();
-        this.property_id = undefined;
-        this.days = new Array();
-        this.scrollViewDragging = false;
-        this.dialogData = null;
-        this.bookingItem = null;
-        this.editBookingItem = null;
-        this.showLegend = false;
-        this.showPaymentDetails = false;
-        this.showToBeAssigned = false;
-        this.unassignedDates = {};
-        this.roomNightsData = null;
-        this.renderAgain = false;
-        this.showBookProperty = false;
-        this.totalAvailabilityQueue = [];
-        this.highlightedDate = undefined;
-        this.calDates = undefined;
-        this.isAuthenticated = false;
-        this.calendarSidebarState = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -943,6 +932,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -960,6 +951,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "from_date",
                 "reflect": false
             },
@@ -977,6 +970,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "to_date",
                 "reflect": false
             },
@@ -994,6 +989,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -1011,6 +1008,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "loading-message",
                 "reflect": false
             },
@@ -1028,6 +1027,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "currency-name",
                 "reflect": false
             },
@@ -1045,6 +1046,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -1063,6 +1066,8 @@ export class IglooCalendar {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

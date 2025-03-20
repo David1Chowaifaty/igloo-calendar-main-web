@@ -3266,8 +3266,7 @@ function compareArrays(array1, array2, dontConvert) {
         i;
     for (i = 0; i < len; i++) {
         if (
-            (dontConvert && array1[i] !== array2[i]) ||
-            (!dontConvert && toInt(array1[i]) !== toInt(array2[i]))
+            (toInt(array1[i]) !== toInt(array2[i]))
         ) {
             diffs++;
         }
@@ -4465,7 +4464,7 @@ function localeErasParse(eraName, format, strict) {
 }
 
 function localeErasConvertYear(era, year) {
-    var dir = era.since <= era.until ? +1 : -1;
+    var dir = era.since <= era.until ? 1 : -1;
     if (year === undefined) {
         return hooks(era.since).year();
     } else {
@@ -4540,7 +4539,7 @@ function getEraYear() {
         val,
         eras = this.localeData().eras();
     for (i = 0, l = eras.length; i < l; ++i) {
-        dir = eras[i].since <= eras[i].until ? +1 : -1;
+        dir = eras[i].since <= eras[i].until ? 1 : -1;
 
         // truncate time
         val = this.clone().startOf('day').valueOf();
@@ -5678,5 +5677,6 @@ hooks.HTML5_FMT = {
 };
 
 export { hooks as h };
+//# sourceMappingURL=moment.js.map
 
 //# sourceMappingURL=moment.js.map

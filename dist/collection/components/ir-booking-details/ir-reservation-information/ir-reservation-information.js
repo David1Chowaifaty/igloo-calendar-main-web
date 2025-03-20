@@ -5,8 +5,6 @@ import { h } from "@stencil/core";
 import { _formatDate, _formatTime } from "../functions";
 export class IrReservationInformation {
     constructor() {
-        this.booking = undefined;
-        this.countries = undefined;
         this.userCountry = null;
     }
     componentWillLoad() {
@@ -91,7 +89,9 @@ export class IrReservationInformation {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "countries": {
                 "type": "unknown",
@@ -112,7 +112,9 @@ export class IrReservationInformation {
                 "docs": {
                     "tags": [],
                     "text": ""
-                }
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -5,24 +5,74 @@ import localeEn from "air-datepicker/locale/en";
 import moment from "moment";
 export class IrDatePicker {
     constructor() {
-        this.triggerSlot = null;
+        /**
+         * Determines whether the date picker is rendered inline or in a pop-up.
+         * If `true`, the picker is always visible inline.
+         */
         this.inline = false;
+        /**
+         * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
         this.date = null;
+        /**
+         * Enables multiple dates.
+         * If `true`, multiple selection is allowed.
+         * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
         this.multipleDates = false;
+        /**
+         * Whether the picker should allow range selection (start and end date).
+         */
         this.range = false;
+        /**
+         * Format for the date as it appears in the input field.
+         * Follows the `AirDatepicker` format rules.
+         */
         this.dateFormat = 'yyyy-MM-dd';
+        /**
+         * Enables the timepicker functionality (select hours and minutes).
+         */
         this.timepicker = false;
-        this.minDate = undefined;
-        this.maxDate = undefined;
+        /**
+         * Disables the input and prevents interaction.
+         */
         this.disabled = false;
+        /**
+         * Closes the picker automatically after a date is selected.
+         */
         this.autoClose = true;
+        /**
+         * Shows days from previous/next month in the current month's calendar.
+         */
         this.showOtherMonths = true;
+        /**
+         * Allows selecting days from previous/next month shown in the current view.
+         */
         this.selectOtherMonths = true;
+        /**
+         * Controls how the date picker is triggered.
+         * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
+         * - **`false`**: A default button input is used to open the picker.
+         *
+         * Defaults to `true`.
+         */
         this.customPicker = true;
-        this.container = undefined;
+        /**
+         * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
+         * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
+         * but note that it may affect performance if triggered frequently.
+         * Defaults to `false`.
+         */
         this.forceDestroyOnUpdate = false;
+        /**
+         * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
+         * Otherwise, empty-date changes will be ignored (no event emitted).
+         *
+         * Defaults to `false`.
+         */
         this.emitEmptyDate = false;
         this.currentDate = null;
+        this.triggerSlot = null;
     }
     componentWillLoad() {
         // Sync initial @Prop to internal state
@@ -235,6 +285,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Determines whether the date picker is rendered inline or in a pop-up.\r\nIf `true`, the picker is always visible inline."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "inline",
                 "reflect": false,
                 "defaultValue": "false"
@@ -258,6 +310,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "date",
                 "reflect": true,
                 "defaultValue": "null"
@@ -276,6 +330,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Enables multiple dates.\r\nIf `true`, multiple selection is allowed.\r\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "multiple-dates",
                 "reflect": false,
                 "defaultValue": "false"
@@ -294,6 +350,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Whether the picker should allow range selection (start and end date)."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "range",
                 "reflect": false,
                 "defaultValue": "false"
@@ -312,6 +370,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Format for the date as it appears in the input field.\r\nFollows the `AirDatepicker` format rules."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "date-format",
                 "reflect": false,
                 "defaultValue": "'yyyy-MM-dd'"
@@ -330,6 +390,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Enables the timepicker functionality (select hours and minutes)."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "timepicker",
                 "reflect": false,
                 "defaultValue": "false"
@@ -353,6 +415,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "The earliest date that can be selected."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "min-date",
                 "reflect": false
             },
@@ -375,6 +439,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "The latest date that can be selected."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "max-date",
                 "reflect": false
             },
@@ -392,6 +458,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Disables the input and prevents interaction."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -410,6 +478,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Closes the picker automatically after a date is selected."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "auto-close",
                 "reflect": false,
                 "defaultValue": "true"
@@ -428,6 +498,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Shows days from previous/next month in the current month's calendar."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "show-other-months",
                 "reflect": false,
                 "defaultValue": "true"
@@ -446,6 +518,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Allows selecting days from previous/next month shown in the current view."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "select-other-months",
                 "reflect": false,
                 "defaultValue": "true"
@@ -464,6 +538,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "Controls how the date picker is triggered.\r\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\r\n- **`false`**: A default button input is used to open the picker.\r\n\r\nDefaults to `true`."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "custom-picker",
                 "reflect": false,
                 "defaultValue": "true"
@@ -486,7 +562,9 @@ export class IrDatePicker {
                 "docs": {
                     "tags": [],
                     "text": "Pass a container element if you need the date picker to be appended to a specific element\r\nfor styling or positioning (particularly for arrow rendering).\r\nIf not provided, it defaults to `this.el`."
-                }
+                },
+                "getter": false,
+                "setter": false
             },
             "forceDestroyOnUpdate": {
                 "type": "boolean",
@@ -502,6 +580,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\r\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\r\nbut note that it may affect performance if triggered frequently.\r\nDefaults to `false`."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "force-destroy-on-update",
                 "reflect": false,
                 "defaultValue": "false"
@@ -520,6 +600,8 @@ export class IrDatePicker {
                     "tags": [],
                     "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\r\nOtherwise, empty-date changes will be ignored (no event emitted).\r\n\r\nDefaults to `false`."
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "emit-empty-date",
                 "reflect": false,
                 "defaultValue": "false"

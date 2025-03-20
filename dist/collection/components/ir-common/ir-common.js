@@ -68,6 +68,8 @@ export class IrCommon {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "extra-resources",
                 "reflect": true,
                 "defaultValue": "''"

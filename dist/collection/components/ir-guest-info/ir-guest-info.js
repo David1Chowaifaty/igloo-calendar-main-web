@@ -6,19 +6,13 @@ import Token from "../../models/Token";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 export class GuestInfo {
     constructor() {
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.token = new Token();
-        this.language = undefined;
-        this.headerShown = undefined;
-        this.email = undefined;
-        this.booking_nbr = undefined;
-        this.ticket = undefined;
-        this.isInSideBar = undefined;
-        this.countries = undefined;
+        // @State() submit: boolean = false;
         this.guest = null;
         this.isLoading = false;
         this.autoValidate = false;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.token = new Token();
     }
     async componentWillLoad() {
         if (this.ticket) {
@@ -134,6 +128,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -151,6 +147,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "header-shown",
                 "reflect": false
             },
@@ -168,6 +166,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "email",
                 "reflect": false
             },
@@ -185,6 +185,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "booking_nbr",
                 "reflect": false
             },
@@ -202,6 +204,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "ticket",
                 "reflect": false
             },
@@ -219,6 +223,8 @@ export class GuestInfo {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "is-in-side-bar",
                 "reflect": false
             }

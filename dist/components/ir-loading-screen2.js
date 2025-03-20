@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
 const irLoadingScreenCss = ".sc-ir-loading-screen-h{display:fixed;height:100vh;width:100vw;z-index:1000;top:0;left:0;display:flex;align-items:center;justify-content:center;background:white}.loader.sc-ir-loading-screen{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-loading-screen{position:absolute;z-index:100001;padding:20px;top:50%;left:50%;transform:translate(-50%, -50%);background:white;display:flex;align-items:center;justify-content:center;gap:20px;border-radius:5px}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrLoadingScreenStyle0 = irLoadingScreenCss;
 
 const IrLoadingScreen = /*@__PURE__*/ proxyCustomElement(class IrLoadingScreen extends HTMLElement {
     constructor() {
@@ -12,7 +11,7 @@ const IrLoadingScreen = /*@__PURE__*/ proxyCustomElement(class IrLoadingScreen e
     render() {
         return (h(Host, { key: '5fd3fe4fe29c193ff2abfbbc89356f4b242319e6' }, h("span", { key: 'ed88bf2faef53c5e6f573645a8eca2b88df30fd1', class: "loader" })));
     }
-    static get style() { return IrLoadingScreenStyle0; }
+    static get style() { return irLoadingScreenCss; }
 }, [2, "ir-loading-screen", {
         "message": [1]
     }]);
@@ -31,5 +30,6 @@ function defineCustomElement() {
 }
 
 export { IrLoadingScreen as I, defineCustomElement as d };
+//# sourceMappingURL=ir-loading-screen2.js.map
 
 //# sourceMappingURL=ir-loading-screen2.js.map

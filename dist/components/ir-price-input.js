@@ -4,5 +4,6 @@ const IrPriceInput = IrPriceInput$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPriceInput, defineCustomElement };
+//# sourceMappingURL=ir-price-input.js.map
 
 //# sourceMappingURL=ir-price-input.js.map

@@ -4,5 +4,6 @@ const IrChannelGeneral = IrChannelGeneral$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrChannelGeneral, defineCustomElement };
+//# sourceMappingURL=ir-channel-general.js.map
 
 //# sourceMappingURL=ir-channel-general.js.map

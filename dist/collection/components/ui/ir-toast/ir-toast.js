@@ -60,6 +60,8 @@ export class IrToast {
                     "tags": [],
                     "text": ""
                 },
+                "getter": false,
+                "setter": false,
                 "attribute": "position",
                 "reflect": true,
                 "defaultValue": "'bottom-left'"

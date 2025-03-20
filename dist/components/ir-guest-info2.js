@@ -15,7 +15,6 @@ import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-textarea2.js';
 
 const irGuestInfoCss = ".input-group-text.sc-ir-guest-info{min-width:10rem;text-align:left}.mobilePrefixSelect.sc-ir-guest-info{border-right-width:0;border-top-right-radius:0;border-bottom-right-radius:0}.mobilePrefixInput.sc-ir-guest-info{border-top-left-radius:0;border-bottom-left-radius:0}.check-container.sc-ir-guest-info{position:relative;cursor:pointer;font-size:14px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;align-items:center}.check-container.sc-ir-guest-info input.sc-ir-guest-info{position:relative;opacity:0;cursor:pointer;height:0;width:0}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info{position:relative;top:0;left:0;height:20px;width:20px;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info{background-color:#1e9ff2;border-color:#1e9ff2}.checkmark.sc-ir-guest-info:after{content:'';position:absolute;display:none}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info:after{display:block}.check-label.sc-ir-guest-info{margin-left:10px !important}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info:after{left:6px;top:3px;width:6px;height:10px;border:solid white;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.ir-card-header.sc-ir-guest-info{width:100%;border-bottom:1px solid #e4e5ec}.close-icon.sc-ir-guest-info{margin:0}.border-theme.sc-ir-guest-info{border:1px solid #cacfe7}.loading-container.sc-ir-guest-info{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
-const IrGuestInfoStyle0 = irGuestInfoCss;
 
 const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLElement {
     constructor() {
@@ -23,19 +22,13 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.token = new Token();
-        this.language = undefined;
-        this.headerShown = undefined;
-        this.email = undefined;
-        this.booking_nbr = undefined;
-        this.ticket = undefined;
-        this.isInSideBar = undefined;
-        this.countries = undefined;
+        // @State() submit: boolean = false;
         this.guest = null;
         this.isLoading = false;
         this.autoValidate = false;
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.token = new Token();
     }
     async componentWillLoad() {
         if (this.ticket) {
@@ -126,7 +119,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrGuestInfoStyle0; }
+    static get style() { return irGuestInfoCss; }
 }, [2, "ir-guest-info", {
         "language": [1],
         "headerShown": [4, "header-shown"],
@@ -201,5 +194,6 @@ function defineCustomElement() {
 }
 
 export { GuestInfo as G, defineCustomElement as d };
+//# sourceMappingURL=ir-guest-info2.js.map
 
 //# sourceMappingURL=ir-guest-info2.js.map
