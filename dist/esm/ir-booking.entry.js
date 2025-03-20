@@ -1,9 +1,12 @@
-import { r as registerInstance, h, H as Host } from './index-1d2aa5ad.js';
-import { T as Token } from './Token-acf5fbad.js';
-import { s as checkUserAuthState, t as manageAnchorSession } from './utils-8fdf9a72.js';
-import './axios-aa1335b8.js';
+import { r as registerInstance, h, H as Host } from './index-2ef79026.js';
+import { T as Token } from './Token-1cce2f6d.js';
+import { F as checkUserAuthState, G as manageAnchorSession } from './utils-41400f8e.js';
+import './axios-2aba0cfc.js';
 import './moment-ab846cee.js';
-import './index-502f9842.js';
+import './index-b6ec889a.js';
+import './calendar-data-707a10db.js';
+import './index-5395b195.js';
+import './locales.store-b3d58c68.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 const IrBookingStyle0 = irBookingCss;
@@ -11,8 +14,11 @@ const IrBookingStyle0 = irBookingCss;
 const IrBooking = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.isAuthenticated = false;
         this.token = new Token();
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.bookingNumber = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();

@@ -5,9 +5,11 @@ import { Host, h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 export class IrOptionDetails {
     constructor() {
+        this.paymentOptionService = new PaymentOptionService();
+        this.propertyId = undefined;
+        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
-        this.paymentOptionService = new PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;
@@ -152,8 +154,6 @@ export class IrOptionDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             }

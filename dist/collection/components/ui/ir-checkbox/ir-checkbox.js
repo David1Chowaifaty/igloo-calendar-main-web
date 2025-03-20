@@ -3,7 +3,11 @@ import { v4 } from "uuid";
 export class IrCheckbox {
     constructor() {
         this.checked = false;
+        this.label = undefined;
         this.checkboxId = v4();
+        this.name = undefined;
+        this.indeterminate = undefined;
+        this.disabled = undefined;
         this.currentChecked = false;
     }
     handleCheckedChange(newValue) {
@@ -58,8 +62,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "checked",
                 "reflect": false,
                 "defaultValue": "false"
@@ -78,8 +80,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -97,8 +97,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "checkbox-id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -117,8 +115,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -136,8 +132,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "indeterminate",
                 "reflect": false
             },
@@ -155,8 +149,6 @@ export class IrCheckbox {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "disabled",
                 "reflect": false
             }

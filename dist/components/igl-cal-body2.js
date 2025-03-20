@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as calendar_dates } from './booking.js';
+import { n as calendar_dates } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
@@ -25,12 +25,21 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         this.addBookingDatasEvent = createEvent(this, "addBookingDatasEvent", 7);
         this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
         this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
-        this.dragOverElement = '';
-        this.renderAgain = false;
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
         this.housekeepingService = new HouseKeepingService();
+        this.isScrollViewDragging = undefined;
+        this.propertyId = undefined;
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.currency = undefined;
+        this.language = undefined;
+        this.countries = undefined;
+        this.highlightedDate = undefined;
+        this.dragOverElement = '';
+        this.renderAgain = false;
+        this.selectedRoom = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);

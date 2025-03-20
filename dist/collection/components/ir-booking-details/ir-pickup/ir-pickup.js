@@ -6,23 +6,6 @@ import { PickupService } from "./pickup.service";
 import { MaskedRange } from "imask";
 export class IrPickup {
     constructor() {
-        this.numberOfPersons = 0;
-        this.isLoading = false;
-        this.allowedOptionsByLocation = [];
-        this.pickupData = {
-            location: -1,
-            flight_details: '',
-            due_upon_booking: '',
-            number_of_vehicles: 1,
-            vehicle_type_code: '',
-            currency: undefined,
-            arrival_time: '',
-            arrival_date: null,
-            selected_option: undefined,
-        };
-        this.vehicleCapacity = [];
-        this.cause = null;
-        this.autoValidate = false;
         this.pickupService = new PickupService();
         this.arrival_time_mask = {
             mask: 'HH:mm',
@@ -43,6 +26,27 @@ export class IrPickup {
             lazy: false,
             placeholderChar: '_',
         };
+        this.defaultPickupData = undefined;
+        this.numberOfPersons = 0;
+        this.bookingNumber = undefined;
+        this.bookingDates = undefined;
+        this.isLoading = false;
+        this.allowedOptionsByLocation = [];
+        this.pickupData = {
+            location: -1,
+            flight_details: '',
+            due_upon_booking: '',
+            number_of_vehicles: 1,
+            vehicle_type_code: '',
+            currency: undefined,
+            arrival_time: '',
+            arrival_date: null,
+            selected_option: undefined,
+        };
+        this.vehicleCapacity = [];
+        this.cause = null;
+        this.errors = undefined;
+        this.autoValidate = false;
     }
     componentWillLoad() {
         if (this.defaultPickupData) {
@@ -182,9 +186,7 @@ export class IrPickup {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "numberOfPersons": {
                 "type": "number",
@@ -200,8 +202,6 @@ export class IrPickup {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "number-of-persons",
                 "reflect": false,
                 "defaultValue": "0"
@@ -220,8 +220,6 @@ export class IrPickup {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             },
@@ -238,9 +236,7 @@ export class IrPickup {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

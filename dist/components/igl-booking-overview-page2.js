@@ -23,6 +23,21 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
         super();
         this.__registerHost();
         this.roomsDataUpdate = createEvent(this, "roomsDataUpdate", 7);
+        this.bookingData = undefined;
+        this.propertyId = undefined;
+        this.message = undefined;
+        this.showSplitBookingOption = undefined;
+        this.eventType = undefined;
+        this.currency = undefined;
+        this.adultChildConstraints = undefined;
+        this.ratePricingMode = undefined;
+        this.dateRangeData = undefined;
+        this.defaultDaterange = undefined;
+        this.selectedRooms = undefined;
+        this.adultChildCount = undefined;
+        this.sourceOptions = undefined;
+        this.bookedByInfoData = undefined;
+        this.initialRoomIds = undefined;
     }
     getSplitBookings() {
         return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];

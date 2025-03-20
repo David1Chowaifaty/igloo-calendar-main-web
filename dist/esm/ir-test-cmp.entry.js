@@ -1,5 +1,5 @@
-import { r as registerInstance, h, H as Host } from './index-1d2aa5ad.js';
-import { z, Z as ZodError } from './index-502f9842.js';
+import { r as registerInstance, h, H as Host } from './index-2ef79026.js';
+import { z, Z as ZodError } from './index-b6ec889a.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
 const IrTestCmpStyle0 = irTestCmpCss;
@@ -11,6 +11,7 @@ const IrTestCmp = class {
         this.user = {
             password: '',
         };
+        this.error = undefined;
         this.autoValidate = false;
     }
     render() {

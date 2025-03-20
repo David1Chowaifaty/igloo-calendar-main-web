@@ -5,6 +5,18 @@ import moment from "moment";
 import locales from "../../../stores/locales.store";
 export class IrRoomNights {
     constructor() {
+        this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.propertyId = undefined;
+        this.language = undefined;
+        this.identifier = undefined;
+        this.toDate = undefined;
+        this.fromDate = undefined;
+        this.pool = undefined;
+        this.ticket = undefined;
+        this.defaultDates = undefined;
+        this.bookingEvent = undefined;
+        this.selectedRoom = undefined;
         this.rates = [];
         this.isLoading = false;
         this.initialLoading = false;
@@ -13,7 +25,6 @@ export class IrRoomNights {
         this.defaultTotalNights = 0;
         this.isInputFocused = -1;
         this.dates = { from_date: new Date(), to_date: new Date() };
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
@@ -226,8 +237,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             },
@@ -245,8 +254,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -264,8 +271,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -283,8 +288,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "identifier",
                 "reflect": false
             },
@@ -302,8 +305,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "to-date",
                 "reflect": false
             },
@@ -321,8 +322,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "from-date",
                 "reflect": false
             },
@@ -340,8 +339,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "pool",
                 "reflect": false
             },
@@ -359,8 +356,6 @@ export class IrRoomNights {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false
             },
@@ -377,9 +372,7 @@ export class IrRoomNights {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

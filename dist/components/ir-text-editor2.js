@@ -16393,12 +16393,13 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
         super();
         this.__registerHost();
         this.textChange = createEvent(this, "textChange", 7);
-        /** Initial HTML content */
+        this.error = undefined;
+        this.maxLength = undefined;
         this.value = '';
-        /** If true, makes the editor read-only */
         this.readOnly = false;
-        /** Determines if the current user can edit the content */
         this.userCanEdit = true;
+        this.placeholder = undefined;
+        this.toolbarConfig = undefined;
         this.editorValue = '';
     }
     componentDidLoad() {

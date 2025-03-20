@@ -7,7 +7,9 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
     constructor() {
         super();
         this.__registerHost();
+        this.popoverTitle = undefined;
         this.irPopoverLeft = '10px';
+        this.hkStatus = undefined;
         this.cropSize = 15;
     }
     // private hkStatusColors = {

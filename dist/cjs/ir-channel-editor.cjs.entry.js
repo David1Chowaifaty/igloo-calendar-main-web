@@ -2,13 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const channel_service = require('./channel.service-7ad45ea8.js');
-const channel_store = require('./channel.store-f5ff1505.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-require('./calendar-data-eb8212ff.js');
-require('./index-3cfd4bf8.js');
-require('./axios-6e678d52.js');
+const index = require('./index-e13bd197.js');
+const channel_service = require('./channel.service-afc1b99c.js');
+const channel_store = require('./channel.store-0b870549.js');
+const locales_store = require('./locales.store-6a07d85d.js');
+require('./calendar-data-2c2bb35f.js');
+require('./index-4337b3d3.js');
+require('./axios-bc0bd15c.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 const IrChannelEditorStyle0 = irChannelEditorCss;
@@ -20,7 +20,9 @@ const IrChannelEditor = class {
         this.closeSideBar = index.createEvent(this, "closeSideBar", 7);
         this.toast = index.createEvent(this, "toast", 7);
         var _a, _b, _c;
+        this.channelService = new channel_service.ChannelService();
         this.channel_status = null;
+        this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
         this.status = false;
@@ -34,7 +36,6 @@ const IrChannelEditor = class {
             { id: 'channel_booking', name: (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_ChannelBooking, disabled: true },
         ];
         this.selectedRoomType = [];
-        this.channelService = new channel_service.ChannelService();
     }
     componentWillLoad() {
         if (this.channel_status === 'edit') {

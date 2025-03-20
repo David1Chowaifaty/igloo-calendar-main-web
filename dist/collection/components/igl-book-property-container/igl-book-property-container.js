@@ -5,13 +5,20 @@ import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
 export class IglBookPropertyContainer {
     constructor() {
-        this.language = '';
-        this.ticket = '';
-        this.withIrToastAndInterceptor = true;
-        this.calendarData = {};
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
+        this.language = '';
+        this.ticket = '';
+        this.p = undefined;
+        this.propertyid = undefined;
+        this.from_date = undefined;
+        this.to_date = undefined;
+        this.withIrToastAndInterceptor = true;
+        this.bookingItem = undefined;
+        this.showPaymentDetails = undefined;
+        this.countries = undefined;
+        this.calendarData = {};
     }
     setRoomsData(roomServiceResp) {
         var _a, _b;
@@ -123,8 +130,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
@@ -143,8 +148,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -163,8 +166,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             },
@@ -182,8 +183,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -201,8 +200,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "from_date",
                 "reflect": false
             },
@@ -220,8 +217,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "to_date",
                 "reflect": false
             },
@@ -239,8 +234,6 @@ export class IglBookPropertyContainer {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "with-ir-toast-and-interceptor",
                 "reflect": false,
                 "defaultValue": "true"

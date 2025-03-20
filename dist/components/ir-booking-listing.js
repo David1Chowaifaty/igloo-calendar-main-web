@@ -2,10 +2,9 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange } from './booking_listing.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { f as formatAmount } from './utils.js';
+import { u as getPrivateNote, f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
-import { i as getPrivateNote } from './booking.js';
 import { T as Token } from './Token.js';
 import { i as isSingleUnit } from './calendar-data.js';
 import { d as defineCustomElement$U } from './igl-application-info2.js';
@@ -71,15 +70,6 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
     constructor() {
         super();
         this.__registerHost();
-        this.language = '';
-        this.ticket = '';
-        this.rowCount = 10;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
         this.token = new Token();
@@ -89,6 +79,17 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
             '003': 'badge-danger',
             '004': 'badge-danger',
         };
+        this.language = '';
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.rowCount = 10;
+        this.p = undefined;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
     }
     componentWillLoad() {
         updateUserSelection('end_row', this.rowCount);

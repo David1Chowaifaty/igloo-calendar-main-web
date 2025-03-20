@@ -7,8 +7,10 @@ const IrTooltip = /*@__PURE__*/ proxyCustomElement(class IrTooltip extends HTMLE
     constructor() {
         super();
         this.__registerHost();
+        this.message = undefined;
         this.withHtml = true;
         this.customSlot = false;
+        this.open = undefined;
     }
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {

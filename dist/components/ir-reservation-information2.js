@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
 import { l as locales } from './locales.store.js';
-import { i as getPrivateNote } from './booking.js';
+import { u as getPrivateNote } from './utils.js';
 import { _ as _formatDate, a as _formatTime } from './functions.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-label2.js';
@@ -16,6 +16,8 @@ const IrReservationInformation = /*@__PURE__*/ proxyCustomElement(class IrReserv
         super();
         this.__registerHost();
         this.openSidebar = createEvent(this, "openSidebar", 7);
+        this.booking = undefined;
+        this.countries = undefined;
         this.userCountry = null;
     }
     componentWillLoad() {

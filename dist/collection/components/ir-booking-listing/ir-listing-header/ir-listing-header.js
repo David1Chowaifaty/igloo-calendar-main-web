@@ -5,9 +5,12 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrListingHeader {
     constructor() {
+        this.bookingListingService = new BookingListingService();
+        this.propertyId = undefined;
+        this.language = undefined;
+        this.p = undefined;
         this.inputValue = '';
         this.isLoading = null;
-        this.bookingListingService = new BookingListingService();
     }
     async handleSearchClicked(is_to_export) {
         if (this.inputValue !== '') {
@@ -110,8 +113,6 @@ export class IrListingHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -129,8 +130,6 @@ export class IrListingHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -148,8 +147,6 @@ export class IrListingHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

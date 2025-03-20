@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { s as checkUserAuthState, t as manageAnchorSession } from './utils.js';
+import { F as checkUserAuthState, G as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$x } from './igl-date-range2.js';
 import { d as defineCustomElement$w } from './ir-button2.js';
 import { d as defineCustomElement$v } from './ir-checkbox2.js';
@@ -41,8 +41,12 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     constructor() {
         super();
         this.__registerHost();
-        this.isAuthenticated = false;
         this.token = new Token();
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.bookingNumber = undefined;
+        this.isAuthenticated = false;
+        this.currentPage = undefined;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();

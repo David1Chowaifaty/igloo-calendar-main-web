@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 
 const irPasswordValidatorCss = ".sc-ir-password-validator-h{display:block}";
 const IrPasswordValidatorStyle0 = irPasswordValidatorCss;
@@ -10,9 +10,6 @@ const IrPasswordValidatorStyle0 = irPasswordValidatorCss;
 const IrPasswordValidator = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        /**
-         * The password string to validate
-         */
         this.password = '';
     }
     get validLength() {
@@ -57,13 +54,7 @@ const RequirementCheckStyle0 = requirementCheckCss;
 const RequirementCheck = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        /**
-         * Whether this requirement has been satisfied (true/false).
-         */
         this.isValid = false;
-        /**
-         * The requirement text to display (e.g. "At least one lowercase letter").
-         */
         this.text = '';
     }
     render() {

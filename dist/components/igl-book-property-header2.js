@@ -27,10 +27,6 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
         this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.sourceOptions = [];
-        this.showSplitBookingOption = false;
         this.sourceOption = {
             code: '',
             description: '',
@@ -38,6 +34,20 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
             id: '',
             type: '',
         };
+        this.splitBookingId = '';
+        this.bookingData = '';
+        this.minDate = undefined;
+        this.sourceOptions = [];
+        this.message = undefined;
+        this.bookingDataDefaultDateRange = undefined;
+        this.showSplitBookingOption = false;
+        this.adultChildConstraints = undefined;
+        this.splitBookings = undefined;
+        this.adultChildCount = undefined;
+        this.dateRangeData = undefined;
+        this.bookedByInfoData = undefined;
+        this.defaultDaterange = undefined;
+        this.propertyId = undefined;
     }
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {

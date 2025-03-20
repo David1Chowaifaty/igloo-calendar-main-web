@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 
 const irOtaServicesCss = ".sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}";
 const IrOtaServicesStyle0 = irOtaServicesCss;

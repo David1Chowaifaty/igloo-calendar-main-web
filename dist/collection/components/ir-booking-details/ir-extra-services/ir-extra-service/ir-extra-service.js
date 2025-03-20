@@ -8,6 +8,9 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 export class IrExtraService {
     constructor() {
         this.bookingService = new BookingService();
+        this.service = undefined;
+        this.bookingNumber = undefined;
+        this.currencySymbol = undefined;
     }
     async deleteService() {
         try {
@@ -58,9 +61,7 @@ export class IrExtraService {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bookingNumber": {
                 "type": "string",
@@ -76,8 +77,6 @@ export class IrExtraService {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             },
@@ -95,8 +94,6 @@ export class IrExtraService {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "currency-symbol",
                 "reflect": false
             }

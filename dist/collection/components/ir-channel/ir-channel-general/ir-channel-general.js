@@ -73,8 +73,6 @@ export class IrChannelGeneral {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "channel_status",
                 "reflect": false,
                 "defaultValue": "null"

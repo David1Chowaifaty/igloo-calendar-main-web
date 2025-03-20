@@ -2,12 +2,18 @@ import { getVisibleInventory } from "../../../../../stores/booking.store";
 import { Host, h } from "@stencil/core";
 export class IglRoomType {
     constructor() {
+        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
+        this.roomType = undefined;
         this.bookingType = 'PLUS_BOOKING';
+        this.dateDifference = undefined;
         this.ratePricingMode = [];
         this.roomInfoId = null;
+        this.currency = undefined;
+        this.initialRoomIds = undefined;
+        this.isBookDisabled = undefined;
         this.selectedRooms = [];
+        this.totalRooms = undefined;
         this.roomsDistributions = [];
-        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     }
     render() {
         var _a, _b;
@@ -67,9 +73,7 @@ export class IglRoomType {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bookingType": {
                 "type": "string",
@@ -85,8 +89,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-type",
                 "reflect": false,
                 "defaultValue": "'PLUS_BOOKING'"
@@ -105,8 +107,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "date-difference",
                 "reflect": false
             },
@@ -124,8 +124,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "[]"
             },
             "roomInfoId": {
@@ -142,8 +140,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "room-info-id",
                 "reflect": false,
                 "defaultValue": "null"
@@ -162,8 +158,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -181,8 +175,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "initial-room-ids",
                 "reflect": false
             },
@@ -200,8 +192,6 @@ export class IglRoomType {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-book-disabled",
                 "reflect": false
             }

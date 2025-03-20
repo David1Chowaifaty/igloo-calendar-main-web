@@ -10,7 +10,14 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         this.__registerHost();
         this.countryChange = createEvent(this, "countryChange", 7);
         this.countries = [];
+        this.country = undefined;
+        this.error = undefined;
+        this.propertyCountry = undefined;
+        this.label = undefined;
+        this.testId = undefined;
         this.autoValidate = false;
+        this.inputValue = undefined;
+        this.selectedCountry = undefined;
         this.filteredCountries = [];
         this.searching = false;
     }

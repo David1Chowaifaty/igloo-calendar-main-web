@@ -9,6 +9,7 @@ const IglLegends = /*@__PURE__*/ proxyCustomElement(class IglLegends extends HTM
         super();
         this.__registerHost();
         this.optionEvent = createEvent(this, "optionEvent", 7);
+        this.legendData = undefined;
     }
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });

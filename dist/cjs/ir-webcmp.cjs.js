@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 const appGlobals = require('./app-globals-3a1e7e63.js');
 
 /*
- Stencil Client Patch Browser v4.26.0 | MIT Licensed | https://stenciljs.com
+ Stencil Client Patch Browser v4.17.2 | MIT Licensed | https://stenciljs.com
  */
 var patchBrowser = () => {
   const importMeta = (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('ir-webcmp.cjs.js', document.baseURI).href));

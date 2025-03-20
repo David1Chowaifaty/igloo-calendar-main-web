@@ -13,6 +13,7 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
         this.cancelModal = createEvent(this, "cancelModal", 7);
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
+        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';

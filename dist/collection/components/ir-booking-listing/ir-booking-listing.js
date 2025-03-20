@@ -11,15 +11,6 @@ import Token from "../../models/Token";
 import { isSingleUnit } from "../../stores/calendar-data";
 export class IrBookingListing {
     constructor() {
-        this.language = '';
-        this.ticket = '';
-        this.rowCount = 10;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
         this.bookingListingService = new BookingListingService();
         this.roomService = new RoomService();
         this.token = new Token();
@@ -29,6 +20,17 @@ export class IrBookingListing {
             '003': 'badge-danger',
             '004': 'badge-danger',
         };
+        this.language = '';
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.rowCount = 10;
+        this.p = undefined;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
     }
     componentWillLoad() {
         updateUserSelection('end_row', this.rowCount);
@@ -220,8 +222,6 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
@@ -240,8 +240,6 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -260,8 +258,6 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -279,8 +275,6 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "row-count",
                 "reflect": false,
                 "defaultValue": "10"
@@ -299,8 +293,6 @@ export class IrBookingListing {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

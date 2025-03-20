@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 
 const irOtaServiceCss = ".sc-ir-ota-service-h{display:block}.extra-channel-service-container.sc-ir-ota-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-channel-service-container.sc-ir-ota-service *.sc-ir-ota-service{padding:0;margin:0;box-sizing:border-box}.extra-channel-service-actions.sc-ir-ota-service{display:flex;align-items:center;gap:0.5rem}.extra-channel-service-conditional-date.sc-ir-ota-service{margin-top:0.5rem}";
 const IrOtaServiceStyle0 = irOtaServiceCss;
@@ -10,6 +10,7 @@ const IrOtaServiceStyle0 = irOtaServiceCss;
 const IrOtaService = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.service = undefined;
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;

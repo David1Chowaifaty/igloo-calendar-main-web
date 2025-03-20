@@ -34,8 +34,6 @@ export class IrIcon {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "icon",
                 "reflect": false,
                 "defaultValue": "'ft-check'"

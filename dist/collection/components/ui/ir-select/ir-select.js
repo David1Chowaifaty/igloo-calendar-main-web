@@ -2,8 +2,15 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrSelect {
     constructor() {
+        this.count = 0;
+        this.name = undefined;
+        this.data = undefined;
         this.label = '<label>';
+        this.selectStyles = undefined;
+        this.selectForcedStyles = undefined;
+        this.selectContainerStyle = undefined;
         this.selectedValue = null;
+        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -17,11 +24,10 @@ export class IrSelect {
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
-        /** Whether the select has an error */
+        this.testId = undefined;
         this.error = false;
         this.initial = true;
         this.valid = false;
-        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
@@ -107,8 +113,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -131,9 +135,7 @@ export class IrSelect {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "label": {
                 "type": "string",
@@ -149,8 +151,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label",
                 "reflect": false,
                 "defaultValue": "'<label>'"
@@ -169,8 +169,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "select-styles",
                 "reflect": false
             },
@@ -187,9 +185,7 @@ export class IrSelect {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "selectContainerStyle": {
                 "type": "string",
@@ -205,8 +201,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "select-container-style",
                 "reflect": false
             },
@@ -224,8 +218,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "selected-value",
                 "reflect": true,
                 "defaultValue": "null"
@@ -244,8 +236,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "required",
                 "reflect": false
             },
@@ -263,8 +253,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-available",
                 "reflect": false,
                 "defaultValue": "true"
@@ -283,8 +271,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "first-option",
                 "reflect": false,
                 "defaultValue": "'Select'"
@@ -303,8 +289,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "select-style",
                 "reflect": false,
                 "defaultValue": "true"
@@ -323,8 +307,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "show-first-option",
                 "reflect": false,
                 "defaultValue": "true"
@@ -343,8 +325,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "submited",
                 "reflect": false,
                 "defaultValue": "false"
@@ -363,8 +343,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -383,8 +361,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "text-size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -403,8 +379,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-position",
                 "reflect": false,
                 "defaultValue": "'left'"
@@ -423,8 +397,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-background",
                 "reflect": false,
                 "defaultValue": "null"
@@ -443,8 +415,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-color",
                 "reflect": false,
                 "defaultValue": "'dark'"
@@ -463,8 +433,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-border",
                 "reflect": false,
                 "defaultValue": "'theme'"
@@ -483,8 +451,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-width",
                 "reflect": false,
                 "defaultValue": "3"
@@ -503,8 +469,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "select_id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -523,8 +487,6 @@ export class IrSelect {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             },
@@ -542,8 +504,6 @@ export class IrSelect {
                     "tags": [],
                     "text": "Whether the select has an error"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"

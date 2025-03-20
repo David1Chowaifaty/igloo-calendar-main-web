@@ -1,13 +1,7 @@
 import { h } from "@stencil/core";
 export class RequirementCheck {
     constructor() {
-        /**
-         * Whether this requirement has been satisfied (true/false).
-         */
         this.isValid = false;
-        /**
-         * The requirement text to display (e.g. "At least one lowercase letter").
-         */
         this.text = '';
     }
     render() {
@@ -41,8 +35,6 @@ export class RequirementCheck {
                     "tags": [],
                     "text": "Whether this requirement has been satisfied (true/false)."
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-valid",
                 "reflect": false,
                 "defaultValue": "false"
@@ -61,8 +53,6 @@ export class RequirementCheck {
                     "tags": [],
                     "text": "The requirement text to display (e.g. \"At least one lowercase letter\")."
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "text",
                 "reflect": false,
                 "defaultValue": "''"

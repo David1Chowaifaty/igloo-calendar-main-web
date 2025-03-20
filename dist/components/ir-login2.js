@@ -27,9 +27,11 @@ const IrLogin = /*@__PURE__*/ proxyCustomElement(class IrLogin extends HTMLEleme
         super();
         this.__registerHost();
         this.authFinish = createEvent(this, "authFinish", 7);
-        this.showPassword = false;
         this.authService = new AuthService();
         this.token = new Token();
+        this.username = undefined;
+        this.password = undefined;
+        this.showPassword = false;
     }
     async handleSignIn(e) {
         e.preventDefault();

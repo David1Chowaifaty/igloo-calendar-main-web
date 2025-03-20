@@ -6,12 +6,14 @@ import { PaymentService } from "../../../services/payment.service";
 import moment from "moment";
 export class IrListingModal {
     constructor() {
-        this.modalTitle = 'Modal Title';
-        this.isOpen = false;
-        this.deletionStage = 1;
-        this.loadingBtn = null;
         this.bookingListingsService = new BookingListingService();
         this.paymentService = new PaymentService();
+        this.modalTitle = 'Modal Title';
+        this.editBooking = undefined;
+        this.isOpen = false;
+        this.deletionStage = 1;
+        this.selectedDesignation = undefined;
+        this.loadingBtn = null;
     }
     componentWillLoad() {
         this.selectedDesignation = booking_listing.settlement_methods[0].name;
@@ -148,8 +150,6 @@ export class IrListingModal {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "modal-title",
                 "reflect": false,
                 "defaultValue": "'Modal Title'"
@@ -173,9 +173,7 @@ export class IrListingModal {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

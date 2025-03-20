@@ -4,9 +4,10 @@ import { BookingService } from "../../../services/booking.service";
 import { getPrivateNote } from "../../../utils/booking";
 export class IrBookingExtraNote {
     constructor() {
+        this.bookingService = new BookingService();
+        this.booking = undefined;
         this.isLoading = false;
         this.note = '';
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         if (this.booking.extras) {
@@ -92,9 +93,7 @@ export class IrBookingExtraNote {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

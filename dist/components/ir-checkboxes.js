@@ -6,8 +6,8 @@ const IrCheckBoxes = /*@__PURE__*/ proxyCustomElement(class IrCheckBoxes extends
         super();
         this.__registerHost();
         this.checkboxesChange = createEvent(this, "checkboxesChange", 7);
-        this.checkboxes = [];
         this.checkedCheckboxes = [];
+        this.checkboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {

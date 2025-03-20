@@ -69,11 +69,16 @@ const IglApplicationInfo = /*@__PURE__*/ proxyCustomElement(class IglApplication
     constructor() {
         super();
         this.__registerHost();
+        this.variationService = new VariationService();
+        this.rateplanSelection = undefined;
+        this.guestInfo = undefined;
+        this.currency = undefined;
         this.bedPreferenceType = [];
         this.bookingType = 'PLUS_BOOKING';
+        this.roomIndex = undefined;
         this.totalNights = 1;
+        this.baseData = undefined;
         this.isButtonPressed = false;
-        this.variationService = new VariationService();
     }
     componentWillLoad() {
         var _a, _b;

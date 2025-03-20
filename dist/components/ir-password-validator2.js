@@ -9,9 +9,6 @@ const IrPasswordValidator = /*@__PURE__*/ proxyCustomElement(class IrPasswordVal
     constructor() {
         super();
         this.__registerHost();
-        /**
-         * The password string to validate
-         */
         this.password = '';
     }
     get validLength() {

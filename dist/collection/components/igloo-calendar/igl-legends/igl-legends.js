@@ -1,6 +1,9 @@
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 export class IglLegends {
+    constructor() {
+        this.legendData = undefined;
+    }
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
     }
@@ -34,9 +37,7 @@ export class IglLegends {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

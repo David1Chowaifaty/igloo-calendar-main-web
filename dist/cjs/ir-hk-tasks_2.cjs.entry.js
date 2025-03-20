@@ -2,17 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const Token = require('./Token-049041c2.js');
-const housekeeping_service = require('./housekeeping.service-11b9602a.js');
-const room_service = require('./room.service-e0eb710b.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
-const locales_store = require('./locales.store-7abd65bc.js');
+const index = require('./index-e13bd197.js');
+const Token = require('./Token-b49ba031.js');
+const housekeeping_service = require('./housekeeping.service-9317004f.js');
+const room_service = require('./room.service-d1c4a756.js');
+const irInterceptor_store = require('./ir-interceptor.store-f1d56830.js');
+const locales_store = require('./locales.store-6a07d85d.js');
 const moment = require('./moment-1780b03a.js');
 const v4 = require('./v4-9b297151.js');
-const calendarData = require('./calendar-data-eb8212ff.js');
-require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
+const calendarData = require('./calendar-data-2c2bb35f.js');
+require('./axios-bc0bd15c.js');
+require('./index-4337b3d3.js');
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
 const IrHkTasksStyle0 = irHkTasksCss;
@@ -21,19 +21,25 @@ const IrHkTasks = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.clearSelectedHkTasks = index.createEvent(this, "clearSelectedHkTasks", 7);
+        this.hkNameCache = {};
+        this.roomService = new room_service.RoomService();
+        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
+        this.token = new Token.Token();
         this.language = '';
         this.ticket = '';
+        this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
+        this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
-        this.hkNameCache = {};
-        this.roomService = new room_service.RoomService();
-        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
-        this.token = new Token.Token();
+        this.isSidebarOpen = undefined;
+        this.isApplyFiltersLoading = undefined;
+        this.filters = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -217,12 +223,14 @@ const IrHousekeeping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.toast = index.createEvent(this, "toast", 7);
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = false;
         this.roomService = new room_service.RoomService();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.token = new Token.Token();
+        this.language = '';
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.isLoading = false;
     }
     componentWillLoad() {
         if (this.ticket !== '') {

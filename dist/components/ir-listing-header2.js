@@ -39,9 +39,12 @@ const IrListingHeader = /*@__PURE__*/ proxyCustomElement(class IrListingHeader e
         super();
         this.__registerHost();
         this.preventPageLoad = createEvent(this, "preventPageLoad", 7);
+        this.bookingListingService = new BookingListingService();
+        this.propertyId = undefined;
+        this.language = undefined;
+        this.p = undefined;
         this.inputValue = '';
         this.isLoading = null;
-        this.bookingListingService = new BookingListingService();
     }
     async handleSearchClicked(is_to_export) {
         if (this.inputValue !== '') {

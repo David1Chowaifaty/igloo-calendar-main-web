@@ -21,10 +21,6 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
         this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
         this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
         this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
-        this.showDatesList = false;
-        this.renderAgain = false;
-        this.orderedDatesList = [];
-        this.noScroll = false;
         this.isGotoToBeAssignedDate = false;
         this.isLoading = true;
         this.selectedDate = null;
@@ -32,6 +28,16 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
         this.today = new Date();
         this.categoriesData = {};
         this.toBeAssignedService = new ToBeAssignedService();
+        this.unassignedDatesProp = undefined;
+        this.propertyid = undefined;
+        this.from_date = undefined;
+        this.to_date = undefined;
+        this.calendarData = undefined;
+        this.loadingMessage = undefined;
+        this.showDatesList = false;
+        this.renderAgain = false;
+        this.orderedDatesList = [];
+        this.noScroll = false;
     }
     componentWillLoad() {
         this.reArrangeData();

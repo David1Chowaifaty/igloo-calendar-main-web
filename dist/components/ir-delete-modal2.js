@@ -27,10 +27,11 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
         this.__registerHost();
         this.modalClosed = createEvent(this, "modalClosed", 7);
         this.resetData = createEvent(this, "resetData", 7);
+        this.housekeepingService = new HouseKeepingService();
+        this.user = undefined;
         this.isOpen = false;
         this.selectedId = '';
         this.loadingBtn = null;
-        this.housekeepingService = new HouseKeepingService();
     }
     async closeModal() {
         if (this.modalEl) {

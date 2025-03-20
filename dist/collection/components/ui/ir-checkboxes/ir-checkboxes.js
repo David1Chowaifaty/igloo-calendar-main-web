@@ -1,8 +1,8 @@
 import { h } from "@stencil/core";
 export class IrCheckBoxes {
     constructor() {
-        this.checkboxes = [];
         this.checkedCheckboxes = [];
+        this.checkboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {
@@ -45,8 +45,6 @@ export class IrCheckBoxes {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "[]"
             }
         };

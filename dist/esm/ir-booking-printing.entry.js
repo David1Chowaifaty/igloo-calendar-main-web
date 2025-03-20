@@ -1,15 +1,14 @@
-import { h, r as registerInstance, F as Fragment } from './index-1d2aa5ad.js';
+import { h, r as registerInstance, F as Fragment } from './index-2ef79026.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { a as _formatTime } from './functions-7c8c67af.js';
-import { c as calculateDaysBetweenDates } from './booking-a00daffc.js';
-import { B as BookingService } from './booking.service-fa00d4fd.js';
-import { R as RoomService } from './room.service-0fe1d11d.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import { f as formatAmount } from './utils-8fdf9a72.js';
-import './axios-aa1335b8.js';
-import './index-e42e9935.js';
-import './calendar-data-ce538d8c.js';
-import './index-502f9842.js';
+import { c as calculateDaysBetweenDates, f as formatAmount } from './utils-41400f8e.js';
+import { B as BookingService } from './booking.service-888c5833.js';
+import { R as RoomService } from './room.service-5eccb4f4.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import './index-b6ec889a.js';
+import './calendar-data-707a10db.js';
+import './index-5395b195.js';
+import './axios-2aba0cfc.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -48,13 +47,19 @@ const IrBookingPrintingStyle0 = irBookingPrintingCss;
 const IrBookingPrinting = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.token = '';
-        this.bookingNumber = '';
-        this.language = 'en';
-        this.mode = 'default';
         // @State() token: string;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
+        this.token = '';
+        this.bookingNumber = '';
+        this.language = 'en';
+        this.propertyid = undefined;
+        this.mode = 'default';
+        this.countries = undefined;
+        this.booking = undefined;
+        this.property = undefined;
+        this.guestCountryName = undefined;
+        this.isLoading = undefined;
     }
     componentWillLoad() {
         document.body.style.background = 'white';

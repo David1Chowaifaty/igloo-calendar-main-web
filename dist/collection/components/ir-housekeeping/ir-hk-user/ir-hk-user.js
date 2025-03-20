@@ -7,22 +7,6 @@ import { Host, h } from "@stencil/core";
 import { z, ZodError } from "zod";
 export class IrHkUser {
     constructor() {
-        this.user = null;
-        this.isEdit = false;
-        this.isLoading = false;
-        this.autoValidate = false;
-        this.userInfo = {
-            id: -1,
-            mobile: '',
-            name: '',
-            note: '',
-            password: '',
-            property_id: null,
-            username: null,
-            phone_prefix: null,
-        };
-        this.errors = null;
-        this.showPasswordValidation = false;
         this.housekeepingService = new HouseKeepingService();
         this.default_properties = {
             token: '',
@@ -42,6 +26,23 @@ export class IrHkUser {
                 return true;
             }, { message: 'Username already exists.' }),
         });
+        this.user = null;
+        this.isEdit = false;
+        this.isLoading = false;
+        this.autoValidate = false;
+        this.userInfo = {
+            id: -1,
+            mobile: '',
+            name: '',
+            note: '',
+            password: '',
+            property_id: null,
+            username: null,
+            phone_prefix: null,
+        };
+        this.errors = null;
+        this.showPasswordValidation = false;
+        this.isUsernameTaken = undefined;
     }
     async componentWillLoad() {
         const { token, language, property_id } = getDefaultProperties();
@@ -142,8 +143,6 @@ export class IrHkUser {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "null"
             },
             "isEdit": {
@@ -160,8 +159,6 @@ export class IrHkUser {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-edit",
                 "reflect": false,
                 "defaultValue": "false"

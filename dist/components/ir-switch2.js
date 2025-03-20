@@ -8,9 +8,10 @@ const IrSwitch = /*@__PURE__*/ proxyCustomElement(class IrSwitch extends HTMLEle
         super();
         this.__registerHost();
         this.checkChange = createEvent(this, "checkChange", 7);
-        this.checked = false;
-        this.disabled = false;
         this._id = '';
+        this.checked = false;
+        this.switchId = undefined;
+        this.disabled = false;
     }
     componentWillLoad() {
         this._id = this.generateRandomId(10);

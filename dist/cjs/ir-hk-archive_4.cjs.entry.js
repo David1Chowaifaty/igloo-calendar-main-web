@@ -2,15 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const housekeeping_service = require('./housekeeping.service-11b9602a.js');
-const calendarData = require('./calendar-data-eb8212ff.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
-const locales_store = require('./locales.store-7abd65bc.js');
+const index = require('./index-e13bd197.js');
+const housekeeping_service = require('./housekeeping.service-9317004f.js');
+const calendarData = require('./calendar-data-2c2bb35f.js');
+const irInterceptor_store = require('./ir-interceptor.store-f1d56830.js');
+const locales_store = require('./locales.store-6a07d85d.js');
 const moment = require('./moment-1780b03a.js');
 const v4 = require('./v4-9b297151.js');
-require('./index-3cfd4bf8.js');
-require('./axios-6e678d52.js');
+require('./index-4337b3d3.js');
+require('./axios-bc0bd15c.js');
 
 const irHkArchiveCss = ".sc-ir-hk-archive-h{display:block}";
 const IrHkArchiveStyle0 = irHkArchiveCss;
@@ -18,6 +18,9 @@ const IrHkArchiveStyle0 = irHkArchiveCss;
 const IrHkArchive = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
+        this.units = [];
+        this.propertyId = undefined;
         this.filters = {
             from_date: moment.hooks().add(-90, 'days').format('YYYY-MM-DD'),
             to_date: moment.hooks().format('YYYY-MM-DD'),
@@ -26,8 +29,6 @@ const IrHkArchive = class {
         };
         this.data = [];
         this.isLoading = null;
-        this.houseKeepingService = new housekeeping_service.HouseKeepingService();
-        this.units = [];
     }
     componentWillLoad() {
         this.initializeData();
@@ -144,6 +145,7 @@ const IrTasksFilters = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.applyFilters = index.createEvent(this, "applyFilters", 7);
+        this.isLoading = undefined;
         this.filters = {
             cleaning_periods: {
                 code: '',
@@ -269,21 +271,9 @@ const IrTasksTable = class {
         this.animateCleanedButton = index.createEvent(this, "animateCleanedButton", 7);
         this.rowSelectChange = index.createEvent(this, "rowSelectChange", 7);
         this.tasks = [];
-        /**
-         * Tracks which task IDs are currently selected via checkboxes.
-         */
         this.selectedIds = [];
-        /**
-         * Controls whether the "Confirm Clean" modal is shown.
-         */
         this.showConfirmModal = false;
-        /**
-         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
-         */
         this.sortKey = 'date';
-        /**
-         * The sort direction: ASC or DESC.
-         */
         this.sortDirection = 'ASC';
         this.checkableTasks = [];
     }

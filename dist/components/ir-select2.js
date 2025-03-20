@@ -9,8 +9,15 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         super();
         this.__registerHost();
         this.selectChange = createEvent(this, "selectChange", 7);
+        this.count = 0;
+        this.name = undefined;
+        this.data = undefined;
         this.label = '<label>';
+        this.selectStyles = undefined;
+        this.selectForcedStyles = undefined;
+        this.selectContainerStyle = undefined;
         this.selectedValue = null;
+        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -24,11 +31,10 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
-        /** Whether the select has an error */
+        this.testId = undefined;
         this.error = false;
         this.initial = true;
         this.valid = false;
-        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {

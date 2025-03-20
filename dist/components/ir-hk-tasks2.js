@@ -33,19 +33,25 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         super();
         this.__registerHost();
         this.clearSelectedHkTasks = createEvent(this, "clearSelectedHkTasks", 7);
+        this.hkNameCache = {};
+        this.roomService = new RoomService();
+        this.houseKeepingService = new HouseKeepingService();
+        this.token = new Token();
         this.language = '';
         this.ticket = '';
+        this.propertyid = undefined;
+        this.p = undefined;
         this.isLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
+        this.property_id = undefined;
         this.tasks = [];
         this.selectedTasks = [];
-        this.hkNameCache = {};
-        this.roomService = new RoomService();
-        this.houseKeepingService = new HouseKeepingService();
-        this.token = new Token();
+        this.isSidebarOpen = undefined;
+        this.isApplyFiltersLoading = undefined;
+        this.filters = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {

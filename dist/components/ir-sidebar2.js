@@ -10,9 +10,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.__registerHost();
         this.__attachShadow();
         this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
+        this.name = undefined;
         this.side = 'right';
         this.showCloseButton = true;
         this.open = false;
+        this.sidebarStyles = undefined;
+        this.label = undefined;
     }
     applyStyles() {
         for (const property in this.sidebarStyles) {

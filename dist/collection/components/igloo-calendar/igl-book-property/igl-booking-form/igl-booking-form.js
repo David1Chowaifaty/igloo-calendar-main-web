@@ -6,6 +6,23 @@ import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
 export class IglBookingForm {
     constructor() {
+        this.showPaymentDetails = undefined;
+        this.currency = undefined;
+        this.isEditOrAddRoomEvent = undefined;
+        this.dateRangeData = undefined;
+        this.bookingData = undefined;
+        this.showSplitBookingOption = undefined;
+        this.language = undefined;
+        this.bookedByInfoData = undefined;
+        this.propertyId = undefined;
+        this.bedPreferenceType = undefined;
+        this.selectedRooms = undefined;
+        this.isLoading = undefined;
+        this.countries = undefined;
+        this.selectedGuestData = undefined;
+        this.defaultGuestData = undefined;
+        this.selectedBookedByData = undefined;
+        this.guestData = undefined;
         this.selectedUnits = {};
     }
     componentWillLoad() {
@@ -142,8 +159,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "show-payment-details",
                 "reflect": false
             },
@@ -166,9 +181,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "isEditOrAddRoomEvent": {
                 "type": "boolean",
@@ -184,8 +197,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-edit-or-add-room-event",
                 "reflect": true
             },
@@ -202,9 +213,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bookingData": {
                 "type": "unknown",
@@ -219,9 +228,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "showSplitBookingOption": {
                 "type": "boolean",
@@ -237,8 +244,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "show-split-booking-option",
                 "reflect": false
             },
@@ -256,8 +261,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -274,9 +277,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "propertyId": {
                 "type": "number",
@@ -292,8 +293,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -311,8 +310,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "bed-preference-type",
                 "reflect": false
             },
@@ -334,9 +331,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "isLoading": {
                 "type": "string",
@@ -352,8 +347,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-loading",
                 "reflect": true
             },
@@ -376,9 +369,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "selectedGuestData": {
                 "type": "any",
@@ -394,8 +385,6 @@ export class IglBookingForm {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "selected-guest-data",
                 "reflect": false
             },
@@ -418,9 +407,7 @@ export class IglBookingForm {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

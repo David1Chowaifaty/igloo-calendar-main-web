@@ -2,18 +2,22 @@ import { Host, h } from "@stencil/core";
 import { ToBeAssignedService } from "../../../../services/toBeAssigned.service";
 import { v4 } from "uuid";
 import locales from "../../../../stores/locales.store";
-import calendar_data from "../../../../stores/calendar-data";
-import moment from "moment";
+import { canCheckIn } from "../../../../utils/utils";
 export class IglTbaBookingView {
     constructor() {
-        this.eventData = {};
-        this.categoriesData = {};
-        this.renderAgain = false;
-        this.selectedRoom = -1;
-        this.isLoading = null;
         this.highlightSection = false;
         this.allRoomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
+        this.calendarData = undefined;
+        this.selectedDate = undefined;
+        this.eventData = {};
+        this.categoriesData = {};
+        this.categoryId = undefined;
+        this.categoryIndex = undefined;
+        this.eventIndex = undefined;
+        this.renderAgain = false;
+        this.selectedRoom = -1;
+        this.isLoading = null;
     }
     componentShouldUpdate(newValue, oldValue, propName) {
         if (propName === 'selectedDate' && newValue !== oldValue) {
@@ -54,12 +58,33 @@ export class IglTbaBookingView {
         this.selectedRoom = parseInt(evt.target.value);
     }
     async handleAssignUnit(event, check_in = false) {
+        var _a, _b;
         try {
             event.stopImmediatePropagation();
             event.stopPropagation();
             if (this.selectedRoom) {
                 this.isLoading = check_in ? 'checkin' : 'default';
-                await this.toBeAssignedService.assignUnit({ booking_nbr: this.eventData.BOOKING_NUMBER, identifier: this.eventData.ID, pr_id: this.selectedRoom, check_in });
+                const booking = await this.toBeAssignedService.assignUnit({
+                    booking_nbr: this.eventData.BOOKING_NUMBER,
+                    identifier: this.eventData.ID,
+                    pr_id: this.selectedRoom,
+                    check_in,
+                });
+                const room = booking.rooms.find(r => r.identifier === this.eventData.identifier);
+                if (room) {
+                    const { adult_nbr, children_nbr, infant_nbr } = room.occupancy;
+                    this.openCalendarSidebar.emit({
+                        type: 'room-guests',
+                        payload: {
+                            identifier: this.eventData.ID,
+                            bookingNumber: this.eventData.BOOKING_NUMBER,
+                            checkin: false,
+                            roomName: (_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : '',
+                            sharing_persons: room.sharing_persons,
+                            totalGuests: adult_nbr + children_nbr + infant_nbr,
+                        },
+                    });
+                }
                 let assignEvent = Object.assign(Object.assign({}, this.eventData), { PR_ID: this.selectedRoom });
                 this.addToBeAssignedEvent.emit({
                     key: 'tobeAssignedEvents',
@@ -122,16 +147,25 @@ export class IglTbaBookingView {
         this.renderAgain = !this.renderAgain;
     }
     canCheckIn() {
-        if (!calendar_data.checkin_enabled) {
-            return false;
-        }
-        if (moment(new Date()).isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && moment(new Date()).isBefore(new Date(this.eventData.TO_DATE), 'days')) {
-            return true;
-        }
-        return false;
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // const now = moment();
+        // if (
+        //   (moment().isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && moment().isBefore(new Date(this.eventData.TO_DATE), 'days')) ||
+        //   (moment().isSame(new Date(this.eventData.TO_DATE), 'days') &&
+        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
+        // ) {
+        //   return true;
+        // }
+        // return false;
+        return canCheckIn({
+            from_date: this.eventData.FROM_DATE,
+            to_date: this.eventData.TO_DATE,
+        });
     }
     render() {
-        return (h(Host, { key: 'ba7ad570897dde28eb98b4a1af2c5d55a3bb883c' }, h("div", { key: 'f9a8857df7cdc782065bece9260f95b784274fa6', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '60ef3f62c08b5a879e0bd8c1ca30ec2c4c4ad74d', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '51e2f0dae1c8c6eb45dc2c16ae84afa823f5ce6c', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '73e0843d0038f0092cf57b727dafb75210265d73', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '7c48790b310a5393e6c87d121d510da58b1dac54', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '1630b2a111b3ef1c422d4297fe5fc5265901db5a', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: 'a85dfccebe50e6309ce0b94e645b5fe9857aa594', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '1e8ec55c4696b8d82b5f02c3134d7b07acc0ce98', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '2dd6409e2878300e3262264aabede8b98ec02429' }))));
+        return (h(Host, { key: 'ddfffbf607b8456edaca6d66bfab97952acae661' }, h("div", { key: 'd8e261480c39724d53c535ceb5ba2b932911031c', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '57bd27884f6ff1cafc44dc38581c48acba1eb48a', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '5c64826f602080d010099c6567d294d39ec0c374', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '20e3a1b89b16c66bb89c69f18feed937a3b23ba7', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '100dc949b49bee919666e66e51dc8a45fb1ebfed', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '37364d9ea798dea4cd2a3c1b1c97333cb2b38a98', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: '9925338a9c82b99b5c91cd5cf6b0da985797e59d', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '3dda9204dd6ee5ed028e843972d9db7ea62d33df', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '580645c7484862eff1ebb0b907b347bcbdd5cdc8' }))));
     }
     static get is() { return "igl-tba-booking-view"; }
     static get encapsulation() { return "scoped"; }
@@ -160,9 +194,7 @@ export class IglTbaBookingView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "selectedDate": {
                 "type": "any",
@@ -178,8 +210,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "selected-date",
                 "reflect": false
             },
@@ -197,8 +227,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "{}"
             },
             "categoriesData": {
@@ -215,8 +243,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "{}"
             },
             "categoryId": {
@@ -233,8 +259,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "category-id",
                 "reflect": false
             },
@@ -252,8 +276,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "category-index",
                 "reflect": false
             },
@@ -271,8 +293,6 @@ export class IglTbaBookingView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "event-index",
                 "reflect": false
             }
@@ -300,6 +320,27 @@ export class IglTbaBookingView {
                     "original": "any",
                     "resolved": "any",
                     "references": {}
+                }
+            }, {
+                "method": "openCalendarSidebar",
+                "name": "openCalendarSidebar",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "CalendarSidebarState",
+                    "resolved": "{ type: \"room-guests\" | \"booking-details\" | \"add-days\"; payload: any; }",
+                    "references": {
+                        "CalendarSidebarState": {
+                            "location": "import",
+                            "path": "@/components/igloo-calendar/igloo-calendar",
+                            "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState"
+                        }
+                    }
                 }
             }, {
                 "method": "addToBeAssignedEvent",

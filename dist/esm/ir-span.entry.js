@@ -1,8 +1,9 @@
-import { r as registerInstance, h } from './index-1d2aa5ad.js';
+import { r as registerInstance, h } from './index-2ef79026.js';
 
 const IrSpan = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.text = undefined;
     }
     connectedCallback() { }
     disconnectedCallback() { }

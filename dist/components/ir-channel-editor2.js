@@ -80,7 +80,9 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.toast = createEvent(this, "toast", 7);
         var _a, _b, _c;
+        this.channelService = new ChannelService();
         this.channel_status = null;
+        this.ticket = undefined;
         this.selectedTab = '';
         this.isLoading = false;
         this.status = false;
@@ -94,7 +96,6 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
             { id: 'channel_booking', name: (_c = locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_ChannelBooking, disabled: true },
         ];
         this.selectedRoomType = [];
-        this.channelService = new ChannelService();
     }
     componentWillLoad() {
         if (this.channel_status === 'edit') {

@@ -84,26 +84,21 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        /**
-         * An array of people sharing the room.
-         * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
-         */
+        this.bookingService = new BookingService();
+        this.roomName = undefined;
+        this.identifier = undefined;
         this.sharedPersons = [];
-        /**
-         * The total number of guests for the room.
-         * Determines how many guest input forms to display in the UI.
-         */
         this.totalGuests = 0;
-        /**
-         * The language used for displaying text content in the component.
-         * Defaults to English ('en'), but can be set to other supported languages.
-         */
+        this.countries = undefined;
+        this.checkIn = undefined;
         this.language = 'en';
+        this.bookingNumber = undefined;
         this.guests = [];
         this.idTypes = [];
         this.error = {};
+        this.isLoading = undefined;
+        this.propertyCountry = undefined;
         this.autoValidate = false;
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.init();

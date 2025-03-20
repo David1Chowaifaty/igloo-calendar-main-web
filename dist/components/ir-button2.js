@@ -10,6 +10,8 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         super();
         this.__registerHost();
         this.clickHandler = createEvent(this, "clickHandler", 7);
+        this.name = undefined;
+        this.text = undefined;
         this.icon = 'ft-save';
         this.btn_color = 'primary';
         this.size = 'md';
@@ -18,11 +20,15 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.btn_disabled = false;
         this.btn_type = 'button';
         this.isLoading = false;
+        this.btn_styles = undefined;
         this.btn_id = v4();
         this.variant = 'default';
+        this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
         this.iconPosition = 'left';
-        /** If true, will render `content` as HTML */
+        this.icon_style = undefined;
+        this.btnStyle = undefined;
+        this.labelStyle = undefined;
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {

@@ -22,6 +22,12 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.bookingService = new BookingService();
+        this.booking = undefined;
+        this.service = undefined;
+        this.s_service = undefined;
+        this.error = undefined;
+        this.fromDateClicked = undefined;
+        this.toDateClicked = undefined;
     }
     // private d1: HTMLDivElement;
     // private d1_0: HTMLDivElement;

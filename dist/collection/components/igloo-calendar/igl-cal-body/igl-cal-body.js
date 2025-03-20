@@ -6,12 +6,21 @@ import { HouseKeepingService } from "../../../services/housekeeping.service";
 import moment from "moment";
 export class IglCalBody {
     constructor() {
-        this.dragOverElement = '';
-        this.renderAgain = false;
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
         this.housekeepingService = new HouseKeepingService();
+        this.isScrollViewDragging = undefined;
+        this.propertyId = undefined;
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.currency = undefined;
+        this.language = undefined;
+        this.countries = undefined;
+        this.highlightedDate = undefined;
+        this.dragOverElement = '';
+        this.renderAgain = false;
+        this.selectedRoom = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -338,8 +347,6 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-scroll-view-dragging",
                 "reflect": false
             },
@@ -357,8 +364,6 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -375,9 +380,7 @@ export class IglCalBody {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "today": {
                 "type": "unknown",
@@ -397,9 +400,7 @@ export class IglCalBody {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "currency": {
                 "type": "any",
@@ -415,8 +416,6 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -434,8 +433,6 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -458,9 +455,7 @@ export class IglCalBody {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "highlightedDate": {
                 "type": "string",
@@ -476,8 +471,6 @@ export class IglCalBody {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "highlighted-date",
                 "reflect": false
             }

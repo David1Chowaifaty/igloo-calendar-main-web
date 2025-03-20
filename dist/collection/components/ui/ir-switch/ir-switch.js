@@ -1,9 +1,10 @@
 import { Host, h } from "@stencil/core";
 export class IrSwitch {
     constructor() {
-        this.checked = false;
-        this.disabled = false;
         this._id = '';
+        this.checked = false;
+        this.switchId = undefined;
+        this.disabled = false;
     }
     componentWillLoad() {
         this._id = this.generateRandomId(10);
@@ -59,8 +60,6 @@ export class IrSwitch {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "checked",
                 "reflect": false,
                 "defaultValue": "false"
@@ -79,8 +78,6 @@ export class IrSwitch {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "switch-id",
                 "reflect": false
             },
@@ -98,8 +95,6 @@ export class IrSwitch {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"

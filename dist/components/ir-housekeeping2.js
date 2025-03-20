@@ -34,12 +34,14 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = false;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
+        this.language = '';
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.isLoading = false;
     }
     componentWillLoad() {
         if (this.ticket !== '') {

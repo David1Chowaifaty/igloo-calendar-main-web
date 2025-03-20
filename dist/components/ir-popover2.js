@@ -17647,11 +17647,12 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
     constructor() {
         super();
         this.__registerHost();
+        this.initialized = false;
+        this.content = undefined;
         this.irPopoverLeft = '10px';
         this.placement = 'auto';
         this.trigger = 'focus';
         this.renderContentAsHtml = false;
-        this.initialized = false;
     }
     componentDidLoad() {
         if (this.initialized) {

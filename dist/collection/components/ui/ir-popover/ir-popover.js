@@ -2,11 +2,12 @@ import { Host, h } from "@stencil/core";
 import "bootstrap";
 export class IrPopover {
     constructor() {
+        this.initialized = false;
+        this.content = undefined;
         this.irPopoverLeft = '10px';
         this.placement = 'auto';
         this.trigger = 'focus';
         this.renderContentAsHtml = false;
-        this.initialized = false;
     }
     componentDidLoad() {
         if (this.initialized) {
@@ -61,8 +62,6 @@ export class IrPopover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "content",
                 "reflect": false
             },
@@ -80,8 +79,6 @@ export class IrPopover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ir-popover-left",
                 "reflect": false,
                 "defaultValue": "'10px'"
@@ -100,8 +97,6 @@ export class IrPopover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "placement",
                 "reflect": false,
                 "defaultValue": "'auto'"
@@ -120,8 +115,6 @@ export class IrPopover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "trigger",
                 "reflect": false,
                 "defaultValue": "'focus'"
@@ -140,8 +133,6 @@ export class IrPopover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "render-content-as-html",
                 "reflect": false,
                 "defaultValue": "false"

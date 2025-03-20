@@ -9,6 +9,8 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
         super();
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        this.label = undefined;
+        this.borderShown = undefined;
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }

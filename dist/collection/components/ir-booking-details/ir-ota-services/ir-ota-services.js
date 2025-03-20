@@ -44,8 +44,6 @@ export class IrOtaServices {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "[]"
             }
         };

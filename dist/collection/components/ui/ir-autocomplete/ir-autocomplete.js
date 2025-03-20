@@ -4,24 +4,29 @@ import { BookingService } from "../../../services/booking.service";
 import locales from "../../../stores/locales.store";
 export class IrAutocomplete {
     constructor() {
+        this.bookingService = new BookingService();
+        this.no_result_found = '';
         this.duration = 300;
         this.placeholder = '';
+        this.propertyId = undefined;
         this.isSplitBooking = false;
         this.type = 'text';
         this.name = '';
         this.inputId = v4();
         this.required = false;
         this.disabled = false;
+        this.value = undefined;
         this.from_date = '';
         this.to_date = '';
+        this.danger_border = undefined;
+        this.testId = undefined;
         this.inputValue = '';
         this.data = [];
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
+        this.isItemSelected = undefined;
         this.inputFocused = false;
-        this.bookingService = new BookingService();
-        this.no_result_found = '';
     }
     componentWillLoad() {
         this.no_result_found = locales.entries.Lcz_NoResultsFound;
@@ -254,8 +259,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "duration",
                 "reflect": false,
                 "defaultValue": "300"
@@ -274,8 +277,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false,
                 "defaultValue": "''"
@@ -294,8 +295,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -313,8 +312,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-split-booking",
                 "reflect": false,
                 "defaultValue": "false"
@@ -333,8 +330,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "type",
                 "reflect": false,
                 "defaultValue": "'text'"
@@ -353,8 +348,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "name",
                 "reflect": false,
                 "defaultValue": "''"
@@ -373,8 +366,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "input-id",
                 "reflect": false,
                 "defaultValue": "v4()"
@@ -393,8 +384,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "required",
                 "reflect": false,
                 "defaultValue": "false"
@@ -413,8 +402,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -433,8 +420,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "value",
                 "reflect": false
             },
@@ -452,8 +437,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "from_date",
                 "reflect": false,
                 "defaultValue": "''"
@@ -472,8 +455,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "to_date",
                 "reflect": false,
                 "defaultValue": "''"
@@ -492,8 +473,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "danger_border",
                 "reflect": false
             },
@@ -511,8 +490,6 @@ export class IrAutocomplete {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             }

@@ -224,6 +224,9 @@ const IrIcons = /*@__PURE__*/ proxyCustomElement(class IrIcons extends HTMLEleme
     constructor() {
         super();
         this.__registerHost();
+        this.name = undefined;
+        this.svgClassName = undefined;
+        this.color = undefined;
     }
     render() {
         const svgPath = icons[this.name] || null;

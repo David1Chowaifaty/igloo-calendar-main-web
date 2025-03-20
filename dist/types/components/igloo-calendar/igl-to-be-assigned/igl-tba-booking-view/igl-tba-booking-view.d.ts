@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
+import { CalendarSidebarState } from "../../igloo-calendar";
 export declare class IglTbaBookingView {
     calendarData: {
         [key: string]: any;
@@ -20,6 +21,7 @@ export declare class IglTbaBookingView {
     private allRoomsList;
     private toBeAssignedService;
     highlightToBeAssignedBookingEvent: EventEmitter;
+    openCalendarSidebar: EventEmitter<CalendarSidebarState>;
     addToBeAssignedEvent: EventEmitter;
     scrollPageToRoom: EventEmitter;
     assignRoomEvent: EventEmitter<{

@@ -1,7 +1,9 @@
 import { Host, h } from "@stencil/core";
 export class IrInteractiveTitle {
     constructor() {
+        this.popoverTitle = undefined;
         this.irPopoverLeft = '10px';
+        this.hkStatus = undefined;
         this.cropSize = 15;
     }
     // private hkStatusColors = {
@@ -71,8 +73,6 @@ export class IrInteractiveTitle {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "popover-title",
                 "reflect": false
             },
@@ -90,8 +90,6 @@ export class IrInteractiveTitle {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ir-popover-left",
                 "reflect": false,
                 "defaultValue": "'10px'"
@@ -110,8 +108,6 @@ export class IrInteractiveTitle {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "hk-status",
                 "reflect": false
             },
@@ -129,8 +125,6 @@ export class IrInteractiveTitle {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "crop-size",
                 "reflect": false,
                 "defaultValue": "15"

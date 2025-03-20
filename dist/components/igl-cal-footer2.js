@@ -9,6 +9,9 @@ const IglCalFooter = /*@__PURE__*/ proxyCustomElement(class IglCalFooter extends
         super();
         this.__registerHost();
         this.optionEvent = createEvent(this, "optionEvent", 7);
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.highlightedDate = undefined;
     }
     // private isOnline:boolean = false;
     handleOptionEvent(key, data = '') {

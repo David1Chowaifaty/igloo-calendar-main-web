@@ -1,9 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { e as extras, g as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
+import { b as calculateDaysBetweenDates, e as extras, h as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { V as VariationService, d as defineCustomElement$n } from './igl-application-info2.js';
 import { b as booking_store, m as modifyBookingStore, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms } from './booking.store.js';
-import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
@@ -375,10 +374,6 @@ const IglBookProperty = /*@__PURE__*/ proxyCustomElement(class IglBookProperty e
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
         this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.showPaymentDetails = false;
-        this.adultChildCount = { adult: 0, child: 0 };
-        this.renderAgain = false;
-        this.bookingHistory = [];
         this.initialRoomIds = null;
         this.showSplitBookingOption = false;
         this.sourceOptions = [];
@@ -392,6 +387,20 @@ const IglBookProperty = /*@__PURE__*/ proxyCustomElement(class IglBookProperty e
         this.bookPropertyService = new IglBookPropertyService();
         this.updatedBooking = false;
         this.MAX_HISTORY_LENGTH = 2;
+        this.propertyid = undefined;
+        this.allowedBookingSources = undefined;
+        this.language = undefined;
+        this.countries = undefined;
+        this.showPaymentDetails = false;
+        this.currency = undefined;
+        this.bookingData = undefined;
+        this.adultChildConstraints = undefined;
+        this.adultChildCount = { adult: 0, child: 0 };
+        this.renderAgain = false;
+        this.dateRangeData = undefined;
+        this.defaultData = undefined;
+        this.isLoading = undefined;
+        this.bookingHistory = [];
     }
     async componentWillLoad() {
         this.handleKeyDown = this.handleKeyDown.bind(this);

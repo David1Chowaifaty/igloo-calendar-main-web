@@ -20,14 +20,17 @@ const IglPropertyBookedBy = /*@__PURE__*/ proxyCustomElement(class IglPropertyBo
         super();
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.showPaymentDetails = false;
-        this.countries = [];
-        this.isButtonPressed = false;
         this.bookingService = new BookingService();
         this.arrivalTimeList = [];
         this.expiryMonths = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         this.expiryYears = [];
         this.currentMonth = '01';
+        this.language = undefined;
+        this.showPaymentDetails = false;
+        this.defaultData = undefined;
+        this.countries = [];
+        this.propertyId = undefined;
+        this.isButtonPressed = false;
         this.bookedByData = {
             id: undefined,
             email: '',

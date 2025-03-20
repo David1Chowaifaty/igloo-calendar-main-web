@@ -2,12 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const paymentOption_store = require('./payment-option.store-528b2607.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
+const index = require('./index-e13bd197.js');
+const paymentOption_store = require('./payment-option.store-973fe09f.js');
+const irInterceptor_store = require('./ir-interceptor.store-f1d56830.js');
+const locales_store = require('./locales.store-6a07d85d.js');
+require('./axios-bc0bd15c.js');
+require('./index-4337b3d3.js');
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}";
 const IrOptionDetailsStyle0 = irOptionDetailsCss;
@@ -17,9 +17,11 @@ const IrOptionDetails = class {
         index.registerInstance(this, hostRef);
         this.closeModal = index.createEvent(this, "closeModal", 7);
         this.toast = index.createEvent(this, "toast", 7);
+        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
+        this.propertyId = undefined;
+        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
-        this.paymentOptionService = new paymentOption_store.PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;

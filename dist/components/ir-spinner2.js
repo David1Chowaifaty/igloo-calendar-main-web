@@ -8,7 +8,10 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         super();
         this.__registerHost();
         this.__attachShadow();
+        this.size = undefined;
+        this.borderWidth = undefined;
         this.unit = 'rem';
+        this.color = undefined;
     }
     componentWillLoad() {
         this.initStyles();

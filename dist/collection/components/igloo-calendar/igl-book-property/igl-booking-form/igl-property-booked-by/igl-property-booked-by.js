@@ -7,14 +7,17 @@ import { validateEmail } from "../../../../../utils/utils";
 import booking_store, { modifyBookingStore } from "../../../../../stores/booking.store";
 export class IglPropertyBookedBy {
     constructor() {
-        this.showPaymentDetails = false;
-        this.countries = [];
-        this.isButtonPressed = false;
         this.bookingService = new BookingService();
         this.arrivalTimeList = [];
         this.expiryMonths = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         this.expiryYears = [];
         this.currentMonth = '01';
+        this.language = undefined;
+        this.showPaymentDetails = false;
+        this.defaultData = undefined;
+        this.countries = [];
+        this.propertyId = undefined;
+        this.isButtonPressed = false;
         this.bookedByData = {
             id: undefined,
             email: '',
@@ -256,8 +259,6 @@ export class IglPropertyBookedBy {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -275,8 +276,6 @@ export class IglPropertyBookedBy {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "show-payment-details",
                 "reflect": false,
                 "defaultValue": "false"
@@ -294,9 +293,7 @@ export class IglPropertyBookedBy {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "countries": {
                 "type": "unknown",
@@ -318,8 +315,6 @@ export class IglPropertyBookedBy {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "[]"
             },
             "propertyId": {
@@ -336,8 +331,6 @@ export class IglPropertyBookedBy {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             }

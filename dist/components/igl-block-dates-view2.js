@@ -11,8 +11,6 @@ const IglBlockDatesView = /*@__PURE__*/ proxyCustomElement(class IglBlockDatesVi
         super();
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.isEventHover = false;
-        this.renderAgain = false;
         this.blockDatesData = {
             RELEASE_AFTER_HOURS: 0,
             OPTIONAL_REASON: '',
@@ -20,6 +18,14 @@ const IglBlockDatesView = /*@__PURE__*/ proxyCustomElement(class IglBlockDatesVi
         }; // Change of property name might require updates in booking-event-hover
         this.releaseList = [];
         this.bookingService = new BookingService();
+        this.defaultData = undefined;
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.entryDate = undefined;
+        this.entryHour = undefined;
+        this.isEventHover = false;
+        this.entryMinute = undefined;
+        this.renderAgain = false;
     }
     async componentWillLoad() {
         try {

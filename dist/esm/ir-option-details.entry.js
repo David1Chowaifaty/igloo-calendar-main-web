@@ -1,9 +1,9 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-037119f8.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import './axios-aa1335b8.js';
-import './index-e42e9935.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-2ef79026.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-5b11bfdb.js';
+import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import './axios-2aba0cfc.js';
+import './index-5395b195.js';
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}";
 const IrOptionDetailsStyle0 = irOptionDetailsCss;
@@ -13,9 +13,11 @@ const IrOptionDetails = class {
         registerInstance(this, hostRef);
         this.closeModal = createEvent(this, "closeModal", 7);
         this.toast = createEvent(this, "toast", 7);
+        this.paymentOptionService = new PaymentOptionService();
+        this.propertyId = undefined;
+        this.localizationIdx = undefined;
         this.selectedLanguage = null;
         this.invalid = false;
-        this.paymentOptionService = new PaymentOptionService();
     }
     async componentWillLoad() {
         var _a;

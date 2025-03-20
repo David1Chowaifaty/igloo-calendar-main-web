@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const Token = require('./Token-049041c2.js');
-const axios = require('./axios-6e678d52.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
-require('./index-3cfd4bf8.js');
+const index = require('./index-e13bd197.js');
+const Token = require('./Token-b49ba031.js');
+const axios = require('./axios-bc0bd15c.js');
+const irInterceptor_store = require('./ir-interceptor.store-f1d56830.js');
+require('./index-4337b3d3.js');
 
 class AuthService {
     async authenticate(params) {
@@ -26,9 +26,11 @@ const IrLogin = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.authFinish = index.createEvent(this, "authFinish", 7);
-        this.showPassword = false;
         this.authService = new AuthService();
         this.token = new Token.Token();
+        this.username = undefined;
+        this.password = undefined;
+        this.showPassword = false;
     }
     async handleSignIn(e) {
         e.preventDefault();

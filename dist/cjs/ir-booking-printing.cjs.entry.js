@@ -2,18 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const booking = require('./booking-aee30433.js');
-const booking_service = require('./booking.service-06411315.js');
-const room_service = require('./room.service-e0eb710b.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-const utils = require('./utils-d8ef567d.js');
-require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
-require('./calendar-data-eb8212ff.js');
-require('./index-db8b30d9.js');
+const utils = require('./utils-dc371512.js');
+const booking_service = require('./booking.service-8192ea1e.js');
+const room_service = require('./room.service-d1c4a756.js');
+const locales_store = require('./locales.store-6a07d85d.js');
+require('./index-a8af909e.js');
+require('./calendar-data-2c2bb35f.js');
+require('./index-4337b3d3.js');
+require('./axios-bc0bd15c.js');
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -52,13 +51,19 @@ const IrBookingPrintingStyle0 = irBookingPrintingCss;
 const IrBookingPrinting = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.token = '';
-        this.bookingNumber = '';
-        this.language = 'en';
-        this.mode = 'default';
         // @State() token: string;
         this.bookingService = new booking_service.BookingService();
         this.roomService = new room_service.RoomService();
+        this.token = '';
+        this.bookingNumber = '';
+        this.language = 'en';
+        this.propertyid = undefined;
+        this.mode = 'default';
+        this.countries = undefined;
+        this.booking = undefined;
+        this.property = undefined;
+        this.guestCountryName = undefined;
+        this.isLoading = undefined;
     }
     componentWillLoad() {
         document.body.style.background = 'white';
@@ -82,7 +87,7 @@ const IrBookingPrinting = class {
             //   throw new Error('Missing booking number');
             // }
             let countries;
-            const [property, languageTexts, booking$1, fetchedCountries] = await Promise.all([
+            const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
@@ -95,11 +100,11 @@ const IrBookingPrinting = class {
             this.property = property['My_Result'];
             // this.booking = booking;
             countries = fetchedCountries;
-            this.booking = booking$1;
+            this.booking = booking;
             this.setUserCountry(countries, this.booking.guest.country_id);
             this.currency = this.booking.currency.symbol;
             this.totalPersons = ((_a = this.booking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.booking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
-            this.totalNights = booking.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
+            this.totalNights = utils.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
         }
         catch (error) {
             console.error(error);

@@ -4,9 +4,9 @@ import channels_data, { addMapping, setMappedChannel } from "../../../stores/cha
 import locales from "../../../stores/locales.store";
 export class IrChannelMapping {
     constructor() {
+        this.mappingService = new IrMappingService();
         this.activeMapField = '';
         this.availableRooms = [];
-        this.mappingService = new IrMappingService();
     }
     setActiveField(id, isRoomType, roomTypeId) {
         const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, roomTypeId);

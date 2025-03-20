@@ -9,6 +9,11 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         super();
         this.__registerHost();
         this.dateChanged = createEvent(this, "dateChanged", 7);
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.date = undefined;
+        this.opens = undefined;
+        this.autoApply = undefined;
         this.firstDay = 1;
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -22,6 +27,8 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         this.weekLabel = 'W';
         this.disabled = false;
         this.singleDatePicker = false;
+        this.minDate = undefined;
+        this.maxDate = undefined;
         this.maxSpan = {
             days: 240,
         };

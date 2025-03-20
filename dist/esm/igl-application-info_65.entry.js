@@ -1,19 +1,18 @@
-import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-1d2aa5ad.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-fa00d4fd.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import { i as isSingleUnit, c as calendar_data } from './calendar-data-ce538d8c.js';
-import { f as formatAmount, e as extras, g as getReleaseHoursString, d as dateToFormattedString, i as isBlockUnit, a as findCountry, b as dateDifference, v as validateEmail, c as formatLegendColors, h as getNextDay, j as addTwoMonthToDate, k as convertDMYToISO, l as computeEndDate, r as renderTime, m as getDaysArray, n as convertDatePrice, o as formatDate } from './utils-8fdf9a72.js';
+import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-2ef79026.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-888c5833.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import { i as isSingleUnit, c as calendar_data } from './calendar-data-707a10db.js';
+import { f as formatAmount, c as calculateDaysBetweenDates, e as extras, g as getReleaseHoursString, d as dateToFormattedString, t as transformNewBooking, i as isBlockUnit, a as findCountry, b as canCheckIn, h as compareTime, j as createDateWithOffsetAndHour, k as calendar_dates, l as dateDifference, v as validateEmail, m as formatLegendColors, n as getRoomStatus, o as transformNewBLockedRooms, p as bookingStatus, q as getPrivateNote, r as getNextDay, s as addTwoMonthToDate, u as convertDMYToISO, w as computeEndDate, x as renderTime, y as formatName, z as getDaysArray, A as convertDatePrice, B as formatDate } from './utils-41400f8e.js';
 import { v as v4 } from './v4-964634d6.js';
-import { c as calculateDaysBetweenDates, t as transformNewBooking, a as compareTime, b as createDateWithOffsetAndHour, d as calendar_dates, g as getRoomStatus, e as transformNewBLockedRooms, f as bookingStatus, h as getPrivateNote, i as formatName } from './booking-a00daffc.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-1b562ec6.js';
-import { a as axios } from './axios-aa1335b8.js';
-import { H as HouseKeepingService } from './housekeeping.service-f355e1d9.js';
-import { c as createStore } from './index-e42e9935.js';
-import { z, Z as ZodError } from './index-502f9842.js';
-import { R as RoomService } from './room.service-0fe1d11d.js';
-import { T as Token } from './Token-acf5fbad.js';
-import { P as PaymentService } from './payment.service-56b6590d.js';
+import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-e23984f0.js';
+import { a as axios } from './axios-2aba0cfc.js';
+import { H as HouseKeepingService } from './housekeeping.service-6d6b2ec1.js';
+import { c as createStore } from './index-5395b195.js';
+import { z, Z as ZodError } from './index-b6ec889a.js';
+import { R as RoomService } from './room.service-5eccb4f4.js';
+import { T as Token } from './Token-1cce2f6d.js';
+import { P as PaymentService } from './payment.service-086e7ef9.js';
 import { c as commonjsGlobal } from './_commonjsHelpers-e7f67fd8.js';
 import { _ as _formatDate, a as _formatTime, b as _getDay } from './functions-7c8c67af.js';
 
@@ -79,11 +78,16 @@ const IglApplicationInfoStyle0 = iglApplicationInfoCss;
 const IglApplicationInfo = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.variationService = new VariationService();
+        this.rateplanSelection = undefined;
+        this.guestInfo = undefined;
+        this.currency = undefined;
         this.bedPreferenceType = [];
         this.bookingType = 'PLUS_BOOKING';
+        this.roomIndex = undefined;
         this.totalNights = 1;
+        this.baseData = undefined;
         this.isButtonPressed = false;
-        this.variationService = new VariationService();
     }
     componentWillLoad() {
         var _a, _b;
@@ -214,8 +218,6 @@ const IglBlockDatesView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.isEventHover = false;
-        this.renderAgain = false;
         this.blockDatesData = {
             RELEASE_AFTER_HOURS: 0,
             OPTIONAL_REASON: '',
@@ -223,6 +225,14 @@ const IglBlockDatesView = class {
         }; // Change of property name might require updates in booking-event-hover
         this.releaseList = [];
         this.bookingService = new BookingService();
+        this.defaultData = undefined;
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.entryDate = undefined;
+        this.entryHour = undefined;
+        this.isEventHover = false;
+        this.entryMinute = undefined;
+        this.renderAgain = false;
     }
     async componentWillLoad() {
         try {
@@ -634,10 +644,6 @@ const IglBookProperty = class {
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
         this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.showPaymentDetails = false;
-        this.adultChildCount = { adult: 0, child: 0 };
-        this.renderAgain = false;
-        this.bookingHistory = [];
         this.initialRoomIds = null;
         this.showSplitBookingOption = false;
         this.sourceOptions = [];
@@ -651,6 +657,20 @@ const IglBookProperty = class {
         this.bookPropertyService = new IglBookPropertyService();
         this.updatedBooking = false;
         this.MAX_HISTORY_LENGTH = 2;
+        this.propertyid = undefined;
+        this.allowedBookingSources = undefined;
+        this.language = undefined;
+        this.countries = undefined;
+        this.showPaymentDetails = false;
+        this.currency = undefined;
+        this.bookingData = undefined;
+        this.adultChildConstraints = undefined;
+        this.adultChildCount = { adult: 0, child: 0 };
+        this.renderAgain = false;
+        this.dateRangeData = undefined;
+        this.defaultData = undefined;
+        this.isLoading = undefined;
+        this.bookingHistory = [];
     }
     async componentWillLoad() {
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -1172,6 +1192,7 @@ const IglBookPropertyFooter = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.eventType = undefined;
         this.disabled = true;
     }
     isEventType(event) {
@@ -1217,10 +1238,6 @@ const IglBookPropertyHeader = class {
         this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
         this.animateIrButton = createEvent(this, "animateIrButton", 7);
         this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.sourceOptions = [];
-        this.showSplitBookingOption = false;
         this.sourceOption = {
             code: '',
             description: '',
@@ -1228,6 +1245,20 @@ const IglBookPropertyHeader = class {
             id: '',
             type: '',
         };
+        this.splitBookingId = '';
+        this.bookingData = '';
+        this.minDate = undefined;
+        this.sourceOptions = [];
+        this.message = undefined;
+        this.bookingDataDefaultDateRange = undefined;
+        this.showSplitBookingOption = false;
+        this.adultChildConstraints = undefined;
+        this.splitBookings = undefined;
+        this.adultChildCount = undefined;
+        this.dateRangeData = undefined;
+        this.bookedByInfoData = undefined;
+        this.defaultDaterange = undefined;
+        this.propertyId = undefined;
     }
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
@@ -1413,10 +1444,6 @@ const IglBookingEvent = class {
         this.resetStreachedBooking = createEvent(this, "resetStreachedBooking", 7);
         this.toast = createEvent(this, "toast", 7);
         this.updateBookingEvent = createEvent(this, "updateBookingEvent", 7);
-        this.is_vacation_rental = false;
-        this.allBookingEvents = [];
-        this.renderElement = false;
-        this.isShrinking = null;
         this.dayWidth = 0;
         this.eventSpace = 8;
         this.vertSpace = 10;
@@ -1434,6 +1461,15 @@ const IglBookingEvent = class {
         this.handleMouseMoveBind = this.handleMouseMove.bind(this);
         this.handleMouseUpBind = this.handleMouseUp.bind(this);
         this.handleClickOutsideBind = this.handleClickOutside.bind(this);
+        this.currency = undefined;
+        this.is_vacation_rental = false;
+        this.language = undefined;
+        this.bookingEvent = undefined;
+        this.allBookingEvents = [];
+        this.countries = undefined;
+        this.renderElement = false;
+        this.position = undefined;
+        this.isShrinking = null;
     }
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
@@ -1573,6 +1609,7 @@ const IglBookingEvent = class {
                                 const oldFromDate = this.bookingEvent.defaultDates.from_date;
                                 const oldToDate = this.bookingEvent.defaultDates.to_date;
                                 const defaultDiffDays = hooks(oldToDate, 'YYYY-MM-DD').diff(hooks(oldFromDate, 'YYYY-MM-DD'), 'days');
+                                const diffDays = defaultDiffDays === 1 ? 1 : defaultDiffDays;
                                 let shrinkingDirection = null;
                                 let fromDate = oldFromDate;
                                 let toDate = oldToDate;
@@ -1598,11 +1635,12 @@ const IglBookingEvent = class {
                                 else {
                                     if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(oldFromDate, 'YYYY-MM-DD'))) {
                                         fromDate = from_date;
-                                        toDate = hooks(from_date, 'YYYY-MM-DD').add(defaultDiffDays, 'days').format('YYYY-MM-DD');
+                                        const newToDate = hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
+                                        toDate = newToDate.isBefore(hooks(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
                                     }
                                     else if (hooks(to_date, 'YYYY-MM-DD').isAfter(hooks(oldToDate, 'YYYY-MM-DD'))) {
                                         toDate = to_date;
-                                        fromDate = hooks(to_date, 'YYYY-MM-DD').subtract(defaultDiffDays, 'days').format('YYYY-MM-DD');
+                                        fromDate = hooks(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
                                     }
                                 }
                                 this.showDialog.emit(Object.assign(Object.assign({ reason: 'reallocate' }, event.detail), { description, title: '', hideConfirmButton, from_date: fromDate, to_date: toDate }));
@@ -2090,14 +2128,14 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '55902c9816dc51c50ebc86c144578d994e824d46', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '3be0262d73bba90960c492ab207c37109bd2a518', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: 'fe16a378fe308beb1ffe53750ee4b850f09cfcfb', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'a2a3a65b2947969f7145bb28dde580144fd65f2c', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '4c51a31b435ce65315df4a5c3d25cabea5b24252', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: '4e89e168a389ceaadfcb3bbb1eabd5e4b21cf367' }, h("div", { key: '2c057bbc70568ea25fab80be6a59812a201f8496', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'b1bea92e421dbf011766621c98e7eb894b624c96', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '7e859affed54f7a76fab6c7cbcaa8f94f999e627', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: 'ee4020ecc2accfa641bf871f5158467114f6cfa9' }, h("div", { key: 'f50e3fe1a67ea593d7bdc4c132ab5f5e781c342b', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '84c3a004ac0fa937c87a9890ee33557d2d45b5bc', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return getElement(this); }
@@ -2115,11 +2153,16 @@ const IglBookingEventHover = class {
         this.deleteButton = createEvent(this, "deleteButton", 7);
         this.bookingCreated = createEvent(this, "bookingCreated", 7);
         this.showDialog = createEvent(this, "showDialog", 7);
-        this.bubbleInfoTop = false;
-        this.is_vacation_rental = false;
-        this.shouldHideUnassignUnit = false;
         this.eventService = new EventsService();
         this.hideButtons = false;
+        this.bookingEvent = undefined;
+        this.bubbleInfoTop = false;
+        this.currency = undefined;
+        this.countries = undefined;
+        this.is_vacation_rental = false;
+        this.isLoading = undefined;
+        this.shouldHideUnassignUnit = false;
+        this.canCheckInOrCheckout = undefined;
     }
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -2214,20 +2257,26 @@ const IglBookingEventHover = class {
         return this.bookingEvent.hasOwnProperty('splitBookingEvents') && this.bookingEvent.splitBookingEvents;
     }
     canCheckIn() {
-        var _a, _b;
-        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-            return false;
-        }
-        if (this.isCheckedIn()) {
-            return false;
-        }
-        const now = hooks();
-        if (this.canCheckInOrCheckout ||
-            (hooks().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
-                !compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour)))) {
-            return true;
-        }
-        return false;
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // if (this.isCheckedIn()) {
+        //   return false;
+        // }
+        // const now = moment();
+        // if (
+        //   this.canCheckInOrCheckout ||
+        //   (moment().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
+        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
+        // ) {
+        //   return true;
+        // }
+        // return false;
+        return canCheckIn({
+            from_date: this.bookingEvent.FROM_DATE,
+            to_date: this.bookingEvent.TO_DATE,
+            isCheckedIn: this.isCheckedIn(),
+        });
     }
     canCheckOut() {
         var _a, _b, _c, _d;
@@ -2495,7 +2544,7 @@ const IglBookingEventHover = class {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'e9f572f082eea0967c3ef0d1545b836a3dcb0047' }, h("div", { key: '4a4ae05518b10f45987f6a8be65afa1f16a826d9', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'efdebd0d582303c771493fe6572d2200f0f21548', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'd47cc77f89b9b870dac40d9be7927e5d8b427196' }, h("div", { key: '72cb66a9c42bdc32852bcdfa58f360fce4e82fa1', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '8e1d0917d5d3af1877661c562a75e1f3754c74a1', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return getElement(this); }
     static get watchers() { return {
@@ -2512,6 +2561,23 @@ const IglBookingForm = class {
         registerInstance(this, hostRef);
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.showPaymentDetails = undefined;
+        this.currency = undefined;
+        this.isEditOrAddRoomEvent = undefined;
+        this.dateRangeData = undefined;
+        this.bookingData = undefined;
+        this.showSplitBookingOption = undefined;
+        this.language = undefined;
+        this.bookedByInfoData = undefined;
+        this.propertyId = undefined;
+        this.bedPreferenceType = undefined;
+        this.selectedRooms = undefined;
+        this.isLoading = undefined;
+        this.countries = undefined;
+        this.selectedGuestData = undefined;
+        this.defaultGuestData = undefined;
+        this.selectedBookedByData = undefined;
+        this.guestData = undefined;
         this.selectedUnits = {};
     }
     componentWillLoad() {
@@ -2630,6 +2696,21 @@ const IglBookingOverviewPage = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.roomsDataUpdate = createEvent(this, "roomsDataUpdate", 7);
+        this.bookingData = undefined;
+        this.propertyId = undefined;
+        this.message = undefined;
+        this.showSplitBookingOption = undefined;
+        this.eventType = undefined;
+        this.currency = undefined;
+        this.adultChildConstraints = undefined;
+        this.ratePricingMode = undefined;
+        this.dateRangeData = undefined;
+        this.defaultDaterange = undefined;
+        this.selectedRooms = undefined;
+        this.adultChildCount = undefined;
+        this.sourceOptions = undefined;
+        this.bookedByInfoData = undefined;
+        this.initialRoomIds = undefined;
     }
     getSplitBookings() {
         return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];
@@ -2666,12 +2747,21 @@ const IglCalBody = class {
         this.addBookingDatasEvent = createEvent(this, "addBookingDatasEvent", 7);
         this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
         this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
-        this.dragOverElement = '';
-        this.renderAgain = false;
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
         this.housekeepingService = new HouseKeepingService();
+        this.isScrollViewDragging = undefined;
+        this.propertyId = undefined;
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.currency = undefined;
+        this.language = undefined;
+        this.countries = undefined;
+        this.highlightedDate = undefined;
+        this.dragOverElement = '';
+        this.renderAgain = false;
+        this.selectedRoom = undefined;
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -2980,6 +3070,9 @@ const IglCalFooter = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.optionEvent = createEvent(this, "optionEvent", 7);
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.highlightedDate = undefined;
     }
     // private isOnline:boolean = false;
     handleOptionEvent(key, data = '') {
@@ -3413,12 +3506,18 @@ const IglCalHeader = class {
         this.optionEvent = createEvent(this, "optionEvent", 7);
         this.gotoRoomEvent = createEvent(this, "gotoRoomEvent", 7);
         this.gotoToBeAssignedDate = createEvent(this, "gotoToBeAssignedDate", 7);
-        this.renderAgain = false;
-        this.unassignedRoomsNumber = {};
         this.searchValue = '';
         this.searchList = [];
         this.roomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.propertyid = undefined;
+        this.unassignedDates = undefined;
+        this.to_date = undefined;
+        this.highlightedDate = undefined;
+        this.renderAgain = false;
+        this.unassignedRoomsNumber = {};
     }
     componentWillLoad() {
         try {
@@ -3587,13 +3686,17 @@ const IglDateRange = class {
         registerInstance(this, hostRef);
         this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.disabled = false;
-        this.withDateDifference = true;
-        this.variant = 'default';
-        this.renderAgain = false;
         this.totalNights = 0;
         this.fromDateStr = 'from';
         this.toDateStr = 'to';
+        this.defaultData = undefined;
+        this.disabled = false;
+        this.minDate = undefined;
+        this.dateLabel = undefined;
+        this.maxDate = undefined;
+        this.withDateDifference = true;
+        this.variant = 'default';
+        this.renderAgain = false;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -3677,6 +3780,7 @@ const IglLegends = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.optionEvent = createEvent(this, "optionEvent", 7);
+        this.legendData = undefined;
     }
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
@@ -3694,14 +3798,17 @@ const IglPropertyBookedBy = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.showPaymentDetails = false;
-        this.countries = [];
-        this.isButtonPressed = false;
         this.bookingService = new BookingService();
         this.arrivalTimeList = [];
         this.expiryMonths = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         this.expiryYears = [];
         this.currentMonth = '01';
+        this.language = undefined;
+        this.showPaymentDetails = false;
+        this.defaultData = undefined;
+        this.countries = [];
+        this.propertyId = undefined;
+        this.isButtonPressed = false;
         this.bookedByData = {
             id: undefined,
             email: '',
@@ -3925,9 +4032,14 @@ const IglRatePlan = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.ratePlan = undefined;
+        this.roomTypeId = undefined;
         this.ratePricingMode = [];
+        this.currency = undefined;
+        this.shouldBeDisabled = undefined;
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
+        this.visibleInventory = undefined;
     }
     // Determine if the form inputs should be disabled
     disableForm() {
@@ -4066,6 +4178,7 @@ const IglRatePlan = class {
             }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none price-amount w-100 flex-grow-1", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { "data-testid": 'nigh_stay_select', disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: v4(), onChange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
             }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { "data-testid": 'inventory_select', disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 ml-md-1 mt-md-0 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { "data-testid": 'inventory_radio', disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
+                var _a, _b, _c;
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -4073,15 +4186,16 @@ const IglRatePlan = class {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            last_name: (_a = booking_store.guest) === null || _a === void 0 ? void 0 : _a.last_name,
+                            first_name: (_b = booking_store.guest) === null || _b === void 0 ? void 0 : _b.first_name,
                             unit: null,
-                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
+                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? (_c = booking_store.guest) === null || _c === void 0 ? void 0 : _c.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
                         },
                     ],
                 });
             }, checked: visibleInventory.reserved === 1 }))), h("button", { "data-testid": "book_property", disabled: disableForm, type: "button", class: "btn btn-primary booking-btn mt-lg-0 btn-sm ml-md-1 mt-1 d-md-none", onClick: () => {
+                var _a, _b, _c, _d;
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -4089,11 +4203,11 @@ const IglRatePlan = class {
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            last_name: (_a = booking_store.guest) === null || _a === void 0 ? void 0 : _a.last_name,
+                            first_name: (_b = booking_store.guest) === null || _b === void 0 ? void 0 : _b.first_name,
                             unit: null,
-                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
-                            infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
+                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? (_c = booking_store.guest) === null || _c === void 0 ? void 0 : _c.bed_preference : null,
+                            infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? (_d = booking_store.guest) === null || _d === void 0 ? void 0 : _d.infant_nbr : null,
                         },
                     ],
                 });
@@ -4110,12 +4224,18 @@ const IglRoomType = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
+        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
+        this.roomType = undefined;
         this.bookingType = 'PLUS_BOOKING';
+        this.dateDifference = undefined;
         this.ratePricingMode = [];
         this.roomInfoId = null;
+        this.currency = undefined;
+        this.initialRoomIds = undefined;
+        this.isBookDisabled = undefined;
         this.selectedRooms = [];
+        this.totalRooms = undefined;
         this.roomsDistributions = [];
-        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     }
     render() {
         var _a, _b;
@@ -4152,17 +4272,23 @@ const IglTbaBookingView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
+        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar", 7);
         this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
         this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
         this.assignRoomEvent = createEvent(this, "assignRoomEvent", 7);
-        this.eventData = {};
-        this.categoriesData = {};
-        this.renderAgain = false;
-        this.selectedRoom = -1;
-        this.isLoading = null;
         this.highlightSection = false;
         this.allRoomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
+        this.calendarData = undefined;
+        this.selectedDate = undefined;
+        this.eventData = {};
+        this.categoriesData = {};
+        this.categoryId = undefined;
+        this.categoryIndex = undefined;
+        this.eventIndex = undefined;
+        this.renderAgain = false;
+        this.selectedRoom = -1;
+        this.isLoading = null;
     }
     componentShouldUpdate(newValue, oldValue, propName) {
         if (propName === 'selectedDate' && newValue !== oldValue) {
@@ -4203,12 +4329,33 @@ const IglTbaBookingView = class {
         this.selectedRoom = parseInt(evt.target.value);
     }
     async handleAssignUnit(event, check_in = false) {
+        var _a, _b;
         try {
             event.stopImmediatePropagation();
             event.stopPropagation();
             if (this.selectedRoom) {
                 this.isLoading = check_in ? 'checkin' : 'default';
-                await this.toBeAssignedService.assignUnit({ booking_nbr: this.eventData.BOOKING_NUMBER, identifier: this.eventData.ID, pr_id: this.selectedRoom, check_in });
+                const booking = await this.toBeAssignedService.assignUnit({
+                    booking_nbr: this.eventData.BOOKING_NUMBER,
+                    identifier: this.eventData.ID,
+                    pr_id: this.selectedRoom,
+                    check_in,
+                });
+                const room = booking.rooms.find(r => r.identifier === this.eventData.identifier);
+                if (room) {
+                    const { adult_nbr, children_nbr, infant_nbr } = room.occupancy;
+                    this.openCalendarSidebar.emit({
+                        type: 'room-guests',
+                        payload: {
+                            identifier: this.eventData.ID,
+                            bookingNumber: this.eventData.BOOKING_NUMBER,
+                            checkin: false,
+                            roomName: (_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : '',
+                            sharing_persons: room.sharing_persons,
+                            totalGuests: adult_nbr + children_nbr + infant_nbr,
+                        },
+                    });
+                }
                 let assignEvent = Object.assign(Object.assign({}, this.eventData), { PR_ID: this.selectedRoom });
                 this.addToBeAssignedEvent.emit({
                     key: 'tobeAssignedEvents',
@@ -4271,16 +4418,25 @@ const IglTbaBookingView = class {
         this.renderAgain = !this.renderAgain;
     }
     canCheckIn() {
-        if (!calendar_data.checkin_enabled) {
-            return false;
-        }
-        if (hooks(new Date()).isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && hooks(new Date()).isBefore(new Date(this.eventData.TO_DATE), 'days')) {
-            return true;
-        }
-        return false;
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // const now = moment();
+        // if (
+        //   (moment().isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && moment().isBefore(new Date(this.eventData.TO_DATE), 'days')) ||
+        //   (moment().isSame(new Date(this.eventData.TO_DATE), 'days') &&
+        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
+        // ) {
+        //   return true;
+        // }
+        // return false;
+        return canCheckIn({
+            from_date: this.eventData.FROM_DATE,
+            to_date: this.eventData.TO_DATE,
+        });
     }
     render() {
-        return (h(Host, { key: 'ba7ad570897dde28eb98b4a1af2c5d55a3bb883c' }, h("div", { key: 'f9a8857df7cdc782065bece9260f95b784274fa6', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '60ef3f62c08b5a879e0bd8c1ca30ec2c4c4ad74d', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '51e2f0dae1c8c6eb45dc2c16ae84afa823f5ce6c', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '73e0843d0038f0092cf57b727dafb75210265d73', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '7c48790b310a5393e6c87d121d510da58b1dac54', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '1630b2a111b3ef1c422d4297fe5fc5265901db5a', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: 'a85dfccebe50e6309ce0b94e645b5fe9857aa594', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '1e8ec55c4696b8d82b5f02c3134d7b07acc0ce98', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '2dd6409e2878300e3262264aabede8b98ec02429' }))));
+        return (h(Host, { key: 'ddfffbf607b8456edaca6d66bfab97952acae661' }, h("div", { key: 'd8e261480c39724d53c535ceb5ba2b932911031c', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '57bd27884f6ff1cafc44dc38581c48acba1eb48a', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '5c64826f602080d010099c6567d294d39ec0c374', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '20e3a1b89b16c66bb89c69f18feed937a3b23ba7', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '100dc949b49bee919666e66e51dc8a45fb1ebfed', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '37364d9ea798dea4cd2a3c1b1c97333cb2b38a98', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: '9925338a9c82b99b5c91cd5cf6b0da985797e59d', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '3dda9204dd6ee5ed028e843972d9db7ea62d33df', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '580645c7484862eff1ebb0b907b347bcbdd5cdc8' }))));
     }
 };
 IglTbaBookingView.style = IglTbaBookingViewStyle0;
@@ -4292,7 +4448,12 @@ const IglTbaCategoryView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.assignUnitEvent = createEvent(this, "assignUnitEvent", 7);
+        this.calendarData = undefined;
+        this.selectedDate = undefined;
         this.categoriesData = {};
+        this.categoryId = undefined;
+        this.eventDatas = undefined;
+        this.categoryIndex = undefined;
         this.renderAgain = false;
     }
     // private localEventDatas;
@@ -4342,10 +4503,6 @@ const IglToBeAssigned = class {
         this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
         this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
         this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
-        this.showDatesList = false;
-        this.renderAgain = false;
-        this.orderedDatesList = [];
-        this.noScroll = false;
         this.isGotoToBeAssignedDate = false;
         this.isLoading = true;
         this.selectedDate = null;
@@ -4353,6 +4510,16 @@ const IglToBeAssigned = class {
         this.today = new Date();
         this.categoriesData = {};
         this.toBeAssignedService = new ToBeAssignedService();
+        this.unassignedDatesProp = undefined;
+        this.propertyid = undefined;
+        this.from_date = undefined;
+        this.to_date = undefined;
+        this.calendarData = undefined;
+        this.loadingMessage = undefined;
+        this.showDatesList = false;
+        this.renderAgain = false;
+        this.orderedDatesList = [];
+        this.noScroll = false;
     }
     componentWillLoad() {
         this.reArrangeData();
@@ -4742,6 +4909,7 @@ const decodePayload = (encodedPayload, binaryType) => {
     return packets;
 };
 function createPacketEncoderStream() {
+    // @ts-expect-error
     return new TransformStream({
         transform(packet, controller) {
             encodePacketToBinary(packet, (encodedPacket) => {
@@ -4801,14 +4969,15 @@ function createPacketDecoderStream(maxPayload, binaryType) {
         TEXT_DECODER = new TextDecoder();
     }
     const chunks = [];
-    let state = 0 /* State.READ_HEADER */;
+    let state = 0 /* READ_HEADER */;
     let expectedLength = -1;
     let isBinary = false;
+    // @ts-expect-error
     return new TransformStream({
         transform(chunk, controller) {
             chunks.push(chunk);
             while (true) {
-                if (state === 0 /* State.READ_HEADER */) {
+                if (state === 0 /* READ_HEADER */) {
                     if (totalLength(chunks) < 1) {
                         break;
                     }
@@ -4816,24 +4985,24 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     isBinary = (header[0] & 0x80) === 0x80;
                     expectedLength = header[0] & 0x7f;
                     if (expectedLength < 126) {
-                        state = 3 /* State.READ_PAYLOAD */;
+                        state = 3 /* READ_PAYLOAD */;
                     }
                     else if (expectedLength === 126) {
-                        state = 1 /* State.READ_EXTENDED_LENGTH_16 */;
+                        state = 1 /* READ_EXTENDED_LENGTH_16 */;
                     }
                     else {
-                        state = 2 /* State.READ_EXTENDED_LENGTH_64 */;
+                        state = 2 /* READ_EXTENDED_LENGTH_64 */;
                     }
                 }
-                else if (state === 1 /* State.READ_EXTENDED_LENGTH_16 */) {
+                else if (state === 1 /* READ_EXTENDED_LENGTH_16 */) {
                     if (totalLength(chunks) < 2) {
                         break;
                     }
                     const headerArray = concatChunks(chunks, 2);
                     expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
-                else if (state === 2 /* State.READ_EXTENDED_LENGTH_64 */) {
+                else if (state === 2 /* READ_EXTENDED_LENGTH_64 */) {
                     if (totalLength(chunks) < 8) {
                         break;
                     }
@@ -4846,7 +5015,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                         break;
                     }
                     expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-                    state = 3 /* State.READ_PAYLOAD */;
+                    state = 3 /* READ_PAYLOAD */;
                 }
                 else {
                     if (totalLength(chunks) < expectedLength) {
@@ -4854,7 +5023,7 @@ function createPacketDecoderStream(maxPayload, binaryType) {
                     }
                     const data = concatChunks(chunks, expectedLength);
                     controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-                    state = 0 /* State.READ_HEADER */;
+                    state = 0 /* READ_HEADER */;
                 }
                 if (expectedLength === 0 || expectedLength > maxPayload) {
                     controller.enqueue(ERROR_PACKET);
@@ -5036,15 +5205,6 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-const nextTick = (() => {
-    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
-    if (isPromiseAvailable) {
-        return (cb) => Promise.resolve().then(cb);
-    }
-    else {
-        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
-    }
-})();
 const globalThisShim = (() => {
     if (typeof self !== "undefined") {
         return self;
@@ -5056,8 +5216,6 @@ const globalThisShim = (() => {
         return Function("return this")();
     }
 })();
-const defaultBinaryType = "arraybuffer";
-function createCookieJar() { }
 
 function pick$1(obj, ...attr) {
     return attr.reduce((acc, k) => {
@@ -5110,13 +5268,6 @@ function utf8Length(str) {
     }
     return length;
 }
-/**
- * Generates a random 8-characters string.
- */
-function randomString() {
-    return (Date.now().toString(36).substring(3) +
-        Math.random().toString(36).substring(2, 5));
-}
 
 // imported from https://github.com/galkn/querystring
 /**
@@ -5126,7 +5277,7 @@ function randomString() {
  * @param {Object}
  * @api private
  */
-function encode(obj) {
+function encode$1(obj) {
     let str = '';
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
@@ -5175,7 +5326,6 @@ class Transport extends Emitter {
         this.opts = opts;
         this.query = opts.query;
         this.socket = opts.socket;
-        this.supportsBinary = !opts.forceBase64;
     }
     /**
      * Emits an error.
@@ -5284,15 +5434,115 @@ class Transport extends Emitter {
         }
     }
     _query(query) {
-        const encodedQuery = encode(query);
+        const encodedQuery = encode$1(query);
         return encodedQuery.length ? "?" + encodedQuery : "";
     }
 }
 
+// imported from https://github.com/unshiftio/yeast
+const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split(''), length = 64, map = {};
+let seed = 0, i = 0, prev;
+/**
+ * Return a string representing the specified number.
+ *
+ * @param {Number} num The number to convert.
+ * @returns {String} The string representation of the number.
+ * @api public
+ */
+function encode(num) {
+    let encoded = '';
+    do {
+        encoded = alphabet[num % length] + encoded;
+        num = Math.floor(num / length);
+    } while (num > 0);
+    return encoded;
+}
+/**
+ * Yeast: A tiny growing id generator.
+ *
+ * @returns {String} A unique id.
+ * @api public
+ */
+function yeast() {
+    const now = encode(+new Date());
+    if (now !== prev)
+        return seed = 0, prev = now;
+    return now + '.' + encode(seed++);
+}
+//
+// Map each character to its index.
+//
+for (; i < length; i++)
+    map[alphabet[i]] = i;
+
+// imported from https://github.com/component/has-cors
+let value = false;
+try {
+    value = typeof XMLHttpRequest !== 'undefined' &&
+        'withCredentials' in new XMLHttpRequest();
+}
+catch (err) {
+    // if XMLHttp support is disabled in IE then it will throw
+    // when trying to create
+}
+const hasCORS = value;
+
+// browser shim for xmlhttprequest module
+function XHR(opts) {
+    const xdomain = opts.xdomain;
+    // XMLHttpRequest can be disabled on IE
+    try {
+        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+            return new XMLHttpRequest();
+        }
+    }
+    catch (e) { }
+    if (!xdomain) {
+        try {
+            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+        }
+        catch (e) { }
+    }
+}
+function createCookieJar() { }
+
+function empty() { }
+const hasXHR2 = (function () {
+    const xhr = new XHR({
+        xdomain: false,
+    });
+    return null != xhr.responseType;
+})();
 class Polling extends Transport {
-    constructor() {
-        super(...arguments);
-        this._polling = false;
+    /**
+     * XHR Polling constructor.
+     *
+     * @param {Object} opts
+     * @package
+     */
+    constructor(opts) {
+        super(opts);
+        this.polling = false;
+        if (typeof location !== "undefined") {
+            const isSSL = "https:" === location.protocol;
+            let port = location.port;
+            // some user agents have empty `location.port`
+            if (!port) {
+                port = isSSL ? "443" : "80";
+            }
+            this.xd =
+                (typeof location !== "undefined" &&
+                    opts.hostname !== location.hostname) ||
+                    port !== opts.port;
+        }
+        /**
+         * XHR supports binary
+         */
+        const forceBase64 = opts && opts.forceBase64;
+        this.supportsBinary = hasXHR2 && !forceBase64;
+        if (this.opts.withCredentials) {
+            this.cookieJar = createCookieJar();
+        }
     }
     get name() {
         return "polling";
@@ -5304,7 +5554,7 @@ class Polling extends Transport {
      * @protected
      */
     doOpen() {
-        this._poll();
+        this.poll();
     }
     /**
      * Pauses polling.
@@ -5318,9 +5568,9 @@ class Polling extends Transport {
             this.readyState = "paused";
             onPause();
         };
-        if (this._polling || !this.writable) {
+        if (this.polling || !this.writable) {
             let total = 0;
-            if (this._polling) {
+            if (this.polling) {
                 total++;
                 this.once("pollComplete", function () {
                     --total || pause();
@@ -5342,8 +5592,8 @@ class Polling extends Transport {
      *
      * @private
      */
-    _poll() {
-        this._polling = true;
+    poll() {
+        this.polling = true;
         this.doPoll();
         this.emitReserved("poll");
     }
@@ -5371,10 +5621,10 @@ class Polling extends Transport {
         // if an event did not trigger closing
         if ("closed" !== this.readyState) {
             // if we got data we're not polling
-            this._polling = false;
+            this.polling = false;
             this.emitReserved("pollComplete");
             if ("open" === this.readyState) {
-                this._poll();
+                this.poll();
             }
         }
     }
@@ -5421,49 +5671,22 @@ class Polling extends Transport {
         const query = this.query || {};
         // cache busting is forced
         if (false !== this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = randomString();
+            query[this.opts.timestampParam] = yeast();
         }
         if (!this.supportsBinary && !query.sid) {
             query.b64 = 1;
         }
         return this.createUri(schema, query);
     }
-}
-
-// imported from https://github.com/component/has-cors
-let value = false;
-try {
-    value = typeof XMLHttpRequest !== 'undefined' &&
-        'withCredentials' in new XMLHttpRequest();
-}
-catch (err) {
-    // if XMLHttp support is disabled in IE then it will throw
-    // when trying to create
-}
-const hasCORS = value;
-
-function empty() { }
-class BaseXHR extends Polling {
     /**
-     * XHR Polling constructor.
+     * Creates a request.
      *
-     * @param {Object} opts
-     * @package
+     * @param {String} method
+     * @private
      */
-    constructor(opts) {
-        super(opts);
-        if (typeof location !== "undefined") {
-            const isSSL = "https:" === location.protocol;
-            let port = location.port;
-            // some user agents have empty `location.port`
-            if (!port) {
-                port = isSSL ? "443" : "80";
-            }
-            this.xd =
-                (typeof location !== "undefined" &&
-                    opts.hostname !== location.hostname) ||
-                    port !== opts.port;
-        }
+    request(opts = {}) {
+        Object.assign(opts, { xd: this.xd, cookieJar: this.cookieJar }, this.opts);
+        return new Request(this.uri(), opts);
     }
     /**
      * Sends data.
@@ -5503,41 +5726,39 @@ class Request extends Emitter {
      * @param {Object} options
      * @package
      */
-    constructor(createRequest, uri, opts) {
+    constructor(uri, opts) {
         super();
-        this.createRequest = createRequest;
         installTimerFunctions(this, opts);
-        this._opts = opts;
-        this._method = opts.method || "GET";
-        this._uri = uri;
-        this._data = undefined !== opts.data ? opts.data : null;
-        this._create();
+        this.opts = opts;
+        this.method = opts.method || "GET";
+        this.uri = uri;
+        this.data = undefined !== opts.data ? opts.data : null;
+        this.create();
     }
     /**
      * Creates the XHR object and sends the request.
      *
      * @private
      */
-    _create() {
+    create() {
         var _a;
-        const opts = pick$1(this._opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
-        opts.xdomain = !!this._opts.xd;
-        const xhr = (this._xhr = this.createRequest(opts));
+        const opts = pick$1(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+        opts.xdomain = !!this.opts.xd;
+        const xhr = (this.xhr = new XHR(opts));
         try {
-            xhr.open(this._method, this._uri, true);
+            xhr.open(this.method, this.uri, true);
             try {
-                if (this._opts.extraHeaders) {
-                    // @ts-ignore
+                if (this.opts.extraHeaders) {
                     xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
-                    for (let i in this._opts.extraHeaders) {
-                        if (this._opts.extraHeaders.hasOwnProperty(i)) {
-                            xhr.setRequestHeader(i, this._opts.extraHeaders[i]);
+                    for (let i in this.opts.extraHeaders) {
+                        if (this.opts.extraHeaders.hasOwnProperty(i)) {
+                            xhr.setRequestHeader(i, this.opts.extraHeaders[i]);
                         }
                     }
                 }
             }
             catch (e) { }
-            if ("POST" === this._method) {
+            if ("POST" === this.method) {
                 try {
                     xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
                 }
@@ -5547,48 +5768,46 @@ class Request extends Emitter {
                 xhr.setRequestHeader("Accept", "*/*");
             }
             catch (e) { }
-            (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
+            (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
             // ie6 check
             if ("withCredentials" in xhr) {
-                xhr.withCredentials = this._opts.withCredentials;
+                xhr.withCredentials = this.opts.withCredentials;
             }
-            if (this._opts.requestTimeout) {
-                xhr.timeout = this._opts.requestTimeout;
+            if (this.opts.requestTimeout) {
+                xhr.timeout = this.opts.requestTimeout;
             }
             xhr.onreadystatechange = () => {
                 var _a;
                 if (xhr.readyState === 3) {
-                    (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(
-                    // @ts-ignore
-                    xhr.getResponseHeader("set-cookie"));
+                    (_a = this.opts.cookieJar) === null || _a === void 0 ? void 0 : _a.parseCookies(xhr);
                 }
                 if (4 !== xhr.readyState)
                     return;
                 if (200 === xhr.status || 1223 === xhr.status) {
-                    this._onLoad();
+                    this.onLoad();
                 }
                 else {
                     // make sure the `error` event handler that's user-set
                     // does not throw in the same tick and gets caught here
                     this.setTimeoutFn(() => {
-                        this._onError(typeof xhr.status === "number" ? xhr.status : 0);
+                        this.onError(typeof xhr.status === "number" ? xhr.status : 0);
                     }, 0);
                 }
             };
-            xhr.send(this._data);
+            xhr.send(this.data);
         }
         catch (e) {
             // Need to defer since .create() is called directly from the constructor
             // and thus the 'error' event can only be only bound *after* this exception
             // occurs.  Therefore, also, we cannot throw here at all.
             this.setTimeoutFn(() => {
-                this._onError(e);
+                this.onError(e);
             }, 0);
             return;
         }
         if (typeof document !== "undefined") {
-            this._index = Request.requestsCount++;
-            Request.requests[this._index] = this;
+            this.index = Request.requestsCount++;
+            Request.requests[this.index] = this;
         }
     }
     /**
@@ -5596,42 +5815,42 @@ class Request extends Emitter {
      *
      * @private
      */
-    _onError(err) {
-        this.emitReserved("error", err, this._xhr);
-        this._cleanup(true);
+    onError(err) {
+        this.emitReserved("error", err, this.xhr);
+        this.cleanup(true);
     }
     /**
      * Cleans up house.
      *
      * @private
      */
-    _cleanup(fromError) {
-        if ("undefined" === typeof this._xhr || null === this._xhr) {
+    cleanup(fromError) {
+        if ("undefined" === typeof this.xhr || null === this.xhr) {
             return;
         }
-        this._xhr.onreadystatechange = empty;
+        this.xhr.onreadystatechange = empty;
         if (fromError) {
             try {
-                this._xhr.abort();
+                this.xhr.abort();
             }
             catch (e) { }
         }
         if (typeof document !== "undefined") {
-            delete Request.requests[this._index];
+            delete Request.requests[this.index];
         }
-        this._xhr = null;
+        this.xhr = null;
     }
     /**
      * Called upon load.
      *
      * @private
      */
-    _onLoad() {
-        const data = this._xhr.responseText;
+    onLoad() {
+        const data = this.xhr.responseText;
         if (data !== null) {
             this.emitReserved("data", data);
             this.emitReserved("success");
-            this._cleanup();
+            this.cleanup();
         }
     }
     /**
@@ -5640,7 +5859,7 @@ class Request extends Emitter {
      * @package
      */
     abort() {
-        this._cleanup();
+        this.cleanup();
     }
 }
 Request.requestsCount = 0;
@@ -5668,56 +5887,42 @@ function unloadHandler() {
         }
     }
 }
-const hasXHR2 = (function () {
-    const xhr = newRequest({
-        xdomain: false,
-    });
-    return xhr && xhr.responseType !== null;
+
+const nextTick = (() => {
+    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+    if (isPromiseAvailable) {
+        return (cb) => Promise.resolve().then(cb);
+    }
+    else {
+        return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+    }
 })();
-/**
- * HTTP long-polling based on the built-in `XMLHttpRequest` object.
- *
- * Usage: browser
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
- */
-class XHR extends BaseXHR {
-    constructor(opts) {
-        super(opts);
-        const forceBase64 = opts && opts.forceBase64;
-        this.supportsBinary = hasXHR2 && !forceBase64;
-    }
-    request(opts = {}) {
-        Object.assign(opts, { xd: this.xd }, this.opts);
-        return new Request(newRequest, this.uri(), opts);
-    }
-}
-function newRequest(opts) {
-    const xdomain = opts.xdomain;
-    // XMLHttpRequest can be disabled on IE
-    try {
-        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
-            return new XMLHttpRequest();
-        }
-    }
-    catch (e) { }
-    if (!xdomain) {
-        try {
-            return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
-        }
-        catch (e) { }
-    }
-}
+const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+const defaultBinaryType = "arraybuffer";
 
 // detect ReactNative environment
 const isReactNative = typeof navigator !== "undefined" &&
     typeof navigator.product === "string" &&
     navigator.product.toLowerCase() === "reactnative";
-class BaseWS extends Transport {
+class WS extends Transport {
+    /**
+     * WebSocket transport constructor.
+     *
+     * @param {Object} opts - connection options
+     * @protected
+     */
+    constructor(opts) {
+        super(opts);
+        this.supportsBinary = !opts.forceBase64;
+    }
     get name() {
         return "websocket";
     }
     doOpen() {
+        if (!this.check()) {
+            // let probe timeout
+            return;
+        }
         const uri = this.uri();
         const protocols = this.opts.protocols;
         // React Native only supports the 'headers' option, and will print a warning if anything else is passed
@@ -5728,7 +5933,12 @@ class BaseWS extends Transport {
             opts.headers = this.opts.extraHeaders;
         }
         try {
-            this.ws = this.createSocket(uri, protocols, opts);
+            this.ws =
+                !isReactNative
+                    ? protocols
+                        ? new WebSocket(uri, protocols)
+                        : new WebSocket(uri)
+                    : new WebSocket(uri, protocols, opts);
         }
         catch (err) {
             return this.emitReserved("error", err);
@@ -5767,7 +5977,10 @@ class BaseWS extends Transport {
                 // have a chance of informing us about it yet, in that case send will
                 // throw an error
                 try {
-                    this.doWrite(packet, data);
+                    {
+                        // TypeError is thrown when passing the second argument on Safari
+                        this.ws.send(data);
+                    }
                 }
                 catch (e) {
                 }
@@ -5784,7 +5997,6 @@ class BaseWS extends Transport {
     }
     doClose() {
         if (typeof this.ws !== "undefined") {
-            this.ws.onerror = () => { };
             this.ws.close();
             this.ws = null;
         }
@@ -5799,7 +6011,7 @@ class BaseWS extends Transport {
         const query = this.query || {};
         // append timestamp to URI
         if (this.opts.timestampRequests) {
-            query[this.opts.timestampParam] = randomString();
+            query[this.opts.timestampParam] = yeast();
         }
         // communicate binary support capabilities
         if (!this.supportsBinary) {
@@ -5807,51 +6019,29 @@ class BaseWS extends Transport {
         }
         return this.createUri(schema, query);
     }
-}
-const WebSocketCtor = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
-/**
- * WebSocket transport based on the built-in `WebSocket` object.
- *
- * Usage: browser, Node.js (since v21), Deno, Bun
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
- * @see https://caniuse.com/mdn-api_websocket
- * @see https://nodejs.org/api/globals.html#websocket
- */
-class WS extends BaseWS {
-    createSocket(uri, protocols, opts) {
-        return !isReactNative
-            ? protocols
-                ? new WebSocketCtor(uri, protocols)
-                : new WebSocketCtor(uri)
-            : new WebSocketCtor(uri, protocols, opts);
-    }
-    doWrite(_packet, data) {
-        this.ws.send(data);
+    /**
+     * Feature detection for WebSocket.
+     *
+     * @return {Boolean} whether this transport is available.
+     * @private
+     */
+    check() {
+        return !!WebSocket;
     }
 }
 
-/**
- * WebTransport transport based on the built-in `WebTransport` object.
- *
- * Usage: browser, Node.js (with the `@fails-components/webtransport` package)
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/WebTransport
- * @see https://caniuse.com/webtransport
- */
 class WT extends Transport {
     get name() {
         return "webtransport";
     }
     doOpen() {
-        try {
-            // @ts-ignore
-            this._transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
+        // @ts-ignore
+        if (typeof WebTransport !== "function") {
+            return;
         }
-        catch (err) {
-            return this.emitReserved("error", err);
-        }
-        this._transport.closed
+        // @ts-ignore
+        this.transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
+        this.transport.closed
             .then(() => {
             this.onClose();
         })
@@ -5859,13 +6049,13 @@ class WT extends Transport {
             this.onError("webtransport error", err);
         });
         // note: we could have used async/await, but that would require some additional polyfills
-        this._transport.ready.then(() => {
-            this._transport.createBidirectionalStream().then((stream) => {
+        this.transport.ready.then(() => {
+            this.transport.createBidirectionalStream().then((stream) => {
                 const decoderStream = createPacketDecoderStream(Number.MAX_SAFE_INTEGER, this.socket.binaryType);
                 const reader = stream.readable.pipeThrough(decoderStream).getReader();
                 const encoderStream = createPacketEncoderStream();
                 encoderStream.readable.pipeTo(stream.writable);
-                this._writer = encoderStream.writable.getWriter();
+                this.writer = encoderStream.writable.getWriter();
                 const read = () => {
                     reader
                         .read()
@@ -5884,7 +6074,7 @@ class WT extends Transport {
                 if (this.query.sid) {
                     packet.data = `{"sid":"${this.query.sid}"}`;
                 }
-                this._writer.write(packet).then(() => this.onOpen());
+                this.writer.write(packet).then(() => this.onOpen());
             });
         });
     }
@@ -5893,7 +6083,7 @@ class WT extends Transport {
         for (let i = 0; i < packets.length; i++) {
             const packet = packets[i];
             const lastPacket = i === packets.length - 1;
-            this._writer.write(packet).then(() => {
+            this.writer.write(packet).then(() => {
                 if (lastPacket) {
                     nextTick(() => {
                         this.writable = true;
@@ -5905,14 +6095,14 @@ class WT extends Transport {
     }
     doClose() {
         var _a;
-        (_a = this._transport) === null || _a === void 0 ? void 0 : _a.close();
+        (_a = this.transport) === null || _a === void 0 ? void 0 : _a.close();
     }
 }
 
 const transports = {
     websocket: WS,
     webtransport: WT,
-    polling: XHR,
+    polling: Polling,
 };
 
 // imported from https://github.com/galkn/parseuri
@@ -5939,7 +6129,7 @@ const parts = [
     'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
 ];
 function parse(str) {
-    if (str.length > 8000) {
+    if (str.length > 2000) {
         throw "URI too long";
     }
     const src = str, b = str.indexOf('['), e = str.indexOf(']');
@@ -5980,71 +6170,28 @@ function queryKey(uri, query) {
     return data;
 }
 
-const withEventListeners = typeof addEventListener === "function" &&
-    typeof removeEventListener === "function";
-const OFFLINE_EVENT_LISTENERS = [];
-if (withEventListeners) {
-    // within a ServiceWorker, any event handler for the 'offline' event must be added on the initial evaluation of the
-    // script, so we create one single event listener here which will forward the event to the socket instances
-    addEventListener("offline", () => {
-        OFFLINE_EVENT_LISTENERS.forEach((listener) => listener());
-    }, false);
-}
-/**
- * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
- * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
- *
- * This class comes without upgrade mechanism, which means that it will keep the first low-level transport that
- * successfully establishes the connection.
- *
- * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
- *
- * @example
- * import { SocketWithoutUpgrade, WebSocket } from "engine.io-client";
- *
- * const socket = new SocketWithoutUpgrade({
- *   transports: [WebSocket]
- * });
- *
- * socket.on("open", () => {
- *   socket.send("hello");
- * });
- *
- * @see SocketWithUpgrade
- * @see Socket
- */
-class SocketWithoutUpgrade extends Emitter {
+class Socket$1 extends Emitter {
     /**
      * Socket constructor.
      *
      * @param {String|Object} uri - uri or options
      * @param {Object} opts - options
      */
-    constructor(uri, opts) {
+    constructor(uri, opts = {}) {
         super();
         this.binaryType = defaultBinaryType;
         this.writeBuffer = [];
-        this._prevBufferLen = 0;
-        this._pingInterval = -1;
-        this._pingTimeout = -1;
-        this._maxPayload = -1;
-        /**
-         * The expiration timestamp of the {@link _pingTimeoutTimer} object is tracked, in case the timer is throttled and the
-         * callback is not fired on time. This can happen for example when a laptop is suspended or when a phone is locked.
-         */
-        this._pingTimeoutTime = Infinity;
         if (uri && "object" === typeof uri) {
             opts = uri;
             uri = null;
         }
         if (uri) {
-            const parsedUri = parse(uri);
-            opts.hostname = parsedUri.host;
-            opts.secure =
-                parsedUri.protocol === "https" || parsedUri.protocol === "wss";
-            opts.port = parsedUri.port;
-            if (parsedUri.query)
-                opts.query = parsedUri.query;
+            uri = parse(uri);
+            opts.hostname = uri.host;
+            opts.secure = uri.protocol === "https" || uri.protocol === "wss";
+            opts.port = uri.port;
+            if (uri.query)
+                opts.query = uri.query;
         }
         else if (opts.host) {
             opts.hostname = parse(opts.host).host;
@@ -6068,13 +6215,13 @@ class SocketWithoutUpgrade extends Emitter {
                     : this.secure
                         ? "443"
                         : "80");
-        this.transports = [];
-        this._transportsByName = {};
-        opts.transports.forEach((t) => {
-            const transportName = t.prototype.name;
-            this.transports.push(transportName);
-            this._transportsByName[transportName] = t;
-        });
+        this.transports = opts.transports || [
+            "polling",
+            "websocket",
+            "webtransport",
+        ];
+        this.writeBuffer = [];
+        this.prevBufferLen = 0;
         this.opts = Object.assign({
             path: "/engine.io",
             agent: false,
@@ -6096,33 +6243,37 @@ class SocketWithoutUpgrade extends Emitter {
         if (typeof this.opts.query === "string") {
             this.opts.query = decode(this.opts.query);
         }
-        if (withEventListeners) {
+        // set on handshake
+        this.id = null;
+        this.upgrades = null;
+        this.pingInterval = null;
+        this.pingTimeout = null;
+        // set on heartbeat
+        this.pingTimeoutTimer = null;
+        if (typeof addEventListener === "function") {
             if (this.opts.closeOnBeforeunload) {
                 // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
                 // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
                 // closed/reloaded)
-                this._beforeunloadEventListener = () => {
+                this.beforeunloadEventListener = () => {
                     if (this.transport) {
                         // silently close the transport
                         this.transport.removeAllListeners();
                         this.transport.close();
                     }
                 };
-                addEventListener("beforeunload", this._beforeunloadEventListener, false);
+                addEventListener("beforeunload", this.beforeunloadEventListener, false);
             }
             if (this.hostname !== "localhost") {
-                this._offlineEventListener = () => {
-                    this._onClose("transport close", {
+                this.offlineEventListener = () => {
+                    this.onClose("transport close", {
                         description: "network connection lost",
                     });
                 };
-                OFFLINE_EVENT_LISTENERS.push(this._offlineEventListener);
+                addEventListener("offline", this.offlineEventListener, false);
             }
         }
-        if (this.opts.withCredentials) {
-            this._cookieJar = createCookieJar();
-        }
-        this._open();
+        this.open();
     }
     /**
      * Creates transport of the given type.
@@ -6147,28 +6298,40 @@ class SocketWithoutUpgrade extends Emitter {
             secure: this.secure,
             port: this.port,
         }, this.opts.transportOptions[name]);
-        return new this._transportsByName[name](opts);
+        return new transports[name](opts);
     }
     /**
      * Initializes transport to use and starts probe.
      *
      * @private
      */
-    _open() {
-        if (this.transports.length === 0) {
+    open() {
+        let transport;
+        if (this.opts.rememberUpgrade &&
+            Socket$1.priorWebsocketSuccess &&
+            this.transports.indexOf("websocket") !== -1) {
+            transport = "websocket";
+        }
+        else if (0 === this.transports.length) {
             // Emit error on next tick so it can be listened to
             this.setTimeoutFn(() => {
                 this.emitReserved("error", "No transports available");
             }, 0);
             return;
         }
-        const transportName = this.opts.rememberUpgrade &&
-            SocketWithoutUpgrade.priorWebsocketSuccess &&
-            this.transports.indexOf("websocket") !== -1
-            ? "websocket"
-            : this.transports[0];
+        else {
+            transport = this.transports[0];
+        }
         this.readyState = "opening";
-        const transport = this.createTransport(transportName);
+        // Retry with the next transport if the transport is disabled (jsonp: false)
+        try {
+            transport = this.createTransport(transport);
+        }
+        catch (e) {
+            this.transports.shift();
+            this.open();
+            return;
+        }
         transport.open();
         this.setTransport(transport);
     }
@@ -6185,366 +6348,10 @@ class SocketWithoutUpgrade extends Emitter {
         this.transport = transport;
         // set up transport listeners
         transport
-            .on("drain", this._onDrain.bind(this))
-            .on("packet", this._onPacket.bind(this))
-            .on("error", this._onError.bind(this))
-            .on("close", (reason) => this._onClose("transport close", reason));
-    }
-    /**
-     * Called when connection is deemed open.
-     *
-     * @private
-     */
-    onOpen() {
-        this.readyState = "open";
-        SocketWithoutUpgrade.priorWebsocketSuccess =
-            "websocket" === this.transport.name;
-        this.emitReserved("open");
-        this.flush();
-    }
-    /**
-     * Handles a packet.
-     *
-     * @private
-     */
-    _onPacket(packet) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            this.emitReserved("packet", packet);
-            // Socket is live - any packet counts
-            this.emitReserved("heartbeat");
-            switch (packet.type) {
-                case "open":
-                    this.onHandshake(JSON.parse(packet.data));
-                    break;
-                case "ping":
-                    this._sendPacket("pong");
-                    this.emitReserved("ping");
-                    this.emitReserved("pong");
-                    this._resetPingTimeout();
-                    break;
-                case "error":
-                    const err = new Error("server error");
-                    // @ts-ignore
-                    err.code = packet.data;
-                    this._onError(err);
-                    break;
-                case "message":
-                    this.emitReserved("data", packet.data);
-                    this.emitReserved("message", packet.data);
-                    break;
-            }
-        }
-    }
-    /**
-     * Called upon handshake completion.
-     *
-     * @param {Object} data - handshake obj
-     * @private
-     */
-    onHandshake(data) {
-        this.emitReserved("handshake", data);
-        this.id = data.sid;
-        this.transport.query.sid = data.sid;
-        this._pingInterval = data.pingInterval;
-        this._pingTimeout = data.pingTimeout;
-        this._maxPayload = data.maxPayload;
-        this.onOpen();
-        // In case open handler closes socket
-        if ("closed" === this.readyState)
-            return;
-        this._resetPingTimeout();
-    }
-    /**
-     * Sets and resets ping timeout timer based on server pings.
-     *
-     * @private
-     */
-    _resetPingTimeout() {
-        this.clearTimeoutFn(this._pingTimeoutTimer);
-        const delay = this._pingInterval + this._pingTimeout;
-        this._pingTimeoutTime = Date.now() + delay;
-        this._pingTimeoutTimer = this.setTimeoutFn(() => {
-            this._onClose("ping timeout");
-        }, delay);
-        if (this.opts.autoUnref) {
-            this._pingTimeoutTimer.unref();
-        }
-    }
-    /**
-     * Called on `drain` event
-     *
-     * @private
-     */
-    _onDrain() {
-        this.writeBuffer.splice(0, this._prevBufferLen);
-        // setting prevBufferLen = 0 is very important
-        // for example, when upgrading, upgrade packet is sent over,
-        // and a nonzero prevBufferLen could cause problems on `drain`
-        this._prevBufferLen = 0;
-        if (0 === this.writeBuffer.length) {
-            this.emitReserved("drain");
-        }
-        else {
-            this.flush();
-        }
-    }
-    /**
-     * Flush write buffers.
-     *
-     * @private
-     */
-    flush() {
-        if ("closed" !== this.readyState &&
-            this.transport.writable &&
-            !this.upgrading &&
-            this.writeBuffer.length) {
-            const packets = this._getWritablePackets();
-            this.transport.send(packets);
-            // keep track of current length of writeBuffer
-            // splice writeBuffer and callbackBuffer on `drain`
-            this._prevBufferLen = packets.length;
-            this.emitReserved("flush");
-        }
-    }
-    /**
-     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
-     * long-polling)
-     *
-     * @private
-     */
-    _getWritablePackets() {
-        const shouldCheckPayloadSize = this._maxPayload &&
-            this.transport.name === "polling" &&
-            this.writeBuffer.length > 1;
-        if (!shouldCheckPayloadSize) {
-            return this.writeBuffer;
-        }
-        let payloadSize = 1; // first packet type
-        for (let i = 0; i < this.writeBuffer.length; i++) {
-            const data = this.writeBuffer[i].data;
-            if (data) {
-                payloadSize += byteLength(data);
-            }
-            if (i > 0 && payloadSize > this._maxPayload) {
-                return this.writeBuffer.slice(0, i);
-            }
-            payloadSize += 2; // separator + packet type
-        }
-        return this.writeBuffer;
-    }
-    /**
-     * Checks whether the heartbeat timer has expired but the socket has not yet been notified.
-     *
-     * Note: this method is private for now because it does not really fit the WebSocket API, but if we put it in the
-     * `write()` method then the message would not be buffered by the Socket.IO client.
-     *
-     * @return {boolean}
-     * @private
-     */
-    /* private */ _hasPingExpired() {
-        if (!this._pingTimeoutTime)
-            return true;
-        const hasExpired = Date.now() > this._pingTimeoutTime;
-        if (hasExpired) {
-            this._pingTimeoutTime = 0;
-            nextTick(() => {
-                this._onClose("ping timeout");
-            }, this.setTimeoutFn);
-        }
-        return hasExpired;
-    }
-    /**
-     * Sends a message.
-     *
-     * @param {String} msg - message.
-     * @param {Object} options.
-     * @param {Function} fn - callback function.
-     * @return {Socket} for chaining.
-     */
-    write(msg, options, fn) {
-        this._sendPacket("message", msg, options, fn);
-        return this;
-    }
-    /**
-     * Sends a message. Alias of {@link Socket#write}.
-     *
-     * @param {String} msg - message.
-     * @param {Object} options.
-     * @param {Function} fn - callback function.
-     * @return {Socket} for chaining.
-     */
-    send(msg, options, fn) {
-        this._sendPacket("message", msg, options, fn);
-        return this;
-    }
-    /**
-     * Sends a packet.
-     *
-     * @param {String} type: packet type.
-     * @param {String} data.
-     * @param {Object} options.
-     * @param {Function} fn - callback function.
-     * @private
-     */
-    _sendPacket(type, data, options, fn) {
-        if ("function" === typeof data) {
-            fn = data;
-            data = undefined;
-        }
-        if ("function" === typeof options) {
-            fn = options;
-            options = null;
-        }
-        if ("closing" === this.readyState || "closed" === this.readyState) {
-            return;
-        }
-        options = options || {};
-        options.compress = false !== options.compress;
-        const packet = {
-            type: type,
-            data: data,
-            options: options,
-        };
-        this.emitReserved("packetCreate", packet);
-        this.writeBuffer.push(packet);
-        if (fn)
-            this.once("flush", fn);
-        this.flush();
-    }
-    /**
-     * Closes the connection.
-     */
-    close() {
-        const close = () => {
-            this._onClose("forced close");
-            this.transport.close();
-        };
-        const cleanupAndClose = () => {
-            this.off("upgrade", cleanupAndClose);
-            this.off("upgradeError", cleanupAndClose);
-            close();
-        };
-        const waitForUpgrade = () => {
-            // wait for upgrade to finish since we can't send packets while pausing a transport
-            this.once("upgrade", cleanupAndClose);
-            this.once("upgradeError", cleanupAndClose);
-        };
-        if ("opening" === this.readyState || "open" === this.readyState) {
-            this.readyState = "closing";
-            if (this.writeBuffer.length) {
-                this.once("drain", () => {
-                    if (this.upgrading) {
-                        waitForUpgrade();
-                    }
-                    else {
-                        close();
-                    }
-                });
-            }
-            else if (this.upgrading) {
-                waitForUpgrade();
-            }
-            else {
-                close();
-            }
-        }
-        return this;
-    }
-    /**
-     * Called upon transport error
-     *
-     * @private
-     */
-    _onError(err) {
-        SocketWithoutUpgrade.priorWebsocketSuccess = false;
-        if (this.opts.tryAllTransports &&
-            this.transports.length > 1 &&
-            this.readyState === "opening") {
-            this.transports.shift();
-            return this._open();
-        }
-        this.emitReserved("error", err);
-        this._onClose("transport error", err);
-    }
-    /**
-     * Called upon transport close.
-     *
-     * @private
-     */
-    _onClose(reason, description) {
-        if ("opening" === this.readyState ||
-            "open" === this.readyState ||
-            "closing" === this.readyState) {
-            // clear timers
-            this.clearTimeoutFn(this._pingTimeoutTimer);
-            // stop event from firing again for transport
-            this.transport.removeAllListeners("close");
-            // ensure transport won't stay open
-            this.transport.close();
-            // ignore further transport communication
-            this.transport.removeAllListeners();
-            if (withEventListeners) {
-                if (this._beforeunloadEventListener) {
-                    removeEventListener("beforeunload", this._beforeunloadEventListener, false);
-                }
-                if (this._offlineEventListener) {
-                    const i = OFFLINE_EVENT_LISTENERS.indexOf(this._offlineEventListener);
-                    if (i !== -1) {
-                        OFFLINE_EVENT_LISTENERS.splice(i, 1);
-                    }
-                }
-            }
-            // set ready state
-            this.readyState = "closed";
-            // clear session id
-            this.id = null;
-            // emit close event
-            this.emitReserved("close", reason, description);
-            // clean buffers after, so users can still
-            // grab the buffers on `close` event
-            this.writeBuffer = [];
-            this._prevBufferLen = 0;
-        }
-    }
-}
-SocketWithoutUpgrade.protocol = protocol$1;
-/**
- * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
- * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
- *
- * This class comes with an upgrade mechanism, which means that once the connection is established with the first
- * low-level transport, it will try to upgrade to a better transport.
- *
- * In order to allow tree-shaking, there are no transports included, that's why the `transports` option is mandatory.
- *
- * @example
- * import { SocketWithUpgrade, WebSocket } from "engine.io-client";
- *
- * const socket = new SocketWithUpgrade({
- *   transports: [WebSocket]
- * });
- *
- * socket.on("open", () => {
- *   socket.send("hello");
- * });
- *
- * @see SocketWithoutUpgrade
- * @see Socket
- */
-class SocketWithUpgrade extends SocketWithoutUpgrade {
-    constructor() {
-        super(...arguments);
-        this._upgrades = [];
-    }
-    onOpen() {
-        super.onOpen();
-        if ("open" === this.readyState && this.opts.upgrade) {
-            for (let i = 0; i < this._upgrades.length; i++) {
-                this._probe(this._upgrades[i]);
-            }
-        }
+            .on("drain", this.onDrain.bind(this))
+            .on("packet", this.onPacket.bind(this))
+            .on("error", this.onError.bind(this))
+            .on("close", (reason) => this.onClose("transport close", reason));
     }
     /**
      * Probes a transport.
@@ -6552,10 +6359,10 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
      * @param {String} name - transport name
      * @private
      */
-    _probe(name) {
+    probe(name) {
         let transport = this.createTransport(name);
         let failed = false;
-        SocketWithoutUpgrade.priorWebsocketSuccess = false;
+        Socket$1.priorWebsocketSuccess = false;
         const onTransportOpen = () => {
             if (failed)
                 return;
@@ -6568,8 +6375,7 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
                     this.emitReserved("upgrading", transport);
                     if (!transport)
                         return;
-                    SocketWithoutUpgrade.priorWebsocketSuccess =
-                        "websocket" === transport.name;
+                    Socket$1.priorWebsocketSuccess = "websocket" === transport.name;
                     this.transport.pause(() => {
                         if (failed)
                             return;
@@ -6635,7 +6441,7 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
         transport.once("close", onTransportClose);
         this.once("close", onclose);
         this.once("upgrading", onupgrade);
-        if (this._upgrades.indexOf("webtransport") !== -1 &&
+        if (this.upgrades.indexOf("webtransport") !== -1 &&
             name !== "webtransport") {
             // favor WebTransport
             this.setTimeoutFn(() => {
@@ -6648,9 +6454,288 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
             transport.open();
         }
     }
+    /**
+     * Called when connection is deemed open.
+     *
+     * @private
+     */
+    onOpen() {
+        this.readyState = "open";
+        Socket$1.priorWebsocketSuccess = "websocket" === this.transport.name;
+        this.emitReserved("open");
+        this.flush();
+        // we check for `readyState` in case an `open`
+        // listener already closed the socket
+        if ("open" === this.readyState && this.opts.upgrade) {
+            let i = 0;
+            const l = this.upgrades.length;
+            for (; i < l; i++) {
+                this.probe(this.upgrades[i]);
+            }
+        }
+    }
+    /**
+     * Handles a packet.
+     *
+     * @private
+     */
+    onPacket(packet) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            this.emitReserved("packet", packet);
+            // Socket is live - any packet counts
+            this.emitReserved("heartbeat");
+            this.resetPingTimeout();
+            switch (packet.type) {
+                case "open":
+                    this.onHandshake(JSON.parse(packet.data));
+                    break;
+                case "ping":
+                    this.sendPacket("pong");
+                    this.emitReserved("ping");
+                    this.emitReserved("pong");
+                    break;
+                case "error":
+                    const err = new Error("server error");
+                    // @ts-ignore
+                    err.code = packet.data;
+                    this.onError(err);
+                    break;
+                case "message":
+                    this.emitReserved("data", packet.data);
+                    this.emitReserved("message", packet.data);
+                    break;
+            }
+        }
+    }
+    /**
+     * Called upon handshake completion.
+     *
+     * @param {Object} data - handshake obj
+     * @private
+     */
     onHandshake(data) {
-        this._upgrades = this._filterUpgrades(data.upgrades);
-        super.onHandshake(data);
+        this.emitReserved("handshake", data);
+        this.id = data.sid;
+        this.transport.query.sid = data.sid;
+        this.upgrades = this.filterUpgrades(data.upgrades);
+        this.pingInterval = data.pingInterval;
+        this.pingTimeout = data.pingTimeout;
+        this.maxPayload = data.maxPayload;
+        this.onOpen();
+        // In case open handler closes socket
+        if ("closed" === this.readyState)
+            return;
+        this.resetPingTimeout();
+    }
+    /**
+     * Sets and resets ping timeout timer based on server pings.
+     *
+     * @private
+     */
+    resetPingTimeout() {
+        this.clearTimeoutFn(this.pingTimeoutTimer);
+        this.pingTimeoutTimer = this.setTimeoutFn(() => {
+            this.onClose("ping timeout");
+        }, this.pingInterval + this.pingTimeout);
+        if (this.opts.autoUnref) {
+            this.pingTimeoutTimer.unref();
+        }
+    }
+    /**
+     * Called on `drain` event
+     *
+     * @private
+     */
+    onDrain() {
+        this.writeBuffer.splice(0, this.prevBufferLen);
+        // setting prevBufferLen = 0 is very important
+        // for example, when upgrading, upgrade packet is sent over,
+        // and a nonzero prevBufferLen could cause problems on `drain`
+        this.prevBufferLen = 0;
+        if (0 === this.writeBuffer.length) {
+            this.emitReserved("drain");
+        }
+        else {
+            this.flush();
+        }
+    }
+    /**
+     * Flush write buffers.
+     *
+     * @private
+     */
+    flush() {
+        if ("closed" !== this.readyState &&
+            this.transport.writable &&
+            !this.upgrading &&
+            this.writeBuffer.length) {
+            const packets = this.getWritablePackets();
+            this.transport.send(packets);
+            // keep track of current length of writeBuffer
+            // splice writeBuffer and callbackBuffer on `drain`
+            this.prevBufferLen = packets.length;
+            this.emitReserved("flush");
+        }
+    }
+    /**
+     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+     * long-polling)
+     *
+     * @private
+     */
+    getWritablePackets() {
+        const shouldCheckPayloadSize = this.maxPayload &&
+            this.transport.name === "polling" &&
+            this.writeBuffer.length > 1;
+        if (!shouldCheckPayloadSize) {
+            return this.writeBuffer;
+        }
+        let payloadSize = 1; // first packet type
+        for (let i = 0; i < this.writeBuffer.length; i++) {
+            const data = this.writeBuffer[i].data;
+            if (data) {
+                payloadSize += byteLength(data);
+            }
+            if (i > 0 && payloadSize > this.maxPayload) {
+                return this.writeBuffer.slice(0, i);
+            }
+            payloadSize += 2; // separator + packet type
+        }
+        return this.writeBuffer;
+    }
+    /**
+     * Sends a message.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} callback function.
+     * @return {Socket} for chaining.
+     */
+    write(msg, options, fn) {
+        this.sendPacket("message", msg, options, fn);
+        return this;
+    }
+    send(msg, options, fn) {
+        this.sendPacket("message", msg, options, fn);
+        return this;
+    }
+    /**
+     * Sends a packet.
+     *
+     * @param {String} type: packet type.
+     * @param {String} data.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @private
+     */
+    sendPacket(type, data, options, fn) {
+        if ("function" === typeof data) {
+            fn = data;
+            data = undefined;
+        }
+        if ("function" === typeof options) {
+            fn = options;
+            options = null;
+        }
+        if ("closing" === this.readyState || "closed" === this.readyState) {
+            return;
+        }
+        options = options || {};
+        options.compress = false !== options.compress;
+        const packet = {
+            type: type,
+            data: data,
+            options: options,
+        };
+        this.emitReserved("packetCreate", packet);
+        this.writeBuffer.push(packet);
+        if (fn)
+            this.once("flush", fn);
+        this.flush();
+    }
+    /**
+     * Closes the connection.
+     */
+    close() {
+        const close = () => {
+            this.onClose("forced close");
+            this.transport.close();
+        };
+        const cleanupAndClose = () => {
+            this.off("upgrade", cleanupAndClose);
+            this.off("upgradeError", cleanupAndClose);
+            close();
+        };
+        const waitForUpgrade = () => {
+            // wait for upgrade to finish since we can't send packets while pausing a transport
+            this.once("upgrade", cleanupAndClose);
+            this.once("upgradeError", cleanupAndClose);
+        };
+        if ("opening" === this.readyState || "open" === this.readyState) {
+            this.readyState = "closing";
+            if (this.writeBuffer.length) {
+                this.once("drain", () => {
+                    if (this.upgrading) {
+                        waitForUpgrade();
+                    }
+                    else {
+                        close();
+                    }
+                });
+            }
+            else if (this.upgrading) {
+                waitForUpgrade();
+            }
+            else {
+                close();
+            }
+        }
+        return this;
+    }
+    /**
+     * Called upon transport error
+     *
+     * @private
+     */
+    onError(err) {
+        Socket$1.priorWebsocketSuccess = false;
+        this.emitReserved("error", err);
+        this.onClose("transport error", err);
+    }
+    /**
+     * Called upon transport close.
+     *
+     * @private
+     */
+    onClose(reason, description) {
+        if ("opening" === this.readyState ||
+            "open" === this.readyState ||
+            "closing" === this.readyState) {
+            // clear timers
+            this.clearTimeoutFn(this.pingTimeoutTimer);
+            // stop event from firing again for transport
+            this.transport.removeAllListeners("close");
+            // ensure transport won't stay open
+            this.transport.close();
+            // ignore further transport communication
+            this.transport.removeAllListeners();
+            if (typeof removeEventListener === "function") {
+                removeEventListener("beforeunload", this.beforeunloadEventListener, false);
+                removeEventListener("offline", this.offlineEventListener, false);
+            }
+            // set ready state
+            this.readyState = "closed";
+            // clear session id
+            this.id = null;
+            // emit close event
+            this.emitReserved("close", reason, description);
+            // clean buffers after, so users can still
+            // grab the buffers on `close` event
+            this.writeBuffer = [];
+            this.prevBufferLen = 0;
+        }
     }
     /**
      * Filters upgrades, returning only those matching client transports.
@@ -6658,46 +6743,18 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
      * @param {Array} upgrades - server upgrades
      * @private
      */
-    _filterUpgrades(upgrades) {
+    filterUpgrades(upgrades) {
         const filteredUpgrades = [];
-        for (let i = 0; i < upgrades.length; i++) {
+        let i = 0;
+        const j = upgrades.length;
+        for (; i < j; i++) {
             if (~this.transports.indexOf(upgrades[i]))
                 filteredUpgrades.push(upgrades[i]);
         }
         return filteredUpgrades;
     }
 }
-/**
- * This class provides a WebSocket-like interface to connect to an Engine.IO server. The connection will be established
- * with one of the available low-level transports, like HTTP long-polling, WebSocket or WebTransport.
- *
- * This class comes with an upgrade mechanism, which means that once the connection is established with the first
- * low-level transport, it will try to upgrade to a better transport.
- *
- * @example
- * import { Socket } from "engine.io-client";
- *
- * const socket = new Socket();
- *
- * socket.on("open", () => {
- *   socket.send("hello");
- * });
- *
- * @see SocketWithoutUpgrade
- * @see SocketWithUpgrade
- */
-class Socket$1 extends SocketWithUpgrade {
-    constructor(uri, opts = {}) {
-        const o = typeof uri === "object" ? uri : opts;
-        if (!o.transports ||
-            (o.transports && typeof o.transports[0] === "string")) {
-            o.transports = (o.transports || ["polling", "websocket", "webtransport"])
-                .map((transportName) => transports[transportName])
-                .filter((t) => !!t);
-        }
-        super(uri, o);
-    }
-}
+Socket$1.protocol = protocol$1;
 
 /**
  * URL parser.
@@ -7451,7 +7508,6 @@ class Socket extends Emitter {
      * @return self
      */
     emit(ev, ...args) {
-        var _a, _b, _c;
         if (RESERVED_EVENTS.hasOwnProperty(ev)) {
             throw new Error('"' + ev.toString() + '" is a reserved event name');
         }
@@ -7473,11 +7529,12 @@ class Socket extends Emitter {
             this._registerAckCallback(id, ack);
             packet.id = id;
         }
-        const isTransportWritable = (_b = (_a = this.io.engine) === null || _a === void 0 ? void 0 : _a.transport) === null || _b === void 0 ? void 0 : _b.writable;
-        const isConnected = this.connected && !((_c = this.io.engine) === null || _c === void 0 ? void 0 : _c._hasPingExpired());
-        const discardPacket = this.flags.volatile && !isTransportWritable;
+        const isTransportWritable = this.io.engine &&
+            this.io.engine.transport &&
+            this.io.engine.transport.writable;
+        const discardPacket = this.flags.volatile && (!isTransportWritable || !this.connected);
         if (discardPacket) ;
-        else if (isConnected) {
+        else if (this.connected) {
             this.notifyOutgoingListeners(packet);
             this.packet(packet);
         }
@@ -8200,9 +8257,6 @@ class Manager extends Emitter {
         if (!arguments.length)
             return this._reconnection;
         this._reconnection = !!v;
-        if (!v) {
-            this.skipReconnect = true;
-        }
         return this;
     }
     reconnectionAttempts(v) {
@@ -8331,9 +8385,7 @@ class Manager extends Emitter {
         this.emitReserved("open");
         // add new subs
         const socket = this.engine;
-        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), 
-        // @ts-ignore
-        on(this.decoder, "decoded", this.ondecoded.bind(this)));
+        this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), on(this.decoder, "decoded", this.ondecoded.bind(this)));
     }
     /**
      * Called upon a ping.
@@ -8439,6 +8491,8 @@ class Manager extends Emitter {
         this.skipReconnect = true;
         this._reconnecting = false;
         this.onclose("forced close");
+        if (this.engine)
+            this.engine.close();
     }
     /**
      * Alias for close()
@@ -8449,18 +8503,12 @@ class Manager extends Emitter {
         return this._close();
     }
     /**
-     * Called when:
-     *
-     * - the low-level engine is closed
-     * - the parser encountered a badly formatted packet
-     * - all sockets are disconnected
+     * Called upon engine close.
      *
      * @private
      */
     onclose(reason, description) {
-        var _a;
         this.cleanup();
-        (_a = this.engine) === null || _a === void 0 ? void 0 : _a.close();
         this.backoff.reset();
         this._readyState = "closed";
         this.emitReserved("close", reason, description);
@@ -8579,22 +8627,6 @@ const IglooCalendar = class {
         this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent", 7);
         this.revertBooking = createEvent(this, "revertBooking", 7);
         this.openCalendarSidebar = createEvent(this, "openCalendarSidebar", 7);
-        this.ticket = '';
-        this.calendarData = new Object();
-        this.days = new Array();
-        this.scrollViewDragging = false;
-        this.dialogData = null;
-        this.bookingItem = null;
-        this.editBookingItem = null;
-        this.showLegend = false;
-        this.showPaymentDetails = false;
-        this.showToBeAssigned = false;
-        this.unassignedDates = {};
-        this.roomNightsData = null;
-        this.renderAgain = false;
-        this.showBookProperty = false;
-        this.totalAvailabilityQueue = [];
-        this.isAuthenticated = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.eventsService = new EventsService();
@@ -8622,6 +8654,33 @@ const IglooCalendar = class {
             document.removeEventListener('mousemove', this.onScrollContentMoveHandler);
             document.removeEventListener('mouseup', this.onScrollContentMoveEndHandler);
         };
+        this.propertyid = undefined;
+        this.from_date = undefined;
+        this.to_date = undefined;
+        this.language = undefined;
+        this.loadingMessage = undefined;
+        this.currencyName = undefined;
+        this.ticket = '';
+        this.p = undefined;
+        this.calendarData = new Object();
+        this.property_id = undefined;
+        this.days = new Array();
+        this.scrollViewDragging = false;
+        this.dialogData = null;
+        this.bookingItem = null;
+        this.editBookingItem = null;
+        this.showLegend = false;
+        this.showPaymentDetails = false;
+        this.showToBeAssigned = false;
+        this.unassignedDates = {};
+        this.roomNightsData = null;
+        this.renderAgain = false;
+        this.showBookProperty = false;
+        this.totalAvailabilityQueue = [];
+        this.highlightedDate = undefined;
+        this.calDates = undefined;
+        this.isAuthenticated = false;
+        this.calendarSidebarState = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -9034,6 +9093,7 @@ const IglooCalendar = class {
     }
     updateBookingEventsDateRange(eventData) {
         eventData.forEach(bookingEvent => {
+            var _a;
             bookingEvent.legendData = this.calendarData.formattedLegendData;
             bookingEvent.defaultDateRange = {};
             bookingEvent.defaultDateRange.fromDate = new Date(bookingEvent.FROM_DATE + 'T00:00:00');
@@ -9046,7 +9106,7 @@ const IglooCalendar = class {
             bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
             if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
                 bookingEvent.STATUS = getRoomStatus({
-                    in_out: bookingEvent.ROOM_INFO.in_out,
+                    in_out: (_a = bookingEvent.ROOM_INFO) === null || _a === void 0 ? void 0 : _a.in_out,
                     from_date: bookingEvent.FROM_DATE,
                     to_date: bookingEvent.TO_DATE,
                     status_code: bookingEvent.BASE_STATUS_CODE,
@@ -9459,10 +9519,10 @@ const IglooCalendar = class {
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: 'c3f28fca5b0ef05a273bf1fd741871ab73c5dec5' }, h("ir-toast", { key: '30d15713f7d52c6db3da7d849868aa522fa2141a' }), h("ir-interceptor", { key: '3e08632f173e50422816054df3f5ae701a465e2c' }), h("div", { key: '237df39f47b91798b28d26cec9e861df26d5f1b3', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h("div", { class: "h-100 p-0 m-0", "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: 'e4e5f28090f54f3ec736f09830bfddff3db4d12b', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '2a0fae7a9537931e4b814b5f462d5e317ceecc2f', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: 'cbe8e6b996e6fa249af33fcfdc96300f7da293c6' }, h("ir-toast", { key: 'f5af4a8cf0fc7f3edd8c00eac6ce88dd75228841' }), h("ir-interceptor", { key: 'b813380f42b74cc700611c468f0b7ebb46e3e8b8' }), h("div", { key: '98eec851e8fbea22e2b6676e5649ebd776d9b231', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h("div", { class: "h-100 p-0 m-0", "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '43795fabf87b9c01967386f07a7c24ccfcae5a19', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'c4705eb4c26586efd8e390d4039986a8a8f5e0a6', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
                 width: ((_a = this.calendarSidebarState) === null || _a === void 0 ? void 0 : _a.type) === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? '#F2F3F8' : 'white',
-            } }, this.roomNightsData && (h("ir-room-nights", { key: '67a994427e8ed041d132486e84f6826dea45cfb7', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '29de0d3fc68ddff775fd3b1030cd1e7e88c1c977', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: 'c3385f99d1b4577682e519f1c39b2e971ed1b0f8', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) }))), h("ir-modal", { key: '070a4d2157602d274ee452c165c1e54ececd6fda', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_p = this.dialogData) === null || _p === void 0 ? void 0 : _p.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_q = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _q === void 0 ? void 0 : _q.Lcz_Cancel, rightBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+            } }, this.roomNightsData && (h("ir-room-nights", { key: '92957ed2d08a92173239bf1bf31a86a86c3605ac', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'a9b3180128bc7517a7b82a3d42105f9941c532bb', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: 'ea6f0c9f577cb9b9e914e381c4c67cf658771f46', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) }))), h("ir-modal", { key: 'c0625456ff7aefb01875217725adb5e2936b6f63', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_p = this.dialogData) === null || _p === void 0 ? void 0 : _p.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_q = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _q === void 0 ? void 0 : _q.Lcz_Cancel, rightBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return getElement(this); }
     static get watchers() { return {
@@ -9480,24 +9540,29 @@ const IrAutocomplete = class {
         this.comboboxValue = createEvent(this, "comboboxValue", 7);
         this.inputCleared = createEvent(this, "inputCleared", 7);
         this.toast = createEvent(this, "toast", 7);
+        this.bookingService = new BookingService();
+        this.no_result_found = '';
         this.duration = 300;
         this.placeholder = '';
+        this.propertyId = undefined;
         this.isSplitBooking = false;
         this.type = 'text';
         this.name = '';
         this.inputId = v4();
         this.required = false;
         this.disabled = false;
+        this.value = undefined;
         this.from_date = '';
         this.to_date = '';
+        this.danger_border = undefined;
+        this.testId = undefined;
         this.inputValue = '';
         this.data = [];
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
+        this.isItemSelected = undefined;
         this.inputFocused = false;
-        this.bookingService = new BookingService();
-        this.no_result_found = '';
     }
     componentWillLoad() {
         this.no_result_found = locales.entries.Lcz_NoResultsFound;
@@ -9715,17 +9780,21 @@ const IrBookingDetails = class {
         this.toast = createEvent(this, "toast", 7);
         this.bookingChanged = createEvent(this, "bookingChanged", 7);
         this.closeSidebar = createEvent(this, "closeSidebar", 7);
-        // Setup Data
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.paymentService = new PaymentService();
+        this.token = new Token();
+        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
         this.language = 'en';
         this.ticket = '';
         this.bookingNumber = '';
+        this.propertyid = undefined;
         this.is_from_front_desk = false;
-        // Booleans Conditions
+        this.p = undefined;
         this.hasPrint = false;
         this.hasReceipt = false;
         this.hasDelete = false;
         this.hasMenu = false;
-        // Room Booleans
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -9734,19 +9803,22 @@ const IrBookingDetails = class {
         this.hasCloseButton = false;
         this.bookingItem = null;
         this.statusData = [];
+        this.showPaymentDetails = undefined;
+        this.booking = undefined;
+        this.countries = undefined;
         this.calendarData = {};
-        // Guest Data
         this.guestData = null;
-        // Rerender Flag
         this.rerenderFlag = false;
         this.sidebarState = null;
+        this.sidebarPayload = undefined;
         this.isUpdateClicked = false;
+        this.pms_status = undefined;
         this.isPMSLogLoading = false;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.paymentService = new PaymentService();
-        this.token = new Token();
-        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+        this.paymentActions = undefined;
+        this.property_id = undefined;
+        this.selectedService = undefined;
+        this.bedPreference = undefined;
+        this.roomGuest = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -10023,9 +10095,10 @@ const IrBookingExtraNote = class {
         registerInstance(this, hostRef);
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.bookingService = new BookingService();
+        this.booking = undefined;
         this.isLoading = false;
         this.note = '';
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         if (this.booking.extras) {
@@ -10091,7 +10164,6 @@ const IrBookingHeader = class {
         this.closeSidebar = createEvent(this, "closeSidebar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.bookingStatus = null;
         this.confirmationBG = {
             '001': 'bg-ir-orange',
             '002': 'bg-ir-green',
@@ -10099,6 +10171,14 @@ const IrBookingHeader = class {
             '004': 'bg-ir-red',
         };
         this.bookingService = new BookingService();
+        this.booking = undefined;
+        this.hasReceipt = undefined;
+        this.hasPrint = undefined;
+        this.hasDelete = undefined;
+        this.hasMenu = undefined;
+        this.hasCloseButton = undefined;
+        this.bookingStatus = null;
+        this.currentDialogStatus = undefined;
     }
     handleSelectChange(e) {
         e.stopPropagation();
@@ -10176,6 +10256,8 @@ const IrButton = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.clickHandler = createEvent(this, "clickHandler", 7);
+        this.name = undefined;
+        this.text = undefined;
         this.icon = 'ft-save';
         this.btn_color = 'primary';
         this.size = 'md';
@@ -10184,11 +10266,15 @@ const IrButton = class {
         this.btn_disabled = false;
         this.btn_type = 'button';
         this.isLoading = false;
+        this.btn_styles = undefined;
         this.btn_id = v4();
         this.variant = 'default';
+        this.icon_name = undefined;
         this.visibleBackgroundOnHover = false;
         this.iconPosition = 'left';
-        /** If true, will render `content` as HTML */
+        this.icon_style = undefined;
+        this.btnStyle = undefined;
+        this.labelStyle = undefined;
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -10227,6 +10313,8 @@ const IrCombobox = class {
         this.toast = createEvent(this, "toast", 7);
         this.data = [];
         this.duration = 300;
+        this.placeholder = undefined;
+        this.value = undefined;
         this.disabled = false;
         this.autoFocus = false;
         this.input_id = v4();
@@ -10234,6 +10322,7 @@ const IrCombobox = class {
         this.actualIndex = -1;
         this.isComboBoxVisible = false;
         this.isLoading = true;
+        this.isItemSelected = undefined;
         this.inputValue = '';
         this.filteredData = [];
         this.componentShouldAutoFocus = false;
@@ -10539,7 +10628,14 @@ const IrCountryPicker = class {
         registerInstance(this, hostRef);
         this.countryChange = createEvent(this, "countryChange", 7);
         this.countries = [];
+        this.country = undefined;
+        this.error = undefined;
+        this.propertyCountry = undefined;
+        this.label = undefined;
+        this.testId = undefined;
         this.autoValidate = false;
+        this.inputValue = undefined;
+        this.selectedCountry = undefined;
         this.filteredCountries = [];
         this.searching = false;
     }
@@ -12443,74 +12539,24 @@ const IrDatePicker = class {
         this.dateChanged = createEvent(this, "dateChanged", 7);
         this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
         this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
-        /**
-         * Determines whether the date picker is rendered inline or in a pop-up.
-         * If `true`, the picker is always visible inline.
-         */
+        this.triggerSlot = null;
         this.inline = false;
-        /**
-         * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
-         */
         this.date = null;
-        /**
-         * Enables multiple dates.
-         * If `true`, multiple selection is allowed.
-         * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-         */
         this.multipleDates = false;
-        /**
-         * Whether the picker should allow range selection (start and end date).
-         */
         this.range = false;
-        /**
-         * Format for the date as it appears in the input field.
-         * Follows the `AirDatepicker` format rules.
-         */
         this.dateFormat = 'yyyy-MM-dd';
-        /**
-         * Enables the timepicker functionality (select hours and minutes).
-         */
         this.timepicker = false;
-        /**
-         * Disables the input and prevents interaction.
-         */
+        this.minDate = undefined;
+        this.maxDate = undefined;
         this.disabled = false;
-        /**
-         * Closes the picker automatically after a date is selected.
-         */
         this.autoClose = true;
-        /**
-         * Shows days from previous/next month in the current month's calendar.
-         */
         this.showOtherMonths = true;
-        /**
-         * Allows selecting days from previous/next month shown in the current view.
-         */
         this.selectOtherMonths = true;
-        /**
-         * Controls how the date picker is triggered.
-         * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
-         * - **`false`**: A default button input is used to open the picker.
-         *
-         * Defaults to `true`.
-         */
         this.customPicker = true;
-        /**
-         * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
-         * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
-         * but note that it may affect performance if triggered frequently.
-         * Defaults to `false`.
-         */
+        this.container = undefined;
         this.forceDestroyOnUpdate = false;
-        /**
-         * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
-         * Otherwise, empty-date changes will be ignored (no event emitted).
-         *
-         * Defaults to `false`.
-         */
         this.emitEmptyDate = false;
         this.currentDate = null;
-        this.triggerSlot = null;
     }
     componentWillLoad() {
         // Sync initial @Prop to internal state
@@ -12712,6 +12758,11 @@ const IrDateRange = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.dateChanged = createEvent(this, "dateChanged", 7);
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.date = undefined;
+        this.opens = undefined;
+        this.autoApply = undefined;
         this.firstDay = 1;
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -12725,6 +12776,8 @@ const IrDateRange = class {
         this.weekLabel = 'W';
         this.disabled = false;
         this.singleDatePicker = false;
+        this.minDate = undefined;
+        this.maxDate = undefined;
         this.maxSpan = {
             days: 240,
         };
@@ -12827,8 +12880,11 @@ const IrDateViewStyle0 = irDateViewCss;
 const IrDateView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.from_date = undefined;
+        this.to_date = undefined;
         this.showDateDifference = true;
         this.dateOption = 'YYYY-MM-DD';
+        this.dates = undefined;
     }
     componentWillLoad() {
         this.initializeDates();
@@ -12977,6 +13033,8 @@ const IrEventsLog = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.bookingEvents = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -13005,6 +13063,9 @@ const IrExtraService = class {
         this.editExtraService = createEvent(this, "editExtraService", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.bookingService = new BookingService();
+        this.service = undefined;
+        this.bookingNumber = undefined;
+        this.currencySymbol = undefined;
     }
     async deleteService() {
         try {
@@ -13140,6 +13201,12 @@ const IrExtraServiceConfig = class {
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.bookingService = new BookingService();
+        this.booking = undefined;
+        this.service = undefined;
+        this.s_service = undefined;
+        this.error = undefined;
+        this.fromDateClicked = undefined;
+        this.toDateClicked = undefined;
     }
     // private d1: HTMLDivElement;
     // private d1_0: HTMLDivElement;
@@ -13246,6 +13313,7 @@ const IrExtraServicesStyle0 = irExtraServicesCss;
 const IrExtraServices = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.booking = undefined;
     }
     render() {
         var _a;
@@ -13262,13 +13330,19 @@ const GuestInfo = class {
         registerInstance(this, hostRef);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        // @State() submit: boolean = false;
-        this.guest = null;
-        this.isLoading = false;
-        this.autoValidate = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
+        this.language = undefined;
+        this.headerShown = undefined;
+        this.email = undefined;
+        this.booking_nbr = undefined;
+        this.ticket = undefined;
+        this.isInSideBar = undefined;
+        this.countries = undefined;
+        this.guest = null;
+        this.isLoading = false;
+        this.autoValidate = false;
     }
     async componentWillLoad() {
         if (this.ticket) {
@@ -13383,6 +13457,9 @@ const IrIconsStyle0 = irIconsCss;
 const IrIcons = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.name = undefined;
+        this.svgClassName = undefined;
+        this.color = undefined;
     }
     render() {
         const svgPath = icons[this.name] || null;
@@ -17001,36 +17078,35 @@ const IrInputText = class {
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** Additional inline styles for the input */
+        this.name = undefined;
+        this.value = undefined;
+        this.label = undefined;
+        this.placeholder = undefined;
         this.inputStyles = '';
-        /** Whether the input field is read-only */
+        this.required = undefined;
         this.readonly = false;
-        /** Input type (e.g., text, password, email) */
         this.type = 'text';
-        /** Whether the form has been submitted */
         this.submitted = false;
-        /** Whether to apply default input styling */
         this.inputStyle = true;
-        /** Text size inside the input field */
         this.textSize = 'md';
-        /** Position of the label: left, right, or center */
         this.labelPosition = 'left';
-        /** Background color of the label */
         this.labelBackground = null;
-        /** Text color of the label */
         this.labelColor = 'dark';
-        /** Border color/style of the label */
         this.labelBorder = 'theme';
-        /** Label width as a fraction of 12 columns (1-11) */
         this.labelWidth = 3;
-        /** Variant of the input: default or icon */
         this.variant = 'default';
-        /** Whether the input is disabled */
         this.disabled = false;
-        /** Whether the input has an error */
         this.error = false;
-        /** Whether the input should auto-validate */
+        this.mask = undefined;
         this.autoValidate = true;
+        this.zod = undefined;
+        this.asyncParse = undefined;
+        this.wrapKey = undefined;
+        this.inputForcedStyle = undefined;
+        this.testId = undefined;
+        this.maxLength = undefined;
+        this.clearBaseStyles = undefined;
+        this.errorMessage = undefined;
         this.inputFocused = false;
     }
     componentWillLoad() {
@@ -17143,7 +17219,9 @@ const IrInteractiveTitleStyle0 = irInteractiveTitleCss;
 const IrInteractiveTitle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.popoverTitle = undefined;
         this.irPopoverLeft = '10px';
+        this.hkStatus = undefined;
         this.cropSize = 15;
     }
     // private hkStatusColors = {
@@ -17277,17 +17355,16 @@ const IrLabelStyle0 = irLabelCss;
 const IrLabel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.labelText = undefined;
+        this.content = undefined;
         this.display = 'flex';
-        /** If true, will render `content` as HTML */
         this.renderContentAsHtml = false;
-        /** Object representing the image used within the label */
         this.image = null;
-        /** Renders a country-type image style (vs. a 'logo') */
         this.isCountryImage = false;
-        /** Additional CSS classes or style for the image */
         this.imageStyle = '';
-        /** If true, label will ignore checking for an empty content */
         this.ignoreEmptyContent = false;
+        this.placeholder = undefined;
+        this.containerStyle = undefined;
     }
     render() {
         var _a, _b, _c;
@@ -17324,6 +17401,7 @@ const IrModal = class {
         this.cancelModal = createEvent(this, "cancelModal", 7);
         this.modalTitle = 'Modal Title';
         this.modalBody = 'Modal Body';
+        this.showTitle = undefined;
         this.rightBtnActive = true;
         this.leftBtnActive = true;
         this.rightBtnText = 'Confirm';
@@ -17381,6 +17459,8 @@ const IrPaymentActions = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.generatePayment = createEvent(this, "generatePayment", 7);
+        this.booking = undefined;
+        this.paymentAction = undefined;
     }
     render() {
         var _a, _b;
@@ -17406,17 +17486,21 @@ const IrPaymentDetails = class {
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.resetExposedCancelationDueAmount = createEvent(this, "resetExposedCancelationDueAmount", 7);
         this.toast = createEvent(this, "toast", 7);
+        this.paymentService = new PaymentService();
+        this.bookingService = new BookingService();
+        this.paymentBackground = 'white';
+        this.bookingDetails = undefined;
+        this.paymentActions = undefined;
         this.newTableRow = false;
         this.collapsedPayment = false;
         this.collapsedGuarantee = false;
         this.flag = false;
         this.confirmModal = false;
+        this.toBeDeletedItem = undefined;
         this.paymentDetailsUrl = '';
         this.paymentExceptionMessage = '';
         this.modal_mode = null;
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.paymentBackground = 'white';
+        this.itemToBeAdded = undefined;
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
@@ -17664,16 +17748,22 @@ const IrPhoneInput = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.textChange = createEvent(this, "textChange", 7);
+        // private cmp_countries: ICountry[] = [];
+        this.bookingService = new BookingService();
+        this.label = undefined;
         this.value = '';
         this.disabled = false;
         this.error = false;
+        this.token = undefined;
+        this.language = undefined;
         this.default_country = null;
         this.phone_prefix = null;
+        this.placeholder = undefined;
         this.countries = [];
+        this.testId = undefined;
         this.inputValue = '';
         this.isDropdownVisible = false;
-        // private cmp_countries: ICountry[] = [];
-        this.bookingService = new BookingService();
+        this.currentCountry = undefined;
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {
@@ -17901,23 +17991,6 @@ const IrPickup = class {
         registerInstance(this, hostRef);
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.numberOfPersons = 0;
-        this.isLoading = false;
-        this.allowedOptionsByLocation = [];
-        this.pickupData = {
-            location: -1,
-            flight_details: '',
-            due_upon_booking: '',
-            number_of_vehicles: 1,
-            vehicle_type_code: '',
-            currency: undefined,
-            arrival_time: '',
-            arrival_date: null,
-            selected_option: undefined,
-        };
-        this.vehicleCapacity = [];
-        this.cause = null;
-        this.autoValidate = false;
         this.pickupService = new PickupService();
         this.arrival_time_mask = {
             mask: 'HH:mm',
@@ -17938,6 +18011,27 @@ const IrPickup = class {
             lazy: false,
             placeholderChar: '_',
         };
+        this.defaultPickupData = undefined;
+        this.numberOfPersons = 0;
+        this.bookingNumber = undefined;
+        this.bookingDates = undefined;
+        this.isLoading = false;
+        this.allowedOptionsByLocation = [];
+        this.pickupData = {
+            location: -1,
+            flight_details: '',
+            due_upon_booking: '',
+            number_of_vehicles: 1,
+            vehicle_type_code: '',
+            currency: undefined,
+            arrival_time: '',
+            arrival_date: null,
+            selected_option: undefined,
+        };
+        this.vehicleCapacity = [];
+        this.cause = null;
+        this.errors = undefined;
+        this.autoValidate = false;
     }
     componentWillLoad() {
         if (this.defaultPickupData) {
@@ -18053,6 +18147,7 @@ const IrPickupViewStyle0 = irPickupViewCss;
 const IrPickupView = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.booking = undefined;
     }
     render() {
         if (!calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {
@@ -18070,6 +18165,8 @@ const IrPmsLogs = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.pmsLogs = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -18099,14 +18196,6 @@ const IrPriceInput = class {
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** The AutoValidate for the input, optional */
-        this.autoValidate = true;
-        /** Placeholder text for the input */
-        this.placeholder = '';
-        /** Initial value for the input */
-        this.value = '';
-        /** Whether the input is required */
-        this.required = false;
         this.opts = {
             mask: Number,
             scale: 2,
@@ -18139,6 +18228,21 @@ const IrPriceInput = class {
             // Emit the focus event
             this.inputFocus.emit();
         };
+        this.label = undefined;
+        this.inputStyle = undefined;
+        this.labelStyle = undefined;
+        this.disabled = undefined;
+        this.currency = undefined;
+        this.autoValidate = true;
+        this.wrapKey = undefined;
+        this.zod = undefined;
+        this.placeholder = '';
+        this.value = '';
+        this.required = false;
+        this.minValue = undefined;
+        this.maxValue = undefined;
+        this.testId = undefined;
+        this.error = undefined;
     }
     componentWillLoad() {
         if (this.el.id) {
@@ -18222,6 +18326,8 @@ const IrReservationInformation = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.openSidebar = createEvent(this, "openSidebar", 7);
+        this.booking = undefined;
+        this.countries = undefined;
         this.userCountry = null;
     }
     componentWillLoad() {
@@ -18288,10 +18394,18 @@ const IrRoom = class {
         this.editInitiated = createEvent(this, "editInitiated", 7);
         this.resetbooking = createEvent(this, "resetbooking", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
-        // Currency
+        this.bookingService = new BookingService();
+        this.booking = undefined;
+        this.bookingIndex = undefined;
+        this.isEditable = undefined;
+        this.room = undefined;
+        this.mealCodeName = undefined;
+        this.myRoomTypeFoodCat = undefined;
         this.currency = 'USD';
         this.language = 'en';
-        // Booleans Conditions
+        this.legendData = undefined;
+        this.roomsInfo = undefined;
+        this.bedPreferences = undefined;
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -18300,8 +18414,8 @@ const IrRoom = class {
         this.collapsed = false;
         this.isLoading = false;
         this.modalReason = null;
+        this.mainGuest = undefined;
         this.isModelOpen = false;
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.mainGuest = this.getMainGuest();
@@ -18525,11 +18639,11 @@ const IrRoom = class {
                 this.collapsed = !this.collapsed;
             }, style: { '--icon-size': '1.6rem' } }), h("div", { key: '9e24ce36fbbdde576902e446028a0e2995f31c65', class: "flex-fill m-0 " }, h("div", { key: '38f38c4b51603e284210a015636c8219392fcb31', class: "d-flex align-items-start justify-content-between sm-mb-1" }, h("p", { key: '3e707b1573914ca4b7bde101d8ab9ddaaff281bd', class: "m-0 p-0" }, h("span", { key: 'c70d47c6be69d4cb6fd44bcd8668da963375132e', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: 'df7364b2db966e499a0766ebdb054d89491508d4', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, h("span", { key: '8f2147e5d6b1ec3cad4fac50cb077624d39f796d', class: "p-0 m-0 font-weight-bold" }, formatAmount(this.currency, this.room['gross_total'])), this.hasRoomEdit && this.isEditable && (h("ir-button", { key: '624743c86b4a625a78b72be34cb4d52364c0c399', id: `roomEdit-${this.room.identifier}`, variant: "icon", icon_name: "edit",
             // class="mx-1"
-            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: 'd859d3dea067d15a0c52e0f616036f4a31c58e02', variant: "icon", onClickHandler: this.openModal.bind(this, 'delete'), id: `roomDelete-${this.room.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: 'f97a015e5deb1571310bda5430c8b05c10443078', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '1877443359e77195a7bf056f867d4fa94ccc3f9d', class: "mr-1  flex-grow-1", style: { width: 'fit-content' }, from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (h("div", { key: '87ec22c98bdf25d3ea7aa8bedb13400342ad642c', class: 'd-flex justify-content-center align-items-center' }, h("ir-tooltip", { key: '9b3017533047dfe62c8390c2b2e0e22b82d21a7b', message: this.room.unit.name, customSlot: true }, h("span", { key: 'cd3d21a0f74eed1d50d9ba709b765697c487b623', slot: "tooltip-trigger", class: `light-blue-bg  ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.room.unit.name)))), this.hasCheckIn && (h("ir-button", { key: 'cea5ab257c8e6b01d4f0fb4201fab4156abfd57c', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckIn })), this.hasCheckOut && (h("ir-button", { key: 'da4189949ad28dcaff79b038dd441473b6064369', onClickHandler: this.openModal.bind(this, 'checkout'), id: "checkout", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckOut }))), h("div", { key: '6fec993f2d21277d730cb434c35b09e096712067', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: 'd45fb6c1ba2fdc30a08f1dfeb105c9df1fdb86d8' }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
-            (this.room.unit ? (h("ir-tooltip", { message: 'View guests', customSlot: true }, h("ir-button", { slot: "tooltip-trigger", btn_color: "link", renderContentAsHtml: true, onClickHandler: () => this.showGuestModal(), size: "sm", btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit' }, text: this.formatVariation(this.room.rateplan.selected_variation, this.room.occupancy) }))) : (h("span", { innerHTML: this.formatVariation(this.room.rateplan.selected_variation, this.room.occupancy) }))), bed && h("span", { key: '35ccaee674d1dfb36949ff97e1120ffe321ec07e' }, "(", bed, ")")), h("div", { key: '27af302f18faa0cb18585b2c17a8321676a68ea8', class: "collapse", id: `roomCollapse-${(_b = this.room.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, h("div", { key: '4a9237dac88d98d15c219b06b723722a55b6ef23', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: 'b0c03e11331c0bd85291759fd8ceb1d0a2852a19', class: " sm-padding-top" }, h("p", { key: '67713f9bb5b8e1fe0360497b581ab56d1c0bf5ab', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: 'f70179d99d1ef8bfe65c617377ce115035d57515', class: 'flex-fill' }, h("table", { key: 'ceb79242c78c4a756459be3e47b49650ffe92629' }, this.room.days.length > 0 &&
+            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: 'd859d3dea067d15a0c52e0f616036f4a31c58e02', variant: "icon", onClickHandler: this.openModal.bind(this, 'delete'), id: `roomDelete-${this.room.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: 'f97a015e5deb1571310bda5430c8b05c10443078', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '1877443359e77195a7bf056f867d4fa94ccc3f9d', class: "mr-1  flex-grow-1", style: { width: 'fit-content' }, from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (h("div", { key: '87ec22c98bdf25d3ea7aa8bedb13400342ad642c', class: 'd-flex justify-content-center align-items-center' }, h("ir-tooltip", { key: '9b3017533047dfe62c8390c2b2e0e22b82d21a7b', message: this.room.unit.name, customSlot: true }, h("span", { key: 'cd3d21a0f74eed1d50d9ba709b765697c487b623', slot: "tooltip-trigger", class: `light-blue-bg  ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.room.unit.name)))), this.hasCheckIn && (h("ir-button", { key: 'cea5ab257c8e6b01d4f0fb4201fab4156abfd57c', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckIn })), this.hasCheckOut && (h("ir-button", { key: 'da4189949ad28dcaff79b038dd441473b6064369', onClickHandler: this.openModal.bind(this, 'checkout'), id: "checkout", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckOut }))), h("div", { key: '6fec993f2d21277d730cb434c35b09e096712067', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: 'fd8aed6599ecf2ec74c9580a8e281b28c8528d22', class: "m-0 p-0" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
+            (this.room.unit ? (h("ir-tooltip", { message: 'View guests', class: "m-0 p-0", customSlot: true }, h("ir-button", { class: "m-0 p-0", slot: "tooltip-trigger", btn_color: "link", renderContentAsHtml: true, onClickHandler: () => this.showGuestModal(), size: "sm", btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit', textAlign: 'center', lineHeight: '1.2' }, text: this.formatVariation(this.room.rateplan.selected_variation, this.room.occupancy) }))) : (h("span", { innerHTML: this.formatVariation(this.room.rateplan.selected_variation, this.room.occupancy) }))), bed && h("p", { key: 'ae31ff4d22330182f7de4a4b6089caa89c83d43e', class: "m-0 p-0" }, "(", bed, ")")), h("div", { key: '37b33ce7f083e4cd5aa1841482716c1e85aea272', class: "collapse", id: `roomCollapse-${(_b = this.room.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, h("div", { key: '41df8035934f8650ed6b190bb354eca60c8f8ca4', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: 'ac8ac94639e8c25098477e6685a496b1c454e644', class: " sm-padding-top" }, h("p", { key: '824b605a4a6c84f8d28ba38538ba31c4a27e16a8', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: 'fe007cf36eba50681c13c74d1d6e7bbe6cd7239a', class: 'flex-fill' }, h("table", { key: '7b6502941170effb3e7f638598ad45fef12d657c' }, this.room.days.length > 0 &&
             this.room.days.map(room => {
                 return (h("tr", null, h("td", { class: 'pr-2 text-right' }, _getDay(room.date)), h("td", { class: "text-right" }, formatAmount(this.currency, room.amount)), room.cost > 0 && room.cost !== null && h("td", { class: "pl-2 text-left night-cost" }, formatAmount(this.currency, room.cost))));
-            }), h("tr", { key: '8e118d6f705eb16edecf077a2dd55c978960e0f8', class: '' }, h("th", { key: 'd045024f8138c4ea3544e6af7330721dcae10525', class: "text-right pr-2 subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '85d46b181dfad59a8e3d6f3baca79fed5cf2c96f', class: "text-right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && h("th", { key: '497780f3bf098ca05b085830386b1505e5d5eedb', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.room.cost))), this.booking.is_direct ? (h(Fragment, null, (() => {
+            }), h("tr", { key: '32d6c2ae6de8a7ff65b25aba7de56a1249dad654', class: '' }, h("th", { key: '66672ac2fd7d6d435f59e5d05508758e46725210', class: "text-right pr-2 subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '5c80df1d3921144f771e42071697424af41afe3e', class: "text-right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && h("th", { key: '11bdbe69ec7c2cf0533d80a1d12c328f9c03e88b', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.room.cost))), this.booking.is_direct ? (h(Fragment, null, (() => {
             const filtered_data = calendar_data.taxes.filter(tx => tx.pct > 0);
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), h("td", { class: "text-right" }, formatAmount(this.currency, (this.room.total * d.pct) / 100)), this.room.gross_cost > 0 && this.room.gross_cost !== null && (h("td", { class: "pl-2 text-right night-cost" }, formatAmount(this.currency, (this.room.cost * d.pct) / 100)))));
@@ -18539,7 +18653,7 @@ const IrRoom = class {
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name), h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), h("ir-label", { key: 'af578fac10bbc1fac5075c12c66ca8fed13ab44e', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: '5951cac38d880694f64688a3ffe8e628d265eb85' }, this.room.rateplan.cancelation && (h("ir-label", { key: '98699fa0a6303e6a213e814192c6e888be9d1a67', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: '35d7f51833d1e6429ac1e9808c64e6dad04d5eac', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: 'b0c560f406da790f202d52a7cd67c26c4a786da1' }, h("ir-label", { key: 'c545e6810c3abee0e011795e12734054109ac341', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '25f20e0a634b38004fb86b82668f95f8f3db43cc', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))), h("ir-modal", { key: '3a079dee618fe02c2c30c1c3d86d9ae11c34cac8', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalReason === 'delete' ? 'danger' : 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.renderModalMessage() })));
+        })()))))), h("ir-label", { key: '3b73893138131a4f3a8747ee1d6a140cf298f6f2', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: 'fd1f01f1c22d6d13c9516535f7cac56d273fcf90' }, this.room.rateplan.cancelation && (h("ir-label", { key: 'a5441371c399a0f8d82770647b230db45dc9c2f2', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: '54102c1822c0770d018ff88c8a33275adc63a986', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: 'ee75f40bff4c80c293f32352c9fe59b59e432a2d' }, h("ir-label", { key: '286cb9d0828bdbbafb1170549ee63210094494a4', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '8cf03af60ddf9f68cbe11a68b39a873c0beb4d95', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))), h("ir-modal", { key: 'ef88800dabcbe8bab78ead3722591d985870414c', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalReason === 'delete' ? 'danger' : 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.renderModalMessage() })));
     }
     showGuestModal() {
         var _a;
@@ -18630,26 +18744,21 @@ const IrRoomGuests = class {
         registerInstance(this, hostRef);
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        /**
-         * An array of people sharing the room.
-         * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
-         */
+        this.bookingService = new BookingService();
+        this.roomName = undefined;
+        this.identifier = undefined;
         this.sharedPersons = [];
-        /**
-         * The total number of guests for the room.
-         * Determines how many guest input forms to display in the UI.
-         */
         this.totalGuests = 0;
-        /**
-         * The language used for displaying text content in the component.
-         * Defaults to English ('en'), but can be set to other supported languages.
-         */
+        this.countries = undefined;
+        this.checkIn = undefined;
         this.language = 'en';
+        this.bookingNumber = undefined;
         this.guests = [];
         this.idTypes = [];
         this.error = {};
+        this.isLoading = undefined;
+        this.propertyCountry = undefined;
         this.autoValidate = false;
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.init();
@@ -18762,6 +18871,18 @@ const IrRoomNights = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
+        this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.propertyId = undefined;
+        this.language = undefined;
+        this.identifier = undefined;
+        this.toDate = undefined;
+        this.fromDate = undefined;
+        this.pool = undefined;
+        this.ticket = undefined;
+        this.defaultDates = undefined;
+        this.bookingEvent = undefined;
+        this.selectedRoom = undefined;
         this.rates = [];
         this.isLoading = false;
         this.initialLoading = false;
@@ -18770,7 +18891,6 @@ const IrRoomNights = class {
         this.defaultTotalNights = 0;
         this.isInputFocused = -1;
         this.dates = { from_date: new Date(), to_date: new Date() };
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
@@ -18964,8 +19084,15 @@ const IrSelect = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.selectChange = createEvent(this, "selectChange", 7);
+        this.count = 0;
+        this.name = undefined;
+        this.data = undefined;
         this.label = '<label>';
+        this.selectStyles = undefined;
+        this.selectForcedStyles = undefined;
+        this.selectContainerStyle = undefined;
         this.selectedValue = null;
+        this.required = undefined;
         this.LabelAvailable = true;
         this.firstOption = 'Select';
         this.selectStyle = true;
@@ -18979,11 +19106,10 @@ const IrSelect = class {
         this.labelBorder = 'theme';
         this.labelWidth = 3;
         this.select_id = v4();
-        /** Whether the select has an error */
+        this.testId = undefined;
         this.error = false;
         this.initial = true;
         this.valid = false;
-        this.count = 0;
     }
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
@@ -19055,9 +19181,12 @@ const IrSidebar = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
+        this.name = undefined;
         this.side = 'right';
         this.showCloseButton = true;
         this.open = false;
+        this.sidebarStyles = undefined;
+        this.label = undefined;
     }
     applyStyles() {
         for (const property in this.sidebarStyles) {
@@ -19121,7 +19250,10 @@ const IrSpinnerStyle0 = irSpinnerCss;
 const IrSpinner = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.size = undefined;
+        this.borderWidth = undefined;
         this.unit = 'rem';
+        this.color = undefined;
     }
     componentWillLoad() {
         this.initStyles();
@@ -19179,8 +19311,11 @@ const IrTextArea = class {
         this.placeholder = '<placeholder>';
         this.value = '';
         this.maxLength = 250;
+        this.textareaClassname = undefined;
         this.variant = 'default';
         this.labelWidth = 3;
+        this.styles = undefined;
+        this.testId = undefined;
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
@@ -19207,6 +19342,8 @@ const IrTitle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        this.label = undefined;
+        this.borderShown = undefined;
         this.displayContext = 'default';
         this.justifyContent = 'start';
     }
@@ -19271,8 +19408,10 @@ const IrTooltipStyle0 = irTooltipCss;
 const IrTooltip = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.message = undefined;
         this.withHtml = true;
         this.customSlot = false;
+        this.open = undefined;
     }
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {
@@ -19306,11 +19445,13 @@ const OtaLabelStyle0 = otaLabelCss;
 const OtaLabel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.maxVisibleItems = 3;
-        this.showAll = false;
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };
+        this.label = undefined;
+        this.remarks = undefined;
+        this.maxVisibleItems = 3;
+        this.showAll = false;
     }
     render() {
         if (!this.remarks) {

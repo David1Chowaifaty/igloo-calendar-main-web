@@ -1,11 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { e as extras, g as getReleaseHoursString, h as findCountry, f as formatAmount } from './utils.js';
+import { e as extras, h as getReleaseHoursString, j as findCountry, k as canCheckIn, l as compareTime, m as createDateWithOffsetAndHour, f as formatAmount } from './utils.js';
 import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { a as compareTime, b as createDateWithOffsetAndHour } from './booking.js';
 import { d as defineCustomElement$6 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-view2.js';
@@ -76,11 +75,16 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         this.deleteButton = createEvent(this, "deleteButton", 7);
         this.bookingCreated = createEvent(this, "bookingCreated", 7);
         this.showDialog = createEvent(this, "showDialog", 7);
-        this.bubbleInfoTop = false;
-        this.is_vacation_rental = false;
-        this.shouldHideUnassignUnit = false;
         this.eventService = new EventsService();
         this.hideButtons = false;
+        this.bookingEvent = undefined;
+        this.bubbleInfoTop = false;
+        this.currency = undefined;
+        this.countries = undefined;
+        this.is_vacation_rental = false;
+        this.isLoading = undefined;
+        this.shouldHideUnassignUnit = false;
+        this.canCheckInOrCheckout = undefined;
     }
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -175,20 +179,26 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return this.bookingEvent.hasOwnProperty('splitBookingEvents') && this.bookingEvent.splitBookingEvents;
     }
     canCheckIn() {
-        var _a, _b;
-        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-            return false;
-        }
-        if (this.isCheckedIn()) {
-            return false;
-        }
-        const now = hooks();
-        if (this.canCheckInOrCheckout ||
-            (hooks().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
-                !compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour)))) {
-            return true;
-        }
-        return false;
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // if (this.isCheckedIn()) {
+        //   return false;
+        // }
+        // const now = moment();
+        // if (
+        //   this.canCheckInOrCheckout ||
+        //   (moment().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
+        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
+        // ) {
+        //   return true;
+        // }
+        // return false;
+        return canCheckIn({
+            from_date: this.bookingEvent.FROM_DATE,
+            to_date: this.bookingEvent.TO_DATE,
+            isCheckedIn: this.isCheckedIn(),
+        });
     }
     canCheckOut() {
         var _a, _b, _c, _d;
@@ -456,7 +466,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'e9f572f082eea0967c3ef0d1545b836a3dcb0047' }, h("div", { key: '4a4ae05518b10f45987f6a8be65afa1f16a826d9', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'efdebd0d582303c771493fe6572d2200f0f21548', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'd47cc77f89b9b870dac40d9be7927e5d8b427196' }, h("div", { key: '72cb66a9c42bdc32852bcdfa58f360fce4e82fa1', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '8e1d0917d5d3af1877661c562a75e1f3754c74a1', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get watchers() { return {

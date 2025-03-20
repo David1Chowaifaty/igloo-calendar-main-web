@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { o as getDaysArray, p as convertDatePrice, q as formatDate } from './utils.js';
+import { C as getDaysArray, D as convertDatePrice, E as formatDate } from './utils.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
@@ -17,6 +17,18 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         super();
         this.__registerHost();
         this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
+        this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.propertyId = undefined;
+        this.language = undefined;
+        this.identifier = undefined;
+        this.toDate = undefined;
+        this.fromDate = undefined;
+        this.pool = undefined;
+        this.ticket = undefined;
+        this.defaultDates = undefined;
+        this.bookingEvent = undefined;
+        this.selectedRoom = undefined;
         this.rates = [];
         this.isLoading = false;
         this.initialLoading = false;
@@ -25,7 +37,6 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
         this.defaultTotalNights = 0;
         this.isInputFocused = -1;
         this.dates = { from_date: new Date(), to_date: new Date() };
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };

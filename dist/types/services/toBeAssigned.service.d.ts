@@ -1,4 +1,5 @@
 import { IRoomCategory, InnerRecord } from '../models/tobeassigned';
+import { Booking } from "../models/booking.dto";
 export declare class ToBeAssignedService {
     getUnassignedDates(propertyid: number, from_date: string, to_date: string): Promise<Record<number, InnerRecord>>;
     getUnassignedRooms(calendarFromDates: {
@@ -10,7 +11,7 @@ export declare class ToBeAssignedService {
         identifier: string;
         pr_id: number;
         check_in: boolean;
-    }): Promise<any>;
+    }): Promise<Booking>;
     private cleanSpacesAndSpecialChars;
     private transformToAssignable;
     addDefaultDateRange(roomCategory: IRoomCategory): void;

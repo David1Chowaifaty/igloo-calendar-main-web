@@ -13,6 +13,7 @@ const IrPickupView = /*@__PURE__*/ proxyCustomElement(class IrPickupView extends
     constructor() {
         super();
         this.__registerHost();
+        this.booking = undefined;
     }
     render() {
         if (!calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {

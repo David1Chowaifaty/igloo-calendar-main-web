@@ -12,21 +12,9 @@ const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends
         this.animateCleanedButton = createEvent(this, "animateCleanedButton", 7);
         this.rowSelectChange = createEvent(this, "rowSelectChange", 7);
         this.tasks = [];
-        /**
-         * Tracks which task IDs are currently selected via checkboxes.
-         */
         this.selectedIds = [];
-        /**
-         * Controls whether the "Confirm Clean" modal is shown.
-         */
         this.showConfirmModal = false;
-        /**
-         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
-         */
         this.sortKey = 'date';
-        /**
-         * The sort direction: ASC or DESC.
-         */
         this.sortDirection = 'ASC';
         this.checkableTasks = [];
     }

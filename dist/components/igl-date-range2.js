@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { c as calculateDaysBetweenDates } from './booking.js';
+import { b as calculateDaysBetweenDates } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-date-range2.js';
 
@@ -13,13 +13,17 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         this.__registerHost();
         this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.disabled = false;
-        this.withDateDifference = true;
-        this.variant = 'default';
-        this.renderAgain = false;
         this.totalNights = 0;
         this.fromDateStr = 'from';
         this.toDateStr = 'to';
+        this.defaultData = undefined;
+        this.disabled = false;
+        this.minDate = undefined;
+        this.dateLabel = undefined;
+        this.maxDate = undefined;
+        this.withDateDifference = true;
+        this.variant = 'default';
+        this.renderAgain = false;
     }
     componentWillLoad() {
         this.initializeDates();

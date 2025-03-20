@@ -51,8 +51,6 @@ export class IrTasksHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-cleaned-enabled",
                 "reflect": false,
                 "defaultValue": "false"

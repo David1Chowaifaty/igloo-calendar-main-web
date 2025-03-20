@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
-const channel_store = require('./channel.store-f5ff1505.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-const calendarData = require('./calendar-data-eb8212ff.js');
-require('./index-3cfd4bf8.js');
+const index = require('./index-e13bd197.js');
+const channel_store = require('./channel.store-0b870549.js');
+const locales_store = require('./locales.store-6a07d85d.js');
+const calendarData = require('./calendar-data-2c2bb35f.js');
+require('./index-4337b3d3.js');
 
 const irChannelGeneralCss = ".sc-ir-channel-general-h{display:block}.label-style.sc-ir-channel-general{width:6.25rem;text-align:end;padding-right:0.625rem !important}.connection-status.sc-ir-channel-general{display:flex;align-items:center;justify-content:space-between;margin-top:0.625rem !important}.connection-title.sc-ir-channel-general{border-bottom:1px solid #e4e5ec}.ml-18.sc-ir-channel-general{margin-left:18% !important}.status-message.sc-ir-channel-general{display:flex;align-items:center;gap:0.3125rem;font-size:0.81rem;margin:0;padding:0}";
 const IrChannelGeneralStyle0 = irChannelGeneralCss;
@@ -171,9 +171,9 @@ const IrChannelMappingStyle0 = irChannelMappingCss;
 const IrChannelMapping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.mappingService = new IrMappingService();
         this.activeMapField = '';
         this.availableRooms = [];
-        this.mappingService = new IrMappingService();
     }
     setActiveField(id, isRoomType, roomTypeId) {
         const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, roomTypeId);

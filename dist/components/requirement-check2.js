@@ -8,13 +8,7 @@ const RequirementCheck = /*@__PURE__*/ proxyCustomElement(class RequirementCheck
     constructor() {
         super();
         this.__registerHost();
-        /**
-         * Whether this requirement has been satisfied (true/false).
-         */
         this.isValid = false;
-        /**
-         * The requirement text to display (e.g. "At least one lowercase letter").
-         */
         this.text = '';
     }
     render() {

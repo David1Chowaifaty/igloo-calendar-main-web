@@ -10,20 +10,15 @@ const IrDrawer$1 = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLE
         this.__attachShadow();
         this.drawerChange = createEvent(this, "drawerChange", 7);
         this.drawerCloseRequested = createEvent(this, "drawerCloseRequested", 7);
-        this.showDrawer = false;
-        /**
-         * The placement of the drawer
-         */
-        this.placement = 'right';
-        /**
-         * Is the drawer open?
-         */
-        this.open = false;
         this.toggleDrawer = () => {
             this.open = !this.open;
             this.showDrawer = this.open;
             this.drawerChange.emit(this.open);
         };
+        this.showDrawer = false;
+        this.drawerTitle = undefined;
+        this.placement = 'right';
+        this.open = false;
     }
     componentDidLoad() {
         if (this.open) {

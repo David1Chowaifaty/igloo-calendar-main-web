@@ -1,8 +1,8 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { T as Token } from './Token-acf5fbad.js';
-import { a as axios } from './axios-aa1335b8.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import './index-e42e9935.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-2ef79026.js';
+import { T as Token } from './Token-1cce2f6d.js';
+import { a as axios } from './axios-2aba0cfc.js';
+import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
+import './index-5395b195.js';
 
 class AuthService {
     async authenticate(params) {
@@ -22,9 +22,11 @@ const IrLogin = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.authFinish = createEvent(this, "authFinish", 7);
-        this.showPassword = false;
         this.authService = new AuthService();
         this.token = new Token();
+        this.username = undefined;
+        this.password = undefined;
+        this.showPassword = false;
     }
     async handleSignIn(e) {
         e.preventDefault();

@@ -103,8 +103,6 @@ export class IrDialog {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "open",
                 "reflect": false,
                 "defaultValue": "false"

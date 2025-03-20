@@ -12,6 +12,7 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
         super();
         this.__registerHost();
         this.applyFilters = createEvent(this, "applyFilters", 7);
+        this.isLoading = undefined;
         this.filters = {
             cleaning_periods: {
                 code: '',

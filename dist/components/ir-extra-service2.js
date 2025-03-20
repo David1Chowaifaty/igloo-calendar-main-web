@@ -19,6 +19,9 @@ const IrExtraService = /*@__PURE__*/ proxyCustomElement(class IrExtraService ext
         this.editExtraService = createEvent(this, "editExtraService", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.bookingService = new BookingService();
+        this.service = undefined;
+        this.bookingNumber = undefined;
+        this.currencySymbol = undefined;
     }
     async deleteService() {
         try {

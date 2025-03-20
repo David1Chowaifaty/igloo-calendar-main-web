@@ -1,11 +1,11 @@
-import { r as registerInstance, c as createEvent, h } from './index-1d2aa5ad.js';
+import { r as registerInstance, c as createEvent, h } from './index-2ef79026.js';
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.checkboxesChange = createEvent(this, "checkboxesChange", 7);
-        this.checkboxes = [];
         this.checkedCheckboxes = [];
+        this.checkboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {

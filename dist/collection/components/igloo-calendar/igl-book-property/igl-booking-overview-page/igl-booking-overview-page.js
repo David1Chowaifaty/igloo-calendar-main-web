@@ -3,6 +3,23 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import moment from "moment";
 import booking_store from "../../../../stores/booking.store";
 export class IglBookingOverviewPage {
+    constructor() {
+        this.bookingData = undefined;
+        this.propertyId = undefined;
+        this.message = undefined;
+        this.showSplitBookingOption = undefined;
+        this.eventType = undefined;
+        this.currency = undefined;
+        this.adultChildConstraints = undefined;
+        this.ratePricingMode = undefined;
+        this.dateRangeData = undefined;
+        this.defaultDaterange = undefined;
+        this.selectedRooms = undefined;
+        this.adultChildCount = undefined;
+        this.sourceOptions = undefined;
+        this.bookedByInfoData = undefined;
+        this.initialRoomIds = undefined;
+    }
     getSplitBookings() {
         return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];
     }
@@ -54,8 +71,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-data",
                 "reflect": false
             },
@@ -73,8 +88,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             },
@@ -92,8 +105,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "message",
                 "reflect": false
             },
@@ -111,8 +122,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "show-split-booking-option",
                 "reflect": false
             },
@@ -130,8 +139,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "event-type",
                 "reflect": false
             },
@@ -149,8 +156,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -173,9 +178,7 @@ export class IglBookingOverviewPage {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "ratePricingMode": {
                 "type": "any",
@@ -191,8 +194,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "rate-pricing-mode",
                 "reflect": false
             },
@@ -210,8 +211,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "date-range-data",
                 "reflect": false
             },
@@ -228,9 +227,7 @@ export class IglBookingOverviewPage {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "selectedRooms": {
                 "type": "unknown",
@@ -250,9 +247,7 @@ export class IglBookingOverviewPage {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "adultChildCount": {
                 "type": "unknown",
@@ -267,9 +262,7 @@ export class IglBookingOverviewPage {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "sourceOptions": {
                 "type": "unknown",
@@ -290,9 +283,7 @@ export class IglBookingOverviewPage {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bookedByInfoData": {
                 "type": "any",
@@ -308,8 +299,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booked-by-info-data",
                 "reflect": false
             },
@@ -327,8 +316,6 @@ export class IglBookingOverviewPage {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "initial-room-ids",
                 "reflect": false
             }

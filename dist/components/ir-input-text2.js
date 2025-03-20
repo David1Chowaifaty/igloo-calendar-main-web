@@ -12,36 +12,35 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** Additional inline styles for the input */
+        this.name = undefined;
+        this.value = undefined;
+        this.label = undefined;
+        this.placeholder = undefined;
         this.inputStyles = '';
-        /** Whether the input field is read-only */
+        this.required = undefined;
         this.readonly = false;
-        /** Input type (e.g., text, password, email) */
         this.type = 'text';
-        /** Whether the form has been submitted */
         this.submitted = false;
-        /** Whether to apply default input styling */
         this.inputStyle = true;
-        /** Text size inside the input field */
         this.textSize = 'md';
-        /** Position of the label: left, right, or center */
         this.labelPosition = 'left';
-        /** Background color of the label */
         this.labelBackground = null;
-        /** Text color of the label */
         this.labelColor = 'dark';
-        /** Border color/style of the label */
         this.labelBorder = 'theme';
-        /** Label width as a fraction of 12 columns (1-11) */
         this.labelWidth = 3;
-        /** Variant of the input: default or icon */
         this.variant = 'default';
-        /** Whether the input is disabled */
         this.disabled = false;
-        /** Whether the input has an error */
         this.error = false;
-        /** Whether the input should auto-validate */
+        this.mask = undefined;
         this.autoValidate = true;
+        this.zod = undefined;
+        this.asyncParse = undefined;
+        this.wrapKey = undefined;
+        this.inputForcedStyle = undefined;
+        this.testId = undefined;
+        this.maxLength = undefined;
+        this.clearBaseStyles = undefined;
+        this.errorMessage = undefined;
         this.inputFocused = false;
     }
     componentWillLoad() {

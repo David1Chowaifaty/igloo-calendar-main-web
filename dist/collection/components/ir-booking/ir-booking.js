@@ -3,8 +3,11 @@ import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBooking {
     constructor() {
-        this.isAuthenticated = false;
         this.token = new Token();
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.bookingNumber = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
@@ -52,8 +55,6 @@ export class IrBooking {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -71,8 +72,6 @@ export class IrBooking {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             },
@@ -90,8 +89,6 @@ export class IrBooking {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             }

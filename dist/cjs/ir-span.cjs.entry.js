@@ -2,11 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 
 const IrSpan = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.text = undefined;
     }
     connectedCallback() { }
     disconnectedCallback() { }

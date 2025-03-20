@@ -25,6 +25,23 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.showPaymentDetails = undefined;
+        this.currency = undefined;
+        this.isEditOrAddRoomEvent = undefined;
+        this.dateRangeData = undefined;
+        this.bookingData = undefined;
+        this.showSplitBookingOption = undefined;
+        this.language = undefined;
+        this.bookedByInfoData = undefined;
+        this.propertyId = undefined;
+        this.bedPreferenceType = undefined;
+        this.selectedRooms = undefined;
+        this.isLoading = undefined;
+        this.countries = undefined;
+        this.selectedGuestData = undefined;
+        this.defaultGuestData = undefined;
+        this.selectedBookedByData = undefined;
+        this.guestData = undefined;
         this.selectedUnits = {};
     }
     componentWillLoad() {

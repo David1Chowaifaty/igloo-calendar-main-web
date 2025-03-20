@@ -21,6 +21,9 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
     constructor() {
         super();
         this.__registerHost();
+        this.houseKeepingService = new HouseKeepingService();
+        this.units = [];
+        this.propertyId = undefined;
         this.filters = {
             from_date: hooks().add(-90, 'days').format('YYYY-MM-DD'),
             to_date: hooks().format('YYYY-MM-DD'),
@@ -29,8 +32,6 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
         };
         this.data = [];
         this.isLoading = null;
-        this.houseKeepingService = new HouseKeepingService();
-        this.units = [];
     }
     componentWillLoad() {
         this.initializeData();

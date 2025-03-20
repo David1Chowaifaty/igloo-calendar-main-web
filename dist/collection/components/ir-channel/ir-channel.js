@@ -7,13 +7,17 @@ import { ChannelService } from "../../services/channel.service";
 import Token from "../../models/Token";
 export class IrChannel {
     constructor() {
-        this.ticket = '';
-        this.channel_status = null;
-        this.modal_cause = null;
-        this.isLoading = false;
         this.roomService = new RoomService();
         this.channelService = new ChannelService();
         this.token = new Token();
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.language = undefined;
+        this.baseurl = undefined;
+        this.p = undefined;
+        this.channel_status = null;
+        this.modal_cause = null;
+        this.isLoading = false;
     }
     componentWillLoad() {
         this.isLoading = true;
@@ -195,8 +199,6 @@ export class IrChannel {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -215,8 +217,6 @@ export class IrChannel {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -234,8 +234,6 @@ export class IrChannel {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false
             },
@@ -253,8 +251,6 @@ export class IrChannel {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "baseurl",
                 "reflect": false
             },
@@ -272,8 +268,6 @@ export class IrChannel {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             }

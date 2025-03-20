@@ -11,7 +11,12 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         super();
         this.__registerHost();
         this.assignUnitEvent = createEvent(this, "assignUnitEvent", 7);
+        this.calendarData = undefined;
+        this.selectedDate = undefined;
         this.categoriesData = {};
+        this.categoryId = undefined;
+        this.eventDatas = undefined;
+        this.categoryIndex = undefined;
         this.renderAgain = false;
     }
     // private localEventDatas;

@@ -12,6 +12,8 @@ const IrEventsLog = /*@__PURE__*/ proxyCustomElement(class IrEventsLog extends H
         super();
         this.__registerHost();
         this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.bookingEvents = undefined;
     }
     componentWillLoad() {
         this.init();

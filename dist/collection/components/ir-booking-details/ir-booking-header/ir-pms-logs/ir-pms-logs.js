@@ -6,6 +6,8 @@ import { BookingService } from "../../../../services/booking.service";
 export class IrPmsLogs {
     constructor() {
         this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.pmsLogs = undefined;
     }
     componentWillLoad() {
         this.init();
@@ -51,8 +53,6 @@ export class IrPmsLogs {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false
             }

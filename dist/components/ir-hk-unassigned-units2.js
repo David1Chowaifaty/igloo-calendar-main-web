@@ -19,10 +19,10 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetData = createEvent(this, "resetData", 7);
-        this.user = null;
-        this.renderAgain = false;
         this.assignedUnits = new Map();
         this.housekeepingService = new HouseKeepingService();
+        this.user = null;
+        this.renderAgain = false;
     }
     assignUnit(unit_id, hk_id, checked) {
         if (this.user) {

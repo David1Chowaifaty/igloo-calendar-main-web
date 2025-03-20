@@ -23,13 +23,19 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        // @State() submit: boolean = false;
-        this.guest = null;
-        this.isLoading = false;
-        this.autoValidate = false;
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
+        this.language = undefined;
+        this.headerShown = undefined;
+        this.email = undefined;
+        this.booking_nbr = undefined;
+        this.ticket = undefined;
+        this.isInSideBar = undefined;
+        this.countries = undefined;
+        this.guest = null;
+        this.isLoading = false;
+        this.autoValidate = false;
     }
     async componentWillLoad() {
         if (this.ticket) {

@@ -9,17 +9,21 @@ import calendar_data from "../../stores/calendar-data";
 import moment from "moment";
 export class IrBookingDetails {
     constructor() {
-        // Setup Data
+        this.bookingService = new BookingService();
+        this.roomService = new RoomService();
+        this.paymentService = new PaymentService();
+        this.token = new Token();
+        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
         this.language = 'en';
         this.ticket = '';
         this.bookingNumber = '';
+        this.propertyid = undefined;
         this.is_from_front_desk = false;
-        // Booleans Conditions
+        this.p = undefined;
         this.hasPrint = false;
         this.hasReceipt = false;
         this.hasDelete = false;
         this.hasMenu = false;
-        // Room Booleans
         this.hasRoomEdit = false;
         this.hasRoomDelete = false;
         this.hasRoomAdd = false;
@@ -28,19 +32,22 @@ export class IrBookingDetails {
         this.hasCloseButton = false;
         this.bookingItem = null;
         this.statusData = [];
+        this.showPaymentDetails = undefined;
+        this.booking = undefined;
+        this.countries = undefined;
         this.calendarData = {};
-        // Guest Data
         this.guestData = null;
-        // Rerender Flag
         this.rerenderFlag = false;
         this.sidebarState = null;
+        this.sidebarPayload = undefined;
         this.isUpdateClicked = false;
+        this.pms_status = undefined;
         this.isPMSLogLoading = false;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.paymentService = new PaymentService();
-        this.token = new Token();
-        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+        this.paymentActions = undefined;
+        this.property_id = undefined;
+        this.selectedService = undefined;
+        this.bedPreference = undefined;
+        this.roomGuest = undefined;
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -330,8 +337,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -350,8 +355,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false,
                 "defaultValue": "''"
@@ -370,8 +373,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-number",
                 "reflect": false,
                 "defaultValue": "''"
@@ -390,8 +391,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -409,8 +408,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is_from_front_desk",
                 "reflect": false,
                 "defaultValue": "false"
@@ -429,8 +426,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             },
@@ -448,8 +443,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-print",
                 "reflect": false,
                 "defaultValue": "false"
@@ -468,8 +461,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-receipt",
                 "reflect": false,
                 "defaultValue": "false"
@@ -488,8 +479,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-delete",
                 "reflect": false,
                 "defaultValue": "false"
@@ -508,8 +497,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-menu",
                 "reflect": false,
                 "defaultValue": "false"
@@ -528,8 +515,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-room-edit",
                 "reflect": false,
                 "defaultValue": "false"
@@ -548,8 +533,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-room-delete",
                 "reflect": false,
                 "defaultValue": "false"
@@ -568,8 +551,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-room-add",
                 "reflect": false,
                 "defaultValue": "false"
@@ -588,8 +569,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-check-in",
                 "reflect": false,
                 "defaultValue": "false"
@@ -608,8 +587,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-check-out",
                 "reflect": false,
                 "defaultValue": "false"
@@ -628,8 +605,6 @@ export class IrBookingDetails {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "has-close-button",
                 "reflect": false,
                 "defaultValue": "false"

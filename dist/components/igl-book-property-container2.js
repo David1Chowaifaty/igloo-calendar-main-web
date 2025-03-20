@@ -38,13 +38,20 @@ const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookP
         super();
         this.__registerHost();
         this.resetBookingData = createEvent(this, "resetBookingData", 7);
-        this.language = '';
-        this.ticket = '';
-        this.withIrToastAndInterceptor = true;
-        this.calendarData = {};
         this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
+        this.language = '';
+        this.ticket = '';
+        this.p = undefined;
+        this.propertyid = undefined;
+        this.from_date = undefined;
+        this.to_date = undefined;
+        this.withIrToastAndInterceptor = true;
+        this.bookingItem = undefined;
+        this.showPaymentDetails = undefined;
+        this.countries = undefined;
+        this.calendarData = {};
     }
     setRoomsData(roomServiceResp) {
         var _a, _b;

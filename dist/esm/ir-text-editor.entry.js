@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, g as getElement } from './index-1d2aa5ad.js';
+import { r as registerInstance, c as createEvent, h, g as getElement } from './index-2ef79026.js';
 import { c as commonjsGlobal, a as getDefaultExportFromCjs } from './_commonjsHelpers-e7f67fd8.js';
 
 /** Detect free variable `global` from Node.js. */
@@ -16392,12 +16392,13 @@ const IrTextEditor = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.textChange = createEvent(this, "textChange", 7);
-        /** Initial HTML content */
+        this.error = undefined;
+        this.maxLength = undefined;
         this.value = '';
-        /** If true, makes the editor read-only */
         this.readOnly = false;
-        /** Determines if the current user can edit the content */
         this.userCanEdit = true;
+        this.placeholder = undefined;
+        this.toolbarConfig = undefined;
         this.editorValue = '';
     }
     componentDidLoad() {

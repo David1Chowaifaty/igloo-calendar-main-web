@@ -4,9 +4,11 @@ import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
 export class IrLogin {
     constructor() {
-        this.showPassword = false;
         this.authService = new AuthService();
         this.token = new Token();
+        this.username = undefined;
+        this.password = undefined;
+        this.showPassword = false;
     }
     async handleSignIn(e) {
         e.preventDefault();

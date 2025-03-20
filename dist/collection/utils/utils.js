@@ -1,5 +1,7 @@
 import moment from "moment";
 import { z } from "zod";
+import { compareTime, createDateWithOffsetAndHour } from "./booking";
+import calendarData from "../stores/calendar-data";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear) {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');
@@ -180,5 +182,27 @@ export function checkUserAuthState() {
         return anchor.login || null;
     }
     return null;
+}
+/**
+ * Determines whether a booking is eligible for check-in.
+ *
+ * @param params - An object containing the booking event, calendar data, current check-in status, and a flag indicating if check-in or checkout is allowed.
+ * @returns True if check-in is allowed; otherwise, false.
+ */
+export function canCheckIn({ from_date, to_date, isCheckedIn }) {
+    var _a, _b;
+    if (!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) {
+        return false;
+    }
+    if (isCheckedIn) {
+        return false;
+    }
+    const now = moment();
+    if ((moment().isSameOrAfter(new Date(from_date), 'days') && moment().isBefore(new Date(to_date), 'days')) ||
+        (moment().isSame(new Date(to_date), 'days') &&
+            !compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendarData.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendarData.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour)))) {
+        return true;
+    }
+    return false;
 }
 //# sourceMappingURL=utils.js.map

@@ -3,8 +3,6 @@ import { BookingService } from "../../../services/booking.service";
 import locales from "../../../stores/locales.store";
 export class IglBlockDatesView {
     constructor() {
-        this.isEventHover = false;
-        this.renderAgain = false;
         this.blockDatesData = {
             RELEASE_AFTER_HOURS: 0,
             OPTIONAL_REASON: '',
@@ -12,6 +10,14 @@ export class IglBlockDatesView {
         }; // Change of property name might require updates in booking-event-hover
         this.releaseList = [];
         this.bookingService = new BookingService();
+        this.defaultData = undefined;
+        this.fromDate = undefined;
+        this.toDate = undefined;
+        this.entryDate = undefined;
+        this.entryHour = undefined;
+        this.isEventHover = false;
+        this.entryMinute = undefined;
+        this.renderAgain = false;
     }
     async componentWillLoad() {
         try {
@@ -103,9 +109,7 @@ export class IglBlockDatesView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "fromDate": {
                 "type": "string",
@@ -121,8 +125,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "from-date",
                 "reflect": false
             },
@@ -140,8 +142,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "to-date",
                 "reflect": false
             },
@@ -159,8 +159,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "entry-date",
                 "reflect": false
             },
@@ -178,8 +176,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "entry-hour",
                 "reflect": false
             },
@@ -197,8 +193,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is-event-hover",
                 "reflect": false,
                 "defaultValue": "false"
@@ -217,8 +211,6 @@ export class IglBlockDatesView {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "entry-minute",
                 "reflect": false
             }

@@ -12,14 +12,6 @@ const IrPriceInput = /*@__PURE__*/ proxyCustomElement(class IrPriceInput extends
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** The AutoValidate for the input, optional */
-        this.autoValidate = true;
-        /** Placeholder text for the input */
-        this.placeholder = '';
-        /** Initial value for the input */
-        this.value = '';
-        /** Whether the input is required */
-        this.required = false;
         this.opts = {
             mask: Number,
             scale: 2,
@@ -52,6 +44,21 @@ const IrPriceInput = /*@__PURE__*/ proxyCustomElement(class IrPriceInput extends
             // Emit the focus event
             this.inputFocus.emit();
         };
+        this.label = undefined;
+        this.inputStyle = undefined;
+        this.labelStyle = undefined;
+        this.disabled = undefined;
+        this.currency = undefined;
+        this.autoValidate = true;
+        this.wrapKey = undefined;
+        this.zod = undefined;
+        this.placeholder = '';
+        this.value = '';
+        this.required = false;
+        this.minValue = undefined;
+        this.maxValue = undefined;
+        this.testId = undefined;
+        this.error = undefined;
     }
     componentWillLoad() {
         if (this.el.id) {

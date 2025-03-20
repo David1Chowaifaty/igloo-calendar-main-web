@@ -1,11 +1,11 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
-import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-037119f8.js';
-import { R as RoomService } from './room.service-0fe1d11d.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import { T as Token } from './Token-acf5fbad.js';
-import './axios-aa1335b8.js';
-import './index-e42e9935.js';
-import './calendar-data-ce538d8c.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-2ef79026.js';
+import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-5b11bfdb.js';
+import { R as RoomService } from './room.service-5eccb4f4.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import { T as Token } from './Token-1cce2f6d.js';
+import './axios-2aba0cfc.js';
+import './index-5395b195.js';
+import './calendar-data-707a10db.js';
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrPaymentOptionStyle0 = irPaymentOptionCss;
@@ -14,15 +14,18 @@ const IrPaymentOption = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.toast = createEvent(this, "toast", 7);
+        this.paymentOptionService = new PaymentOptionService();
+        this.roomService = new RoomService();
+        this.token = new Token();
+        this.propertyid = undefined;
+        this.ticket = undefined;
+        this.p = undefined;
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.paymentOptionService = new PaymentOptionService();
-        this.roomService = new RoomService();
-        this.token = new Token();
     }
     componentWillLoad() {
         if (!!this.ticket) {

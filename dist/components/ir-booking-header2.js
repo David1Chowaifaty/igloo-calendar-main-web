@@ -23,7 +23,6 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
         this.closeSidebar = createEvent(this, "closeSidebar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.bookingStatus = null;
         this.confirmationBG = {
             '001': 'bg-ir-orange',
             '002': 'bg-ir-green',
@@ -31,6 +30,14 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
             '004': 'bg-ir-red',
         };
         this.bookingService = new BookingService();
+        this.booking = undefined;
+        this.hasReceipt = undefined;
+        this.hasPrint = undefined;
+        this.hasDelete = undefined;
+        this.hasMenu = undefined;
+        this.hasCloseButton = undefined;
+        this.bookingStatus = null;
+        this.currentDialogStatus = undefined;
     }
     handleSelectChange(e) {
         e.stopPropagation();

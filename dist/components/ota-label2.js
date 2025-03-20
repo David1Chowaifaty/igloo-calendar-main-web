@@ -9,11 +9,13 @@ const OtaLabel = /*@__PURE__*/ proxyCustomElement(class OtaLabel extends HTMLEle
     constructor() {
         super();
         this.__registerHost();
-        this.maxVisibleItems = 3;
-        this.showAll = false;
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };
+        this.label = undefined;
+        this.remarks = undefined;
+        this.maxVisibleItems = 3;
+        this.showAll = false;
     }
     render() {
         if (!this.remarks) {

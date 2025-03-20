@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { s as checkUserAuthState, t as manageAnchorSession } from './utils.js';
+import { F as checkUserAuthState, G as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$R } from './igl-application-info2.js';
 import { d as defineCustomElement$Q } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$P } from './igl-book-property2.js';
@@ -61,8 +61,11 @@ const IrBooking$1 = /*@__PURE__*/ proxyCustomElement(class IrBooking extends HTM
     constructor() {
         super();
         this.__registerHost();
-        this.isAuthenticated = false;
         this.token = new Token();
+        this.propertyid = undefined;
+        this.p = undefined;
+        this.bookingNumber = undefined;
+        this.isAuthenticated = false;
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();

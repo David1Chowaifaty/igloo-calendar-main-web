@@ -6,15 +6,18 @@ import { Host, h } from "@stencil/core";
 import Token from "../../models/Token";
 export class IrPaymentOption {
     constructor() {
+        this.paymentOptionService = new PaymentOptionService();
+        this.roomService = new RoomService();
+        this.token = new Token();
+        this.propertyid = undefined;
+        this.ticket = undefined;
+        this.p = undefined;
         this.language = 'en';
         this.defaultStyles = true;
         this.hideLogs = true;
         this.paymentOptions = [];
         this.isLoading = false;
         this.selectedOption = null;
-        this.paymentOptionService = new PaymentOptionService();
-        this.roomService = new RoomService();
-        this.token = new Token();
     }
     componentWillLoad() {
         if (!!this.ticket) {
@@ -208,8 +211,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -227,8 +228,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "ticket",
                 "reflect": false
             },
@@ -246,8 +245,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "p",
                 "reflect": false
             },
@@ -265,8 +262,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
@@ -285,8 +280,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "default-styles",
                 "reflect": false,
                 "defaultValue": "true"
@@ -305,8 +298,6 @@ export class IrPaymentOption {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "hide-logs",
                 "reflect": false,
                 "defaultValue": "true"

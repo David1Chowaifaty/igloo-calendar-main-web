@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 const _commonjsHelpers = require('./_commonjsHelpers-77e585f7.js');
 
 /** Detect free variable `global` from Node.js. */
@@ -16396,12 +16396,13 @@ const IrTextEditor = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.textChange = index.createEvent(this, "textChange", 7);
-        /** Initial HTML content */
+        this.error = undefined;
+        this.maxLength = undefined;
         this.value = '';
-        /** If true, makes the editor read-only */
         this.readOnly = false;
-        /** Determines if the current user can edit the content */
         this.userCanEdit = true;
+        this.placeholder = undefined;
+        this.toolbarConfig = undefined;
         this.editorValue = '';
     }
     componentDidLoad() {

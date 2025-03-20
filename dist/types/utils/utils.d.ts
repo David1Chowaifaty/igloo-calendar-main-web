@@ -33,3 +33,15 @@ export declare const extras: ({
 })[];
 export declare function manageAnchorSession(data: Record<string, unknown>, mode?: 'add' | 'remove'): void;
 export declare function checkUserAuthState(): any;
+export interface CheckInParams {
+    from_date: string;
+    to_date: string;
+    isCheckedIn?: boolean;
+}
+/**
+ * Determines whether a booking is eligible for check-in.
+ *
+ * @param params - An object containing the booking event, calendar data, current check-in status, and a flag indicating if check-in or checkout is allowed.
+ * @returns True if check-in is allowed; otherwise, false.
+ */
+export declare function canCheckIn({ from_date, to_date, isCheckedIn }: CheckInParams): boolean;

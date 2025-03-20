@@ -34,8 +34,6 @@ export class IrLoadingScreen {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "message",
                 "reflect": false,
                 "defaultValue": "''"

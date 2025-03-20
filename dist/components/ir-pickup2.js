@@ -4,7 +4,7 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { a as axios } from './axios.js';
 import { z, Z as ZodError } from './index3.js';
-import { r as renderTime } from './utils.js';
+import { A as renderTime } from './utils.js';
 import { M as MaskedRange } from './index4.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-picker2.js';
@@ -161,23 +161,6 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.numberOfPersons = 0;
-        this.isLoading = false;
-        this.allowedOptionsByLocation = [];
-        this.pickupData = {
-            location: -1,
-            flight_details: '',
-            due_upon_booking: '',
-            number_of_vehicles: 1,
-            vehicle_type_code: '',
-            currency: undefined,
-            arrival_time: '',
-            arrival_date: null,
-            selected_option: undefined,
-        };
-        this.vehicleCapacity = [];
-        this.cause = null;
-        this.autoValidate = false;
         this.pickupService = new PickupService();
         this.arrival_time_mask = {
             mask: 'HH:mm',
@@ -198,6 +181,27 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
             lazy: false,
             placeholderChar: '_',
         };
+        this.defaultPickupData = undefined;
+        this.numberOfPersons = 0;
+        this.bookingNumber = undefined;
+        this.bookingDates = undefined;
+        this.isLoading = false;
+        this.allowedOptionsByLocation = [];
+        this.pickupData = {
+            location: -1,
+            flight_details: '',
+            due_upon_booking: '',
+            number_of_vehicles: 1,
+            vehicle_type_code: '',
+            currency: undefined,
+            arrival_time: '',
+            arrival_date: null,
+            selected_option: undefined,
+        };
+        this.vehicleCapacity = [];
+        this.cause = null;
+        this.errors = undefined;
+        this.autoValidate = false;
     }
     componentWillLoad() {
         if (this.defaultPickupData) {

@@ -1,7 +1,10 @@
 import { Host, h } from "@stencil/core";
 export class IrSpinner {
     constructor() {
+        this.size = undefined;
+        this.borderWidth = undefined;
         this.unit = 'rem';
+        this.color = undefined;
     }
     componentWillLoad() {
         this.initStyles();
@@ -63,8 +66,6 @@ export class IrSpinner {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "size",
                 "reflect": false
             },
@@ -82,8 +83,6 @@ export class IrSpinner {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "border-width",
                 "reflect": false
             },
@@ -101,8 +100,6 @@ export class IrSpinner {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "unit",
                 "reflect": false,
                 "defaultValue": "'rem'"
@@ -121,8 +118,6 @@ export class IrSpinner {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "color",
                 "reflect": false
             }

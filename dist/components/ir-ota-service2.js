@@ -8,6 +8,7 @@ const IrOtaService = /*@__PURE__*/ proxyCustomElement(class IrOtaService extends
     constructor() {
         super();
         this.__registerHost();
+        this.service = undefined;
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g;

@@ -11,16 +11,22 @@ const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends
         super();
         this.__registerHost();
         this.textChange = createEvent(this, "textChange", 7);
+        // private cmp_countries: ICountry[] = [];
+        this.bookingService = new BookingService();
+        this.label = undefined;
         this.value = '';
         this.disabled = false;
         this.error = false;
+        this.token = undefined;
+        this.language = undefined;
         this.default_country = null;
         this.phone_prefix = null;
+        this.placeholder = undefined;
         this.countries = [];
+        this.testId = undefined;
         this.inputValue = '';
         this.isDropdownVisible = false;
-        // private cmp_countries: ICountry[] = [];
-        this.bookingService = new BookingService();
+        this.currentCountry = undefined;
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {

@@ -7,11 +7,16 @@ import { formatAmount } from "../../../../../utils/utils";
 import VariationService from "../../../../../services/variation.service";
 export class IglApplicationInfo {
     constructor() {
+        this.variationService = new VariationService();
+        this.rateplanSelection = undefined;
+        this.guestInfo = undefined;
+        this.currency = undefined;
         this.bedPreferenceType = [];
         this.bookingType = 'PLUS_BOOKING';
+        this.roomIndex = undefined;
         this.totalNights = 1;
+        this.baseData = undefined;
         this.isButtonPressed = false;
-        this.variationService = new VariationService();
     }
     componentWillLoad() {
         var _a, _b;
@@ -165,9 +170,7 @@ export class IglApplicationInfo {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "guestInfo": {
                 "type": "unknown",
@@ -188,9 +191,7 @@ export class IglApplicationInfo {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "currency": {
                 "type": "unknown",
@@ -211,9 +212,7 @@ export class IglApplicationInfo {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bedPreferenceType": {
                 "type": "unknown",
@@ -229,8 +228,6 @@ export class IglApplicationInfo {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "defaultValue": "[]"
             },
             "bookingType": {
@@ -247,8 +244,6 @@ export class IglApplicationInfo {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "booking-type",
                 "reflect": false,
                 "defaultValue": "'PLUS_BOOKING'"
@@ -267,8 +262,6 @@ export class IglApplicationInfo {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "room-index",
                 "reflect": false
             },
@@ -286,8 +279,6 @@ export class IglApplicationInfo {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "total-nights",
                 "reflect": false,
                 "defaultValue": "1"
@@ -305,9 +296,7 @@ export class IglApplicationInfo {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

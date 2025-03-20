@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index$1 = require('./index-aeea0adf.js');
-const index = require('./index-db8b30d9.js');
+const index$1 = require('./index-e13bd197.js');
+const index = require('./index-a8af909e.js');
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
 const IrTestCmpStyle0 = irTestCmpCss;
@@ -15,6 +15,7 @@ const IrTestCmp = class {
         this.user = {
             password: '',
         };
+        this.error = undefined;
         this.autoValidate = false;
     }
     render() {

@@ -1,12 +1,12 @@
-import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { R as RoomService } from './room.service-0fe1d11d.js';
-import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-92261163.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import { C as ChannelService } from './channel.service-51b75b1f.js';
-import { T as Token } from './Token-acf5fbad.js';
-import './calendar-data-ce538d8c.js';
-import './index-e42e9935.js';
-import './axios-aa1335b8.js';
+import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-2ef79026.js';
+import { R as RoomService } from './room.service-5eccb4f4.js';
+import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-c2ad4826.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import { C as ChannelService } from './channel.service-a0632352.js';
+import { T as Token } from './Token-1cce2f6d.js';
+import './calendar-data-707a10db.js';
+import './index-5395b195.js';
+import './axios-2aba0cfc.js';
 
 const actions = (entries) => [
     {
@@ -105,13 +105,17 @@ const IrChannelStyle0 = irChannelCss;
 const IrChannel = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.ticket = '';
-        this.channel_status = null;
-        this.modal_cause = null;
-        this.isLoading = false;
         this.roomService = new RoomService();
         this.channelService = new ChannelService();
         this.token = new Token();
+        this.ticket = '';
+        this.propertyid = undefined;
+        this.language = undefined;
+        this.baseurl = undefined;
+        this.p = undefined;
+        this.channel_status = null;
+        this.modal_cause = null;
+        this.isLoading = false;
     }
     componentWillLoad() {
         this.isLoading = true;

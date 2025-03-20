@@ -1,5 +1,5 @@
 import { Host, h, Fragment } from "@stencil/core";
-import { findCountry, formatAmount } from "../../../utils/utils";
+import { canCheckIn, findCountry, formatAmount } from "../../../utils/utils";
 import { EventsService } from "../../../services/events.service";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
@@ -8,11 +8,16 @@ import { compareTime, createDateWithOffsetAndHour } from "../../../utils/booking
 //import { transformNewBLockedRooms } from '../../../utils/booking';
 export class IglBookingEventHover {
     constructor() {
-        this.bubbleInfoTop = false;
-        this.is_vacation_rental = false;
-        this.shouldHideUnassignUnit = false;
         this.eventService = new EventsService();
         this.hideButtons = false;
+        this.bookingEvent = undefined;
+        this.bubbleInfoTop = false;
+        this.currency = undefined;
+        this.countries = undefined;
+        this.is_vacation_rental = false;
+        this.isLoading = undefined;
+        this.shouldHideUnassignUnit = false;
+        this.canCheckInOrCheckout = undefined;
     }
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -107,20 +112,26 @@ export class IglBookingEventHover {
         return this.bookingEvent.hasOwnProperty('splitBookingEvents') && this.bookingEvent.splitBookingEvents;
     }
     canCheckIn() {
-        var _a, _b;
-        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-            return false;
-        }
-        if (this.isCheckedIn()) {
-            return false;
-        }
-        const now = moment();
-        if (this.canCheckInOrCheckout ||
-            (moment().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
-                !compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour)))) {
-            return true;
-        }
-        return false;
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // if (this.isCheckedIn()) {
+        //   return false;
+        // }
+        // const now = moment();
+        // if (
+        //   this.canCheckInOrCheckout ||
+        //   (moment().isSame(new Date(this.bookingEvent.TO_DATE), 'days') &&
+        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
+        // ) {
+        //   return true;
+        // }
+        // return false;
+        return canCheckIn({
+            from_date: this.bookingEvent.FROM_DATE,
+            to_date: this.bookingEvent.TO_DATE,
+            isCheckedIn: this.isCheckedIn(),
+        });
     }
     canCheckOut() {
         var _a, _b, _c, _d;
@@ -388,7 +399,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'e9f572f082eea0967c3ef0d1545b836a3dcb0047' }, h("div", { key: '4a4ae05518b10f45987f6a8be65afa1f16a826d9', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'efdebd0d582303c771493fe6572d2200f0f21548', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'd47cc77f89b9b870dac40d9be7927e5d8b427196' }, h("div", { key: '72cb66a9c42bdc32852bcdfa58f360fce4e82fa1', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '8e1d0917d5d3af1877661c562a75e1f3754c74a1', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
@@ -417,9 +428,7 @@ export class IglBookingEventHover {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "bubbleInfoTop": {
                 "type": "boolean",
@@ -435,8 +444,6 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "bubble-info-top",
                 "reflect": false,
                 "defaultValue": "false"
@@ -455,8 +462,6 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "currency",
                 "reflect": false
             },
@@ -479,9 +484,7 @@ export class IglBookingEventHover {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "is_vacation_rental": {
                 "type": "boolean",
@@ -497,8 +500,6 @@ export class IglBookingEventHover {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "is_vacation_rental",
                 "reflect": false,
                 "defaultValue": "false"

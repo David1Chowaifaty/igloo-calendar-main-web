@@ -1,12 +1,12 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-1d2aa5ad.js';
-import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-f355e1d9.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import { c as calendar_data } from './calendar-data-ce538d8c.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import { a as axios } from './axios-aa1335b8.js';
-import { z, Z as ZodError } from './index-502f9842.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-2ef79026.js';
+import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-6d6b2ec1.js';
+import { l as locales } from './locales.store-b3d58c68.js';
+import { c as calendar_data } from './calendar-data-707a10db.js';
+import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
+import { a as axios } from './axios-2aba0cfc.js';
+import { z, Z as ZodError } from './index-b6ec889a.js';
 import { c as commonjsGlobal, g as getAugmentedNamespace } from './_commonjsHelpers-e7f67fd8.js';
-import './index-e42e9935.js';
+import './index-5395b195.js';
 
 const irDeleteModalCss = ":host{font-size:1rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.ir-alert-footer{gap:10px}.exit-icon{position:absolute;right:10px;top:5px;margin:0}";
 const IrDeleteModalStyle0 = irDeleteModalCss;
@@ -28,10 +28,11 @@ const IrDeleteModal = class {
         registerInstance(this, hostRef);
         this.modalClosed = createEvent(this, "modalClosed", 7);
         this.resetData = createEvent(this, "resetData", 7);
+        this.housekeepingService = new HouseKeepingService();
+        this.user = undefined;
         this.isOpen = false;
         this.selectedId = '';
         this.loadingBtn = null;
-        this.housekeepingService = new HouseKeepingService();
     }
     async closeModal() {
         if (this.modalEl) {
@@ -189,10 +190,10 @@ const IrHkUnassignedUnits = class {
         registerInstance(this, hostRef);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetData = createEvent(this, "resetData", 7);
-        this.user = null;
-        this.renderAgain = false;
         this.assignedUnits = new Map();
         this.housekeepingService = new HouseKeepingService();
+        this.user = null;
+        this.renderAgain = false;
     }
     assignUnit(unit_id, hk_id, checked) {
         if (this.user) {
@@ -304,22 +305,6 @@ const IrHkUser = class {
         registerInstance(this, hostRef);
         this.resetData = createEvent(this, "resetData", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
-        this.user = null;
-        this.isEdit = false;
-        this.isLoading = false;
-        this.autoValidate = false;
-        this.userInfo = {
-            id: -1,
-            mobile: '',
-            name: '',
-            note: '',
-            password: '',
-            property_id: null,
-            username: null,
-            phone_prefix: null,
-        };
-        this.errors = null;
-        this.showPasswordValidation = false;
         this.housekeepingService = new HouseKeepingService();
         this.default_properties = {
             token: '',
@@ -339,6 +324,23 @@ const IrHkUser = class {
                 return true;
             }, { message: 'Username already exists.' }),
         });
+        this.user = null;
+        this.isEdit = false;
+        this.isLoading = false;
+        this.autoValidate = false;
+        this.userInfo = {
+            id: -1,
+            mobile: '',
+            name: '',
+            note: '',
+            password: '',
+            property_id: null,
+            username: null,
+            phone_prefix: null,
+        };
+        this.errors = null;
+        this.showPasswordValidation = false;
+        this.isUsernameTaken = undefined;
     }
     async componentWillLoad() {
         const { token, language, property_id } = getDefaultProperties();
@@ -18053,11 +18055,12 @@ const IrPopoverStyle0 = irPopoverCss;
 const IrPopover = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.initialized = false;
+        this.content = undefined;
         this.irPopoverLeft = '10px';
         this.placement = 'auto';
         this.trigger = 'focus';
         this.renderContentAsHtml = false;
-        this.initialized = false;
     }
     componentDidLoad() {
         if (this.initialized) {

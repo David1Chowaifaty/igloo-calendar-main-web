@@ -1,5 +1,8 @@
 import { h } from "@stencil/core";
 export class IrSpan {
+    constructor() {
+        this.text = undefined;
+    }
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
@@ -22,8 +25,6 @@ export class IrSpan {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "text",
                 "reflect": false
             }

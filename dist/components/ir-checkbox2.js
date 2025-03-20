@@ -10,7 +10,11 @@ const IrCheckbox = /*@__PURE__*/ proxyCustomElement(class IrCheckbox extends HTM
         this.__registerHost();
         this.checkChange = createEvent(this, "checkChange", 7);
         this.checked = false;
+        this.label = undefined;
         this.checkboxId = v4();
+        this.name = undefined;
+        this.indeterminate = undefined;
+        this.disabled = undefined;
         this.currentChecked = false;
     }
     handleCheckedChange(newValue) {

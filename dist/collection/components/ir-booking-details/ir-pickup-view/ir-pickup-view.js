@@ -5,6 +5,9 @@ import { _formatTime } from "../functions";
 import moment from "moment";
 import { colorVariants } from "../../ui/ir-icons/icons";
 export class IrPickupView {
+    constructor() {
+        this.booking = undefined;
+    }
     render() {
         if (!calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {
             return null;
@@ -44,9 +47,7 @@ export class IrPickupView {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

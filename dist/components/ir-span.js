@@ -4,6 +4,7 @@ const IrSpan$1 = /*@__PURE__*/ proxyCustomElement(class IrSpan extends HTMLEleme
     constructor() {
         super();
         this.__registerHost();
+        this.text = undefined;
     }
     connectedCallback() { }
     disconnectedCallback() { }

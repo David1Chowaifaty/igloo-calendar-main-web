@@ -1831,74 +1831,24 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         this.dateChanged = createEvent(this, "dateChanged", 7);
         this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
         this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
-        /**
-         * Determines whether the date picker is rendered inline or in a pop-up.
-         * If `true`, the picker is always visible inline.
-         */
+        this.triggerSlot = null;
         this.inline = false;
-        /**
-         * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
-         */
         this.date = null;
-        /**
-         * Enables multiple dates.
-         * If `true`, multiple selection is allowed.
-         * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-         */
         this.multipleDates = false;
-        /**
-         * Whether the picker should allow range selection (start and end date).
-         */
         this.range = false;
-        /**
-         * Format for the date as it appears in the input field.
-         * Follows the `AirDatepicker` format rules.
-         */
         this.dateFormat = 'yyyy-MM-dd';
-        /**
-         * Enables the timepicker functionality (select hours and minutes).
-         */
         this.timepicker = false;
-        /**
-         * Disables the input and prevents interaction.
-         */
+        this.minDate = undefined;
+        this.maxDate = undefined;
         this.disabled = false;
-        /**
-         * Closes the picker automatically after a date is selected.
-         */
         this.autoClose = true;
-        /**
-         * Shows days from previous/next month in the current month's calendar.
-         */
         this.showOtherMonths = true;
-        /**
-         * Allows selecting days from previous/next month shown in the current view.
-         */
         this.selectOtherMonths = true;
-        /**
-         * Controls how the date picker is triggered.
-         * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
-         * - **`false`**: A default button input is used to open the picker.
-         *
-         * Defaults to `true`.
-         */
         this.customPicker = true;
-        /**
-         * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
-         * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
-         * but note that it may affect performance if triggered frequently.
-         * Defaults to `false`.
-         */
+        this.container = undefined;
         this.forceDestroyOnUpdate = false;
-        /**
-         * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
-         * Otherwise, empty-date changes will be ignored (no event emitted).
-         *
-         * Defaults to `false`.
-         */
         this.emitEmptyDate = false;
         this.currentDate = null;
-        this.triggerSlot = null;
     }
     componentWillLoad() {
         // Sync initial @Prop to internal state

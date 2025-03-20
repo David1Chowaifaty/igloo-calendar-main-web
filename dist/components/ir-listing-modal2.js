@@ -17,12 +17,14 @@ const IrListingModal = /*@__PURE__*/ proxyCustomElement(class IrListingModal ext
         this.__registerHost();
         this.modalClosed = createEvent(this, "modalClosed", 7);
         this.resetData = createEvent(this, "resetData", 7);
-        this.modalTitle = 'Modal Title';
-        this.isOpen = false;
-        this.deletionStage = 1;
-        this.loadingBtn = null;
         this.bookingListingsService = new BookingListingService();
         this.paymentService = new PaymentService();
+        this.modalTitle = 'Modal Title';
+        this.editBooking = undefined;
+        this.isOpen = false;
+        this.deletionStage = 1;
+        this.selectedDesignation = undefined;
+        this.loadingBtn = null;
     }
     componentWillLoad() {
         this.selectedDesignation = booking_listing.settlement_methods[0].name;

@@ -3,36 +3,35 @@ import { v4 } from "uuid";
 import IMask from "imask";
 export class IrInputText {
     constructor() {
-        /** Additional inline styles for the input */
+        this.name = undefined;
+        this.value = undefined;
+        this.label = undefined;
+        this.placeholder = undefined;
         this.inputStyles = '';
-        /** Whether the input field is read-only */
+        this.required = undefined;
         this.readonly = false;
-        /** Input type (e.g., text, password, email) */
         this.type = 'text';
-        /** Whether the form has been submitted */
         this.submitted = false;
-        /** Whether to apply default input styling */
         this.inputStyle = true;
-        /** Text size inside the input field */
         this.textSize = 'md';
-        /** Position of the label: left, right, or center */
         this.labelPosition = 'left';
-        /** Background color of the label */
         this.labelBackground = null;
-        /** Text color of the label */
         this.labelColor = 'dark';
-        /** Border color/style of the label */
         this.labelBorder = 'theme';
-        /** Label width as a fraction of 12 columns (1-11) */
         this.labelWidth = 3;
-        /** Variant of the input: default or icon */
         this.variant = 'default';
-        /** Whether the input is disabled */
         this.disabled = false;
-        /** Whether the input has an error */
         this.error = false;
-        /** Whether the input should auto-validate */
+        this.mask = undefined;
         this.autoValidate = true;
+        this.zod = undefined;
+        this.asyncParse = undefined;
+        this.wrapKey = undefined;
+        this.inputForcedStyle = undefined;
+        this.testId = undefined;
+        this.maxLength = undefined;
+        this.clearBaseStyles = undefined;
+        this.errorMessage = undefined;
         this.inputFocused = false;
     }
     componentWillLoad() {
@@ -158,8 +157,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Name attribute for the input field"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "name",
                 "reflect": false
             },
@@ -177,8 +174,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Value of the input field"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "value",
                 "reflect": false
             },
@@ -196,8 +191,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Label text for the input"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label",
                 "reflect": false
             },
@@ -215,8 +208,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Placeholder text for the input"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "placeholder",
                 "reflect": false
             },
@@ -234,8 +225,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Additional inline styles for the input"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "input-styles",
                 "reflect": false,
                 "defaultValue": "''"
@@ -254,8 +243,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the input field is required"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "required",
                 "reflect": false
             },
@@ -273,8 +260,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the input field is read-only"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "readonly",
                 "reflect": false,
                 "defaultValue": "false"
@@ -284,7 +269,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\r\n    | 'password'\r\n    | 'email'\r\n    | 'number'\r\n    | 'tel'\r\n    | 'url'\r\n    | 'search'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'month'\r\n    | 'week'\r\n    | 'time'\r\n    | 'color'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'checkbox'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'button'\r\n    | 'reset'\r\n    | 'submit'\r\n    | 'image'",
-                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"submit\" | \"range\" | \"file\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
+                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"file\" | \"range\" | \"submit\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },
                 "required": false,
@@ -293,8 +278,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Input type (e.g., text, password, email)"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "type",
                 "reflect": false,
                 "defaultValue": "'text'"
@@ -313,8 +296,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the form has been submitted"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "submitted",
                 "reflect": false,
                 "defaultValue": "false"
@@ -333,8 +314,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether to apply default input styling"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "input-style",
                 "reflect": false,
                 "defaultValue": "true"
@@ -353,8 +332,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Text size inside the input field"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "text-size",
                 "reflect": false,
                 "defaultValue": "'md'"
@@ -373,8 +350,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Position of the label: left, right, or center"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-position",
                 "reflect": false,
                 "defaultValue": "'left'"
@@ -393,8 +368,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Background color of the label"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-background",
                 "reflect": false,
                 "defaultValue": "null"
@@ -413,8 +386,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Text color of the label"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-color",
                 "reflect": false,
                 "defaultValue": "'dark'"
@@ -433,8 +404,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Border color/style of the label"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-border",
                 "reflect": false,
                 "defaultValue": "'theme'"
@@ -453,8 +422,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Label width as a fraction of 12 columns (1-11)"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "label-width",
                 "reflect": false,
                 "defaultValue": "3"
@@ -473,8 +440,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Variant of the input: default or icon"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
@@ -493,8 +458,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the input is disabled"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "false"
@@ -513,8 +476,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the input has an error"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
@@ -529,7 +490,7 @@ export class IrInputText {
                         "FactoryArg": {
                             "location": "import",
                             "path": "imask",
-                            "id": "node_modules::FactoryArg"
+                            "id": ""
                         }
                     }
                 },
@@ -539,8 +500,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Mask for the input field (optional)"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "mask",
                 "reflect": false
             },
@@ -558,8 +517,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Whether the input should auto-validate"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "auto-validate",
                 "reflect": false,
                 "defaultValue": "true"
@@ -574,7 +531,7 @@ export class IrInputText {
                         "ZodType": {
                             "location": "import",
                             "path": "zod",
-                            "id": "node_modules::ZodType"
+                            "id": ""
                         }
                     }
                 },
@@ -583,9 +540,7 @@ export class IrInputText {
                 "docs": {
                     "tags": [],
                     "text": "A Zod schema for validating the input"
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "asyncParse": {
                 "type": "boolean",
@@ -601,8 +556,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "A Zod parse type for validating the input"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "async-parse",
                 "reflect": false
             },
@@ -620,8 +573,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Key to wrap the value (e.g., 'price' or 'cost')"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "wrap-key",
                 "reflect": false
             },
@@ -638,9 +589,7 @@ export class IrInputText {
                 "docs": {
                     "tags": [],
                     "text": "Forcing css style to the input"
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "testId": {
                 "type": "string",
@@ -656,8 +605,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Input id for testing purposes"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "test-id",
                 "reflect": false
             },
@@ -675,8 +622,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "Input max character length"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "max-length",
                 "reflect": false
             },
@@ -694,8 +639,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "To clear all the Input base styling"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "clear-base-styles",
                 "reflect": false
             },
@@ -713,8 +656,6 @@ export class IrInputText {
                     "tags": [],
                     "text": "To clear all the Input base styling"
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "error-message",
                 "reflect": false
             }

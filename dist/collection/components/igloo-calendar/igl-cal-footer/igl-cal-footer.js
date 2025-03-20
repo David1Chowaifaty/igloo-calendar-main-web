@@ -1,6 +1,11 @@
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 export class IglCalFooter {
+    constructor() {
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.highlightedDate = undefined;
+    }
     // private isOnline:boolean = false;
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
@@ -35,9 +40,7 @@ export class IglCalFooter {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "today": {
                 "type": "unknown",
@@ -57,9 +60,7 @@ export class IglCalFooter {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "highlightedDate": {
                 "type": "string",
@@ -75,8 +76,6 @@ export class IglCalFooter {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "highlighted-date",
                 "reflect": false
             }

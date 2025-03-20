@@ -7,12 +7,18 @@ import { handleUnAssignedDatesChange } from "../../../stores/unassigned_dates.st
 import { colorVariants } from "../../ui/ir-icons/icons";
 export class IglCalHeader {
     constructor() {
-        this.renderAgain = false;
-        this.unassignedRoomsNumber = {};
         this.searchValue = '';
         this.searchList = [];
         this.roomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.propertyid = undefined;
+        this.unassignedDates = undefined;
+        this.to_date = undefined;
+        this.highlightedDate = undefined;
+        this.renderAgain = false;
+        this.unassignedRoomsNumber = {};
     }
     componentWillLoad() {
         try {
@@ -197,9 +203,7 @@ export class IglCalHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "today": {
                 "type": "unknown",
@@ -219,9 +223,7 @@ export class IglCalHeader {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             },
             "propertyid": {
                 "type": "number",
@@ -237,8 +239,6 @@ export class IglCalHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "propertyid",
                 "reflect": false
             },
@@ -256,8 +256,6 @@ export class IglCalHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "unassigned-dates",
                 "reflect": false
             },
@@ -275,8 +273,6 @@ export class IglCalHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "to_date",
                 "reflect": false
             },
@@ -294,8 +290,6 @@ export class IglCalHeader {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "highlighted-date",
                 "reflect": false
             }

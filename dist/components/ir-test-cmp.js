@@ -13,6 +13,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
         this.user = {
             password: '',
         };
+        this.error = undefined;
         this.autoValidate = false;
     }
     render() {

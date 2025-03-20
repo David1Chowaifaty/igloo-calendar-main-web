@@ -16,10 +16,11 @@ import { HouseKeepingService } from "../../../services/housekeeping.service";
 import locales from "../../../stores/locales.store";
 export class IrDeleteModal {
     constructor() {
+        this.housekeepingService = new HouseKeepingService();
+        this.user = undefined;
         this.isOpen = false;
         this.selectedId = '';
         this.loadingBtn = null;
-        this.housekeepingService = new HouseKeepingService();
     }
     async closeModal() {
         if (this.modalEl) {
@@ -114,9 +115,7 @@ export class IrDeleteModal {
                 "docs": {
                     "tags": [],
                     "text": ""
-                },
-                "getter": false,
-                "setter": false
+                }
             }
         };
     }

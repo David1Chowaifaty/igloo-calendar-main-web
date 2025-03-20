@@ -1,12 +1,12 @@
-import { r as registerInstance, h, H as Host, c as createEvent } from './index-1d2aa5ad.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-f355e1d9.js';
-import { c as calendar_data } from './calendar-data-ce538d8c.js';
-import { i as isRequestPending } from './ir-interceptor.store-1b562ec6.js';
-import { l as locales } from './locales.store-95a78d6b.js';
+import { r as registerInstance, h, H as Host, c as createEvent } from './index-2ef79026.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-6d6b2ec1.js';
+import { c as calendar_data } from './calendar-data-707a10db.js';
+import { i as isRequestPending } from './ir-interceptor.store-e23984f0.js';
+import { l as locales } from './locales.store-b3d58c68.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { v as v4 } from './v4-964634d6.js';
-import './index-e42e9935.js';
-import './axios-aa1335b8.js';
+import './index-5395b195.js';
+import './axios-2aba0cfc.js';
 
 const irHkArchiveCss = ".sc-ir-hk-archive-h{display:block}";
 const IrHkArchiveStyle0 = irHkArchiveCss;
@@ -14,6 +14,9 @@ const IrHkArchiveStyle0 = irHkArchiveCss;
 const IrHkArchive = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.houseKeepingService = new HouseKeepingService();
+        this.units = [];
+        this.propertyId = undefined;
         this.filters = {
             from_date: hooks().add(-90, 'days').format('YYYY-MM-DD'),
             to_date: hooks().format('YYYY-MM-DD'),
@@ -22,8 +25,6 @@ const IrHkArchive = class {
         };
         this.data = [];
         this.isLoading = null;
-        this.houseKeepingService = new HouseKeepingService();
-        this.units = [];
     }
     componentWillLoad() {
         this.initializeData();
@@ -140,6 +141,7 @@ const IrTasksFilters = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.applyFilters = createEvent(this, "applyFilters", 7);
+        this.isLoading = undefined;
         this.filters = {
             cleaning_periods: {
                 code: '',
@@ -265,21 +267,9 @@ const IrTasksTable = class {
         this.animateCleanedButton = createEvent(this, "animateCleanedButton", 7);
         this.rowSelectChange = createEvent(this, "rowSelectChange", 7);
         this.tasks = [];
-        /**
-         * Tracks which task IDs are currently selected via checkboxes.
-         */
         this.selectedIds = [];
-        /**
-         * Controls whether the "Confirm Clean" modal is shown.
-         */
         this.showConfirmModal = false;
-        /**
-         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
-         */
         this.sortKey = 'date';
-        /**
-         * The sort direction: ASC or DESC.
-         */
         this.sortDirection = 'ASC';
         this.checkableTasks = [];
     }

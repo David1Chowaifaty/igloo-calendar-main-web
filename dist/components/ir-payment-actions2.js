@@ -12,6 +12,8 @@ const IrPaymentActions = /*@__PURE__*/ proxyCustomElement(class IrPaymentActions
         super();
         this.__registerHost();
         this.generatePayment = createEvent(this, "generatePayment", 7);
+        this.booking = undefined;
+        this.paymentAction = undefined;
     }
     render() {
         var _a, _b;

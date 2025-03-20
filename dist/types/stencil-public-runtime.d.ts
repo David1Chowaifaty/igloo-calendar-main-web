@@ -768,7 +768,6 @@ export declare namespace JSXBase {
         hrefLang?: string;
         hreflang?: string;
         media?: string;
-        ping?: string;
         rel?: string;
         target?: string;
         referrerPolicy?: ReferrerPolicy;
@@ -795,6 +794,7 @@ export declare namespace JSXBase {
         cite?: string;
     }
     interface ButtonHTMLAttributes<T> extends HTMLAttributes<T> {
+        autoFocus?: boolean;
         disabled?: boolean;
         form?: string;
         formAction?: string;
@@ -921,6 +921,8 @@ export declare namespace JSXBase {
         autocapitalize?: string;
         autoComplete?: string;
         autocomplete?: string;
+        autoFocus?: boolean;
+        autofocus?: boolean | string;
         capture?: string;
         checked?: boolean;
         crossOrigin?: string;
@@ -977,6 +979,8 @@ export declare namespace JSXBase {
         popoverTarget?: string;
     }
     interface KeygenHTMLAttributes<T> extends HTMLAttributes<T> {
+        autoFocus?: boolean;
+        autofocus?: boolean | string;
         challenge?: string;
         disabled?: boolean;
         form?: string;
@@ -989,6 +993,7 @@ export declare namespace JSXBase {
     interface LabelHTMLAttributes<T> extends HTMLAttributes<T> {
         form?: string;
         htmlFor?: string;
+        htmlfor?: string;
     }
     interface LiHTMLAttributes<T> extends HTMLAttributes<T> {
         value?: string | string[] | number;
@@ -1015,8 +1020,6 @@ export declare namespace JSXBase {
         autoPlay?: boolean;
         autoplay?: boolean | string;
         controls?: boolean;
-        controlslist?: 'nodownload' | 'nofullscreen' | 'noremoteplayback';
-        controlsList?: 'nodownload' | 'nofullscreen' | 'noremoteplayback';
         crossOrigin?: string;
         crossorigin?: string;
         loop?: boolean;
@@ -1101,6 +1104,7 @@ export declare namespace JSXBase {
     interface OutputHTMLAttributes<T> extends HTMLAttributes<T> {
         form?: string;
         htmlFor?: string;
+        htmlfor?: string;
         name?: string;
     }
     interface ParamHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -1125,6 +1129,7 @@ export declare namespace JSXBase {
         type?: string;
     }
     interface SelectHTMLAttributes<T> extends HTMLAttributes<T> {
+        autoFocus?: boolean;
         disabled?: boolean;
         form?: string;
         multiple?: boolean;
@@ -1159,6 +1164,8 @@ export declare namespace JSXBase {
     interface TextareaHTMLAttributes<T> extends HTMLAttributes<T> {
         autoComplete?: string;
         autocomplete?: string;
+        autoFocus?: boolean;
+        autofocus?: boolean | string;
         cols?: number;
         disabled?: boolean;
         form?: string;
@@ -1211,8 +1218,6 @@ export declare namespace JSXBase {
     interface HTMLAttributes<T = HTMLElement> extends DOMAttributes<T> {
         innerHTML?: string;
         accessKey?: string;
-        autoFocus?: boolean;
-        autofocus?: boolean | string;
         class?: string | {
             [className: string]: boolean;
         };
@@ -1566,10 +1571,6 @@ export declare namespace JSXBase {
         onSubmitCapture?: (event: Event) => void;
         onInvalid?: (event: Event) => void;
         onInvalidCapture?: (event: Event) => void;
-        onBeforeToggle?: (event: Event) => void;
-        onBeforeToggleCapture?: (event: Event) => void;
-        onToggle?: (event: Event) => void;
-        onToggleCapture?: (event: Event) => void;
         onLoad?: (event: Event) => void;
         onLoadCapture?: (event: Event) => void;
         onError?: (event: Event) => void;

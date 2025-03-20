@@ -8,6 +8,9 @@ import moment from "moment";
 import { v4 } from "uuid";
 export class IrHkArchive {
     constructor() {
+        this.houseKeepingService = new HouseKeepingService();
+        this.units = [];
+        this.propertyId = undefined;
         this.filters = {
             from_date: moment().add(-90, 'days').format('YYYY-MM-DD'),
             to_date: moment().format('YYYY-MM-DD'),
@@ -16,8 +19,6 @@ export class IrHkArchive {
         };
         this.data = [];
         this.isLoading = null;
-        this.houseKeepingService = new HouseKeepingService();
-        this.units = [];
     }
     componentWillLoad() {
         this.initializeData();
@@ -152,8 +153,6 @@ export class IrHkArchive {
                     "tags": [],
                     "text": ""
                 },
-                "getter": false,
-                "setter": false,
                 "attribute": "property-id",
                 "reflect": false
             }

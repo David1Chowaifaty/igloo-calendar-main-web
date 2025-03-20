@@ -71,9 +71,9 @@ const IrChannelMapping = /*@__PURE__*/ proxyCustomElement(class IrChannelMapping
     constructor() {
         super();
         this.__registerHost();
+        this.mappingService = new IrMappingService();
         this.activeMapField = '';
         this.availableRooms = [];
-        this.mappingService = new IrMappingService();
     }
     setActiveField(id, isRoomType, roomTypeId) {
         const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, roomTypeId);

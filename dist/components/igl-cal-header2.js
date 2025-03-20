@@ -18,12 +18,18 @@ const IglCalHeader = /*@__PURE__*/ proxyCustomElement(class IglCalHeader extends
         this.optionEvent = createEvent(this, "optionEvent", 7);
         this.gotoRoomEvent = createEvent(this, "gotoRoomEvent", 7);
         this.gotoToBeAssignedDate = createEvent(this, "gotoToBeAssignedDate", 7);
-        this.renderAgain = false;
-        this.unassignedRoomsNumber = {};
         this.searchValue = '';
         this.searchList = [];
         this.roomsList = [];
         this.toBeAssignedService = new ToBeAssignedService();
+        this.calendarData = undefined;
+        this.today = undefined;
+        this.propertyid = undefined;
+        this.unassignedDates = undefined;
+        this.to_date = undefined;
+        this.highlightedDate = undefined;
+        this.renderAgain = false;
+        this.unassignedRoomsNumber = {};
     }
     componentWillLoad() {
         try {

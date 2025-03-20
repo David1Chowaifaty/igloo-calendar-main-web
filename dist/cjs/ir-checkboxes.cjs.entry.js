@@ -2,14 +2,14 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-aeea0adf.js');
+const index = require('./index-e13bd197.js');
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.checkboxesChange = index.createEvent(this, "checkboxesChange", 7);
-        this.checkboxes = [];
         this.checkedCheckboxes = [];
+        this.checkboxes = [];
     }
     handleCheckboxChange(event) {
         if (event.detail.checked) {

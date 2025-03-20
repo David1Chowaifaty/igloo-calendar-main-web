@@ -13,6 +13,8 @@ const IrPmsLogs = /*@__PURE__*/ proxyCustomElement(class IrPmsLogs extends HTMLE
         super();
         this.__registerHost();
         this.bookingService = new BookingService();
+        this.bookingNumber = undefined;
+        this.pmsLogs = undefined;
     }
     componentWillLoad() {
         this.init();

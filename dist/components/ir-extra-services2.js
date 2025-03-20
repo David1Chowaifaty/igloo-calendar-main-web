@@ -12,6 +12,7 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
     constructor() {
         super();
         this.__registerHost();
+        this.booking = undefined;
     }
     render() {
         var _a;

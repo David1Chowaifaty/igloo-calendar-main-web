@@ -13,9 +13,14 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
         super();
         this.__registerHost();
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.ratePlan = undefined;
+        this.roomTypeId = undefined;
         this.ratePricingMode = [];
+        this.currency = undefined;
+        this.shouldBeDisabled = undefined;
         this.bookingType = 'PLUS_BOOKING';
         this.isBookDisabled = false;
+        this.visibleInventory = undefined;
     }
     // Determine if the form inputs should be disabled
     disableForm() {
@@ -154,6 +159,7 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
             }), "aria-label": `${(_c = (_b = this.visibleInventory) === null || _b === void 0 ? void 0 : _b.roomtype) === null || _c === void 0 ? void 0 : _c.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, class: "ir-br-input-none price-amount w-100 flex-grow-1", currency: currency.symbol, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate' }), h("fieldset", { class: "position-relative m-0 total-nights-container p-0" }, h("select", { "data-testid": 'nigh_stay_select', disabled: disableForm, class: "form-control input-sm m-0 nightBorder rounded-0 py-0", id: v4(), onChange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
             }) }, ratePricingMode.map(data => (h("option", { value: data.CODE_NAME, selected: (visibleInventory === null || visibleInventory === void 0 ? void 0 : visibleInventory.view_mode) === data.CODE_NAME }, data.CODE_VALUE_EN)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("div", { class: "flex-fill mt-0 ml-1 m-0 mt-md-0 p-0" }, h("fieldset", { class: "position-relative" }, h("select", { "data-testid": 'inventory_select', disabled: visibleInventory.visibleInventory === 0, class: "form-control input-sm", id: v4(), onChange: evt => this.handleDataChange('totalRooms', evt) }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("option", { value: i, selected: visibleInventory.reserved === i }, i)))))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("div", { class: "m-0 p-0 ml-md-1 mt-md-0 d-none d-md-block" }, h("fieldset", { class: "position-relative" }, h("input", { "data-testid": 'inventory_radio', disabled: disableForm, type: "radio", name: "ratePlanGroup", value: "1", onChange: () => {
+                var _a, _b, _c;
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -161,15 +167,16 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            last_name: (_a = booking_store.guest) === null || _a === void 0 ? void 0 : _a.last_name,
+                            first_name: (_b = booking_store.guest) === null || _b === void 0 ? void 0 : _b.first_name,
                             unit: null,
-                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
+                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? (_c = booking_store.guest) === null || _c === void 0 ? void 0 : _c.bed_preference : null,
                             infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
                         },
                     ],
                 });
             }, checked: visibleInventory.reserved === 1 }))), h("button", { "data-testid": "book_property", disabled: disableForm, type: "button", class: "btn btn-primary booking-btn mt-lg-0 btn-sm ml-md-1 mt-1 d-md-none", onClick: () => {
+                var _a, _b, _c, _d;
                 this.resetReserved();
                 reserveRooms({
                     roomTypeId: this.roomTypeId,
@@ -177,11 +184,11 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                     rooms: 1,
                     guest: [
                         {
-                            last_name: booking_store.guest.last_name,
-                            first_name: booking_store.guest.first_name,
+                            last_name: (_a = booking_store.guest) === null || _a === void 0 ? void 0 : _a.last_name,
+                            first_name: (_b = booking_store.guest) === null || _b === void 0 ? void 0 : _b.first_name,
                             unit: null,
-                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest.bed_preference : null,
-                            infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? booking_store.guest.infant_nbr : null,
+                            bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? (_c = booking_store.guest) === null || _c === void 0 ? void 0 : _c.bed_preference : null,
+                            infant_nbr: this.visibleInventory.selected_variation.child_nbr > 0 ? (_d = booking_store.guest) === null || _d === void 0 ? void 0 : _d.infant_nbr : null,
                         },
                     ],
                 });

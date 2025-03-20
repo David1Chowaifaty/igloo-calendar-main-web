@@ -12,12 +12,18 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
         super();
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
+        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
+        this.roomType = undefined;
         this.bookingType = 'PLUS_BOOKING';
+        this.dateDifference = undefined;
         this.ratePricingMode = [];
         this.roomInfoId = null;
+        this.currency = undefined;
+        this.initialRoomIds = undefined;
+        this.isBookDisabled = undefined;
         this.selectedRooms = [];
+        this.totalRooms = undefined;
         this.roomsDistributions = [];
-        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     }
     render() {
         var _a, _b;
