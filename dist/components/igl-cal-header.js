@@ -4,6 +4,5 @@ const IglCalHeader = IglCalHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglCalHeader, defineCustomElement };
-//# sourceMappingURL=igl-cal-header.js.map
 
 //# sourceMappingURL=igl-cal-header.js.map

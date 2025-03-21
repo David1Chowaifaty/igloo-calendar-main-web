@@ -1,10 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
-import { z as formatLegendColors, f as calendar_dates, d as dateToFormattedString, A as getRoomStatus, t as transformNewBooking, B as transformNewBLockedRooms, C as bookingStatus, k as getPrivateNote, i as isBlockUnit, h as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO } from './utils.js';
+import { b as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, h as getNextDay, j as addTwoMonthToDate, k as convertDMYToISO, l as computeEndDate } from './utils.js';
 import { E as EventsService, d as defineCustomElement$W } from './igl-booking-event-hover2.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
+import { g as getRoomStatus, t as transformNewBooking, d as transformNewBLockedRooms, e as bookingStatus, f as getPrivateNote, b as calculateDaysBetweenDates } from './booking.js';
+import { c as calendar_dates } from './calendar-dates.store.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store.js';
@@ -2215,7 +2217,7 @@ class SocketWithUpgrade extends SocketWithoutUpgrade {
  * @see SocketWithoutUpgrade
  * @see SocketWithUpgrade
  */
-let Socket$1 = class Socket extends SocketWithUpgrade {
+class Socket$1 extends SocketWithUpgrade {
     constructor(uri, opts = {}) {
         const o = typeof uri === "object" ? uri : opts;
         if (!o.transports ||
@@ -2226,7 +2228,7 @@ let Socket$1 = class Socket extends SocketWithUpgrade {
         }
         super(uri, o);
     }
-};
+}
 
 /**
  * URL parser.
@@ -2730,12 +2732,12 @@ class BinaryReconstructor {
     }
 }
 
-var parser = /*#__PURE__*/Object.freeze({
+const parser = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    Decoder: Decoder,
-    Encoder: Encoder,
+    protocol: protocol,
     get PacketType () { return PacketType; },
-    protocol: protocol
+    Encoder: Encoder,
+    Decoder: Decoder
 });
 
 function on(obj, ev, fn) {
@@ -4097,6 +4099,7 @@ Object.assign(lookup, {
 });
 
 const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
+const IglooCalendarStyle0 = iglooCalendarCss;
 
 const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar extends HTMLElement {
     constructor() {
@@ -4998,7 +5001,7 @@ const IglooCalendar$1 = /*@__PURE__*/ proxyCustomElement(class IglooCalendar ext
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return iglooCalendarCss; }
+    static get style() { return IglooCalendarStyle0; }
 }, [2, "igloo-calendar", {
         "propertyid": [2],
         "from_date": [1025],
@@ -5363,6 +5366,5 @@ const IglooCalendar = IglooCalendar$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglooCalendar, defineCustomElement };
-//# sourceMappingURL=igloo-calendar.js.map
 
 //# sourceMappingURL=igloo-calendar.js.map

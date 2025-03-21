@@ -53,6 +53,7 @@ const initialState = {
 const { state: payment_option_store } = createStore(initialState);
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}";
+const IrOptionDetailsStyle0 = irOptionDetailsCss;
 
 const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails extends HTMLElement {
     constructor() {
@@ -179,7 +180,7 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
             return (h("fieldset", { key: d.key }, h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key.replace(/_/g, ' '), placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || ((_b = ((_a = d.value) !== null && _a !== void 0 ? _a : '')) === null || _b === void 0 ? void 0 : _b.trim()) === '') ? 'true' : 'false' })));
         }))), h("div", { class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Handle_Payment_Method'), text: locales.entries.Lcz_Save, btn_color: "primary" })))));
     }
-    static get style() { return irOptionDetailsCss; }
+    static get style() { return IrOptionDetailsStyle0; }
 }, [2, "ir-option-details", {
         "propertyId": [1, "property-id"],
         "localizationIdx": [32],
@@ -226,6 +227,5 @@ function defineCustomElement() {
 }
 
 export { IrOptionDetails as I, PaymentOptionService as P, defineCustomElement as d, payment_option_store as p };
-//# sourceMappingURL=ir-option-details2.js.map
 
 //# sourceMappingURL=ir-option-details2.js.map

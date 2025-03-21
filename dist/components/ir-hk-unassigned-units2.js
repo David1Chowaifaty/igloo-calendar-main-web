@@ -11,6 +11,7 @@ import { d as defineCustomElement$2 } from './ir-switch2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
 const irHkUnassignedUnitsCss = ".sc-ir-hk-unassigned-units-h{display:block;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2}table.sc-ir-hk-unassigned-units{width:100%}td.sc-ir-hk-unassigned-units{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units:last-child{text-align:end}.title.sc-ir-hk-unassigned-units{min-width:230px !important}";
+const IrHkUnassignedUnitsStyle0 = irHkUnassignedUnitsCss;
 
 const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassignedUnits extends HTMLElement {
     constructor() {
@@ -115,7 +116,7 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
     render() {
         return (h(Host, { key: '0a2bbd53e526f3b06042c1fde1ac3437d1bcdfc1' }, h("ir-title", { key: 'b8a785360074d9d4318e95c80655ce436f4d729a', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'e3cec6dc7e4b576201ea17b8771271f0982851e5', class: "px-1" }, h("table", { key: '0548ea3b17c161474a66f8b5945af2ec795d6257' }, h("thead", { key: '43283a9399aeee2e12dd8f4e9ad562286f22ca9c' }, h("th", { key: '95dacfbc40fd67f77495f932010bb54856488181', class: "sr-only" }, "room name"), h("th", { key: '098963ed322fc252b7701f297ec876e75e17b1f7', class: "sr-only" }, "housekeeper name"), h("th", { key: 'dc9bb323f06f8e2991c0eef355667e3b66596666', class: "sr-only" }, "actions")), h("tbody", { key: 'bf4fa0b22e4daca4c7f603852a04a16e5da936a7' }, this.renderRooms())), h("div", { key: 'f26f978cd61891f7f339ae592ac31f769cc9bda2', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '1a203a6f93851fe71c70b9b7c21bf2660eea43dc', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: '4039692e52b3d239b93bab0139770bf1cf934844', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
     }
-    static get style() { return irHkUnassignedUnitsCss; }
+    static get style() { return IrHkUnassignedUnitsStyle0; }
 }, [2, "ir-hk-unassigned-units", {
         "user": [16],
         "renderAgain": [32]
@@ -165,6 +166,5 @@ function defineCustomElement() {
 }
 
 export { IrHkUnassignedUnits as I, defineCustomElement as d };
-//# sourceMappingURL=ir-hk-unassigned-units2.js.map
 
 //# sourceMappingURL=ir-hk-unassigned-units2.js.map

@@ -4,6 +4,5 @@ const IglBookingOverviewPage = IglBookingOverviewPage$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBookingOverviewPage, defineCustomElement };
-//# sourceMappingURL=igl-booking-overview-page.js.map
 
 //# sourceMappingURL=igl-booking-overview-page.js.map

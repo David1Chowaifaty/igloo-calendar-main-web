@@ -5,6 +5,7 @@ import { d as defineCustomElement$2 } from './ir-price-input2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const iglRoomTypeCss = ".sc-igl-room-type-h{display:block}.margin-bottom-8.sc-igl-room-type{margin-bottom:8px !important}";
+const IglRoomTypeStyle0 = iglRoomTypeCss;
 
 const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends HTMLElement {
     constructor() {
@@ -43,7 +44,7 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
                 return null;
             })));
     }
-    static get style() { return iglRoomTypeCss; }
+    static get style() { return IglRoomTypeStyle0; }
 }, [2, "igl-room-type", {
         "roomType": [16],
         "bookingType": [1, "booking-type"],
@@ -87,6 +88,5 @@ function defineCustomElement() {
 }
 
 export { IglRoomType as I, defineCustomElement as d };
-//# sourceMappingURL=igl-room-type2.js.map
 
 //# sourceMappingURL=igl-room-type2.js.map

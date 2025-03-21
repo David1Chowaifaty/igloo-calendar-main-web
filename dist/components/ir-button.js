@@ -4,6 +4,5 @@ const IrButton = IrButton$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrButton, defineCustomElement };
-//# sourceMappingURL=ir-button.js.map
 
 //# sourceMappingURL=ir-button.js.map

@@ -4,6 +4,5 @@ const IrReservationInformation = IrReservationInformation$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrReservationInformation, defineCustomElement };
-//# sourceMappingURL=ir-reservation-information.js.map
 
 //# sourceMappingURL=ir-reservation-information.js.map

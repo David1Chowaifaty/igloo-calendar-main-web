@@ -4,6 +4,5 @@ const IrInputText = IrInputText$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrInputText, defineCustomElement };
-//# sourceMappingURL=ir-input-text.js.map
 
 //# sourceMappingURL=ir-input-text.js.map

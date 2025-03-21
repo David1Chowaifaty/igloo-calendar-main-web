@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 
 const irIconCss = ".sc-ir-icon-h{margin:0;padding:0}.icon-button.sc-ir-icon{all:unset;margin:0;padding:0;color:#6b6f82}.icon-button.sc-ir-icon:hover{cursor:pointer;color:#104064}";
+const IrIconStyle0 = irIconCss;
 
 const IrIcon = /*@__PURE__*/ proxyCustomElement(class IrIcon extends HTMLElement {
     constructor() {
@@ -12,7 +13,7 @@ const IrIcon = /*@__PURE__*/ proxyCustomElement(class IrIcon extends HTMLElement
     render() {
         return (h("button", { key: 'eff393306c87b94882f95f2c1d23305ec766c43a', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '40a652f9c36543a496036bb821821d0d205d28a8', name: "icon" })));
     }
-    static get style() { return irIconCss; }
+    static get style() { return IrIconStyle0; }
 }, [6, "ir-icon", {
         "icon": [1]
     }]);
@@ -31,6 +32,5 @@ function defineCustomElement() {
 }
 
 export { IrIcon as I, defineCustomElement as d };
-//# sourceMappingURL=ir-icon2.js.map
 
 //# sourceMappingURL=ir-icon2.js.map

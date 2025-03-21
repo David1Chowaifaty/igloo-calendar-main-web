@@ -7,6 +7,7 @@ import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
 const irDeleteModalCss = ":host{font-size:1rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.ir-alert-footer{gap:10px}.exit-icon{position:absolute;right:10px;top:5px;margin:0}";
+const IrDeleteModalStyle0 = irDeleteModalCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -92,7 +93,7 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
             }))
                 .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' })))))));
     }
-    static get style() { return irDeleteModalCss; }
+    static get style() { return IrDeleteModalStyle0; }
 }, [0, "ir-delete-modal", {
         "user": [16],
         "isOpen": [32],
@@ -131,6 +132,5 @@ function defineCustomElement() {
 }
 
 export { IrDeleteModal as I, defineCustomElement as d };
-//# sourceMappingURL=ir-delete-modal2.js.map
 
 //# sourceMappingURL=ir-delete-modal2.js.map

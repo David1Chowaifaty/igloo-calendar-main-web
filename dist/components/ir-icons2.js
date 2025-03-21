@@ -210,18 +210,9 @@ const icons = {
         d: 'M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z',
     },
 };
-const colorVariants = {
-    secondary: {
-        '--icon-button-color': '#6b6f82',
-        '--icon-button-hover-color': '#104064',
-    },
-    danger: {
-        '--icon-button-color': '#ff4961',
-        '--icon-button-hover-color': '#ff6377',
-    },
-};
 
 const irIconsCss = ".sc-ir-icons-h{display:block;box-sizing:border-box;margin:0;padding:0}.icon.sc-ir-icons{height:var(--icon-size, 1.25rem);width:var(--icon-size, 1.25rem);margin:0;padding:0}";
+const IrIconsStyle0 = irIconsCss;
 
 const IrIcons = /*@__PURE__*/ proxyCustomElement(class IrIcons extends HTMLElement {
     constructor() {
@@ -235,7 +226,7 @@ const IrIcons = /*@__PURE__*/ proxyCustomElement(class IrIcons extends HTMLEleme
         }
         return (h("svg", { xmlns: "http://www.w3.org/2000/svg", color: this.color, viewBox: svgPath.viewBox, class: `icon ${this.svgClassName}` }, h("path", { fill: "currentColor", d: svgPath.d })));
     }
-    static get style() { return irIconsCss; }
+    static get style() { return IrIconsStyle0; }
 }, [2, "ir-icons", {
         "name": [1],
         "svgClassName": [1, "svg-class-name"],
@@ -255,7 +246,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrIcons as I, colorVariants as c, defineCustomElement as d };
-//# sourceMappingURL=ir-icons2.js.map
+export { IrIcons as I, defineCustomElement as d };
 
 //# sourceMappingURL=ir-icons2.js.map

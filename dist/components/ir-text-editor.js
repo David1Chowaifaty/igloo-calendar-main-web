@@ -4,6 +4,5 @@ const IrTextEditor = IrTextEditor$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTextEditor, defineCustomElement };
-//# sourceMappingURL=ir-text-editor.js.map
 
 //# sourceMappingURL=ir-text-editor.js.map

@@ -4,9 +4,8 @@ const initialState = {
     entries: null,
     direction: 'ltr',
 };
-const { state: locales} = createStore(initialState);
+const { state: locales, onChange: onCalendarDatesChange } = createStore(initialState);
 
 export { locales as l };
-//# sourceMappingURL=locales.store.js.map
 
 //# sourceMappingURL=locales.store.js.map

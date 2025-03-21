@@ -4,6 +4,5 @@ const IrBookingDetails = IrBookingDetails$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrBookingDetails, defineCustomElement };
-//# sourceMappingURL=ir-booking-details.js.map
 
 //# sourceMappingURL=ir-booking-details.js.map

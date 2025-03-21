@@ -4,6 +4,5 @@ const IrTasksTable = IrTasksTable$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTasksTable, defineCustomElement };
-//# sourceMappingURL=ir-tasks-table.js.map
 
 //# sourceMappingURL=ir-tasks-table.js.map

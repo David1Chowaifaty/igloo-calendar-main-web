@@ -1,4 +1,4 @@
-import { l as libExports } from './index3.js';
+import { z } from './index3.js';
 import { h as hooks } from './moment.js';
 
 // export const ZIdInfo = z.object({
@@ -22,31 +22,31 @@ import { h as hooks } from './moment.js';
  * - `type.description`: Same pattern for description (but no min length).
  * - `number`: Validates if non-empty string it should be at least 2 chars.
  */
-const ZIdInfo = libExports.z.object({
-    type: libExports.z.object({
-        code: libExports.z
+const ZIdInfo = z.object({
+    type: z.object({
+        code: z
             .union([
             // If provided and non-empty, must have at least 3 chars
-            libExports.z.string().min(3),
+            z.string().min(3),
             // or it can be an empty string
-            libExports.z.literal(''),
+            z.literal(''),
         ])
             .optional(), // or undefined
-        description: libExports.z
+        description: z
             .union([
             // If provided and non-empty, no special min
-            libExports.z.string(),
+            z.string(),
             // or it can be empty string
-            libExports.z.literal(''),
+            z.literal(''),
         ])
             .optional(),
     }),
-    number: libExports.z
+    number: z
         .union([
         // If provided and non-empty, must have at least 2 chars
-        libExports.z.string().min(2),
+        z.string().min(2),
         // or it can be empty string
-        libExports.z.literal(''),
+        z.literal(''),
     ])
         .optional(),
 });
@@ -58,31 +58,31 @@ const ZIdInfo = libExports.z.object({
  * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
  * - `id_info`: The nested object above; can also be omitted entirely.
  */
-const ZSharedPerson = libExports.z.object({
-    id: libExports.z.number().optional(),
+const ZSharedPerson = z.object({
+    id: z.number().optional(),
     // full_name: z
     //   .union([
     //     z.string().min(2), // if provided and non-empty, must have min length 2
     //     z.literal(''), // or it can be empty string
     //   ])
     //   .optional(),
-    first_name: libExports.z
+    first_name: z
         .union([
-        libExports.z.string().min(2), // if provided and non-empty, must have min length 2
-        libExports.z.literal(''), // or it can be empty string
+        z.string().min(2), // if provided and non-empty, must have min length 2
+        z.literal(''), // or it can be empty string
     ])
         .optional(),
-    last_name: libExports.z
+    last_name: z
         .union([
-        libExports.z.string().min(2), // if provided and non-empty, must have min length 2
-        libExports.z.literal(''), // or it can be empty string
+        z.string().min(2), // if provided and non-empty, must have min length 2
+        z.literal(''), // or it can be empty string
     ])
         .optional(),
-    country_id: libExports.z.coerce
+    country_id: z.coerce
         .number()
         .min(0) // if provided, must be >= 0
         .optional(),
-    dob: libExports.z
+    dob: z
         .string()
         .nullable()
         .optional()
@@ -95,19 +95,18 @@ const ZSharedPerson = libExports.z.object({
     }),
     id_info: ZIdInfo.optional(),
 });
-const ZSharedPersons = libExports.z.array(ZSharedPerson);
-const ExtraServiceSchema = libExports.z.object({
-    booking_system_id: libExports.z.number().optional(),
-    cost: libExports.z.coerce.number().nullable(),
-    currency_id: libExports.z.number().min(1),
-    description: libExports.z.string().min(1),
-    end_date: libExports.z.string().nullable(),
-    price: libExports.z.coerce.number(),
-    start_date: libExports.z.string().nullable(),
-    system_id: libExports.z.number().optional(),
+const ZSharedPersons = z.array(ZSharedPerson);
+const ExtraServiceSchema = z.object({
+    booking_system_id: z.number().optional(),
+    cost: z.coerce.number().nullable(),
+    currency_id: z.number().min(1),
+    description: z.string().min(1),
+    end_date: z.string().nullable(),
+    price: z.coerce.number(),
+    start_date: z.string().nullable(),
+    system_id: z.number().optional(),
 });
 
 export { ExtraServiceSchema as E, ZSharedPersons as Z, ZSharedPerson as a, ZIdInfo as b };
-//# sourceMappingURL=booking.dto.js.map
 
 //# sourceMappingURL=booking.dto.js.map

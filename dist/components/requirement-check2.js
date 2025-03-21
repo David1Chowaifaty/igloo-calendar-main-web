@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/clien
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const requirementCheckCss = ".sc-requirement-check-h{display:block;font-size:0.875rem}.valid.sc-requirement-check{color:var(--green, #28d094)}.requirement.sc-requirement-check{display:flex;align-items:center;gap:0.5rem}";
+const RequirementCheckStyle0 = requirementCheckCss;
 
 const RequirementCheck = /*@__PURE__*/ proxyCustomElement(class RequirementCheck extends HTMLElement {
     constructor() {
@@ -19,7 +20,7 @@ const RequirementCheck = /*@__PURE__*/ proxyCustomElement(class RequirementCheck
     render() {
         return (h("div", { key: 'd162f3f0f996d4c9a887a7d7c67e9ec559cb5f20', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '2eceebc42109fb484f4cf23a1a4e9ad2d1d75a29', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '5fd0a41f3027c6ccc976874399b2665039760662' }, this.text)));
     }
-    static get style() { return requirementCheckCss; }
+    static get style() { return RequirementCheckStyle0; }
 }, [2, "requirement-check", {
         "isValid": [4, "is-valid"],
         "text": [1]
@@ -44,6 +45,5 @@ function defineCustomElement() {
 }
 
 export { RequirementCheck as R, defineCustomElement as d };
-//# sourceMappingURL=requirement-check2.js.map
 
 //# sourceMappingURL=requirement-check2.js.map

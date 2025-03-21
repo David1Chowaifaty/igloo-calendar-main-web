@@ -4,6 +4,5 @@ const IrTasksFilters = IrTasksFilters$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTasksFilters, defineCustomElement };
-//# sourceMappingURL=ir-tasks-filters.js.map
 
 //# sourceMappingURL=ir-tasks-filters.js.map

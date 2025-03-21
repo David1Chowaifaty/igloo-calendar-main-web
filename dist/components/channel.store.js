@@ -11,7 +11,7 @@ const initialState = {
     channel_id: -1,
     is_active: false,
 };
-const { state: channels_data, onChange: onChannelChange} = createStore(initialState);
+const { state: channels_data, onChange: onChannelChange, dispose } = createStore(initialState);
 function setChannelIdAndActiveState(id, is_active) {
     channels_data.channel_id = id;
     channels_data.is_active = is_active;
@@ -82,7 +82,6 @@ function testConnection() {
     return true;
 }
 
-export { addMapping as a, setMappedChannel as b, channels_data as c, setChannelIdAndActiveState as d, onChannelChange as o, resetStore as r, selectChannel as s, testConnection as t, updateChannelSettings as u };
-//# sourceMappingURL=channel.store.js.map
+export { selectChannel as a, addMapping as b, channels_data as c, setMappedChannel as d, onChannelChange as o, resetStore as r, setChannelIdAndActiveState as s, testConnection as t, updateChannelSettings as u };
 
 //# sourceMappingURL=channel.store.js.map

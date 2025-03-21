@@ -3,6 +3,7 @@ import { I as IMask } from './index4.js';
 import { v as v4 } from './v4.js';
 
 const irInputTextCss = ".sc-ir-input-text-h{margin:0;padding:0;display:inline}.border-theme.sc-ir-input-text{border:1px solid #cacfe7}.icon-container.sc-ir-input-text{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}input.sc-ir-input-text:focus{border-color:#1e9ff2 !important}.error-message.sc-ir-input-text{font-size:0.875rem;padding:0;margin:0.5rem 0 0;color:var(--red, #ff4961)}.ir-input[data-state='empty'].sc-ir-input-text{color:#bbbfc6}.input-container.sc-ir-input-text{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.input-container.sc-ir-input-text input.sc-ir-input-text{padding-left:5px !important;padding-right:5px !important;border-left:0;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.icon-container[data-state='focus'].sc-ir-input-text{border-color:var(--blue)}.icon-container[data-disabled].sc-ir-input-text{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.danger-border.sc-ir-input-text{border-color:var(--red, #ff4961)}";
+const IrInputTextStyle0 = irInputTextCss;
 
 const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends HTMLElement {
     constructor() {
@@ -144,7 +145,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         "error": ["handleErrorChange"],
         "value": ["handleValueChange"]
     }; }
-    static get style() { return irInputTextCss; }
+    static get style() { return IrInputTextStyle0; }
 }, [6, "ir-input-text", {
         "name": [1],
         "value": [1],
@@ -196,6 +197,5 @@ function defineCustomElement() {
 }
 
 export { IrInputText as I, defineCustomElement as d };
-//# sourceMappingURL=ir-input-text2.js.map
 
 //# sourceMappingURL=ir-input-text2.js.map

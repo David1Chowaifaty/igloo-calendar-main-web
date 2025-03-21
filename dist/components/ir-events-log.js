@@ -4,6 +4,5 @@ const IrEventsLog = IrEventsLog$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrEventsLog, defineCustomElement };
-//# sourceMappingURL=ir-events-log.js.map
 
 //# sourceMappingURL=ir-events-log.js.map

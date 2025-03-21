@@ -4,6 +4,5 @@ const IrExtraServiceConfig = IrExtraServiceConfig$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrExtraServiceConfig, defineCustomElement };
-//# sourceMappingURL=ir-extra-service-config.js.map
 
 //# sourceMappingURL=ir-extra-service-config.js.map

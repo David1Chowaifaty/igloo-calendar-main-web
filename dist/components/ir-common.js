@@ -137,6 +137,5 @@ const IrCommon = IrCommon$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrCommon, defineCustomElement };
-//# sourceMappingURL=ir-common.js.map
 
 //# sourceMappingURL=ir-common.js.map

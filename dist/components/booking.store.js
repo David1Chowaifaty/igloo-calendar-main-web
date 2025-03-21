@@ -174,7 +174,6 @@ function calculateTotalRooms() {
     }, 0);
 }
 
-export { resetBookingStore as a, booking_store as b, calculateTotalRooms as c, getVisibleInventory as g, modifyBookingStore as m, reserveRooms as r, updateRoomParams as u };
-//# sourceMappingURL=booking.store.js.map
+export { reserveRooms as a, booking_store as b, calculateTotalRooms as c, getVisibleInventory as g, modifyBookingStore as m, resetBookingStore as r, updateRoomParams as u };
 
 //# sourceMappingURL=booking.store.js.map

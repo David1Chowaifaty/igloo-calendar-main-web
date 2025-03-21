@@ -73,6 +73,5 @@ class RoomService {
 }
 
 export { RoomService as R };
-//# sourceMappingURL=room.service.js.map
 
 //# sourceMappingURL=room.service.js.map

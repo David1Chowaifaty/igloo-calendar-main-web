@@ -43,6 +43,5 @@ class PaymentService {
 }
 
 export { PaymentService as P };
-//# sourceMappingURL=payment.service.js.map
 
 //# sourceMappingURL=payment.service.js.map

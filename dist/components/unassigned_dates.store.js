@@ -50,6 +50,5 @@ function convertToDateTimestamp(dateStr) {
 }
 
 export { addUnassignedDates as a, getUnassignedDates as g, handleUnAssignedDatesChange as h, removeUnassignedDates as r };
-//# sourceMappingURL=unassigned_dates.store.js.map
 
 //# sourceMappingURL=unassigned_dates.store.js.map

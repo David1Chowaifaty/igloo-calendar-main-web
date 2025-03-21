@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { d as defineCustomElement$1 } from './ir-icon2.js';
 
 const irTitleCss = ".sc-ir-title-h{padding:0px 0;margin-bottom:20px;display:flex;align-items:center;width:100%}[border-shown].sc-ir-title-h{border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important;padding-bottom:15px}[display-context='sidebar'].sc-ir-title-h{padding:15px 0;justify-content:space-between !important;width:100% !important;border-bottom:1px solid #e4e5ec !important;border-color:#e4e5ec !important}.title-body.sc-ir-title{margin:0;padding:0}@media only screen and (max-width: 641px){.sc-ir-title-h{flex-direction:column;gap:8px;align-items:flex-start}[display-context='sidebar'].sc-ir-title-h{flex-direction:row}}";
+const IrTitleStyle0 = irTitleCss;
 
 const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLElement {
     constructor() {
@@ -28,7 +29,7 @@ const IrTitle = /*@__PURE__*/ proxyCustomElement(class IrTitle extends HTMLEleme
     static get watchers() { return {
         "justifyContent": ["handleJustifyContentChange"]
     }; }
-    static get style() { return irTitleCss; }
+    static get style() { return IrTitleStyle0; }
 }, [6, "ir-title", {
         "label": [1],
         "borderShown": [516, "border-shown"],
@@ -57,6 +58,5 @@ function defineCustomElement() {
 }
 
 export { IrTitle as I, defineCustomElement as d };
-//# sourceMappingURL=ir-title2.js.map
 
 //# sourceMappingURL=ir-title2.js.map

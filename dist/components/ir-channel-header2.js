@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 
 const irChannelHeaderCss = ".sc-ir-channel-header-h{display:block;position:relative;padding:0;margin:0;border-bottom:1px solid #e4e5ec}ul.sc-ir-channel-header{display:flex;align-items:center;gap:2rem;padding:0}li.sc-ir-channel-header{list-style:none !important}.tab.sc-ir-channel-header{font-size:0.95rem;font-weight:400;cursor:pointer;position:relative;margin:0;padding:0;transition:color 0.3s ease;user-select:none}.tab[data-disabled].sc-ir-channel-header{cursor:auto}.tab.sc-ir-channel-header:hover{opacity:80%}.tab[data-state='selected'].sc-ir-channel-header,.tab[data-state='selected'].sc-ir-channel-header:hover{color:var(--blue);opacity:100%}.active-indicator.sc-ir-channel-header{padding:0;bottom:0px;position:absolute;height:3px;border-radius:4px;transition:transform 0.3s ease, width 0.3s ease;background:var(--blue)}";
+const IrChannelHeaderStyle0 = irChannelHeaderCss;
 
 const IrChannelHeader = /*@__PURE__*/ proxyCustomElement(class IrChannelHeader extends HTMLElement {
     constructor() {
@@ -45,7 +46,7 @@ const IrChannelHeader = /*@__PURE__*/ proxyCustomElement(class IrChannelHeader e
             }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '1b99e05f11feb3b4888144d63c438556cd359ac1', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     get el() { return this; }
-    static get style() { return irChannelHeaderCss; }
+    static get style() { return IrChannelHeaderStyle0; }
 }, [2, "ir-channel-header", {
         "headerTitles": [16],
         "selectedIndex": [32]
@@ -65,6 +66,5 @@ function defineCustomElement() {
 }
 
 export { IrChannelHeader as I, defineCustomElement as d };
-//# sourceMappingURL=ir-channel-header2.js.map
 
 //# sourceMappingURL=ir-channel-header2.js.map

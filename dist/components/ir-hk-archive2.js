@@ -15,6 +15,7 @@ import { d as defineCustomElement$1 } from './ir-title2.js';
 import { v as v4 } from './v4.js';
 
 const irHkArchiveCss = ".sc-ir-hk-archive-h{display:block}";
+const IrHkArchiveStyle0 = irHkArchiveCss;
 
 const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends HTMLElement {
     constructor() {
@@ -136,7 +137,7 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
                 window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
             } })) : ('N/A')))))))))));
     }
-    static get style() { return irHkArchiveCss; }
+    static get style() { return IrHkArchiveStyle0; }
 }, [2, "ir-hk-archive", {
         "propertyId": [8, "property-id"],
         "filters": [32],
@@ -193,6 +194,5 @@ function defineCustomElement() {
 }
 
 export { IrHkArchive as I, defineCustomElement as d };
-//# sourceMappingURL=ir-hk-archive2.js.map
 
 //# sourceMappingURL=ir-hk-archive2.js.map

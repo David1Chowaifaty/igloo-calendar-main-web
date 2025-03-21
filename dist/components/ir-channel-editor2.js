@@ -70,6 +70,7 @@ class ChannelService {
 }
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
+const IrChannelEditorStyle0 = irChannelEditorCss;
 
 const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor extends HTMLElement {
     constructor() {
@@ -161,7 +162,7 @@ const IrChannelEditor = /*@__PURE__*/ proxyCustomElement(class IrChannelEditor e
                 this.saveConnectedChannel();
             }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
     }
-    static get style() { return irChannelEditorCss; }
+    static get style() { return IrChannelEditorStyle0; }
 }, [2, "ir-channel-editor", {
         "channel_status": [1],
         "ticket": [1],
@@ -221,6 +222,5 @@ function defineCustomElement() {
 }
 
 export { ChannelService as C, IrChannelEditor as I, defineCustomElement as d };
-//# sourceMappingURL=ir-channel-editor2.js.map
 
 //# sourceMappingURL=ir-channel-editor2.js.map

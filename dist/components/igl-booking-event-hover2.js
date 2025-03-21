@@ -1,10 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { e as extras, q as getReleaseHoursString, r as findCountry, j as canCheckIn, s as compareTime, u as createDateWithOffsetAndHour, l as formatAmount } from './utils.js';
+import { a as findCountry, c as canCheckIn, f as formatAmount } from './utils.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.service2.js';
+import { e as extras, g as getReleaseHoursString } from './calendar-dates.store.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { c as compareTime, a as createDateWithOffsetAndHour } from './booking.js';
 import { d as defineCustomElement$6 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-view2.js';
@@ -64,6 +66,7 @@ class EventsService {
 }
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
+const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
 
 const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEventHover extends HTMLElement {
     constructor() {
@@ -466,7 +469,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
     }; }
-    static get style() { return iglBookingEventHoverCss; }
+    static get style() { return IglBookingEventHoverStyle0; }
 }, [2, "igl-booking-event-hover", {
         "bookingEvent": [1040],
         "bubbleInfoTop": [4, "bubble-info-top"],
@@ -524,6 +527,5 @@ function defineCustomElement() {
 }
 
 export { EventsService as E, IglBookingEventHover as I, defineCustomElement as d };
-//# sourceMappingURL=igl-booking-event-hover2.js.map
 
 //# sourceMappingURL=igl-booking-event-hover2.js.map

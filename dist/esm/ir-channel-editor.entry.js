@@ -1,20 +1,20 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-jhiFt_tX.js';
-import { C as ChannelService } from './channel.service-FmgIK3v1.js';
-import { o as onChannelChange, c as channels_data } from './channel.store-DIRf2TpU.js';
-import { l as locales } from './locales.store-BsXBgatZ.js';
-import './calendar-data-D2MMPhx6.js';
-import './index-C7eXIDl2.js';
-import './axios-8ipPhlJK.js';
-import './_commonjsHelpers-E-ZsRS8r.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-1d2aa5ad.js';
+import { C as ChannelService } from './channel.service-51b75b1f.js';
+import { o as onChannelChange, c as channels_data } from './channel.store-92261163.js';
+import { l as locales } from './locales.store-95a78d6b.js';
+import './calendar-data-ce538d8c.js';
+import './index-e42e9935.js';
+import './axios-aa1335b8.js';
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
+const IrChannelEditorStyle0 = irChannelEditorCss;
 
 const IrChannelEditor = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.saveChannelFinished = createEvent(this, "saveChannelFinished");
-        this.closeSideBar = createEvent(this, "closeSideBar");
-        this.toast = createEvent(this, "toast");
+        this.saveChannelFinished = createEvent(this, "saveChannelFinished", 7);
+        this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        this.toast = createEvent(this, "toast", 7);
         var _a, _b, _c;
         this.channel_status = null;
         this.selectedTab = '';
@@ -99,9 +99,8 @@ const IrChannelEditor = class {
             }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
     }
 };
-IrChannelEditor.style = irChannelEditorCss;
+IrChannelEditor.style = IrChannelEditorStyle0;
 
 export { IrChannelEditor as ir_channel_editor };
-//# sourceMappingURL=ir-channel-editor.entry.js.map
 
 //# sourceMappingURL=ir-channel-editor.entry.js.map

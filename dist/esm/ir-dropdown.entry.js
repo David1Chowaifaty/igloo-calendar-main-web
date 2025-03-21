@@ -1,11 +1,12 @@
-import { r as registerInstance, c as createEvent, h } from './index-jhiFt_tX.js';
+import { r as registerInstance, c as createEvent, h } from './index-1d2aa5ad.js';
 
 const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{position:absolute !important;top:100%;right:0;z-index:1000;display:none}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}";
+const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dropdownItemCLicked = createEvent(this, "dropdownItemCLicked");
+        this.dropdownItemCLicked = createEvent(this, "dropdownItemCLicked", 7);
         this.data = null;
         this.object = null;
         this.show = false;
@@ -25,9 +26,8 @@ const IrDropdown = class {
         return (h("ul", { class: "nav navbar-nav", id: "main-menu-navigation", "data-menu": "menu-navigation" }, content));
     }
 };
-IrDropdown.style = irDropdownCss;
+IrDropdown.style = IrDropdownStyle0;
 
 export { IrDropdown as ir_dropdown };
-//# sourceMappingURL=ir-dropdown.entry.js.map
 
 //# sourceMappingURL=ir-dropdown.entry.js.map

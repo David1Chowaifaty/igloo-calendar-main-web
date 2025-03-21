@@ -31,6 +31,5 @@ const IrSpan = IrSpan$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrSpan, defineCustomElement };
-//# sourceMappingURL=ir-span.js.map
 
 //# sourceMappingURL=ir-span.js.map

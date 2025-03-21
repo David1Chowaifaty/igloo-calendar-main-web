@@ -4,6 +4,5 @@ const IrGuestInfo = GuestInfo;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrGuestInfo, defineCustomElement };
-//# sourceMappingURL=ir-guest-info.js.map
 
 //# sourceMappingURL=ir-guest-info.js.map

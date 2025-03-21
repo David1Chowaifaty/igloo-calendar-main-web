@@ -4,6 +4,5 @@ const IglRatePlan = IglRatePlan$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglRatePlan, defineCustomElement };
-//# sourceMappingURL=igl-rate-plan.js.map
 
 //# sourceMappingURL=igl-rate-plan.js.map

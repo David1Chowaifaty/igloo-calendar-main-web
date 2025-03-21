@@ -4,6 +4,5 @@ const IrDeleteModal = IrDeleteModal$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDeleteModal, defineCustomElement };
-//# sourceMappingURL=ir-delete-modal.js.map
 
 //# sourceMappingURL=ir-delete-modal.js.map

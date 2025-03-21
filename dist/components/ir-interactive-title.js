@@ -4,6 +4,5 @@ const IrInteractiveTitle = IrInteractiveTitle$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrInteractiveTitle, defineCustomElement };
-//# sourceMappingURL=ir-interactive-title.js.map
 
 //# sourceMappingURL=ir-interactive-title.js.map

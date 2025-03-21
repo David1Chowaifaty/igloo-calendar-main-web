@@ -4,6 +4,5 @@ const IrSpinner = IrSpinner$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrSpinner, defineCustomElement };
-//# sourceMappingURL=ir-spinner.js.map
 
 //# sourceMappingURL=ir-spinner.js.map

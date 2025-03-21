@@ -4,6 +4,5 @@ const IrHkTasks = IrHkTasks$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHkTasks, defineCustomElement };
-//# sourceMappingURL=ir-hk-tasks.js.map
 
 //# sourceMappingURL=ir-hk-tasks.js.map

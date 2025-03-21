@@ -22,6 +22,7 @@ export declare class IglRatePlan {
     private updateRateplanSelection;
     private handleDataChange;
     private bookProperty;
+    private reserveRoom;
     private renderRate;
     private formatVariation;
     private getTooltipMessages;

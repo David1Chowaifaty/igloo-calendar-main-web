@@ -4,6 +4,5 @@ const IrListingHeader = IrListingHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrListingHeader, defineCustomElement };
-//# sourceMappingURL=ir-listing-header.js.map
 
 //# sourceMappingURL=ir-listing-header.js.map
