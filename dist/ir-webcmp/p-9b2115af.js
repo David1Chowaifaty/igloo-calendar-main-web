@@ -1,2 +1,0 @@
-const o={secondary:{"--icon-button-color":"#6b6f82","--icon-button-hover-color":"#104064"},danger:{"--icon-button-color":"#ff4961","--icon-button-hover-color":"#ff6377"}};export{o as c};
-//# sourceMappingURL=p-9b2115af.js.map

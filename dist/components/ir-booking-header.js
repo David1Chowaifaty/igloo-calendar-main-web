@@ -4,5 +4,6 @@ const IrBookingHeader = IrBookingHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrBookingHeader, defineCustomElement };
+//# sourceMappingURL=ir-booking-header.js.map
 
 //# sourceMappingURL=ir-booking-header.js.map

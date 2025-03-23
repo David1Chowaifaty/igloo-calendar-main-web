@@ -15,7 +15,6 @@ import { d as defineCustomElement$3 } from './ir-text-editor2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrPaymentOptionStyle0 = irPaymentOptionCss;
 
 const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption extends HTMLElement {
     constructor() {
@@ -199,7 +198,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrPaymentOptionStyle0; }
+    static get style() { return irPaymentOptionCss; }
 }, [2, "ir-payment-option", {
         "propertyid": [1],
         "ticket": [1],
@@ -286,5 +285,6 @@ const IrPaymentOption = IrPaymentOption$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPaymentOption, defineCustomElement };
+//# sourceMappingURL=ir-payment-option.js.map
 
 //# sourceMappingURL=ir-payment-option.js.map

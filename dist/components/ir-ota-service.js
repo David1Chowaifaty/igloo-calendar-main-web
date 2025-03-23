@@ -4,5 +4,6 @@ const IrOtaService = IrOtaService$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrOtaService, defineCustomElement };
+//# sourceMappingURL=ir-ota-service.js.map
 
 //# sourceMappingURL=ir-ota-service.js.map

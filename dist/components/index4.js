@@ -507,7 +507,7 @@ class InputHistory {
     return this.go(-1);
   }
   redo() {
-    return this.go(+1);
+    return this.go(1);
   }
   clear() {
     this.states.length = 0;
@@ -3597,5 +3597,6 @@ try {
 } catch {}
 
 export { IMask as I, MaskedRange as M };
+//# sourceMappingURL=index4.js.map
 
 //# sourceMappingURL=index4.js.map

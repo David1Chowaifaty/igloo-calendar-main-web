@@ -4,5 +4,6 @@ const IglTbaCategoryView = IglTbaCategoryView$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglTbaCategoryView, defineCustomElement };
+//# sourceMappingURL=igl-tba-category-view.js.map
 
 //# sourceMappingURL=igl-tba-category-view.js.map

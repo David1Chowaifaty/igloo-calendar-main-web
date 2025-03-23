@@ -4,5 +4,6 @@ const IrCountryPicker = IrCountryPicker$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrCountryPicker, defineCustomElement };
+//# sourceMappingURL=ir-country-picker.js.map
 
 //# sourceMappingURL=ir-country-picker.js.map

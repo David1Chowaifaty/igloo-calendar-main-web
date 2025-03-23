@@ -1,21 +1,22 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-1d2aa5ad.js';
-import { T as Token } from './Token-acf5fbad.js';
-import { B as BookingService } from './booking.service-fee0ba35.js';
-import { R as RoomService } from './room.service-0fe1d11d.js';
-import { l as locales } from './locales.store-95a78d6b.js';
-import './axios-aa1335b8.js';
-import './calendar-dates.store-e76cc041.js';
-import './moment-ab846cee.js';
-import './calendar-data-ce538d8c.js';
-import './index-e42e9935.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-jhiFt_tX.js';
+import { T as Token } from './Token-BTEbRZ0j.js';
+import { B as BookingService } from './booking.service-CphVj8Ho.js';
+import { R as RoomService } from './room.service-CheK7apf.js';
+import { l as locales } from './locales.store-BsXBgatZ.js';
+import './axios-8ipPhlJK.js';
+import './_commonjsHelpers-E-ZsRS8r.js';
+import './utils-s2ti0vPD.js';
+import './moment-Mki5YqAR.js';
+import './index-DeW5X45W.js';
+import './calendar-data-D2MMPhx6.js';
+import './index-C7eXIDl2.js';
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
-const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
 
 const IglBookPropertyContainer = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.resetBookingData = createEvent(this, "resetBookingData", 7);
+        this.resetBookingData = createEvent(this, "resetBookingData");
         this.language = '';
         this.ticket = '';
         this.withIrToastAndInterceptor = true;
@@ -110,8 +111,9 @@ const IglBookPropertyContainer = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IglBookPropertyContainer.style = IglBookPropertyContainerStyle0;
+IglBookPropertyContainer.style = iglBookPropertyContainerCss;
 
 export { IglBookPropertyContainer as igl_book_property_container };
+//# sourceMappingURL=igl-book-property-container.entry.js.map
 
 //# sourceMappingURL=igl-book-property-container.entry.js.map

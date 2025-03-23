@@ -4,5 +4,6 @@ const IrAutocomplete = IrAutocomplete$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrAutocomplete, defineCustomElement };
+//# sourceMappingURL=ir-autocomplete.js.map
 
 //# sourceMappingURL=ir-autocomplete.js.map

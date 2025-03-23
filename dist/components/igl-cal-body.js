@@ -4,5 +4,6 @@ const IglCalBody = IglCalBody$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglCalBody, defineCustomElement };
+//# sourceMappingURL=igl-cal-body.js.map
 
 //# sourceMappingURL=igl-cal-body.js.map

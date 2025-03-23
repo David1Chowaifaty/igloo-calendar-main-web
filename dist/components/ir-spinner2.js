@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
 const irSpinnerCss = ":host{width:var(--ir-spinner-size, 1.25rem);height:var(--ir-spinner-size, 1.25rem);border:var(--ir-spinner-border-width, 2.5px) solid var(--ir-spinner-color, #3f3f3f);border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
-const IrSpinnerStyle0 = irSpinnerCss;
 
 const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLElement {
     constructor() {
@@ -49,7 +48,7 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         "unit": ["handleSpinnerUnitChange"],
         "color": ["handleSpinnerColorChange"]
     }; }
-    static get style() { return IrSpinnerStyle0; }
+    static get style() { return irSpinnerCss; }
 }, [1, "ir-spinner", {
         "size": [2],
         "borderWidth": [2, "border-width"],
@@ -76,5 +75,6 @@ function defineCustomElement() {
 }
 
 export { IrSpinner as I, defineCustomElement as d };
+//# sourceMappingURL=ir-spinner2.js.map
 
 //# sourceMappingURL=ir-spinner2.js.map

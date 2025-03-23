@@ -27,7 +27,6 @@ import { d as defineCustomElement$2 } from './ir-toast2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
-const IrHousekeepingStyle0 = irHousekeepingCss;
 
 const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping extends HTMLElement {
     constructor() {
@@ -123,7 +122,7 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrHousekeepingStyle0; }
+    static get style() { return irHousekeepingCss; }
 }, [2, "ir-housekeeping", {
         "language": [1],
         "ticket": [1],
@@ -253,5 +252,6 @@ function defineCustomElement() {
 }
 
 export { IrHousekeeping as I, defineCustomElement as d };
+//# sourceMappingURL=ir-housekeeping2.js.map
 
 //# sourceMappingURL=ir-housekeeping2.js.map

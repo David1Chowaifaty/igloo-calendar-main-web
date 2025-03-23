@@ -1,10 +1,9 @@
-import { r as registerInstance, h, H as Host } from './index-1d2aa5ad.js';
-import { z, Z as ZodError } from './index-502f9842.js';
+import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
+import { l as libExports } from './index-DeW5X45W.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
-const IrTestCmpStyle0 = irTestCmpCss;
 
-const userSchema = z.object({ password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
+const userSchema = libExports.z.object({ password: libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -26,7 +25,7 @@ const IrTestCmp = class {
                 }
                 catch (error) {
                     const er = {};
-                    if (error instanceof ZodError) {
+                    if (error instanceof libExports.ZodError) {
                         error.issues.forEach(e => {
                             er[e.path[0]] = true;
                         });
@@ -37,8 +36,9 @@ const IrTestCmp = class {
             } }, h("ir-input-text", { key: '378e186051b94b6bdacfbe03000902419580b495', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '343306be772197bb6dc07a67fe6dd4f4a8bb6b6a' }, " ", this.user.password), " ", h("button", { key: '15a935e160a32597febdcfaf3fa113179318c57b', class: 'btn btn-primary' }, "Submit"))));
     }
 };
-IrTestCmp.style = IrTestCmpStyle0;
+IrTestCmp.style = irTestCmpCss;
 
 export { IrTestCmp as ir_test_cmp };
+//# sourceMappingURL=ir-test-cmp.entry.js.map
 
 //# sourceMappingURL=ir-test-cmp.entry.js.map

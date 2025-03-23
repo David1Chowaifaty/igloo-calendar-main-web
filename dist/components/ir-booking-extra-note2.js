@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
 import { B as BookingService } from './booking.service.js';
-import { f as getPrivateNote } from './booking.js';
+import { k as getPrivateNote } from './utils.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
 import { d as defineCustomElement$4 } from './ir-icon2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
@@ -9,7 +9,6 @@ import { d as defineCustomElement$2 } from './ir-textarea2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
 const irBookingExtraNoteCss = ".sc-ir-booking-extra-note-h{display:block}";
-const IrBookingExtraNoteStyle0 = irBookingExtraNoteCss;
 
 const IrBookingExtraNote = /*@__PURE__*/ proxyCustomElement(class IrBookingExtraNote extends HTMLElement {
     constructor() {
@@ -72,7 +71,7 @@ const IrBookingExtraNote = /*@__PURE__*/ proxyCustomElement(class IrBookingExtra
                 this.savePrivateNote();
             } }, h("ir-textarea", { key: 'f870b32e58755044492a1091f7bb6b8bbb809218', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: 'df3149f215902252add907d13e61ff9d6576be4a', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '257a03aa87abf356f65254bbe5365689f77dbb1b', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '48eee1c4907feea517a0025f7e1b9a670f27dc56', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
-    static get style() { return IrBookingExtraNoteStyle0; }
+    static get style() { return irBookingExtraNoteCss; }
 }, [2, "ir-booking-extra-note", {
         "booking": [16],
         "isLoading": [32],
@@ -118,5 +117,6 @@ function defineCustomElement() {
 }
 
 export { IrBookingExtraNote as I, defineCustomElement as d };
+//# sourceMappingURL=ir-booking-extra-note2.js.map
 
 //# sourceMappingURL=ir-booking-extra-note2.js.map

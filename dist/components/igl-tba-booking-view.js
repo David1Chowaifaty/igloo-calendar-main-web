@@ -4,5 +4,6 @@ const IglTbaBookingView = IglTbaBookingView$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglTbaBookingView, defineCustomElement };
+//# sourceMappingURL=igl-tba-booking-view.js.map
 
 //# sourceMappingURL=igl-tba-booking-view.js.map

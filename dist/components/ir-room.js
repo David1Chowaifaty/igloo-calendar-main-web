@@ -4,5 +4,6 @@ const IrRoom = IrRoom$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrRoom, defineCustomElement };
+//# sourceMappingURL=ir-room.js.map
 
 //# sourceMappingURL=ir-room.js.map

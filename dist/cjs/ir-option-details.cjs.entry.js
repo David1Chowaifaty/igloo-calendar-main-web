@@ -1,22 +1,20 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-aeea0adf.js');
-const paymentOption_store = require('./payment-option.store-528b2607.js');
-const irInterceptor_store = require('./ir-interceptor.store-a052c48d.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-require('./axios-6e678d52.js');
-require('./index-3cfd4bf8.js');
+var index = require('./index-Dt9a74kn.js');
+var paymentOption_store = require('./payment-option.store-Cwcm2sdk.js');
+var irInterceptor_store = require('./ir-interceptor.store-CcYE4FKe.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
+require('./index-PIkoJJtF.js');
 
 const irOptionDetailsCss = ".sc-ir-option-details-h{display:block}";
-const IrOptionDetailsStyle0 = irOptionDetailsCss;
 
 const IrOptionDetails = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.closeModal = index.createEvent(this, "closeModal", 7);
-        this.toast = index.createEvent(this, "toast", 7);
+        this.closeModal = index.createEvent(this, "closeModal");
+        this.toast = index.createEvent(this, "toast");
         this.selectedLanguage = null;
         this.invalid = false;
         this.paymentOptionService = new paymentOption_store.PaymentOptionService();
@@ -137,8 +135,9 @@ const IrOptionDetails = class {
         }))), index.h("div", { class: 'd-flex flex-column flex-sm-row mt-3' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), index.h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: irInterceptor_store.isRequestPending('/Handle_Payment_Method'), text: locales_store.locales.entries.Lcz_Save, btn_color: "primary" })))));
     }
 };
-IrOptionDetails.style = IrOptionDetailsStyle0;
+IrOptionDetails.style = irOptionDetailsCss;
 
 exports.ir_option_details = IrOptionDetails;
+//# sourceMappingURL=ir-option-details.entry.cjs.js.map
 
 //# sourceMappingURL=ir-option-details.cjs.entry.js.map

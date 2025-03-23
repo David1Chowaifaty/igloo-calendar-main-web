@@ -4,5 +4,6 @@ const IrCombobox = IrCombobox$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrCombobox, defineCustomElement };
+//# sourceMappingURL=ir-combobox.js.map
 
 //# sourceMappingURL=ir-combobox.js.map

@@ -4,5 +4,6 @@ const IrHkUser = IrHkUser$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHkUser, defineCustomElement };
+//# sourceMappingURL=ir-hk-user.js.map
 
 //# sourceMappingURL=ir-hk-user.js.map

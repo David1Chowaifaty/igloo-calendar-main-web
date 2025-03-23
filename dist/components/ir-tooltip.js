@@ -4,5 +4,6 @@ const IrTooltip = IrTooltip$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTooltip, defineCustomElement };
+//# sourceMappingURL=ir-tooltip.js.map
 
 //# sourceMappingURL=ir-tooltip.js.map

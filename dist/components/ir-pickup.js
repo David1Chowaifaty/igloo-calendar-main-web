@@ -4,5 +4,6 @@ const IrPickup = IrPickup$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPickup, defineCustomElement };
+//# sourceMappingURL=ir-pickup.js.map
 
 //# sourceMappingURL=ir-pickup.js.map

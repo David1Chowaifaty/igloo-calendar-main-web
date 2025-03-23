@@ -4,5 +4,6 @@ const IglPropertyBookedBy = IglPropertyBookedBy$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglPropertyBookedBy, defineCustomElement };
+//# sourceMappingURL=igl-property-booked-by.js.map
 
 //# sourceMappingURL=igl-property-booked-by.js.map

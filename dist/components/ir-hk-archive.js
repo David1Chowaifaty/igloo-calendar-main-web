@@ -4,5 +4,6 @@ const IrHkArchive = IrHkArchive$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHkArchive, defineCustomElement };
+//# sourceMappingURL=ir-hk-archive.js.map
 
 //# sourceMappingURL=ir-hk-archive.js.map

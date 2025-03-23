@@ -3,7 +3,6 @@ import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-checkbox2.js';
 
 const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.sortable.sc-ir-tasks-table{transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}.task-row.sc-ir-tasks-table,.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.25rem 0.5rem !important;white-space:nowrap;max-width:max-content !important;border:0}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table.sc-ir-tasks-table th.sc-ir-tasks-table,.table.sc-ir-tasks-table td.sc-ir-tasks-table{text-align:start}.table-container.sc-ir-tasks-table{max-height:80vh}.task-table-row.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover{background:#e2e6ea3f !important}.selected.sc-ir-tasks-table{background:#e3f3fa !important}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e6ea;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#dae0e5;border-color:#d3d9df}";
-const IrTasksTableStyle0 = irTasksTableCss;
 
 const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends HTMLElement {
     constructor() {
@@ -192,7 +191,7 @@ const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends
     static get watchers() { return {
         "tasks": ["handleTasksChange"]
     }; }
-    static get style() { return IrTasksTableStyle0; }
+    static get style() { return irTasksTableCss; }
 }, [2, "ir-tasks-table", {
         "tasks": [1040],
         "selectedIds": [32],
@@ -223,5 +222,6 @@ function defineCustomElement() {
 }
 
 export { IrTasksTable as I, defineCustomElement as d };
+//# sourceMappingURL=ir-tasks-table2.js.map
 
 //# sourceMappingURL=ir-tasks-table2.js.map

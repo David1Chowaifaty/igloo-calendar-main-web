@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { p as checkUserAuthState, q as manageAnchorSession } from './utils.js';
+import { w as checkUserAuthState, x as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$x } from './igl-date-range2.js';
 import { d as defineCustomElement$w } from './ir-button2.js';
 import { d as defineCustomElement$v } from './ir-checkbox2.js';
@@ -35,7 +35,6 @@ import { d as defineCustomElement$3 } from './ir-toast2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
 const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
-const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks extends HTMLElement {
     constructor() {
@@ -69,7 +68,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
                 window.location.reload();
             } }, "Logout")), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
     }
-    static get style() { return IrSecureTasksStyle0; }
+    static get style() { return irSecureTasksCss; }
 }, [2, "ir-secure-tasks", {
         "propertyid": [2],
         "p": [1],
@@ -255,5 +254,6 @@ const IrSecureTasks = IrSecureTasks$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrSecureTasks, defineCustomElement };
+//# sourceMappingURL=ir-secure-tasks.js.map
 
 //# sourceMappingURL=ir-secure-tasks.js.map

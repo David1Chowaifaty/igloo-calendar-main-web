@@ -4,7 +4,6 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}";
-const IglTbaCategoryViewStyle0 = iglTbaCategoryViewCss;
 
 const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategoryView extends HTMLElement {
     constructor() {
@@ -13,10 +12,6 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         this.assignUnitEvent = createEvent(this, "assignUnitEvent", 7);
         this.categoriesData = {};
         this.renderAgain = false;
-    }
-    // private localEventDatas;
-    componentWillLoad() {
-        // this.localEventDatas = this.eventDatas;
     }
     handleAssignRoomEvent(event) {
         event.stopImmediatePropagation();
@@ -45,9 +40,9 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
     }
     render() {
         var _a;
-        return (h(Host, { key: 'b3dc75c5a434b0c6b9119ac8c6ff07021b6fc758' }, h("div", { key: '3ad1226be8b14c0a67cdf9317b8db9f73aee0dfb', class: "sectionContainer" }, h("div", { key: '1e4762d229a29725d1b49b47ca4d713d19131fe4', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: 'fb76d2c29e32eb030c43c1e9921c51f1c6bc9108' }, h("div", { key: '915baeab946c5d9c3d41dd92146cf2533d2cf01a', class: "sectionContainer" }, h("div", { key: '339bcaef20d2da59a48593f41c1c7b69b8b8ceb5', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
-    static get style() { return IglTbaCategoryViewStyle0; }
+    static get style() { return iglTbaCategoryViewCss; }
 }, [2, "igl-tba-category-view", {
         "calendarData": [16],
         "selectedDate": [8, "selected-date"],
@@ -87,5 +82,6 @@ function defineCustomElement() {
 }
 
 export { IglTbaCategoryView as I, defineCustomElement as d };
+//# sourceMappingURL=igl-tba-category-view2.js.map
 
 //# sourceMappingURL=igl-tba-category-view2.js.map

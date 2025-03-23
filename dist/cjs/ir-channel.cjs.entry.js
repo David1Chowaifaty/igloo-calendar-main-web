@@ -1,16 +1,15 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index = require('./index-aeea0adf.js');
-const room_service = require('./room.service-e0eb710b.js');
-const channel_store = require('./channel.store-f5ff1505.js');
-const locales_store = require('./locales.store-7abd65bc.js');
-const channel_service = require('./channel.service-7ad45ea8.js');
-const Token = require('./Token-049041c2.js');
-require('./calendar-data-eb8212ff.js');
-require('./index-3cfd4bf8.js');
-require('./axios-6e678d52.js');
+var index = require('./index-Dt9a74kn.js');
+var room_service = require('./room.service-DC3utEzM.js');
+var channel_store = require('./channel.store-CsQBmbfL.js');
+var locales_store = require('./locales.store-CJveOVzn.js');
+var channel_service = require('./channel.service-Cy8nWYRU.js');
+var Token = require('./Token-BY5U68ai.js');
+require('./calendar-data-CC4kt7DA.js');
+require('./index-PIkoJJtF.js');
+require('./axios-DG0YPAll.js');
+require('./_commonjsHelpers-B83fTs8d.js');
 
 const actions = (entries) => [
     {
@@ -104,7 +103,6 @@ const actions = (entries) => [
 ];
 
 const irChannelCss = ".sc-ir-channel-h{display:block;--ir-sidebar-padding:0}.dropdown-toggle.sc-ir-channel{color:var(--blue)}.dropdown-toggle.sc-ir-channel::after{content:none;display:none}.dropdown-toggle.sc-ir-channel .caret-icon.sc-ir-channel{transition:transform 0.15s ease-in-out, color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,\r\n    -webkit-box-shadow 0.15s ease-in-out}.btn.sc-ir-channel:hover .caret-icon.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.show.sc-ir-channel .caret-icon.sc-ir-channel{transform:rotate(-180deg)}.dropdown-divider.sc-ir-channel{border-color:#e4e5ec}.dropdown-item.sc-ir-channel{padding:10px;display:flex;align-items:center;gap:10px;color:#6b6f82}.dropdown-item.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.danger.sc-ir-channel{color:var(--red)}.danger.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:var(--red)}.table.sc-ir-channel thead.sc-ir-channel tr.sc-ir-channel{height:50px !important}.table-container.sc-ir-channel{border-radius:30px}.table.sc-ir-channel thead.sc-ir-channel{background:#fafafa;border-top-width:0}.actions-theader.sc-ir-channel{width:35% !important;text-align:end}.dots.sc-ir-channel{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-ir-channel{width:8px;height:8px;margin:0px 4px;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-ir-channel:nth-child(2){animation-delay:0.2s}.h-screen.sc-ir-channel{height:100vh !important}.dot.sc-ir-channel:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}@media (min-width: 1024px){.sc-ir-channel-h{--sidebar-width:820px}}";
-const IrChannelStyle0 = irChannelCss;
 
 const IrChannel = class {
     constructor(hostRef) {
@@ -274,8 +272,9 @@ const IrChannel = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrChannel.style = IrChannelStyle0;
+IrChannel.style = irChannelCss;
 
 exports.ir_channel = IrChannel;
+//# sourceMappingURL=ir-channel.entry.cjs.js.map
 
 //# sourceMappingURL=ir-channel.cjs.entry.js.map

@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Fragment, Host } from '@stencil/core/internal/client';
 import { c as calendar_data } from './calendar-data.js';
-import { c as channels_data, b as addMapping, d as setMappedChannel } from './channel.store.js';
+import { c as channels_data, a as addMapping, b as setMappedChannel } from './channel.store.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-combobox2.js';
@@ -65,7 +65,6 @@ class IrMappingService {
 }
 
 const irChannelMappingCss = ".sc-ir-channel-mapping-h{display:block;box-sizing:border-box;font-size:12px !important;line-height:14px !important}*.sc-ir-channel-mapping{padding:0;margin:0;box-sizing:border-box}.submap-text.sc-ir-channel-mapping{padding-left:10px}.text-blue.sc-ir-channel-mapping{color:var(--blue)}.text-red.sc-ir-channel-mapping{color:var(--red)}.not_mapped_btn.sc-ir-channel-mapping{color:#ff4961}.not_mapped_btn.sc-ir-channel-mapping:hover{color:#ff1635}li.sc-ir-channel-mapping{list-style:none !important}.refresh-btn.sc-ir-channel-mapping{all:unset;color:var(--blue);cursor:pointer}.refresh-btn.sc-ir-channel-mapping:hover{color:#104064}.selected-map.sc-ir-channel-mapping{flex:1}.selected-map-title.sc-ir-channel-mapping{flex:1}.mapped_row.sc-ir-channel-mapping{display:flex;align-items:center}.mapped_item.sc-ir-channel-mapping+svg.sc-ir-channel-mapping{display:block;flex:0 0 4.166666666666666%;max-width:4.166666666666666%;margin:0}.mapped_row.sc-ir-channel-mapping .mapped_item.sc-ir-channel-mapping{flex:0 0 45.83333333333333%;display:block;max-width:45.83333333333333%}.mapped_item.sc-ir-channel-mapping{margin:0;padding:0;line-height:22px}.mapped_name.sc-ir-channel-mapping{margin-right:5px}.gap-3.sc-ir-channel-mapping{gap:5px}.channel_name.sc-ir-channel-mapping{color:rgba(0, 0, 0, 0.88);font-size:14px;font-weight:700}.mapped_row.rate_plan.sc-ir-channel-mapping,.mapped_row.room_type.sc-ir-channel-mapping{margin-bottom:0px}";
-const IrChannelMappingStyle0 = irChannelMappingCss;
 
 const IrChannelMapping = /*@__PURE__*/ proxyCustomElement(class IrChannelMapping extends HTMLElement {
     constructor() {
@@ -108,7 +107,7 @@ const IrChannelMapping = /*@__PURE__*/ proxyCustomElement(class IrChannelMapping
             })));
         })))));
     }
-    static get style() { return IrChannelMappingStyle0; }
+    static get style() { return irChannelMappingCss; }
 }, [2, "ir-channel-mapping", {
         "activeMapField": [32],
         "availableRooms": [32]
@@ -148,5 +147,6 @@ function defineCustomElement() {
 }
 
 export { IrChannelMapping as I, defineCustomElement as d };
+//# sourceMappingURL=ir-channel-mapping2.js.map
 
 //# sourceMappingURL=ir-channel-mapping2.js.map

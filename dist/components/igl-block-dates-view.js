@@ -4,5 +4,6 @@ const IglBlockDatesView = IglBlockDatesView$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBlockDatesView, defineCustomElement };
+//# sourceMappingURL=igl-block-dates-view.js.map
 
 //# sourceMappingURL=igl-block-dates-view.js.map

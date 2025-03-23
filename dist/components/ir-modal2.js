@@ -3,7 +3,6 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const irModalCss = ".backdropModal.sc-ir-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-modal{padding:10px;background:white;border-radius:5px}.ir-alert-header.sc-ir-modal{display:flex;font-size:1rem;font-weight:700}.modal.sc-ir-modal{z-index:1001 !important}.modal-dialog.sc-ir-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-modal{gap:10px}.ir-modal.sc-ir-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
-const IrModalStyle0 = irModalCss;
 
 const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLElement {
     constructor() {
@@ -60,7 +59,7 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
             h("div", { key: '749f71787bb9fcdda3b5eecec2ee57098e393cdf', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '5aed074fe4949d80917ea64ec265f182a05fafff', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '874c36317361d2e7ed8a8c6010f1f35509cd6324', class: `ir-alert-header` }, h("p", { key: '5005faa3f9d722695bdb4c04e4add5da25d9b42f' }, this.modalTitle))), h("div", { key: 'd59082aaba56e4157f7e6ee69765b81584d942f8', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '5559ec9ff66a072c4c12693104be1180e48f0198' }, this.modalBody)), h("div", { key: 'cd537c7bb567399d5b6a42efad955de5800ed1aa', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '915e6c6fac1cfb3a0d39b90379df0e9172406670', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '7b99c9b691073f3d56efbaa2746d57921c6d3e8c', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
-    static get style() { return IrModalStyle0; }
+    static get style() { return irModalCss; }
 }, [2, "ir-modal", {
         "modalTitle": [1, "modal-title"],
         "modalBody": [1, "modal-body"],
@@ -106,5 +105,6 @@ function defineCustomElement() {
 }
 
 export { IrModal as I, defineCustomElement as d };
+//# sourceMappingURL=ir-modal2.js.map
 
 //# sourceMappingURL=ir-modal2.js.map

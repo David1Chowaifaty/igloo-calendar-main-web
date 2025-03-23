@@ -87,7 +87,7 @@ export declare class IglooCalendar {
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
-    handleCalendarSidbarEvents(ev: CustomEvent): Promise<void>;
+    handleCalendarSidebarEvents(ev: CustomEvent): Promise<void>;
     scrollPageToRoom(event: CustomEvent): void;
     handleShowDialog(event: CustomEvent): void;
     handleShowRoomNightsDialog(event: CustomEvent<IRoomNightsData>): void;

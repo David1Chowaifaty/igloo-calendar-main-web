@@ -4,5 +4,6 @@ const IrTextarea = IrTextArea;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTextarea, defineCustomElement };
+//# sourceMappingURL=ir-textarea.js.map
 
 //# sourceMappingURL=ir-textarea.js.map

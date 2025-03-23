@@ -32,7 +32,7 @@ const initialState = {
     roomHistory: {},
     is_automatic_check_in_out: false,
 };
-const { state: calendar_data, onChange: onCalendarDatesChange } = createStore(initialState);
+const { state: calendar_data} = createStore(initialState);
 function isSingleUnit(id) {
     var _a;
     if (calendar_data.roomHistory[id]) {
@@ -49,5 +49,6 @@ function isSingleUnit(id) {
 }
 
 export { calendar_data as c, isSingleUnit as i };
+//# sourceMappingURL=calendar-data.js.map
 
 //# sourceMappingURL=calendar-data.js.map

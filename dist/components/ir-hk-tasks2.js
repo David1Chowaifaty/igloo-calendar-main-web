@@ -26,7 +26,6 @@ import { d as defineCustomElement$1 } from './ir-toast2.js';
 import { v as v4 } from './v4.js';
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
-const IrHkTasksStyle0 = irHkTasksCss;
 
 const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLElement {
     constructor() {
@@ -219,7 +218,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrHkTasksStyle0; }
+    static get style() { return irHkTasksCss; }
 }, [2, "ir-hk-tasks", {
         "language": [1],
         "ticket": [1],
@@ -339,5 +338,6 @@ function defineCustomElement() {
 }
 
 export { IrHkTasks as I, defineCustomElement as d };
+//# sourceMappingURL=ir-hk-tasks2.js.map
 
 //# sourceMappingURL=ir-hk-tasks2.js.map

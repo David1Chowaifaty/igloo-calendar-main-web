@@ -4,5 +4,6 @@ const IrDateRange = IrDateRange$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDateRange, defineCustomElement };
+//# sourceMappingURL=ir-date-range.js.map
 
 //# sourceMappingURL=ir-date-range.js.map

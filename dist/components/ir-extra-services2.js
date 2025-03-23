@@ -6,7 +6,6 @@ import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-modal2.js';
 
 const irExtraServicesCss = ".sc-ir-extra-services-h{display:block}";
-const IrExtraServicesStyle0 = irExtraServicesCss;
 
 const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices extends HTMLElement {
     constructor() {
@@ -17,7 +16,7 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
         var _a;
         return (h(Host, { key: '2b328b48a23b7f4496a106ee054c97d7f89d4509', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
-    static get style() { return IrExtraServicesStyle0; }
+    static get style() { return irExtraServicesCss; }
 }, [2, "ir-extra-services", {
         "booking": [16]
     }]);
@@ -61,5 +60,6 @@ function defineCustomElement() {
 }
 
 export { IrExtraServices as I, defineCustomElement as d };
+//# sourceMappingURL=ir-extra-services2.js.map
 
 //# sourceMappingURL=ir-extra-services2.js.map

@@ -20,7 +20,6 @@ import { d as defineCustomElement$2 } from './ir-title2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 const irHkTeamCss = ".sc-ir-hk-team-h{display:block}th.sc-ir-hk-team,td.sc-ir-hk-team{text-align:left !important;width:fit-content !important}.table-container.sc-ir-hk-team{padding:10px 0;overflow-x:auto;max-width:100%;width:max-content}.table.sc-ir-hk-team,th.sc-ir-hk-team,td.sc-ir-hk-team{border:0 !important;white-space:nowrap;width:max-content;max-width:max-content;padding:0;margin:0}thead.sc-ir-hk-team{border:0 !important}table.sc-ir-hk-team{border:0 !important}.icons-container.sc-ir-hk-team{display:flex;align-items:center;justify-content:center;gap:4px}.text-center.sc-ir-hk-team{text-align:center !important}.assignments-container.sc-ir-hk-team,.unassigned-container.sc-ir-hk-team{display:flex;align-items:center}.gap-16.sc-ir-hk-team{gap:16px}.unassigned-container.sc-ir-hk-team{gap:4px}.justify-between.sc-ir-hk-team{justify-content:space-between;margin-bottom:10px}.assignments-container.sc-ir-hk-team p.sc-ir-hk-team,h4.sc-ir-hk-team{margin:0}.outline-btn.sc-ir-hk-team{background:white;border:1px solid var(--blue);color:var(--blue);border-radius:5px;font-size:12px;padding:1px 0.25rem !important;margin:0}.outline-btn.sc-ir-hk-team:hover{color:white;background:var(--blue)}@media only screen and (min-width: 900px){td.sc-ir-hk-team{width:max-content !important}}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-team{width:max-content !important}}";
-const IrHkTeamStyle0 = irHkTeamCss;
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -101,7 +100,7 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
             } }, this.renderCurrentTrigger()), ((_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.type) === 'delete' && h("ir-delete-modal", { user: this.currentTrigger.user })));
     }
     get el() { return this; }
-    static get style() { return IrHkTeamStyle0; }
+    static get style() { return irHkTeamCss; }
 }, [2, "ir-hk-team", {
         "currentTrigger": [32]
     }, [[0, "closeSideBar", "handleCloseSideBar"]]]);
@@ -205,5 +204,6 @@ function defineCustomElement() {
 }
 
 export { IrHkTeam as I, defineCustomElement as d };
+//# sourceMappingURL=ir-hk-team2.js.map
 
 //# sourceMappingURL=ir-hk-team2.js.map

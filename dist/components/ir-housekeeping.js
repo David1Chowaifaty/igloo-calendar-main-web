@@ -4,5 +4,6 @@ const IrHousekeeping = IrHousekeeping$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrHousekeeping, defineCustomElement };
+//# sourceMappingURL=ir-housekeeping.js.map
 
 //# sourceMappingURL=ir-housekeeping.js.map

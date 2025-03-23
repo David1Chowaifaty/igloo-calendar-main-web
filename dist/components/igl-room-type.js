@@ -4,5 +4,6 @@ const IglRoomType = IglRoomType$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglRoomType, defineCustomElement };
+//# sourceMappingURL=igl-room-type.js.map
 
 //# sourceMappingURL=igl-room-type.js.map

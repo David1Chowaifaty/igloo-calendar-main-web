@@ -1,11 +1,10 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { z, Z as ZodError } from './index3.js';
+import { l as libExports } from './index3.js';
 import { d as defineCustomElement$2 } from './ir-input-text2.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
-const IrTestCmpStyle0 = irTestCmpCss;
 
-const userSchema = z.object({ password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
+const userSchema = libExports.z.object({ password: libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTMLElement {
     constructor() {
         super();
@@ -28,7 +27,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
                 }
                 catch (error) {
                     const er = {};
-                    if (error instanceof ZodError) {
+                    if (error instanceof libExports.ZodError) {
                         error.issues.forEach(e => {
                             er[e.path[0]] = true;
                         });
@@ -38,7 +37,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
                 }
             } }, h("ir-input-text", { key: '378e186051b94b6bdacfbe03000902419580b495', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '343306be772197bb6dc07a67fe6dd4f4a8bb6b6a' }, " ", this.user.password), " ", h("button", { key: '15a935e160a32597febdcfaf3fa113179318c57b', class: 'btn btn-primary' }, "Submit"))));
     }
-    static get style() { return IrTestCmpStyle0; }
+    static get style() { return irTestCmpCss; }
 }, [2, "ir-test-cmp", {
         "user": [32],
         "error": [32],
@@ -67,5 +66,6 @@ const IrTestCmp = IrTestCmp$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTestCmp, defineCustomElement };
+//# sourceMappingURL=ir-test-cmp.js.map
 
 //# sourceMappingURL=ir-test-cmp.js.map

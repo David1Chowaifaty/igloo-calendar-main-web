@@ -1,14 +1,11 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index$1 = require('./index-aeea0adf.js');
-const index = require('./index-db8b30d9.js');
+var index$1 = require('./index-Dt9a74kn.js');
+var index = require('./index-CLqkDPTC.js');
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
-const IrTestCmpStyle0 = irTestCmpCss;
 
-const userSchema = index.z.object({ password: index.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
+const userSchema = index.libExports.z.object({ password: index.libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp = class {
     constructor(hostRef) {
         index$1.registerInstance(this, hostRef);
@@ -30,7 +27,7 @@ const IrTestCmp = class {
                 }
                 catch (error) {
                     const er = {};
-                    if (error instanceof index.ZodError) {
+                    if (error instanceof index.libExports.ZodError) {
                         error.issues.forEach(e => {
                             er[e.path[0]] = true;
                         });
@@ -41,8 +38,9 @@ const IrTestCmp = class {
             } }, index$1.h("ir-input-text", { key: '378e186051b94b6bdacfbe03000902419580b495', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), index$1.h("p", { key: '343306be772197bb6dc07a67fe6dd4f4a8bb6b6a' }, " ", this.user.password), " ", index$1.h("button", { key: '15a935e160a32597febdcfaf3fa113179318c57b', class: 'btn btn-primary' }, "Submit"))));
     }
 };
-IrTestCmp.style = IrTestCmpStyle0;
+IrTestCmp.style = irTestCmpCss;
 
 exports.ir_test_cmp = IrTestCmp;
+//# sourceMappingURL=ir-test-cmp.entry.cjs.js.map
 
 //# sourceMappingURL=ir-test-cmp.cjs.entry.js.map

@@ -1,8 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IglTbaCategoryView {
-    assignUnitEvent: EventEmitter<{
-        [key: string]: any;
-    }>;
     calendarData: {
         [key: string]: any;
     };
@@ -14,7 +11,9 @@ export declare class IglTbaCategoryView {
     eventDatas: any;
     categoryIndex: any;
     renderAgain: boolean;
-    componentWillLoad(): void;
+    assignUnitEvent: EventEmitter<{
+        [key: string]: any;
+    }>;
     handleAssignRoomEvent(event: CustomEvent<{
         [key: string]: any;
     }>): void;

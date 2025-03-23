@@ -5,7 +5,7 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { M as MaskedRange } from './index4.js';
 import { B as BookingService } from './booking.service.js';
-import { Z as ZodError } from './index3.js';
+import { l as libExports } from './index3.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-country-picker2.js';
 import { d as defineCustomElement$6 } from './ir-icon2.js';
@@ -76,7 +76,6 @@ const dateMask = {
 };
 
 const irRoomGuestsCss = ".sc-ir-room-guests-h{display:block;height:100%;position:relative;text-align:start !important}.id-select.sc-ir-room-guests{border-top-right-radius:0;border-bottom-right-radius:0;border-right-width:0}.sc-ir-room-guests-h{display:block;width:100%}.guest-grid.sc-ir-room-guests>*.sc-ir-room-guests{height:100%}.guests-labels.sc-ir-room-guests{display:none}.guest_label.sc-ir-room-guests{width:100px;color:#6b6f82}.sharing_persons_label.sc-ir-room-guests{display:none}.loading-container.sc-ir-room-guests{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.guest_document.sc-ir-room-guests input.sc-ir-room-guests{border-top-left-radius:0;border-bottom-left-radius:0}.guests-labels.sc-ir-room-guests *.sc-ir-room-guests,.sharing_persons_label.sc-ir-room-guests{margin-bottom:0.5rem;padding-bottom:0}@media (min-width: 768px){.sharing_persons_label.sc-ir-room-guests{display:block}.guest_country_picker.sc-ir-room-guests{margin-bottom:3px}.guest-grid.sc-ir-room-guests{display:grid;grid-template-columns:2fr 2fr 2fr 2fr 5fr;gap:0.5rem;align-items:flex-start}.guest_label.sc-ir-room-guests,.sharing_persons_heading.sc-ir-room-guests,.main_guest_heading.sc-ir-room-guests{display:none}}";
-const IrRoomGuestsStyle0 = irRoomGuestsCss;
 
 const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends HTMLElement {
     constructor() {
@@ -173,7 +172,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         }
         catch (error) {
             console.log(error);
-            if (error instanceof ZodError) {
+            if (error instanceof libExports.ZodError) {
                 let errors = {};
                 error.issues.forEach(e => {
                     errors[e.path[1]] = true;
@@ -206,7 +205,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                 }) }))))));
         })), h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));
     }
-    static get style() { return IrRoomGuestsStyle0; }
+    static get style() { return irRoomGuestsCss; }
 }, [2, "ir-room-guests", {
         "roomName": [1, "room-name"],
         "identifier": [1],
@@ -278,5 +277,6 @@ function defineCustomElement() {
 }
 
 export { IrRoomGuests as I, defineCustomElement as d };
+//# sourceMappingURL=ir-room-guests2.js.map
 
 //# sourceMappingURL=ir-room-guests2.js.map

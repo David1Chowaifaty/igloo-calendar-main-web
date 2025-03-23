@@ -2,7 +2,6 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@sten
 import { d as defineCustomElement$1 } from './ir-input-text2.js';
 
 const irCountryPickerCss = ".sc-ir-country-picker-h{display:block;margin:0;padding:0;box-sizing:border-box}.combobox-menu.sc-ir-country-picker{max-height:200px;overflow:auto}";
-const IrCountryPickerStyle0 = irCountryPickerCss;
 
 const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker extends HTMLElement {
     constructor() {
@@ -83,7 +82,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     static get watchers() { return {
         "country": ["handleCountryChange"]
     }; }
-    static get style() { return IrCountryPickerStyle0; }
+    static get style() { return irCountryPickerCss; }
 }, [2, "ir-country-picker", {
         "countries": [16],
         "country": [16],
@@ -119,5 +118,6 @@ function defineCustomElement() {
 }
 
 export { IrCountryPicker as I, defineCustomElement as d };
+//# sourceMappingURL=ir-country-picker2.js.map
 
 //# sourceMappingURL=ir-country-picker2.js.map

@@ -4,5 +4,6 @@ const IrPmsLogs = IrPmsLogs$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPmsLogs, defineCustomElement };
+//# sourceMappingURL=ir-pms-logs.js.map
 
 //# sourceMappingURL=ir-pms-logs.js.map

@@ -2,7 +2,6 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { h as hooks } from './moment.js';
 
 const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
-const IrDateRangeStyle0 = irDateRangeCss;
 
 const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends HTMLElement {
     constructor() {
@@ -115,7 +114,7 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         "minDate": ["handleMinDateChange"],
         "date": ["datePropChanged"]
     }; }
-    static get style() { return IrDateRangeStyle0; }
+    static get style() { return irDateRangeCss; }
 }, [2, "ir-date-range", {
         "fromDate": [16],
         "toDate": [16],
@@ -158,5 +157,6 @@ function defineCustomElement() {
 }
 
 export { IrDateRange as I, defineCustomElement as d };
+//# sourceMappingURL=ir-date-range2.js.map
 
 //# sourceMappingURL=ir-date-range2.js.map
