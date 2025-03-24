@@ -58,11 +58,17 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
     handleMaskChange() {
         this.initMask();
     }
-    handleErrorChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.validateInput(this.value, true);
-        }
+    handleMaskChange1() {
+        console.log(this.autoValidate);
     }
+    // @Watch('error')
+    // handleErrorChange(newValue: boolean, oldValue: boolean) {
+    //   if (newValue !== oldValue) {
+    //     if (this.autoValidate) {
+    //       this.validateInput(this.value, true);
+    //     }
+    //   }
+    // }
     handleValueChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.validateInput(this.value);
@@ -86,9 +92,15 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         });
     }
     async validateInput(value, forceValidation = false) {
+        console.log('autoValidate=>', this.autoValidate);
         if (!this.autoValidate && !forceValidation) {
+            console.log('here', 'error', this.error);
+            if (this.error) {
+                this.updateErrorState(false);
+            }
             return;
         }
+        console.log('first');
         if (this.zod) {
             try {
                 if (!this.asyncParse) {
@@ -141,7 +153,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
     get el() { return this; }
     static get watchers() { return {
         "mask": ["handleMaskChange"],
-        "error": ["handleErrorChange"],
+        "autoValidate": ["handleMaskChange1"],
         "value": ["handleValueChange"]
     }; }
     static get style() { return irInputTextCss; }
@@ -178,7 +190,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         "inputFocused": [32]
     }, undefined, {
         "mask": ["handleMaskChange"],
-        "error": ["handleErrorChange"],
+        "autoValidate": ["handleMaskChange1"],
         "value": ["handleValueChange"]
     }]);
 function defineCustomElement() {

@@ -50,11 +50,17 @@ export class IrInputText {
     handleMaskChange() {
         this.initMask();
     }
-    handleErrorChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.validateInput(this.value, true);
-        }
+    handleMaskChange1() {
+        console.log(this.autoValidate);
     }
+    // @Watch('error')
+    // handleErrorChange(newValue: boolean, oldValue: boolean) {
+    //   if (newValue !== oldValue) {
+    //     if (this.autoValidate) {
+    //       this.validateInput(this.value, true);
+    //     }
+    //   }
+    // }
     handleValueChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.validateInput(this.value);
@@ -78,9 +84,15 @@ export class IrInputText {
         });
     }
     async validateInput(value, forceValidation = false) {
+        console.log('autoValidate=>', this.autoValidate);
         if (!this.autoValidate && !forceValidation) {
+            console.log('here', 'error', this.error);
+            if (this.error) {
+                this.updateErrorState(false);
+            }
             return;
         }
+        console.log('first');
         if (this.zod) {
             try {
                 if (!this.asyncParse) {
@@ -789,8 +801,8 @@ export class IrInputText {
                 "propName": "mask",
                 "methodName": "handleMaskChange"
             }, {
-                "propName": "error",
-                "methodName": "handleErrorChange"
+                "propName": "autoValidate",
+                "methodName": "handleMaskChange1"
             }, {
                 "propName": "value",
                 "methodName": "handleValueChange"

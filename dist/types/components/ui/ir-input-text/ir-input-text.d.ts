@@ -73,7 +73,7 @@ export declare class IrInputText {
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleMaskChange(): void;
-    handleErrorChange(newValue: boolean, oldValue: boolean): void;
+    handleMaskChange1(): void;
     handleValueChange(newValue: string, oldValue: string): void;
     private initMask;
     private validateInput;
