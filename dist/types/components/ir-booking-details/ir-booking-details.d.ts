@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-import { Booking, ExtraService, Guest, IPmsLog } from "../../models/booking.dto";
+import { Booking, ExtraService, Guest, IPmsLog, SharedPerson } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
@@ -61,6 +61,10 @@ export declare class IrBookingDetails {
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
     handleEditInitiated(e: CustomEvent<TIglBookPropertyPayload>): void;
+    handleRoomGuestsUpdate(e: CustomEvent<{
+        identifier: string;
+        guests: SharedPerson[];
+    }>): void;
     handleResetBooking(e: CustomEvent<Booking | null>): Promise<Booking>;
     handleEditExtraService(e: CustomEvent): void;
     private setRoomsData;

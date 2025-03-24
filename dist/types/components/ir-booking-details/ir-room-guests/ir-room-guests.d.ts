@@ -50,6 +50,10 @@ export declare class IrRoomGuests {
     autoValidate: boolean;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
+    updateRoomGuests: EventEmitter<{
+        identifier: string;
+        guests: SharedPerson[];
+    }>;
     private bookingService;
     componentWillLoad(): void;
     private init;

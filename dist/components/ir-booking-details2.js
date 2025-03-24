@@ -193,6 +193,18 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     handleEditInitiated(e) {
         this.bookingItem = e.detail;
     }
+    handleRoomGuestsUpdate(e) {
+        const { identifier, guests } = e.detail;
+        const rooms = [...this.booking.rooms];
+        let currentRoomIndex = rooms.findIndex(r => r.identifier === identifier);
+        if (currentRoomIndex === -1) {
+            return;
+        }
+        const currentRoom = rooms[currentRoomIndex];
+        const updatedRoom = Object.assign(Object.assign({}, currentRoom), { sharing_persons: guests });
+        rooms[currentRoomIndex] = updatedRoom;
+        this.booking = Object.assign(Object.assign({}, this.booking), { rooms: [...rooms] });
+    }
     async handleResetBooking(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -428,7 +440,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         "bedPreference": [32],
         "roomGuest": [32],
         "modalState": [32]
-    }, [[0, "openSidebar", "handleSideBarEvents"], [0, "clickHandler", "handleIconClick"], [0, "resetExposedCancelationDueAmount", "handleResetExposedCancellationDueAmount"], [0, "editInitiated", "handleEditInitiated"], [0, "resetBookingEvt", "handleResetBooking"], [0, "editExtraService", "handleEditExtraService"]], {
+    }, [[0, "openSidebar", "handleSideBarEvents"], [0, "clickHandler", "handleIconClick"], [0, "resetExposedCancelationDueAmount", "handleResetExposedCancellationDueAmount"], [0, "editInitiated", "handleEditInitiated"], [0, "updateRoomGuests", "handleRoomGuestsUpdate"], [0, "resetBookingEvt", "handleResetBooking"], [0, "editExtraService", "handleEditExtraService"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {

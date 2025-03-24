@@ -83,6 +83,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.updateRoomGuests = createEvent(this, "updateRoomGuests", 7);
         /**
          * An array of people sharing the room.
          * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
@@ -168,7 +169,8 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                 });
             }
             this.closeModal.emit(null);
-            this.resetBookingEvt.emit(null);
+            this.updateRoomGuests.emit({ identifier: this.identifier, guests: this.guests });
+            this.resetBookingEvt.emit();
         }
         catch (error) {
             console.log(error);

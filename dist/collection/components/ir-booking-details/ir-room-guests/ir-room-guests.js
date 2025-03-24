@@ -93,7 +93,8 @@ export class IrRoomGuests {
                 });
             }
             this.closeModal.emit(null);
-            this.resetBookingEvt.emit(null);
+            this.updateRoomGuests.emit({ identifier: this.identifier, guests: this.guests });
+            this.resetBookingEvt.emit();
         }
         catch (error) {
             console.log(error);
@@ -349,6 +350,27 @@ export class IrRoomGuests {
                     "original": "null",
                     "resolved": "null",
                     "references": {}
+                }
+            }, {
+                "method": "updateRoomGuests",
+                "name": "updateRoomGuests",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ identifier: string; guests: SharedPerson[] }",
+                    "resolved": "{ identifier: string; guests: SharedPerson[]; }",
+                    "references": {
+                        "SharedPerson": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::SharedPerson"
+                        }
+                    }
                 }
             }];
     }

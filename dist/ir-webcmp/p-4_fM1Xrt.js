@@ -1,0 +1,2 @@
+import{c as t}from"./p-vROPuQAY.js";const n={unassigned_dates:{}};let{state:e,onChange:s}=t(n);function c(t){e.unassigned_dates=Object.assign(Object.assign({},e.unassigned_dates),t)}function o(){return e.unassigned_dates}function a(t,n){const s=r(t);const c=r(n);Object.keys(e.unassigned_dates).forEach((t=>{const n=parseInt(t);if(s<=n&&n<=c){delete e.unassigned_dates[t]}}))}function r(t){const n=new Date(t);n.setHours(0,0,0,0);return n.getTime()}export{c as a,o as g,s as h,a as r};
+//# sourceMappingURL=p-4_fM1Xrt.js.map

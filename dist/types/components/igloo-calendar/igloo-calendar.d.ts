@@ -102,6 +102,7 @@ export declare class IglooCalendar {
     private setUpCalendarData;
     initializeApp(): Promise<void>;
     private handleSocketMessage;
+    private handleSharingPersonsUpdated;
     private handleRoomStatusChanged;
     private handleUnitHKStatusChanged;
     private handleDoReservation;

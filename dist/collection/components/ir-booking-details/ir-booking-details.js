@@ -135,6 +135,18 @@ export class IrBookingDetails {
     handleEditInitiated(e) {
         this.bookingItem = e.detail;
     }
+    handleRoomGuestsUpdate(e) {
+        const { identifier, guests } = e.detail;
+        const rooms = [...this.booking.rooms];
+        let currentRoomIndex = rooms.findIndex(r => r.identifier === identifier);
+        if (currentRoomIndex === -1) {
+            return;
+        }
+        const currentRoom = rooms[currentRoomIndex];
+        const updatedRoom = Object.assign(Object.assign({}, currentRoom), { sharing_persons: guests });
+        rooms[currentRoomIndex] = updatedRoom;
+        this.booking = Object.assign(Object.assign({}, this.booking), { rooms: [...rooms] });
+    }
     async handleResetBooking(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -775,6 +787,12 @@ export class IrBookingDetails {
             }, {
                 "name": "editInitiated",
                 "method": "handleEditInitiated",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "updateRoomGuests",
+                "method": "handleRoomGuestsUpdate",
                 "target": undefined,
                 "capture": false,
                 "passive": false
