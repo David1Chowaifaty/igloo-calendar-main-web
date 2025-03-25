@@ -1132,7 +1132,7 @@ const IrTasksFilters = class {
                 value: v.code,
             })), onSelectChange: e => {
                 this.updateFilter({ cleaning_periods: { code: e.detail } });
-            } })), ((_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.housekeepers.length) > 0 && (h("fieldset", { key: '642a94b4164367471c473c550499d44898452273' }, h("p", { key: 'a1aa5493c3560e1b6d9bf77a51e21640c8b411fe', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: '8cd45a599416d8abc15fe9769962f63820f8af8d', testId: "housekeepers", selectedValue: (_e = this.filters) === null || _e === void 0 ? void 0 : _e.housekeepers, LabelAvailable: false, showFirstOption: false, data: [
+            } })), ((_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.housekeepers.length) > 1 && (h("fieldset", { key: '642a94b4164367471c473c550499d44898452273' }, h("p", { key: 'a1aa5493c3560e1b6d9bf77a51e21640c8b411fe', class: "m-0 p-0" }, "Housekeepers"), h("ir-select", { key: '8cd45a599416d8abc15fe9769962f63820f8af8d', testId: "housekeepers", selectedValue: (_e = this.filters) === null || _e === void 0 ? void 0 : _e.housekeepers, LabelAvailable: false, showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
                 ...(_f = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.housekeepers.map(v => ({
                     text: v.name,
