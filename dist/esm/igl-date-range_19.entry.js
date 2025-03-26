@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement } from './index-jhiFt_tX.js';
 import { l as locales } from './locales.store-BsXBgatZ.js';
-import { k as calculateDaysBetweenDates, H as downloadFile } from './booking-BivtQU0L.js';
+import { k as calculateDaysBetweenDates, l as downloadFile } from './booking-D1am6tKx.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-DD3477fe.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-BqXGiOA9.js';

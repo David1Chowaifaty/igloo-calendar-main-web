@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, a as getElement, H as Host } from './index-jhiFt_tX.js';
 import { a as axios } from './axios-Bpmk_xoW.js';
-import { B as BookingService } from './booking.service-CQUAi_mG.js';
+import { B as BookingService } from './booking.service-CuKujOcM.js';
 import { R as RoomService } from './room.service-DaHUOkIq.js';
 import { l as locales } from './locales.store-BsXBgatZ.js';
 import { P as PaymentService } from './payment.service-BUidCtI9.js';
@@ -8,7 +8,7 @@ import { T as Token } from './Token-AKvCJV-d.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data-D2MMPhx6.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isRequestPending } from './ir-interceptor.store-C5Y_S4JJ.js';
-import { b as getPrivateNote, f as formatAmount, G as renderTime, y as formatName } from './booking-BivtQU0L.js';
+import { b as getPrivateNote, f as formatAmount, H as renderTime, z as formatName } from './booking-D1am6tKx.js';
 import { c as colorVariants } from './icons-T2gByj1h.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-CIqUU5YU.js';

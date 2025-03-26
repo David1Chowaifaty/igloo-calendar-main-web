@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
 import { l as locales } from './locales.store-BsXBgatZ.js';
-import { k as calculateDaysBetweenDates } from './booking-BivtQU0L.js';
+import { k as calculateDaysBetweenDates } from './booking-D1am6tKx.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './index-C7eXIDl2.js';
 import './index-DeW5X45W.js';

@@ -1,8 +1,8 @@
 import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment } from './index-jhiFt_tX.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-CQUAi_mG.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, r as resetBookingStore, a as reserveRooms, u as updateRoomParams, g as getVisibleInventory } from './booking.service-CuKujOcM.js';
 import { l as locales } from './locales.store-BsXBgatZ.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-D2MMPhx6.js';
-import { f as formatAmount, e as extras, g as getReleaseHoursString, d as dateToFormattedString, w as validateEmail } from './booking-BivtQU0L.js';
+import { f as formatAmount, e as extras, g as getReleaseHoursString, d as dateToFormattedString, x as validateEmail } from './booking-D1am6tKx.js';
 import { v as v4 } from './v4-DD3477fe.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isRequestPending } from './ir-interceptor.store-C5Y_S4JJ.js';
