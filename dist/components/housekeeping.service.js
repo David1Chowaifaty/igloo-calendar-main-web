@@ -17,7 +17,7 @@ class HouseKeepingService {
     async getArchivedHKTasks(params) {
         var _a;
         const { data } = await axios.post(`/Get_Archived_HK_Tasks`, params);
-        return (_a = data['My_Result']) !== null && _a !== void 0 ? _a : [];
+        return { url: data.My_Params_Get_Archived_HK_Tasks.Link_excel, tasks: (_a = data['My_Result']) !== null && _a !== void 0 ? _a : [] };
     }
     async setExposedInspectionMode(property_id, mode) {
         const { data } = await axios.post(`/Set_Exposed_Inspection_Mode`, {
@@ -47,11 +47,12 @@ class HouseKeepingService {
         return data['My_Result'];
     }
     async getHkTasks(params) {
+        var _a;
         const { data } = await axios.post('/Get_HK_Tasks', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        return data.My_Result;
+        return { url: (_a = data.My_Params_Get_HK_Tasks) === null || _a === void 0 ? void 0 : _a.Link_excel, tasks: data.My_Result };
     }
     async executeHKAction(params) {
         await axios.post(`/Execute_HK_Action`, Object.assign({}, params));

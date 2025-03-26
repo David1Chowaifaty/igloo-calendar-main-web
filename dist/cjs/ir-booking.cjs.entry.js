@@ -1,15 +1,15 @@
 'use strict';
 
 var index = require('./index-Dt9a74kn.js');
-var Token = require('./Token-BY5U68ai.js');
-var utils = require('./utils-Cu1M9DlB.js');
-require('./axios-DG0YPAll.js');
-require('./_commonjsHelpers-B83fTs8d.js');
+var Token = require('./Token-d-M1RUIy.js');
+var booking = require('./booking-Co20zX8p.js');
+require('./axios-dx93wJEX.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');
-require('./calendar-data-CC4kt7DA.js');
-require('./index-PIkoJJtF.js');
 require('./locales.store-CJveOVzn.js');
+require('./index-PIkoJJtF.js');
+require('./calendar-data-CC4kt7DA.js');
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 
@@ -20,7 +20,7 @@ const IrBooking = class {
         this.token = new Token.Token();
     }
     componentWillLoad() {
-        const isAuthenticated = utils.checkUserAuthState();
+        const isAuthenticated = booking.checkUserAuthState();
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
@@ -30,7 +30,7 @@ const IrBooking = class {
         const token = e.detail.token;
         this.token.setToken(token);
         this.isAuthenticated = true;
-        utils.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        booking.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
         if (!this.isAuthenticated)

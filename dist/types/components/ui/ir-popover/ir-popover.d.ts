@@ -1,4 +1,3 @@
-import 'bootstrap';
 export declare class IrPopover {
     el: HTMLElement;
     content: string;

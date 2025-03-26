@@ -9,7 +9,11 @@ export declare class HouseKeepingService {
         to_date: string;
         filtered_by_hkm?: number[];
         filtered_by_unit?: number[];
-    }): Promise<ArchivedTask[] | null>;
+        is_export_to_excel?: boolean;
+    }): Promise<{
+        tasks: ArchivedTask[];
+        url: string;
+    } | null>;
     setExposedInspectionMode(property_id: number, mode: IInspectionMode): Promise<any>;
     manageExposedAssignedUnitToHKM(property_id: number, assignments: IPropertyHousekeepingAssignment[]): Promise<any>;
     editExposedHKM(params: THKUser, is_to_remove?: boolean): Promise<any>;
@@ -33,7 +37,11 @@ export declare class HouseKeepingService {
         cleaning_frequencies?: string;
         dusty_units?: string;
         highlight_window?: string;
-    }): Promise<any>;
+        is_export_to_excel?: boolean;
+    }): Promise<{
+        url: any;
+        tasks: any;
+    }>;
     executeHKAction(params: {
         actions: {
             unit_id: number;

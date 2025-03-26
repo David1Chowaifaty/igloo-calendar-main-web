@@ -88,9 +88,9 @@ export class IrHkTasks {
                 }));
             }
             const results = await Promise.all(requests);
-            const tasks = results[0];
-            if (tasks) {
-                this.updateTasks(tasks);
+            const tasksResult = results[0];
+            if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
+                this.updateTasks(tasksResult.tasks);
             }
         }
         catch (error) {
@@ -122,7 +122,7 @@ export class IrHkTasks {
                 return hkName;
             })() })));
     }
-    handleHeaderButtonPress(e) {
+    async handleHeaderButtonPress(e) {
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -137,7 +137,8 @@ export class IrHkTasks {
                     value,
                 }));
                 console.log(sortingArray);
-                downloadFile('');
+                const { url } = await this.fetchTasksWithFilters(true);
+                downloadFile(url);
                 break;
             case 'archive':
                 this.isSidebarOpen = true;
@@ -177,10 +178,10 @@ export class IrHkTasks {
             this.isApplyFiltersLoading = false;
         }
     }
-    async fetchTasksWithFilters() {
+    async fetchTasksWithFilters(export_to_excel = false) {
         var _a;
         const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
-        const tasks = await this.houseKeepingService.getHkTasks({
+        const { tasks, url } = await this.houseKeepingService.getHkTasks({
             housekeepers,
             cleaning_frequencies: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
             dusty_units: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
@@ -188,10 +189,12 @@ export class IrHkTasks {
             property_id: this.property_id,
             from_date: moment().format('YYYY-MM-DD'),
             to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment().format('YYYY-MM-DD'),
+            is_export_to_excel: export_to_excel,
         });
         if (tasks) {
             this.updateTasks(tasks);
         }
+        return { tasks, url };
     }
     render() {
         if (this.isLoading) {

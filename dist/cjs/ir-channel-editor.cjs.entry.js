@@ -1,13 +1,13 @@
 'use strict';
 
 var index = require('./index-Dt9a74kn.js');
-var channel_service = require('./channel.service-Cy8nWYRU.js');
+var channel_service = require('./channel.service-Br_19zhn.js');
 var channel_store = require('./channel.store-CsQBmbfL.js');
 var locales_store = require('./locales.store-CJveOVzn.js');
 require('./calendar-data-CC4kt7DA.js');
 require('./index-PIkoJJtF.js');
-require('./axios-DG0YPAll.js');
-require('./_commonjsHelpers-B83fTs8d.js');
+require('./axios-dx93wJEX.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
 

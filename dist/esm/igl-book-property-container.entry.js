@@ -1,15 +1,15 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-jhiFt_tX.js';
-import { T as Token } from './Token-BTEbRZ0j.js';
-import { B as BookingService } from './booking.service-Bbv65gL6.js';
-import { R as RoomService } from './room.service-CheK7apf.js';
+import { T as Token } from './Token-AKvCJV-d.js';
+import { B as BookingService } from './booking.service-CQUAi_mG.js';
+import { R as RoomService } from './room.service-DaHUOkIq.js';
 import { l as locales } from './locales.store-BsXBgatZ.js';
-import './axios-8ipPhlJK.js';
-import './_commonjsHelpers-E-ZsRS8r.js';
-import './utils-Dq_i8FCX.js';
+import './axios-Bpmk_xoW.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './booking-BivtQU0L.js';
 import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
-import './calendar-data-D2MMPhx6.js';
 import './index-C7eXIDl2.js';
+import './calendar-data-D2MMPhx6.js';
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
 

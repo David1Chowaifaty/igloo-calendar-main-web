@@ -1,13 +1,13 @@
 import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
-import { T as Token } from './Token-BTEbRZ0j.js';
-import { c as checkUserAuthState, m as manageAnchorSession } from './utils-Dq_i8FCX.js';
-import './axios-8ipPhlJK.js';
-import './_commonjsHelpers-E-ZsRS8r.js';
+import { T as Token } from './Token-AKvCJV-d.js';
+import { c as checkUserAuthState, m as manageAnchorSession } from './booking-BivtQU0L.js';
+import './axios-Bpmk_xoW.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
-import './calendar-data-D2MMPhx6.js';
-import './index-C7eXIDl2.js';
 import './locales.store-BsXBgatZ.js';
+import './index-C7eXIDl2.js';
+import './calendar-data-D2MMPhx6.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 
