@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
-import { z as formatLegendColors, f as calendar_dates, d as dateToFormattedString, m as formatName, A as getRoomStatus, t as transformNewBooking, B as transformNewBLockedRooms, C as bookingStatus, k as getPrivateNote, i as isBlockUnit, h as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO } from './utils.js';
+import { A as formatLegendColors, f as calendar_dates, d as dateToFormattedString, m as formatName, B as getRoomStatus, t as transformNewBooking, C as transformNewBLockedRooms, D as bookingStatus, k as getPrivateNote, i as isBlockUnit, h as calculateDaysBetweenDates, E as getNextDay, F as addTwoMonthToDate, G as computeEndDate, H as convertDMYToISO } from './utils.js';
 import { E as EventsService, d as defineCustomElement$W } from './igl-booking-event-hover2.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';

@@ -2,14 +2,14 @@
 
 var index = require('./index-Dt9a74kn.js');
 var Token = require('./Token-BY5U68ai.js');
-var booking = require('./booking-BMgvzunA.js');
+var utils = require('./utils-Cu1M9DlB.js');
 require('./axios-DG0YPAll.js');
 require('./_commonjsHelpers-B83fTs8d.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');
-require('./locales.store-CJveOVzn.js');
-require('./index-PIkoJJtF.js');
 require('./calendar-data-CC4kt7DA.js');
+require('./index-PIkoJJtF.js');
+require('./locales.store-CJveOVzn.js');
 
 const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
 
@@ -20,7 +20,7 @@ const IrSecureTasks = class {
         this.token = new Token.Token();
     }
     componentWillLoad() {
-        const isAuthenticated = booking.checkUserAuthState();
+        const isAuthenticated = utils.checkUserAuthState();
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
@@ -30,7 +30,7 @@ const IrSecureTasks = class {
         const token = e.detail.token;
         this.token.setToken(token);
         this.isAuthenticated = true;
-        booking.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        utils.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
         if (!this.isAuthenticated)

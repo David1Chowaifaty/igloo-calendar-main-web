@@ -23,10 +23,12 @@ export declare class IrHkTasks {
     private roomService;
     private houseKeepingService;
     private token;
+    private table_sorting;
     private modal;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleCloseSidebar(e: CustomEvent): void;
+    handleSortingChanged(e: CustomEvent): void;
     private init;
     private buildHousekeeperNameCache;
     private updateTasks;

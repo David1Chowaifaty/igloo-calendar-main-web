@@ -565,8 +565,22 @@ function canCheckIn({ from_date, to_date, isCheckedIn }) {
     }
     return false;
 }
+/**
+ * Downloads a file from a given URL.
+ *
+ * @param url - The URL of the file to download.
+ * @param filename - The name of the file to save. If not provided, the URL will be used as the filename.
+ */
+function downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 
-export { getRoomStatus as A, transformNewBLockedRooms as B, bookingStatus as C, getNextDay as D, addTwoMonthToDate as E, computeEndDate as F, convertDMYToISO as G, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, calculateDaysBetweenDates as h, isBlockUnit as i, canCheckIn as j, getPrivateNote as k, formatAmount as l, formatName as m, getDaysArray as n, convertDatePrice as o, formatDate as p, getReleaseHoursString as q, findCountry as r, compareTime as s, transformNewBooking as t, createDateWithOffsetAndHour as u, validateEmail as v, checkUserAuthState as w, manageAnchorSession as x, renderTime as y, formatLegendColors as z };
+export { formatLegendColors as A, getRoomStatus as B, transformNewBLockedRooms as C, bookingStatus as D, getNextDay as E, addTwoMonthToDate as F, computeEndDate as G, convertDMYToISO as H, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, calculateDaysBetweenDates as h, isBlockUnit as i, canCheckIn as j, getPrivateNote as k, formatAmount as l, formatName as m, getDaysArray as n, convertDatePrice as o, formatDate as p, downloadFile as q, getReleaseHoursString as r, findCountry as s, transformNewBooking as t, compareTime as u, validateEmail as v, createDateWithOffsetAndHour as w, checkUserAuthState as x, manageAnchorSession as y, renderTime as z };
 //# sourceMappingURL=utils.js.map
 
 //# sourceMappingURL=utils.js.map

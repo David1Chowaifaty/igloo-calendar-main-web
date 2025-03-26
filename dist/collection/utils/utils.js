@@ -205,4 +205,18 @@ export function canCheckIn({ from_date, to_date, isCheckedIn }) {
     }
     return false;
 }
+/**
+ * Downloads a file from a given URL.
+ *
+ * @param url - The URL of the file to download.
+ * @param filename - The name of the file to save. If not provided, the URL will be used as the filename.
+ */
+export function downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 //# sourceMappingURL=utils.js.map

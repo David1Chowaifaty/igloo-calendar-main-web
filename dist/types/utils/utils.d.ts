@@ -45,3 +45,10 @@ export interface CheckInParams {
  * @returns True if check-in is allowed; otherwise, false.
  */
 export declare function canCheckIn({ from_date, to_date, isCheckedIn }: CheckInParams): boolean;
+/**
+ * Downloads a file from a given URL.
+ *
+ * @param url - The URL of the file to download.
+ * @param filename - The name of the file to save. If not provided, the URL will be used as the filename.
+ */
+export declare function downloadFile(url: string, filename?: string): void;

@@ -12,7 +12,6 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import VariationService from "../../../services/variation.service";
 import booking_store from "../../../stores/booking.store";
-import { calculateDaysBetweenDates } from "../../../utils/booking";
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 export class IglBookPropertyService {
@@ -134,8 +133,8 @@ export class IglBookPropertyService {
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
-        const total_days = calculateDaysBetweenDates(moment(check_in).format('YYYY-MM-DD'), moment(check_out).format('YYYY-MM-DD'));
         const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
+            const total_days = selected_variation.nights.length;
             if (is_amount_modified) {
                 return view_mode === '002' ? rp_amount : rp_amount / total_days;
             }
@@ -171,7 +170,26 @@ export class IglBookPropertyService {
                             to_date: moment(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
-                            days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr)),
+                            days: rateplan.is_amount_modified
+                                ? this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr))
+                                : (() => {
+                                    let variation = rateplan.selected_variation;
+                                    if (rateplan.guest[i].infant_nbr > 0) {
+                                        if (!this.variationService) {
+                                            this.variationService = new VariationService();
+                                        }
+                                        variation = this.variationService.getVariationBasedOnInfants({
+                                            variations: rateplan.ratePlan.variations,
+                                            baseVariation: rateplan.selected_variation,
+                                            infants: rateplan.guest[i].infant_nbr,
+                                        });
+                                    }
+                                    return variation.nights.map(n => ({
+                                        date: n.night,
+                                        amount: n.discounted_amount,
+                                        cost: null,
+                                    }));
+                                })(),
                             guest: {
                                 email: null,
                                 first_name,

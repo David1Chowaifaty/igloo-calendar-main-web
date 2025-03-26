@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { h as calculateDaysBetweenDates, e as extras, q as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
+import { e as extras, r as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { V as VariationService, d as defineCustomElement$n } from './igl-application-info2.js';
 import { b as booking_store, m as modifyBookingStore, c as calculateTotalRooms, a as resetBookingStore, r as reserveRooms } from './booking.store.js';
 import { h as hooks } from './moment.js';
@@ -159,8 +159,8 @@ class IglBookPropertyService {
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
-        const total_days = calculateDaysBetweenDates(hooks(check_in).format('YYYY-MM-DD'), hooks(check_out).format('YYYY-MM-DD'));
         const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
+            const total_days = selected_variation.nights.length;
             if (is_amount_modified) {
                 return view_mode === '002' ? rp_amount : rp_amount / total_days;
             }
@@ -196,7 +196,26 @@ class IglBookPropertyService {
                             to_date: hooks(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
-                            days: this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr)),
+                            days: rateplan.is_amount_modified
+                                ? this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr))
+                                : (() => {
+                                    let variation = rateplan.selected_variation;
+                                    if (rateplan.guest[i].infant_nbr > 0) {
+                                        if (!this.variationService) {
+                                            this.variationService = new VariationService();
+                                        }
+                                        variation = this.variationService.getVariationBasedOnInfants({
+                                            variations: rateplan.ratePlan.variations,
+                                            baseVariation: rateplan.selected_variation,
+                                            infants: rateplan.guest[i].infant_nbr,
+                                        });
+                                    }
+                                    return variation.nights.map(n => ({
+                                        date: n.night,
+                                        amount: n.discounted_amount,
+                                        cost: null,
+                                    }));
+                                })(),
                             guest: {
                                 email: null,
                                 first_name,

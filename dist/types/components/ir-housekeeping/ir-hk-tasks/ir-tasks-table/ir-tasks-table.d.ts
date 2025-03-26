@@ -21,6 +21,10 @@ export declare class IrTasksTable {
     checkableTasks: Task[];
     animateCleanedButton: EventEmitter<null>;
     rowSelectChange: EventEmitter<Task[]>;
+    sortingChanged: EventEmitter<{
+        field: string;
+        direction: 'ASC' | 'DESC';
+    }>;
     componentWillLoad(): void;
     /**
      * Sorts the tasks by the given key. If no direction is provided,

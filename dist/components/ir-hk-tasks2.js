@@ -6,6 +6,7 @@ import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
+import { q as downloadFile } from './utils.js';
 import { d as defineCustomElement$h } from './igl-date-range2.js';
 import { d as defineCustomElement$g } from './ir-button2.js';
 import { d as defineCustomElement$f } from './ir-checkbox2.js';
@@ -45,6 +46,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
+        this.table_sorting = new Map();
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -63,6 +65,16 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.isSidebarOpen = false;
+    }
+    handleSortingChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { field, direction } = e.detail;
+        console.log(e.detail);
+        if (field === 'date') {
+            return;
+        }
+        this.table_sorting.set(field, direction);
     }
     async init() {
         try {
@@ -143,6 +155,12 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
                 break;
             case 'export':
+                const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
+                    key,
+                    value,
+                }));
+                console.log(sortingArray);
+                downloadFile('');
                 break;
             case 'archive':
                 this.isSidebarOpen = true;
@@ -235,7 +253,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         "isSidebarOpen": [32],
         "isApplyFiltersLoading": [32],
         "filters": [32]
-    }, [[0, "closeSideBar", "handleCloseSidebar"]], {
+    }, [[0, "closeSideBar", "handleCloseSidebar"], [0, "sortingChanged", "handleSortingChanged"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {

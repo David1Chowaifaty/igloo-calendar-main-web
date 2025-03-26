@@ -7,6 +7,7 @@ import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
+import { downloadFile } from "../../../utils/utils";
 export class IrHkTasks {
     constructor() {
         this.language = '';
@@ -22,6 +23,7 @@ export class IrHkTasks {
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
         this.token = new Token();
+        this.table_sorting = new Map();
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -40,6 +42,16 @@ export class IrHkTasks {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.isSidebarOpen = false;
+    }
+    handleSortingChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { field, direction } = e.detail;
+        console.log(e.detail);
+        if (field === 'date') {
+            return;
+        }
+        this.table_sorting.set(field, direction);
     }
     async init() {
         try {
@@ -120,6 +132,12 @@ export class IrHkTasks {
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
                 break;
             case 'export':
+                const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
+                    key,
+                    value,
+                }));
+                console.log(sortingArray);
+                downloadFile('');
                 break;
             case 'archive':
                 this.isSidebarOpen = true;
@@ -329,6 +347,12 @@ export class IrHkTasks {
         return [{
                 "name": "closeSideBar",
                 "method": "handleCloseSidebar",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "sortingChanged",
+                "method": "handleSortingChanged",
                 "target": undefined,
                 "capture": false,
                 "passive": false
