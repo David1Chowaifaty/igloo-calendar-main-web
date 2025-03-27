@@ -10,7 +10,7 @@ export class IrTestCmp {
     }
     render() {
         var _a;
-        return (h(Host, { key: '2c30a32a61ef3c4b31e8f4db7ecd8108a14b3dbf', class: "card p-4" }, h("form", { key: '0952dcdeb1c98f07bade20a499eacf7d11bef406', onSubmit: e => {
+        return (h(Host, { key: '684d27401fc5a2dcbab5a9bad4283ee74204bc5d', class: "card p-4" }, h("form", { key: 'e75911d508a5f6b6c06fd37fec5a4c478f8cebb0', onSubmit: e => {
                 e.preventDefault();
                 try {
                     this.error = null;
@@ -29,7 +29,7 @@ export class IrTestCmp {
                     }
                     console.log(error);
                 }
-            } }, h("ir-input-text", { key: '378e186051b94b6bdacfbe03000902419580b495', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '343306be772197bb6dc07a67fe6dd4f4a8bb6b6a' }, " ", this.user.password), " ", h("button", { key: '15a935e160a32597febdcfaf3fa113179318c57b', class: 'btn btn-primary' }, "Submit"))));
+            } }, h("ir-input-text", { key: '220d102a3b5aace6a5e5d9ce0ff27ef1a0b15dd0', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '37a60a9f1f16905db4c642969e9e93ad75166f87' }, " ", this.user.password), " ", h("button", { key: 'd45bbf7ded5acf6c4be93bf5bebac45ae72cccc2', class: 'btn btn-primary' }, "Submit"))));
     }
     static get is() { return "ir-test-cmp"; }
     static get encapsulation() { return "scoped"; }

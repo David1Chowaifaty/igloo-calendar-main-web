@@ -39,7 +39,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: '144b18f31860cad851d94e768d75a12441fb2b32' });
+        return index.h(index.Host, { key: 'dc553acf8daecea2019e90000316826f68e1e3b0' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

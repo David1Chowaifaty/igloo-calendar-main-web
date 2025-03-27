@@ -8,7 +8,6 @@ export declare class IrListingHeader {
     preventPageLoad: EventEmitter<string>;
     private bookingListingService;
     private toDateRef;
-    private downloadUrlTag;
     private handleSearchClicked;
     private handleClearUserField;
     private handleFromDateChange;
