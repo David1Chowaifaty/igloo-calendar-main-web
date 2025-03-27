@@ -6,6 +6,11 @@ export class IrPasswordValidator {
          */
         this.password = '';
     }
+    handlePasswordChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.passwordValidationChange.emit(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/.test(newValue));
+        }
+    }
     get validLength() {
         if (!this.password) {
             return false;
@@ -37,7 +42,7 @@ export class IrPasswordValidator {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (h("div", { key: 'a5d5ab8b1c4fde4675c8bd95bff826004c7f7956', class: "m-0 p-0" }, h("requirement-check", { key: '0e9b2b6f3511e4b7582b09cce205a28118b1123d', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '5006ccccd86b024559991c97a2db6b4671540fb4', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'a690506f50c0342e1b3f4bf50f73c1ccc3807179', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: 'f05818d5db99c9c73aa5d289da738c23813e8dc7', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '088fa44c2b1b11616df72bd2eb747fdc34dde6bf', isValid: this.hasSpecialChar, text: "At least one special character" })));
+        return (h("div", { key: '767cb36eeb9e2382980b5f2159f1f682ea228a17', class: "m-0 p-0" }, h("requirement-check", { key: '6d567ab334adbee96a2805f868a3b2efe485e960', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '55ecf1b1ead93e304d327afb43b107a5432916e6', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: '9ca21d966567794f31fb0eb1fa170dc389b20e2a', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '4920685d64d277ac9c7f5a71c288057423fdf693', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '5a57bfe0a084c573899be36acd03e3a1e97a5d06', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get is() { return "ir-password-validator"; }
     static get encapsulation() { return "scoped"; }
@@ -74,6 +79,30 @@ export class IrPasswordValidator {
                 "defaultValue": "''"
             }
         };
+    }
+    static get events() {
+        return [{
+                "method": "passwordValidationChange",
+                "name": "passwordValidationChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "password",
+                "methodName": "handlePasswordChange"
+            }];
     }
 }
 //# sourceMappingURL=ir-password-validator.js.map
