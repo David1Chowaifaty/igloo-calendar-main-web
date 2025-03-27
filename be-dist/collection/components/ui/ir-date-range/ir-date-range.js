@@ -27,10 +27,7 @@ export class IrDateRange {
     componentWillLoad() {
         this.weekdays = getAbbreviatedWeekdays(this.locale);
         this.resetHours();
-        this.selectedDates = {
-            start: this.fromDate,
-            end: this.toDate,
-        };
+        this.selectedDates = { start: this.fromDate, end: this.toDate };
         const currentMonth = this.fromDate ? this.fromDate.clone() : moment();
         const nextMonth = currentMonth.clone().add(1, 'month');
         this.displayedDaysArr = [this.getMonthDays(currentMonth), this.getMonthDays(nextMonth)];
@@ -52,25 +49,24 @@ export class IrDateRange {
         }
     }
     getMonthDays(month) {
-        return {
-            month: month.clone(),
-            days: Array.from({ length: month.daysInMonth() }, (_, i) => month.clone().startOf('month').add(i, 'days')),
-        };
+        const startDate = moment(month).startOf('month').startOf('week');
+        const endDate = moment(month).endOf('month').endOf('week');
+        const days = [];
+        let day = startDate.clone();
+        while (day.isSameOrBefore(endDate)) {
+            days.push(day.clone());
+            day.add(1, 'day');
+        }
+        return { month, days };
     }
     decrementDate() {
         if (this.selectedDates.start && this.selectedDates.end) {
-            this.selectedDates = {
-                start: this.selectedDates.start.clone().add(-1, 'days'),
-                end: this.selectedDates.end.clone(),
-            };
+            this.selectedDates = { start: this.selectedDates.start.clone().add(-1, 'days'), end: this.selectedDates.end.clone() };
         }
     }
     incrementDate() {
         if (this.selectedDates.start && this.selectedDates.end) {
-            this.selectedDates = {
-                start: this.selectedDates.start.clone(),
-                end: this.selectedDates.end.clone().add(1, 'days'),
-            };
+            this.selectedDates = { start: this.selectedDates.start.clone(), end: this.selectedDates.end.clone().add(1, 'days') };
         }
     }
     goToNextMonth(e) {
@@ -152,12 +148,12 @@ export class IrDateRange {
         const date = day.clone();
         const start = this.selectedDates.start ? this.selectedDates.start.clone() : moment();
         const end = this.selectedDates.end ? this.selectedDates.end.clone() : this.hoveredDate;
-        if (this.selectedDates.start && !this.selectedDates.end && this.hoveredDate && this.hoveredDate.isAfter(start)) {
-            if (date.isAfter(start) && date.isBefore(end)) {
+        if (this.selectedDates.start && !this.selectedDates.end && this.hoveredDate && this.hoveredDate.isAfter(start, 'day')) {
+            if (date.isAfter(start, 'day') && date.isBefore(end, 'day')) {
                 return true;
             }
         }
-        else if (date.isAfter(start) && this.selectedDates.end && date.isBefore(end)) {
+        else if (date.isAfter(start) && this.selectedDates.end && date.isBefore(end, 'day')) {
             return true;
         }
         return false;
@@ -189,7 +185,7 @@ export class IrDateRange {
     }
     render() {
         const maxSpanDays = this.selectedDates.start ? this.selectedDates.start.clone().add(this.maxSpanDays, 'days') : null;
-        return (h("div", { key: '0c8bbc005be28b7cef371016c9a54a513bd0f7ce', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => {
+        return (h("div", { key: '4639b8792febbe643318b3e1afdcec62aae28ada', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => {
             var _a;
             return (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: 'capitalize' }, month.month.locale((_a = this.locale) !== null && _a !== void 0 ? _a : 'en').format('MMMM YYYY')), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
                 .reduce((acc, day, index) => {
@@ -203,18 +199,21 @@ export class IrDateRange {
                 .map(week => (h("tr", { class: "week-row", role: "row" }, week.map((day) => {
                 var _a, _b;
                 const checkedDate = this.checkDatePresence(day);
-                return (h("td", { class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month.month, 'month') && (h("button", { disabled: day.isBefore(this.minDate) ||
-                        day.isAfter(this.maxDate) ||
-                        (this.selectedDates.start && maxSpanDays && day.isAfter(maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
+                const isDaySelected = this.isDaySelected(day);
+                const isDaySameEnd = day.isSame(this.selectedDates.end, 'day');
+                const isDaySameStart = day.isSame(this.selectedDates.start, 'day');
+                const isDayAfterMaxDate = day.isAfter(this.maxDate, 'day');
+                const isDayBeforeMinDate = day.isBefore(this.minDate, 'day');
+                return (h("td", { class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month.month, 'month') && (h("button", { disabled: isDayBeforeMinDate || isDayAfterMaxDate || (this.selectedDates.start && maxSpanDays && day.isAfter(maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                         this.selectDay(day);
-                    }, style: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) && this.selectedDates.start && { cursor: 'pointer' }, title: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? ((_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_NoAvailability) !== null && _b !== void 0 ? _b : 'No availability') : '', "aria-unavailable": (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-label": `${day.format('dddd, MMMM Do YYYY')} ${day.isBefore(this.minDate) || day.isAfter(this.maxDate) ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": day.isBefore(this.minDate) || day.isAfter(this.maxDate) || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && day.isSame(this.selectedDates.start, 'day')) ||
-                        this.isDaySelected(day) ||
-                        (this.selectedDates.end && day.isSame(this.selectedDates.end, 'day')), class: `day-button  ${this.selectedDates.start && day.isSame(this.selectedDates.start, 'day') ? 'day-range-start' : ''}
-                          ${this.selectedDates.end && day.isSame(this.selectedDates.end, 'day') ? 'day-range-end' : ''}  
-                            ${this.isDaySelected(day) ? 'highlight' : ''}
-                            ` }, h("p", { class: `day ${day.isSame(moment(), 'day') ? 'current-date' : ''}` }, day.locale(this.locale).format('D')), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
+                    }, style: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) && this.selectedDates.start && { cursor: 'pointer' }, title: (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? ((_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_NoAvailability) !== null && _b !== void 0 ? _b : 'No availability') : '', "aria-unavailable": (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-label": `${day.format('dddd, MMMM Do YYYY')} ${isDayBeforeMinDate || isDayAfterMaxDate ? localizedWords.entries.Lcz_NotAvailable : ''}`, "aria-disabled": isDayBeforeMinDate || isDayAfterMaxDate || (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.disabled) ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isDaySameStart) || isDaySelected || (this.selectedDates.end && isDaySameEnd), class: {
+                        'day-button': true,
+                        'day-range-start': this.selectedDates.start && isDaySameStart,
+                        'day-range-end': this.selectedDates.end && isDaySameEnd,
+                        'highlight': isDaySelected && !isDaySameStart,
+                    } }, h("p", { class: `day ${day.isSame(moment(), 'day') ? 'current-date' : ''}` }, day.locale(this.locale).format('D')), this.showPrice && h("p", { class: "price" }, (checkedDate === null || checkedDate === void 0 ? void 0 : checkedDate.withPrice.price) ? '_' : checkedDate.withPrice.price)))));
             })))))));
         })));
     }

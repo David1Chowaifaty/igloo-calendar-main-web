@@ -16,6 +16,7 @@ export declare class IrInvoice {
     headerMessageShown: boolean;
     locationShown: boolean;
     be: boolean;
+    ticket: string;
     version: string;
     booking: Booking;
     isAuthenticated: boolean;
@@ -37,6 +38,7 @@ export declare class IrInvoice {
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
+    handleTicketChange(newValue: any, oldValue: any): Promise<void>;
     fetchData(language?: string, resetLanguage?: boolean): Promise<void>;
     openPrivacyPolicy(e: CustomEvent): Promise<void>;
     handleLanguageChanged(e: CustomEvent): Promise<void>;

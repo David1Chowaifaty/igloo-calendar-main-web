@@ -28991,13 +28991,12 @@ function matchLocale(locale) {
     return localeMap[locale.toLowerCase()] || 'en';
 }
 function getAbbreviatedWeekdays(locale) {
-    const baseDate = moment$1();
     let weekdays = [];
     for (let i = 0; i < 7; i++) {
-        const weekday = baseDate.clone().add(i, 'days').locale(locale).format('ddd');
+        const weekday = moment$1().locale(locale).day(i).format('ddd');
         weekdays.push(weekday);
     }
-    return weekdays.slice(1, 7).concat(weekdays.slice(0, 1));
+    return weekdays;
 }
 function cn(...inputs) {
     return bundleCjs.twMerge(clsx(inputs));
@@ -29341,6 +29340,6 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 
-export { generateCheckoutUrl as A, injectHTMLAndRunScript as B, detectCardType as C, renderPropertyLocation as D, renderTime as E, formatImageAlt as F, updateRoomParams as G, reserveRooms as H, getVisibleInventory as I, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getAbbreviatedWeekdays as g, getUserPreference as h, injectHTML as i, validateAgentCode as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, checkAffiliate as o, formatFullLocation as p, formatAmount as q, calculateTotalRooms as r, setDefaultLocale as s, getDateDifference as t, runScriptAndRemove as u, validateCoupon as v, calculateTotalCost as w, clearCheckoutRooms as x, validateBooking as y, destroyBookingCookie as z };
+export { injectHTMLAndRunScript as A, detectCardType as B, renderPropertyLocation as C, renderTime as D, formatImageAlt as E, updateRoomParams as F, reserveRooms as G, getVisibleInventory as H, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getAbbreviatedWeekdays as g, getUserPreference as h, injectHTML as i, validateAgentCode as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, checkAffiliate as o, formatFullLocation as p, formatAmount as q, calculateTotalRooms as r, setDefaultLocale as s, getDateDifference as t, runScriptAndRemove as u, validateCoupon as v, calculateTotalCost as w, clearCheckoutRooms as x, validateBooking as y, generateCheckoutUrl as z };
 
 //# sourceMappingURL=utils.js.map

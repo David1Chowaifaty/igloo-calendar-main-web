@@ -1,6 +1,4 @@
-'use strict';
-
-const index = require('./index-af8decdc.js');
+import { a as getRenderingRef, f as forceUpdate } from './index-243eecac.js';
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -40,7 +38,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof index.getRenderingRef !== 'function') {
+    if (typeof getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -49,7 +47,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = index.getRenderingRef();
+            const elm = getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -57,12 +55,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -47716,13 +47714,12 @@ function matchLocale(locale) {
     return localeMap[locale.toLowerCase()] || 'en';
 }
 function getAbbreviatedWeekdays(locale) {
-    const baseDate = moment$1();
     let weekdays = [];
     for (let i = 0; i < 7; i++) {
-        const weekday = baseDate.clone().add(i, 'days').locale(locale).format('ddd');
+        const weekday = moment$1().locale(locale).day(i).format('ddd');
         weekdays.push(weekday);
     }
-    return weekdays.slice(1, 7).concat(weekdays.slice(0, 1));
+    return weekdays;
 }
 function cn(...inputs) {
     return bundleCjs.twMerge(clsx(inputs));
@@ -48066,47 +48063,6 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 
-exports.VariationService = VariationService;
-exports.app_store = app_store;
-exports.booking_store = booking_store;
-exports.calculateInfantNumber = calculateInfantNumber;
-exports.calculateTotalCost = calculateTotalCost;
-exports.calculateTotalRooms = calculateTotalRooms;
-exports.changeLocale = changeLocale;
-exports.checkAffiliate = checkAffiliate;
-exports.checkGhs = checkGhs;
-exports.clearCheckoutRooms = clearCheckoutRooms;
-exports.cn = cn;
-exports.createStore = createStore;
-exports.dateFns = dateFns;
-exports.destroyBookingCookie = destroyBookingCookie;
-exports.detectCardType = detectCardType;
-exports.formatAmount = formatAmount;
-exports.formatFullLocation = formatFullLocation;
-exports.formatImageAlt = formatImageAlt;
-exports.generateCheckoutUrl = generateCheckoutUrl;
-exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
-exports.getDateDifference = getDateDifference;
-exports.getUserPreference = getUserPreference;
-exports.getVisibleInventory = getVisibleInventory;
-exports.injectHTML = injectHTML;
-exports.injectHTMLAndRunScript = injectHTMLAndRunScript;
-exports.localizedWords = localizedWords;
-exports.manageAnchorSession = manageAnchorSession;
-exports.matchLocale = matchLocale;
-exports.modifyBookingStore = modifyBookingStore;
-exports.modifyQueryParam = modifyQueryParam;
-exports.moment = moment$1;
-exports.onAppDataChange = onAppDataChange;
-exports.renderPropertyLocation = renderPropertyLocation;
-exports.renderTime = renderTime;
-exports.reserveRooms = reserveRooms;
-exports.runScriptAndRemove = runScriptAndRemove;
-exports.setDefaultLocale = setDefaultLocale;
-exports.updateRoomParams = updateRoomParams;
-exports.updateUserPreference = updateUserPreference;
-exports.validateAgentCode = validateAgentCode;
-exports.validateBooking = validateBooking;
-exports.validateCoupon = validateCoupon;
+export { cn as A, calculateTotalCost as B, clearCheckoutRooms as C, getAbbreviatedWeekdays as D, validateBooking as E, injectHTMLAndRunScript as F, detectCardType as G, renderPropertyLocation as H, renderTime as I, formatImageAlt as J, updateRoomParams as K, reserveRooms as L, getVisibleInventory as M, injectHTML as N, VariationService as V, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, moment$1 as f, modifyQueryParam as g, getUserPreference as h, validateAgentCode as i, changeLocale as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, onAppDataChange as o, checkAffiliate as p, modifyBookingStore as q, generateCheckoutUrl as r, setDefaultLocale as s, formatAmount as t, updateUserPreference as u, validateCoupon as v, formatFullLocation as w, calculateTotalRooms as x, getDateDifference as y, runScriptAndRemove as z };
 
-//# sourceMappingURL=utils-f738ff8f.js.map
+//# sourceMappingURL=utils-496d66fc.js.map

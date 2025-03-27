@@ -52,6 +52,11 @@ export class IrInvoice {
             this.isAuthenticated = true;
         }
         else {
+            if (this.ticket) {
+                this.token.setToken(this.ticket);
+                this.isAuthenticated = true;
+                return;
+            }
             const token = await this.commonService.getBEToken();
             this.token.setToken(token);
         }
@@ -60,6 +65,12 @@ export class IrInvoice {
     async handleBookingNumberChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.booking = await this.propertyService.getExposedBooking({ booking_nbr: this.bookingNbr, language: this.language || app_store.userPreferences.language_id, currency: null }, true);
+        }
+    }
+    async handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.token.setToken(this.ticket);
+            this.isAuthenticated = true;
         }
     }
     async fetchData(language, resetLanguage) {
@@ -499,6 +510,25 @@ export class IrInvoice {
                 "reflect": false,
                 "defaultValue": "false"
             },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
+            },
             "version": {
                 "type": "string",
                 "mutable": false,
@@ -537,6 +567,9 @@ export class IrInvoice {
         return [{
                 "propName": "bookingNbr",
                 "methodName": "handleBookingNumberChange"
+            }, {
+                "propName": "ticket",
+                "methodName": "handleTicketChange"
             }];
     }
     static get listeners() {

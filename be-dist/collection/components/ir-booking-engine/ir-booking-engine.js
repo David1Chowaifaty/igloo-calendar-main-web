@@ -24,7 +24,7 @@ export class IrBookingEngine {
         this.isLoading = false;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
-        this.version = '2.596';
+        this.version = '2.599';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -54,9 +54,7 @@ export class IrBookingEngine {
     }
     handleCurrencyChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            updateUserPreference({
-                currency_id: newValue,
-            });
+            updateUserPreference({ currency_id: newValue });
         }
     }
     handleCouponChange(newValue, oldValue) {
@@ -88,9 +86,7 @@ export class IrBookingEngine {
             return;
         }
         changeLocale(((_a = this.languages.find(l => l.code.toLowerCase() === code)) === null || _a === void 0 ? void 0 : _a.direction) || 'LTR', matchLocale(code));
-        updateUserPreference({
-            language_id: code,
-        });
+        updateUserPreference({ language_id: code });
     }
     initializeApp() {
         var _a;
@@ -120,11 +116,7 @@ export class IrBookingEngine {
         let requests = [
             this.commonService.getCurrencies(),
             this.commonService.getExposedLanguages(),
-            this.commonService.getExposedCountryByIp({
-                id: (_a = this.propertyId) === null || _a === void 0 ? void 0 : _a.toString(),
-                perma_link: this.perma_link,
-                aname: this.p,
-            }),
+            this.commonService.getExposedCountryByIp({ id: (_a = this.propertyId) === null || _a === void 0 ? void 0 : _a.toString(), perma_link: this.perma_link, aname: this.p }),
             this.commonService.getExposedLanguage(),
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
             this.propertyService.getExposedNonBookableNights({
@@ -204,13 +196,7 @@ export class IrBookingEngine {
         const { state, payload } = e.detail;
         if (state === 'success') {
             if (payload.method === 'direct') {
-                this.bookingListingScreenOptions = {
-                    screen: 'booking-details',
-                    params: {
-                        booking_nbr: payload.booking_nbr,
-                        email: payload.email,
-                    },
-                };
+                this.bookingListingScreenOptions = { screen: 'booking-details', params: { booking_nbr: payload.booking_nbr, email: payload.email } };
                 app_store.currentPage = 'booking-listing';
             }
         }

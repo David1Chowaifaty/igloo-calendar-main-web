@@ -27,13 +27,12 @@ export function matchLocale(locale) {
     return localeMap[locale.toLowerCase()] || 'en';
 }
 export function getAbbreviatedWeekdays(locale) {
-    const baseDate = moment();
     let weekdays = [];
     for (let i = 0; i < 7; i++) {
-        const weekday = baseDate.clone().add(i, 'days').locale(locale).format('ddd');
+        const weekday = moment().locale(locale).day(i).format('ddd');
         weekdays.push(weekday);
     }
-    return weekdays.slice(1, 7).concat(weekdays.slice(0, 1));
+    return weekdays;
 }
 export function setLanguagePreference(language) {
     const expiryDate = new Date();

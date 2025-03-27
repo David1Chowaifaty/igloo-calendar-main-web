@@ -30,7 +30,7 @@ export declare class IrDateRange {
     handleToDateChange(newValue: Moment | null, oldValue: Moment | null): void;
     getMonthDays(month: Moment): {
         month: moment.Moment;
-        days: moment.Moment[];
+        days: any[];
     };
     handleKeyDown: (e: KeyboardEvent) => void;
     decrementDate(): void;

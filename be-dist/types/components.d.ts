@@ -364,6 +364,7 @@ export namespace Components {
         "perma_link": string;
         "propertyId": number;
         "status": 0 | 1;
+        "ticket": string;
         "version": string;
     }
     interface IrLanguagePicker {
@@ -2220,6 +2221,7 @@ declare namespace LocalJSX {
         "perma_link"?: string;
         "propertyId"?: number;
         "status"?: 0 | 1;
+        "ticket"?: string;
         "version"?: string;
     }
     interface IrLanguagePicker {
