@@ -1172,19 +1172,19 @@ const IrTasksFilters = class {
                 value: v.code,
             })), onSelectChange: e => {
                 this.updateFilter({ cleaning_frequencies: { code: e.detail } });
-            } })), h("fieldset", { key: '2a5f2657e1282326e0b8b943816151e5031d354c' }, h("p", { key: '078d22ce5ea1aefc021aa6eba58eb351ab11e06c', class: "m-0 p-0" }, "Dusty units"), h("ir-select", { key: '4438bbcd9439d89c2d38a9398af777d7b35f6b76', testId: "dusty_units", showFirstOption: false, LabelAvailable: false, selectedValue: (_l = (_k = this.filters) === null || _k === void 0 ? void 0 : _k.dusty_units) === null || _l === void 0 ? void 0 : _l.code, data: (_o = (_m = housekeeping_store.hk_criteria) === null || _m === void 0 ? void 0 : _m.dusty_periods) === null || _o === void 0 ? void 0 : _o.map(v => ({
+            } })), h("fieldset", { key: '2a5f2657e1282326e0b8b943816151e5031d354c' }, h("p", { key: '078d22ce5ea1aefc021aa6eba58eb351ab11e06c', class: "m-0 p-0" }, "Include dusty units"), h("ir-select", { key: '52f078952f23aaf38c9c0d0a2bfb407cc8841e4e', testId: "dusty_units", showFirstOption: false, LabelAvailable: false, selectedValue: (_l = (_k = this.filters) === null || _k === void 0 ? void 0 : _k.dusty_units) === null || _l === void 0 ? void 0 : _l.code, data: (_o = (_m = housekeeping_store.hk_criteria) === null || _m === void 0 ? void 0 : _m.dusty_periods) === null || _o === void 0 ? void 0 : _o.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ dusty_units: { code: e.detail } });
-            } })), h("fieldset", { key: '9f12626fcbe56413cbfa1881a4fafd4bb7d40f9d', class: "mb-1" }, h("p", { key: '9ba31f3bd049716ef58f1176f5ac150a5978043d', class: "m-0 p-0" }, "Highlight check-ins from"), h("ir-select", { key: '9c351ad50f6b4ac332ff1f267c58b275175efcfe', testId: "highlight_check_ins", selectedValue: (_q = (_p = this.filters) === null || _p === void 0 ? void 0 : _p.highlight_check_ins) === null || _q === void 0 ? void 0 : _q.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+            } })), h("fieldset", { key: 'f4e9e139bb2c89f41bbdfd30327f978c37f2a5ab', class: "mb-1" }, h("p", { key: 'f6ea64e4b7bf94b75b51c100409f3599a6b78771', class: "m-0 p-0" }, "Highlight check-ins from"), h("ir-select", { key: '7d3c5f2c16c5cdb6bae1be165a7a6ca6b1788b0d', testId: "highlight_check_ins", selectedValue: (_q = (_p = this.filters) === null || _p === void 0 ? void 0 : _p.highlight_check_ins) === null || _q === void 0 ? void 0 : _q.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
                 this.updateFilter({ highlight_check_ins: { code: e.detail } });
             }, data: (_s = (_r = housekeeping_store.hk_criteria) === null || _r === void 0 ? void 0 : _r.highlight_checkin_options) === null || _s === void 0 ? void 0 : _s.map(v => ({
                 text: v.description,
                 value: v.code,
-            })) })), h("div", { key: '2351b4d37e7c63fa04dc23a71f51b033efe3d424', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: '7cd1f63d067081c2c1444b6692d558fc7208a1de', btn_type: "button", "data-testid": "reset", text: "Reset", size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '0e3b829e08f388d7091bff59740072fa725bd371', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+            })) })), h("div", { key: 'f58c3e162165152a45d02e60e5997666eaa31075', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: '028d3c8693df2d2d4bbc64b81b59678854634303', btn_type: "button", "data-testid": "reset", text: "Reset", size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: 'c0eb8684136be04103182f1239a2f08340cbe936', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: "Apply", size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
 };
 IrTasksFilters.style = irTasksFiltersCss;
