@@ -1,11 +1,11 @@
 'use strict';
 
-var index = require('./index-Dt9a74kn.js');
-var channel_service = require('./channel.service-Br_19zhn.js');
-var channel_store = require('./channel.store-CsQBmbfL.js');
-var locales_store = require('./locales.store-CJveOVzn.js');
-require('./calendar-data-CC4kt7DA.js');
-require('./index-PIkoJJtF.js');
+var index = require('./index-Dmp0dHfN.js');
+var channel_service = require('./channel.service-zYJgLrrP.js');
+var channel_store = require('./channel.store-hjt8wHrw.js');
+var locales_store = require('./locales.store-DEkHwTyS.js');
+require('./calendar-data-Bs8j7XQc.js');
+require('./index-BGQl6-i5.js');
 require('./axios-dx93wJEX.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 

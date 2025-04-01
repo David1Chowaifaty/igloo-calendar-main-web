@@ -1,39 +1,14 @@
-import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
-import { l as libExports } from './index-DeW5X45W.js';
+import { r as registerInstance, h, H as Host } from './index-ChgcZQN7.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
 
-const userSchema = libExports.z.object({ password: libExports.z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/) });
 const IrTestCmp = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.user = {
-            password: '',
-        };
-        this.autoValidate = false;
     }
     render() {
-        var _a;
-        return (h(Host, { key: '684d27401fc5a2dcbab5a9bad4283ee74204bc5d', class: "card p-4" }, h("form", { key: 'e75911d508a5f6b6c06fd37fec5a4c478f8cebb0', onSubmit: e => {
-                e.preventDefault();
-                try {
-                    this.error = null;
-                    this.autoValidate = true;
-                    console.log('here');
-                    userSchema.parse(this.user);
-                    alert('passed');
-                }
-                catch (error) {
-                    const er = {};
-                    if (error instanceof libExports.ZodError) {
-                        error.issues.forEach(e => {
-                            er[e.path[0]] = true;
-                        });
-                        this.error = er;
-                    }
-                    console.log(error);
-                }
-            } }, h("ir-input-text", { key: '220d102a3b5aace6a5e5d9ce0ff27ef1a0b15dd0', value: this.user.password, autoValidate: this.autoValidate, zod: userSchema.pick({ password: true }), wrapKey: "password", error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, type: "password", label: "Password", onTextChange: e => (this.user = Object.assign(Object.assign({}, this.user), { password: e.detail })), maxLength: 14 }), h("p", { key: '37a60a9f1f16905db4c642969e9e93ad75166f87' }, " ", this.user.password), " ", h("button", { key: 'd45bbf7ded5acf6c4be93bf5bebac45ae72cccc2', class: 'btn btn-primary' }, "Submit"))));
+        var _a, _b;
+        return (h(Host, { key: '07aa3e5ccf48770957eb2201c5729ac002b8a84b', class: "card p-4" }, h("ir-range-picker", { key: '3d42c992e7bd19a5cb93fd44be0c62d14f438d7c', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
 };
 IrTestCmp.style = irTestCmpCss;

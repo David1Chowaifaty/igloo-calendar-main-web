@@ -1,16 +1,15 @@
 'use strict';
 
-var index = require('./index-Dt9a74kn.js');
-var toBeAssigned_service = require('./toBeAssigned.service-Dm6SmdJP.js');
-var locales_store = require('./locales.store-CJveOVzn.js');
-var booking = require('./booking-Co20zX8p.js');
+var index = require('./index-Dmp0dHfN.js');
+var toBeAssigned_service = require('./toBeAssigned.service-COroG-hY.js');
+var locales_store = require('./locales.store-DEkHwTyS.js');
+var utils = require('./utils-BFI5WcMy.js');
 var v4 = require('./v4-Bq3ldsQe.js');
 require('./axios-dx93wJEX.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./moment-CdViwxPQ.js');
-require('./index-PIkoJJtF.js');
+require('./index-BGQl6-i5.js');
 require('./index-CLqkDPTC.js');
-require('./calendar-data-CC4kt7DA.js');
+require('./calendar-data-Bs8j7XQc.js');
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}";
 
@@ -177,7 +176,7 @@ const IglTbaBookingView = class {
         //   return true;
         // }
         // return false;
-        return booking.canCheckIn({
+        return utils.canCheckIn({
             from_date: this.eventData.FROM_DATE,
             to_date: this.eventData.TO_DATE,
         });

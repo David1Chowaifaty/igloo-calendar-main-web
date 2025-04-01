@@ -1,19 +1,18 @@
 'use strict';
 
-var index = require('./index-Dt9a74kn.js');
-var room_service = require('./room.service-DVWIpa-p.js');
-var booking_service = require('./booking.service-BK-JNi--.js');
-var booking = require('./booking-Co20zX8p.js');
-var events_service = require('./events.service-D5YaMthI.js');
-var moment = require('./moment-CdViwxPQ.js');
-var toBeAssigned_service = require('./toBeAssigned.service-Dm6SmdJP.js');
-var locales_store = require('./locales.store-CJveOVzn.js');
-var calendarData = require('./calendar-data-CC4kt7DA.js');
-var unassigned_dates_store = require('./unassigned_dates.store-sIgmut6Y.js');
+var index = require('./index-Dmp0dHfN.js');
+var room_service = require('./room.service-C9Dgx7NL.js');
+var booking_service = require('./booking.service-iEVZEeNg.js');
+var utils = require('./utils-BFI5WcMy.js');
+var events_service = require('./events.service-Bw_zQKPI.js');
+var toBeAssigned_service = require('./toBeAssigned.service-COroG-hY.js');
+var locales_store = require('./locales.store-DEkHwTyS.js');
+var calendarData = require('./calendar-data-Bs8j7XQc.js');
+var unassigned_dates_store = require('./unassigned_dates.store-DlqojBGP.js');
 var Token = require('./Token-d-M1RUIy.js');
 require('./axios-dx93wJEX.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-PIkoJJtF.js');
+require('./index-BGQl6-i5.js');
 require('./index-CLqkDPTC.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
@@ -4263,11 +4262,11 @@ const IglooCalendar = class {
         this.calendarData.to_date = bookingResp.My_Params_Get_Rooming_Data.TO;
         this.calendarData.startingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.FROM).getTime();
         this.calendarData.endingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.TO).getTime();
-        this.calendarData.formattedLegendData = booking.formatLegendColors(this.calendarData.legendData);
+        this.calendarData.formattedLegendData = utils.formatLegendColors(this.calendarData.legendData);
         let bookings = bookingResp.myBookings || [];
         bookings = bookings.filter(bookingEvent => {
-            const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
             return !toDate.isSame(fromDate);
         });
         this.calendarData.bookingEvents = bookings;
@@ -4311,8 +4310,8 @@ const IglooCalendar = class {
                 roomResp = results[results.length - 1];
             }
             const [bookingResp, countries] = results;
-            booking.calendar_dates.days = bookingResp.days;
-            booking.calendar_dates.months = bookingResp.months;
+            utils.calendar_dates.days = bookingResp.days;
+            utils.calendar_dates.months = bookingResp.months;
             this.setRoomsData(roomResp);
             this.countries = countries;
             this.setUpCalendarData(roomResp, bookingResp);
@@ -4326,13 +4325,13 @@ const IglooCalendar = class {
             this.days = bookingResp.days;
             this.calendarData.days = this.days;
             this.calendarData.monthsInfo = bookingResp.months;
-            booking.calendar_dates.fromDate = this.calendarData.from_date;
-            booking.calendar_dates.toDate = this.calendarData.to_date;
+            utils.calendar_dates.fromDate = this.calendarData.from_date;
+            utils.calendar_dates.toDate = this.calendarData.to_date;
             setTimeout(() => {
                 this.scrollToElement(this.today);
             }, 200);
             if (!this.calendarData.is_vacation_rental) {
-                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, booking.dateToFormattedString(new Date()), this.to_date);
+                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, utils.dateToFormattedString(new Date()), this.to_date);
                 this.unassignedDates = { fromDate: this.from_date, toDate: this.to_date, data: Object.assign(Object.assign({}, this.unassignedDates), data) };
                 this.calendarData = Object.assign(Object.assign({}, this.calendarData), { unassignedDates: data });
                 unassigned_dates_store.addUnassignedDates(data);
@@ -4393,7 +4392,7 @@ const IglooCalendar = class {
                     var _a;
                     if (e.IDENTIFIER === result.identifier) {
                         const mainGuest = (_a = result.guests) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
-                        return Object.assign(Object.assign({}, e), { NAME: booking.formatName(mainGuest.first_name, mainGuest.last_name), ROOM_INFO: Object.assign(Object.assign({}, e.ROOM_INFO), { sharing_persons: result.guests }) });
+                        return Object.assign(Object.assign({}, e), { NAME: utils.formatName(mainGuest.first_name, mainGuest.last_name), ROOM_INFO: Object.assign(Object.assign({}, e.ROOM_INFO), { sharing_persons: result.guests }) });
                     }
                     return e;
                 }),
@@ -4403,7 +4402,7 @@ const IglooCalendar = class {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: [
                 ...this.calendarData.bookingEvents.map(e => {
                     if (e.IDENTIFIER === result.room_identifier) {
-                        const STATUS = booking.getRoomStatus({
+                        const STATUS = utils.getRoomStatus({
                             from_date: e.FROM_DATE,
                             to_date: e.TO_DATE,
                             in_out: Object.assign(Object.assign({}, e.ROOM_INFO.in_out), { code: result.status }),
@@ -4434,16 +4433,16 @@ const IglooCalendar = class {
         }
     }
     async handleDoReservation(result) {
-        const transformedBooking = booking.transformNewBooking(result);
+        const transformedBooking = utils.transformNewBooking(result);
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleBlockExposedUnit(result) {
-        const transformedBooking = [await booking.transformNewBLockedRooms(result)];
+        const transformedBooking = [await utils.transformNewBLockedRooms(result)];
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleAssignExposedRoom(result) {
         console.log(result);
-        const transformedBooking = booking.transformNewBooking(result);
+        const transformedBooking = utils.transformNewBooking(result);
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleReallocateExposedRoomBlock(result) {
@@ -4458,18 +4457,18 @@ const IglooCalendar = class {
         if (!this.calendarData.is_vacation_rental &&
             new Date(parsedResult.FROM_DATE).getTime() >= this.calendarData.startingDate &&
             new Date(parsedResult.TO_DATE).getTime() <= this.calendarData.endingDate) {
-            const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, booking.dateToFormattedString(new Date(parsedResult.FROM_DATE)), booking.dateToFormattedString(new Date(parsedResult.TO_DATE)));
+            const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, utils.dateToFormattedString(new Date(parsedResult.FROM_DATE)), utils.dateToFormattedString(new Date(parsedResult.TO_DATE)));
             unassigned_dates_store.addUnassignedDates(data);
             this.unassignedDates = {
-                fromDate: booking.dateToFormattedString(new Date(parsedResult.FROM_DATE)),
-                toDate: booking.dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                fromDate: utils.dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                toDate: utils.dateToFormattedString(new Date(parsedResult.TO_DATE)),
                 data,
             };
             if (Object.keys(data).length === 0) {
-                unassigned_dates_store.removeUnassignedDates(booking.dateToFormattedString(new Date(parsedResult.FROM_DATE)), booking.dateToFormattedString(new Date(parsedResult.TO_DATE)));
+                unassigned_dates_store.removeUnassignedDates(utils.dateToFormattedString(new Date(parsedResult.FROM_DATE)), utils.dateToFormattedString(new Date(parsedResult.TO_DATE)));
                 this.reduceAvailableUnitEvent.emit({
-                    fromDate: booking.dateToFormattedString(new Date(parsedResult.FROM_DATE)),
-                    toDate: booking.dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                    fromDate: utils.dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                    toDate: utils.dateToFormattedString(new Date(parsedResult.TO_DATE)),
                 });
             }
         }
@@ -4503,7 +4502,7 @@ const IglooCalendar = class {
     handleChangeInBookStatus(result) {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
                 if (result.pools.includes(event.ID)) {
-                    return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? booking.bookingStatus[result.status_code] : result.status_code === '001' ? booking.bookingStatus[result.status_code] : 'IN-HOUSE' });
+                    return Object.assign(Object.assign({}, event), { STATUS: event.STATUS !== 'IN-HOUSE' ? utils.bookingStatus[result.status_code] : result.status_code === '001' ? utils.bookingStatus[result.status_code] : 'IN-HOUSE' });
                 }
                 return event;
             }) });
@@ -4511,7 +4510,7 @@ const IglooCalendar = class {
     handleNonTechnicalChangeInBooking(result) {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: this.calendarData.bookingEvents.map(event => {
                 if (event.BOOKING_NUMBER === result.booking_nbr) {
-                    return Object.assign(Object.assign({}, event), { PRIVATE_NOTE: booking.getPrivateNote(result.extras) });
+                    return Object.assign(Object.assign({}, event), { PRIVATE_NOTE: utils.getPrivateNote(result.extras) });
                 }
                 return event;
             }) });
@@ -4532,8 +4531,8 @@ const IglooCalendar = class {
             bookingEvent.defaultDateRange.toDateTimeStamp = bookingEvent.defaultDateRange.toDate.getTime();
             bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
             bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
-            if (!booking.isBlockUnit(bookingEvent.STATUS_CODE)) {
-                bookingEvent.STATUS = booking.getRoomStatus({
+            if (!utils.isBlockUnit(bookingEvent.STATUS_CODE)) {
+                bookingEvent.STATUS = utils.getRoomStatus({
                     in_out: (_a = bookingEvent.ROOM_INFO) === null || _a === void 0 ? void 0 : _a.in_out,
                     from_date: bookingEvent.FROM_DATE,
                     to_date: bookingEvent.TO_DATE,
@@ -4543,7 +4542,7 @@ const IglooCalendar = class {
         });
     }
     updateTotalAvailability() {
-        let days = [...booking.calendar_dates.days];
+        let days = [...utils.calendar_dates.days];
         this.totalAvailabilityQueue.forEach(queue => {
             let selectedDate = new Date(queue.date);
             selectedDate.setMilliseconds(0);
@@ -4560,7 +4559,7 @@ const IglooCalendar = class {
                 }
             }
         });
-        booking.calendar_dates.days = [...days];
+        utils.calendar_dates.days = [...days];
     }
     setRoomsData(roomServiceResp) {
         var _a, _b;
@@ -4613,7 +4612,7 @@ const IglooCalendar = class {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
     }
     transformDateForScroll(date) {
-        return moment.hooks(date).format('D_M_YYYY');
+        return utils.hooks(date).format('D_M_YYYY');
     }
     shouldRenderCalendarView() {
         // console.log("rendering...")
@@ -4681,7 +4680,7 @@ const IglooCalendar = class {
         if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
             this.calendarData.startingDate = new Date(fromDate).getTime();
             this.calendarData.from_date = fromDate;
-            booking.calendar_dates.fromDate = this.calendarData.from_date;
+            utils.calendar_dates.fromDate = this.calendarData.from_date;
             this.days = [...results.days, ...this.days];
             let newMonths = [...results.months];
             if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
@@ -4693,18 +4692,18 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE = newBooking.FROM_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = utils.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
                     return false;
                 }
                 return true;
             });
-            booking.calendar_dates.days = this.days;
+            utils.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
         }
         else {
             this.calendarData.endingDate = new Date(toDate).getTime();
             this.calendarData.to_date = toDate;
-            booking.calendar_dates.toDate = this.calendarData.to_date;
+            utils.calendar_dates.toDate = this.calendarData.to_date;
             let newMonths = [...results.months];
             this.days = [...this.days, ...results.days];
             if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
@@ -4717,12 +4716,12 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].TO_DATE = newBooking.TO_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = utils.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
                     return false;
                 }
                 return true;
             });
-            booking.calendar_dates.days = this.days;
+            utils.calendar_dates.days = this.days;
             //calendar_dates.months = bookingResp.months;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...this.calendarData.monthsInfo, ...newMonths], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
             const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
@@ -4736,12 +4735,12 @@ const IglooCalendar = class {
         }
     }
     async handleDateSearch(dates) {
-        const startDate = moment.hooks(dates.start).toDate();
-        const defaultFromDate = moment.hooks(this.calDates.from).toDate();
+        const startDate = utils.hooks(dates.start).toDate();
+        const defaultFromDate = utils.hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
         if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
-            await this.addDatesToCalendar(moment.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), moment.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(utils.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), utils.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
             this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
@@ -4749,8 +4748,8 @@ const IglooCalendar = class {
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
         else if (startDate.getTime() > defaultToDate) {
-            const nextDay = booking.getNextDay(new Date(this.calendarData.endingDate));
-            await this.addDatesToCalendar(nextDay, moment.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
+            await this.addDatesToCalendar(nextDay, utils.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
     }
@@ -4800,8 +4799,8 @@ const IglooCalendar = class {
                         if (monthRect.x + monthRect.width <= rightX && !this.reachedEndOfCalendar) {
                             this.reachedEndOfCalendar = true;
                             //await this.addNextTwoMonthsToCalendar();
-                            const nextTwoMonths = booking.addTwoMonthToDate(new Date(this.calendarData.endingDate));
-                            const nextDay = booking.getNextDay(new Date(this.calendarData.endingDate));
+                            const nextTwoMonths = utils.addTwoMonthToDate(new Date(this.calendarData.endingDate));
+                            const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
                             await this.addDatesToCalendar(nextDay, nextTwoMonths);
                             this.reachedEndOfCalendar = false;
                         }
@@ -4859,8 +4858,8 @@ const IglooCalendar = class {
                 toRoomId: (yElement && yElement.id) || 'revert',
                 moveToDay: (xElement && xElement.id) || 'revert',
                 pool: currentPosition.pool,
-                from_date: booking.convertDMYToISO(xElement && xElement.id),
-                to_date: booking.computeEndDate(xElement && xElement.id, currentPosition.nbOfDays),
+                from_date: utils.convertDMYToISO(xElement && xElement.id),
+                to_date: utils.computeEndDate(xElement && xElement.id, currentPosition.nbOfDays),
             });
         }
     }

@@ -1,9 +1,9 @@
 'use strict';
 
-var index = require('./index-Dt9a74kn.js');
-var housekeeping_service = require('./housekeeping.service-DsHTyOT8.js');
-var locales_store = require('./locales.store-CJveOVzn.js');
-require('./index-PIkoJJtF.js');
+var index = require('./index-Dmp0dHfN.js');
+var housekeeping_service = require('./housekeeping.service-C1TgYNVO.js');
+var locales_store = require('./locales.store-DEkHwTyS.js');
+require('./index-BGQl6-i5.js');
 require('./axios-dx93wJEX.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -42,7 +42,7 @@ const IrUnitStatus = class {
     }
     render() {
         var _a;
-        return (index.h(index.Host, { key: 'd657c5dea29f64625a4ae1805b15fa28c9bb51aa', class: "card p-1" }, index.h("ir-title", { key: '475fac25ceb30fdaadedce39c59be042d9827d83', label: locales_store.locales.entries.Lcz_RoomOrUnitStatus }), index.h("div", { key: 'd01baa1840989ee8acf822f69ce4fbb1de355f9d', class: "table-container" }, index.h("table", { key: '75f3b84c00043ea01019f865fe8ae43e3ae96ffd' }, index.h("thead", { key: '8d67de0deb53ea86e8003e88e4efbf98919a1f0e' }, index.h("tr", { key: 'c708b0b74e2b2bf9525f7666ec6e6bd20c2b90ad' }, index.h("th", { key: 'fa372e1a2e3246f1e56f4ecf7936088931cceee1' }, locales_store.locales.entries.Lcz_Status), index.h("th", { key: '4360bbc7c711b11c7d4f410f36f7bbda3015b6a6', class: 'text-center' }, locales_store.locales.entries.Lcz_Code), index.h("th", { key: 'fc36ebed3e3480b3f63efd4f3c028047559cc767' }, locales_store.locales.entries.Lcz_Action))), index.h("tbody", { key: '66d821bb7ce3ee5640fe621e86980633cdb3330e' }, (_a = housekeeping_service.housekeeping_store.hk_criteria.statuses) === null || _a === void 0 ? void 0 : _a.map(status => {
+        return (index.h(index.Host, { key: 'e5aed9837236f08c6913390d4bcf0370afa2a76c', class: "card p-1" }, index.h("ir-title", { key: 'cc40598fab746bda73e3af9dce048a325377d8bd', label: locales_store.locales.entries.Lcz_RoomOrUnitStatus }), index.h("div", { key: '0a00cf172b015d83289e35d8743e0769ebee29e9', class: "table-container" }, index.h("table", { key: '167aab382edffc7b6f8528f7703ee5ccb978b3ea' }, index.h("thead", { key: 'f8b03b34cd0a8730d968b8000e4a943797ef2ad0' }, index.h("tr", { key: '48917bfd8ffcd39b4c0c42fb8331e0f5450bce70' }, index.h("th", { key: '0ac0376cb4b2cb123e00f181df5b3a29356b2efa' }, locales_store.locales.entries.Lcz_Status), index.h("th", { key: '144562bd3748f9ff5a846c21900781543d23b52d', class: 'text-center' }, locales_store.locales.entries.Lcz_Code), index.h("th", { key: '67d953ff184881805a49cd1dd9eec79886bdc2ad' }, locales_store.locales.entries.Lcz_Action))), index.h("tbody", { key: 'c1526df74b2b8d5732b3427f0542142fb8177ac8' }, (_a = housekeeping_service.housekeeping_store.hk_criteria.statuses) === null || _a === void 0 ? void 0 : _a.map(status => {
             var _a;
             return (index.h("tr", { key: status.code }, index.h("td", null, index.h("div", { class: "status-container" }, index.h("span", { class: `circle ${status.style.shape} ${status.style.color}` }), index.h("p", null, status.description))), index.h("td", null, status.code), index.h("td", null, index.h("div", { class: "action-container" }, index.h("p", { class: 'm-0' }, status.action), status.code === 'VAC' && (index.h("div", null, index.h("ir-select", { selectedValue: status.inspection_mode.is_active ? (_a = status.inspection_mode) === null || _a === void 0 ? void 0 : _a.window.toString() : '', LabelAvailable: false, firstOption: locales_store.locales.entries.Lcz_No, onSelectChange: this.handleSelectChange.bind(this), data: Array.from(Array(7 + 1), (_, i) => i).map(i => {
                     const text = i === 0

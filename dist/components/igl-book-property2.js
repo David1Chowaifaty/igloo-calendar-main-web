@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { e as extras, r as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
+import { e as extras, s as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { V as VariationService, d as defineCustomElement$n } from './igl-application-info2.js';
 import { b as booking_store, m as modifyBookingStore, c as calculateTotalRooms, a as resetBookingStore, r as reserveRooms } from './booking.store.js';
 import { h as hooks } from './moment.js';
@@ -138,20 +138,30 @@ class IglBookPropertyService {
         }
         selectedUnits.set(roomCategoryKey, new Map().set(ratePlanKey, res));
     }
-    generateDailyRates(from_date, to_date, amount) {
-        const endDate = new Date(to_date);
-        endDate.setDate(endDate.getDate() - 1);
-        let currentDate = new Date(from_date);
-        const days = [];
-        while (currentDate <= endDate) {
-            days.push({
-                date: hooks(currentDate).format('YYYY-MM-DD'),
-                amount: amount,
-                cost: null,
-            });
-            currentDate.setDate(currentDate.getDate() + 1);
+    calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+        const total_days = selected_variation.nights.length;
+        if (is_amount_modified) {
+            return view_mode === '002' ? rp_amount : rp_amount / total_days;
         }
-        return days;
+    }
+    generateDailyRates(rate_plan, i) {
+        let variation = rate_plan.selected_variation;
+        const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
+        if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
+            if (!this.variationService) {
+                this.variationService = new VariationService();
+            }
+            variation = this.variationService.getVariationBasedOnInfants({
+                variations: rate_plan.ratePlan.variations,
+                baseVariation: rate_plan.selected_variation,
+                infants: rate_plan.guest[i].infant_nbr,
+            });
+        }
+        return variation.nights.map(n => ({
+            date: n.night,
+            amount: amount !== null && amount !== void 0 ? amount : n.discounted_amount,
+            cost: null,
+        }));
     }
     // private extractFirstNameAndLastName(name: string) {
     //   const names = name.split(' ');
@@ -159,20 +169,6 @@ class IglBookPropertyService {
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
-        const calculateAmount = ({ is_amount_modified, selected_variation, view_mode, rp_amount, ratePlan }, infants) => {
-            const total_days = selected_variation.nights.length;
-            if (is_amount_modified) {
-                return view_mode === '002' ? rp_amount : rp_amount / total_days;
-            }
-            let variation = selected_variation;
-            if (infants > 0) {
-                if (!this.variationService) {
-                    this.variationService = new VariationService();
-                }
-                variation = this.variationService.getVariationBasedOnInfants({ variations: ratePlan.variations, baseVariation: selected_variation, infants });
-            }
-            return Number(variation.discounted_amount) / total_days;
-        };
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
             for (const rateplanId in roomtype) {
@@ -196,26 +192,7 @@ class IglBookPropertyService {
                             to_date: hooks(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
-                            days: rateplan.is_amount_modified
-                                ? this.generateDailyRates(check_in, check_out, calculateAmount(rateplan, rateplan.guest[i].infant_nbr))
-                                : (() => {
-                                    let variation = rateplan.selected_variation;
-                                    if (rateplan.guest[i].infant_nbr > 0) {
-                                        if (!this.variationService) {
-                                            this.variationService = new VariationService();
-                                        }
-                                        variation = this.variationService.getVariationBasedOnInfants({
-                                            variations: rateplan.ratePlan.variations,
-                                            baseVariation: rateplan.selected_variation,
-                                            infants: rateplan.guest[i].infant_nbr,
-                                        });
-                                    }
-                                    return variation.nights.map(n => ({
-                                        date: n.night,
-                                        amount: n.discounted_amount,
-                                        cost: null,
-                                    }));
-                                })(),
+                            days: this.generateDailyRates(rateplan, i),
                             guest: {
                                 email: null,
                                 first_name,

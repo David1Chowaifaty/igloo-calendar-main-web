@@ -1,16 +1,8 @@
-import { z } from 'zod';
-declare const userSchema: z.ZodObject<{
-    password: z.ZodString;
-}, "strip", z.ZodTypeAny, {
-    password?: string;
-}, {
-    password?: string;
-}>;
-type User = z.infer<typeof userSchema>;
+import { Moment } from 'moment';
 export declare class IrTestCmp {
-    user: User;
-    error: Record<keyof User, boolean>;
-    autoValidate: boolean;
+    dates: {
+        fromDate: Moment;
+        toDate: Moment;
+    };
     render(): any;
 }
-export {};

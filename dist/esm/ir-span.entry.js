@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-jhiFt_tX.js';
+import { r as registerInstance, h } from './index-ChgcZQN7.js';
 
 const IrSpan = class {
     constructor(hostRef) {
@@ -7,7 +7,7 @@ const IrSpan = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("span", { key: 'f9b665e22deb1aa7c0b6e0021fa1f6648f1d4f02' }, this.text));
+        return (h("span", { key: 'f45d844b203fc67a5209730f5c782d30edc51fc7' }, this.text));
     }
 };
 

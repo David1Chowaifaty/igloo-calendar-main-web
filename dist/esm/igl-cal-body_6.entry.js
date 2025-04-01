@@ -1,18 +1,17 @@
-import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-jhiFt_tX.js';
-import { s as calendar_dates, d as dateToFormattedString, u as getDaysArray, v as convertDatePrice, w as formatDate } from './booking-D1am6tKx.js';
-import { l as locales } from './locales.store-BsXBgatZ.js';
-import { i as isRequestPending } from './ir-interceptor.store-C5Y_S4JJ.js';
-import { H as HouseKeepingService } from './housekeeping.service-BqXGiOA9.js';
-import { h as hooks } from './moment-Mki5YqAR.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-BEFE0wAj.js';
-import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-DWc8UyAH.js';
+import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-ChgcZQN7.js';
+import { u as calendar_dates, h as hooks, d as dateToFormattedString, v as getDaysArray, w as convertDatePrice, x as formatDate } from './utils-7qMAgUpz.js';
+import { l as locales } from './locales.store-km9kP7G7.js';
+import { i as isRequestPending } from './ir-interceptor.store-DiBJpwZo.js';
+import { H as HouseKeepingService } from './housekeeping.service-DJUbAhS3.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-BHzA83LR.js';
+import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-CQiU5F39.js';
 import { c as colorVariants } from './icons-T2gByj1h.js';
-import { B as BookingService } from './booking.service-CuKujOcM.js';
+import { B as BookingService } from './booking.service-C8_9RXYz.js';
 import './index-DeW5X45W.js';
+import './calendar-data-iTCxBVE4.js';
+import './index-CnjbwCqY.js';
 import './axios-Bpmk_xoW.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-C7eXIDl2.js';
-import './calendar-data-D2MMPhx6.js';
 
 const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:#e0e0e0}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid rgba(186, 191, 199, 0.5)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 
@@ -341,7 +340,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: '4cf5f10d76ff672f2e5aee83d0e8465e650b6aa9', class: "footerContainer" }, h("div", { key: '19377e69618c9553ca3445264b20f0eb17dbd4dd', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: 'c8c9effa7b4579b8fc0bdcd33d67f4a078b69365', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '04aafc80cf5a63197cd77f80b8d7a63bfd25536c', class: "la la-square" }), h("u", { key: '5829c75b17035ef51640f7c4595455957f3b8ee9' }, locales.entries.Lcz_Legend), h("span", { key: 'ff50eb0037fd801ae43c925604eb7bbad2c4fa42' }, " - v99.196"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: '4cf5f10d76ff672f2e5aee83d0e8465e650b6aa9', class: "footerContainer" }, h("div", { key: '19377e69618c9553ca3445264b20f0eb17dbd4dd', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: 'c8c9effa7b4579b8fc0bdcd33d67f4a078b69365', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '04aafc80cf5a63197cd77f80b8d7a63bfd25536c', class: "la la-square" }), h("u", { key: '5829c75b17035ef51640f7c4595455957f3b8ee9' }, locales.entries.Lcz_Legend), h("span", { key: 'ff50eb0037fd801ae43c925604eb7bbad2c4fa42' }, " - v99.197"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = iglCalFooterCss;

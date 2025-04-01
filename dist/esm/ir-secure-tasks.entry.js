@@ -1,13 +1,12 @@
-import { r as registerInstance, h, H as Host } from './index-jhiFt_tX.js';
+import { r as registerInstance, h, H as Host } from './index-ChgcZQN7.js';
 import { T as Token } from './Token-AKvCJV-d.js';
-import { c as checkUserAuthState, m as manageAnchorSession } from './booking-D1am6tKx.js';
+import { c as checkUserAuthState, m as manageAnchorSession } from './utils-7qMAgUpz.js';
 import './axios-Bpmk_xoW.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
-import './locales.store-BsXBgatZ.js';
-import './index-C7eXIDl2.js';
-import './calendar-data-D2MMPhx6.js';
+import './calendar-data-iTCxBVE4.js';
+import './index-CnjbwCqY.js';
+import './locales.store-km9kP7G7.js';
 
 const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
 

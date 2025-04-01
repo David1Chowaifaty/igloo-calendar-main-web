@@ -4,24 +4,30 @@ import housekeeping_store from "../../../../stores/housekeeping.store";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import locales from "../../../../stores/locales.store";
 import { downloadFile } from "../../../../utils/utils";
-import { Host, h } from "@stencil/core";
+import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 export class IrHkArchive {
     constructor() {
+        this.language = 'en';
         this.filters = {
-            from_date: moment().add(-90, 'days').format('YYYY-MM-DD'),
-            to_date: moment().format('YYYY-MM-DD'),
+            from_date: null,
+            to_date: null,
             filtered_by_hkm: [],
             filtered_by_unit: [],
         };
         this.data = [];
         this.isLoading = null;
+        this.fetchedData = false;
         this.houseKeepingService = new HouseKeepingService();
         this.units = [];
     }
+    handleSideBarToggle(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectedBooking = null;
+    }
     componentWillLoad() {
-        this.initializeData();
         this.setUpUnits();
     }
     setUpUnits() {
@@ -33,22 +39,20 @@ export class IrHkArchive {
         });
         this.units = units;
     }
-    async initializeData() {
-        await this.getArchivedTasks();
-    }
     async getArchivedTasks(export_to_excel = false) {
         var _a;
         const res = await this.houseKeepingService.getArchivedHKTasks(Object.assign(Object.assign({ property_id: Number(this.propertyId) }, this.filters), { is_export_to_excel: export_to_excel }));
         this.data = (_a = [...((res === null || res === void 0 ? void 0 : res.tasks) || [])]) === null || _a === void 0 ? void 0 : _a.map(t => (Object.assign(Object.assign({}, t), { id: v4() })));
+        this.fetchedData = true;
         return { tasks: res === null || res === void 0 ? void 0 : res.tasks, url: res === null || res === void 0 ? void 0 : res.url };
     }
     handleDateRangeChange(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        const { start, end } = e.detail;
+        const { fromDate, toDate } = e.detail;
         this.updateFilters({
-            from_date: start.format('YYYY-MM-DD'),
-            to_date: end.format('YYYY-MM-DD'),
+            from_date: fromDate ? fromDate.format('YYYY-MM-DD') : null,
+            to_date: toDate ? toDate.format('YYYY-MM-DD') : null,
         });
     }
     updateFilters(props) {
@@ -84,14 +88,14 @@ export class IrHkArchive {
         }
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-        return (h(Host, { key: '8aad6820a4543966731bd8c6ab5352b0368c40ee' }, h("ir-title", { key: 'e8e43b4bc18a9ea568fa679f5d9cee47c5baf90d', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: 'fa39015eb5143012d3f5f0023aaa6398aa443ee4', class: "px-1" }, h("div", { key: '77535142c5bc0e451d3663b5d57dd4ddc4755b44', class: "d-flex" }, h("ir-select", { key: '1f6599ac18df3f4f70edf3cafcd92f535d4e6072', class: "w-100", showFirstOption: false, LabelAvailable: false, data: [
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        return (h(Host, { key: '90a3031237c92558484715a5f2d671e24326cdba' }, h("ir-title", { key: 'db2fbd3931b58668896bcbeac83b1bbe84b1d463', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '96289e7d972be8ac93abe59de4af65944c172f39', class: "px-1" }, h("div", { key: 'd0a4041225468f44b7b7618d166282a1b738c246', class: "d-flex" }, h("ir-select", { key: '564ade08c38e5a27e4bfb8cf6cbb7edb85d330f6', class: "w-100", showFirstOption: false, LabelAvailable: false, data: [
                 { text: 'All units', value: '000' },
                 ,
                 ...(_a = this.units) === null || _a === void 0 ? void 0 : _a.map(v => ({
                     text: v.name,
                     value: v.id.toString(),
-                })),
+                })).sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())),
             ], onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -101,12 +105,12 @@ export class IrHkArchive {
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), h("ir-select", { key: '2f46c220aaa876dab66816b7c64eb74cf7b396b8', class: "ml-1 w-100", selectedValue: ((_c = (_b = this.filters) === null || _b === void 0 ? void 0 : _b.filtered_by_hkm) === null || _c === void 0 ? void 0 : _c.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_e = (_d = this.filters) === null || _d === void 0 ? void 0 : _d.filtered_by_hkm[0]) === null || _e === void 0 ? void 0 : _e.toString(), LabelAvailable: false, showFirstOption: false, data: [
+            } }), ((_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.housekeepers.length) > 1 && (h("ir-select", { key: '735a6c5f1c624e78e8767011056791670ecf4eed', class: "ml-1 w-100", selectedValue: ((_d = (_c = this.filters) === null || _c === void 0 ? void 0 : _c.filtered_by_hkm) === null || _d === void 0 ? void 0 : _d.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_f = (_e = this.filters) === null || _e === void 0 ? void 0 : _e.filtered_by_hkm[0]) === null || _f === void 0 ? void 0 : _f.toString(), LabelAvailable: false, showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
-                ...(_f = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.housekeepers.map(v => ({
+                ...(_g = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _g === void 0 ? void 0 : _g.housekeepers.map(v => ({
                     text: v.name,
                     value: v.id.toString(),
-                })),
+                })).sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())),
             ], onSelectChange: e => {
                 if (e.detail === '000') {
                     this.updateFilters({ filtered_by_hkm: [] });
@@ -114,18 +118,19 @@ export class IrHkArchive {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } })), h("div", { key: '4caa6311a257013da028e2a474714eaa13be80db', class: "d-flex mt-1 align-items-center" }, h("igl-date-range", { key: 'a6746f8d57fbb76b460cead491538db0a6a8ed89', class: "mr-1", dateLabel: locales.entries.Lcz_Dates, minDate: moment().add(-90, 'days').format('YYYY-MM-DD'), defaultData: {
-                fromDate: this.filters.from_date,
-                toDate: this.filters.to_date,
-            } }), h("ir-button", { key: '12e29e3dec7b5914434b1d585fc589bf152ef9e9', title: (_g = locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '77b0fed48c893d10ccbf9df9b2adee2d302415be', title: (_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), ((_j = this.data) === null || _j === void 0 ? void 0 : _j.length) === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, "No Results Found")) : (h("table", { class: "mt-2" }, h("thead", null, h("th", { class: "sr-only" }, "period"), h("th", { class: "sr-only" }, "housekeeper name"), h("th", { class: "sr-only" }, "unit"), h("th", { class: "sr-only" }, "booking number")), h("tbody", null, (_k = this.data) === null || _k === void 0 ? void 0 : _k.map(d => (h("tr", { key: d.id }, h("td", { class: "pr-2" }, d.date), h("td", { class: "px-2" }, d.house_keeper), h("td", { class: "px-2" }, d.unit), h("td", { class: "px-2" }, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), h("div", { key: '0287c94c344e5aba163301d1ac79648ec92800e3', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '7945b7ca1a58429ccad952fd8ffbe6de0feb0ff2', class: "mr-1", fromDate: this.filters.from_date ? moment(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? moment(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: '98705ebf593f9945630fa17229efd31168c57b31', title: (_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '49a1eb6ba7fe09f3796b50406835bf935340e5e9', title: (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: 'dfe1072e6dfa2b5c3c6f04718e5222ae5dc065fa' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, "No Results Found")) : (h("table", { class: "mt-2" }, h("thead", null, h("th", { class: "sr-only" }, "period"), h("th", { class: "sr-only" }, "housekeeper name"), h("th", { class: "sr-only" }, "unit"), h("th", { class: "sr-only" }, "booking number")), h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (h("tr", { key: d.id }, h("td", { class: "pr-2" }, d.date), h("td", { class: "px-2" }, d.house_keeper), h("td", { class: "px-2" }, h("ir-tooltip", { message: d.unit, customSlot: true }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", { class: "px-2" }, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
             }, labelStyle: {
                 padding: '0',
             }, text: d.booking_nbr.toString(), onClick: () => {
-                window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : ('N/A')))))))))));
+                this.selectedBooking = d.booking_nbr;
+                // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
+            } })) : ('N/A'))))))))))), h("ir-sidebar", { key: '2ba2361597c634a1594a162fe5ff31ced9c1c60b', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+                width: '80rem',
+                background: '#F2F3F8',
+            } }, this.selectedBooking && (h("ir-booking-details", { key: 'dff119e7ca970d7746d42a8dcaa56ca5832e64b7', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: (_m = this.selectedBooking) === null || _m === void 0 ? void 0 : _m.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
     static get is() { return "ir-hk-archive"; }
     static get encapsulation() { return "scoped"; }
@@ -159,6 +164,45 @@ export class IrHkArchive {
                 "setter": false,
                 "attribute": "property-id",
                 "reflect": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
             }
         };
     }
@@ -166,12 +210,14 @@ export class IrHkArchive {
         return {
             "filters": {},
             "data": {},
-            "isLoading": {}
+            "isLoading": {},
+            "fetchedData": {},
+            "selectedBooking": {}
         };
     }
     static get listeners() {
         return [{
-                "name": "dateChanged",
+                "name": "dateRangeChanged",
                 "method": "handleDateRangeChange",
                 "target": undefined,
                 "capture": false,

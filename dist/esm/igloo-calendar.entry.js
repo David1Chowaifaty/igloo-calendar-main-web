@@ -1,17 +1,16 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-jhiFt_tX.js';
-import { R as RoomService } from './room.service-DaHUOkIq.js';
-import { B as BookingService } from './booking.service-CuKujOcM.js';
-import { y as formatLegendColors, s as calendar_dates, d as dateToFormattedString, z as formatName, A as getRoomStatus, t as transformNewBooking, B as transformNewBLockedRooms, C as bookingStatus, b as getPrivateNote, o as isBlockUnit, k as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO } from './booking-D1am6tKx.js';
-import { E as EventsService } from './events.service-XY-cqsUv.js';
-import { h as hooks } from './moment-Mki5YqAR.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-BEFE0wAj.js';
-import { l as locales } from './locales.store-BsXBgatZ.js';
-import { c as calendar_data } from './calendar-data-D2MMPhx6.js';
-import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-DWc8UyAH.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-ChgcZQN7.js';
+import { R as RoomService } from './room.service-jtsLF7fG.js';
+import { B as BookingService } from './booking.service-C8_9RXYz.js';
+import { y as formatLegendColors, h as hooks, u as calendar_dates, d as dateToFormattedString, z as formatName, A as getRoomStatus, t as transformNewBooking, B as transformNewBLockedRooms, C as bookingStatus, b as getPrivateNote, p as isBlockUnit, l as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO } from './utils-7qMAgUpz.js';
+import { E as EventsService } from './events.service-mAJnePek.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-BHzA83LR.js';
+import { l as locales } from './locales.store-km9kP7G7.js';
+import { c as calendar_data } from './calendar-data-iTCxBVE4.js';
+import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-CQiU5F39.js';
 import { T as Token } from './Token-AKvCJV-d.js';
 import './axios-Bpmk_xoW.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-C7eXIDl2.js';
+import './index-CnjbwCqY.js';
 import './index-DeW5X45W.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill

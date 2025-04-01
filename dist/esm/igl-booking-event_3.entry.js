@@ -1,13 +1,12 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-jhiFt_tX.js';
-import { B as BookingService } from './booking.service-CuKujOcM.js';
-import { t as transformNewBooking, o as isBlockUnit, k as calculateDaysBetweenDates, p as findCountry, n as canCheckIn, q as compareTime, r as createDateWithOffsetAndHour, f as formatAmount } from './booking-D1am6tKx.js';
-import { h as hooks } from './moment-Mki5YqAR.js';
-import { E as EventsService } from './events.service-XY-cqsUv.js';
-import { l as locales } from './locales.store-BsXBgatZ.js';
-import { c as calendar_data } from './calendar-data-D2MMPhx6.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-ChgcZQN7.js';
+import { B as BookingService } from './booking.service-C8_9RXYz.js';
+import { t as transformNewBooking, p as isBlockUnit, l as calculateDaysBetweenDates, h as hooks, q as findCountry, o as canCheckIn, r as compareTime, s as createDateWithOffsetAndHour, f as formatAmount } from './utils-7qMAgUpz.js';
+import { E as EventsService } from './events.service-mAJnePek.js';
+import { l as locales } from './locales.store-km9kP7G7.js';
+import { c as calendar_data } from './calendar-data-iTCxBVE4.js';
 import './axios-Bpmk_xoW.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-C7eXIDl2.js';
+import './index-CnjbwCqY.js';
 import './index-DeW5X45W.js';
 
 const iglBookingEventCss = ".sc-igl-booking-event-h{display:block;position:absolute}.bookingEventBase.sc-igl-booking-event{position:absolute;background-color:rgb(49, 190, 241);width:100%;height:100%;border-radius:4px;transform:skewX(-22deg)}.bookingEventBase.skewedLeft.sc-igl-booking-event::before{content:'';position:absolute;top:0px;bottom:0;left:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:right;transform:skewX(22deg);border-radius:4px;border-top-left-radius:0;border-bottom-left-radius:0}.bookingEventBase.skewedRight.sc-igl-booking-event::before{content:'';position:absolute;top:0;bottom:0;right:-4px;width:50%;height:100%;background-color:var(--ir-event-bg);transform-origin:left;transform:skewX(22deg);border-radius:4px;border-top-right-radius:0;border-bottom-right-radius:0}.bookingEventBase.border.skewedLeft.sc-igl-booking-event::before{border:2px solid #424242;border-right:0;border-left:0;border-top-right-radius:0;border-bottom-right-radius:0;top:-1px;height:20px;left:-4px}.ota-booking-event.sc-igl-booking-event{border-width:2px !important}.bookingEventBase.border.skewedRight.sc-igl-booking-event::before{border:2px solid #424242;border-left:0;border-right:0;border-top-left-radius:0;border-bottom-left-radius:0;top:-1px;height:20px;right:-4px}.bookingEvent.sc-igl-booking-event{cursor:pointer}.bookingEventBase.sc-igl-booking-event{cursor:pointer}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;left:-4px;width:calc(100% + 8)}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.splitBooking.sc-igl-booking-event{border-right:2px solid #000000}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.leftSide.skewedLeft.sc-igl-booking-event{transform:skewX(0)}.rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}.rightSide.sc-igl-booking-event{right:0}.bookingEventTitle.sc-igl-booking-event{color:#fff;font-size:0.8em;position:relative;max-width:calc(100% - 10px);overflow:hidden;text-overflow:ellipsis;top:2px;left:5px;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{border-radius:100%;width:10px;height:10px;margin:3px 3px 3px 2px;border:1px solid #fff}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;left:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;right:2px}";
@@ -1172,11 +1171,11 @@ const IrInteractiveTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: '016805e64310cd5c1983e3f4253cc984e538205a', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '4c946d65d5e3a4182d8836aa3d9d353e7327ef36', class: "popover-title", style: {
+        return (h(Host, { key: '6278ee15fda1e070db794eafce80026f6a3cb292', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'f4e4ece3727f02ebc337e7a58f12182cca53eab0', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, h("span", { key: '6ac4c2fb482f0b5af9317e313202962e8b599416', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: 'ba528903a64bc148f6c2ee476b661434491ca6ec', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: 'f52e209310289395b3632a7a7c9729f1ce138f31', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: '402a7d1a93d7ce67da492e9629623c572d829697',
+            } }, h("span", { key: '4553ed1b27b18daf466085e59bf9e5a4bb169c20', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: 'cd49f7f82b752a4adf32f1143295a6030be79b24', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: 'c48207d83ec34a4a6754d29105328cb7147defa9', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: '87d4b70ae5a5a82ff779a0d3dc5511829ab22519',
             // fill="currentColor"
             d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }

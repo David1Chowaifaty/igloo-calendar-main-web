@@ -7,16 +7,20 @@ export type ArchivesFilters = {
 };
 export declare class IrHkArchive {
     propertyId: string | number;
+    language: string;
+    ticket: string;
     filters: ArchivesFilters;
     data: (ArchivedTask & {
         id: string;
     })[];
     isLoading: 'search' | 'excel' | null;
+    fetchedData: boolean;
+    selectedBooking: number | string | null;
     private houseKeepingService;
     private units;
+    private handleSideBarToggle;
     componentWillLoad(): void;
     private setUpUnits;
-    private initializeData;
     private getArchivedTasks;
     handleDateRangeChange(e: CustomEvent): void;
     private updateFilters;

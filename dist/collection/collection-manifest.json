@@ -60,6 +60,7 @@
     "components/ir-housekeeping/ir-delete-modal/ir-delete-modal.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-hk-tasks.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-hk-archive/ir-hk-archive.js",
+    "components/ir-housekeeping/ir-hk-tasks/ir-hk-archive/ir-range-picker/ir-range-picker.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-filters/ir-tasks-filters.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-header/ir-tasks-header.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-table/ir-tasks-table.js",
