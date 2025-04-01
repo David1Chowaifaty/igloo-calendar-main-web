@@ -16,6 +16,7 @@ export declare class IrHkArchive {
     isLoading: 'search' | 'excel' | null;
     fetchedData: boolean;
     selectedBooking: number | string | null;
+    private minSelectableDate;
     private houseKeepingService;
     private units;
     private handleSideBarToggle;

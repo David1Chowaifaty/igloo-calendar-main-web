@@ -7,9 +7,7 @@ export declare class IrListingHeader {
     isLoading: 'search' | 'excel';
     preventPageLoad: EventEmitter<string>;
     private bookingListingService;
-    private toDateRef;
     private handleSearchClicked;
     private handleClearUserField;
-    private handleFromDateChange;
     render(): any;
 }
