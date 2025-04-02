@@ -33,7 +33,7 @@ class EventsService {
     }
     async deleteEvent(POOL) {
         try {
-            const { data } = await axios.post(`/UnBlock_Exposed_Unit`, {
+            const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/UnBlock_Exposed_Unit`, {
                 POOL,
             });
             if (data.ExceptionMsg !== '') {

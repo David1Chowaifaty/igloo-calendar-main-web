@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a
 import { R as RoomService } from './room.service-jtsLF7fG.js';
 import { B as BookingService } from './booking.service-C8_9RXYz.js';
 import { y as formatLegendColors, h as hooks, u as calendar_dates, d as dateToFormattedString, z as formatName, A as getRoomStatus, t as transformNewBooking, B as transformNewBLockedRooms, C as bookingStatus, b as getPrivateNote, p as isBlockUnit, l as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO } from './utils-7qMAgUpz.js';
-import { E as EventsService } from './events.service-mAJnePek.js';
+import { E as EventsService } from './events.service-BYB1OdPv.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service-BHzA83LR.js';
 import { l as locales } from './locales.store-km9kP7G7.js';
 import { c as calendar_data } from './calendar-data-iTCxBVE4.js';

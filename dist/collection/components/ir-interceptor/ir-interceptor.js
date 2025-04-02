@@ -8,7 +8,7 @@ export class IrInterceptor {
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
         this.isPageLoadingStoped = null;
-        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings'];
+        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
     }
     handleStopPageLoading(e) {
         this.isLoading = false;
@@ -73,7 +73,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '296846b72677dbfc73976121f85ccc132db7cb99' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'de68f830fb3e98ea41fe2f6f6133688796fe210a', class: "loadingScreenContainer" }, h("div", { key: '581b36bab3a9f8e422d3f0c67f098038cf4a7b46', class: "loaderContainer" }, h("span", { key: 'f7baf3024df71041835a123f1f013bc999d4398c', class: "page-loader" }))))));
+        return (h(Host, { key: 'f5746a824463f12246b54569a1cece3f1f951cc0' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '956cd01f1d0526eb97c2af004ba5ca84068680a7', class: "loadingScreenContainer" }, h("div", { key: '5f3710a3095a88a8f00d6755971b7f06b5fef0c4', class: "loaderContainer" }, h("span", { key: '291096060d0b7317a116f6516f05fdf16666e85c', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -105,7 +105,7 @@ export class IrInterceptor {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings']"
+                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']"
             }
         };
     }
