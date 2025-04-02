@@ -3,7 +3,7 @@
 var index = require('./index-Dmp0dHfN.js');
 var booking_service = require('./booking.service-iEVZEeNg.js');
 var utils = require('./utils-BFI5WcMy.js');
-var events_service = require('./events.service-D0YNorFw.js');
+var events_service = require('./events.service-Bw_zQKPI.js');
 var locales_store = require('./locales.store-DEkHwTyS.js');
 var calendarData = require('./calendar-data-Bs8j7XQc.js');
 require('./axios-dx93wJEX.js');

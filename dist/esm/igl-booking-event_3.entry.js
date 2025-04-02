@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-ChgcZQN7.js';
 import { B as BookingService } from './booking.service-C8_9RXYz.js';
 import { t as transformNewBooking, p as isBlockUnit, l as calculateDaysBetweenDates, h as hooks, q as findCountry, o as canCheckIn, r as compareTime, s as createDateWithOffsetAndHour, f as formatAmount } from './utils-7qMAgUpz.js';
-import { E as EventsService } from './events.service-BYB1OdPv.js';
+import { E as EventsService } from './events.service-mAJnePek.js';
 import { l as locales } from './locales.store-km9kP7G7.js';
 import { c as calendar_data } from './calendar-data-iTCxBVE4.js';
 import './axios-Bpmk_xoW.js';
