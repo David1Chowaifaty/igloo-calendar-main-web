@@ -18,6 +18,7 @@ export declare class IglCalBody {
     dragOverElement: string;
     renderAgain: boolean;
     selectedRoom: PhysicalRoom;
+    isLoading: boolean;
     addBookingDatasEvent: EventEmitter<any[]>;
     showBookingPopup: EventEmitter;
     scrollPageToRoom: EventEmitter;
@@ -27,7 +28,9 @@ export declare class IglCalBody {
     private currentDate;
     private hkModal;
     private housekeepingService;
+    private bookingMap;
     componentWillLoad(): void;
+    handleCalendarDataChange(): void;
     dragOverHighlightElementHandler(event: CustomEvent): void;
     gotoRoom(event: CustomEvent): void;
     addToBeAssignedEvents(event: CustomEvent): void;
@@ -54,6 +57,7 @@ export declare class IglCalBody {
     clickCell(roomId: any, selectedDay: any, roomCategory: any): void;
     showNewBookingPopup(data: any): void;
     renderElement(): void;
+    private getBookingMap;
     getGeneralCategoryDayColumns(addClass: string, isCategory: boolean, index: number): any[];
     getGeneralRoomDayColumns(roomId: string, roomCategory: RoomCategory, roomName: string): any;
     toggleCategory(roomCategory: RoomCategory): void;
@@ -66,6 +70,7 @@ export declare class IglCalBody {
      */
     private getRoomsByCategory;
     getRoomRows(): any;
+    private confirmHousekeepingUpdate;
     render(): any;
     private renderModalBody;
 }

@@ -27,6 +27,5 @@ export declare class IglRatePlan {
     private formatVariation;
     private getTooltipMessages;
     private handleVariationChange;
-    private resetReserved;
     render(): any;
 }

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { k as formatAmount } from './utils.js';
+import { n as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';

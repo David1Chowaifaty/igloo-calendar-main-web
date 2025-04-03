@@ -5134,7 +5134,7 @@ function downloadFile(url, filename) {
     document.body.removeChild(a);
 }
 
-export { renderTime as A, formatLegendColors as B, getRoomStatus as C, transformNewBLockedRooms as D, bookingStatus as E, getNextDay as F, addTwoMonthToDate as G, computeEndDate as H, convertDMYToISO as I, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, calendar_dates as f, getMyBookings as g, calculateDaysBetweenDates as h, isBlockUnit as i, canCheckIn as j, formatAmount as k, libExports as l, getPrivateNote as m, formatName as n, getDaysArray as o, convertDatePrice as p, formatDate as q, downloadFile as r, getReleaseHoursString as s, transformNewBooking as t, findCountry as u, validateEmail as v, compareTime as w, createDateWithOffsetAndHour as x, checkUserAuthState as y, manageAnchorSession as z };
+export { renderTime as A, formatLegendColors as B, getRoomStatus as C, transformNewBLockedRooms as D, bookingStatus as E, getNextDay as F, addTwoMonthToDate as G, computeEndDate as H, convertDMYToISO as I, dateDifference as a, convertDateToCustomFormat as b, convertDateToTime as c, dateToFormattedString as d, extras as e, compareTime as f, getMyBookings as g, createDateWithOffsetAndHour as h, calendar_dates as i, isBlockUnit as j, calculateDaysBetweenDates as k, libExports as l, canCheckIn as m, formatAmount as n, getPrivateNote as o, formatName as p, getDaysArray as q, convertDatePrice as r, formatDate as s, transformNewBooking as t, downloadFile as u, validateEmail as v, getReleaseHoursString as w, findCountry as x, checkUserAuthState as y, manageAnchorSession as z };
 //# sourceMappingURL=utils.js.map
 
 //# sourceMappingURL=utils.js.map

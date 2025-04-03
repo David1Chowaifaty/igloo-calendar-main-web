@@ -98,4 +98,5 @@ export declare function calculateTotalCost(gross?: boolean): {
 };
 export declare function validateBooking(): boolean;
 export declare function calculateTotalRooms(): any;
+export declare function resetReserved(): void;
 export default booking_store;

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
 import { l as locales } from './locales.store.js';
-import { j as canCheckIn } from './utils.js';
+import { m as canCheckIn } from './utils.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 import { v as v4 } from './v4.js';

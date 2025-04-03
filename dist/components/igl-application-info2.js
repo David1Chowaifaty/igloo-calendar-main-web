@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { b as booking_store, m as modifyBookingStore } from './booking.store.js';
 import { l as locales } from './locales.store.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data.js';
-import { k as formatAmount } from './utils.js';
+import { n as formatAmount } from './utils.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 import { v as v4 } from './v4.js';
 

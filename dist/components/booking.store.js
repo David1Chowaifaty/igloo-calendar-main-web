@@ -173,8 +173,20 @@ function calculateTotalRooms() {
             }, 0));
     }, 0);
 }
+function resetReserved() {
+    const updatedSelections = Object.entries(booking_store.ratePlanSelections).reduce((acc, [roomTypeId, ratePlans]) => {
+        const roomType = booking_store.roomTypes.find(rt => rt.id.toString() === roomTypeId.toString());
+        acc[roomTypeId] = Object.entries(ratePlans).reduce((rpAcc, [ratePlanId, ratePlan]) => {
+            var _a;
+            rpAcc[ratePlanId] = Object.assign(Object.assign({}, ratePlan), { reserved: 0, visibleInventory: (_a = roomType === null || roomType === void 0 ? void 0 : roomType.inventory) !== null && _a !== void 0 ? _a : ratePlan.visibleInventory });
+            return rpAcc;
+        }, {});
+        return acc;
+    }, {});
+    booking_store.ratePlanSelections = Object.assign({}, updatedSelections);
+}
 
-export { resetBookingStore as a, booking_store as b, calculateTotalRooms as c, getVisibleInventory as g, modifyBookingStore as m, reserveRooms as r, updateRoomParams as u };
+export { resetReserved as a, booking_store as b, calculateTotalRooms as c, resetBookingStore as d, getVisibleInventory as g, modifyBookingStore as m, reserveRooms as r, updateRoomParams as u };
 //# sourceMappingURL=booking.store.js.map
 
 //# sourceMappingURL=booking.store.js.map

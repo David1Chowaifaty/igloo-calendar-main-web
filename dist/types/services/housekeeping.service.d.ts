@@ -47,6 +47,7 @@ export declare class HouseKeepingService {
             unit_id: number;
             hkm_id: number;
             description: string;
+            booking_nbr?: string | number;
         }[];
     }): Promise<void>;
     generateUserName(name: string): Promise<any>;
