@@ -83,7 +83,7 @@ import { d as defineCustomElement$4 } from './ir-tooltip2.js';
 import { d as defineCustomElement$3 } from './ota-label2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
-const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block;height:100%}.nav.sc-ir-secure-tasks{border-bottom:1px solid rgba(0, 0, 0, 0.06);background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}";
+const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block;height:100%}.nav.sc-ir-secure-tasks{background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}.nav-link.sc-ir-secure-tasks{color:inherit}.active.sc-ir-secure-tasks{color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks extends HTMLElement {
@@ -101,6 +101,10 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
         }
+        this.inputValue = this.p;
+    }
+    handlePChange() {
+        this.inputValue = this.p;
     }
     generateDates() {
         var today = new Date();
@@ -122,16 +126,27 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("div", { class: "px-1 nav  d-flex align-items-center justify-content-between" }, this.p && h("h4", null, "AName: ", this.p), h("ul", { class: "nav nav-tabs" }, h("li", { class: " nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
+        return (h(Host, null, h("div", { class: "px-1 nav flex-column flex-sm-row d-flex align-items-center justify-content-between" }, h("div", { class: "d-flex  align-items-center" }, h("div", { class: "d-flex align-items-center p-0 m-0", style: { gap: '0.5rem' } }, h("h4", { class: "m-0 p-0" }, "AName: "), h("form", { class: "input-group", onSubmit: e => {
+                e.preventDefault();
+                if (this.inputValue) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('aname', this.inputValue);
+                    window.history.pushState({}, '', url);
+                }
+                this.logout();
+            } }, h("input", { type: "text", value: this.inputValue, onInput: e => (this.inputValue = e.target.value), style: { maxWidth: '60px' }, class: "form-control", placeholder: "AName", "aria-label": "AName", "aria-describedby": "button-save" }), h("div", { class: "input-group-append" }, h("button", { class: "btn btn-sm btn-outline-secondary", type: "submit", id: "button-save" }, "save")))), h("ul", { class: "nav  m-0 p-0" }, h("li", { class: " nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
                 this.currentPage = 'hk';
             } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
                 this.currentPage = 'tasks';
             } }, "Tasks")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'front' }, href: "#", onClick: () => {
                 this.currentPage = 'front';
-            } }, "Front"))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
-                sessionStorage.removeItem('backend_anchor');
-                window.location.reload();
+            } }, "Front")))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
+                this.logout();
             } }, "Logout")), this.renderPage()));
+    }
+    logout() {
+        sessionStorage.removeItem('backend_anchor');
+        window.location.reload();
     }
     renderPage() {
         switch (this.currentPage) {
@@ -145,13 +160,19 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
                 return null;
         }
     }
+    static get watchers() { return {
+        "p": ["handlePChange"]
+    }; }
     static get style() { return IrSecureTasksStyle0; }
 }, [2, "ir-secure-tasks", {
         "propertyid": [2],
         "p": [1],
         "bookingNumber": [1, "booking-number"],
         "isAuthenticated": [32],
-        "currentPage": [32]
+        "currentPage": [32],
+        "inputValue": [32]
+    }, undefined, {
+        "p": ["handlePChange"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {

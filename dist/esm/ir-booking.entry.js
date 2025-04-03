@@ -1,11 +1,9 @@
 import { r as registerInstance, h, H as Host } from './index-0a4a209a.js';
 import { T as Token } from './Token-acf5fbad.js';
-import { m as checkUserAuthState, n as manageAnchorSession } from './utils-42064951.js';
+import { F as checkUserAuthState, G as manageAnchorSession } from './utils-9a32a9b0.js';
 import './axios-aa1335b8.js';
-import './index-502f9842.js';
-import './calendar-data-5d531f99.js';
-import './index-c1c77241.js';
-import './locales.store-53ec3957.js';
+import './calendar-data-fa19de6a.js';
+import './locales.store-b670e120.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 const IrBookingStyle0 = irBookingCss;
