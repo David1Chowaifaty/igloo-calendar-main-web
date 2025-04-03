@@ -122,7 +122,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("div", { class: "px-1 nav  d-flex align-items-center justify-content-between" }, h("ul", { class: "nav nav-tabs" }, h("li", { class: " nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
+        return (h(Host, null, h("div", { class: "px-1 nav  d-flex align-items-center justify-content-between" }, this.p && h("h4", null, "AName: ", this.p), h("ul", { class: "nav nav-tabs" }, h("li", { class: " nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
                 this.currentPage = 'hk';
             } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
                 this.currentPage = 'tasks';

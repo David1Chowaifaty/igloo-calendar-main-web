@@ -34,8 +34,8 @@ export declare class HouseKeepingService {
         housekeepers?: {
             ids: number[];
         };
-        cleaning_frequencies?: string;
-        dusty_units?: string;
+        cleaning_frequency?: string;
+        dusty_window?: string;
         highlight_window?: string;
         is_export_to_excel?: boolean;
     }): Promise<{
