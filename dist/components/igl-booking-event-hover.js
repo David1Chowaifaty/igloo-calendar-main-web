@@ -4,6 +4,5 @@ const IglBookingEventHover = IglBookingEventHover$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBookingEventHover, defineCustomElement };
-//# sourceMappingURL=igl-booking-event-hover.js.map
 
 //# sourceMappingURL=igl-booking-event-hover.js.map

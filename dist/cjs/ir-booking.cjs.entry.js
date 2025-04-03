@@ -1,17 +1,16 @@
 'use strict';
 
-var index = require('./index-Dmp0dHfN.js');
-var Token = require('./Token-d-M1RUIy.js');
-var utils = require('./utils-Bbx5B36_.js');
-require('./axios-dx93wJEX.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
-require('./moment-CdViwxPQ.js');
-require('./index-CLqkDPTC.js');
-require('./calendar-data-Bs8j7XQc.js');
-require('./index-BGQl6-i5.js');
-require('./locales.store-DEkHwTyS.js');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-4fe8bc8a.js');
+const Token = require('./Token-049041c2.js');
+const utils = require('./utils-78c7b1a3.js');
+require('./axios-6e678d52.js');
+require('./calendar-data-f5a1b806.js');
+require('./locales.store-855b855e.js');
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
+const IrBookingStyle0 = irBookingCss;
 
 const IrBooking = class {
     constructor(hostRef) {
@@ -38,9 +37,8 @@ const IrBooking = class {
         return (index.h(index.Host, null, index.h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
 };
-IrBooking.style = irBookingCss;
+IrBooking.style = IrBookingStyle0;
 
 exports.ir_booking = IrBooking;
-//# sourceMappingURL=ir-booking.entry.cjs.js.map
 
 //# sourceMappingURL=ir-booking.cjs.entry.js.map

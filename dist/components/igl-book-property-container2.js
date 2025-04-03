@@ -31,6 +31,7 @@ import { d as defineCustomElement$2 } from './ir-toast2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
+const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
 
 const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookPropertyContainer extends HTMLElement {
     constructor() {
@@ -130,7 +131,7 @@ const IglBookPropertyContainer = /*@__PURE__*/ proxyCustomElement(class IglBookP
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return iglBookPropertyContainerCss; }
+    static get style() { return IglBookPropertyContainerStyle0; }
 }, [6, "igl-book-property-container", {
         "language": [1],
         "ticket": [1],
@@ -291,6 +292,5 @@ function defineCustomElement() {
 }
 
 export { IglBookPropertyContainer as I, defineCustomElement as d };
-//# sourceMappingURL=igl-book-property-container2.js.map
 
 //# sourceMappingURL=igl-book-property-container2.js.map

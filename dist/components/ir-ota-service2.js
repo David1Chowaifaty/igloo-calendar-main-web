@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/clien
 import { d as defineCustomElement$1 } from './ir-label2.js';
 
 const irOtaServiceCss = ".sc-ir-ota-service-h{display:block}.extra-channel-service-container.sc-ir-ota-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-channel-service-container.sc-ir-ota-service *.sc-ir-ota-service{padding:0;margin:0;box-sizing:border-box}.extra-channel-service-actions.sc-ir-ota-service{display:flex;align-items:center;gap:0.5rem}.extra-channel-service-conditional-date.sc-ir-ota-service{margin-top:0.5rem}";
+const IrOtaServiceStyle0 = irOtaServiceCss;
 
 const IrOtaService = /*@__PURE__*/ proxyCustomElement(class IrOtaService extends HTMLElement {
     constructor() {
@@ -14,7 +15,7 @@ const IrOtaService = /*@__PURE__*/ proxyCustomElement(class IrOtaService extends
             _b.toString(), " ", this.service.persons > 1 ? 'persons' : 'person'), h("span", { key: 'e323248d21a739d4ae9c777396f7cd9cecf1ea30', class: "p-0 m-0" }, (_d = (_c = this.service) === null || _c === void 0 ? void 0 : _c.nights) === null || _d === void 0 ? void 0 :
             _d.toString(), " ", this.service.nights > 1 ? 'nights' : 'night')), h("b", { key: '0a21d6684db6fa501ac85d498baa47c76cd9d5f7' }, this.service.total_price)), h("div", { key: '8f7404a3d8bb9581f7577082570df78e1389b9fe' }, h("ir-label", { key: '2b8cfcaf210a5afa7ba505e8f99ecbfe615f30b4', containerStyle: { margin: '0', padding: '0' }, content: (_e = this.service) === null || _e === void 0 ? void 0 : _e.price_mode, labelText: `Price mode:` }), h("ir-label", { key: '8c3cad3215dc0744c50a88a9c30d4e1de0a8a1db', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: (_g = (_f = this.service) === null || _f === void 0 ? void 0 : _f.price_per_unit) === null || _g === void 0 ? void 0 : _g.toString(), labelText: `Price per unit:` }))));
     }
-    static get style() { return irOtaServiceCss; }
+    static get style() { return IrOtaServiceStyle0; }
 }, [2, "ir-ota-service", {
         "service": [16]
     }]);
@@ -38,6 +39,5 @@ function defineCustomElement() {
 }
 
 export { IrOtaService as I, defineCustomElement as d };
-//# sourceMappingURL=ir-ota-service2.js.map
 
 //# sourceMappingURL=ir-ota-service2.js.map

@@ -1,8 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const irTasksHeaderCss = ".sc-ir-tasks-header-h{display:block}";
+const IrTasksHeaderStyle0 = irTasksHeaderCss;
 
 const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader extends HTMLElement {
     constructor() {
@@ -17,21 +19,21 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '8ea3496dea07bd6173a52a5092bf4ff3c727e89b', class: "d-flex flex-column flex-md-row align-items-md-center justify-content-between" }, h("h3", { key: '90f4d2acb5977fd8f8df4b3f1d47c6205cff9267', class: "mb-1 mb-md-0" }, "Housekeeping Tasks"), h("div", { key: 'eaafa88a7dff62b06ee5e7c943379b3a14b61a19', class: "d-flex", style: { gap: '1rem' } }, h("ir-button", { key: '0019d83ec4ab622eaef7ad84dbab94c71b8d1f97', size: "sm", btn_color: "outline", text: "Export", onClickHandler: e => {
+        return (h("div", { key: '2670684a34b1fbf720649e3c496a9dacd117170f', class: "d-flex flex-column flex-md-row align-items-md-center justify-content-between" }, h("h3", { key: '2f561707c3fe67388672064d8ea0e8a3d27adea0', class: "mb-1 mb-md-0" }, "Housekeeping Tasks"), h("div", { key: 'dc4b6c318cc305674e8b27f0cee554ffdc7d9746', class: "d-flex", style: { gap: '1rem' } }, h("ir-button", { key: 'b572fb7683f61c030253afca8aab82b3da443ccb', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '87eaec07ab41415bd916a4dbabc4001675052add', size: "sm", btn_color: "outline", text: "Archives", btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '859593148c5041400720ab775623046aaab9ebb5', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '030d56519f58fc3f1d8b19418d204b1716040e15', onClickHandler: e => {
+            } }), h("ir-button", { key: 'a0dd5202be8f126cf437c9cc95f01a4fbefe3f72', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
-            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: "Cleaned", ref: el => (this.btnRef = el) }))));
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: 'Cleaned', ref: el => (this.btnRef = el) }))));
     }
-    static get style() { return irTasksHeaderCss; }
+    static get style() { return IrTasksHeaderStyle0; }
 }, [2, "ir-tasks-header", {
         "isCleanedEnabled": [4, "is-cleaned-enabled"]
     }, [[16, "animateCleanedButton", "handleCleanedButtonAnimation"]]]);
@@ -60,6 +62,5 @@ function defineCustomElement() {
 }
 
 export { IrTasksHeader as I, defineCustomElement as d };
-//# sourceMappingURL=ir-tasks-header2.js.map
 
 //# sourceMappingURL=ir-tasks-header2.js.map

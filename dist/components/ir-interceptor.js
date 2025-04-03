@@ -4,6 +4,5 @@ const IrInterceptor = IrInterceptor$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrInterceptor, defineCustomElement };
-//# sourceMappingURL=ir-interceptor.js.map
 
 //# sourceMappingURL=ir-interceptor.js.map

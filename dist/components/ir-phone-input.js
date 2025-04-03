@@ -4,6 +4,5 @@ const IrPhoneInput = IrPhoneInput$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPhoneInput, defineCustomElement };
-//# sourceMappingURL=ir-phone-input.js.map
 
 //# sourceMappingURL=ir-phone-input.js.map

@@ -4,6 +4,5 @@ const IrToast = IrToast$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrToast, defineCustomElement };
-//# sourceMappingURL=ir-toast.js.map
 
 //# sourceMappingURL=ir-toast.js.map

@@ -6,7 +6,7 @@ import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { u as downloadFile } from './utils.js';
+import { I as downloadFile } from './utils.js';
 import { d as defineCustomElement$W } from './igl-application-info2.js';
 import { d as defineCustomElement$V } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$U } from './igl-book-property2.js';
@@ -68,6 +68,7 @@ import { d as defineCustomElement$1 } from './ota-label2.js';
 import { v as v4 } from './v4.js';
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
+const IrHkTasksStyle0 = irHkTasksCss;
 
 const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLElement {
     constructor() {
@@ -284,7 +285,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return irHkTasksCss; }
+    static get style() { return IrHkTasksStyle0; }
 }, [2, "ir-hk-tasks", {
         "language": [1],
         "ticket": [1],
@@ -609,6 +610,5 @@ function defineCustomElement() {
 }
 
 export { IrHkTasks as I, defineCustomElement as d };
-//# sourceMappingURL=ir-hk-tasks2.js.map
 
 //# sourceMappingURL=ir-hk-tasks2.js.map

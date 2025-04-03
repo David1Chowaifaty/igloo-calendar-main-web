@@ -35,12 +35,12 @@ function unsafeStringify(arr, offset = 0) {
 }
 
 const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-var native = {
+const native = {
   randomUUID
 };
 
 function v4(options, buf, offset) {
-  if (native.randomUUID && true && !options) {
+  if (native.randomUUID && !buf && !options) {
     return native.randomUUID();
   }
 
@@ -50,10 +50,19 @@ function v4(options, buf, offset) {
   rnds[6] = rnds[6] & 0x0f | 0x40;
   rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
 
+  if (buf) {
+    offset = offset || 0;
+
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
   return unsafeStringify(rnds);
 }
 
 export { v4 as v };
-//# sourceMappingURL=v4.js.map
 
 //# sourceMappingURL=v4.js.map

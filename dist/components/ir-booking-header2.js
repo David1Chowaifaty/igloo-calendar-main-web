@@ -13,6 +13,7 @@ import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
 const irBookingHeaderCss = ".sc-ir-booking-header-h{display:block}.confirmed.sc-ir-booking-header{color:#fff;display:flex;align-items:center}.bg-ir-green.sc-ir-booking-header{background:#629a4c;padding:0.2rem 0.3rem}.bg-ir-red.sc-ir-booking-header{background:#ff4961;padding:0.2rem 0.3rem}.bg-ir-orange.sc-ir-booking-header{background:#ff9149;padding:0.2rem 0.3rem}";
+const IrBookingHeaderStyle0 = irBookingHeaderCss;
 
 const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader extends HTMLElement {
     constructor() {
@@ -98,7 +99,7 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
                 }
             }, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': '400px' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody())));
     }
-    static get style() { return irBookingHeaderCss; }
+    static get style() { return IrBookingHeaderStyle0; }
 }, [2, "ir-booking-header", {
         "booking": [16],
         "hasReceipt": [4, "has-receipt"],
@@ -165,6 +166,5 @@ function defineCustomElement() {
 }
 
 export { IrBookingHeader as I, defineCustomElement as d };
-//# sourceMappingURL=ir-booking-header2.js.map
 
 //# sourceMappingURL=ir-booking-header2.js.map

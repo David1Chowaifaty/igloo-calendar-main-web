@@ -4,6 +4,5 @@ const IrPopover = IrPopover$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPopover, defineCustomElement };
-//# sourceMappingURL=ir-popover.js.map
 
 //# sourceMappingURL=ir-popover.js.map

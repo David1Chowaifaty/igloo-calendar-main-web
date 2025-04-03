@@ -4,6 +4,5 @@ const IrRangePicker = IrRangePicker$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrRangePicker, defineCustomElement };
-//# sourceMappingURL=ir-range-picker.js.map
 
 //# sourceMappingURL=ir-range-picker.js.map

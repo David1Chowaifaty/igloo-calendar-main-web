@@ -3,6 +3,7 @@ import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-date-picker2.js';
 
 const irRangePickerCss = ".sc-ir-range-picker-h{display:block;--ir-range-gap:0.5rem}.range-picker__container.sc-ir-range-picker{position:relative;display:flex;align-items:center;gap:var(--ir-range-gap);box-sizing:border-box}.range-picker__container.focused.sc-ir-range-picker{border-bottom-color:rgb(198, 206, 231);border-left-color:rgb(198, 206, 231);border-right-color:rgb(198, 206, 231);border-top-color:rgb(198, 206, 231);color:#4e5154;background-color:#fff;border-color:var(--blue, #1e9ff2);outline:0;-webkit-box-shadow:none;box-shadow:none}.range-picker__icon--hidden.sc-ir-range-picker,.range-picker__date-picker--hidden.sc-ir-range-picker{opacity:0}.range-picker__overlay.sc-ir-range-picker{position:absolute;inset:0;background-color:white;z-index:1;display:none;pointer-events:none;padding:0;margin:0;cursor:pointer;gap:var(--ir-range-gap)}.range-picker__overlay--active.sc-ir-range-picker{display:flex;align-items:center;justify-content:flex-start;pointer-events:auto;border-radius:inherit;padding-inline:0.5rem}.range-picker__date-picker.sc-ir-range-picker:hover .range-picker__date-picker-button.sc-ir-range-picker,.range-picker__date-picker.focused.sc-ir-range-picker .range-picker__date-picker-button.sc-ir-range-picker{color:var(--blue, #1e9ff2)}.range-picker__date-picker-button.sc-ir-range-picker{background:inherit;margin:0;padding:0;display:flex;align-items:center;font-size:0.975rem;line-height:1.45;height:2rem;color:#3b4781;white-space:nowrap;cursor:pointer;padding-inline:0.5rem}.range-picker__calendar-icon.sc-ir-range-picker,.range-picker__arrow-icon.sc-ir-range-picker{height:14px;width:14px}";
+const IrRangePickerStyle0 = irRangePickerCss;
 
 const IrRangePicker = /*@__PURE__*/ proxyCustomElement(class IrRangePicker extends HTMLElement {
     constructor() {
@@ -86,7 +87,7 @@ const IrRangePicker = /*@__PURE__*/ proxyCustomElement(class IrRangePicker exten
             forceDestroyOnUpdate: true,
         }))));
     }
-    static get style() { return irRangePickerCss; }
+    static get style() { return IrRangePickerStyle0; }
 }, [6, "ir-range-picker", {
         "minDate": [1, "min-date"],
         "maxDate": [1, "max-date"],
@@ -115,6 +116,5 @@ function defineCustomElement() {
 }
 
 export { IrRangePicker as I, defineCustomElement as d };
-//# sourceMappingURL=ir-range-picker2.js.map
 
 //# sourceMappingURL=ir-range-picker2.js.map

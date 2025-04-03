@@ -4,6 +4,5 @@ const IrTasksHeader = IrTasksHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTasksHeader, defineCustomElement };
-//# sourceMappingURL=ir-tasks-header.js.map
 
 //# sourceMappingURL=ir-tasks-header.js.map

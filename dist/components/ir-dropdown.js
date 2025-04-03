@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { d as defineCustomElement$2 } from './ir-icon2.js';
 
 const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{position:absolute !important;top:100%;right:0;z-index:1000;display:none}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}";
+const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown$1 = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTMLElement {
     constructor() {
@@ -26,7 +27,7 @@ const IrDropdown$1 = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends H
         }
         return (h("ul", { class: "nav navbar-nav", id: "main-menu-navigation", "data-menu": "menu-navigation" }, content));
     }
-    static get style() { return irDropdownCss; }
+    static get style() { return IrDropdownStyle0; }
 }, [2, "ir-dropdown", {
         "data": [16],
         "object": [520],
@@ -55,6 +56,5 @@ const IrDropdown = IrDropdown$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrDropdown, defineCustomElement };
-//# sourceMappingURL=ir-dropdown.js.map
 
 //# sourceMappingURL=ir-dropdown.js.map

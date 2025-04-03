@@ -4,6 +4,5 @@ const IrPaymentActions = IrPaymentActions$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrPaymentActions, defineCustomElement };
-//# sourceMappingURL=ir-payment-actions.js.map
 
 //# sourceMappingURL=ir-payment-actions.js.map

@@ -56,6 +56,8 @@ class RoomService {
             let entries = this.transformArrayToObject(data.My_Result.entries);
             locales.entries = Object.assign(Object.assign({}, locales.entries), entries);
             locales.direction = data.My_Result.direction;
+            //copy entries
+            // this.copyEntries(entries);
             return { entries, direction: data.My_Result.direction };
         }
         catch (error) {
@@ -63,6 +65,17 @@ class RoomService {
             throw new Error(error);
         }
     }
+    // private copyEntries(data: Record<string, string>) {
+    //   const typedObject: Record<string, string> = {};
+    //   Object.keys(data).forEach(key => {
+    //     typedObject[key] = 'string' as unknown as string;
+    //   });
+    //   const output = Object.keys(typedObject).reduce((acc, key) => {
+    //     acc[key] = 'string';
+    //     return acc;
+    //   }, {} as Record<string, string>);
+    //   navigator.clipboard.writeText(JSON.stringify(output, null, 2).replace(/"string"/g, 'string'));
+    // }
     transformArrayToObject(data) {
         let object = {};
         for (const d of data) {
@@ -73,6 +86,5 @@ class RoomService {
 }
 
 export { RoomService as R };
-//# sourceMappingURL=room.service.js.map
 
 //# sourceMappingURL=room.service.js.map

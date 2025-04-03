@@ -4,6 +4,5 @@ const IglBookPropertyFooter = IglBookPropertyFooter$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IglBookPropertyFooter, defineCustomElement };
-//# sourceMappingURL=igl-book-property-footer.js.map
 
 //# sourceMappingURL=igl-book-property-footer.js.map

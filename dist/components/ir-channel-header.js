@@ -4,6 +4,5 @@ const IrChannelHeader = IrChannelHeader$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrChannelHeader, defineCustomElement };
-//# sourceMappingURL=ir-channel-header.js.map
 
 //# sourceMappingURL=ir-channel-header.js.map

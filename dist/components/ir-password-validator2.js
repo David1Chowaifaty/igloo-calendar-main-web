@@ -3,6 +3,7 @@ import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 const irPasswordValidatorCss = ".sc-ir-password-validator-h{display:block}";
+const IrPasswordValidatorStyle0 = irPasswordValidatorCss;
 
 const IrPasswordValidator = /*@__PURE__*/ proxyCustomElement(class IrPasswordValidator extends HTMLElement {
     constructor() {
@@ -55,7 +56,7 @@ const IrPasswordValidator = /*@__PURE__*/ proxyCustomElement(class IrPasswordVal
     static get watchers() { return {
         "password": ["handlePasswordChange"]
     }; }
-    static get style() { return irPasswordValidatorCss; }
+    static get style() { return IrPasswordValidatorStyle0; }
 }, [2, "ir-password-validator", {
         "password": [1]
     }, undefined, {
@@ -86,6 +87,5 @@ function defineCustomElement() {
 }
 
 export { IrPasswordValidator as I, defineCustomElement as d };
-//# sourceMappingURL=ir-password-validator2.js.map
 
 //# sourceMappingURL=ir-password-validator2.js.map

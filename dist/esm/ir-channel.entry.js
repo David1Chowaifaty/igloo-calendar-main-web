@@ -1,13 +1,11 @@
-import { h, r as registerInstance, F as Fragment, H as Host, a as getElement } from './index-ChgcZQN7.js';
-import { R as RoomService } from './room.service-jtsLF7fG.js';
-import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-0Ps_xPPl.js';
-import { l as locales } from './locales.store-km9kP7G7.js';
-import { C as ChannelService } from './channel.service-CaEGm2rt.js';
-import { T as Token } from './Token-AKvCJV-d.js';
-import './calendar-data-iTCxBVE4.js';
-import './index-CnjbwCqY.js';
-import './axios-Bpmk_xoW.js';
-import './_commonjsHelpers-BFTU3MAI.js';
+import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
+import { R as RoomService } from './room.service-4ae5fce6.js';
+import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-fedde380.js';
+import { l as locales } from './locales.store-b670e120.js';
+import { C as ChannelService } from './channel.service-caa82df7.js';
+import { T as Token } from './Token-acf5fbad.js';
+import './calendar-data-fa19de6a.js';
+import './axios-aa1335b8.js';
 
 const actions = (entries) => [
     {
@@ -101,6 +99,7 @@ const actions = (entries) => [
 ];
 
 const irChannelCss = ".sc-ir-channel-h{display:block;--ir-sidebar-padding:0}.dropdown-toggle.sc-ir-channel{color:var(--blue)}.dropdown-toggle.sc-ir-channel::after{content:none;display:none}.dropdown-toggle.sc-ir-channel .caret-icon.sc-ir-channel{transition:transform 0.15s ease-in-out, color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,\r\n    -webkit-box-shadow 0.15s ease-in-out}.btn.sc-ir-channel:hover .caret-icon.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.show.sc-ir-channel .caret-icon.sc-ir-channel{transform:rotate(-180deg)}.dropdown-divider.sc-ir-channel{border-color:#e4e5ec}.dropdown-item.sc-ir-channel{padding:10px;display:flex;align-items:center;gap:10px;color:#6b6f82}.dropdown-item.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.danger.sc-ir-channel{color:var(--red)}.danger.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:var(--red)}.table.sc-ir-channel thead.sc-ir-channel tr.sc-ir-channel{height:50px !important}.table-container.sc-ir-channel{border-radius:30px}.table.sc-ir-channel thead.sc-ir-channel{background:#fafafa;border-top-width:0}.actions-theader.sc-ir-channel{width:35% !important;text-align:end}.dots.sc-ir-channel{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-ir-channel{width:8px;height:8px;margin:0px 4px;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-ir-channel:nth-child(2){animation-delay:0.2s}.h-screen.sc-ir-channel{height:100vh !important}.dot.sc-ir-channel:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}@media (min-width: 1024px){.sc-ir-channel-h{--sidebar-width:820px}}";
+const IrChannelStyle0 = irChannelCss;
 
 const IrChannel = class {
     constructor(hostRef) {
@@ -270,9 +269,8 @@ const IrChannel = class {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrChannel.style = irChannelCss;
+IrChannel.style = IrChannelStyle0;
 
 export { IrChannel as ir_channel };
-//# sourceMappingURL=ir-channel.entry.js.map
 
 //# sourceMappingURL=ir-channel.entry.js.map

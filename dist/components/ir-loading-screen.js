@@ -4,6 +4,5 @@ const IrLoadingScreen = IrLoadingScreen$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrLoadingScreen, defineCustomElement };
-//# sourceMappingURL=ir-loading-screen.js.map
 
 //# sourceMappingURL=ir-loading-screen.js.map

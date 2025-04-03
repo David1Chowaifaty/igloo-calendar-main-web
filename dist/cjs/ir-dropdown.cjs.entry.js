@@ -1,13 +1,16 @@
 'use strict';
 
-var index = require('./index-Dmp0dHfN.js');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-4fe8bc8a.js');
 
 const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{position:absolute !important;top:100%;right:0;z-index:1000;display:none}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}";
+const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.dropdownItemCLicked = index.createEvent(this, "dropdownItemCLicked");
+        this.dropdownItemCLicked = index.createEvent(this, "dropdownItemCLicked", 7);
         this.data = null;
         this.object = null;
         this.show = false;
@@ -27,9 +30,8 @@ const IrDropdown = class {
         return (index.h("ul", { class: "nav navbar-nav", id: "main-menu-navigation", "data-menu": "menu-navigation" }, content));
     }
 };
-IrDropdown.style = irDropdownCss;
+IrDropdown.style = IrDropdownStyle0;
 
 exports.ir_dropdown = IrDropdown;
-//# sourceMappingURL=ir-dropdown.entry.cjs.js.map
 
 //# sourceMappingURL=ir-dropdown.cjs.entry.js.map

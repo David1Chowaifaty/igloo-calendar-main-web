@@ -3,9 +3,12 @@ export declare class IrSecureTasks {
     p: string;
     bookingNumber: string;
     isAuthenticated: boolean;
-    private token;
     currentPage: string;
+    private token;
+    private dates;
     componentWillLoad(): void;
+    private generateDates;
     private handleAuthFinish;
     render(): any;
+    renderPage(): any;
 }

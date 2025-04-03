@@ -186,7 +186,6 @@ function resetReserved() {
     booking_store.ratePlanSelections = Object.assign({}, updatedSelections);
 }
 
-export { resetReserved as a, booking_store as b, calculateTotalRooms as c, resetBookingStore as d, getVisibleInventory as g, modifyBookingStore as m, reserveRooms as r, updateRoomParams as u };
-//# sourceMappingURL=booking.store.js.map
+export { resetBookingStore as a, booking_store as b, calculateTotalRooms as c, reserveRooms as d, getVisibleInventory as g, modifyBookingStore as m, resetReserved as r, updateRoomParams as u };
 
 //# sourceMappingURL=booking.store.js.map

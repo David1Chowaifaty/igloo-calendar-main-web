@@ -1,18 +1,19 @@
 'use strict';
 
-var index = require('./index-Dmp0dHfN.js');
-var housekeeping_service = require('./housekeeping.service-C1TgYNVO.js');
-var locales_store = require('./locales.store-DEkHwTyS.js');
-require('./index-BGQl6-i5.js');
-require('./axios-dx93wJEX.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-4fe8bc8a.js');
+const housekeeping_service = require('./housekeeping.service-31c4bf08.js');
+const locales_store = require('./locales.store-855b855e.js');
+require('./axios-6e678d52.js');
 
 const irUnitStatusCss = ".sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}";
+const IrUnitStatusStyle0 = irUnitStatusCss;
 
 const IrUnitStatus = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.resetData = index.createEvent(this, "resetData");
+        this.resetData = index.createEvent(this, "resetData", 7);
         this.housekeepingService = new housekeeping_service.HouseKeepingService();
     }
     async handleSelectChange(e) {
@@ -58,9 +59,8 @@ const IrUnitStatus = class {
         }))))));
     }
 };
-IrUnitStatus.style = irUnitStatusCss;
+IrUnitStatus.style = IrUnitStatusStyle0;
 
 exports.ir_unit_status = IrUnitStatus;
-//# sourceMappingURL=ir-unit-status.entry.cjs.js.map
 
 //# sourceMappingURL=ir-unit-status.cjs.entry.js.map

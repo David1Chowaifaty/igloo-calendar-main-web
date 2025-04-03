@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { b as booking_store, r as reserveRooms, a as resetReserved, u as updateRoomParams } from './booking.store.js';
+import { b as booking_store, d as reserveRooms, r as resetReserved, u as updateRoomParams } from './booking.store.js';
 import { d as defineCustomElement$2 } from './ir-price-input2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 import { v as v4 } from './v4.js';
 
 const iglRatePlanCss = ".sc-igl-rate-plan-h{display:block;margin-bottom:0.5rem}.currency.sc-igl-rate-plan{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-igl-rate-plan{font-size:14px;line-height:0;padding:0;height:0;border-left:0}.rate-input-container.sc-igl-rate-plan{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-igl-rate-plan{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:white;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-igl-rate-plan span[data-state='focus'].sc-igl-rate-plan{border-color:var(--blue)}.input-group-prepend.sc-igl-rate-plan span[data-disabled].sc-igl-rate-plan{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.non-ref-span.sc-igl-rate-plan{font-size:12px;color:var(--green)}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0.5rem !important}.rateplan-container.sc-igl-rate-plan{margin-top:0.5rem}@media only screen and (min-width: 1200px){.rateplan-name-container.sc-igl-rate-plan{width:40%;margin-top:0}.rateplan-container.sc-igl-rate-plan{width:40%}}@media only screen and (min-width: 991px){.max-w-300.sc-igl-rate-plan{max-width:200px}.rate-input-container.sc-igl-rate-plan{max-width:50px}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0 !important}}@media only screen and (min-width: 991px) and (max-width: 1300px){.rateplan-name-container.sc-igl-rate-plan{width:40%}.price-amount.sc-igl-rate-plan{max-width:150px !important}}@media only screen and (max-width: 768px){.booking-btn.sc-igl-rate-plan{width:100%}}.total-nights-container.sc-igl-rate-plan{width:max-content}.nightBorder.sc-igl-rate-plan{border-left-width:0;border-top-right-radius:3px !important;border-bottom-right-radius:3px !important}";
+const IglRatePlanStyle0 = iglRatePlanCss;
 
 const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends HTMLElement {
     constructor() {
@@ -154,7 +155,7 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                 this.bookProperty();
             } }, visibleInventory.reserved === 1 ? locales.entries.Lcz_Current : locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "btn btn-primary booking-btn mt-md-0 btn-sm ml-md-1 mt-1", onClick: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "text-danger m-0 p-0" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
     }
-    static get style() { return iglRatePlanCss; }
+    static get style() { return IglRatePlanStyle0; }
 }, [2, "igl-rate-plan", {
         "ratePlan": [16],
         "roomTypeId": [2, "room-type-id"],
@@ -190,6 +191,5 @@ function defineCustomElement() {
 }
 
 export { IglRatePlan as I, defineCustomElement as d };
-//# sourceMappingURL=igl-rate-plan2.js.map
 
 //# sourceMappingURL=igl-rate-plan2.js.map

@@ -3,6 +3,7 @@ import { d as defineCustomElement$3 } from './ir-date-picker2.js';
 import { d as defineCustomElement$2 } from './ir-range-picker2.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
+const IrTestCmpStyle0 = irTestCmpCss;
 
 const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTMLElement {
     constructor() {
@@ -13,7 +14,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
         var _a, _b;
         return (h(Host, { key: '2e68d5717d6fa941a7547b2214465757ef2727eb', class: "card p-4" }, h("ir-range-picker", { key: '8793aac95719b1804f428892fdd495a0d78a5b10', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
-    static get style() { return irTestCmpCss; }
+    static get style() { return IrTestCmpStyle0; }
 }, [2, "ir-test-cmp", {
         "dates": [32]
     }]);
@@ -45,6 +46,5 @@ const IrTestCmp = IrTestCmp$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrTestCmp, defineCustomElement };
-//# sourceMappingURL=ir-test-cmp.js.map
 
 //# sourceMappingURL=ir-test-cmp.js.map

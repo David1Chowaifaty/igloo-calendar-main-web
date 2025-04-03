@@ -1,6 +1,7 @@
-import { r as registerInstance, h } from './index-ChgcZQN7.js';
+import { r as registerInstance, h } from './index-0a4a209a.js';
 
 const irOtaServiceCss = ".sc-ir-ota-service-h{display:block}.extra-channel-service-container.sc-ir-ota-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-channel-service-container.sc-ir-ota-service *.sc-ir-ota-service{padding:0;margin:0;box-sizing:border-box}.extra-channel-service-actions.sc-ir-ota-service{display:flex;align-items:center;gap:0.5rem}.extra-channel-service-conditional-date.sc-ir-ota-service{margin-top:0.5rem}";
+const IrOtaServiceStyle0 = irOtaServiceCss;
 
 const IrOtaService = class {
     constructor(hostRef) {
@@ -13,9 +14,8 @@ const IrOtaService = class {
             _d.toString(), " ", this.service.nights > 1 ? 'nights' : 'night')), h("b", { key: '0a21d6684db6fa501ac85d498baa47c76cd9d5f7' }, this.service.total_price)), h("div", { key: '8f7404a3d8bb9581f7577082570df78e1389b9fe' }, h("ir-label", { key: '2b8cfcaf210a5afa7ba505e8f99ecbfe615f30b4', containerStyle: { margin: '0', padding: '0' }, content: (_e = this.service) === null || _e === void 0 ? void 0 : _e.price_mode, labelText: `Price mode:` }), h("ir-label", { key: '8c3cad3215dc0744c50a88a9c30d4e1de0a8a1db', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: (_g = (_f = this.service) === null || _f === void 0 ? void 0 : _f.price_per_unit) === null || _g === void 0 ? void 0 : _g.toString(), labelText: `Price per unit:` }))));
     }
 };
-IrOtaService.style = irOtaServiceCss;
+IrOtaService.style = IrOtaServiceStyle0;
 
 export { IrOtaService as ir_ota_service };
-//# sourceMappingURL=ir-ota-service.entry.js.map
 
 //# sourceMappingURL=ir-ota-service.entry.js.map

@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-ChgcZQN7.js';
+import { r as registerInstance, h } from './index-0a4a209a.js';
 
 const IrSpan = class {
     constructor(hostRef) {
@@ -12,6 +12,5 @@ const IrSpan = class {
 };
 
 export { IrSpan as ir_span };
-//# sourceMappingURL=ir-span.entry.js.map
 
 //# sourceMappingURL=ir-span.entry.js.map

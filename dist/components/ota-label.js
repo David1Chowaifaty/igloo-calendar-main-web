@@ -4,6 +4,5 @@ const OtaLabel = OtaLabel$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { OtaLabel, defineCustomElement };
-//# sourceMappingURL=ota-label.js.map
 
 //# sourceMappingURL=ota-label.js.map

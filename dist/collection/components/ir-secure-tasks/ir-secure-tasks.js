@@ -5,13 +5,26 @@ export class IrSecureTasks {
     constructor() {
         this.isAuthenticated = false;
         this.token = new Token();
+        this.dates = {};
     }
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
+        this.generateDates();
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
         }
+    }
+    generateDates() {
+        var today = new Date();
+        today.setDate(today.getDate() - 1);
+        var _FROM_DATE = today.toISOString().substring(0, 10);
+        today.setDate(today.getDate() + 60);
+        var _TO_DATE = today.toISOString().substring(0, 10);
+        this.dates = {
+            from_date: _FROM_DATE,
+            to_date: _TO_DATE,
+        };
     }
     handleAuthFinish(e) {
         const token = e.detail.token;
@@ -26,10 +39,24 @@ export class IrSecureTasks {
                 this.currentPage = 'hk';
             } }, "Housekeepers")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
                 this.currentPage = 'tasks';
-            } }, "Tasks"))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
+            } }, "Tasks")), h("li", { class: "nav-item" }, h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'front' }, href: "#", onClick: () => {
+                this.currentPage = 'front';
+            } }, "Front"))), h("button", { class: "btn btn-sm btn-primary", onClick: () => {
                 sessionStorage.removeItem('backend_anchor');
                 window.location.reload();
-            } }, "Logout")), this.currentPage === 'tasks' ? (h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() })) : (h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() }))));
+            } }, "Logout")), this.renderPage()));
+    }
+    renderPage() {
+        switch (this.currentPage) {
+            case 'tasks':
+                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'front':
+                return (h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" }));
+            case 'hk':
+                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            default:
+                return null;
+        }
     }
     static get is() { return "ir-secure-tasks"; }
     static get encapsulation() { return "scoped"; }

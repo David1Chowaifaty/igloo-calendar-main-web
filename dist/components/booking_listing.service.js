@@ -70,6 +70,5 @@ class BookingListingService {
 }
 
 export { BookingListingService as B, booking_listing as b, initializeUserSelection as i, onBookingListingChange as o, updateUserSelection as u };
-//# sourceMappingURL=booking_listing.service.js.map
 
 //# sourceMappingURL=booking_listing.service.js.map

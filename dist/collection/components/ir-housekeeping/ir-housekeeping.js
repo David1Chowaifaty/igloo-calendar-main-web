@@ -4,6 +4,7 @@ import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
+import locales from "../../stores/locales.store";
 export class IrHousekeeping {
     constructor() {
         this.language = '';
@@ -46,7 +47,7 @@ export class IrHousekeeping {
                 propertyId = propertyData.My_Result.id;
             }
             updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
-            const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT'])];
+            const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT'])];
             if (this.propertyid) {
                 requests.unshift(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -87,9 +88,9 @@ export class IrHousekeeping {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, "Housekeeping & Check-In Setup"), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, "Check in & Check out guests automatically:"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
-                { text: `Yes, as per the property's policy.`, value: 'auto' },
-                { text: 'No, I will do it manually. ', value: 'manual' },
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, locales.entries.Lcz_CheckInOutGuestsAutomatically, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
+                { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
+                { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
             ] }))), h("ir-hk-team", { class: "mb-1" }))));
     }
     static get is() { return "ir-housekeeping"; }

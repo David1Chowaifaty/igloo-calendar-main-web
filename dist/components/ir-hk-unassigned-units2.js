@@ -3,6 +3,7 @@ import { H as HouseKeepingService } from './housekeeping.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
+import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$6 } from './ir-button2.js';
 import { d as defineCustomElement$5 } from './ir-icon2.js';
 import { d as defineCustomElement$4 } from './ir-icons2.js';
@@ -11,6 +12,7 @@ import { d as defineCustomElement$2 } from './ir-switch2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
 const irHkUnassignedUnitsCss = ".sc-ir-hk-unassigned-units-h{display:block;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2}table.sc-ir-hk-unassigned-units{width:100%}td.sc-ir-hk-unassigned-units{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units:last-child{text-align:end}.title.sc-ir-hk-unassigned-units{min-width:230px !important}";
+const IrHkUnassignedUnitsStyle0 = irHkUnassignedUnitsCss;
 
 const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassignedUnits extends HTMLElement {
     constructor() {
@@ -113,9 +115,9 @@ const IrHkUnassignedUnits = /*@__PURE__*/ proxyCustomElement(class IrHkUnassigne
         });
     }
     render() {
-        return (h(Host, { key: '89b63b02273425ca43a768f41e7ba935f70a90e4' }, h("ir-title", { key: '8f389f8e5d3ec4aa5f6ca4fd818d52aa8565adca', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '8f8559f9551cb727c2750ffcf043f02bbc84d06d', class: "px-1" }, h("table", { key: '56c950e7f0a176442ee244e6db29f62af8bd87c9' }, h("thead", { key: '0f6560d02fcc1d4a5b05969e58696867999cc275' }, h("th", { key: '57d53b3601db5bae4994dd3f636c8bf0737b4f92', class: "sr-only" }, "room name"), h("th", { key: 'ad6e437a6ab875355c6d1187999ec81c0146e206', class: "sr-only" }, "housekeeper name"), h("th", { key: '385d85468b49c7d528c372a30621d1332d73b7aa', class: "sr-only" }, "actions")), h("tbody", { key: 'f08177020bfc2d76a201835289e6e18460f0e7a1' }, this.renderRooms())), h("div", { key: '8fb51630bae256b99a2589be0cc9d138d682e06d', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'd86501db39b6cefc4d1d18c9f9bec5b80004dd0a', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: 'Cancel' }), h("ir-button", { key: 'ba2b7d0414934dc953577e9abe95c52b438bc3c4', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: 'Confirm' })))));
+        return (h(Host, { key: '359a011b8c6bc65d0cdacbb85aa27d1db6789273' }, h("ir-title", { key: '83be1ecfb0d6ef27ca057b8bcbdf1674ac4c2873', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'f0a37b46c857221da239b6460a8e12d3b1fe3c91', class: "px-1" }, h("table", { key: '8c7f52fe02e2d9e20b1abd3aa32dbf8277d83aff' }, h("thead", { key: 'f56706e36a93e5ac55cdbfb524c543df9940922d' }, h("th", { key: 'd79e7f90c408543fdac8d5d5f7ef5af80f5f231e', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '1b42de5cf1035f0e00d7de76f8cf748d98eb361e', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '9ed8d4cc43391a5a7225cd706456d098d9d9bfce', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '2b14b9df08283e41aa0c2dc5454c8376990c1db6' }, this.renderRooms())), h("div", { key: 'aa5aa66b73e240f6bf46e090e4603796b14451e4', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: 'f4ac206e7d9b0cb941e0702c5b25e0c204d1aeab', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '1f71318ceef970245e8543bc81ac2ffb3d22e146', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Confirm })))));
     }
-    static get style() { return irHkUnassignedUnitsCss; }
+    static get style() { return IrHkUnassignedUnitsStyle0; }
 }, [2, "ir-hk-unassigned-units", {
         "user": [16],
         "renderAgain": [32]
@@ -165,6 +167,5 @@ function defineCustomElement() {
 }
 
 export { IrHkUnassignedUnits as I, defineCustomElement as d };
-//# sourceMappingURL=ir-hk-unassigned-units2.js.map
 
 //# sourceMappingURL=ir-hk-unassigned-units2.js.map

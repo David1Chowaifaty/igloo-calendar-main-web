@@ -5,6 +5,7 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{display:block;margin:0;padding:0}.sc-igl-book-property-footer-h>*.sc-igl-book-property-footer{margin:auto;padding:auto}.gap-30.sc-igl-book-property-footer{gap:30px}";
+const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;
 
 const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookPropertyFooter extends HTMLElement {
     constructor() {
@@ -38,7 +39,7 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     render() {
         return (h(Host, { key: 'bd00491c082b60527772f3193d4d85354f7a7eb2' }, h("div", { key: '78f664ec54eef5aef70c58550885945958d76dd4', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, isRequestPending('/Get_Exposed_Booking_Availability'), 'angles_right'))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, false, 'angles_right'))))));
     }
-    static get style() { return iglBookPropertyFooterCss; }
+    static get style() { return IglBookPropertyFooterStyle0; }
 }, [2, "igl-book-property-footer", {
         "eventType": [1, "event-type"],
         "disabled": [4]
@@ -68,6 +69,5 @@ function defineCustomElement() {
 }
 
 export { IglBookPropertyFooter as I, defineCustomElement as d };
-//# sourceMappingURL=igl-book-property-footer2.js.map
 
 //# sourceMappingURL=igl-book-property-footer2.js.map

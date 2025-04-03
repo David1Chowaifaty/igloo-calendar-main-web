@@ -1,12 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';
 import { l as locales } from './locales.store.js';
-import { m as canCheckIn } from './utils.js';
+import { k as canCheckIn } from './utils.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 import { v as v4 } from './v4.js';
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}";
+const IglTbaBookingViewStyle0 = iglTbaBookingViewCss;
 
 const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingView extends HTMLElement {
     constructor() {
@@ -180,7 +181,7 @@ const IglTbaBookingView = /*@__PURE__*/ proxyCustomElement(class IglTbaBookingVi
     render() {
         return (h(Host, { key: '2499ef8a5f3656937bb6f80b08a0e86c6baec3ef' }, h("div", { key: 'de223a4d2b16a0c1916594845c6b22670dbd18ae', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: 'ef2ad50a084821edfa2a3db74c197e9a432b8b45', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '8eabf83ce3e7eb83fca80bbb5447a1603f43d39d', class: "row m-0 p-0 actionsContainer" }, h("select", { key: 'debf5b001b0fcb337611b14cffb96df5e229975b', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: 'ca920afcb78c57a5a0b4ccdab4febe20df3d8782', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '05beb3262ad6c1203e9e9896eb9bfe39c328dba6', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: '36b374d5b41180f22002c9f9b62ea0ad0638d114', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: 'f2570673a75168b3a883a711a8e52901eb7c6cde', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '9e8c493aa55105512030cddbd6b8d04f586df94a' }))));
     }
-    static get style() { return iglTbaBookingViewCss; }
+    static get style() { return IglTbaBookingViewStyle0; }
 }, [2, "igl-tba-booking-view", {
         "calendarData": [16],
         "selectedDate": [8, "selected-date"],
@@ -218,6 +219,5 @@ function defineCustomElement() {
 }
 
 export { IglTbaBookingView as I, defineCustomElement as d };
-//# sourceMappingURL=igl-tba-booking-view2.js.map
 
 //# sourceMappingURL=igl-tba-booking-view2.js.map

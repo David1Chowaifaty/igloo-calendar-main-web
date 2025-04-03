@@ -1,15 +1,12 @@
-import { r as registerInstance, h, H as Host } from './index-ChgcZQN7.js';
-import { T as Token } from './Token-AKvCJV-d.js';
-import { c as checkUserAuthState, m as manageAnchorSession } from './utils-DNDFM4z7.js';
-import './axios-Bpmk_xoW.js';
-import './_commonjsHelpers-BFTU3MAI.js';
-import './moment-Mki5YqAR.js';
-import './index-DeW5X45W.js';
-import './calendar-data-iTCxBVE4.js';
-import './index-CnjbwCqY.js';
-import './locales.store-km9kP7G7.js';
+import { r as registerInstance, h, H as Host } from './index-0a4a209a.js';
+import { T as Token } from './Token-acf5fbad.js';
+import { F as checkUserAuthState, G as manageAnchorSession } from './utils-9a32a9b0.js';
+import './axios-aa1335b8.js';
+import './calendar-data-fa19de6a.js';
+import './locales.store-b670e120.js';
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
+const IrBookingStyle0 = irBookingCss;
 
 const IrBooking = class {
     constructor(hostRef) {
@@ -36,9 +33,8 @@ const IrBooking = class {
         return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
 };
-IrBooking.style = irBookingCss;
+IrBooking.style = IrBookingStyle0;
 
 export { IrBooking as ir_booking };
-//# sourceMappingURL=ir-booking.entry.js.map
 
 //# sourceMappingURL=ir-booking.entry.js.map

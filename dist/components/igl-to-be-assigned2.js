@@ -10,6 +10,7 @@ import { d as defineCustomElement$3 } from './igl-tba-category-view2.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 
 const iglToBeAssignedCss = ".sc-igl-to-be-assigned-h{display:block}.custom-dropdown.sc-igl-to-be-assigned{cursor:pointer;padding:5px 10px;width:min-content;margin-left:auto;margin-right:auto}.dropdown-toggle.sc-igl-to-be-assigned{all:unset;display:flex;width:max-content;align-items:center;gap:10px}.close_btn_style.sc-igl-to-be-assigned{padding:0.4rem}.close_btn_style.sc-igl-to-be-assigned:hover{background-color:#f6f6f6}.dropdown-menu.sc-igl-to-be-assigned{max-height:250px;overflow-y:auto}.tobeAssignedHeader.sc-igl-to-be-assigned{font-weight:500;letter-spacing:0.05rem;font-size:1.12rem;padding:0;margin:0}.assignment_header.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:space-between;padding-top:5px;margin-bottom:1rem}.dropdown-toggle.sc-igl-to-be-assigned::after{content:none;display:none}.dropdown-toggle.sc-igl-to-be-assigned .caret-icon.sc-igl-to-be-assigned{transition:transform 0.2s ease}.show.sc-igl-to-be-assigned .caret-icon.sc-igl-to-be-assigned{transform:rotate(-180deg)}.stickyHeader.sc-igl-to-be-assigned{position:-webkit-sticky;position:sticky;top:0;background-color:#ffffff;z-index:1}.pointer.sc-igl-to-be-assigned{cursor:pointer}.dots.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-igl-to-be-assigned{width:5px;height:5px;margin:5px 4px 0;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-igl-to-be-assigned:nth-child(2){animation-delay:0.2s}.dot.sc-igl-to-be-assigned:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}";
+const IglToBeAssignedStyle0 = iglToBeAssignedCss;
 
 const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned extends HTMLElement {
     constructor() {
@@ -232,7 +233,7 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
     static get watchers() { return {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]
     }; }
-    static get style() { return iglToBeAssignedCss; }
+    static get style() { return IglToBeAssignedStyle0; }
 }, [2, "igl-to-be-assigned", {
         "unassignedDatesProp": [8, "unassigned-dates-prop"],
         "propertyid": [2],
@@ -282,6 +283,5 @@ function defineCustomElement() {
 }
 
 export { IglToBeAssigned as I, defineCustomElement as d };
-//# sourceMappingURL=igl-to-be-assigned2.js.map
 
 //# sourceMappingURL=igl-to-be-assigned2.js.map

@@ -826,7 +826,6 @@ export declare namespace JSXBase {
     }
     interface DetailsHTMLAttributes<T> extends HTMLAttributes<T> {
         open?: boolean;
-        name?: string;
         onToggle?: (event: Event) => void;
     }
     interface DelHTMLAttributes<T> extends HTMLAttributes<T> {

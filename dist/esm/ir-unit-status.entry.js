@@ -1,16 +1,15 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-ChgcZQN7.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-DJUbAhS3.js';
-import { l as locales } from './locales.store-km9kP7G7.js';
-import './index-CnjbwCqY.js';
-import './axios-Bpmk_xoW.js';
-import './_commonjsHelpers-BFTU3MAI.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-0a4a209a.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-e7b98222.js';
+import { l as locales } from './locales.store-b670e120.js';
+import './axios-aa1335b8.js';
 
 const irUnitStatusCss = ".sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}";
+const IrUnitStatusStyle0 = irUnitStatusCss;
 
 const IrUnitStatus = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.resetData = createEvent(this, "resetData");
+        this.resetData = createEvent(this, "resetData", 7);
         this.housekeepingService = new HouseKeepingService();
     }
     async handleSelectChange(e) {
@@ -56,9 +55,8 @@ const IrUnitStatus = class {
         }))))));
     }
 };
-IrUnitStatus.style = irUnitStatusCss;
+IrUnitStatus.style = IrUnitStatusStyle0;
 
 export { IrUnitStatus as ir_unit_status };
-//# sourceMappingURL=ir-unit-status.entry.js.map
 
 //# sourceMappingURL=ir-unit-status.entry.js.map

@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
 const irPopoverCss = ":host{display:block;width:100%}*{box-sizing:border-box}.popover-trigger{all:unset;cursor:pointer}.popover-trigger:hover,.popover-trigger:focus{color:#000}";
+const IrPopoverStyle0 = irPopoverCss;
 
 const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLElement {
     constructor() {
@@ -39,7 +40,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
             } }, h("slot", null))) : (h("button", { tabindex: "0", class: "popover-trigger", ref: el => (this.popoverTrigger = el) }, h("slot", null)))));
     }
     get el() { return this; }
-    static get style() { return irPopoverCss; }
+    static get style() { return IrPopoverStyle0; }
 }, [4, "ir-popover", {
         "content": [1],
         "irPopoverLeft": [1, "ir-popover-left"],
@@ -62,6 +63,5 @@ function defineCustomElement() {
 }
 
 export { IrPopover as I, defineCustomElement as d };
-//# sourceMappingURL=ir-popover2.js.map
 
 //# sourceMappingURL=ir-popover2.js.map

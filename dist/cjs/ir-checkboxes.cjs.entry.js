@@ -1,11 +1,13 @@
 'use strict';
 
-var index = require('./index-Dmp0dHfN.js');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-4fe8bc8a.js');
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.checkboxesChange = index.createEvent(this, "checkboxesChange");
+        this.checkboxesChange = index.createEvent(this, "checkboxesChange", 7);
         this.checkboxes = [];
         this.checkedCheckboxes = [];
     }
@@ -30,6 +32,5 @@ const IrCheckBoxes = class {
 };
 
 exports.ir_checkboxes = IrCheckBoxes;
-//# sourceMappingURL=ir-checkboxes.entry.cjs.js.map
 
 //# sourceMappingURL=ir-checkboxes.cjs.entry.js.map

@@ -1,22 +1,23 @@
 'use strict';
 
-var index = require('./index-Dmp0dHfN.js');
-var channel_service = require('./channel.service-zYJgLrrP.js');
-var channel_store = require('./channel.store-hjt8wHrw.js');
-var locales_store = require('./locales.store-DEkHwTyS.js');
-require('./calendar-data-Bs8j7XQc.js');
-require('./index-BGQl6-i5.js');
-require('./axios-dx93wJEX.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-4fe8bc8a.js');
+const channel_service = require('./channel.service-fce2252e.js');
+const channel_store = require('./channel.store-b082a6e7.js');
+const locales_store = require('./locales.store-855b855e.js');
+require('./calendar-data-f5a1b806.js');
+require('./axios-6e678d52.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";
+const IrChannelEditorStyle0 = irChannelEditorCss;
 
 const IrChannelEditor = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.saveChannelFinished = index.createEvent(this, "saveChannelFinished");
-        this.closeSideBar = index.createEvent(this, "closeSideBar");
-        this.toast = index.createEvent(this, "toast");
+        this.saveChannelFinished = index.createEvent(this, "saveChannelFinished", 7);
+        this.closeSideBar = index.createEvent(this, "closeSideBar", 7);
+        this.toast = index.createEvent(this, "toast", 7);
         var _a, _b, _c;
         this.channel_status = null;
         this.selectedTab = '';
@@ -101,9 +102,8 @@ const IrChannelEditor = class {
             }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save })));
     }
 };
-IrChannelEditor.style = irChannelEditorCss;
+IrChannelEditor.style = IrChannelEditorStyle0;
 
 exports.ir_channel_editor = IrChannelEditor;
-//# sourceMappingURL=ir-channel-editor.entry.cjs.js.map
 
 //# sourceMappingURL=ir-channel-editor.cjs.entry.js.map

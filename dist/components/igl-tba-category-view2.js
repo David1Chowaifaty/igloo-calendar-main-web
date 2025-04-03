@@ -4,6 +4,7 @@ import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}";
+const IglTbaCategoryViewStyle0 = iglTbaCategoryViewCss;
 
 const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategoryView extends HTMLElement {
     constructor() {
@@ -42,7 +43,7 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         var _a;
         return (h(Host, { key: 'fb76d2c29e32eb030c43c1e9921c51f1c6bc9108' }, h("div", { key: '915baeab946c5d9c3d41dd92146cf2533d2cf01a', class: "sectionContainer" }, h("div", { key: '339bcaef20d2da59a48593f41c1c7b69b8b8ceb5', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
-    static get style() { return iglTbaCategoryViewCss; }
+    static get style() { return IglTbaCategoryViewStyle0; }
 }, [2, "igl-tba-category-view", {
         "calendarData": [16],
         "selectedDate": [8, "selected-date"],
@@ -82,6 +83,5 @@ function defineCustomElement() {
 }
 
 export { IglTbaCategoryView as I, defineCustomElement as d };
-//# sourceMappingURL=igl-tba-category-view2.js.map
 
 //# sourceMappingURL=igl-tba-category-view2.js.map

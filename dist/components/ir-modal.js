@@ -4,6 +4,5 @@ const IrModal = IrModal$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrModal, defineCustomElement };
-//# sourceMappingURL=ir-modal.js.map
 
 //# sourceMappingURL=ir-modal.js.map

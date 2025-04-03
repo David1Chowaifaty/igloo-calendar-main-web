@@ -4,6 +4,5 @@ const IrCheckbox = IrCheckbox$1;
 const defineCustomElement = defineCustomElement$1;
 
 export { IrCheckbox, defineCustomElement };
-//# sourceMappingURL=ir-checkbox.js.map
 
 //# sourceMappingURL=ir-checkbox.js.map
