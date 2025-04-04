@@ -29,6 +29,7 @@ export declare class IglCalBody {
     private hkModal;
     private housekeepingService;
     private bookingMap;
+    private interactiveTitle;
     componentWillLoad(): void;
     handleCalendarDataChange(): void;
     dragOverHighlightElementHandler(event: CustomEvent): void;
