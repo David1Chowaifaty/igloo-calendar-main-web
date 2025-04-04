@@ -8,6 +8,6 @@ export declare class IrInteractiveTitle {
     private croppedTitleEl;
     componentWillLoad(): void;
     componentDidLoad(): void;
-    initializePopover(): void;
+    private initializePopover;
     render(): any;
 }

@@ -16,30 +16,52 @@ export class IrInteractiveTitle {
     componentDidLoad() {
         this.initializePopover();
     }
+    // initializePopover() {
+    //   const titleElement = this.el.querySelector('.popover-title') as HTMLElement;
+    //   if (titleElement) {
+    //     const isOverflowing = titleElement.scrollWidth > titleElement.offsetWidth;
+    //     if (isOverflowing) {
+    //       this.croppedTitle = this.popoverTitle.slice(0, this.cropSize) + '...';
+    //       this.croppedTitleEl.innerHTML = this.croppedTitle;
+    //       $(titleElement).popover({
+    //         trigger: 'hover',
+    //         content: this.popoverTitle,
+    //         placement: 'top',
+    //       });
+    //     } else {
+    //       $(titleElement).popover('dispose');
+    //     }
+    //   }
+    // }
     initializePopover() {
         const titleElement = this.el.querySelector('.popover-title');
-        if (titleElement) {
-            const isOverflowing = titleElement.scrollWidth + 10 > titleElement.offsetWidth;
-            if (isOverflowing) {
-                this.croppedTitle = this.popoverTitle.slice(0, this.cropSize) + '...';
-                this.croppedTitleEl.innerHTML = this.croppedTitle;
-                $(titleElement).popover({
-                    trigger: 'hover',
-                    content: this.popoverTitle,
-                    placement: 'top',
-                });
-            }
-            else {
-                $(titleElement).popover('dispose');
-            }
+        const iconElement = this.el.querySelector('.hk-dot');
+        if (!titleElement || !this.croppedTitleEl) {
+            return;
+        }
+        const containerWidth = titleElement.offsetWidth;
+        const textWidth = this.croppedTitleEl.scrollWidth;
+        const iconWidth = iconElement ? iconElement.offsetWidth : 0;
+        const isOverflowing = textWidth + iconWidth > containerWidth;
+        if (isOverflowing) {
+            this.croppedTitle = this.popoverTitle.slice(0, this.cropSize) + '...';
+            this.croppedTitleEl.innerHTML = this.croppedTitle;
+            $(titleElement).popover({
+                trigger: 'hover',
+                content: this.popoverTitle,
+                placement: 'top',
+            });
+        }
+        else {
+            $(titleElement).popover('dispose');
         }
     }
     render() {
-        return (h(Host, { key: '7ff880d81c977388fcff3367ed40e98016e8b2a3', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'baa7d279fa45447459bb5a58cd3e608211fd7b3a', class: "popover-title", style: {
+        return (h(Host, { key: 'd2d6dbd982be3dd45c646b7ed13dc631115954a1', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '2682c8002840054204444e3188829e6dde39cff9', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, h("span", { key: '309cbc3b946aa43d60616b40b448f645837528f8', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: '154f1eded3ece5eec1ca8dcb47741b8c197a437b', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: 'c2b7f834a603c54bad2f2a3d701aedc04c23b83a', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: 'ff0587370ecce086a624e9432d47a83a7f3b598d',
+            } }, h("span", { key: 'e496ca16ceffd14b1eda25b34c0a12056560a35b', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: 'a94e5b24a76dfb546d01b2c3fa79d9aa51039e78', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: '06f2ec400ba90395ee805adaa9d45b6f4e384189', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: 'ece0097129ba3842e064502ce48c1b16790ec3dd',
             // fill="currentColor"
             d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
