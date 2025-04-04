@@ -3,8 +3,8 @@ export type TaskFilters = {
         code: string;
     };
     housekeepers: {
-        ids: number[];
-    };
+        id: number;
+    }[];
     cleaning_frequencies: {
         code: string;
     };
