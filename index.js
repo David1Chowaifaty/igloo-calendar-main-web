@@ -31,7 +31,7 @@ const links = [
             { href: "tasks.html", name: "Housekeeping tasks", current: false, subroutes: null },
         ]
     },
-    { href: "secure-tasks.html", name: "Secure HK tasks", current: false, subroutes: null },
+    { href: "secure-tasks.html", name: "Secure Screens", current: false, subroutes: null },
     { href: "front-desk.html", name: "Front desk", current: false, subroutes: null },
     { href: "property-payment.html", name: "Payment Option", current: false, subroutes: null },
     { href: "booking-details.html", name: "Booking details", current: false, subroutes: null },
