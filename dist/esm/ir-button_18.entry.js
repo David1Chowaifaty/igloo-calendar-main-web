@@ -187,7 +187,7 @@ const IrIcon = class {
         this.icon = 'ft-check';
     }
     render() {
-        return (h("button", { key: '9af0950d514e564129b09c7649525ba094ae67a9', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '4025229c1553d5501086536065711a1436e489a6', name: "icon" })));
+        return (h("button", { key: 'f224907e64df63506ee7aa19b1c0b036941cec07', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'abf9c3a83d3bbf4c38d098a89190cde45bf3eb46', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;
@@ -510,13 +510,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '457bb941c47642e65c8ec12ea4e3da4055de2428', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '536b8b9d57684dd546912eb8960997e1ee540224', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '0c64c7843efaf5f9a8d3c284edeae5fdda25ae99', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'ade2aba3180f5001fa183c0d7175d7bb234424fe', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '96fea487f217aa97a0143c2d2ada577a368164c4', class: `ir-alert-header` }, h("p", { key: '82d2a1b46a7e80e02e2d19aed671908798a71dc0' }, this.modalTitle))), h("div", { key: '3d5c362a7037eb29eff557e6c5d20b9c8bf727b4', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '3c4e9b5a857864aad2692d87fa4cd2e038aa4fde' }, this.modalBody)), h("div", { key: 'a7025a62ebe673bf3408433b669efab90d5a42d0', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '28387eddae25e06c6a8373133897289f290fe1ce', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: '43213cfbb736a35f9e0fc5bcd2baa3b075796660', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '4114cdf98d419230d12d5da2c722f8dbe27bbd12', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'e7578401cd31d0fd8acef1a44b1c21a61cde4974', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '3e9ad0843eafa16649f7180d520011befee68568', class: `ir-alert-header` }, h("p", { key: 'f8c09a18b2fe86c5a559f71eea43418d2077c492' }, this.modalTitle))), h("div", { key: 'e91bdac928699ff3455baf34025d4a89f0abe9cd', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'ecac486fa327476e46c0150901e077e83d319d02' }, this.modalBody)), h("div", { key: '7da861c68709e18a5ffe34a161d26ee7c93c7349', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '8a39782dcfe9c6437e33e8aad3d594e1f89c10b4', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (h("ir-button", { key: 'ae2953b299b07a8cb70cbd9639c98e29b2e22b71', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -643,7 +643,7 @@ const IrSelect = class {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: 'b2d29754d264a0dd4947f38fefad0c5257e43244', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '50ad650f8979ade801f699f2b5c9043f7c91f45d', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '321917494ab8806d5b724f494311b789895e670d', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '4b345626762406cabe2d8eef0ec5de149b9c1fa3', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -653,7 +653,7 @@ const IrSelect = class {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '43f886e2027c162f93f702e01fa2266a253302e9', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '5bd85aaea08e80aa0aed9898a1992a8bb9d19723', class: "input-group row m-0" }, label, h("select", { key: '76001290bf90ba83d816ca18a59b647fb1d8730a', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '8864695545b5825e3d04b3b2ee111daaf9bc7a0a', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '875dc56500c7e04a21ef96ab160a1e2fc907f368', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '6fead914ae62477048334f72c4ccec9ef1ae0be1', class: "input-group row m-0" }, label, h("select", { key: 'b89fc1c1ea8b16bfe63002cf84e22d2566836986', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '1ad169db222e5a217d42fea14d360d6339742599', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -729,12 +729,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '8621ef15e1daa876f66465c4bcdf8c96bb448de3', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: 'ccfc147de1db818aabaea2b797daa06ccc87727f', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'c6bf98e427e326eaed03562f8181fb1d6539a2a7', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '03c3f3805e7444b2bee02428b637d47779e53f15', class: 'sidebar-title' }, h("p", { key: '204d41dd9cbd1d8d8d095751d44dd3a283769a8d', class: 'p-0 m-0' }, this.label), h("div", { key: '108d62944b062dd9d021ae35501b2043c0fb7add', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '2d741e73625b706f1ce7b611566ab8032452b85c', class: "", onIconClickHandler: () => {
+            h("div", { key: '5a71e9ac57bbacb86ccddc6426ca039722550920', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '06b3501eda6a5c76dbd86b05121ebd96e541dcbc', class: 'sidebar-title' }, h("p", { key: '4ea272cff14205f98119c13e7ff202cb38e0490c', class: 'p-0 m-0' }, this.label), h("div", { key: '9f9c4bf4e57155fbc7723b607ace7c14120f592c', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: 'e1dd01eea5f60e2b8b2e12d6179fd9db9e6e444e', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '159217faa09cfff3a9eaa13fe2e21b82b7dc3ab2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '5cda8d4f84834536381d817036eeac274c4e6cd8', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'f5b65ae8172d4786339c8e055129a74f6d134029', name: "sidebar-body" })),
+                } }, h("svg", { key: '8f0e78dd9da7de4ace88d868d5ee4996f3bd1df2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'e2593d71c10dbffa13db8e02d117fb734d48a1bd', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '176c0943151606d1188431b95047aac6422be564', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {
@@ -779,7 +779,7 @@ const IrSwitch = class {
         this.checkChange.emit(this.checked);
     }
     render() {
-        return (h(Host, { key: 'd25802481794e12b2eda645995b19eb0f487af20' }, h("button", { key: '310795aec303f1b878f1b065aef7778d7f21a90b', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: '5486358bc4c49f12a67da23508fd92e147aa8f15', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: '5d3de5a4ec47edde9848bf2e9191c1c3ebda5932', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
+        return (h(Host, { key: '6030482e8db23514288c4a1885be239ce148c0d7' }, h("button", { key: '02044d5292b0d89118082c392e0ec59e98c5dd3f', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: 'e7e2c0ff6ea71c0568c04a5416b41f4dad9874aa', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: '3d07c238c7d03ea052431ac300adbd23aad036cf', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
     }
 };
 IrSwitch.style = IrSwitchStyle0;
@@ -843,14 +843,17 @@ const IrToast = class {
         }
     }
     render() {
-        return h(Host, { key: '02fb0ebca699fbf7757b4306dc78e870a72941bf' });
+        return h(Host, { key: '273be03ab93aac3dc2376c429b41c3e357f70785' });
     }
     get element() { return getElement(this); }
 };
 IrToast.style = IrToastStyle0;
 
-const irUserFormPanelCss = ".sc-ir-user-form-panel-h{display:flex;flex-direction:column;background:white;height:100%}.panel-footer.sc-ir-user-form-panel{position:sticky;bottom:0;z-index:10;background:white;border-top:1px solid #e4e5ec}.panel-header.sc-ir-user-form-panel{position:sticky;top:0;z-index:10;background:white}.panel-body.sc-ir-user-form-panel{flex:1}.test.sc-ir-user-form-panel{height:100vh;background:#000}";
+const irUserFormPanelCss = "";
 const IrUserFormPanelStyle0 = irUserFormPanelCss;
+
+const sheetCss = ".sc-ir-user-form-panel-h{height:100%}.sheet-container.sc-ir-user-form-panel{display:flex;flex-direction:column;background:white;height:100%;gap:1rem}.sheet-footer.sc-ir-user-form-panel{position:sticky;bottom:0;z-index:10;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-user-form-panel{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-user-form-panel{flex:1}@media (min-width: 768px){.sheet-footer.sc-ir-user-form-panel{flex-direction:row;align-items:center}}";
+const IrUserFormPanelStyle1 = sheetCss;
 
 const IrUserFormPanel = class {
     constructor(hostRef) {
@@ -970,17 +973,20 @@ const IrUserFormPanel = class {
     }
     render() {
         var _a, _b, _c, _d, _e, _f;
-        return (h(Host, { key: '3a21b2d650b0c18b6b22fdba5f73104614f9de59' }, h("ir-title", { key: 'b32ee94799904392b336b74092a334b542cbe70c', class: "px-1 panel-header", displayContext: "sidebar", label: this.isEdit ? 'Edit User' : 'Create New User' }), h("section", { key: 'cc6ab29f4b6024b4f73aa6e918131878f6325bf7', class: "px-1 panel-body" }, h("ir-input-text", { key: 'ec8c8f2ba025a0311da36df92bdacba5fefcab0d', testId: "name", zod: this.userSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.name, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: '9a12b3541b3e3840584e08b274785c22bd7f89e5', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: '9ed7b82259ef4fc435b65f038470b469b3c3df49', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_c = this.errors) === null || _c === void 0 ? void 0 : _c.mobile, asyncParse: true, autoValidate: this.user ? (((_d = this.userInfo) === null || _d === void 0 ? void 0 : _d.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), h("ir-input-text", { key: '6cfdbdda3cafe373799cde4e51702f9cbdea4433', testId: "password", autoValidate: this.user ? (!((_e = this.userInfo) === null || _e === void 0 ? void 0 : _e.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
-                // if (this.user) this.showPasswordValidation = false;
-            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { key: 'b7c1479ef47873593dee1d03ba8642c7b860c0c1', class: "mb-1", password: this.userInfo.password }), h("ir-select", { key: 'db1f1391c361f5cdf90d3eaadc875c6ce456b4f9', disabled: this.disableFields, label: "Role", data: [
-                { text: 'Super Admin', value: '1' },
+        return (h("form", { key: 'bed2d89c26ac3fa6b61c111536550b4bd0c165ef', class: "sheet-container", onSubmit: async (e) => {
+                e.preventDefault();
+                await this.addUser();
+            } }, h("ir-title", { key: 'bf3e0e59c6c176f28545f6469d69ee7b4f4ee792', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? 'Edit User' : 'Create New User' }), h("section", { key: '93f677fac524a4bb7acfe0c522c0290e8235ecd1', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'ff871c8e6434e50d874ff9b6033ef0ff2f6578fd', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: 'de99b169eab8ddc38b16bc9922a9acbd36e0069f', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), h("div", { key: '20886defe048ece15473a64454ee2fc967c0fc35', class: "mb-1" }, h("ir-select", { key: 'fb4bce94a481f350085b4f0126debcaf5eef4145', disabled: this.disableFields, label: "Role", data: [
+                { text: 'Admin', value: '1' },
                 { text: 'Frontdesk', value: '2' },
-            ], selectedValue: this.userInfo.role, onSelectChange: e => this.updateUserField('role', e.detail) })), h("div", { key: '8120f1a1ee91ab76e908f5ae02e38108383dd04d', class: "panel-footer py-1 px-1 d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '7977088cb73468726d18aa2a270c5e2db3b2d6b2', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '3ab2eea8186cf82b07015f4e2a1c874a81425f7b', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Save }))));
+            ], selectedValue: this.userInfo.role, onSelectChange: e => this.updateUserField('role', e.detail) })), h("ir-input-text", { key: 'f45daa9cc137a7806d1c1cc3df53ae0c9053bdfa', testId: "name", zod: this.userSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: (_d = this.errors) === null || _d === void 0 ? void 0 : _d.name, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: '2117beab8544591f970806bc1f219cc930543dc7', testId: "password", autoValidate: this.user ? (!((_e = this.userInfo) === null || _e === void 0 ? void 0 : _e.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_f = this.errors) === null || _f === void 0 ? void 0 : _f.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+                // if (this.user) this.showPasswordValidation = false;
+            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { key: 'bd6e3905836e643edd8645f159a9cc3fbd73e5df', class: "mb-1", password: this.userInfo.password })), h("div", { key: 'd2db6632edac9c24da4bbd56eb82221d552a700e', class: "sheet-footer" }, h("ir-button", { key: 'a9cf387ac5f0db3142d9a7b8bc40d0d3404664f1', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'd94e01aaa7c47e76f5016a22d3b745c08fa35650', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
 };
-IrUserFormPanel.style = IrUserFormPanelStyle0;
+IrUserFormPanel.style = IrUserFormPanelStyle0 + IrUserFormPanelStyle1;
 
-const irUserManagementCss = ".sc-ir-user-management-h{display:block}";
+const irUserManagementCss = ".sc-ir-user-management-h{display:block;background:white;height:100%}";
 const IrUserManagementStyle0 = irUserManagementCss;
 
 const IrUserManagement = class {
@@ -1120,7 +1126,7 @@ const IrUserManagement = class {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { isSuperAdmin: this.isSuperAdmin, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex px-1 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { isSuperAdmin: this.isSuperAdmin, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -1130,6 +1136,9 @@ IrUserManagement.style = IrUserManagementStyle0;
 
 const irUserManagementTableCss = ".sc-ir-user-management-table-h{display:block}.table.sc-ir-user-management-table th.sc-ir-user-management-table,.table.sc-ir-user-management-table td.sc-ir-user-management-table{white-space:nowrap;width:max-content !important;background:white;padding:0.25rem 1rem !important}";
 const IrUserManagementTableStyle0 = irUserManagementTableCss;
+
+const tableCss = ".ir-table-row.sc-ir-user-management-table td.sc-ir-user-management-table{padding:0.5rem 1rem !important;text-align:left;z-index:2}.ir-table-row.sc-ir-user-management-table td.sc-ir-user-management-table:last-child{width:100% !important}.table-container.sc-ir-user-management-table{border-radius:0.5rem}.table.sc-ir-user-management-table td.sc-ir-user-management-table{border-top:0;border-bottom:1px solid #e3ebf3}.table.sc-ir-user-management-table thead.sc-ir-user-management-table th.sc-ir-user-management-table{border:none !important;background:#f3f4f6;color:#374151;padding:0.5rem 1rem !important;text-align:left}";
+const IrUserManagementTableStyle1 = tableCss;
 
 const IrUserManagementTable = class {
     constructor(hostRef) {
@@ -1152,14 +1161,14 @@ const IrUserManagementTable = class {
         });
     }
     render() {
-        var _a, _b, _c, _d;
-        return (h(Host, { key: '88292857cc7af46d6afbb79117965afadc5801b7' }, h("section", { key: 'f0e8da783738cd25bfded3e12f7b885bd13acafc', class: "card table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '8c15517949f4fef2ef07de8bfca57d76f015c39d', class: "table" }, h("thead", { key: '767c044b8a503c813a0f88c759e46f30a666cc67' }, h("tr", { key: '6f9e176b76c92d1d2ac1255e6325ccf0cbf50791' }, h("th", { key: '42169d4c5fd462542413063156d6eb56250c201a', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '61b51f368c59c55c24d1192c4eb9969fbbe7bfeb', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: 'a7675db30baf75f57ed3d0925cfa44a46ec4c885', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: 'da5c28c0592c3a9801fe61be91b79822ce835fc7', class: "text-left" }, "Role"), h("th", { key: '307c80ab284af0231dacabb47c125059086ea31e', class: "text-left" }, "Last signed in"), h("th", { key: '98f6323fe519215f9d91721525b3504bddcdd173', class: "text-left" }, "Created at"), h("th", { key: 'f7278fc2642573244ad92c8605de4de4d3a82db2' }, "Active"), h("th", { key: '2292ee9eb8af8175092a298ea396401caa2bfb4a', class: "text-center" }, h("ir-icon", { key: '8841a41fc4c29963d8d1fed0f1e857aa680e426f', "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        var _a, _b, _c, _d, _e;
+        return (h(Host, { key: 'a181160169d41086cbf8e76fe45705e6284e5401' }, h("section", { key: 'f3b46420e235aad6cb5b51435d535e7e44e50dc1', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '1b42e6c61e16e7dfb6dcadb490499291f9a6e35b', class: "table" }, h("thead", { key: 'cf172c92f4f356fe5ddb739d28df45527425cd2d' }, h("tr", { key: '9e6a394cb93c749bc4441b4a5ac89fb6192eea1d' }, h("th", { key: 'db58ad86403ceab24327f3fd3f970047e17b31d5', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '2a8ea8142803a70c73a5834068b531723983a519', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: 'cbe81f78a7b1cc208d23b8288bccb5efa6563888', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: '44ff057d02fc70eb1e2205be4d5d16b2f8f1d07c', class: "text-left" }, "Role"), h("th", { key: '8fc8f5e75bee77c69928ec74aaaf2b7a284b0b93', class: "text-left" }, "Last signed in"), h("th", { key: '4838ecd6d59096ec31cb30d0d7cdb076606b837d', class: "text-left" }, "Created at"), h("th", { key: '394b8266edad800814b2186cfc79a585469eb15d' }, "Active"), h("th", { key: 'ef719d3c48b723ab2f377ddd520e3dc97e0793c5', class: "" }, h("ir-icon", { key: '99af974a4f335ae627efe25eda161935b2aa1b5f', "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
                     user: null,
                 };
-            } }, h("svg", { key: 'a67464d9f21f5d2c4ef462c2d01ebf7d2e39ec14', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '7b6ee10bf00ead142eac5e9417c8c561bd689848', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", { key: 'fdbf0cbceed4a02798e81b4ae519a981c4cabd7f' }, this.users.map((user, i) => (h("tr", { key: user.id }, h("td", { class: "text-left" }, user.username), h("td", { class: "text-left w-full" }, user.email), h("td", { class: "text-left" }, user.phone_prefix, " ", user.mobile), h("td", { class: "text-left" }, user.role), h("td", { class: "text-left" }, hooks(user.last_signed_in, 'YYYY-MM-DD').format('MMM, DD YYYY')), h("td", { class: "text-left" }, hooks(user.created_at, 'YYYY-MM-DD').format('MMM, DD YYYY')), h("td", null, i > 0 && h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active })), h("td", { class: "text-center" }, h("div", { class: "icons-container d-flex align-items-center justify-content-center", style: { gap: '0.5rem' } }, h("ir-icon", { "data-testid": "edit", title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
+            } }, h("svg", { key: 'a5151a4510a493331a86adf206c8cf27dc9fd495', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '7337f69bdcdfb4aa343349c46563056649a48c7a', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" })))))), h("tbody", { key: '8d086a311b5447aeacb16f6e916aaf19aa0981c6' }, this.users.map((user, i) => (h("tr", { key: user.id, class: "ir-table-row" }, h("td", { class: "text-left" }, user.username), h("td", { class: "text-left w-100" }, user.email), h("td", { class: "text-left" }, user.phone_prefix, " ", user.mobile), h("td", { class: "text-left" }, user.role), h("td", { class: "text-left" }, hooks(user.last_signed_in, 'YYYY-MM-DD').format('MMM, DD YYYY')), h("td", { class: "text-left" }, hooks(user.created_at, 'YYYY-MM-DD').format('MMM, DD YYYY')), h("td", null, i > 0 && h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active })), h("td", { class: "" }, h("div", { class: "icons-container d-flex align-items-center", style: { gap: '0.5rem' } }, h("ir-icon", { "data-testid": "edit", title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: true,
@@ -1168,10 +1177,10 @@ const IrUserManagementTable = class {
             }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))), i > 0 && (h("ir-icon", { "data-testid": "delete", title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => {
                 this.user = user;
                 this.modalRef.openModal();
-            } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))))))), h("ir-sidebar", { key: '52f4cc21d2497f17980b126aeba20bbbb7210e1d', showCloseButton: false, open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
+            } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))))))), h("ir-sidebar", { key: 'd76a2f51d30aa9768915771829412395a91a98f2', showCloseButton: false, open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), h("ir-modal", { key: 'a03103837ad88ce459b6b7b3558aab8e6a0c4da1', autoClose: false, modalBody: "Are you sure you want to delete this user?", rightBtnColor: "danger", rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
+            } }, this.renderCurrentTrigger()), h("ir-modal", { key: '5189255069b5ff40c7b3c0f4e70c1567eaea7bb4', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
     }
     async removeUser(e) {
         try {
@@ -1191,7 +1200,7 @@ const IrUserManagementTable = class {
         return (h("ir-user-form-panel", { isSuperAdmin: this.isSuperAdmin, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: (_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.user, isEdit: (_b = this.currentTrigger) === null || _b === void 0 ? void 0 : _b.isEdit }));
     }
 };
-IrUserManagementTable.style = IrUserManagementTableStyle0;
+IrUserManagementTable.style = IrUserManagementTableStyle0 + IrUserManagementTableStyle1;
 
 const requirementCheckCss = ".sc-requirement-check-h{display:block;font-size:0.875rem}.valid.sc-requirement-check{color:var(--green, #28d094)}.requirement.sc-requirement-check{display:flex;align-items:center;gap:0.5rem}";
 const RequirementCheckStyle0 = requirementCheckCss;

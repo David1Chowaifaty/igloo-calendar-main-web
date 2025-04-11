@@ -18,7 +18,7 @@ import { d as defineCustomElement$4 } from './ir-user-form-panel2.js';
 import { d as defineCustomElement$3 } from './ir-user-management-table2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
-const irUserManagementCss = ".sc-ir-user-management-h{display:block}";
+const irUserManagementCss = ".sc-ir-user-management-h{display:block;background:white;height:100%}";
 const IrUserManagementStyle0 = irUserManagementCss;
 
 const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManagement extends HTMLElement {
@@ -159,7 +159,7 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { isSuperAdmin: this.isSuperAdmin, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex px-1 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { isSuperAdmin: this.isSuperAdmin, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

@@ -55,7 +55,7 @@ IrSalesFilters.style = IrSalesFiltersStyle0;
 const irSalesTableCss = ".sc-ir-sales-table-h{display:block;width:100%}.legend.sc-ir-sales-table{height:12px;aspect-ratio:1;background:#000;border-radius:4px}.secondary.sc-ir-sales-table{background:#6692b3}.channel-cell.sc-ir-sales-table{width:100%}.task-row.sc-ir-sales-table,.table.sc-ir-sales-table th.sc-ir-sales-table,.table.sc-ir-sales-table td.sc-ir-sales-table{white-space:nowrap;max-width:max-content !important;padding:0.25rem 1rem !important}";
 const IrSalesTableStyle0 = irSalesTableCss;
 
-const tableCss = "";
+const tableCss = ".ir-table-row.sc-ir-sales-table td.sc-ir-sales-table{padding:0.5rem 1rem !important;text-align:left;z-index:2}.ir-table-row.sc-ir-sales-table td.sc-ir-sales-table:last-child{width:100% !important}.table-container.sc-ir-sales-table{border-radius:0.5rem}.table.sc-ir-sales-table td.sc-ir-sales-table{border-top:0;border-bottom:1px solid #e3ebf3}.table.sc-ir-sales-table thead.sc-ir-sales-table th.sc-ir-sales-table{border:none !important;background:#f3f4f6;color:#374151;padding:0.5rem 1rem !important;text-align:left}";
 const IrSalesTableStyle1 = tableCss;
 
 const sampleSalesData = [
