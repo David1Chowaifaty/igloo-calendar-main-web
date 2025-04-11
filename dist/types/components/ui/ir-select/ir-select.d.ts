@@ -25,6 +25,7 @@ export declare class IrSelect {
     labelWidth: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
     select_id: string;
     testId: string;
+    disabled: boolean;
     /** Whether the select has an error */
     error: boolean;
     initial: boolean;

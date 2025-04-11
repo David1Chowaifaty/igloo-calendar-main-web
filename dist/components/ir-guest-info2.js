@@ -4,18 +4,22 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { d as defineCustomElement$9 } from './ir-button2.js';
-import { d as defineCustomElement$8 } from './ir-combobox2.js';
-import { d as defineCustomElement$7 } from './ir-country-picker2.js';
-import { d as defineCustomElement$6 } from './ir-icon2.js';
-import { d as defineCustomElement$5 } from './ir-icons2.js';
-import { d as defineCustomElement$4 } from './ir-input-text2.js';
-import { d as defineCustomElement$3 } from './ir-phone-input2.js';
-import { d as defineCustomElement$2 } from './ir-spinner2.js';
-import { d as defineCustomElement$1 } from './ir-textarea2.js';
+import { d as defineCustomElement$a } from './ir-button2.js';
+import { d as defineCustomElement$9 } from './ir-combobox2.js';
+import { d as defineCustomElement$8 } from './ir-country-picker2.js';
+import { d as defineCustomElement$7 } from './ir-icon2.js';
+import { d as defineCustomElement$6 } from './ir-icons2.js';
+import { d as defineCustomElement$5 } from './ir-input-text2.js';
+import { d as defineCustomElement$4 } from './ir-phone-input2.js';
+import { d as defineCustomElement$3 } from './ir-spinner2.js';
+import { d as defineCustomElement$2 } from './ir-textarea2.js';
+import { d as defineCustomElement$1 } from './ir-title2.js';
 
 const irGuestInfoCss = ".input-group-text.sc-ir-guest-info{min-width:10rem;text-align:left}.mobilePrefixSelect.sc-ir-guest-info{border-right-width:0;border-top-right-radius:0;border-bottom-right-radius:0}.mobilePrefixInput.sc-ir-guest-info{border-top-left-radius:0;border-bottom-left-radius:0}.check-container.sc-ir-guest-info{position:relative;cursor:pointer;font-size:14px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;align-items:center}.check-container.sc-ir-guest-info input.sc-ir-guest-info{position:relative;opacity:0;cursor:pointer;height:0;width:0}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info{position:relative;top:0;left:0;height:20px;width:20px;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info{background-color:#1e9ff2;border-color:#1e9ff2}.checkmark.sc-ir-guest-info:after{content:'';position:absolute;display:none}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info:after{display:block}.check-label.sc-ir-guest-info{margin-left:10px !important}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info:after{left:6px;top:3px;width:6px;height:10px;border:solid white;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.ir-card-header.sc-ir-guest-info{width:100%;border-bottom:1px solid #e4e5ec}.close-icon.sc-ir-guest-info{margin:0}.border-theme.sc-ir-guest-info{border:1px solid #cacfe7}.loading-container.sc-ir-guest-info{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
 const IrGuestInfoStyle0 = irGuestInfoCss;
+
+const sheetCss = ".sc-ir-guest-info-h{height:100%}.sheet-container.sc-ir-guest-info{display:flex;flex-direction:column;background:white;height:100%;gap:1rem}.sheet-footer.sc-ir-guest-info{position:sticky;bottom:0;z-index:10;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-guest-info{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-guest-info{flex:1}@media (min-width: 768px){.sheet-footer.sc-ir-guest-info{flex-direction:row;align-items:center}}";
+const IrGuestInfoStyle1 = sheetCss;
 
 const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLElement {
     constructor() {
@@ -93,34 +97,33 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         if (this.isLoading) {
             return null;
         }
-        return [
-            h("div", { class: "p-0" }, this.headerShown && (h("div", { class: "position-sticky mb-1 shadow-none p-0" }, h("div", { class: "d-flex align-items-center justify-content-between ir-card-header py-1 p-0" }, h("h3", { class: "card-title text-left font-medium-2 px-1 my-0" }, locales.entries.Lcz_GuestDetails), h("ir-icon", { class: "close close-icon px-1", onIconClickHandler: () => {
-                    this.closeSideBar.emit(null);
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("div", { class: "card-content collapse show" }, h("div", { class: this.headerShown ? 'card-body px-1' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries.Lcz_FirstName, name: "firstName",
-                // submitted={this.submit}
-                value: (_a = this.guest) === null || _a === void 0 ? void 0 : _a.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries.Lcz_LastName, name: "lastName",
-                // submitted={this.submit}
-                value: (_b = this.guest) === null || _b === void 0 ? void 0 : _b.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: locales.entries.Lcz_Email, name: "email",
-                // submitted={this.submit}
-                value: (_c = this.guest) === null || _c === void 0 ? void 0 : _c.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: locales.entries.Lcz_AlternativeEmail, name: "altEmail", value: (_d = this.guest) === null || _d === void 0 ? void 0 : _d.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
-                // error={this.submit && !this.guest.country_id}
-                country: this.countries.find(c => c.id === this.guest.country_id), label: locales.entries.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
-            }), h("ir-phone-input", { onTextChange: e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    const { mobile, phone_prefix } = e.detail;
-                    if (mobile !== this.guest.mobile) {
-                        this.handleInputChange({ mobile });
-                    }
-                    if (phone_prefix !== this.guest.country_phone_prefix)
-                        this.handleInputChange({ country_phone_prefix: phone_prefix });
-                }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries.Lcz_MobilePhone, countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: (_e = this.guest) === null || _e === void 0 ? void 0 : _e.notes, label: locales.entries.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter))), h("hr", null), h("ir-button", { isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), color: "btn-primary" })))),
-        ];
+        return (h("form", { class: 'p-0 sheet-container', onSubmit: async (e) => {
+                e.preventDefault();
+                await this.editGuest();
+            } }, this.headerShown && h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: locales.entries.Lcz_GuestDetails }), h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries.Lcz_FirstName, name: "firstName",
+            // submitted={this.submit}
+            value: (_a = this.guest) === null || _a === void 0 ? void 0 : _a.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries.Lcz_LastName, name: "lastName",
+            // submitted={this.submit}
+            value: (_b = this.guest) === null || _b === void 0 ? void 0 : _b.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: locales.entries.Lcz_Email, name: "email",
+            // submitted={this.submit}
+            value: (_c = this.guest) === null || _c === void 0 ? void 0 : _c.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: locales.entries.Lcz_AlternativeEmail, name: "altEmail", value: (_d = this.guest) === null || _d === void 0 ? void 0 : _d.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
+            // error={this.submit && !this.guest.country_id}
+            country: this.countries.find(c => c.id === this.guest.country_id), label: locales.entries.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
+        }), h("ir-phone-input", { onTextChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                const { mobile, phone_prefix } = e.detail;
+                if (mobile !== this.guest.mobile) {
+                    this.handleInputChange({ mobile });
+                }
+                if (phone_prefix !== this.guest.country_phone_prefix)
+                    this.handleInputChange({ country_phone_prefix: phone_prefix });
+            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries.Lcz_MobilePhone, countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: (_e = this.guest) === null || _e === void 0 ? void 0 : _e.notes, label: locales.entries.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter))))), h("div", { class: "sheet-footer" }, h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { "data-testid": "save", isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrGuestInfoStyle0; }
+    static get style() { return IrGuestInfoStyle0 + IrGuestInfoStyle1; }
 }, [2, "ir-guest-info", {
         "language": [1],
         "headerShown": [4, "header-shown"],
@@ -139,7 +142,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-spinner", "ir-textarea"];
+    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-phone-input", "ir-spinner", "ir-textarea", "ir-title"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
@@ -148,45 +151,50 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-phone-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-textarea":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-title":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

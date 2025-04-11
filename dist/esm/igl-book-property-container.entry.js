@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-0a4a209a.js';
 import { T as Token } from './Token-acf5fbad.js';
-import { B as BookingService } from './booking.service-52896306.js';
+import { B as BookingService } from './booking.service-729d0777.js';
 import { R as RoomService } from './room.service-fc2635b9.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import './axios-aa1335b8.js';
-import './utils-6f4ee3ac.js';
+import './utils-0f5c07aa.js';
 import './moment-ab846cee.js';
 import './index-502f9842.js';
 import './calendar-data-5d531f99.js';
@@ -101,7 +101,7 @@ const IglBookPropertyContainer = class {
         };
     }
     render() {
-        return (h(Host, { key: 'd91de051e528cf974acfe2891d12756230c1b7f2' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'e3a9656954c00f326ed623f4d2dbc4e969632f0c' }, h("ir-toast", { key: '88a25fe6bf2498d5aa0aa3be2251a6b53860c46e' }), h("ir-interceptor", { key: 'cb569a47769a7060ef5cd4c8def67a29e094005d' }))), h("div", { key: '17cea78737c93bb7bc5c2da7019ced0c89ab8938', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '98c9568bd9fe6d0d26e8c678626ab187becc8d28', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '555302a3a2156e4f190c093bf80d9ce97e0c5a94', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: '62d7f82573dce6375445a601cfbc2c11d3203259' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'efbeeb1d989b66fd70c4a9b68929c94103f76da7' }, h("ir-toast", { key: '8225ba532340ef54ea62f50e15c4bfdec03ce393' }), h("ir-interceptor", { key: '24e26daae4119722f15b6170a9390a51648704fe' }))), h("div", { key: 'ce0870d18813ab5cafce2ec8d8ef211727719877', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '3ae6289ebfea0131d3d2e055d6803756d20a8140', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'afbd5f63b4fc0191d6cb7cce95ef96a8f2d82d83', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

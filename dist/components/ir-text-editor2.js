@@ -16519,7 +16519,7 @@ const IrTextEditor = /*@__PURE__*/ proxyCustomElement(class IrTextEditor extends
         }
     }
     render() {
-        return (h("div", { key: '33e46b0338af4361afe74d4568151edd67944663', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '8c0a1c84d45b5c7fe4c29111b8e2c74bd5804846', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: 'e66d3d6f835dc0c3093a3a0722b51cd8a4206571', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '9a0112fe45eecc53c26bd5488fbfea587e8edfc4', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     get el() { return this; }
     static get watchers() { return {

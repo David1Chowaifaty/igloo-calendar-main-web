@@ -1,5 +1,5 @@
 import locales from "../../../stores/locales.store";
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import { BookingService } from "../../../services/booking.service";
 import { getPrivateNote } from "../../../utils/booking";
 export class IrBookingExtraNote {
@@ -54,21 +54,21 @@ export class IrBookingExtraNote {
         }
     }
     render() {
-        return (h(Host, { key: '4b46b31f2175f8ee84deacbb9e3abcc3348ee3e4', class: 'px-0' }, h("ir-title", { key: '320b02eb61e74466a6d7909966d3209559251793', class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("form", { key: '66161decc4c51621d37776dfc4db7fd4719741a2', class: 'px-1', onSubmit: e => {
+        return (h("form", { key: 'c2713bdaa6774a04640ba9323c2277602b5ea505', class: 'sheet-container h-100', onSubmit: e => {
                 e.preventDefault();
                 this.savePrivateNote();
-            } }, h("ir-textarea", { key: 'f870b32e58755044492a1091f7bb6b8bbb809218', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) }), h("div", { key: 'df3149f215902252add907d13e61ff9d6576be4a', class: 'd-flex flex-column flex-sm-row mt-3' }, h("ir-button", { key: '257a03aa87abf356f65254bbe5365689f77dbb1b', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '48eee1c4907feea517a0025f7e1b9a670f27dc56', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
+            } }, h("ir-title", { key: '31e8687d18f207edd3f2998b8f2685ed16f47262', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), h("div", { key: 'a126e788dc853fce834c0f85eb556ab1ccd7d5d2', class: "sheet-body px-1" }, h("ir-textarea", { key: '396b0b73ef48de24de0b57cfc7451d10792906d5', placeholder: locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) })), h("div", { key: 'a79b43f9bee789a63691e081e43c43391091be58', class: 'sheet-footer' }, h("ir-button", { key: '490b478db4fca673c2c91907fa30573e5d528894', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: '2ed2c5d2d89a6f843bc073969a2ca5993eafeaa2', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" }))));
     }
     static get is() { return "ir-booking-extra-note"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-booking-extra-note.css"]
+            "$": ["ir-booking-extra-note.css", "../../../common/sheet.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-booking-extra-note.css"]
+            "$": ["ir-booking-extra-note.css", "../../../common/sheet.css"]
         };
     }
     static get properties() {

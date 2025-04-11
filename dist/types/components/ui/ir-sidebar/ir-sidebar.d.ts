@@ -12,6 +12,7 @@ export declare class IrSidebar {
     handleSidebarStylesChange(): void;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    handleOpenChange(newValue: boolean, oldValue: boolean): void;
     private handleKeyDown;
     disconnectedCallback(): void;
     toggleSidebar(): Promise<void>;

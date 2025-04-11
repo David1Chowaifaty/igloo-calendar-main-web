@@ -28,8 +28,11 @@ import { ZodType } from "zod";
 import { PaymentOption } from "./models/payment-options";
 import { IPaymentAction } from "./services/payment.service";
 import { Moment } from "moment";
+import { SalesFilters } from "./components/ir-sales-by-country/ir-sales-filters/types";
+import { SalesRecord } from "./components/ir-sales-by-country/ir-sales-table/ir-sales-table";
 import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+import { User } from "./components/ir-user-management/types";
 export { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 export { ICurrency } from "./models/calendarData";
 export { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
@@ -53,8 +56,11 @@ export { ZodType } from "zod";
 export { PaymentOption } from "./models/payment-options";
 export { IPaymentAction } from "./services/payment.service";
 export { Moment } from "moment";
+export { SalesFilters } from "./components/ir-sales-by-country/ir-sales-filters/types";
+export { SalesRecord } from "./components/ir-sales-by-country/ir-sales-table/ir-sales-table";
 export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+export { User } from "./components/ir-user-management/types";
 export namespace Components {
     interface IglApplicationInfo {
         "baseData": { unit: { id: string; name: string }; roomtypeId: number };
@@ -968,6 +974,8 @@ export namespace Components {
         "booking": Booking;
         "countries": ICountry[];
     }
+    interface IrResetPassword {
+    }
     interface IrRoom {
         "bedPreferences": IEntries[];
         "booking": Booking;
@@ -1031,6 +1039,18 @@ export namespace Components {
         "ticket": string;
         "toDate": string;
     }
+    interface IrSalesByCountry {
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrSalesFilters {
+        "isLoading": boolean;
+    }
+    interface IrSalesTable {
+        "records": SalesRecord[];
+    }
     interface IrSecureTasks {
         "bookingNumber": string;
         "p": string;
@@ -1039,6 +1059,7 @@ export namespace Components {
     interface IrSelect {
         "LabelAvailable": boolean;
         "data": selectOption[];
+        "disabled": boolean;
         /**
           * Whether the select has an error
          */
@@ -1165,6 +1186,24 @@ export namespace Components {
         "withHtml": boolean;
     }
     interface IrUnitStatus {
+    }
+    interface IrUserFormPanel {
+        "isEdit": boolean;
+        "isSuperAdmin": boolean;
+        "language": string;
+        "property_id": number;
+        "user": User;
+    }
+    interface IrUserManagement {
+        "isSuperAdmin": boolean;
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrUserManagementTable {
+        "isSuperAdmin": boolean;
+        "users": User[];
     }
     interface OtaLabel {
         "label": string;
@@ -1434,6 +1473,10 @@ export interface IrReservationInformationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrReservationInformationElement;
 }
+export interface IrResetPasswordCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrResetPasswordElement;
+}
 export interface IrRoomCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrRoomElement;
@@ -1445,6 +1488,10 @@ export interface IrRoomGuestsCustomEvent<T> extends CustomEvent<T> {
 export interface IrRoomNightsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrRoomNightsElement;
+}
+export interface IrSalesFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrSalesFiltersElement;
 }
 export interface IrSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1485,6 +1532,14 @@ export interface IrTitleCustomEvent<T> extends CustomEvent<T> {
 export interface IrUnitStatusCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrUnitStatusElement;
+}
+export interface IrUserFormPanelCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUserFormPanelElement;
+}
+export interface IrUserManagementTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUserManagementTableElement;
 }
 declare global {
     interface HTMLIglApplicationInfoElement extends Components.IglApplicationInfo, HTMLStencilElement {
@@ -2774,6 +2829,26 @@ declare global {
         prototype: HTMLIrReservationInformationElement;
         new (): HTMLIrReservationInformationElement;
     };
+    interface HTMLIrResetPasswordElementEventMap {
+        "authFinish": {
+    token: string;
+    code: 'succsess' | 'error';
+  };
+    }
+    interface HTMLIrResetPasswordElement extends Components.IrResetPassword, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrResetPasswordElementEventMap>(type: K, listener: (this: HTMLIrResetPasswordElement, ev: IrResetPasswordCustomEvent<HTMLIrResetPasswordElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrResetPasswordElementEventMap>(type: K, listener: (this: HTMLIrResetPasswordElement, ev: IrResetPasswordCustomEvent<HTMLIrResetPasswordElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrResetPasswordElement: {
+        prototype: HTMLIrResetPasswordElement;
+        new (): HTMLIrResetPasswordElement;
+    };
     interface HTMLIrRoomElementEventMap {
         "deleteFinished": string;
         "pressCheckIn": any;
@@ -2831,6 +2906,35 @@ declare global {
     var HTMLIrRoomNightsElement: {
         prototype: HTMLIrRoomNightsElement;
         new (): HTMLIrRoomNightsElement;
+    };
+    interface HTMLIrSalesByCountryElement extends Components.IrSalesByCountry, HTMLStencilElement {
+    }
+    var HTMLIrSalesByCountryElement: {
+        prototype: HTMLIrSalesByCountryElement;
+        new (): HTMLIrSalesByCountryElement;
+    };
+    interface HTMLIrSalesFiltersElementEventMap {
+        "applyFilters": SalesFilters;
+    }
+    interface HTMLIrSalesFiltersElement extends Components.IrSalesFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrSalesFiltersElementEventMap>(type: K, listener: (this: HTMLIrSalesFiltersElement, ev: IrSalesFiltersCustomEvent<HTMLIrSalesFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrSalesFiltersElementEventMap>(type: K, listener: (this: HTMLIrSalesFiltersElement, ev: IrSalesFiltersCustomEvent<HTMLIrSalesFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrSalesFiltersElement: {
+        prototype: HTMLIrSalesFiltersElement;
+        new (): HTMLIrSalesFiltersElement;
+    };
+    interface HTMLIrSalesTableElement extends Components.IrSalesTable, HTMLStencilElement {
+    }
+    var HTMLIrSalesTableElement: {
+        prototype: HTMLIrSalesTableElement;
+        new (): HTMLIrSalesTableElement;
     };
     interface HTMLIrSecureTasksElement extends Components.IrSecureTasks, HTMLStencilElement {
     }
@@ -3040,6 +3144,47 @@ declare global {
         prototype: HTMLIrUnitStatusElement;
         new (): HTMLIrUnitStatusElement;
     };
+    interface HTMLIrUserFormPanelElementEventMap {
+        "resetData": null;
+        "closeSideBar": null;
+    }
+    interface HTMLIrUserFormPanelElement extends Components.IrUserFormPanel, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUserFormPanelElementEventMap>(type: K, listener: (this: HTMLIrUserFormPanelElement, ev: IrUserFormPanelCustomEvent<HTMLIrUserFormPanelElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUserFormPanelElementEventMap>(type: K, listener: (this: HTMLIrUserFormPanelElement, ev: IrUserFormPanelCustomEvent<HTMLIrUserFormPanelElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrUserFormPanelElement: {
+        prototype: HTMLIrUserFormPanelElement;
+        new (): HTMLIrUserFormPanelElement;
+    };
+    interface HTMLIrUserManagementElement extends Components.IrUserManagement, HTMLStencilElement {
+    }
+    var HTMLIrUserManagementElement: {
+        prototype: HTMLIrUserManagementElement;
+        new (): HTMLIrUserManagementElement;
+    };
+    interface HTMLIrUserManagementTableElementEventMap {
+        "toast": IToast;
+    }
+    interface HTMLIrUserManagementTableElement extends Components.IrUserManagementTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUserManagementTableElementEventMap>(type: K, listener: (this: HTMLIrUserManagementTableElement, ev: IrUserManagementTableCustomEvent<HTMLIrUserManagementTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUserManagementTableElementEventMap>(type: K, listener: (this: HTMLIrUserManagementTableElement, ev: IrUserManagementTableCustomEvent<HTMLIrUserManagementTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrUserManagementTableElement: {
+        prototype: HTMLIrUserManagementTableElement;
+        new (): HTMLIrUserManagementTableElement;
+    };
     interface HTMLOtaLabelElement extends Components.OtaLabel, HTMLStencilElement {
     }
     var HTMLOtaLabelElement: {
@@ -3137,9 +3282,13 @@ declare global {
         "ir-price-input": HTMLIrPriceInputElement;
         "ir-range-picker": HTMLIrRangePickerElement;
         "ir-reservation-information": HTMLIrReservationInformationElement;
+        "ir-reset-password": HTMLIrResetPasswordElement;
         "ir-room": HTMLIrRoomElement;
         "ir-room-guests": HTMLIrRoomGuestsElement;
         "ir-room-nights": HTMLIrRoomNightsElement;
+        "ir-sales-by-country": HTMLIrSalesByCountryElement;
+        "ir-sales-filters": HTMLIrSalesFiltersElement;
+        "ir-sales-table": HTMLIrSalesTableElement;
         "ir-secure-tasks": HTMLIrSecureTasksElement;
         "ir-select": HTMLIrSelectElement;
         "ir-sidebar": HTMLIrSidebarElement;
@@ -3156,6 +3305,9 @@ declare global {
         "ir-toast": HTMLIrToastElement;
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
+        "ir-user-form-panel": HTMLIrUserFormPanelElement;
+        "ir-user-management": HTMLIrUserManagementElement;
+        "ir-user-management-table": HTMLIrUserManagementTableElement;
         "ota-label": HTMLOtaLabelElement;
         "requirement-check": HTMLRequirementCheckElement;
     }
@@ -4228,6 +4380,12 @@ declare namespace LocalJSX {
         "countries"?: ICountry[];
         "onOpenSidebar"?: (event: IrReservationInformationCustomEvent<OpenSidebarEvent<any>>) => void;
     }
+    interface IrResetPassword {
+        "onAuthFinish"?: (event: IrResetPasswordCustomEvent<{
+    token: string;
+    code: 'succsess' | 'error';
+  }>) => void;
+    }
     interface IrRoom {
         "bedPreferences"?: IEntries[];
         "booking"?: Booking;
@@ -4301,6 +4459,19 @@ declare namespace LocalJSX {
         "ticket"?: string;
         "toDate"?: string;
     }
+    interface IrSalesByCountry {
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrSalesFilters {
+        "isLoading"?: boolean;
+        "onApplyFilters"?: (event: IrSalesFiltersCustomEvent<SalesFilters>) => void;
+    }
+    interface IrSalesTable {
+        "records"?: SalesRecord[];
+    }
     interface IrSecureTasks {
         "bookingNumber"?: string;
         "p"?: string;
@@ -4309,6 +4480,7 @@ declare namespace LocalJSX {
     interface IrSelect {
         "LabelAvailable"?: boolean;
         "data"?: selectOption[];
+        "disabled"?: boolean;
         /**
           * Whether the select has an error
          */
@@ -4450,6 +4622,27 @@ declare namespace LocalJSX {
     interface IrUnitStatus {
         "onResetData"?: (event: IrUnitStatusCustomEvent<null>) => void;
     }
+    interface IrUserFormPanel {
+        "isEdit"?: boolean;
+        "isSuperAdmin"?: boolean;
+        "language"?: string;
+        "onCloseSideBar"?: (event: IrUserFormPanelCustomEvent<null>) => void;
+        "onResetData"?: (event: IrUserFormPanelCustomEvent<null>) => void;
+        "property_id"?: number;
+        "user"?: User;
+    }
+    interface IrUserManagement {
+        "isSuperAdmin"?: boolean;
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrUserManagementTable {
+        "isSuperAdmin"?: boolean;
+        "onToast"?: (event: IrUserManagementTableCustomEvent<IToast>) => void;
+        "users"?: User[];
+    }
     interface OtaLabel {
         "label"?: string;
         "maxVisibleItems"?: number;
@@ -4550,9 +4743,13 @@ declare namespace LocalJSX {
         "ir-price-input": IrPriceInput;
         "ir-range-picker": IrRangePicker;
         "ir-reservation-information": IrReservationInformation;
+        "ir-reset-password": IrResetPassword;
         "ir-room": IrRoom;
         "ir-room-guests": IrRoomGuests;
         "ir-room-nights": IrRoomNights;
+        "ir-sales-by-country": IrSalesByCountry;
+        "ir-sales-filters": IrSalesFilters;
+        "ir-sales-table": IrSalesTable;
         "ir-secure-tasks": IrSecureTasks;
         "ir-select": IrSelect;
         "ir-sidebar": IrSidebar;
@@ -4569,6 +4766,9 @@ declare namespace LocalJSX {
         "ir-toast": IrToast;
         "ir-tooltip": IrTooltip;
         "ir-unit-status": IrUnitStatus;
+        "ir-user-form-panel": IrUserFormPanel;
+        "ir-user-management": IrUserManagement;
+        "ir-user-management-table": IrUserManagementTable;
         "ota-label": OtaLabel;
         "requirement-check": RequirementCheck;
     }
@@ -4661,9 +4861,13 @@ declare module "@stencil/core" {
             "ir-price-input": LocalJSX.IrPriceInput & JSXBase.HTMLAttributes<HTMLIrPriceInputElement>;
             "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
             "ir-reservation-information": LocalJSX.IrReservationInformation & JSXBase.HTMLAttributes<HTMLIrReservationInformationElement>;
+            "ir-reset-password": LocalJSX.IrResetPassword & JSXBase.HTMLAttributes<HTMLIrResetPasswordElement>;
             "ir-room": LocalJSX.IrRoom & JSXBase.HTMLAttributes<HTMLIrRoomElement>;
             "ir-room-guests": LocalJSX.IrRoomGuests & JSXBase.HTMLAttributes<HTMLIrRoomGuestsElement>;
             "ir-room-nights": LocalJSX.IrRoomNights & JSXBase.HTMLAttributes<HTMLIrRoomNightsElement>;
+            "ir-sales-by-country": LocalJSX.IrSalesByCountry & JSXBase.HTMLAttributes<HTMLIrSalesByCountryElement>;
+            "ir-sales-filters": LocalJSX.IrSalesFilters & JSXBase.HTMLAttributes<HTMLIrSalesFiltersElement>;
+            "ir-sales-table": LocalJSX.IrSalesTable & JSXBase.HTMLAttributes<HTMLIrSalesTableElement>;
             "ir-secure-tasks": LocalJSX.IrSecureTasks & JSXBase.HTMLAttributes<HTMLIrSecureTasksElement>;
             "ir-select": LocalJSX.IrSelect & JSXBase.HTMLAttributes<HTMLIrSelectElement>;
             "ir-sidebar": LocalJSX.IrSidebar & JSXBase.HTMLAttributes<HTMLIrSidebarElement>;
@@ -4680,6 +4884,9 @@ declare module "@stencil/core" {
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
+            "ir-user-form-panel": LocalJSX.IrUserFormPanel & JSXBase.HTMLAttributes<HTMLIrUserFormPanelElement>;
+            "ir-user-management": LocalJSX.IrUserManagement & JSXBase.HTMLAttributes<HTMLIrUserManagementElement>;
+            "ir-user-management-table": LocalJSX.IrUserManagementTable & JSXBase.HTMLAttributes<HTMLIrUserManagementTableElement>;
             "ota-label": LocalJSX.OtaLabel & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
             "requirement-check": LocalJSX.RequirementCheck & JSXBase.HTMLAttributes<HTMLRequirementCheckElement>;
         }

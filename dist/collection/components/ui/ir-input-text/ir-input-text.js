@@ -295,7 +295,7 @@ export class IrInputText {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "| 'text'\r\n    | 'password'\r\n    | 'email'\r\n    | 'number'\r\n    | 'tel'\r\n    | 'url'\r\n    | 'search'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'month'\r\n    | 'week'\r\n    | 'time'\r\n    | 'color'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'checkbox'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'button'\r\n    | 'reset'\r\n    | 'submit'\r\n    | 'image'",
+                    "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
                     "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"submit\" | \"range\" | \"file\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },

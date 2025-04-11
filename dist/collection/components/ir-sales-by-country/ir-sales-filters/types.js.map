@@ -1,0 +1,1 @@
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../../src/components/ir-sales-by-country/ir-sales-filters/types.ts"],"names":[],"mappings":"","sourcesContent":["export type SalesFilters = {\n  from_date: string;\n  to_date: string;\n  show_previous_year: boolean;\n  rooms_status: {\n    code: string;\n  };\n};\n"]}

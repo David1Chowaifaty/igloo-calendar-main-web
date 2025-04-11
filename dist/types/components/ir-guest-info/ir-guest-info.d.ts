@@ -21,6 +21,6 @@ export declare class GuestInfo {
     ticketChanged(newValue: string, oldValue: string): void;
     init(): Promise<void>;
     private handleInputChange;
-    editGuest(): Promise<void>;
-    render(): any[];
+    private editGuest;
+    render(): any;
 }

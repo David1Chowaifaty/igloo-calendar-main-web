@@ -101,7 +101,7 @@ export class IrDateRange {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '65e45d6a9662a57f91209ffc92fb792a0494d3cf' }, h("input", { key: '062bde45516de7a367fd59b118c8be6c0372364a', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: 'ac649302aad21f7ad9654fd6d2314296ee509b2c' }, h("input", { key: '3ace42b470e785e178de9ce2374312aebff61d56', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "scoped"; }
@@ -548,7 +548,7 @@ export class IrDateRange {
                 "setter": false,
                 "attribute": "max-span",
                 "reflect": false,
-                "defaultValue": "{\r\n    days: 240,\r\n  }"
+                "defaultValue": "{\n    days: 240,\n  }"
             }
         };
     }
@@ -564,7 +564,7 @@ export class IrDateRange {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\r\n    start: moment.Moment;\r\n    end: moment.Moment;\r\n  }",
+                    "original": "{\n    start: moment.Moment;\n    end: moment.Moment;\n  }",
                     "resolved": "{ start: Moment; end: Moment; }",
                     "references": {
                         "moment": {

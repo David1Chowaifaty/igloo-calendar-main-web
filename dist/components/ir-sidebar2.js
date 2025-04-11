@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { h as handleBodyOverflow } from './utils.js';
 import { d as defineCustomElement$1 } from './ir-icon2.js';
 
-const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-100%;bottom:0;width:var(--sidebar-width, 30rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:200;overflow-y:hidden;color:var(--sidebar-color, #000);background:var(--sidebar-backgound, #fff);padding:var(--ir-sidebar-padding, 0.5rem 0)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:scroll}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
+const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-100%;bottom:0;width:var(--sidebar-width, 30rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:200;overflow-y:hidden;color:var(--sidebar-color, #000);background:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:scroll}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
 const IrSidebarStyle0 = irSidebarCss;
 
 const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLElement {
@@ -32,8 +33,15 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.applyStyles();
         document.addEventListener('keydown', this.handleKeyDown);
     }
+    handleOpenChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            handleBodyOverflow(newValue);
+        }
+    }
     handleKeyDown(e) {
         if (e.key === 'Escape') {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
             return this.toggleSidebar();
         }
         else {
@@ -56,16 +64,17 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: 'a4b20230d583b1015201ab07eabf1e8ccf7368a8', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '8621ef15e1daa876f66465c4bcdf8c96bb448de3', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '04361909ef822415089a438b466d8e34c1f1fd21', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '5c73860f6703c2f6b96108f647485f7150a86347', class: 'sidebar-title' }, h("p", { key: '9c8cba0c449f44ddcf4682f7203f55e1fd9b0833', class: 'p-0 m-0' }, this.label), h("div", { key: 'b877fd356f4134486fdb9685e35b30c3a453fb3c', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: 'f7d3bed22090321c73ae7220294d69c1cad394f0', class: "", onIconClickHandler: () => {
+            h("div", { key: 'c6bf98e427e326eaed03562f8181fb1d6539a2a7', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '03c3f3805e7444b2bee02428b637d47779e53f15', class: 'sidebar-title' }, h("p", { key: '204d41dd9cbd1d8d8d095751d44dd3a283769a8d', class: 'p-0 m-0' }, this.label), h("div", { key: '108d62944b062dd9d021ae35501b2043c0fb7add', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '2d741e73625b706f1ce7b611566ab8032452b85c', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'f54d9b160cb4ce89b2f5a9d6204ed470bc5c2dec', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'a561b333270f654897d22840eccf83caf5285db3', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'eaf2518441ecd9664a8fefb6cf3472902a57d8c5', name: "sidebar-body" })),
+                } }, h("svg", { key: '159217faa09cfff3a9eaa13fe2e21b82b7dc3ab2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '5cda8d4f84834536381d817036eeac274c4e6cd8', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'f5b65ae8172d4786339c8e055129a74f6d134029', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {
-        "sidebarStyles": ["handleSidebarStylesChange"]
+        "sidebarStyles": ["handleSidebarStylesChange"],
+        "open": ["handleOpenChange"]
     }; }
     static get style() { return IrSidebarStyle0; }
 }, [1, "ir-sidebar", {
@@ -77,7 +86,8 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         "label": [1],
         "toggleSidebar": [64]
     }, undefined, {
-        "sidebarStyles": ["handleSidebarStylesChange"]
+        "sidebarStyles": ["handleSidebarStylesChange"],
+        "open": ["handleOpenChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

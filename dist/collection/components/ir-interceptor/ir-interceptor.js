@@ -73,7 +73,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: 'f5746a824463f12246b54569a1cece3f1f951cc0' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '956cd01f1d0526eb97c2af004ba5ca84068680a7', class: "loadingScreenContainer" }, h("div", { key: '5f3710a3095a88a8f00d6755971b7f06b5fef0c4', class: "loaderContainer" }, h("span", { key: '291096060d0b7317a116f6516f05fdf16666e85c', class: "page-loader" }))))));
+        return (h(Host, { key: '9b4bdb0d4565ec7a1b18a7403a12cb0dc2fd38b6' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: '3bbc9951c6c2551c3b2ebd999cbe1b00c8ac5bf0', class: "loadingScreenContainer" }, h("div", { key: 'e3b0a798dd5ba95a90869efd63cfb699744aa0d9', class: "loaderContainer" }, h("span", { key: 'c7ff5d892a255364527fdb58d318361b820e0a87', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

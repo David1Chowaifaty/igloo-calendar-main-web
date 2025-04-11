@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>Igloo Calendar</title>
+    <script src="dist/collection/assets/scripts/jquery.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/moment.min.js"></script>
+    <script src="dist/collection/assets/scripts/daterangepicker/daterangepicker.js"></script>
+    <script src="dist/collection/assets/scripts/bootstrap.bundle.min.js"></script>
+    <script src="dist/collection/assets/scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="dist/collection/assets/scripts/toastr/toastr.min.js"></script>
+    <script type="module" src="dist/ir-webcmp/ir-webcmp.esm.js"></script>
+    <link rel="stylesheet" href="dist/collection/assets/scripts/daterangepicker/daterangepicker.css">
+    <script src="index.js"></script>
+    <style>
+        .active a {
+            color: var(--blue) !important
+        }
+    </style>
+</head>
+
+<body>
+    <ir-common></ir-common>
+    <ir-user-management propertyid="42" language="en" baseurl="https://gateway.igloorooms.com/IR"></ir-user-management>
+    <link rel="stylesheet" href="assets/scripts/toastr/toastr.css" type="text/css">
+
+    <script>
+        const userManagementEl = document.querySelector("ir-user-management");
+        setTimeout(() => {
+            const ticket = getToken();
+            userManagementEl.propertyid = getId();
+            userManagementEl.ticket = ticket;
+        }, 300)
+    </script>
+</body>
+
+</html>
