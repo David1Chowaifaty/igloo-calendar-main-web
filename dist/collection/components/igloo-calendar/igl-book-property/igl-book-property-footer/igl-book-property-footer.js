@@ -1,6 +1,8 @@
 import { Fragment, Host, h } from "@stencil/core";
 import locales from "../../../../stores/locales.store";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
+import calendar_data from "../../../../stores/calendar-data";
+import moment from "moment";
 export class IglBookPropertyFooter {
     constructor() {
         this.disabled = true;
@@ -19,16 +21,27 @@ export class IglBookPropertyFooter {
         }
         return 'flex-fill';
     }
-    renderButton(type, label, disabled = false, icon_name) {
-        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-button", { btn_color: type === 'cancel' ? 'secondary' : 'primary', text: label, btn_disabled: disabled, onClickHandler: () => {
+    renderButton({ label, type, disabled, icon_name, isLoading, icon_position = 'right', }) {
+        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-button", { isLoading: isLoading, btn_color: type === 'cancel' || type === 'back' ? 'secondary' : 'primary', text: label, btn_disabled: disabled, onClickHandler: () => {
                 this.buttonClicked.emit({ key: type });
-            }, icon_name: icon_name, iconPosition: "right", style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })));
+            }, class: "full-width", btn_styles: "justify-content-center", icon_name: icon_name, iconPosition: icon_position, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })));
     }
     shouldRenderTwoButtons() {
         return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');
     }
     render() {
-        return (h(Host, { key: '254387105df2747688ab53e1fc365838ce869945' }, h("div", { key: '4536342af3482f85e52e03dd8f5d6a3489a0d286', class: "d-flex justify-content-between gap-30 align-items-center" }, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, isRequestPending('/Get_Exposed_Booking_Availability'), 'angles_right'))) : (h(Fragment, null, this.renderButton('cancel', locales.entries.Lcz_Cancel), this.shouldRenderTwoButtons() && this.renderButton('next', `${locales.entries.Lcz_Next}`, false, 'angles_right'))))));
+        var _a;
+        if (this.page === 'page_one') {
+            return (h(Host, null, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton({ type: 'cancel', label: locales.entries.Lcz_Cancel }), this.shouldRenderTwoButtons() &&
+                this.renderButton({
+                    type: 'next',
+                    label: `${locales.entries.Lcz_Next}`,
+                    disabled: isRequestPending('/Get_Exposed_Booking_Availability'),
+                    icon_name: 'angles_right',
+                }))) : (h(Fragment, null, this.renderButton({ type: 'cancel', label: locales.entries.Lcz_Cancel }), this.shouldRenderTwoButtons() && this.renderButton({ type: 'next', label: `${locales.entries.Lcz_Next}`, icon_name: 'angles_right' })))));
+        }
+        const showBookAndCheckin = calendar_data.checkin_enabled && moment(new Date((_a = this.dateRangeData) === null || _a === void 0 ? void 0 : _a.fromDate)).isSame(new Date(), 'day');
+        return (h(Fragment, null, this.isEditOrAddRoomEvent ? (h(Fragment, null, this.renderButton({ type: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left' }), this.renderButton({ type: 'save', label: locales.entries.Lcz_Save, isLoading: this.isLoading === 'save' }))) : (h(Fragment, null, this.renderButton({ type: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left' }), this.renderButton({ type: 'book', label: locales.entries.Lcz_Book, isLoading: this.isLoading === 'book' }), showBookAndCheckin && this.renderButton({ type: 'bookAndCheckIn', label: locales.entries.Lcz_BookAndChekcIn, isLoading: this.isLoading === 'bookAndCheckIn' })))));
     }
     static get is() { return "igl-book-property-footer"; }
     static get encapsulation() { return "scoped"; }
@@ -82,6 +95,80 @@ export class IglBookPropertyFooter {
                 "attribute": "disabled",
                 "reflect": false,
                 "defaultValue": "true"
+            },
+            "page": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "page",
+                "reflect": false
+            },
+            "isEditOrAddRoomEvent": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-edit-or-add-room-event",
+                "reflect": true
+            },
+            "dateRangeData": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "{ [key: string]: any }",
+                    "resolved": "{ [key: string]: any; }",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "isLoading": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-loading",
+                "reflect": false
             }
         };
     }

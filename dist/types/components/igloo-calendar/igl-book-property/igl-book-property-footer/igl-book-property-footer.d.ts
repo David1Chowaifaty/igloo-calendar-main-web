@@ -3,11 +3,17 @@ import { TPropertyButtonsTypes } from '../../../../models/igl-book-property';
 export declare class IglBookPropertyFooter {
     eventType: string;
     disabled: boolean;
+    page: string;
+    isEditOrAddRoomEvent: boolean;
+    dateRangeData: {
+        [key: string]: any;
+    };
+    isLoading: string;
     buttonClicked: EventEmitter<{
         key: TPropertyButtonsTypes;
     }>;
     private isEventType;
-    editNext(label: any): "flex-fill" | "d-none d-md-block  flex-fill";
+    private editNext;
     private renderButton;
     private shouldRenderTwoButtons;
     render(): any;

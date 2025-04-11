@@ -13,7 +13,7 @@ const IrTestCmp = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: 'b1d8df864ecc42f97d645fc38f4b9da6fdadb935', class: "card p-4" }, index.h("ir-range-picker", { key: '44758842d1fd56b23d2311933650009ca9883bde', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
+        return (index.h(index.Host, { key: '65170164c9ae155c255538663ef94e44e3be6e4d', class: "card p-4" }, index.h("ir-range-picker", { key: 'e022389e01b0450f58ef97be0b21df40b5aec8a0', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
 };
 IrTestCmp.style = IrTestCmpStyle0;

@@ -12,7 +12,7 @@ export class IglRoomType {
     render() {
         var _a, _b;
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '14f879041b209a9b4b0325e5cfd8c9fc52cfed6e' }, isValidBookingType && ((_a = this.roomType.rateplans) === null || _a === void 0 ? void 0 : _a.length) > 0 && h("div", { key: '007525f2a1bb44c518cee245e521a19ae45708d6', class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomType.name), (_b = this.roomType.rateplans) === null || _b === void 0 ? void 0 :
+        return (h(Host, { key: '4a38bfe8ff3647405325f8f610f70d3c871ad93a' }, isValidBookingType && ((_a = this.roomType.rateplans) === null || _a === void 0 ? void 0 : _a.length) > 0 && h("div", { key: '7346c07f5f6db619489ea01a7e223c3b6666d0dc', class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomType.name), (_b = this.roomType.rateplans) === null || _b === void 0 ? void 0 :
             _b.map(ratePlan => {
                 if (!!ratePlan.variations) {
                     let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;

@@ -3,7 +3,7 @@ import calendar_data from "../../../stores/calendar-data";
 import housekeeping_store from "../../../stores/housekeeping.store";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import locales from "../../../stores/locales.store";
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 export class IrHkUnassignedUnits {
     constructor() {
         this.user = null;
@@ -59,7 +59,7 @@ export class IrHkUnassignedUnits {
     renderRooms() {
         var _a;
         if (!this.user) {
-            return (_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.map(unit => (h("tr", { key: unit.id }, h("td", { class: "mr-2" }, unit.name), h("td", { class: "sr-only" }), h("td", null, h("ir-select", { onSelectChange: e => {
+            return (_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "pl-1" }, h("ir-select", { onSelectChange: e => {
                     let hk_id = e.detail;
                     if (hk_id === '') {
                         hk_id = null;
@@ -101,18 +101,18 @@ export class IrHkUnassignedUnits {
         });
     }
     render() {
-        return (h(Host, { key: '3d870fe48431836bd107751989613b438d30daef' }, h("ir-title", { key: '5a18199babf62677cf5ca1b2791ea8f02e538d22', class: "title px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '00cee39789d9cc05535cda789ba961b7b2d2e3d9', class: "px-1" }, h("table", { key: '10292cc8691da3219f30c2e0f5f6caa0b2293f9d' }, h("thead", { key: 'd1b8665a9fc17d9915372172777046398bcfd1d1' }, h("th", { key: 'a275c5585586c39d3eccfa1f1163ecd54f022dfd', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: 'c8ad82741ad623847260c7b9fe5cfffa3e3f6a09', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: 'a150fa24d1e60bc0d81163155ffa32267492ec27', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '1be21487f20a23701174269e87ec4e3e8d12b805' }, this.renderRooms())), h("div", { key: '68dd114a0e21d837325e870c042cb9b38fdccf64', class: "d-flex flex-column flex-md-row align-items-md-center mt-2 w-100" }, h("ir-button", { key: '200619dd20bd82a43149fcf085afe55f1a469afd', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '9a6a7386307c26c31922b1b1410157c8016463ef', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill ml-md-1", btn_styles: "w-100  justify-content-center align-items-center mt-1 mt-md-0", text: locales.entries.Lcz_Confirm })))));
+        return (h("div", { key: '1549022437e5094a276b2c62f08371b1291d5f41', class: "sheet-container" }, h("ir-title", { key: '9fc1a23fb9a5e4c4879d1cfb5b3eb8fc264148cd', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'a72e14c49c3e3d0cf80913b6a448a78e1aa5664b', class: "px-1 sheet-body" }, h("table", { key: 'b296866d9829db5835e9ecff16e74351ae887bd8' }, h("thead", { key: 'eac2f5797d29f706177d563588ad86e392e5aa3b' }, h("th", { key: '749611ac847947f1f36a9cb50bfe577432ae1e87', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: 'c869a5fd2cd098a0e0de1bec638d4f6303baa7ff', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: 'd31b4c2bd4ee1253772643d645f343b5abee2e44', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'b4e84b332196ab270600c8c7a51ec766c9b060b3' }, this.renderRooms()))), h("div", { key: '0c948cba383d129bc50bbb699bebec059031c7cc', class: "sheet-footer" }, h("ir-button", { key: 'b063ea2c54670546d048640afaa8c5cd9174ea58', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'b658c523e13afb1385b1972b50cabf24cda910ac', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Confirm }))));
     }
     static get is() { return "ir-hk-unassigned-units"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-hk-unassigned-units.css"]
+            "$": ["ir-hk-unassigned-units.css", "../../../common/sheet.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-hk-unassigned-units.css"]
+            "$": ["ir-hk-unassigned-units.css", "../../../common/sheet.css"]
         };
     }
     static get properties() {

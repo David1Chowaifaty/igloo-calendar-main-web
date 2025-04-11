@@ -41,8 +41,7 @@ export class IglBookProperty {
         this.initializeDefaultData();
         this.wasBlockedUnit = this.defaultData.hasOwnProperty('block_exposed_unit_props');
         modifyBookingStore('event_type', { type: this.defaultData.event_type });
-        await this.fetchSetupEntriesAndInitialize();
-        this.initializeEventData();
+        this.fetchSetupEntriesAndInitialize();
     }
     componentDidLoad() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -218,6 +217,7 @@ export class IglBookProperty {
             const setupEntries = await this.fetchSetupEntries();
             this.setSourceOptions(this.allowedBookingSources);
             this.setOtherProperties(setupEntries);
+            this.initializeEventData();
         }
         catch (error) {
             console.error('Error fetching setup entries:', error);
@@ -433,11 +433,17 @@ export class IglBookProperty {
     async closeWindow() {
         resetBookingStore();
         handleBodyOverflow(false);
-        this.closeBookingWindow.emit();
         if (this.wasBlockedUnit && !this.didReservation) {
             await this.checkAndBlockDate();
         }
-        document.removeEventListener('keydown', this.handleKeyDown);
+        const el = document.querySelector('.sideWindow');
+        if (!el)
+            return;
+        el.classList.add('sideWindow--exit');
+        setTimeout(() => {
+            this.closeBookingWindow.emit();
+            document.removeEventListener('keydown', this.handleKeyDown);
+        }, 300);
     }
     isEventType(key) {
         return this.defaultData.event_type === key;
@@ -474,7 +480,7 @@ export class IglBookProperty {
         this.renderPage();
     }
     getPageBlockDatesView() {
-        return (h(Fragment, null, h("igl-block-dates-view", { fromDate: this.defaultData.FROM_DATE, toDate: this.defaultData.TO_DATE, entryDate: this.defaultData.ENTRY_DATE, onDataUpdateEvent: event => this.handleBlockDateUpdate(event) }), h("div", { class: "p-0 mb-1 mt-2 gap-30 d-flex align-items-center justify-content-between" }, h("ir-button", { text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: "flex-fill", onClick: () => this.closeWindow() }), h("ir-button", { text: locales.entries.Lcz_Blockdates, isLoading: isRequestPending('/Block_Exposed_Unit'), class: "flex-fill", onClick: () => this.handleBlockDate() }))));
+        return (h(Fragment, null, h("igl-block-dates-view", { fromDate: this.defaultData.FROM_DATE, toDate: this.defaultData.TO_DATE, entryDate: this.defaultData.ENTRY_DATE, onDataUpdateEvent: event => this.handleBlockDateUpdate(event) })));
     }
     handlePageTwoDataUpdateEvent(event) {
         event.stopImmediatePropagation();
@@ -550,20 +556,20 @@ export class IglBookProperty {
         return this.page === name;
     }
     render() {
-        return (h(Host, { key: '25cb4a9b8a7fe415368182cd508db37fa3eb9f25', "data-testid": "book_property_sheet" }, h("div", { key: 'ce2b3d4caf2b19441f4a9c954f4c3b52cd5aa336', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '165c77a239b99c4c81b01a710441d06f84ff5d3a', class: 'sideWindow pb-5 pb-md-0 ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, h("div", { key: '28e238361907faecff296c7ad09b72fd3422162f', class: "card position-sticky mb-0 shadow-none p-0 " }, h("div", { key: '02c6cba52a6072f6bdbbaab314a7aca4fc5d60db', class: "card-header-container mb-2" }, h("h3", { key: 'b9b53a936dc460aa9b19046fbb65aa3e121d0cfe', class: " text-left font-medium-2 px-2 px-md-3" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { key: 'deaf7cfa482e7d4b6d7fa77d072041c7efc394a4', class: 'px-2', onIconClickHandler: () => {
+        return (h(Host, { key: 'e511a764810182d0b897a0926b4002ac32d5702c', "data-testid": "book_property_sheet h-100" }, h("div", { key: 'c0eb461c4b154f50f36ce7f43a2d98601984695b', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '6a9abf9102a2dba36253f846ebdf7680e5d25404', class: 'sideWindow sheet-container ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') ? (h("div", { class: 'loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "sheet-header" }, h("div", { class: "card-header-container mb-2" }, h("h3", { class: "text-left font-medium-2 px-2" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-icon", { class: 'px-2', onIconClickHandler: () => {
                 this.closeWindow();
-            } }, h("svg", { key: '92f1016d221aac8fcf978cf3957a3b8b7ac6fb2d', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '0cc641521706de8d274ea01def1f92d50096504a', fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { key: 'a432d516e17ae171dca6028f821fe9c3ff0d7749', class: "px-2 px-md-3" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { key: 'bf270c98cdc305ab61ab48d230fbf22db2091131', initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, class: 'p-0 mb-1', eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { key: 'e341e849a4f53623bb1bb9f5c920190e4ad67aa6', currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null))));
+            } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("div", { class: "px-2 sheet-body" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, adultChildCount: this.adultChildCount, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, sourceOptions: this.sourceOptions, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null), this.getCurrentPage('page_block_date') ? (h("div", { class: "sheet-footer" }, h("ir-button", { text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: "flex-fill", onClick: () => this.closeWindow() }), h("ir-button", { text: locales.entries.Lcz_Blockdates, isLoading: isRequestPending('/Block_Exposed_Unit'), class: "flex-fill", onClick: () => this.handleBlockDate() }))) : (h("igl-book-property-footer", { page: this.page, dateRangeData: this.dateRangeData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), isLoading: this.isLoading, class: 'sheet-footer', eventType: this.bookingData.event_type })))))));
     }
     static get is() { return "igl-book-property"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["igl-book-property.css"]
+            "$": ["igl-book-property.css", "../../../common/sheet.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["igl-book-property.css"]
+            "$": ["igl-book-property.css", "../../../common/sheet.css"]
         };
     }
     static get properties() {
