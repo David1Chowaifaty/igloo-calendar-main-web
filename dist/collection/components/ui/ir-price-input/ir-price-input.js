@@ -103,17 +103,17 @@ export class IrPriceInput {
     }
     render() {
         var _a, _b;
-        return (h("fieldset", { key: '623175741628136ae27978a024d8091fd1a2877b', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: '7479c1bd61868acb1bdcd0391e2cb40391933dcc', class: "input-group-prepend" }, h("span", { key: '968b321aeffebe0198f8338cad245d9cac9f614d', class: `input-group-text 
+        return (h("fieldset", { key: 'bb726ab3b8cd44f5b68ed053660af619cd5d1dc2', class: "input-group price-input-group m-0 p-0" }, this.label && (h("div", { key: '8eeb2e1d0c08d422e8126fe993639defae8d85ff', class: "input-group-prepend" }, h("span", { key: 'ae3e2aefe52adab1534ba417d22af7464c4fd958', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '774f2ae310f3452e427f9fcd29c8f61e080c9288', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'bec172bcab5a7c51c397441f9b9c40cab690f5d0', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '677a505408ebca1c85eb34a710b3b56b5d75292f', class: `input-group-prepend` }, h("span", { key: '3621a7aae0a399d06a84bff0a3191d8d25141db7', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '84fc60b48ee6b171725eb322331b6021ede80c97', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '41459a37211b2cb2bfc1c72e79caef9275111012', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '4cb38fb0f19af2c4ac4724853b25006d16f0d6f4', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'aeb0875622599375283a1cffad0fb29aa22b0f65', class: `input-group-prepend` }, h("span", { key: '21d7006d663620acae00063889525b9e17aba4a0', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'f994db18a28b3db2b2f902fb322cc1b08c510b16', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
-              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, "aria-label": (_a = this.el.ariaLabel) !== null && _a !== void 0 ? _a : 'price-input', "aria-describedby": (_b = this.el.ariaDescription) !== null && _b !== void 0 ? _b : 'price-input' }))));
+              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, readOnly: this.readOnly, "aria-label": (_a = this.el.ariaLabel) !== null && _a !== void 0 ? _a : 'price-input', "aria-describedby": (_b = this.el.ariaDescription) !== null && _b !== void 0 ? _b : 'price-input' }))));
     }
     static get is() { return "ir-price-input"; }
     static get encapsulation() { return "scoped"; }
@@ -146,6 +146,25 @@ export class IrPriceInput {
                 "getter": false,
                 "setter": false,
                 "attribute": "label",
+                "reflect": false
+            },
+            "readOnly": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "The readonly for the input, optional"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "read-only",
                 "reflect": false
             },
             "inputStyle": {

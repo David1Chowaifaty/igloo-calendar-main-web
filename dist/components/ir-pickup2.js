@@ -6,11 +6,12 @@ import { a as axios } from './axios.js';
 import { z, Z as ZodError } from './index3.js';
 import { D as renderTime } from './utils.js';
 import { M as MaskedRange } from './index4.js';
-import { d as defineCustomElement$7 } from './ir-button2.js';
-import { d as defineCustomElement$6 } from './ir-date-picker2.js';
-import { d as defineCustomElement$5 } from './ir-icon2.js';
-import { d as defineCustomElement$4 } from './ir-icons2.js';
-import { d as defineCustomElement$3 } from './ir-input-text2.js';
+import { d as defineCustomElement$8 } from './ir-button2.js';
+import { d as defineCustomElement$7 } from './ir-date-picker2.js';
+import { d as defineCustomElement$6 } from './ir-icon2.js';
+import { d as defineCustomElement$5 } from './ir-icons2.js';
+import { d as defineCustomElement$4 } from './ir-input-text2.js';
+import { d as defineCustomElement$3 } from './ir-price-input2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
 
@@ -152,7 +153,7 @@ class PickupService {
     }
 }
 
-const irPickupCss = ".sc-ir-pickup-h{display:block}.custom-card-container.sc-ir-pickup{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e5ec}.card-title.sc-ir-pickup{flex:1}.border-theme.sc-ir-pickup{border:1px solid #cacfe7}";
+const irPickupCss = ".sc-ir-pickup-h{display:block}.custom-card-container.sc-ir-pickup{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e5ec}.card-title.sc-ir-pickup{flex:1}.border-theme.sc-ir-pickup{border:1px solid #cacfe7}@media (min-width: 768px){.price-input-container.sc-ir-pickup{max-width:290px}}";
 const IrPickupStyle0 = irPickupCss;
 
 const sheetCss = ".sc-ir-pickup-h{height:100%}.sheet-container.sc-ir-pickup{display:flex !important;flex-direction:column !important;background:white;height:100% !important;gap:1rem}.sheet-footer.sc-ir-pickup{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-pickup{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-pickup{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-ir-pickup{flex-direction:row;align-items:center}}";
@@ -307,7 +308,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
             })) }), h("div", { key: 'befeff642a1a16e3d2124097f0e96f0022ee5a51', class: 'd-flex flex-column flex-md-row' }, h("ir-select", { key: '44d6302549c451a1babb743c377f0e5fc384c37a', showFirstOption: false, testId: "pickup_number_of_vehicles", labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectedValue: this.pickupData.number_of_vehicles, error: this.cause === 'number_of_vehicles', labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
                 text: i,
                 value: i,
-            })) }), h("ir-input-text", { key: 'a44f2c487039ad7b6d8183fa796f9921480c9bc3', labelBorder: "theme", readonly: true, value: this.pickupData.due_upon_booking, labelWidth: 7, label: `${locales.entries.Lcz_DueUponBooking}  ${this.pickupData.currency.symbol}`, placeholder: "", class: "" }))))), h("div", { key: 'e92943838030404ae418f22c86915555e8284c4f', class: 'sheet-footer' }, h("ir-button", { key: 'ca730c8141f7f8a55ba77fbc9c8be3200a1e1b97', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: 'a91f7fb6fbe8619f62ddc32192ec649e8a1c49b4', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
+            })) }), h("div", { key: '6c1e8b8c2f33f024f982a66b42fc90f696c204db', class: "price-input-container" }, h("ir-price-input", { key: 'ad6aed04066bf8488c1afe165f16edede57f6953', readOnly: true, label: `${locales.entries.Lcz_DueUponBooking}`, value: this.pickupData.due_upon_booking, currency: this.pickupData.currency.symbol })))))), h("div", { key: '7a2639a035734a121e641123545f095b8d5e751d', class: 'sheet-footer' }, h("ir-button", { key: '447296a25e0d0a7cf282eb0ab3097b3a3bf8e882', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, icon: "", text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (h("ir-button", { key: 'c011bdcf4fe5707d5254671d60c2e10b11827ad8', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', icon: "", isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
     get el() { return this; }
     static get style() { return IrPickupStyle0 + IrPickupStyle1; }
@@ -328,7 +329,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-pickup", "ir-button", "ir-date-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-select", "ir-title"];
+    const components = ["ir-pickup", "ir-button", "ir-date-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-price-input", "ir-select", "ir-title"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-pickup":
             if (!customElements.get(tagName)) {
@@ -337,25 +338,30 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-input-text":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-price-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

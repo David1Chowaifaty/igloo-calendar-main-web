@@ -19,15 +19,15 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: '84fa74592b6ab81b3ae4e2c2945cc65b1cf0188c', class: "d-flex flex-column flex-md-row align-items-md-center justify-content-between" }, h("h3", { key: 'fb9581699f9593de4c4472de987630d1f2bb49ac', class: "mb-1 mb-md-0" }, "Housekeeping Tasks"), h("div", { key: '8dd7fa1d322eebd5079c3073942fe76d2a63d060', class: "d-flex", style: { gap: '1rem' } }, h("ir-button", { key: 'f60effedd72b3528bdd733772e3053480753a599', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h("div", { key: 'f02335a16bf156c6f536badb2e6291b104e2d460', class: "d-flex flex-column flex-md-row align-items-md-center justify-content-between" }, h("h3", { key: '6a3597e2f0b54469da618d616ebdaa060b62e84a', class: "mb-1 mb-md-0" }, "Housekeeping Tasks"), h("div", { key: '2845bb5a3a8b7e329924e229fbb15053170917f2', class: "d-flex", style: { gap: '1rem' } }, h("ir-button", { key: '0719701e7bdc2cba09235fc463f70311b0d9f81a', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'fa84c76685f6a6866aa3cf2c6323ea35b37e67e3', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '4995aeb8daf58d7d816e17c2e3350c9c1ca82057', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: 'dbc4531f252dfa71f74b02d89e3986079bb5d33e', onClickHandler: e => {
+            } }), h("ir-button", { key: 'ae5bb7c5253eccd654dfac0415fcd8a64ec734c7', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });

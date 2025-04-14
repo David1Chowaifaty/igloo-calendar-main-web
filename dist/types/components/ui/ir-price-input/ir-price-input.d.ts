@@ -4,6 +4,8 @@ export declare class IrPriceInput {
     el: HTMLIrPriceInputElement;
     /** The label for the input, optional */
     label?: string;
+    /** The readonly for the input, optional */
+    readOnly?: boolean;
     /** Extra classnames for the input, optional */
     inputStyle?: string;
     /** Extra classnames for the label, optional */
