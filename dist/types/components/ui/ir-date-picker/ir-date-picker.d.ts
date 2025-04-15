@@ -82,6 +82,10 @@ export declare class IrDatePicker {
      * Defaults to `false`.
      */
     emitEmptyDate: boolean;
+    /**
+     * Styles for the trigger container
+     */
+    triggerContainerStyle: string;
     currentDate: Date | null;
     dateChanged: EventEmitter<{
         start: moment.Moment;
