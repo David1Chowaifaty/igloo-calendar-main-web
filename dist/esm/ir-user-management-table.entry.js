@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-0a4a209a.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { D as sleep } from './utils-18bbc5f9.js';
+import { D as sleep } from './utils-4d5c84e1.js';
 import './index-c1c77241.js';
 import './index-502f9842.js';
 import './calendar-data-5d531f99.js';
