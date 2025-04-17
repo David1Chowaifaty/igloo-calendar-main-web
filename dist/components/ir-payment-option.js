@@ -1,17 +1,18 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$7 } from './ir-option-details2.js';
+import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$8 } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$c } from './ir-button2.js';
-import { d as defineCustomElement$b } from './ir-icon2.js';
-import { d as defineCustomElement$a } from './ir-icons2.js';
-import { d as defineCustomElement$9 } from './ir-input-text2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
-import { d as defineCustomElement$6 } from './ir-select2.js';
-import { d as defineCustomElement$5 } from './ir-sidebar2.js';
-import { d as defineCustomElement$4 } from './ir-switch2.js';
-import { d as defineCustomElement$3 } from './ir-text-editor2.js';
+import { d as defineCustomElement$d } from './ir-button2.js';
+import { d as defineCustomElement$c } from './ir-icon2.js';
+import { d as defineCustomElement$b } from './ir-icons2.js';
+import { d as defineCustomElement$a } from './ir-input-text2.js';
+import { d as defineCustomElement$9 } from './ir-interceptor2.js';
+import { d as defineCustomElement$7 } from './ir-select2.js';
+import { d as defineCustomElement$6 } from './ir-sidebar2.js';
+import { d as defineCustomElement$5 } from './ir-switch2.js';
+import { d as defineCustomElement$4 } from './ir-text-editor2.js';
+import { d as defineCustomElement$3 } from './ir-title2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
@@ -179,7 +180,7 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
         return po.code === '005' || (po.is_payment_gateway && ((_a = po.data) === null || _a === void 0 ? void 0 : _a.length) > 0);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e;
         if (this.isLoading === true || (this.paymentOptions && this.paymentOptions.length === 0)) {
             return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, h("span", { class: "payment-option-loader" }))));
         }
@@ -194,7 +195,9 @@ const IrPaymentOption$1 = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption
                 } })))));
         }))))), h("ir-sidebar", { onIrSidebarToggle: () => {
                 this.closeModal(null);
-            }, label: (_f = locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Information) === null || _f === void 0 ? void 0 : _f.replace('%1', (_g = payment_option_store.selectedOption) === null || _g === void 0 ? void 0 : _g.description), open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
+            }, side: 'right', showCloseButton: false,
+            // label={locales?.entries.Lcz_Information?.replace('%1', payment_option_store.selectedOption?.description)}
+            open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -217,7 +220,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-select", "ir-sidebar", "ir-switch", "ir-text-editor", "ir-toast"];
+    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-select", "ir-sidebar", "ir-switch", "ir-text-editor", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-option":
             if (!customElements.get(tagName)) {
@@ -226,50 +229,55 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-option-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-switch":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-text-editor":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-title":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

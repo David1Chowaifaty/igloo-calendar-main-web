@@ -75,9 +75,13 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
                 propertyId = propertyData.My_Result.id;
             }
             updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
-            const requests = [this.houseKeepingService.getExposedHKSetup(propertyId), this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT'])];
+            const requests = [];
+            if (calendar_data.housekeeping_enabled) {
+                requests.push(this.houseKeepingService.getExposedHKSetup(propertyId));
+            }
+            requests.push(this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']));
             if (this.propertyid) {
-                requests.unshift(this.roomService.getExposedProperty({
+                requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
                     language: this.language,
                     is_backend: true,
@@ -116,10 +120,10 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, locales.entries.Lcz_CheckInOutGuestsAutomatically, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] }))), h("ir-hk-team", { class: "mb-1" }))));
+            ] }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

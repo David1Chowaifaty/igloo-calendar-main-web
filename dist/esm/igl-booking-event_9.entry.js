@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
-import { B as BookingService } from './booking.service-05a85e70.js';
-import { s as transformNewBooking, x as isBlockUnit, c as calculateDaysBetweenDates, E as compareTime, F as createDateWithOffsetAndHour, p as calendar_dates, d as dateToFormattedString, G as getDaysArray, H as convertDatePrice, I as formatDate } from './utils-4d5c84e1.js';
+import { B as BookingService } from './booking.service-db5d6f6d.js';
+import { t as transformNewBooking, r as isBlockUnit, a as calculateDaysBetweenDates, B as compareTime, C as createDateWithOffsetAndHour, l as calendar_dates, j as dateToFormattedString, D as getDaysArray, E as convertDatePrice, F as formatDate } from './utils-3b6d64f3.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-0956b172.js';
+import { E as EventsService } from './events.service-58ac43ec.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { H as HouseKeepingService } from './housekeeping.service-64b661f9.js';
-import { c as calendar_data } from './calendar-data-5d531f99.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-9a5a588f.js';
+import { c as calendar_data } from './calendar-data-26906e0c.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-1b9cfa0b.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-bb218d3e.js';
 import { c as colorVariants } from './icons-457fd9f9.js';
 import './axios-aa1335b8.js';
@@ -732,7 +732,7 @@ const IglBookingEvent = class {
 };
 IglBookingEvent.style = IglBookingEventStyle0;
 
-const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.disabled.sc-igl-cal-body{background:rgba(153, 153, 153, 10%);cursor:not-allowed}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:#e0e0e0}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid rgba(186, 191, 199, 0.5)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
+const iglCalBodyCss = ".sc-igl-cal-body-h{display:block}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.disabled.sc-igl-cal-body{background:rgba(153, 153, 153, 10%);cursor:not-allowed}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:#e0e0e0}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover[data-hk-enabled='false']{background:white;cursor:default}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;vertical-align:top}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid rgba(186, 191, 199, 0.5)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:#fff;border-right:1px solid #ccc;width:170px;z-index:1}.currentDay.sc-igl-cal-body{background-color:#e3f3fa}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}";
 const IglCalBodyStyle0 = iglCalBodyCss;
 
 const IglCalBody = class {
@@ -1010,8 +1010,10 @@ const IglCalBody = class {
             if (!room.is_active) {
                 return null;
             }
-            return (h("div", { class: "roomRow" }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room": this.getRoomId(room), onClick: () => {
-                    console.log(room);
+            return (h("div", { class: "roomRow" }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": this.getRoomId(room), onClick: () => {
+                    if (!calendar_data.housekeeping_enabled) {
+                        return;
+                    }
                     this.selectedRoom = room;
                     this.hkModal.openModal();
                 }, onMouseEnter: () => {
@@ -1023,7 +1025,7 @@ const IglCalBody = class {
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name)));
+                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name)));
         });
     }
     getRoomRows() {
@@ -1076,10 +1078,10 @@ const IglCalBody = class {
     render() {
         var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '7ab45b17982032e0adcb7ae202c407ee3da9a9e6' }, h("div", { key: 'e09c481fcbc50521f911d22574c8d431f1498999', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '794280e9a91bb446ec9e05f6338ca4617dbf22d7', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (h(Host, { key: '06fc0edf6a413bf7fcee10fc4f36588003a072a6' }, h("div", { key: '316d370f78cedb1374087c1d054315e8f28b120d', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '2aa152c420a87468eb7c7336c5b875ac8835ce39', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '15cdeae861f16b9c937757ece9bb88725a6927d7', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
+        }))), h("ir-modal", { key: '32c908f56055486544c6bd14ac871012f5291fb6', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -1124,7 +1126,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: 'a70d2ea01fe58addea82776d1337e070feae64b1', class: "footerContainer" }, h("div", { key: 'f8a949d0c6fc4a16fbbe35676798098a76d9644c', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '2d6442f7f93e7b00a09a934173c2a06daf2e9ef1', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '15b6a30b99337eae35d10fcc58af5d35dfcd1cda', class: "la la-square" }), h("u", { key: 'a8ab156218827da88324e1cd033455818b422438' }, locales.entries.Lcz_Legend), h("span", { key: '37055cd9b0d6a826da4f727fe405da1cd9f22903' }, " - v1.005"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: 'a70d2ea01fe58addea82776d1337e070feae64b1', class: "footerContainer" }, h("div", { key: 'f8a949d0c6fc4a16fbbe35676798098a76d9644c', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '2d6442f7f93e7b00a09a934173c2a06daf2e9ef1', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '15b6a30b99337eae35d10fcc58af5d35dfcd1cda', class: "la la-square" }), h("u", { key: 'a8ab156218827da88324e1cd033455818b422438' }, locales.entries.Lcz_Legend), h("span", { key: '37055cd9b0d6a826da4f727fe405da1cd9f22903' }, " - v1.006"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;

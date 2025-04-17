@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-4fe8bc8a.js');
 const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
-const calendarData = require('./calendar-data-719ef4f7.js');
+const calendarData = require('./calendar-data-004d3283.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
 const user_service = require('./user.service-394b3c07.js');
 const constants = require('./constants-abd1d7db.js');

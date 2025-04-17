@@ -163,7 +163,7 @@ export class IrPaymentOption {
         return po.code === '005' || (po.is_payment_gateway && ((_a = po.data) === null || _a === void 0 ? void 0 : _a.length) > 0);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e;
         if (this.isLoading === true || (this.paymentOptions && this.paymentOptions.length === 0)) {
             return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, h("span", { class: "payment-option-loader" }))));
         }
@@ -178,7 +178,9 @@ export class IrPaymentOption {
                 } })))));
         }))))), h("ir-sidebar", { onIrSidebarToggle: () => {
                 this.closeModal(null);
-            }, label: (_f = locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Information) === null || _f === void 0 ? void 0 : _f.replace('%1', (_g = payment_option_store.selectedOption) === null || _g === void 0 ? void 0 : _g.description), open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
+            }, side: 'right', showCloseButton: false,
+            // label={locales?.entries.Lcz_Information?.replace('%1', payment_option_store.selectedOption?.description)}
+            open: (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) !== null }, (payment_option_store === null || payment_option_store === void 0 ? void 0 : payment_option_store.selectedOption) && h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get is() { return "ir-payment-option"; }
     static get encapsulation() { return "scoped"; }

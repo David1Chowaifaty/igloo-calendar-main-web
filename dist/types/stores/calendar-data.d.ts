@@ -1,6 +1,7 @@
 import { CalendarDataDetails } from "../models/calendarData";
 type CalendarStore = CalendarDataDetails & {
     roomHistory: Record<string, boolean>;
+    housekeeping_enabled: boolean;
     checkin_enabled: boolean;
     checkin_checkout_hours: {
         hour: number;

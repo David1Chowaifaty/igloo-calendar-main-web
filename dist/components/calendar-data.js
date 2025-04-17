@@ -10,6 +10,7 @@ const initialState = {
     allowedBookingSources: [],
     currency: undefined,
     endingDate: 0,
+    housekeeping_enabled: true,
     formattedLegendData: undefined,
     is_vacation_rental: false,
     legendData: [],

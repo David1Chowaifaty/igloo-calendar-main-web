@@ -62,3 +62,4 @@ export declare function downloadFile(url: string, filename?: string): void;
 export declare function toFloat(value: number, decimalPlaces: number): number;
 export declare function sleep(time?: number): Promise<unknown>;
 export declare function handleBodyOverflow(open: boolean): void;
+export declare function generatePassword(length?: number): string;
