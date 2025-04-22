@@ -69,7 +69,31 @@ export class IrUserManagement {
     }
     async fetchUsers() {
         const users = await this.userService.getExposedPropertyUsers();
-        this.users = [...users];
+        this.users = [...users].sort((u1, u2) => {
+            const priority = (u) => {
+                const t = u.type.toString();
+                if (t === '1')
+                    return 0;
+                if (t === '17')
+                    return 1;
+                return 2;
+            };
+            //sort by priority
+            const p1 = priority(u1), p2 = priority(u2);
+            if (p1 !== p2) {
+                return p1 - p2;
+            }
+            //sort by user id
+            if (p1 === 1) {
+                const id1 = u1.id.toString(), id2 = u2.id.toString(), me = this.userId.toString();
+                if (id1 === me)
+                    return -1; // u1 is me → goes before u2
+                if (id2 === me)
+                    return 1; // u2 is me → u1 goes after
+            }
+            // 3) sort by username
+            return u1.username.localeCompare(u2.username);
+        });
     }
     async fetchUserTypes() {
         var _a, _b;
@@ -79,10 +103,11 @@ export class IrUserManagement {
         }
     }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { userTypes: this.userTypes, class: "card", isSuperAdmin: this.isSuperAdmin, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { userTypeCode: this.userTypeCode, haveAdminPrivileges: ['1', '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === '1', users: this.users })))));
     }
     static get is() { return "ir-user-management"; }
     static get encapsulation() { return "scoped"; }
@@ -195,6 +220,44 @@ export class IrUserManagement {
                 "attribute": "is-super-admin",
                 "reflect": false,
                 "defaultValue": "true"
+            },
+            "userTypeCode": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | number",
+                    "resolved": "number | string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "user-type-code",
+                "reflect": false
+            },
+            "userId": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | number",
+                    "resolved": "number | string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "user-id",
+                "reflect": false
             }
         };
     }

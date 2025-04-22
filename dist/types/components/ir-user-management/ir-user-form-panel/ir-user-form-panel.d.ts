@@ -11,7 +11,8 @@ export declare class IrUserFormPanel {
     isEdit: boolean;
     language: string;
     property_id: number;
-    isSuperAdmin: boolean;
+    haveAdminPrivileges: boolean;
+    userTypeCode: string | number;
     isLoading: boolean;
     autoValidate: boolean;
     userInfo: User;
@@ -25,8 +26,8 @@ export declare class IrUserFormPanel {
     closeSideBar: EventEmitter<null>;
     private housekeepingService;
     private userService;
-    private bookingService;
     private disableFields;
+    private isPropertyAdmin;
     private mobileMask;
     private userSchema;
     componentWillLoad(): Promise<void>;

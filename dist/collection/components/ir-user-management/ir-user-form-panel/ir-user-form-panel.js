@@ -5,7 +5,6 @@ import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { CONSTANTS } from "../../../utils/constants";
 import { UserService } from "../../../services/user.service";
 import calendar_data from "../../../stores/calendar-data";
-import { BookingService } from "../../../services/booking.service";
 export class IrUserFormPanel {
     constructor() {
         this.userTypes = (Map);
@@ -17,7 +16,7 @@ export class IrUserFormPanel {
             type: '',
             id: -1,
             is_active: false,
-            last_sign_in: null,
+            sign_ins: null,
             created_on: null,
             mobile: '',
             name: '',
@@ -32,8 +31,8 @@ export class IrUserFormPanel {
         this.showPasswordValidation = false;
         this.housekeepingService = new HouseKeepingService();
         this.userService = new UserService();
-        this.bookingService = new BookingService();
         this.disableFields = false;
+        this.isPropertyAdmin = false;
         this.mobileMask = {};
         this.userSchema = z.object({
             mobile: z.string().min(1).max(12),
@@ -71,9 +70,12 @@ export class IrUserFormPanel {
         if (this.user) {
             this.autoValidate = true;
             this.userInfo = Object.assign(Object.assign({}, this.user), { password: '' });
-            this.disableFields = this.isSuperAdmin;
+            this.disableFields = true;
         }
-        await this.bookingService.getSetupEntriesByTableName('_USER_TYPE');
+        this.isPropertyAdmin = this.userTypeCode.toString() === '17';
+        if (this.isPropertyAdmin) {
+            this.updateUserField('type', '16');
+        }
         this.mobileMask = {
             mask: `{${calendar_data.country.phone_prefix}} 000000000000`,
             lazy: false,
@@ -125,25 +127,26 @@ export class IrUserFormPanel {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h;
-        return (h("form", { key: '61cbcdfbf065193d3caead7cf130369108b77d56', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: 'f009478ce8f5cca00720d285332ea250df07331e', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: '3b0bb72eb1c71928d474136e76947c6b758bdf4f', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? 'Edit User' : 'Create New User' }), h("section", { key: '1f169f9f97d47760f8457e5620bbb06ee512a193', class: "px-1 sheet-body" }, h("ir-input-text", { key: '8f9e797d5a63f5f4fe74aa0060dede73e2b67015', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: 'd33ef4f3a089f06143235df44c8d8f85b85ce4c5', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === '1' ? null : (h("div", { class: "mb-1" }, h("ir-select", { disabled: this.disableFields, label: "Role", data: [
+            } }, h("ir-title", { key: '1f4194268a6ceca120104977b082a0421f66ab76', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? 'Edit User' : 'Create New User' }), h("section", { key: 'da43c663ebbfc566b3904448b8188a0867918540', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'e081bd60308b0c656e4ebde2c674276d974faf86', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: '53220dafc3d04b41026e04b300a008b1c0ac17d6', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === '1') || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { disabled: this.disableFields, label: "Role", data: [
                 { text: 'Frontdesk', value: '16' },
                 { text: 'Property Admin', value: '17' },
-            ], selectedValue: this.userInfo.type, onSelectChange: e => this.updateUserField('type', e.detail) }))), h("ir-input-text", { key: '2a8c13d48a952fbbdb973b0c1bfd3ab37aaafd1c', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_f = this.errors) === null || _f === void 0 ? void 0 : _f.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_g = this.userInfo) === null || _g === void 0 ? void 0 : _g.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_h = this.errors) === null || _h === void 0 ? void 0 : _h.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            ], selectedValue: this.userInfo.type, onSelectChange: e => this.updateUserField('type', e.detail) }))), h("ir-input-text", { key: '1ee210b0bbb158256a7b2a71733999b2b1f403e0', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_f = this.errors) === null || _f === void 0 ? void 0 : _f.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_g = this.userInfo) === null || _g === void 0 ? void 0 : _g.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_h = this.errors) === null || _h === void 0 ? void 0 : _h.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
-            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (this.isSuperAdmin && (h("div", { class: "d-flex align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0" }, "Password"), h("ir-button", { btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" })))), h("ir-sidebar", { key: 'cb5db32e28e9f0394c724d2c5c6ce2ab2294d68e', open: this.isOpen, showCloseButton: false, style: {
+            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (this.haveAdminPrivileges &&
+            this.user.type.toString() !== '1' && (h("div", { class: "d-flex align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0" }, "Password"), h("ir-button", { btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" })))), h("ir-sidebar", { key: '1c03cb1fa8ba5c5ebeadb3898d877413046847ad', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'c0e4aa4c67d76d395e06b026a33383dc0e455fc4', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'b30e375c5f7e2121f27b71c498e138060f13d690', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: 'bcfbcaee1e6fcfa017230e0555e2e55358375e6b', class: "sheet-footer" }, h("ir-button", { key: '3fa1c4e85f1e41875750e7cd6b0165f5bf3578dc', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '5e11cac740366655f9a58af81cdb3a3fbee38ef7', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: '169a236e3ad09b4d9584bf20f7ea169c8342e2f9', class: "sheet-footer" }, h("ir-button", { key: 'd5f10fcf094f69f0f0d4e5531d90af3bc5a21209', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '76412a7bc7a1b602d4b4ac44ef5414bd6ca71615', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get is() { return "ir-user-form-panel"; }
     static get encapsulation() { return "scoped"; }
@@ -164,7 +167,7 @@ export class IrUserFormPanel {
                 "mutable": false,
                 "complexType": {
                     "original": "User",
-                    "resolved": "THKUser & { type: string; is_active: boolean; last_sign_in: string; created_on: string; password: string; email: string; role?: string; }",
+                    "resolved": "THKUser & { type: string; is_active: boolean; sign_ins: SignIn[]; created_on: string; password: string; email: string; role?: string; }",
                     "references": {
                         "User": {
                             "location": "import",
@@ -276,7 +279,7 @@ export class IrUserFormPanel {
                 "attribute": "property_id",
                 "reflect": false
             },
-            "isSuperAdmin": {
+            "haveAdminPrivileges": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -292,7 +295,26 @@ export class IrUserFormPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-super-admin",
+                "attribute": "have-admin-privileges",
+                "reflect": false
+            },
+            "userTypeCode": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | number",
+                    "resolved": "number | string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "user-type-code",
                 "reflect": false
             }
         };

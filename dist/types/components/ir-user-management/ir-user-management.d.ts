@@ -5,6 +5,8 @@ export declare class IrUserManagement {
     propertyid: number;
     p: string;
     isSuperAdmin: boolean;
+    userTypeCode: string | number;
+    userId: string | number;
     isLoading: boolean;
     users: User[];
     property_id: number;
