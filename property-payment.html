@@ -45,8 +45,8 @@
     <script>
         console.log("v:1.0")
         const paymentOption = document.querySelector("ir-payment-option");
-        setTimeout(() => {
-            const ticket = getToken();
+        setTimeout(async () => {
+            const ticket = await getToken();
             paymentOption.propertyid = getId();
             paymentOption.ticket = ticket;
         }, 300)
