@@ -6,7 +6,7 @@ export declare class IrInterceptor {
     isLoading: boolean;
     isUnassignedUnit: boolean;
     endpointsCount: number;
-    isPageLoadingStoped: string | null;
+    isPageLoadingStopped: string | null;
     handledEndpoints: string[];
     toast: EventEmitter<IToast>;
     handleStopPageLoading(e: CustomEvent): void;

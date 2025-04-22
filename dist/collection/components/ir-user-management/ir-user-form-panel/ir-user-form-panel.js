@@ -139,11 +139,11 @@ export class IrUserFormPanel {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'ed5e3500a9189f336d1a5623c07c6067c91d33cd', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: '388de0393fb2a928d40e95d990b3f6c882056ff5', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: 'dee2ab23fe9ffbefac294ce730fc884186805455', class: "sheet-footer" }, h("ir-button", { key: 'a8fe77ff8f1164fd29710e81b4e9418dd784c1cd', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '3dc39e9ad6cdb9343164a2ca1c27ecf48323000c', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: 'c4af94bc7fce8d574f3ec99ab01d549455abfa39', class: "sheet-footer" }, h("ir-button", { key: '17a885ce58b04a0691aed0358cd2dcb419beffcb', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '65f3110b5874f3befacd0fbe290714b5656eab9e', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get is() { return "ir-user-form-panel"; }
     static get encapsulation() { return "scoped"; }

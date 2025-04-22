@@ -14,12 +14,12 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
-        this.isPageLoadingStoped = null;
+        this.isPageLoadingStopped = null;
         this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
     }
     handleStopPageLoading(e) {
         this.isLoading = false;
-        this.isPageLoadingStoped = e.detail;
+        this.isPageLoadingStopped = e.detail;
     }
     componentWillLoad() {
         this.setupAxiosInterceptors();
@@ -41,7 +41,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         // if (this.ticket) {
         //   config.params.Ticket = this.ticket;
         // }
-        if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStoped !== extractedUrl) {
+        if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStopped !== extractedUrl) {
             if (extractedUrl !== '/Get_Exposed_Calendar') {
                 this.isLoading = true;
             }
@@ -61,7 +61,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
-            this.isPageLoadingStoped = null;
+            this.isPageLoadingStopped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
@@ -80,7 +80,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '62a68c5bb605dc5c135f75a30eea105ba22b4452' }, this.isLoading && !this.isPageLoadingStoped && (h("div", { key: 'e45a9a5eb7130e5965da45d16a87e19b5aec7618', class: "loadingScreenContainer" }, h("div", { key: '3247759b953b6e722ce4d2e51e9e675ef43bc4ce', class: "loaderContainer" }, h("span", { key: '120359f81cbb97db62181508876bb7a03aa02b6c', class: "page-loader" }))))));
+        return (h(Host, { key: 'e4a43e5ea797d1e7bdd9a75fc5041515f9a7aa51' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '69a45707738812af0c7acf4cfb5725d36c7de42d', class: "loadingScreenContainer" }, h("div", { key: 'df052c171a305b5c132d608de15af78629107039', class: "loaderContainer" }, h("span", { key: '3bd1bc280d14d67d9316502928bce7a07c1e6469', class: "page-loader" }))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
@@ -89,7 +89,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         "isLoading": [32],
         "isUnassignedUnit": [32],
         "endpointsCount": [32],
-        "isPageLoadingStoped": [32]
+        "isPageLoadingStopped": [32]
     }, [[16, "preventPageLoad", "handleStopPageLoading"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
