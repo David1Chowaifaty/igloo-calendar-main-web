@@ -126,7 +126,7 @@ export class IrUserFormPanel {
         this.updateUserField('username', usermame);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return (h("form", { key: 'f009478ce8f5cca00720d285332ea250df07331e', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
@@ -136,17 +136,18 @@ export class IrUserFormPanel {
             ], selectedValue: this.userInfo.type, onSelectChange: e => this.updateUserField('type', e.detail) }))), h("ir-input-text", { key: '1ee210b0bbb158256a7b2a71733999b2b1f403e0', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_f = this.errors) === null || _f === void 0 ? void 0 : _f.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_g = this.userInfo) === null || _g === void 0 ? void 0 : _g.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_h = this.errors) === null || _h === void 0 ? void 0 : _h.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (this.haveAdminPrivileges &&
-            this.user.type.toString() !== '1' && (h("div", { class: "d-flex align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0" }, "Password"), h("ir-button", { btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" })))), h("ir-sidebar", { key: '1c03cb1fa8ba5c5ebeadb3898d877413046847ad', open: this.isOpen, showCloseButton: false, style: {
+            this.user.type.toString() !== '1' &&
+            (((_j = this.user) === null || _j === void 0 ? void 0 : _j.type.toString()) === '17' && ((_k = this.userTypeCode) === null || _k === void 0 ? void 0 : _k.toString()) === '17' ? null : (h("div", { class: "d-flex align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0" }, "Password"), h("ir-button", { btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" }))))), h("ir-sidebar", { key: '8ee7c3e4ab63b84abcd9c3fcff323ebd20663a18', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'b30e375c5f7e2121f27b71c498e138060f13d690', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: '417b314ad0c4bca75f0013d165540aa27c41da8f', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: '169a236e3ad09b4d9584bf20f7ea169c8342e2f9', class: "sheet-footer" }, h("ir-button", { key: 'd5f10fcf094f69f0f0d4e5531d90af3bc5a21209', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '76412a7bc7a1b602d4b4ac44ef5414bd6ca71615', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: '88baf643c2dc7d654c7392f67b2a7cb7bba75006', class: "sheet-footer" }, h("ir-button", { key: '31596c1399e3356c9d9195583bbb3208bab5f5f7', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '670b65abfeaa8a767141d87824b0bd32432f1e28', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get is() { return "ir-user-form-panel"; }
     static get encapsulation() { return "scoped"; }
