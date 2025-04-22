@@ -26,12 +26,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.applyStyles();
     }
     componentWillLoad() {
-        this.handleKeyDown = this.handleKeyDown.bind(this);
+        // this.handleKeyDown = this.handleKeyDown.bind(this);
     }
     componentDidLoad() {
         // If esc key is pressed, close the modal
         this.applyStyles();
-        document.addEventListener('keydown', this.handleKeyDown);
+        // document.addEventListener('keydown', this.handleKeyDown);
     }
     handleOpenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -48,10 +48,6 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             return;
         }
     }
-    // Unsubscribe to the event when the component is removed from the DOM
-    disconnectedCallback() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-    }
     async toggleSidebar() {
         this.irSidebarToggle.emit(this.open);
     }
@@ -64,14 +60,15 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: '761601f01a3720c61b33ac8f1c46f89597391dad', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '489576383f52bfa8ccc17d423cd1775d43a810bc', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '0c1e4340ce51fcc3b8c6e63b1986993bdcc07cf0', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '089a8b4ea21c2e8885e98862399c08be8c4011b4', class: 'sidebar-title' }, h("p", { key: '4055614370d4138e81c96b72f83efaee7b9ac4b0', class: 'p-0 m-0' }, this.label), h("div", { key: '4dbba3c55fed18f332af80a455b328d131a39dfb', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '0076ae218cf5907ed6a32a46288dd4b2856a09b2', class: "", onIconClickHandler: () => {
+            h("div", { key: 'f4e8e9502a0428a1a7a6d819178e66e5d3a3e530', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '300b0aecd7bdad6d788a60f36bde8eb19e999299', class: 'sidebar-title' }, h("p", { key: '0cb6206bcdfbb497fee60ee40a4fbbe732d36fc3', class: 'p-0 m-0' }, this.label), h("div", { key: '1921683bc00739464fe8b558f47a65c13d513419', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: 'ffba33bd99338cbc5121ecb9d84a493606059a53', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'a30f7a444323e02c8d490601d27b0228a014e9a2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'b416cbc13e6bb77a55055b5956f4f21bbe218148', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'df197e354cdcf5bc203559c67313de7af0ec280b', name: "sidebar-body" })),
+                } }, h("svg", { key: 'ccf447ecac7a092f352360ba30d26a119e88c982', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '5a21c9415414676a14cf53fc86107b2cea9b5954', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '2d2c6328297dac96dcf895587a197f3d1e0304dc', name: "sidebar-body" })),
         ];
     }
+    get el() { return this; }
     static get watchers() { return {
         "sidebarStyles": ["handleSidebarStylesChange"],
         "open": ["handleOpenChange"]
@@ -85,7 +82,7 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         "sidebarStyles": [16],
         "label": [1],
         "toggleSidebar": [64]
-    }, undefined, {
+    }, [[16, "keydown", "handleKeyDown"]], {
         "sidebarStyles": ["handleSidebarStylesChange"],
         "open": ["handleOpenChange"]
     }]);

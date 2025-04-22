@@ -4,20 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const Token = require('./Token-049041c2.js');
-const axios = require('./axios-6e678d52.js');
+const authenticate_service = require('./authenticate.service-7b92f093.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
+require('./axios-6e678d52.js');
 require('./index-467172e1.js');
-
-class AuthService {
-    async authenticate(params) {
-        const { data } = await axios.axios.post('/Authenticate', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        //  sessionStorage.setItem('token', JSON.stringify(data.My_Result));
-        return data['My_Result'];
-    }
-}
 
 const irLoginCss = ".sc-ir-login-h{height:100vh;display:grid;align-content:center;padding:2rem;box-sizing:border-box;background:url(https://x.igloorooms.com/bg.jpg);background-position:center;background-repeat:no-repeat;background-size:cover}p.sc-ir-login,input.sc-ir-login,button.sc-ir-login{margin:0}p.sc-ir-login,input.sc-ir-login,button.sc-ir-login,div.sc-ir-login,section.sc-ir-login,form.sc-ir-login{box-sizing:border-box}.form-container.sc-ir-login{padding:1rem;display:flex;flex-direction:column;height:100%;background:white;border-radius:0.25rem;gap:1rem;width:100%;max-width:38rem;margin-left:auto;margin-right:auto}.separator-container.sc-ir-login{display:flex;align-items:center;gap:0.5rem;padding-top:1.5rem;padding-bottom:1rem}.separator-container.sc-ir-login p.sc-ir-login{color:#6b6f82;font-size:1rem}.separator.sc-ir-login{flex:1 1 0%;height:1px;background:#dadada}.login-btn.sc-ir-login{margin-top:1rem}.logo.sc-ir-login{align-self:center}.app_links.sc-ir-login{display:flex;align-items:center;justify-content:center;gap:1rem;padding-block:0.5rem}.app_links.sc-ir-login a.sc-ir-login img.sc-ir-login{width:70%}.password_toggle.sc-ir-login{all:unset;position:absolute;top:2px;right:1rem}";
 const IrLoginStyle0 = irLoginCss;
@@ -27,7 +17,7 @@ const IrLogin = class {
         index.registerInstance(this, hostRef);
         this.authFinish = index.createEvent(this, "authFinish", 7);
         this.showPassword = false;
-        this.authService = new AuthService();
+        this.authService = new authenticate_service.AuthService();
         this.token = new Token.Token();
     }
     async handleSignIn(e) {

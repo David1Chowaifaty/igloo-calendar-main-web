@@ -23,13 +23,6 @@ export class IglBookingEventHover {
             this.hideButtons = true;
         }
         this.canCheckInOrCheckout = moment().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-    }
-    componentDidLoad() {
-        document.addEventListener('keydown', this.handleKeyDown);
-    }
-    disconnectedCallback() {
-        document.removeEventListener('keydown', this.handleKeyDown);
     }
     handleBookingEventChange(newValue, oldValue) {
         if (newValue !== oldValue)
@@ -44,10 +37,10 @@ export class IglBookingEventHover {
             key: 'hidebubble',
             currentInfoBubbleId: this.getBookingId(),
         });
-        document.removeEventListener('keydown', this.handleKeyDown);
     }
-    handleKeyDown(event) {
-        if (event.key === 'Escape') {
+    handleListenKeyDown(e) {
+        if (e.key === 'Escape') {
+            e.stopPropagation();
             this.hideBubble();
         }
         else
@@ -394,7 +387,7 @@ export class IglBookingEventHover {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'e5eefa9c5796ec5c41500f43d381663334cdb32a' }, h("div", { key: 'b56b0e587d203b2e8ff588a495ad670c5077d198', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cbcdd625ae6a4449e84d6f366f346cb23c9f0d23', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'f30296394c9491aa9f4c24f8d1049ea5617c7987' }, h("div", { key: '76ad6a3479f96a55fee10f9f05926170fcd33899', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'bb34bf0cf3414c43a73bc449c927dafde711ea69', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
@@ -607,6 +600,15 @@ export class IglBookingEventHover {
         return [{
                 "propName": "bookingEvent",
                 "methodName": "handleBookingEventChange"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "keydown",
+                "method": "handleListenKeyDown",
+                "target": "body",
+                "capture": false,
+                "passive": false
             }];
     }
 }

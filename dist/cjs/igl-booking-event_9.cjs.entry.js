@@ -3,14 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const booking_service = require('./booking.service-b99d8f77.js');
-const utils = require('./utils-91a451bf.js');
+const booking_service = require('./booking.service-bc3e3d2d.js');
+const utils = require('./utils-3227b0c9.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-ba5cc348.js');
+const events_service = require('./events.service-ceea37df.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const calendarData = require('./calendar-data-004d3283.js');
-const toBeAssigned_service = require('./toBeAssigned.service-fd1bff63.js');
+const toBeAssigned_service = require('./toBeAssigned.service-b25cbabf.js');
 const unassigned_dates_store = require('./unassigned_dates.store-5daabf69.js');
 const icons = require('./icons-bda9ba7f.js');
 require('./axios-6e678d52.js');
@@ -753,11 +753,15 @@ const IglCalBody = class {
         this.housekeepingService = new housekeeping_service.HouseKeepingService();
         this.bookingMap = new Map();
         this.interactiveTitle = [];
+        this.dayRateMap = new Map();
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
         console.log(this.bookingMap);
+        utils.calendar_dates.days.forEach(day => {
+            this.dayRateMap.set(day.day, day.rate);
+        });
     }
     handleCalendarDataChange() {
         this.bookingMap = this.getBookingMap(this.getBookingData());
@@ -782,6 +786,14 @@ const IglCalBody = class {
         // let roomId = event.detail.roomId;
         this.addBookingDatas(event.detail.data);
         this.renderElement();
+    }
+    closeWindow() {
+        let ind = this.getBookingData().findIndex(ev => ev.ID === 'NEW_TEMP_EVENT');
+        if (ind !== -1) {
+            this.getBookingData().splice(ind, 1);
+            console.log('removed item..');
+            this.renderElement();
+        }
     }
     scrollToRoom(roomId) {
         this.scrollPageToRoom.emit({
@@ -839,14 +851,6 @@ const IglCalBody = class {
             }
         });
     }
-    closeWindow() {
-        let ind = this.getBookingData().findIndex(ev => ev.ID === 'NEW_TEMP_EVENT');
-        if (ind !== -1) {
-            this.getBookingData().splice(ind, 1);
-            console.log('removed item..');
-            this.renderElement();
-        }
-    }
     addNewEvent(roomCategory) {
         let keys = Object.keys(this.selectedRooms);
         let startDate, endDate;
@@ -858,6 +862,7 @@ const IglCalBody = class {
             startDate = new Date(this.selectedRooms[keys[1]].currentDate);
             endDate = new Date(this.selectedRooms[keys[0]].currentDate);
         }
+        const dateDifference = Math.round(Math.abs((endDate.getTime() - startDate.getTime()) / 86400000));
         this.newEvent = {
             ID: 'NEW_TEMP_EVENT',
             NAME: index.h("span", null, "\u00A0"),
@@ -872,7 +877,7 @@ const IglCalBody = class {
             RELEASE_AFTER_HOURS: 0,
             PR_ID: this.selectedRooms[keys[0]].roomId,
             ENTRY_DATE: '',
-            NO_OF_DAYS: (endDate - startDate) / 86400000,
+            NO_OF_DAYS: dateDifference,
             ADULTS_COUNT: 1,
             COUNTRY: '',
             INTERNAL_NOTE: '',
@@ -890,7 +895,7 @@ const IglCalBody = class {
                 fromDateStr: '',
                 toDate: null,
                 toDateStr: '',
-                dateDifference: (endDate - startDate) / 86400000,
+                dateDifference,
                 editable: false,
                 message: 'Including 5.00% City Tax - Excluding 11.00% VAT',
             },
@@ -980,12 +985,18 @@ const IglCalBody = class {
             return (index.h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (index.h("span", { class: 'categoryName' }, dayInfo.rate[index$1].exposed_inventory.rts)) : ('')));
         });
     }
-    getGeneralRoomDayColumns(roomId, roomCategory, roomName) {
+    getGeneralRoomDayColumns(roomId, roomCategory, roomName, index$1) {
         // onDragOver={event => this.handleDragOver(event)} onDrop={event => this.handleDrop(event, addClass+"_"+dayInfo.day)}
         return this.calendarData.days.map(dayInfo => {
-            return (index.h("div", { class: `cellData ${''} ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => {
+            var _a;
+            const formattedDate = moment.hooks(dayInfo.currentDate).format('YYYY-MM-DD');
+            const isDisabled = (_a = utils.calendar_dates.days.find(e => e.day === formattedDate)) === null || _a === void 0 ? void 0 : _a.rate[index$1].exposed_inventory.rts;
+            return (index.h("div", { class: `cellData ${isDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => {
+                    if (isDisabled) {
+                        return;
+                    }
                     this.clickCell(roomId, dayInfo, roomCategory);
-                }, "data-date": moment.hooks(dayInfo.currentDate).format('YYYY-MM-DD'), "data-room-name": roomName }));
+                }, "data-date": formattedDate, "data-room-name": roomName }));
         });
     }
     toggleCategory(roomCategory) {
@@ -1004,7 +1015,7 @@ const IglCalBody = class {
      * @param {RoomCategory} roomCategory - The category containing room details.
      * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
      */
-    getRoomsByCategory(roomCategory) {
+    getRoomsByCategory(roomCategory, index$1) {
         var _a;
         // Check accordion is expanded.
         if (!roomCategory.expanded) {
@@ -1029,14 +1040,14 @@ const IglCalBody = class {
                 } }, index.h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendarData.calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name)));
+                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendarData.calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name, index$1)));
         });
     }
     getRoomRows() {
         var _a;
         return (_a = this.calendarData.roomsInfo) === null || _a === void 0 ? void 0 : _a.map((roomCategory, index) => {
             if (roomCategory.is_active) {
-                return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory)];
+                return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory, index)];
             }
             else {
                 return null;
@@ -1082,10 +1093,10 @@ const IglCalBody = class {
     render() {
         var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (index.h(index.Host, { key: '06fc0edf6a413bf7fcee10fc4f36588003a072a6' }, index.h("div", { key: '316d370f78cedb1374087c1d054315e8f28b120d', class: "bodyContainer" }, this.getRoomRows(), index.h("div", { key: '2aa152c420a87468eb7c7336c5b875ac8835ce39', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (index.h(index.Host, { key: 'ea7308be208c0d9052624a120785a9ba0cd223eb' }, index.h("div", { key: 'f5adbfe17b25b8a7d58c1be752394d58f519b293', class: "bodyContainer" }, this.getRoomRows(), index.h("div", { key: '1dcd66088c958bf154cac92d65ff4e7d3fd12d1c', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (index.h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), index.h("ir-modal", { key: '32c908f56055486544c6bd14ac871012f5291fb6', ref: el => (this.hkModal = el), leftBtnText: (_b = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
+        }))), index.h("ir-modal", { key: '81b72c7f4e4b96773a3c05569ab8860cba46f404', ref: el => (this.hkModal = el), leftBtnText: (_b = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -1657,11 +1668,11 @@ const IrInteractiveTitle = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '1d5636f7f58244ec4e01f0e0de22b1471eb32bb1', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '88799a800449abb3ade862271c9510b3abe950ed', class: "popover-title", style: {
+        return (index.h(index.Host, { key: '6924a3b1db0e9c2c1d1d162d614af0d86a7cd52a', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'fa11a1e36338d663c7fc1a98d6faae6dbc9f5801', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, index.h("span", { key: '17e336d703cd9f3aef11afc24fabdf4f404514f3', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (index.h("div", { key: '06f44170403f468db72563d96590d667d36c0d42', title: "This unit is dirty", class: `hk-dot` }, index.h("svg", { key: '92d42daa6dd35a26e65757ca47c6d428833499cc', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, index.h("path", { key: '91bb50c79f4b54737ca0868bea1001585fe76a68', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, index.h("span", { key: 'fcee1af894e6efebfb6d2196939201f4992ac363', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (index.h("div", { key: '537f6c5ba2ef6866278e3d7d884a76882e503653', title: "This unit is dirty", class: `hk-dot` }, index.h("svg", { key: 'fe1bfff87d1d658270944f4a6bd4a9c0cd0e3aa8', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, index.h("path", { key: '783491fee004c4959a00eaa9a0ff915741672e78', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
     get el() { return index.getElement(this); }
 };

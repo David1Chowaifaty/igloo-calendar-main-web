@@ -30,39 +30,38 @@ export declare class IglCalBody {
     private housekeepingService;
     private bookingMap;
     private interactiveTitle;
+    private dayRateMap;
     componentWillLoad(): void;
     handleCalendarDataChange(): void;
     dragOverHighlightElementHandler(event: CustomEvent): void;
     gotoRoom(event: CustomEvent): void;
     addToBeAssignedEvents(event: CustomEvent): void;
-    scrollToRoom(roomId: any): void;
-    getRoomCategoryByRoomId(roomId: any): any;
-    getCategoryName(roomCategory: any): any;
-    getCategoryId(roomCategory: any): any;
-    getTotalPhysicalRooms(roomCategory: any): number;
-    getCategoryRooms(roomCategory: RoomCategory): PhysicalRoom[];
-    getRoomName(roomInfo: any): any;
-    getRoomId(roomInfo: any): any;
-    getRoomById(physicalRooms: any, roomId: any): any;
-    getBookingData(): any;
-    addBookingDatas(aData: any): void;
-    getSelectedCellRefName(roomId: any, selectedDay: any): string;
-    getSplitBookingEvents(newEvent: any): any;
     closeWindow(): void;
-    addNewEvent(roomCategory: any): {
-        [key: string]: any;
-    };
-    getTwoDigitNumStr(num: any): any;
-    getDateStr(date: any, locale?: string): string;
-    removeNewEvent(): void;
-    clickCell(roomId: any, selectedDay: any, roomCategory: any): void;
-    showNewBookingPopup(data: any): void;
-    renderElement(): void;
+    private scrollToRoom;
+    private getRoomCategoryByRoomId;
+    private getCategoryName;
+    private getCategoryId;
+    private getTotalPhysicalRooms;
+    private getCategoryRooms;
+    private getRoomName;
+    private getRoomId;
+    private getRoomById;
+    private getBookingData;
+    private addBookingDatas;
+    private getSelectedCellRefName;
+    private getSplitBookingEvents;
+    private addNewEvent;
+    private getTwoDigitNumStr;
+    private getDateStr;
+    private removeNewEvent;
+    private clickCell;
+    private showNewBookingPopup;
+    private renderElement;
     private getBookingMap;
-    getGeneralCategoryDayColumns(addClass: string, isCategory: boolean, index: number): any[];
-    getGeneralRoomDayColumns(roomId: string, roomCategory: RoomCategory, roomName: string): any;
-    toggleCategory(roomCategory: RoomCategory): void;
-    getRoomCategoryRow(roomCategory: RoomCategory, index: number): any;
+    private getGeneralCategoryDayColumns;
+    private getGeneralRoomDayColumns;
+    private toggleCategory;
+    private getRoomCategoryRow;
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
      *
@@ -70,7 +69,7 @@ export declare class IglCalBody {
      * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
      */
     private getRoomsByCategory;
-    getRoomRows(): any;
+    private getRoomRows;
     private confirmHousekeepingUpdate;
     render(): any;
     private renderModalBody;

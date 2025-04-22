@@ -1,5 +1,10 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IrResetPassword {
+    el: HTMLIrResetPasswordElement;
+    username: string;
+    old_pwd: string;
+    ticket: string;
+    skip2Fa: boolean;
     confirmPassword: string;
     password: string;
     showValidator: boolean;
@@ -14,7 +19,12 @@ export declare class IrResetPassword {
         token: string;
         code: 'succsess' | 'error';
     }>;
+    closeSideBar: EventEmitter<null>;
+    private token;
+    private authService;
+    componentWillLoad(): void;
+    handleTicketChange(oldValue: string, newValue: string): void;
     private ResetPasswordSchema;
-    private handleSignIn;
+    private handleChangePassword;
     render(): any;
 }

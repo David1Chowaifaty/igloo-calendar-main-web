@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrSidebar {
+    el: HTMLIrSidebarElement;
     name: string;
     side: 'right' | 'left';
     showCloseButton: boolean;
@@ -13,8 +14,7 @@ export declare class IrSidebar {
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleOpenChange(newValue: boolean, oldValue: boolean): void;
-    private handleKeyDown;
-    disconnectedCallback(): void;
+    handleKeyDown(e: KeyboardEvent): Promise<void>;
     toggleSidebar(): Promise<void>;
     render(): any[];
 }

@@ -25,6 +25,7 @@ export declare class IrBookingListing {
     ticketChanged(newValue: string, oldValue: string): void;
     initializeApp(): Promise<void>;
     handleSideBarToggle(e: CustomEvent<boolean>): void;
+    geSearchFiltersFromParams(): void;
     getPaginationBounds(): {
         startItem: number;
         endItem: number;

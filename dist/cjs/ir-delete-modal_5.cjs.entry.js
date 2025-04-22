@@ -7,8 +7,7 @@ const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-004d3283.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const user_service = require('./user.service-394b3c07.js');
-const constants = require('./constants-abd1d7db.js');
+const user_service = require('./user.service-97b2c0e2.js');
 const index$1 = require('./index-db8b30d9.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');
@@ -344,7 +343,7 @@ const IrHkUser = class {
                 if (this.user && !((_a = this.userInfo) === null || _a === void 0 ? void 0 : _a.password)) {
                     return true;
                 }
-                return constants.CONSTANTS.PASSWORD.test(password);
+                return user_service.CONSTANTS.PASSWORD.test(password);
             }, { message: 'Password must be at least 8 characters long.' }),
             username: index$1.z
                 .string()
@@ -457,7 +456,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '4293be770565a769b1422e27b757def1b7b05333', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: '0d3da113f681352ee1a01d563b18cc9743c905b0', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const booking_listing_service = require('./booking_listing.service-68a90318.js');
+const booking_listing_service = require('./booking_listing.service-a05557ab.js');
 const room_service = require('./room.service-89962a18.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
-const utils = require('./utils-91a451bf.js');
+const utils = require('./utils-3227b0c9.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
 const Token = require('./Token-049041c2.js');
@@ -14,6 +14,19 @@ const calendarData = require('./calendar-data-004d3283.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');
 require('./index-db8b30d9.js');
+
+// src/utils/browserHistory.ts
+/**
+ * Read all current search params into a Record<string, string>
+ */
+function getAllParams() {
+    const params = new URLSearchParams(window.location.search);
+    const out = {};
+    for (const [key, value] of params.entries()) {
+        out[key] = value;
+    }
+    return out;
+}
 
 const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.room-service.sc-ir-booking-listing{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%;padding:0.25rem 0}.room-name-container.sc-ir-booking-listing{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.booking_guest_name.sc-ir-booking-listing{width:fit-content;padding:0 !important;margin:0}.booking_guest_name.sc-ir-booking-listing .button-text.sc-ir-booking-listing{padding:0 !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
 const IrBookingListingStyle0 = irBookingListingCss;
@@ -90,6 +103,7 @@ const IrBookingListing = class {
             }
             await Promise.all(requests);
             booking_listing_service.updateUserSelection('property_id', propertyId);
+            // this.geSearchFiltersFromParams();
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false }));
         }
         catch (error) {
@@ -103,6 +117,34 @@ const IrBookingListing = class {
         if (e.detail) {
             this.editBookingItem = null;
         }
+    }
+    geSearchFiltersFromParams() {
+        //e=10&status=002&from=2025-04-15&to=2025-04-22&filter=2&c=Alitalia+Cabin+Crew
+        const params = getAllParams();
+        if (params) {
+            console.log('update params');
+            let obj = {};
+            if (params.e) {
+                obj['end_row'] = Number(params.e);
+            }
+            if (params.s) {
+                obj['start_row'] = Number(params.s);
+            }
+            if (params.status) {
+                obj['booking_status'] = params.status;
+            }
+            if (params.filter) {
+                obj['filter_type'] = params.filter;
+            }
+            if (params.from) {
+                obj['from'] = params.from;
+            }
+            if (params.to) {
+                obj['to'] = params.to;
+            }
+            booking_listing_service.updateUserSelections(obj);
+        }
+        console.log('params=>', params);
     }
     getPaginationBounds() {
         const totalCount = booking_listing_service.booking_listing.userSelection.total_count;
@@ -149,6 +191,10 @@ const IrBookingListing = class {
     }
     async updateData() {
         const { endItem, startItem } = this.getPaginationBounds();
+        // setParams({
+        //   s: startItem,
+        //   e: endItem,
+        // });
         await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false, start_row: startItem, end_row: endItem }));
     }
     render() {

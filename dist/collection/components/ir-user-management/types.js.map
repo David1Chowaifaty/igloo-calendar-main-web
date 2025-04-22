@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-user-management/types.ts"],"names":[],"mappings":"","sourcesContent":["import { THKUser } from '@/models/housekeeping';\n\nexport type User = THKUser & { is_active: boolean; last_signed_in: string; created_at: string; password: string; email: string; role?: string };\n"]}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-user-management/types.ts"],"names":[],"mappings":"","sourcesContent":[""]}

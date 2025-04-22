@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
 import { R as RoomService } from './room.service-5bfa8a39.js';
-import { B as BookingService } from './booking.service-db5d6f6d.js';
-import { k as formatLegendColors, l as calendar_dates, n as formatName, o as getRoomStatus, t as transformNewBooking, p as transformNewBLockedRooms, j as dateToFormattedString, q as bookingStatus, g as getPrivateNote, r as isBlockUnit, a as calculateDaysBetweenDates, s as getNextDay, u as addTwoMonthToDate, v as convertDMYToISO, w as computeEndDate, x as downloadFile } from './utils-3b6d64f3.js';
-import { E as EventsService } from './events.service-58ac43ec.js';
+import { B as BookingService } from './booking.service-b3160a34.js';
+import { k as formatLegendColors, l as calendar_dates, n as formatName, o as getRoomStatus, t as transformNewBooking, p as transformNewBLockedRooms, d as dateToFormattedString, q as bookingStatus, f as getPrivateNote, r as isBlockUnit, j as calculateDaysBetweenDates, s as getNextDay, u as addTwoMonthToDate, v as convertDMYToISO, w as computeEndDate, x as downloadFile } from './utils-5e80f012.js';
+import { E as EventsService } from './events.service-98ddc36d.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-1b9cfa0b.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-e9155f2b.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-26906e0c.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-bb218d3e.js';

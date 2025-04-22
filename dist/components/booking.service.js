@@ -228,13 +228,14 @@ class BookingService {
         }
     }
     async getSetupEntriesByTableName(TBL_NAME) {
+        var _a;
         const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
             TBL_NAME,
         });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        const res = data.My_Result;
+        const res = (_a = data.My_Result) !== null && _a !== void 0 ? _a : [];
         return res;
     }
     async fetchSetupEntries() {

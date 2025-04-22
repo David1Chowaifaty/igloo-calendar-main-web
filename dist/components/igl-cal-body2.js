@@ -1,8 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { m as compareTime, n as createDateWithOffsetAndHour, o as calendar_dates } from './utils.js';
-import { l as locales } from './locales.store.js';
-import { H as HouseKeepingService } from './housekeeping.service.js';
 import { h as hooks } from './moment.js';
+import { H as HouseKeepingService } from './housekeeping.service.js';
+import { o as calendar_dates, m as compareTime, n as createDateWithOffsetAndHour } from './utils.js';
+import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$9 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$8 } from './igl-booking-event2.js';
@@ -32,11 +32,15 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         this.housekeepingService = new HouseKeepingService();
         this.bookingMap = new Map();
         this.interactiveTitle = [];
+        this.dayRateMap = new Map();
     }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
         console.log(this.bookingMap);
+        calendar_dates.days.forEach(day => {
+            this.dayRateMap.set(day.day, day.rate);
+        });
     }
     handleCalendarDataChange() {
         this.bookingMap = this.getBookingMap(this.getBookingData());
@@ -61,6 +65,14 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         // let roomId = event.detail.roomId;
         this.addBookingDatas(event.detail.data);
         this.renderElement();
+    }
+    closeWindow() {
+        let ind = this.getBookingData().findIndex(ev => ev.ID === 'NEW_TEMP_EVENT');
+        if (ind !== -1) {
+            this.getBookingData().splice(ind, 1);
+            console.log('removed item..');
+            this.renderElement();
+        }
     }
     scrollToRoom(roomId) {
         this.scrollPageToRoom.emit({
@@ -118,14 +130,6 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             }
         });
     }
-    closeWindow() {
-        let ind = this.getBookingData().findIndex(ev => ev.ID === 'NEW_TEMP_EVENT');
-        if (ind !== -1) {
-            this.getBookingData().splice(ind, 1);
-            console.log('removed item..');
-            this.renderElement();
-        }
-    }
     addNewEvent(roomCategory) {
         let keys = Object.keys(this.selectedRooms);
         let startDate, endDate;
@@ -137,6 +141,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             startDate = new Date(this.selectedRooms[keys[1]].currentDate);
             endDate = new Date(this.selectedRooms[keys[0]].currentDate);
         }
+        const dateDifference = Math.round(Math.abs((endDate.getTime() - startDate.getTime()) / 86400000));
         this.newEvent = {
             ID: 'NEW_TEMP_EVENT',
             NAME: h("span", null, "\u00A0"),
@@ -151,7 +156,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             RELEASE_AFTER_HOURS: 0,
             PR_ID: this.selectedRooms[keys[0]].roomId,
             ENTRY_DATE: '',
-            NO_OF_DAYS: (endDate - startDate) / 86400000,
+            NO_OF_DAYS: dateDifference,
             ADULTS_COUNT: 1,
             COUNTRY: '',
             INTERNAL_NOTE: '',
@@ -169,7 +174,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
                 fromDateStr: '',
                 toDate: null,
                 toDateStr: '',
-                dateDifference: (endDate - startDate) / 86400000,
+                dateDifference,
                 editable: false,
                 message: 'Including 5.00% City Tax - Excluding 11.00% VAT',
             },
@@ -259,12 +264,18 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h("span", { class: 'categoryName' }, dayInfo.rate[index].exposed_inventory.rts)) : ('')));
         });
     }
-    getGeneralRoomDayColumns(roomId, roomCategory, roomName) {
+    getGeneralRoomDayColumns(roomId, roomCategory, roomName, index) {
         // onDragOver={event => this.handleDragOver(event)} onDrop={event => this.handleDrop(event, addClass+"_"+dayInfo.day)}
         return this.calendarData.days.map(dayInfo => {
-            return (h("div", { class: `cellData ${''} ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => {
+            var _a;
+            const formattedDate = hooks(dayInfo.currentDate).format('YYYY-MM-DD');
+            const isDisabled = (_a = calendar_dates.days.find(e => e.day === formattedDate)) === null || _a === void 0 ? void 0 : _a.rate[index].exposed_inventory.rts;
+            return (h("div", { class: `cellData ${isDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => {
+                    if (isDisabled) {
+                        return;
+                    }
                     this.clickCell(roomId, dayInfo, roomCategory);
-                }, "data-date": hooks(dayInfo.currentDate).format('YYYY-MM-DD'), "data-room-name": roomName }));
+                }, "data-date": formattedDate, "data-room-name": roomName }));
         });
     }
     toggleCategory(roomCategory) {
@@ -283,7 +294,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
      * @param {RoomCategory} roomCategory - The category containing room details.
      * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
      */
-    getRoomsByCategory(roomCategory) {
+    getRoomsByCategory(roomCategory, index) {
         var _a;
         // Check accordion is expanded.
         if (!roomCategory.expanded) {
@@ -308,14 +319,14 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name)));
+                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: this.getTotalPhysicalRooms(roomCategory) <= 1 ? this.getCategoryName(roomCategory) : this.getRoomName(room) })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, room.name, index)));
         });
     }
     getRoomRows() {
         var _a;
         return (_a = this.calendarData.roomsInfo) === null || _a === void 0 ? void 0 : _a.map((roomCategory, index) => {
             if (roomCategory.is_active) {
-                return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory)];
+                return [this.getRoomCategoryRow(roomCategory, index), this.getRoomsByCategory(roomCategory, index)];
             }
             else {
                 return null;
@@ -361,10 +372,10 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     render() {
         var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '06fc0edf6a413bf7fcee10fc4f36588003a072a6' }, h("div", { key: '316d370f78cedb1374087c1d054315e8f28b120d', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '2aa152c420a87468eb7c7336c5b875ac8835ce39', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (h(Host, { key: 'ea7308be208c0d9052624a120785a9ba0cd223eb' }, h("div", { key: 'f5adbfe17b25b8a7d58c1be752394d58f519b293', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1dcd66088c958bf154cac92d65ff4e7d3fd12d1c', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '32c908f56055486544c6bd14ac871012f5291fb6', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
+        }))), h("ir-modal", { key: '81b72c7f4e4b96773a3c05569ab8860cba46f404', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;

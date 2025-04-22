@@ -24,12 +24,10 @@ export declare class IglBookingEventHover {
     private eventService;
     private hideButtons;
     componentWillLoad(): void;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
     handleBookingEventChange(newValue: any, oldValue: any): void;
     private getBookingId;
     private hideBubble;
-    private handleKeyDown;
+    handleListenKeyDown(e: KeyboardEvent): void;
     private getTotalOccupants;
     private getPhoneNumber;
     private getCountry;

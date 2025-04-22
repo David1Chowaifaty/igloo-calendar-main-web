@@ -37,6 +37,9 @@ function initializeUserSelection() {
     //booking_listing.channels[0].name
     booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { channel: '', booking_status: booking_listing.statuses[0].code, filter_type: booking_listing.types[0].id, book_nbr: '', name: '', from: hooks().add(-7, 'days').format('YYYY-MM-DD'), to: hooks().format('YYYY-MM-DD'), start_row: 0, end_row: booking_listing.rowCount });
 }
+function updateUserSelections(params) {
+    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), params);
+}
 function updateUserSelection(key, value) {
     booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { [key]: value });
 }
@@ -69,6 +72,6 @@ class BookingListingService {
     }
 }
 
-export { BookingListingService as B, booking_listing as b, initializeUserSelection as i, onBookingListingChange as o, updateUserSelection as u };
+export { BookingListingService as B, updateUserSelections as a, booking_listing as b, initializeUserSelection as i, onBookingListingChange as o, updateUserSelection as u };
 
 //# sourceMappingURL=booking_listing.service.js.map

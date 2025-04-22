@@ -3,15 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const utils = require('./utils-91a451bf.js');
-const events_service = require('./events.service-ba5cc348.js');
+const utils = require('./utils-3227b0c9.js');
+const events_service = require('./events.service-ceea37df.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-004d3283.js');
 require('./index-db8b30d9.js');
 require('./axios-6e678d52.js');
 require('./index-467172e1.js');
-require('./booking.service-b99d8f77.js');
+require('./booking.service-bc3e3d2d.js');
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.ota-notes.sc-igl-booking-event-hover{width:450px}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
 const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
@@ -39,13 +39,6 @@ const IglBookingEventHover = class {
             this.hideButtons = true;
         }
         this.canCheckInOrCheckout = moment.hooks().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment.hooks().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-    }
-    componentDidLoad() {
-        document.addEventListener('keydown', this.handleKeyDown);
-    }
-    disconnectedCallback() {
-        document.removeEventListener('keydown', this.handleKeyDown);
     }
     handleBookingEventChange(newValue, oldValue) {
         if (newValue !== oldValue)
@@ -60,10 +53,10 @@ const IglBookingEventHover = class {
             key: 'hidebubble',
             currentInfoBubbleId: this.getBookingId(),
         });
-        document.removeEventListener('keydown', this.handleKeyDown);
     }
-    handleKeyDown(event) {
-        if (event.key === 'Escape') {
+    handleListenKeyDown(e) {
+        if (e.key === 'Escape') {
+            e.stopPropagation();
             this.hideBubble();
         }
         else
@@ -410,7 +403,7 @@ const IglBookingEventHover = class {
             }, text: locales_store.locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (index.h(index.Host, { key: 'e5eefa9c5796ec5c41500f43d381663334cdb32a' }, index.h("div", { key: 'b56b0e587d203b2e8ff588a495ad670c5077d198', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'cbcdd625ae6a4449e84d6f366f346cb23c9f0d23', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: 'f30296394c9491aa9f4c24f8d1049ea5617c7987' }, index.h("div", { key: '76ad6a3479f96a55fee10f9f05926170fcd33899', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'bb34bf0cf3414c43a73bc449c927dafde711ea69', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {

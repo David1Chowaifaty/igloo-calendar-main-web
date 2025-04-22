@@ -1,5 +1,7 @@
 import Token from "../../models/Token";
+import { BookingService } from "../../services/booking.service";
 import { RoomService } from "../../services/room.service";
+import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";
 export class IrUserManagement {
     constructor() {
@@ -7,85 +9,12 @@ export class IrUserManagement {
         this.ticket = '';
         this.isSuperAdmin = true;
         this.isLoading = true;
-        this.users = [
-            {
-                id: 1,
-                mobile: '1234567890',
-                name: 'Alice Johnson',
-                note: 'Admin user',
-                password: 'securePass1',
-                property_id: 101,
-                phone_prefix: '+1',
-                username: 'alicej',
-                email: 'alice.johnson@example.com',
-                is_active: true,
-                last_signed_in: '2025-04-08',
-                created_at: '2023-09-15',
-                role: 'super admin',
-            },
-            {
-                id: 2,
-                mobile: '2345678901',
-                name: 'Bob Smith',
-                note: 'Temporary access',
-                password: 'securePass2',
-                property_id: 102,
-                phone_prefix: '+44',
-                username: 'bobsmith',
-                email: 'bob.smith@example.com',
-                is_active: false,
-                last_signed_in: '2025-03-27',
-                created_at: '2023-11-20',
-                role: 'admin',
-            },
-            {
-                id: 3,
-                mobile: '3456789012',
-                name: 'Carla Reyes',
-                note: 'Manager account',
-                password: 'securePass3',
-                property_id: 103,
-                phone_prefix: '+61',
-                username: 'carlar',
-                email: 'carla.reyes@example.com',
-                is_active: true,
-                last_signed_in: '2025-02-19',
-                created_at: '2024-01-05',
-                role: 'frontdesk',
-            },
-            {
-                id: 4,
-                mobile: '4567890123',
-                name: 'Daniel Kim',
-                note: 'Viewer only',
-                password: 'securePass4',
-                property_id: 104,
-                phone_prefix: '+81',
-                username: 'danielk',
-                email: 'daniel.kim@example.com',
-                is_active: false,
-                last_signed_in: '2025-01-10',
-                created_at: '2022-08-23',
-                role: 'frontdesk',
-            },
-            {
-                id: 5,
-                mobile: '5678901234',
-                name: 'Eva Liu',
-                note: 'Editor role',
-                password: 'securePass5',
-                property_id: 105,
-                phone_prefix: '+86',
-                username: 'evaliu',
-                email: 'eva.liu@example.com',
-                is_active: true,
-                last_signed_in: '2025-04-01',
-                created_at: '2023-12-12',
-                role: 'admin',
-            },
-        ];
+        this.users = [];
         this.token = new Token();
         this.roomService = new RoomService();
+        this.userService = new UserService();
+        this.bookingService = new BookingService();
+        this.userTypes = new Map();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -115,7 +44,7 @@ export class IrUserManagement {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.roomService.fetchLanguage(this.language)];
+            const requests = [this.fetchUserTypes(), this.fetchUsers(), this.roomService.fetchLanguage(this.language)];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -133,11 +62,27 @@ export class IrUserManagement {
             this.isLoading = false;
         }
     }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchUsers();
+    }
+    async fetchUsers() {
+        const users = await this.userService.getExposedPropertyUsers();
+        this.users = [...users];
+    }
+    async fetchUserTypes() {
+        var _a, _b;
+        const entries = await this.bookingService.getSetupEntriesByTableName('_USER_TYPE');
+        for (const e of entries) {
+            this.userTypes.set(e.CODE_NAME.toString(), e[`CODE_VALUE_${(_b = (_a = this.language) === null || _a === void 0 ? void 0 : _a.toUpperCase()) !== null && _b !== void 0 ? _b : 'EN'}`]);
+        }
+    }
     render() {
         if (this.isLoading) {
-            return h("ir-loading-screen", null);
+            return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { class: "card", isSuperAdmin: this.isSuperAdmin, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { userTypes: this.userTypes, class: "card", isSuperAdmin: this.isSuperAdmin, users: this.users })))));
     }
     static get is() { return "ir-user-management"; }
     static get encapsulation() { return "scoped"; }
@@ -264,6 +209,15 @@ export class IrUserManagement {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "resetData",
+                "method": "handleResetData",
+                "target": undefined,
+                "capture": false,
+                "passive": false
             }];
     }
 }

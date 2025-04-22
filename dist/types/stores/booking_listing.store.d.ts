@@ -10,7 +10,7 @@ export interface IBookingListingStore extends IExposedBookingsCriteria {
 export interface IUserListingSelection {
     channel: string;
     property_id: number;
-    filter_type: number;
+    filter_type: number | string;
     from: string;
     to: string;
     name: string;
@@ -28,5 +28,6 @@ export interface IUserListingSelection {
 }
 export declare const booking_listing: IBookingListingStore, onBookingListingChange: import("@stencil/store/dist/types").OnChangeHandler<IBookingListingStore>;
 export declare function initializeUserSelection(): void;
+export declare function updateUserSelections(params: Partial<IUserListingSelection>): void;
 export declare function updateUserSelection(key: keyof IUserListingSelection, value: any): void;
 export default booking_listing;
