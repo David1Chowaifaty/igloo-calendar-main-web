@@ -176,7 +176,7 @@ const IrCommon = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: 'bac823826af9d855bdfb19d0322da7aab5d9ba30' }, index.h("slot", { key: '5bb44fd84aec2ac353d4b265502f043ba6061821' })));
+        return (index.h(index.Host, { key: 'a8a9e15968f06876384ab2f4b64823849a51d875' }, index.h("slot", { key: '444f939a52cd612ea164e08b3903a19d91039dfa' })));
     }
     static get watchers() { return {
         "extraResources": ["hrefsChanged"]
@@ -193,7 +193,7 @@ const IrIcon = class {
         this.icon = 'ft-check';
     }
     render() {
-        return (index.h("button", { key: '38cd0a678a06c0b6e99a36e8ce8c0c3b835bcf90', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, index.h("slot", { key: 'd95e9887ab6e651d432dcbc8934bd47a824f4d97', name: "icon" })));
+        return (index.h("button", { key: 'b7e106860981be0d025791bf751cf4cfb3b172a4', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, index.h("slot", { key: '0b3f976ad5f1f7a94f9d129db70aba34c9b009c1', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;
@@ -449,7 +449,7 @@ const IrInterceptor = class {
         return Promise.reject(error);
     }
     render() {
-        return (index.h(index.Host, { key: 'e4a43e5ea797d1e7bdd9a75fc5041515f9a7aa51' }, this.isLoading && !this.isPageLoadingStopped && (index.h("div", { key: '69a45707738812af0c7acf4cfb5725d36c7de42d', class: "loadingScreenContainer" }, index.h("div", { key: 'df052c171a305b5c132d608de15af78629107039', class: "loaderContainer" }, index.h("span", { key: '3bd1bc280d14d67d9316502928bce7a07c1e6469', class: "page-loader" }))))));
+        return (index.h(index.Host, { key: '8a9a04ba9e198dd54eccf8f815ba8f44d253aefa' }, this.isLoading && !this.isPageLoadingStopped && (index.h("div", { key: '1d68df27f000329d5b92bc4555cdcb44bf879523', class: "loadingScreenContainer" }, index.h("div", { key: 'c02de485fa7ab2324c77de36d08dfec1d3a5e0fb', class: "loaderContainer" }, index.h("span", { key: '3229a7aac22a5968b1529281784eff50222f6906', class: "page-loader" }))))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -463,7 +463,7 @@ const IrLoadingScreen = class {
         this.message = '';
     }
     render() {
-        return (index.h(index.Host, { key: '6a14f0383c1d112adff52c81359b5f55f5030498' }, index.h("span", { key: '9e36d523537d7e8536f8b900e1a9ceef6989d2ee', class: "loader" })));
+        return (index.h(index.Host, { key: '75752a042844a0a8a515100fd8f481c64231360a' }, index.h("span", { key: 'd6a0b21889ebb3da754379d71db383178f7240e8', class: "loader" })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;
@@ -875,7 +875,7 @@ const IrSwitch = class {
         this.checkChange.emit(this.checked);
     }
     render() {
-        return (index.h(index.Host, { key: '10f9aec02c16a714c4d471a3544417e1afe8a756' }, index.h("button", { key: '6dbb6d08ac9865810de396e61be85dee157af079', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, index.h("span", { key: '9b5fd516795c0e2163847c11e8f996f13819fbd9', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), index.h("input", { key: '6f57f9f8eab912c20c70efe36e0840cf61231b83', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
+        return (index.h(index.Host, { key: 'fc0605c82a79d9f3c010ffb9679d175c4ce8f61c' }, index.h("button", { key: 'aba8c5c5d95911e01607ff76e3b04346f0cab38c', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, index.h("span", { key: '83b0e31db81e6f49dca1adbe8c1fa3b401fa6036', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), index.h("input", { key: 'a98032ef71ec58f161e676a9b596419825244aec', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
     }
 };
 IrSwitch.style = IrSwitchStyle0;
@@ -939,7 +939,7 @@ const IrToast = class {
         }
     }
     render() {
-        return index.h(index.Host, { key: '55d1fe29bcb3bc83077a3dd73d21b80875c03218' });
+        return index.h(index.Host, { key: 'c5653b24e4d883b60c6d75ec999dc510e33de529' });
     }
     get element() { return index.getElement(this); }
 };
@@ -1335,7 +1335,7 @@ const RequirementCheck = class {
         this.text = '';
     }
     render() {
-        return (index.h("div", { key: '3d908abd2cbdc6c19819b87ea7300c85ddd5e81c', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: 'cbf7ac693e874157eb38445294654694fcc808e0', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: 'a0254d322b4ae74cf52ed345f7705c156d49ad01' }, this.text)));
+        return (index.h("div", { key: '6617ee69d647e592784482ad6161c32eaadde8c6', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: '998950644d2bd4253421ef9332eeacfbd7f4b6ab', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: '614da3b1d79ab3bcf82944d19ec6a4507ae772b3' }, this.text)));
     }
 };
 RequirementCheck.style = RequirementCheckStyle0;

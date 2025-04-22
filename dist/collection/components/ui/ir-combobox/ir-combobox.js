@@ -213,7 +213,7 @@ export class IrCombobox {
                     "references": {
                         "ComboboxItem": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/work-rony/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
+                            "path": "/__w/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
                             "id": "src/components/ui/ir-combobox/ir-combobox.tsx::ComboboxItem"
                         }
                     }

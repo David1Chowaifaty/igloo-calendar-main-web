@@ -152,7 +152,7 @@ export class IrTextEditor {
         }
     }
     render() {
-        return (h("div", { key: 'e66d3d6f835dc0c3093a3a0722b51cd8a4206571', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '9a0112fe45eecc53c26bd5488fbfea587e8edfc4', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: '3034946bc58f13feb540ddc78b0874661d767b62', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: 'd6077805255266d64eaf3143304f1ed8b2dff348', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {
@@ -293,7 +293,7 @@ export class IrTextEditor {
                     "references": {
                         "ToolbarConfig": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/work-rony/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
+                            "path": "/__w/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
                             "id": "src/components/ui/ir-text-editor/ir-text-editor.tsx::ToolbarConfig"
                         }
                     }
@@ -302,7 +302,7 @@ export class IrTextEditor {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Type-safe toolbar configuration.\r\nFor example, you can pass:\r\n\r\n{\r\n  bold: true,\r\n  italic: true,\r\n  underline: true,\r\n  strike: false,\r\n  link: true,\r\n  clean: true\r\n}"
+                    "text": "Type-safe toolbar configuration.\nFor example, you can pass:\n\n{\n  bold: true,\n  italic: true,\n  underline: true,\n  strike: false,\n  link: true,\n  clean: true\n}"
                 },
                 "getter": false,
                 "setter": false
