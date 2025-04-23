@@ -15,6 +15,7 @@ export declare class IrUserFormPanel {
     userTypeCode: string | number;
     isLoading: boolean;
     autoValidate: boolean;
+    showFullHistory: boolean;
     userInfo: User;
     errors: {
         [P in keyof User]?: any;

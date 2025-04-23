@@ -3,6 +3,7 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { U as UserService } from './user.service.js';
 import { a as _formatTime } from './functions.js';
+import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$f } from './ir-button2.js';
 import { d as defineCustomElement$e } from './ir-icon2.js';
 import { d as defineCustomElement$d } from './ir-icons2.js';
@@ -30,6 +31,7 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
+        this.resetData = createEvent(this, "resetData", 7);
         this.users = [];
         this.userTypes = new Map();
         this.currentTrigger = null;
@@ -55,7 +57,7 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
         await this.userService.handleExposedUser({
             email: user.email,
             id: user.id,
-            is_active: e.detail,
+            is_active: user.is_active,
             mobile: user.mobile,
             password: user.password,
             type: user.type,
@@ -68,15 +70,43 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
             type: 'success',
         });
     }
+    async removeUser(e) {
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            await this.userService.handleExposedUser({
+                email: this.user.email,
+                id: this.user.id,
+                is_active: this.user.is_active,
+                mobile: this.user.mobile,
+                password: this.user.password,
+                type: this.user.type,
+                username: this.user.username,
+                is_to_remove: true,
+            });
+            this.resetData.emit(null);
+        }
+        finally {
+            this.user = null;
+            this.modalRef.closeModal();
+        }
+    }
+    renderCurrentTrigger() {
+        var _a, _b;
+        if (!this.currentTrigger) {
+            return null;
+        }
+        return (h("ir-user-form-panel", { userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: (_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.user, isEdit: (_b = this.currentTrigger) === null || _b === void 0 ? void 0 : _b.isEdit }));
+    }
     render() {
         var _a, _b, _c, _d, _e;
-        return (h(Host, { key: 'f639ace7139a16d392f43b5f1da15609b63b9475' }, h("section", { key: '3197ea1cd611893f4519333db64eeea224cc64c3', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '68a684186e00777c925a035a0fd36889078e9aeb', class: "table" }, h("thead", { key: '6c75d5f0cbeb9b0d84dfe290c87e5e348e13c545' }, h("tr", { key: 'f5972ae6285028b328a9dde4668ad71424d4033e' }, h("th", { key: '8218404f84497755438d0cb2769674310b6ff9cf', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '7d9dc00a864e04a7f92ce7ea5aea1c4454bfe97b', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: 'db02bc57cd97bd00e28c977ae915f24107eab8b1', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: 'b2b1fded4f278f7d494a13ecfaf37aa88a117a41', class: "text-left" }, "Role"), h("th", { key: '556b6908f11ccf5f710382db7ddd00a72ab5b8fb', class: "text-left" }, "Last signed in"), h("th", { key: '61ae9699717c8eab155665b4d6deb4c2aef87251', class: "text-left" }, "Created at"), this.haveAdminPrivileges && h("th", { key: '7986083c5f0b041d1c0e7fd7ab3d719ea9c2635c' }, "Active"), h("th", { key: '589758f215715c50522a1266cccd10b4bd89de8f', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: '864cd71230b6be34d46d728a964b73690161c387', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { key: '2e45e166da781d94f8a9dbe8dfc367d23a30cebe' }, h("section", { key: '4854235577b83aecd7aa339ddd765bf7439444b1', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '1484cb44cd6eb8b62af5482166882d2ad375b27c', class: "table" }, h("thead", { key: '223c42a18ff250e707edd480b33b542d6f89ddf7' }, h("tr", { key: 'a89e442d8f7d5876acbbd89113478c8fb34c9a53' }, h("th", { key: '12b5286ed9d2b5eb2c35ed4775e06ab0b59ab278', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '8448693278c8af9dfe61bfcbc854031c3d6e0683', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: '6c5a1279cfdcd72749d2dd2c1f0b241228f58d1d', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: '1afa9c2da508b5fbeb5416bd16fea0bfcc2b94c4', class: "text-left" }, "Role"), h("th", { key: 'd8bf37384028688aa2ac0eb451615ea2c1844473', class: "text-left" }, "Last signed in"), h("th", { key: 'bc3a89ab89790d08b1b2fe7bc072ea7e74f24e9b', class: "text-left" }, "Created at"), this.haveAdminPrivileges && h("th", { key: '1abace3ac5ab10c32234bba1a3b6e8ea7d3477a4' }, "Active"), h("th", { key: '3d5c68aafc498fa455aaa412c4a883b853117196', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: '7b46db5b3663492b298ef79d646d0ad85f312f8b', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
                     user: null,
                 };
-            } }, h("svg", { key: 'c1f6e9d12831ec628bfffb13cc46ecbe7cb72319', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '7fe20e72ce344b01961cd8faeed34db4a7c889f6', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: '77f39438beb9bf9da7ce65b754db87a6a2da61c3' }, this.users.map(user => {
+            } }, h("svg", { key: 'fbe512a33f0f96871017b9bbbb890f8d203fdc97', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: 'd3b4ee897389db16a237c7f6c7d419f3f0efd9d0', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: 'e3f6ce4edaa193e2b5eab6e73b5fac787d560b20' }, this.users.map(user => {
             var _a;
             const isUserSuperAdmin = user.type.toString() === '1';
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
@@ -94,27 +124,10 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
                     this.user = user;
                     this.modalRef.openModal();
                 } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))));
-        })))), h("ir-sidebar", { key: 'eabb7ddaac129c65cdd2217171607c9471539b21', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '83b70eefcda9d13ad80818c073ae42beb32c883c', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), h("ir-modal", { key: 'e7cfa16a4b5b9611bbf3fa5eca8ea455fab3a5e5', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
-    }
-    async removeUser(e) {
-        try {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-        }
-        finally {
-            this.user = null;
-            this.modalRef.closeModal();
-        }
-    }
-    renderCurrentTrigger() {
-        var _a, _b;
-        if (!this.currentTrigger) {
-            return null;
-        }
-        return (h("ir-user-form-panel", { userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: (_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.user, isEdit: (_b = this.currentTrigger) === null || _b === void 0 ? void 0 : _b.isEdit }));
+            } }, this.renderCurrentTrigger()), h("ir-modal", { key: 'ae1ec741daf784ba104ff5794b3e6b5bda340438', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
     }
     static get watchers() { return {
         "haveAdminPrivileges": ["handleChange"]

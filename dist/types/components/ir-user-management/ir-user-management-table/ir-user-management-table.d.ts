@@ -13,13 +13,14 @@ export declare class IrUserManagementTable {
     canEdit: boolean;
     canCreate: boolean;
     toast: EventEmitter<IToast>;
+    resetData: EventEmitter<null>;
     private modalRef;
     private userService;
     componentWillLoad(): void;
     handleChange(n: boolean, o: boolean): void;
     private assignPermissions;
     private handleUserActiveChange;
-    render(): any;
     private removeUser;
     private renderCurrentTrigger;
+    render(): any;
 }
