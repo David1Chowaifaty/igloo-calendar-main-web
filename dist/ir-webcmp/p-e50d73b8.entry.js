@@ -1,2 +1,0 @@
-import{r as e,h as s,H as t}from"./p-b4b99085.js";const a=".sc-ir-test-cmp-h{display:block}";const c=a;const r=class{constructor(s){e(this,s)}render(){var e,a;return s(t,{key:"2e21fba9d641d3b103e9831db07d43cbf84bc8e2",class:"card p-4"},s("ir-range-picker",{key:"c3b1851f147f9719ba3b8a6f4aef3e6cbc7dffe0",onDateRangeChanged:e=>this.dates=e.detail,fromDate:(e=this.dates)===null||e===void 0?void 0:e.fromDate,toDate:(a=this.dates)===null||a===void 0?void 0:a.toDate}))}};r.style=c;export{r as ir_test_cmp};
-//# sourceMappingURL=p-e50d73b8.entry.js.map

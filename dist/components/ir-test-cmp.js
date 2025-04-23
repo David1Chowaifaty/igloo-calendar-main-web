@@ -12,7 +12,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '2e21fba9d641d3b103e9831db07d43cbf84bc8e2', class: "card p-4" }, h("ir-range-picker", { key: 'c3b1851f147f9719ba3b8a6f4aef3e6cbc7dffe0', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
+        return (h(Host, { key: '9257998ef8077b93c4dde5fc24b598a934dd3d63', class: "card p-4" }, h("ir-range-picker", { key: '1db80caa6ac0acd99ab4be74e90f59690bc52d2b', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
     static get style() { return IrTestCmpStyle0; }
 }, [2, "ir-test-cmp", {
