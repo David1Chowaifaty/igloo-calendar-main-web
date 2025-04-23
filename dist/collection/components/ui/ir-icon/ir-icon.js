@@ -2,9 +2,10 @@ import { h } from "@stencil/core";
 export class IrIcon {
     constructor() {
         this.icon = 'ft-check';
+        this.type = 'button';
     }
     render() {
-        return (h("button", { key: 'a7382fe52469d13bcb85ac3cbdc99b36f9cde734', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '49ea3dfc872b7553ce5585581ba876ef59a4de0b', name: "icon" })));
+        return (h("button", { key: '87c61cf798fd976eee8fdfbec1004c36533b8621', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'cc73f4b932263a6723d0c329c9944d42f5ec617d', name: "icon" })));
     }
     static get is() { return "ir-icon"; }
     static get encapsulation() { return "scoped"; }
@@ -39,6 +40,26 @@ export class IrIcon {
                 "attribute": "icon",
                 "reflect": false,
                 "defaultValue": "'ft-check'"
+            },
+            "type": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'button' | 'submit' | 'reset'",
+                    "resolved": "\"button\" | \"reset\" | \"submit\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "type",
+                "reflect": false,
+                "defaultValue": "'button'"
             }
         };
     }

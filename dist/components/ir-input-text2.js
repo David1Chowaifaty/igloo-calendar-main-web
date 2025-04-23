@@ -93,15 +93,12 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         });
     }
     async validateInput(value, forceValidation = false) {
-        console.log('autoValidate=>', this.autoValidate);
         if (!this.autoValidate && !forceValidation) {
-            console.log('here', 'error', this.error);
             if (this.error) {
                 this.updateErrorState(false);
             }
             return;
         }
-        console.log('first');
         if (this.zod) {
             try {
                 if (!this.asyncParse) {
@@ -115,6 +112,7 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
                 }
             }
             catch (error) {
+                console.log(error);
                 this.updateErrorState(true);
             }
         }

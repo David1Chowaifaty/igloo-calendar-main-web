@@ -9,13 +9,15 @@ const IrIcon = /*@__PURE__*/ proxyCustomElement(class IrIcon extends HTMLElement
         this.__registerHost();
         this.iconClickHandler = createEvent(this, "iconClickHandler", 7);
         this.icon = 'ft-check';
+        this.type = 'button';
     }
     render() {
-        return (h("button", { key: 'a7382fe52469d13bcb85ac3cbdc99b36f9cde734', class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '49ea3dfc872b7553ce5585581ba876ef59a4de0b', name: "icon" })));
+        return (h("button", { key: '87c61cf798fd976eee8fdfbec1004c36533b8621', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'cc73f4b932263a6723d0c329c9944d42f5ec617d', name: "icon" })));
     }
     static get style() { return IrIconStyle0; }
 }, [6, "ir-icon", {
-        "icon": [1]
+        "icon": [1],
+        "type": [1]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
