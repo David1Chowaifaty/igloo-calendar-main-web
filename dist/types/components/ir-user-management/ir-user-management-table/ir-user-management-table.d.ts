@@ -1,12 +1,14 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { IToast } from "../../ui/ir-toast/toast";
 import { User } from "../../../models/Users";
+import { AllowedUser } from '../types';
 export declare class IrUserManagementTable {
     users: User[];
     isSuperAdmin: boolean;
     userTypes: Map<string | number, string>;
     userTypeCode: string | number;
     haveAdminPrivileges: boolean;
+    allowedUsersTypes: AllowedUser[];
     currentTrigger: any;
     user: User;
     canDelete: boolean;

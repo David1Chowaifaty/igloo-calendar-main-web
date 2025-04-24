@@ -1,4 +1,5 @@
 import { User } from "../../models/Users";
+import { AllowedUser } from './types';
 export declare class IrUserManagement {
     language: string;
     ticket: string;
@@ -10,6 +11,7 @@ export declare class IrUserManagement {
     isLoading: boolean;
     users: User[];
     property_id: number;
+    allowedUsersTypes: AllowedUser[];
     private token;
     private roomService;
     private userService;

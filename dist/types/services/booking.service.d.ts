@@ -44,6 +44,7 @@ export declare class BookingService {
         room_identifier: string;
         status: RoomInOut['code'];
     }): Promise<any>;
+    getLov(): Promise<any>;
     sendBookingConfirmationEmail(booking_nbr: string, language: string): Promise<any>;
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
         [key: string]: any;

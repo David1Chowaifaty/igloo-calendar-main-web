@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { User } from "../../../models/Users";
+import { AllowedUser } from '../types';
 export declare class IrUserFormPanel {
     user: User;
     userTypes: {
@@ -13,6 +14,7 @@ export declare class IrUserFormPanel {
     property_id: number;
     haveAdminPrivileges: boolean;
     userTypeCode: string | number;
+    allowedUsersTypes: AllowedUser[];
     isLoading: boolean;
     autoValidate: boolean;
     showFullHistory: boolean;

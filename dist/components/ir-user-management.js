@@ -33,6 +33,7 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         this.isSuperAdmin = true;
         this.isLoading = true;
         this.users = [];
+        this.allowedUsersTypes = [];
         this.token = new Token();
         this.roomService = new RoomService();
         this.userService = new UserService();
@@ -119,10 +120,15 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         });
     }
     async fetchUserTypes() {
-        var _a, _b;
-        const entries = await this.bookingService.getSetupEntriesByTableName('_USER_TYPE');
-        for (const e of entries) {
-            this.userTypes.set(e.CODE_NAME.toString(), e[`CODE_VALUE_${(_b = (_a = this.language) === null || _a === void 0 ? void 0 : _a.toUpperCase()) !== null && _b !== void 0 ? _b : 'EN'}`]);
+        var _a, _b, _c, _d;
+        const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
+        const allowedUsers = (_b = (_a = res[1]) === null || _a === void 0 ? void 0 : _a.My_Result) === null || _b === void 0 ? void 0 : _b.allowed_user_types;
+        for (const e of res[0]) {
+            const value = e[`CODE_VALUE_${(_d = (_c = this.language) === null || _c === void 0 ? void 0 : _c.toUpperCase()) !== null && _d !== void 0 ? _d : 'EN'}`];
+            if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
+                this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
+            }
+            this.userTypes.set(e.CODE_NAME.toString(), value);
         }
     }
     render() {
@@ -130,7 +136,7 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { userTypeCode: this.userTypeCode, haveAdminPrivileges: ['1', '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === '1', users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: ['1', '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === '1', users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -146,7 +152,8 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         "userId": [8, "user-id"],
         "isLoading": [32],
         "users": [32],
-        "property_id": [32]
+        "property_id": [32],
+        "allowedUsersTypes": [32]
     }, [[0, "resetData", "handleResetData"]], {
         "ticket": ["ticketChanged"]
     }]);

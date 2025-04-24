@@ -260,7 +260,7 @@ export class IrDatePicker {
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: 'cdb7cdb2336316fda64784cac3171a4b1933585f', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'aa569e2069e5aab1a8ddb1bb90e80ef645842463', name: "trigger" }), h("input", { key: '89f71a213b235dfd9e37cadbaf6b81f35cfda8e4', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '02d1092f3ae6ed13e54b746d96d7d3ffb5226169', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '177a24fc1a7162a730b41b6c8e07d7ecca6f8afb', name: "trigger" }), h("input", { key: 'e941ef9e9ff8a91cab2c8119c0f43707761dbd5c', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {

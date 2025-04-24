@@ -22,6 +22,13 @@ class BookingService {
         }
         return data;
     }
+    async getLov() {
+        const { data } = await axios.post(`/Get_LOV`, {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async sendBookingConfirmationEmail(booking_nbr, language) {
         const { data } = await axios.post(`/Send_Booking_Confirmation_Email`, {
             booking_nbr,
