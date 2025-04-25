@@ -5,6 +5,9 @@ const CONSTANTS = {
 };
 
 class UserService {
+    async sendVerificationEmail() {
+        throw new Error('Method not implemented.');
+    }
     async checkUserExistence(params) {
         const { data } = await axios.post('/CheckUserExistence', params);
         return data.My_Result;
@@ -21,4 +24,4 @@ class UserService {
 
 export { CONSTANTS as C, UserService as U };
 
-//# sourceMappingURL=user.service-dabcaab9.js.map
+//# sourceMappingURL=user.service-1b7a2a74.js.map

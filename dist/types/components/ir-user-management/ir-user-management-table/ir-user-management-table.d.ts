@@ -23,6 +23,7 @@ export declare class IrUserManagementTable {
     private assignPermissions;
     private handleUserActiveChange;
     private removeUser;
+    private sendVerificationEmail;
     private renderCurrentTrigger;
     render(): any;
 }

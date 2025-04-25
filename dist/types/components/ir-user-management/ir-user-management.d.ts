@@ -17,10 +17,17 @@ export declare class IrUserManagement {
     private userService;
     private bookingService;
     private userTypes;
+    private socket;
     ticketChanged(newValue: string, oldValue: string): void;
-    private initializeApp;
     handleResetData(e: CustomEvent): Promise<void>;
+    private initializeApp;
+    private handleSocketMessage;
+    updateUserVerificationStatus(result: {
+        id: string | number;
+        is_email_verified: boolean;
+    }): void;
     private fetchUsers;
     private fetchUserTypes;
+    disconnectedCallback(): void;
     render(): any;
 }

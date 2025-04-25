@@ -10,7 +10,7 @@ const axios = require('./axios-6e678d52.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
 const Token = require('./Token-049041c2.js');
 const authenticate_service = require('./authenticate.service-eff00d14.js');
-const user_service = require('./user.service-97b2c0e2.js');
+const user_service = require('./user.service-80faed7f.js');
 const index$2 = require('./index-db8b30d9.js');
 const utils = require('./utils-3227b0c9.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
@@ -21,6 +21,7 @@ const moment = require('./moment-1780b03a.js');
 const _commonjsHelpers = require('./_commonjsHelpers-b3309d7b.js');
 const booking_service = require('./booking.service-4cc51082.js');
 const room_service = require('./room.service-89962a18.js');
+const index$3 = require('./index-84e84862.js');
 require('./index-467172e1.js');
 
 const irButtonCss = ".sc-ir-button-h{--icon-button-color:#6b6f82;--icon-button-hover-color:#104064}.button-icon.sc-ir-button{padding:0;margin-top:0}.button-icon[data-state='loading'].sc-ir-button{display:none}.button-text.sc-ir-button{padding:0 5px}.bounce-3.sc-ir-button{animation:bounce 1s 1}.btn-link.sc-ir-button{color:var(--blue, #1e9ff2)}.ir-button-class.sc-ir-button{display:inline-flex !important;justify-content:center;align-items:center;box-sizing:border-box}.btn-outline.sc-ir-button{background:transparent;border:1px solid #104064;color:#104064}.btn-outline.sc-ir-button:hover,.btn-outline.sc-ir-button:active{background:#104064;color:white}.icon-button.sc-ir-button{all:unset;box-sizing:border-box;border-radius:0.25rem;display:inline-flex;align-items:center;justify-content:center;color:var(--icon-button-color);padding:0.2rem;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.icon-button.sc-ir-button:hover{color:var(--icon-button-hover-color)}.icon-button.sc-ir-button:hover.hovered_bg{background:var('--ir-icon-bg-hover', #f6f6f6)}.icon-button.sc-ir-button:disabled{pointer-events:none}.icon-loader.sc-ir-button{margin:0;padding:0;width:var(--icon-size, 1.25rem);height:var(--icon-size, 1.25rem);border-radius:50%;background:radial-gradient(farthest-side, var(--icon-button-color) 94%, #0000) top/2px 2px no-repeat, conic-gradient(#0000 30%, var(--icon-button-color));-webkit-mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);mask:radial-gradient(farthest-side, #0000 calc(100% - 2px), var(--icon-button-color) 0);animation:l13 1s infinite linear}.btn_loader.sc-ir-button{width:15px;height:10px;--c:no-repeat linear-gradient(#ffffff 0 0);background:var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;background-size:20% 100%;animation:l1 1s infinite linear}@keyframes l13{100%{transform:rotate(1turn)}}@keyframes l1{0%{background-size:20% 100%, 20% 100%, 20% 100%}33%{background-size:20% 10%, 20% 100%, 20% 100%}50%{background-size:20% 100%, 20% 10%, 20% 100%}66%{background-size:20% 100%, 20% 100%, 20% 10%}100%{background-size:20% 100%, 20% 100%, 20% 100%}}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}@keyframes ping{75%,100%{transform:scale(1.2)}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
@@ -1148,6 +1149,11 @@ const IrUserManagement = class {
         this.token.setToken(this.ticket);
         this.initializeApp();
     }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchUsers();
+    }
     async initializeApp() {
         try {
             this.isLoading = true;
@@ -1179,6 +1185,10 @@ const IrUserManagement = class {
                 }));
             }
             await Promise.all(requests);
+            this.socket = index$3.lookup('https://realtime.igloorooms.com/');
+            this.socket.on('MSG', async (msg) => {
+                await this.handleSocketMessage(msg);
+            });
         }
         catch (error) {
             console.log(error);
@@ -1187,10 +1197,38 @@ const IrUserManagement = class {
             this.isLoading = false;
         }
     }
-    async handleResetData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchUsers();
+    async handleSocketMessage(msg) {
+        const msgAsObject = JSON.parse(msg);
+        if (!msgAsObject) {
+            return;
+        }
+        const { REASON, KEY, PAYLOAD } = msgAsObject;
+        if (KEY.toString() !== this.property_id.toString()) {
+            return;
+        }
+        let result = JSON.parse(PAYLOAD);
+        console.log(KEY, result);
+        // const reasonHandlers: Partial<Record<bookingReasons, Function>> = {
+        //   DORESERVATION: this.updateUserVerificationStatus,
+        // };
+        const reasonHandlers = {};
+        const handler = reasonHandlers[REASON];
+        if (handler) {
+            await handler.call(this, result);
+        }
+        else {
+            console.warn(`Unhandled REASON: ${REASON}`);
+        }
+    }
+    updateUserVerificationStatus(result) {
+        const users = [...this.users];
+        const idx = users.findIndex(u => u.id === result.id);
+        if (idx === -1) {
+            console.warn(`User ${result.id} not found`);
+            return;
+        }
+        users[idx] = Object.assign(Object.assign({}, users[idx]), { is_email_verified: result.is_email_verified });
+        this.users = users;
     }
     async fetchUsers() {
         const users = await this.userService.getExposedPropertyUsers();
@@ -1232,6 +1270,9 @@ const IrUserManagement = class {
             this.userTypes.set(e.CODE_NAME.toString(), value);
         }
     }
+    disconnectedCallback() {
+        this.socket.disconnect();
+    }
     render() {
         var _a, _b;
         if (this.isLoading) {
@@ -1245,7 +1286,7 @@ const IrUserManagement = class {
 };
 IrUserManagement.style = IrUserManagementStyle0;
 
-const irUserManagementTableCss = ".sc-ir-user-management-table-h{display:block}.badge.sc-ir-user-management-table{border:none;padding:0.2rem 0.3rem;cursor:pointer}.badge-danger.sc-ir-user-management-table:hover{background:#ff6377}";
+const irUserManagementTableCss = ".sc-ir-user-management-table-h{display:block}.badge.sc-ir-user-management-table{border:none;padding:0.2rem 0.3rem;cursor:pointer}.badge-danger.sc-ir-user-management-table:hover{background:#ff6377}.badge.sc-ir-user-management-table:disabled{cursor:default}.badge-danger.sc-ir-user-management-table:disabled:hover{background:var(--danger, #ff4961)}";
 const IrUserManagementTableStyle0 = irUserManagementTableCss;
 
 const tableCss = ".ir-table-row.sc-ir-user-management-table td.sc-ir-user-management-table{padding:0.5rem 1rem !important;text-align:left;z-index:2;background-color:white;white-space:nowrap;width:max-content;max-width:max-content}.ir-table-row.sc-ir-user-management-table td.sc-ir-user-management-table:last-child{width:100%}.table.sc-ir-user-management-table td.sc-ir-user-management-table{border-top:0;border-bottom:1px solid #e3ebf3;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.table.sc-ir-user-management-table thead.sc-ir-user-management-table th.sc-ir-user-management-table{border:none !important;background:#ececec;color:#374151;padding:0.5rem 1rem !important;text-align:left}.selected.sc-ir-user-management-table td.sc-ir-user-management-table{background:#e3f3fa !important}.selected.sc-ir-user-management-table td.sc-ir-user-management-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-user-management-table{text-transform:capitalize;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-user-management-table:hover{color:#212529;background-color:#e2e8f0 !important;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-user-management-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-user-management-table svg.sc-ir-user-management-table{color:var(--blue)}";
@@ -1316,6 +1357,21 @@ const IrUserManagementTable = class {
             this.modalRef.closeModal();
         }
     }
+    async sendVerificationEmail(user) {
+        try {
+            console.log(user);
+            await this.userService.sendVerificationEmail();
+            this.toast.emit({
+                position: 'top-right',
+                title: "We've sent you a verification email. Please check your inbox to confirm your account.",
+                description: '',
+                type: 'success',
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
     renderCurrentTrigger() {
         var _a, _b;
         if (!this.currentTrigger) {
@@ -1325,13 +1381,13 @@ const IrUserManagementTable = class {
     }
     render() {
         var _a, _b, _c, _d, _e;
-        return (index.h(index.Host, { key: '6a52d74b4e5e4893ede8133f2faafd4cdba00169' }, index.h("section", { key: '7b64964ef655f6666c96d4b967d6f6a50573c071', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, index.h("table", { key: '50cab2ff3cc0728c59bcde4d4752d9457bdedf55', class: "table" }, index.h("thead", { key: 'd8a6aee372bdba2ff4eb93bad9037b35c6e8ba28' }, index.h("tr", { key: 'fe96d5e5efab07610f53815d0d5a7aad5595d481' }, index.h("th", { key: 'c7c12f6deaf2bae5695a78e4c67bd14a8a0c710b', class: "text-left" }, (_a = locales_store.locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), index.h("th", { key: '5f03ccae30b32bb83648b5bc58e569b2444e5b8e', class: "text-left" }, locales_store.locales.entries.Lcz_Email), index.h("th", { key: 'f09b8e15624883c81b7180475e0cf5ee540f863d', class: "text-left" }, (_b = locales_store.locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), index.h("th", { key: 'c4b833a95bf8464f5c05cb93eed8a558a7cb4be3', class: "text-left" }, "Role"), index.h("th", { key: '0267e22fa164e4ee3555d8285db48c3d55345122', class: "text-left" }, "Last signed in"), index.h("th", { key: 'a520e912f035ccb2fdc048640be5335cb8219b56', class: "text-left" }, "Created at"), this.haveAdminPrivileges && index.h("th", { key: 'c348440007faab6dfa9039e5059e209dd7306178' }, "Active"), this.haveAdminPrivileges && index.h("th", { key: '4c020ac2ecf7ac9e7ab6474615887a43811b93e0' }, "Email verified"), index.h("th", { key: '4e77582a6924253a78da0b622e18d05462f7ae0e', class: 'action-row' }, this.canCreate && (index.h("ir-icon", { key: 'cf883cb9f83b92bc6b67048e6aab54b2c48449c0', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales_store.locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (index.h(index.Host, { key: 'f6c6ad566a7d5517a350935aacb7b54944176792' }, index.h("section", { key: 'aac724063165413d8452694276e50c6b92282f25', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, index.h("table", { key: '34523754df44f5f9113e6a8fd8846facfaca16a7', class: "table" }, index.h("thead", { key: '92509e35d635291c2461483361bce4f9c3ac0854' }, index.h("tr", { key: '267a18d8af6775159c82d23d8925e77ae6b272b3' }, index.h("th", { key: '152c3afb70df39878289731a97f73b8ed2877fe8', class: "text-left" }, (_a = locales_store.locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), index.h("th", { key: 'c54ede2ee354ec876bd5abe27bf70467961aaf26', class: "text-left" }, locales_store.locales.entries.Lcz_Email), index.h("th", { key: '3e6c2574634928dd20fc9273193b510b7b56a7a5', class: "text-left" }, (_b = locales_store.locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), index.h("th", { key: '6f16ebf578c248bf7102fb6fdd071e279287a388', class: "text-left" }, "Role"), index.h("th", { key: 'e67dfb305c1b59ca37362a63f230f860ee3af145', class: "text-left" }, "Last signed in"), index.h("th", { key: '8a850dad256811cf0b4f8a9824f768e6cdefef33', class: "text-left" }, "Created at"), this.haveAdminPrivileges && index.h("th", { key: 'b34bf15b0915e6118e0bf8f7a219f443f7a5a585' }, "Active"), this.haveAdminPrivileges && index.h("th", { key: '6a6842866cda60127fcdfab32b3efecd4b498465' }, "Email verified"), index.h("th", { key: '87cdc8b7a14b6d6db9b95728192e0b1456264887', class: 'action-row' }, this.canCreate && (index.h("ir-icon", { key: 'e27d36dea99d8d965d9d5c7e69c00787bb63ce7d', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales_store.locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
                     user: null,
                 };
-            } }, index.h("svg", { key: 'ef8377c50e9a3b86d7ba099fbc8290cac9f0ba7b', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, index.h("path", { key: '9640da68782ae36e75a698be012e9f9148be34d7', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), index.h("tbody", { key: 'cd30f0103dec8c8542ae66169e317e6d4c5c9295' }, this.users.map(user => {
+            } }, index.h("svg", { key: '21b241dfcf0ffe296dbffd1e3be98153d1c07d0a', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, index.h("path", { key: '11123046c1e2e32f670de10854f443db676d6149', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), index.h("tbody", { key: '0239baebddb39998a9955be9fbe8d0d48f5c8dd9' }, this.users.map(user => {
             var _a;
             const isUserSuperAdmin = user.type.toString() === '1';
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
@@ -1339,7 +1395,9 @@ const IrUserManagementTable = class {
                 ? moment.hooks(latestSignIn.date, 'YYYY-MM-DD').format('DD-MMM-YYYY') + ' ' + functions._formatTime(latestSignIn.hour.toString(), latestSignIn.minute.toString())
                 : 'N/A'), index.h("td", null, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : moment.hooks(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), this.haveAdminPrivileges && (index.h("td", null, this.haveAdminPrivileges && !this.isSuperAdmin && user.type.toString() === '17'
                 ? null
-                : !isUserSuperAdmin && index.h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), this.haveAdminPrivileges && (index.h("td", null, index.h("button", { class: `m-0 badge ${user.is_email_verified ? 'badge-success' : 'badge-danger'}` }, user.is_email_verified ? 'verified' : 'not verified'))), index.h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (index.h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (index.h("ir-icon", { "data-testid": "edit", title: locales_store.locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
+                : !isUserSuperAdmin && index.h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), this.haveAdminPrivileges && (index.h("td", null, index.h("button", { "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "user-verification", title: user.is_email_verified ? '' : 'Send verification email', class: `m-0  badge ${user.is_email_verified ? 'badge-success' : 'badge-danger'}`, disabled: user.is_email_verified, onClick: () => {
+                    this.sendVerificationEmail(user);
+                } }, user.is_email_verified ? 'verified' : 'not verified'))), index.h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (index.h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (index.h("ir-icon", { "data-testid": "edit", title: locales_store.locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                     this.currentTrigger = {
                         type: 'user',
                         isEdit: true,
@@ -1349,10 +1407,10 @@ const IrUserManagementTable = class {
                     this.user = user;
                     this.modalRef.openModal();
                 } }, index.h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, index.h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))));
-        })))), index.h("ir-sidebar", { key: '134d3b3a3298acf6518c50e07fe1eec80a202550', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
+        })))), index.h("ir-sidebar", { key: '6086034e22453360587cfc796aaca4d0145082f3', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), index.h("ir-modal", { key: '74062ea624961100bff06ce10401d2154fc77d47', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", isLoading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), rightBtnText: locales_store.locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
+            } }, this.renderCurrentTrigger()), index.h("ir-modal", { key: '4647ea3dab468f5e54f1c5faf04a4be66c022095', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", isLoading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), rightBtnText: locales_store.locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
     }
     static get watchers() { return {
         "haveAdminPrivileges": ["handleChange"]

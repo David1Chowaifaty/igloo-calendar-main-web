@@ -1,5 +1,6 @@
 import { UserParams } from "../models/Users";
 export declare class UserService {
+    sendVerificationEmail(): Promise<void>;
     checkUserExistence(params: {
         UserName: string;
     }): Promise<boolean>;

@@ -1,6 +1,9 @@
 import { a as axios } from './axios.js';
 
 class UserService {
+    async sendVerificationEmail() {
+        throw new Error('Method not implemented.');
+    }
     async checkUserExistence(params) {
         const { data } = await axios.post('/CheckUserExistence', params);
         return data.My_Result;

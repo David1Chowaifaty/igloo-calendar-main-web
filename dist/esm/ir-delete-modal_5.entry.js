@@ -3,7 +3,7 @@ import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultPrope
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-26906e0c.js';
 import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
-import { C as CONSTANTS, U as UserService } from './user.service-dabcaab9.js';
+import { C as CONSTANTS, U as UserService } from './user.service-1b7a2a74.js';
 import { z, Z as ZodError } from './index-502f9842.js';
 import './index-c1c77241.js';
 import './axios-aa1335b8.js';

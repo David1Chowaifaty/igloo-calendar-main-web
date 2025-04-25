@@ -3,6 +3,7 @@ import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
+import { l as lookup } from './index5.js';
 import { d as defineCustomElement$i } from './ir-button2.js';
 import { d as defineCustomElement$h } from './ir-icon2.js';
 import { d as defineCustomElement$g } from './ir-icons2.js';
@@ -47,6 +48,11 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         this.token.setToken(this.ticket);
         this.initializeApp();
     }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchUsers();
+    }
     async initializeApp() {
         try {
             this.isLoading = true;
@@ -78,6 +84,10 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
                 }));
             }
             await Promise.all(requests);
+            this.socket = lookup('https://realtime.igloorooms.com/');
+            this.socket.on('MSG', async (msg) => {
+                await this.handleSocketMessage(msg);
+            });
         }
         catch (error) {
             console.log(error);
@@ -86,10 +96,38 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
             this.isLoading = false;
         }
     }
-    async handleResetData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchUsers();
+    async handleSocketMessage(msg) {
+        const msgAsObject = JSON.parse(msg);
+        if (!msgAsObject) {
+            return;
+        }
+        const { REASON, KEY, PAYLOAD } = msgAsObject;
+        if (KEY.toString() !== this.property_id.toString()) {
+            return;
+        }
+        let result = JSON.parse(PAYLOAD);
+        console.log(KEY, result);
+        // const reasonHandlers: Partial<Record<bookingReasons, Function>> = {
+        //   DORESERVATION: this.updateUserVerificationStatus,
+        // };
+        const reasonHandlers = {};
+        const handler = reasonHandlers[REASON];
+        if (handler) {
+            await handler.call(this, result);
+        }
+        else {
+            console.warn(`Unhandled REASON: ${REASON}`);
+        }
+    }
+    updateUserVerificationStatus(result) {
+        const users = [...this.users];
+        const idx = users.findIndex(u => u.id === result.id);
+        if (idx === -1) {
+            console.warn(`User ${result.id} not found`);
+            return;
+        }
+        users[idx] = Object.assign(Object.assign({}, users[idx]), { is_email_verified: result.is_email_verified });
+        this.users = users;
     }
     async fetchUsers() {
         const users = await this.userService.getExposedPropertyUsers();
@@ -130,6 +168,9 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
             }
             this.userTypes.set(e.CODE_NAME.toString(), value);
         }
+    }
+    disconnectedCallback() {
+        this.socket.disconnect();
     }
     render() {
         var _a, _b;
