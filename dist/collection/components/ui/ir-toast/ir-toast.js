@@ -24,7 +24,7 @@ export class IrToast {
         }
     }
     render() {
-        return h(Host, { key: 'dc31ef0e4999a750e2cc5d21a254dff4ac820826' });
+        return h(Host, { key: '1bc471aa1e4c56d71ba4d59d3a798fb46289b3fd' });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }

@@ -3,12 +3,13 @@ import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 export class IrInterceptor {
     constructor() {
+        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
+        this.suppressToastEndpoints = [];
         this.isShown = false;
         this.isLoading = false;
         this.isUnassignedUnit = false;
         this.endpointsCount = 0;
         this.isPageLoadingStopped = null;
-        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
     }
     handleStopPageLoading(e) {
         this.isLoading = false;
@@ -58,22 +59,25 @@ export class IrInterceptor {
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            this.handleError(response.data.ExceptionMsg);
+            this.handleError(response.data.ExceptionMsg, extractedUrl);
             throw new Error(response.data.ExceptionMsg);
         }
         return response;
     }
-    handleError(error) {
-        this.toast.emit({
-            type: 'error',
-            title: error,
-            description: '',
-            position: 'top-right',
-        });
+    handleError(error, url) {
+        const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
+        if (!shouldSuppressToast) {
+            this.toast.emit({
+                type: 'error',
+                title: error,
+                description: '',
+                position: 'top-right',
+            });
+        }
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '8a9a04ba9e198dd54eccf8f815ba8f44d253aefa' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '1d68df27f000329d5b92bc4555cdcb44bf879523', class: "loadingScreenContainer" }, h("div", { key: 'c02de485fa7ab2324c77de36d08dfec1d3a5e0fb', class: "loaderContainer" }, h("span", { key: '3229a7aac22a5968b1529281784eff50222f6906', class: "page-loader" }))))));
+        return (h(Host, { key: '50d405635cc74b7dbaaf9842db2a4d074b5b0ab0' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '76446e61119b17d291d40c8916b2408f5faeeb44', class: "loadingScreenContainer" }, h("div", { key: 'f281d9d5bc5bbbf180a9df951b928d8867916da3', class: "loaderContainer" }, h("span", { key: '83889d9f6b773297a81d0a0935f6c90b631bf792', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -106,6 +110,24 @@ export class IrInterceptor {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']"
+            },
+            "suppressToastEndpoints": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "string[]",
+                    "resolved": "string[]",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }

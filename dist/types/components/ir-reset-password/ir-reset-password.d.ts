@@ -15,10 +15,6 @@ export declare class IrResetPassword {
     };
     submitted: boolean;
     isLoading: boolean;
-    authFinish: EventEmitter<{
-        token: string;
-        code: 'succsess' | 'error';
-    }>;
     closeSideBar: EventEmitter<null>;
     private token;
     private authService;
