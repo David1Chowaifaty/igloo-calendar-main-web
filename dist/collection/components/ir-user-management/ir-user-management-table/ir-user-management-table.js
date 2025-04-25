@@ -104,9 +104,11 @@ export class IrUserManagementTable {
                 ? moment(latestSignIn.date, 'YYYY-MM-DD').format('DD-MMM-YYYY') + ' ' + _formatTime(latestSignIn.hour.toString(), latestSignIn.minute.toString())
                 : 'N/A'), h("td", null, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : moment(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), this.haveAdminPrivileges && (h("td", null, this.haveAdminPrivileges && !this.isSuperAdmin && user.type.toString() === '17'
                 ? null
-                : !isUserSuperAdmin && h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), this.haveAdminPrivileges && (h("td", null, h("button", { "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "user-verification", title: user.is_email_verified ? '' : 'Send verification email', class: `m-0  badge ${user.is_email_verified ? 'badge-success' : 'badge-danger'}`, disabled: user.is_email_verified, onClick: () => {
+                : !isUserSuperAdmin && h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), this.haveAdminPrivileges && (h("td", null, h("button", { "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "user-verification", title: user.is_email_verified ? '' : 'Click to resend verification email.', class: `m-0  badge ${user.is_email_verified ? 'badge-success' : 'badge-danger'}`,
+                //TODO add isRequestPending for when the request is sent the buttons should be disabled
+                disabled: user.is_email_verified, onClick: () => {
                     this.sendVerificationEmail(user);
-                } }, user.is_email_verified ? 'verified' : 'not verified'))), h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (h("ir-icon", { "data-testid": "edit", title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
+                } }, user.is_email_verified ? 'Verified' : 'Not verified'))), h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (h("ir-icon", { "data-testid": "edit", title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                     this.currentTrigger = {
                         type: 'user',
                         isEdit: true,
@@ -116,10 +118,10 @@ export class IrUserManagementTable {
                     this.user = user;
                     this.modalRef.openModal();
                 } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))));
-        })))), h("ir-sidebar", { key: '6086034e22453360587cfc796aaca4d0145082f3', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: 'ab8b3bf0f7e8704894d8808e47a9d1a06d55fe19', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), h("ir-modal", { key: '4647ea3dab468f5e54f1c5faf04a4be66c022095', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
+            } }, this.renderCurrentTrigger()), h("ir-modal", { key: 'ff57c661421ca2872246162d9b18cfb1c1de0d91', autoClose: false, modalBody: `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), rightBtnText: locales.entries.Lcz_Delete, onConfirmModal: this.removeUser.bind(this), ref: el => (this.modalRef = el) })));
     }
     static get is() { return "ir-user-management-table"; }
     static get encapsulation() { return "scoped"; }
