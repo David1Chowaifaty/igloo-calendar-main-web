@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
+import { InterceptorError } from "./InterceptorError";
 export class IrInterceptor {
     constructor() {
         this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
@@ -59,14 +60,14 @@ export class IrInterceptor {
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            this.handleError(response.data.ExceptionMsg, extractedUrl);
-            throw new Error(response.data.ExceptionMsg);
+            this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
+            throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
         }
         return response;
     }
-    handleError(error, url) {
+    handleError(error, url, code) {
         const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
-        if (!shouldSuppressToast) {
+        if (!shouldSuppressToast || (shouldSuppressToast && !code)) {
             this.toast.emit({
                 type: 'error',
                 title: error,
@@ -77,7 +78,7 @@ export class IrInterceptor {
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '50d405635cc74b7dbaaf9842db2a4d074b5b0ab0' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '76446e61119b17d291d40c8916b2408f5faeeb44', class: "loadingScreenContainer" }, h("div", { key: 'f281d9d5bc5bbbf180a9df951b928d8867916da3', class: "loaderContainer" }, h("span", { key: '83889d9f6b773297a81d0a0935f6c90b631bf792', class: "page-loader" }))))));
+        return (h(Host, { key: '4d777471ffc9c4011a3c269bb10356b48e69733d' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '3ee3c569ece1e79c6a14cf4b0ceb3333e4dd480b', class: "loadingScreenContainer" }, h("div", { key: '2127a0896597c30ce15259c32a8dbbaaf4781c8d', class: "loaderContainer" }, h("span", { key: '95d4666aa3fe8d3b109c6f4807fff0f941bf2603', class: "page-loader" }))))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

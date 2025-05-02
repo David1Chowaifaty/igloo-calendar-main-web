@@ -8,11 +8,11 @@ import { c as calendar_data } from './calendar-data.js';
 import { a as _formatTime } from './functions.js';
 import { h as hooks } from './moment.js';
 import { c as commonjsGlobal } from './_commonjsHelpers.js';
+import { a as InterceptorError, d as defineCustomElement$8 } from './ir-interceptor2.js';
 import { d as defineCustomElement$c } from './ir-button2.js';
 import { d as defineCustomElement$b } from './ir-icon2.js';
 import { d as defineCustomElement$a } from './ir-icons2.js';
 import { d as defineCustomElement$9 } from './ir-input-text2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
 import { d as defineCustomElement$7 } from './ir-password-validator2.js';
 import { d as defineCustomElement$6 } from './ir-reset-password2.js';
 import { d as defineCustomElement$5 } from './ir-select2.js';
@@ -43,9 +43,11 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         this.__registerHost();
         this.resetData = createEvent(this, "resetData", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        var _a;
         this.userTypes = (Map);
         this.isEdit = false;
         this.language = 'en';
+        this.superAdminId = '5';
         this.allowedUsersTypes = [];
         this.isLoading = false;
         this.autoValidate = false;
@@ -86,7 +88,7 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
                 }
                 return CONSTANTS.PASSWORD.test(password);
             }, { message: 'Password must be at least 8 characters long.' }),
-            type: z.coerce.string().nonempty().min(2),
+            type: z.union([z.literal(1), z.literal((_a = this.superAdminId) !== null && _a !== void 0 ? _a : '5'), z.coerce.string().nonempty().min(2)]),
             username: z
                 .string()
                 .min(3)
@@ -129,6 +131,7 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
     async createOrUpdateUser() {
         try {
             this.isLoading = true;
+            this.emailErrorMessage = undefined;
             if (!this.autoValidate) {
                 this.autoValidate = true;
             }
@@ -145,12 +148,16 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         catch (error) {
             const e = {};
             if (error instanceof ZodError) {
+                console.error(error);
                 error.issues.map(err => {
                     e[err.path[0]] = true;
                 });
-                this.errors = e;
             }
-            console.error(error);
+            else if (error instanceof InterceptorError && error.code === 'EMAIL_EXISTS') {
+                e['email'] = true;
+                this.emailErrorMessage = 'This email is already in use. Please create another one.';
+            }
+            this.errors = e;
         }
         finally {
             this.isLoading = false;
@@ -167,31 +174,31 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
-        return (h("form", { key: '864bf7e85909be4d31ac8fe3dd7a44664527ce54', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: '3b52e2981f8ccc17b533aacf8282cda4b37bc213', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: '39b33918a2d6813d33a94cf1fe6d79ff737e8586', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: 'fa9045f606d44b7910e3afcb30ef5cd9706e92f3', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'd97824b74cf5d41ad7b44408fe94e7e0dafc7ac8', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), h("ir-input-text", { key: 'c78e586ddaa00bcd86a064de2677fbf97d2a27c8', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === '1') || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.type) && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
+            } }, h("ir-title", { key: '641424dda55d5253b84d49c9f3db85c9de5f3ce0', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '82936c3ceb1805b6ad710adbd127dcc6c8a802c3', class: "px-1 sheet-body" }, h("ir-input-text", { key: '3b680dcaad33c47a915364425ad688a2a69ef23c', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: '4073808a90bdb4b156b909d79b22b3a734d99470', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.type) && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
                 text: t.value,
                 value: t.code,
-            })), selectedValue: (_g = this.userInfo.type) === null || _g === void 0 ? void 0 : _g.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), ((_j = (_h = this.user) === null || _h === void 0 ? void 0 : _h.type) === null || _j === void 0 ? void 0 : _j.toString()) !== '1' && (h("ir-input-text", { key: 'e2e142b6feb867ff1bae69e3fe13c1326c8af193', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_k = this.errors) === null || _k === void 0 ? void 0 : _k.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 })), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_l = this.userInfo) === null || _l === void 0 ? void 0 : _l.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_m = this.errors) === null || _m === void 0 ? void 0 : _m.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            })), selectedValue: (_g = this.userInfo.type) === null || _g === void 0 ? void 0 : _g.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), ((_j = (_h = this.user) === null || _h === void 0 ? void 0 : _h.type) === null || _j === void 0 ? void 0 : _j.toString()) !== '5' && (h("ir-input-text", { key: 'da4c822fee101c296c896d7e4a9c3cc996b0fb10', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_k = this.errors) === null || _k === void 0 ? void 0 : _k.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 })), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_l = this.userInfo) === null || _l === void 0 ? void 0 : _l.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_m = this.errors) === null || _m === void 0 ? void 0 : _m.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (this.haveAdminPrivileges &&
-            this.user.type.toString() !== '1' &&
-            (((_o = this.user) === null || _o === void 0 ? void 0 : _o.type.toString()) === '17' && ((_p = this.userTypeCode) === null || _p === void 0 ? void 0 : _p.toString()) === '17' ? null : (h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, "Password"), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" }))))), ((_r = (_q = this.user) === null || _q === void 0 ? void 0 : _q.sign_ins) === null || _r === void 0 ? void 0 : _r.length) > 0 && (h("section", { key: '47d796cc413bd75139605ddab942c16efb394715', class: "logins-history-section mt-2" }, h("div", { key: '97e4251f6657c1ad1eff0000e165702456cb7b8a', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '8c011011c5c96861ac10f2ed18e379c896bb9780', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '01fd000cfcd79c3fe33a80cb447b672f21404f96', btn_styles: 'pr-0', text: !this.showFullHistory ? 'View all' : 'View less', btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'e40f88828777dc67fc553e59d4d5ac776d1fa4e8', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+            this.user.type.toString() !== this.superAdminId &&
+            (((_o = this.user) === null || _o === void 0 ? void 0 : _o.type.toString()) === '17' && ((_p = this.userTypeCode) === null || _p === void 0 ? void 0 : _p.toString()) === '17' ? null : (h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, "Password"), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" }))))), ((_r = (_q = this.user) === null || _q === void 0 ? void 0 : _q.sign_ins) === null || _r === void 0 ? void 0 : _r.length) > 0 && (h("section", { key: 'c5c661f057521a89775cbea1fc0dc3ee96a80100', class: "logins-history-section mt-2" }, h("div", { key: '00ea4ae0111146afdc93b9b2490da8c3e158bda6', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '85d3ef5a2836878b0692e82a1a89e643ccbd52f6', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'ddbdcf67591ace5f555fda03a325052ef65525c0', btn_styles: 'pr-0', text: !this.showFullHistory ? 'View all' : 'View less', btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '2c3b748ca58f7c47a09af75660dbacc56597a8a9', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             var _a, _b, _c;
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime((_a = s.hour) === null || _a === void 0 ? void 0 : _a.toString(), (_b = s.minute) === null || _b === void 0 ? void 0 : _b.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, "IP: ", s.ip), " \u00A0|\u00A0", h("span", { class: "login-country" }, "Location: ", s.country), " \u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", (_c = ua.os.name) !== null && _c !== void 0 ? _c : 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: 'fdcc2fb5570a359df65c39305e57cecb775a349b', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '9d8cf8bcc6ddbbd9a6cb917ed830d4e197dff242', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'dd31a747bcabc4e9f21449b79d73c07facb6806f', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'd12f086dc0b63375f601953c7c18354e210e47cf', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: 'c226220b8b55180481037a9530e01df4b9a206d3', class: "sheet-footer" }, h("ir-button", { key: '52424c09548caf51855483eed5d0d49001edac82', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '9e5937f6282bfcdb6e61e45d51b64e155d56b8d3', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: '0341637fc5665c01b34cb7d8aea950bf72ad04aa', class: "sheet-footer" }, h("ir-button", { key: 'e9ec3935b8fbbc5017301d92d2a1629d11e51d39', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'cea29f1b73ab26a4ad9c2016a9262338a1f8f092', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get style() { return IrUserFormPanelStyle0 + IrUserFormPanelStyle1; }
 }, [2, "ir-user-form-panel", {
@@ -201,6 +208,7 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         "language": [1],
         "property_id": [2],
         "haveAdminPrivileges": [4, "have-admin-privileges"],
+        "superAdminId": [1, "super-admin-id"],
         "userTypeCode": [8, "user-type-code"],
         "allowedUsersTypes": [16],
         "isLoading": [32],
@@ -210,7 +218,8 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         "errors": [32],
         "showPasswordValidation": [32],
         "isUsernameTaken": [32],
-        "isOpen": [32]
+        "isOpen": [32],
+        "emailErrorMessage": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

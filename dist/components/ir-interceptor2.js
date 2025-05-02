@@ -2,6 +2,16 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { a as axios } from './axios.js';
 import { a as interceptor_requests } from './ir-interceptor.store.js';
 
+class InterceptorError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.name = 'InterceptorError';
+        this.code = code;
+        // Ensure the prototype chain is correct (important for `instanceof` checks)
+        Object.setPrototypeOf(this, InterceptorError.prototype);
+    }
+}
+
 const irInterceptorCss = ".page-loader.sc-ir-interceptor{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loaderContainer.sc-ir-interceptor{padding:20px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:white}.loadingScreenContainer.sc-ir-interceptor{position:fixed;top:0;left:0;height:100vh;width:100vw;z-index:100000;background:rgba(0, 0, 0, 0.2);pointer-events:all;display:flex;align-items:center;justify-content:center}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrInterceptorStyle0 = irInterceptorCss;
 
@@ -66,14 +76,14 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         }
         interceptor_requests[extractedUrl] = 'done';
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            this.handleError(response.data.ExceptionMsg, extractedUrl);
-            throw new Error(response.data.ExceptionMsg);
+            this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
+            throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
         }
         return response;
     }
-    handleError(error, url) {
+    handleError(error, url, code) {
         const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
-        if (!shouldSuppressToast) {
+        if (!shouldSuppressToast || (shouldSuppressToast && !code)) {
             this.toast.emit({
                 type: 'error',
                 title: error,
@@ -84,7 +94,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         return Promise.reject(error);
     }
     render() {
-        return (h(Host, { key: '50d405635cc74b7dbaaf9842db2a4d074b5b0ab0' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '76446e61119b17d291d40c8916b2408f5faeeb44', class: "loadingScreenContainer" }, h("div", { key: 'f281d9d5bc5bbbf180a9df951b928d8867916da3', class: "loaderContainer" }, h("span", { key: '83889d9f6b773297a81d0a0935f6c90b631bf792', class: "page-loader" }))))));
+        return (h(Host, { key: '4d777471ffc9c4011a3c269bb10356b48e69733d' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '3ee3c569ece1e79c6a14cf4b0ceb3333e4dd480b', class: "loadingScreenContainer" }, h("div", { key: '2127a0896597c30ce15259c32a8dbbaaf4781c8d', class: "loaderContainer" }, h("span", { key: '95d4666aa3fe8d3b109c6f4807fff0f941bf2603', class: "page-loader" }))))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
@@ -110,6 +120,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrInterceptor as I, defineCustomElement as d };
+export { IrInterceptor as I, InterceptorError as a, defineCustomElement as d };
 
 //# sourceMappingURL=ir-interceptor2.js.map

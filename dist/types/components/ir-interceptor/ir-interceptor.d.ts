@@ -17,6 +17,6 @@ export declare class IrInterceptor {
     isHandledEndpoint(url: string): boolean;
     handleRequest(config: AxiosRequestConfig): AxiosRequestConfig<any>;
     handleResponse(response: AxiosResponse): AxiosResponse<any, any>;
-    handleError(error: string, url: string): Promise<never>;
+    handleError(error: string, url: string, code: string): Promise<never>;
     render(): any;
 }

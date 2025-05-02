@@ -13,6 +13,7 @@ export declare class IrUserFormPanel {
     language: string;
     property_id: number;
     haveAdminPrivileges: boolean;
+    superAdminId: string;
     userTypeCode: string | number;
     allowedUsersTypes: AllowedUser[];
     isLoading: boolean;
@@ -25,6 +26,7 @@ export declare class IrUserFormPanel {
     showPasswordValidation: boolean;
     isUsernameTaken: boolean;
     isOpen: boolean;
+    emailErrorMessage: string;
     resetData: EventEmitter<null>;
     closeSideBar: EventEmitter<null>;
     private housekeepingService;

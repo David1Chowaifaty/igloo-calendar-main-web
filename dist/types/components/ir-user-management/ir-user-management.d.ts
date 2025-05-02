@@ -18,6 +18,7 @@ export declare class IrUserManagement {
     private bookingService;
     private userTypes;
     private socket;
+    private superAdminId;
     ticketChanged(newValue: string, oldValue: string): void;
     handleResetData(e: CustomEvent): Promise<void>;
     private initializeApp;

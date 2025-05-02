@@ -8,6 +8,7 @@ export declare class IrUserManagementTable {
     userTypes: Map<string | number, string>;
     userTypeCode: string | number;
     haveAdminPrivileges: boolean;
+    superAdminId: string;
     allowedUsersTypes: AllowedUser[];
     currentTrigger: any;
     user: User;
