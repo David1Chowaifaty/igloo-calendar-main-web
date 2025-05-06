@@ -12,6 +12,7 @@ export declare class IrUserManagementTable {
     allowedUsersTypes: AllowedUser[];
     currentTrigger: any;
     user: User;
+    modalType: 'verify' | 'delete';
     canDelete: boolean;
     canEdit: boolean;
     canCreate: boolean;
@@ -23,8 +24,11 @@ export declare class IrUserManagementTable {
     handleChange(n: boolean, o: boolean): void;
     private assignPermissions;
     private handleUserActiveChange;
-    private removeUser;
+    private executeUserAction;
     private sendVerificationEmail;
     private renderCurrentTrigger;
+    private openModal;
+    private maskEmail;
+    private resetModalState;
     render(): any;
 }

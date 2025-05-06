@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
 import { R as RoomService } from './room.service-5bfa8a39.js';
-import { B as BookingService } from './booking.service-d8c9d9bb.js';
-import { k as formatLegendColors, l as calendar_dates, n as formatName, o as getRoomStatus, t as transformNewBooking, p as transformNewBLockedRooms, d as dateToFormattedString, q as bookingStatus, f as getPrivateNote, r as isBlockUnit, j as calculateDaysBetweenDates, s as getNextDay, u as addTwoMonthToDate, v as convertDMYToISO, w as computeEndDate, x as downloadFile } from './utils-5e80f012.js';
+import { B as BookingService } from './booking.service-1764aa69.js';
+import { k as formatLegendColors, l as calendar_dates, n as formatName, o as getRoomStatus, t as transformNewBooking, p as transformNewBLockedRooms, d as dateToFormattedString, q as bookingStatus, f as getPrivateNote, r as isBlockUnit, j as calculateDaysBetweenDates, u as getNextDay, v as addTwoMonthToDate, w as convertDMYToISO, x as computeEndDate, y as downloadFile } from './utils-f1b7543f.js';
 import { l as lookup } from './index-7ee206df.js';
-import { E as EventsService } from './events.service-25cd05bf.js';
+import { E as EventsService } from './events.service-c5393479.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-e9155f2b.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-be661573.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-26906e0c.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-bb218d3e.js';
@@ -15,7 +15,6 @@ import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
 import { v as v4 } from './v4-964634d6.js';
 import './axios-aa1335b8.js';
 import './index-c1c77241.js';
-import './index-502f9842.js';
 
 const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
 const IglooCalendarStyle0 = iglooCalendarCss;

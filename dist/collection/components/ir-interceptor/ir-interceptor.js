@@ -51,7 +51,7 @@ export class IrInterceptor {
         }
         return config;
     }
-    handleResponse(response) {
+    async handleResponse(response) {
         var _a;
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
@@ -59,10 +59,28 @@ export class IrInterceptor {
             this.isPageLoadingStopped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
+        if (extractedUrl === '/Validate_OTP') {
+            return response;
+        }
+        if (response.data.ExceptionCode === 'OTP') {
+            this.showModal = true;
+            this.requestUrl = extractedUrl.slice(1, extractedUrl.length);
+            this.pendingConfig = response.config;
+            return new Promise((resolve, reject) => {
+                this.pendingResolve = resolve;
+                this.pendingReject = reject;
+                setTimeout(() => {
+                    var _a;
+                    (_a = this.otpModal) === null || _a === void 0 ? void 0 : _a.openModal();
+                }, 10);
+            });
+        }
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
             this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
             throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
         }
+        if (this.showModal)
+            this.showModal = false;
         return response;
     }
     handleError(error, url, code) {
@@ -77,8 +95,30 @@ export class IrInterceptor {
         }
         return Promise.reject(error);
     }
+    async handleOtpFinished(ev) {
+        if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
+            return;
+        }
+        const otp = ev.detail;
+        if (!otp) {
+            this.pendingReject(new Error('OTP cancelled by user'));
+        }
+        else {
+            try {
+                const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: Object.assign({}, (typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {})) });
+                const resp = await axios.request(retryConfig);
+                this.pendingResolve(resp);
+            }
+            catch (err) {
+                this.pendingReject(err);
+            }
+        }
+        this.pendingConfig = undefined;
+        this.pendingResolve = undefined;
+        this.pendingReject = undefined;
+    }
     render() {
-        return (h(Host, { key: '4d777471ffc9c4011a3c269bb10356b48e69733d' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '3ee3c569ece1e79c6a14cf4b0ceb3333e4dd480b', class: "loadingScreenContainer" }, h("div", { key: '2127a0896597c30ce15259c32a8dbbaaf4781c8d', class: "loaderContainer" }, h("span", { key: '95d4666aa3fe8d3b109c6f4807fff0f941bf2603', class: "page-loader" }))))));
+        return (h(Host, { key: '4181027c7fb8c97389b512d2dff97ce6b3cca052' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '2b073ebaabf10d27a648a3c371bc83c41586e4bb', class: "loadingScreenContainer" }, h("div", { key: 'a1b9c06d055d3ed65c84ad3f79dfb25593851304', class: "loaderContainer" }, h("span", { key: 'ef04f94a0b24a3b7cd16ea1b5804d514cc8203ed', class: "page-loader" })))), this.showModal && h("ir-otp-modal", { key: '5619a6bbaf8a7066f0495e6d490fc655db1f66bd', requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) })));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -138,7 +178,9 @@ export class IrInterceptor {
             "isLoading": {},
             "isUnassignedUnit": {},
             "endpointsCount": {},
-            "isPageLoadingStopped": {}
+            "isPageLoadingStopped": {},
+            "showModal": {},
+            "requestUrl": {}
         };
     }
     static get events() {

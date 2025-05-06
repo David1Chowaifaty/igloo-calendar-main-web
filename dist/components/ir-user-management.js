@@ -4,13 +4,15 @@ import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
 import { l as lookup } from './index5.js';
-import { d as defineCustomElement$i } from './ir-button2.js';
-import { d as defineCustomElement$h } from './ir-icon2.js';
-import { d as defineCustomElement$g } from './ir-icons2.js';
-import { d as defineCustomElement$f } from './ir-input-text2.js';
-import { d as defineCustomElement$e } from './ir-interceptor2.js';
-import { d as defineCustomElement$d } from './ir-loading-screen2.js';
-import { d as defineCustomElement$c } from './ir-modal2.js';
+import { d as defineCustomElement$k } from './ir-button2.js';
+import { d as defineCustomElement$j } from './ir-icon2.js';
+import { d as defineCustomElement$i } from './ir-icons2.js';
+import { d as defineCustomElement$h } from './ir-input-text2.js';
+import { d as defineCustomElement$g } from './ir-interceptor2.js';
+import { d as defineCustomElement$f } from './ir-loading-screen2.js';
+import { d as defineCustomElement$e } from './ir-modal2.js';
+import { d as defineCustomElement$d } from './ir-otp2.js';
+import { d as defineCustomElement$c } from './ir-otp-modal2.js';
 import { d as defineCustomElement$b } from './ir-password-validator2.js';
 import { d as defineCustomElement$a } from './ir-reset-password2.js';
 import { d as defineCustomElement$9 } from './ir-select2.js';
@@ -203,7 +205,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-user-management", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-password-validator", "ir-reset-password", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast", "ir-user-form-panel", "ir-user-management-table", "requirement-check"];
+    const components = ["ir-user-management", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-select", "ir-sidebar", "ir-switch", "ir-title", "ir-toast", "ir-user-form-panel", "ir-user-management-table", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-user-management":
             if (!customElements.get(tagName)) {
@@ -212,35 +214,45 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$k();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$j();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$i();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-modal":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
+            }
+            break;
+        case "ir-otp":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-otp-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }

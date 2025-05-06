@@ -4,12 +4,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const room_service = require('./room.service-89962a18.js');
-const booking_service = require('./booking.service-4cc51082.js');
-const utils = require('./utils-3227b0c9.js');
+const booking_service = require('./booking.service-9a4def49.js');
+const utils = require('./utils-e03e37bd.js');
 const index$1 = require('./index-84e84862.js');
-const events_service = require('./events.service-b82259ce.js');
+const events_service = require('./events.service-036c7574.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-b25cbabf.js');
+const toBeAssigned_service = require('./toBeAssigned.service-0a6ce4d4.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-004d3283.js');
 const unassigned_dates_store = require('./unassigned_dates.store-5daabf69.js');
@@ -19,7 +19,6 @@ const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
 const v4 = require('./v4-9b297151.js');
 require('./axios-6e678d52.js');
 require('./index-467172e1.js');
-require('./index-db8b30d9.js');
 
 const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
 const IglooCalendarStyle0 = iglooCalendarCss;

@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IToast } from "../ui/ir-toast/toast";
 export declare class IrInterceptor {
     handledEndpoints: string[];
@@ -9,14 +8,21 @@ export declare class IrInterceptor {
     isUnassignedUnit: boolean;
     endpointsCount: number;
     isPageLoadingStopped: string | null;
+    showModal: boolean;
+    requestUrl: string;
     toast: EventEmitter<IToast>;
+    private otpModal;
+    private pendingConfig?;
+    private pendingResolve?;
+    private pendingReject?;
     handleStopPageLoading(e: CustomEvent): void;
     componentWillLoad(): void;
-    setupAxiosInterceptors(): void;
-    extractEndpoint(url: string): string;
-    isHandledEndpoint(url: string): boolean;
-    handleRequest(config: AxiosRequestConfig): AxiosRequestConfig<any>;
-    handleResponse(response: AxiosResponse): AxiosResponse<any, any>;
-    handleError(error: string, url: string, code: string): Promise<never>;
+    private setupAxiosInterceptors;
+    private extractEndpoint;
+    private isHandledEndpoint;
+    private handleRequest;
+    private handleResponse;
+    private handleError;
+    private handleOtpFinished;
     render(): any;
 }

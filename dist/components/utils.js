@@ -590,6 +590,9 @@ function toFloat(value, decimalPlaces) {
     const factor = Math.pow(10, decimalPlaces);
     return value / factor;
 }
+async function sleep(time = 200) {
+    return new Promise(r => setTimeout(() => r(null), time));
+}
 function handleBodyOverflow(open) {
     const attr = 'data-ir-scroll-locked';
     let counter = document.body.getAttribute(attr);
@@ -634,6 +637,6 @@ function handleBodyOverflow(open) {
     }
 }
 
-export { convertDMYToISO as A, computeEndDate as B, toFloat as C, renderTime as D, getDaysArray as E, convertDatePrice as F, formatDate as G, checkUserAuthState as H, manageAnchorSession as I, downloadFile as J, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, findCountry as k, canCheckIn as l, compareTime as m, createDateWithOffsetAndHour as n, calendar_dates as o, dateDifference as p, formatLegendColors as q, formatName as r, getRoomStatus as s, transformNewBooking as t, transformNewBLockedRooms as u, validateEmail as v, bookingStatus as w, getPrivateNote as x, getNextDay as y, addTwoMonthToDate as z };
+export { convertDMYToISO as A, computeEndDate as B, toFloat as C, renderTime as D, getDaysArray as E, convertDatePrice as F, formatDate as G, checkUserAuthState as H, manageAnchorSession as I, downloadFile as J, sleep as K, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, findCountry as k, canCheckIn as l, compareTime as m, createDateWithOffsetAndHour as n, calendar_dates as o, dateDifference as p, formatLegendColors as q, formatName as r, getRoomStatus as s, transformNewBooking as t, transformNewBLockedRooms as u, validateEmail as v, bookingStatus as w, getPrivateNote as x, getNextDay as y, addTwoMonthToDate as z };
 
 //# sourceMappingURL=utils.js.map

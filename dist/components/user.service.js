@@ -1,8 +1,10 @@
+import { K as sleep } from './utils.js';
 import { a as axios } from './axios.js';
 
 class UserService {
     async sendVerificationEmail() {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
+        await sleep(400);
     }
     async checkUserExistence(params) {
         const { data } = await axios.post('/CheckUserExistence', params);

@@ -5,17 +5,19 @@ import { R as RoomService } from './room.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { u as updateHKStore } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$l } from './ir-button2.js';
-import { d as defineCustomElement$k } from './ir-combobox2.js';
-import { d as defineCustomElement$j } from './ir-delete-modal2.js';
-import { d as defineCustomElement$i } from './ir-hk-team2.js';
-import { d as defineCustomElement$h } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$g } from './ir-hk-user2.js';
-import { d as defineCustomElement$f } from './ir-icon2.js';
-import { d as defineCustomElement$e } from './ir-icons2.js';
-import { d as defineCustomElement$d } from './ir-input-text2.js';
-import { d as defineCustomElement$c } from './ir-interceptor2.js';
-import { d as defineCustomElement$b } from './ir-loading-screen2.js';
+import { d as defineCustomElement$n } from './ir-button2.js';
+import { d as defineCustomElement$m } from './ir-combobox2.js';
+import { d as defineCustomElement$l } from './ir-delete-modal2.js';
+import { d as defineCustomElement$k } from './ir-hk-team2.js';
+import { d as defineCustomElement$j } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$i } from './ir-hk-user2.js';
+import { d as defineCustomElement$h } from './ir-icon2.js';
+import { d as defineCustomElement$g } from './ir-icons2.js';
+import { d as defineCustomElement$f } from './ir-input-text2.js';
+import { d as defineCustomElement$e } from './ir-interceptor2.js';
+import { d as defineCustomElement$d } from './ir-loading-screen2.js';
+import { d as defineCustomElement$c } from './ir-otp2.js';
+import { d as defineCustomElement$b } from './ir-otp-modal2.js';
 import { d as defineCustomElement$a } from './ir-password-validator2.js';
 import { d as defineCustomElement$9 } from './ir-phone-input2.js';
 import { d as defineCustomElement$8 } from './ir-popover2.js';
@@ -142,7 +144,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-switch", "ir-textarea", "ir-title", "ir-toast", "requirement-check"];
+    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-switch", "ir-textarea", "ir-title", "ir-toast", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -151,55 +153,65 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$n();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$m();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$l();
             }
             break;
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$k();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$j();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$i();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-otp":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$c();
+            }
+            break;
+        case "ir-otp-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$b();
             }

@@ -72,6 +72,8 @@
     "components/ir-interceptor/ir-interceptor.js",
     "components/ir-loading-screen/ir-loading-screen.js",
     "components/ir-login/ir-login.js",
+    "components/ir-otp-modal/ir-otp-modal.js",
+    "components/ir-otp-modal/ir-otp/ir-otp.js",
     "components/ir-password-validator/ir-password-validator.js",
     "components/ir-password-validator/requirement-check/requirement-check.js",
     "components/ir-payment-option/ir-payment-option.js",

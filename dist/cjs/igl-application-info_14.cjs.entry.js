@@ -3,15 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const booking_service = require('./booking.service-4cc51082.js');
+const booking_service = require('./booking.service-9a4def49.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-004d3283.js');
-const utils = require('./utils-3227b0c9.js');
+const utils = require('./utils-e03e37bd.js');
 const variation_service = require('./variation.service-791a6fad.js');
 const v4 = require('./v4-9b297151.js');
 const moment = require('./moment-1780b03a.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const index$1 = require('./index-db8b30d9.js');
 require('./axios-6e678d52.js');
 require('./index-467172e1.js');
 
@@ -566,7 +565,7 @@ const IglPropertyBookedBy = class {
         var _a;
         try {
             const email = this.bookedByData.email;
-            if (index$1.z.string().email().safeParse(email).success) {
+            if (utils.z.string().email().safeParse(email).success) {
                 const res = await this.bookingService.getUserInfo(email);
                 if (res !== null) {
                     this.bookedByData = Object.assign(Object.assign({}, this.bookedByData), { id: res.id, firstName: res.first_name, lastName: res.last_name, contactNumber: res.mobile_without_prefix, countryId: res.country_id, isdCode: (_a = res === null || res === void 0 ? void 0 : res.country_phone_prefix) !== null && _a !== void 0 ? _a : res.isdCode.toString() });
@@ -603,7 +602,7 @@ const IglPropertyBookedBy = class {
         const { key, data } = e.detail;
         console.log(key, data);
         if (key === 'blur') {
-            if (index$1.z.string().email().safeParse(data).success) {
+            if (utils.z.string().email().safeParse(data).success) {
                 this.bookedByData.email = data;
                 this.checkUser();
             }
@@ -1111,7 +1110,7 @@ const IrAutocomplete = class {
         this.isComboBoxVisible = false;
     }
     render() {
-        return (index.h(index.Host, { key: 'a3dba1e499d219c0c012cc9b5bc29ffeecc49fc6' }, index.h("div", { key: '546b1e2999dc9182d38eb7fe399cd126d0a62dbe', class: 'd-flex align-items-center ' }, index.h("label", { key: 'bd03641f60c11a2b3eced95e9ed5d75c3ab5a4e7', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, index.h("svg", { key: '737b2fe780f1d3f2579aeade1a242f6541b107c2', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, index.h("path", { key: 'ae47044817f4990109177d7051de47dec8b2ab0f', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), index.h("input", { key: 'fd7d12ea6ef77ac7d5ab28075de0fa7eeda8e622', "data-testid": this.testId, required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (index.h("button", { key: 'd302becbba5d699c2fe58b193bf07a77c6636cc0', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, index.h("p", { key: '0886367883a6698748d5e5a1a609e92bc75e6ac2', class: 'sr-only' }, "clear input"), index.h("svg", { key: '6d50d5019fc4ab8f3ca9e7874c4d73b0db36ecd2', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { key: 'a9fa42b43d6f418180748f38fbb7f86947cb1250', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
+        return (index.h(index.Host, { key: '746fd829be48332014ed564f173ac1a931fde195' }, index.h("div", { key: 'd7bc9e54abec142341d31680d4f77139226b500d', class: 'd-flex align-items-center ' }, index.h("label", { key: '85b4c449aa43d6f8e08f4fa76f95a5a6d8af8c89', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, index.h("svg", { key: '82113f404b60e5100f3ed6eed8d8fb56ee251204', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, index.h("path", { key: '391f2415e6e169e4279cf2c257af661c26315a29', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), index.h("input", { key: '8a67aca08449e5cedd1ae54071ae194fa407026f', "data-testid": this.testId, required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (index.h("button", { key: '168a20fb2dc506f412495837618ca3eaafbcb7cd', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, index.h("p", { key: '2ced5ae5f614d263421f17e3e97d84cf898a9127', class: 'sr-only' }, "clear input"), index.h("svg", { key: '7c00d9189fac0b383eaf0351efb418e91da91543', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { key: '2796126d861f96e3471991f06eadad8f8ca53bc2', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
     }
     get el() { return index.getElement(this); }
 };
@@ -1174,7 +1173,7 @@ const IrCountryPicker = class {
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (index.h("form", { key: '75ea6e4fce92e09095cc196550bc88d765e3e647', class: "dropdown m-0 p-0" }, index.h("ir-input-text", { key: '1ad1a383fbac4f36757373f01f615f4fcb4fb91b', onTextChange: e => {
+        return (index.h("form", { key: '991a07f528680d9afb870defd2d4617fd1b06761', class: "dropdown m-0 p-0" }, index.h("ir-input-text", { key: '9ce5ba956c769069f37145db52d7871f85705a73', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -1185,15 +1184,15 @@ const IrCountryPicker = class {
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), index.h("div", { key: 'fc8ae63247d4cd131970da8c7a9031fda85b87f8', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (index.h(index.Fragment, { key: 'ae9a2192480b46462248208f71b604a429fac98e' }, index.h("button", { key: '6fe6253e6b3974ae6f35f5177e343a66addda5e5', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), index.h("div", { key: 'c47a084429a5f90a1c4aaad242017076edb31585', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (index.h(index.Fragment, { key: '0635f8ace50e69b97fdb4a5dac4cffeac4ab058a' }, index.h("button", { key: 'b97280b23446760e99f6c37c55ab825297b5b31c', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, index.h("img", { key: 'ef346e76a320ab4243b4f55b8d09f04b28c32e3e', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), index.h("p", { key: 'bc48ca122fb853dffd8ccac89c776230a3f9f8b8', class: "pl-1 m-0" }, this.propertyCountry.name)), index.h("div", { key: 'f3abcc41b0fe4474f2291e4553009ba109bfedae', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, index.h("img", { key: '72e5c67e4a831cb881383bf2b10751ea46eeb135', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), index.h("p", { key: '8f7a2375e70ce7c5d4fbae14d5073a47cbcec790', class: "pl-1 m-0" }, this.propertyCountry.name)), index.h("div", { key: '861ca7b1f1ebb23b2d61cd92c253c6f99e749799', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (index.h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, index.h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), index.h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && index.h("p", { key: 'b703ead6021ea4058f0b1e756abd7f9fc74d963d', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && index.h("p", { key: '4b78a2388f2ef2a23d5fe7bf0cc34d959171eda5', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]
@@ -1307,7 +1306,7 @@ const IrDateRange = class {
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (index.h(index.Host, { key: 'b9eb16b04556731d61795636ead23dfc5d7c5b25' }, index.h("input", { key: 'c91574716fde517f63403ed4058b4d7fbbbdb38e', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (index.h(index.Host, { key: '7a39f643a2d326837fca0dcdaadeb75c38891c81' }, index.h("input", { key: '3cb91b923b537cd7c5cb5f1a37ec39cd4f7e8bb1', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {
@@ -1459,7 +1458,7 @@ const IrPhoneInput = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: 'feaa2eb937401f8324d2607f8c9617a8125792e7' }, index.h("div", { key: 'c82997ca235741157eacc08fa47a6e628f0285cc', class: "form-group mr-0" }, index.h("div", { key: '412fbd0eb3d8855acf5a9e3f00eb724b14fe203a', class: "input-group row m-0 p-0 position-relative" }, this.label && (index.h("div", { key: '271a48153c67d753091632a081f81b35b99878bb', class: `input-group-prepend col-3 p-0 text-dark border-none` }, index.h("label", { key: '177e3715bc7d2e30ba863538c71d0f1fb5b7bb7c', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), index.h("div", { key: '9c1884d6c441c6e5310f8fd17f8c37e55968b853', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, index.h("button", { key: '7aa21b983b9022d4e2d87f3e3b47b4b285438dc6', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? index.h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : index.h("p", { class: "p-0 m-0 " }, locales_store.locales.entries.Lcz_Select), index.h("svg", { key: 'b2b7f341ebb2fb890d625582857377552c3cad8a', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'd71089a1701d7322342abe020d70efe6c05c2b3d', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("p", { key: '0b00007c69f76c8acb120277991ae24609e63d47', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), index.h("input", { key: '0be7bccfa7a741f2a3471f606614d968a2228de4', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), this.isDropdownVisible && (index.h("div", { key: '334551e192f4bb147507560e91e95ac62359059f', class: "ir-dropdown-container" }, index.h("ir-combobox", { key: 'a24a4da44dbf1138661e9c89f12c9c91f8c41e90', onComboboxValueChange: e => {
+        return (index.h(index.Host, { key: 'aad9ff5eeb72ec5b56a9e791f128db2dcd1ce8e5' }, index.h("div", { key: '7acf0e140cb8920c9fa5d28b7a2ea080a6d9971f', class: "form-group mr-0" }, index.h("div", { key: '5c47d216a84eb46e56018a8cc6ff73eb2d81d3e6', class: "input-group row m-0 p-0 position-relative" }, this.label && (index.h("div", { key: '70b5679dd1b1e0167528a94dbf7642aa1e570aa0', class: `input-group-prepend col-3 p-0 text-dark border-none` }, index.h("label", { key: '8df4eb0de78297d34ddefe7e7599c578b0156a4f', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), index.h("div", { key: '5a16c30f8979a161379f4f20a342ff40426e2cb8', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, index.h("button", { key: 'c7baee5e45ee259f1cc4b2d482302a15acc9de29', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? index.h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : index.h("p", { class: "p-0 m-0 " }, locales_store.locales.entries.Lcz_Select), index.h("svg", { key: 'c5ffe92ff0cbde4d7426eb400bd06f02525f1951', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '9c95d65ec67b2741cbbc3cf569cbc09a87ee2de4', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("p", { key: 'c3c399032304e29c56a77b2bd61c659ca875e6a9', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), index.h("input", { key: 'e4a02440d594bd050c5ed69193ceadf537a414e1', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), this.isDropdownVisible && (index.h("div", { key: 'a0226ddc7a96e5f7ce8896c5e78b536f8780a7af', class: "ir-dropdown-container" }, index.h("ir-combobox", { key: '256ca11c74ff93fcf9370553eea5f783b92f4060', onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
             }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
@@ -1514,7 +1513,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: 'e67664d55876bc1f256deaf02ae698c26a97eba7' });
+        return index.h(index.Host, { key: 'cecd98e876eb782ca6adaf9d9093b14abf67534d' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -1549,14 +1548,14 @@ const IrTooltip = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '50714c315bd792dafca951cc65f29d79d9c1a5e9', class: "m-0 p-0" }, index.h("span", { key: '3279be22e6c84acc4b7799ffc656b1c1d8248c91', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        return (index.h(index.Host, { key: 'a11a39ab42e112cffba55152fb7a48e1349489e1', class: "m-0 p-0" }, index.h("span", { key: '43e43f6400c0892402a22802392c8e86500af5f3', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        index.h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, index.h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (index.h("slot", { name: "tooltip-trigger" }))), this.open && (index.h("div", { key: 'd29d2d8f1abe04534b4039a239b3cc13b63b6486', class: "tooltip bottom show position-absolute", role: "tooltip" }, index.h("div", { key: '4f0a44480306be113353c82d2c5446ef69cb306e', class: "tooltip-arrow" }), index.h("div", { key: 'ccddf5819b3e6dc54a2777a63eafac94976a522f', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, index.h("span", { key: 'e89a749475d6e584845dc3f850a3674beee3376c', innerHTML: this.message }))))));
+        index.h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, index.h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (index.h("slot", { name: "tooltip-trigger" }))), this.open && (index.h("div", { key: '5d6598d30f2aac33ea637a0cc00b71600b1d091e', class: "tooltip bottom show position-absolute", role: "tooltip" }, index.h("div", { key: '1d63dc8d115c22e11ad0a7ea52ec1702d191058e', class: "tooltip-arrow" }), index.h("div", { key: '220212aa1e493ba447a73b6fbdbfb997dddafd02', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, index.h("span", { key: 'f85821928d550ee3a7bb15c6189747c5389d3870', innerHTML: this.message }))))));
     }
 };
 IrTooltip.style = IrTooltipStyle0;

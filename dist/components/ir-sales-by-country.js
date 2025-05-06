@@ -2,12 +2,14 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { T as Token } from './Token.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$c } from './ir-button2.js';
-import { d as defineCustomElement$b } from './ir-checkbox2.js';
-import { d as defineCustomElement$a } from './ir-date-picker2.js';
-import { d as defineCustomElement$9 } from './ir-icons2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
-import { d as defineCustomElement$7 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$e } from './ir-button2.js';
+import { d as defineCustomElement$d } from './ir-checkbox2.js';
+import { d as defineCustomElement$c } from './ir-date-picker2.js';
+import { d as defineCustomElement$b } from './ir-icons2.js';
+import { d as defineCustomElement$a } from './ir-interceptor2.js';
+import { d as defineCustomElement$9 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$8 } from './ir-otp2.js';
+import { d as defineCustomElement$7 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$6 } from './ir-range-picker2.js';
 import { d as defineCustomElement$5 } from './ir-sales-filters2.js';
 import { d as defineCustomElement$4 } from './ir-sales-table2.js';
@@ -100,7 +102,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-range-picker", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-toast"];
+    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-range-picker", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-country":
             if (!customElements.get(tagName)) {
@@ -109,30 +111,40 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-otp":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-otp-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
