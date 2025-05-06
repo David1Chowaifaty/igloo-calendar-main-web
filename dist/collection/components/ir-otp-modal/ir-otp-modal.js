@@ -1,3 +1,4 @@
+import Token from "../../models/Token";
 import { SystemService } from "../../services/system.service";
 import { Fragment, Host, h } from "@stencil/core";
 import { z } from "zod";
@@ -14,11 +15,22 @@ export class IrOtpModal {
         this.isLoading = false;
         this.timer = 60;
         this.systemService = new SystemService();
+        this.tokenService = new Token();
         this.otpVerificationSchema = z.object({ email: z.string().nonempty(), requestUrl: z.string().nonempty(), otp: z.string().length(this.otpLength) });
         this.handleOtpComplete = (e) => {
             this.error = '';
             this.otp = e.detail;
         };
+    }
+    componentWillLoad() {
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.tokenService.setToken(newValue);
+        }
     }
     /** Open & reset everything */
     async openModal() {
@@ -32,6 +44,7 @@ export class IrOtpModal {
     /** Hide & clear timer */
     async closeModal() {
         $(this.modalRef).modal('hide');
+        this.otp = null;
         this.clearTimer();
     }
     resetState() {
@@ -96,13 +109,13 @@ export class IrOtpModal {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '0640d72a438f546d09773b9a3b033e8f281b543b' }, h("div", { key: '6ea1027284a9c6097bc647fb62de2be49e838858', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '98266693c25e457af74c5097425702b8ea4a5809', class: "modal-dialog modal-dialog-centered" }, h("div", { key: 'c86b4d94a507b405c05fd377b6d605041f8ed034', class: "modal-content" }, h("div", { key: 'feaaf86b57488bf9fe38ae9cf537e1187ee9726b', class: "modal-header" }, h("h5", { key: 'f72ac8bfa2792ac2adb93d4bdbc3543d2e8a0691', class: "modal-title" }, "Verify Your Identity")), h("div", { key: 'c937e92335bff77f7683c84a8ec420b7e9c33f2f', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: '08cbb229bcb2f9af79f3730e90069f663885ea5a', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: 'c40daf6ee301bfc625e40e756e3f4b054f3c8b3a', class: "text-primary" }, this.email)), h("ir-otp", { key: '6b19d00edf9ccbd5c51d0766ab5bd2609c8e316d', autoFocus: true, length: this.otpLength,
+        return (h(Host, { key: 'f973120b4e66a1046116c392196a7209754f3109' }, h("div", { key: 'd8d0dbe906131b756ad89cb83df33b041d4c3316', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '632588c2013a2da654359ecbeed137f628e83449', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '85f84983d5d55b7c4d39e455e784890246cb3b30', class: "modal-content" }, h("div", { key: '308a1dae4676ae02fda55175c3fbbea792d6a958', class: "modal-header" }, h("h5", { key: '4db9e95945e2b076af5d869d7d4609d08b8d5b84', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '12e3f0c1cdb0fd51cad39f0c3319127ba76ce195', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: '520d56eef39311b0da3158b82ea3f381f22e569c', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: '5e6058042f2343dd1700ebb7808dd9aec92b04ae', class: "text-primary" }, this.email)), h("ir-otp", { key: '504ebf162f333e49f71a78b0d2cb24d242da4173', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '6ecdcc3800657cdce107e3edb96ba07780b92fd5', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '5d5de693e47bb67105f75618ef3dcd6fe06d1d5c' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '23285554f753609de413794667618ce5285e2c2f', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '8d70b4e9c0efeb3c137f9494030edc55221fd4ba' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '45d1901326cb9e1b20efe767f0b90910d91b7f34', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '72dcb32933a714d9c2e7d48f91991ccba48afe53', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '249e95e0bb165cb35247b6d3f617f1fd1f8937ef', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '37a407d3bd505a9808e8643a5c2059c04d0bc8e6', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {
@@ -214,6 +227,25 @@ export class IrOtpModal {
                 "attribute": "otp-length",
                 "reflect": false,
                 "defaultValue": "6"
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "ticket for verifying and resending the verification code"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
             }
         };
     }
@@ -280,6 +312,12 @@ export class IrOtpModal {
                 }
             }
         };
+    }
+    static get watchers() {
+        return [{
+                "propName": "ticket",
+                "methodName": "handleTicketChange"
+            }];
     }
 }
 //# sourceMappingURL=ir-otp-modal.js.map

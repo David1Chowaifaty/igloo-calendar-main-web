@@ -153,6 +153,9 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
      */
     componentWillLoad() {
         this.otpValues = Array(this.length).fill('');
+        if (this.defaultValue) {
+            this.setValue(this.defaultValue);
+        }
     }
     /**
      * Focus the first input after component renders
@@ -221,7 +224,7 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '73e2c4b4944ea23d9d6d7fe09f97f6f676b1e551', class: "otp-input-container" }, h("div", { key: 'daceea24a94d5502ee170c9253ef9ff523d71dd0', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: '5998433c7d2384bb76425f3143f13fe02c813bbf', class: "otp-input-container" }, h("div", { key: '705c98be11301a2e874e82b7cdaba9f9bc813812', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
@@ -231,6 +234,7 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
     static get style() { return IrOtpStyle0; }
 }, [2, "ir-otp", {
         "length": [2],
+        "defaultValue": [1, "default-value"],
         "disabled": [4],
         "placeholder": [1],
         "type": [1],

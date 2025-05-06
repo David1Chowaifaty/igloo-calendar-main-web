@@ -8,8 +8,8 @@ const icons = require('./icons-bda9ba7f.js');
 const index$1 = require('./index-e9a28e3e.js');
 const axios = require('./axios-6e678d52.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const utils = require('./utils-e03e37bd.js');
 const Token = require('./Token-049041c2.js');
+const utils = require('./utils-e03e37bd.js');
 const authenticate_service = require('./authenticate.service-eff00d14.js');
 const user_service = require('./user.service-ea589ce7.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
@@ -735,6 +735,9 @@ const IrOtp = class {
      */
     componentWillLoad() {
         this.otpValues = Array(this.length).fill('');
+        if (this.defaultValue) {
+            this.setValue(this.defaultValue);
+        }
     }
     /**
      * Focus the first input after component renders
@@ -803,7 +806,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (index.h(index.Host, { key: '73e2c4b4944ea23d9d6d7fe09f97f6f676b1e551', class: "otp-input-container" }, index.h("div", { key: 'daceea24a94d5502ee170c9253ef9ff523d71dd0', class: "otp-input-wrapper" }, Array(this.length)
+        return (index.h(index.Host, { key: '5998433c7d2384bb76425f3143f13fe02c813bbf', class: "otp-input-container" }, index.h("div", { key: '705c98be11301a2e874e82b7cdaba9f9bc813812', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index$1) => (index.h("input", { ref: el => (this.inputRefs[index$1] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index$1], onInput: e => this.handleInput(e, index$1), onKeyDown: e => this.handleKeyDown(e, index$1), onPaste: e => this.handlePaste(e, index$1), onFocus: this.handleFocus, "aria-label": `Digit ${index$1 + 1} of ${this.length}` }))))));
     }
@@ -823,7 +826,7 @@ class SystemService {
     }
 }
 
-const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.modal-header{border-bottom:0px !important;padding-block:0.5rem !important}.modal-content{padding-top:0.5rem !important;padding-bottom:0.5rem !important}.modal-footer{padding-top:0.5rem !important;border-top:0 !important}";
+const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.modal-header{border-bottom:0px !important}.modal-footer{padding-top:0.5rem !important;border-top:0 !important}@media (min-width: 768px){.modal-dialog,.modal-content{width:fit-content !important}}";
 const IrOtpModalStyle0 = irOtpModalCss;
 
 const IrOtpModal = class {
@@ -841,11 +844,22 @@ const IrOtpModal = class {
         this.isLoading = false;
         this.timer = 60;
         this.systemService = new SystemService();
+        this.tokenService = new Token.Token();
         this.otpVerificationSchema = utils.z.object({ email: utils.z.string().nonempty(), requestUrl: utils.z.string().nonempty(), otp: utils.z.string().length(this.otpLength) });
         this.handleOtpComplete = (e) => {
             this.error = '';
             this.otp = e.detail;
         };
+    }
+    componentWillLoad() {
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.tokenService.setToken(newValue);
+        }
     }
     /** Open & reset everything */
     async openModal() {
@@ -859,6 +873,7 @@ const IrOtpModal = class {
     /** Hide & clear timer */
     async closeModal() {
         $(this.modalRef).modal('hide');
+        this.otp = null;
         this.clearTimer();
     }
     resetState() {
@@ -923,14 +938,17 @@ const IrOtpModal = class {
         this.clearTimer();
     }
     render() {
-        return (index.h(index.Host, { key: '0640d72a438f546d09773b9a3b033e8f281b543b' }, index.h("div", { key: '6ea1027284a9c6097bc647fb62de2be49e838858', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, index.h("div", { key: '98266693c25e457af74c5097425702b8ea4a5809', class: "modal-dialog modal-dialog-centered" }, index.h("div", { key: 'c86b4d94a507b405c05fd377b6d605041f8ed034', class: "modal-content" }, index.h("div", { key: 'feaaf86b57488bf9fe38ae9cf537e1187ee9726b', class: "modal-header" }, index.h("h5", { key: 'f72ac8bfa2792ac2adb93d4bdbc3543d2e8a0691', class: "modal-title" }, "Verify Your Identity")), index.h("div", { key: 'c937e92335bff77f7683c84a8ec420b7e9c33f2f', class: "modal-body d-flex  align-items-center flex-column" }, index.h("p", { key: '08cbb229bcb2f9af79f3730e90069f663885ea5a', class: "sm text-center" }, "We sent a verification code to ", index.h("span", { key: 'c40daf6ee301bfc625e40e756e3f4b054f3c8b3a', class: "text-primary" }, this.email)), index.h("ir-otp", { key: '6b19d00edf9ccbd5c51d0766ab5bd2609c8e316d', autoFocus: true, length: this.otpLength,
+        return (index.h(index.Host, { key: 'f973120b4e66a1046116c392196a7209754f3109' }, index.h("div", { key: 'd8d0dbe906131b756ad89cb83df33b041d4c3316', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, index.h("div", { key: '632588c2013a2da654359ecbeed137f628e83449', class: "modal-dialog modal-dialog-centered" }, index.h("div", { key: '85f84983d5d55b7c4d39e455e784890246cb3b30', class: "modal-content" }, index.h("div", { key: '308a1dae4676ae02fda55175c3fbbea792d6a958', class: "modal-header" }, index.h("h5", { key: '4db9e95945e2b076af5d869d7d4609d08b8d5b84', class: "modal-title" }, "Verify Your Identity")), index.h("div", { key: '12e3f0c1cdb0fd51cad39f0c3319127ba76ce195', class: "modal-body d-flex  align-items-center flex-column" }, index.h("p", { key: '520d56eef39311b0da3158b82ea3f381f22e569c', class: "sm text-center" }, "We sent a verification code to ", index.h("span", { key: '5e6058042f2343dd1700ebb7808dd9aec92b04ae', class: "text-primary" }, this.email)), index.h("ir-otp", { key: '504ebf162f333e49f71a78b0d2cb24d242da4173', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { key: '6ecdcc3800657cdce107e3edb96ba07780b92fd5', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, { key: '5d5de693e47bb67105f75618ef3dcd6fe06d1d5c' }, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { key: '23285554f753609de413794667618ce5285e2c2f', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, { key: '8d70b4e9c0efeb3c137f9494030edc55221fd4ba' }, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), index.h("div", { key: '45d1901326cb9e1b20efe767f0b90910d91b7f34', class: "modal-footer justify-content-auto" }, index.h("ir-button", { key: '72dcb32933a714d9c2e7d48f91991ccba48afe53', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), index.h("div", { key: '249e95e0bb165cb35247b6d3f617f1fd1f8937ef', class: "modal-footer justify-content-auto" }, index.h("ir-button", { key: '37a407d3bd505a9808e8643a5c2059c04d0bc8e6', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
+    static get watchers() { return {
+        "ticket": ["handleTicketChange"]
+    }; }
 };
 IrOtpModal.style = IrOtpModalStyle0;
 

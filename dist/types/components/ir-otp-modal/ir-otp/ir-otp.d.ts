@@ -5,6 +5,10 @@ export declare class IrOtp {
      */
     length: number;
     /**
+     * The default OTP code
+     */
+    defaultValue: string;
+    /**
      * Whether the input is disabled
      */
     disabled: boolean;

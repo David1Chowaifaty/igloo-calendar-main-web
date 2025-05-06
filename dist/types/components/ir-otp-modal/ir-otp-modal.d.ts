@@ -10,6 +10,8 @@ export declare class IrOtpModal {
     email: string;
     /** Number of digits the OTP should have */
     otpLength: number;
+    /** ticket for verifying and resending the verification code */
+    ticket: string;
     otp: string;
     error: string;
     isLoading: boolean;
@@ -17,9 +19,12 @@ export declare class IrOtpModal {
     private modalRef;
     private timerInterval;
     private systemService;
+    private tokenService;
     private otpVerificationSchema;
     /** Emits the final OTP (or empty on cancel) */
     otpFinished: EventEmitter<string>;
+    componentWillLoad(): void;
+    handleTicketChange(newValue: string, oldValue: string): void;
     /** Open & reset everything */
     openModal(): Promise<void>;
     /** Hide & clear timer */
