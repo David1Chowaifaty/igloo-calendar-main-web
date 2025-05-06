@@ -25,6 +25,5 @@ export declare class IrOtpModal {
     private verifyOtp;
     /** Allow the user to request a new OTP */
     private resendOtp;
-    private onCancel;
     render(): any;
 }

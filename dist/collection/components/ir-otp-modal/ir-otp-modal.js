@@ -13,14 +13,6 @@ export class IrOtpModal {
         this.handleOtpComplete = (e) => {
             this.error = '';
             this.otp = e.detail;
-            if (this.otp.length === 6) {
-                // auto-submit
-                this.verifyOtp();
-            }
-        };
-        this.onCancel = () => {
-            this.otpFinished.emit('');
-            this.closeModal();
         };
     }
     /** Open & reset everything */
@@ -91,13 +83,17 @@ export class IrOtpModal {
         this.timer = 60;
         this.startTimer();
     }
+    // private onCancel = () => {
+    //   this.otpFinished.emit('');
+    //   this.closeModal();
+    // };
     render() {
-        return (h(Host, { key: 'e704909e7f888a8670fb08ad5649824f94cf6118' }, h("div", { key: '0266fb6309885e3d30750c032b25a5f0323a0024', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: 'b5c8d7223fef35c95e4f97f32e9d40202966fade', class: "modal-dialog modal-dialog-centered" }, h("div", { key: 'e34aea228e3a9fbe7f28ba7242dec00af4227473', class: "modal-content" }, h("div", { key: 'b51cb66914767241b7d22e7c408f15dd14faf0e1', class: "modal-header" }, h("h5", { key: '9ea02797863d65b7c8c0e1ce25b0391cf51e7b2b', class: "modal-title" }, "Verify Code"), h("button", { key: '7528e3e3a5bca6e939c661d0301d1a36f076bdcc', type: "button", class: "close", onClick: this.onCancel }, h("span", { key: '200c079d92c0fcfc6cb5da206c5e46f1e0cc5467', "aria-hidden": "true" }, "\u00D7"))), h("div", { key: 'fd1a7e0e01ebb74f2754019476ec7c23bef5fb14', class: "modal-body d-flex  flex-column" }, h("p", { key: '6ae6bf30f36c65f0a2f98e7f83860359c790f3ae' }, "Please enter the 6-digit code we just sent you."), h("ir-otp", { key: 'feb4a4c8b208a22f4168f25d8334c040625ff75f', autoFocus: true,
+        return (h(Host, { key: '02c24111de1d77b6c8938eeb64c791ade369f6d5' }, h("div", { key: 'ba441ed6192920c3636a4142bb8d30bcd807a623', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '629ccff5d858c019a1c5f85590f5bb810015337e', class: "modal-dialog modal-dialog-centered" }, h("div", { key: 'b06276666d21456453db9c10a77091ff1ba3a0a8', class: "modal-content" }, h("div", { key: '304937375e7217b8cbd0c856258b1db1d7499f37', class: "modal-header" }, h("h5", { key: 'd7378d329dd9681dd5fa48686cf656194bff4b6d', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '7747ce5d450280006fe0846d8e96377635270cd6', class: "modal-body d-flex  flex-column" }, h("p", { key: 'ee68a2b4127a026f461d7149412edffca42709df', class: "medium" }, "Please enter the 6-digit code we just sent you."), h("ir-otp", { key: '0ad921870c5eaa31176cdef64b800f00dea6c1c0', autoFocus: true,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '454100bf678eb4e2f47c825993a442489014cef1', class: "text-danger small mt-2" }, this.error), this.showResend && (h("p", { key: 'ffa473e4db67cffdb057b30d6367c74914a59d88', class: "small mt-1" }, this.timer > 0 ? (`Resend code in 00:${String(this.timer).padStart(2, '0')}`) : (h("a", { href: "#", onClick: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: 'e3a91187f0a811352013565633f229fcc4a06761', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h("p", { key: '7b441511c8b16edf705087e62810ed15847293ce', class: "small mt-1" }, this.timer > 0 ? (`Resend code in 00:${String(this.timer).padStart(2, '0')}`) : (h("a", { href: "#", onClick: e => {
                 e.preventDefault();
                 this.resendOtp();
-            } }, "Didn\u2019t receive code? Resend"))))), h("div", { key: 'd825d36502a1e398ac4ac0a9219b3931738541a2', class: "modal-footer" }, h("ir-button", { key: '2bbd74e17252450d4249b763e7e414b2df83225a', text: "Cancel", btn_color: "secondary", onClick: this.onCancel, btn_disabled: this.isLoading }), h("ir-button", { key: 'bd2267f210018a231017b42b73c18957cdb5420d', text: "Verify", isLoading: this.isLoading, btn_disabled: this.otp.length < 6 || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            } }, "Didn\u2019t receive code? Resend"))))), h("div", { key: '258778ad14cc9f762d3f320b62bbbcaac82a65ed', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '5c3517d654194abc2a1926f77accac5fea5d05ce', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < 6 || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {

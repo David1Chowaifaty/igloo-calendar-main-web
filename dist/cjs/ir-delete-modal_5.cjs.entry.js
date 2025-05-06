@@ -457,7 +457,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '7aead9481f8eee2deca5fa0a207af40e93e38cfa', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: '0627eb83ed6e29f625c057e94e312b7364c5d920', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
