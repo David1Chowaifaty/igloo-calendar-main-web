@@ -84,6 +84,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         }
         if (response.data.ExceptionCode === 'OTP') {
             this.showModal = true;
+            this.email = response.data.ExceptionMsg;
             this.requestUrl = extractedUrl.slice(1, extractedUrl.length);
             this.pendingConfig = response.config;
             return new Promise((resolve, reject) => {
@@ -138,7 +139,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.pendingReject = undefined;
     }
     render() {
-        return (h(Host, { key: '4181027c7fb8c97389b512d2dff97ce6b3cca052' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '2b073ebaabf10d27a648a3c371bc83c41586e4bb', class: "loadingScreenContainer" }, h("div", { key: 'a1b9c06d055d3ed65c84ad3f79dfb25593851304', class: "loaderContainer" }, h("span", { key: 'ef04f94a0b24a3b7cd16ea1b5804d514cc8203ed', class: "page-loader" })))), this.showModal && h("ir-otp-modal", { key: '5619a6bbaf8a7066f0495e6d490fc655db1f66bd', requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) })));
+        return (h(Host, { key: '93fc3344a29563163df08c7e7bd4a3abf610656f' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '06247fc526a05e25f0038b59acbaa68c99d12697', class: "loadingScreenContainer" }, h("div", { key: '629a1bbdf12d3940d1a18a43a2d5708b617d7e53', class: "loaderContainer" }, h("span", { key: 'a4dd7246f0ae6a514bcef988d0df0e852aa1ecae', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '0f2b43f20ebd3e8c351670fa54caeb699f68889d', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
@@ -150,7 +151,8 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         "endpointsCount": [32],
         "isPageLoadingStopped": [32],
         "showModal": [32],
-        "requestUrl": [32]
+        "requestUrl": [32],
+        "email": [32]
     }, [[16, "preventPageLoad", "handleStopPageLoading"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

@@ -10,6 +10,7 @@ export declare class IrInterceptor {
     isPageLoadingStopped: string | null;
     showModal: boolean;
     requestUrl: string;
+    email: string;
     toast: EventEmitter<IToast>;
     private otpModal;
     private pendingConfig?;

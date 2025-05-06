@@ -18,6 +18,7 @@ class UserService {
     }
     async handleExposedUser(params) {
         const { data } = await axios.axios.post('/Handle_Exposed_User', params);
+        console.warn('data<==>', data);
         return data.My_Result;
     }
     async getExposedPropertyUsers() {
@@ -29,4 +30,4 @@ class UserService {
 exports.CONSTANTS = CONSTANTS;
 exports.UserService = UserService;
 
-//# sourceMappingURL=user.service-42df7a05.js.map
+//# sourceMappingURL=user.service-ea589ce7.js.map

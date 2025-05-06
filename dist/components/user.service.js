@@ -12,6 +12,7 @@ class UserService {
     }
     async handleExposedUser(params) {
         const { data } = await axios.post('/Handle_Exposed_User', params);
+        console.warn('data<==>', data);
         return data.My_Result;
     }
     async getExposedPropertyUsers() {

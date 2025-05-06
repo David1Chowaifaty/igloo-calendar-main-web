@@ -3,7 +3,7 @@ import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultPrope
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-26906e0c.js';
 import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
-import { C as CONSTANTS, U as UserService } from './user.service-7037e1f2.js';
+import { C as CONSTANTS, U as UserService } from './user.service-7c5a4439.js';
 import { z, Z as ZodError } from './utils-f1b7543f.js';
 import './index-c1c77241.js';
 import './axios-aa1335b8.js';
@@ -453,7 +453,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '0627eb83ed6e29f625c057e94e312b7364c5d920', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: 'fb56e0d2f89c096f002f237702b520b4113f67bd', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

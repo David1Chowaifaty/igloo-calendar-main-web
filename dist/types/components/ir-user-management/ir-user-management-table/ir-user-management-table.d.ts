@@ -25,7 +25,6 @@ export declare class IrUserManagementTable {
     private assignPermissions;
     private handleUserActiveChange;
     private executeUserAction;
-    private sendVerificationEmail;
     private renderCurrentTrigger;
     private openModal;
     private maskEmail;
