@@ -59,7 +59,7 @@ export class IrInterceptor {
             this.isPageLoadingStopped = null;
         }
         interceptor_requests[extractedUrl] = 'done';
-        if (extractedUrl === '/Validated_Exposed_Method') {
+        if (extractedUrl === '/Validate_Exposed_Method') {
             return response;
         }
         if (response.data.ExceptionCode === 'OTP') {
@@ -80,8 +80,6 @@ export class IrInterceptor {
             this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
             throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
         }
-        if (this.showModal)
-            this.showModal = false;
         return response;
     }
     handleError(error, url, code) {
@@ -117,9 +115,10 @@ export class IrInterceptor {
         this.pendingConfig = undefined;
         this.pendingResolve = undefined;
         this.pendingReject = undefined;
+        this.showModal = false;
     }
     render() {
-        return (h(Host, { key: '76f130c2113be95e7f85de1297b2b4cbde52e339' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '5076c71676fd1fabae6aa2cbeee25f457cd1b119', class: "loadingScreenContainer" }, h("div", { key: '541b0e517575eaa56e8035de2e1bb61cbd5f67b4', class: "loaderContainer" }, h("span", { key: '38e9e09646459ee3197873769c1d66e2c5327013', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '05eb2ab6d14fefd186f9bc173ea4f06abe4f13f8', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '8e79f46a2b303a6c119c3c1975971c6357b92d7c' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'ab4ce955ccb8a9064aaaf905dcb0f7f2199d1e77', class: "loadingScreenContainer" }, h("div", { key: 'a41d7891064ea3c2bd45d066f8d424f06955e224', class: "loaderContainer" }, h("span", { key: 'c5fd81f7507f3851a628dbbace047b4eb7ae012f', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '509626a2a3ccb9eb536be3d64ce5b6d51301f00e', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

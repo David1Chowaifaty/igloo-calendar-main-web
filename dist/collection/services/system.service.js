@@ -1,7 +1,7 @@
 import axios from "axios";
 export class SystemService {
     async validateOTP(params) {
-        const { data } = await axios.post('/Validated_Exposed_Method', params);
+        const { data } = await axios.post('/Validate_Exposed_Method', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
