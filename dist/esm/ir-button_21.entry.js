@@ -814,7 +814,14 @@ IrOtp.style = IrOtpStyle0;
 
 class SystemService {
     async validateOTP(params) {
-        const { data } = await axios.post('/Validate_OTP', params);
+        const { data } = await axios.post('/Validate_Exposed_OTP', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async resendOTP(params) {
+        const { data } = await axios.post('/Resend_OTP', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -927,20 +934,26 @@ const IrOtpModal = class {
         if (this.timer > 0)
             return;
         // Resend otp
-        this.timer = 60;
-        this.startTimer();
+        try {
+            await this.systemService.resendOTP({ METHOD_NAME: this.requestUrl });
+            this.timer = 60;
+            this.startTimer();
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     disconnectedCallback() {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: 'f973120b4e66a1046116c392196a7209754f3109' }, h("div", { key: 'd8d0dbe906131b756ad89cb83df33b041d4c3316', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '632588c2013a2da654359ecbeed137f628e83449', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '85f84983d5d55b7c4d39e455e784890246cb3b30', class: "modal-content" }, h("div", { key: '308a1dae4676ae02fda55175c3fbbea792d6a958', class: "modal-header" }, h("h5", { key: '4db9e95945e2b076af5d869d7d4609d08b8d5b84', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '12e3f0c1cdb0fd51cad39f0c3319127ba76ce195', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: '520d56eef39311b0da3158b82ea3f381f22e569c', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: '5e6058042f2343dd1700ebb7808dd9aec92b04ae', class: "text-primary" }, this.email)), h("ir-otp", { key: '504ebf162f333e49f71a78b0d2cb24d242da4173', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
+        return (h(Host, { key: '247046102ad82307e0b7acf694575e50c82a9a8a' }, h("div", { key: 'ea7764c6c5a6af0930d4546987182d3f8055325a', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: 'f77eec5ef9228d19ff2e7d5d0835fa9123c43a33', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '34ed0043202db497818b6be4ed78b5e05f0191f3', class: "modal-content" }, h("div", { key: '1a848c633a6d71d3bbd514cfc5d1a977c078aff9', class: "modal-header" }, h("h5", { key: 'cded588473ad32a2df179176243d7204cd46dc86', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '0ce1a299891844ac76c3aae8eeb3200fac761779', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: 'c3436427db31f8155269e98c202bab2e8c47f6b6', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: '4f264dd72efd6d9de38d74150118d63216b34373', class: "text-primary" }, this.email)), h("ir-otp", { key: '553151bb882d2f425254ebc28e7676afca38c80c', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '23285554f753609de413794667618ce5285e2c2f', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '8d70b4e9c0efeb3c137f9494030edc55221fd4ba' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '1ea063723177868b080715fd40655fc39db0e2a2', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '2471b92564c77c38c569bcedb19f12a0a58898af' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '249e95e0bb165cb35247b6d3f617f1fd1f8937ef', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '37a407d3bd505a9808e8643a5c2059c04d0bc8e6', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: 'ec3186b6bd7060ce4d823d26253d55de68a864ab', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
