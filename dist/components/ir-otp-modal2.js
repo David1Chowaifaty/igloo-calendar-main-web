@@ -8,14 +8,14 @@ import { d as defineCustomElement$1 } from './ir-otp2.js';
 
 class SystemService {
     async validateOTP(params) {
-        const { data } = await axios.post('/Validate_Exposed_OTP', params);
+        const { data } = await axios.post('/Validated_Exposed_Method', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async resendOTP(params) {
-        const { data } = await axios.post('/Resend_OTP', params);
+        const { data } = await axios.post('/Resend_Exposed_OTP', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
