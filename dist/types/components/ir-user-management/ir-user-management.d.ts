@@ -19,6 +19,7 @@ export declare class IrUserManagement {
     private userTypes;
     private socket;
     private superAdminId;
+    componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleResetData(e: CustomEvent): Promise<void>;
     private initializeApp;

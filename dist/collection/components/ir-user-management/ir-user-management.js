@@ -7,7 +7,6 @@ import { io } from "socket.io-client";
 export class IrUserManagement {
     constructor() {
         this.language = '';
-        this.ticket = '';
         this.isSuperAdmin = true;
         this.isLoading = true;
         this.users = [];
@@ -19,7 +18,25 @@ export class IrUserManagement {
         this.userTypes = new Map();
         this.superAdminId = '5';
     }
+    componentWillLoad() {
+        console.log('init', {
+            ticket: this.ticket,
+            propertyid: this.propertyid,
+            userId: this.userId,
+            userTypeCode: this.userTypeCode,
+        });
+        if (this.ticket) {
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+    }
     ticketChanged(newValue, oldValue) {
+        console.log('ticket changed', {
+            ticket: this.ticket,
+            propertyid: this.propertyid,
+            userId: this.userId,
+            userTypeCode: this.userTypeCode,
+        });
         if (newValue === oldValue) {
             return;
         }
@@ -208,8 +225,7 @@ export class IrUserManagement {
                 "getter": false,
                 "setter": false,
                 "attribute": "ticket",
-                "reflect": false,
-                "defaultValue": "''"
+                "reflect": false
             },
             "propertyid": {
                 "type": "number",

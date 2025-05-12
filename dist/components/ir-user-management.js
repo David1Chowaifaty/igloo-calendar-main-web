@@ -32,7 +32,6 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         super();
         this.__registerHost();
         this.language = '';
-        this.ticket = '';
         this.isSuperAdmin = true;
         this.isLoading = true;
         this.users = [];
@@ -44,7 +43,25 @@ const IrUserManagement$1 = /*@__PURE__*/ proxyCustomElement(class IrUserManageme
         this.userTypes = new Map();
         this.superAdminId = '5';
     }
+    componentWillLoad() {
+        console.log('init', {
+            ticket: this.ticket,
+            propertyid: this.propertyid,
+            userId: this.userId,
+            userTypeCode: this.userTypeCode,
+        });
+        if (this.ticket) {
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+    }
     ticketChanged(newValue, oldValue) {
+        console.log('ticket changed', {
+            ticket: this.ticket,
+            propertyid: this.propertyid,
+            userId: this.userId,
+            userTypeCode: this.userTypeCode,
+        });
         if (newValue === oldValue) {
             return;
         }
