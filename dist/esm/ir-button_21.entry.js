@@ -444,39 +444,45 @@ const IrInterceptor = class {
             return response;
         }
         if (response.data.ExceptionCode === 'OTP') {
-            this.showModal = true;
-            this.email = response.data.ExceptionMsg;
-            const name = extractedUrl.slice(1);
-            if (name === 'Check_OTP_Necessity') {
-                let methodName;
-                try {
-                    const body = typeof response.config.data === 'string' ? JSON.parse(response.config.data) : response.config.data;
-                    methodName = body.METHOD_NAME;
-                }
-                catch (e) {
-                    console.error('Failed to parse request body for METHOD_NAME', e);
-                    methodName = name; // fallback
-                }
-                this.requestUrl = methodName;
-            }
-            else {
-                this.requestUrl = name;
-            }
-            this.pendingConfig = response.config;
-            return new Promise((resolve, reject) => {
-                this.pendingResolve = resolve;
-                this.pendingReject = reject;
-                setTimeout(() => {
-                    var _a;
-                    (_a = this.otpModal) === null || _a === void 0 ? void 0 : _a.openModal();
-                }, 10);
-            });
+            this.handleOtpResponse({ response, extractedUrl });
         }
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
-            this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
-            throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
+            this.handleResponseExceptions({ response, extractedUrl });
         }
         return response;
+    }
+    handleResponseExceptions({ response, extractedUrl }) {
+        this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
+        throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
+    }
+    handleOtpResponse({ extractedUrl, response }) {
+        this.showModal = true;
+        this.email = response.data.ExceptionMsg;
+        const name = extractedUrl.slice(1);
+        if (name === 'Check_OTP_Necessity') {
+            let methodName;
+            try {
+                const body = typeof response.config.data === 'string' ? JSON.parse(response.config.data) : response.config.data;
+                methodName = body.METHOD_NAME;
+            }
+            catch (e) {
+                console.error('Failed to parse request body for METHOD_NAME', e);
+                methodName = name; // fallback
+            }
+            this.requestUrl = methodName;
+        }
+        else {
+            this.requestUrl = name;
+        }
+        this.pendingConfig = response.config;
+        return new Promise((resolve, reject) => {
+            this.pendingResolve = resolve;
+            this.pendingReject = reject;
+            setTimeout(() => {
+                var _a;
+                (_a = this.otpModal) === null || _a === void 0 ? void 0 : _a.openModal();
+            }, 10);
+        });
     }
     handleError(error, url, code) {
         const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
@@ -516,7 +522,7 @@ const IrInterceptor = class {
         this.showModal = false;
     }
     render() {
-        return (h(Host, { key: '9e6656c679e68db0d3e43a6abddc429218b729a9' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '74d131ce5c9a134579852e8d1fce099e0bbbbfba', class: "loadingScreenContainer" }, h("div", { key: '08dcd4466fd5f11f70d9642b1160f6406839bf4d', class: "loaderContainer" }, h("span", { key: '7f4523da414fc1eccdf6ee87bc4c960f73ddf6dc', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'e9c4da6a9a7bc7a4a49e79179c1d5cee3e3871a0', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '63f22126b161bf75e26a872ee915c865538d1356' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'a4d1cc60abc069d8a65123e993e319fb13f7ec4e', class: "loadingScreenContainer" }, h("div", { key: '84c66878883f10a8c24bc27bae716eeefee69ac0', class: "loaderContainer" }, h("span", { key: '825e7bf0017833cdc333d5cc956efc425a147a93', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'b025161ebcc8ef26ccdc5d5ae7844005729b2eb9', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;

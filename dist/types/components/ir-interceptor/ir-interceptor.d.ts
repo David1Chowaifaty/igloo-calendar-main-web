@@ -23,6 +23,8 @@ export declare class IrInterceptor {
     private isHandledEndpoint;
     private handleRequest;
     private handleResponse;
+    private handleResponseExceptions;
+    private handleOtpResponse;
     private handleError;
     private handleOtpFinished;
     render(): any;
