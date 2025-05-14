@@ -18,8 +18,12 @@ export declare class IrResetPassword {
     closeSideBar: EventEmitter<null>;
     private token;
     private authService;
+    private systemService;
+    private initialized;
     componentWillLoad(): void;
+    componentDidLoad(): void;
     handleTicketChange(oldValue: string, newValue: string): void;
+    private init;
     private ResetPasswordSchema;
     private handleChangePassword;
     render(): any;

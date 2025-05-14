@@ -6,4 +6,7 @@ export declare class SystemService {
     resendOTP(params: {
         METHOD_NAME: string;
     }): Promise<any>;
+    checkOTPNecessity(params: {
+        METHOD_NAME: string;
+    }): Promise<any>;
 }

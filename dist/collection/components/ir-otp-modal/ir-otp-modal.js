@@ -121,7 +121,7 @@ export class IrOtpModal {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: 'ec3186b6bd7060ce4d823d26253d55de68a864ab', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '5a635d116395c82f2b2b2bf8a3e81effa04fa0d7', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: () => window.location.reload() }), h("ir-button", { key: '1a8e39e6f9ef822c9cadc1e9e32cb1221986ad37', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {

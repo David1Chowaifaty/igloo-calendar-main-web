@@ -20,6 +20,7 @@ export declare class IrUserManagementTable {
     resetData: EventEmitter<null>;
     private modalRef;
     private userService;
+    private systemService;
     componentWillLoad(): void;
     handleChange(n: boolean, o: boolean): void;
     private assignPermissions;
@@ -29,5 +30,6 @@ export declare class IrUserManagementTable {
     private openModal;
     private maskEmail;
     private resetModalState;
+    private verifyAdminAction;
     render(): any;
 }

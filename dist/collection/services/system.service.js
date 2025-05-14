@@ -14,5 +14,12 @@ export class SystemService {
         }
         return data;
     }
+    async checkOTPNecessity(params) {
+        const { data } = await axios.post('/Check_OTP_Necessity', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
 }
 //# sourceMappingURL=system.service.js.map

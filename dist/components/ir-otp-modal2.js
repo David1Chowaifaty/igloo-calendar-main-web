@@ -21,6 +21,13 @@ class SystemService {
         }
         return data;
     }
+    async checkOTPNecessity(params) {
+        const { data } = await axios.post('/Check_OTP_Necessity', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
 }
 
 const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.modal-header{border-bottom:0px !important}.modal-footer{padding-top:0.5rem !important;border-top:0 !important}@media (min-width: 768px){.modal-dialog,.modal-content{width:fit-content !important}}";
@@ -148,7 +155,7 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: 'ec3186b6bd7060ce4d823d26253d55de68a864ab', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '5a635d116395c82f2b2b2bf8a3e81effa04fa0d7', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: () => window.location.reload() }), h("ir-button", { key: '1a8e39e6f9ef822c9cadc1e9e32cb1221986ad37', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -199,6 +206,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrOtpModal as I, defineCustomElement as d };
+export { IrOtpModal as I, SystemService as S, defineCustomElement as d };
 
 //# sourceMappingURL=ir-otp-modal2.js.map
