@@ -21,6 +21,6 @@ export declare class IrListingModal {
     btnClickHandler(event: CustomEvent): Promise<void>;
     renderTitle(): string;
     renderConfirmationTitle(): string;
-    renderCancelationTitle(): string;
+    renderCancellationTitle(): string;
     render(): any[];
 }
