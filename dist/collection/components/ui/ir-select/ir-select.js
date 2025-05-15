@@ -60,7 +60,7 @@ export class IrSelect {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '73e538a907950defcf7908a45f49d1a1c7fbee07', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '1e486857b209c8973cc261512fb3d6b39c84fb55', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: 'a85dca949652fb14eeed054c00795135ee6b249a', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '91747d7c1c24aabf153d164e6118ec58d4ac8679', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -70,7 +70,7 @@ export class IrSelect {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '40d2e34510e93da48d046b4fff79c6b0134c1b4a', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'fb99c5453f608cff4ae0e14d3f27f345bb75215f', class: "input-group row m-0" }, label, h("select", { key: 'f9e902297d1d801424c2bd4b7e7484b605d1adeb', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '3933a2fd30b220e82540f8ce36f61b31821b6813', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: 'c443c18d3ed365882f54cf1121afb18957282ae5', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '7f0de0897c59fa1c167a10a548426741cca50c01', class: "input-group row m-0" }, label, h("select", { key: '76cae4e68038d99693b3c836e40db2da926029b1', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '578068859de6fc7f6c43b7e9e737e48a63fb40fb', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
