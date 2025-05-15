@@ -444,7 +444,7 @@ const IrInterceptor = class {
             return response;
         }
         if (response.data.ExceptionCode === 'OTP') {
-            this.handleOtpResponse({ response, extractedUrl });
+            return this.handleOtpResponse({ response, extractedUrl });
         }
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
             this.handleResponseExceptions({ response, extractedUrl });
@@ -459,6 +459,7 @@ const IrInterceptor = class {
         this.showModal = true;
         this.email = response.data.ExceptionMsg;
         const name = extractedUrl.slice(1);
+        this.baseOTPUrl = name;
         if (name === 'Check_OTP_Necessity') {
             let methodName;
             try {
@@ -475,6 +476,7 @@ const IrInterceptor = class {
             this.requestUrl = name;
         }
         this.pendingConfig = response.config;
+        this.response = response;
         return new Promise((resolve, reject) => {
             this.pendingResolve = resolve;
             this.pendingReject = reject;
@@ -496,33 +498,84 @@ const IrInterceptor = class {
         }
         return Promise.reject(error);
     }
+    // private async handleOtpFinished(ev: CustomEvent) {
+    //   if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
+    //     return;
+    //   }
+    //   const { otp, type } = ev.detail;
+    //   if (type === 'success') {
+    //     if (!otp) {
+    //       this.pendingReject(new Error('OTP cancelled by user'));
+    //     } else {
+    //       try {
+    //         if (this.baseOTPUrl !== 'Check_OTP_Necessity') {
+    //           const retryConfig: AxiosRequestConfig = {
+    //             ...this.pendingConfig,
+    //             data: {
+    //               ...(typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {}),
+    //             },
+    //           };
+    //           const resp = await axios.request(retryConfig);
+    //           this.pendingResolve(resp);
+    //         }
+    //       } catch (err) {
+    //         this.pendingReject(err);
+    //       }
+    //     }
+    //   }
+    //   this.pendingConfig = undefined;
+    //   this.pendingResolve = undefined;
+    //   this.pendingReject = undefined;
+    //   this.showModal = false;
+    //   if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+    //     this.baseOTPUrl = null;
+    //     return this.response;
+    //   }
+    // }
     async handleOtpFinished(ev) {
         if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
             return;
         }
-        const otp = ev.detail;
-        if (!otp) {
-            this.pendingReject(new Error('OTP cancelled by user'));
+        const { otp, type } = ev.detail;
+        if (type === 'cancel') {
+            const cancelResp = {
+                config: this.pendingConfig,
+                data: { cancelled: true, baseOTPUrl: this.baseOTPUrl },
+                status: 0,
+                statusText: 'OTP Cancelled',
+                headers: {},
+                request: {},
+            };
+            this.pendingResolve(cancelResp);
         }
-        else {
-            try {
-                if (this.requestUrl !== 'Check_OTP_Necessity') {
-                    const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: Object.assign({}, (typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {})) });
+        else if (type === 'success') {
+            if (!otp) {
+                this.pendingReject(new Error('OTP cancelled by user'));
+            }
+            else if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+                // don't resend, just resolve with the original response
+                this.pendingResolve(this.response);
+            }
+            else {
+                try {
+                    const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {} });
                     const resp = await axios.request(retryConfig);
                     this.pendingResolve(resp);
                 }
-            }
-            catch (err) {
-                this.pendingReject(err);
+                catch (err) {
+                    this.pendingReject(err);
+                }
             }
         }
+        // common clean-up
         this.pendingConfig = undefined;
         this.pendingResolve = undefined;
         this.pendingReject = undefined;
         this.showModal = false;
+        this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '63f22126b161bf75e26a872ee915c865538d1356' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'a4d1cc60abc069d8a65123e993e319fb13f7ec4e', class: "loadingScreenContainer" }, h("div", { key: '84c66878883f10a8c24bc27bae716eeefee69ac0', class: "loaderContainer" }, h("span", { key: '825e7bf0017833cdc333d5cc956efc425a147a93', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'b025161ebcc8ef26ccdc5d5ae7844005729b2eb9', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: 'be6808c22490967bc59514a86542e8be838735a1' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '6ecd72312d8ad8b83d1e137ad93606ca9b4ea4c2', class: "loadingScreenContainer" }, h("div", { key: '70014c1a90f74ed4723203321a1f584598cada48', class: "loaderContainer" }, h("span", { key: '35b5ff680f65254359db4bf6243eae836b996a52', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'a30696430cdc19468bc416a78e03bb1c8d9e8b20', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -824,7 +877,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '104fba3dfa5416b3b9d66f9e6863930c3f5c9b17', class: "otp-input-container" }, h("div", { key: 'e39b20b0f5c299ffa5b067c3c1d0b3d2228319ee', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: '5998433c7d2384bb76425f3143f13fe02c813bbf', class: "otp-input-container" }, h("div", { key: '705c98be11301a2e874e82b7cdaba9f9bc813812', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
@@ -851,14 +904,11 @@ class SystemService {
     }
     async checkOTPNecessity(params) {
         const { data } = await axios.post('/Check_OTP_Necessity', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
         return data;
     }
 }
 
-const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.modal-header{border-bottom:0px !important}.modal-footer{padding-top:0.5rem !important;border-top:0 !important}@media (min-width: 768px){.modal-dialog,.modal-content{width:fit-content !important}}";
+const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.modal-header{border-bottom:0px !important}.modal-footer{padding-top:0.5rem !important;border-top:0 !important}.verification-message{max-width:90%}@media (min-width: 768px){.modal-dialog,.modal-content{width:fit-content !important}.verification-message{max-width:350px !important}}";
 const IrOtpModalStyle0 = irOtpModalCss;
 
 const IrOtpModal = class {
@@ -949,7 +999,7 @@ const IrOtpModal = class {
         try {
             await this.systemService.validateOTP({ METHOD_NAME: this.requestUrl, OTP: this.otp });
             // emit the filled OTP back to the interceptor
-            this.otpFinished.emit(this.otp);
+            this.otpFinished.emit({ otp: this.otp, type: 'success' });
             this.closeModal();
         }
         catch (err) {
@@ -972,17 +1022,29 @@ const IrOtpModal = class {
             console.log(error);
         }
     }
+    handleCancelClicked() {
+        if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+            this.closeModal();
+            this.otpFinished.emit({
+                otp: null,
+                type: 'cancelled',
+            });
+            return;
+        }
+        window.location.reload();
+    }
     disconnectedCallback() {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '247046102ad82307e0b7acf694575e50c82a9a8a' }, h("div", { key: 'ea7764c6c5a6af0930d4546987182d3f8055325a', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: 'f77eec5ef9228d19ff2e7d5d0835fa9123c43a33', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '34ed0043202db497818b6be4ed78b5e05f0191f3', class: "modal-content" }, h("div", { key: '1a848c633a6d71d3bbd514cfc5d1a977c078aff9', class: "modal-header" }, h("h5", { key: 'cded588473ad32a2df179176243d7204cd46dc86', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '0ce1a299891844ac76c3aae8eeb3200fac761779', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: 'c3436427db31f8155269e98c202bab2e8c47f6b6', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: '4f264dd72efd6d9de38d74150118d63216b34373', class: "text-primary" }, this.email)), h("ir-otp", { key: '553151bb882d2f425254ebc28e7676afca38c80c', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
+        var _a;
+        return (h(Host, { key: '4d50bfd3f91f8723bfdf311440e29d661af00e09' }, h("div", { key: '33854c2b94b6cc1c15f8708eae826079df57213b', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '7ce58f3ea0896a5dd9675aa26b64c148781cfc65', class: "modal-dialog modal-dialog-centered" }, h("div", { key: 'dfc875280fec816991948eee0f08da4b6a7c1d38', class: "modal-content" }, h("div", { key: 'f1e73a5414048e7fb0d9b7ce9c9417ab0fbe6fa9', class: "modal-header" }, h("h5", { key: '0865866573182177916bc56f2e687498666b9a5e', class: "modal-title" }, "Verify Your Identity")), h("div", { key: 'f04fa04a4894f1849ec6e093228b1b60fbc35cda', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: '319ba113e23a4799d1cfe994278f0a210fe1543f', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: 'ffe26d5a046babc8e32077bff063ff8364b2fb82', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '1ea063723177868b080715fd40655fc39db0e2a2', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '2471b92564c77c38c569bcedb19f12a0a58898af' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: 'cec0e81f7068652ef0d670b015f6da15875fbdc5', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '301726e20cff70bcccae1a8d9886ffb112130c85' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '5a635d116395c82f2b2b2bf8a3e81effa04fa0d7', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: () => window.location.reload() }), h("ir-button", { key: '1a8e39e6f9ef822c9cadc1e9e32cb1221986ad37', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '6b90f4779ad5f288845f78c3a9e3d8b5705ed9ad', class: "modal-footer justify-content-auto" }, h("ir-button", { key: 'd10bb8828e1cd2e9eb00fc786826019effe68821', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: '9dd89ae7bfd607eb9d1b4b71a5912e7b2acb290f', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -1038,7 +1100,7 @@ const IrPasswordValidator = class {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (h("div", { key: 'e738804ed6e0759c1cb83e4fd4c961cf705b39b6', class: "m-0 p-0" }, h("requirement-check", { key: '8960884e7dfe302c1ccfa27d7e71dbc5c2dc6fd6', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: 'cb2023e8fc4b651ae2f84d1f303b54476667798f', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: '28ab5a0bcfb6945a23f401521dabbce7809ceb48', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '48fb81a245c07bb20b3431270456f5e2af924339', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '1bfef727cf884ec3f7125684ce0feffbc29beb3c', isValid: this.hasSpecialChar, text: "At least one special character" })));
+        return (h("div", { key: '53c6e5b2c006353119063038149239299e155f87', class: "m-0 p-0" }, h("requirement-check", { key: '8bfe49066198084fedac490b14eec716b5d8c8fd', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: 'cad137dea6f488b4d3d33dfcf54c574fc7781600', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'dcd697f6953f60913074cc8f8a217066a61570a5', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '468b51423db3141d45f28f265c6c40c5cfd5de5e', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '717e6957b383a206102fc415295cf57867fbd619', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get watchers() { return {
         "password": ["handlePasswordChange"]
@@ -1084,6 +1146,7 @@ const IrResetPassword = class {
         }
     }
     componentDidLoad() {
+        console.log('here');
         this.init();
     }
     handleTicketChange(oldValue, newValue) {
@@ -1142,10 +1205,21 @@ const IrResetPassword = class {
             this.isLoading = false;
         }
     }
+    handleOtpFinished(e) {
+        if (e.detail.type === 'success') {
+            return;
+        }
+        if (this.el.slot !== 'sidebar-body') {
+            window.history.back();
+        }
+        else {
+            this.closeSideBar.emit();
+        }
+    }
     render() {
         var _a, _b;
         const insideSidebar = this.el.slot === 'sidebar-body';
-        return (h("div", { key: 'e64531532b14d0871d71a5452674e3d91b4702f1', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, !insideSidebar && (h(Fragment, { key: '7ed2d5b38c305b669c6ba019e52c44d989f0bed5' }, h("ir-interceptor", { key: 'e09aa2d739a534d188f519a12b6968d2777c3a0c', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: 'e75c2c9396ce71595f3eef2984b00675e66ca946' }))), h("form", { key: 'c8dd689a195500cfe4e9be9ade29887be0e3ee11', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: '522c650e1b9505acea190b7dd036ae3dbf4eb18f', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: '5129615113c7667397551942e2c97d863a1cb071', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'f88e604179855b8f3c137fefca8e62e06da2b07d', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '486af688f1426d1286601395f75cdf1336433f43', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: 'f94f1b7af2e7b7e9b02f50688cccc28af8718161', class: "text-center mb-2" }, h("h4", { key: 'b77a45fa09a9388c72140ef17bbac5282f4afd9b', class: "mb-1" }, "Set New Password"), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: '03d451fd9caa90c581862266d5d1a0ea9e6e3747' }, h("div", { key: '8be240f3fb7b847733dd0a891b66f219097e09fc', class: 'mb-2' }, h("div", { key: '7bdb2a4428be7834abafac22bd80ad2852bb1054', class: "m-0 p-0" }, h("div", { key: '45a407eb690b88c28f64b0b39833293799debe4e', class: 'position-relative' }, h("ir-input-text", { key: '716475ca93c51ad00aa125538e5c63c5acbd0be4', error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, autoValidate: this.autoValidate, value: this.password, onTextChange: e => (this.password = e.detail), label: "", class: "m-0 p-0", inputStyles: 'm-0', zod: this.ResetPasswordSchema.pick({ password: true }), wrapKey: "password", placeholder: "New password", onInputFocus: () => (this.showValidator = true), type: 'password' })), this.showValidator && h("ir-password-validator", { key: 'b9ec9bec380a1e299d72c308b733e3a0abff7c2c', class: "mb-1", password: this.password })), h("div", { key: 'e2b1167144c2afee2827148f84ab017ced3710fa', class: 'position-relative' }, h("ir-input-text", { key: '2328a448a604a6f364b0b4988661be1e685f3457', error: (_b = this.error) === null || _b === void 0 ? void 0 : _b.confirm_password, autoValidate: this.autoValidate, zod: this.ResetPasswordSchema.pick({ confirm_password: true }), wrapKey: "confirm_password", value: this.confirmPassword, onTextChange: e => (this.confirmPassword = e.detail), label: "", placeholder: "Confirm password", type: 'password' }))), !insideSidebar && (h("div", { key: '5fb667cbb2cd7ddbf219a15e7f5c6d75a2266396', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-button", { key: '2c97f09d7ce89df0831b46f68f44b4f89318be83', btn_styles: 'flex-fill', onClickHandler: () => window.history.back(), class: "flex-fill", text: 'Cancel', size: "md", btn_color: "secondary" }), h("ir-button", { key: '15504f05e4947395946c118e0aaf0dda3ee78040', btn_styles: 'flex-fill', class: "flex-fill", isLoading: this.isLoading, btn_type: "submit", text: 'Change password', size: "md" })))))), insideSidebar && (h("div", { key: 'de6f0f505ad285ca9b835dd97eb916af4a1cdaa8', class: 'sheet-footer w-full' }, h("ir-button", { key: 'b325cab4bced2eb841318f76c730ede4ed19597a', text: 'Cancel', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_color: "secondary", btn_styles: "w-100 justify-content-center align-items-center", size: "md" }), h("ir-button", { key: 'a2ec8af82311d22805a2127b393fc390974a206c', isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: 'Change password', size: "md" }))))));
+        return (h("div", { key: 'df1c023603e3a51c1b190936a573c1b4ac7099f6', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, !insideSidebar && (h(Fragment, { key: 'b582bd4597a55b7057dd5ee7e52847518bfb6ffa' }, h("ir-interceptor", { key: 'befce9a6e4336353b42bd3ba8de4250a694ea750', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: '0424efb7087c6e086b28aab42b4a9d1e2c64af82' }))), h("form", { key: 'd1a47478c92743b760a1e2ff08e8e886cbb44d8f', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: 'a30ddca517af5139d2dcb32e114809fb7d52329c', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: 'f6c2721ad9b82131a475a104f5c2e5e9e6bcb4e5', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'c7acc9bc45cc129037c7c2480eb84dd8ea726ba7', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: 'bbe5405c07ccd7a08dbbe78e7891315c06c988fd', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: '006d5791324f94225f72bb402efe0e966783b75c', class: "text-center mb-2" }, h("h4", { key: '9dd0b8fc1037913d4f1223b805081e726644f30e', class: "mb-1" }, "Set New Password"), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: '3de19411533d94869e0afe01fb4ff1d7e18dd84b' }, h("div", { key: 'bedc0e63b29d0a986d66b9662544287bd8a5820a', class: 'mb-2' }, h("div", { key: '0cdd15ae4bdab8d3e70833fb8a088f26c4e5187d', class: "m-0 p-0" }, h("div", { key: 'e48b9c84d03ca05b66710b9a16c9211592e1a58a', class: 'position-relative' }, h("ir-input-text", { key: 'a24b3f7f7454bda8da5cb803cc24232827309e92', error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, autoValidate: this.autoValidate, value: this.password, onTextChange: e => (this.password = e.detail), label: "", class: "m-0 p-0", inputStyles: 'm-0', zod: this.ResetPasswordSchema.pick({ password: true }), wrapKey: "password", placeholder: "New password", onInputFocus: () => (this.showValidator = true), type: 'password' })), this.showValidator && h("ir-password-validator", { key: 'f8e6d6a3df2d8079b96c23f6dfde082b1234452c', class: "mb-1", password: this.password })), h("div", { key: '943adb46eaded12bad5ab964ba5730c01836707b', class: 'position-relative' }, h("ir-input-text", { key: 'd07061557e8f07297b33fe129ab329311f1f33ca', error: (_b = this.error) === null || _b === void 0 ? void 0 : _b.confirm_password, autoValidate: this.autoValidate, zod: this.ResetPasswordSchema.pick({ confirm_password: true }), wrapKey: "confirm_password", value: this.confirmPassword, onTextChange: e => (this.confirmPassword = e.detail), label: "", placeholder: "Confirm password", type: 'password' }))), !insideSidebar && (h("div", { key: 'c245a520e60fb8ce456a9a25e4246d3472ca2d8d', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-button", { key: '191db2e4391e92bb466a76a5b1c922d43a2bbb4d', btn_styles: 'flex-fill', onClickHandler: () => window.history.back(), class: "flex-fill", text: 'Cancel', size: "md", btn_color: "secondary" }), h("ir-button", { key: '9cdb639c4e0f04a445571e96a2da27a1cd4754fb', btn_styles: 'flex-fill', class: "flex-fill", isLoading: this.isLoading, btn_type: "submit", text: 'Change password', size: "md" })))))), insideSidebar && (h("div", { key: 'e1bfe736bb27ebb0450cca6c5998e6e8e4d1ed56', class: 'sheet-footer w-full' }, h("ir-button", { key: 'e3f39020f7ae9bb564939b84f0cba70de6a66df2', text: 'Cancel', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_color: "secondary", btn_styles: "w-100 justify-content-center align-items-center", size: "md" }), h("ir-button", { key: '8eca1cc0bfb175f352fe15e84861c730fd52bb66', isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: 'Change password', size: "md" }))))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -1376,9 +1450,9 @@ const IrTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: '673d59543b26e66bf377dc4afb9cccb6800f2aba' }, h("h4", { key: '0972552f22f44077670a7b4b98129ecb5b97fd9d', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '14c02dccf4b9935ec01ae82891bddedb822d7881', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '5d41f963c2911f7af8f32a966f3225ebe32a4583' }, h("h4", { key: '6a2b0852e3399c36e92bd088d2d34ea423bbe07e', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'df9e64e7e8197c876ed30ef3441b65da0758b3db', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'cffda8ebbb58250246409a295c352419626c1329', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'a8478c497a78675419d974fa9f2de6d252361a11', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '96c6297ea107b7f3d2e2ac4847b9d84d99589e7a', class: 'title-body' }, h("slot", { key: 'e87510d0a52a08d47f25280b7bd40a7e7f478b03', name: "title-body" })))));
+            } }, h("svg", { key: '52015eee6b3dca7d8a54b89c85a374af87dee3a0', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'e36fd00e63fa677e9408ff1a74c2cfc088e48f49', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: 'caf827b07bee280ab85db68c23a178656a355193', class: 'title-body' }, h("slot", { key: 'c1671149567271c1e41f7f1efbef749822ddc517', name: "title-body" })))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -1473,6 +1547,7 @@ const IrUserFormPanel = class {
         this.userService = new UserService();
         this.disableFields = false;
         this.isPropertyAdmin = false;
+        this.token = new Token();
         this.mobileMask = {};
         this.userSchema = z.object({
             mobile: z.string().min(1).max(20),
@@ -1574,31 +1649,31 @@ const IrUserFormPanel = class {
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
-        return (h("form", { key: '4b19982cd16b1c37fe85a1c6ccd43b38af57938e', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: 'bfc52be4dc8527a4f5a54b42cdf8246dc71405f7', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: '82510ed4d74ba4fe0c1671a6eaebb0b577f7c551', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '363dc6a1338a9ca7b330eb43fef7135501944b14', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'b1277e183155392ea7600d6c5402de652ef8b219', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: '211c385c25446a1a098bc4bfbb894b4859334a5c', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.type) && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
+            } }, h("ir-title", { key: 'a09876a6ebbd856262bf9d7af5dc992b46a1ffbc', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: 'c68dd011a980a7aa88de8a352ac3b5edaab47581', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'dfba1489bc043afb95f319bf27c5816354d28057', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: '914028c5e46da02198603cafeb3cea96df172d1f', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: "Mobile", mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.type) && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
                 text: t.value,
                 value: t.code,
-            })), selectedValue: (_g = this.userInfo.type) === null || _g === void 0 ? void 0 : _g.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), ((_j = (_h = this.user) === null || _h === void 0 ? void 0 : _h.type) === null || _j === void 0 ? void 0 : _j.toString()) !== '5' && (h("ir-input-text", { key: '25b2e00b906f73189963a11989132e144c2513b0', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_k = this.errors) === null || _k === void 0 ? void 0 : _k.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 })), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_l = this.userInfo) === null || _l === void 0 ? void 0 : _l.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_m = this.errors) === null || _m === void 0 ? void 0 : _m.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            })), selectedValue: (_g = this.userInfo.type) === null || _g === void 0 ? void 0 : _g.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), ((_j = (_h = this.user) === null || _h === void 0 ? void 0 : _h.type) === null || _j === void 0 ? void 0 : _j.toString()) !== '5' && (h("ir-input-text", { key: '0acc825fe26fa406976d082fb25904c0fc1c5a3a', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_k = this.errors) === null || _k === void 0 ? void 0 : _k.username, label: "Username", disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username, onInputBlur: this.handleBlur.bind(this), maxLength: 40 })), !this.user ? (h(Fragment, null, h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_l = this.userInfo) === null || _l === void 0 ? void 0 : _l.password) ? false : true) : this.autoValidate, label: 'Password', value: this.userInfo.password, type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_m = this.errors) === null || _m === void 0 ? void 0 : _m.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (this.haveAdminPrivileges &&
             this.user.type.toString() !== this.superAdminId &&
-            (((_o = this.user) === null || _o === void 0 ? void 0 : _o.type.toString()) === '17' && ((_p = this.userTypeCode) === null || _p === void 0 ? void 0 : _p.toString()) === '17' ? null : (h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, "Password"), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" }))))), ((_r = (_q = this.user) === null || _q === void 0 ? void 0 : _q.sign_ins) === null || _r === void 0 ? void 0 : _r.length) > 0 && (h("section", { key: '3ac106529ea225df37f7849fa8fb4fccd6bf2c6a', class: "logins-history-section mt-2" }, h("div", { key: '7635d0037c5d33db2a699732b3d35c3f8dfc840c', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '0d38d7e6ce83eb726aacce43de374ef725317b0f', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'bc0977ca4d79e5444733d89b4b1a3f08528e51dd', btn_styles: 'pr-0', text: !this.showFullHistory ? 'View all' : 'View less', btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '2cfbb10aea04413de6e3067a3bc800d15b2523b0', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+            (((_o = this.user) === null || _o === void 0 ? void 0 : _o.type.toString()) === '17' && ((_p = this.userTypeCode) === null || _p === void 0 ? void 0 : _p.toString()) === '17' ? null : (h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, "Password"), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: "Change password", btn_color: "link" }))))), ((_r = (_q = this.user) === null || _q === void 0 ? void 0 : _q.sign_ins) === null || _r === void 0 ? void 0 : _r.length) > 0 && (h("section", { key: '3e1cf9ced4b54690b8af3fe0e4aebafbf8232151', class: "logins-history-section mt-2" }, h("div", { key: 'bbe573ab64030688e0f3a196893e1ac26d4d47f0', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '1f197b5abea6d3834b1b02f284d44bec9e472aed', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '57eca4af43af67d7e62592d5f8c6ae5b5317d985', btn_styles: 'pr-0', text: !this.showFullHistory ? 'View all' : 'View less', btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '5fd1826f25add098c756fbb09215a4e46e1bb776', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             var _a, _b, _c;
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime((_a = s.hour) === null || _a === void 0 ? void 0 : _a.toString(), (_b = s.minute) === null || _b === void 0 ? void 0 : _b.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, "IP: ", s.ip), " \u00A0|\u00A0", h("span", { class: "login-country" }, "Location: ", s.country), " \u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", (_c = ua.os.name) !== null && _c !== void 0 ? _c : 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '13efc234d52dc1d24247e70821af0e940a5027bc', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: 'de55c69fe244a99584dba076b348a2e0f483b6c5', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: '7360510f9ab01c815554fa942dcd793ab329e5b8', skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'e1ed981e1aa79f32c408dd7c901d350b5e51920d', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: '417e7642ea5afe23aa98d7f5b51d1329e65dafb2', class: "sheet-footer" }, h("ir-button", { key: 'bedbb9e38f0261490cd5f0d93234c7339d680e01', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '29301262cb19894eec5023f7bab831685e491401', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: '3aa092b89c88f6c59b15f239b98ca6bc623c4481', class: "sheet-footer" }, h("ir-button", { key: 'c35f51f4a98a17c1e5fa435ac4c1489090365d2e', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '12143fc194f31550c2b74fa3566abd1b85144fe8', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
 };
 IrUserFormPanel.style = IrUserFormPanelStyle0 + IrUserFormPanelStyle1;
@@ -1899,26 +1974,31 @@ const IrUserManagementTable = class {
         this.modalType = null;
     }
     async verifyAdminAction(params) {
-        await this.systemService.checkOTPNecessity({
+        const res = await this.systemService.checkOTPNecessity({
             METHOD_NAME: 'Handle_Exposed_User',
         });
+        if (res === null || res === void 0 ? void 0 : res.cancelled) {
+            return;
+        }
         this.currentTrigger = Object.assign({}, params);
     }
     render() {
         var _a, _b, _c, _d, _e, _f;
-        return (h(Host, { key: '37c2152578194c991fc241f60a91ceed2ffc7902' }, h("section", { key: '6681d9b8026de9eee83bb50d38cc56dcb0e1ab04', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '51c844c30de53b7d35aea04ea2061497a81e8048', class: "table" }, h("thead", { key: 'a1ab6ac119c09feb9f723302855eeea0485eb85a' }, h("tr", { key: '8ecc0b262264d7125cd8a045cc576c673a1911ca' }, h("th", { key: '84ba1032677f6a7e2256c9080e090027f408ee23', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '2ee56b7fd08751b6f1839553165a48b03faa4dad', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: '63c06631ff6500ba7c5a5872af5a0ebb24c981c3', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: 'db1843656f2a6461ee1e11c7eca6da5019ada951', class: "text-left" }, "Role"), h("th", { key: '010c4648f5ba1802a42971a2e0a369bfc185a678', class: "text-left" }, "Last signed in"), h("th", { key: 'f7dfa65457d51d9f2947777dec79d0110a413139', class: "text-left" }, "Created at"), this.haveAdminPrivileges && h("th", { key: '6ba737159a7c939424dbd20c349a6613ee65915b' }, "Active"), h("th", { key: '682497fb85b4165020e2259cc5867b0849c9c5fa', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: 'fe343d4460ffe59d4d2e3b39f8653c196d90f2ed', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { key: '62b673e828bafa824eec30da36ee75e843c71eeb' }, h("section", { key: 'a4e0105aea506f6b602817462cc087465c6b65f9', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: 'ba50d0ee6a3d69ee436454bc62e3b946881bd4ea', class: "table" }, h("thead", { key: 'da76a824954d70add94d938383c27a249123b597' }, h("tr", { key: 'ac989f1b994cd88ae681ac0c98c2c2bb0aad49ed' }, h("th", { key: 'dcd61b7a80547f59e323bf895b03c6ebae6ad160', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '20ece4c3ec9110abdaa97c4edf008dc2f3126da6', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: '3c8938506f4687f3833882380c52b5ff8c898fca', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: '9b84b9044299c8409dcbe4c168dd9b11dbef15ef', class: "text-left" }, "Role"), h("th", { key: '2c33fd0fd10b2ee5679e53391ea96f400c60af96', class: "text-left small", style: { fontWeight: 'bold' } }, h("p", { key: '29bc240631073d4e31d8c7f351f950e35cc245b7', class: "m-0 p-0 " }, "Created at"), h("p", { key: '53e8f242cee6ce9af1c69ae46456ad070a0362d5', class: "m-0 p-0" }, "Last signed in")), this.haveAdminPrivileges && h("th", { key: '0a3dbff1889d33b69e2d4a4fae2d38f0bbf8ab1e' }, "Active"), h("th", { key: '3225f59a777417f8fae5386b5bc326a7a19dd191', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: 'da925801a047e89c4b9327f531cd3ac49038ff17', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.verifyAdminAction({
                     type: 'user',
                     isEdit: false,
                     user: null,
                 });
-            } }, h("svg", { key: '9391c6332e02c3b0676612a46888622a8a4f3605', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '7127b497b75d1045331b673096fe54aa403fd212', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: '4b9143e0766c516a9a4122d6675daec87a4a8ed8' }, this.users.map(user => {
+            } }, h("svg", { key: '566f78c1d6279912894138c0f50121356f058a83', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '6227d3c6a3192bcb16fe6503b2bdf2b27b7731a8', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: '7aa11e69494d8e738e61366f3b17c3d3b666e739' }, this.users.map(user => {
             var _a;
             const isUserSuperAdmin = user.type.toString() === this.superAdminId;
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
-            return (h("tr", { key: user.id, class: "ir-table-row" }, h("td", null, user.username), h("td", null, user.email, this.haveAdminPrivileges && (h("span", { style: { marginLeft: '0.5rem' }, class: "small" }, user.is_email_verified ? 'Verified' : 'Not verified'))), h("td", null, (_a = user.mobile) !== null && _a !== void 0 ? _a : 'N/A'), h("td", null, user.type.toString() === this.superAdminId ? 'Super admin' : this.userTypes.get(user.type.toString())), h("td", null, latestSignIn && new Date(latestSignIn.date).getFullYear() > 1900
+            const latestSignInDate = latestSignIn ? hooks(latestSignIn.date, 'YYYY-MM-DD') : null;
+            const isLastSignInOld = latestSignInDate ? hooks().diff(latestSignInDate, 'days') > 30 : false;
+            return (h("tr", { key: user.id, class: "ir-table-row" }, h("td", null, user.username), h("td", null, user.email, this.haveAdminPrivileges && (h("span", { style: { marginLeft: '0.5rem' }, class: `small ${user.is_email_verified ? 'text-success' : 'text-danger'}` }, user.is_email_verified ? 'Verified' : 'Not verified'))), h("td", null, (_a = user.mobile) !== null && _a !== void 0 ? _a : 'N/A'), h("td", null, user.type.toString() === this.superAdminId ? 'Super admin' : this.userTypes.get(user.type.toString())), h("td", { class: "small" }, h("p", { class: "m-0 p-0" }, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : hooks(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("p", { class: `m-0 p-0 ${isLastSignInOld ? 'text-danger' : ''}` }, latestSignIn && new Date(latestSignIn.date).getFullYear() > 1900
                 ? hooks(latestSignIn.date, 'YYYY-MM-DD').format('DD-MMM-YYYY') + ' ' + _formatTime(latestSignIn.hour.toString(), latestSignIn.minute.toString())
-                : 'N/A'), h("td", null, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : hooks(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), this.haveAdminPrivileges && (h("td", null, this.haveAdminPrivileges && !this.isSuperAdmin && user.type.toString() === '17'
+                : 'N/A')), this.haveAdminPrivileges && (h("td", null, this.haveAdminPrivileges && !this.isSuperAdmin && user.type.toString() === '17'
                 ? null
                 : !isUserSuperAdmin && h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (h("ir-icon", { "data-testid": "edit", title: locales.entries.Lcz_EditHousekeeper, onIconClickHandler: () => {
                     this.verifyAdminAction({
@@ -1929,10 +2009,10 @@ const IrUserManagementTable = class {
                 }, icon: "ft-save color-ir-light-blue-hover h5 pointer sm-margin-right" }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "20", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" })))), this.canDelete && !isUserSuperAdmin && (this.isSuperAdmin || user.type.toString() !== '17') && (h("ir-icon", { "data-testid": "delete", title: locales.entries.Lcz_DeleteHousekeeper, icon: "ft-trash-2 danger h5 pointer", onIconClickHandler: () => {
                     this.openModal(user, 'delete');
                 } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))));
-        })))), h("ir-sidebar", { key: '4bf796afe50525db0a2aa68e9f11f8b5d66767c7', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: 'b42b360828404a815062d82bdaa5a2e2fb2e5465', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), h("ir-modal", { key: '7b7483973d8324f8a73d3c76da5b8390ee4eacb9', autoClose: false, modalBody: this.modalType === 'delete' ? `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?` : `Are you sure you want to unverify ${this.maskEmail((_f = this.user) === null || _f === void 0 ? void 0 : _f.email)}`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), onCancelModal: this.resetModalState.bind(this), rightBtnText: this.modalType === 'verify' ? locales.entries.Lcz_Confirm : locales.entries.Lcz_Delete, onConfirmModal: this.executeUserAction.bind(this), ref: el => (this.modalRef = el) })));
+            } }, this.renderCurrentTrigger()), h("ir-modal", { key: '3596a0d058f8b22d3192a45fd0504a6c1a813e82', autoClose: false, modalBody: this.modalType === 'delete' ? `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?` : `Are you sure you want to unverify ${this.maskEmail((_f = this.user) === null || _f === void 0 ? void 0 : _f.email)}`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), onCancelModal: this.resetModalState.bind(this), rightBtnText: this.modalType === 'verify' ? locales.entries.Lcz_Confirm : locales.entries.Lcz_Delete, onConfirmModal: this.executeUserAction.bind(this), ref: el => (this.modalRef = el) })));
     }
     static get watchers() { return {
         "haveAdminPrivileges": ["handleChange"]
@@ -1956,7 +2036,7 @@ const RequirementCheck = class {
         this.text = '';
     }
     render() {
-        return (h("div", { key: 'ce1e4387b3eac891589d01e2baf271c1001de9b9', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: 'bf9ac1ece9075452a8d02cb9320ecf1dabec4bd0', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '1adfe5f8b94565ffedfa54e7d1c68245eaf87eff' }, this.text)));
+        return (h("div", { key: 'd49be60e576313633e5b64319f3815904489b814', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: 'c17dcd398826e6b445b4abde95cf148a0f359e84', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: 'c40e310e17429b9ffa6d393dd5194c69f445b1d9' }, this.text)));
     }
 };
 RequirementCheck.style = RequirementCheckStyle0;

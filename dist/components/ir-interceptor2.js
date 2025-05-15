@@ -83,7 +83,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
             return response;
         }
         if (response.data.ExceptionCode === 'OTP') {
-            this.handleOtpResponse({ response, extractedUrl });
+            return this.handleOtpResponse({ response, extractedUrl });
         }
         if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
             this.handleResponseExceptions({ response, extractedUrl });
@@ -98,6 +98,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.showModal = true;
         this.email = response.data.ExceptionMsg;
         const name = extractedUrl.slice(1);
+        this.baseOTPUrl = name;
         if (name === 'Check_OTP_Necessity') {
             let methodName;
             try {
@@ -114,6 +115,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
             this.requestUrl = name;
         }
         this.pendingConfig = response.config;
+        this.response = response;
         return new Promise((resolve, reject) => {
             this.pendingResolve = resolve;
             this.pendingReject = reject;
@@ -135,33 +137,84 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         }
         return Promise.reject(error);
     }
+    // private async handleOtpFinished(ev: CustomEvent) {
+    //   if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
+    //     return;
+    //   }
+    //   const { otp, type } = ev.detail;
+    //   if (type === 'success') {
+    //     if (!otp) {
+    //       this.pendingReject(new Error('OTP cancelled by user'));
+    //     } else {
+    //       try {
+    //         if (this.baseOTPUrl !== 'Check_OTP_Necessity') {
+    //           const retryConfig: AxiosRequestConfig = {
+    //             ...this.pendingConfig,
+    //             data: {
+    //               ...(typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {}),
+    //             },
+    //           };
+    //           const resp = await axios.request(retryConfig);
+    //           this.pendingResolve(resp);
+    //         }
+    //       } catch (err) {
+    //         this.pendingReject(err);
+    //       }
+    //     }
+    //   }
+    //   this.pendingConfig = undefined;
+    //   this.pendingResolve = undefined;
+    //   this.pendingReject = undefined;
+    //   this.showModal = false;
+    //   if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+    //     this.baseOTPUrl = null;
+    //     return this.response;
+    //   }
+    // }
     async handleOtpFinished(ev) {
         if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
             return;
         }
-        const otp = ev.detail;
-        if (!otp) {
-            this.pendingReject(new Error('OTP cancelled by user'));
+        const { otp, type } = ev.detail;
+        if (type === 'cancel') {
+            const cancelResp = {
+                config: this.pendingConfig,
+                data: { cancelled: true, baseOTPUrl: this.baseOTPUrl },
+                status: 0,
+                statusText: 'OTP Cancelled',
+                headers: {},
+                request: {},
+            };
+            this.pendingResolve(cancelResp);
         }
-        else {
-            try {
-                if (this.requestUrl !== 'Check_OTP_Necessity') {
-                    const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: Object.assign({}, (typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {})) });
+        else if (type === 'success') {
+            if (!otp) {
+                this.pendingReject(new Error('OTP cancelled by user'));
+            }
+            else if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+                // don't resend, just resolve with the original response
+                this.pendingResolve(this.response);
+            }
+            else {
+                try {
+                    const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {} });
                     const resp = await axios.request(retryConfig);
                     this.pendingResolve(resp);
                 }
-            }
-            catch (err) {
-                this.pendingReject(err);
+                catch (err) {
+                    this.pendingReject(err);
+                }
             }
         }
+        // common clean-up
         this.pendingConfig = undefined;
         this.pendingResolve = undefined;
         this.pendingReject = undefined;
         this.showModal = false;
+        this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '63f22126b161bf75e26a872ee915c865538d1356' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'a4d1cc60abc069d8a65123e993e319fb13f7ec4e', class: "loadingScreenContainer" }, h("div", { key: '84c66878883f10a8c24bc27bae716eeefee69ac0', class: "loaderContainer" }, h("span", { key: '825e7bf0017833cdc333d5cc956efc425a147a93', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'b025161ebcc8ef26ccdc5d5ae7844005729b2eb9', email: this.email, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: 'be6808c22490967bc59514a86542e8be838735a1' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '6ecd72312d8ad8b83d1e137ad93606ca9b4ea4c2', class: "loadingScreenContainer" }, h("div", { key: '70014c1a90f74ed4723203321a1f584598cada48', class: "loaderContainer" }, h("span", { key: '35b5ff680f65254359db4bf6243eae836b996a52', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'a30696430cdc19468bc416a78e03bb1c8d9e8b20', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
@@ -174,6 +227,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         "isPageLoadingStopped": [32],
         "showModal": [32],
         "requestUrl": [32],
+        "baseOTPUrl": [32],
         "email": [32]
     }, [[16, "preventPageLoad", "handleStopPageLoading"]]]);
 function defineCustomElement() {

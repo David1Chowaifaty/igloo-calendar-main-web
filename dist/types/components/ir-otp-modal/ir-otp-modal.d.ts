@@ -4,6 +4,8 @@ export declare class IrOtpModal {
     resendTimer: number;
     /** URL or endpoint used to validate the OTP */
     requestUrl: string;
+    /** URL or endpoint used to validate the OTP */
+    baseOTPUrl: string;
     /** Whether the resend option should be visible */
     showResend: boolean;
     /** User's email address to display in the modal and send the OTP to */
@@ -22,7 +24,10 @@ export declare class IrOtpModal {
     private tokenService;
     private otpVerificationSchema;
     /** Emits the final OTP (or empty on cancel) */
-    otpFinished: EventEmitter<string>;
+    otpFinished: EventEmitter<{
+        otp: string;
+        type: 'success' | 'cancelled';
+    }>;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     /** Open & reset everything */
@@ -36,6 +41,7 @@ export declare class IrOtpModal {
     private handleOtpComplete;
     private verifyOtp;
     private resendOtp;
+    private handleCancelClicked;
     disconnectedCallback(): void;
     render(): any;
 }

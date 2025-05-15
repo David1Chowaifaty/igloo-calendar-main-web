@@ -10,12 +10,14 @@ export declare class IrInterceptor {
     isPageLoadingStopped: string | null;
     showModal: boolean;
     requestUrl: string;
+    baseOTPUrl: string;
     email: string;
     toast: EventEmitter<IToast>;
     private otpModal;
     private pendingConfig?;
     private pendingResolve?;
     private pendingReject?;
+    private response?;
     handleStopPageLoading(e: CustomEvent): void;
     componentWillLoad(): void;
     private setupAxiosInterceptors;

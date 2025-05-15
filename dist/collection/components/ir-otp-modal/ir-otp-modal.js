@@ -88,7 +88,7 @@ export class IrOtpModal {
         try {
             await this.systemService.validateOTP({ METHOD_NAME: this.requestUrl, OTP: this.otp });
             // emit the filled OTP back to the interceptor
-            this.otpFinished.emit(this.otp);
+            this.otpFinished.emit({ otp: this.otp, type: 'success' });
             this.closeModal();
         }
         catch (err) {
@@ -111,17 +111,29 @@ export class IrOtpModal {
             console.log(error);
         }
     }
+    handleCancelClicked() {
+        if (this.baseOTPUrl === 'Check_OTP_Necessity') {
+            this.closeModal();
+            this.otpFinished.emit({
+                otp: null,
+                type: 'cancelled',
+            });
+            return;
+        }
+        window.location.reload();
+    }
     disconnectedCallback() {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '247046102ad82307e0b7acf694575e50c82a9a8a' }, h("div", { key: 'ea7764c6c5a6af0930d4546987182d3f8055325a', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: 'f77eec5ef9228d19ff2e7d5d0835fa9123c43a33', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '34ed0043202db497818b6be4ed78b5e05f0191f3', class: "modal-content" }, h("div", { key: '1a848c633a6d71d3bbd514cfc5d1a977c078aff9', class: "modal-header" }, h("h5", { key: 'cded588473ad32a2df179176243d7204cd46dc86', class: "modal-title" }, "Verify Your Identity")), h("div", { key: '0ce1a299891844ac76c3aae8eeb3200fac761779', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: 'c3436427db31f8155269e98c202bab2e8c47f6b6', class: "sm text-center" }, "We sent a verification code to ", h("span", { key: '4f264dd72efd6d9de38d74150118d63216b34373', class: "text-primary" }, this.email)), h("ir-otp", { key: '553151bb882d2f425254ebc28e7676afca38c80c', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
+        var _a;
+        return (h(Host, { key: '4d50bfd3f91f8723bfdf311440e29d661af00e09' }, h("div", { key: '33854c2b94b6cc1c15f8708eae826079df57213b', ref: el => (this.modalRef = el), class: "modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '7ce58f3ea0896a5dd9675aa26b64c148781cfc65', class: "modal-dialog modal-dialog-centered" }, h("div", { key: 'dfc875280fec816991948eee0f08da4b6a7c1d38', class: "modal-content" }, h("div", { key: 'f1e73a5414048e7fb0d9b7ce9c9417ab0fbe6fa9', class: "modal-header" }, h("h5", { key: '0865866573182177916bc56f2e687498666b9a5e', class: "modal-title" }, "Verify Your Identity")), h("div", { key: 'f04fa04a4894f1849ec6e093228b1b60fbc35cda', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: '319ba113e23a4799d1cfe994278f0a210fe1543f', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: 'ffe26d5a046babc8e32077bff063ff8364b2fb82', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
             // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '1ea063723177868b080715fd40655fc39db0e2a2', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '2471b92564c77c38c569bcedb19f12a0a58898af' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: 'cec0e81f7068652ef0d670b015f6da15875fbdc5', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '301726e20cff70bcccae1a8d9886ffb112130c85' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '2b50e821c0fccd9e09df9472da15d2cafea9afbf', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '5a635d116395c82f2b2b2bf8a3e81effa04fa0d7', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: () => window.location.reload() }), h("ir-button", { key: '1a8e39e6f9ef822c9cadc1e9e32cb1221986ad37', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: this.otp.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '6b90f4779ad5f288845f78c3a9e3d8b5705ed9ad', class: "modal-footer justify-content-auto" }, h("ir-button", { key: 'd10bb8828e1cd2e9eb00fc786826019effe68821', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: '9dd89ae7bfd607eb9d1b4b71a5912e7b2acb290f', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {
@@ -173,6 +185,25 @@ export class IrOtpModal {
                 "getter": false,
                 "setter": false,
                 "attribute": "request-url",
+                "reflect": false
+            },
+            "baseOTPUrl": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "URL or endpoint used to validate the OTP"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "base-o-t-p-url",
                 "reflect": false
             },
             "showResend": {
@@ -275,8 +306,8 @@ export class IrOtpModal {
                     "text": "Emits the final OTP (or empty on cancel)"
                 },
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
+                    "original": "{\n    otp: string;\n    type: 'success' | 'cancelled';\n  }",
+                    "resolved": "{ otp: string; type: \"success\" | \"cancelled\"; }",
                     "references": {}
                 }
             }];

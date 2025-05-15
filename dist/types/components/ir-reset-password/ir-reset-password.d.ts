@@ -26,5 +26,6 @@ export declare class IrResetPassword {
     private init;
     private ResetPasswordSchema;
     private handleChangePassword;
+    handleOtpFinished(e: CustomEvent): void;
     render(): any;
 }

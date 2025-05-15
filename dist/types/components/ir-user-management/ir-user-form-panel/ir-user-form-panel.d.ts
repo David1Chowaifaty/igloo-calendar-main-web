@@ -33,6 +33,7 @@ export declare class IrUserFormPanel {
     private userService;
     private disableFields;
     private isPropertyAdmin;
+    private token;
     private mobileMask;
     private userSchema;
     componentWillLoad(): Promise<void>;
