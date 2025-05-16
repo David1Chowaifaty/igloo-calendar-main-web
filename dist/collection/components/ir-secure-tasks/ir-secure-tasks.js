@@ -78,7 +78,6 @@ export class IrSecureTasks {
         }
     }
     static get is() { return "ir-secure-tasks"; }
-    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-secure-tasks.css"]

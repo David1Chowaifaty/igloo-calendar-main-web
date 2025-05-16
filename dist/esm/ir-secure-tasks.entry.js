@@ -7,7 +7,7 @@ import './calendar-data-26906e0c.js';
 import './index-c1c77241.js';
 import './locales.store-53ec3957.js';
 
-const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block;height:100%}.nav.sc-ir-secure-tasks{background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}.nav-link.sc-ir-secure-tasks{color:inherit}.active.sc-ir-secure-tasks{color:var(--blue)}";
+const irSecureTasksCss = ":host{display:block;height:100%}.nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks = class {

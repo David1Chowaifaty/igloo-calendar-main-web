@@ -89,7 +89,7 @@ import { d as defineCustomElement$4 } from './ir-user-management-table2.js';
 import { d as defineCustomElement$3 } from './ota-label2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
-const irSecureTasksCss = ".sc-ir-secure-tasks-h{display:block;height:100%}.nav.sc-ir-secure-tasks{background:white;padding:0.25rem 0}.nav-tabs.sc-ir-secure-tasks{border-bottom:0}.nav-link.sc-ir-secure-tasks{color:inherit}.active.sc-ir-secure-tasks{color:var(--blue)}";
+const irSecureTasksCss = ":host{display:block;height:100%}.nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks extends HTMLElement {
@@ -174,7 +174,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
         "p": ["handlePChange"]
     }; }
     static get style() { return IrSecureTasksStyle0; }
-}, [2, "ir-secure-tasks", {
+}, [0, "ir-secure-tasks", {
         "propertyid": [2],
         "p": [1],
         "bookingNumber": [1, "booking-number"],
