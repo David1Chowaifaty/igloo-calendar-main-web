@@ -24,7 +24,7 @@ export class IrUserFormPanel {
         this.userInfo = {
             type: '',
             id: -1,
-            is_active: false,
+            is_active: true,
             sign_ins: null,
             created_on: null,
             mobile: '',
