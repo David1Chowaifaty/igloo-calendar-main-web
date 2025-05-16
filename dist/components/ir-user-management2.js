@@ -130,7 +130,9 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         // const reasonHandlers: Partial<Record<bookingReasons, Function>> = {
         //   DORESERVATION: this.updateUserVerificationStatus,
         // };
-        const reasonHandlers = {};
+        const reasonHandlers = {
+            EMAIL_VERIFIED: this.updateUserVerificationStatus,
+        };
         const handler = reasonHandlers[REASON];
         if (handler) {
             await handler.call(this, result);
@@ -146,7 +148,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
             console.warn(`User ${result.id} not found`);
             return;
         }
-        users[idx] = Object.assign(Object.assign({}, users[idx]), { is_email_verified: result.is_email_verified });
+        users[idx] = Object.assign(Object.assign({}, users[idx]), { is_email_verified: true });
         this.users = users;
     }
     async fetchUsers() {

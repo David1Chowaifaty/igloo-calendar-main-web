@@ -26,7 +26,6 @@ export declare class IrUserManagement {
     private handleSocketMessage;
     updateUserVerificationStatus(result: {
         id: string | number;
-        is_email_verified: boolean;
     }): void;
     private fetchUsers;
     private fetchUserTypes;
