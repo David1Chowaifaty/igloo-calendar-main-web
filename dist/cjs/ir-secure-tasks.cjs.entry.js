@@ -20,6 +20,12 @@ const IrSecureTasks = class {
         this.isAuthenticated = false;
         this.token = new Token.Token();
         this.dates = {};
+        this.routes = [
+            { name: 'Housekeepers', value: 'hk' },
+            { name: 'Tasks', value: 'tasks' },
+            { name: 'Front', value: 'front' },
+            { name: 'Users', value: 'users' },
+        ];
     }
     componentWillLoad() {
         const isAuthenticated = utils.checkUserAuthState();
@@ -61,13 +67,9 @@ const IrSecureTasks = class {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, index.h("input", { type: "text", value: this.inputValue, onInput: e => (this.inputValue = e.target.value), style: { maxWidth: '60px' }, class: "form-control", placeholder: "AName", "aria-label": "AName", "aria-describedby": "button-save" }), index.h("div", { class: "input-group-append" }, index.h("button", { class: "btn btn-sm btn-outline-secondary", type: "submit", id: "button-save" }, "save")))), index.h("ul", { class: "nav  m-0 p-0" }, index.h("li", { class: " nav-item" }, index.h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'hk' }, href: "#", onClick: () => {
-                this.currentPage = 'hk';
-            } }, "Housekeepers")), index.h("li", { class: "nav-item" }, index.h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'tasks' }, href: "#", onClick: () => {
-                this.currentPage = 'tasks';
-            } }, "Tasks")), index.h("li", { class: "nav-item" }, index.h("a", { class: { 'nav-link': true, 'active': this.currentPage === 'front' }, href: "#", onClick: () => {
-                this.currentPage = 'front';
-            } }, "Front")))), index.h("button", { class: "btn btn-sm btn-primary", onClick: () => {
+            } }, index.h("input", { type: "text", value: this.inputValue, onInput: e => (this.inputValue = e.target.value), style: { maxWidth: '60px' }, class: "form-control", placeholder: "AName", "aria-label": "AName", "aria-describedby": "button-save" }), index.h("div", { class: "input-group-append" }, index.h("button", { class: "btn btn-sm btn-outline-secondary", type: "submit", id: "button-save" }, "save")))), index.h("ul", { class: "nav  m-0 p-0" }, this.routes.map(route => (index.h("li", { key: route.name, class: " nav-item" }, index.h("a", { class: { 'nav-link': true, 'active': this.currentPage === route.value }, href: "#", onClick: () => {
+                this.currentPage = route.value;
+            } }, route.name)))))), index.h("button", { class: "btn btn-sm btn-primary", onClick: () => {
                 this.logout();
             } }, "Logout")), this.renderPage()));
     }
@@ -83,6 +85,8 @@ const IrSecureTasks = class {
                 return (index.h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" }));
             case 'hk':
                 return index.h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'users':
+                return index.h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }
