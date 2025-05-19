@@ -9,7 +9,7 @@ const locales_store = require('./locales.store-0cac7e5d.js');
 const utils = require('./utils-e03e37bd.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const Token = require('./Token-049041c2.js');
+const Token = require('./Token-28c6b362.js');
 const calendarData = require('./calendar-data-004d3283.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');

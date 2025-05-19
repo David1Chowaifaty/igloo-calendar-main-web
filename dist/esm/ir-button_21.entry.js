@@ -4,7 +4,7 @@ import { i as icons } from './icons-457fd9f9.js';
 import { I as IMask } from './index-e2caf943.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { i as interceptor_requests, a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
-import { T as Token } from './Token-acf5fbad.js';
+import { T as Token } from './Token-273aae22.js';
 import { z, Z as ZodError, h as handleBodyOverflow } from './utils-f1b7543f.js';
 import { A as AuthService } from './authenticate.service-b92cac55.js';
 import { C as CONSTANTS, U as UserService } from './user.service-7c5a4439.js';
@@ -1703,6 +1703,9 @@ const IrUserManagement = class {
             userId: this.userId,
             userTypeCode: this.userTypeCode,
         });
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket) {
             this.token.setToken(this.ticket);
             this.initializeApp();

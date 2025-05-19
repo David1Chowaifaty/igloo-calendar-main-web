@@ -25,6 +25,9 @@ export class IrUserManagement {
             userId: this.userId,
             userTypeCode: this.userTypeCode,
         });
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket) {
             this.token.setToken(this.ticket);
             this.initializeApp();
@@ -209,6 +212,25 @@ export class IrUserManagement {
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "''"
+            },
+            "baseUrl": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "base-url",
+                "reflect": false
             },
             "ticket": {
                 "type": "string",

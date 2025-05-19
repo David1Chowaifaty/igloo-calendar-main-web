@@ -7,7 +7,7 @@ const room_service = require('./room.service-89962a18.js');
 const channel_store = require('./channel.store-65161dac.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const channel_service = require('./channel.service-77bb91c5.js');
-const Token = require('./Token-049041c2.js');
+const Token = require('./Token-28c6b362.js');
 require('./calendar-data-004d3283.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');

@@ -6,6 +6,7 @@ declare class Token extends Auth {
     private static isInterceptorAdded;
     constructor();
     getToken(): string;
+    setBaseUrl(url: string): void;
     private initialize;
     setToken(token: string): void;
 }

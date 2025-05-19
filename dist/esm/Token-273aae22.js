@@ -47,6 +47,9 @@ class Token extends Auth {
     getToken() {
         return Token.token;
     }
+    setBaseUrl(url) {
+        this.baseUrl = url;
+    }
     initialize() {
         if (Token.isInterceptorAdded) {
             return;
@@ -79,4 +82,4 @@ class MissingTokenError extends Error {
 
 export { Token as T };
 
-//# sourceMappingURL=Token-acf5fbad.js.map
+//# sourceMappingURL=Token-273aae22.js.map

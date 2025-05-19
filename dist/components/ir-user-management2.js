@@ -50,6 +50,9 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
             userId: this.userId,
             userTypeCode: this.userTypeCode,
         });
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket) {
             this.token.setToken(this.ticket);
             this.initializeApp();
@@ -207,6 +210,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
     static get style() { return IrUserManagementStyle0; }
 }, [2, "ir-user-management", {
         "language": [1],
+        "baseUrl": [1, "base-url"],
         "ticket": [1],
         "propertyid": [2],
         "p": [1],

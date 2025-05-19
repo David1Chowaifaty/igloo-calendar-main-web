@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const Token = require('./Token-049041c2.js');
+const Token = require('./Token-28c6b362.js');
 const utils = require('./utils-e03e37bd.js');
 require('./axios-6e678d52.js');
 require('./moment-1780b03a.js');

@@ -8,7 +8,7 @@ const icons = require('./icons-bda9ba7f.js');
 const index$1 = require('./index-e9a28e3e.js');
 const axios = require('./axios-6e678d52.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const Token = require('./Token-049041c2.js');
+const Token = require('./Token-28c6b362.js');
 const utils = require('./utils-e03e37bd.js');
 const authenticate_service = require('./authenticate.service-eff00d14.js');
 const user_service = require('./user.service-ea589ce7.js');
@@ -1707,6 +1707,9 @@ const IrUserManagement = class {
             userId: this.userId,
             userTypeCode: this.userTypeCode,
         });
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket) {
             this.token.setToken(this.ticket);
             this.initializeApp();

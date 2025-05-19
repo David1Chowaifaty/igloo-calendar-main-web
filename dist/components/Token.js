@@ -47,6 +47,9 @@ class Token extends Auth {
     getToken() {
         return Token.token;
     }
+    setBaseUrl(url) {
+        this.baseUrl = url;
+    }
     initialize() {
         if (Token.isInterceptorAdded) {
             return;

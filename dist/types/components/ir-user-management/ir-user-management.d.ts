@@ -2,6 +2,7 @@ import { User } from "../../models/Users";
 import { AllowedUser } from './types';
 export declare class IrUserManagement {
     language: string;
+    baseUrl: string;
     ticket: string;
     propertyid: number;
     p: string;
