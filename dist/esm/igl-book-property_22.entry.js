@@ -9,7 +9,7 @@ import { c as calendar_data, i as isSingleUnit } from './calendar-data-26906e0c.
 import { a as axios } from './axios-aa1335b8.js';
 import { R as RoomService } from './room.service-5bfa8a39.js';
 import { P as PaymentService } from './payment.service-56b6590d.js';
-import { T as Token } from './Token-273aae22.js';
+import { T as Token } from './Token-6c389e24.js';
 import { c as colorVariants } from './icons-457fd9f9.js';
 import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-14871918.js';
 import { M as MaskedRange } from './index-e2caf943.js';

@@ -1,6 +1,4 @@
-'use strict';
-
-const axios = require('./axios-6e678d52.js');
+import { a as axios } from './axios-aa1335b8.js';
 
 // import axios from 'axios';
 class Auth {
@@ -44,19 +42,20 @@ class Token extends Auth {
             return;
         }
         Token.modifiedBaseUrl = true;
-        axios.axios.defaults.baseURL = this.baseUrl;
+        axios.defaults.baseURL = this.baseUrl;
     }
     getToken() {
         return Token.token;
     }
     setBaseUrl(url) {
         this.baseUrl = url;
+        axios.defaults.baseURL = this.baseUrl;
     }
     initialize() {
         if (Token.isInterceptorAdded) {
             return;
         }
-        axios.axios.interceptors.request.use(config => {
+        axios.interceptors.request.use(config => {
             if (!Token.token) {
                 throw new MissingTokenError();
             }
@@ -82,6 +81,6 @@ class MissingTokenError extends Error {
     }
 }
 
-exports.Token = Token;
+export { Token as T };
 
-//# sourceMappingURL=Token-28c6b362.js.map
+//# sourceMappingURL=Token-6c389e24.js.map
