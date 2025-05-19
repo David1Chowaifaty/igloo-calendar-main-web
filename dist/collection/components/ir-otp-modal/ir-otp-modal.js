@@ -35,15 +35,28 @@ export class IrOtpModal {
     /** Open & reset everything */
     async openModal() {
         this.resetState();
-        $(this.modalRef).modal({ backdrop: 'static', keyboard: false });
-        $(this.modalRef).modal('show');
+        // $(this.modalRef).modal({ backdrop: 'static', keyboard: false });
+        // $(this.modalRef).modal('show');
+        if (typeof this.dialogRef.showModal === 'function') {
+            this.dialogRef.showModal();
+        }
+        else {
+            // fallback for browsers without dialog support
+            this.dialogRef.setAttribute('open', '');
+        }
         if (this.showResend)
             this.startTimer();
         await this.focusFirstInput();
     }
     /** Hide & clear timer */
     async closeModal() {
-        $(this.modalRef).modal('hide');
+        // $(this.modalRef).modal('hide');
+        if (typeof this.dialogRef.close === 'function') {
+            this.dialogRef.close();
+        }
+        else {
+            this.dialogRef.removeAttribute('open');
+        }
         this.otp = null;
         this.clearTimer();
     }
@@ -73,7 +86,7 @@ export class IrOtpModal {
     }
     async focusFirstInput() {
         await new Promise(r => setTimeout(r, 50));
-        const first = this.modalRef.querySelector('input');
+        const first = this.dialogRef.querySelector('input');
         first && first.focus();
     }
     async verifyOtp() {
@@ -87,7 +100,6 @@ export class IrOtpModal {
         });
         try {
             await this.systemService.validateOTP({ METHOD_NAME: this.requestUrl, OTP: this.otp });
-            // emit the filled OTP back to the interceptor
             this.otpFinished.emit({ otp: this.otp, type: 'success' });
             this.closeModal();
         }
@@ -127,13 +139,11 @@ export class IrOtpModal {
     }
     render() {
         var _a;
-        return (h(Host, { key: '4d50bfd3f91f8723bfdf311440e29d661af00e09' }, h("div", { key: '4353d1d7836c1b1041305b5b226aeefc6fa30b61', ref: el => (this.modalRef = el), class: "modal otp-modal fade", id: "staticBackdrop", "aria-hidden": "true" }, h("div", { key: '7028be368fe4a3379c4f8ca952e348f518512c7a', class: "modal-dialog modal-dialog-centered" }, h("div", { key: '52a06e9b1918ac8d4e6fd63e65222b1e0f0dc45d', class: "modal-content" }, h("div", { key: 'b586baa1ec10b9c8aab03e42dcd959b89afad654', class: "modal-header" }, h("h5", { key: '8e14cd214dd82bb7622ca20eb797854e853c50c0', class: "modal-title" }, "Verify Your Identity")), h("div", { key: 'e64fef9ed820947d74dc72630310a4ef8ac2ec08', class: "modal-body d-flex  align-items-center flex-column" }, h("p", { key: 'f2466712badd6df05f394124217ac79b4a8d68a3', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: '4b552d4be05361505d66d853793a8c1594450b5c', autoFocus: true, length: this.otpLength, defaultValue: this.otp,
-            // value={this.otp}
-            onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '8bf7a36ff4b9024361227eb577a8021b9fdb94ad', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '25f94009fce02e6c185758ff3fa14a0ee875acc9' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: '5833bc91160ee015b59746e59972e2ddcb344e52' }, h("dialog", { key: 'ef85636727b87628611e7fd4f17f05cc7c3f7221', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '2ac2f140c2f0b37027b9f34a6f194021064b8bc2', method: "dialog", class: "otp-modal-content" }, h("header", { key: '312e5c5decd9c420f4fd7afb63c6c7426ddff13f', class: "otp-modal-header" }, h("h5", { key: '1b51d37d71a7cf8d07168676c4c86ecd90c0e6aa', class: "otp-modal-title" }, "Verify Your Identity")), h("section", { key: '5068e8d4725c990df8ed3049b74e9c0c19a77518', class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { key: '41008372dc599071178f023ce264d8f7349e72c7', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: '96ecf89d7232678f762c135bbb4f47e573d6a309', autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: '4620c40f3014f7b7d260cb54c9d353e3a239f4cb', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: 'f8835de67ad048b3c7aa7298a23ccab4adbff421' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("div", { key: '6edf2e709f6041f1b7552143721a99c16a1fbc6f', class: "modal-footer justify-content-auto" }, h("ir-button", { key: '66aeee78c363ba37b6f8b0a3db4b665ee72d1593', class: "w-100", btn_styles: 'flex-fill', text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: '1d185c7c954c939d09cb97b2134987890e9fada8', class: "w-100", btn_styles: 'flex-fill', text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() })))))));
+            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("footer", { key: '5a1b898a2f67643ea943594aee20176dc20a1734', class: "otp-modal-footer justify-content-auto" }, h("ir-button", { key: '6e1ab6c18b2cb627b3d9ff348720f27b85f57b3f', class: "w-100", btn_styles: "flex-fill", text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: '4947629cc23abf841b0742e527cb9fe53b47689e', class: "w-100", btn_styles: "flex-fill", text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {

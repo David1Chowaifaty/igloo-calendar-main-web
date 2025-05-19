@@ -18,7 +18,7 @@ export declare class IrOtpModal {
     error: string;
     isLoading: boolean;
     timer: number;
-    private modalRef;
+    private dialogRef;
     private timerInterval;
     private systemService;
     private tokenService;
