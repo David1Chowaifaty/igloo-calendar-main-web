@@ -7,7 +7,7 @@ import { i as interceptor_requests, a as isRequestPending } from './ir-intercept
 import { T as Token } from './Token-6c389e24.js';
 import { z, Z as ZodError, h as handleBodyOverflow } from './utils-f1b7543f.js';
 import { A as AuthService } from './authenticate.service-b92cac55.js';
-import { C as CONSTANTS, U as UserService } from './user.service-7c5a4439.js';
+import { C as CONSTANTS, U as UserService } from './user.service-5a912643.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { H as HouseKeepingService } from './housekeeping.service-64b661f9.js';
 import { c as calendar_data } from './calendar-data-26906e0c.js';
@@ -654,7 +654,7 @@ const IrModal = class {
 };
 IrModal.style = IrModalStyle0;
 
-const irOtpCss = ".otp-input-wrapper.sc-ir-otp{display:flex;gap:0.5rem}.otp-digit.sc-ir-otp{width:2.5rem !important;height:2.5rem !important;padding:0;font-size:24px;font-weight:500;text-align:center;background-color:#fff}.otp-digit.sc-ir-otp:disabled{background-color:#e9ecef;cursor:not-allowed}input[type='number'].sc-ir-otp::-webkit-inner-spin-button,input[type='number'].sc-ir-otp::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type='number'].sc-ir-otp{-moz-appearance:textfield}@media (max-width: 480px){.otp-digit.sc-ir-otp{width:35px;height:45px;font-size:20px}.otp-input-wrapper.sc-ir-otp{gap:6px}}@media (max-width: 360px){.otp-digit.sc-ir-otp{width:30px;height:40px;font-size:18px}.otp-input-wrapper.sc-ir-otp{gap:4px}}";
+const irOtpCss = ".otp-input-wrapper.sc-ir-otp{display:flex;gap:0.5rem}.otp-digit.sc-ir-otp{--otp-size:3rem;width:var(--otp-size) !important;height:var(--otp-size) !important;padding:0;font-size:24px;font-weight:500;text-align:center;background-color:#fff}.otp-digit.sc-ir-otp:disabled{background-color:#e9ecef;cursor:not-allowed}input[type='number'].sc-ir-otp::-webkit-inner-spin-button,input[type='number'].sc-ir-otp::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type='number'].sc-ir-otp{-moz-appearance:textfield}@media (max-width: 480px){.otp-digit.sc-ir-otp{width:35px;height:45px;font-size:20px}.otp-input-wrapper.sc-ir-otp{gap:6px}}@media (max-width: 360px){.otp-digit.sc-ir-otp{width:30px;height:40px;font-size:18px}.otp-input-wrapper.sc-ir-otp{gap:4px}}";
 const IrOtpStyle0 = irOtpCss;
 
 const IrOtp = class {
@@ -908,7 +908,7 @@ class SystemService {
     }
 }
 
-const irOtpModalCss = ":host{display:block}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.otp-modal-header{border-bottom:0px !important}.otp-modal{z-index:9999999 !important;border:none;padding:0 !important;box-sizing:border-box;border:1px solid rgba(0, 0, 0, 0.2);border-radius:0.35rem;outline:0}.otp-modal-content{background-color:white;border:none;border-radius:0.35rem;outline:0}.otp-modal-title{margin-bottom:0;line-height:1.45}.otp-modal-body{max-height:100% !important;padding:0 1rem}.otp-modal-header{display:flex;justify-content:space-between;padding:1rem 1rem;border-top-left-radius:0.35rem;border-top-right-radius:0.35rem}.otp-modal-dialog{z-index:9999999 !important}.otp-modal-footer{padding-top:0.5rem !important;border-top:0 !important;display:flex;gap:0.5rem;flex-direction:column;padding:1rem}.verification-message{max-width:90%}@media (min-width: 768px){.otp-modal-dialog,.otp-modal-content{width:fit-content !important}.otp-modal-footer{flex-direction:row;align-items:center}.verification-message{max-width:350px !important}}";
+const irOtpModalCss = ":host{display:block;--padding:1.5rem}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.otp-modal-header{border-bottom:0px !important}.otp-modal{z-index:9999999 !important;border:none;padding:0 !important;box-sizing:border-box;border:1px solid rgba(0, 0, 0, 0.2);border-radius:0.35rem;outline:0}.otp-modal-content{background-color:white;border:none;border-radius:0.35rem;outline:0}.otp-modal-title{margin-bottom:0;line-height:1.45}.otp-modal-body{max-height:100% !important;padding:0 var(--padding)}.otp-modal-header{display:flex;justify-content:space-between;padding:var(--padding);padding-bottom:1rem;border-top-left-radius:0.35rem;border-top-right-radius:0.35rem}.otp-modal-dialog{z-index:9999999 !important}.otp-modal-footer{border-top:0 !important;display:flex;gap:0.5rem;flex-direction:column;padding:var(--padding);padding-top:0.5rem !important}.verification-message{max-width:90%}@media (min-width: 768px){.otp-modal-dialog,.otp-modal-content{width:fit-content !important}.otp-modal-footer{flex-direction:row;align-items:center}.verification-message{max-width:350px !important}}";
 const IrOtpModalStyle0 = irOtpModalCss;
 
 const IrOtpModal = class {
@@ -1822,7 +1822,7 @@ const IrUserManagement = class {
         this.users = users;
     }
     async fetchUsers() {
-        const users = await this.userService.getExposedPropertyUsers();
+        const users = await this.userService.getExposedPropertyUsers({ property_id: this.propertyid });
         this.users = [...users].sort((u1, u2) => {
             const priority = (u) => {
                 const t = u.type.toString();

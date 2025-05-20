@@ -21,8 +21,8 @@ class UserService {
         console.warn('data<==>', data);
         return data.My_Result;
     }
-    async getExposedPropertyUsers() {
-        const { data } = await axios.axios.post('/Get_Exposed_Property_Users', {});
+    async getExposedPropertyUsers({ property_id }) {
+        const { data } = await axios.axios.post('/Get_Exposed_Property_Users', { property_id });
         return data.My_Result;
     }
 }
@@ -30,4 +30,4 @@ class UserService {
 exports.CONSTANTS = CONSTANTS;
 exports.UserService = UserService;
 
-//# sourceMappingURL=user.service-ea589ce7.js.map
+//# sourceMappingURL=user.service-cafac5f1.js.map

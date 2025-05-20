@@ -134,7 +134,7 @@ export class IrUserManagement {
         this.users = users;
     }
     async fetchUsers() {
-        const users = await this.userService.getExposedPropertyUsers();
+        const users = await this.userService.getExposedPropertyUsers({ property_id: this.propertyid });
         this.users = [...users].sort((u1, u2) => {
             const priority = (u) => {
                 const t = u.type.toString();

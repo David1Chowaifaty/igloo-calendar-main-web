@@ -7,7 +7,7 @@ const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-004d3283.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const user_service = require('./user.service-ea589ce7.js');
+const user_service = require('./user.service-cafac5f1.js');
 const utils = require('./utils-e03e37bd.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');

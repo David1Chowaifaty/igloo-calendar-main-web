@@ -5,5 +5,7 @@ export declare class UserService {
         UserName: string;
     }): Promise<boolean>;
     handleExposedUser(params: UserParams): Promise<any>;
-    getExposedPropertyUsers(): Promise<any>;
+    getExposedPropertyUsers({ property_id }: {
+        property_id: number;
+    }): Promise<any>;
 }
