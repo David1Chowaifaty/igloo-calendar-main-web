@@ -30,6 +30,7 @@ export declare class IrOtpModal {
     }>;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
+    handleKeyDownChange(e: KeyboardEvent): void;
     /** Open & reset everything */
     openModal(): Promise<void>;
     /** Hide & clear timer */
