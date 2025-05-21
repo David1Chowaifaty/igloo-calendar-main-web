@@ -1,5 +1,9 @@
-import { K as sleep } from './utils.js';
-import { a as axios } from './axios.js';
+import { s as sleep } from './utils-f1b7543f.js';
+import { a as axios } from './axios-aa1335b8.js';
+
+const CONSTANTS = {
+    PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/,
+};
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -37,6 +41,6 @@ class UserService {
     }
 }
 
-export { UserService as U };
+export { CONSTANTS as C, UserService as U };
 
-//# sourceMappingURL=user.service.js.map
+//# sourceMappingURL=user.service-fc4453d9.js.map

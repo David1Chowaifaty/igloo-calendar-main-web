@@ -8,6 +8,7 @@ export declare class IrUserManagement {
     p: string;
     isSuperAdmin: boolean;
     userTypeCode: string | number;
+    baseUserTypeCode: string | number;
     userId: string | number;
     isLoading: boolean;
     users: User[];

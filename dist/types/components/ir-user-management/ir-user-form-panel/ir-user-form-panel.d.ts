@@ -16,6 +16,7 @@ export declare class IrUserFormPanel {
     superAdminId: string;
     userTypeCode: string | number;
     allowedUsersTypes: AllowedUser[];
+    baseUserTypeCode: string | number;
     isLoading: boolean;
     autoValidate: boolean;
     showFullHistory: boolean;

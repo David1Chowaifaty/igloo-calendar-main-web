@@ -83,6 +83,8 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
             password: user.password,
             type: user.type,
             username: user.username,
+            base_user_type_code: this.baseUserTypeCode,
+            property_id: this.property_id,
         });
         this.toast.emit({
             position: 'top-right',
@@ -132,7 +134,7 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
         if (!this.currentTrigger) {
             return null;
         }
-        return (h("ir-user-form-panel", { superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: (_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.user, isEdit: (_b = this.currentTrigger) === null || _b === void 0 ? void 0 : _b.isEdit }));
+        return (h("ir-user-form-panel", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: (_a = this.currentTrigger) === null || _a === void 0 ? void 0 : _a.user, isEdit: (_b = this.currentTrigger) === null || _b === void 0 ? void 0 : _b.isEdit }));
     }
     openModal(user, type) {
         if (!this.modalRef || !user) {
@@ -169,13 +171,13 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
     }
     render() {
         var _a, _b, _c, _d, _e, _f;
-        return (h(Host, { key: '3ef882196dcaf3b96463501fecbe583bbc0d06d0' }, h("section", { key: '364de098bfc2026ea89765707a2cbfcbd7269d0d', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: '274114a27f0cf999b2dc63b3fed16f488c19cf69', class: "table" }, h("thead", { key: 'ea8adaf3c48ac93449826d34d136f34cd84e3e4a' }, h("tr", { key: 'b9d6ca1a6443901118d55116dee646c2748dd8d4' }, h("th", { key: '36ecbb0d1854c4b1ce40163ec3e9d4b386d28201', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: 'eb5cec5f983e08c682c271cb10cdb84720abcef8', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: '69145f7d3b0fb85e397d6947fa5086803371f04b', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: 'ac0d7b45a2d9942e56a78ef9c79f2835485062f1', class: "text-left" }, "Role"), h("th", { key: '06a899f087fe5c2683afe31e13d9f9937459144d', class: "text-left small", style: { fontWeight: 'bold' } }, h("p", { key: 'b824551ba96b1943efb542435d1ca14604c869d0', class: "m-0 p-0 " }, "Created at"), h("p", { key: 'd9939c45a854361e35e4b943f90e86fe0a578495', class: "m-0 p-0" }, "Last signed in")), this.haveAdminPrivileges && h("th", { key: 'd835366cdf7c5ffa95f6d126433999b400b876e4' }, "Active"), h("th", { key: 'd320a7e7e251729148d59816c09c666852d2ed20', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: '453c9f99e6f8149abfd99c6ab160b09068df6532', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
+        return (h(Host, { key: '0910fdd806037ef0e3746df86b4065e0b5f71a4d' }, h("section", { key: '16aaa4cbc3f9e1a4f55089e699e71519a95e2c5e', class: "table-container h-100 p-1 w-100 m-0 table-responsive" }, h("table", { key: 'd47c5d6598e8197530c3ff5c3021abfcd1e1a998', class: "table" }, h("thead", { key: 'db1d1ce8b5674a98f53596597a122c2ee7cacf4e' }, h("tr", { key: '2e315a4553a60e8025453a4b419e6aff97129827' }, h("th", { key: '149bd0d6cbe5b270b4d9a07841574226231636da', class: "text-left" }, (_a = locales.entries.Lcz_Username) !== null && _a !== void 0 ? _a : 'Username'), h("th", { key: '7aff4d3bd2b856ec88bc91fcaa16c3e0f618458c', class: "text-left" }, locales.entries.Lcz_Email), h("th", { key: 'fc8a221da2af5787e3763f907fb9b0ba37480a8a', class: "text-left" }, (_b = locales.entries.Lcz_Mobile) !== null && _b !== void 0 ? _b : 'Mobile'), h("th", { key: 'a5a7e651c3324edc7cf11fb6e0cdc0f4709bcded', class: "text-left" }, "Role"), h("th", { key: '79b02cb580ed1fbc4142de3f30a84bdb882ba50f', class: "text-left small", style: { fontWeight: 'bold' } }, h("p", { key: '75c01c312eb37ca6d2e310b6ab1e6c62563cf3b4', class: "m-0 p-0 " }, "Created at"), h("p", { key: '49b59c84393469eef92a7ea356a94551c48a9a6a', class: "m-0 p-0" }, "Last signed in")), this.haveAdminPrivileges && h("th", { key: '2f21430255d2466be8d57aa8f70cc5c3c3d0f06c' }, "Active"), h("th", { key: '54892e6d9248d3723aa362390722c9e91a31c91c', class: 'action-row' }, this.canCreate && (h("ir-icon", { key: '15d63cc413a5671d945c5d2a6b846493863e5b01', style: { paddingLeft: '0.875rem' }, "data-testid": "new_user", title: locales.entries.Lcz_CreateHousekeeper, onIconClickHandler: () => {
                 this.verifyAdminAction({
                     type: 'user',
                     mode: 'create',
                     user: null,
                 });
-            } }, h("svg", { key: 'c9d82addc550e363dc2d8cde5757b88d3a9d83b4', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '46e161104b516fdf8fe61f707d958e3cdaf1820d', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: 'ddf080bacf46fc0314798d896eb7404c77689492' }, this.users.map(user => {
+            } }, h("svg", { key: '084be1ebb290a2fd56ff41c578e93916cb4422a0', slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "20", width: "17.5", viewBox: "0 0 448 512" }, h("path", { key: '5d12d9981901c5c46fd34e83583118cf09783ceb', fill: "currentColor", d: "M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" }))))))), h("tbody", { key: '31aa11fb1ef9d87d38d46ca3541950b4e0cdbe47' }, this.users.map(user => {
             var _a;
             const isUserSuperAdmin = user.type.toString() === this.superAdminId;
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
@@ -202,10 +204,10 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
                     }
                     this.openModal(user, 'delete');
                 } }, h("svg", { slot: "icon", fill: "#ff2441", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "14.25", viewBox: "0 0 448 512" }, h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))))))));
-        })))), h("ir-sidebar", { key: '20858889cc8f145fe7e144804631b4656f17c647', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '86c65fc90e89fd2938332e4aab5a78adeae027a2', open: this.currentTrigger !== null && ((_c = this.currentTrigger) === null || _c === void 0 ? void 0 : _c.type) !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
                 '--sidebar-width': this.currentTrigger ? (((_d = this.currentTrigger) === null || _d === void 0 ? void 0 : _d.type) === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), h("ir-modal", { key: '7710adaf43e3709cd5da728e34c6e46b20c46c2f', autoClose: false, modalBody: this.modalType === 'delete' ? `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?` : `Are you sure you want to unverify ${this.maskEmail((_f = this.user) === null || _f === void 0 ? void 0 : _f.email)}`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), onCancelModal: this.resetModalState.bind(this), rightBtnText: this.modalType === 'verify' ? locales.entries.Lcz_Confirm : locales.entries.Lcz_Delete, onConfirmModal: this.executeUserAction.bind(this), ref: el => (this.modalRef = el) })));
+            } }, this.renderCurrentTrigger()), h("ir-modal", { key: 'ae9a8655b79b4fdc235e741820fb8367d4dbe596', autoClose: false, modalBody: this.modalType === 'delete' ? `Are you sure you want to delete ${(_e = this.user) === null || _e === void 0 ? void 0 : _e.username}?` : `Are you sure you want to unverify ${this.maskEmail((_f = this.user) === null || _f === void 0 ? void 0 : _f.email)}`, rightBtnColor: "danger", isLoading: isRequestPending('/Handle_Exposed_User'), onCancelModal: this.resetModalState.bind(this), rightBtnText: this.modalType === 'verify' ? locales.entries.Lcz_Confirm : locales.entries.Lcz_Delete, onConfirmModal: this.executeUserAction.bind(this), ref: el => (this.modalRef = el) })));
     }
     static get watchers() { return {
         "haveAdminPrivileges": ["handleChange"]
@@ -219,6 +221,8 @@ const IrUserManagementTable = /*@__PURE__*/ proxyCustomElement(class IrUserManag
         "haveAdminPrivileges": [4, "have-admin-privileges"],
         "superAdminId": [1, "super-admin-id"],
         "allowedUsersTypes": [16],
+        "baseUserTypeCode": [8, "base-user-type-code"],
+        "property_id": [2],
         "currentTrigger": [32],
         "user": [32],
         "modalType": [32],

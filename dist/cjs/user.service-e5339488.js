@@ -1,5 +1,11 @@
-import { K as sleep } from './utils.js';
-import { a as axios } from './axios.js';
+'use strict';
+
+const utils = require('./utils-e03e37bd.js');
+const axios = require('./axios-6e678d52.js');
+
+const CONSTANTS = {
+    PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/,
+};
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -15,10 +21,10 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 class UserService {
     async sendVerificationEmail() {
         // throw new Error('Method not implemented.');
-        await sleep(400);
+        await utils.sleep(400);
     }
     async checkUserExistence(params) {
-        const { data } = await axios.post('/CheckUserExistence', params);
+        const { data } = await axios.axios.post('/CheckUserExistence', params);
         return data.My_Result;
     }
     async handleExposedUser(params) {
@@ -27,16 +33,17 @@ class UserService {
         if ([1, 4].includes(Number(base_user_type_code))) {
             body = Object.assign(Object.assign({}, body), { property_id });
         }
-        const { data } = await axios.post('/Handle_Exposed_User', body);
+        const { data } = await axios.axios.post('/Handle_Exposed_User', body);
         console.warn('data<==>', data);
         return data.My_Result;
     }
     async getExposedPropertyUsers({ property_id }) {
-        const { data } = await axios.post('/Get_Exposed_Property_Users', { property_id });
+        const { data } = await axios.axios.post('/Get_Exposed_Property_Users', { property_id });
         return data.My_Result;
     }
 }
 
-export { UserService as U };
+exports.CONSTANTS = CONSTANTS;
+exports.UserService = UserService;
 
-//# sourceMappingURL=user.service.js.map
+//# sourceMappingURL=user.service-e5339488.js.map

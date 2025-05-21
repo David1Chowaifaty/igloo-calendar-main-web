@@ -10,6 +10,8 @@ export declare class IrUserManagementTable {
     haveAdminPrivileges: boolean;
     superAdminId: string;
     allowedUsersTypes: AllowedUser[];
+    baseUserTypeCode: string | number;
+    property_id: number;
     currentTrigger: any;
     user: User;
     modalType: 'verify' | 'delete';

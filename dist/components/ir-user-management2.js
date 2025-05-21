@@ -44,13 +44,6 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         this.superAdminId = '5';
     }
     componentWillLoad() {
-        console.log('init', {
-            ticket: this.ticket,
-            propertyid: this.propertyid,
-            userId: this.userId,
-            userTypeCode: this.userTypeCode,
-            baseUrl: this.baseUrl,
-        });
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
         }
@@ -60,12 +53,6 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         }
     }
     ticketChanged(newValue, oldValue) {
-        console.log('ticket changed', {
-            ticket: this.ticket,
-            propertyid: this.propertyid,
-            userId: this.userId,
-            userTypeCode: this.userTypeCode,
-        });
         if (newValue === oldValue) {
             return;
         }
@@ -206,7 +193,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === this.superAdminId, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Extranet Users")), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === this.superAdminId, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -220,6 +207,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         "p": [1],
         "isSuperAdmin": [4, "is-super-admin"],
         "userTypeCode": [8, "user-type-code"],
+        "baseUserTypeCode": [8, "base-user-type-code"],
         "userId": [8, "user-id"],
         "isLoading": [32],
         "users": [32],
