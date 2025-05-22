@@ -63,6 +63,8 @@ export declare class IrInputText {
     clearBaseStyles: boolean;
     /** To clear all the Input base styling*/
     errorMessage: string;
+    /** Autocomplete behavior for the input (e.g., 'on', 'off', 'email', etc.) */
+    autoComplete: string;
     inputFocused: boolean;
     textChange: EventEmitter<any>;
     inputBlur: EventEmitter<FocusEvent>;

@@ -6,7 +6,7 @@ import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { J as downloadFile } from './utils.js';
+import { u as downloadFile } from './utils.js';
 import { d as defineCustomElement$Y } from './igl-application-info2.js';
 import { d as defineCustomElement$X } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$W } from './igl-book-property2.js';

@@ -1,10 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { e as extras, i as getReleaseHoursString, k as findCountry, l as canCheckIn, m as compareTime, n as createDateWithOffsetAndHour, f as formatAmount } from './utils.js';
+import { a as findCountry, c as canCheckIn, f as formatAmount } from './utils.js';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.service2.js';
+import { e as extras, g as getReleaseHoursString } from './calendar-dates.store.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { c as compareTime, a as createDateWithOffsetAndHour } from './booking.js';
 import { d as defineCustomElement$5 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-view2.js';
@@ -453,7 +455,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'f30296394c9491aa9f4c24f8d1049ea5617c7987' }, h("div", { key: '76ad6a3479f96a55fee10f9f05926170fcd33899', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'bb34bf0cf3414c43a73bc449c927dafde711ea69', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '5c6ac93618010f49b30c718f63bd5776444ebd79' }, h("div", { key: '21fdf7639ff82dd803e546c29c29d18825a98a82', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '893de94460b73b9ccfac22c64eb2e34ba3ddf783', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get watchers() { return {

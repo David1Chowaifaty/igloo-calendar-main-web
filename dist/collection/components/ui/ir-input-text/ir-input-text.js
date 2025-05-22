@@ -131,14 +131,14 @@ export class IrInputText {
             return (h("fieldset", { class: "position-relative has-icon-left input-container" }, h("label", { htmlFor: this.id, class: "input-group-prepend bg-white m-0" }, h("span", { "data-disabled": this.disabled, "data-state": this.inputFocused ? 'focus' : '', class: `input-group-text icon-container bg-white ${this.error ? 'danger-border' : ''}`, id: "basic-addon1" }, h("slot", { name: "icon" }))), h("input", { maxLength: this.maxLength, "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? undefined : this.mask ? 'empty' : undefined, id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: `ir-input form-control bg-white pl-0 input-sm rate-input py-0 m-0 rateInputBorder ${this.error ? 'danger-border' : ''}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                     this.inputFocused = true;
                     this.inputFocus.emit(e);
-                }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })));
+                }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled, autoComplete: this.autoComplete })));
         }
         return (h("div", { class: 'form-group' }, h("div", { class: "input-group row m-0" }, this.label && (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : ''))), h("input", { maxLength: this.maxLength, "data-testid": this.testId, style: this.inputForcedStyle, "data-state": !!this.value ? undefined : this.mask ? 'empty' : undefined, id: this.id, ref: el => (this.inputRef = el), readOnly: this.readonly, type: this.type, class: this.clearBaseStyles
                 ? `${this.inputStyles}`
                 : `${this.error ? 'border-danger' : ''} form-control text-${this.textSize} col-${this.label ? 12 - this.labelWidth : 12} ${this.readonly ? 'bg-white' : ''} ${this.inputStyles}`, onBlur: this.handleBlur.bind(this), onFocus: e => {
                 this.inputFocused = true;
                 this.inputFocus.emit(e);
-            }, placeholder: this.placeholder, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })), this.errorMessage && this.error && h("p", { class: "error-message" }, this.errorMessage)));
+            }, placeholder: this.placeholder, autoComplete: this.autoComplete, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })), this.errorMessage && this.error && h("p", { class: "error-message" }, this.errorMessage)));
     }
     static get is() { return "ir-input-text"; }
     static get encapsulation() { return "scoped"; }
@@ -293,7 +293,7 @@ export class IrInputText {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
+                    "original": "| 'text'\r\n    | 'password'\r\n    | 'email'\r\n    | 'number'\r\n    | 'tel'\r\n    | 'url'\r\n    | 'search'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'month'\r\n    | 'week'\r\n    | 'time'\r\n    | 'color'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'checkbox'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'button'\r\n    | 'reset'\r\n    | 'submit'\r\n    | 'image'",
                     "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"submit\" | \"range\" | \"file\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },
@@ -726,6 +726,25 @@ export class IrInputText {
                 "getter": false,
                 "setter": false,
                 "attribute": "error-message",
+                "reflect": false
+            },
+            "autoComplete": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Autocomplete behavior for the input (e.g., 'on', 'off', 'email', etc.)"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "auto-complete",
                 "reflect": false
             }
         };

@@ -2,9 +2,10 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange, a as updateUserSelections } from './booking_listing.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { x as getPrivateNote, f as formatAmount } from './utils.js';
+import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
+import { h as getPrivateNote } from './booking.js';
 import { T as Token } from './Token.js';
 import { i as isSingleUnit } from './calendar-data.js';
 import { d as defineCustomElement$X } from './igl-application-info2.js';

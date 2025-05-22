@@ -108,7 +108,7 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         $(this.dateRangeInput).data('daterangepicker').remove();
     }
     render() {
-        return (h(Host, { key: '2c9ba4a977e80cddf0aaa46b41b53d7f90c0db85' }, h("input", { key: 'af2de78bf5555f3139e08cf81c916df17acf81e5', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: '1588c8926f00742fcd15ec7d124fc09836b736a7' }, h("input", { key: 'a627bcc67392126922d4d804f76184075c349eb3', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {
