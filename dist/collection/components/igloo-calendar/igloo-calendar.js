@@ -1235,7 +1235,7 @@ export class IglooCalendar {
                     "references": {
                         "CalendarSidebarState": {
                             "location": "local",
-                            "path": "/__w/modified-ir-webcmp/modified-ir-webcmp/src/components/igloo-calendar/igloo-calendar.tsx",
+                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/igloo-calendar/igloo-calendar.tsx",
                             "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState"
                         }
                     }
