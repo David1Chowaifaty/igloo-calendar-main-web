@@ -37,9 +37,9 @@ export const bookingStatus = {
     '003': 'CHECKED-OUT',
 };
 export function formatName(firstName, lastName) {
-    if (firstName === null && lastName === null)
+    if ((firstName === null && lastName === null) || !firstName)
         return '';
-    if (lastName !== null && lastName !== '') {
+    if (!!lastName) {
         return `${firstName !== null && firstName !== void 0 ? firstName : ''} , ${lastName !== null && lastName !== void 0 ? lastName : ''}`;
     }
     return firstName;
@@ -99,9 +99,6 @@ function getDefaultData(cell, stayStatus) {
             },
         };
     }
-    if (cell.booking.booking_nbr.toString() === '77054273380') {
-        console.log('booking', cell);
-    }
     // if (cell.booking.booking_nbr === '61249849') {
     //   console.log('cell');
     //   console.log(moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE);
@@ -117,6 +114,7 @@ function getDefaultData(cell, stayStatus) {
         NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
         STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
         NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name),
+        // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name) || formatName(cell?.booking.guest?.first_name, cell?.booking?.guest?.last_name),
         IDENTIFIER: cell.room.identifier,
         PR_ID: cell.pr_id,
         POOL: cell.POOL,
@@ -274,6 +272,7 @@ export function transformNewBooking(data) {
                 status_code: (_c = data.status) === null || _c === void 0 ? void 0 : _c.code,
             }),
             NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name),
+            // NAME: formatName(mainGuest?.first_name, mainGuest.last_name) || formatName(room.guest.first_name, room.guest.last_name),
             PHONE: (_d = data.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
             ENTRY_DATE: '12-12-2023',
             PHONE_PREFIX: data.guest.country_phone_prefix,
