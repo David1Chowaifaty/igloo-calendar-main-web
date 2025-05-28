@@ -5,6 +5,7 @@ export declare class IrHousekeeping {
     ticket: string;
     propertyid: number;
     p: string;
+    baseUrl: string;
     isLoading: boolean;
     toast: EventEmitter<IToast>;
     private roomService;

@@ -1,16 +1,19 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
 import { A as AuthService } from './authenticate.service.js';
-import { S as SystemService, d as defineCustomElement$5 } from './ir-otp-modal2.js';
+import { R as RoomService } from './room.service.js';
+import { S as SystemService, d as defineCustomElement$6 } from './ir-otp-modal2.js';
+import { l as locales } from './locales.store.js';
 import { C as CONSTANTS } from './constants.js';
-import { z, Z as ZodError } from './index3.js';
-import { d as defineCustomElement$b } from './ir-button2.js';
-import { d as defineCustomElement$a } from './ir-icon2.js';
-import { d as defineCustomElement$9 } from './ir-icons2.js';
-import { d as defineCustomElement$8 } from './ir-input-text2.js';
-import { d as defineCustomElement$7 } from './ir-interceptor2.js';
-import { d as defineCustomElement$6 } from './ir-otp2.js';
-import { d as defineCustomElement$4 } from './ir-password-validator2.js';
+import { z, Z as ZodError } from './index2.js';
+import { d as defineCustomElement$c } from './ir-button2.js';
+import { d as defineCustomElement$b } from './ir-icon2.js';
+import { d as defineCustomElement$a } from './ir-icons2.js';
+import { d as defineCustomElement$9 } from './ir-input-text2.js';
+import { d as defineCustomElement$8 } from './ir-interceptor2.js';
+import { d as defineCustomElement$7 } from './ir-otp2.js';
+import { d as defineCustomElement$5 } from './ir-password-validator2.js';
+import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-title2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
@@ -26,6 +29,7 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         super();
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
+        this.language = 'en';
         this.showValidator = false;
         this.autoValidate = false;
         this.error = {};
@@ -34,6 +38,7 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         this.token = new Token();
         this.authService = new AuthService();
         this.systemService = new SystemService();
+        this.roomService = new RoomService();
         this.initialized = false;
         this.ResetPasswordSchema = z.object({
             password: z.string().regex(CONSTANTS.PASSWORD),
@@ -54,7 +59,6 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         }
     }
     componentDidLoad() {
-        console.log('here');
         this.init();
     }
     handleTicketChange(oldValue, newValue) {
@@ -67,9 +71,12 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         if (!this.ticket || this.initialized) {
             return;
         }
-        await this.systemService.checkOTPNecessity({
-            METHOD_NAME: 'Change_User_Pwd',
-        });
+        await Promise.all([
+            this.systemService.checkOTPNecessity({
+                METHOD_NAME: 'Change_User_Pwd',
+            }),
+            this.roomService.fetchLanguage(this.language, ['_USER_MGT']),
+        ]);
         this.initialized = false;
     }
     async handleChangePassword(e) {
@@ -127,7 +134,7 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
     render() {
         var _a, _b;
         const insideSidebar = this.el.slot === 'sidebar-body';
-        return (h("div", { key: '6916eeb63bc3d551d9291d3c709e6808cb045fb8', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, !insideSidebar && (h(Fragment, { key: '0cd50d51620702240153a3138ddb2bff3927bde2' }, h("ir-interceptor", { key: '931ae33f92ec59f9f453640b337eb785ec922688', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: 'cdd6c3ebf920ffcdbafce1ad675c52bb8d540ca2' }))), h("form", { key: '34a92eb943925fd198a960e5c4d2c2007e969d93', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: '9d775a834b416efec54e12f2c711f09c3f20b1c1', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: '562a9fa3ae3777610fbacb873ca0c8eb4a8f574b', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'd5418e7e8b87128a7fb013a152acc36454998107', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '8595245cfb372886ae8869a5322ffaacf06530bf', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: '98bcbf6bdb9d4d7c1cce095651730b69132283bf', class: "text-center mb-2" }, h("h4", { key: '82fdda3db3f9d43338377465ce403689ad0ad001', class: "mb-1" }, "Set New Password"), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: 'f6cf2738e554457b8f64c231113989a524fe7524' }, h("div", { key: '9e9097fc742df4a9b20ea3a2f27f4c6a81fef2c2', class: 'mb-2' }, h("div", { key: 'cb5ec0ac836ab32ea2cd15471cb3d83aa3a68078', class: "m-0 p-0" }, h("div", { key: 'ba4bbe4d963fa7fbde8d3f7b770cc66f548ba72f', class: 'position-relative' }, h("ir-input-text", { key: 'bc4510bca71199dbb85e31ec6d6fc35f238bb588', error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, autoValidate: this.autoValidate, value: this.password, onTextChange: e => (this.password = e.detail), label: "", class: "m-0 p-0", inputStyles: 'm-0', zod: this.ResetPasswordSchema.pick({ password: true }), wrapKey: "password", placeholder: "New password", onInputFocus: () => (this.showValidator = true), type: 'password' })), this.showValidator && h("ir-password-validator", { key: '58b182db42555add107b7c713f21743232cc16db', class: "mb-1", password: this.password })), h("div", { key: '84c740f658c93c481cc4863fb5a4ce6b573049bb', class: 'position-relative' }, h("ir-input-text", { key: 'a1cd38c05b282c706e559d3909d589184d1da7a1', error: (_b = this.error) === null || _b === void 0 ? void 0 : _b.confirm_password, autoValidate: this.autoValidate, zod: this.ResetPasswordSchema.pick({ confirm_password: true }), wrapKey: "confirm_password", value: this.confirmPassword, onTextChange: e => (this.confirmPassword = e.detail), label: "", placeholder: "Confirm password", type: 'password' }))), !insideSidebar && (h("div", { key: 'e310f01cef701c4423f86d530c2a712ef53ebde1', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-button", { key: '96ba346b095641a84bbae6daab230a53d312bf95', btn_styles: 'flex-fill', onClickHandler: () => window.history.back(), class: "flex-fill", text: 'Cancel', size: "md", btn_color: "secondary" }), h("ir-button", { key: '1364fd8bf31a5b2d48dddc89bc856f5502e866b2', btn_styles: 'flex-fill', class: "flex-fill", isLoading: this.isLoading, btn_type: "submit", text: 'Change password', size: "md" })))))), insideSidebar && (h("div", { key: '5b30446eadaa990bcac43a1311f95ba8ac19945d', class: 'sheet-footer w-full' }, h("ir-button", { key: '426a94e5b987079ab498cf64a150a8f9b39ea696', text: 'Cancel', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_color: "secondary", btn_styles: "w-100 justify-content-center align-items-center", size: "md" }), h("ir-button", { key: '0f97de96ed5804e174e9ff1c8f4b52c447cb9985', isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: 'Change password', size: "md" }))))));
+        return (h("div", { key: 'ec6215a4436033cbe801237901ebddf918e7b3c7', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, !insideSidebar && (h(Fragment, { key: 'a9c3d0489a4bf11a4a1911964fee5209c29c8d05' }, h("ir-interceptor", { key: 'cd22a73f54913101ae1aeed0b2e761a77ce7c48e', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: 'c59fd31246adee2e9a212aefd94d0b315b354d28' }))), h("form", { key: '25b2381cd7ae511b484f7a09b9a66d2d09a82de4', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: 'd6d37ee589e5d3b55a7cd434c5c1f44cb0ebd1f4', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: 'd6372fb4ab5f5353f70227dfb920efc72c355e3c', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: '0f96d4552a7175ff1f794c91f31700ae8c75591e', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: 'b678e320e2b5fb736eb2d3d75deb695b2fb8fcba', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: '829e1a7c9c4505ba4d8ff34946461cc483e67c7d', class: "text-center mb-2" }, h("h4", { key: '1fd07837c19c521dda123301742d651b9d3d123e', class: "mb-1" }, locales.entries.Lcz_SetNewPassword), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: 'ce7428af6a8c604f739120cde4de278307d6bd51' }, h("div", { key: 'da8739f47135a2f1037a65c53376337b4208066d', class: 'mb-2' }, h("div", { key: 'cd1638dca851e544647ff48f07c4193cf6b4191b', class: "m-0 p-0" }, h("div", { key: '1076862610be25d946a949f808bbcbdd16bc67ce', class: 'position-relative' }, h("ir-input-text", { key: '919cd890814ae4a0cabcf0fd8bf3dc804634b242', error: (_a = this.error) === null || _a === void 0 ? void 0 : _a.password, autoValidate: this.autoValidate, value: this.password, onTextChange: e => (this.password = e.detail), label: "", class: "m-0 p-0", inputStyles: 'm-0', zod: this.ResetPasswordSchema.pick({ password: true }), wrapKey: "password", placeholder: locales.entries.Lcz_NewPassword, onInputFocus: () => (this.showValidator = true), type: 'password' })), this.showValidator && h("ir-password-validator", { key: '807f983bd2da1e433c39f5792a49de0841b51d7d', class: "mb-1", password: this.password })), h("div", { key: '2c91b4a476e3d565bd743a98ed26928cb3db2f1a', class: 'position-relative' }, h("ir-input-text", { key: 'baacdfd15b517389fea4f95cf5dd84a7fec3a75c', error: (_b = this.error) === null || _b === void 0 ? void 0 : _b.confirm_password, autoValidate: this.autoValidate, zod: this.ResetPasswordSchema.pick({ confirm_password: true }), wrapKey: "confirm_password", value: this.confirmPassword, onTextChange: e => (this.confirmPassword = e.detail), label: "", placeholder: locales.entries.Lcz_ConfirmPassword, type: 'password' }))), !insideSidebar && (h("div", { key: 'f3f258f434b836b68dbb6ddb66deb64af5803516', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-button", { key: '81e609867f1ea185eec9505b79b92182f9ef0e02', btn_styles: 'flex-fill', onClickHandler: () => window.history.back(), class: "flex-fill", text: locales.entries.Lcz_Cancel, size: "md", btn_color: "secondary" }), h("ir-button", { key: '2ec1e0cd015d1bd40850178ceb726e96c1722cde', btn_styles: 'flex-fill', class: "flex-fill", isLoading: this.isLoading, btn_type: "submit", text: locales.entries.Lcz_ChangePassword, size: "md" })))))), insideSidebar && (h("div", { key: '6d808092e531bcf0fa3ebe5d0f041886602c9ce0', class: 'sheet-footer w-full' }, h("ir-button", { key: 'acd08b088e7aab1a980eec799e16dfa2e81d32ff', text: locales.entries.Lcz_Cancel, onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_color: "secondary", btn_styles: "w-100 justify-content-center align-items-center", size: "md" }), h("ir-button", { key: '4a666466d42ccf0b45063e16cc04366deb2fef77', isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_ChangePassword, size: "md" }))))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -139,6 +146,7 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         "old_pwd": [1],
         "ticket": [1],
         "skip2Fa": [4, "skip-2-fa"],
+        "language": [1],
         "confirmPassword": [32],
         "password": [32],
         "showValidator": [32],
@@ -153,7 +161,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-reset-password", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-title", "ir-toast", "requirement-check"];
+    const components = ["ir-reset-password", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-spinner", "ir-title", "ir-toast", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-reset-password":
             if (!customElements.get(tagName)) {
@@ -162,40 +170,45 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-password-validator":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

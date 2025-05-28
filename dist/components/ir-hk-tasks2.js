@@ -6,7 +6,7 @@ import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { u as downloadFile } from './utils.js';
+import { J as downloadFile } from './utils.js';
 import { d as defineCustomElement$Y } from './igl-application-info2.js';
 import { d as defineCustomElement$X } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$W } from './igl-book-property2.js';
@@ -93,6 +93,9 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         this.table_sorting = new Map();
     }
     componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
             this.init();
@@ -294,6 +297,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         "ticket": [1],
         "propertyid": [2],
         "p": [1],
+        "baseUrl": [1, "base-url"],
         "isLoading": [32],
         "selectedDuration": [32],
         "selectedHouseKeeper": [32],

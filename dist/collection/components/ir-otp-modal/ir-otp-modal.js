@@ -1,9 +1,12 @@
 import Token from "../../models/Token";
+import { RoomService } from "../../services/room.service";
 import { SystemService } from "../../services/system.service";
+import locales from "../../stores/locales.store";
 import { Fragment, Host, h } from "@stencil/core";
 import { z } from "zod";
 export class IrOtpModal {
     constructor() {
+        this.language = 'en';
         /** Number of seconds to wait before allowing OTP resend */
         this.resendTimer = 60;
         /** Whether the resend option should be visible */
@@ -15,6 +18,7 @@ export class IrOtpModal {
         this.isLoading = false;
         this.timer = 60;
         this.systemService = new SystemService();
+        this.roomService = new RoomService();
         this.tokenService = new Token();
         this.otpVerificationSchema = z.object({ email: z.string().nonempty(), requestUrl: z.string().nonempty(), otp: z.string().length(this.otpLength) });
         this.handleOtpComplete = (e) => {
@@ -26,10 +30,12 @@ export class IrOtpModal {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
         }
+        this.fetchLocale();
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.tokenService.setToken(newValue);
+            this.fetchLocale();
         }
     }
     handleKeyDownChange(e) {
@@ -65,6 +71,14 @@ export class IrOtpModal {
         }
         this.otp = null;
         this.clearTimer();
+    }
+    async fetchLocale() {
+        if (!this.tokenService.getToken()) {
+            return;
+        }
+        this.isInitializing = true;
+        await this.roomService.fetchLanguage(this.language, ['_USER_MGT']);
+        this.isInitializing = false;
     }
     resetState() {
         this.otp = '';
@@ -145,11 +159,11 @@ export class IrOtpModal {
     }
     render() {
         var _a;
-        return (h(Host, { key: '3618e3a8d52b9e180706801d80ab8a8b16346827' }, h("dialog", { key: '107d106fff6ab882a53a56be8faf1996ed56f672', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'f579437985032aa9cbd823fe41a8c8644f6687cd', method: "dialog", class: "otp-modal-content" }, h("header", { key: '924080e1b0dbac1e224aeeffc905b6eca4f76f67', class: "otp-modal-header" }, h("h5", { key: 'ed44112592bdb63b95571c10a5f5837de343e2c9', class: "otp-modal-title" }, "Verify Your Identity")), h("section", { key: 'd245186df7df82f550392d5a3d0a1fbbc62a340b', class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { key: '4de9d4048757fcc52697c8cbbb364dfc2de3d0af', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: '09428722973fb7b245781f6d4df18ecd782ae8cc', autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: 'da5fa18b6effedd7a3033be9c890b50004dc3914', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '06eb2c85d3bcfd7b85006d073b653c73db3a264c' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: '174fc7289e20a374ccaa255148b205aa09f6563e' }, h("dialog", { key: 'e2d59e4d7f0cd759fea09fb8f58fca96be234a4a', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'd0dd8ce4a183add22f4026b3996ffd96b4954cce', method: "dialog", class: "otp-modal-content" }, this.isInitializing ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("footer", { key: 'df0f8a64f8d86da776896394031ba9595a3679d3', class: "otp-modal-footer justify-content-auto" }, h("ir-button", { key: '76eed8b3b9f1f9dddd0851fe3dfcfd7511d62e53', class: "w-100", btn_styles: "flex-fill", text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: 'd5f04d8e4d83f5637179f852c25d1bd94300b9fd', class: "w-100", btn_styles: "flex-fill", text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))));
+            }, size: "sm", text: 'Didn’t receive code? Resend' }))))), h("footer", { class: "otp-modal-footer justify-content-auto" }, h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_Cancel, btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_VerifyNow, isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))))));
     }
     static get is() { return "ir-otp-modal"; }
     static get originalStyleUrls() {
@@ -164,6 +178,26 @@ export class IrOtpModal {
     }
     static get properties() {
         return {
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
+            },
             "resendTimer": {
                 "type": "number",
                 "mutable": false,
@@ -307,7 +341,8 @@ export class IrOtpModal {
             "otp": {},
             "error": {},
             "isLoading": {},
-            "timer": {}
+            "timer": {},
+            "isInitializing": {}
         };
     }
     static get events() {
@@ -322,7 +357,7 @@ export class IrOtpModal {
                     "text": "Emits the final OTP (or empty on cancel)"
                 },
                 "complexType": {
-                    "original": "{\r\n    otp: string;\r\n    type: 'success' | 'cancelled';\r\n  }",
+                    "original": "{\n    otp: string;\n    type: 'success' | 'cancelled';\n  }",
                     "resolved": "{ otp: string; type: \"success\" | \"cancelled\"; }",
                     "references": {}
                 }

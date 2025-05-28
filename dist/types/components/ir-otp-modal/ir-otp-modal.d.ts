@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IrOtpModal {
+    language: string;
     /** Number of seconds to wait before allowing OTP resend */
     resendTimer: number;
     /** URL or endpoint used to validate the OTP */
@@ -21,6 +22,7 @@ export declare class IrOtpModal {
     private dialogRef;
     private timerInterval;
     private systemService;
+    private roomService;
     private tokenService;
     private otpVerificationSchema;
     /** Emits the final OTP (or empty on cancel) */
@@ -28,6 +30,7 @@ export declare class IrOtpModal {
         otp: string;
         type: 'success' | 'cancelled';
     }>;
+    isInitializing: boolean;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handleKeyDownChange(e: KeyboardEvent): void;
@@ -35,6 +38,7 @@ export declare class IrOtpModal {
     openModal(): Promise<void>;
     /** Hide & clear timer */
     closeModal(): Promise<void>;
+    private fetchLocale;
     private resetState;
     private startTimer;
     private clearTimer;

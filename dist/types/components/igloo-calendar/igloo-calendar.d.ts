@@ -31,6 +31,7 @@ export declare class IglooCalendar {
     currencyName: string;
     ticket: string;
     p: string;
+    baseUrl: string;
     private element;
     calendarData: {
         [key: string]: any;

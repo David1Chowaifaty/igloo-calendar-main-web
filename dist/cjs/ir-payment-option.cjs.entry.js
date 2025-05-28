@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const paymentOption_store = require('./payment-option.store-2d0cc88b.js');
-const room_service = require('./room.service-89962a18.js');
+const room_service = require('./room.service-ad2985ed.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const Token = require('./Token-3d0cc874.js');
 require('./axios-6e678d52.js');

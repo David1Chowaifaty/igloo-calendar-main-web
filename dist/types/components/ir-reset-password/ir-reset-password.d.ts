@@ -5,6 +5,7 @@ export declare class IrResetPassword {
     old_pwd: string;
     ticket: string;
     skip2Fa: boolean;
+    language: string;
     confirmPassword: string;
     password: string;
     showValidator: boolean;
@@ -19,6 +20,7 @@ export declare class IrResetPassword {
     private token;
     private authService;
     private systemService;
+    private roomService;
     private initialized;
     componentWillLoad(): void;
     componentDidLoad(): void;

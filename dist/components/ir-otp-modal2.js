@@ -1,10 +1,13 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
+import { R as RoomService } from './room.service.js';
 import { a as axios } from './axios.js';
-import { z } from './index3.js';
-import { d as defineCustomElement$3 } from './ir-button2.js';
-import { d as defineCustomElement$2 } from './ir-icons2.js';
-import { d as defineCustomElement$1 } from './ir-otp2.js';
+import { l as locales } from './locales.store.js';
+import { z } from './index2.js';
+import { d as defineCustomElement$4 } from './ir-button2.js';
+import { d as defineCustomElement$3 } from './ir-icons2.js';
+import { d as defineCustomElement$2 } from './ir-otp2.js';
+import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
 class SystemService {
     async validateOTP(params) {
@@ -27,7 +30,7 @@ class SystemService {
     }
 }
 
-const irOtpModalCss = ":host{display:block}:root{--otp-modal-padding:1.5rem}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.otp-modal-header{border-bottom:0px !important}.otp-modal{z-index:9999999 !important;border:none;padding:0 !important;box-sizing:border-box;border:1px solid rgba(0, 0, 0, 0.2);border-radius:0.35rem;outline:0}.otp-modal-content{background-color:white;border:none;border-radius:0.35rem;outline:0}.otp-modal-title{margin-bottom:0;line-height:1.45}.otp-modal-body{max-height:100% !important;padding:0 var(--otp-modal-padding)}.otp-modal-header{display:flex;justify-content:space-between;padding:var(--otp-modal-padding);padding-bottom:1rem;border-top-left-radius:0.35rem;border-top-right-radius:0.35rem}.otp-modal-dialog{z-index:9999999 !important}.otp-modal-footer{border-top:0 !important;display:flex;gap:0.5rem;flex-direction:column;padding:var(--otp-modal-padding);padding-top:0.5rem !important}.verification-message{max-width:90%}@media (min-width: 768px){.otp-modal-dialog,.otp-modal-content{width:fit-content !important}.otp-modal-footer{flex-direction:row;align-items:center}.verification-message{max-width:350px !important}}";
+const irOtpModalCss = ":host{display:block}:root{--otp-modal-padding:1.5rem}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.otp-modal-header{border-bottom:0px !important}.otp-modal{z-index:9999999 !important;border:none;padding:0 !important;box-sizing:border-box;border:1px solid rgba(0, 0, 0, 0.2);border-radius:0.35rem;outline:0}.otp-modal-content{background-color:white;border:none;border-radius:0.35rem;outline:0}.otp-modal-title{margin-bottom:0;line-height:1.45}.otp-modal-body{max-height:100% !important;padding:0 var(--otp-modal-padding)}.otp-modal-header{display:flex;justify-content:space-between;padding:var(--otp-modal-padding);padding-bottom:1rem;border-top-left-radius:0.35rem;border-top-right-radius:0.35rem}.otp-modal-dialog{z-index:9999999 !important}.otp-modal-footer{border-top:0 !important;display:flex;gap:0.5rem;flex-direction:column;padding:var(--otp-modal-padding);padding-top:0.5rem !important}.verification-message{max-width:90%}.modal-loading-container{height:250px;width:80vw}@media (min-width: 768px){.otp-modal-dialog,.otp-modal-content{width:fit-content !important}.otp-modal-footer{flex-direction:row;align-items:center}.modal-loading-container{width:380px !important}.verification-message{max-width:350px !important}}";
 const IrOtpModalStyle0 = irOtpModalCss;
 
 const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTMLElement {
@@ -35,6 +38,7 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         super();
         this.__registerHost();
         this.otpFinished = createEvent(this, "otpFinished", 7);
+        this.language = 'en';
         /** Number of seconds to wait before allowing OTP resend */
         this.resendTimer = 60;
         /** Whether the resend option should be visible */
@@ -46,6 +50,7 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         this.isLoading = false;
         this.timer = 60;
         this.systemService = new SystemService();
+        this.roomService = new RoomService();
         this.tokenService = new Token();
         this.otpVerificationSchema = z.object({ email: z.string().nonempty(), requestUrl: z.string().nonempty(), otp: z.string().length(this.otpLength) });
         this.handleOtpComplete = (e) => {
@@ -57,10 +62,12 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
         }
+        this.fetchLocale();
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.tokenService.setToken(newValue);
+            this.fetchLocale();
         }
     }
     handleKeyDownChange(e) {
@@ -96,6 +103,14 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         }
         this.otp = null;
         this.clearTimer();
+    }
+    async fetchLocale() {
+        if (!this.tokenService.getToken()) {
+            return;
+        }
+        this.isInitializing = true;
+        await this.roomService.fetchLanguage(this.language, ['_USER_MGT']);
+        this.isInitializing = false;
     }
     resetState() {
         this.otp = '';
@@ -176,17 +191,18 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
     }
     render() {
         var _a;
-        return (h(Host, { key: '3618e3a8d52b9e180706801d80ab8a8b16346827' }, h("dialog", { key: '107d106fff6ab882a53a56be8faf1996ed56f672', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'f579437985032aa9cbd823fe41a8c8644f6687cd', method: "dialog", class: "otp-modal-content" }, h("header", { key: '924080e1b0dbac1e224aeeffc905b6eca4f76f67', class: "otp-modal-header" }, h("h5", { key: 'ed44112592bdb63b95571c10a5f5837de343e2c9', class: "otp-modal-title" }, "Verify Your Identity")), h("section", { key: 'd245186df7df82f550392d5a3d0a1fbbc62a340b', class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { key: '4de9d4048757fcc52697c8cbbb364dfc2de3d0af', class: "verification-message text-truncate" }, "We sent a verification code to ", this.email), h("ir-otp", { key: '09428722973fb7b245781f6d4df18ecd782ae8cc', autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { key: 'da5fa18b6effedd7a3033be9c890b50004dc3914', class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, { key: '06eb2c85d3bcfd7b85006d073b653c73db3a264c' }, this.timer > 0 ? (h("p", { class: "small mt-1" }, "Resend code in 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: '174fc7289e20a374ccaa255148b205aa09f6563e' }, h("dialog", { key: 'e2d59e4d7f0cd759fea09fb8f58fca96be234a4a', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'd0dd8ce4a183add22f4026b3996ffd96b4954cce', method: "dialog", class: "otp-modal-content" }, this.isInitializing ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: "Didn\u2019t receive code? Resend" }))))), h("footer", { key: 'df0f8a64f8d86da776896394031ba9595a3679d3', class: "otp-modal-footer justify-content-auto" }, h("ir-button", { key: '76eed8b3b9f1f9dddd0851fe3dfcfd7511d62e53', class: "w-100", btn_styles: "flex-fill", text: "Cancel", btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { key: 'd5f04d8e4d83f5637179f852c25d1bd94300b9fd', class: "w-100", btn_styles: "flex-fill", text: "Verify now", isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))));
+            }, size: "sm", text: 'Didn’t receive code? Resend' }))))), h("footer", { class: "otp-modal-footer justify-content-auto" }, h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_Cancel, btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_VerifyNow, isLoading: this.isLoading, btn_disabled: ((_a = this.otp) === null || _a === void 0 ? void 0 : _a.length) < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
     }; }
     static get style() { return IrOtpModalStyle0; }
 }, [0, "ir-otp-modal", {
+        "language": [1],
         "resendTimer": [2, "resend-timer"],
         "requestUrl": [1, "request-url"],
         "baseOTPUrl": [1, "base-o-t-p-url"],
@@ -198,6 +214,7 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         "error": [32],
         "isLoading": [32],
         "timer": [32],
+        "isInitializing": [32],
         "openModal": [64],
         "closeModal": [64]
     }, [[4, "keydown", "handleKeyDownChange"]], {
@@ -207,7 +224,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-otp-modal", "ir-button", "ir-icons", "ir-otp"];
+    const components = ["ir-otp-modal", "ir-button", "ir-icons", "ir-otp", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
@@ -216,15 +233,20 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-otp":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

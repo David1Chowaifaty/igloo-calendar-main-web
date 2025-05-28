@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-0a4a209a.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-41d432cb.js';
-import { R as RoomService } from './room.service-5bfa8a39.js';
+import { R as RoomService } from './room.service-90a4ef46.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { T as Token } from './Token-6c389e24.js';
 import './axios-aa1335b8.js';

@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-user-management/types.ts"],"names":[],"mappings":"","sourcesContent":["export type AllowedUser = { code: string; value: string };\r\n"]}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/components/ir-user-management/types.ts"],"names":[],"mappings":"","sourcesContent":["export type AllowedUser = { code: string; value: string };\n"]}

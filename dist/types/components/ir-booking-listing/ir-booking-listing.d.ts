@@ -6,6 +6,7 @@ export declare class IrBookingListing {
     propertyid: number;
     rowCount: number;
     p: string;
+    baseUrl: string;
     isLoading: boolean;
     currentPage: number;
     totalPages: number;

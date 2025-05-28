@@ -7,6 +7,7 @@ export declare class IrHkTasks {
     ticket: string;
     propertyid: number;
     p: string;
+    baseUrl: string;
     isLoading: boolean;
     selectedDuration: string;
     selectedHouseKeeper: string;

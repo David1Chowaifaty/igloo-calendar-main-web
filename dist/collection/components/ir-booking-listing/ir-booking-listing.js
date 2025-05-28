@@ -32,6 +32,9 @@ export class IrBookingListing {
         };
     }
     componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         updateUserSelection('end_row', this.rowCount);
         booking_listing.rowCount = this.rowCount;
         if (this.ticket !== '') {
@@ -336,6 +339,25 @@ export class IrBookingListing {
                 "getter": false,
                 "setter": false,
                 "attribute": "p",
+                "reflect": false
+            },
+            "baseUrl": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "base-url",
                 "reflect": false
             }
         };

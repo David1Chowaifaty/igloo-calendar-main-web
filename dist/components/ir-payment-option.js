@@ -1,17 +1,18 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$a } from './ir-option-details2.js';
+import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$b } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$f } from './ir-button2.js';
-import { d as defineCustomElement$e } from './ir-icon2.js';
-import { d as defineCustomElement$d } from './ir-icons2.js';
-import { d as defineCustomElement$c } from './ir-input-text2.js';
-import { d as defineCustomElement$b } from './ir-interceptor2.js';
-import { d as defineCustomElement$9 } from './ir-otp2.js';
-import { d as defineCustomElement$8 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$7 } from './ir-select2.js';
-import { d as defineCustomElement$6 } from './ir-sidebar2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$f } from './ir-icon2.js';
+import { d as defineCustomElement$e } from './ir-icons2.js';
+import { d as defineCustomElement$d } from './ir-input-text2.js';
+import { d as defineCustomElement$c } from './ir-interceptor2.js';
+import { d as defineCustomElement$a } from './ir-otp2.js';
+import { d as defineCustomElement$9 } from './ir-otp-modal2.js';
+import { d as defineCustomElement$8 } from './ir-select2.js';
+import { d as defineCustomElement$7 } from './ir-sidebar2.js';
+import { d as defineCustomElement$6 } from './ir-spinner2.js';
 import { d as defineCustomElement$5 } from './ir-switch2.js';
 import { d as defineCustomElement$4 } from './ir-text-editor2.js';
 import { d as defineCustomElement$3 } from './ir-title2.js';
@@ -222,7 +223,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-switch", "ir-text-editor", "ir-title", "ir-toast"];
+    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-text-editor", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-option":
             if (!customElements.get(tagName)) {
@@ -231,50 +232,55 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-option-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-sidebar":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

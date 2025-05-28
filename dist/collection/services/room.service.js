@@ -48,7 +48,7 @@ export class RoomService {
     }
     async fetchLanguage(code, sections = ['_PMS_FRONT']) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Language`, { code, sections });
+            const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Get_Exposed_Language`, { code, sections });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

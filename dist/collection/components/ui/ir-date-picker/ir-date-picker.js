@@ -260,7 +260,7 @@ export class IrDatePicker {
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: '7997d525b3efbc0e8e4f0b390e160e09d94fa8df', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '961af71706859713e6566cbbfa40045b015ae3ee', name: "trigger" }), h("input", { key: '721f5613e53263b4847fb140d7f20a5b4872e66a', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: 'a0ca08ebbc3d27606cc61c6e21b139ec43a6b0b7', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '5f07ba877af96764ada10e2cef8bcde805936e20', name: "trigger" }), h("input", { key: 'f56dd0a5db4c6fc8c4ed94c4fb230ccf0a5e10e0', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {
@@ -287,7 +287,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Determines whether the date picker is rendered inline or in a pop-up.\r\nIf `true`, the picker is always visible inline."
+                    "text": "Determines whether the date picker is rendered inline or in a pop-up.\nIf `true`, the picker is always visible inline."
                 },
                 "getter": false,
                 "setter": false,
@@ -332,7 +332,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Enables multiple dates.\r\nIf `true`, multiple selection is allowed.\r\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
+                    "text": "Enables multiple dates.\nIf `true`, multiple selection is allowed.\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
                 },
                 "getter": false,
                 "setter": false,
@@ -372,7 +372,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Format for the date as it appears in the input field.\r\nFollows the `AirDatepicker` format rules."
+                    "text": "Format for the date as it appears in the input field.\nFollows the `AirDatepicker` format rules."
                 },
                 "getter": false,
                 "setter": false,
@@ -540,7 +540,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls how the date picker is triggered.\r\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\r\n- **`false`**: A default button input is used to open the picker.\r\n\r\nDefaults to `true`."
+                    "text": "Controls how the date picker is triggered.\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\n- **`false`**: A default button input is used to open the picker.\n\nDefaults to `true`."
                 },
                 "getter": false,
                 "setter": false,
@@ -565,7 +565,7 @@ export class IrDatePicker {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Pass a container element if you need the date picker to be appended to a specific element\r\nfor styling or positioning (particularly for arrow rendering).\r\nIf not provided, it defaults to `this.el`."
+                    "text": "Pass a container element if you need the date picker to be appended to a specific element\nfor styling or positioning (particularly for arrow rendering).\nIf not provided, it defaults to `this.el`."
                 },
                 "getter": false,
                 "setter": false
@@ -582,7 +582,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\r\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\r\nbut note that it may affect performance if triggered frequently.\r\nDefaults to `false`."
+                    "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\nbut note that it may affect performance if triggered frequently.\nDefaults to `false`."
                 },
                 "getter": false,
                 "setter": false,
@@ -602,7 +602,7 @@ export class IrDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\r\nOtherwise, empty-date changes will be ignored (no event emitted).\r\n\r\nDefaults to `false`."
+                    "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\nOtherwise, empty-date changes will be ignored (no event emitted).\n\nDefaults to `false`."
                 },
                 "getter": false,
                 "setter": false,
@@ -649,7 +649,7 @@ export class IrDatePicker {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\r\n    start: moment.Moment;\r\n    end: moment.Moment;\r\n  }",
+                    "original": "{\n    start: moment.Moment;\n    end: moment.Moment;\n  }",
                     "resolved": "{ start: Moment; end: Moment; }",
                     "references": {
                         "moment": {

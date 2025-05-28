@@ -26,6 +26,9 @@ export class IrHkTasks {
         this.table_sorting = new Map();
     }
     componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
             this.init();
@@ -307,6 +310,25 @@ export class IrHkTasks {
                 "getter": false,
                 "setter": false,
                 "attribute": "p",
+                "reflect": false
+            },
+            "baseUrl": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "base-url",
                 "reflect": false
             }
         };

@@ -1,4 +1,4 @@
-import { c as createStore } from './index2.js';
+import { c as createStore } from './locales.store.js';
 
 const initialState = {};
 const { state: interceptor_requests, onChange: onCalendarDatesChange } = createStore(initialState);

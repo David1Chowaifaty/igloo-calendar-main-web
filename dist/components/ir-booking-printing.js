@@ -1,11 +1,10 @@
 import { h, proxyCustomElement, HTMLElement, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
-import { b as calculateDaysBetweenDates } from './booking.js';
+import { b as calculateDaysBetweenDates, f as formatAmount } from './utils.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { f as formatAmount } from './utils.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};

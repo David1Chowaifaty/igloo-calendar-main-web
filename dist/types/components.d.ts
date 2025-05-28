@@ -262,6 +262,7 @@ export namespace Components {
         "unassignedDatesProp": any;
     }
     interface IglooCalendar {
+        "baseUrl": string;
         "currencyName": string;
         "from_date": string;
         "language": string;
@@ -323,6 +324,7 @@ export namespace Components {
         "hasReceipt": boolean;
     }
     interface IrBookingListing {
+        "baseUrl": string;
         "language": string;
         "p": string;
         "propertyid": number;
@@ -581,6 +583,7 @@ export namespace Components {
         "ticket": string;
     }
     interface IrHkTasks {
+        "baseUrl": string;
         "language": string;
         "p": string;
         "propertyid": number;
@@ -596,6 +599,7 @@ export namespace Components {
         "user": THKUser | null;
     }
     interface IrHousekeeping {
+        "baseUrl": string;
         "language": string;
         "p": string;
         "propertyid": number;
@@ -895,6 +899,7 @@ export namespace Components {
           * User's email address to display in the modal and send the OTP to
          */
         "email": string;
+        "language": string;
         /**
           * Open & reset everything
          */
@@ -1067,6 +1072,7 @@ export namespace Components {
         "countries": ICountry[];
     }
     interface IrResetPassword {
+        "language": string;
         "old_pwd": string;
         "skip2Fa": boolean;
         "ticket": string;
@@ -3734,6 +3740,7 @@ declare namespace LocalJSX {
         "unassignedDatesProp"?: any;
     }
     interface IglooCalendar {
+        "baseUrl"?: string;
         "currencyName"?: string;
         "from_date"?: string;
         "language"?: string;
@@ -3813,6 +3820,7 @@ declare namespace LocalJSX {
         "onToast"?: (event: IrBookingHeaderCustomEvent<IToast>) => void;
     }
     interface IrBookingListing {
+        "baseUrl"?: string;
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
@@ -4102,6 +4110,7 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrHkTasks {
+        "baseUrl"?: string;
         "language"?: string;
         "onClearSelectedHkTasks"?: (event: IrHkTasksCustomEvent<void>) => void;
         "p"?: string;
@@ -4122,6 +4131,7 @@ declare namespace LocalJSX {
         "user"?: THKUser | null;
     }
     interface IrHousekeeping {
+        "baseUrl"?: string;
         "language"?: string;
         "onToast"?: (event: IrHousekeepingCustomEvent<IToast>) => void;
         "p"?: string;
@@ -4438,6 +4448,7 @@ declare namespace LocalJSX {
           * User's email address to display in the modal and send the OTP to
          */
         "email"?: string;
+        "language"?: string;
         /**
           * Emits the final OTP (or empty on cancel)
          */
@@ -4636,6 +4647,7 @@ declare namespace LocalJSX {
         "onOpenSidebar"?: (event: IrReservationInformationCustomEvent<OpenSidebarEvent<any>>) => void;
     }
     interface IrResetPassword {
+        "language"?: string;
         "old_pwd"?: string;
         "onCloseSideBar"?: (event: IrResetPasswordCustomEvent<null>) => void;
         "skip2Fa"?: boolean;
