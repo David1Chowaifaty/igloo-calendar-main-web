@@ -214,7 +214,7 @@ export class IrLabel {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{\r\n    [key: string]: string;\r\n  }",
+                    "original": "{\n    [key: string]: string;\n  }",
                     "resolved": "{ [key: string]: string; }",
                     "references": {}
                 },

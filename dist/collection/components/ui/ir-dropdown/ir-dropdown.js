@@ -37,7 +37,7 @@ export class IrDropdown {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{\r\n    name: string;\r\n    icon: string;\r\n    children: {\r\n      name: string;\r\n      icon: string;\r\n    }[];\r\n  }",
+                    "original": "{\n    name: string;\n    icon: string;\n    children: {\n      name: string;\n      icon: string;\n    }[];\n  }",
                     "resolved": "{ name: string; icon: string; children: { name: string; icon: string; }[]; }",
                     "references": {}
                 },

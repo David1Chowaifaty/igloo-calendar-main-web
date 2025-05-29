@@ -70,7 +70,7 @@ export class IrSalesTable {
                     "references": {
                         "SalesRecord": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/work-rony/modified-ir-webcmp/src/components/ir-sales-by-country/ir-sales-table/ir-sales-table.tsx",
+                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-sales-by-country/ir-sales-table/ir-sales-table.tsx",
                             "id": "src/components/ir-sales-by-country/ir-sales-table/ir-sales-table.tsx::SalesRecord"
                         }
                     }
