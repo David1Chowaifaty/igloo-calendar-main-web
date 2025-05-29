@@ -56,6 +56,7 @@ export declare class IglBookingEventHover {
     private getRoomInfo;
     private renderTitle;
     private handleBookingOption;
+    private getOTANotes;
     private getInfoElement;
     private getNewBookingOptions;
     private getBlockedView;
