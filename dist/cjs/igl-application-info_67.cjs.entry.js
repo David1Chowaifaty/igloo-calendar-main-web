@@ -2465,18 +2465,18 @@ const IglBookingEventHover = class {
     //   }
     //   return null;
     // }
-    getOTANotes() {
+    getOTANotes(maxVisible = 3) {
         var _a;
         if (!this.bookingEvent.ota_notes || ((_a = this.bookingEvent.ota_notes) === null || _a === void 0 ? void 0 : _a.length) === 0) {
             return null;
         }
         const channel_notes = [...this.bookingEvent.ota_notes];
         const separator = '<br>- ';
-        if (channel_notes.length > 8) {
-            channel_notes[7] = { statement: `${channel_notes[7].statement} <span style="color: #1e9ff2;">more...</span>` };
+        if (channel_notes.length > maxVisible) {
+            channel_notes[maxVisible - 1] = { statement: `${channel_notes[maxVisible - 1].statement} <span style="color: #1e9ff2;">more...</span>` };
         }
         return channel_notes
-            .slice(0, 8)
+            .slice(0, maxVisible)
             .map(o => `${separator}${o.statement}`)
             .join('');
     }
@@ -2549,7 +2549,7 @@ const IglBookingEventHover = class {
             }, text: locales_store.locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (index.h(index.Host, { key: '69a4d22d44c5aeda878d95db01f7c99f1038405c' }, index.h("div", { key: 'dd6331ef1946610fc21d291a875458b018c6828c', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'de0c7059ab4e7aafcbf14748d13185bd70c403f6', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: 'd4b4503f2096e4df81c14f2682c04506b86cf7a4' }, index.h("div", { key: '1201882fa6e79e935313b0627a16498ab615808f', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'de8dee971d220ddcac5fede90391455b83ecade7', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {
