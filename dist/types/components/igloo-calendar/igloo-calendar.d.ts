@@ -119,6 +119,41 @@ export declare class IglooCalendar {
     private handleNonTechnicalChangeInBooking;
     private checkBookingAvailability;
     private updateBookingEventsDateRange;
+    /**
+     *
+     *private updateBookingEventsDateRange(eventData) {
+      const now = moment();
+      eventData.forEach(bookingEvent => {
+        bookingEvent.legendData = this.calendarData.formattedLegendData;
+        bookingEvent.defaultDateRange = {};
+        bookingEvent.defaultDateRange.fromDate = new Date(bookingEvent.FROM_DATE + 'T00:00:00');
+        bookingEvent.defaultDateRange.fromDateStr = this.getDateStr(bookingEvent.defaultDateRange.fromDate);
+        bookingEvent.defaultDateRange.fromDateTimeStamp = bookingEvent.defaultDateRange.fromDate.getTime();
+  
+        bookingEvent.defaultDateRange.toDate = new Date(bookingEvent.TO_DATE + 'T00:00:00');
+        bookingEvent.defaultDateRange.toDateStr = this.getDateStr(bookingEvent.defaultDateRange.toDate);
+        bookingEvent.defaultDateRange.toDateTimeStamp = bookingEvent.defaultDateRange.toDate.getTime();
+  
+        bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
+        bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
+        if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
+          const toDate = moment(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+          const fromDate = moment(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+          if (bookingEvent.STATUS !== 'PENDING') {
+            if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+              bookingEvent.STATUS = bookingStatus['003'];
+            }
+          }
+        }
+      });
+    }
+     */
     private updateTotalAvailability;
     private setRoomsData;
     private getLegendData;
