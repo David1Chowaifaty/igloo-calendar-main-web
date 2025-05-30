@@ -1,4 +1,4 @@
-import { RoomType } from "./IBooking";
+import { RoomType } from './property';
 export interface DayData {
     day: string;
     dayDisplayName: string;
@@ -7,4 +7,5 @@ export interface DayData {
     rate: RoomType[];
     unassigned_units_nbr: number;
     occupancy: number;
+    value: string;
 }

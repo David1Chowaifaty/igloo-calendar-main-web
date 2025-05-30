@@ -44,6 +44,14 @@ export declare class BookingService {
         room_identifier: string;
         status: RoomInOut['code'];
     }): Promise<any>;
+    setExposedRestrictionPerRoomType(params: {
+        is_closed: boolean;
+        restrictions: {
+            room_type_id: number | string;
+            night: string;
+        }[];
+        operation_type?: string;
+    }): Promise<any>;
     getLov(): Promise<any>;
     sendBookingConfirmationEmail(booking_nbr: string, language: string): Promise<any>;
     getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{

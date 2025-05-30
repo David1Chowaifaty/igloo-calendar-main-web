@@ -22,6 +22,7 @@ export declare class IglBookingOverviewPage {
     sourceOptions: TSourceOptions[];
     bookedByInfoData: any;
     initialRoomIds: any;
+    wasBlockedUnit: boolean;
     roomsDataUpdate: EventEmitter;
     getSplitBookings(): any;
     isEventType(event: string): boolean;

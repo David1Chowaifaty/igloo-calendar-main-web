@@ -111,6 +111,7 @@ export declare class IglBookProperty {
     private handlePageTwoDataUpdateEvent;
     private handleBlockDate;
     private bookUser;
+    private adjustBlockedDatesAfterReservation;
     private setLoadingState;
     private resetLoadingState;
     private getCurrentPage;

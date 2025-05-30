@@ -2,13 +2,13 @@ import moment from "moment";
 import { z } from "zod";
 import { compareTime, createDateWithOffsetAndHour } from "./booking";
 import calendarData from "../stores/calendar-data";
-export function convertDateToCustomFormat(dayWithWeekday, monthWithYear) {
+export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');
     if (!date.isValid()) {
         throw new Error('Invalid Date');
     }
-    return date.format('D_M_YYYY');
+    return date.format(format);
 }
 export function convertDateToTime(dayWithWeekday, monthWithYear) {
     const date = moment(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY').toDate();

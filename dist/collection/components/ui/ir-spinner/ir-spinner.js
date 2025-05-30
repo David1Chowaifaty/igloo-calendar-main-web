@@ -33,7 +33,7 @@ export class IrSpinner {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: 'c324014d678dce337757d5f51fe390f72273053e' });
+        return h(Host, { key: '96a9a1df3be0ca01e733c058631737b3df103c5a' });
     }
     static get is() { return "ir-spinner"; }
     static get encapsulation() { return "shadow"; }

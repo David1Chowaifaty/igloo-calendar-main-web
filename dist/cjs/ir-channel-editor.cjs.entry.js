@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const channel_service = require('./channel.service-efbbcbb3.js');
+const channel_service = require('./channel.service-a89d65ca.js');
 const channel_store = require('./channel.store-65161dac.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
-require('./calendar-data-cf00a87d.js');
+require('./calendar-data-99f4dccd.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');
 
@@ -88,9 +88,9 @@ const IrChannelEditor = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: 'ff970ba7a4b091bc1af5f3425f59034fdc72db11', class: " d-flex flex-column h-100" }, index.h("nav", { key: '991118db1fdf5efabee2a55e84bf78f41ce55896', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, index.h("div", { key: '02b253bafc4a26298cf333c1145f4787314fae2a', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, index.h("h3", { key: '912e4b6287c06063976248b7ba0a6d9818d73a45', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: 'a24eef159c21fc215ec22a07f78d59b206c795ef', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (index.h(index.Host, { key: 'becf9e224dcd6ad93e215088f3ad8ca369439132', class: " d-flex flex-column h-100" }, index.h("nav", { key: '747bcdcbe43ebc213d4c5340f791e3f67e294421', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, index.h("div", { key: '8dcf6dc4aa48058e018896c5e68fcfa5d29fc859', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, index.h("h3", { key: '0efb2275aef83c75bd077d99f0880edfd7ead6e5', class: "text-left font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_CreateChannel : (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_EditChannel), index.h("ir-icon", { key: 'dd79fc9e8efb37f71c0e5482e76c8a18faf7617c', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, index.h("svg", { key: 'a33e07f8ee04aa2a569c952a5d8a8f29b3388a8f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'eb5892d6d99bf1e1f2a893a188e559780ddd198f', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: 'b595c2d6d694cf895ff44742cbf2235e62ceebb5', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: '69ee54b8f1154802315ae1afc09ff87f8aaea4c2', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: '1f51e9daa984383874a20a40926c078ee5088e70', isLoading: this.isLoading, onClickHandler: () => {
+            } }, index.h("svg", { key: '607f8814b15a2af8b5cd978703a352df885ade47', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '4351580872d9e10b3445572d2899b4d39fb804d9', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("ir-channel-header", { key: '13e3c3c651b20e30841d246cebdff7b969926d71', class: "mt-1 px-0", headerTitles: this.headerTitles })), index.h("section", { key: '26a1c14117239599d3c31ac2d0457a56d4866664', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), index.h("ir-button", { key: '9f873d0a4fdf553ec4435a1418b2d67566b66a38', isLoading: this.isLoading, onClickHandler: () => {
                 if (!channel_store.channels_data.isConnectedToChannel) {
                     this.toast.emit({
                         type: 'error',

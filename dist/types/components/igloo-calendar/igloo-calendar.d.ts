@@ -18,8 +18,13 @@ export interface UnitHkStatusChangePayload {
     My_Room_category: null;
     My_Hkm: null;
 }
+export type SalesBatchPayload = {
+    room_type_id: number;
+    night: string;
+    is_available_to_book: boolean;
+};
 export type CalendarSidebarState = {
-    type: 'room-guests' | 'booking-details' | 'add-days';
+    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks';
     payload: any;
 };
 export declare class IglooCalendar {
@@ -84,7 +89,8 @@ export declare class IglooCalendar {
     private socket;
     private availabilityTimeout;
     private token;
-    calendarModalEl: HTMLIrModalElement;
+    private calendarModalEl;
+    private salesQueue;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
@@ -154,6 +160,7 @@ export declare class IglooCalendar {
       });
     }
      */
+    private processSalesBatch;
     private updateTotalAvailability;
     private setRoomsData;
     private getLegendData;

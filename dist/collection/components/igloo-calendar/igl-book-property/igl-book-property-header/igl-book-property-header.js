@@ -119,9 +119,26 @@ export class IglBookPropertyHeader {
     isEventType(key) {
         return this.bookingData.event_type === key;
     }
+    getMinDate() {
+        var _a, _b;
+        if (this.isEventType('PLUS_BOOKING')) {
+            if (!((_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.block_exposed_unit_props)) {
+                return moment().add(-1, 'months').startOf('month').format('YYYY-MM-DD');
+            }
+            return (_b = this.bookingData) === null || _b === void 0 ? void 0 : _b.block_exposed_unit_props.from_date;
+        }
+        return this.minDate;
+    }
+    getMaxDate() {
+        var _a, _b;
+        if (!((_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.block_exposed_unit_props)) {
+            return undefined;
+        }
+        return (_b = this.bookingData) === null || _b === void 0 ? void 0 : _b.block_exposed_unit_props.to_date;
+    }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'c87253fdf3966e0515c96c224c08cef0497eb4ea' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: '4d52db9509a6f3964682a3c9699525f0fce459d2', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '3e1214e46b24cf99485e065f9a6cfcd56e28fd61', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: 'b58927c5ccfbbdbc142c4ed8757004bf325359b5', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, minDate: this.isEventType('PLUS_BOOKING') ? moment().add(-1, 'months').startOf('month').format('YYYY-MM-DD') : this.minDate, disabled: this.isEventType('BAR_BOOKING') || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '0fa8206fc5e192d8562881ab0bf483d7aa807005', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '0a6f2450bc2beceebe08f530b44728a9cfbb2c40' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: '50a76e51c14e218d8e7a803ad7cbf88ddf176bd7', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '40c37c5c828d527ae9af6859ad2dd7f697cb6d24', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: 'b9addc249adfacc7f8934884b3ca5e784da43c10', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: 'fb851a60d71260519774e3fbfc4ccd5010ad53f1', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }
@@ -405,6 +422,25 @@ export class IglBookPropertyHeader {
                 "getter": false,
                 "setter": false,
                 "attribute": "property-id",
+                "reflect": false
+            },
+            "wasBlockedUnit": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "was-blocked-unit",
                 "reflect": false
             }
         };

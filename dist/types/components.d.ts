@@ -125,6 +125,7 @@ export namespace Components {
         "sourceOptions": TSourceOptions[];
         "splitBookingId": any;
         "splitBookings": any[];
+        "wasBlockedUnit": boolean;
     }
     interface IglBookingEvent {
         "allBookingEvents": { [key: string]: any };
@@ -174,6 +175,10 @@ export namespace Components {
         "selectedRooms": Map<string, Map<string, any>>;
         "showSplitBookingOption": boolean;
         "sourceOptions": TSourceOptions[];
+        "wasBlockedUnit": boolean;
+    }
+    interface IglBulkStopSale {
+        "maxDatesLength": number;
     }
     interface IglCalBody {
         "calendarData": { [key: string]: any };
@@ -390,6 +395,7 @@ export namespace Components {
         "disabled": boolean;
         "indeterminate": boolean;
         "label": string;
+        "labelClass": string;
         "name": string;
     }
     interface IrCheckboxes {
@@ -1191,6 +1197,7 @@ export namespace Components {
         "label": string;
         "name": string;
         "open": boolean;
+        "preventClose": boolean;
         "showCloseButton": boolean;
         "side": 'right' | 'left';
         "sidebarStyles": Partial<CSSStyleDeclaration>;
@@ -1374,6 +1381,10 @@ export interface IglBookingFormCustomEvent<T> extends CustomEvent<T> {
 export interface IglBookingOverviewPageCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglBookingOverviewPageElement;
+}
+export interface IglBulkStopSaleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglBulkStopSaleElement;
 }
 export interface IglCalBodyCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1854,6 +1865,23 @@ declare global {
     var HTMLIglBookingOverviewPageElement: {
         prototype: HTMLIglBookingOverviewPageElement;
         new (): HTMLIglBookingOverviewPageElement;
+    };
+    interface HTMLIglBulkStopSaleElementEventMap {
+        "closeModal": null;
+    }
+    interface HTMLIglBulkStopSaleElement extends Components.IglBulkStopSale, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglBulkStopSaleElementEventMap>(type: K, listener: (this: HTMLIglBulkStopSaleElement, ev: IglBulkStopSaleCustomEvent<HTMLIglBulkStopSaleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglBulkStopSaleElementEventMap>(type: K, listener: (this: HTMLIglBulkStopSaleElement, ev: IglBulkStopSaleCustomEvent<HTMLIglBulkStopSaleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglBulkStopSaleElement: {
+        prototype: HTMLIglBulkStopSaleElement;
+        new (): HTMLIglBulkStopSaleElement;
     };
     interface HTMLIglCalBodyElementEventMap {
         "addBookingDatasEvent": any[];
@@ -3120,6 +3148,7 @@ declare global {
     };
     interface HTMLIrSidebarElementEventMap {
         "irSidebarToggle": any;
+        "beforeSidebarClose": any;
     }
     interface HTMLIrSidebarElement extends Components.IrSidebar, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrSidebarElementEventMap>(type: K, listener: (this: HTMLIrSidebarElement, ev: IrSidebarCustomEvent<HTMLIrSidebarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3368,6 +3397,7 @@ declare global {
         "igl-booking-event-hover": HTMLIglBookingEventHoverElement;
         "igl-booking-form": HTMLIglBookingFormElement;
         "igl-booking-overview-page": HTMLIglBookingOverviewPageElement;
+        "igl-bulk-stop-sale": HTMLIglBulkStopSaleElement;
         "igl-cal-body": HTMLIglCalBodyElement;
         "igl-cal-footer": HTMLIglCalFooterElement;
         "igl-cal-header": HTMLIglCalHeaderElement;
@@ -3554,6 +3584,7 @@ declare namespace LocalJSX {
         "sourceOptions"?: TSourceOptions[];
         "splitBookingId"?: any;
         "splitBookings"?: any[];
+        "wasBlockedUnit"?: boolean;
     }
     interface IglBookingEvent {
         "allBookingEvents"?: { [key: string]: any };
@@ -3622,6 +3653,11 @@ declare namespace LocalJSX {
         "selectedRooms"?: Map<string, Map<string, any>>;
         "showSplitBookingOption"?: boolean;
         "sourceOptions"?: TSourceOptions[];
+        "wasBlockedUnit"?: boolean;
+    }
+    interface IglBulkStopSale {
+        "maxDatesLength"?: number;
+        "onCloseModal"?: (event: IglBulkStopSaleCustomEvent<null>) => void;
     }
     interface IglCalBody {
         "calendarData"?: { [key: string]: any };
@@ -3889,6 +3925,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "indeterminate"?: boolean;
         "label"?: string;
+        "labelClass"?: string;
         "name"?: string;
         "onCheckChange"?: (event: IrCheckboxCustomEvent<boolean>) => void;
     }
@@ -4774,8 +4811,10 @@ declare namespace LocalJSX {
     interface IrSidebar {
         "label"?: string;
         "name"?: string;
+        "onBeforeSidebarClose"?: (event: IrSidebarCustomEvent<any>) => void;
         "onIrSidebarToggle"?: (event: IrSidebarCustomEvent<any>) => void;
         "open"?: boolean;
+        "preventClose"?: boolean;
         "showCloseButton"?: boolean;
         "side"?: 'right' | 'left';
         "sidebarStyles"?: Partial<CSSStyleDeclaration>;
@@ -4950,6 +4989,7 @@ declare namespace LocalJSX {
         "igl-booking-event-hover": IglBookingEventHover;
         "igl-booking-form": IglBookingForm;
         "igl-booking-overview-page": IglBookingOverviewPage;
+        "igl-bulk-stop-sale": IglBulkStopSale;
         "igl-cal-body": IglCalBody;
         "igl-cal-footer": IglCalFooter;
         "igl-cal-header": IglCalHeader;
@@ -5070,6 +5110,7 @@ declare module "@stencil/core" {
             "igl-booking-event-hover": LocalJSX.IglBookingEventHover & JSXBase.HTMLAttributes<HTMLIglBookingEventHoverElement>;
             "igl-booking-form": LocalJSX.IglBookingForm & JSXBase.HTMLAttributes<HTMLIglBookingFormElement>;
             "igl-booking-overview-page": LocalJSX.IglBookingOverviewPage & JSXBase.HTMLAttributes<HTMLIglBookingOverviewPageElement>;
+            "igl-bulk-stop-sale": LocalJSX.IglBulkStopSale & JSXBase.HTMLAttributes<HTMLIglBulkStopSaleElement>;
             "igl-cal-body": LocalJSX.IglCalBody & JSXBase.HTMLAttributes<HTMLIglCalBodyElement>;
             "igl-cal-footer": LocalJSX.IglCalFooter & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
             "igl-cal-header": LocalJSX.IglCalHeader & JSXBase.HTMLAttributes<HTMLIglCalHeaderElement>;

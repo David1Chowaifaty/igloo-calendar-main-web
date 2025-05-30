@@ -24,6 +24,7 @@ export declare class IglBookPropertyHeader {
         to_date: string;
     };
     propertyId: number;
+    wasBlockedUnit: boolean;
     splitBookingDropDownChange: EventEmitter<any>;
     sourceDropDownChange: EventEmitter<string>;
     adultChild: EventEmitter<any>;
@@ -46,5 +47,7 @@ export declare class IglBookPropertyHeader {
     renderChildCaption(): string;
     handleButtonClicked(): void;
     isEventType(key: string): boolean;
+    private getMinDate;
+    private getMaxDate;
     render(): any;
 }

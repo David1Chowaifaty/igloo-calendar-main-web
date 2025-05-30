@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrTestCmp {
     render() {
         var _a, _b;
-        return (h(Host, { key: '6431ff870a54d995dfad05ee5b2c09c08f0d17cf', class: "card p-4" }, h("ir-range-picker", { key: 'e9894f31346c5de584b8d20e20a42406c2ca97e5', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
+        return (h(Host, { key: '2b0300990a7162aadec8258cb0d333dc9a41e8e1', class: "card p-4" }, h("ir-range-picker", { key: '503b222ed8de72f5e2890490283b7866775021c1', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
     static get is() { return "ir-test-cmp"; }
     static get encapsulation() { return "scoped"; }

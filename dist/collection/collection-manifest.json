@@ -17,6 +17,7 @@
     "components/igloo-calendar/igl-book-property/igl-booking-overview-page/igl-room-type/igl-rate-plan/igl-rate-plan.js",
     "components/igloo-calendar/igl-booking-event/igl-booking-event.js",
     "components/igloo-calendar/igl-booking-event-hover/igl-booking-event-hover.js",
+    "components/igloo-calendar/igl-bulk-stop-sale/igl-bulk-stop-sale.js",
     "components/igloo-calendar/igl-cal-body/igl-cal-body.js",
     "components/igloo-calendar/igl-cal-footer/igl-cal-footer.js",
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",

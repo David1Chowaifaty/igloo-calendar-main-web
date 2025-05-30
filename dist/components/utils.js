@@ -407,13 +407,13 @@ function createDateWithOffsetAndHour(offset, hour) {
     return new Date(Date.UTC(year, month, day, utcHour));
 }
 
-function convertDateToCustomFormat(dayWithWeekday, monthWithYear) {
+function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = hooks(dateStr, 'DD MMM YYYY');
     if (!date.isValid()) {
         throw new Error('Invalid Date');
     }
-    return date.format('D_M_YYYY');
+    return date.format(format);
 }
 function convertDateToTime(dayWithWeekday, monthWithYear) {
     const date = hooks(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY').toDate();

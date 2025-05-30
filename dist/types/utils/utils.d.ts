@@ -1,5 +1,5 @@
 import IBooking, { ICountry, PhysicalRoomType } from '../models/IBooking';
-export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string): string;
+export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string, format?: string): string;
 export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
 export declare function dateDifference(FROM_DATE: string, TO_DATE: string): number;
 export declare const getBrowserLanguage: () => string;

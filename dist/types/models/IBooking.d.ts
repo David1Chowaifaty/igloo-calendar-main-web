@@ -1,6 +1,6 @@
 import { Booking, IFormat, Room, Origin, Arrival, IOtaNotes } from './booking.dto';
 import { TAdultChildConstraints } from './igl-book-property';
-import { Currency } from './property';
+import { Currency, RoomType } from './property';
 import { IRoomService } from './property-types';
 export default interface IBooking {
     ID: string;
@@ -29,7 +29,7 @@ export default interface IBooking {
     RATE_TYPE?: number;
 }
 export type STATUS = 'IN-HOUSE' | 'CONFIRMED' | 'PENDING-CONFIRMATION' | 'SPLIT-UNIT' | 'CHECKED-IN' | 'CHECKED-OUT' | 'BLOCKED' | 'BLOCKED-WITH-DATES' | 'NOTES' | 'OUTSTANDING-BALANCE' | 'TEMP-EVENT';
-export type bookingReasons = 'DORESERVATION' | 'BLOCK_EXPOSED_UNIT' | 'REALLOCATE_EXPOSED_ROOM_BLOCK' | 'ASSIGN_EXPOSED_ROOM' | 'REALLOCATE_EXPOSED_ROOM_BOOK' | 'UNBLOCK_EXPOSED_UNIT' | 'DELETE_CALENDAR_POOL' | 'GET_UNASSIGNED_DATES' | 'UPDATE_CALENDAR_AVAILABILITY' | 'CHANGE_IN_DUE_AMOUNT' | 'CHANGE_IN_BOOK_STATUS' | 'NON_TECHNICAL_CHANGE_IN_BOOKING' | 'SHARING_PERSONS_UPDATED' | 'ROOM_STATUS_CHANGED' | 'UNIT_HK_STATUS_CHANGED' | 'EMAIL_VERIFIED';
+export type bookingReasons = 'DORESERVATION' | 'BLOCK_EXPOSED_UNIT' | 'REALLOCATE_EXPOSED_ROOM_BLOCK' | 'ASSIGN_EXPOSED_ROOM' | 'REALLOCATE_EXPOSED_ROOM_BOOK' | 'UNBLOCK_EXPOSED_UNIT' | 'DELETE_CALENDAR_POOL' | 'GET_UNASSIGNED_DATES' | 'UPDATE_CALENDAR_AVAILABILITY' | 'CHANGE_IN_DUE_AMOUNT' | 'CHANGE_IN_BOOK_STATUS' | 'NON_TECHNICAL_CHANGE_IN_BOOKING' | 'SHARING_PERSONS_UPDATED' | 'ROOM_STATUS_CHANGED' | 'UNIT_HK_STATUS_CHANGED' | 'EMAIL_VERIFIED' | 'ROOM_TYPE_CLOSE' | 'ROOM_TYPE_OPEN';
 export declare const validReasons: Set<bookingReasons>;
 export type TCalendar = {
     adultChildConstraints: TAdultChildConstraints;
@@ -91,19 +91,10 @@ export interface MonthType {
 }
 export interface DayType {
     description: string;
+    value: string;
     occupancy: number;
     room_types: RoomType[];
     unassigned_units_nbr: number;
-}
-export interface RoomType {
-    availabilities: number | null;
-    id: number;
-    inventory: number;
-    name: string;
-    physicalrooms: PhysicalRoomType[];
-    rate: number;
-    rateplans: RatePlanType[];
-    exposed_inventory: IExposedInventory;
 }
 export interface IExposedInventory {
     blocked: number;
