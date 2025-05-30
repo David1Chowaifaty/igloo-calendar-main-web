@@ -25,7 +25,7 @@ export class BookingService {
     }
     async setExposedRestrictionPerRoomType(params) {
         var _a;
-        const { data } = await axios.post(`/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));
+        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

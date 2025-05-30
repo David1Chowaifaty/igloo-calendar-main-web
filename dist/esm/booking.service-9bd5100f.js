@@ -1,9 +1,7 @@
-'use strict';
-
-const axios = require('./axios-6e678d52.js');
-const utils = require('./utils-e3c0fd9c.js');
-const index = require('./index-467172e1.js');
-const calendarData = require('./calendar-data-99f4dccd.js');
+import { a as axios } from './axios-aa1335b8.js';
+import { e as extras, E as getMyBookings, F as convertDateToCustomFormat, G as convertDateToTime, d as dateToFormattedString } from './utils-1018607c.js';
+import { c as createStore } from './index-c1c77241.js';
+import { c as calendar_data } from './calendar-data-20e9d53b.js';
 
 const initialState = {
     checkout_guest: null,
@@ -25,7 +23,7 @@ const initialState = {
     fictus_booking_nbr: null,
     event_type: { type: 'PLUS_BOOKING' },
 };
-let { state: booking_store, onChange: onRoomTypeChange, reset } = index.createStore(initialState);
+let { state: booking_store, onChange: onRoomTypeChange, reset } = createStore(initialState);
 function resetBookingStore() {
     reset();
 }
@@ -204,7 +202,7 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 };
 class BookingService {
     async handleExposedRoomInOut(props) {
-        const { data } = await axios.axios.post(`/Handle_Exposed_Room_InOut`, props);
+        const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -212,21 +210,21 @@ class BookingService {
     }
     async setExposedRestrictionPerRoomType(params) {
         var _a;
-        const { data } = await axios.axios.post(`/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));
+        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async getLov() {
-        const { data } = await axios.axios.post(`/Get_LOV`, {});
+        const { data } = await axios.post(`/Get_LOV`, {});
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async sendBookingConfirmationEmail(booking_nbr, language) {
-        const { data } = await axios.axios.post(`/Send_Booking_Confirmation_Email`, {
+        const { data } = await axios.post(`/Send_Booking_Confirmation_Email`, {
             booking_nbr,
             language,
         });
@@ -237,18 +235,18 @@ class BookingService {
     }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_Calendar`, {
+            const { data } = await axios.post(`/Get_Exposed_Calendar`, {
                 propertyid,
                 from_date,
                 to_date,
-                extras: utils.extras,
+                extras,
             });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
             const months = data.My_Result.months;
             const customMonths = [];
-            const myBooking = await utils.getMyBookings(months);
+            const myBooking = await getMyBookings(months);
             const days = months
                 .map(month => {
                 customMonths.push({
@@ -260,9 +258,9 @@ class BookingService {
                         console.log(day);
                     }
                     return {
-                        day: utils.convertDateToCustomFormat(day.description, month.description),
+                        day: convertDateToCustomFormat(day.description, month.description),
                         value: day.value,
-                        currentDate: utils.convertDateToTime(day.description, month.description),
+                        currentDate: convertDateToTime(day.description, month.description),
                         dayDisplayName: day.description,
                         rate: day.room_types,
                         unassigned_units_nbr: day.unassigned_units_nbr,
@@ -290,7 +288,7 @@ class BookingService {
         }
     }
     async handleExposedRoomGuests(props) {
-        const { data } = await axios.axios.post('/Handle_Exposed_Room_Guests', props);
+        const { data } = await axios.post('/Handle_Exposed_Room_Guests', props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -298,7 +296,7 @@ class BookingService {
     }
     async fetchGuest(email) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_Guest`, { email });
+            const { data } = await axios.post(`/Get_Exposed_Guest`, { email });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -311,7 +309,7 @@ class BookingService {
     }
     async changeExposedBookingStatus(props) {
         try {
-            const { data } = await axios.axios.post(`/Change_Exposed_Booking_Status`, props);
+            const { data } = await axios.post(`/Change_Exposed_Booking_Status`, props);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -323,7 +321,7 @@ class BookingService {
     }
     async fetchPMSLogs(booking_nbr) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
+            const { data } = await axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -336,7 +334,7 @@ class BookingService {
     }
     async getExposedBookingEvents(booking_nbr) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
+            const { data } = await axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -349,7 +347,7 @@ class BookingService {
     }
     async editExposedGuest(guest, book_nbr) {
         try {
-            const { data } = await axios.axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
+            const { data } = await axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -363,7 +361,7 @@ class BookingService {
     async getBookingAvailability(props) {
         try {
             const { adultChildCount, currency } = props, rest = __rest(props, ["adultChildCount", "currency"]);
-            const { data } = await axios.axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, skip_getting_assignable_units: !calendarData.calendar_data.is_frontdesk_enabled, is_backend: true }));
+            const { data } = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled, is_backend: true }));
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -423,7 +421,7 @@ class BookingService {
     }
     async getCountries(language) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_Countries`, {
+            const { data } = await axios.post(`/Get_Exposed_Countries`, {
                 language,
             });
             if (data.ExceptionMsg !== '') {
@@ -438,7 +436,7 @@ class BookingService {
     }
     async getSetupEntriesByTableName(TBL_NAME) {
         var _a;
-        const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
             TBL_NAME,
         });
         if (data.ExceptionMsg !== '') {
@@ -449,7 +447,7 @@ class BookingService {
     }
     async fetchSetupEntries() {
         try {
-            const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
+            const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
                 TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
             });
             if (data.ExceptionMsg !== '') {
@@ -468,7 +466,7 @@ class BookingService {
         }
     }
     async doBookingExtraService({ booking_nbr, service, is_remove }) {
-        const { data } = await axios.axios.post(`/Do_Booking_Extra_Service`, Object.assign(Object.assign({}, service), { booking_nbr, is_remove }));
+        const { data } = await axios.post(`/Do_Booking_Extra_Service`, Object.assign(Object.assign({}, service), { booking_nbr, is_remove }));
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -476,7 +474,7 @@ class BookingService {
     }
     async getBlockedInfo() {
         try {
-            const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: ['_CALENDAR_BLOCKED_TILL'] });
+            const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: ['_CALENDAR_BLOCKED_TILL'] });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -489,7 +487,7 @@ class BookingService {
     }
     async getUserDefaultCountry() {
         try {
-            const { data } = await axios.axios.post(`/Get_Country_By_IP`, {
+            const { data } = await axios.post(`/Get_Country_By_IP`, {
                 IP: '',
             });
             if (data.ExceptionMsg !== '') {
@@ -504,7 +502,7 @@ class BookingService {
     }
     async blockUnit(params) {
         try {
-            const { data } = await axios.axios.post(`/Block_Exposed_Unit`, params);
+            const { data } = await axios.post(`/Block_Exposed_Unit`, params);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -518,7 +516,7 @@ class BookingService {
     }
     async getUserInfo(email) {
         try {
-            const { data } = await axios.axios.post(`/GET_EXPOSED_GUEST`, {
+            const { data } = await axios.post(`/GET_EXPOSED_GUEST`, {
                 email,
             });
             if (data.ExceptionMsg !== '') {
@@ -533,10 +531,10 @@ class BookingService {
     }
     async getExposedBooking(booking_nbr, language, withExtras = true) {
         try {
-            const { data } = await axios.axios.post(`/Get_Exposed_Booking`, {
+            const { data } = await axios.post(`/Get_Exposed_Booking`, {
                 booking_nbr,
                 language,
-                extras: withExtras ? utils.extras : null,
+                extras: withExtras ? extras : null,
             });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
@@ -569,7 +567,7 @@ class BookingService {
     }
     async fetchExposedGuest(email, property_id) {
         try {
-            const { data } = await axios.axios.post(`/Fetch_Exposed_Guests`, {
+            const { data } = await axios.post(`/Fetch_Exposed_Guests`, {
                 email,
                 property_id,
             });
@@ -585,7 +583,7 @@ class BookingService {
     }
     async fetchExposedBookings(booking_nbr, property_id, from_date, to_date) {
         try {
-            const { data } = await axios.axios.post(`/Fetch_Exposed_Bookings`, {
+            const { data } = await axios.post(`/Fetch_Exposed_Bookings`, {
                 booking_nbr,
                 property_id,
                 from_date,
@@ -603,7 +601,7 @@ class BookingService {
     }
     async getPCICardInfoURL(BOOK_NBR) {
         try {
-            const { data } = await axios.axios.post(`/Get_PCI_Card_Info_URL`, {
+            const { data } = await axios.post(`/Get_PCI_Card_Info_URL`, {
                 BOOK_NBR,
             });
             if (data.ExceptionMsg !== '') {
@@ -617,7 +615,7 @@ class BookingService {
         }
     }
     async doReservation(body) {
-        const { data } = await axios.axios.post(`/DoReservation`, Object.assign(Object.assign({}, body), { extras: body.extras ? body.extras : utils.extras }));
+        const { data } = await axios.post(`/DoReservation`, Object.assign(Object.assign({}, body), { extras: body.extras ? body.extras : extras }));
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -626,8 +624,8 @@ class BookingService {
     }
     async bookUser({ bookedByInfoData, check_in, currency, extras = null, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }) {
         try {
-            const fromDateStr = utils.dateToFormattedString(fromDate);
-            const toDateStr = utils.dateToFormattedString(toDate);
+            const fromDateStr = dateToFormattedString(fromDate);
+            const toDateStr = dateToFormattedString(toDate);
             let guest = {
                 email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
                 first_name: bookedByInfoData.firstName,
@@ -733,14 +731,6 @@ class BookingService {
     }
 }
 
-exports.BookingService = BookingService;
-exports.booking_store = booking_store;
-exports.calculateTotalRooms = calculateTotalRooms;
-exports.getVisibleInventory = getVisibleInventory;
-exports.modifyBookingStore = modifyBookingStore;
-exports.reserveRooms = reserveRooms;
-exports.resetBookingStore = resetBookingStore;
-exports.resetReserved = resetReserved;
-exports.updateRoomParams = updateRoomParams;
+export { BookingService as B, resetBookingStore as a, booking_store as b, calculateTotalRooms as c, reserveRooms as d, getVisibleInventory as g, modifyBookingStore as m, resetReserved as r, updateRoomParams as u };
 
-//# sourceMappingURL=booking.service-f8e72458.js.map
+//# sourceMappingURL=booking.service-9bd5100f.js.map

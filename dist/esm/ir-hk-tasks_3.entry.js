@@ -8,7 +8,7 @@ import { h as hooks } from './moment-ab846cee.js';
 import { J as downloadFile } from './utils-1018607c.js';
 import { v as v4 } from './v4-964634d6.js';
 import { c as calendar_data } from './calendar-data-20e9d53b.js';
-import { B as BookingService } from './booking.service-535d10b3.js';
+import { B as BookingService } from './booking.service-9bd5100f.js';
 import { U as UserService } from './user.service-2ee7a620.js';
 import { l as lookup } from './index-7ee206df.js';
 import './axios-aa1335b8.js';

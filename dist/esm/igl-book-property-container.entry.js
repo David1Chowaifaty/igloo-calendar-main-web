@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-0a4a209a.js';
 import { T as Token } from './Token-6c389e24.js';
-import { B as BookingService } from './booking.service-535d10b3.js';
+import { B as BookingService } from './booking.service-9bd5100f.js';
 import { R as RoomService } from './room.service-8cf1d633.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import './axios-aa1335b8.js';

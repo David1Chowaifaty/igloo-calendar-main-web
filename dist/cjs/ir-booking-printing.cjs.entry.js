@@ -6,7 +6,7 @@ const index = require('./index-4fe8bc8a.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
 const utils = require('./utils-e3c0fd9c.js');
-const booking_service = require('./booking.service-f8e72458.js');
+const booking_service = require('./booking.service-ff188a37.js');
 const room_service = require('./room.service-d7eabd51.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 require('./index-db8b30d9.js');

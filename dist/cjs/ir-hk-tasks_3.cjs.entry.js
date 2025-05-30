@@ -12,7 +12,7 @@ const moment = require('./moment-1780b03a.js');
 const utils = require('./utils-e3c0fd9c.js');
 const v4 = require('./v4-9b297151.js');
 const calendarData = require('./calendar-data-99f4dccd.js');
-const booking_service = require('./booking.service-f8e72458.js');
+const booking_service = require('./booking.service-ff188a37.js');
 const user_service = require('./user.service-06771ba3.js');
 const index$1 = require('./index-84e84862.js');
 require('./axios-6e678d52.js');

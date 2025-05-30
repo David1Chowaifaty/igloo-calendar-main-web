@@ -251,7 +251,7 @@ export class IglCalBody {
     getGeneralRoomDayColumns(roomId, roomCategory, roomName, index) {
         // onDragOver={event => this.handleDragOver(event)} onDrop={event => this.handleDrop(event, addClass+"_"+dayInfo.day)}
         return this.calendarData.days.map(dayInfo => {
-            const formattedDate = moment(dayInfo.currentDate).format('YYYY-MM-DD');
+            // const formattedDate = moment(dayInfo.currentDate).format('YYYY-MM-DD');
             // const isDisabled = calendar_dates.days.find(e => e.day === formattedDate)?.rate[index].exposed_inventory.rts;
             const isDisabled = !dayInfo.rate[index].is_available_to_book;
             return (h("div", { class: `cellData position-relative roomCell ${isDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo)) ? 'selectedDay' : ''}`, onClick: () => {
@@ -259,7 +259,7 @@ export class IglCalBody {
                         return;
                     }
                     this.clickCell(roomId, dayInfo, roomCategory);
-                }, "data-date": formattedDate, "data-room-name": roomName }));
+                }, "data-date": dayInfo.value, "data-room-name": roomName }));
         });
     }
     toggleCategory(roomCategory) {
@@ -356,10 +356,10 @@ export class IglCalBody {
     render() {
         var _a, _b, _c;
         // onDragStart={event => this.handleDragStart(event)} draggable={true}
-        return (h(Host, { key: '8647e9315fc4ed90d4061160fc78a33ed093facf' }, h("div", { key: 'c8966a6fe8136809d47ba7d8356a8a7b73812c8c', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '5d34daba8cc5095c676e77e52ef0fa5037a7ea1b', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (h(Host, { key: '82531f20aad23a82429b72138217b2b98d93567c' }, h("div", { key: 'dce56a2801fd776c5ada7f4053dd4eb97f0eb847', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '9552fe8378b0344846189a30b4bf5d8bab3c3e18', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '667d63289e6beee8875c035febb3871e569c5406', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
+        }))), h("ir-modal", { key: '12f75ee7b1b086d8d713c9ab563ced495af5d6a8', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
