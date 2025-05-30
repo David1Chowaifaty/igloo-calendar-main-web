@@ -116,6 +116,11 @@ export class IglBulkStopSale {
                 await Promise.all(payloads.map(p => this.bookingService.setExposedRestrictionPerRoomType(p)));
             }
             this.deactivate();
+            this.toast.emit({
+                type: 'success',
+                title: 'Request was submitted successfully .Your changes have been queued and will be applied shortly.',
+                description: '',
+            });
             this.isLoading = false;
             this.closeModal.emit();
         }
@@ -199,17 +204,17 @@ export class IglBulkStopSale {
         }, 100);
     }
     render() {
-        return (h("form", { key: 'b83eda322e257d0e0b7eb5ac531ae568e734e231', class: 'bulk-sheet-container', onSubmit: e => {
+        return (h("form", { key: '0aad8dc93088c8a3833d5a50a9c11261dcf6a87e', class: 'bulk-sheet-container', onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("div", { key: 'e01e2a3a77699eaf3230a5b15a89559dfbdd59ae', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: 'b0432eb539125d39e01c50befad2fe815a3abdb9', onCloseSideBar: e => {
+            } }, h("div", { key: '865bbb5fc7976bfbe0869cc97abdfd68d47a80db', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '21d365d003861841ca88d6da30528e249df82657', onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (this.isLoading) {
                     return;
                 }
                 this.closeModal.emit(null);
-            }, class: "px-1 mb-0", label: "Bulk Open / Stop Sale", displayContext: "sidebar" })), h("div", { key: '8459af50c3ac4aafd92e5ac4b27b5e27faf7651b', class: "sheet-body px-1" }, h("div", { key: 'de5ffd9f63c82a496a791941adef5f47de606db4', class: "text-muted text-left py-0 my-0" }, calendar_data.is_vacation_rental ? h("p", null, "Select the listings that you want to open or stop sale.") : h("p", null, "Select the unit(s) that you want to open or stop sale.")), h("div", { key: 'ae718024c90903de8d3edda69bb736187f18203f' }, this.errors === 'rooms' && (h("p", { key: '07a065894faf9b2d78b8d64947401bb9f67f4d39', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, "Please select at least one ", calendar_data.is_vacation_rental ? 'listing' : 'unit')), h("table", { key: '6c702c466560eb9b8c7b01d7c9a7fa162c334ce6', ref: el => (this.unitSections = el) }, h("thead", { key: '6cc8f1a9669e4f1b37566fa2c75be79e251418e8' }, h("tr", { key: 'ece8224a6e7cae6694d7c38f0a0a9142e6b9cd69' }, h("th", { key: 'ada5031cb6e5d18231bcba10812e82fef03a31a1', class: "sr-only" }, "choice"), h("th", { key: '7a2075a02d8d9f053891e7b52fe179fe67113562', class: "sr-only" }, "room type"))), h("tbody", { key: '7b1ff3882615b33aa9447cc742e5f8a9ff5d22c7' }, calendar_data.roomsInfo.map((roomType, i) => {
+            }, class: "px-1 mb-0", label: "Bulk Open / Stop Sale", displayContext: "sidebar" })), h("div", { key: '4cd4d70bf4d0aeb2a1f9c22b3f130fbd5b39ca61', class: "sheet-body px-1" }, h("div", { key: '7a48ab5d5f87a17451205a3c0479cb0a59e8569a', class: "text-muted text-left py-0 my-0" }, calendar_data.is_vacation_rental ? h("p", null, "Select the listings that you want to open or stop sale.") : h("p", null, "Select the unit(s) that you want to open or stop sale.")), h("div", { key: '6aca715a28f4a10e2adda704a0236e07baa2c1b6' }, this.errors === 'rooms' && (h("p", { key: 'f3201b7758b10cf9367d9e1d6bb3811a3f0b321f', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, "Please select at least one ", calendar_data.is_vacation_rental ? 'listing' : 'unit')), h("table", { key: 'e1b52e42f19135b0dfe573a574c90ad2da60c55e', ref: el => (this.unitSections = el) }, h("thead", { key: 'fcd3b80573810d32a3b22f4eabe00976fa5b3aaa' }, h("tr", { key: '5479843344bc8836463cd397751acc2b85265224' }, h("th", { key: 'e515190070a2df72bdcb4bc7244b97265e6c46ae', class: "sr-only" }, "choice"), h("th", { key: 'c640b5d39fe2de833ddd3558b8aea2f3cde12074', class: "sr-only" }, "room type"))), h("tbody", { key: 'c02a967719c2ca4835f5c865c5bea5108cda47c8' }, calendar_data.roomsInfo.map((roomType, i) => {
             const row_style = i === calendar_data.roomsInfo.length - 1 ? '' : 'pb-1';
             return (h("tr", { key: roomType.id }, h("td", { class: `choice-row ${row_style}` }, h("div", { class: 'd-flex justify-content-end' }, h("ir-select", { LabelAvailable: false, data: [
                     { value: 'open', text: 'Open' },
@@ -224,9 +229,9 @@ export class IglBulkStopSale {
                     }
                     this.selectedRoomTypes = rest;
                 } }))), h("td", { class: `pl-1 text-left ${row_style}` }, roomType.name)));
-        })))), h("p", { key: 'de6473932eca55ead17f0da50c2433a89551cd72', class: "text-left mt-2 text-muted" }, "Select days to open or stop sale"), this.errors === 'weekdays' && h("p", { key: 'f246562ab4cd18056d355b7f40f654b64e7263e6', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), h("div", { key: 'e5c39ac37375424a9828bbb9d035f7d9edd62edc', ref: el => (this.weekdaysSections = el), class: "my-1 d-flex align-items-center", style: { gap: '1.5rem' } }, this.weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))), h("p", { key: 'a3edc9ef08bf8974f596437fdc3ce9fcf340edaf', class: "text-left mt-2 text-muted" }, "Add date range(s) to open or stop sale"), h("table", { key: '0033f629d28eba615f056724ab94dd115e3ee4e7', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '18373fffb8ddd129d811dff331df768af763b030' }, h("tr", { key: '45322bcc0930fd890c0afed8a23d2bbb702f359d' }, h("th", { key: '6911368c876feb8e95f39846e0cf2a84fd600548', class: "text-left" }, "From"), h("th", { key: 'de8897552a418cee095b0d90d4709ee0dfada4fd', class: "text-left" }, "to (inclusive)"), h("td", { key: '05e52731ba17dee5fb16e239a93113c6c938eb18' }, this.dates.length !== this.maxDatesLength && (h("ir-button", { key: 'b0c2bb56f72c2cd585eaa01eee745bf1351891cf', variant: "icon", icon_name: "plus", onClickHandler: () => {
+        })))), h("p", { key: '12ecd13ce28ef2f04e763e43a96f4ee94d91b5a8', class: "text-left mt-2 text-muted" }, "Select days to open or stop sale"), this.errors === 'weekdays' && h("p", { key: 'bd866434d124cc35fd705744e38ad29768f10e4c', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), h("div", { key: '60ec7ebee855a80eb897b43aee405616175799bd', ref: el => (this.weekdaysSections = el), class: "my-1 d-flex align-items-center", style: { gap: '1.5rem' } }, this.weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))), h("p", { key: '6189481240695a8bb8918d90fbd68d3f953fa18f', class: "text-left mt-2 text-muted" }, "Add date range(s) to open or stop sale"), h("table", { key: '7eb0ac32e418c26506bf2afb1185454905f481ba', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '67841f899b8b37d6082a965944716fb4ba2fb948' }, h("tr", { key: '48d20d45722717b75342b626c7e9455dd1de51db' }, h("th", { key: '300f8edfef5d48e0b029b665a74b2d0386a490d1', class: "text-left" }, "From"), h("th", { key: '3114998e34e8cfbc0c2667cc675ab5642b86d380', class: "text-left" }, "to (inclusive)"), h("td", { key: '98ba7e2d35ab09eac011fb8cf26e907de793122c' }, this.dates.length !== this.maxDatesLength && (h("ir-button", { key: '07f18f9508d16654152503f4247ed8069527097a', variant: "icon", icon_name: "plus", onClickHandler: () => {
                 this.addDateRow();
-            } }))))), h("tbody", { key: '1a3f3684ea29a090a0c7b7ac70beb62a5e43042a' }, this.dates.map((d, i) => {
+            } }))))), h("tbody", { key: '9821c9332166ecbeabd12b368f09abb061b02fcf' }, this.dates.map((d, i) => {
             var _a, _b, _c, _d, _e, _f, _g;
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
@@ -277,7 +282,7 @@ export class IglBulkStopSale {
                           text-center`, style: { width: '100%' } }))), i > 0 && (h("td", { class: "pb-1" }, h("ir-button", { variant: "icon", icon_name: "minus", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);
                 } })))));
-        })))), h("div", { key: '73920081651ea76cd364863e90f8e412ba16b3f4', class: 'sheet-footer' }, h("ir-button", { key: '37ef153f84392771af1839ca836bfe112a25b6e2', text: "Cancel", btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '239f80906ce40bee3938633210916e5c11cebae4', isLoading: this.isLoading, text: "Save", btn_type: "submit", class: "flex-fill" }))));
+        })))), h("div", { key: '3982f21d7931474c61c578a1756e328fde401dfa', class: 'sheet-footer' }, h("ir-button", { key: '944c8c4094e68898579858f8d775bcb90b00b98d', text: "Cancel", btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '3bef04a80b7ec32a2b6e37f8864515d17465e0c2', isLoading: this.isLoading, text: "Save", btn_type: "submit", class: "flex-fill" }))));
     }
     static get is() { return "igl-bulk-stop-sale"; }
     static get encapsulation() { return "scoped"; }
@@ -339,6 +344,27 @@ export class IglBulkStopSale {
                     "original": "null",
                     "resolved": "null",
                     "references": {}
+                }
+            }, {
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "@components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                        }
+                    }
                 }
             }];
     }

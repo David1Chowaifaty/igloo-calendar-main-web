@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Moment } from 'moment';
+import { IToast } from "../../ui/ir-toast/toast";
 export type SelectedRooms = {
     id: string | number;
     result: 'open' | 'closed';
@@ -20,6 +21,7 @@ export declare class IglBulkStopSale {
     private weekdays;
     selectedWeekdays: Set<number>;
     closeModal: EventEmitter<null>;
+    toast: EventEmitter<IToast>;
     private sidebar;
     private dateRefs;
     private reloadInterceptor;
