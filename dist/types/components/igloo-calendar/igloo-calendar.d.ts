@@ -19,7 +19,7 @@ export interface UnitHkStatusChangePayload {
     My_Hkm: null;
 }
 export type SalesBatchPayload = {
-    room_type_id: number;
+    rate_plan_id: number;
     night: string;
     is_available_to_book: boolean;
 };
@@ -91,6 +91,7 @@ export declare class IglooCalendar {
     private token;
     private calendarModalEl;
     private salesQueue;
+    private roomTypeIdsCache;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
