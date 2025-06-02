@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, g as getElement } from './index-0a4a209a.js';
 import { T as Token } from './Token-6c389e24.js';
 import { A as AuthService } from './authenticate.service-b92cac55.js';
-import { R as RoomService } from './room.service-8cf1d633.js';
+import { R as RoomService } from './room.service-7e6772a4.js';
 import { S as SystemService } from './system.service-35fa8e7e.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { C as CONSTANTS } from './constants-1510e43f.js';

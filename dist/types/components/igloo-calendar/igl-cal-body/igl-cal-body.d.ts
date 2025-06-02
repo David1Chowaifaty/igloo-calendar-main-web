@@ -73,4 +73,7 @@ export declare class IglCalBody {
     private confirmHousekeepingUpdate;
     render(): any;
     private renderModalBody;
+    private updateDisabledCellsCache;
+    private getCellKey;
+    private isCellDisabled;
 }

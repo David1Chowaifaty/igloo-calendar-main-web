@@ -1,6 +1,7 @@
 import { DayData } from "../models/DayType";
 export interface ICalendarDates {
     days: DayData[];
+    disabled_cells: Map<string, boolean>;
     months: {
         daysCount: number;
         monthName: string;
