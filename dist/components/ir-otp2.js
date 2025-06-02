@@ -224,7 +224,7 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '72fded0c2e6098b0c5582ea4b0db3855a3e1740a', class: "otp-input-container" }, h("div", { key: '4cc31d0d7b6b1495d4ddd90f14fa9c5f3249e4bd', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: 'bc25bf0bcae2ea3c839496f82250d2751439571b', class: "otp-input-container" }, h("div", { key: '818b36d78420a5e3a24de6e3002ed96beaa51055', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
