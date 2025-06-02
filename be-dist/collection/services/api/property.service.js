@@ -59,6 +59,12 @@ export class PropertyService {
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
+        // if (!app_store.app_data.geoTimezone) {
+        //   const { data } = await axios.get(
+        //     `https://api.geotimezone.com/public/timezone?latitude=${result.My_Result.location.latitude}&longitude=${result.My_Result.location.longitude}`,
+        //   );
+        //   app_store.app_data.geoTimezone = data;
+        // }
         app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
         app_store.property = Object.assign({}, result.My_Result);
         app_store.app_data.property_id = result.My_Result.id;
@@ -219,6 +225,7 @@ export class PropertyService {
                         }
                         : null,
             };
+            // const now = moment();
             const body = {
                 assign_units: false,
                 check_in: false,
@@ -236,6 +243,11 @@ export class PropertyService {
                     property: {
                         id: app_store.app_data.property_id,
                     },
+                    // booked_on: {
+                    //   date: now.format('YYYY-MM-DD'),
+                    //   hour: now.hour(),
+                    //   minute: now.minute(),
+                    // },
                     source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
                     currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),

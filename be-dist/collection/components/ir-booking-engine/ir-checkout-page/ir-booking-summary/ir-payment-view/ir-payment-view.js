@@ -178,8 +178,12 @@ export class IrPaymentView {
         return null;
     }
     render() {
+        var _a, _b;
         const hasAgentWithCode001 = booking_store.bookingAvailabilityParams.agent && booking_store.bookingAvailabilityParams.agent.payment_mode.code === '001';
-        return (h("div", { key: '71c327f9baf36d3c6ff32bf80ec83a401cfe0279', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: '46a02116c5b93d7c923454ed90b836d043c98538' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '38621e98281b3f4324c88f7518be2c7f284444fa', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit)));
+        return (h("div", { key: '71c327f9baf36d3c6ff32bf80ec83a401cfe0279', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: '46a02116c5b93d7c923454ed90b836d043c98538' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '38621e98281b3f4324c88f7518be2c7f284444fa', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
+            this.cardType === 'AMEX' &&
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '2aa11de22c91c8886da6d3e68d67d1fd103564d3', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
+            _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }

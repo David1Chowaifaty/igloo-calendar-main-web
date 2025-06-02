@@ -25,12 +25,15 @@ export class IrDatePopup {
         h("span", { class: "text-slate-500" }, localizedWords.entries.Lcz_CheckOut))))));
     }
     render() {
-        return (h(Host, { key: '3ab860083d32bef0bffa40c0a77e9e8bb460919d' }, h("ir-popover", { key: 'b9e66feedda1a9b802dd99010c96c5025487b8dd', showCloseButton: false, placement: "bottom-start", ref: el => (this.popover = el), onOpenChange: e => {
+        return (h(Host, { key: '3ab860083d32bef0bffa40c0a77e9e8bb460919d' }, h("ir-popover", { key: '646d6e94d948708d58368bcc10100a6f63fb688c', showCloseButton: false, placement: "bottom-start", ref: el => (this.popover = el), onOpenChange: e => {
                 this.isPopoverOpen = e.detail;
                 if (!this.isPopoverOpen && !this.dates.end && this.dates.start) {
-                    this.dateChange.emit(Object.assign(Object.assign({}, this.dates), { end: this.dates.start.add(1, 'days') }));
+                    const startClone = this.dates.start.clone();
+                    const end = startClone.add(1, 'days');
+                    const newDates = { start: this.dates.start, end };
+                    this.dateChange.emit(newDates);
                 }
-            } }, this.dateTrigger(), h("div", { key: '1d690b0ae850c2d8310c11abfbf51a32a8db58a1', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm  " }, h("ir-date-range", { key: 'a4e06d578686a2eeb6ab7c16ba89e83aabc266fd', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
+            } }, this.dateTrigger(), h("div", { key: 'ce1434e81151524319ad727100cd6f6b13c93c09', slot: "popover-content", class: "date-range-container w-full border-0 p-4 pb-6 shadow-none sm:w-auto sm:border sm:p-4 sm:shadow-sm  " }, h("ir-date-range", { key: 'ba36b972b5a269513bac0ba4b5c1a4c75b16f735', dateModifiers: this.getDateModifiers(), fromDate: this.dates.start, toDate: this.dates.end, locale: localization_store.selectedLocale, maxSpanDays: app_store.property.max_nights, minDate: this.minDate })))));
     }
     getDateModifiers() {
         var _a;

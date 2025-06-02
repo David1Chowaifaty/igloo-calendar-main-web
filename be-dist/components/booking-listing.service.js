@@ -1,5 +1,5 @@
 import { b as app_store } from './app.store.js';
-import { d as dateFns, q as formatAmount, l as localizedWords } from './utils.js';
+import { d as dateFns, r as formatAmount, l as localizedWords } from './utils.js';
 
 class BookingListingAppService {
     detectPaymentOrigin(booking) {

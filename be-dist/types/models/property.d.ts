@@ -154,6 +154,7 @@ export interface Country {
     id: number;
     name: string;
     phone_prefix: any;
+    gmt_offset: number;
 }
 export interface Description {
     food_and_beverage: string;

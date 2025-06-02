@@ -16,6 +16,7 @@ export declare class IrCheckoutPage {
     private bookingDetails;
     private pickupForm;
     private errorElement;
+    alertRef: HTMLIrAlertDialogElement;
     componentWillLoad(): Promise<void>;
     private calculateTotalPrepaymentAmount;
     handlePrepaymentAmountChange(e: CustomEvent<number>): void;

@@ -24,7 +24,7 @@ export class IrBookingEngine {
         this.isLoading = false;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
-        this.version = '2.599';
+        this.version = '2.6';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();

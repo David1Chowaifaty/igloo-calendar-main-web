@@ -49,11 +49,17 @@ export class PickupService {
         });
         return Array.from(locationsMap.values());
     }
+    // public getNumberOfVehicles(capacity: number, numberOfPersons: number) {
+    //   let total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
+    //   // let startNumber = total_number_of_vehicles > 1 ? total_number_of_vehicles : 1;
+    //   // let bonus_number = total_number_of_vehicles > 1 ? 2 : 3;
+    //   return Array.from({ length: total_number_of_vehicles}, (_, i) => 1 + i);
+    // }
     getNumberOfVehicles(capacity, numberOfPersons) {
-        let total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
-        let startNumber = total_number_of_vehicles > 1 ? total_number_of_vehicles : 1;
-        let bonus_number = total_number_of_vehicles > 1 ? 2 : 3;
-        return Array.from({ length: total_number_of_vehicles + bonus_number }, (_, i) => startNumber + i);
+        const total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
+        const maxVehicles = Math.min(total_number_of_vehicles, numberOfPersons);
+        const minVehicles = 1;
+        return Array.from({ length: maxVehicles - minVehicles + 1 }, (_, i) => minVehicles + i);
     }
     getPickUpPersonStatus(code) {
         const getCodeDescription = app_store.property.pickup_service.allowed_pricing_models.find(model => model.code === code);

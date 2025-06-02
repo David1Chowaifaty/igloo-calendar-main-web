@@ -46,12 +46,12 @@ export class IrPickup {
             }
         });
         if (checkout_store.pickup.location) {
-            this.vehicleCapacity = this.pickupService.getNumberOfVehicles(checkout_store.pickup.selected_option.vehicle.capacity, 3);
+            this.vehicleCapacity = this.pickupService.getNumberOfVehicles(checkout_store.pickup.selected_option.vehicle.capacity, this.calculateTotalPersons());
             this.allowedOptionsByLocation = app_store.property.pickup_service.allowed_options.filter(option => option.location.id.toString() === checkout_store.pickup.location.toString());
         }
         onCheckoutDataChange('pickup', newValue => {
             if (newValue.location) {
-                this.vehicleCapacity = this.pickupService.getNumberOfVehicles(newValue.selected_option.vehicle.capacity, 3);
+                this.vehicleCapacity = this.pickupService.getNumberOfVehicles(newValue.selected_option.vehicle.capacity, this.calculateTotalPersons());
                 this.allowedOptionsByLocation = app_store.property.pickup_service.allowed_options.filter(option => option.location.id.toString() === newValue.location.toString());
             }
         });
@@ -79,16 +79,16 @@ export class IrPickup {
         if (!locationChoice) {
             return;
         }
-        this.vehicleCapacity = [...this.pickupService.getNumberOfVehicles(locationChoice.vehicle.capacity, 3)];
+        this.vehicleCapacity = [...this.pickupService.getNumberOfVehicles(locationChoice.vehicle.capacity, this.calculateTotalPersons())];
         updatePartialPickupFormData({
             selected_option: locationChoice,
-            number_of_vehicles: this.vehicleCapacity[0],
+            number_of_vehicles: this.vehicleCapacity[this.vehicleCapacity.length - 1],
             due_upon_booking: this.pickupService
                 .updateDue({
                 amount: locationChoice.amount,
                 code: locationChoice.pricing_model.code,
-                numberOfPersons: 3,
-                number_of_vehicles: this.vehicleCapacity[0],
+                numberOfPersons: this.calculateTotalPersons(),
+                number_of_vehicles: this.vehicleCapacity[this.vehicleCapacity.length - 1],
             })
                 .toFixed(2),
             vehicle_type_code: locationChoice.vehicle.code,
@@ -108,17 +108,17 @@ export class IrPickup {
                 return;
             }
             locationChoice.currency;
-            this.vehicleCapacity = this.pickupService.getNumberOfVehicles(locationChoice.vehicle.capacity, 3);
+            this.vehicleCapacity = this.pickupService.getNumberOfVehicles(locationChoice.vehicle.capacity, this.calculateTotalPersons());
             updatePartialPickupFormData({
                 location: value,
                 selected_option: locationChoice,
-                number_of_vehicles: this.vehicleCapacity[0],
+                number_of_vehicles: this.vehicleCapacity[this.vehicleCapacity.length - 1],
                 due_upon_booking: this.pickupService
                     .updateDue({
                     amount: locationChoice.amount,
                     code: locationChoice.pricing_model.code,
-                    numberOfPersons: 3,
-                    number_of_vehicles: this.vehicleCapacity[0],
+                    numberOfPersons: this.calculateTotalPersons(),
+                    number_of_vehicles: this.vehicleCapacity[this.vehicleCapacity.length - 1],
                 })
                     .toFixed(2),
                 vehicle_type_code: locationChoice.vehicle.code,
@@ -137,14 +137,27 @@ export class IrPickup {
                 .updateDue({
                 amount: checkout_store.pickup.selected_option.amount,
                 code: checkout_store.pickup.selected_option.pricing_model.code,
-                numberOfPersons: 3,
+                numberOfPersons: this.calculateTotalPersons(),
                 number_of_vehicles: value,
             })
                 .toFixed(2),
         });
     }
+    calculateTotalPersons() {
+        let count = 0;
+        Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+            return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
+                const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
+                if (r.reserved !== 0) {
+                    count += r.selected_variation.adult_nbr + r.selected_variation.child_nbr;
+                }
+            });
+        });
+        return count;
+    }
     render() {
-        var _a, _b;
+        var _a, _b, _c, _d;
+        console.log(this.calculateTotalPersons());
         if (!app_store.property.pickup_service.allowed_options) {
             return null;
         }
@@ -169,10 +182,10 @@ export class IrPickup {
             } }), h("p", { class: "pickup-amount" }, formatAmount(checkout_store.pickup.location ? Number(checkout_store.pickup.due_upon_booking) : 0, app_store.userPreferences.currency_id))), h("div", null, h("ir-input", { label: localizedWords.entries.Lcz_FlightDetails, placeholder: "", value: checkout_store.pickup.flight_details, onTextChanged: e => updatePickupFormData('flight_details', e.detail) })), h("div", { class: "flex flex-1 items-center gap-4" }, h("ir-select", { value: checkout_store.pickup.vehicle_type_code, data: this.allowedOptionsByLocation.map(option => ({
                 id: option.vehicle.code,
                 value: option.vehicle.description,
-            })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: localizedWords.entries.Lcz_CarModel, variant: "double-line" }), h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({
+            })), onValueChange: this.handleVehicleTypeChange.bind(this), class: "w-full", label: localizedWords.entries.Lcz_CarModel, variant: "double-line" }), ((_c = checkout_store.pickup) === null || _c === void 0 ? void 0 : _c.vehicle_type_code) !== '001' && ((_d = this.vehicleCapacity) === null || _d === void 0 ? void 0 : _d.length) > 1 && (h("ir-select", { value: checkout_store.pickup.number_of_vehicles, onValueChange: this.handleVehicleQuantityChange.bind(this), class: "w-72", data: this.vehicleCapacity.map(i => ({
                 id: i,
                 value: i.toString(),
-            })), label: localizedWords.entries.Lcz_NoOfVehicles, variant: "double-line" })))))));
+            })), label: localizedWords.entries.Lcz_NoOfVehicles, variant: "double-line" }))))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "shadow"; }

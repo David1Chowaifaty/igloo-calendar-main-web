@@ -400,4 +400,18 @@ export function generateCheckoutUrl(perma_link, queryString = null) {
     }
     return baseUrl;
 }
+export function passedBookingCutoff() {
+    const countryOffset = app_store.property.country.gmt_offset;
+    const nowInOffset = moment().utcOffset(countryOffset * 60);
+    const checkinRaw = booking_store.bookingAvailabilityParams.from_date;
+    const checkinInOffset = moment(checkinRaw).utcOffset(countryOffset * 60);
+    if (!checkinInOffset.isSame(nowInOffset, 'day')) {
+        return false;
+    }
+    const [cutoffHourStr, cutoffMinuteStr] = app_store.property.time_constraints.booking_cutoff.split(':');
+    const cutoffHour = parseInt(cutoffHourStr, 10);
+    const cutoffMinute = parseInt(cutoffMinuteStr, 10);
+    const cutoffToday = nowInOffset.clone().hour(cutoffHour).minute(cutoffMinute).second(0).millisecond(0);
+    return nowInOffset.isSameOrAfter(cutoffToday);
+}
 //# sourceMappingURL=utils.js.map

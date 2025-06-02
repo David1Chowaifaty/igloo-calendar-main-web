@@ -16,5 +16,6 @@ export declare class IrPickup {
     handleVehicleTypeChange(e: CustomEvent): void;
     handleLocationChange(event: CustomEvent): void;
     handleVehicleQuantityChange(e: CustomEvent): void;
+    private calculateTotalPersons;
     render(): any;
 }

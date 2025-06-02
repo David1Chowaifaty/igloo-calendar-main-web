@@ -7,7 +7,7 @@ import app_store from "../../../stores/app.store";
 import booking_store, { calculateTotalRooms, clearCheckoutRooms, validateBooking } from "../../../stores/booking";
 import { checkout_store } from "../../../stores/checkout.store";
 import localizedWords from "../../../stores/localization.store";
-import { generateCheckoutUrl, getDateDifference, injectHTMLAndRunScript } from "../../../utils/utils";
+import { detectCardType, generateCheckoutUrl, getDateDifference, injectHTMLAndRunScript, passedBookingCutoff } from "../../../utils/utils";
 import { ZCreditCardSchemaWithCvc } from "../../../validators/checkout.validator";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
@@ -44,6 +44,10 @@ export class IrCheckoutPage {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.resetErrorState();
+        if (passedBookingCutoff()) {
+            this.alertRef.openModal();
+            return;
+        }
         if (!this.validateUserForm() || !this.validateBookingDetails() || !this.validatePickupForm() || !this.validatePayment() || this.validatePolicyAcceptance()) {
             return;
         }
@@ -58,7 +62,7 @@ export class IrCheckoutPage {
         return true;
     }
     validatePayment() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         if (booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams) === null || _a === void 0 ? void 0 : _a.agent) === null || _b === void 0 ? void 0 : _b.payment_mode.code) === '001') {
             return true;
         }
@@ -83,10 +87,13 @@ export class IrCheckoutPage {
                 expiryDate: (_e = checkout_store.payment) === null || _e === void 0 ? void 0 : _e.expiry_month,
                 // cvc: (checkout_store.payment as any)?.cvc,
             });
-            // const cardType = detectCardType((checkout_store.payment as any)?.cardNumber?.replace(/ /g, ''));
-            // if (!app_store.property.allowed_cards.find(c => c.name.toLowerCase().includes((cardType === 'AMEX' ? 'American Express' : cardType)?.toLowerCase()))) {
-            //   return false;
-            // }
+            const cardType = detectCardType((_g = (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardNumber) === null || _g === void 0 ? void 0 : _g.replace(/ /g, ''));
+            if (cardType !== 'AMEX') {
+                return true;
+            }
+            if (!app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes((_a = (cardType === 'AMEX' ? 'American Express' : cardType)) === null || _a === void 0 ? void 0 : _a.toLowerCase()); })) {
+                return false;
+            }
             return true;
         }
         catch (error) {
@@ -244,7 +251,10 @@ export class IrCheckoutPage {
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
                 clearCheckoutRooms();
-            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error })))));
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error }))), h("ir-alert-dialog", { ref: el => (this.alertRef = el) }, h("div", { slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("h1", { class: 'text-lg font-semibold' }, "Selected date is past the hotel reservation cutoff!")), h("p", { slot: "modal-body" }, "Please select a check-in date on or before ", app_store.property.time_constraints.booking_cutoff, " to access group rates and availability."), h("div", { slot: "modal-footer" }, h("ir-button", { label: "Go back", onButtonClick: () => {
+                this.routing.emit('booking');
+                clearCheckoutRooms();
+            } })))));
     }
     static get is() { return "ir-checkout-page"; }
     static get encapsulation() { return "scoped"; }

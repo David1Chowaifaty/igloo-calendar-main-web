@@ -29339,7 +29339,21 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     }
     return baseUrl;
 }
+function passedBookingCutoff() {
+    const countryOffset = app_store.property.country.gmt_offset;
+    const nowInOffset = moment$1().utcOffset(countryOffset * 60);
+    const checkinRaw = booking_store.bookingAvailabilityParams.from_date;
+    const checkinInOffset = moment$1(checkinRaw).utcOffset(countryOffset * 60);
+    if (!checkinInOffset.isSame(nowInOffset, 'day')) {
+        return false;
+    }
+    const [cutoffHourStr, cutoffMinuteStr] = app_store.property.time_constraints.booking_cutoff.split(':');
+    const cutoffHour = parseInt(cutoffHourStr, 10);
+    const cutoffMinute = parseInt(cutoffMinuteStr, 10);
+    const cutoffToday = nowInOffset.clone().hour(cutoffHour).minute(cutoffMinute).second(0).millisecond(0);
+    return nowInOffset.isSameOrAfter(cutoffToday);
+}
 
-export { injectHTMLAndRunScript as A, detectCardType as B, renderPropertyLocation as C, renderTime as D, formatImageAlt as E, updateRoomParams as F, reserveRooms as G, getVisibleInventory as H, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getAbbreviatedWeekdays as g, getUserPreference as h, injectHTML as i, validateAgentCode as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, checkAffiliate as o, formatFullLocation as p, formatAmount as q, calculateTotalRooms as r, setDefaultLocale as s, getDateDifference as t, runScriptAndRemove as u, validateCoupon as v, calculateTotalCost as w, clearCheckoutRooms as x, validateBooking as y, generateCheckoutUrl as z };
+export { validateBooking as A, generateCheckoutUrl as B, injectHTMLAndRunScript as C, renderPropertyLocation as D, renderTime as E, formatImageAlt as F, updateRoomParams as G, reserveRooms as H, getVisibleInventory as I, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getAbbreviatedWeekdays as g, getUserPreference as h, injectHTML as i, validateAgentCode as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, checkAffiliate as o, passedBookingCutoff as p, formatFullLocation as q, formatAmount as r, setDefaultLocale as s, calculateTotalRooms as t, getDateDifference as u, validateCoupon as v, runScriptAndRemove as w, calculateTotalCost as x, clearCheckoutRooms as y, detectCardType as z };
 
 //# sourceMappingURL=utils.js.map
