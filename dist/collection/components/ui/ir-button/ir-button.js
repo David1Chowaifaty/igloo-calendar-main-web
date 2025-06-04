@@ -2,19 +2,53 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrButton {
     constructor() {
-        this.icon = 'ft-save';
+        /**
+         * The color theme of the button.
+         */
         this.btn_color = 'primary';
+        /**
+         * The size of the button.
+         */
         this.size = 'md';
+        /**
+         * The size of the text inside the button.
+         */
         this.textSize = 'md';
+        /**
+         * Whether the button should expand to the full width of its container.
+         */
         this.btn_block = true;
+        /**
+         * Disables the button when set to true.
+         */
         this.btn_disabled = false;
+        /**
+         * The button type attribute (`button`, `submit`, or `reset`).
+         */
         this.btn_type = 'button';
+        /**
+         * Displays a loading indicator when true and disables the button.
+         */
         this.isLoading = false;
+        /**
+         * A unique identifier for the button instance.
+         */
         this.btn_id = v4();
+        /**
+         * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+         */
         this.variant = 'default';
+        /**
+         * If true, applies a visible background when hovered.
+         */
         this.visibleBackgroundOnHover = false;
+        /**
+         * Position of the icon relative to the button text.
+         */
         this.iconPosition = 'left';
-        /** If true, will render `content` as HTML */
+        /**
+         * If true, renders the text property as raw HTML inside the button.
+         */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -27,6 +61,9 @@ export class IrButton {
         void this.buttonEl.offsetWidth;
         this.buttonEl.classList.add('bounce-3');
     }
+    /**
+     * Triggers a bounce animation on the button.
+     */
     async bounce() {
         this.buttonEl.classList.remove('bounce-3');
         void this.buttonEl.offsetWidth;
@@ -67,7 +104,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The name of the button, used for identification purposes."
                 },
                 "getter": false,
                 "setter": false,
@@ -86,32 +123,12 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The text content displayed inside the button."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "text",
                 "reflect": false
-            },
-            "icon": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "icon",
-                "reflect": false,
-                "defaultValue": "'ft-save'"
             },
             "btn_color": {
                 "type": "string",
@@ -125,7 +142,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The color theme of the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -145,7 +162,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The size of the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -165,7 +182,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The size of the text inside the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -185,7 +202,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the button should expand to the full width of its container."
                 },
                 "getter": false,
                 "setter": false,
@@ -205,7 +222,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Disables the button when set to true."
                 },
                 "getter": false,
                 "setter": false,
@@ -225,7 +242,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The button type attribute (`button`, `submit`, or `reset`)."
                 },
                 "getter": false,
                 "setter": false,
@@ -245,7 +262,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Displays a loading indicator when true and disables the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -265,7 +282,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Additional custom class names for the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -284,7 +301,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "A unique identifier for the button instance."
                 },
                 "getter": false,
                 "setter": false,
@@ -304,7 +321,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Visual variant of the button: either standard (`default`) or icon-only (`icon`)."
                 },
                 "getter": false,
                 "setter": false,
@@ -330,7 +347,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "The name of the icon to display."
                 },
                 "getter": false,
                 "setter": false,
@@ -349,7 +366,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "If true, applies a visible background when hovered."
                 },
                 "getter": false,
                 "setter": false,
@@ -369,7 +386,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Position of the icon relative to the button text."
                 },
                 "getter": false,
                 "setter": false,
@@ -389,7 +406,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Custom style object for the icon."
                 },
                 "getter": false,
                 "setter": false,
@@ -408,7 +425,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Custom inline styles for the button element."
                 },
                 "getter": false,
                 "setter": false
@@ -425,7 +442,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Custom inline styles for the label/text inside the button."
                 },
                 "getter": false,
                 "setter": false
@@ -442,7 +459,7 @@ export class IrButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If true, will render `content` as HTML"
+                    "text": "If true, renders the text property as raw HTML inside the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -461,7 +478,7 @@ export class IrButton {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emits a custom click event when the button is clicked."
                 },
                 "complexType": {
                     "original": "any",
@@ -485,7 +502,7 @@ export class IrButton {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "",
+                    "text": "Triggers a bounce animation on the button.",
                     "tags": []
                 }
             }

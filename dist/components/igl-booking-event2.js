@@ -47,7 +47,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         /* show bubble */
         this.showInfoPopup = false;
         this.bubbleInfoTopSide = false;
-        this.isStreatch = false;
+        this.isStretch = false;
         /*Services */
         this.eventsService = new EventsService();
         this.bookingService = new BookingService();
@@ -136,7 +136,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
             if (event.detail.moveToDay === 'revert' || event.detail.toRoomId === 'revert') {
                 event.detail.moveToDay = this.bookingEvent.FROM_DATE;
                 event.detail.toRoomId = event.detail.fromRoomId;
-                if (this.isTouchStart && this.moveDiffereneX <= 5 && this.moveDiffereneY <= 5 && !this.isStreatch) {
+                if (this.isTouchStart && this.moveDifferenceX <= 5 && this.moveDifferenceY <= 5 && !this.isStretch) {
                     if (isBlockUnit(this.bookingEvent.STATUS_CODE)) {
                         this.showEventInfo(true);
                     }
@@ -152,7 +152,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                 }
             }
             else {
-                if (this.isTouchStart && this.moveDiffereneX <= 5 && this.moveDiffereneY <= 5 && !this.isStreatch) {
+                if (this.isTouchStart && this.moveDifferenceX <= 5 && this.moveDifferenceY <= 5 && !this.isStretch) {
                     if (isBlockUnit(this.bookingEvent.STATUS_CODE)) {
                         this.showEventInfo(true);
                     }
@@ -163,18 +163,13 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
                     const previousToDate = hooks(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
-                    if (calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`) ||
-                        (calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`) && calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`))) {
-                        this.animationFrameId = requestAnimationFrame(() => {
-                            this.resetBookingToInitialPosition();
-                        });
-                        throw new Error('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                    if ((calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`) ||
+                        (calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`) && calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`))) &&
+                        !this.isStretch) {
+                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
                     }
                     if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
-                        this.animationFrameId = requestAnimationFrame(() => {
-                            this.resetBookingToInitialPosition();
-                        });
-                        throw new Error('Overlapping Dates');
+                        this.reset('Overlapping Dates');
                     }
                     if (pool) {
                         if (isBlockUnit(this.bookingEvent.STATUS_CODE)) {
@@ -187,7 +182,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                             });
                         }
                         else {
-                            if (this.isShrinking || !this.isStreatch) {
+                            if (this.isShrinking || !this.isStretch) {
                                 // try {
                                 //   if (this.bookingEvent.PR_ID.toString() === toRoomId.toString()) {
                                 //     await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date);
@@ -228,6 +223,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                                     }
                                 }
                                 else {
+                                    console.log('stretching');
                                     if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(oldFromDate, 'YYYY-MM-DD'))) {
                                         fromDate = from_date;
                                         const newToDate = hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
@@ -248,6 +244,38 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                                 //   });
                                 //   throw new Error('Overlapping Dates');
                                 // } else {
+                                // let stretchDirection: "left" | "right"
+                                const oldFromDate = this.bookingEvent.defaultDates.from_date;
+                                const oldToDate = this.bookingEvent.defaultDates.to_date;
+                                // const diffDays = calculateDaysBetweenDates(oldFromDate, oldToDate);
+                                // let fromDate = oldFromDate;
+                                // if (moment(from_date, 'YYYY-MM-DD').isBefore(moment(oldFromDate, 'YYYY-MM-DD'))) {
+                                //   fromDate = from_date;
+                                //   const newToDate = moment(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
+                                //   toDate = newToDate.isBefore(moment(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
+                                // } else if (moment(to_date, 'YYYY-MM-DD').isAfter(moment(oldToDate, 'YYYY-MM-DD'))) {
+                                //   toDate = to_date;
+                                //   fromDate = moment(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
+                                // }
+                                const validateDates = (base_date, to_date) => {
+                                    let cursor = base_date;
+                                    let counter = 0;
+                                    while (cursor !== to_date) {
+                                        if (calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)) {
+                                            counter++;
+                                        }
+                                        cursor = hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+                                    }
+                                    if (counter >= 1) {
+                                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                                    }
+                                };
+                                if (hooks(oldToDate, 'YYYY-MM-DD').isBefore(hooks(to_date), 'dates')) {
+                                    validateDates(oldToDate, to_date);
+                                }
+                                else if (hooks(oldFromDate, 'YYYY-MM-DD').isAfter(hooks(from_date, 'YYYY-MM-DD'), 'dates')) {
+                                    validateDates(from_date, oldFromDate);
+                                }
                                 this.showRoomNightsDialog.emit({
                                     bookingNumber: this.bookingEvent.BOOKING_NUMBER,
                                     identifier: this.bookingEvent.IDENTIFIER,
@@ -273,6 +301,12 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
             });
             console.log('something went wrong');
         }
+    }
+    reset(message) {
+        this.animationFrameId = requestAnimationFrame(() => {
+            this.resetBookingToInitialPosition();
+        });
+        throw new Error(message);
     }
     getModalDescription(toRoomId, from_date, to_date) {
         const findRoomType = (roomId) => {
@@ -330,10 +364,10 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         }
     }
     resetBookingToInitialPosition() {
-        if (this.isStreatch) {
+        if (this.isStretch) {
             this.element.style.left = `${this.initialLeft}px`;
             this.element.style.width = `${this.initialWidth}px`;
-            this.isStreatch = false;
+            this.isStretch = false;
             this.finalWidth = this.initialWidth;
             this.isShrinking = null;
         }
@@ -474,7 +508,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         this.resizeSide = side;
         this.isDragging = true;
         this.showEventInfo(false);
-        this.isStreatch = side !== 'move';
+        this.isStretch = side !== 'move';
         if (side === 'move') {
             this.initialX = event.clientX || event.touches[0].clientX;
             this.initialY = event.clientY || event.touches[0].clientY;
@@ -574,8 +608,8 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                 // console.log("End X::"+this.dragEndPos.x);
                 // console.log("End Y::"+this.dragEndPos.y);
                 if (this.isTouchStart) {
-                    this.moveDiffereneX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
-                    this.moveDiffereneY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
+                    this.moveDifferenceX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
+                    this.moveDifferenceY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
                 }
                 this.dragOverEventData.emit({
                     id: 'DRAG_OVER_END',
@@ -724,14 +758,14 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '56e06b2d96a70bfdac308307ba7b74c16b315cf2', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '463d17fba935e28e017bd78f322c74d7668d26c7', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '5e19e6f9669c32e003922ee53590e6d18f5a8449', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'fbcd47b3afe3fb2b274dfc6be1f4e0b3789092da', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: 'bf8fceae1d5b746ca25352a152c35967204fbee4', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: '15c741920c79e21d226a551de027d2c6d932dc2a' }, h("div", { key: '7aba5a094eac562a9967bffb15c6b48277fd9c9e', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '8a0d285a5cfef09ad95e764c418f59992165c787', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '0a27750409968be38d15c93f4d8c8e2f037e5dee', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: 'f9f7ad30fb50695cd6f7f032d0eebe3a51c0011f' }, h("div", { key: 'db82ed84d4c1266c4aec524dafb825e45d57c279', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '7407e477160cd3277825f77775fd5325cd5514d9', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return this; }

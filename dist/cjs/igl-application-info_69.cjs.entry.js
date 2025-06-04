@@ -1326,7 +1326,7 @@ const IglBookPropertyHeader = class {
             })) }))), this.adultChildConstraints.child_max_nbr > 0 && (index.h("fieldset", null, index.h("div", { class: "btn-group ml-1 p-0" }, index.h("ir-select", { selectedValue: (_d = (_c = this.adultChildCount) === null || _c === void 0 ? void 0 : _c.child) === null || _d === void 0 ? void 0 : _d.toString(), testId: "child_number", onSelectChange: e => this.handleAdultChildChange('child', e.detail), select_id: "child_select", firstOption: this.renderChildCaption(), LabelAvailable: false, data: Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => ({
                 text: option.toString(),
                 value: option.toString(),
-            })) })))), index.h("ir-button", { btn_id: "check_availability", isLoading: irInterceptor_store.isRequestPending('/Check_Availability'), icon: "", size: "sm", class: "ml-2", text: locales_store.locales.entries.Lcz_Check, onClickHandler: () => this.handleButtonClicked() }))));
+            })) })))), index.h("ir-button", { btn_id: "check_availability", isLoading: irInterceptor_store.isRequestPending('/Check_Availability'), size: "sm", class: "ml-2", text: locales_store.locales.entries.Lcz_Check, onClickHandler: () => this.handleButtonClicked() }))));
     }
     renderChildCaption() {
         const maxAge = this.adultChildConstraints.child_max_age;
@@ -1405,7 +1405,7 @@ const IglBookPropertyHeader = class {
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (index.h(index.Host, { key: '0a6f2450bc2beceebe08f530b44728a9cfbb2c40' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), index.h("div", { key: '50a76e51c14e218d8e7a803ad7cbf88ddf176bd7', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, index.h("fieldset", { key: '40c37c5c828d527ae9af6859ad2dd7f697cb6d24', class: "mt-lg-0 mr-1 " }, index.h("igl-date-range", { key: 'b9addc249adfacc7f8934884b3ca5e784da43c10', "data-testid": "date_picker", variant: "booking", dateLabel: locales_store.locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), index.h("p", { key: 'fb851a60d71260519774e3fbfc4ccd5010ad53f1', class: "text-right mt-1 message-label" }, calendarData.calendar_data.tax_statement)));
+        return (index.h(index.Host, { key: '0a35a6251d0ccb9cc615cfade3326fc5eb221d1c' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), index.h("div", { key: 'd4205ca5716c581c7284d1a596207096c0edd601', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, index.h("fieldset", { key: 'a711de5dc3028341ec32e90df9bf3d91e68546f6', class: "mt-lg-0 mr-1 " }, index.h("igl-date-range", { key: 'd3743df9489abe0beb83fb428dc78e6c9cd7051f', "data-testid": "date_picker", variant: "booking", dateLabel: locales_store.locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), index.h("p", { key: '6492e3f10625ac12e048e32730b73d69c347206e', class: "text-right mt-1 message-label" }, calendarData.calendar_data.tax_statement)));
     }
 };
 IglBookPropertyHeader.style = IglBookPropertyHeaderStyle0;
@@ -1497,7 +1497,7 @@ const IglBookingEvent = class {
         /* show bubble */
         this.showInfoPopup = false;
         this.bubbleInfoTopSide = false;
-        this.isStreatch = false;
+        this.isStretch = false;
         /*Services */
         this.eventsService = new EventsService();
         this.bookingService = new booking_service.BookingService();
@@ -1586,7 +1586,7 @@ const IglBookingEvent = class {
             if (event.detail.moveToDay === 'revert' || event.detail.toRoomId === 'revert') {
                 event.detail.moveToDay = this.bookingEvent.FROM_DATE;
                 event.detail.toRoomId = event.detail.fromRoomId;
-                if (this.isTouchStart && this.moveDiffereneX <= 5 && this.moveDiffereneY <= 5 && !this.isStreatch) {
+                if (this.isTouchStart && this.moveDifferenceX <= 5 && this.moveDifferenceY <= 5 && !this.isStretch) {
                     if (utils.isBlockUnit(this.bookingEvent.STATUS_CODE)) {
                         this.showEventInfo(true);
                     }
@@ -1602,7 +1602,7 @@ const IglBookingEvent = class {
                 }
             }
             else {
-                if (this.isTouchStart && this.moveDiffereneX <= 5 && this.moveDiffereneY <= 5 && !this.isStreatch) {
+                if (this.isTouchStart && this.moveDifferenceX <= 5 && this.moveDifferenceY <= 5 && !this.isStretch) {
                     if (utils.isBlockUnit(this.bookingEvent.STATUS_CODE)) {
                         this.showEventInfo(true);
                     }
@@ -1613,18 +1613,13 @@ const IglBookingEvent = class {
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
                     const previousToDate = moment.hooks(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
-                    if (utils.calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`) ||
-                        (utils.calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`) && utils.calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`))) {
-                        this.animationFrameId = requestAnimationFrame(() => {
-                            this.resetBookingToInitialPosition();
-                        });
-                        throw new Error('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                    if ((utils.calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`) ||
+                        (utils.calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`) && utils.calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`))) &&
+                        !this.isStretch) {
+                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
                     }
                     if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
-                        this.animationFrameId = requestAnimationFrame(() => {
-                            this.resetBookingToInitialPosition();
-                        });
-                        throw new Error('Overlapping Dates');
+                        this.reset('Overlapping Dates');
                     }
                     if (pool) {
                         if (utils.isBlockUnit(this.bookingEvent.STATUS_CODE)) {
@@ -1637,7 +1632,7 @@ const IglBookingEvent = class {
                             });
                         }
                         else {
-                            if (this.isShrinking || !this.isStreatch) {
+                            if (this.isShrinking || !this.isStretch) {
                                 // try {
                                 //   if (this.bookingEvent.PR_ID.toString() === toRoomId.toString()) {
                                 //     await this.eventsService.reallocateEvent(pool, toRoomId, from_date, to_date);
@@ -1678,6 +1673,7 @@ const IglBookingEvent = class {
                                     }
                                 }
                                 else {
+                                    console.log('stretching');
                                     if (moment.hooks(from_date, 'YYYY-MM-DD').isBefore(moment.hooks(oldFromDate, 'YYYY-MM-DD'))) {
                                         fromDate = from_date;
                                         const newToDate = moment.hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
@@ -1698,6 +1694,38 @@ const IglBookingEvent = class {
                                 //   });
                                 //   throw new Error('Overlapping Dates');
                                 // } else {
+                                // let stretchDirection: "left" | "right"
+                                const oldFromDate = this.bookingEvent.defaultDates.from_date;
+                                const oldToDate = this.bookingEvent.defaultDates.to_date;
+                                // const diffDays = calculateDaysBetweenDates(oldFromDate, oldToDate);
+                                // let fromDate = oldFromDate;
+                                // if (moment(from_date, 'YYYY-MM-DD').isBefore(moment(oldFromDate, 'YYYY-MM-DD'))) {
+                                //   fromDate = from_date;
+                                //   const newToDate = moment(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
+                                //   toDate = newToDate.isBefore(moment(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
+                                // } else if (moment(to_date, 'YYYY-MM-DD').isAfter(moment(oldToDate, 'YYYY-MM-DD'))) {
+                                //   toDate = to_date;
+                                //   fromDate = moment(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
+                                // }
+                                const validateDates = (base_date, to_date) => {
+                                    let cursor = base_date;
+                                    let counter = 0;
+                                    while (cursor !== to_date) {
+                                        if (utils.calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)) {
+                                            counter++;
+                                        }
+                                        cursor = moment.hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+                                    }
+                                    if (counter >= 1) {
+                                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                                    }
+                                };
+                                if (moment.hooks(oldToDate, 'YYYY-MM-DD').isBefore(moment.hooks(to_date), 'dates')) {
+                                    validateDates(oldToDate, to_date);
+                                }
+                                else if (moment.hooks(oldFromDate, 'YYYY-MM-DD').isAfter(moment.hooks(from_date, 'YYYY-MM-DD'), 'dates')) {
+                                    validateDates(from_date, oldFromDate);
+                                }
                                 this.showRoomNightsDialog.emit({
                                     bookingNumber: this.bookingEvent.BOOKING_NUMBER,
                                     identifier: this.bookingEvent.IDENTIFIER,
@@ -1723,6 +1751,12 @@ const IglBookingEvent = class {
             });
             console.log('something went wrong');
         }
+    }
+    reset(message) {
+        this.animationFrameId = requestAnimationFrame(() => {
+            this.resetBookingToInitialPosition();
+        });
+        throw new Error(message);
     }
     getModalDescription(toRoomId, from_date, to_date) {
         const findRoomType = (roomId) => {
@@ -1780,10 +1814,10 @@ const IglBookingEvent = class {
         }
     }
     resetBookingToInitialPosition() {
-        if (this.isStreatch) {
+        if (this.isStretch) {
             this.element.style.left = `${this.initialLeft}px`;
             this.element.style.width = `${this.initialWidth}px`;
-            this.isStreatch = false;
+            this.isStretch = false;
             this.finalWidth = this.initialWidth;
             this.isShrinking = null;
         }
@@ -1924,7 +1958,7 @@ const IglBookingEvent = class {
         this.resizeSide = side;
         this.isDragging = true;
         this.showEventInfo(false);
-        this.isStreatch = side !== 'move';
+        this.isStretch = side !== 'move';
         if (side === 'move') {
             this.initialX = event.clientX || event.touches[0].clientX;
             this.initialY = event.clientY || event.touches[0].clientY;
@@ -2024,8 +2058,8 @@ const IglBookingEvent = class {
                 // console.log("End X::"+this.dragEndPos.x);
                 // console.log("End Y::"+this.dragEndPos.y);
                 if (this.isTouchStart) {
-                    this.moveDiffereneX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
-                    this.moveDiffereneY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
+                    this.moveDifferenceX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
+                    this.moveDifferenceY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
                 }
                 this.dragOverEventData.emit({
                     id: 'DRAG_OVER_END',
@@ -2174,14 +2208,14 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (index.h(index.Host, { key: '56e06b2d96a70bfdac308307ba7b74c16b315cf2', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: '463d17fba935e28e017bd78f322c74d7668d26c7', class: `bookingEventBase  ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (index.h(index.Host, { key: '5e19e6f9669c32e003922ee53590e6d18f5a8449', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: 'fbcd47b3afe3fb2b274dfc6be1f4e0b3789092da', class: `bookingEventBase  ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !utils.isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: 'bf8fceae1d5b746ca25352a152c35967204fbee4', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || utils.isBlockUnit(this.bookingEvent.STATUS_CODE)) && (index.h(index.Fragment, { key: '15c741920c79e21d226a551de027d2c6d932dc2a' }, index.h("div", { key: '7aba5a094eac562a9967bffb15c6b48277fd9c9e', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '8a0d285a5cfef09ad95e764c418f59992165c787', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: '0a27750409968be38d15c93f4d8c8e2f037e5dee', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || utils.isBlockUnit(this.bookingEvent.STATUS_CODE)) && (index.h(index.Fragment, { key: 'f9f7ad30fb50695cd6f7f032d0eebe3a51c0011f' }, index.h("div", { key: 'db82ed84d4c1266c4aec524dafb825e45d57c279', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '7407e477160cd3277825f77775fd5325cd5514d9', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (index.h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return index.getElement(this); }
@@ -6946,7 +6980,7 @@ const IrBookingExtraNote = class {
         return (index.h("form", { key: '0404c344aa5f55379ed3e1fa46a200ed62e1a409', class: 'sheet-container h-100', onSubmit: e => {
                 e.preventDefault();
                 this.savePrivateNote();
-            } }, index.h("ir-title", { key: '5da7051394dce2136c57219ec5253a8b4b93ca99', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales_store.locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), index.h("div", { key: '933e783c11ed665144efbd8a80f1e45822873b74', class: "sheet-body px-1" }, index.h("ir-textarea", { key: 'b1f7ba24cac539d2ef9ade9171b5ede6c272a4b9', placeholder: locales_store.locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) })), index.h("div", { key: 'fc497a69f180323cfbfe22feffd46f354868669b', class: 'sheet-footer' }, index.h("ir-button", { key: '6f67e3d4c23b8a11008c31492eca678bee6b12a8', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { key: '743b5ce82cddf2dc18285643dcc394769f03e0dd', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', icon: "", isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" }))));
+            } }, index.h("ir-title", { key: '5da7051394dce2136c57219ec5253a8b4b93ca99', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales_store.locales.entries.Lcz_PrivateNote, displayContext: "sidebar" }), index.h("div", { key: '933e783c11ed665144efbd8a80f1e45822873b74', class: "sheet-body px-1" }, index.h("ir-textarea", { key: 'b1f7ba24cac539d2ef9ade9171b5ede6c272a4b9', placeholder: locales_store.locales.entries.Lcz_PrivateNote_MaxChar, label: "", value: this.note, maxLength: 150, onTextChange: e => this.setNote(e.detail) })), index.h("div", { key: 'fc497a69f180323cfbfe22feffd46f354868669b', class: 'sheet-footer' }, index.h("ir-button", { key: 'adfaccc6c9e5402fad3ff6abc33eca1a7856552b', onClickHandler: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill  mr-sm-1'}`, text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { key: '4abedda17e2714ea0b9428ea0c5abaa6072b5a89', btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center ml-sm-1', isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" }))));
     }
 };
 IrBookingExtraNote.style = IrBookingExtraNoteStyle0 + IrBookingExtraNoteStyle1;
@@ -7047,19 +7081,53 @@ const IrButton = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.clickHandler = index.createEvent(this, "clickHandler", 7);
-        this.icon = 'ft-save';
+        /**
+         * The color theme of the button.
+         */
         this.btn_color = 'primary';
+        /**
+         * The size of the button.
+         */
         this.size = 'md';
+        /**
+         * The size of the text inside the button.
+         */
         this.textSize = 'md';
+        /**
+         * Whether the button should expand to the full width of its container.
+         */
         this.btn_block = true;
+        /**
+         * Disables the button when set to true.
+         */
         this.btn_disabled = false;
+        /**
+         * The button type attribute (`button`, `submit`, or `reset`).
+         */
         this.btn_type = 'button';
+        /**
+         * Displays a loading indicator when true and disables the button.
+         */
         this.isLoading = false;
+        /**
+         * A unique identifier for the button instance.
+         */
         this.btn_id = v4.v4();
+        /**
+         * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+         */
         this.variant = 'default';
+        /**
+         * If true, applies a visible background when hovered.
+         */
         this.visibleBackgroundOnHover = false;
+        /**
+         * Position of the icon relative to the button text.
+         */
         this.iconPosition = 'left';
-        /** If true, will render `content` as HTML */
+        /**
+         * If true, renders the text property as raw HTML inside the button.
+         */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -7071,6 +7139,9 @@ const IrButton = class {
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
     }
+    /**
+     * Triggers a bounce animation on the button.
+     */
     async bounce() {
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
@@ -7094,15 +7165,18 @@ const IrCheckbox = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.checkChange = index.createEvent(this, "checkChange", 7);
+        /**
+         * Whether the checkbox is checked.
+         */
         this.checked = false;
+        /**
+         * The unique ID of the checkbox element.
+         */
         this.checkboxId = v4.v4();
+        /**
+         * Internal state tracking whether the checkbox is currently checked.
+         */
         this.currentChecked = false;
-    }
-    handleCheckedChange(newValue) {
-        if (newValue === this.currentChecked) {
-            return;
-        }
-        this.currentChecked = this.checked;
     }
     componentWillLoad() {
         this.currentChecked = this.checked;
@@ -7112,6 +7186,18 @@ const IrCheckbox = class {
             this.checkboxRef.setAttribute('aria-checked', JSON.stringify(this.checked));
         }
     }
+    /**
+     * Watcher for the `checked` property. Syncs internal state with external prop changes.
+     */
+    handleCheckedChange(newValue) {
+        if (newValue === this.currentChecked) {
+            return;
+        }
+        this.currentChecked = this.checked;
+    }
+    /**
+     * Handles user interaction with the checkbox and updates its state.
+     */
     handleCheckChange() {
         this.currentChecked = !this.currentChecked;
         if (this.checkboxRef) {
@@ -7120,7 +7206,7 @@ const IrCheckbox = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h(index.Host, { key: '1b24b1a38405fffe005bad9ede7501699b708930' }, index.h("button", { key: 'cf1db44eb3d6ec12c7b0ab1c0e7a9832543d90a7', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked || this.indeterminate ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (index.h("svg", { key: '36ba2f3d330e56e210416adc59b58645e5f6a34e', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'd52bbc4bafc2213d8721bd2059c3265d3b0602f1', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" }))), this.indeterminate && (index.h("svg", { key: 'd71ee6558d2558c0a70965c7f484bcb33dd9a512', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'a10ef47e3ac44d97c511692f4351d20909559985', fill: "currentColor", d: "M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" })))), index.h("input", { key: '932b22de5b008f0abb1deac58a2eb608f2b4c8a1', type: "checkbox", indeterminate: this.indeterminate, "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && (index.h("label", { key: 'a4a81a555fecdaa984123a4a6ed4917c55689d96', htmlFor: this.checkboxId, class: this.labelClass }, this.label))));
+        return (index.h(index.Host, { key: 'b8508a131d5a808675661db48daf6b532efe05ea' }, index.h("button", { key: '409d0dc2d7ea5eebee96de6a331cebc1556071bc', disabled: this.disabled, name: this.name, onClick: this.handleCheckChange.bind(this), id: this.checkboxId, "data-state": this.currentChecked || this.indeterminate ? 'checked' : 'unchecked', value: 'on', ref: ref => (this.checkboxRef = ref), type: "button", role: "checkbox", class: "CheckboxRoot" }, this.currentChecked && (index.h("svg", { key: 'ae237052cea77c0ff12b07832bc0c1c3abbbed0c', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '0d9bb5069ef5fe4d594b3ae0bd6bb8029b288964', fill: "currentColor", d: "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" }))), this.indeterminate && (index.h("svg", { key: '9c577e9e96a13678df3833c40ad39141d0bd8e3d', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'a74aeac8ed21e6af3f96b4dd9f5444e4e6aca8f8', fill: "currentColor", d: "M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" })))), index.h("input", { key: 'f749c4afacf1106cba660315af4f28c1dcfca60f', type: "checkbox", indeterminate: this.indeterminate, "aria-hidden": "true", tabindex: "-1", value: "on", checked: this.currentChecked, class: "checkbox" }), this.label && (index.h("label", { key: '73796244d171525919e07c9a9e64ba227ae3b45a', htmlFor: this.checkboxId, class: this.labelClass }, this.label))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -7137,17 +7223,53 @@ const IrCombobox = class {
         this.comboboxValueChange = index.createEvent(this, "comboboxValueChange", 7);
         this.inputCleared = index.createEvent(this, "inputCleared", 7);
         this.toast = index.createEvent(this, "toast", 7);
+        /**
+         * The list of items displayed in the combobox.
+         */
         this.data = [];
+        /**
+         * Debounce duration in milliseconds for search input.
+         */
         this.duration = 300;
+        /**
+         * Disables the combobox input when set to true.
+         */
         this.disabled = false;
+        /**
+         * Autofocuses the input field when true.
+         */
         this.autoFocus = false;
+        /**
+         * Unique identifier for the input element.
+         */
         this.input_id = v4.v4();
+        /**
+         * The index of the currently selected item.
+         */
         this.selectedIndex = -1;
+        /**
+         * Tracks the actual focused index during keyboard navigation.
+         */
         this.actualIndex = -1;
+        /**
+         * Whether the dropdown is visible.
+         */
         this.isComboBoxVisible = false;
+        /**
+         * Indicates if the component is in loading state.
+         */
         this.isLoading = true;
+        /**
+         * The current input value typed by the user.
+         */
         this.inputValue = '';
+        /**
+         * Filtered list based on user input.
+         */
         this.filteredData = [];
+        /**
+         * Determines if the input should automatically receive focus.
+         */
         this.componentShouldAutoFocus = false;
     }
     componentWillLoad() {
@@ -7163,6 +7285,24 @@ const IrCombobox = class {
             this.focusInput();
         }
     }
+    handleDocumentClick(event) {
+        const target = event.target;
+        if (!this.el.contains(target)) {
+            this.isComboBoxVisible = false;
+        }
+    }
+    disconnectedCallback() {
+        var _a, _b, _c, _d;
+        clearTimeout(this.debounceTimer);
+        clearTimeout(this.blurTimeout);
+        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('blur', this.handleBlur);
+        (_b = this.inputRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('click', this.selectItem);
+        (_c = this.inputRef) === null || _c === void 0 ? void 0 : _c.removeEventListener('keydown', this.handleKeyDown);
+        (_d = this.inputRef) === null || _d === void 0 ? void 0 : _d.removeEventListener('focus', this.handleFocus);
+    }
+    /**
+     * Handles keyboard navigation and selection inside the combobox.
+     */
     handleKeyDown(event) {
         var _a;
         const dataSize = this.filteredData.length;
@@ -7193,12 +7333,18 @@ const IrCombobox = class {
             }
         }
     }
+    /**
+     * Focuses the combobox input element.
+     */
     focusInput() {
         requestAnimationFrame(() => {
             var _a;
             (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
         });
     }
+    /**
+     * Scrolls the selected item into view when navigating.
+     */
     adjustScrollPosition() {
         var _a;
         const selectedItem = (_a = this.el) === null || _a === void 0 ? void 0 : _a.querySelector(`[data-selected]`);
@@ -7208,6 +7354,9 @@ const IrCombobox = class {
             block: 'center',
         });
     }
+    /**
+     * Selects an item at the given index.
+     */
     selectItem(index) {
         if (this.filteredData[index]) {
             this.isItemSelected = true;
@@ -7219,28 +7368,35 @@ const IrCombobox = class {
             }
         }
     }
+    /**
+     * Debounces calls to the fetch data function.
+     */
     debounceFetchData() {
         clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(() => {
             this.fetchData();
         }, this.duration);
     }
+    /**
+     * Makes the dropdown visible on input focus.
+     */
     handleFocus() {
         this.isComboBoxVisible = true;
     }
-    clearInput() {
-        this.inputValue = '';
-        this.resetCombobox();
-        this.inputCleared.emit(null);
-    }
-    resetCombobox(withblur = true) {
+    /**
+     * Resets the combobox state and optionally blurs the input.
+     */
+    resetCombobox(withBlur = true) {
         var _a;
-        if (withblur) {
+        if (withBlur) {
             (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
         }
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
     }
+    /**
+     * Filters data based on input value.
+     */
     async fetchData() {
         try {
             this.isLoading = true;
@@ -7254,6 +7410,9 @@ const IrCombobox = class {
             this.isLoading = false;
         }
     }
+    /**
+     * Updates input value and triggers search.
+     */
     handleInputChange(event) {
         this.inputValue = event.target.value;
         if (this.inputValue) {
@@ -7263,14 +7422,11 @@ const IrCombobox = class {
             this.filteredData = this.data;
         }
     }
-    handleDocumentClick(event) {
-        const target = event.target;
-        if (!this.el.contains(target)) {
-            this.isComboBoxVisible = false;
-        }
-    }
+    /**
+     * Clears input or resets dropdown if nothing selected on blur.
+     */
     handleBlur() {
-        this.blurTimout = setTimeout(() => {
+        this.blurTimeout = setTimeout(() => {
             if (!this.isItemSelected) {
                 this.inputValue = '';
                 this.resetCombobox();
@@ -7280,18 +7436,9 @@ const IrCombobox = class {
             }
         }, 300);
     }
-    isDropdownItem(element) {
-        return element && element.closest('.combobox');
-    }
-    disconnectedCallback() {
-        var _a, _b, _c, _d;
-        clearTimeout(this.debounceTimer);
-        clearTimeout(this.blurTimout);
-        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('blur', this.handleBlur);
-        (_b = this.inputRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('click', this.selectItem);
-        (_c = this.inputRef) === null || _c === void 0 ? void 0 : _c.removeEventListener('keydown', this.handleKeyDown);
-        (_d = this.inputRef) === null || _d === void 0 ? void 0 : _d.removeEventListener('focus', this.handleFocus);
-    }
+    /**
+     * Handles key navigation on individual items.
+     */
     handleItemKeyDown(event, index) {
         var _a;
         if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowRight') {
@@ -7304,6 +7451,9 @@ const IrCombobox = class {
             event.preventDefault();
         }
     }
+    /**
+     * Renders the dropdown list.
+     */
     renderDropdown() {
         var _a;
         if (!this.isComboBoxVisible) {
@@ -7312,6 +7462,9 @@ const IrCombobox = class {
         return (index.h("ul", { "data-position": this.filteredData.length > 0 && this.filteredData[0].occupancy ? 'bottom-right' : 'bottom-left' }, (_a = this.filteredData) === null || _a === void 0 ? void 0 :
             _a.map((d, index$1) => (index.h("li", { onMouseEnter: () => (this.selectedIndex = index$1), role: "button", key: d.id, onKeyDown: e => this.handleItemKeyDown(e, index$1), "data-selected": this.selectedIndex === index$1, tabIndex: 0, onClick: () => this.selectItem(index$1) }, d.image && index.h("img", { src: d.image, class: 'list-item-image' }), index.h("p", null, d.name), d.occupancy && (index.h(index.Fragment, null, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { fill: 'currentColor', d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" })), index.h("p", null, d.occupancy)))))), this.filteredData.length === 0 && !this.isLoading && index.h("span", { class: 'text-center' }, locales_store.locales.entries.Lcz_NoResultsFound)));
     }
+    /**
+     * Handles form submission by selecting the highlighted item.
+     */
     handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -7322,7 +7475,7 @@ const IrCombobox = class {
         this.selectItem(this.selectedIndex === -1 ? 0 : this.selectedIndex);
     }
     render() {
-        return (index.h("form", { key: '8a2ee11deccefc2102861206d50f0dbed3029c59', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, index.h("input", { key: '7a235fc9a171c1a99552d75470669e1012fefb39', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
+        return (index.h("form", { key: 'a2344a990b29f1b12a803dbca95e12123a864f1d', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, index.h("input", { key: '7945249f08993c271ccc52aeb6516de9a3383dd2', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -10159,7 +10312,7 @@ const IrExtraServiceConfig = class {
                 this.updateService({ end_date: null });
             } }))))))), index.h("div", { key: '9bfc2dc8f822a3c9efdcbed90a785587149f7c8e', class: 'row-group' }, index.h("ir-price-input", { key: '1d044776c481fc10363cd1d251359116bdcbfc69', label: "Price", currency: this.booking.currency.symbol, class: "ir-br-input-none", value: (_m = (_l = this.s_service) === null || _l === void 0 ? void 0 : _l.price) === null || _m === void 0 ? void 0 : _m.toString(), zod: ExtraServiceSchema.pick({ price: true }), "aria-label": locales_store.locales.entries.Lcz_Price, wrapKey: "price", "aria-describedby": "service price", autoValidate: false, "data-state": this.error && !this.validatePrice() ? 'error' : '', onTextChange: e => this.updateService({ price: parseFloat(e.detail) }) }), index.h("ir-price-input", { key: 'b9f8445af60dd4b634d00da584465cc9bded8f37', autoValidate: false, label: locales_store.locales.entries.Lcz_Cost, labelStyle: "rounded-0 border-left-0", currency: this.booking.currency.symbol,
             // class="ir-bl-lbl-none ir-bl-none"
-            value: (_p = (_o = this.s_service) === null || _o === void 0 ? void 0 : _o.cost) === null || _p === void 0 ? void 0 : _p.toString(), zod: ExtraServiceSchema.pick({ cost: true }), onTextChange: e => this.updateService({ cost: parseFloat(e.detail) }), wrapKey: "cost", "aria-label": "Cost", "aria-describedby": "service cost" }))), index.h("div", { key: 'dc006026be6d1c4a39b0817b5d95d19f3c89f646', class: 'sheet-footer' }, index.h("ir-button", { key: 'a5ab272bed06c1108a93b3ec1c07a403e0ae2cf5', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { key: 'b30960c27632ec954b85e71083a53aa42f4da23b', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', icon: "", btn_type: "submit", isLoading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), text: locales_store.locales.entries.Lcz_Save, btn_color: "primary" }))));
+            value: (_p = (_o = this.s_service) === null || _o === void 0 ? void 0 : _o.cost) === null || _p === void 0 ? void 0 : _p.toString(), zod: ExtraServiceSchema.pick({ cost: true }), onTextChange: e => this.updateService({ cost: parseFloat(e.detail) }), wrapKey: "cost", "aria-label": "Cost", "aria-describedby": "service cost" }))), index.h("div", { key: 'dc006026be6d1c4a39b0817b5d95d19f3c89f646', class: 'sheet-footer' }, index.h("ir-button", { key: 'e2e6cf16b76bcabc86023fee2054591f2318fd90', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { key: 'ed49c6d2711debe448b6709fdf005c6bf446d32c', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', btn_type: "submit", isLoading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), text: locales_store.locales.entries.Lcz_Save, btn_color: "primary" }))));
     }
 };
 IrExtraServiceConfig.style = IrExtraServiceConfigStyle0 + IrExtraServiceConfigStyle1;
@@ -14445,7 +14598,7 @@ const IrModal = class {
                         this.closeModal();
                     }
                 } }),
-            index.h("div", { key: '7af1212057fcc52716dffbe1185e410f6cd8280d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: 'f1076d5a06147e9eaf49e1ecd1106c6bb43823f2', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: 'c420a6863edcded929ca1f1af2b9a9be9afa5fbb', class: `ir-alert-header` }, index.h("p", { key: '470138f1a69f904d77bb60f27ffcf88de593c4cc' }, this.modalTitle))), index.h("div", { key: '879b263a7c44f17cf72574babb65cf8183f0380e', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: 'dd2069d80c73d7fff4adbde157ec62a4ef0eddcb' }, this.modalBody)), index.h("div", { key: 'd0981ce658bb41bb7bc3f0c56639b28aa2b831d5', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (index.h("ir-button", { key: '3e1cb17695a793c7907a1ce5e6c8cc3f94f9bf67', btn_disabled: this.isLoading, icon: '', btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText })), this.rightBtnActive && (index.h("ir-button", { key: 'd435ad31120007326986051c52b6cd0bf64be9bc', icon: '', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            index.h("div", { key: '7af1212057fcc52716dffbe1185e410f6cd8280d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: 'f1076d5a06147e9eaf49e1ecd1106c6bb43823f2', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: 'c420a6863edcded929ca1f1af2b9a9be9afa5fbb', class: `ir-alert-header` }, index.h("p", { key: '470138f1a69f904d77bb60f27ffcf88de593c4cc' }, this.modalTitle))), index.h("div", { key: '879b263a7c44f17cf72574babb65cf8183f0380e', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: 'dd2069d80c73d7fff4adbde157ec62a4ef0eddcb' }, this.modalBody)), index.h("div", { key: 'd0981ce658bb41bb7bc3f0c56639b28aa2b831d5', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '66b5550ff622d1fd62ca87934f4f453802c73884', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (index.h("ir-button", { key: '87e5d807b497c314f335633dadb0ccd4fe6d24d7', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -15529,7 +15682,7 @@ const IrPickup = class {
             })) }), index.h("div", { key: '0c05ec8a718cc6d9c77b287ad9f3623d65fcd148', class: 'd-flex flex-column flex-md-row' }, index.h("ir-select", { key: '7fca5bff4710058ab3cadb2a29b546912aa4eea8', showFirstOption: false, testId: "pickup_number_of_vehicles", labelBorder: "theme", selectContainerStyle: "mb-1", onSelectChange: this.handleVehicleQuantityChange.bind(this), selectedValue: this.pickupData.number_of_vehicles, error: this.cause === 'number_of_vehicles', labelWidth: 7, class: 'm-0  mb-md-0 mr-md-1 flex-fill', label: locales_store.locales.entries.Lcz_NbrOfVehicles, data: this.vehicleCapacity.map(i => ({
                 text: i,
                 value: i,
-            })) }), index.h("div", { key: '929dd6766600f0d60027912c1a8ce1decbdfef5d', class: "price-input-container" }, index.h("ir-price-input", { key: '235472853342e21987c2a24728d10251229c544f', readOnly: true, label: `${locales_store.locales.entries.Lcz_DueUponBooking}`, value: this.pickupData.due_upon_booking, currency: this.pickupData.currency.symbol })))))), index.h("div", { key: '65e3f4a1303589b264cd6708c7aa79e02d82f1fb', class: 'sheet-footer' }, index.h("ir-button", { key: '10564797823121dadfa4513b95af4932647cfbcd', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (index.h("ir-button", { key: 'dd37a27987133f7a7a59800f2011ea06b7235894', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', icon: "", isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
+            })) }), index.h("div", { key: '929dd6766600f0d60027912c1a8ce1decbdfef5d', class: "price-input-container" }, index.h("ir-price-input", { key: '235472853342e21987c2a24728d10251229c544f', readOnly: true, label: `${locales_store.locales.entries.Lcz_DueUponBooking}`, value: this.pickupData.due_upon_booking, currency: this.pickupData.currency.symbol })))))), index.h("div", { key: '65e3f4a1303589b264cd6708c7aa79e02d82f1fb', class: 'sheet-footer' }, index.h("ir-button", { key: 'c268eac70879b7c8c267ee51504a6f72e0b1adb0', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), (this.defaultPickupData || this.pickupData.location !== -1) && (index.h("ir-button", { key: '395d21fa577747f276591aaec7e3af063b20f10e', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Save, btn_color: "primary", btn_type: "submit" })))));
     }
     get el() { return index.getElement(this); }
 };
@@ -15962,10 +16115,10 @@ const IrRoom = class {
                 this.collapsed = !this.collapsed;
             }, style: { '--icon-size': '1.6rem' } }), index.h("div", { key: '1d7d4a362940c2da4b1fe883bd50551563231e1c', class: "flex-fill m-0 " }, index.h("div", { key: 'e01345d0b06f13746a4c3479b96389ea6626201f', class: "d-flex align-items-start justify-content-between sm-mb-1" }, index.h("p", { key: 'b591c495d3c4f5e992f15bb07bf3c7ccac03d5c6', class: "m-0 p-0" }, index.h("span", { key: 'dfd5e4a94102647db2da64159783fd99d59c30d8', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.item.rateplan.is_non_refundable && ` - ${locales_store.locales.entries.Lcz_NonRefundable}`, ' '), index.h("div", { key: 'bc00b03cec93ac6d6373a3ab5a6bf3fe5fc785e5', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, index.h("span", { key: '7653ce3b5945956f115b0745f717ab40117d865e', class: "p-0 m-0 font-weight-bold" }, utils.formatAmount(this.currency, this.item['gross_total'])), this.hasRoomEdit && this.isEditable && (index.h("ir-button", { key: 'b0768ca1ad28905baa962f115bd301de185425d0', id: `roomEdit-${this.item.identifier}`, variant: "icon", icon_name: "edit",
             // class="mx-1"
-            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (index.h("ir-button", { key: 'd0044099d0fc02b5c13f31a70ca91da7b74fa79c', variant: "icon", onClickHandler: this.handleDeleteClick.bind(this), id: `roomDelete-${this.item.identifier}`, icon_name: "trash", style: colorVariants.danger })))), index.h("div", { key: 'eb832e862aeefbbde8ce65ce080d7ca1689eb34d', class: "d-flex align-items-center sm-mb-1" }, index.h("ir-date-view", { key: '427ee774556d81655452bb29904359029c20e786', class: "mr-1", from_date: this.item.from_date, to_date: this.item.to_date, showDateDifference: false }), this.hasCheckIn && index.h("ir-button", { key: 'd6680915a888dcd03ac5827d53a82911f29912c1', id: "checkin", icon: "", class: "mr-1", btn_color: "info", size: "sm", text: "Check in" }), this.hasCheckOut && index.h("ir-button", { key: 'c64ae22a81c5bf636b5f2f0f54e16f6d088d4a4e', id: "checkout", icon: "", btn_color: "info", size: "sm", text: "Check out" })), !calendarData.isSingleUnit(this.item.roomtype.id) && calendarData.calendar_data.is_frontdesk_enabled && this.item.unit && (index.h("div", { key: 'a738edf824e61aa6298596929cc7442d8f746ab3', class: 'd-flex justify-content-end' }, index.h("span", { key: '19b1dedfec64553b3da1447726d5dfce5a9e13a6', class: `light-blue-bg ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.item.unit.name))), index.h("div", { key: '3c229f516717b13817cb36689934c6b650c2860a', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("span", { key: 'ce5a40857ff63d97ff6f750d86e3c1ddf6be14b7' }, `${this.item.guest.first_name || ''} ${this.item.guest.last_name || ''}`), this.item.rateplan.selected_variation.adult_nbr > 0 && index.h("span", { key: '62bcfe42ed1c2527dc347d37c417a4fc865171a3', innerHTML: this.formatVariation(this.item.rateplan.selected_variation, this.item.occupancy) }, " "), bed && index.h("span", { key: 'adb230517324d5b392aee55c0e1c70dd1e27a3e8' }, "(", bed, ")")), index.h("div", { key: '90d7ffd09ec62cff2f79a90ad6d1a07936207dc3', class: "collapse", id: `roomCollapse-${(_b = this.item.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, index.h("div", { key: '0429f19467f82e62df65eb7891303fbb406e927e', class: "d-flex sm-mb-1 sm-mt-1" }, index.h("div", { key: 'd6e90608b24188874df557982a9c48298077634d', class: " sm-padding-top" }, index.h("p", { key: 'be1eedacfe01e43eb87b37aa3d6b9ea1c0709f11', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales_store.locales.entries.Lcz_Breakdown}:`)), index.h("div", { key: 'e4ab51c0fe0ca9387c5fb00280d01329ce7f939d', class: 'flex-fill' }, index.h("table", { key: '8134c71e67764a070db1bf512d3745e7f4ecbfac' }, this.item.days.length > 0 &&
+            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (index.h("ir-button", { key: 'd0044099d0fc02b5c13f31a70ca91da7b74fa79c', variant: "icon", onClickHandler: this.handleDeleteClick.bind(this), id: `roomDelete-${this.item.identifier}`, icon_name: "trash", style: colorVariants.danger })))), index.h("div", { key: 'eb832e862aeefbbde8ce65ce080d7ca1689eb34d', class: "d-flex align-items-center sm-mb-1" }, index.h("ir-date-view", { key: '427ee774556d81655452bb29904359029c20e786', class: "mr-1", from_date: this.item.from_date, to_date: this.item.to_date, showDateDifference: false }), this.hasCheckIn && index.h("ir-button", { key: 'abef5e4bf04381079fc0c8d4c201e9f2728f7a0c', id: "checkin", class: "mr-1", btn_color: "info", size: "sm", text: "Check in" }), this.hasCheckOut && index.h("ir-button", { key: 'c76c4c3a409b97e207401071c621b7f760436c8f', id: "checkout", btn_color: "info", size: "sm", text: "Check out" })), !calendarData.isSingleUnit(this.item.roomtype.id) && calendarData.calendar_data.is_frontdesk_enabled && this.item.unit && (index.h("div", { key: 'c5a00375101de9e313844fd62ed30116393b34af', class: 'd-flex justify-content-end' }, index.h("span", { key: '631d8fb53fbf1c26734327a144fc29c4493c38d1', class: `light-blue-bg ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.item.unit.name))), index.h("div", { key: '1a655b30d23e2ec525b087886065aa43c7aaac5c', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("span", { key: '2f3ef0b232fd96c8171905d3c29619185989ab2b' }, `${this.item.guest.first_name || ''} ${this.item.guest.last_name || ''}`), this.item.rateplan.selected_variation.adult_nbr > 0 && index.h("span", { key: 'ff369d1cdac976f9ae96ddb3371a4af6ea48ad8c', innerHTML: this.formatVariation(this.item.rateplan.selected_variation, this.item.occupancy) }, " "), bed && index.h("span", { key: '695708f4169331c98eb07c8b6fc3930863cbda09' }, "(", bed, ")")), index.h("div", { key: '45947207a808997712ed227716af06bb5775911c', class: "collapse", id: `roomCollapse-${(_b = this.item.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, index.h("div", { key: 'e437d5eb76eccca6a7c0629ae8a008130a98d95b', class: "d-flex sm-mb-1 sm-mt-1" }, index.h("div", { key: 'bb8d3257403b1a0c8fa70ce3c10a21f1c5899e6f', class: " sm-padding-top" }, index.h("p", { key: '1a6ba06d2f1ebae6d55a2441e78c421eeaae6dfc', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales_store.locales.entries.Lcz_Breakdown}:`)), index.h("div", { key: 'b9035dbc87188deb175ec42592f3dd25693b9a6d', class: 'flex-fill' }, index.h("table", { key: '6efdc7fbd7d73d462b19b9bda0166d9136fc0bbe' }, this.item.days.length > 0 &&
             this.item.days.map(item => {
                 return (index.h("tr", null, index.h("td", { class: 'pr-2 text-right' }, functions._getDay(item.date)), index.h("td", { class: "text-right" }, utils.formatAmount(this.currency, item.amount)), item.cost > 0 && item.cost !== null && index.h("td", { class: "pl-2 text-left night-cost" }, utils.formatAmount(this.currency, item.cost))));
-            }), index.h("tr", { key: 'd430642c30fbf386b9fd684803bde6fc46a1732d', class: '' }, index.h("th", { key: 'a6b6990b9c94436721bd00fc6b1f3aaa6bd2e003', class: "text-right pr-2 subtotal_row" }, locales_store.locales.entries.Lcz_SubTotal), index.h("th", { key: 'dac08b9a98984aa3b40121488fea36208a78ac1a', class: "text-right subtotal_row" }, utils.formatAmount(this.currency, this.item.total)), this.item.gross_cost > 0 && this.item.gross_cost !== null && index.h("th", { key: '657430b83d82cde754720217e231e609eb23d205', class: "pl-2 text-right night-cost" }, utils.formatAmount(this.currency, this.item.cost))), this.booking.is_direct ? (index.h(index.Fragment, null, (() => {
+            }), index.h("tr", { key: 'fa9a2383803b39571b425964c4c13aede9c63188', class: '' }, index.h("th", { key: '384741f684e0fd795cee38381c00d7d01471c5f4', class: "text-right pr-2 subtotal_row" }, locales_store.locales.entries.Lcz_SubTotal), index.h("th", { key: '718d403b795d8b68adff03125f14523407dcdcaf', class: "text-right subtotal_row" }, utils.formatAmount(this.currency, this.item.total)), this.item.gross_cost > 0 && this.item.gross_cost !== null && index.h("th", { key: '2ddaa00ac79f584e7d898741a0730376c2051c42', class: "pl-2 text-right night-cost" }, utils.formatAmount(this.currency, this.item.cost))), this.booking.is_direct ? (index.h(index.Fragment, null, (() => {
             const filtered_data = calendarData.calendar_data.taxes.filter(tx => tx.pct > 0);
             return filtered_data.map(d => {
                 return (index.h("tr", null, index.h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales_store.locales.entries.Lcz_Excluding : locales_store.locales.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), index.h("td", { class: "text-right" }, utils.formatAmount(this.currency, (this.item.total * d.pct) / 100)), this.item.gross_cost > 0 && this.item.gross_cost !== null && (index.h("td", { class: "pl-2 text-right night-cost" }, utils.formatAmount(this.currency, (this.item.cost * d.pct) / 100)))));
@@ -15975,7 +16128,7 @@ const IrRoom = class {
             return filtered_data.map(d => {
                 return (index.h("tr", null, index.h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales_store.locales.entries.Lcz_Excluding : locales_store.locales.entries.Lcz_Including, " ", d.name), index.h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), index.h("ir-label", { key: 'f26225973a82e2d7426511638825b2ed9b48b3f2', labelText: `${locales_store.locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (index.h(index.Fragment, { key: '85422e7705c873a20ca3ee2ba891f020fce11d9a' }, this.item.rateplan.cancelation && (index.h("ir-label", { key: '995271ba8c96eff4d0251134125bbadcdb85d719', labelText: `${locales_store.locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.item.rateplan.cancelation || '', renderContentAsHtml: true })), this.item.rateplan.guarantee && (index.h("ir-label", { key: '367908dd9237ba665c3aaa5b4fe5e240e8799162', labelText: `${locales_store.locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.item.rateplan.guarantee || '', renderContentAsHtml: true })))), this.item.ota_meta && (index.h("div", { key: '84c262c7f8d60fffd9b9b7e31c25e8273f3c6993' }, index.h("ir-label", { key: '77f4e86b1115ce6ef006ff956130df1e406f9ea0', labelText: `${locales_store.locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.item.ota_meta.meal_plan }), index.h("ir-label", { key: 'fbf8c3f886dc4e6ef293ebb98e57974ea3d0dc76', labelText: `${locales_store.locales.entries.Lcz_Policies}:`, display: "inline", content: this.item.ota_meta.policies }))))), index.h("ir-modal", { key: '22de3fe2622ff2e34247815dadc13b66d8202a0f', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${locales_store.locales.entries.Lcz_FromThisBooking}` })));
+        })()))))), index.h("ir-label", { key: '599a4f8cf7b19c86f4d42b42b474a36088743910', labelText: `${locales_store.locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (index.h(index.Fragment, { key: '94af5d3d2e40f3debd91eca56e1208c4dbb2eb49' }, this.item.rateplan.cancelation && (index.h("ir-label", { key: '2f653778b59be2e1f95066a3a04a99e1b87104fb', labelText: `${locales_store.locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.item.rateplan.cancelation || '', renderContentAsHtml: true })), this.item.rateplan.guarantee && (index.h("ir-label", { key: '705bc389226d86147e7f4cbe964326dc84507a15', labelText: `${locales_store.locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.item.rateplan.guarantee || '', renderContentAsHtml: true })))), this.item.ota_meta && (index.h("div", { key: 'c3355eb6c2dfdda6cdf7ec70c007e31c406f5ef0' }, index.h("ir-label", { key: '9b19e83ed37ea3eecb11d16e1725bdb86d705d8a', labelText: `${locales_store.locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.item.ota_meta.meal_plan }), index.h("ir-label", { key: '46e4f05f20a1a5f1ff0ad62e58ae0889f2335fda', labelText: `${locales_store.locales.entries.Lcz_Policies}:`, display: "inline", content: this.item.ota_meta.policies }))))), index.h("ir-modal", { key: 'f38d0abc33e5ab12aba14646d31c8a51a8c20265', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.deleteRoom.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Delete, leftBtnColor: "secondary", rightBtnColor: "danger", modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${this.item.roomtype.name} ${this.item.unit ? this.item.unit.name : ''} ${locales_store.locales.entries.Lcz_FromThisBooking}` })));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {
@@ -16174,7 +16327,7 @@ const IrRoomGuests = class {
                 }, selectedValue: guest.id_info.type.code, LabelAvailable: false, showFirstOption: false, data: (_b = this.idTypes) === null || _b === void 0 ? void 0 : _b.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), index.h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: guest.id_info.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'], wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
                     id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { number: e.detail }),
                 }) }))))));
-        })), index.h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, icon: "", text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', icon: "", isLoading: irInterceptor_store.isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales_store.locales.entries.Lcz_CheckIn : locales_store.locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));
+        })), index.h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary" }), index.h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', isLoading: irInterceptor_store.isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales_store.locales.entries.Lcz_CheckIn : locales_store.locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));
     }
 };
 IrRoomGuests.style = IrRoomGuestsStyle0;

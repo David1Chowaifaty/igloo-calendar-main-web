@@ -91,7 +91,7 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
                 value: m.id.toString(),
                 text: m.name,
             }))
-                .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' })))))));
+                .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { btn_color: 'secondary', btn_block: true, text: locales.entries.Lcz_Cancel, name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm', btn_color: 'primary', btn_block: true, text: locales.entries.Lcz_Confirm, name: 'confirm' })))))));
     }
     static get style() { return IrDeleteModalStyle0; }
 }, [0, "ir-delete-modal", {

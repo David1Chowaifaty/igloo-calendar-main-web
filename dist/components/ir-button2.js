@@ -10,19 +10,53 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         super();
         this.__registerHost();
         this.clickHandler = createEvent(this, "clickHandler", 7);
-        this.icon = 'ft-save';
+        /**
+         * The color theme of the button.
+         */
         this.btn_color = 'primary';
+        /**
+         * The size of the button.
+         */
         this.size = 'md';
+        /**
+         * The size of the text inside the button.
+         */
         this.textSize = 'md';
+        /**
+         * Whether the button should expand to the full width of its container.
+         */
         this.btn_block = true;
+        /**
+         * Disables the button when set to true.
+         */
         this.btn_disabled = false;
+        /**
+         * The button type attribute (`button`, `submit`, or `reset`).
+         */
         this.btn_type = 'button';
+        /**
+         * Displays a loading indicator when true and disables the button.
+         */
         this.isLoading = false;
+        /**
+         * A unique identifier for the button instance.
+         */
         this.btn_id = v4();
+        /**
+         * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+         */
         this.variant = 'default';
+        /**
+         * If true, applies a visible background when hovered.
+         */
         this.visibleBackgroundOnHover = false;
+        /**
+         * Position of the icon relative to the button text.
+         */
         this.iconPosition = 'left';
-        /** If true, will render `content` as HTML */
+        /**
+         * If true, renders the text property as raw HTML inside the button.
+         */
         this.renderContentAsHtml = false;
     }
     handleButtonAnimation(e) {
@@ -34,6 +68,9 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
     }
+    /**
+     * Triggers a bounce animation on the button.
+     */
     async bounce() {
         this.buttonEl.classList.remove('bounce-3');
         this.buttonEl.classList.add('bounce-3');
@@ -51,7 +88,6 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
 }, [2, "ir-button", {
         "name": [1],
         "text": [1],
-        "icon": [1],
         "btn_color": [1],
         "size": [1],
         "textSize": [1, "text-size"],

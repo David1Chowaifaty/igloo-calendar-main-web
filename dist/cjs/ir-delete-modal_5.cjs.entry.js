@@ -99,7 +99,7 @@ const IrDeleteModal = class {
                 value: m.id.toString(),
                 text: m.name,
             }))
-                .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), index.h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, index.h("ir-button", { icon: '', btn_color: 'secondary', btn_block: true, text: locales_store.locales.entries.Lcz_Cancel, name: 'cancel' }), index.h("ir-button", { isLoading: this.loadingBtn === 'confirm', icon: '', btn_color: 'primary', btn_block: true, text: locales_store.locales.entries.Lcz_Confirm, name: 'confirm' })))))));
+                .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())) }))), index.h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, index.h("ir-button", { btn_color: 'secondary', btn_block: true, text: locales_store.locales.entries.Lcz_Cancel, name: 'cancel' }), index.h("ir-button", { isLoading: this.loadingBtn === 'confirm', btn_color: 'primary', btn_block: true, text: locales_store.locales.entries.Lcz_Confirm, name: 'confirm' })))))));
     }
 };
 IrDeleteModal.style = IrDeleteModalStyle0;
