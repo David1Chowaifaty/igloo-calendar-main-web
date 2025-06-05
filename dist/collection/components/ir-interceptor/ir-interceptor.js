@@ -4,12 +4,33 @@ import interceptor_requests from "../../stores/ir-interceptor.store";
 import { InterceptorError } from "./InterceptorError";
 export class IrInterceptor {
     constructor() {
+        /**
+         * List of endpoint paths that should trigger loader logic and OTP handling.
+         */
         this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
+        /**
+         * List of endpoints for which to suppress toast messages.
+         */
         this.suppressToastEndpoints = [];
+        /**
+         * Indicates whether the loader is visible.
+         */
         this.isShown = false;
+        /**
+         * Global loading indicator toggle.
+         */
         this.isLoading = false;
+        /**
+         * Indicates if the intercepted request involves unassigned units.
+         */
         this.isUnassignedUnit = false;
+        /**
+         * Count of `/Get_Exposed_Calendar` calls in progress.
+         */
         this.endpointsCount = 0;
+        /**
+         * Identifier of the endpoint that manually disabled page loader.
+         */
         this.isPageLoadingStopped = null;
     }
     handleStopPageLoading(e) {
@@ -19,16 +40,30 @@ export class IrInterceptor {
     componentWillLoad() {
         this.setupAxiosInterceptors();
     }
+    /**
+     * Sets up Axios request and response interceptors.
+     */
     setupAxiosInterceptors() {
         axios.interceptors.request.use(this.handleRequest.bind(this), this.handleError.bind(this));
         axios.interceptors.response.use(this.handleResponse.bind(this), this.handleError.bind(this));
     }
+    /**
+     * Removes query params from URL for consistent endpoint matching.
+     */
     extractEndpoint(url) {
         return url.split('?')[0];
     }
+    /**
+     * Returns true if the given endpoint is listed as "handled".
+     */
     isHandledEndpoint(url) {
         return this.handledEndpoints.includes(url);
     }
+    /**
+     * Handles outbound Axios requests.
+     * - Triggers global loader for certain endpoints
+     * - Tracks `/Get_Exposed_Calendar` calls separately
+     */
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
         interceptor_requests[extractedUrl] = 'pending';
@@ -51,6 +86,11 @@ export class IrInterceptor {
         }
         return config;
     }
+    /**
+     * Handles inbound Axios responses:
+     * - Resets loader
+     * - Handles OTP flows and exception messages
+     */
     async handleResponse(response) {
         var _a;
         const extractedUrl = this.extractEndpoint(response.config.url);
@@ -70,10 +110,19 @@ export class IrInterceptor {
         }
         return response;
     }
+    /**
+     * Handles and throws known API exception messages.
+     */
     handleResponseExceptions({ response, extractedUrl }) {
         this.handleError(response.data.ExceptionMsg, extractedUrl, response.data.ExceptionCode);
         throw new InterceptorError(response.data.ExceptionMsg, response.data.ExceptionCode);
     }
+    /**
+     * Handles OTP-required API responses:
+     * - Shows OTP modal
+     * - Stores request context
+     * - Defers resolution to OTP modal
+     */
     handleOtpResponse({ extractedUrl, response }) {
         this.showModal = true;
         this.email = response.data.ExceptionMsg;
@@ -105,6 +154,9 @@ export class IrInterceptor {
             }, 10);
         });
     }
+    /**
+     * Displays error toasts unless the endpoint is configured to suppress them.
+     */
     handleError(error, url, code) {
         const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
         if (!shouldSuppressToast || (shouldSuppressToast && !code)) {
@@ -117,40 +169,10 @@ export class IrInterceptor {
         }
         return Promise.reject(error);
     }
-    // private async handleOtpFinished(ev: CustomEvent) {
-    //   if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
-    //     return;
-    //   }
-    //   const { otp, type } = ev.detail;
-    //   if (type === 'success') {
-    //     if (!otp) {
-    //       this.pendingReject(new Error('OTP cancelled by user'));
-    //     } else {
-    //       try {
-    //         if (this.baseOTPUrl !== 'Check_OTP_Necessity') {
-    //           const retryConfig: AxiosRequestConfig = {
-    //             ...this.pendingConfig,
-    //             data: {
-    //               ...(typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {}),
-    //             },
-    //           };
-    //           const resp = await axios.request(retryConfig);
-    //           this.pendingResolve(resp);
-    //         }
-    //       } catch (err) {
-    //         this.pendingReject(err);
-    //       }
-    //     }
-    //   }
-    //   this.pendingConfig = undefined;
-    //   this.pendingResolve = undefined;
-    //   this.pendingReject = undefined;
-    //   this.showModal = false;
-    //   if (this.baseOTPUrl === 'Check_OTP_Necessity') {
-    //     this.baseOTPUrl = null;
-    //     return this.response;
-    //   }
-    // }
+    /**
+     * Handles the OTP modal completion.
+     * Retries the request or cancels based on user action.
+     */
     async handleOtpFinished(ev) {
         if (!this.pendingConfig || !this.pendingResolve || !this.pendingReject) {
             return;
@@ -194,7 +216,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '5f646e972575eeb2819d15b3fbdae2b8a59e3b61' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'f656482e9865738cef81c2d8fc0d67e6f459e126', class: "loadingScreenContainer" }, h("div", { key: '20fe515f65ce43785058928ce55e1ec65504faef', class: "loaderContainer" }, h("span", { key: '9e6b8100e25b928d0df48a33233609d80b73cba0', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '18f2bbcd6a5dc5afab622067517092c3ca9e45fc', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: 'ba3e98390a86f87fbc696b41d9d4f1950e754192' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '504b3df679de9509f060426f3224a400d6d7339e', class: "loadingScreenContainer" }, h("div", { key: '1448b8fe06febb2cbc807ce8ead6c75b9b404e3f', class: "loaderContainer" }, h("span", { key: '2d527529c1cdd6d9ed8ae6127be225f23e8a440c', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'c16ac90fe00dff36613a1fdd52ce852b98e9d5f6', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -222,7 +244,7 @@ export class IrInterceptor {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "List of endpoint paths that should trigger loader logic and OTP handling."
                 },
                 "getter": false,
                 "setter": false,
@@ -240,7 +262,7 @@ export class IrInterceptor {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "List of endpoints for which to suppress toast messages."
                 },
                 "getter": false,
                 "setter": false,
@@ -270,7 +292,7 @@ export class IrInterceptor {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emits a toast notification (`type`, `title`, `description`, `position`)."
                 },
                 "complexType": {
                     "original": "IToast",
