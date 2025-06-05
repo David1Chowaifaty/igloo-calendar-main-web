@@ -1,22 +1,51 @@
 import { h } from "@stencil/core";
 export class IrTextArea {
     constructor() {
+        /**
+         * Number of visible text lines.
+         */
         this.rows = 3;
+        /**
+         * Number of visible character columns.
+         */
         this.cols = 5;
+        /**
+         * Unused property, intended to store textarea text.
+         */
         this.text = '';
+        /**
+         * Text label displayed above or beside the textarea.
+         */
         this.label = '<label>';
+        /**
+         * Placeholder text shown when input is empty.
+         */
         this.placeholder = '<placeholder>';
+        /**
+         * Current value of the textarea (supports two-way binding).
+         */
         this.value = '';
+        /**
+         * Maximum number of characters allowed.
+         */
         this.maxLength = 250;
+        /**
+         * Layout style of the textarea:
+         * `'default'` shows label above, `'prepend'` shows label on the left.
+         */
         this.variant = 'default';
+        /**
+         * Width of the label in grid columns (for `variant="prepend"`).
+         */
         this.labelWidth = 3;
+        /**
+         * Indicates if the field is in an error state.
+         */
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
         this.error = newValue === 'true';
     }
-    connectedCallback() { }
-    disconnectedCallback() { }
     render() {
         if (this.variant === 'prepend') {
             return (h("fieldset", { class: "input-group" }, h("div", { class: `input-group-prepend col-${this.labelWidth} prepend-textarea` }, h("span", { class: "input-group-text ta-prepend-text" }, this.label)), h("textarea", { "data-testid": this.testId, value: this.value, class: `form-control`, style: Object.assign({ height: '7rem' }, this.styles), maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
@@ -49,7 +78,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Number of visible text lines."
                 },
                 "getter": false,
                 "setter": false,
@@ -69,7 +98,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Number of visible character columns."
                 },
                 "getter": false,
                 "setter": false,
@@ -89,7 +118,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Unused property, intended to store textarea text."
                 },
                 "getter": false,
                 "setter": false,
@@ -109,7 +138,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Text label displayed above or beside the textarea."
                 },
                 "getter": false,
                 "setter": false,
@@ -129,7 +158,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Placeholder text shown when input is empty."
                 },
                 "getter": false,
                 "setter": false,
@@ -149,7 +178,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Current value of the textarea (supports two-way binding)."
                 },
                 "getter": false,
                 "setter": false,
@@ -169,7 +198,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Maximum number of characters allowed."
                 },
                 "getter": false,
                 "setter": false,
@@ -189,7 +218,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Additional classes for the textarea element."
                 },
                 "getter": false,
                 "setter": false,
@@ -208,7 +237,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Layout style of the textarea:\n`'default'` shows label above, `'prepend'` shows label on the left."
                 },
                 "getter": false,
                 "setter": false,
@@ -228,7 +257,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Width of the label in grid columns (for `variant=\"prepend\"`)."
                 },
                 "getter": false,
                 "setter": false,
@@ -248,7 +277,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Inline styles applied directly to the textarea."
                 },
                 "getter": false,
                 "setter": false
@@ -265,7 +294,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "`data-testid` for targeting in tests."
                 },
                 "getter": false,
                 "setter": false,
@@ -288,7 +317,7 @@ export class IrTextArea {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emits when the textarea content changes.\n\nExample:\n```tsx\n<ir-textarea onTextChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "string",

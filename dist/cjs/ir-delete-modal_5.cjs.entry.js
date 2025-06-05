@@ -434,10 +434,29 @@ const IrPopoverStyle0 = irPopoverCss;
 const IrPopover = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        /**
+         * Horizontal offset (left) of the popover from its trigger.
+         * Used in inline style as `--ir-popover-left`.
+         */
         this.irPopoverLeft = '10px';
+        /**
+         * Position of the popover relative to the trigger.
+         * Options: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`.
+         */
         this.placement = 'auto';
+        /**
+         * Event that triggers the popover.
+         * Options: `'focus'`, `'click'`, `'hover'`.
+         */
         this.trigger = 'focus';
+        /**
+         * Whether to treat `content` as raw HTML.
+         * When true, `content` will be injected with `html: true` in jQuery popover.
+         */
         this.renderContentAsHtml = false;
+        /**
+         * Internal flag to ensure popover is only initialized once.
+         */
         this.initialized = false;
     }
     componentDidLoad() {
@@ -446,6 +465,9 @@ const IrPopover = class {
         }
         this.initializePopover();
     }
+    /**
+     * Initializes the jQuery popover on the trigger element using configured props.
+     */
     initializePopover() {
         $(this.popoverTrigger).popover({
             trigger: this.trigger,
@@ -459,7 +481,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '6b5b95506851105da29b29fda2cd6a919f6bdf4d', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: '60a08fdc08cdb676112f8f3f14641eda5a4d5986', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

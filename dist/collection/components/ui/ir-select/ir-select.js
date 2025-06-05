@@ -2,24 +2,41 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrSelect {
     constructor() {
+        // Text shown in the label
         this.label = '<label>';
+        // Selected value of the select
         this.selectedValue = null;
+        // Whether to render the label
         this.LabelAvailable = true;
+        // Placeholder text for the first option
         this.firstOption = 'Select';
+        // Enable/disable default form styling
         this.selectStyle = true;
+        // Whether to show the first placeholder option
         this.showFirstOption = true;
+        // Set to true when the form is submitted
         this.submited = false;
+        // Size of the select: 'sm' | 'md' | 'lg'
         this.size = 'md';
+        // Size of the text: 'sm' | 'md' | 'lg'
         this.textSize = 'md';
+        // Position of the label
         this.labelPosition = 'left';
+        // Background color of the label
         this.labelBackground = null;
+        // Text color of the label
         this.labelColor = 'dark';
+        // Border color of the label
         this.labelBorder = 'theme';
+        // Width of the label (Bootstrap cols)
         this.labelWidth = 3;
+        // Unique ID for the select element
         this.select_id = v4();
-        /** Whether the select has an error */
+        // Whether the select has an error state
         this.error = false;
+        // Tracks if the field has been touched
         this.initial = true;
+        // Tracks if the field is valid
         this.valid = false;
         this.count = 0;
     }
@@ -34,17 +51,15 @@ export class IrSelect {
         }
     }
     handleButtonAnimation(e) {
-        console.log(e.detail, this.select_id, e.detail === this.select_id);
         if (!this.selectEl || e.detail !== this.select_id) {
             return;
         }
-        console.log('first1');
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.selectEl.classList.add('border-danger');
     }
-    componentwillload() { }
-    disconnectedCallback() { }
+    // Handle select change event
+    // Example: onInput={this.handleSelectChange.bind(this)}
     handleSelectChange(event) {
         this.selectEl.classList.remove('border-danger');
         if (this.required) {
@@ -60,7 +75,7 @@ export class IrSelect {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: 'c1301951414507840cf8d1cf584efcb5464a7829', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '894853dec90d3edd90152cabeb77bb4f9a848989', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: '57613a397710e7eb91ebc10a037fa3c26ef354aa', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '6e126805d3306d6d862b4a06a6cbc92e3bf2206b', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -70,7 +85,7 @@ export class IrSelect {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '3f491866144f3f786e6d42d71616a3f44201b0fd', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '5105e12f6c0f963243d499aa90674ddf57754008', class: "input-group row m-0" }, label, h("select", { key: '52a65efccfb90c9b155dd9aa0807c896e15b556d', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '7c855b0cff5fae3512fab47cdea054ca9df938d0', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '627cafcbfc73be9ee655b714f072eb552ed56279', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '980c0f74f77455c56ef2ccd6b50f945d1ebfaada', class: "input-group row m-0" }, label, h("select", { key: 'a77e645bd0fc3471f2d8253b6c1061297457118f', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: 'e616b50292c8779eba66fd4d3b8be81b34495f8e', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -559,7 +574,7 @@ export class IrSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the select has an error"
+                    "text": ""
                 },
                 "getter": false,
                 "setter": false,

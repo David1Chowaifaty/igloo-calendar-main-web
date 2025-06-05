@@ -1,9 +1,16 @@
 import { TPositions, IToast } from './toast';
 export declare class IrToast {
-    position: TPositions;
     element: HTMLElement;
+    /**
+     * Position where toasts will appear.
+     * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+     */
+    position: TPositions;
+    /**
+     * Array of active toast messages.
+     */
     toasts: IToast[];
     onToast(event: CustomEvent<IToast>): void;
-    showToast(toast: IToast): void;
+    private showToast;
     render(): any;
 }

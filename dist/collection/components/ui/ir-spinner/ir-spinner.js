@@ -1,6 +1,10 @@
 import { Host, h } from "@stencil/core";
 export class IrSpinner {
     constructor() {
+        /**
+         * CSS unit used for `size` and `borderWidth`.
+         * Can be `'px'` or `'rem'`.
+         */
         this.unit = 'rem';
     }
     componentWillLoad() {
@@ -18,6 +22,9 @@ export class IrSpinner {
     handleSpinnerColorChange() {
         this.initStyles();
     }
+    /**
+     * Applies CSS custom properties based on current prop values.
+     */
     initStyles() {
         if (this.size) {
             this.applyCssElement(`${this.size}${this.unit}`, '--ir-spinner-size');
@@ -29,11 +36,17 @@ export class IrSpinner {
             this.applyCssElement(`${this.color}`, '--ir-spinner-color');
         }
     }
+    /**
+     * Helper function to set CSS custom properties on the host element.
+     *
+     * @param value - The CSS value to apply
+     * @param key - The CSS custom property name (e.g., `--ir-spinner-size`)
+     */
     applyCssElement(value, key) {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: 'd749403adcd3f9f508b91dc800be87521b2d5c89' });
+        return h(Host, { key: '8b5f4228f301fc167b31ed86f0bb3439a3fa81d2' });
     }
     static get is() { return "ir-spinner"; }
     static get encapsulation() { return "shadow"; }
@@ -61,7 +74,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Size of the spinner (diameter).\nExample: `size={2}` with `unit=\"rem\"` sets spinner to `2rem`."
                 },
                 "getter": false,
                 "setter": false,
@@ -80,7 +93,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Thickness of the spinner's border.\nExample: `borderWidth={4}` renders a `4px` or `4rem` thick border."
                 },
                 "getter": false,
                 "setter": false,
@@ -99,7 +112,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "CSS unit used for `size` and `borderWidth`.\nCan be `'px'` or `'rem'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -119,7 +132,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Color of the spinner.\nAccepts any valid CSS color string."
                 },
                 "getter": false,
                 "setter": false,

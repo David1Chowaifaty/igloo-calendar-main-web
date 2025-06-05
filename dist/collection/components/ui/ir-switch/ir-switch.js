@@ -1,7 +1,14 @@
 import { Host, h } from "@stencil/core";
 export class IrSwitch {
     constructor() {
+        /**
+         * Whether the switch is currently checked (on).
+         * This is mutable and can be toggled internally.
+         */
         this.checked = false;
+        /**
+         * Disables the switch if true.
+         */
         this.disabled = false;
         this._id = '';
     }
@@ -14,6 +21,12 @@ export class IrSwitch {
         }
         this.switchRoot.setAttribute('aria-checked', this.checked ? 'true' : 'false');
     }
+    /**
+     * Generates a random alphanumeric ID of specified length.
+     *
+     * @param length Number of characters in the ID.
+     * @returns A string with the generated ID.
+     */
     generateRandomId(length) {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -23,13 +36,23 @@ export class IrSwitch {
         }
         return result;
     }
+    /**
+     * Toggles the `checked` state of the switch and updates accessibility attributes.
+     * Also emits the `checkChange` event with the new state.
+     *
+     * Example:
+     * ```ts
+     * const el = document.querySelector('ir-switch');
+     * el.handleCheckChange(); // toggles on/off
+     * ```
+     */
     handleCheckChange() {
         this.checked = !this.checked;
         this.switchRoot.setAttribute('aria-checked', this.checked ? 'true' : 'false');
         this.checkChange.emit(this.checked);
     }
     render() {
-        return (h(Host, { key: '2733de0480751f5238bfcee8282161edec22ed1c' }, h("button", { key: 'bd32a2d26a172e7d02b42b28110a6eaf8767f8fd', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: '295ad84fcf0812e90c12f669079ecc18e3b13c8b', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: '41580d2bf993e3c367c48ea99d0b9f721cf91a9e', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
+        return (h(Host, { key: 'bec5058cdb8e1f7716d8ba2f030b4718a1598caf' }, h("button", { key: '10b0eea7d1c1bdd5b16bdce282d0f1a21d4096f9', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: '80d5861d7bf10de333ec1b97e77e0e65443d53fc', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: '05f192d37459f350b4ff2348a51953881e5394cb', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
     }
     static get is() { return "ir-switch"; }
     static get encapsulation() { return "scoped"; }
@@ -57,7 +80,7 @@ export class IrSwitch {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the switch is currently checked (on).\nThis is mutable and can be toggled internally."
                 },
                 "getter": false,
                 "setter": false,
@@ -77,7 +100,7 @@ export class IrSwitch {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Optional ID for the switch.\nIf not provided, a random ID will be generated."
                 },
                 "getter": false,
                 "setter": false,
@@ -96,7 +119,7 @@ export class IrSwitch {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Disables the switch if true."
                 },
                 "getter": false,
                 "setter": false,
@@ -115,7 +138,7 @@ export class IrSwitch {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emitted when the checked state changes.\nEmits `true` when turned on, `false` when turned off.\n\nExample:\n```tsx\n<ir-switch onCheckChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "boolean",

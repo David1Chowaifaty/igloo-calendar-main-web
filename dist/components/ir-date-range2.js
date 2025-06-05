@@ -9,22 +9,85 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
         super();
         this.__registerHost();
         this.dateChanged = createEvent(this, "dateChanged", 7);
+        /**
+         * First day of the week (0 = Sunday, 1 = Monday, ...).
+         */
         this.firstDay = 1;
+        /**
+         * Month names shown in the calendar header.
+         */
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        /**
+         * Abbreviated names of the days of the week.
+         */
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        /**
+         * Date format used in the input and picker.
+         */
         this.format = 'MMM DD, YYYY';
+        /**
+         * Separator string used between start and end dates.
+         */
         this.separator = ' - ';
+        /**
+         * Text shown on the Apply button.
+         */
         this.applyLabel = 'Apply';
+        /**
+         * Text shown on the Cancel button.
+         */
         this.cancelLabel = 'Cancel';
+        /**
+         * Label for the "From" date input.
+         */
         this.fromLabel = 'Form';
+        /**
+         * Label for the "To" date input.
+         */
         this.toLabel = 'To';
+        /**
+         * Label used for the custom date range option.
+         */
         this.customRangeLabel = 'Custom';
+        /**
+         * Label for the week column in the calendar.
+         */
         this.weekLabel = 'W';
+        /**
+         * Disables the date range input when true.
+         */
         this.disabled = false;
+        /**
+         * Enables single date selection mode.
+         */
         this.singleDatePicker = false;
-        this.maxSpan = {
-            days: 240,
-        };
+        /**
+         * Maximum range span (e.g., `{ days: 240 }`).
+         */
+        this.maxSpan = { days: 240 };
+    }
+    componentWillLoad() {
+        if (!document.getElementById('ir-daterangepicker-style')) {
+            const style = document.createElement('style');
+            style.id = 'ir-daterangepicker-style';
+            style.textContent = `
+        .daterangepicker {
+          margin-top: 14px;
+        }
+      `;
+            document.head.appendChild(style);
+        }
+    }
+    componentDidLoad() {
+        this.dateRangeInput = this.element.querySelector('.date-range-input');
+        this.initializeDateRangePicker();
+        this.updateDateRangePickerDates();
+    }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        $(this.dateRangeInput).data('daterangepicker').remove();
     }
     handleMinDateChange() {
         $(this.dateRangeInput).data('daterangepicker').remove();
@@ -33,11 +96,24 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
     datePropChanged() {
         this.updateDateRangePickerDates();
     }
+    /**
+     * Opens the date picker programmatically.
+     *
+     * Example:
+     * ```ts
+     * const el = document.querySelector('ir-date-range');
+     * await el.openDatePicker();
+     * ```
+     */
     async openDatePicker() {
         this.openDatePickerTimeout = setTimeout(() => {
             this.dateRangeInput.click();
         }, 20);
     }
+    /**
+     * Updates the current dates displayed in the picker
+     * (used when props change externally).
+     */
     updateDateRangePickerDates() {
         const picker = $(this.dateRangeInput).data('daterangepicker');
         if (!picker) {
@@ -57,23 +133,9 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
             picker.setEndDate(newEndDate);
         }
     }
-    componentWillLoad() {
-        if (!document.getElementById('ir-daterangepicker-style')) {
-            const style = document.createElement('style');
-            style.id = 'ir-daterangepicker-style';
-            style.textContent = `
-        .daterangepicker {
-          margin-top: 14px;
-        }
-      `;
-            document.head.appendChild(style);
-        }
-    }
-    componentDidLoad() {
-        this.dateRangeInput = this.element.querySelector('.date-range-input');
-        this.initializeDateRangePicker();
-        this.updateDateRangePickerDates();
-    }
+    /**
+     * Initializes the date range picker using jQuery plugin with given props.
+     */
     initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
             singleDatePicker: this.singleDatePicker,
@@ -101,14 +163,8 @@ const IrDateRange = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends H
             this.dateChanged.emit({ start, end });
         });
     }
-    disconnectedCallback() {
-        if (this.openDatePickerTimeout) {
-            clearTimeout(this.openDatePickerTimeout);
-        }
-        $(this.dateRangeInput).data('daterangepicker').remove();
-    }
     render() {
-        return (h(Host, { key: '2da310191fe1d8a2d0095d46452e1c885376a778' }, h("input", { key: '3443fedf560d47a85377977903f0f3096d8a08b5', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: 'e216edda9d8428fa459cf28a9786cc685aba7e99' }, h("input", { key: 'c95bb3ac9af86f0651e8258fa9a867757ce2e0cc', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     get element() { return this; }
     static get watchers() { return {

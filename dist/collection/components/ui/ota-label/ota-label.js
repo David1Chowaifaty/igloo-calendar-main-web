@@ -3,8 +3,22 @@ import { v4 } from "uuid";
 import locales from "../../../stores/locales.store";
 export class OtaLabel {
     constructor() {
+        /**
+         * Maximum number of remarks to display before showing the "Show More" button.
+         */
         this.maxVisibleItems = 3;
+        /**
+         * Internal state that determines whether all remarks are shown or only the limited number.
+         */
         this.showAll = false;
+        /**
+         * Toggles between showing all remarks or only a limited number.
+         *
+         * Example:
+         * ```ts
+         * this.toggleShowAll(); // flips showAll state
+         * ```
+         */
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };
@@ -42,7 +56,7 @@ export class OtaLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Label displayed as the section title."
                 },
                 "getter": false,
                 "setter": false,
@@ -67,7 +81,7 @@ export class OtaLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Array of OTA notes to display in the list."
                 },
                 "getter": false,
                 "setter": false
@@ -84,7 +98,7 @@ export class OtaLabel {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Maximum number of remarks to display before showing the \"Show More\" button."
                 },
                 "getter": false,
                 "setter": false,

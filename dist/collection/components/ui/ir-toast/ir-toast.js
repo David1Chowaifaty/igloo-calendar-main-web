@@ -1,7 +1,14 @@
 import { Host, h } from "@stencil/core";
 export class IrToast {
     constructor() {
+        /**
+         * Position where toasts will appear.
+         * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+         */
         this.position = 'bottom-left';
+        /**
+         * Array of active toast messages.
+         */
         this.toasts = [];
     }
     onToast(event) {
@@ -24,7 +31,7 @@ export class IrToast {
         }
     }
     render() {
-        return h(Host, { key: '7480bf75bb8ec04c41c7560d2628478c70f44e6c' });
+        return h(Host, { key: '54e0296df2b6be79c926784f097fe699219eefa8' });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }
@@ -58,7 +65,7 @@ export class IrToast {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Position where toasts will appear.\nOptions include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`."
                 },
                 "getter": false,
                 "setter": false,

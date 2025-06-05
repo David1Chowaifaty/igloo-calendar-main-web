@@ -9810,22 +9810,85 @@ const IrDateRange = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.dateChanged = index.createEvent(this, "dateChanged", 7);
+        /**
+         * First day of the week (0 = Sunday, 1 = Monday, ...).
+         */
         this.firstDay = 1;
+        /**
+         * Month names shown in the calendar header.
+         */
         this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        /**
+         * Abbreviated names of the days of the week.
+         */
         this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        /**
+         * Date format used in the input and picker.
+         */
         this.format = 'MMM DD, YYYY';
+        /**
+         * Separator string used between start and end dates.
+         */
         this.separator = ' - ';
+        /**
+         * Text shown on the Apply button.
+         */
         this.applyLabel = 'Apply';
+        /**
+         * Text shown on the Cancel button.
+         */
         this.cancelLabel = 'Cancel';
+        /**
+         * Label for the "From" date input.
+         */
         this.fromLabel = 'Form';
+        /**
+         * Label for the "To" date input.
+         */
         this.toLabel = 'To';
+        /**
+         * Label used for the custom date range option.
+         */
         this.customRangeLabel = 'Custom';
+        /**
+         * Label for the week column in the calendar.
+         */
         this.weekLabel = 'W';
+        /**
+         * Disables the date range input when true.
+         */
         this.disabled = false;
+        /**
+         * Enables single date selection mode.
+         */
         this.singleDatePicker = false;
-        this.maxSpan = {
-            days: 240,
-        };
+        /**
+         * Maximum range span (e.g., `{ days: 240 }`).
+         */
+        this.maxSpan = { days: 240 };
+    }
+    componentWillLoad() {
+        if (!document.getElementById('ir-daterangepicker-style')) {
+            const style = document.createElement('style');
+            style.id = 'ir-daterangepicker-style';
+            style.textContent = `
+        .daterangepicker {
+          margin-top: 14px;
+        }
+      `;
+            document.head.appendChild(style);
+        }
+    }
+    componentDidLoad() {
+        this.dateRangeInput = this.element.querySelector('.date-range-input');
+        this.initializeDateRangePicker();
+        this.updateDateRangePickerDates();
+    }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        $(this.dateRangeInput).data('daterangepicker').remove();
     }
     handleMinDateChange() {
         $(this.dateRangeInput).data('daterangepicker').remove();
@@ -9834,11 +9897,24 @@ const IrDateRange = class {
     datePropChanged() {
         this.updateDateRangePickerDates();
     }
+    /**
+     * Opens the date picker programmatically.
+     *
+     * Example:
+     * ```ts
+     * const el = document.querySelector('ir-date-range');
+     * await el.openDatePicker();
+     * ```
+     */
     async openDatePicker() {
         this.openDatePickerTimeout = setTimeout(() => {
             this.dateRangeInput.click();
         }, 20);
     }
+    /**
+     * Updates the current dates displayed in the picker
+     * (used when props change externally).
+     */
     updateDateRangePickerDates() {
         const picker = $(this.dateRangeInput).data('daterangepicker');
         if (!picker) {
@@ -9858,23 +9934,9 @@ const IrDateRange = class {
             picker.setEndDate(newEndDate);
         }
     }
-    componentWillLoad() {
-        if (!document.getElementById('ir-daterangepicker-style')) {
-            const style = document.createElement('style');
-            style.id = 'ir-daterangepicker-style';
-            style.textContent = `
-        .daterangepicker {
-          margin-top: 14px;
-        }
-      `;
-            document.head.appendChild(style);
-        }
-    }
-    componentDidLoad() {
-        this.dateRangeInput = this.element.querySelector('.date-range-input');
-        this.initializeDateRangePicker();
-        this.updateDateRangePickerDates();
-    }
+    /**
+     * Initializes the date range picker using jQuery plugin with given props.
+     */
     initializeDateRangePicker() {
         $(this.dateRangeInput).daterangepicker({
             singleDatePicker: this.singleDatePicker,
@@ -9902,14 +9964,8 @@ const IrDateRange = class {
             this.dateChanged.emit({ start, end });
         });
     }
-    disconnectedCallback() {
-        if (this.openDatePickerTimeout) {
-            clearTimeout(this.openDatePickerTimeout);
-        }
-        $(this.dateRangeInput).data('daterangepicker').remove();
-    }
     render() {
-        return (index.h(index.Host, { key: '2da310191fe1d8a2d0095d46452e1c885376a778' }, index.h("input", { key: '3443fedf560d47a85377977903f0f3096d8a08b5', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (index.h(index.Host, { key: 'e216edda9d8428fa459cf28a9786cc685aba7e99' }, index.h("input", { key: 'c95bb3ac9af86f0651e8258fa9a867757ce2e0cc', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {
@@ -15326,13 +15382,38 @@ const IrPhoneInput = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.textChange = index.createEvent(this, "textChange", 7);
+        /**
+         * Initial phone number value.
+         */
         this.value = '';
+        /**
+         * Disables the phone input when true.
+         */
         this.disabled = false;
+        /**
+         * If true, styles the input to indicate an error state.
+         */
         this.error = false;
+        /**
+         * Default country ID used if no phone prefix is set.
+         */
         this.default_country = null;
+        /**
+         * If provided, sets the phone prefix and updates selected country.
+         */
         this.phone_prefix = null;
+        /**
+         * Country list, used to populate prefix and dropdown.
+         * If not provided, fetched from the booking service.
+         */
         this.countries = [];
+        /**
+         * Tracks current user input value.
+         */
         this.inputValue = '';
+        /**
+         * Tracks visibility of the country dropdown.
+         */
         this.isDropdownVisible = false;
         // private cmp_countries: ICountry[] = [];
         this.bookingService = new booking_service.BookingService();
@@ -15368,6 +15449,11 @@ const IrPhoneInput = class {
             this.isDropdownVisible = false;
         }
     }
+    /**
+     * Handles user input:
+     * - Removes all characters except numbers and "+"
+     * - Updates state and emits new phone number
+     */
     handleInputChange(e) {
         var _a;
         let inputElement = e.target;
@@ -15377,6 +15463,10 @@ const IrPhoneInput = class {
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.phone_prefix, mobile: this.inputValue });
     }
+    /**
+     * Sets the current country based on `phone_prefix` prop or country ID.
+     * Emits current phone prefix and phone number.
+     */
     setCountryFromPhonePrefix() {
         var _a;
         let country = this.countries.find(country => country.phone_prefix === this.phone_prefix);
@@ -15389,6 +15479,10 @@ const IrPhoneInput = class {
         this.currentCountry = Object.assign({}, country);
         this.textChange.emit({ phone_prefix: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.phone_prefix, mobile: this.value });
     }
+    /**
+     * Sets the current country by its ID.
+     * Emits current phone prefix and phone number.
+     */
     setCurrentCountry(id) {
         var _a;
         const country = this.countries.find(country => country.id === id);
@@ -15400,7 +15494,7 @@ const IrPhoneInput = class {
     }
     render() {
         var _a, _b;
-        return (index.h(index.Host, { key: '2dc3d9057cfb730c1bf583ae375a1a0d05406dc5' }, index.h("div", { key: '2e3fbaad545e5682512775c92c630fa44f270d1e', class: "form-group mr-0" }, index.h("div", { key: '9ba44f87689b904101428bb86978550f49e06173', class: "input-group row m-0 p-0 position-relative" }, this.label && (index.h("div", { key: '06b3f75a2b6e537a764af98ece0d0807ff91a0b9', class: `input-group-prepend col-3 p-0 text-dark border-none` }, index.h("label", { key: '61fb40980c9e42938bf339ae9faf253df3fc827e', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), index.h("div", { key: '6132f804aa8ecf72b9bd58dc7fd282ac8d52ee3e', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, index.h("button", { key: 'e9651c4fc842f9bf9ec0ac83d78e783809de7fea', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? index.h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : index.h("p", { class: "p-0 m-0 " }, locales_store.locales.entries.Lcz_Select), index.h("svg", { key: 'a49ece7c8d64cb07ebab001add7cee9abac98c05', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '7be59a5a1bc53e41ae418196e3e0d424b1e7fabf', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("p", { key: '6791b7831aeebc57d32b45984d13b4af9cf71c8b', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), index.h("input", { key: '46b74ad83dc3fb6a177427639d19e8538bede2c7', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), this.isDropdownVisible && (index.h("div", { key: '24a06ccac4e613d5a0182f62d1a789c20b7913c4', class: "ir-dropdown-container" }, index.h("ir-combobox", { key: 'eb1d8df8d97161ff70b269b247275759f76baf53', onComboboxValueChange: e => {
+        return (index.h(index.Host, { key: 'c094d48fb29c3165076b17dd3023f804946084af' }, index.h("div", { key: '925f5baa4ef1dbc388a1da1541b95e6129d0d08b', class: "form-group mr-0" }, index.h("div", { key: 'f2a672018967ad0925c1719b72bbbfa3e4d90582', class: "input-group row m-0 p-0 position-relative" }, this.label && (index.h("div", { key: 'cf31821208e0762d4907b60055698f9867091133', class: `input-group-prepend col-3 p-0 text-dark border-none` }, index.h("label", { key: '74da848bf0d88e6a9a3a7435c2005cef908d670c', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), index.h("div", { key: '3802fc4a6741696c32ca7f516f80ab05934e4c7b', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, index.h("button", { key: '896dcb1b05214db832b1345666e5edf893d4042d', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? index.h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : index.h("p", { class: "p-0 m-0 " }, locales_store.locales.entries.Lcz_Select), index.h("svg", { key: '26b2437d1c565661afa087655b8e067561da4efa', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'ea3d4d15c8af11f4f3fac381a2b452a8a9a267be', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("p", { key: '0e7eb98bc878f6c36cd4bd56306a15401e940b07', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), index.h("input", { key: '46833e243e9330476c4869baa0bf3ea7bdf0ddfa', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), this.isDropdownVisible && (index.h("div", { key: '087370785db399d5a68ce50f19324999145c14bf', class: "ir-dropdown-container" }, index.h("ir-combobox", { key: '44996a410432439bcfdfa27a20ce11f3029550bf', onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
             }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
@@ -16575,24 +16669,41 @@ const IrSelect = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.selectChange = index.createEvent(this, "selectChange", 7);
+        // Text shown in the label
         this.label = '<label>';
+        // Selected value of the select
         this.selectedValue = null;
+        // Whether to render the label
         this.LabelAvailable = true;
+        // Placeholder text for the first option
         this.firstOption = 'Select';
+        // Enable/disable default form styling
         this.selectStyle = true;
+        // Whether to show the first placeholder option
         this.showFirstOption = true;
+        // Set to true when the form is submitted
         this.submited = false;
+        // Size of the select: 'sm' | 'md' | 'lg'
         this.size = 'md';
+        // Size of the text: 'sm' | 'md' | 'lg'
         this.textSize = 'md';
+        // Position of the label
         this.labelPosition = 'left';
+        // Background color of the label
         this.labelBackground = null;
+        // Text color of the label
         this.labelColor = 'dark';
+        // Border color of the label
         this.labelBorder = 'theme';
+        // Width of the label (Bootstrap cols)
         this.labelWidth = 3;
+        // Unique ID for the select element
         this.select_id = v4.v4();
-        /** Whether the select has an error */
+        // Whether the select has an error state
         this.error = false;
+        // Tracks if the field has been touched
         this.initial = true;
+        // Tracks if the field is valid
         this.valid = false;
         this.count = 0;
     }
@@ -16607,17 +16718,15 @@ const IrSelect = class {
         }
     }
     handleButtonAnimation(e) {
-        console.log(e.detail, this.select_id, e.detail === this.select_id);
         if (!this.selectEl || e.detail !== this.select_id) {
             return;
         }
-        console.log('first1');
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.selectEl.classList.add('border-danger');
     }
-    componentwillload() { }
-    disconnectedCallback() { }
+    // Handle select change event
+    // Example: onInput={this.handleSelectChange.bind(this)}
     handleSelectChange(event) {
         this.selectEl.classList.remove('border-danger');
         if (this.required) {
@@ -16633,7 +16742,7 @@ const IrSelect = class {
     }
     render() {
         let className = 'form-control';
-        let label = (index.h("div", { key: 'c1301951414507840cf8d1cf584efcb5464a7829', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, index.h("label", { key: '894853dec90d3edd90152cabeb77bb4f9a848989', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (index.h("div", { key: '57613a397710e7eb91ebc10a037fa3c26ef354aa', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, index.h("label", { key: '6e126805d3306d6d862b4a06a6cbc92e3bf2206b', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -16643,7 +16752,7 @@ const IrSelect = class {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (index.h("div", { key: '3f491866144f3f786e6d42d71616a3f44201b0fd', class: `form-group m-0 ${this.selectContainerStyle}` }, index.h("div", { key: '5105e12f6c0f963243d499aa90674ddf57754008', class: "input-group row m-0" }, label, index.h("select", { key: '52a65efccfb90c9b155dd9aa0807c896e15b556d', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && index.h("option", { key: '7c855b0cff5fae3512fab47cdea054ca9df938d0', value: '' }, this.firstOption), this.data.map(item => {
+        return (index.h("div", { key: '627cafcbfc73be9ee655b714f072eb552ed56279', class: `form-group m-0 ${this.selectContainerStyle}` }, index.h("div", { key: '980c0f74f77455c56ef2ccd6b50f945d1ebfaada', class: "input-group row m-0" }, label, index.h("select", { key: 'a77e645bd0fc3471f2d8253b6c1061297457118f', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && index.h("option", { key: 'e616b50292c8779eba66fd4d3b8be81b34495f8e', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (index.h("option", { selected: true, value: item.value }, item.text));
             }
@@ -16667,27 +16776,26 @@ const IrSidebar = class {
         index.registerInstance(this, hostRef);
         this.irSidebarToggle = index.createEvent(this, "irSidebarToggle", 7);
         this.beforeSidebarClose = index.createEvent(this, "beforeSidebarClose", 7);
+        /**
+         * Which side of the screen the sidebar appears on.
+         * Options: `'left'` or `'right'`.
+         */
         this.side = 'right';
+        /**
+         * Whether to show the close (X) button in the sidebar header.
+         */
         this.showCloseButton = true;
+        /**
+         * Whether the sidebar is open.
+         * Can be used with two-way binding.
+         */
         this.open = false;
     }
-    applyStyles() {
-        for (const property in this.sidebarStyles) {
-            if (this.sidebarStyles.hasOwnProperty(property)) {
-                this.sidebarRef.style[property] = this.sidebarStyles[property];
-            }
-        }
+    componentDidLoad() {
+        this.applyStyles();
     }
     handleSidebarStylesChange() {
         this.applyStyles();
-    }
-    componentWillLoad() {
-        // this.handleKeyDown = this.handleKeyDown.bind(this);
-    }
-    componentDidLoad() {
-        // If esc key is pressed, close the modal
-        this.applyStyles();
-        // document.addEventListener('keydown', this.handleKeyDown);
     }
     handleOpenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -16704,12 +16812,34 @@ const IrSidebar = class {
             return;
         }
     }
+    /**
+     * Toggles the sidebar's visibility.
+     *
+     * - If `preventClose` is true, emits `beforeSidebarClose` and does nothing else.
+     * - Otherwise, emits `irSidebarToggle` with the current `open` state.
+     *
+     * Example:
+     * ```ts
+     * const el = document.querySelector('ir-sidebar');
+     * await el.toggleSidebar();
+     * ```
+     */
     async toggleSidebar() {
         if (this.preventClose) {
             this.beforeSidebarClose.emit();
             return;
         }
         this.irSidebarToggle.emit(this.open);
+    }
+    /**
+     * Applies inline styles defined in `sidebarStyles` to the sidebar container.
+     */
+    applyStyles() {
+        for (const property in this.sidebarStyles) {
+            if (this.sidebarStyles.hasOwnProperty(property)) {
+                this.sidebarRef.style[property] = this.sidebarStyles[property];
+            }
+        }
     }
     render() {
         let className = '';
@@ -16720,12 +16850,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            index.h("div", { key: '8b7845385f011831d49a2e477aa1d060b6de0429', class: `backdrop ${className}`, onClick: () => {
+            index.h("div", { key: '8134985f4f9c3f451596d2e012571dd49737136a', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            index.h("div", { key: 'f88391584dff7545eb0ac2f4b0dd420b764d7122', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: '66e58ff53d46813b28ebf2c8ec984941557ee798', class: 'sidebar-title' }, index.h("p", { key: 'e65e0e1678f0d0dd71ec480d94c4a9eef71efdb2', class: 'p-0 m-0' }, this.label), index.h("div", { key: '83920e963df8acdb4ce0889391d7fd448799d06c', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: '950d92ae502444434ebe08140da17f992819b584', class: "", onIconClickHandler: () => {
+            index.h("div", { key: 'caeee91a0e2d057f7ed1e69ac397bf9981713ff3', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: 'e3b920695da7360466c2b2839053cd54b3740d32', class: 'sidebar-title' }, index.h("p", { key: 'c9249de2cc1ee8af31026e312fcf8bf6d4dc3367', class: 'p-0 m-0' }, this.label), index.h("div", { key: '1b71e31fd8a2ec6845a46f67ea5ec259871a741a', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: '086873e04267a6d4bddb5f3ac56c2c6960882e9d', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, index.h("svg", { key: '8ca5bba591576c11037d24bfc526eacc0df54632', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'f3a7c200813e0ce82aa2ee5f1b03f5e1ea22e567', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: '87a36eb8347ceaa3caf50c2a52143b11c6db3443', name: "sidebar-body" })),
+                } }, index.h("svg", { key: '5ad0e8d9da62e48b7e4aade4a78d62deb14fd235', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '3d64dafe65b84c2a2a808f891629216070a2aa83', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: '1a4118a5f193f0766e9b0df7f8e242e9df4ccff9', name: "sidebar-body" })),
         ];
     }
     get el() { return index.getElement(this); }
@@ -16742,6 +16872,10 @@ const IrSpinnerStyle0 = irSpinnerCss;
 const IrSpinner = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        /**
+         * CSS unit used for `size` and `borderWidth`.
+         * Can be `'px'` or `'rem'`.
+         */
         this.unit = 'rem';
     }
     componentWillLoad() {
@@ -16759,6 +16893,9 @@ const IrSpinner = class {
     handleSpinnerColorChange() {
         this.initStyles();
     }
+    /**
+     * Applies CSS custom properties based on current prop values.
+     */
     initStyles() {
         if (this.size) {
             this.applyCssElement(`${this.size}${this.unit}`, '--ir-spinner-size');
@@ -16770,11 +16907,17 @@ const IrSpinner = class {
             this.applyCssElement(`${this.color}`, '--ir-spinner-color');
         }
     }
+    /**
+     * Helper function to set CSS custom properties on the host element.
+     *
+     * @param value - The CSS value to apply
+     * @param key - The CSS custom property name (e.g., `--ir-spinner-size`)
+     */
     applyCssElement(value, key) {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: 'd749403adcd3f9f508b91dc800be87521b2d5c89' });
+        return index.h(index.Host, { key: '8b5f4228f301fc167b31ed86f0bb3439a3fa81d2' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -16793,22 +16936,51 @@ const IrTextArea = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.textChange = index.createEvent(this, "textChange", 7);
+        /**
+         * Number of visible text lines.
+         */
         this.rows = 3;
+        /**
+         * Number of visible character columns.
+         */
         this.cols = 5;
+        /**
+         * Unused property, intended to store textarea text.
+         */
         this.text = '';
+        /**
+         * Text label displayed above or beside the textarea.
+         */
         this.label = '<label>';
+        /**
+         * Placeholder text shown when input is empty.
+         */
         this.placeholder = '<placeholder>';
+        /**
+         * Current value of the textarea (supports two-way binding).
+         */
         this.value = '';
+        /**
+         * Maximum number of characters allowed.
+         */
         this.maxLength = 250;
+        /**
+         * Layout style of the textarea:
+         * `'default'` shows label above, `'prepend'` shows label on the left.
+         */
         this.variant = 'default';
+        /**
+         * Width of the label in grid columns (for `variant="prepend"`).
+         */
         this.labelWidth = 3;
+        /**
+         * Indicates if the field is in an error state.
+         */
         this.error = false;
     }
     handleAriaInvalidChange(newValue) {
         this.error = newValue === 'true';
     }
-    connectedCallback() { }
-    disconnectedCallback() { }
     render() {
         if (this.variant === 'prepend') {
             return (index.h("fieldset", { class: "input-group" }, index.h("div", { class: `input-group-prepend col-${this.labelWidth} prepend-textarea` }, index.h("span", { class: "input-group-text ta-prepend-text" }, this.label)), index.h("textarea", { "data-testid": this.testId, value: this.value, class: `form-control`, style: Object.assign({ height: '7rem' }, this.styles), maxLength: this.maxLength, onChange: e => this.textChange.emit(e.target.value), "aria-label": this.label })));
@@ -16857,7 +17029,14 @@ const IrToastStyle0 = irToastCss;
 const IrToast = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        /**
+         * Position where toasts will appear.
+         * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+         */
         this.position = 'bottom-left';
+        /**
+         * Array of active toast messages.
+         */
         this.toasts = [];
     }
     onToast(event) {
@@ -16880,7 +17059,7 @@ const IrToast = class {
         }
     }
     render() {
-        return index.h(index.Host, { key: '7480bf75bb8ec04c41c7560d2628478c70f44e6c' });
+        return index.h(index.Host, { key: '54e0296df2b6be79c926784f097fe699219eefa8' });
     }
     get element() { return index.getElement(this); }
 };
@@ -16892,9 +17071,31 @@ const IrTooltipStyle0 = irTooltipCss;
 const IrTooltip = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        /**
+         * Whether the tooltip content should be rendered using `innerHTML`.
+         * If false, treats message as plain text.
+         */
         this.withHtml = true;
+        /**
+         * When true, allows a custom element to trigger the tooltip using a named slot.
+         * If false, a default info icon is used.
+         */
         this.customSlot = false;
     }
+    /**
+     * Handles showing or hiding the tooltip.
+     *
+     * - If `shouldOpen` is `true`, the tooltip is shown after a 300ms delay.
+     * - If `false`, the tooltip is hidden immediately.
+     *
+     * @param shouldOpen - whether the tooltip should be shown or hidden.
+     *
+     * Example:
+     * ```ts
+     * this.toggleOpen(true);  // show tooltip
+     * this.toggleOpen(false); // hide tooltip
+     * ```
+     */
     toggleOpen(shouldOpen) {
         if (this.tooltipTimeout) {
             clearTimeout(this.tooltipTimeout);
@@ -16909,14 +17110,14 @@ const IrTooltip = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '6c09fb53b8626fb5633eb9ec8148def85392c1e8', class: "m-0 p-0" }, index.h("span", { key: '8d25a8de2243d3714e1207cb6c99769f1c6efb8b', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        return (index.h(index.Host, { key: '5aa3a51f8a799a73bf3caaa8a601a104aaa11a7c', class: "m-0 p-0" }, index.h("span", { key: 'b8e54f287f0ddb3fe8cedda9164b24701da14cfc', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        index.h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, index.h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (index.h("slot", { name: "tooltip-trigger" }))), this.open && (index.h("div", { key: 'deae92a9b5beedc57115e796ef347f5c8e4dd6c3', class: "tooltip bottom show position-absolute", role: "tooltip" }, index.h("div", { key: '8fe96a4697259df15bff5f0dc9d8df6045bbc9b5', class: "tooltip-arrow" }), index.h("div", { key: 'ef989cee899772d5ca32875f45712db4c25344be', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, index.h("span", { key: '0750913a1c0ca328011182fbdb4c7dd149907fd2', innerHTML: this.message }))))));
+        index.h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, index.h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (index.h("slot", { name: "tooltip-trigger" }))), this.open && (index.h("div", { key: '669ad86292947a18cfde3c0c0d8168f6dae41f04', class: "tooltip bottom show position-absolute", role: "tooltip" }, index.h("div", { key: 'd3e8223e3ab175165de802c41d113174952afe49', class: "tooltip-arrow" }), index.h("div", { key: '7127af45823d2e556a5433f5c1cf9a720471aae2', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, index.h("span", { key: 'd771ddfaff9b7dce17595f2840d37555087e3895', innerHTML: this.message }))))));
     }
 };
 IrTooltip.style = IrTooltipStyle0;
@@ -16927,8 +17128,22 @@ const OtaLabelStyle0 = otaLabelCss;
 const OtaLabel = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        /**
+         * Maximum number of remarks to display before showing the "Show More" button.
+         */
         this.maxVisibleItems = 3;
+        /**
+         * Internal state that determines whether all remarks are shown or only the limited number.
+         */
         this.showAll = false;
+        /**
+         * Toggles between showing all remarks or only a limited number.
+         *
+         * Example:
+         * ```ts
+         * this.toggleShowAll(); // flips showAll state
+         * ```
+         */
         this.toggleShowAll = () => {
             this.showAll = !this.showAll;
         };

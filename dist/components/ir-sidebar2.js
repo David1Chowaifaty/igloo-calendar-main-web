@@ -12,27 +12,26 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.__attachShadow();
         this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
         this.beforeSidebarClose = createEvent(this, "beforeSidebarClose", 7);
+        /**
+         * Which side of the screen the sidebar appears on.
+         * Options: `'left'` or `'right'`.
+         */
         this.side = 'right';
+        /**
+         * Whether to show the close (X) button in the sidebar header.
+         */
         this.showCloseButton = true;
+        /**
+         * Whether the sidebar is open.
+         * Can be used with two-way binding.
+         */
         this.open = false;
     }
-    applyStyles() {
-        for (const property in this.sidebarStyles) {
-            if (this.sidebarStyles.hasOwnProperty(property)) {
-                this.sidebarRef.style[property] = this.sidebarStyles[property];
-            }
-        }
+    componentDidLoad() {
+        this.applyStyles();
     }
     handleSidebarStylesChange() {
         this.applyStyles();
-    }
-    componentWillLoad() {
-        // this.handleKeyDown = this.handleKeyDown.bind(this);
-    }
-    componentDidLoad() {
-        // If esc key is pressed, close the modal
-        this.applyStyles();
-        // document.addEventListener('keydown', this.handleKeyDown);
     }
     handleOpenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -49,12 +48,34 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             return;
         }
     }
+    /**
+     * Toggles the sidebar's visibility.
+     *
+     * - If `preventClose` is true, emits `beforeSidebarClose` and does nothing else.
+     * - Otherwise, emits `irSidebarToggle` with the current `open` state.
+     *
+     * Example:
+     * ```ts
+     * const el = document.querySelector('ir-sidebar');
+     * await el.toggleSidebar();
+     * ```
+     */
     async toggleSidebar() {
         if (this.preventClose) {
             this.beforeSidebarClose.emit();
             return;
         }
         this.irSidebarToggle.emit(this.open);
+    }
+    /**
+     * Applies inline styles defined in `sidebarStyles` to the sidebar container.
+     */
+    applyStyles() {
+        for (const property in this.sidebarStyles) {
+            if (this.sidebarStyles.hasOwnProperty(property)) {
+                this.sidebarRef.style[property] = this.sidebarStyles[property];
+            }
+        }
     }
     render() {
         let className = '';
@@ -65,12 +86,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: '8b7845385f011831d49a2e477aa1d060b6de0429', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '8134985f4f9c3f451596d2e012571dd49737136a', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'f88391584dff7545eb0ac2f4b0dd420b764d7122', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '66e58ff53d46813b28ebf2c8ec984941557ee798', class: 'sidebar-title' }, h("p", { key: 'e65e0e1678f0d0dd71ec480d94c4a9eef71efdb2', class: 'p-0 m-0' }, this.label), h("div", { key: '83920e963df8acdb4ce0889391d7fd448799d06c', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '950d92ae502444434ebe08140da17f992819b584', class: "", onIconClickHandler: () => {
+            h("div", { key: 'caeee91a0e2d057f7ed1e69ac397bf9981713ff3', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'e3b920695da7360466c2b2839053cd54b3740d32', class: 'sidebar-title' }, h("p", { key: 'c9249de2cc1ee8af31026e312fcf8bf6d4dc3367', class: 'p-0 m-0' }, this.label), h("div", { key: '1b71e31fd8a2ec6845a46f67ea5ec259871a741a', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '086873e04267a6d4bddb5f3ac56c2c6960882e9d', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '8ca5bba591576c11037d24bfc526eacc0df54632', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'f3a7c200813e0ce82aa2ee5f1b03f5e1ea22e567', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '87a36eb8347ceaa3caf50c2a52143b11c6db3443', name: "sidebar-body" })),
+                } }, h("svg", { key: '5ad0e8d9da62e48b7e4aade4a78d62deb14fd235', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '3d64dafe65b84c2a2a808f891629216070a2aa83', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '1a4118a5f193f0766e9b0df7f8e242e9df4ccff9', name: "sidebar-body" })),
         ];
     }
     get el() { return this; }

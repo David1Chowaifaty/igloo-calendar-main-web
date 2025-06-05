@@ -8,6 +8,10 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         super();
         this.__registerHost();
         this.__attachShadow();
+        /**
+         * CSS unit used for `size` and `borderWidth`.
+         * Can be `'px'` or `'rem'`.
+         */
         this.unit = 'rem';
     }
     componentWillLoad() {
@@ -25,6 +29,9 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
     handleSpinnerColorChange() {
         this.initStyles();
     }
+    /**
+     * Applies CSS custom properties based on current prop values.
+     */
     initStyles() {
         if (this.size) {
             this.applyCssElement(`${this.size}${this.unit}`, '--ir-spinner-size');
@@ -36,11 +43,17 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
             this.applyCssElement(`${this.color}`, '--ir-spinner-color');
         }
     }
+    /**
+     * Helper function to set CSS custom properties on the host element.
+     *
+     * @param value - The CSS value to apply
+     * @param key - The CSS custom property name (e.g., `--ir-spinner-size`)
+     */
     applyCssElement(value, key) {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: 'd749403adcd3f9f508b91dc800be87521b2d5c89' });
+        return h(Host, { key: '8b5f4228f301fc167b31ed86f0bb3439a3fa81d2' });
     }
     get el() { return this; }
     static get watchers() { return {

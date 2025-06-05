@@ -26,7 +26,6 @@ export declare class IrSelect {
     select_id: string;
     testId: string;
     disabled: boolean;
-    /** Whether the select has an error */
     error: boolean;
     initial: boolean;
     valid: boolean;
@@ -35,9 +34,7 @@ export declare class IrSelect {
     watchHandler(newValue: string): void;
     watchHandler2(newValue: boolean): void;
     handleButtonAnimation(e: CustomEvent): void;
-    componentwillload(): void;
-    disconnectedCallback(): void;
-    handleSelectChange(event: any): void;
+    private handleSelectChange;
     count: number;
     render(): any;
 }
