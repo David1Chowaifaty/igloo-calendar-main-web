@@ -7,38 +7,27 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
     constructor() {
         super();
         this.__registerHost();
+        /**
+         * CSS offset for the left position of the popover.
+         * Used as a CSS variable `--ir-popover-left`.
+         */
         this.irPopoverLeft = '10px';
+        /**
+         * The number of characters to display before cropping the title with ellipsis.
+         */
         this.cropSize = 15;
     }
-    // private hkStatusColors = {
-    //   green: '#57f707',
-    //   red: 'rgb(199, 139, 36)',
-    //   orange: '#ff9149',
-    //   black: '#ff4961',
-    // };
     componentWillLoad() {
         this.croppedTitle = this.popoverTitle;
     }
     componentDidLoad() {
         this.initializePopover();
     }
-    // initializePopover() {
-    //   const titleElement = this.el.querySelector('.popover-title') as HTMLElement;
-    //   if (titleElement) {
-    //     const isOverflowing = titleElement.scrollWidth > titleElement.offsetWidth;
-    //     if (isOverflowing) {
-    //       this.croppedTitle = this.popoverTitle.slice(0, this.cropSize) + '...';
-    //       this.croppedTitleEl.innerHTML = this.croppedTitle;
-    //       $(titleElement).popover({
-    //         trigger: 'hover',
-    //         content: this.popoverTitle,
-    //         placement: 'top',
-    //       });
-    //     } else {
-    //       $(titleElement).popover('dispose');
-    //     }
-    //   }
-    // }
+    /**
+     * Measures the width of the title and icon to determine if the text overflows.
+     * If it does, crops the title and attaches a popover to the title element.
+     * Otherwise, removes any existing popover.
+     */
     initializePopover() {
         const titleElement = this.el.querySelector('.popover-title');
         const iconElement = this.el.querySelector('.hk-dot');
@@ -63,11 +52,11 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
         }
     }
     render() {
-        return (h(Host, { key: '541f287e84071f77841c2cf06772c06c37fbcd64', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '82bee3792fd2af213e0fd8904a43cd888a85b085', class: "popover-title", style: {
+        return (h(Host, { key: 'd818b701890dabe46d9abd4d4d11cfc7d7e050bb', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '4fdb23a9691c59253806f95816807963098964af', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, h("span", { key: 'f9e9984f234f1fb3ac2fba9c3a555ecea382eb88', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: '96b6b79fdc1b859e94dc4116043b674e4ac3660a', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: 'd31f182137da6e84eae4b24edcc4eac85b347ed3', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: '319e1cdeaba6649b9e27b922b6355e741a74522d', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, h("span", { key: '692355b403866fa3d14796617b2723ce76b72515', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: 'ce4501a91d213c51ecc82c2eea72918f4d0dfc82', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: '44b0dceb6a40ba5ede9de2e75e4bab15eb7177d8', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: 'b00482c746b9fc2357dcecd9e34835e096ba92e0', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
     get el() { return this; }
     static get style() { return IrInteractiveTitleStyle0; }

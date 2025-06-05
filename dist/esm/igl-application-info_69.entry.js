@@ -10039,7 +10039,14 @@ const IrDialog = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.openChange = createEvent(this, "openChange", 7);
+        /**
+         * Controls whether the dialog should be opened.
+         * Can be updated externally and watched internally.
+         */
         this.open = false;
+        /**
+         * Internal open state, driven by `open` prop or internal logic.
+         */
         this.isOpen = false;
     }
     componentWillLoad() {
@@ -10050,6 +10057,16 @@ const IrDialog = class {
     componentDidLoad() {
         this.prepareFocusTrap();
     }
+    /**
+     * Opens the modal dialog programmatically.
+     * Applies `overflow: hidden` to the `body`.
+     *
+     * Example:
+     * ```ts
+     * const dialog = document.querySelector('ir-dialog');
+     * await dialog.openModal();
+     * ```
+     */
     async openModal() {
         this.isOpen = true;
         document.body.style.overflow = 'hidden';
@@ -10058,6 +10075,10 @@ const IrDialog = class {
         }, 10);
         this.openChange.emit(this.isOpen);
     }
+    /**
+     * Closes the modal dialog programmatically.
+     * Reverts body scroll and emits `openChange`.
+     */
     async closeModal() {
         console.log('close');
         if (!this.isOpen) {
@@ -10074,16 +10095,6 @@ const IrDialog = class {
         else {
             this.closeModal();
         }
-    }
-    prepareFocusTrap() {
-        const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-        const focusableContent = this.el.shadowRoot.querySelectorAll(focusableElements);
-        // console.log(focusableContent);
-        if (focusableContent.length === 0)
-            return;
-        this.firstFocusableElement = focusableContent[0];
-        this.lastFocusableElement = focusableContent[focusableContent.length - 1];
-        this.firstFocusableElement.focus();
     }
     handleKeyDown(ev) {
         if (!this.isOpen) {
@@ -10110,8 +10121,21 @@ const IrDialog = class {
     disconnectedCallback() {
         document.body.style.overflow = 'visible';
     }
+    /**
+     * Finds and traps focus within modal content for accessibility.
+     */
+    prepareFocusTrap() {
+        const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusableContent = this.el.shadowRoot.querySelectorAll(focusableElements);
+        // console.log(focusableContent);
+        if (focusableContent.length === 0)
+            return;
+        this.firstFocusableElement = focusableContent[0];
+        this.lastFocusableElement = focusableContent[focusableContent.length - 1];
+        this.firstFocusableElement.focus();
+    }
     render() {
-        return (h(Host, { key: 'a4dbc202359651dfda066d0ad526d4c1394c91f1' }, h("div", { key: 'c2b3ab3a6812ed80530e6bef557c0a61fedafe64', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '72df5c4bc7fce26f23f269dbad206daa20edc0af', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '5aea9ef0437f4accb87e356517a60412da301729', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: '0a5f96d4152c8c042ffa37559e873ac8bc810769', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: '766d35921999b162b42cbaa4ec13be2db97c4c2f', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: 'b25bdc08eccf16fff77fe305aabe4794f574c2fc', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'd55d8ed84f33776b5f7dc72bab57217f4e60765e', name: "modal-title" })), h("div", { key: 'cf21ec06f267ba44e9c0631a7eab654f702270ff', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '1bfc4250787369bc542107201f14703d8f44f620', name: "modal-body" })), h("div", { key: 'bb5e51f9f1d4ce057848e915795405c3e0a7d58b', class: "modal-footer" }, h("slot", { key: '6282f85739bf21d261f0dcbd9fcd640edb17390f', name: "modal-footer" }))))));
+        return (h(Host, { key: 'c6da2fac434a15d741c44b5fa7e48b6763fa6c1d' }, h("div", { key: '3cf86fbfd5d659794017833f00b1557977addb99', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: 'ec62d15de3077a20f05f7717065cffd964bcd110', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '55111e65150a0c8e16c589b215251c759cad592f', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: 'c61a7f05ebe8ff61619fe64f67db358b66e7f26f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: 'a2f176bbe342d2043427371b1b86badb3343105a', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: '60169f7f7c05cf4a2122b0ada3940a1a50e37665', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'a8c4c9d36c9108c7c236186a3dc0e0f962d97ad6', name: "modal-title" })), h("div", { key: '03e349c450f19ba43cee77157ecc6c2407b5daa2', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '9abf4b72368a3ffdd92ebd7f21a62db969da50b0', name: "modal-body" })), h("div", { key: '1dee701a550f13ada829901175b7cd41e08d0f2d', class: "modal-footer" }, h("slot", { key: '0763eb9d8a466238c01910913fb0073791271b5e', name: "modal-footer" }))))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -14312,38 +14336,27 @@ const IrInteractiveTitleStyle0 = irInteractiveTitleCss;
 const IrInteractiveTitle = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        /**
+         * CSS offset for the left position of the popover.
+         * Used as a CSS variable `--ir-popover-left`.
+         */
         this.irPopoverLeft = '10px';
+        /**
+         * The number of characters to display before cropping the title with ellipsis.
+         */
         this.cropSize = 15;
     }
-    // private hkStatusColors = {
-    //   green: '#57f707',
-    //   red: 'rgb(199, 139, 36)',
-    //   orange: '#ff9149',
-    //   black: '#ff4961',
-    // };
     componentWillLoad() {
         this.croppedTitle = this.popoverTitle;
     }
     componentDidLoad() {
         this.initializePopover();
     }
-    // initializePopover() {
-    //   const titleElement = this.el.querySelector('.popover-title') as HTMLElement;
-    //   if (titleElement) {
-    //     const isOverflowing = titleElement.scrollWidth > titleElement.offsetWidth;
-    //     if (isOverflowing) {
-    //       this.croppedTitle = this.popoverTitle.slice(0, this.cropSize) + '...';
-    //       this.croppedTitleEl.innerHTML = this.croppedTitle;
-    //       $(titleElement).popover({
-    //         trigger: 'hover',
-    //         content: this.popoverTitle,
-    //         placement: 'top',
-    //       });
-    //     } else {
-    //       $(titleElement).popover('dispose');
-    //     }
-    //   }
-    // }
+    /**
+     * Measures the width of the title and icon to determine if the text overflows.
+     * If it does, crops the title and attaches a popover to the title element.
+     * Otherwise, removes any existing popover.
+     */
     initializePopover() {
         const titleElement = this.el.querySelector('.popover-title');
         const iconElement = this.el.querySelector('.hk-dot');
@@ -14368,11 +14381,11 @@ const IrInteractiveTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: '541f287e84071f77841c2cf06772c06c37fbcd64', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '82bee3792fd2af213e0fd8904a43cd888a85b085', class: "popover-title", style: {
+        return (h(Host, { key: 'd818b701890dabe46d9abd4d4d11cfc7d7e050bb', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '4fdb23a9691c59253806f95816807963098964af', class: "popover-title", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, h("span", { key: 'f9e9984f234f1fb3ac2fba9c3a555ecea382eb88', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: '96b6b79fdc1b859e94dc4116043b674e4ac3660a', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: 'd31f182137da6e84eae4b24edcc4eac85b347ed3', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: '319e1cdeaba6649b9e27b922b6355e741a74522d', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, h("span", { key: '692355b403866fa3d14796617b2723ce76b72515', ref: el => (this.croppedTitleEl = el), class: "croppedTitle" }, this.croppedTitle), this.hkStatus && (h("div", { key: 'ce4501a91d213c51ecc82c2eea72918f4d0dfc82', title: "This unit is dirty", class: `hk-dot` }, h("svg", { key: '44b0dceb6a40ba5ede9de2e75e4bab15eb7177d8', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512" }, h("path", { key: 'b00482c746b9fc2357dcecd9e34835e096ba92e0', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
     get el() { return getElement(this); }
 };
@@ -14631,27 +14644,84 @@ const IrModal = class {
         registerInstance(this, hostRef);
         this.confirmModal = createEvent(this, "confirmModal", 7);
         this.cancelModal = createEvent(this, "cancelModal", 7);
+        /**
+         * The title text displayed in the modal header.
+         */
         this.modalTitle = 'Modal Title';
+        /**
+         * The main content text shown in the modal body.
+         */
         this.modalBody = 'Modal Body';
+        /**
+         * Whether the right (confirm) button is visible.
+         */
         this.rightBtnActive = true;
+        /**
+         * Whether the left (cancel/close) button is visible.
+         */
         this.leftBtnActive = true;
+        /**
+         * Text displayed on the right (confirm) button.
+         */
         this.rightBtnText = 'Confirm';
+        /**
+         * Text displayed on the left (cancel/close) button.
+         */
         this.leftBtnText = 'Close';
+        /**
+         * Whether the modal is in a loading state, disabling interaction.
+         */
         this.isLoading = false;
+        /**
+         * If true, the modal automatically closes after confirm/cancel actions.
+         */
         this.autoClose = true;
+        /**
+         * Color theme of the right button.
+         */
         this.rightBtnColor = 'primary';
+        /**
+         * Color theme of the left button.
+         */
         this.leftBtnColor = 'secondary';
+        /**
+         * Horizontal alignment of the footer buttons.
+         */
         this.btnPosition = 'right';
+        /**
+         * Whether an icon should be displayed next to the title.
+         */
         this.iconAvailable = false;
+        /**
+         * Icon name to render next to the title (if `iconAvailable` is true).
+         */
         this.icon = '';
+        /**
+         * Controls visibility of the modal.
+         */
         this.isOpen = false;
+        /**
+         * Payload object to pass along with confirm/cancel events.
+         */
         this.item = {};
     }
-    async closeModal() {
-        this.isOpen = false;
-    }
+    /**
+     * Opens the modal.
+     *
+     * Example:
+     * ```ts
+     * const modal = document.querySelector('ir-modal');
+     * modal.openModal();
+     * ```
+     */
     async openModal() {
         this.isOpen = true;
+    }
+    /**
+     * Closes the modal.
+     */
+    async closeModal() {
+        this.isOpen = false;
     }
     btnClickHandler(event) {
         let target = event.target;
@@ -14671,13 +14741,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '6c8938ec307ad62cde6d41211f3fc71aa11dfc6f', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: 'cca05676e734d6a5aedea23f6fe5415b45cf5bc6', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '7af1212057fcc52716dffbe1185e410f6cd8280d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'f1076d5a06147e9eaf49e1ecd1106c6bb43823f2', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'c420a6863edcded929ca1f1af2b9a9be9afa5fbb', class: `ir-alert-header` }, h("p", { key: '470138f1a69f904d77bb60f27ffcf88de593c4cc' }, this.modalTitle))), h("div", { key: '879b263a7c44f17cf72574babb65cf8183f0380e', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'dd2069d80c73d7fff4adbde157ec62a4ef0eddcb' }, this.modalBody)), h("div", { key: 'd0981ce658bb41bb7bc3f0c56639b28aa2b831d5', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '66b5550ff622d1fd62ca87934f4f453802c73884', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (h("ir-button", { key: '87e5d807b497c314f335633dadb0ccd4fe6d24d7', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '31879f275c46ad52a67a128035460d22f6f718d7', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'fec52ef5c0b9e8b18f8af0b3965e36aab3712dd5', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'a9383aafe8789cda705f8914602f0d612e7abdba', class: `ir-alert-header` }, h("p", { key: '7a89fedb63bb0c880f731b1efd7b76039b4df2c0' }, this.modalTitle))), h("div", { key: '58611e1d59c8e990f646eac0aefe5003cb6e85ee', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'ba5646e85d7875d10825e05394074a015729a4dd' }, this.modalBody)), h("div", { key: '497e10256d8fb300a3371a34cd8bdfff93bd42ca', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '6054444c161c7f0527a84933621d3a7dc3f7fda9', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (h("ir-button", { key: 'afc8c2bc1c9ee4d5aa96e93d31590bc088ef1869', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };

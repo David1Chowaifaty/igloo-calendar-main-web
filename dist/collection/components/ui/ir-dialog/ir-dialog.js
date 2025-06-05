@@ -1,7 +1,14 @@
 import { Host, h } from "@stencil/core";
 export class IrDialog {
     constructor() {
+        /**
+         * Controls whether the dialog should be opened.
+         * Can be updated externally and watched internally.
+         */
         this.open = false;
+        /**
+         * Internal open state, driven by `open` prop or internal logic.
+         */
         this.isOpen = false;
     }
     componentWillLoad() {
@@ -12,6 +19,16 @@ export class IrDialog {
     componentDidLoad() {
         this.prepareFocusTrap();
     }
+    /**
+     * Opens the modal dialog programmatically.
+     * Applies `overflow: hidden` to the `body`.
+     *
+     * Example:
+     * ```ts
+     * const dialog = document.querySelector('ir-dialog');
+     * await dialog.openModal();
+     * ```
+     */
     async openModal() {
         this.isOpen = true;
         document.body.style.overflow = 'hidden';
@@ -20,6 +37,10 @@ export class IrDialog {
         }, 10);
         this.openChange.emit(this.isOpen);
     }
+    /**
+     * Closes the modal dialog programmatically.
+     * Reverts body scroll and emits `openChange`.
+     */
     async closeModal() {
         console.log('close');
         if (!this.isOpen) {
@@ -36,16 +57,6 @@ export class IrDialog {
         else {
             this.closeModal();
         }
-    }
-    prepareFocusTrap() {
-        const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-        const focusableContent = this.el.shadowRoot.querySelectorAll(focusableElements);
-        // console.log(focusableContent);
-        if (focusableContent.length === 0)
-            return;
-        this.firstFocusableElement = focusableContent[0];
-        this.lastFocusableElement = focusableContent[focusableContent.length - 1];
-        this.firstFocusableElement.focus();
     }
     handleKeyDown(ev) {
         if (!this.isOpen) {
@@ -72,8 +83,21 @@ export class IrDialog {
     disconnectedCallback() {
         document.body.style.overflow = 'visible';
     }
+    /**
+     * Finds and traps focus within modal content for accessibility.
+     */
+    prepareFocusTrap() {
+        const focusableElements = 'button,ir-dropdown ,[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusableContent = this.el.shadowRoot.querySelectorAll(focusableElements);
+        // console.log(focusableContent);
+        if (focusableContent.length === 0)
+            return;
+        this.firstFocusableElement = focusableContent[0];
+        this.lastFocusableElement = focusableContent[focusableContent.length - 1];
+        this.firstFocusableElement.focus();
+    }
     render() {
-        return (h(Host, { key: 'a4dbc202359651dfda066d0ad526d4c1394c91f1' }, h("div", { key: 'c2b3ab3a6812ed80530e6bef557c0a61fedafe64', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '72df5c4bc7fce26f23f269dbad206daa20edc0af', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '5aea9ef0437f4accb87e356517a60412da301729', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: '0a5f96d4152c8c042ffa37559e873ac8bc810769', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: '766d35921999b162b42cbaa4ec13be2db97c4c2f', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: 'b25bdc08eccf16fff77fe305aabe4794f574c2fc', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'd55d8ed84f33776b5f7dc72bab57217f4e60765e', name: "modal-title" })), h("div", { key: 'cf21ec06f267ba44e9c0631a7eab654f702270ff', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '1bfc4250787369bc542107201f14703d8f44f620', name: "modal-body" })), h("div", { key: 'bb5e51f9f1d4ce057848e915795405c3e0a7d58b', class: "modal-footer" }, h("slot", { key: '6282f85739bf21d261f0dcbd9fcd640edb17390f', name: "modal-footer" }))))));
+        return (h(Host, { key: 'c6da2fac434a15d741c44b5fa7e48b6763fa6c1d' }, h("div", { key: '3cf86fbfd5d659794017833f00b1557977addb99', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: 'ec62d15de3077a20f05f7717065cffd964bcd110', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '55111e65150a0c8e16c589b215251c759cad592f', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: 'c61a7f05ebe8ff61619fe64f67db358b66e7f26f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: 'a2f176bbe342d2043427371b1b86badb3343105a', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: '60169f7f7c05cf4a2122b0ada3940a1a50e37665', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'a8c4c9d36c9108c7c236186a3dc0e0f962d97ad6', name: "modal-title" })), h("div", { key: '03e349c450f19ba43cee77157ecc6c2407b5daa2', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '9abf4b72368a3ffdd92ebd7f21a62db969da50b0', name: "modal-body" })), h("div", { key: '1dee701a550f13ada829901175b7cd41e08d0f2d', class: "modal-footer" }, h("slot", { key: '0763eb9d8a466238c01910913fb0073791271b5e', name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -101,7 +125,7 @@ export class IrDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Controls whether the dialog should be opened.\nCan be updated externally and watched internally."
                 },
                 "getter": false,
                 "setter": false,
@@ -125,7 +149,7 @@ export class IrDialog {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emits the open/close state of the modal.\n\nExample:\n```tsx\n<ir-dialog onOpenChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "boolean",
@@ -149,7 +173,7 @@ export class IrDialog {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "",
+                    "text": "Opens the modal dialog programmatically.\nApplies `overflow: hidden` to the `body`.\n\nExample:\n```ts\nconst dialog = document.querySelector('ir-dialog');\nawait dialog.openModal();\n```",
                     "tags": []
                 }
             },
@@ -166,7 +190,7 @@ export class IrDialog {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "",
+                    "text": "Closes the modal dialog programmatically.\nReverts body scroll and emits `openChange`.",
                     "tags": []
                 }
             }

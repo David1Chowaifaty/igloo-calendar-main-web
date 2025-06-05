@@ -11,27 +11,84 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
         this.__registerHost();
         this.confirmModal = createEvent(this, "confirmModal", 7);
         this.cancelModal = createEvent(this, "cancelModal", 7);
+        /**
+         * The title text displayed in the modal header.
+         */
         this.modalTitle = 'Modal Title';
+        /**
+         * The main content text shown in the modal body.
+         */
         this.modalBody = 'Modal Body';
+        /**
+         * Whether the right (confirm) button is visible.
+         */
         this.rightBtnActive = true;
+        /**
+         * Whether the left (cancel/close) button is visible.
+         */
         this.leftBtnActive = true;
+        /**
+         * Text displayed on the right (confirm) button.
+         */
         this.rightBtnText = 'Confirm';
+        /**
+         * Text displayed on the left (cancel/close) button.
+         */
         this.leftBtnText = 'Close';
+        /**
+         * Whether the modal is in a loading state, disabling interaction.
+         */
         this.isLoading = false;
+        /**
+         * If true, the modal automatically closes after confirm/cancel actions.
+         */
         this.autoClose = true;
+        /**
+         * Color theme of the right button.
+         */
         this.rightBtnColor = 'primary';
+        /**
+         * Color theme of the left button.
+         */
         this.leftBtnColor = 'secondary';
+        /**
+         * Horizontal alignment of the footer buttons.
+         */
         this.btnPosition = 'right';
+        /**
+         * Whether an icon should be displayed next to the title.
+         */
         this.iconAvailable = false;
+        /**
+         * Icon name to render next to the title (if `iconAvailable` is true).
+         */
         this.icon = '';
+        /**
+         * Controls visibility of the modal.
+         */
         this.isOpen = false;
+        /**
+         * Payload object to pass along with confirm/cancel events.
+         */
         this.item = {};
     }
-    async closeModal() {
-        this.isOpen = false;
-    }
+    /**
+     * Opens the modal.
+     *
+     * Example:
+     * ```ts
+     * const modal = document.querySelector('ir-modal');
+     * modal.openModal();
+     * ```
+     */
     async openModal() {
         this.isOpen = true;
+    }
+    /**
+     * Closes the modal.
+     */
+    async closeModal() {
+        this.isOpen = false;
     }
     btnClickHandler(event) {
         let target = event.target;
@@ -51,13 +108,13 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
     }
     render() {
         return [
-            h("div", { key: '6c8938ec307ad62cde6d41211f3fc71aa11dfc6f', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: 'cca05676e734d6a5aedea23f6fe5415b45cf5bc6', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '7af1212057fcc52716dffbe1185e410f6cd8280d', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'f1076d5a06147e9eaf49e1ecd1106c6bb43823f2', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'c420a6863edcded929ca1f1af2b9a9be9afa5fbb', class: `ir-alert-header` }, h("p", { key: '470138f1a69f904d77bb60f27ffcf88de593c4cc' }, this.modalTitle))), h("div", { key: '879b263a7c44f17cf72574babb65cf8183f0380e', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'dd2069d80c73d7fff4adbde157ec62a4ef0eddcb' }, this.modalBody)), h("div", { key: 'd0981ce658bb41bb7bc3f0c56639b28aa2b831d5', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '66b5550ff622d1fd62ca87934f4f453802c73884', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (h("ir-button", { key: '87e5d807b497c314f335633dadb0ccd4fe6d24d7', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '31879f275c46ad52a67a128035460d22f6f718d7', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'fec52ef5c0b9e8b18f8af0b3965e36aab3712dd5', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'a9383aafe8789cda705f8914602f0d612e7abdba', class: `ir-alert-header` }, h("p", { key: '7a89fedb63bb0c880f731b1efd7b76039b4df2c0' }, this.modalTitle))), h("div", { key: '58611e1d59c8e990f646eac0aefe5003cb6e85ee', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'ba5646e85d7875d10825e05394074a015729a4dd' }, this.modalBody)), h("div", { key: '497e10256d8fb300a3371a34cd8bdfff93bd42ca', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '6054444c161c7f0527a84933621d3a7dc3f7fda9', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (h("ir-button", { key: 'afc8c2bc1c9ee4d5aa96e93d31590bc088ef1869', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get style() { return IrModalStyle0; }
@@ -78,8 +135,8 @@ const IrModal = /*@__PURE__*/ proxyCustomElement(class IrModal extends HTMLEleme
         "icon": [1],
         "item": [1032],
         "isOpen": [32],
-        "closeModal": [64],
-        "openModal": [64]
+        "openModal": [64],
+        "closeModal": [64]
     }, [[0, "clickHandler", "btnClickHandler"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
