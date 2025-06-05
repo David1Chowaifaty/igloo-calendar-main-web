@@ -111,7 +111,10 @@ export class IrRoomGuests {
         if (this.isLoading) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
-        return (h("div", { class: "h-100 d-flex flex-column", style: { minWidth: '300px' } }, h("ir-title", { class: "px-1", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), h("section", { class: 'd-flex flex-column px-1 h-100 ' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
+        return (h("form", { class: "sheet-container", style: { minWidth: '300px' }, onSubmit: e => {
+                e.preventDefault();
+                this.saveGuests();
+            } }, h("ir-title", { class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), h("section", { class: 'sheet-body px-1' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
             var _a, _b;
             return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "First name"), h("ir-input-text", { class: "flex-grow-1 h-100", id: `first_name_${idx}`, zod: ZSharedPerson.pick({ first_name: true }), error: !!this.error['first_name'], autoValidate: this.autoValidate, wrapKey: "first_name", placeholder: "First name", onTextChange: e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxLength: 40 })), h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "Last name"), h("ir-input-text", { maxLength: 40, class: "flex-grow-1 h-100", id: `last_name_${idx}`, zod: ZSharedPerson.pick({ last_name: true }), error: !!this.error['last_name'], autoValidate: this.autoValidate, wrapKey: "last_name", placeholder: "Last name", onTextChange: e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name })), h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'], autoValidate: this.autoValidate, wrapKey: "dob", mask: dateMask, placeholder: "", onTextChange: e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
@@ -129,18 +132,18 @@ export class IrRoomGuests {
                 }, selectedValue: guest.id_info.type.code, LabelAvailable: false, showFirstOption: false, data: (_b = this.idTypes) === null || _b === void 0 ? void 0 : _b.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: guest.id_info.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'], wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
                     id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { number: e.detail }),
                 }) }))))));
-        })), h("div", { class: 'd-flex flex-column flex-sm-row mt-3 action-buttons ' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `mb-1 mb-sm-0 flex-fill mr-sm-1`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_styles: "justify-content-center align-items-center", class: 'm-0 flex-fill text-center', isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary", onClickHandler: this.saveGuests.bind(this) })))));
+        }))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_type: "submit", class: 'flex-fill', isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary" }))));
     }
     static get is() { return "ir-room-guests"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-room-guests.css"]
+            "$": ["ir-room-guests.css", "../../../common/sheet.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-room-guests.css"]
+            "$": ["ir-room-guests.css", "../../../common/sheet.css"]
         };
     }
     static get properties() {
