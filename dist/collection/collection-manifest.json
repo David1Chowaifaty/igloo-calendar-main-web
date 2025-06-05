@@ -106,6 +106,7 @@
     "components/ui/ir-phone-input/ir-phone-input.js",
     "components/ui/ir-popover/ir-popover.js",
     "components/ui/ir-price-input/ir-price-input.js",
+    "components/ui/ir-radio/ir-radio.js",
     "components/ui/ir-select/ir-select.js",
     "components/ui/ir-sidebar/ir-sidebar.js",
     "components/ui/ir-span/ir-span.js",

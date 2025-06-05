@@ -9,9 +9,21 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         super();
         this.__registerHost();
         this.countryChange = createEvent(this, "countryChange", 7);
+        /**
+         * List of countries to display in the dropdown.
+         */
         this.countries = [];
+        /**
+         * Whether to automatically validate the input.
+         */
         this.autoValidate = false;
+        /**
+         * Filtered list of countries based on the user's input.
+         */
         this.filteredCountries = [];
+        /**
+         * Whether the input is currently being used for searching.
+         */
         this.searching = false;
     }
     componentWillLoad() {
@@ -28,6 +40,9 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
             this.selectedCountry = newCountry;
         }
     }
+    /**
+     * Filters the list of countries based on the current input.
+     */
     filterCountries() {
         if (this.inputValue === '' && this.country) {
             this.selectCountry(null);
@@ -42,12 +57,18 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
             }
         }, 300);
     }
+    /**
+     * Selects a country and emits the change event.
+     */
     selectCountry(c) {
         this.selectedCountry = c;
         this.inputValue = c === null || c === void 0 ? void 0 : c.name;
         this.filteredCountries = [...this.countries];
         this.countryChange.emit(c);
     }
+    /**
+     * Scrolls to the selected country in the dropdown for accessibility.
+     */
     scrollToSelected() {
         setTimeout(() => {
             const dropdownItem = document.querySelector(`.dropdown-item.active`);
@@ -59,7 +80,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: 'aa2eba65e403031cf5a27c553baa99db51e42c8d', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'e0c6ef27efd3fd1518726def6e2de542d627c4ef', onTextChange: e => {
+        return (h("form", { key: 'ef9037b95da12b65ae736afc17149b1ec319e99d', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'bf7e529ea8d5d1c823a22dba7a71447cc4384f50', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -70,15 +91,15 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), h("div", { key: '2cc62682734302c77d1669fc82233c00673d0c8d', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'bc74bbb13c9dd89426c78c3e3375aeb29c7ff477' }, h("button", { key: '0c9d15c3ba64a82b4430bb64a9d108d0e55fac1e', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), h("div", { key: 'dda8752e77b90508f7e6cb89bdd015466833e534', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '7452a4019be412830ac557f37c24c9a00af97840' }, h("button", { key: 'be123836b9e1b94174da099e8b9e9335d1c78623', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: 'a7a369893ae66980ce64c839300aa035fb9cb5df', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: '8d0dabe9e03e8b7f68472de8e5dec00413eb5979', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '6350dec4ffda6507bb5c5b28459edd0304438384', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: '355f9fb0fb8eb3406b7f3a715e193ccbded7cd77', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'cf5b075935180d11a1e22db73288672a9ccab9b0', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '3487281a657b354de657f95f34b9b60ec07da696', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '6ee4cc2ae313fc4228c2ff2f4fe4c95ffdc74241', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '949086882f098c1ae3ff460061eb53c9baf0afff', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]

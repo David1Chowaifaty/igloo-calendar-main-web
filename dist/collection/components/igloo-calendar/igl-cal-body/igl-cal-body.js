@@ -435,7 +435,10 @@ export class IglCalBody {
                     if (room.is_active) {
                         this.calendarData.days.forEach(dayInfo => {
                             const cellKey = this.getCellKey(room.id, dayInfo.value);
-                            calendar_dates.disabled_cells.set(cellKey, !dayInfo.rate[categoryIndex].is_available_to_book);
+                            calendar_dates.disabled_cells.set(cellKey, {
+                                disabled: !dayInfo.rate[categoryIndex].is_available_to_book,
+                                reason: 'stop_sale',
+                            });
                         });
                     }
                 });
@@ -446,7 +449,8 @@ export class IglCalBody {
         return `${roomId}_${day}`;
     }
     isCellDisabled(roomId, day) {
-        return calendar_dates.disabled_cells.get(this.getCellKey(roomId, day)) || false;
+        var _a;
+        return ((_a = calendar_dates.disabled_cells.get(this.getCellKey(roomId, day))) === null || _a === void 0 ? void 0 : _a.disabled) || false;
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }

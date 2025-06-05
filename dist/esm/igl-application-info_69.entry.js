@@ -1574,6 +1574,7 @@ const IglBookingEvent = class {
         }
     }
     async moveBookingToHandler(event) {
+        var _a, _b, _c;
         try {
             if (event.detail.bookingId !== this.getBookingId()) {
                 this.showEventInfo(false);
@@ -1609,8 +1610,8 @@ const IglBookingEvent = class {
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
                     const previousToDate = hooks(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
-                    if ((calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`) ||
-                        (calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`) && calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`))) &&
+                    if ((((_a = calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)) === null || _a === void 0 ? void 0 : _a.disabled) ||
+                        (((_b = calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)) === null || _b === void 0 ? void 0 : _b.disabled) && ((_c = calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)) === null || _c === void 0 ? void 0 : _c.disabled))) &&
                         !this.isStretch) {
                         this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
                     }
@@ -1704,10 +1705,11 @@ const IglBookingEvent = class {
                                 //   fromDate = moment(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
                                 // }
                                 const validateDates = (base_date, to_date) => {
+                                    var _a;
                                     let cursor = base_date;
                                     let counter = 0;
                                     while (cursor !== to_date) {
-                                        if (calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)) {
+                                        if ((_a = calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)) === null || _a === void 0 ? void 0 : _a.disabled) {
                                             counter++;
                                         }
                                         cursor = hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
@@ -2204,14 +2206,14 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '5e19e6f9669c32e003922ee53590e6d18f5a8449', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'fbcd47b3afe3fb2b274dfc6be1f4e0b3789092da', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '73072226c295fcee46528da26afa14611800a0b9', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: 'a93a91c4f31c2bf3432d5b549288e9dde9bcb5ab', class: `bookingEventBase  ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '0a27750409968be38d15c93f4d8c8e2f037e5dee', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: 'f9f7ad30fb50695cd6f7f032d0eebe3a51c0011f' }, h("div", { key: 'db82ed84d4c1266c4aec524dafb825e45d57c279', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '7407e477160cd3277825f77775fd5325cd5514d9', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '636c0a9de67a1e8a543f31d5900aee7d2221c064', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: '1c6a0f67f2b3f20d059bb82ac2dfedaac3dacc61' }, h("div", { key: '244f73097e13219b2d4e79ba16fffc8cb578d6de', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '90c50e4e05838870f982028faaff97d6b4088f63', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return getElement(this); }
@@ -3549,7 +3551,10 @@ const IglCalBody = class {
                     if (room.is_active) {
                         this.calendarData.days.forEach(dayInfo => {
                             const cellKey = this.getCellKey(room.id, dayInfo.value);
-                            calendar_dates.disabled_cells.set(cellKey, !dayInfo.rate[categoryIndex].is_available_to_book);
+                            calendar_dates.disabled_cells.set(cellKey, {
+                                disabled: !dayInfo.rate[categoryIndex].is_available_to_book,
+                                reason: 'stop_sale',
+                            });
                         });
                     }
                 });
@@ -3560,7 +3565,8 @@ const IglCalBody = class {
         return `${roomId}_${day}`;
     }
     isCellDisabled(roomId, day) {
-        return calendar_dates.disabled_cells.get(this.getCellKey(roomId, day)) || false;
+        var _a;
+        return ((_a = calendar_dates.disabled_cells.get(this.getCellKey(roomId, day))) === null || _a === void 0 ? void 0 : _a.disabled) || false;
     }
     static get watchers() { return {
         "calendarData": ["handleCalendarDataChange"]
@@ -5891,7 +5897,7 @@ const IglooCalendar = class {
             days[dayIdx].rate[roomTypeIdx] = Object.assign(Object.assign({}, roomType), { rateplans: updatedRateplans,
                 // overall room availability = true if any rateplan is bookable
                 is_available_to_book });
-            disabled_cells.set(days[dayIdx].value, is_available_to_book);
+            disabled_cells.set(days[dayIdx].value, { disabled: is_available_to_book, reason: 'stop_sale' });
         }
         // 6) write back to the store
         calendar_dates['disabled_cells'] = new Map(disabled_cells);
@@ -6318,10 +6324,10 @@ const IglooCalendar = class {
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: '9d9ebf591f9a36fd96e1581101399c2644b2c5b3' }, h("ir-toast", { key: '1b427ef6d81f198de9cf8f7619270a75aba99457' }), h("ir-interceptor", { key: 'e8599594801525712c9be1986dd36752ae310718' }), h("div", { key: '9ef75e7461119929e8c5d3740e2e3aa2faf2e67b', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '8acc85c129c5e9db32ace41eae1b56ee46090c9f', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '2d75905c6a8a2909f47b07b0a7bd5b0b96585c77', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: '61224694a809ed7b41c9277ee220250255152896' }, h("ir-toast", { key: '4c96c6e24e3758401bf2d166c8ff43f0941dc302' }), h("ir-interceptor", { key: '113c82087ce2a43e879f0cf8d7929a7d7b700714' }), h("div", { key: '7a945a121d939370806d0988e88493b9d22de751', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '9189e7fe14d9dc7a2cbbbc14aa51d0b97e1f97b3', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '195cf7d8d9fef8342c998ed34d48e95298d5fd40', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
                 width: ((_a = this.calendarSidebarState) === null || _a === void 0 ? void 0 : _a.type) === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? '#F2F3F8' : 'white',
-            } }, this.roomNightsData && (h("ir-room-nights", { key: '9077cc1d974f4aed580067fe2ee9ede76a17921b', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'd16de7874948fa176e84d9d0a8a8843080abe56c', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: '972d0c935a6286108663ba7305358b9b311f9d28', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) })), ((_p = this.calendarSidebarState) === null || _p === void 0 ? void 0 : _p.type) === 'bulk-blocks' && (h("igl-bulk-stop-sale", { key: '9788097d70bf5c1683be3dd18aeed969fefbd4ca', slot: "sidebar-body", onCloseModal: () => (this.calendarSidebarState = null) }))), h("ir-modal", { key: '379147cfc52b8f7b9fbc658b7e2919ee4dfa7ca3', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_q = this.dialogData) === null || _q === void 0 ? void 0 : _q.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Cancel, rightBtnText: (_s = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _s === void 0 ? void 0 : _s.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+            } }, this.roomNightsData && (h("ir-room-nights", { key: 'dfedf10cc914995b0a2494999ac10080d26b2f1a', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '67060fb636c20ef73d8e1e3db508ed6715c34732', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: '4ad05e37a3bfb302f7ae4de7372aaffb5e598216', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) })), ((_p = this.calendarSidebarState) === null || _p === void 0 ? void 0 : _p.type) === 'bulk-blocks' && (h("igl-bulk-stop-sale", { key: 'e6d337a3086ca8d39b5221e5b484ad24a69feda5', slot: "sidebar-body", onCloseModal: () => (this.calendarSidebarState = null) }))), h("ir-modal", { key: 'bf40e56dfe489c874b594569c828fee8f652fba2', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_q = this.dialogData) === null || _q === void 0 ? void 0 : _q.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Cancel, rightBtnText: (_s = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _s === void 0 ? void 0 : _s.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     get element() { return getElement(this); }
     static get watchers() { return {
@@ -7601,9 +7607,21 @@ const IrCountryPicker = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.countryChange = createEvent(this, "countryChange", 7);
+        /**
+         * List of countries to display in the dropdown.
+         */
         this.countries = [];
+        /**
+         * Whether to automatically validate the input.
+         */
         this.autoValidate = false;
+        /**
+         * Filtered list of countries based on the user's input.
+         */
         this.filteredCountries = [];
+        /**
+         * Whether the input is currently being used for searching.
+         */
         this.searching = false;
     }
     componentWillLoad() {
@@ -7620,6 +7638,9 @@ const IrCountryPicker = class {
             this.selectedCountry = newCountry;
         }
     }
+    /**
+     * Filters the list of countries based on the current input.
+     */
     filterCountries() {
         if (this.inputValue === '' && this.country) {
             this.selectCountry(null);
@@ -7634,12 +7655,18 @@ const IrCountryPicker = class {
             }
         }, 300);
     }
+    /**
+     * Selects a country and emits the change event.
+     */
     selectCountry(c) {
         this.selectedCountry = c;
         this.inputValue = c === null || c === void 0 ? void 0 : c.name;
         this.filteredCountries = [...this.countries];
         this.countryChange.emit(c);
     }
+    /**
+     * Scrolls to the selected country in the dropdown for accessibility.
+     */
     scrollToSelected() {
         setTimeout(() => {
             const dropdownItem = document.querySelector(`.dropdown-item.active`);
@@ -7651,7 +7678,7 @@ const IrCountryPicker = class {
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: 'aa2eba65e403031cf5a27c553baa99db51e42c8d', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'e0c6ef27efd3fd1518726def6e2de542d627c4ef', onTextChange: e => {
+        return (h("form", { key: 'ef9037b95da12b65ae736afc17149b1ec319e99d', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'bf7e529ea8d5d1c823a22dba7a71447cc4384f50', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -7662,15 +7689,15 @@ const IrCountryPicker = class {
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), h("div", { key: '2cc62682734302c77d1669fc82233c00673d0c8d', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'bc74bbb13c9dd89426c78c3e3375aeb29c7ff477' }, h("button", { key: '0c9d15c3ba64a82b4430bb64a9d108d0e55fac1e', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), h("div", { key: 'dda8752e77b90508f7e6cb89bdd015466833e534', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '7452a4019be412830ac557f37c24c9a00af97840' }, h("button", { key: 'be123836b9e1b94174da099e8b9e9335d1c78623', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: 'a7a369893ae66980ce64c839300aa035fb9cb5df', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: '8d0dabe9e03e8b7f68472de8e5dec00413eb5979', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '6350dec4ffda6507bb5c5b28459edd0304438384', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: '355f9fb0fb8eb3406b7f3a715e193ccbded7cd77', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'cf5b075935180d11a1e22db73288672a9ccab9b0', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '3487281a657b354de657f95f34b9b60ec07da696', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '6ee4cc2ae313fc4228c2ff2f4fe4c95ffdc74241', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '949086882f098c1ae3ff460061eb53c9baf0afff', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]
@@ -16596,7 +16623,7 @@ const IrSelect = class {
     }
     render() {
         let className = 'form-control';
-        let label = (h("div", { key: '3dd6ff0f2b448ea4400efb1fc9d3fe1d14708c8f', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'ea8e760456691887d87c3d6b91b124ddd66e2f88', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        let label = (h("div", { key: 'c1301951414507840cf8d1cf584efcb5464a7829', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '894853dec90d3edd90152cabeb77bb4f9a848989', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
         if (this.selectStyle === false) {
             className = '';
         }
@@ -16606,7 +16633,7 @@ const IrSelect = class {
         if (!this.LabelAvailable) {
             label = '';
         }
-        return (h("div", { key: '8b905b9b94acd0de0331f22d3fa9abf005262249', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'a00fc0529bcb54bea54534fcdedf641ea557a2eb', class: "input-group row m-0" }, label, h("select", { key: '614d8078087377351bc8b12a523dfb58b240aa28', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '6da9ef1a74379adc521b51240b4d59c61bf8042a', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: '3f491866144f3f786e6d42d71616a3f44201b0fd', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '5105e12f6c0f963243d499aa90674ddf57754008', class: "input-group row m-0" }, label, h("select", { key: '52a65efccfb90c9b155dd9aa0807c896e15b556d', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '7c855b0cff5fae3512fab47cdea054ca9df938d0', value: '' }, this.firstOption), this.data.map(item => {
             if (this.selectedValue === item.value) {
                 return (h("option", { selected: true, value: item.value }, item.text));
             }
@@ -16683,12 +16710,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '19886bfeb0166f48624468178f4f8f7204f13565', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '8b7845385f011831d49a2e477aa1d060b6de0429', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '95ef60ce4ab9deb4848c5eb100786e9cb335d23c', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'bfdcb49b7b2c5a511fa9786506b57a4b3edc10b4', class: 'sidebar-title' }, h("p", { key: '5ec099bed4cf406fd7101b800fbda558aa54a61d', class: 'p-0 m-0' }, this.label), h("div", { key: '0455c3ed27415963a9cd170a558dd840e46ea6dc', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '910abbb3fa22e9b4f72d727f95dff109d667ec32', class: "", onIconClickHandler: () => {
+            h("div", { key: 'f88391584dff7545eb0ac2f4b0dd420b764d7122', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '66e58ff53d46813b28ebf2c8ec984941557ee798', class: 'sidebar-title' }, h("p", { key: 'e65e0e1678f0d0dd71ec480d94c4a9eef71efdb2', class: 'p-0 m-0' }, this.label), h("div", { key: '83920e963df8acdb4ce0889391d7fd448799d06c', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '950d92ae502444434ebe08140da17f992819b584', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '9ac10a66ea9f9003b0495562190db07b517b41dd', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'f54a6bc3256cc7e5891d8b7406c464ba80e14134', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '9760a10c4812f8b2be70f45f3e1843df5a7edaf7', name: "sidebar-body" })),
+                } }, h("svg", { key: '8ca5bba591576c11037d24bfc526eacc0df54632', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'f3a7c200813e0ce82aa2ee5f1b03f5e1ea22e567', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '87a36eb8347ceaa3caf50c2a52143b11c6db3443', name: "sidebar-body" })),
         ];
     }
     get el() { return getElement(this); }
@@ -16737,7 +16764,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: 'faae5c0a63bb053296ea303b9fe958fb9e103114' });
+        return h(Host, { key: 'd749403adcd3f9f508b91dc800be87521b2d5c89' });
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -16843,7 +16870,7 @@ const IrToast = class {
         }
     }
     render() {
-        return h(Host, { key: 'ccb40ff6f2b43114d96890cd54e7d7ff96bad72a' });
+        return h(Host, { key: '7480bf75bb8ec04c41c7560d2628478c70f44e6c' });
     }
     get element() { return getElement(this); }
 };
@@ -16872,14 +16899,14 @@ const IrTooltip = class {
         }
     }
     render() {
-        return (h(Host, { key: '62890b414ed7e1a35e71e3fb5270c4dcb34a5abf', class: "m-0 p-0" }, h("span", { key: '798fb06aca7e65b7052605fcab85da2f1b992c7a', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        return (h(Host, { key: '6c09fb53b8626fb5633eb9ec8148def85392c1e8', class: "m-0 p-0" }, h("span", { key: '8d25a8de2243d3714e1207cb6c99769f1c6efb8b', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: '2b23f0ae60cbae6bb9ee2aff02f6f35e64de6af2', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '0abfb3c9fcbfd95d07f98b7d698221b230acab39', class: "tooltip-arrow" }), h("div", { key: '5227625127158b970988ba06350d3fa9afd58e86', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '8150301536c92215d08d6d15131b1986dbe61990', innerHTML: this.message }))))));
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: 'deae92a9b5beedc57115e796ef347f5c8e4dd6c3', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '8fe96a4697259df15bff5f0dc9d8df6045bbc9b5', class: "tooltip-arrow" }), h("div", { key: 'ef989cee899772d5ca32875f45712db4c25344be', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '0750913a1c0ca328011182fbdb4c7dd149907fd2', innerHTML: this.message }))))));
     }
 };
 IrTooltip.style = IrTooltipStyle0;
