@@ -466,8 +466,12 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         return `${roomId}_${day}`;
     }
     isCellDisabled(roomId, day) {
-        var _a;
-        return ((_a = calendar_dates.disabled_cells.get(this.getCellKey(roomId, day))) === null || _a === void 0 ? void 0 : _a.disabled) || false;
+        const key = this.getCellKey(roomId, day);
+        if (!calendar_dates.disabled_cells.has(key)) {
+            return false;
+        }
+        const { disabled } = calendar_dates.disabled_cells.get(key);
+        return disabled;
     }
     static get watchers() { return {
         "calendarData": ["handleCalendarDataChange"]

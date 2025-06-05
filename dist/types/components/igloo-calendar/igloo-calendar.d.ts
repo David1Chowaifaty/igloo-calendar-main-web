@@ -23,6 +23,11 @@ export type SalesBatchPayload = {
     night: string;
     is_available_to_book: boolean;
 };
+export type AvailabilityBatchPayload = {
+    room_type_id: number;
+    date: string;
+    availability: number;
+};
 export type CalendarSidebarState = {
     type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks';
     payload: any;
@@ -56,11 +61,6 @@ export declare class IglooCalendar {
     roomNightsData: IRoomNightsData | null;
     renderAgain: boolean;
     showBookProperty: boolean;
-    totalAvailabilityQueue: {
-        room_type_id: number;
-        date: string;
-        availability: number;
-    }[];
     highlightedDate: string;
     calDates: {
         from: string;
@@ -87,10 +87,10 @@ export declare class IglooCalendar {
     private today;
     private reachedEndOfCalendar;
     private socket;
-    private availabilityTimeout;
     private token;
     private calendarModalEl;
     private salesQueue;
+    private availabilityQueue;
     private roomTypeIdsCache;
     componentWillLoad(): void;
     componentDidLoad(): void;
@@ -120,7 +120,6 @@ export declare class IglooCalendar {
     private handleDeleteCalendarPool;
     private handleGetUnassignedDates;
     private parseDateRange;
-    private handleUpdateCalendarAvailability;
     private handleChangeInDueAmount;
     private handleChangeInBookStatus;
     private handleNonTechnicalChangeInBooking;
@@ -162,7 +161,7 @@ export declare class IglooCalendar {
     }
      */
     private processSalesBatch;
-    private updateTotalAvailability;
+    private processAvailabilityBatch;
     private setRoomsData;
     private getLegendData;
     private getDateStr;
