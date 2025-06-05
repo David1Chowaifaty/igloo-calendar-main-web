@@ -5,10 +5,6 @@ export type SelectedRooms = {
     id: string | number;
     result: 'open' | 'closed';
 };
-export interface Weekday {
-    value: number;
-    label: string;
-}
 export declare class IglBulkStopSale {
     maxDatesLength: number;
     selectedRoomTypes: SelectedRooms[];
@@ -18,7 +14,6 @@ export declare class IglBulkStopSale {
         from: Moment | null;
         to: Moment | null;
     }[];
-    private weekdays;
     selectedWeekdays: Set<number>;
     closeModal: EventEmitter<null>;
     toast: EventEmitter<IToast>;
@@ -38,7 +33,6 @@ export declare class IglBulkStopSale {
     private addBlockDates;
     private activate;
     private deactivate;
-    private toggleWeekDays;
     private handleDateChange;
     private addDateRow;
     render(): any;

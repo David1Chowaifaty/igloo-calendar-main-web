@@ -115,6 +115,7 @@
     "components/ui/ir-textarea/ir-textarea.js",
     "components/ui/ir-toast/ir-toast.js",
     "components/ui/ir-tooltip/ir-tooltip.js",
+    "components/ui/ir-weekday-selector/ir-weekday-selector.js",
     "components/ui/ota-label/ota-label.js"
   ],
   "compiler": {
