@@ -4,14 +4,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const Token = require('./Token-3d0cc874.js');
-const booking_service = require('./booking.service-915fe52d.js');
-const room_service = require('./room.service-5878ce13.js');
+const booking_service = require('./booking.service-420e00c4.js');
+const room_service = require('./room.service-3a521316.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 require('./axios-6e678d52.js');
-require('./utils-64f6986a.js');
+require('./utils-c5c81e47.js');
 require('./moment-1780b03a.js');
 require('./index-db8b30d9.js');
-require('./calendar-data-99f4dccd.js');
+require('./calendar-data-cf00a87d.js');
 require('./index-467172e1.js');
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
