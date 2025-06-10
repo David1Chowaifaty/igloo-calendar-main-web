@@ -65,7 +65,7 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatus) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = moment(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = moment(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -113,8 +113,8 @@ function getDefaultData(cell, stayStatus) {
         TO_DATE: bookingToDate,
         NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
         STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
-        NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name),
-        // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name) || formatName(cell?.booking.guest?.first_name, cell?.booking?.guest?.last_name),
+        // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name),
+        NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name) || formatName((_c = cell === null || cell === void 0 ? void 0 : cell.booking.guest) === null || _c === void 0 ? void 0 : _c.first_name, (_e = (_d = cell === null || cell === void 0 ? void 0 : cell.booking) === null || _d === void 0 ? void 0 : _d.guest) === null || _e === void 0 ? void 0 : _e.last_name),
         IDENTIFIER: cell.room.identifier,
         PR_ID: cell.pr_id,
         POOL: cell.POOL,
@@ -122,7 +122,7 @@ function getDefaultData(cell, stayStatus) {
         NOTES: cell.booking.is_direct ? cell.booking.remark : null,
         PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
         is_direct: cell.booking.is_direct,
-        BALANCE: (_c = cell.booking.financial) === null || _c === void 0 ? void 0 : _c.due_amount,
+        BALANCE: (_f = cell.booking.financial) === null || _f === void 0 ? void 0 : _f.due_amount,
         channel_booking_nbr: cell.booking.channel_booking_nbr,
         ARRIVAL_TIME: cell.booking.arrival.description,
         defaultDates: {
@@ -134,12 +134,12 @@ function getDefaultData(cell, stayStatus) {
         PHONE_PREFIX: cell.booking.guest.country_phone_prefix,
         IS_EDITABLE: cell.booking.is_editable,
         ARRIVAL: cell.booking.arrival,
-        PHONE: (_d = cell.booking.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
+        PHONE: (_g = cell.booking.guest.mobile_without_prefix) !== null && _g !== void 0 ? _g : '',
         RATE: cell.room.total,
         RATE_PLAN: cell.room.rateplan.name,
         SPLIT_BOOKING: false,
         RATE_PLAN_ID: cell.room.rateplan.id,
-        RATE_TYPE: (_f = (_e = cell.room) === null || _e === void 0 ? void 0 : _e.roomtype) === null || _f === void 0 ? void 0 : _f.id,
+        RATE_TYPE: (_j = (_h = cell.room) === null || _h === void 0 ? void 0 : _h.roomtype) === null || _j === void 0 ? void 0 : _j.id,
         ADULTS_COUNT: cell.room.occupancy.adult_nbr,
         CHILDREN_COUNT: cell.room.occupancy.children_nbr,
         origin: cell.booking.origin,
@@ -147,22 +147,22 @@ function getDefaultData(cell, stayStatus) {
         ROOMS: cell.booking.rooms,
         cancelation: cell.room.rateplan.cancelation,
         guarantee: cell.room.rateplan.guarantee,
-        TOTAL_PRICE: (_g = cell.booking.financial) === null || _g === void 0 ? void 0 : _g.gross_total,
+        TOTAL_PRICE: (_k = cell.booking.financial) === null || _k === void 0 ? void 0 : _k.gross_total,
         COUNTRY: cell.booking.guest.country_id,
         FROM_DATE_STR: cell.booking.format.from_date,
         TO_DATE_STR: cell.booking.format.to_date,
         adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
         SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
         //TODO:Implement checkin-checkout
-        CHECKIN: ((_h = cell.room.in_out) === null || _h === void 0 ? void 0 : _h.code) === '001',
-        CHECKOUT: ((_j = cell.room.in_out) === null || _j === void 0 ? void 0 : _j.code) === '002',
+        CHECKIN: ((_l = cell.room.in_out) === null || _l === void 0 ? void 0 : _l.code) === '001',
+        CHECKOUT: ((_m = cell.room.in_out) === null || _m === void 0 ? void 0 : _m.code) === '002',
         ROOM_INFO: {
             occupancy: cell.room.occupancy,
             sharing_persons: cell.room.sharing_persons,
             unit: cell.room.unit,
             in_out: cell.room.in_out,
         },
-        BASE_STATUS_CODE: (_k = cell.booking.status) === null || _k === void 0 ? void 0 : _k.code,
+        BASE_STATUS_CODE: (_o = cell.booking.status) === null || _o === void 0 ? void 0 : _o.code,
     };
 }
 // function updateBookingWithStayData(data: any, cell: CellType): any {
@@ -289,8 +289,8 @@ export function transformNewBooking(data) {
                 to_date: room.to_date,
                 status_code: (_c = data.status) === null || _c === void 0 ? void 0 : _c.code,
             }),
-            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name),
-            // NAME: formatName(mainGuest?.first_name, mainGuest.last_name) || formatName(room.guest.first_name, room.guest.last_name),
+            // NAME: formatName(mainGuest?.first_name, mainGuest.last_name),
+            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name) || formatName(room.guest.first_name, room.guest.last_name),
             PHONE: (_d = data.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
             ENTRY_DATE: '12-12-2023',
             PHONE_PREFIX: data.guest.country_phone_prefix,

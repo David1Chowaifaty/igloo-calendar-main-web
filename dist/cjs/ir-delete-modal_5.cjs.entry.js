@@ -7,12 +7,12 @@ const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-cf00a87d.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const user_service = require('./user.service-839670ef.js');
+const user_service = require('./user.service-15f7e158.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-db8b30d9.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');
-require('./utils-c5c81e47.js');
+require('./utils-ffffd95c.js');
 require('./moment-1780b03a.js');
 
 const irDeleteModalCss = ":host{font-size:1rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.ir-alert-footer{gap:10px}.exit-icon{position:absolute;right:10px;top:5px;margin:0}";
@@ -481,7 +481,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '60a08fdc08cdb676112f8f3f14641eda5a4d5986', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: '3938bf06f9e39e7300d93cf636f0fbeff092e928', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
