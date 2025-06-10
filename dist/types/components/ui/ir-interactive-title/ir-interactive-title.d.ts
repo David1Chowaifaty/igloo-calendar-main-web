@@ -28,11 +28,17 @@ export declare class IrInteractiveTitle {
     private croppedTitleEl;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    disconnectedCallback(): void;
+    handleTitleChange(newValue: string, oldValue: string): void;
     /**
      * Measures the width of the title and icon to determine if the text overflows.
      * If it does, crops the title and attaches a popover to the title element.
      * Otherwise, removes any existing popover.
      */
     private initializePopover;
+    /**
+     * Disposes of the Bootstrap popover associated with the `.popover-title` element.
+     */
+    private disposePopover;
     render(): any;
 }

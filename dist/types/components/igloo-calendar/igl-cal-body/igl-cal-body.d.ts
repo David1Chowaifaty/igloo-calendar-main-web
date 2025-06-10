@@ -22,7 +22,9 @@ export declare class IglCalBody {
     addBookingDatasEvent: EventEmitter<any[]>;
     showBookingPopup: EventEmitter;
     scrollPageToRoom: EventEmitter;
-    private selectedRooms;
+    selectedRooms: {
+        [key: string]: any;
+    };
     private fromRoomId;
     private newEvent;
     private currentDate;
@@ -66,7 +68,6 @@ export declare class IglCalBody {
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
      *
      * @param {RoomCategory} roomCategory - The category containing room details.
-     * @returns {JSX.Element[]} - JSX elements for the active rooms or an empty array.
      */
     private getRoomsByCategory;
     private getRoomRows;
