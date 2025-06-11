@@ -29,7 +29,6 @@ export declare class IglBulkStopSale {
     private datesSections;
     componentDidLoad(): void;
     disconnectedCallback(): void;
-    handleBeforeSidebarClose(e: CustomEvent): void;
     private addBlockDates;
     private activate;
     private deactivate;
