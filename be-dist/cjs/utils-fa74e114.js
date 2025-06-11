@@ -1,4 +1,6 @@
-import { a as getRenderingRef, f as forceUpdate } from './index-243eecac.js';
+'use strict';
+
+const index = require('./index-af8decdc.js');
 
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
@@ -38,7 +40,7 @@ const cleanupElements = debounce((map) => {
     }
 }, 2000);
 const stencilSubscription = () => {
-    if (typeof getRenderingRef !== 'function') {
+    if (typeof index.getRenderingRef !== 'function') {
         // If we are not in a stencil project, we do nothing.
         // This function is not really exported by @stencil/core.
         return {};
@@ -47,7 +49,7 @@ const stencilSubscription = () => {
     return {
         dispose: () => elmsToUpdate.clear(),
         get: (propName) => {
-            const elm = getRenderingRef();
+            const elm = index.getRenderingRef();
             if (elm) {
                 appendToMap(elmsToUpdate, propName, elm);
             }
@@ -55,12 +57,12 @@ const stencilSubscription = () => {
         set: (propName) => {
             const elements = elmsToUpdate.get(propName);
             if (elements) {
-                elmsToUpdate.set(propName, elements.filter(forceUpdate));
+                elmsToUpdate.set(propName, elements.filter(index.forceUpdate));
             }
             cleanupElements(elmsToUpdate);
         },
         reset: () => {
-            elmsToUpdate.forEach((elms) => elms.forEach(forceUpdate));
+            elmsToUpdate.forEach((elms) => elms.forEach(index.forceUpdate));
             cleanupElements(elmsToUpdate);
         },
     };
@@ -18981,6 +18983,12 @@ function calculateTotalCost(config = { gross: false, infants: false }) {
 function validateBooking() {
     return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => {
         // console.log(ratePlan);
+        console.log({
+            ratePlan,
+            'Check guestName: All names must be non-empty': ratePlan.guestName.every(name => name.trim() !== ''),
+            'Check bed configuration: If enabled, all selections must be valid': !ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1'),
+            'Check infant_nbr: Must be greater than -1': ratePlan.infant_nbr.every(nb => Number(nb) > -1),
+        });
         return (
         // Check guestName: All names must be non-empty
         ratePlan.guestName.every(name => name.trim() !== '') &&
@@ -48063,7 +48071,7 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 function passedBookingCutoff() {
-    const countryOffset = app_store.property.country.gmt_offset;
+    const countryOffset = app_store.property.city.gmt_offset;
     const nowInOffset = moment$1().utcOffset(countryOffset * 60);
     const checkinRaw = booking_store.bookingAvailabilityParams.from_date;
     const checkinInOffset = moment$1(checkinRaw).utcOffset(countryOffset * 60);
@@ -48077,6 +48085,47 @@ function passedBookingCutoff() {
     return nowInOffset.isSameOrAfter(cutoffToday);
 }
 
-export { runScriptAndRemove as A, cn as B, calculateTotalCost as C, clearCheckoutRooms as D, getAbbreviatedWeekdays as E, detectCardType as F, validateBooking as G, injectHTMLAndRunScript as H, renderPropertyLocation as I, renderTime as J, formatImageAlt as K, updateRoomParams as L, reserveRooms as M, getVisibleInventory as N, injectHTML as O, VariationService as V, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, moment$1 as f, modifyQueryParam as g, getUserPreference as h, validateAgentCode as i, changeLocale as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, onAppDataChange as o, passedBookingCutoff as p, checkAffiliate as q, modifyBookingStore as r, setDefaultLocale as s, generateCheckoutUrl as t, updateUserPreference as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, calculateTotalRooms as y, getDateDifference as z };
+exports.VariationService = VariationService;
+exports.app_store = app_store;
+exports.booking_store = booking_store;
+exports.calculateInfantNumber = calculateInfantNumber;
+exports.calculateTotalCost = calculateTotalCost;
+exports.calculateTotalRooms = calculateTotalRooms;
+exports.changeLocale = changeLocale;
+exports.checkAffiliate = checkAffiliate;
+exports.checkGhs = checkGhs;
+exports.clearCheckoutRooms = clearCheckoutRooms;
+exports.cn = cn;
+exports.createStore = createStore;
+exports.dateFns = dateFns;
+exports.detectCardType = detectCardType;
+exports.formatAmount = formatAmount;
+exports.formatFullLocation = formatFullLocation;
+exports.formatImageAlt = formatImageAlt;
+exports.generateCheckoutUrl = generateCheckoutUrl;
+exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getDateDifference = getDateDifference;
+exports.getUserPreference = getUserPreference;
+exports.getVisibleInventory = getVisibleInventory;
+exports.injectHTML = injectHTML;
+exports.injectHTMLAndRunScript = injectHTMLAndRunScript;
+exports.localizedWords = localizedWords;
+exports.manageAnchorSession = manageAnchorSession;
+exports.matchLocale = matchLocale;
+exports.modifyBookingStore = modifyBookingStore;
+exports.modifyQueryParam = modifyQueryParam;
+exports.moment = moment$1;
+exports.onAppDataChange = onAppDataChange;
+exports.passedBookingCutoff = passedBookingCutoff;
+exports.renderPropertyLocation = renderPropertyLocation;
+exports.renderTime = renderTime;
+exports.reserveRooms = reserveRooms;
+exports.runScriptAndRemove = runScriptAndRemove;
+exports.setDefaultLocale = setDefaultLocale;
+exports.updateRoomParams = updateRoomParams;
+exports.updateUserPreference = updateUserPreference;
+exports.validateAgentCode = validateAgentCode;
+exports.validateBooking = validateBooking;
+exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-2e15238b.js.map
+//# sourceMappingURL=utils-fa74e114.js.map

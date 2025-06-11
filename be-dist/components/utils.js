@@ -258,6 +258,12 @@ function calculateTotalCost(config = { gross: false, infants: false }) {
 function validateBooking() {
     return Object.values(booking_store.ratePlanSelections).every(roomTypeSelection => Object.values(roomTypeSelection).every(ratePlan => {
         // console.log(ratePlan);
+        console.log({
+            ratePlan,
+            'Check guestName: All names must be non-empty': ratePlan.guestName.every(name => name.trim() !== ''),
+            'Check bed configuration: If enabled, all selections must be valid': !ratePlan.is_bed_configuration_enabled || ratePlan.checkoutBedSelection.every(selection => selection !== '-1'),
+            'Check infant_nbr: Must be greater than -1': ratePlan.infant_nbr.every(nb => Number(nb) > -1),
+        });
         return (
         // Check guestName: All names must be non-empty
         ratePlan.guestName.every(name => name.trim() !== '') &&
@@ -29340,7 +29346,7 @@ function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 function passedBookingCutoff() {
-    const countryOffset = app_store.property.country.gmt_offset;
+    const countryOffset = app_store.property.city.gmt_offset;
     const nowInOffset = moment$1().utcOffset(countryOffset * 60);
     const checkinRaw = booking_store.bookingAvailabilityParams.from_date;
     const checkinInOffset = moment$1(checkinRaw).utcOffset(countryOffset * 60);

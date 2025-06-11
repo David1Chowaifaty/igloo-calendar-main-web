@@ -147,6 +147,7 @@ export interface CalendarLegend {
 export interface City {
     id: number;
     name: string;
+    gmt_offset: number;
 }
 export interface Country {
     cities: any;

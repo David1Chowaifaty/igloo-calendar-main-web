@@ -401,7 +401,7 @@ export function generateCheckoutUrl(perma_link, queryString = null) {
     return baseUrl;
 }
 export function passedBookingCutoff() {
-    const countryOffset = app_store.property.country.gmt_offset;
+    const countryOffset = app_store.property.city.gmt_offset;
     const nowInOffset = moment().utcOffset(countryOffset * 60);
     const checkinRaw = booking_store.bookingAvailabilityParams.from_date;
     const checkinInOffset = moment(checkinRaw).utcOffset(countryOffset * 60);

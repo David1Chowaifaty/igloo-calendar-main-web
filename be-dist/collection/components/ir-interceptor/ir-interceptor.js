@@ -36,7 +36,7 @@ export class IrInterceptor {
         return config;
     }
     handleResponse(response) {
-        var _a;
+        var _a, _b;
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
@@ -47,6 +47,8 @@ export class IrInterceptor {
                 this.handleError(response.data.ExceptionMsg);
                 this.lastFailedRequest = response.config;
             }
+            const code = (_b = response.data.ExceptionCode) !== null && _b !== void 0 ? _b : 'NO_CODE';
+            console.error(`[${new Date().toISOString()}] [${code}]: ${response.data.ExceptionMsg}`);
             throw new Error(response.data.ExceptionMsg);
         }
         return response;
@@ -65,7 +67,7 @@ export class IrInterceptor {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'ee162ef0c7fa87338c272287b0cfc29cae93ccfa' }, h("ir-alert-dialog", { key: '75b8ec7bb891683ead6a5d0142d70fce9549d09f', ref: el => (this.alertRef = el) }, h("div", { key: 'ba5354d34b967f1682c7c894fec5f799a29e376c', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: '44c20832cd7a3f3735a425320e2a6fbe27d3b64e', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: 'f5a9eff57b26df49b389def2d73658be969283a7', class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { key: '7efec1d5a645ea5955a75e172d21c7c974fc26f8', slot: "modal-body" }, this.errorMessage), h("div", { key: '6664e4267b9ef414f0d1e3de3fa0a0909ad346ea', slot: "modal-footer" }, h("ir-button", { key: 'b831df84532a88cf5ffe68ca729e99fcc7fb6a9d', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: 'cdb0703ef19865379f2fbf0aa1ac8d439e5aa5d4', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
+        return (h(Host, { key: 'd5940c1adc52cc15ecab6974cc340604f4128c59' }, h("ir-alert-dialog", { key: '64cd98cb246284c30709752047b186afad03ff99', ref: el => (this.alertRef = el) }, h("div", { key: '517ff384d2e23208978d085b14a6f00a4a77b658', slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("ir-icons", { key: '4de674fdd191cc793d0885fcb01f79ac9080b59c', name: "danger", class: 'text-red-500', svgClassName: "size-6" }), h("h1", { key: '3a05c2faf374e29310d9c02cc3aafce2f796f554', class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { key: 'd5dfd593cf62c47dabee67a9babc9a21dd9fa70a', slot: "modal-body" }, this.errorMessage), h("div", { key: '8ed1b83cc7f00f0e026598952356f8fe18a63d47', slot: "modal-footer" }, h("ir-button", { key: '19d8e34592aebe97d7b925c947e8cfabe24f3779', label: "Cancel", variants: "outline", onButtonClick: () => this.alertRef.closeModal() }), h("ir-button", { key: '1e86a40963cb028ef5a206fae23cd2f102d9a408', label: "Try again", onButtonClick: () => this.retryLastRequest() })))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "shadow"; }

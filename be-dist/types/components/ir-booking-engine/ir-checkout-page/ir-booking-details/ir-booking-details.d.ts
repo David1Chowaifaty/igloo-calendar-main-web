@@ -21,7 +21,7 @@ export declare class IrBookingDetails {
     private handleGuestNameChange;
     private handleBedConfiguration;
     private handleSmokeConfiguration;
-    private fetchCancelationMessage;
+    private fetchCancellationMessage;
     private renderSmokingView;
     private handleInfantNumberChange;
     private calculateTotalPersons;
