@@ -9,7 +9,7 @@ const initialState = {
     allowedBookingSources: [],
     currency: undefined,
     endingDate: 0,
-    housekeeping_enabled: false, //TODO: revert to true
+    housekeeping_enabled: true, //TODO: revert to true
     formattedLegendData: undefined,
     is_vacation_rental: false,
     legendData: [],
@@ -19,7 +19,7 @@ const initialState = {
     toBeAssignedEvents: [],
     allowed_payment_methods: [],
     pickup_service: undefined,
-    checkin_enabled: false, //TODO: revert to true
+    checkin_enabled: true, //TODO: revert to true
     max_nights: 0,
     is_frontdesk_enabled: false,
     taxes: [],
