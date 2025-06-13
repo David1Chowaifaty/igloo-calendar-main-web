@@ -269,7 +269,7 @@ const IglBookingEvent = /*@__PURE__*/ proxyCustomElement(class IglBookingEvent e
                                         cursor = hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
                                     }
                                     if (counter >= 1) {
-                                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                                        this.reset('This unit isn’t available for the entire selected period. Please choose different dates or a different unit.');
                                     }
                                 };
                                 if (hooks(oldToDate, 'YYYY-MM-DD').isBefore(hooks(to_date), 'dates')) {
