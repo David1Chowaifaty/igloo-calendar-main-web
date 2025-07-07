@@ -6,10 +6,15 @@ export interface IBookingListingStore extends IExposedBookingsCriteria {
     bookings: Booking[];
     download_url: string | null;
     rowCount: number;
+    balance_filter: {
+        name: string;
+        value: string;
+    }[];
 }
 export interface IUserListingSelection {
     channel: string;
     property_id: number;
+    balance_filter: string;
     filter_type: number | string;
     from: string;
     to: string;

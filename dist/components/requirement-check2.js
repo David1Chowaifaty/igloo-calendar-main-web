@@ -18,7 +18,7 @@ const RequirementCheck = /*@__PURE__*/ proxyCustomElement(class RequirementCheck
         this.text = '';
     }
     render() {
-        return (h("div", { key: '49a81dcba6e47fe80f100bbbb450f204cc5f41b4', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: 'f38ee7cbde9f1756ab1e2d208bc199e5bf81daec', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: 'e6c20fb6532a7438985433335e48716f15578880' }, this.text)));
+        return (h("div", { key: 'fd84df024992350b5425d441bb0b1604c3b351e7', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '7a23e7bd66b393ca979ebf3d5b20947d0a0ccf54', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '2ffb91bed6e7e5b32a9c502dad8351153a114dd0' }, this.text)));
     }
     static get style() { return RequirementCheckStyle0; }
 }, [2, "requirement-check", {

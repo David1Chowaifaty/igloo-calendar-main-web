@@ -1,8 +1,8 @@
-import { ExposedBookingEvent } from "../../../../services/booking.service";
+import { Booking, ExposedBookingEvent } from "../../../../models/booking.dto";
 export declare class IrEventsLog {
     bookingNumber: string;
+    booking: Booking;
     bookingEvents: ExposedBookingEvent[];
-    private bookingService;
     componentWillLoad(): void;
     private init;
     render(): any;

@@ -49,7 +49,7 @@ function formatName(firstName, lastName) {
     if ((firstName === null && lastName === null) || !firstName)
         return '';
     if (!!lastName) {
-        return `${firstName !== null && firstName !== void 0 ? firstName : ''} , ${lastName !== null && lastName !== void 0 ? lastName : ''}`;
+        return `${firstName !== null && firstName !== void 0 ? firstName : ''} ${lastName !== null && lastName !== void 0 ? lastName : ''}`;
     }
     return firstName;
 }

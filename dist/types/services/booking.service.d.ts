@@ -1,4 +1,4 @@
-import { HandleExposedRoomGuestsRequest } from './../models/booking.dto';
+import { ExposedBookingEvent, HandleExposedRoomGuestsRequest } from './../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../models/booking.dto';
 export interface IBookingParams {
@@ -28,15 +28,6 @@ export interface IBookingParams {
         key: string;
         value: string;
     }[] | null;
-}
-export interface ExposedBookingEvent {
-    date: string;
-    hour: number;
-    id: number;
-    minute: number;
-    second: number;
-    user: string;
-    type: string;
 }
 export declare class BookingService {
     handleExposedRoomInOut(props: {

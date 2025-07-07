@@ -70,6 +70,7 @@ export declare class IglBookingEvent {
     hideBubbleInfoPopup(event: CustomEvent): void;
     moveBookingToHandler(event: CustomEvent): Promise<void>;
     private reset;
+    private findRoomType;
     private getModalDescription;
     private resetBookingToInitialPosition;
     handleRevertBooking(event: CustomEvent<string>): void;

@@ -9,7 +9,7 @@ const IrTestCmp = class {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'b084a901d4744e8d98301d3e82fa619c0a4add00', class: "card p-4" }, h("ir-range-picker", { key: 'd601cc3197ce08b28fbcaf0bb01e34f04f473660', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
+        return (h(Host, { key: '8b9274414d262df44ccd706572cdd67c5839788f', class: "card p-4" }, h("ir-range-picker", { key: '68ccb8fcd183b80b860f0117b8aa016418d26ecb', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
     }
 };
 IrTestCmp.style = IrTestCmpStyle0;

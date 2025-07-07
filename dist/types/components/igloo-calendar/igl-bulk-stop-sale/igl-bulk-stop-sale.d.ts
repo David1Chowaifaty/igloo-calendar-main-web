@@ -7,6 +7,7 @@ export type SelectedRooms = {
 };
 export declare class IglBulkStopSale {
     maxDatesLength: number;
+    property_id: number;
     selectedRoomTypes: SelectedRooms[];
     errors: 'dates' | 'rooms' | 'weekdays';
     isLoading: boolean;

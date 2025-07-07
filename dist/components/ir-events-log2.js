@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Fragment } from '@stencil/core/internal/client';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
@@ -11,14 +10,13 @@ const IrEventsLog = /*@__PURE__*/ proxyCustomElement(class IrEventsLog extends H
     constructor() {
         super();
         this.__registerHost();
-        this.bookingService = new BookingService();
     }
     componentWillLoad() {
         this.init();
     }
     async init() {
         try {
-            this.bookingEvents = await this.bookingService.getExposedBookingEvents(this.bookingNumber);
+            this.bookingEvents = this.booking.events;
         }
         catch (error) {
             console.error(error);
@@ -26,11 +24,12 @@ const IrEventsLog = /*@__PURE__*/ proxyCustomElement(class IrEventsLog extends H
     }
     render() {
         var _a;
-        return (h("div", { key: 'a5ccb85aa409aa2286f3aad30c7a1e8ff69dd821', class: "p-1" }, h("div", { key: '3fa3010aa96f7593eb1ee74c3860b11310e31f3b', class: "d-flex  align-items-center", style: { gap: '0.5rem' } }, h("h3", { key: 'b226c43f0353dad7ca6f267f67802085a14b7a0b', class: " text-left p-0 m-0  dialog-title " }, locales.entries.Lcz_EventsLog)), isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { style: { opacity: '0' } }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, (_a = this.bookingEvents) === null || _a === void 0 ? void 0 : _a.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
+        return (h("div", { key: 'd055be93f385cbbacb6c0a5700a097d4262d7034', class: "p-1" }, h("div", { key: 'f86fd24bb621e8fd217b78ae5bf55306bbce9244', class: "d-flex  align-items-center", style: { gap: '0.5rem' } }, h("h3", { key: 'be032a4631f2e95331c63ea6637c7bc4e8674971', class: " text-left p-0 m-0  dialog-title " }, locales.entries.Lcz_EventsLog)), isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { style: { opacity: '0' } }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, (_a = this.bookingEvents) === null || _a === void 0 ? void 0 : _a.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
     }
     static get style() { return IrEventsLogStyle0; }
 }, [2, "ir-events-log", {
         "bookingNumber": [1, "booking-number"],
+        "booking": [16],
         "bookingEvents": [32]
     }]);
 function defineCustomElement() {

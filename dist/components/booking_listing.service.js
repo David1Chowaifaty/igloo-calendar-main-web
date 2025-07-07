@@ -11,10 +11,12 @@ const initialState = {
     token: '',
     rowCount: 10,
     bookings: [],
+    balance_filter: [],
     userSelection: {
         from: hooks().add(-7, 'days').format('YYYY-MM-DD'),
         to: hooks().format('YYYY-MM-DD'),
         channel: '',
+        balance_filter: null,
         property_id: null,
         start_row: 0,
         end_row: 20,
@@ -35,7 +37,7 @@ const initialState = {
 const { state: booking_listing, onChange: onBookingListingChange } = createStore(initialState);
 function initializeUserSelection() {
     //booking_listing.channels[0].name
-    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { channel: '', booking_status: booking_listing.statuses[0].code, filter_type: booking_listing.types[0].id, book_nbr: '', name: '', from: hooks().add(-7, 'days').format('YYYY-MM-DD'), to: hooks().format('YYYY-MM-DD'), start_row: 0, end_row: booking_listing.rowCount });
+    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { channel: '', booking_status: booking_listing.statuses[0].code, filter_type: booking_listing.types[0].id, book_nbr: '', name: '', from: hooks().add(-7, 'days').format('YYYY-MM-DD'), to: hooks().format('YYYY-MM-DD'), start_row: 0, end_row: booking_listing.rowCount, balance_filter: booking_listing.balance_filter[0].value });
 }
 function updateUserSelections(params) {
     booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), params);
@@ -54,6 +56,7 @@ class BookingListingService {
         booking_listing.settlement_methods = result.settlement_methods;
         booking_listing.statuses = result.statuses;
         booking_listing.types = result.types;
+        booking_listing.balance_filter = result.balance_filter;
         initializeUserSelection();
     }
     async getExposedBookings(params) {

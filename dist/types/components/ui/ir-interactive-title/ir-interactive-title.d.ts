@@ -18,27 +18,16 @@ export declare class IrInteractiveTitle {
      */
     cropSize: number;
     /**
-     * The visible title (possibly cropped).
-     * Computed during lifecycle based on content overflow.
+     * Reference to track if we've initialized popover for current render
      */
-    private croppedTitle;
+    private lastRenderedTitle;
+    private titleContainerRef;
+    private popoverInstance;
     /**
-     * Reference to the span DOM element that holds the cropped title text.
+     * Initialize popover with overflow detection
      */
-    private croppedTitleEl;
-    componentWillLoad(): void;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
-    handleTitleChange(newValue: string, oldValue: string): void;
-    /**
-     * Measures the width of the title and icon to determine if the text overflows.
-     * If it does, crops the title and attaches a popover to the title element.
-     * Otherwise, removes any existing popover.
-     */
-    private initializePopover;
-    /**
-     * Disposes of the Bootstrap popover associated with the `.popover-title` element.
-     */
+    private initializePopoverIfNeeded;
     private disposePopover;
+    disconnectedCallback(): void;
     render(): any;
 }
