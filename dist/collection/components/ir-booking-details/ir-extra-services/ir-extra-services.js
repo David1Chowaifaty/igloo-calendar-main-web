@@ -2,7 +2,7 @@ import { Fragment, Host, h } from "@stencil/core";
 export class IrExtraServices {
     render() {
         var _a;
-        return (h(Host, { key: '0cd4064d1c7958ede4e7c0b22b4fbb742410bcd2', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
+        return (h(Host, { key: '12aa9e191380ef0181d0eacf7ae0e72b2eed75ed', class: 'card p-0 ' }, (_a = this.booking.extra_services) === null || _a === void 0 ? void 0 : _a.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }))))));
     }
     static get is() { return "ir-extra-services"; }
     static get encapsulation() { return "scoped"; }

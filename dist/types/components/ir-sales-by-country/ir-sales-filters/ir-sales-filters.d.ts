@@ -1,13 +1,18 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { SalesFilters } from './types';
-export type ModifiedSalesFilters = Omit<SalesFilters, 'housekeepers'>;
+import { Moment } from 'moment';
+import { CountrySalesFilter } from '../types';
 export declare class IrSalesFilters {
     isLoading: boolean;
-    filters: ModifiedSalesFilters;
+    baseFilters: CountrySalesFilter;
+    filters: CountrySalesFilter;
     collapsed: boolean;
-    applyFilters: EventEmitter<SalesFilters>;
-    private baseFilters;
+    dates: {
+        from: Moment;
+        to: Moment;
+    };
+    applyFilters: EventEmitter<CountrySalesFilter>;
     componentWillLoad(): void;
+    private updateFilter;
     private applyFiltersEvt;
     private resetFilters;
     render(): any;

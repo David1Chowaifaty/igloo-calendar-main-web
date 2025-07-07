@@ -1,8 +1,7 @@
 import { r as registerInstance, h, H as Host } from './index-0a4a209a.js';
 import { T as Token } from './Token-6c389e24.js';
-import { m as checkUserAuthState, n as manageAnchorSession } from './utils-0dcc1bf1.js';
+import { c as checkUserAuthState, m as manageAnchorSession } from './utils-816be0d7.js';
 import './axios-aa1335b8.js';
-import './moment-ab846cee.js';
 import './index-502f9842.js';
 import './calendar-data-20e9d53b.js';
 import './index-c1c77241.js';
@@ -32,6 +31,10 @@ const IrSecureTasks = class {
             this.token.setToken(isAuthenticated.token);
         }
         this.inputValue = this.p;
+        // TODO:DELETE
+        this.isAuthenticated = true;
+        this.token.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY');
+        this.propertyid = 229;
     }
     handlePChange() {
         this.inputValue = this.p;

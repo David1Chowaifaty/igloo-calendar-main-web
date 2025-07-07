@@ -2,7 +2,6 @@
   "entries": [
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
-    "components/ir-sales-by-country/ir-sales-table/ir-sales-table.js",
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
@@ -82,6 +81,7 @@
     "components/ir-reset-password/ir-reset-password.js",
     "components/ir-sales-by-country/ir-sales-by-country.js",
     "components/ir-sales-by-country/ir-sales-filters/ir-sales-filters.js",
+    "components/ir-sales-by-country/ir-sales-table/ir-sales-table.js",
     "components/ir-secure-tasks/ir-secure-tasks.js",
     "components/ir-test-cmp/ir-test-cmp.js",
     "components/ir-title/ir-title.js",

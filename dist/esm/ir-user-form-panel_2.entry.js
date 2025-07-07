@@ -3,18 +3,17 @@ import { l as locales } from './locales.store-53ec3957.js';
 import { z, Z as ZodError } from './index-502f9842.js';
 import { H as HouseKeepingService } from './housekeeping.service-64b661f9.js';
 import { C as CONSTANTS } from './constants-1510e43f.js';
-import { U as UserService } from './user.service-a72ca666.js';
+import { U as UserService } from './user.service-dde51427.js';
 import { c as calendar_data } from './calendar-data-20e9d53b.js';
-import { _ as _formatTime } from './functions-14871918.js';
-import { h as hooks } from './moment-ab846cee.js';
+import { _ as _formatTime } from './functions-8c974c5b.js';
+import { h as hooks } from './utils-816be0d7.js';
 import { c as commonjsGlobal } from './_commonjsHelpers-1789f0cf.js';
 import { I as InterceptorError } from './InterceptorError-ebd732df.js';
 import { T as Token } from './Token-6c389e24.js';
-import { i as isRequestPending } from './ir-interceptor.store-db737948.js';
+import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
 import { S as SystemService } from './system.service-35fa8e7e.js';
 import './index-c1c77241.js';
 import './axios-aa1335b8.js';
-import './utils-0dcc1bf1.js';
 
 var uaParser_pack = {exports: {}};
 
@@ -29,7 +28,7 @@ var uaParser_pack = {exports: {}};
 const irUserFormPanelCss = ".sc-ir-user-form-panel-h{--font-family-sans-serif:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;--font-family-monospace:'Quicksand', Georgia, 'Times New Roman', Times, serif !important}.logins-history-section.sc-ir-user-form-panel{margin-top:1.5rem}.sc-ir-user-form-panel-h h4.sc-ir-user-form-panel{font-family:inherit !important}.logins-history-list.sc-ir-user-form-panel{border-radius:8px;list-style-type:none;padding:0;margin:0;margin-top:1rem}.login-entry.sc-ir-user-form-panel{padding:0.25rem 0rem;border-bottom:1px solid #e4e5ec}.login-entry.sc-ir-user-form-panel:last-child{border:none}.login-meta.sc-ir-user-form-panel{display:flex;gap:0.5rem}.login-datetime.sc-ir-user-form-panel,.login-location.sc-ir-user-form-panel{margin:0;font-size:0.75rem;color:#374151;font-weight:500}.login-user-agent.sc-ir-user-form-panel{font-size:0.75rem;color:#6b7280;margin:0;word-break:break-word}.login-user-agent.sc-ir-user-form-panel{font-size:0.75rem;color:#4b5563;margin-top:0.5rem;line-height:1.4}.login-user-agent.sc-ir-user-form-panel p.sc-ir-user-form-panel{margin:0}.ua-browser.sc-ir-user-form-panel{font-weight:600;color:#1f2937}.ua-os.sc-ir-user-form-panel{color:#374151}.ua-device.sc-ir-user-form-panel{font-style:italic;color:#6b7280}.login-location.sc-ir-user-form-panel{font-size:0.75rem;color:#4b5563;display:flex;flex-wrap:wrap;gap:0.25rem;align-items:center}.login-location.sc-ir-user-form-panel span.sc-ir-user-form-panel{display:flex;align-items:center;gap:0.25rem}.login-location.sc-ir-user-form-panel i.sc-ir-user-form-panel{font-size:0.75rem;color:#9ca3af}";
 const IrUserFormPanelStyle0 = irUserFormPanelCss;
 
-const sheetCss = ".sc-ir-user-form-panel-h{height:100%}.sheet-container.sc-ir-user-form-panel{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-ir-user-form-panel{height:-webkit-fill-available;height:100vh}@supports (height: 100svh){.sheet-container.sc-ir-user-form-panel{height:100svh}}.sheet-footer.sc-ir-user-form-panel{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-user-form-panel{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-user-form-panel{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-ir-user-form-panel{flex-direction:row;align-items:center}}";
+const sheetCss = ".sc-ir-user-form-panel-h{height:100%}.sheet-container.sc-ir-user-form-panel{display:flex !important;flex-direction:column !important;background:white;height:100vh;height:100dvh;gap:1rem;z-index:1000}.sheet-container.sc-ir-user-form-panel{height:-webkit-fill-available;height:100vh}.sheet-footer.sc-ir-user-form-panel{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-user-form-panel{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-user-form-panel{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-ir-user-form-panel{flex-direction:row;align-items:center}}";
 const IrUserFormPanelStyle1 = sheetCss;
 
 const IrUserFormPanel = class {

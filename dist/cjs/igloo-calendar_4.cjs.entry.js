@@ -4,11 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const room_service = require('./room.service-5878ce13.js');
-const booking_service = require('./booking.service-77ca334d.js');
-const utils = require('./utils-4927b5d1.js');
-const events_service = require('./events.service-af18b286.js');
-const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-30542f4f.js');
+const booking_service = require('./booking.service-73cd7592.js');
+const utils = require('./utils-50be1245.js');
+const events_service = require('./events.service-97ee09f2.js');
+const toBeAssigned_service = require('./toBeAssigned.service-f6e9b5b9.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-99f4dccd.js');
 const unassigned_dates_store = require('./unassigned_dates.store-5daabf69.js');
@@ -16,7 +15,7 @@ const Token = require('./Token-3d0cc874.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const user_service = require('./user.service-de6a45a9.js');
+const user_service = require('./user.service-5468d849.js');
 require('./axios-6e678d52.js');
 require('./index-467172e1.js');
 require('./index-db8b30d9.js');
@@ -4412,8 +4411,8 @@ const IglooCalendar = class {
         this.calendarData.formattedLegendData = utils.formatLegendColors(this.calendarData.legendData);
         let bookings = bookingResp.myBookings || [];
         bookings = bookings.filter(bookingEvent => {
-            const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
             return !toDate.isSame(fromDate);
         });
         this.calendarData.bookingEvents = bookings;
@@ -4861,7 +4860,7 @@ const IglooCalendar = class {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
     }
     transformDateForScroll(date) {
-        return moment.hooks(date).format('D_M_YYYY');
+        return utils.hooks(date).format('D_M_YYYY');
     }
     shouldRenderCalendarView() {
         // console.log("rendering...")
@@ -4954,7 +4953,7 @@ const IglooCalendar = class {
             });
             utils.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
-            if (Math.abs(moment.hooks().diff(moment.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
+            if (Math.abs(utils.hooks().diff(utils.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
                 const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
                 this.calendarData.unassignedDates = Object.assign(Object.assign({}, this.calendarData.unassignedDates), data);
                 this.unassignedDates = {
@@ -5000,12 +4999,12 @@ const IglooCalendar = class {
         }
     }
     async handleDateSearch(dates) {
-        const startDate = moment.hooks(dates.start).toDate();
-        const defaultFromDate = moment.hooks(this.calDates.from).toDate();
+        const startDate = utils.hooks(dates.start).toDate();
+        const defaultFromDate = utils.hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
         if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
-            await this.addDatesToCalendar(moment.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), moment.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(utils.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), utils.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
             this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
@@ -5014,7 +5013,7 @@ const IglooCalendar = class {
         }
         else if (startDate.getTime() > defaultToDate) {
             const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
-            await this.addDatesToCalendar(nextDay, moment.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(nextDay, utils.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
     }
@@ -5298,7 +5297,7 @@ const IrHkTasks = class {
             }
             this.property_id = propertyId;
             const requests = [
-                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: moment.hooks().format('YYYY-MM-DD'), to_date: moment.hooks().format('YYYY-MM-DD') }),
+                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: utils.hooks().format('YYYY-MM-DD'), to_date: utils.hooks().format('YYYY-MM-DD') }),
                 this.houseKeepingService.getExposedHKSetup(this.property_id),
                 this.roomService.fetchLanguage(this.language),
             ];
@@ -5410,8 +5409,8 @@ const IrHkTasks = class {
             dusty_window: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
             highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
             property_id: this.property_id,
-            from_date: moment.hooks().format('YYYY-MM-DD'),
-            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment.hooks().format('YYYY-MM-DD'),
+            from_date: utils.hooks().format('YYYY-MM-DD'),
+            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || utils.hooks().format('YYYY-MM-DD'),
             is_export_to_excel: export_to_excel,
         });
         console.log(tasks);

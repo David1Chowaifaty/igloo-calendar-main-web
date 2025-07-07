@@ -4,9 +4,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const Token = require('./Token-3d0cc874.js');
-const utils = require('./utils-4927b5d1.js');
+const utils = require('./utils-50be1245.js');
 require('./axios-6e678d52.js');
-require('./moment-1780b03a.js');
 require('./index-db8b30d9.js');
 require('./calendar-data-99f4dccd.js');
 require('./index-467172e1.js');
@@ -36,6 +35,10 @@ const IrSecureTasks = class {
             this.token.setToken(isAuthenticated.token);
         }
         this.inputValue = this.p;
+        // TODO:DELETE
+        this.isAuthenticated = true;
+        this.token.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY');
+        this.propertyid = 229;
     }
     handlePChange() {
         this.inputValue = this.p;
