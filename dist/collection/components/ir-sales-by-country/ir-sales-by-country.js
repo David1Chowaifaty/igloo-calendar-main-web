@@ -17,15 +17,18 @@ import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
+import { BookingService } from "../../services/booking.service";
 export class IrSalesByCountry {
     constructor() {
         this.language = '';
         this.ticket = '';
         this.isLoading = null;
         this.isPageLoading = true;
+        this.countries = new Map();
         this.token = new Token();
         this.roomService = new RoomService();
         this.propertyService = new PropertyService();
+        this.bookingService = new BookingService();
         this.baseFilters = {
             FROM_DATE: moment().add(-7, 'days').format('YYYY-MM-DD'),
             TO_DATE: moment().format('YYYY-MM-DD'),
@@ -67,7 +70,7 @@ export class IrSalesByCountry {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.roomService.fetchLanguage(this.language), this.getCountrySales()];
+            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -76,7 +79,16 @@ export class IrSalesByCountry {
                     include_units_hk_status: true,
                 }));
             }
-            await Promise.all(requests);
+            const [countries] = await Promise.all(requests);
+            const mappedCountries = new Map();
+            countries.map(country => {
+                mappedCountries.set(country.name, {
+                    flag: country.flag,
+                    name: country.name,
+                });
+            });
+            this.countries = mappedCountries;
+            console.log(this.countries);
         }
         catch (error) {
             console.log(error);
@@ -90,20 +102,26 @@ export class IrSalesByCountry {
             const _a = this.salesFilters, { include_previous_year } = _a, filterParams = __rest(_a, ["include_previous_year"]);
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const currentSales = await this.propertyService.getCountrySales(Object.assign({ AC_ID: this.property_id, is_export_to_excel: isExportToExcel }, filterParams));
-            const shouldFetchPreviousYear = !isExportToExcel && include_previous_year && filterParams.WINDOW === 365;
+            const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
                 const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: moment(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: moment(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
                 enrichedSales = currentSales.map(current => {
-                    var _a;
                     const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
                     return {
                         id: v4(),
                         country: current.COUNTRY,
                         nights: current.NIGHTS,
                         percentage: current.PCT,
-                        last_year_percentage: (_a = previous === null || previous === void 0 ? void 0 : previous.PCT) !== null && _a !== void 0 ? _a : null,
-                        revenue: currentSales.REVENUE,
+                        revenue: current.REVENUE,
+                        last_year: previous
+                            ? {
+                                country: previous.COUNTRY,
+                                nights: previous.NIGHTS,
+                                percentage: previous.PCT,
+                                revenue: previous.REVENUE,
+                            }
+                            : null,
                     };
                 });
             }
@@ -113,8 +131,8 @@ export class IrSalesByCountry {
                     country: record.COUNTRY,
                     nights: record.NIGHTS,
                     percentage: record.PCT,
-                    last_year_percentage: null,
-                    revenue: currentSales.REVENUE,
+                    last_year: null,
+                    revenue: record.REVENUE,
                 }));
             }
             this.salesData = enrichedSales;
@@ -139,7 +157,7 @@ export class IrSalesByCountry {
                 e.stopPropagation();
                 this.salesFilters = e.detail;
                 this.getCountrySales();
-            }, baseFilters: this.baseFilters }), h("ir-sales-table", { class: "card mb-0", records: this.salesData })))));
+            }, class: "filters-card", baseFilters: this.baseFilters }), h("ir-sales-table", { mappedCountries: this.countries, class: "card mb-0", records: this.salesData })))));
     }
     static get is() { return "ir-sales-by-country"; }
     static get encapsulation() { return "scoped"; }
@@ -241,7 +259,8 @@ export class IrSalesByCountry {
             "isPageLoading": {},
             "property_id": {},
             "salesData": {},
-            "salesFilters": {}
+            "salesFilters": {},
+            "countries": {}
         };
     }
     static get watchers() {

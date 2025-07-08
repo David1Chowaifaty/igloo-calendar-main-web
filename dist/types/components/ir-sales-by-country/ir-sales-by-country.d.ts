@@ -1,4 +1,4 @@
-import { CountrySalesFilter, SalesRecord } from './types';
+import { CountrySalesFilter, MappedCountries, SalesRecord } from './types';
 export declare class IrSalesByCountry {
     language: string;
     ticket: string;
@@ -9,9 +9,11 @@ export declare class IrSalesByCountry {
     property_id: number;
     salesData: SalesRecord[];
     salesFilters: CountrySalesFilter;
+    countries: MappedCountries;
     private token;
     private roomService;
     private propertyService;
+    private bookingService;
     private baseFilters;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;

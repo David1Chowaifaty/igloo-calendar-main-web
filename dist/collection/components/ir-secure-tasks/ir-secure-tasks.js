@@ -11,6 +11,7 @@ export class IrSecureTasks {
             { name: 'Tasks', value: 'tasks' },
             { name: 'Front', value: 'front' },
             { name: 'Users', value: 'users' },
+            { name: 'Sales By Country', value: 'country-sales' },
         ];
     }
     componentWillLoad() {
@@ -22,9 +23,11 @@ export class IrSecureTasks {
         }
         this.inputValue = this.p;
         // TODO:DELETE
-        this.isAuthenticated = true;
-        this.token.setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY');
-        this.propertyid = 229;
+        // this.isAuthenticated = true;
+        // this.token.setToken(
+        //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY',
+        // );
+        // this.propertyid = 229;
     }
     handlePChange() {
         this.inputValue = this.p;
@@ -77,6 +80,8 @@ export class IrSecureTasks {
                 return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'users':
                 return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'country-sales':
+                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

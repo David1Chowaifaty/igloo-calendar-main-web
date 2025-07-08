@@ -1,2 +1,0 @@
-import{a}from"./p-bf44a732.js";class r{async authenticate(r){const{data:t}=await a.post("/Authenticate",r);if(t.ExceptionMsg!==""){throw new Error(t.ExceptionMsg)}return t["My_Result"]}async changeUserPwd(r){var t,n;const{data:e}=await a.post("/Change_User_Pwd",r);if((t=e.ExceptionMsg)===null||t===void 0?void 0:t.trim()){throw new Error((n=e.ExceptionMsg)===null||n===void 0?void 0:n.trim())}return e.My_Result}}export{r as A};
-//# sourceMappingURL=p-0babdee7.js.map

@@ -1,12 +1,17 @@
 import { CountrySalesParams } from "../../services/property.service";
-export type SalesRecord = {
+import { ICountry } from "../../models/IBooking";
+type BaseSalesRecord = {
     id: string;
     country: string;
     nights: number;
     percentage: number;
-    last_year_percentage: number;
     revenue: number;
 };
-export type CountrySalesFilter = Omit<CountrySalesParams, 'is_export_to_excel' | 'AC_ID'> & {
+type SalesRecord = BaseSalesRecord & {
+    last_year: Omit<BaseSalesRecord, 'id'>;
+};
+type CountrySalesFilter = Omit<CountrySalesParams, 'is_export_to_excel' | 'AC_ID'> & {
     include_previous_year: boolean;
 };
+type MappedCountries = Map<ICountry['name'], Pick<ICountry, 'name' | 'flag'>>;
+export { SalesRecord, CountrySalesFilter, MappedCountries };
