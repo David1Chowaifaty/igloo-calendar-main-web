@@ -25,9 +25,11 @@ export declare class IrRangePicker {
      * Whether to all the emitted dates to be null.
      */
     allowNullDates: boolean;
+    lastFocusedPicker: string;
     dateRangeChanged: EventEmitter<{
         fromDate: Moment;
         toDate: Moment;
+        wasFocused?: boolean;
     }>;
     private minSelectableDate;
     private fromDatePicker;

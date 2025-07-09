@@ -3,6 +3,7 @@ export declare class IrSecureTasks {
     propertyid: number;
     p: string;
     bookingNumber: string;
+    ticket: string;
     isAuthenticated: boolean;
     currentPage: SecureScreens;
     inputValue: string;

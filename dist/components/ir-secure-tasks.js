@@ -115,17 +115,16 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         this.generateDates();
+        if (this.ticket) {
+            this.isAuthenticated = true;
+            this.token.setToken(this.ticket);
+            this.propertyid = this.propertyid;
+        }
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
         }
         this.inputValue = this.p;
-        // TODO:DELETE
-        // this.isAuthenticated = true;
-        // this.token.setToken(
-        //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY',
-        // );
-        // this.propertyid = 229;
     }
     handlePChange() {
         this.inputValue = this.p;
@@ -192,6 +191,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
         "propertyid": [2],
         "p": [1],
         "bookingNumber": [1, "booking-number"],
+        "ticket": [1],
         "isAuthenticated": [32],
         "currentPage": [32],
         "inputValue": [32]

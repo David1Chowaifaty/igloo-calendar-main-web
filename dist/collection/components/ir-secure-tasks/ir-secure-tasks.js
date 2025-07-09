@@ -17,17 +17,16 @@ export class IrSecureTasks {
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         this.generateDates();
+        if (this.ticket) {
+            this.isAuthenticated = true;
+            this.token.setToken(this.ticket);
+            this.propertyid = this.propertyid;
+        }
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
         }
         this.inputValue = this.p;
-        // TODO:DELETE
-        // this.isAuthenticated = true;
-        // this.token.setToken(
-        //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTE5NjEwMzksIkNMQUlNLTAxIjoiaU45QjZWZURNTkk9IiwiQ0xBSU0tMDIiOiI5UStMQm93VTl6az0iLCJDTEFJTS0wMyI6InJ5Y0ZmdnF6NjQ0PSIsIkNMQUlNLTA0IjoiQUVxVnRCMm1kWTg9IiwiQ0xBSU0tMDUiOiJFQTEzejA3ejBUcWRkM2gwNElyYThBMHEyQ2lEajBZNyIsIkNMQUlNLTA2IjoiQUVxVnRCMm1kWTg9In0.Hd_wgr38pYnX4lJ8W4ud-mD7UF0J9stP-TA5TiANbsY',
-        // );
-        // this.propertyid = 229;
     }
     handlePChange() {
         this.inputValue = this.p;
@@ -154,6 +153,25 @@ export class IrSecureTasks {
                 "getter": false,
                 "setter": false,
                 "attribute": "booking-number",
+                "reflect": false
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
                 "reflect": false
             }
         };

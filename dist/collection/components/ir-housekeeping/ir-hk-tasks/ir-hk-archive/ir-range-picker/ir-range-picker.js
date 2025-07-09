@@ -15,27 +15,30 @@ export class IrRangePicker {
     async handleDateChanged(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        console.log(e.detail);
         const selectedDate = e.detail.start ? moment(e.detail.start) : null;
+        if (!this.lastFocusedPicker) {
+            return;
+        }
         if (e.target.id === 'fromDate') {
             let updatedToDate = this.toDate;
             if (!selectedDate) {
-                this.dateRangeChanged.emit({ fromDate: null, toDate: null });
+                this.dateRangeChanged.emit({ fromDate: null, toDate: null, wasFocused: !!this.lastFocusedPicker });
                 return;
             }
             if (!updatedToDate || updatedToDate.isBefore(selectedDate, 'day')) {
                 updatedToDate = selectedDate;
             }
-            this.dateRangeChanged.emit({ fromDate: selectedDate, toDate: updatedToDate });
+            this.dateRangeChanged.emit({ fromDate: selectedDate, toDate: updatedToDate, wasFocused: !!this.lastFocusedPicker });
             await this.toDatePicker.openDatePicker();
         }
         else {
             if (!selectedDate) {
-                this.dateRangeChanged.emit({ fromDate: this.fromDate, toDate: this.fromDate });
+                this.dateRangeChanged.emit({ fromDate: this.fromDate, toDate: this.fromDate, wasFocused: !!this.lastFocusedPicker });
                 return;
             }
-            this.dateRangeChanged.emit({ fromDate: this.fromDate, toDate: selectedDate });
+            this.dateRangeChanged.emit({ fromDate: this.fromDate, toDate: selectedDate, wasFocused: !!this.lastFocusedPicker });
         }
+        this.lastFocusedPicker = null;
     }
     handleDatePickerFocus(e) {
         e.stopPropagation();
@@ -58,20 +61,22 @@ export class IrRangePicker {
         return (h("ir-date-picker", Object.assign({ class: {
                 'range-picker__date-picker': true,
                 'range-picker__date-picker--hidden': this.withOverlay && !this.fromDate,
-            }, customPicker: true, ref: el => refCallback(el), minDate: minDate, maxDate: this.maxDate, date: date === null || date === void 0 ? void 0 : date.toDate(), id: id, emitEmptyDate: this.allowNullDates }, additionalProps), h("p", { class: "range-picker__date-picker-button", slot: "trigger" }, (_a = date === null || date === void 0 ? void 0 : date.format('YYYY-MM-DD')) !== null && _a !== void 0 ? _a : '2025-03-02')));
+            }, customPicker: true, ref: el => refCallback(el), minDate: minDate, maxDate: this.maxDate, date: date === null || date === void 0 ? void 0 : date.toDate(), id: id, onDatePickerFocus: () => {
+                this.lastFocusedPicker = id;
+            }, emitEmptyDate: this.allowNullDates }, additionalProps), h("p", { class: "range-picker__date-picker-button", slot: "trigger" }, (_a = date === null || date === void 0 ? void 0 : date.format('YYYY-MM-DD')) !== null && _a !== void 0 ? _a : '2025-03-02')));
     }
     render() {
         var _a;
-        return (h(Host, { key: '6db3e3ecd002886da37898bf182eee6c01afa199' }, h("div", { key: '30f38e14fbe0e4659980ae3738d9469550350a7f', class: "form-control range-picker__container", ref: el => (this.date_container = el) }, this.withOverlay && (h("div", { key: '8190fba9421909ed88130644e76c97f897140609', class: {
+        return (h(Host, { key: 'c3a2094f12ab6d1d7e5cfd0fe6f470d653187588' }, h("div", { key: '9d89cbfd4ea9d8f194f9f973625bee14d0a17a57', class: "form-control range-picker__container", ref: el => (this.date_container = el) }, this.withOverlay && (h("div", { key: '837d2df59085b3a8fb6a6232046260120b1897d1', class: {
                 'range-picker__overlay': true,
                 'range-picker__overlay--active': !this.fromDate,
-            }, onClick: () => this.fromDatePicker.openDatePicker() }, h("svg", { key: '51733fc72b25dc5127fa2e8c0a8047fecdfcd426', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: '3f7d368d464ab910044bc4c1f129cb96c1689373', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("p", { key: '8321d325ba18f26ed4a655e6a1d5fc45f35e4c66', class: "m-0" }, h("slot", { key: '7e1f0da490da26946dc674f17f1449e052c816a7', name: "message" }, "Cleaned on")))), h("svg", { key: 'd1e71b7ed74193d46c3cc986a3b4f1697b05edc5', class: {
+            }, onClick: () => this.fromDatePicker.openDatePicker() }, h("svg", { key: '25ea292c4da71a3e815af0cd5948360e6254b603', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: 'eac65c0a65280f70613d3ffe41fb16e90d144915', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("p", { key: '0c22be23d95b8e9401bf2b1ea003fedff2c9fb89', class: "m-0" }, h("slot", { key: '6ea940e1d118cb04f623f2026a2ceadc2438312d', name: "message" }, "Cleaned on")))), h("svg", { key: '8ea4cb79e15a1a76df81ce60f520149104982605', class: {
                 'range-picker__calendar-icon': true,
                 'range-picker__icon--hidden': this.withOverlay && !this.fromDate,
-            }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: 'e50ab0062c031eccceb1df61803cd7afd2cb566b', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), this.renderDatePicker('fromDate', this.fromDate, this.minDate, el => (this.fromDatePicker = el)), h("svg", { key: '5457be657674766a5b9feaaf433277f22bb6cb4b', class: {
+            }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: '228c5e0cd4ec67bf892308c4411c64b00cf5667d', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), this.renderDatePicker('fromDate', this.fromDate, this.minDate, el => (this.fromDatePicker = el)), h("svg", { key: '179a3701b9d7cc5a963dcc17951797993452480e', class: {
                 'range-picker__arrow-icon': true,
                 'range-picker__icon--hidden': this.withOverlay && !this.fromDate,
-            }, xmlns: "http://www.w3.org/2000/svg", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '36e6932d13e5365fc77f13533e545933744299e9', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), this.renderDatePicker('toDate', this.toDate, ((_a = this.fromDate) === null || _a === void 0 ? void 0 : _a.toDate()) || this.minSelectableDate, el => (this.toDatePicker = el), {
+            }, xmlns: "http://www.w3.org/2000/svg", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: 'e2ef21a14286d1bb784291b1234bb37f4bf3ab7d', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), this.renderDatePicker('toDate', this.toDate, ((_a = this.fromDate) === null || _a === void 0 ? void 0 : _a.toDate()) || this.minSelectableDate, el => (this.toDatePicker = el), {
             forceDestroyOnUpdate: true,
         }))));
     }
@@ -225,6 +230,11 @@ export class IrRangePicker {
             }
         };
     }
+    static get states() {
+        return {
+            "lastFocusedPicker": {}
+        };
+    }
     static get events() {
         return [{
                 "method": "dateRangeChanged",
@@ -237,8 +247,8 @@ export class IrRangePicker {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ fromDate: Moment; toDate: Moment }",
-                    "resolved": "{ fromDate: Moment; toDate: Moment; }",
+                    "original": "{ fromDate: Moment; toDate: Moment; wasFocused?: boolean }",
+                    "resolved": "{ fromDate: Moment; toDate: Moment; wasFocused?: boolean; }",
                     "references": {
                         "Moment": {
                             "location": "import",

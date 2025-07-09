@@ -1515,6 +1515,7 @@ export namespace Components {
         "bookingNumber": string;
         "p": string;
         "propertyid": number;
+        "ticket": string;
     }
     interface IrSelect {
         "LabelAvailable": boolean;
@@ -3474,7 +3475,7 @@ declare global {
         new (): HTMLIrRadioElement;
     };
     interface HTMLIrRangePickerElementEventMap {
-        "dateRangeChanged": { fromDate: Moment; toDate: Moment };
+        "dateRangeChanged": { fromDate: Moment; toDate: Moment; wasFocused?: boolean };
     }
     interface HTMLIrRangePickerElement extends Components.IrRangePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRangePickerElementEventMap>(type: K, listener: (this: HTMLIrRangePickerElement, ev: IrRangePickerCustomEvent<HTMLIrRangePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5548,7 +5549,7 @@ declare namespace LocalJSX {
           * The earliest date that can be selected.
          */
         "minDate"?: string | Date;
-        "onDateRangeChanged"?: (event: IrRangePickerCustomEvent<{ fromDate: Moment; toDate: Moment }>) => void;
+        "onDateRangeChanged"?: (event: IrRangePickerCustomEvent<{ fromDate: Moment; toDate: Moment; wasFocused?: boolean }>) => void;
         /**
           * The end date of the range.
          */
@@ -5663,6 +5664,7 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
         "p"?: string;
         "propertyid"?: number;
+        "ticket"?: string;
     }
     interface IrSelect {
         "LabelAvailable"?: boolean;
