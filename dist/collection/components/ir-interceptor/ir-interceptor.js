@@ -216,7 +216,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: 'fc2c33a0cfa798242789d8f1ed9a1db29d5161f7' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'eb7984cc85516dce91c3d5fe012d2cff25afb8b1', class: "loadingScreenContainer" }, h("div", { key: 'e450762a60f0a104ac652d4763e7ca1985b4e3e6', class: "loaderContainer" }, h("span", { key: '70c6fecd43eba810c80e15d3cc96887e1413a60f', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'b1db3d7122c1e5ec541c3e2c90de2b8fac2abcb5', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '8a1c0eb56da80ae7f3f4df76a15e72cf96795cda' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '6510224fa3948fa3e4cae66260a90cc1dab5a554', class: "loadingScreenContainer" }, h("div", { key: '2bd35ac7562005ae540e62795f46310acaf9e719', class: "loaderContainer" }, h("span", { key: '0acdffd4f8aacfe552df01956178741641594de6', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '491bf2b4569efca9414d13780823431484d31c99', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
