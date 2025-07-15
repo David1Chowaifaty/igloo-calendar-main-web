@@ -2,9 +2,8 @@ import { r as registerInstance, c as createEvent, h, F as Fragment, g as getElem
 import { T as Token } from './Token-6c389e24.js';
 import { A as AuthService } from './authenticate.service-b92cac55.js';
 import { R as RoomService } from './room.service-7e6772a4.js';
-import { S as SystemService } from './system.service-35fa8e7e.js';
+import { S as SystemService, C as CONSTANTS } from './system.service-ac72d4f3.js';
 import { l as locales } from './locales.store-53ec3957.js';
-import { C as CONSTANTS } from './constants-1510e43f.js';
 import { z, Z as ZodError } from './index-502f9842.js';
 import './axios-aa1335b8.js';
 import './calendar-data-20e9d53b.js';

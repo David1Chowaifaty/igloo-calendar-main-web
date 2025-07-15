@@ -6,9 +6,8 @@ const index = require('./index-4fe8bc8a.js');
 const Token = require('./Token-3d0cc874.js');
 const authenticate_service = require('./authenticate.service-eff00d14.js');
 const room_service = require('./room.service-5878ce13.js');
-const system_service = require('./system.service-bd8ed6a9.js');
+const system_service = require('./system.service-582208c2.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
-const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-db8b30d9.js');
 require('./axios-6e678d52.js');
 require('./calendar-data-99f4dccd.js');
@@ -37,12 +36,12 @@ const IrResetPassword = class {
         this.roomService = new room_service.RoomService();
         this.initialized = false;
         this.ResetPasswordSchema = index$1.z.object({
-            password: index$1.z.string().regex(constants.CONSTANTS.PASSWORD),
+            password: index$1.z.string().regex(system_service.CONSTANTS.PASSWORD),
             confirm_password: index$1.z
                 .string()
                 .nullable()
                 .refine(password => {
-                if (!constants.CONSTANTS.PASSWORD.test(password)) {
+                if (!system_service.CONSTANTS.PASSWORD.test(password)) {
                     return false;
                 }
                 return password === this.password;

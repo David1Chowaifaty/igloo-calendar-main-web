@@ -4,18 +4,21 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
 const room_service = require('./room.service-5878ce13.js');
-const booking_service = require('./booking.service-73cd7592.js');
-const utils = require('./utils-50be1245.js');
-const events_service = require('./events.service-97ee09f2.js');
-const toBeAssigned_service = require('./toBeAssigned.service-f6e9b5b9.js');
+const booking_service = require('./booking.service-77ca334d.js');
+const utils = require('./utils-4927b5d1.js');
+const events_service = require('./events.service-af18b286.js');
+const moment = require('./moment-1780b03a.js');
+const toBeAssigned_service = require('./toBeAssigned.service-30542f4f.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-99f4dccd.js');
 const unassigned_dates_store = require('./unassigned_dates.store-5daabf69.js');
 const Token = require('./Token-3d0cc874.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-c883b967.js');
+const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
+const hkTasks_store = require('./hk-tasks.store-7a1515e5.js');
 const axios = require('./axios-6e678d52.js');
-const user_service = require('./user.service-5468d849.js');
+const user_service = require('./user.service-de6a45a9.js');
 require('./index-467172e1.js');
 require('./index-db8b30d9.js');
 
@@ -4410,8 +4413,8 @@ const IglooCalendar = class {
         this.calendarData.formattedLegendData = utils.formatLegendColors(this.calendarData.legendData);
         let bookings = bookingResp.myBookings || [];
         bookings = bookings.filter(bookingEvent => {
-            const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
             return !toDate.isSame(fromDate);
         });
         this.calendarData.bookingEvents = bookings;
@@ -4859,7 +4862,7 @@ const IglooCalendar = class {
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
     }
     transformDateForScroll(date) {
-        return utils.hooks(date).format('D_M_YYYY');
+        return moment.hooks(date).format('D_M_YYYY');
     }
     shouldRenderCalendarView() {
         // console.log("rendering...")
@@ -4952,7 +4955,7 @@ const IglooCalendar = class {
             });
             utils.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
-            if (Math.abs(utils.hooks().diff(utils.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
+            if (Math.abs(moment.hooks().diff(moment.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
                 const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
                 this.calendarData.unassignedDates = Object.assign(Object.assign({}, this.calendarData.unassignedDates), data);
                 this.unassignedDates = {
@@ -4998,12 +5001,12 @@ const IglooCalendar = class {
         }
     }
     async handleDateSearch(dates) {
-        const startDate = utils.hooks(dates.start).toDate();
-        const defaultFromDate = utils.hooks(this.calDates.from).toDate();
+        const startDate = moment.hooks(dates.start).toDate();
+        const defaultFromDate = moment.hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
         if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
-            await this.addDatesToCalendar(utils.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), utils.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(moment.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), moment.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
             this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
@@ -5012,7 +5015,7 @@ const IglooCalendar = class {
         }
         else if (startDate.getTime() > defaultToDate) {
             const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
-            await this.addDatesToCalendar(nextDay, utils.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(nextDay, moment.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
     }
@@ -5221,19 +5224,25 @@ const IglooCalendar = class {
 };
 IglooCalendar.style = IglooCalendarStyle0;
 
-const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
-const IrHousekeepingStyle0 = irHousekeepingCss;
+const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block;box-sizing:border-box}.sc-ir-hk-tasks-h *.sc-ir-hk-tasks{box-sizing:border-box}.tasks-view.sc-ir-hk-tasks{display:flex;flex-direction:column}@media (min-width: 1024px){.tasks-view.sc-ir-hk-tasks{flex-direction:row}}";
+const IrHkTasksStyle0 = irHkTasksCss;
 
-const IrHousekeeping = class {
+const IrHkTasks = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.toast = index.createEvent(this, "toast", 7);
+        this.clearSelectedHkTasks = index.createEvent(this, "clearSelectedHkTasks", 7);
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
+        this.selectedDuration = '';
+        this.selectedHouseKeeper = '0';
+        this.selectedRoom = null;
+        this.archiveOpened = false;
+        this.hkNameCache = {};
         this.roomService = new room_service.RoomService();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.token = new Token.Token();
+        this.table_sorting = new Map();
     }
     componentWillLoad() {
         if (this.baseUrl) {
@@ -5241,91 +5250,220 @@ const IrHousekeeping = class {
         }
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
-            this.initializeApp();
+            this.init();
         }
-    }
-    async handleResetData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
         this.token.setToken(this.ticket);
-        this.initializeApp();
+        this.init();
     }
-    async initializeApp() {
+    handleCloseSidebar(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.isSidebarOpen = false;
+    }
+    handleSortingChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { field, direction } = e.detail;
+        console.log(e.detail);
+        if (field === 'date') {
+            return;
+        }
+        this.table_sorting.set(field, direction);
+    }
+    async init() {
         try {
             this.isLoading = true;
+            hkTasks_store.setLoading(true);
             let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            // let roomResp = null;
             if (!propertyId) {
+                console.log(propertyId);
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
-                    include_sales_rate_plans: true,
+                    include_units_hk_status: true,
                 });
+                // roomResp = propertyData;
                 propertyId = propertyData.My_Result.id;
             }
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
-            const requests = [];
-            if (calendarData.calendar_data.housekeeping_enabled) {
-                requests.push(this.houseKeepingService.getExposedHKSetup(propertyId));
-            }
-            requests.push(this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']));
+            this.property_id = propertyId;
+            const requests = [
+                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: moment.hooks().format('YYYY-MM-DD'), to_date: moment.hooks().format('YYYY-MM-DD') }),
+                this.houseKeepingService.getExposedHKSetup(this.property_id),
+                this.roomService.fetchLanguage(this.language),
+            ];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
-                    id: propertyId,
+                    id: this.propertyid,
                     language: this.language,
                     is_backend: true,
-                    include_sales_rate_plans: true,
+                    include_units_hk_status: true,
                 }));
             }
-            await Promise.all(requests);
-        }
-        catch (error) {
-            console.error(error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    saveAutomaticCheckInCheckout(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            this.roomService.SetAutomaticCheckInOut({
-                property_id: this.propertyid,
-                flag: e.detail === 'auto',
-            });
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
+            const results = await Promise.all(requests);
+            const tasksResult = results[0];
+            hkTasks_store.updateTaskList();
+            if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
+                this.updateTasks(tasksResult.tasks);
+            }
         }
         catch (error) {
             console.log(error);
         }
+        finally {
+            this.isLoading = false;
+            hkTasks_store.setLoading(false);
+        }
+    }
+    buildHousekeeperNameCache() {
+        var _a, _b;
+        this.hkNameCache = {};
+        (_b = (_a = housekeeping_service.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.forEach(hk => {
+            if (hk.id != null && hk.name != null) {
+                this.hkNameCache[hk.id] = hk.name;
+            }
+        });
+    }
+    updateTasks(tasks) {
+        this.buildHousekeeperNameCache();
+        hkTasks_store.updateTasks(tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4.v4(), housekeeper: (() => {
+                var _a, _b, _c;
+                const name = this.hkNameCache[t.hkm_id];
+                if (name) {
+                    return name;
+                }
+                const hkName = (_c = (_b = (_a = housekeeping_service.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
+                this.hkNameCache[t.hkm_id] = hkName;
+                return hkName;
+            })() }))));
+    }
+    async handleHeaderButtonPress(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { name } = e.detail;
+        switch (name) {
+            case 'cleaned':
+                (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+                break;
+            case 'export':
+                const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
+                    key,
+                    value,
+                }));
+                console.log(sortingArray);
+                const { url } = await this.fetchTasksWithFilters(true);
+                utils.downloadFile(url);
+                break;
+            case 'archive':
+                this.isSidebarOpen = true;
+                break;
+        }
+    }
+    handleSelectedTaskCleaningEvent(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectedTask = e.detail;
+        (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+    }
+    async handleModalConfirmation(e) {
+        try {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            if (hkTasks_store.hkTasksStore.selectedTasks.length === 0) {
+                return;
+            }
+            await this.houseKeepingService.executeHKAction({
+                actions: hkTasks_store.hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
+            });
+            await this.fetchTasksWithFilters();
+        }
+        finally {
+            hkTasks_store.clearSelectedTasks();
+            if (this.selectedTask) {
+                this.selectedTask = null;
+            }
+            // this.clearSelectedTasks.emit();
+            this.modal.closeModal();
+        }
+    }
+    async applyFilters(e) {
+        try {
+            this.isApplyFiltersLoading = true;
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.filters = Object.assign({}, e.detail);
+            await this.fetchTasksWithFilters();
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isApplyFiltersLoading = false;
+        }
+    }
+    async fetchTasksWithFilters(export_to_excel = false) {
+        var _a;
+        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
+        const { tasks, url } = await this.houseKeepingService.getHkTasks({
+            housekeepers,
+            cleaning_frequency: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
+            dusty_window: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
+            highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
+            property_id: this.property_id,
+            from_date: moment.hooks().format('YYYY-MM-DD'),
+            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment.hooks().format('YYYY-MM-DD'),
+            is_export_to_excel: export_to_excel,
+        });
+        console.log(tasks);
+        if (tasks) {
+            this.updateTasks(tasks);
+        }
+        return { tasks, url };
     }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("section", { class: "p-1" }, index.h("h3", { class: "mb-2" }, locales_store.locales.entries.Lcz_HouseKeepingAndCheckInSetup), index.h("div", { class: "card p-1" }, index.h("ir-title", { borderShown: true, label: "Check-In Mode" }), index.h("div", { class: 'd-flex align-items-center' }, index.h("p", { class: "my-0 py-0 mr-1  " }, locales_store.locales.entries.Lcz_CheckInOutGuestsAutomatically), index.h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
-                { text: locales_store.locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
-                { text: locales_store.locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] }))), calendarData.calendar_data.housekeeping_enabled && index.h("ir-hk-team", { class: "mb-1" }))));
+        return (index.h(index.Host, { "data-testid": "hk_tasks_base" }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-1 d-flex flex-column", style: { gap: '1rem' } }, index.h("h3", null, "Housekeeping Tasks"), index.h("div", { class: "tasks-view ", style: { gap: '1rem' } }, index.h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+                this.applyFilters(e);
+            } }), index.h("div", { class: "d-flex w-100 flex-column", style: { gap: '1rem' } }, index.h("ir-tasks-table", { onRowSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                hkTasks_store.updateSelectedTasks(e.detail);
+            }, class: "flex-grow-1 w-100" })))), index.h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: irInterceptor_store.isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+                if (this.selectedTask) {
+                    hkTasks_store.clearSelectedTasks();
+                    this.selectedTask = null;
+                }
+            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: this.selectedTask ? `Update ${(_b = (_a = this.selectedTask) === null || _a === void 0 ? void 0 : _a.unit) === null || _b === void 0 ? void 0 : _b.name} to Clean` : 'Update selected unit(s) to Clean' }), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isSidebarOpen = false;
+            },
+            // sidebarStyles={{
+            //   width: '80vw',
+            // }}
+            showCloseButton: false }, this.isSidebarOpen && index.h("ir-hk-archive", { ticket: this.token.getToken(), propertyId: this.property_id, slot: "sidebar-body" }))));
     }
+    get el() { return index.getElement(this); }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
 };
-IrHousekeeping.style = IrHousekeepingStyle0;
+IrHkTasks.style = IrHkTasksStyle0;
 
 class PropertyService {
     async getExposedProperty(params) {
@@ -5405,8 +5543,8 @@ const IrSalesByCountry = class {
         this.propertyService = new PropertyService();
         this.bookingService = new booking_service.BookingService();
         this.baseFilters = {
-            FROM_DATE: utils.hooks().add(-7, 'days').format('YYYY-MM-DD'),
-            TO_DATE: utils.hooks().format('YYYY-MM-DD'),
+            FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
+            TO_DATE: moment.hooks().format('YYYY-MM-DD'),
             BOOK_CASE: '001',
             WINDOW: 7,
             include_previous_year: false,
@@ -5479,7 +5617,7 @@ const IrSalesByCountry = class {
             const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: utils.hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: utils.hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: moment.hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: moment.hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
                     return {
@@ -5719,7 +5857,7 @@ const IrUserManagement = class {
 IrUserManagement.style = IrUserManagementStyle0;
 
 exports.igloo_calendar = IglooCalendar;
-exports.ir_housekeeping = IrHousekeeping;
+exports.ir_hk_tasks = IrHkTasks;
 exports.ir_sales_by_country = IrSalesByCountry;
 exports.ir_user_management = IrUserManagement;
 
