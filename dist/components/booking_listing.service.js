@@ -1,4 +1,4 @@
-import { c as createStore } from './locales.store.js';
+import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
 import { e as extras } from './utils.js';
 import { a as axios } from './axios.js';

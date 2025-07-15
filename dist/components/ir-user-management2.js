@@ -3,7 +3,7 @@ import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
-import { l as lookup } from './index4.js';
+import { l as lookup } from './index5.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$k } from './ir-button2.js';
 import { d as defineCustomElement$j } from './ir-icon2.js';

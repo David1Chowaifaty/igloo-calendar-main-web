@@ -3,6 +3,7 @@ import { ICountry } from "../../models/IBooking";
 type BaseSalesRecord = {
     id: string;
     country: string;
+    country_id: number;
     nights: number;
     percentage: number;
     revenue: number;
@@ -13,5 +14,5 @@ type SalesRecord = BaseSalesRecord & {
 type CountrySalesFilter = Omit<CountrySalesParams, 'is_export_to_excel' | 'AC_ID'> & {
     include_previous_year: boolean;
 };
-type MappedCountries = Map<ICountry['name'], Pick<ICountry, 'name' | 'flag'>>;
+type MappedCountries = Map<ICountry['id'], Pick<ICountry, 'name' | 'flag'>>;
 export { SalesRecord, CountrySalesFilter, MappedCountries };

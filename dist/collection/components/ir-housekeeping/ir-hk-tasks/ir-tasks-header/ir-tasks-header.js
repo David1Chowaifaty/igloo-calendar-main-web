@@ -1,28 +1,26 @@
+import { updateSearchField, hkTasksStore } from "../../../../stores/hk-tasks.store";
 import locales from "../../../../stores/locales.store";
-import { h } from "@stencil/core";
+import { h, Host } from "@stencil/core";
 export class IrTasksHeader {
-    constructor() {
-        this.isCleanedEnabled = false;
-    }
     handleCleanedButtonAnimation(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.btnRef.bounce();
     }
     render() {
-        return (h("div", { key: 'c6c0bb51e02996d0ca4f0b96d06be46813c0bae5', class: "d-flex flex-column flex-md-row align-items-md-center justify-content-between" }, h("h3", { key: 'dc53ac0fa43f081987f796c97a2fb873f187e0db', class: "mb-1 mb-md-0" }, "Housekeeping Tasks"), h("div", { key: 'e652cef9552e3235becb8d5c28969194b261b755', class: "d-flex", style: { gap: '1rem' } }, h("ir-button", { key: '33221562fd5ecc735d5e053caad3b63ad6db38e5', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h(Host, { key: '895464bc6c01d33abe6c952c831a2356af9f6e0f' }, h("div", { key: 'd65a313ac165105cf69ebef18ce8e26aaad6f4d2', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '34001001acabe7c1eb421bf4a6276b32038882af', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: 'e537af37d03fb25c529a8fe141991e177b9ddc0f', name: "search", slot: "icon" }))), h("div", { key: '4f28d0d83b28b3b39db0ef917526e424db7380c3', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '1a33e7fd8b0747713d43f25aa8132c540300b673', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '289cefd2eb6de7b92a7bcb1633eb9e8aa24b6d78', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '4028765353278ff1b928864d9c09e0b8a280a8c2', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: 'ad45849e44dc1778c4bf6c708dac7775689b16c1', onClickHandler: e => {
+            } }), h("ir-button", { key: '604d3fd2609a377ece69477729e041aa93a26e11', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
-            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !this.isCleanedEnabled, text: 'Cleaned', ref: el => (this.btnRef = el) }))));
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }))));
     }
     static get is() { return "ir-tasks-header"; }
     static get encapsulation() { return "scoped"; }
@@ -34,30 +32,6 @@ export class IrTasksHeader {
     static get styleUrls() {
         return {
             "$": ["ir-tasks-header.css"]
-        };
-    }
-    static get properties() {
-        return {
-            "isCleanedEnabled": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "is-cleaned-enabled",
-                "reflect": false,
-                "defaultValue": "false"
-            }
         };
     }
     static get events() {

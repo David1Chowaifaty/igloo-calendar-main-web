@@ -5,7 +5,7 @@ import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
-const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;min-width:20vw;height:100%}@media (min-width: 768px){.collapse-btn.sc-ir-tasks-filters{display:none}#hkTasksFiltersCollapse.collapse.sc-ir-tasks-filters:not(.show){display:block}}";
+const irTasksFiltersCss = ".sc-ir-tasks-filters-h{display:block;min-width:20vw;height:100%;flex:1}@media (min-width: 1024px){.collapse-btn.sc-ir-tasks-filters{display:none}#hkTasksFiltersCollapse.collapse.sc-ir-tasks-filters:not(.show){display:block}}";
 const IrTasksFiltersStyle0 = irTasksFiltersCss;
 
 const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters extends HTMLElement {

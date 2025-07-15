@@ -49,7 +49,7 @@ export class IrCommon {
         });
     }
     render() {
-        return (h(Host, { key: '83437c3e5458fffa128593f911148bb3ccdc1824' }, h("slot", { key: 'a78cf616e25eaa7304968d26f474b275ae32da5b' })));
+        return (h(Host, { key: 'a9c3ee558d6056b6d56530a11f4bd93d88c9fe69' }, h("slot", { key: 'a4315aa995aa1e3cd006aeb3d452c1302337f71f' })));
     }
     static get is() { return "ir-common"; }
     static get properties() {

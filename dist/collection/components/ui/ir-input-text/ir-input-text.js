@@ -294,7 +294,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
-                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"submit\" | \"range\" | \"file\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
+                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"date\" | \"email\" | \"url\" | \"week\" | \"month\" | \"password\" | \"reset\" | \"submit\" | \"file\" | \"range\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },
                 "required": false,

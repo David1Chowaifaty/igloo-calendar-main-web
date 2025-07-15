@@ -82,13 +82,12 @@ export class IrSalesByCountry {
             const [countries] = await Promise.all(requests);
             const mappedCountries = new Map();
             countries.map(country => {
-                mappedCountries.set(country.name, {
+                mappedCountries.set(country.id, {
                     flag: country.flag,
                     name: country.name,
                 });
             });
             this.countries = mappedCountries;
-            console.log(this.countries);
         }
         catch (error) {
             console.log(error);
@@ -111,6 +110,7 @@ export class IrSalesByCountry {
                     return {
                         id: v4(),
                         country: current.COUNTRY,
+                        country_id: current.COUNTRY_ID,
                         nights: current.NIGHTS,
                         percentage: current.PCT,
                         revenue: current.REVENUE,
@@ -118,6 +118,7 @@ export class IrSalesByCountry {
                             ? {
                                 country: previous.COUNTRY,
                                 nights: previous.NIGHTS,
+                                country_id: previous.COUNTRY_ID,
                                 percentage: previous.PCT,
                                 revenue: previous.REVENUE,
                             }
@@ -129,6 +130,7 @@ export class IrSalesByCountry {
                 enrichedSales = currentSales.map(record => ({
                     id: v4(),
                     country: record.COUNTRY,
+                    country_id: record.COUNTRY_ID,
                     nights: record.NIGHTS,
                     percentage: record.PCT,
                     last_year: null,

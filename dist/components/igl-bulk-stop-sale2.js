@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { B as BookingService } from './booking.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
-import { z, Z as ZodError } from './index2.js';
+import { z, Z as ZodError } from './index3.js';
 import { k as calendar_dates } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';

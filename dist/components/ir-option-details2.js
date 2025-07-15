@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { a as axios } from './axios.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { c as createStore, l as locales } from './locales.store.js';
+import { c as createStore } from './index2.js';
+import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-icon2.js';
 import { d as defineCustomElement$5 } from './ir-icons2.js';

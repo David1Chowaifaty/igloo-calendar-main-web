@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';
-import { z } from './index2.js';
+import { z } from './index3.js';
 import { v as validateEmail } from './utils.js';
 import { m as modifyBookingStore, b as booking_store } from './booking.store.js';
 import { d as defineCustomElement$6 } from './ir-autocomplete2.js';

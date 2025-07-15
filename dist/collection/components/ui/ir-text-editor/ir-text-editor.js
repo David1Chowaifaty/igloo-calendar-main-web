@@ -293,7 +293,7 @@ export class IrTextEditor {
                     "references": {
                         "ToolbarConfig": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/work-rony/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
+                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
                             "id": "src/components/ui/ir-text-editor/ir-text-editor.tsx::ToolbarConfig"
                         }
                     }

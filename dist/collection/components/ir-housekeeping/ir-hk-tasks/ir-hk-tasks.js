@@ -8,6 +8,7 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { downloadFile } from "../../../utils/utils";
+import { updateTasks as updateTasksStore, updateSelectedTasks, clearSelectedTasks, hkTasksStore, setLoading, updateTaskList } from "../../../stores/hk-tasks.store";
 export class IrHkTasks {
     constructor() {
         this.language = '';
@@ -17,8 +18,6 @@ export class IrHkTasks {
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
         this.archiveOpened = false;
-        this.tasks = [];
-        this.selectedTasks = [];
         this.hkNameCache = {};
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
@@ -59,6 +58,7 @@ export class IrHkTasks {
     async init() {
         try {
             this.isLoading = true;
+            setLoading(true);
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -92,6 +92,7 @@ export class IrHkTasks {
             }
             const results = await Promise.all(requests);
             const tasksResult = results[0];
+            updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
                 this.updateTasks(tasksResult.tasks);
             }
@@ -101,6 +102,7 @@ export class IrHkTasks {
         }
         finally {
             this.isLoading = false;
+            setLoading(false);
         }
     }
     buildHousekeeperNameCache() {
@@ -114,7 +116,7 @@ export class IrHkTasks {
     }
     updateTasks(tasks) {
         this.buildHousekeeperNameCache();
-        this.tasks = tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4(), housekeeper: (() => {
+        updateTasksStore(tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4(), housekeeper: (() => {
                 var _a, _b, _c;
                 const name = this.hkNameCache[t.hkm_id];
                 if (name) {
@@ -123,7 +125,7 @@ export class IrHkTasks {
                 const hkName = (_c = (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
                 this.hkNameCache[t.hkm_id] = hkName;
                 return hkName;
-            })() })));
+            })() }))));
     }
     async handleHeaderButtonPress(e) {
         var _a;
@@ -152,17 +154,17 @@ export class IrHkTasks {
         try {
             e.stopImmediatePropagation();
             e.stopPropagation();
-            if (this.selectedTasks.length === 0) {
+            if (hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
             await this.houseKeepingService.executeHKAction({
-                actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
+                actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
             await this.fetchTasksWithFilters();
         }
         finally {
-            this.selectedTasks = [];
-            this.clearSelectedHkTasks.emit();
+            clearSelectedTasks();
+            // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
     }
@@ -204,13 +206,13 @@ export class IrHkTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-1 d-flex flex-column", style: { gap: '1rem' } }, h("h3", null, "Housekeeping Tasks"), h("div", { class: "tasks-view ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
                 this.applyFilters(e);
-            } }), h("ir-tasks-table", { onRowSelectChange: e => {
+            } }), h("div", { class: "d-flex w-100 flex-column", style: { gap: '1rem' } }, h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.selectedTasks = e.detail;
-            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+                updateSelectedTasks(e.detail);
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -341,8 +343,6 @@ export class IrHkTasks {
             "selectedRoom": {},
             "archiveOpened": {},
             "property_id": {},
-            "tasks": {},
-            "selectedTasks": {},
             "isSidebarOpen": {},
             "isApplyFiltersLoading": {},
             "filters": {}
@@ -383,6 +383,12 @@ export class IrHkTasks {
             }, {
                 "name": "sortingChanged",
                 "method": "handleSortingChanged",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "headerButtonPress",
+                "method": "handleHeaderButtonPress",
                 "target": undefined,
                 "capture": false,
                 "passive": false

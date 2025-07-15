@@ -2,6 +2,7 @@
   "entries": [
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
+    "components/ir-pagination/ir-pagination.js",
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
@@ -65,6 +66,8 @@
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-filters/ir-tasks-filters.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-header/ir-tasks-header.js",
     "components/ir-housekeeping/ir-hk-tasks/ir-tasks-table/ir-tasks-table.js",
+    "components/ir-housekeeping/ir-hk-tasks/ir-tasks-table/ir-tasks-table-pagination/ir-tasks-table-pagination.js",
+    "components/ir-housekeeping/ir-hk-tasks/ir-tasks-table/ir-tasks-table-pagination/ir-tasks-card/ir-tasks-card.js",
     "components/ir-housekeeping/ir-hk-team/ir-hk-team.js",
     "components/ir-housekeeping/ir-hk-unassigned-units/ir-hk-unassigned-units.js",
     "components/ir-housekeeping/ir-hk-user/ir-hk-user.js",

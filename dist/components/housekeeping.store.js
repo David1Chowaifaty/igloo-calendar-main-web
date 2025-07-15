@@ -1,4 +1,4 @@
-import { c as createStore } from './locales.store.js';
+import { c as createStore } from './index2.js';
 
 const initialValue = {
     default_properties: undefined,

@@ -1,18 +1,17 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
 import { R as RoomService } from './room.service-7e6772a4.js';
-import { B as BookingService } from './booking.service-a14cb936.js';
-import { l as formatLegendColors, h as hooks, n as calendar_dates, o as formatName, p as getRoomStatus, t as transformNewBooking, q as transformNewBLockedRooms, b as dateToFormattedString, r as bookingStatus, j as getPrivateNote, s as isBlockUnit, k as calculateDaysBetweenDates, u as getNextDay, v as addTwoMonthToDate, w as convertDMYToISO, x as computeEndDate, d as downloadFile } from './utils-12c7df58.js';
-import { E as EventsService } from './events.service-eb3f6d9a.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-9521e2e2.js';
+import { B as BookingService } from './booking.service-d0c711be.js';
+import { p as formatLegendColors, h as hooks, q as calendar_dates, j as formatName, s as getRoomStatus, u as transformNewBooking, w as transformNewBLockedRooms, d as dateToFormattedString, x as bookingStatus, b as getPrivateNote, y as isBlockUnit, c as calculateDaysBetweenDates, z as getNextDay, A as addTwoMonthToDate, B as convertDMYToISO, C as computeEndDate, i as downloadFile } from './utils-0cab1b3d.js';
+import { E as EventsService } from './events.service-a4296385.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-b1268ce2.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-20e9d53b.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-bb218d3e.js';
 import { T as Token } from './Token-6c389e24.js';
 import { v as v4 } from './v4-964634d6.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-64b661f9.js';
-import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
-import { U as UserService } from './user.service-33fad491.js';
-import './axios-aa1335b8.js';
+import { H as HouseKeepingService, u as updateHKStore } from './housekeeping.service-64b661f9.js';
+import { a as axios } from './axios-aa1335b8.js';
+import { U as UserService } from './user.service-9f42dbaf.js';
 import './index-c1c77241.js';
 import './index-502f9842.js';
 
@@ -5218,230 +5217,6 @@ const IglooCalendar = class {
 };
 IglooCalendar.style = IglooCalendarStyle0;
 
-const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block}@media only screen and (max-width: 900px){.table-container.sc-ir-hk-tasks{width:max-content !important}}";
-const IrHkTasksStyle0 = irHkTasksCss;
-
-const IrHkTasks = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.clearSelectedHkTasks = createEvent(this, "clearSelectedHkTasks", 7);
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = false;
-        this.selectedDuration = '';
-        this.selectedHouseKeeper = '0';
-        this.selectedRoom = null;
-        this.archiveOpened = false;
-        this.tasks = [];
-        this.selectedTasks = [];
-        this.hkNameCache = {};
-        this.roomService = new RoomService();
-        this.houseKeepingService = new HouseKeepingService();
-        this.token = new Token();
-        this.table_sorting = new Map();
-    }
-    componentWillLoad() {
-        if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
-        }
-        if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
-            this.init();
-        }
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        this.init();
-    }
-    handleCloseSidebar(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.isSidebarOpen = false;
-    }
-    handleSortingChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { field, direction } = e.detail;
-        console.log(e.detail);
-        if (field === 'date') {
-            return;
-        }
-        this.table_sorting.set(field, direction);
-    }
-    async init() {
-        try {
-            this.isLoading = true;
-            let propertyId = this.propertyid;
-            if (!this.propertyid && !this.p) {
-                throw new Error('Property ID or username is required');
-            }
-            // let roomResp = null;
-            if (!propertyId) {
-                console.log(propertyId);
-                const propertyData = await this.roomService.getExposedProperty({
-                    id: 0,
-                    aname: this.p,
-                    language: this.language,
-                    is_backend: true,
-                    include_units_hk_status: true,
-                });
-                // roomResp = propertyData;
-                propertyId = propertyData.My_Result.id;
-            }
-            this.property_id = propertyId;
-            const requests = [
-                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().format('YYYY-MM-DD') }),
-                this.houseKeepingService.getExposedHKSetup(this.property_id),
-                this.roomService.fetchLanguage(this.language),
-            ];
-            if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                    is_backend: true,
-                    include_units_hk_status: true,
-                }));
-            }
-            const results = await Promise.all(requests);
-            const tasksResult = results[0];
-            if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
-                this.updateTasks(tasksResult.tasks);
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    buildHousekeeperNameCache() {
-        var _a, _b;
-        this.hkNameCache = {};
-        (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.forEach(hk => {
-            if (hk.id != null && hk.name != null) {
-                this.hkNameCache[hk.id] = hk.name;
-            }
-        });
-    }
-    updateTasks(tasks) {
-        this.buildHousekeeperNameCache();
-        this.tasks = tasks.map(t => (Object.assign(Object.assign({}, t), { id: v4(), housekeeper: (() => {
-                var _a, _b, _c;
-                const name = this.hkNameCache[t.hkm_id];
-                if (name) {
-                    return name;
-                }
-                const hkName = (_c = (_b = (_a = housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.find(hk => hk.id === t.hkm_id)) === null || _c === void 0 ? void 0 : _c.name;
-                this.hkNameCache[t.hkm_id] = hkName;
-                return hkName;
-            })() })));
-    }
-    async handleHeaderButtonPress(e) {
-        var _a;
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { name } = e.detail;
-        switch (name) {
-            case 'cleaned':
-                (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
-                break;
-            case 'export':
-                const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
-                    key,
-                    value,
-                }));
-                console.log(sortingArray);
-                const { url } = await this.fetchTasksWithFilters(true);
-                downloadFile(url);
-                break;
-            case 'archive':
-                this.isSidebarOpen = true;
-                break;
-        }
-    }
-    async handleModalConfirmation(e) {
-        try {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            if (this.selectedTasks.length === 0) {
-                return;
-            }
-            await this.houseKeepingService.executeHKAction({
-                actions: this.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
-            });
-            await this.fetchTasksWithFilters();
-        }
-        finally {
-            this.selectedTasks = [];
-            this.clearSelectedHkTasks.emit();
-            this.modal.closeModal();
-        }
-    }
-    async applyFilters(e) {
-        try {
-            this.isApplyFiltersLoading = true;
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.filters = Object.assign({}, e.detail);
-            await this.fetchTasksWithFilters();
-        }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            this.isApplyFiltersLoading = false;
-        }
-    }
-    async fetchTasksWithFilters(export_to_excel = false) {
-        var _a;
-        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = (_a = this.filters) !== null && _a !== void 0 ? _a : {};
-        const { tasks, url } = await this.houseKeepingService.getHkTasks({
-            housekeepers,
-            cleaning_frequency: cleaning_frequencies === null || cleaning_frequencies === void 0 ? void 0 : cleaning_frequencies.code,
-            dusty_window: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
-            highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
-            property_id: this.property_id,
-            from_date: hooks().format('YYYY-MM-DD'),
-            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || hooks().format('YYYY-MM-DD'),
-            is_export_to_excel: export_to_excel,
-        });
-        console.log(tasks);
-        if (tasks) {
-            this.updateTasks(tasks);
-        }
-        return { tasks, url };
-    }
-    render() {
-        if (this.isLoading) {
-            return h("ir-loading-screen", null);
-        }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("ir-tasks-header", { onHeaderButtonPress: this.handleHeaderButtonPress.bind(this), isCleanedEnabled: this.selectedTasks.length > 0 }), h("div", { class: "d-flex flex-column flex-md-row mt-1 ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
-                this.applyFilters(e);
-            } }), h("ir-tasks-table", { onRowSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.selectedTasks = e.detail;
-            }, class: "flex-grow-1 w-100", tasks: this.tasks }))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_NO, rightBtnText: locales.entries.Lcz_Yes, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isSidebarOpen = false;
-            },
-            // sidebarStyles={{
-            //   width: '80vw',
-            // }}
-            showCloseButton: false }, this.isSidebarOpen && h("ir-hk-archive", { ticket: this.token.getToken(), propertyId: this.property_id, slot: "sidebar-body" }))));
-    }
-    get el() { return getElement(this); }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"]
-    }; }
-};
-IrHkTasks.style = IrHkTasksStyle0;
-
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
 const IrHousekeepingStyle0 = irHousekeepingCss;
 
@@ -5547,6 +5322,221 @@ const IrHousekeeping = class {
     }; }
 };
 IrHousekeeping.style = IrHousekeepingStyle0;
+
+class PropertyService {
+    async getExposedProperty(params) {
+        var _a, _b;
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Property`, params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            const results = data.My_Result;
+            calendar_data.adultChildConstraints = results.adult_child_constraints;
+            calendar_data.allowedBookingSources = results.allowed_booking_sources;
+            calendar_data.allowed_payment_methods = results.allowed_payment_methods;
+            calendar_data.currency = results.currency;
+            calendar_data.is_vacation_rental = results.is_vacation_rental;
+            calendar_data.pickup_service = results.pickup_service;
+            calendar_data.max_nights = results.max_nights;
+            calendar_data.roomsInfo = results.roomtypes;
+            calendar_data.taxes = results.taxes;
+            calendar_data.id = results.id;
+            calendar_data.country = results.country;
+            calendar_data.name = results.name;
+            calendar_data.is_automatic_check_in_out = results.is_automatic_check_in_out;
+            calendar_data.tax_statement = results.tax_statement;
+            calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
+            calendar_data.is_pms_enabled = results.is_pms_enabled;
+            const spitTime = (_b = (_a = results === null || results === void 0 ? void 0 : results.time_constraints) === null || _a === void 0 ? void 0 : _a.check_out_till) === null || _b === void 0 ? void 0 : _b.split(':');
+            calendar_data.checkin_checkout_hours = {
+                offset: results.city.gmt_offset,
+                hour: Number(spitTime[0] || 0),
+                minute: Number(spitTime[1] || 0),
+            };
+            return data;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async getCountrySales(params) {
+        const { data } = await axios.post('/get_country_sales', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        if (params.is_export_to_excel) {
+            downloadFile(data.My_Params_Get_Country_Sales.Link_excel);
+        }
+        return data.My_Result;
+    }
+}
+
+const irSalesByCountryCss = ".sc-ir-sales-by-country-h{display:block}";
+const IrSalesByCountryStyle0 = irSalesByCountryCss;
+
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s)
+        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+const IrSalesByCountry = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.language = '';
+        this.ticket = '';
+        this.isLoading = null;
+        this.isPageLoading = true;
+        this.countries = new Map();
+        this.token = new Token();
+        this.roomService = new RoomService();
+        this.propertyService = new PropertyService();
+        this.bookingService = new BookingService();
+        this.baseFilters = {
+            FROM_DATE: hooks().add(-7, 'days').format('YYYY-MM-DD'),
+            TO_DATE: hooks().format('YYYY-MM-DD'),
+            BOOK_CASE: '001',
+            WINDOW: 7,
+            include_previous_year: false,
+        };
+    }
+    componentWillLoad() {
+        this.salesFilters = this.baseFilters;
+        if (this.ticket) {
+            this.initializeApp();
+        }
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
+    }
+    async initializeApp() {
+        try {
+            let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            // let roomResp = null;
+            if (!propertyId) {
+                console.log(propertyId);
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                });
+                // roomResp = propertyData;
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
+            if (this.propertyid) {
+                requests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                }));
+            }
+            const [countries] = await Promise.all(requests);
+            const mappedCountries = new Map();
+            countries.map(country => {
+                mappedCountries.set(country.id, {
+                    flag: country.flag,
+                    name: country.name,
+                });
+            });
+            this.countries = mappedCountries;
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isPageLoading = false;
+        }
+    }
+    async getCountrySales(isExportToExcel = false) {
+        try {
+            const _a = this.salesFilters, { include_previous_year } = _a, filterParams = __rest(_a, ["include_previous_year"]);
+            this.isLoading = isExportToExcel ? 'export' : 'filter';
+            const currentSales = await this.propertyService.getCountrySales(Object.assign({ AC_ID: this.property_id, is_export_to_excel: isExportToExcel }, filterParams));
+            const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
+            let enrichedSales = [];
+            if (shouldFetchPreviousYear) {
+                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                enrichedSales = currentSales.map(current => {
+                    const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
+                    return {
+                        id: v4(),
+                        country: current.COUNTRY,
+                        country_id: current.COUNTRY_ID,
+                        nights: current.NIGHTS,
+                        percentage: current.PCT,
+                        revenue: current.REVENUE,
+                        last_year: previous
+                            ? {
+                                country: previous.COUNTRY,
+                                nights: previous.NIGHTS,
+                                country_id: previous.COUNTRY_ID,
+                                percentage: previous.PCT,
+                                revenue: previous.REVENUE,
+                            }
+                            : null,
+                    };
+                });
+            }
+            else {
+                enrichedSales = currentSales.map(record => ({
+                    id: v4(),
+                    country: record.COUNTRY,
+                    country_id: record.COUNTRY_ID,
+                    nights: record.NIGHTS,
+                    percentage: record.PCT,
+                    last_year: null,
+                    revenue: record.REVENUE,
+                }));
+            }
+            this.salesData = enrichedSales;
+        }
+        catch (error) {
+            console.error('Failed to fetch sales data:', error);
+        }
+        finally {
+            this.isLoading = null;
+        }
+    }
+    render() {
+        if (this.isPageLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Sales by Country"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries.Lcz_Export, onClickHandler: async (e) => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                await this.getCountrySales(true);
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.salesFilters = e.detail;
+                this.getCountrySales();
+            }, class: "filters-card", baseFilters: this.baseFilters }), h("ir-sales-table", { mappedCountries: this.countries, class: "card mb-0", records: this.salesData })))));
+    }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
+};
+IrSalesByCountry.style = IrSalesByCountryStyle0;
 
 const irUserManagementCss = ".sc-ir-user-management-h{display:block;height:100%}";
 const IrUserManagementStyle0 = irUserManagementCss;
@@ -5724,6 +5714,6 @@ const IrUserManagement = class {
 };
 IrUserManagement.style = IrUserManagementStyle0;
 
-export { IglooCalendar as igloo_calendar, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrUserManagement as ir_user_management };
+export { IglooCalendar as igloo_calendar, IrHousekeeping as ir_housekeeping, IrSalesByCountry as ir_sales_by_country, IrUserManagement as ir_user_management };
 
 //# sourceMappingURL=igloo-calendar_4.entry.js.map

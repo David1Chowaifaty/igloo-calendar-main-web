@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from 
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
 import { q as formatLegendColors, k as calendar_dates, r as formatName, s as getRoomStatus, t as transformNewBooking, u as transformNewBLockedRooms, d as dateToFormattedString, w as bookingStatus, x as getPrivateNote, j as isBlockUnit, b as calculateDaysBetweenDates, y as getNextDay, z as addTwoMonthToDate, A as convertDMYToISO, B as computeEndDate } from './utils.js';
-import { l as lookup } from './index4.js';
+import { l as lookup } from './index5.js';
 import { E as EventsService, d as defineCustomElement$_ } from './igl-booking-event-hover2.js';
 import { h as hooks } from './moment.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service.js';

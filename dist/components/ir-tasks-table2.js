@@ -1,13 +1,22 @@
-import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$1 } from './ir-checkbox2.js';
+import { e as updateSorting, c as clearSelectedTasks, t as toggleTaskSelection, h as hkTasksStore, i as isAllTasksSelected, f as selectAllTasks, g as getCheckableTasks, j as getPaginatedTasks, k as getMobileTasks } from './hk-tasks.store.js';
+import { d as defineCustomElement$9 } from './ir-button2.js';
+import { d as defineCustomElement$8 } from './ir-checkbox2.js';
+import { d as defineCustomElement$7 } from './ir-icons2.js';
+import { d as defineCustomElement$6 } from './ir-input-text2.js';
+import { d as defineCustomElement$5 } from './ir-pagination2.js';
+import { d as defineCustomElement$4 } from './ir-select2.js';
+import { d as defineCustomElement$3 } from './ir-tasks-card2.js';
+import { d as defineCustomElement$2 } from './ir-tasks-header2.js';
+import { d as defineCustomElement$1 } from './ir-tasks-table-pagination2.js';
 
-const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table-container.sc-ir-tasks-table{max-height:80vh}.task-table-row.sc-ir-tasks-table td.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover td.sc-ir-tasks-table{background:#e2e6ea3f !important}";
+const irTasksTableCss = ".sc-ir-tasks-table-h{display:flex;align-items:center}.selected-row.sc-ir-tasks-table{background-color:rgba(0, 0, 255, 0.1)}.selected-row.sc-ir-tasks-table:hover{background-color:rgba(0, 0, 255, 0.15)}.header-content.sc-ir-tasks-table{height:100%}.highlighted-unit.sc-ir-tasks-table{background:#000;color:white;padding:0.2rem 0.3rem;border-radius:4px}.table-container.sc-ir-tasks-table{height:100%}.task-table-row.sc-ir-tasks-table td.sc-ir-tasks-table{background:white !important}.task-table-row.sc-ir-tasks-table:hover td.sc-ir-tasks-table{background:#e2e6ea3f !important}.table-container.sc-ir-tasks-table{display:none}.mobile-tasks-container.sc-ir-tasks-table{display:flex;flex-direction:column;gap:1rem}@media (min-width: 640px){.mobile-tasks-container.sc-ir-tasks-table{display:none}.table-container.sc-ir-tasks-table{display:flex}}";
 const IrTasksTableStyle0 = irTasksTableCss;
 
-const tableCss = ".ir-table-row.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.5rem 1rem !important;text-align:left;z-index:2;background-color:white;white-space:nowrap;width:max-content;max-width:max-content}.ir-table-row.sc-ir-tasks-table td.sc-ir-tasks-table:last-child{width:100%}.table.sc-ir-tasks-table td.sc-ir-tasks-table{border-top:0;border-bottom:1px solid #e3ebf3;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.table.sc-ir-tasks-table thead.sc-ir-tasks-table th.sc-ir-tasks-table{border:none !important;background:#ececec;color:#374151;padding:0.5rem 1rem !important;text-align:left}.selected.sc-ir-tasks-table td.sc-ir-tasks-table{background:#e3f3fa !important}.selected.sc-ir-tasks-table td.sc-ir-tasks-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table{text-transform:capitalize;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e8f0 !important;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}";
+const tableCss = ".ir-table-row.sc-ir-tasks-table td.sc-ir-tasks-table{padding:0.5rem 1rem !important;text-align:left;z-index:2;background-color:white;white-space:nowrap}.table.sc-ir-tasks-table td.sc-ir-tasks-table{border-top:0;border-bottom:1px solid #e3ebf3;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.table.sc-ir-tasks-table thead.sc-ir-tasks-table th.sc-ir-tasks-table{border:none !important;background:#ececec;color:#374151;padding:0.5rem 1rem !important;text-align:left}.selected.sc-ir-tasks-table td.sc-ir-tasks-table{background:#e3f3fa !important}.selected.sc-ir-tasks-table td.sc-ir-tasks-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table{text-transform:capitalize;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-tasks-table:hover{color:#212529;background-color:#e2e8f0 !important;border-color:#dae0e5;cursor:pointer}.sortable.sc-ir-tasks-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-tasks-table svg.sc-ir-tasks-table{color:var(--blue)}";
 const IrTasksTableStyle1 = tableCss;
 
 const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends HTMLElement {
@@ -18,28 +27,10 @@ const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends
         this.rowSelectChange = createEvent(this, "rowSelectChange", 7);
         this.sortingChanged = createEvent(this, "sortingChanged", 7);
         this.tasks = [];
-        /**
-         * Tracks which task IDs are currently selected via checkboxes.
-         */
-        this.selectedIds = [];
-        /**
-         * Controls whether the "Confirm Clean" modal is shown.
-         */
-        this.showConfirmModal = false;
-        /**
-         * The key we are sorting by (e.g., "date", "unit", "status", "housekeeper").
-         */
-        this.sortKey = 'date';
-        /**
-         * The sort direction: ASC or DESC.
-         */
-        this.sortDirection = 'ASC';
-        this.checkableTasks = [];
     }
     componentWillLoad() {
-        this.sortTasks('date', 'ASC');
-        if (this.tasks) {
-            this.assignCheckableTasks();
+        if (this.tasks && this.tasks.length > 0) {
+            updateSorting('date', 'ASC');
         }
     }
     /**
@@ -47,126 +38,56 @@ const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends
      * it toggles between ascending and descending.
      */
     handleSort(key) {
-        let newDirection = this.sortDirection;
+        let newDirection = hkTasksStore.sorting.direction;
         // If we're clicking the same column, flip the direction. If a new column, default to ASC.
-        if (this.sortKey === key) {
-            newDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+        if (hkTasksStore.sorting.field === key) {
+            newDirection = hkTasksStore.sorting.direction === 'ASC' ? 'DESC' : 'ASC';
         }
         else {
             newDirection = 'ASC';
         }
+        updateSorting(key, newDirection);
         this.sortingChanged.emit({ field: key, direction: newDirection });
-        this.sortTasks(key, newDirection);
     }
     handleClearSelectedHkTasks(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.selectedIds = [];
+        clearSelectedTasks();
     }
     handleTasksChange(newTasks) {
         if (newTasks === null || newTasks === void 0 ? void 0 : newTasks.length) {
-            this.selectedIds = [];
-            this.assignCheckableTasks();
+            clearSelectedTasks();
         }
-    }
-    /**
-     * Helper to sort tasks array in state.
-     */
-    /**
-     * Sorts the tasks by the given key in ASC or DESC order.
-     * If values for `key` are duplicates, it sorts by `date` ascending.
-     * If `date` is also the same, it finally sorts by `unit.name` ascending.
-     */
-    sortTasks(key, direction) {
-        const sorted = [...this.tasks].sort((a, b) => {
-            var _a, _b, _c, _d;
-            // Primary comparison: a[key] vs b[key]
-            let aPrimary = a[key];
-            let bPrimary = b[key];
-            if (key === 'status') {
-                aPrimary = a[key].description;
-                bPrimary = b[key].description;
-            }
-            if (aPrimary < bPrimary) {
-                return direction === 'ASC' ? -1 : 1;
-            }
-            if (aPrimary > bPrimary) {
-                return direction === 'ASC' ? 1 : -1;
-            }
-            // First tiebreaker: compare by date (always ascending)
-            if (a.date < b.date)
-                return -1;
-            if (a.date > b.date)
-                return 1;
-            // Second tiebreaker: compare by unit.name (always ascending)
-            if (((_a = a.unit) === null || _a === void 0 ? void 0 : _a.name) < ((_b = b.unit) === null || _b === void 0 ? void 0 : _b.name))
-                return -1;
-            if (((_c = a.unit) === null || _c === void 0 ? void 0 : _c.name) > ((_d = b.unit) === null || _d === void 0 ? void 0 : _d.name))
-                return 1;
-            return 0;
-        });
-        // Update component state
-        this.tasks = sorted;
-        this.sortKey = key;
-        this.sortDirection = direction;
     }
     /**
      * Helper to toggle selection for a single row.
      */
-    toggleSelection(id) {
-        if (this.selectedIds.includes(id)) {
-            this.selectedIds = this.selectedIds.filter(item => item !== id);
-        }
-        else {
-            this.selectedIds = [...this.selectedIds, id];
-            this.animateCleanedButton.emit(null);
-        }
+    toggleSelection(task) {
+        toggleTaskSelection(task);
+        this.animateCleanedButton.emit(null);
         this.emitSelectedTasks();
     }
     emitSelectedTasks() {
-        if (this.tasks.length === 0) {
-            return;
-        }
-        const filteredTasks = this.tasks.filter(t => this.selectedIds.includes(t.id));
-        this.rowSelectChange.emit(filteredTasks);
+        this.rowSelectChange.emit(hkTasksStore.selectedTasks);
     }
     /**
      * Checks if every row is selected.
      */
     get allSelected() {
-        return this.checkableTasks.length > 0 && this.selectedIds.length === this.checkableTasks.length;
+        return isAllTasksSelected();
     }
     /**
      * Toggles selection on all visible tasks at once.
      */
     toggleSelectAll() {
         if (this.allSelected) {
-            this.selectedIds = [];
+            clearSelectedTasks();
         }
         else {
-            this.selectedIds = this.checkableTasks.map(t => t.id);
+            selectAllTasks(getCheckableTasks());
             this.animateCleanedButton.emit(null);
         }
         this.emitSelectedTasks();
-    }
-    /**
-     * Assigns checkable tasks based on predefined criteria.
-     *
-     * This method filters tasks and determines which ones are eligible
-     * to be selected using checkboxes. A task is considered "checkable"
-     * if its date is today or earlier.
-     *
-     * The filtered tasks are stored in `this.checkableTasks`, ensuring
-     * only relevant tasks can be interacted with by users.
-     */
-    assignCheckableTasks() {
-        const tasks = [];
-        this.tasks.forEach(task => {
-            if (this.isCheckable(task)) {
-                tasks.push(task);
-            }
-        });
-        this.checkableTasks = [...tasks];
     }
     /**
      * Determines if a task is checkable.
@@ -174,41 +95,39 @@ const IrTasksTable = /*@__PURE__*/ proxyCustomElement(class IrTasksTable extends
      * A task is considered checkable if its date is today or any day before.
      * This prevents users from selecting tasks with future dates.
      *
-     * @param {string} date - The task's date in 'YYYY-MM-DD' format.
+     * @param {Task} task - The task to check.
      * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
      */
     isCheckable(task) {
-        // if (!task.hkm_id) {
-        //   return false;
-        // }
         return hooks(task.date, 'YYYY-MM-DD').isSameOrBefore(hooks(), 'days');
     }
     render() {
         var _a, _b;
         const haveManyHousekeepers = ((_b = (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.length) > 1;
-        return (h("div", { key: '0b128b2f1202a097431884ca9aee5a358e6d8e18', class: "card table-container h-100 p-1 m-0 table-responsive" }, h("table", { key: '4bf89fce83a06f9df596fc96c692b1add7a6f6b3', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '39ada41550cca50115048c2bbbca5346585837b0', class: "table-header" }, h("tr", { key: '8d4bfc701063051011944573dcfe60fd455e2b64' }, h("th", { key: '1c028173ced1869fa1aba132fea7491b2c38e0ee', class: 'task-row' }, h("ir-checkbox", { key: 'd22c2eca1e777f36edcfd538b77b728d83c85ea1', indeterminate: this.selectedIds.length > 0 && this.selectedIds.length < this.checkableTasks.length, checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), h("th", { key: 'cbd714be2728ac24678235b8036a87eb8e8c58bd', class: "extra-padding" }, locales.entries.Lcz_Period), h("th", { key: '4935a552df76d33ab7760219983db7846cc8695e', class: "extra-padding" }, this.tasks.length > 1 && this.tasks.length + ' ', locales.entries.Lcz_Unit), h("th", { key: '5ebdfda2172f85eb2b82fc06cd9f88db75839351', class: 'sortable extra-padding', onClick: () => this.handleSort('status') }, h("div", { key: '176c2daca3e294d77f3ba53c45abb22729d1d819', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: 'b785be6405505d01e4344ec428da5a8a55c58c8e' }, locales.entries.Lcz_Status), h("svg", { key: '5f6b38f858e6cefe19ac3b606a4a7cf48520e906', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'b198b92b88991a4f8baaee4af782ed83b353b0f6', d: "m21 16-4 4-4-4" }), h("path", { key: 'd50d11e19e967e454154b9154ba6fdcf44fc076e', d: "M17 20V4" }), h("path", { key: '697b52e3a65e3958384a2c51d3b20769f022f65d', d: "m3 8 4-4 4 4" }), h("path", { key: 'ccb9508475a0ee337cc6bf50c25002826ea5e27a', d: "M7 4v16" })))), h("th", { key: '51d8b37298e717a905d90a17887296f95ffdfe39', class: "extra-padding" }, locales.entries.Lcz_Hint), h("th", { key: '932ea38e70b7a95fd9203d9cea247125381ceb87', class: "text-left" }, locales.entries.Lcz_A), h("th", { key: '2764fd15f72b086633d66d497ba751efa3e0a8bd', class: "text-left" }, locales.entries.Lcz_C), h("th", { key: '86e850d79cfe042aa9083c2436489cdef251bc5e', class: "text-left" }, locales.entries.Lcz_I), haveManyHousekeepers && (h("th", { key: '677ca217bd0bf6f52917c765858c243ebcb28a6a', style: { textAlign: 'start' }, class: 'sortable extra-padding', onClick: () => this.handleSort('housekeeper') }, h("div", { key: 'd0107556e03573b85b5d4699e38a81eb910210fb', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: 'e69d730d7989fac49e9aeafdca77f1c7556256a6' }, locales.entries.Lcz_Housekeeper), h("svg", { key: 'f690ab8c9962207d86020bec5fd18fd56439b4e1', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'e59e27b0b6b86b238201000b177918a995028e8e', d: "m21 16-4 4-4-4" }), h("path", { key: '1b9b0c430680d81651ff3afc3d2483e86e0d5ed0', d: "M17 20V4" }), h("path", { key: 'b845420db4bec8fbb0214a7b76cedb63efd964d0', d: "m3 8 4-4 4 4" }), h("path", { key: 'f0d699296ab541801a523cd7984ec3ca50aadcf0', d: "M7 4v16" }))))))), h("tbody", { key: '4ced80901ca968b44149e707be133c141fbf4e34' }, this.tasks.length === 0 && (h("tr", { key: '4ed10f98608cf80220350dacba23157b33f81bf5', class: "ir-table-row" }, h("td", { key: '84423a81d19e1f668fb136fac410fb5fd9afa0c7', colSpan: 9, class: "text-center" }, h("div", { key: '79bef0b2625a7f3125b8e37bd58a014fe692bec5', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, h("span", { key: 'cbb7e55eae27639a7613cb5a6a0ca9cf1b5e5300' }, " ", locales.entries.Lcz_NoTasksFound))))), this.tasks.map(task => {
-            var _a;
-            const isSelected = this.selectedIds.includes(task.id);
+        const tasks = getPaginatedTasks();
+        const mobileTasks = getMobileTasks();
+        return (h(Host, { key: '2374d80f19ece5fb1afcf031c7f63b4b0459ff51', class: "flex-fill" }, h("section", { key: '0f438fdaa0632b60422f67e2ed42ce108e5c1724', class: "mobile-tasks-container flex-fill" }, mobileTasks.map(task => {
             const isCheckable = this.isCheckable(task);
-            return (h("tr", { "data-date": task.date, "data-testid": `hk_task_row`, "data-assigned": task.housekeeper ? 'true' : 'false', style: isCheckable && { cursor: 'pointer' }, onClick: () => {
-                    if (!isCheckable) {
-                        return;
-                    }
-                    this.toggleSelection(task.id);
-                }, class: { 'selected': isSelected, 'task-table-row ir-table-row': true }, key: task.id }, h("td", { class: "task-row " }, isCheckable && h("ir-checkbox", { checked: isSelected })), h("td", { class: "task-row extra-padding" }, task.formatted_date), h("td", { class: "task-row extra-padding" }, h("span", { class: { 'highlighted-unit': task.is_highlight } }, task.unit.name)), h("td", { class: "task-row extra-padding" }, task.status.description), h("td", { class: "task-row extra-padding" }, task.hint), h("td", { class: "task-row text-left" }, task.adult), h("td", { class: "task-row text-left" }, task.child), h("td", { class: "task-row text-left" }, task.infant), haveManyHousekeepers && (h("td", { class: "w-50 task-row extra-padding", style: { textAlign: 'start' } }, (_a = task.housekeeper) !== null && _a !== void 0 ? _a : locales.entries.Lcz_Unassigned))));
-        })))));
+            return h("ir-tasks-card", { task: task, key: task.id, isCheckable: isCheckable });
+        })), h("div", { key: 'd8d291d9654b42d736f098c0342a871ae2ee5137', class: "card table-container flex-fill p-1 m-0" }, h("ir-tasks-header", { key: '77cdf1f91dde0a4c0937f2cef07a4ff82d0b6458' }), h("div", { key: '2142b55d7606044095e1a301d6cbb9bafd108a3b', class: 'table-responsive mb-auto' }, h("table", { key: '7dcd836e3d199898918cf350396f7870ce9d6e88', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: 'd95aa49e8438b8d24235ad34c15490e2df53e538', class: "table-header" }, h("tr", { key: 'f96c41c4e995590a297230fe016d30112757f88b' }, h("th", { key: '6230d84786858111b8f1d67437945c1def386424', class: 'task-row' }, h("ir-checkbox", { key: '4a31444172f4fefd995a0e16d1f5f5d2dfb7aa44', indeterminate: hkTasksStore.selectedTasks.length > 0 && hkTasksStore.selectedTasks.length < getCheckableTasks().length, checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), h("th", { key: 'ff2f1dc7d1a2be744f116bc55399b0782c67c5b9', class: "extra-padding" }, locales.entries.Lcz_Period), h("th", { key: '9e549edaf1c348da52d42dc44c880358e0d6b2c7', class: "extra-padding" }, this.tasks.length > 1 && this.tasks.length + ' ', locales.entries.Lcz_Unit), h("th", { key: '3556a4ef2fa7f7b7b33088a5eb5e7b3195480788', class: 'sortable extra-padding', onClick: () => this.handleSort('status') }, h("div", { key: 'cc118d8242bf0a3cb08ecf35dcc043f433ee9b33', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: '71804ca808ed43cca1511a92685a1a2d590ab16a' }, locales.entries.Lcz_Status), h("svg", { key: '3c2deb8c3aad84d4172e2813e408a3f38fbeaeea', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '955e8cc5549231a60edf141d4e42cabdc59ad093', d: "m21 16-4 4-4-4" }), h("path", { key: '159c4276499ba6667a8f9c749ba9950d609876e1', d: "M17 20V4" }), h("path", { key: 'a99f11ee75cba4562077dce321673a842c9ae379', d: "m3 8 4-4 4 4" }), h("path", { key: '1e3fad02f74aedcbc87ed2e6ee173060d8ace6b4', d: "M7 4v16" })))), h("th", { key: 'c1aea827b9167ab6674aeda8a37d0af76fa3dd60', class: "extra-padding" }, locales.entries.Lcz_Hint), h("th", { key: '82efd58868a680fcb4bbd9a2ec789915d7c50832', class: "text-left" }, locales.entries.Lcz_A, "d"), h("th", { key: 'a0dda92eeaac2f9ca0f4b3e80c69a1c6f3c6cacd', class: "text-left" }, locales.entries.Lcz_C, "h"), h("th", { key: 'fb85163f85bd95b116c48f98f91a39fa24949b52', class: "text-left" }, locales.entries.Lcz_I, "n"), haveManyHousekeepers && (h("th", { key: '351bc83ac155269d1cace5e491f4b0d85e28ee0f', style: { textAlign: 'start' }, class: 'sortable extra-padding', onClick: () => this.handleSort('housekeeper') }, h("div", { key: '2abe20b4b6455aed75a9595a6e125b21b545170a', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { key: '7404cf5129b9690b268010bceba2a579a376e6cd' }, locales.entries.Lcz_Housekeeper), h("svg", { key: '771d342f9943e4ebb2c1d7c860b7948f3c3d90c1', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '1a7132e1789d3b14484b1d3d50bff0a7c2e8dfc2', d: "m21 16-4 4-4-4" }), h("path", { key: '509e184a1ccee5817e52a06119b0551bb1d82583', d: "M17 20V4" }), h("path", { key: 'dc83f666a57cae04361ca27d7eb40a3086c042e7', d: "m3 8 4-4 4 4" }), h("path", { key: 'f6365de1d2d40260b22ed715ebd9063111a9b112', d: "M7 4v16" }))))))), h("tbody", { key: '3ccdc09388cc1429889b5ff0ef77e1dfb8f9e952' }, tasks.length === 0 && (h("tr", { key: '386c9609a4fd2ae27e1c679cc1a58cd2e5a9c196', class: "ir-table-row" }, h("td", { key: '626ebfbce0d7005bb304dd8d61b62878e8c238b7', colSpan: 9, class: "text-center" }, h("div", { key: 'caab3601395195dbd9ac716433abc08cc6d33ecc', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, h("span", { key: 'd60fa45eefa09c1896e1af97636f29ace7d63774' }, " ", locales.entries.Lcz_NoTasksFound))))), tasks === null || tasks === void 0 ? void 0 :
+            tasks.map(task => {
+                var _a;
+                const isSelected = hkTasksStore.selectedTasks.some(t => t.id === task.id);
+                const isCheckable = this.isCheckable(task);
+                return (h("tr", { "data-date": task.date, "data-testid": `hk_task_row`, "data-assigned": task.housekeeper ? 'true' : 'false', style: isCheckable && { cursor: 'pointer' }, onClick: () => {
+                        if (!isCheckable) {
+                            return;
+                        }
+                        this.toggleSelection(task);
+                    }, class: { 'selected': isSelected, 'task-table-row ir-table-row': true }, key: task.id }, h("td", { class: "task-row " }, isCheckable && h("ir-checkbox", { checked: isSelected })), h("td", { class: "task-row extra-padding" }, task.formatted_date), h("td", { class: "task-row extra-padding" }, h("span", { class: { 'highlighted-unit': task.is_highlight } }, task.unit.name)), h("td", { class: "task-row extra-padding" }, task.status.description), h("td", { class: "task-row extra-padding" }, task.hint), h("td", { class: "task-row text-left" }, task.adult), h("td", { class: "task-row text-left" }, task.child), h("td", { class: "task-row text-left" }, task.infant), haveManyHousekeepers && (h("td", { class: " task-row extra-padding", style: { textAlign: 'start' } }, (_a = task.housekeeper) !== null && _a !== void 0 ? _a : locales.entries.Lcz_Unassigned))));
+            })))), h("div", { key: 'f19f0e4f4f285b98c34836a309af48bdbff2a5ab', class: "mt-auto" }, h("ir-tasks-table-pagination", { key: '727b2b63288240a4a7dfe71b7f3fcb9f7825aadd' })))));
     }
     static get watchers() { return {
         "tasks": ["handleTasksChange"]
     }; }
     static get style() { return IrTasksTableStyle0 + IrTasksTableStyle1; }
 }, [2, "ir-tasks-table", {
-        "tasks": [1040],
-        "selectedIds": [32],
-        "showConfirmModal": [32],
-        "sortKey": [32],
-        "sortDirection": [32],
-        "checkableTasks": [32]
+        "tasks": [1040]
     }, [[16, "clearSelectedHkTasks", "handleClearSelectedHkTasks"]], {
         "tasks": ["handleTasksChange"]
     }]);
@@ -216,14 +135,54 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-tasks-table", "ir-checkbox"];
+    const components = ["ir-tasks-table", "ir-button", "ir-checkbox", "ir-icons", "ir-input-text", "ir-pagination", "ir-select", "ir-tasks-card", "ir-tasks-header", "ir-tasks-table-pagination"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-tasks-table":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrTasksTable);
             }
             break;
+        case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
         case "ir-checkbox":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-input-text":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-pagination":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-select":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-tasks-card":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-tasks-header":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-tasks-table-pagination":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

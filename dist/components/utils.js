@@ -1,8 +1,9 @@
 import { h as hooks } from './moment.js';
-import { z } from './index2.js';
+import { z } from './index3.js';
 import { c as calendar_data } from './calendar-data.js';
 import { a as axios } from './axios.js';
-import { c as createStore, l as locales } from './locales.store.js';
+import { l as locales } from './locales.store.js';
+import { c as createStore } from './index2.js';
 
 const initialState = {
     days: [],
