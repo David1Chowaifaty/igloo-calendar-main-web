@@ -220,6 +220,13 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 break;
         }
     }
+    handleSelectedTaskCleaningEvent(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectedTask = e.detail;
+        (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+    }
     async handleModalConfirmation(e) {
         try {
             e.stopImmediatePropagation();
@@ -234,6 +241,9 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         }
         finally {
             clearSelectedTasks();
+            if (this.selectedTask) {
+                this.selectedTask = null;
+            }
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -273,6 +283,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         return { tasks, url };
     }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -282,7 +293,12 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+                if (this.selectedTask) {
+                    clearSelectedTasks();
+                    this.selectedTask = null;
+                }
+            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.selectedTask ? `Update ${(_b = (_a = this.selectedTask) === null || _a === void 0 ? void 0 : _a.unit) === null || _b === void 0 ? void 0 : _b.name} to Clean` : 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -311,8 +327,9 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         "property_id": [32],
         "isSidebarOpen": [32],
         "isApplyFiltersLoading": [32],
-        "filters": [32]
-    }, [[0, "closeSideBar", "handleCloseSidebar"], [0, "sortingChanged", "handleSortingChanged"], [0, "headerButtonPress", "handleHeaderButtonPress"]], {
+        "filters": [32],
+        "selectedTask": [32]
+    }, [[0, "closeSideBar", "handleCloseSidebar"], [0, "sortingChanged", "handleSortingChanged"], [0, "headerButtonPress", "handleHeaderButtonPress"], [0, "cleanSelectedTask", "handleSelectedTaskCleaningEvent"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {

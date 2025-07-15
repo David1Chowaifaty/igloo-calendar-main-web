@@ -6778,6 +6778,13 @@ const IrHkTasks = class {
                 break;
         }
     }
+    handleSelectedTaskCleaningEvent(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectedTask = e.detail;
+        (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+    }
     async handleModalConfirmation(e) {
         try {
             e.stopImmediatePropagation();
@@ -6792,6 +6799,9 @@ const IrHkTasks = class {
         }
         finally {
             clearSelectedTasks();
+            if (this.selectedTask) {
+                this.selectedTask = null;
+            }
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -6831,6 +6841,7 @@ const IrHkTasks = class {
         return { tasks, url };
     }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
@@ -6840,7 +6851,12 @@ const IrHkTasks = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), index.h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: irInterceptor_store.isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            }, class: "flex-grow-1 w-100" })))), index.h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: irInterceptor_store.isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+                if (this.selectedTask) {
+                    clearSelectedTasks();
+                    this.selectedTask = null;
+                }
+            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: this.selectedTask ? `Update ${(_b = (_a = this.selectedTask) === null || _a === void 0 ? void 0 : _a.unit) === null || _b === void 0 ? void 0 : _b.name} to Clean` : 'Update selected unit(s) to Clean' }), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -13379,14 +13395,14 @@ const IrTasksCardStyle0 = irTasksCardCss;
 const IrTasksCard = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.headerButtonPress = index.createEvent(this, "headerButtonPress", 7);
+        this.cleanSelectedTask = index.createEvent(this, "cleanSelectedTask", 7);
     }
     render() {
         const baseText = 'Mark as clean';
         const btnText = this.task.housekeeper ? `${baseText} for ${this.task.housekeeper.slice(0, 20)}` : baseText;
-        return (index.h(index.Host, { key: '4d257d6b98ea9ccb11395aaf481bab446a1656ae', class: "card p-1 flex-fill m-0", style: { gap: '0.5rem' } }, index.h("div", { key: '32b9c52fa182c86e6a681628fb0d4124f95cdda4', class: "d-flex align items-center p-0 m-0 justify-content-between", style: { gap: '0.5rem' } }, index.h("div", { key: '43d3e2fae5fb515f059a2710ae681e8f876554ba', class: "d-flex align items-center p-0 m-0", style: { gap: '0.5rem' } }, index.h("p", { key: 'c1aea398dca645e90b30f79b89ee3b10fd44602e', class: "m-0 p-0" }, this.task.formatted_date), index.h("span", { key: '8c918ccd1c88260258fb4cc93c78391559ccee3a' }, "-"), index.h("p", { key: '48fddae42ef99cf44357f9a90e9cfe7223704469', class: "m-0 p-0" }, "Unit ", index.h("b", { key: '1a50e58272c135324f91faec54b4df051672e5fd' }, this.task.unit.name)))), index.h("p", { key: 'd37152b1335148b0008be305db1d734c63bca940', class: "m-0 p-0" }, this.task.status.description, " ", index.h("span", { key: '3b45878f339ebda9ddea706a466e9ed7a66964d2', style: { marginLeft: '0.5rem' } }, this.task.hint)), index.h("p", { key: '1bddb1b059ba1fe41f279a507e284f595603df1d', class: "m-0 p-0 d-flex align-items-center mb-1", style: { gap: '1rem' } }, index.h("span", { key: '6f10569b32264d6873e68925b76cbd8bb5d78ce9', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: 'd361fa411cd560ff06441140b15b622e997f0365', width: "16", height: "16", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512" }, index.h("path", { key: '1d4da5bf41d1766ad38c57fd7d20760e019ce3b0', fill: "currentColor", d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" })), index.h("span", { key: '22eb75ee6756d6c51acb1d6fc5703d62ff61bfb9' }, index.h("b", { key: '7bbd286d47d545232faae01d70508f990c9e288f' }, this.task.adult), " Adults")), index.h("span", { key: 'd7b200f8490dbc0cf8044971d89e2a82cb7b0dcb', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: 'ead3f36b94552cd12557a80e9d3d1783a79c3192', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 320 512" }, index.h("path", { key: 'dea8316101d56585f1f227823fc0184577cc0b2c', fill: "currentColor", d: "M96 64a64 64 0 1 1 128 0A64 64 0 1 1 96 64zm48 320l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-192.2L59.1 321c-9.4 15-29.2 19.4-44.1 10S-4.5 301.9 4.9 287l39.9-63.3C69.7 184 113.2 160 160 160s90.3 24 115.2 63.6L315.1 287c9.4 15 4.9 34.7-10 44.1s-34.7 4.9-44.1-10L240 287.8 240 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96-32 0z" })), index.h("span", { key: 'cee5e9008eb4e8d413c6bbdb18bebeceab167e17' }, index.h("b", { key: '100a50b4b93b10af9c1229d80c1231f1712d00a4' }, this.task.child), " Children")), index.h("span", { key: 'c34523ae0b4eb176142b1119892b491a0711faf1', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: '888c4a8e02ba234abba0138f74bd8d321b70bfed', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-baby-icon lucide-baby" }, index.h("path", { key: '8ab00db4cce8803a689a0130a52ec5aa6f964990', d: "M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" }), index.h("path", { key: 'a6934813d4a791c445ff3f23396cbfb24e4a7248', d: "M15 12h.01" }), index.h("path", { key: '97737977f8c7b7036322eabc047318f6cec38ee9', d: "M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1" }), index.h("path", { key: '2297d2624f3eded53571ff83a5109c54435e9949', d: "M9 12h.01" })), index.h("span", { key: '79a35c7ae98c54188eb552d82d3794e8fbdfb5db' }, index.h("b", { key: 'e1831ac5e25a7270fcffa19b0e9612a94ea4b0ea' }, this.task.infant), " Infants"))), this.isCheckable && (index.h("div", { key: 'fb38e90527bd49cac2ef59351408cec30e3cda8c' }, index.h("ir-button", { key: '33bdbeb8cb39ff78d1934cae56215b9ea0f32a1c', onClickHandler: () => {
+        return (index.h(index.Host, { key: '3b3563df192a6ae15c48f5e11c2a65359dbbcb5f', class: "card p-1 flex-fill m-0", style: { gap: '0.5rem' } }, index.h("div", { key: 'ded99869ca4a7a6b3f212304f600983444ce8d3c', class: "d-flex align items-center p-0 m-0 justify-content-between", style: { gap: '0.5rem' } }, index.h("div", { key: 'ac7a1b7664f60b740da294f0f78ae78352331d31', class: "d-flex align items-center p-0 m-0", style: { gap: '0.5rem' } }, index.h("p", { key: '85adc3d4d740f35c1a2f4254abb2a3bd8d3f54e3', class: "m-0 p-0" }, this.task.formatted_date), index.h("span", { key: '8c1665e3a32b5f2ba2aac1be9a342f4a4b86d770' }, "-"), index.h("p", { key: 'dd7926110ea95b6dea11577acf05b0980e64281b', class: "m-0 p-0" }, "Unit ", index.h("b", { key: 'fae41e1445e4ea5737eb9b332e7296636b6c45ac' }, this.task.unit.name)))), index.h("p", { key: 'eb134703577741daab3d9618340b41b1e1e0b339', class: "m-0 p-0" }, this.task.status.description, " ", index.h("span", { key: 'cd3d7d9191af6f0f40e56bfcd21b99fd705dfc2b', style: { marginLeft: '0.5rem' } }, this.task.hint)), index.h("p", { key: 'c9558b0aa6eee9069126a4856756b0c22b9ff88d', class: "m-0 p-0 d-flex align-items-center mb-1", style: { gap: '1rem' } }, index.h("span", { key: '7069f03498efaac0d7cf824df7d30b4b1bc5759b', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: '810433f24b6676459bfbc9223658340a67043f7e', width: "16", height: "16", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512" }, index.h("path", { key: '09d284b5c2e78573bb990378506aa365d104d8e8', fill: "currentColor", d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" })), index.h("span", { key: 'cceae62ef31b966b551307a501d7fa9460f069ac' }, index.h("b", { key: 'd28bfb524f8417fef85b7647aeff0da48fa51e5f' }, this.task.adult), " Adults")), index.h("span", { key: 'ed1d96053925bf25e6c6078d1f3cb8a5c84537ad', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: '3696ee8d1136d20a45a03357d2b7a5cc3946de09', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 320 512" }, index.h("path", { key: 'abc87a349fc7cd489149bcfc1f3dc87c4e61b670', fill: "currentColor", d: "M96 64a64 64 0 1 1 128 0A64 64 0 1 1 96 64zm48 320l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-192.2L59.1 321c-9.4 15-29.2 19.4-44.1 10S-4.5 301.9 4.9 287l39.9-63.3C69.7 184 113.2 160 160 160s90.3 24 115.2 63.6L315.1 287c9.4 15 4.9 34.7-10 44.1s-34.7 4.9-44.1-10L240 287.8 240 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96-32 0z" })), index.h("span", { key: '6213960de80adcb81b661aa7d33bb2a8026bc15a' }, index.h("b", { key: 'fc861693de28da14aa478f3f7fba5339522c4f18' }, this.task.child), " Children")), index.h("span", { key: 'c7c8542e2b206557d48ca8e5b435ca616d56aa77', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("svg", { key: '230bd321fce8bd142fbd03b313e7bec92aaa171b', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-baby-icon lucide-baby" }, index.h("path", { key: '43ce6316c846d9d7a8b2b3bb78b1ae30bdca2959', d: "M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" }), index.h("path", { key: 'd09e36af9b75b4cd9da01ef5128b3b450720a669', d: "M15 12h.01" }), index.h("path", { key: 'ec1c7a2ed4353ed865cf502eff3b71e95ac2725b', d: "M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1" }), index.h("path", { key: '783a7f0acc9d9b4e52ee861220c58358093660e8', d: "M9 12h.01" })), index.h("span", { key: '0849f4edda9ac9f19ff9e1dccb2028ddf4d57432' }, index.h("b", { key: '7c751da112d42f3a8406fce3f470ad47917770c0' }, this.task.infant), " Infants"))), this.isCheckable && (index.h("div", { key: '99c728bea22a95a8d53162a8754bdd7843297d94' }, index.h("ir-button", { key: '97bd96247827d2ea310dbf5ca61d3591cfe81efd', onClickHandler: () => {
                 toggleTaskSelection(this.task);
-                this.headerButtonPress.emit({ name: 'cleaned' });
+                this.cleanSelectedTask.emit(this.task);
             }, size: "sm", text: btnText, labelStyle: { textAlign: 'left !important' }, btn_styles: "text-left" })))));
     }
 };

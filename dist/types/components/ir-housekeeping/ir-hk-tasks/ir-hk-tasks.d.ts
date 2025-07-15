@@ -1,4 +1,4 @@
-import { IPendingActions } from "../../../models/housekeeping";
+import { IPendingActions, Task } from "../../../models/housekeeping";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { TaskFilters } from './types';
 export declare class IrHkTasks {
@@ -17,6 +17,7 @@ export declare class IrHkTasks {
     isSidebarOpen: boolean;
     isApplyFiltersLoading: boolean;
     filters: TaskFilters;
+    selectedTask: Task;
     clearSelectedHkTasks: EventEmitter<void>;
     private hkNameCache;
     private roomService;
@@ -32,6 +33,7 @@ export declare class IrHkTasks {
     private buildHousekeeperNameCache;
     private updateTasks;
     handleHeaderButtonPress(e: CustomEvent): Promise<void>;
+    handleSelectedTaskCleaningEvent(e: CustomEvent<Task>): void;
     private handleModalConfirmation;
     private applyFilters;
     private fetchTasksWithFilters;

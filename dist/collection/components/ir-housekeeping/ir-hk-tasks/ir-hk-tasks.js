@@ -150,6 +150,13 @@ export class IrHkTasks {
                 break;
         }
     }
+    handleSelectedTaskCleaningEvent(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectedTask = e.detail;
+        (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+    }
     async handleModalConfirmation(e) {
         try {
             e.stopImmediatePropagation();
@@ -164,6 +171,9 @@ export class IrHkTasks {
         }
         finally {
             clearSelectedTasks();
+            if (this.selectedTask) {
+                this.selectedTask = null;
+            }
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -203,6 +213,7 @@ export class IrHkTasks {
         return { tasks, url };
     }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -212,7 +223,12 @@ export class IrHkTasks {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+                if (this.selectedTask) {
+                    clearSelectedTasks();
+                    this.selectedTask = null;
+                }
+            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.selectedTask ? `Update ${(_b = (_a = this.selectedTask) === null || _a === void 0 ? void 0 : _a.unit) === null || _b === void 0 ? void 0 : _b.name} to Clean` : 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -345,7 +361,8 @@ export class IrHkTasks {
             "property_id": {},
             "isSidebarOpen": {},
             "isApplyFiltersLoading": {},
-            "filters": {}
+            "filters": {},
+            "selectedTask": {}
         };
     }
     static get events() {
@@ -389,6 +406,12 @@ export class IrHkTasks {
             }, {
                 "name": "headerButtonPress",
                 "method": "handleHeaderButtonPress",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "cleanSelectedTask",
+                "method": "handleSelectedTaskCleaningEvent",
                 "target": undefined,
                 "capture": false,
                 "passive": false
