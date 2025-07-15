@@ -16,7 +16,7 @@ export class IrTasksHeader {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '604d3fd2609a377ece69477729e041aa93a26e11', onClickHandler: e => {
+            } }), h("ir-button", { key: '6072c1fe5606bcbcb081d314792a6097ba524bbd', class: "d-none d-md-flex", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
