@@ -10,11 +10,13 @@ export declare class IrHousekeeping {
     toast: EventEmitter<IToast>;
     private roomService;
     private houseKeepingService;
+    private propertyService;
     private token;
     componentWillLoad(): void;
     handleResetData(e: CustomEvent): Promise<void>;
     ticketChanged(newValue: string, oldValue: string): void;
     initializeApp(): Promise<void>;
     private saveAutomaticCheckInCheckout;
+    private saveCleaningFrequency;
     render(): any;
 }

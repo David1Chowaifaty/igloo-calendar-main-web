@@ -1,2 +1,0 @@
-import{a}from"./p-bf44a732.js";const s={PASSWORD:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/};class t{async validateOTP(s){const{data:t}=await a.post("/Validate_Exposed_OTP",s);if(t.ExceptionMsg!==""){throw new Error(t.ExceptionMsg)}return t}async resendOTP(s){const{data:t}=await a.post("/Resend_Exposed_OTP",s);if(t.ExceptionMsg!==""){throw new Error(t.ExceptionMsg)}return t}async checkOTPNecessity(s){const{data:t}=await a.post("/Check_OTP_Necessity",s);return t}}export{s as C,t as S};
-//# sourceMappingURL=p-6dbe1a6a.js.map

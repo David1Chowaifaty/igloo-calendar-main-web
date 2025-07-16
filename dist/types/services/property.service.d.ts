@@ -16,4 +16,8 @@ export declare class PropertyService {
         include_sales_rate_plans?: boolean;
     }): Promise<any>;
     getCountrySales(params: CountrySalesParams): Promise<any>;
+    setExposedCleaningFrequency(params: {
+        property_id: number;
+        code: string;
+    }): Promise<any>;
 }

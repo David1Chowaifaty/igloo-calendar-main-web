@@ -3,8 +3,9 @@ import { T as Token } from './Token.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { u as updateHKStore } from './housekeeping.store.js';
+import { u as updateHKStore, h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
+import { P as PropertyService } from './property.service.js';
 import { d as defineCustomElement$o } from './ir-button2.js';
 import { d as defineCustomElement$n } from './ir-combobox2.js';
 import { d as defineCustomElement$m } from './ir-delete-modal2.js';
@@ -43,6 +44,7 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         this.isLoading = false;
         this.roomService = new RoomService();
         this.houseKeepingService = new HouseKeepingService();
+        this.propertyService = new PropertyService();
         this.token = new Token();
     }
     componentWillLoad() {
@@ -103,12 +105,12 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
             this.isLoading = false;
         }
     }
-    saveAutomaticCheckInCheckout(e) {
+    async saveAutomaticCheckInCheckout(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         try {
-            this.roomService.SetAutomaticCheckInOut({
-                property_id: this.propertyid,
+            await this.roomService.SetAutomaticCheckInOut({
+                property_id: housekeeping_store.default_properties.property_id,
                 flag: e.detail === 'auto',
             });
             this.toast.emit({
@@ -122,14 +124,39 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
             console.log(error);
         }
     }
+    async saveCleaningFrequency(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        try {
+            await this.propertyService.setExposedCleaningFrequency({
+                property_id: housekeeping_store.default_properties.property_id,
+                code: e.detail,
+            });
+            calendar_data.cleaning_frequency = { code: e.detail, description: '' };
+            this.toast.emit({
+                position: 'top-right',
+                title: 'Saved Successfully',
+                description: '',
+                type: 'success',
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
     render() {
+        var _a, _b;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Check-In Mode" }), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1  " }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
+        console.log(calendar_data.cleaning_frequency);
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }))));
+            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code, onSelectChange: e => this.saveCleaningFrequency(e), data: (_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies.map(v => ({
+                text: v.description,
+                value: v.code,
+            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

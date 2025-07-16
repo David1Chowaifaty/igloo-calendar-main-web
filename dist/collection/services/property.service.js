@@ -49,5 +49,12 @@ export class PropertyService {
         }
         return data.My_Result;
     }
+    async setExposedCleaningFrequency(params) {
+        const { data } = await axios.post('/Set_Exposed_Cleaning_Frequency', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
 }
 //# sourceMappingURL=property.service.js.map
