@@ -237,7 +237,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '8a1c0eb56da80ae7f3f4df76a15e72cf96795cda' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '6510224fa3948fa3e4cae66260a90cc1dab5a554', class: "loadingScreenContainer" }, h("div", { key: '2bd35ac7562005ae540e62795f46310acaf9e719', class: "loaderContainer" }, h("span", { key: '0acdffd4f8aacfe552df01956178741641594de6', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '491bf2b4569efca9414d13780823431484d31c99', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '1563a9da40fdc6a6309e69aef2739be4c0319734' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'c7374310c16b1eeb9b8f89eb813f20e5e30e9d9b', class: "loadingScreenContainer" }, h("div", { key: '1a5a6727700f8d5c65e08b5c18678a7405484894', class: "loaderContainer" }, h("span", { key: '719c187171cba4c3a3e23f377535c67804c0d144', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'fa1c52b60889d9a115642e7763d054a663f153d7', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
