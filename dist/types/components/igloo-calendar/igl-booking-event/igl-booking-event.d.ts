@@ -19,7 +19,7 @@ export declare class IglBookingEvent {
     dragOverEventData: EventEmitter;
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     showDialog: EventEmitter<CalendarModalEvent>;
-    resetStreachedBooking: EventEmitter<string>;
+    resetStretchedBooking: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     updateBookingEvent: EventEmitter<{
         [key: string]: any;

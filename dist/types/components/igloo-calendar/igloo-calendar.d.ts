@@ -77,6 +77,7 @@ export declare class IglooCalendar {
     }>;
     revertBooking: EventEmitter;
     openCalendarSidebar: EventEmitter<CalendarSidebarState>;
+    showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     private bookingService;
     private roomService;
     private eventsService;

@@ -271,14 +271,21 @@ export class IglBookingEvent {
                                 else if (moment(oldFromDate, 'YYYY-MM-DD').isAfter(moment(from_date, 'YYYY-MM-DD'), 'dates')) {
                                     validateDates(from_date, oldFromDate);
                                 }
-                                this.showRoomNightsDialog.emit({
+                                const payload = {
+                                    booking: this.bookingEvent,
                                     bookingNumber: this.bookingEvent.BOOKING_NUMBER,
                                     identifier: this.bookingEvent.IDENTIFIER,
                                     to_date,
                                     pool,
                                     from_date,
                                     defaultDates: this.bookingEvent.defaultDates,
-                                });
+                                };
+                                if (!this.bookingEvent.is_direct) {
+                                    this.showDialog.emit(Object.assign({ reason: 'stretch' }, payload));
+                                }
+                                else {
+                                    this.showRoomNightsDialog.emit(payload);
+                                }
                                 // }
                             }
                         }
@@ -563,19 +570,26 @@ export class IglBookingEvent {
                 this.dragOverEventData.emit({ id: 'DRAG_OVER', data: this.dragEndPos });
             }
             else {
-                if (!this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE)) {
-                    return;
-                }
+                // if (this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE)) {
+                //   return;
+                // }
+                const baseCondition = !this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE);
                 let newWidth = this.initialWidth;
                 if (this.resizeSide == 'rightSide') {
                     newWidth = this.initialWidth + distanceX;
                     newWidth = Math.min(newWidth, this.initialX + this.element.offsetWidth);
                     newWidth = Math.max(this.dayWidth - this.eventSpace, newWidth);
-                    this.element.style.width = `${newWidth}px`;
                     this.isShrinking = distanceX < 0;
+                    if (!this.isShrinking && baseCondition) {
+                        return;
+                    }
+                    this.element.style.width = `${newWidth}px`;
                 }
                 else if (this.resizeSide == 'leftSide') {
                     this.isShrinking = distanceX > 0;
+                    if (!this.isShrinking && baseCondition) {
+                        return;
+                    }
                     newWidth = Math.max(this.dayWidth - this.eventSpace, this.initialWidth - distanceX);
                     let newLeft = this.initialLeft + (this.initialWidth - newWidth);
                     this.element.style.left = `${newLeft}px`;
@@ -746,15 +760,15 @@ export class IglBookingEvent {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '9952401d6b47214b5767277e1b8b091a44c3955d', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '03512e3e06adb7035a3ac69d442ad77ad17e4d05', class: `bookingEventBase  ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '15c42f865ca27973fceabc72ed4032eab496a1b6', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '56637d92a071639afefba731be17474c6db57509', class: `bookingEventBase  ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '844b40ec27c3c0491e530868b1ac7345fa03105f', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), (this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE)) && (h(Fragment, { key: '82d129317e0fd133fc68ba184536c7829862c741' }, h("div", { key: '547aba8bd53758dcd17e9b0de5ed7cef26800a37', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '68c2d06a9b25d80f8c512a5b8175df0d23c3f0df', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-              ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') }))), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: 'eacc1183928c258ca6816c34c1c43884ebbac58b', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '45ac56c1d13744bf42c8e25a09056ae90e63070d' }, h("div", { key: '3432b0a6073246a6df0b98972ad09002a8d17ed5', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '751c5adf01f4b5b608160f9692ad655c48f0cfc9', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+              ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }
@@ -974,7 +988,7 @@ export class IglBookingEvent {
                 },
                 "complexType": {
                     "original": "CalendarModalEvent",
-                    "resolved": "{ reason: \"checkin\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; sidebarPayload: RoomGuestsPayload & { bookingNumber: string; }; } | { reason: \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload",
+                    "resolved": "{ reason: \"checkin\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; sidebarPayload: RoomGuestsPayload & { bookingNumber: string; }; } | { reason: \"checkout\"; bookingNumber: string; roomIdentifier: string; roomUnit: string; roomName: string; } | { reason: \"reallocate\"; } & IReallocationPayload | { reason: \"stretch\"; } & IRoomNightsData",
                     "references": {
                         "CalendarModalEvent": {
                             "location": "import",
@@ -984,8 +998,8 @@ export class IglBookingEvent {
                     }
                 }
             }, {
-                "method": "resetStreachedBooking",
-                "name": "resetStreachedBooking",
+                "method": "resetStretchedBooking",
+                "name": "resetStretchedBooking",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

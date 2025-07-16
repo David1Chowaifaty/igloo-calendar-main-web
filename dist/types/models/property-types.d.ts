@@ -50,6 +50,7 @@ export interface IRoomNightsDataEventPayload {
     pool: string;
 }
 export interface IRoomNightsData {
+    booking: any;
     bookingNumber: string;
     identifier: string;
     to_date: string;
@@ -60,8 +61,8 @@ export interface IRoomNightsData {
         to_date: string;
     };
 }
-export type CalendarModalReason = 'checkin' | 'checkout' | 'reallocate' | null;
-export type CalendarModalEvent = CheckinCheckoutEventPayload | ReallocateEventPayload;
+export type CalendarModalReason = 'checkin' | 'checkout' | 'reallocate' | null | 'stretch' | 'squeeze';
+export type CalendarModalEvent = CheckinCheckoutEventPayload | ReallocateEventPayload | StretchEventPayload;
 type CheckinCheckoutEventPayload = {
     reason: 'checkin';
     bookingNumber: string;
@@ -81,4 +82,7 @@ type CheckinCheckoutEventPayload = {
 type ReallocateEventPayload = {
     reason: 'reallocate';
 } & IReallocationPayload;
+type StretchEventPayload = {
+    reason: 'stretch';
+} & IRoomNightsData;
 export {};
