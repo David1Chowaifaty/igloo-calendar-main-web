@@ -19,6 +19,7 @@ export declare class IrBookingHeader {
     private confirmationBG;
     private dialogRef;
     private bookingService;
+    modalEl: HTMLIrModalElement;
     handleSelectChange(e: CustomEvent<any>): void;
     private updateStatus;
     private openDialog;

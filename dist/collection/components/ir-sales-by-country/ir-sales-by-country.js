@@ -40,6 +40,7 @@ export class IrSalesByCountry {
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }

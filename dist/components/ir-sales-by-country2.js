@@ -60,6 +60,7 @@ const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
     }
