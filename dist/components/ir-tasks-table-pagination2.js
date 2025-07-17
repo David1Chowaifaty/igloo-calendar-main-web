@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { l as shouldLoadMore, m as loadMoreTasks, h as hkTasksStore, n as updateCurrentPage, o as updatePageSize } from './hk-tasks.store.js';
+import { h as hkTasksStore, l as shouldLoadMore, m as loadMoreTasks, n as updateCurrentPage, o as updatePageSize } from './hk-tasks.store.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-pagination2.js';
@@ -14,15 +14,16 @@ const IrTasksTablePagination = /*@__PURE__*/ proxyCustomElement(class IrTasksTab
         this.__registerHost();
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c;
         const { currentPage, pageSize, totalPages, mobileCurrentPage } = hkTasksStore.pagination;
         const totalTasks = (_b = (_a = hkTasksStore.tasks) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
-        return (h(Host, { key: 'feb6987c834a7dabe7cfbb33a10e20cfde413a43' }, shouldLoadMore() && h("ir-button", { key: '04c7908d6dee768312846d5210f6a8ba58101e8e', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '2e6c250a601f2d03bf4046a85bbf6ec779bb4138', showing: {
+        const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : (_c = hkTasksStore.pagination.tasksList) === null || _c === void 0 ? void 0 : _c.filter(t => t <= totalTasks);
+        return (h(Host, { key: '6f417827ec1e830dbcc11ea1c5083d363036c063' }, shouldLoadMore() && h("ir-button", { key: 'd3c8e51ba0e3fcbbc59f9660c1f3efc420a1793a', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '68f485d3626b2c1dda34d8f84c139203fd1bce18', showing: {
                 from: start,
                 to: end,
-            }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: hkTasksStore.pagination.tasksList, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));
+            }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: pageSizes, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));
     }
     static get style() { return IrTasksTablePaginationStyle0; }
 }, [2, "ir-tasks-table-pagination"]);

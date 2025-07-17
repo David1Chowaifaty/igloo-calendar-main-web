@@ -228,6 +228,17 @@ export interface ExposedBookingEvent {
     user: string;
     type: string;
 }
+export type OTAManipulations = {
+    user: Guest;
+    date: string;
+    hour: string;
+    minute: string;
+};
+export type BypassedOtaRevisions = {
+    revision_nbr: number;
+    date: string;
+    revision_type: string;
+};
 export interface Booking {
     agent: {
         code: string;
@@ -236,6 +247,8 @@ export interface Booking {
         verification_mode: null;
     } | null;
     events: ExposedBookingEvent[];
+    ota_manipulations: OTAManipulations[];
+    bypassed_ota_revisions: BypassedOtaRevisions[];
     ota_services: OtaService[];
     is_requested_to_cancel: boolean;
     arrival: Arrival;
