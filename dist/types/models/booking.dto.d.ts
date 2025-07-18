@@ -229,7 +229,7 @@ export interface ExposedBookingEvent {
     type: string;
 }
 export type OTAManipulations = {
-    user: Guest;
+    user: string;
     date: string;
     hour: string;
     minute: string;
