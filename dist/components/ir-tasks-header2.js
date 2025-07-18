@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { h as hkTasksStore, d as updateSearchField } from './hk-tasks.store.js';
+import { h as hkTasksStore, b as updateSearchField } from './hk-tasks.store.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';

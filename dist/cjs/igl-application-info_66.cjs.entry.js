@@ -6438,8 +6438,10 @@ function getPaginationInitialParams() {
         tasksList: tasks,
         currentPage: 1,
         mobileCurrentPage: 1,
-        pageSize: tasks[0],
-        mobilePageSize: tasks[0],
+        // pageSize: tasks[0],
+        // mobilePageSize: tasks[0],
+        pageSize: 20,
+        mobilePageSize: 20,
         totalPages: 0,
         totalItems: 0,
     };
@@ -6477,12 +6479,12 @@ function updateSearchField(searchField) {
     filterTasks();
 }
 function updateTasks(tasks) {
-    const wasEmpty = hkTasksStore.tasks.length === 0;
+    // const wasEmpty = hkTasksStore.tasks.length === 0;
     hkTasksStore.tasks = tasks;
     // Update task list if significantly changed or was empty
-    if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
-        updateTaskList();
-    }
+    // if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
+    //   updateTaskList();
+    // }
     filterTasks();
 }
 function updatePaginationFields(params) {
@@ -6500,15 +6502,6 @@ function updateCurrentPage(page) {
         updatePaginationFields({ currentPage: page });
     }
 }
-function updateTaskList() {
-    const list = getTaskList();
-    updatePaginationFields({
-        tasksList: list,
-        pageSize: list[0],
-        mobilePageSize: list[0],
-    });
-    updatePagination();
-}
 function getTaskList() {
     if (!calendarData.calendar_data.roomsInfo) {
         return defaultTasksList;
@@ -6523,10 +6516,10 @@ function getTaskList() {
     });
     return calculatedList;
 }
-function shouldUpdateTaskList(newTaskCount) {
-    const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
-    return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
-}
+// function shouldUpdateTaskList(newTaskCount: number): boolean {
+//   const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
+//   return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
+// }
 function filterTasks() {
     var _a, _b;
     const searchText = (_b = (_a = hkTasksStore === null || hkTasksStore === void 0 ? void 0 : hkTasksStore.searchField) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : '';
@@ -6732,7 +6725,7 @@ const IrHkTasks = class {
             }
             const results = await Promise.all(requests);
             const tasksResult = results[0];
-            updateTaskList();
+            // updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
                 this.updateTasks(tasksResult.tasks);
             }
@@ -11598,7 +11591,7 @@ const IrPagination = class {
         return (index.h(index.Host, { class: {
                 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container': true,
                 'disabled': this.disabled,
-            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (index.h("p", { class: "m-0 mb-1 mb-md-0 pagination-info", "aria-live": "polite" }, this.renderItemRange())), index.h("div", { class: 'd-flex align-items-center buttons-container' }, this.pageSizes && (index.h("ir-select", { selectedValue: String(this.pageSize), LabelAvailable: false, data: this.pageSizes.map(size => ({
+            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (index.h("p", { class: "m-0 mb-1 mb-md-0 pagination-info", "aria-live": "polite" }, this.renderItemRange())), index.h("div", { class: 'd-flex align-items-center buttons-container' }, this.allowPageSizeChange && this.pageSizes && (index.h("ir-select", { selectedValue: String(this.pageSize), LabelAvailable: false, data: this.pageSizes.map(size => ({
                 text: `${size} ${this.recordLabel}`,
                 value: String(size),
             })), showFirstOption: false, style: { margin: '0 0.5rem' }, onSelectChange: e => this.handlePageSizeChange(Number(e.detail)) })), this.pages > 1 && (index.h(index.Fragment, null, index.h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(1, 'first'), icon_name: "angles_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to first page" }), index.h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), icon_name: "angle_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to previous page" }), index.h("ir-select", { selectedValue: this.currentPage.toString(), LabelAvailable: false, showFirstOption: false, onSelectChange: e => this.handlePageChange(+e.detail, 'direct'), data: Array.from(Array(this.pages), (_, i) => i + 1).map(i => ({
@@ -13693,11 +13686,12 @@ const IrTasksTable = class {
         var _a, _b;
         const haveManyHousekeepers = ((_b = (_a = housekeeping_service.housekeeping_store === null || housekeeping_service.housekeeping_store === void 0 ? void 0 : housekeeping_service.housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.housekeepers) === null || _b === void 0 ? void 0 : _b.length) > 1;
         const tasks = getPaginatedTasks();
+        // const tasks = hkTasksStore.tasks;
         const mobileTasks = getMobileTasks();
-        return (index.h(index.Host, { key: 'e57f0a6cee2ece93207bd2e1fe64631e22ee56d7', class: "flex-fill" }, index.h("section", { key: 'dfaede001667215d9c99a4e5919bc623a954c623', class: "mobile-tasks-container flex-fill" }, index.h("div", { key: '813fa0b3e753f1aef96d7b4af3c3531b0df5487f', class: "card p-1 m-0" }, index.h("ir-tasks-header", { key: '95afae51597b2c6d95f71df31fe17198a042491b' })), (mobileTasks === null || mobileTasks === void 0 ? void 0 : mobileTasks.length) === 0 && index.h("p", { key: 'ff5edeeb6487ec865f480cf53c2e4ff184fc8ee4', class: "mx-auto" }, locales_store.locales.entries.Lcz_NoTasksFound), mobileTasks.map(task => {
+        return (index.h(index.Host, { key: '7f17612699d841f8d7870fccfedbc619df272fec', class: "flex-fill" }, index.h("section", { key: '46e6e95948a364821c7b3ca36265ca4fb1ee6224', class: "mobile-tasks-container flex-fill" }, index.h("div", { key: '6d999223fe9134704bf0a731a31a9407e570a033', class: "card p-1 m-0" }, index.h("ir-tasks-header", { key: '7bd2704526dbcd646956ec6bb078657f53955c30' })), (mobileTasks === null || mobileTasks === void 0 ? void 0 : mobileTasks.length) === 0 && index.h("p", { key: 'bd36bbadae2538a90845aae8eda6f3ed8729f1a4', class: "mx-auto" }, locales_store.locales.entries.Lcz_NoTasksFound), mobileTasks.map(task => {
             const isCheckable = this.isCheckable(task);
             return index.h("ir-tasks-card", { task: task, key: task.id, isCheckable: isCheckable });
-        }), index.h("ir-tasks-table-pagination", { key: 'f3738bda87e67c595532b6312a4701179c9234b2' })), index.h("div", { key: 'f55b85730e50f84f0e141caf6491afb64e7d6473', class: "card table-container flex-fill p-1 m-0" }, index.h("ir-tasks-header", { key: '71989f7817d4aeb3f4e2b5238adb7ca097916f50' }), index.h("div", { key: 'fc596205773c444bcf20487ad2ecfdd193eefea7', class: 'table-responsive mb-auto' }, index.h("table", { key: '98a1b1c62d3811d7aff8b33c9f65b75bf7f5e9a3', class: "table", "data-testid": "hk_tasks_table" }, index.h("thead", { key: '79ddf9afe997262a741b1c5aa0b54bc460199855', class: "table-header" }, index.h("tr", { key: 'e5ad8338572a667787ba828b0b4ad9a86d57c69b' }, index.h("th", { key: '7ac32dab04fc8c1eb25c7e8e9626eb2c85e00fd6', class: 'task-row' }, index.h("ir-checkbox", { key: 'adb326a2486352c300837e5f997f28691100edf3', indeterminate: hkTasksStore.selectedTasks.length > 0 && hkTasksStore.selectedTasks.length < getCheckableTasks().length, checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: '868b7b01328a1a1abd9ec9d0119160eaaa68789c', class: "extra-padding" }, locales_store.locales.entries.Lcz_Period), index.h("th", { key: '1733a6be3242783085157ff167797ea64f1ba1c1', class: "extra-padding" }, this.tasks.length > 1 && this.tasks.length + ' ', locales_store.locales.entries.Lcz_Unit), index.h("th", { key: '6d684fb26f488b7cfb7fca3569db360be9209609', class: 'sortable extra-padding', onClick: () => this.handleSort('status') }, index.h("div", { key: '29bf010f64bf3e2f5b496c444662ef1876073248', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: 'fac8d6116f01f2d87020c57a44f0af1a9734d94b' }, locales_store.locales.entries.Lcz_Status), index.h("svg", { key: '1153efa5c04fae5c19e24f5bd36b8aa4534b8c98', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'a80201245e9a5ef5a0d74fe1c2f461821c4d61a9', d: "m21 16-4 4-4-4" }), index.h("path", { key: '7a297bef8c83723b53a1de8b13287d4359a0e491', d: "M17 20V4" }), index.h("path", { key: 'e69e501304d24f4c9fef2a572e63965dde80cb21', d: "m3 8 4-4 4 4" }), index.h("path", { key: 'd07e9c1ba90172367a48ad97ef10f10c72963292', d: "M7 4v16" })))), index.h("th", { key: 'b7ee4146deede6c4b3c8fb42c7aa49ef82f54259', class: "extra-padding text-left" }, locales_store.locales.entries.Lcz_Hint), index.h("th", { key: '6ca1b5dae6361a0c72d7b1c4227b070108b95df3', class: "text-left" }, locales_store.locales.entries.Lcz_A, "d"), index.h("th", { key: 'dc6c749b6bc12b784bb11889d6cbc31ca9c1b582', class: "text-left" }, locales_store.locales.entries.Lcz_C, "h"), index.h("th", { key: '0baa48cbb7c5648d6605ced21de628bdd079de69', class: "text-left text-left" }, locales_store.locales.entries.Lcz_I, "n"), haveManyHousekeepers && (index.h("th", { key: '372e9813f8113ef56c2cef63797ad924efb895d7', style: { textAlign: 'start' }, class: 'sortable extra-padding', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: '35eefa8a425154bc18ec2634c84d40dcf1c412e2', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '2929f50177145db6caf1c69c50ca43519deb9c66' }, locales_store.locales.entries.Lcz_Housekeeper), index.h("svg", { key: '43c60f95b316ad9fcf10b8782b11643e04c17f6f', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '27d4858cb5410c8c96e1950dfc3cdb6742c41975', d: "m21 16-4 4-4-4" }), index.h("path", { key: '0455eb97f0b04c8013e1fa5523761b226e039826', d: "M17 20V4" }), index.h("path", { key: 'd27a0b6e33f7a8eca35a600287528dbf3b93fdcb', d: "m3 8 4-4 4 4" }), index.h("path", { key: '960da8240a9b019d6873a94cdcf89835ca8bb423', d: "M7 4v16" }))))))), index.h("tbody", { key: '467eca6955214eabe575fc365e07eed427e771c1' }, tasks.length === 0 && (index.h("tr", { key: '2c80550e96b7179180bf73367e6fe8c0bb57886b', class: "ir-table-row" }, index.h("td", { key: '7ac5e8d7bf3093fc169e47ae22214d3f82ccc6c8', colSpan: 9, class: "text-left" }, index.h("div", { key: '922122286746177ce34c3cd2c12e680e00615952', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, index.h("span", { key: '66f0b81ef83f074c029ac3d561c6cc0a509deb93' }, " ", locales_store.locales.entries.Lcz_NoTasksFound))))), tasks === null || tasks === void 0 ? void 0 :
+        }), index.h("ir-tasks-table-pagination", { key: '75a0f0703cd9ddc738a3dee9e3137d8e7924285a' })), index.h("div", { key: 'f9ddad92dfc07e93205100fea98b5d97534759d7', class: "card table-container flex-fill p-1 m-0" }, index.h("ir-tasks-header", { key: '664a9b8d5a9dcdec05eb96ba0ce1cb5306f5380c' }), index.h("div", { key: '598f8fc1d1c1dd1a51fbbd567244fbbda5a79142', class: 'table-responsive mb-auto' }, index.h("table", { key: '9c5980565fbbd2f3270f9220f95d5565b69933cc', class: "table", "data-testid": "hk_tasks_table" }, index.h("thead", { key: '87b1e5e706b39327410e9f02d90a713c71ae7b22', class: "table-header" }, index.h("tr", { key: '328892a3f976dfd551eff74d62b72dffa44b4fad' }, index.h("th", { key: 'f2cb9579c5f5c80cfe63ff694897ec9f132f5b97', class: 'task-row' }, index.h("ir-checkbox", { key: '4348d6134ef7619b5c1f7f89e55c516f56c8afb4', indeterminate: hkTasksStore.selectedTasks.length > 0 && hkTasksStore.selectedTasks.length < getCheckableTasks().length, checked: this.allSelected, onCheckChange: () => this.toggleSelectAll() })), index.h("th", { key: '9e1d56a82a65027441f80eb2d3129d9016ffcb98', class: "extra-padding" }, locales_store.locales.entries.Lcz_Period), index.h("th", { key: '69d37e9164700ecf62ac61941be4fe970ca256c2', class: "extra-padding" }, this.tasks.length > 1 && this.tasks.length + ' ', locales_store.locales.entries.Lcz_Unit), index.h("th", { key: '3841bef1f0f9263780127ba1fc6538f83addf071', class: 'sortable extra-padding', onClick: () => this.handleSort('status') }, index.h("div", { key: '87f821e58687da02980a822c0b3470824a0ad418', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '5abcebc3164616953d8306d7bc09263d96ccf37b' }, locales_store.locales.entries.Lcz_Status), index.h("svg", { key: 'dc043d91005f4c0a90cb52741d5d3ce5db5490f1', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: '4b2509829c6f454855ed9f52820232661dd8ee86', d: "m21 16-4 4-4-4" }), index.h("path", { key: '2a8e9449b086fa759f4656598b87878913f40b8b', d: "M17 20V4" }), index.h("path", { key: '692ceadd1fea9ea54a40a1a18ef49c48bf982722', d: "m3 8 4-4 4 4" }), index.h("path", { key: '35333a2f080c60dd76131c1c5181bd9bbcb0e6e1', d: "M7 4v16" })))), index.h("th", { key: 'db062e753a886419f7686c5f6f7b342e861c9e1a', class: "extra-padding text-left" }, locales_store.locales.entries.Lcz_Hint), index.h("th", { key: '2d950de98fb3ff774ddb51ea0862812ee00db048', class: "text-left" }, locales_store.locales.entries.Lcz_A, "d"), index.h("th", { key: '6443a7866a3df1722fa2bb71c69799f8efee3dba', class: "text-left" }, locales_store.locales.entries.Lcz_C, "h"), index.h("th", { key: 'e53a4efbc4a627706239963e2c1b26afae11a775', class: "text-left text-left" }, locales_store.locales.entries.Lcz_I, "n"), haveManyHousekeepers && (index.h("th", { key: '7b6bc171a825f7dbd11588d9fbb886f82693d415', style: { textAlign: 'start' }, class: 'sortable extra-padding', onClick: () => this.handleSort('housekeeper') }, index.h("div", { key: '7112cc00fb0634aa8ef9e2ccfbbc3ef8486f4260', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("span", { key: '33c8f1507dc5ab0554da3f5e5a263ea23ed77542' }, locales_store.locales.entries.Lcz_Housekeeper), index.h("svg", { key: '80fa6642ee9a602990a05b14243970c86fbe78c9', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, index.h("path", { key: 'd038cf1a236a434f92c62ef27bdd91a28c1cd673', d: "m21 16-4 4-4-4" }), index.h("path", { key: 'd13d12139d6e0dd4ef01adb1aa2b249638e047b2', d: "M17 20V4" }), index.h("path", { key: '6b9bddd730ccbaaa61381325b7f4fde9f9b7efe2', d: "m3 8 4-4 4 4" }), index.h("path", { key: '76f0756d1d74c36840df92a7cb62fb27f3d061c6', d: "M7 4v16" }))))))), index.h("tbody", { key: '39e554364b29053038b343745606df1d2a4f7bef' }, tasks.length === 0 && (index.h("tr", { key: 'ddbabd029be36a99aabb4eb65301f770967d7cfa', class: "ir-table-row" }, index.h("td", { key: '60f3de535049d1f647bbd4feabff7218ef24064c', colSpan: 9, class: "text-left" }, index.h("div", { key: '9aeab0fa1c1b7447372caf88364e118b0f6128cd', style: { height: '300px' }, class: "d-flex align-items-center justify-content-center" }, index.h("span", { key: 'b926faa8038104c2d6d58092a481bf33526b44c2' }, " ", locales_store.locales.entries.Lcz_NoTasksFound))))), tasks === null || tasks === void 0 ? void 0 :
             tasks.map(task => {
                 var _a;
                 const isSelected = hkTasksStore.selectedTasks.some(t => t.id === task.id);
@@ -13708,7 +13702,7 @@ const IrTasksTable = class {
                         }
                         this.toggleSelection(task);
                     }, class: { 'selected': isSelected, 'task-table-row ir-table-row': true }, key: task.id }, index.h("td", { class: "task-row " }, isCheckable && index.h("ir-checkbox", { checked: isSelected })), index.h("td", { class: "task-row extra-padding" }, task.formatted_date), index.h("td", { class: "task-row extra-padding" }, index.h("span", { class: { 'highlighted-unit': task.is_highlight } }, task.unit.name)), index.h("td", { class: "task-row extra-padding text-left" }, task.status.description), index.h("td", { class: "task-row extra-padding text-left" }, task.hint), index.h("td", { class: "task-row text-left" }, task.adult), index.h("td", { class: "task-row text-left" }, task.child), index.h("td", { class: "task-row text-left" }, task.infant), haveManyHousekeepers && (index.h("td", { class: " task-row extra-padding", style: { textAlign: 'start' } }, (_a = task.housekeeper) !== null && _a !== void 0 ? _a : locales_store.locales.entries.Lcz_Unassigned))));
-            })))), index.h("div", { key: '66c8edb7bfdfe9cc76762b70e22356e6906f58a3', class: "mt-auto" }, index.h("ir-tasks-table-pagination", { key: '9fbad35e1398f9931e5ca3729352341b00d2d36c' })))));
+            })))), index.h("div", { key: '85b08d7799299814091d43434fe6aceb257468a1', class: "mt-auto" }, index.h("ir-tasks-table-pagination", { key: '92da910818c5c9f4c4fa33a1f5946ddef0ff8eb0' })))));
     }
     static get watchers() { return {
         "tasks": ["handleTasksChange"]
@@ -13724,13 +13718,13 @@ const IrTasksTablePagination = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        var _a, _b, _c;
+        var _a, _b;
         const { currentPage, pageSize, totalPages, mobileCurrentPage } = hkTasksStore.pagination;
         const totalTasks = (_b = (_a = hkTasksStore.tasks) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
-        const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : (_c = hkTasksStore.pagination.tasksList) === null || _c === void 0 ? void 0 : _c.filter(t => t <= totalTasks);
-        return (index.h(index.Host, { key: '7c5a4e89cf4c0ea955f9c480c89a7830d1d69ecf' }, shouldLoadMore() && index.h("ir-button", { key: '083bd637e6a57563dded71896ead0eb4f5767633', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), index.h("ir-pagination", { key: '3ddad9aead4abe5f1e3a2097a1bed4b46335cc26', showing: {
+        const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
+        return (index.h(index.Host, { key: '0df719ddee9590fa0c7f14bac4708579f9d0a09b' }, shouldLoadMore() && index.h("ir-button", { key: '8c7911b1ff72d229359e4a5f757fd045f58a4d3e', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), index.h("ir-pagination", { key: 'af9cd237a589c2455bdc89b3ce6c866a115c1759', showing: {
                 from: start,
                 to: end,
             }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: pageSizes, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));

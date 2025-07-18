@@ -41,6 +41,13 @@ const IrSecureTasks = class {
     handlePChange() {
         this.inputValue = this.p;
     }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.isAuthenticated = true;
+            this.token.setToken(this.ticket);
+            this.propertyid = this.propertyid;
+        }
+    }
     generateDates() {
         var today = new Date();
         today.setDate(today.getDate() - 1);
@@ -96,7 +103,8 @@ const IrSecureTasks = class {
         }
     }
     static get watchers() { return {
-        "p": ["handlePChange"]
+        "p": ["handlePChange"],
+        "ticket": ["handleTicketChange"]
     }; }
 };
 IrSecureTasks.style = IrSecureTasksStyle0;

@@ -8,7 +8,7 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { downloadFile } from "../../../utils/utils";
-import { updateTasks as updateTasksStore, updateSelectedTasks, clearSelectedTasks, hkTasksStore, setLoading, updateTaskList } from "../../../stores/hk-tasks.store";
+import { updateTasks as updateTasksStore, updateSelectedTasks, clearSelectedTasks, hkTasksStore, setLoading } from "../../../stores/hk-tasks.store";
 export class IrHkTasks {
     constructor() {
         this.language = '';
@@ -92,7 +92,7 @@ export class IrHkTasks {
             }
             const results = await Promise.all(requests);
             const tasksResult = results[0];
-            updateTaskList();
+            // updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
                 this.updateTasks(tasksResult.tasks);
             }

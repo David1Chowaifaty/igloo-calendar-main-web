@@ -7,7 +7,7 @@ import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { J as downloadFile } from './utils.js';
-import { s as setLoading, u as updateTaskList, a as updateTasks, h as hkTasksStore, c as clearSelectedTasks, b as updateSelectedTasks } from './hk-tasks.store.js';
+import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store.js';
 import { d as defineCustomElement$10 } from './igl-application-info2.js';
 import { d as defineCustomElement$$ } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$_ } from './igl-book-property2.js';
@@ -163,7 +163,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             }
             const results = await Promise.all(requests);
             const tasksResult = results[0];
-            updateTaskList();
+            // updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
                 this.updateTasks(tasksResult.tasks);
             }

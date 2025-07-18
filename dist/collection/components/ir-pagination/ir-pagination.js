@@ -127,7 +127,7 @@ export class IrPagination {
         return (h(Host, { class: {
                 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container': true,
                 'disabled': this.disabled,
-            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "m-0 mb-1 mb-md-0 pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: 'd-flex align-items-center buttons-container' }, this.pageSizes && (h("ir-select", { selectedValue: String(this.pageSize), LabelAvailable: false, data: this.pageSizes.map(size => ({
+            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "m-0 mb-1 mb-md-0 pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: 'd-flex align-items-center buttons-container' }, this.allowPageSizeChange && this.pageSizes && (h("ir-select", { selectedValue: String(this.pageSize), LabelAvailable: false, data: this.pageSizes.map(size => ({
                 text: `${size} ${this.recordLabel}`,
                 value: String(size),
             })), showFirstOption: false, style: { margin: '0 0.5rem' }, onSelectChange: e => this.handlePageSizeChange(Number(e.detail)) })), this.pages > 1 && (h(Fragment, null, h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(1, 'first'), icon_name: "angles_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to first page" }), h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), icon_name: "angle_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to previous page" }), h("ir-select", { selectedValue: this.currentPage.toString(), LabelAvailable: false, showFirstOption: false, onSelectChange: e => this.handlePageChange(+e.detail, 'direct'), data: Array.from(Array(this.pages), (_, i) => i + 1).map(i => ({
@@ -185,6 +185,28 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "allowPageSizeChange": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [{
+                            "name": "default",
+                            "text": "false"
+                        }],
+                    "text": "Enables a dropdown for changing the number of items displayed per page.\n\nWhen set to `true`, users can select a page size from the `pageSizes` array.\n\n**Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.\nIf `pageSizes` is empty or undefined, the page size selector will not be displayed."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "allow-page-size-change",
+                "reflect": false
             },
             "total": {
                 "type": "number",

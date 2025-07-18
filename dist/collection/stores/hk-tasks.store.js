@@ -7,8 +7,10 @@ function getPaginationInitialParams() {
         tasksList: tasks,
         currentPage: 1,
         mobileCurrentPage: 1,
-        pageSize: tasks[0],
-        mobilePageSize: tasks[0],
+        // pageSize: tasks[0],
+        // mobilePageSize: tasks[0],
+        pageSize: 20,
+        mobilePageSize: 20,
         totalPages: 0,
         totalItems: 0,
     };
@@ -46,12 +48,12 @@ export function updateSearchField(searchField) {
     filterTasks();
 }
 export function updateTasks(tasks) {
-    const wasEmpty = hkTasksStore.tasks.length === 0;
+    // const wasEmpty = hkTasksStore.tasks.length === 0;
     hkTasksStore.tasks = tasks;
     // Update task list if significantly changed or was empty
-    if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
-        updateTaskList();
-    }
+    // if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
+    //   updateTaskList();
+    // }
     filterTasks();
 }
 function updatePaginationFields(params) {
@@ -92,10 +94,10 @@ function getTaskList() {
     });
     return calculatedList;
 }
-function shouldUpdateTaskList(newTaskCount) {
-    const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
-    return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
-}
+// function shouldUpdateTaskList(newTaskCount: number): boolean {
+//   const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
+//   return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
+// }
 function filterTasks() {
     var _a, _b;
     const searchText = (_b = (_a = hkTasksStore === null || hkTasksStore === void 0 ? void 0 : hkTasksStore.searchField) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : '';

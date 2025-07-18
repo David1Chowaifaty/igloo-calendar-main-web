@@ -8,8 +8,10 @@ function getPaginationInitialParams() {
         tasksList: tasks,
         currentPage: 1,
         mobileCurrentPage: 1,
-        pageSize: tasks[0],
-        mobilePageSize: tasks[0],
+        // pageSize: tasks[0],
+        // mobilePageSize: tasks[0],
+        pageSize: 20,
+        mobilePageSize: 20,
         totalPages: 0,
         totalItems: 0,
     };
@@ -47,12 +49,12 @@ function updateSearchField(searchField) {
     filterTasks();
 }
 function updateTasks(tasks) {
-    const wasEmpty = hkTasksStore.tasks.length === 0;
+    // const wasEmpty = hkTasksStore.tasks.length === 0;
     hkTasksStore.tasks = tasks;
     // Update task list if significantly changed or was empty
-    if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
-        updateTaskList();
-    }
+    // if (wasEmpty || shouldUpdateTaskList(tasks.length)) {
+    //   updateTaskList();
+    // }
     filterTasks();
 }
 function updatePaginationFields(params) {
@@ -70,15 +72,6 @@ function updateCurrentPage(page) {
         updatePaginationFields({ currentPage: page });
     }
 }
-function updateTaskList() {
-    const list = getTaskList();
-    updatePaginationFields({
-        tasksList: list,
-        pageSize: list[0],
-        mobilePageSize: list[0],
-    });
-    updatePagination();
-}
 function getTaskList() {
     if (!calendar_data.roomsInfo) {
         return defaultTasksList;
@@ -93,10 +86,10 @@ function getTaskList() {
     });
     return calculatedList;
 }
-function shouldUpdateTaskList(newTaskCount) {
-    const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
-    return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
-}
+// function shouldUpdateTaskList(newTaskCount: number): boolean {
+//   const currentMax = Math.max(...hkTasksStore.pagination.tasksList);
+//   return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
+// }
 function filterTasks() {
     var _a, _b;
     const searchText = (_b = (_a = hkTasksStore === null || hkTasksStore === void 0 ? void 0 : hkTasksStore.searchField) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : '';
@@ -214,6 +207,6 @@ function isAllTasksSelected() {
     return checkableTasks.length > 0 && hkTasksStore.selectedTasks.length === checkableTasks.length;
 }
 
-export { updateTasks as a, updateSelectedTasks as b, clearSelectedTasks as c, updateSearchField as d, updateSorting as e, selectAllTasks as f, getCheckableTasks as g, hkTasksStore as h, isAllTasksSelected as i, getPaginatedTasks as j, getMobileTasks as k, shouldLoadMore as l, loadMoreTasks as m, updateCurrentPage as n, updatePageSize as o, setLoading as s, toggleTaskSelection as t, updateTaskList as u };
+export { updateSelectedTasks as a, updateSearchField as b, clearSelectedTasks as c, updateSorting as d, selectAllTasks as e, getPaginatedTasks as f, getCheckableTasks as g, hkTasksStore as h, isAllTasksSelected as i, getMobileTasks as j, shouldLoadMore as k, loadMoreTasks as l, updateCurrentPage as m, updatePageSize as n, setLoading as s, toggleTaskSelection as t, updateTasks as u };
 
 //# sourceMappingURL=hk-tasks.store.js.map

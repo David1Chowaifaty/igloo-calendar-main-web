@@ -11,6 +11,7 @@ export declare class IrSecureTasks {
     private dates;
     componentWillLoad(): void;
     handlePChange(): void;
+    handleTicketChange(newValue: any, oldValue: any): void;
     private generateDates;
     private routes;
     private handleAuthFinish;

@@ -132,6 +132,13 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     handlePChange() {
         this.inputValue = this.p;
     }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.isAuthenticated = true;
+            this.token.setToken(this.ticket);
+            this.propertyid = this.propertyid;
+        }
+    }
     generateDates() {
         var today = new Date();
         today.setDate(today.getDate() - 1);
@@ -187,7 +194,8 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
         }
     }
     static get watchers() { return {
-        "p": ["handlePChange"]
+        "p": ["handlePChange"],
+        "ticket": ["handleTicketChange"]
     }; }
     static get style() { return IrSecureTasksStyle0; }
 }, [0, "ir-secure-tasks", {
@@ -199,7 +207,8 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
         "currentPage": [32],
         "inputValue": [32]
     }, undefined, {
-        "p": ["handlePChange"]
+        "p": ["handlePChange"],
+        "ticket": ["handleTicketChange"]
     }]);
 function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
