@@ -6024,15 +6024,15 @@ const ZSharedPerson = index$1.z.object({
         index$1.z.string().min(2), // if provided and non-empty, must have min length 2
         index$1.z.literal(''), // or it can be empty string
     ])
-        .optional()
-        .nullable(),
+        .optional(),
+    // .nullable(),
     last_name: index$1.z
         .union([
         index$1.z.string().min(2), // if provided and non-empty, must have min length 2
         index$1.z.literal(''), // or it can be empty string
     ])
-        .optional()
-        .nullable(),
+        .optional(),
+    // .nullable(),
     country_id: index$1.z.coerce
         .number()
         .min(0) // if provided, must be >= 0
