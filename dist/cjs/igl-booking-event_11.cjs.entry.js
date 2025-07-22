@@ -336,7 +336,7 @@ const IglBookingEvent = class {
         if (!this.bookingEvent.is_direct) {
             if (this.isShrinking) {
                 return {
-                    description: 'ALERT! Modifying a channel booking will create a discrepancy between igloorooms and the source. Future guest modifications on the channel may require manual adjustments of the booking.',
+                    description: locales_store.locales.entries.Lcz_OTA_Modification_Alter,
                     status: '200',
                 };
                 // return {
@@ -354,7 +354,7 @@ const IglBookingEvent = class {
                     }
                     else {
                         return {
-                            description: 'ALERT! Modifying an OTA booking will create a discrepancy between igloorooms and the source. Future guest modifications on the OTA may require manual adjustments of the booking.',
+                            description: locales_store.locales.entries.Lcz_OTA_Modification_Alter,
                             status: '200',
                         };
                         // return {
@@ -792,14 +792,14 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (index.h(index.Host, { key: '2f53350dd9b4077e44b8f8a0ade8b92c7f829cc9', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: '73e9ff2898abae7f2041e6c757e409d0a3a6bc12', class: `bookingEventBase  ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (index.h(index.Host, { key: '6a0950f218f9f83efd4b5dedac1619489a640ca4', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: 'e085e82799b362c92cb6e15b600fc7cf2b3e0a61', class: `bookingEventBase  ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
           ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !utils.isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: '7c724cd381b19fc6ff428bc4bd7ce46843e0c161', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), index.h(index.Fragment, { key: 'cf17ab8a4b040f69a4b484ef0bb083e03c0a0f60' }, index.h("div", { key: '77ee593313104adfb8d284c91ccc665eba3bfb02', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '19fb240a677a6b4402a351b42245274e1ead2983', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: 'b39be5d140f33521910d6d3d3e34fe9245536b47', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), index.h(index.Fragment, { key: '99d327a5e3da89bb1617536d619e73dab0b7215f' }, index.h("div", { key: '35baeced42c9042c7f9f2b5382601999b03e618a', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '2a77cc428cd454ebcb42d8f068cae654b5b6ff04', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (index.h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return index.getElement(this); }
@@ -1644,7 +1644,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (index.h(index.Host, { key: '08abaed17bc012aeb7c326edec6bce0ce536e0cf', class: "footerContainer" }, index.h("div", { key: '2de1603e4c4debc49bc878e19b54a5040f69ebd0', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, index.h("div", { key: '0e4cea9ac6adb11d2bd998dde99edfc0e8d314f9', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, index.h("i", { key: '36eeaf6c312cb6f116a4c5e12624f52f697ac532', class: "la la-square" }), index.h("u", { key: '806ee3fc72d5f43a12aeba38cc9057864d0b4f21' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: '52831f0a6bf363f10f34671e67db7bd5f289c7d7' }, " - v1.0115"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (index.h(index.Host, { key: '08abaed17bc012aeb7c326edec6bce0ce536e0cf', class: "footerContainer" }, index.h("div", { key: '2de1603e4c4debc49bc878e19b54a5040f69ebd0', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, index.h("div", { key: '0e4cea9ac6adb11d2bd998dde99edfc0e8d314f9', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, index.h("i", { key: '36eeaf6c312cb6f116a4c5e12624f52f697ac532', class: "la la-square" }), index.h("u", { key: '806ee3fc72d5f43a12aeba38cc9057864d0b4f21' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: '52831f0a6bf363f10f34671e67db7bd5f289c7d7' }, " - v1.0116"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;
