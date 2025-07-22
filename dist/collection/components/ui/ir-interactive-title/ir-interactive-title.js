@@ -17,7 +17,7 @@ export class IrInteractiveTitle {
         /**
          * The number of characters to display before cropping the title with ellipsis.
          */
-        this.cropSize = 15;
+        this.cropSize = 20;
         /**
          * Reference to track if we've initialized popover for current render
          */
@@ -189,7 +189,7 @@ export class IrInteractiveTitle {
                 "setter": false,
                 "attribute": "crop-size",
                 "reflect": false,
-                "defaultValue": "15"
+                "defaultValue": "20"
             }
         };
     }

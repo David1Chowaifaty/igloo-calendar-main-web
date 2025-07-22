@@ -6000,7 +6000,8 @@ const ZIdInfo = index$1.z.object({
         // or it can be empty string
         index$1.z.literal(''),
     ])
-        .optional(),
+        .optional()
+        .nullable(),
 });
 /**
  * ZSharedPerson schema:
@@ -6023,13 +6024,15 @@ const ZSharedPerson = index$1.z.object({
         index$1.z.string().min(2), // if provided and non-empty, must have min length 2
         index$1.z.literal(''), // or it can be empty string
     ])
-        .optional(),
+        .optional()
+        .nullable(),
     last_name: index$1.z
         .union([
         index$1.z.string().min(2), // if provided and non-empty, must have min length 2
         index$1.z.literal(''), // or it can be empty string
     ])
-        .optional(),
+        .optional()
+        .nullable(),
     country_id: index$1.z.coerce
         .number()
         .min(0) // if provided, must be >= 0
@@ -6046,6 +6049,7 @@ const ZSharedPerson = index$1.z.object({
         return isDDMMYYYY ? null : utils.hooks(value, 'DD/MM/YYYY').format('YYYY-MM-DD');
     }),
     id_info: ZIdInfo.optional(),
+    is_main: index$1.z.boolean().default(false),
 });
 const ZSharedPersons = index$1.z.array(ZSharedPerson);
 const ExtraServiceSchema = index$1.z.object({
@@ -13133,22 +13137,23 @@ const IrRoomGuests = class {
         try {
             this.error = {};
             this.autoValidate = true;
+            console.log(this.guests);
             ZSharedPersons.parse(this.guests);
-            await this.bookingService.handleExposedRoomGuests({
-                booking_nbr: this.bookingNumber,
-                identifier: this.identifier,
-                guests: this.guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? utils.hooks(g.dob, 'DD/MM/YYYY').format('YYYY-MM-DD') : null }))),
-            });
-            if (this.checkIn) {
-                await this.bookingService.handleExposedRoomInOut({
-                    booking_nbr: this.bookingNumber,
-                    room_identifier: this.identifier,
-                    status: '001',
-                });
-            }
-            this.closeModal.emit(null);
-            this.updateRoomGuests.emit({ identifier: this.identifier, guests: this.guests });
-            this.resetBookingEvt.emit();
+            // await this.bookingService.handleExposedRoomGuests({
+            //   booking_nbr: this.bookingNumber,
+            //   identifier: this.identifier,
+            //   guests: this.guests.map(g => ({ ...g, dob: g.dob ? moment(g.dob, 'DD/MM/YYYY').format('YYYY-MM-DD') : null })),
+            // });
+            // if (this.checkIn) {
+            //   await this.bookingService.handleExposedRoomInOut({
+            //     booking_nbr: this.bookingNumber,
+            //     room_identifier: this.identifier,
+            //     status: '001',
+            //   });
+            // }
+            // this.closeModal.emit(null);
+            // this.updateRoomGuests.emit({ identifier: this.identifier, guests: this.guests });
+            // this.resetBookingEvt.emit();
         }
         catch (error) {
             console.log(error);

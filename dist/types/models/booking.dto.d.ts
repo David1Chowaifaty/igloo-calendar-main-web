@@ -51,7 +51,7 @@ export declare const ZIdInfo: z.ZodObject<{
         code?: string;
         description?: string;
     }>;
-    number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+    number: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
 }, "strip", z.ZodTypeAny, {
     number?: string;
     type?: {
@@ -75,8 +75,8 @@ export declare const ZIdInfo: z.ZodObject<{
  */
 export declare const ZSharedPerson: z.ZodObject<{
     id: z.ZodOptional<z.ZodNumber>;
-    first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+    first_name: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
+    last_name: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
     country_id: z.ZodOptional<z.ZodNumber>;
     dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodNullable<z.ZodString>>, string, string>, string, string>;
     id_info: z.ZodOptional<z.ZodObject<{
@@ -90,7 +90,7 @@ export declare const ZSharedPerson: z.ZodObject<{
             code?: string;
             description?: string;
         }>;
-        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+        number: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
     }, "strip", z.ZodTypeAny, {
         number?: string;
         type?: {
@@ -104,6 +104,7 @@ export declare const ZSharedPerson: z.ZodObject<{
             description?: string;
         };
     }>>;
+    is_main: z.ZodDefault<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
     id?: number;
     first_name?: string;
@@ -117,6 +118,7 @@ export declare const ZSharedPerson: z.ZodObject<{
             description?: string;
         };
     };
+    is_main?: boolean;
 }, {
     id?: number;
     first_name?: string;
@@ -130,11 +132,12 @@ export declare const ZSharedPerson: z.ZodObject<{
             description?: string;
         };
     };
+    is_main?: boolean;
 }>;
 export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
     id: z.ZodOptional<z.ZodNumber>;
-    first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+    first_name: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
+    last_name: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
     country_id: z.ZodOptional<z.ZodNumber>;
     dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodNullable<z.ZodString>>, string, string>, string, string>;
     id_info: z.ZodOptional<z.ZodObject<{
@@ -148,7 +151,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             code?: string;
             description?: string;
         }>;
-        number: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+        number: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
     }, "strip", z.ZodTypeAny, {
         number?: string;
         type?: {
@@ -162,6 +165,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             description?: string;
         };
     }>>;
+    is_main: z.ZodDefault<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
     id?: number;
     first_name?: string;
@@ -175,6 +179,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             description?: string;
         };
     };
+    is_main?: boolean;
 }, {
     id?: number;
     first_name?: string;
@@ -188,6 +193,7 @@ export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
             description?: string;
         };
     };
+    is_main?: boolean;
 }>, "many">;
 export interface HandleExposedRoomGuestsRequest {
     booking_nbr: string;

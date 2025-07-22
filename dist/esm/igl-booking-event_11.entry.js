@@ -2130,7 +2130,7 @@ const IrInteractiveTitle = class {
         /**
          * The number of characters to display before cropping the title with ellipsis.
          */
-        this.cropSize = 15;
+        this.cropSize = 20;
         /**
          * Reference to track if we've initialized popover for current render
          */
