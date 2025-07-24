@@ -20399,7 +20399,7 @@ const IrMonthlyBookingsReport = class {
                     property_id: this.property_id,
                 });
                 enrichedReports = currentReports.map(current => {
-                    const previous = previousYearReports.find(prev => prev.day === current.day);
+                    const previous = previousYearReports.find(prev => prev.day === utils.hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
                     return Object.assign(Object.assign({}, current), { last_year: previous !== null && previous !== void 0 ? previous : null });
                 });
             }
@@ -20512,13 +20512,13 @@ const IrMonthlyBookingsReportTable = class {
         var _a, _b;
         const totalUnits = (_b = (_a = this.reports) === null || _a === void 0 ? void 0 : _a.reduce((prev, curr) => prev + curr.units_booked, 0)) !== null && _b !== void 0 ? _b : 0;
         return (index.h(index.Host, { key: '1fa0939ed14a6fae86bd1384df2b318aabb89537', class: 'card p-1  table-container table-responsive' }, index.h("table", { key: '7ee64eb9730d006c2751c72d6eab1f1c035e397b', class: "table" }, index.h("thead", { key: 'f30fbcac46cb30e5b41d1ad560e0a36e999ffeed', class: "table-header" }, index.h("tr", { key: '29b85e93422dbe45a879f6745ef84c3060ff2526' }, index.h("th", { key: '1065746571ee8ffaa7f42066d41a809ef926318e', class: "text-center" }, "Date"), index.h("th", { key: '4a8eb9370d537aae6b50cdde48d18a103e393d15', class: "text-center" }, "Units booked"), index.h("th", { key: '8bbfed807dc8b31e778f10bab12884727ffc1a7e' }, "Occupancy"))), index.h("tbody", { key: '4699df31d7251654e4a9a9304bf953922857d962' }, this.reports.map(report => {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             const mainPercentage = `${parseFloat(report.occupancy_percent.toString()).toFixed(2)}%`;
             const secondaryPercentage = report.last_year ? `${parseFloat(report.last_year.occupancy_percent.toString()).toFixed(2)}%` : null;
             const reportDate = utils.hooks(report.day, 'YYYY-MM-DD');
             const isFutureDate = utils.hooks().isBefore(reportDate, 'dates');
-            return (index.h("tr", { key: report.day, class: `ir-table-row ${isFutureDate ? 'future-report' : ''}` }, index.h("td", { class: 'text-center' }, reportDate.format('DD')), index.h("td", { class: "text-center" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_a = report.last_year) === null || _a === void 0 ? void 0 : _a.units_booked) ? 'font-weight-bold' : ''}}` }, report.units_booked), ((_b = report.last_year) === null || _b === void 0 ? void 0 : _b.units_booked) && index.h("p", { class: "p-0 m-0" }, report.units_booked))), index.h("td", null, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("ir-progress-indicator", { percentage: mainPercentage }), ((_c = report.last_year) === null || _c === void 0 ? void 0 : _c.occupancy_percent) && index.h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" })))));
-        })), index.h("tfoot", { key: 'f16eda9fee616e64ac097be58e08d3b3d2233c92' }, index.h("tr", { key: '4f763ad018260d0c37de4f61665faaea53c8caf5' }, index.h("td", { key: 'bbe9fdcb6d5ff3dfe28d098b71e23d9b34c065bc', colSpan: 2 }), index.h("td", { key: 'ef1bf4f6fafa1ab5ead6a52bbc7d071e4fd0a908' }, "Total: ", totalUnits))))));
+            return (index.h("tr", { key: report.day, class: `ir-table-row ${isFutureDate ? 'future-report' : ''}` }, index.h("td", { class: 'text-center' }, reportDate.format('DD')), index.h("td", { class: "text-center" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_a = report.last_year) === null || _a === void 0 ? void 0 : _a.units_booked) ? 'font-weight-bold' : ''}` }, report.units_booked), ((_b = report.last_year) === null || _b === void 0 ? void 0 : _b.units_booked) && index.h("p", { class: "p-0 m-0" }, (_c = report.last_year) === null || _c === void 0 ? void 0 : _c.units_booked))), index.h("td", null, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("ir-progress-indicator", { percentage: mainPercentage }), ((_d = report.last_year) === null || _d === void 0 ? void 0 : _d.occupancy_percent) && index.h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" })))));
+        })), index.h("tfoot", { key: 'a37e44b235296cc35c3d0b8cae22bd8034be09c9' }, index.h("tr", { key: '2d8f35cb3ff455b4860d8020a4349715ed730cd7' }, index.h("td", { key: '0d312a7c260f4f077758e0e3b747a45d2e127dbb', colSpan: 2 }), index.h("td", { key: 'eef68cb4f4064ec5f30c320b75208543eafc0d73', class: "text-right" }, "Total: ", totalUnits))))));
     }
 };
 IrMonthlyBookingsReportTable.style = IrMonthlyBookingsReportTableStyle0 + IrMonthlyBookingsReportTableStyle1;

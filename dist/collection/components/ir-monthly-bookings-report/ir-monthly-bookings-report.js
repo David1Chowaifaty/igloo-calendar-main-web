@@ -98,7 +98,7 @@ export class IrMonthlyBookingsReport {
                     property_id: this.property_id,
                 });
                 enrichedReports = currentReports.map(current => {
-                    const previous = previousYearReports.find(prev => prev.day === current.day);
+                    const previous = previousYearReports.find(prev => prev.day === moment(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
                     return Object.assign(Object.assign({}, current), { last_year: previous !== null && previous !== void 0 ? previous : null });
                 });
             }
