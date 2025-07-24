@@ -12,6 +12,7 @@ export class IrSecureTasks {
             { name: 'Front', value: 'front' },
             { name: 'Users', value: 'users' },
             { name: 'Sales By Country', value: 'country-sales' },
+            { name: 'Daily Occupancy', value: 'daily-occupancy' },
         ];
     }
     componentWillLoad() {
@@ -88,6 +89,8 @@ export class IrSecureTasks {
                 return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'country-sales':
                 return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'daily-occupancy':
+                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

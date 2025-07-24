@@ -3,16 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-4fe8bc8a.js');
-const booking_listing_service = require('./booking_listing.service-40d25a3b.js');
-const room_service = require('./room.service-d097b75a.js');
-const locales_store = require('./locales.store-0cac7e5d.js');
-const utils = require('./utils-12ac7153.js');
-const functions = require('./functions-6290adb5.js');
+const booking_listing_service = require('./booking_listing.service-ae50c842.js');
+const room_service = require('./room.service-a75d8128.js');
+const locales_store = require('./locales.store-855b855e.js');
+const utils = require('./utils-85171682.js');
+const functions = require('./functions-5285ed6a.js');
 const Token = require('./Token-3d0cc874.js');
-const calendarData = require('./calendar-data-b2787812.js');
-require('./index-467172e1.js');
+const calendarData = require('./calendar-data-cec6957a.js');
 require('./axios-6e678d52.js');
-require('./index-db8b30d9.js');
 
 // src/utils/browserHistory.ts
 /**
@@ -199,6 +197,14 @@ const IrBookingListing = class {
         // });
         await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false, start_row: startItem, end_row: endItem }));
     }
+    calculateTotalPersons(booking) {
+        const sumOfOccupancy = ({ adult_nbr, children_nbr, infant_nbr }) => {
+            return (adult_nbr !== null && adult_nbr !== void 0 ? adult_nbr : 0) + (children_nbr !== null && children_nbr !== void 0 ? children_nbr : 0) + (infant_nbr !== null && infant_nbr !== void 0 ? infant_nbr : 0);
+        };
+        return booking.rooms.reduce((prev, cur) => {
+            return sumOfOccupancy(cur.occupancy) + prev;
+        }, 0);
+    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
         if (this.isLoading || this.ticket === '') {
@@ -210,13 +216,14 @@ const IrBookingListing = class {
                 var _a, _b, _c, _d;
                 let confirmationBG = this.statusColors[booking.is_requested_to_cancel ? '003' : booking.status.code];
                 const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
+                const totalPersons = this.calculateTotalPersons(booking);
                 return (index.h("tr", { key: booking.booking_nbr }, index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && index.h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
                         width: 'fit-content',
                         padding: '0',
                         margin: '0',
                     }, labelStyle: {
                         padding: '0',
-                    } }), booking.guest.nbr_confirmed_bookings > 1 && !booking.agent && (index.h("div", { class: "m-0 p-0" }, index.h("ir-tooltip", { message: `${locales_store.locales.entries.Lcz_BookingsNbr}`.replace('%1', booking.guest.nbr_confirmed_bookings.toString()), customSlot: true }, index.h("div", { class: "d-flex align-items-center my-0 p-0", slot: "tooltip-trigger" }, index.h("ir-icons", { style: { '--icon-size': '0.875rem' }, color: "#FB0AAD", name: "heart-fill" }))))), index.h("span", { class: 'p-0 m-0' }, booking.occupancy.adult_nbr, locales_store.locales.entries.Lcz_P), utils.getPrivateNote(booking.extras) && index.h("span", { class: "yellow_dot" }))), index.h("div", { class: 'd-flex align-items-center booking-label-gap' }, index.h("p", { class: "p-0 m-0 secondary-p" }, booking.origin.Label), booking.is_in_loyalty_mode && !booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_LoyaltyDiscountApplied), index.h("path", { fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" }))), booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_Coupon + ':' + booking.promo_key), index.h("path", { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" }))))))), index.h("td", null, index.h("ul", null, booking.rooms.map(room => {
+                    } }), booking.guest.nbr_confirmed_bookings > 1 && !booking.agent && (index.h("div", { class: "m-0 p-0" }, index.h("ir-tooltip", { message: `${locales_store.locales.entries.Lcz_BookingsNbr}`.replace('%1', booking.guest.nbr_confirmed_bookings.toString()), customSlot: true }, index.h("div", { class: "d-flex align-items-center my-0 p-0", slot: "tooltip-trigger" }, index.h("ir-icons", { style: { '--icon-size': '0.875rem' }, color: "#FB0AAD", name: "heart-fill" }))))), index.h("span", { class: 'p-0 m-0' }, totalPersons, locales_store.locales.entries.Lcz_P), utils.getPrivateNote(booking.extras) && index.h("span", { class: "yellow_dot" }))), index.h("div", { class: 'd-flex align-items-center booking-label-gap' }, index.h("p", { class: "p-0 m-0 secondary-p" }, booking.origin.Label), booking.is_in_loyalty_mode && !booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_LoyaltyDiscountApplied), index.h("path", { fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" }))), booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_Coupon + ':' + booking.promo_key), index.h("path", { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" }))))))), index.h("td", null, index.h("ul", null, booking.rooms.map(room => {
                     var _a, _b, _c, _d, _e, _f, _g;
                     return (index.h("li", null, index.h("div", { class: 'room-service' }, index.h("p", { class: 'm-0 p-0' }, room.roomtype.name), room.unit &&
                         !calendarData.isSingleUnit(room.roomtype.id) &&

@@ -4401,6 +4401,6 @@ var z = /*#__PURE__*/Object.freeze({
     ZodError: ZodError
 });
 
-export { ZodError as Z, z };
+export { ZodError as Z, ZodIssueCode as a, z };
 
 //# sourceMappingURL=index3.js.map

@@ -6,6 +6,12 @@ export type CountrySalesParams = {
     BOOK_CASE: string;
     is_export_to_excel: boolean;
 };
+export type MonthlyStatsParams = {
+    property_id: number;
+    from_date: string;
+    to_date: string;
+    is_export_to_excel?: boolean;
+};
 export declare class PropertyService {
     getExposedProperty(params: {
         id: number | null;
@@ -20,4 +26,5 @@ export declare class PropertyService {
         property_id: number;
         code: string;
     }): Promise<any>;
+    getMonthlyStats(params: MonthlyStatsParams): Promise<any>;
 }

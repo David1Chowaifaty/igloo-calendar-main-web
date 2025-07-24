@@ -59,9 +59,10 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
     handleMaskChange() {
         this.initMask();
     }
-    handleMaskChange1() {
-        console.log(this.autoValidate);
-    }
+    // @Watch('autoValidate')
+    // handleMaskChange1() {
+    //   console.log(this.autoValidate);
+    // }
     // @Watch('error')
     // handleErrorChange(newValue: boolean, oldValue: boolean) {
     //   if (newValue !== oldValue) {
@@ -152,7 +153,6 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
     get el() { return this; }
     static get watchers() { return {
         "mask": ["handleMaskChange"],
-        "autoValidate": ["handleMaskChange1"],
         "value": ["handleValueChange"]
     }; }
     static get style() { return IrInputTextStyle0; }
@@ -190,7 +190,6 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         "inputFocused": [32]
     }, undefined, {
         "mask": ["handleMaskChange"],
-        "autoValidate": ["handleMaskChange1"],
         "value": ["handleValueChange"]
     }]);
 function defineCustomElement() {

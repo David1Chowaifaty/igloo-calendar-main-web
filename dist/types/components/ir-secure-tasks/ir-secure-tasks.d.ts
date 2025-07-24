@@ -1,4 +1,4 @@
-export type SecureScreens = 'hk' | 'tasks' | 'front' | 'users' | 'country-sales';
+export type SecureScreens = 'hk' | 'tasks' | 'front' | 'users' | 'country-sales' | 'daily-occupancy';
 export declare class IrSecureTasks {
     propertyid: number;
     p: string;

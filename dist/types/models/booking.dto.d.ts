@@ -134,67 +134,7 @@ export declare const ZSharedPerson: z.ZodObject<{
     };
     is_main?: boolean;
 }>;
-export declare const ZSharedPersons: z.ZodArray<z.ZodObject<{
-    id: z.ZodOptional<z.ZodNumber>;
-    first_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    last_name: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-    country_id: z.ZodOptional<z.ZodNumber>;
-    dob: z.ZodEffects<z.ZodEffects<z.ZodOptional<z.ZodNullable<z.ZodString>>, string, string>, string, string>;
-    id_info: z.ZodOptional<z.ZodObject<{
-        type: z.ZodObject<{
-            code: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-            description: z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        number: z.ZodNullable<z.ZodOptional<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>>;
-    }, "strip", z.ZodTypeAny, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }, {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    }>>;
-    is_main: z.ZodDefault<z.ZodBoolean>;
-}, "strip", z.ZodTypeAny, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-    is_main?: boolean;
-}, {
-    id?: number;
-    first_name?: string;
-    last_name?: string;
-    country_id?: number;
-    dob?: string;
-    id_info?: {
-        number?: string;
-        type?: {
-            code?: string;
-            description?: string;
-        };
-    };
-    is_main?: boolean;
-}>, "many">;
+export declare function validateSharedPerson(data: any): void;
 export interface HandleExposedRoomGuestsRequest {
     booking_nbr: string;
     identifier: string;

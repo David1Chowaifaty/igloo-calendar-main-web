@@ -1,13 +1,11 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-0a4a209a.js';
 import { T as Token } from './Token-6c389e24.js';
-import { B as BookingService } from './booking.service-055bd88a.js';
-import { R as RoomService } from './room.service-b78587f7.js';
-import { l as locales } from './locales.store-53ec3957.js';
+import { B as BookingService } from './booking.service-fcbff98e.js';
+import { R as RoomService } from './room.service-52da06d8.js';
+import { l as locales } from './locales.store-b670e120.js';
 import './axios-aa1335b8.js';
-import './utils-d85c3476.js';
-import './index-502f9842.js';
-import './calendar-data-a6093df2.js';
-import './index-c1c77241.js';
+import './utils-dfff1e63.js';
+import './calendar-data-ba6bdc20.js';
 
 const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
 const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;

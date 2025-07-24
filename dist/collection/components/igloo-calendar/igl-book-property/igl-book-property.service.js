@@ -142,6 +142,7 @@ export class IglBookPropertyService {
     //   return { first_name: names[0] || null, last_name: names[1] || null };
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+        var _a, _b;
         const rooms = [];
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
@@ -158,7 +159,7 @@ export class IglBookPropertyService {
                             unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
                             occupancy: {
                                 adult_nbr: rateplan.selected_variation.adult_nbr,
-                                children_nbr: rateplan.selected_variation.child_nbr - Math.max(rateplan.guest[i].infant_nbr, 0),
+                                children_nbr: Number((_a = rateplan.selected_variation.child_nbr) !== null && _a !== void 0 ? _a : 0) - Math.max(Number((_b = rateplan.guest[i].infant_nbr) !== null && _b !== void 0 ? _b : 0), 0),
                                 infant_nbr: rateplan.guest[i].infant_nbr,
                             },
                             bed_preference: rateplan.guest[i].bed_preference,
@@ -234,7 +235,7 @@ export class IglBookPropertyService {
                 case 'ADD_ROOM':
                 case 'SPLIT_BOOKING': {
                     const { booking, ROOMS } = context.defaultData;
-                    console.log(booking);
+                    // console.log(booking);
                     if (!booking) {
                         throw new Error('Missing booking');
                     }

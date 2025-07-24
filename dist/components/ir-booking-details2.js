@@ -400,7 +400,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         if (room.in_out && room.in_out.code !== '000') {
             return false;
         }
-        if (hooks(new Date()).isSameOrAfter(new Date(room.from_date), 'days') && hooks(new Date()).isBefore(new Date(room.to_date), 'days')) {
+        if (hooks().isSameOrAfter(hooks(room.from_date, 'YYYY-MM-DD'), 'days') && hooks().isBefore(hooks(room.to_date, 'YYYY-MM-DD'), 'days')) {
             return true;
         }
         return false;

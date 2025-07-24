@@ -57,6 +57,16 @@ class PropertyService {
         }
         return data.My_Result;
     }
+    async getMonthlyStats(params) {
+        const { data } = await axios.post('/Get_Monthly_Stats', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        if (params.is_export_to_excel) {
+            downloadFile(data.My_Params_Get_Monthly_Stats.Link_excel);
+        }
+        return data.My_Result;
+    }
 }
 
 export { PropertyService as P };

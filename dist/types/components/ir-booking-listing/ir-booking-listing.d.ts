@@ -39,5 +39,6 @@ export declare class IrBookingListing {
     handleBookingChanged(e: CustomEvent<Booking>): void;
     renderItemRange(): string;
     updateData(): Promise<void>;
+    private calculateTotalPersons;
     render(): any;
 }

@@ -50,9 +50,10 @@ export class IrInputText {
     handleMaskChange() {
         this.initMask();
     }
-    handleMaskChange1() {
-        console.log(this.autoValidate);
-    }
+    // @Watch('autoValidate')
+    // handleMaskChange1() {
+    //   console.log(this.autoValidate);
+    // }
     // @Watch('error')
     // handleErrorChange(newValue: boolean, oldValue: boolean) {
     //   if (newValue !== oldValue) {
@@ -817,9 +818,6 @@ export class IrInputText {
         return [{
                 "propName": "mask",
                 "methodName": "handleMaskChange"
-            }, {
-                "propName": "autoValidate",
-                "methodName": "handleMaskChange1"
             }, {
                 "propName": "value",
                 "methodName": "handleValueChange"
