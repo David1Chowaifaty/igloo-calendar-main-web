@@ -101,6 +101,13 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
     }
     async getReports(isExportToExcel = false) {
         try {
+            const getReportObj = (report) => {
+                return {
+                    day: report.Date,
+                    units_booked: report.Units_booked,
+                    occupancy_percent: report.Occupancy,
+                };
+            };
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const { date, include_previous_year } = this.filters;
             const currentReports = await this.propertyService.getMonthlyStats({
@@ -118,11 +125,11 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
                 });
                 enrichedReports = currentReports.map(current => {
                     const previous = previousYearReports.find(prev => prev.day === hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
-                    return Object.assign(Object.assign({}, current), { last_year: previous !== null && previous !== void 0 ? previous : null });
+                    return Object.assign(Object.assign({}, getReportObj(current)), { last_year: previous ? getReportObj(previous) : null });
                 });
             }
             else {
-                enrichedReports = [...currentReports];
+                enrichedReports = currentReports.map(getReportObj);
             }
             this.reports = [...enrichedReports];
         }
