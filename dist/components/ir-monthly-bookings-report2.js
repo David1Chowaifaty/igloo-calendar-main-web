@@ -37,7 +37,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
     componentWillLoad() {
         this.baseFilters = {
             date: {
-                description: hooks().format('MMM YYYY'),
+                description: hooks().format('MMMM YYYY'),
                 firstOfMonth: hooks().startOf('month').format('YYYY-MM-DD'),
                 lastOfMonth: hooks().endOf('month').format('YYYY-MM-DD'),
             },

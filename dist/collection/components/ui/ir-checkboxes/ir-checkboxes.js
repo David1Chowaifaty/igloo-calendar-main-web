@@ -20,7 +20,7 @@ export class IrCheckBoxes {
         }
     }
     render() {
-        return (h("div", { key: '2e72dd2bf9b8bfdcc2aab6a91d8fa60118acfe93' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (h("div", { key: '7f0dbae0038eb3189b826843774950c1763dbb97' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
     static get is() { return "ir-checkboxes"; }
     static get properties() {
