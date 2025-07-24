@@ -40,14 +40,14 @@ export class IrTooltip {
         }
     }
     render() {
-        return (h(Host, { key: 'c1b1eb342ae83b2cf3e5edf28ce86b16cabc9548', class: "m-0 p-0" }, h("span", { key: '33d300aa8e5b189b3daadd4acfdb92d907fa547a', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        return (h(Host, { key: '5e54d9f4d81a7c62457c10ad26cd61bc7382592f', class: "m-0 p-0" }, h("span", { key: '46db35bc20d2361bb9672492658254fdfa118768', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: 'a0b1dd66c3d2abe84e77a655e59674a38bdda075', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '2118d00edf90f547ecd90f2a4287b5550ac1f31e', class: "tooltip-arrow" }), h("div", { key: '338384d5587782721d83a15a52ec5184e5fae7b7', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: 'cec14144efe84520f3bd3125703a82071f2cae27', innerHTML: this.message }))))));
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: '73cfa203770fe99662b19a9eded9fc7332401fbb', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '2f5d38a42be1d5822b2764df9f86610f06df0230', class: "tooltip-arrow" }), h("div", { key: 'a5821f28e41fe0d3c29979d5eb81ec11410e7821', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: 'dcf30b22cb6e9c9d9665d0da00bb0bcd4b823d75', innerHTML: this.message }))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "scoped"; }
