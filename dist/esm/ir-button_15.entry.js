@@ -679,10 +679,13 @@ const IrMonthlyBookingsReport = class {
         }
     }
     StatsCard({ icon, subtitle, title, value }) {
+        if (!value) {
+            return null;
+        }
         return (h("div", { class: "card p-1 d-flex flex-column flex-fill m-0", style: { gap: '0.5rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("p", { class: "m-0 p-0" }, title), h("ir-icons", { name: icon })), h("h4", { class: "m-0 p-0" }, h("b", { class: "m-0 p-0" }, value)), subtitle && h("p", { class: "m-0 p-0 small text-muted" }, subtitle)));
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
@@ -693,18 +696,18 @@ const IrMonthlyBookingsReport = class {
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, this.StatsCard({
             icon: this.stats.OccupancyDelta < 0 ? 'arrow-trend-down' : 'arrow-trend-up',
             title: 'Average Occupancy',
-            value: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.AverageOccupancy.toFixed(2)) + '%',
+            value: this.stats.AverageOccupancy ? ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.AverageOccupancy.toFixed(2)) + '%' : null,
             subtitle: `${(_c = this.stats) === null || _c === void 0 ? void 0 : _c.OccupancyDelta.toFixed(2)}% from last month`,
         }), this.StatsCard({
             icon: 'hotel',
             title: 'Total Units',
-            value: (_d = this.stats) === null || _d === void 0 ? void 0 : _d.TotalUnitsBooked.toString(),
+            value: ((_d = this.stats) === null || _d === void 0 ? void 0 : _d.TotalUnitsBooked) ? (_e = this.stats) === null || _e === void 0 ? void 0 : _e.TotalUnitsBooked.toString() : null,
             subtitle: 'Booked',
         }), this.StatsCard({
             icon: 'calendar',
             title: 'Peak Days',
-            value: (_f = (_e = this.stats) === null || _e === void 0 ? void 0 : _e.PeakDays) === null || _f === void 0 ? void 0 : _f.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '),
-            subtitle: `${Math.max(...(((_g = this.stats.PeakDays) === null || _g === void 0 ? void 0 : _g.map(pd => pd.OccupancyPercent)) || []))}% occupancy`,
+            value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.PeakDays.length) === 0 ? null : (_h = (_g = this.stats) === null || _g === void 0 ? void 0 : _g.PeakDays) === null || _h === void 0 ? void 0 : _h.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '),
+            subtitle: `${Math.max(...(((_j = this.stats.PeakDays) === null || _j === void 0 ? void 0 : _j.map(pd => pd.OccupancyPercent)) || []))}% occupancy`,
         })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
