@@ -211,6 +211,18 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'arrow-trend-up': {
+        viewBox: string;
+        d: string;
+    };
+    hotel: {
+        viewBox: string;
+        d: string;
+    };
+    'arrow-trend-down': {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

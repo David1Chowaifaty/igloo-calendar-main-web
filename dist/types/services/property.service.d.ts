@@ -12,6 +12,22 @@ export type MonthlyStatsParams = {
     to_date: string;
     is_export_to_excel?: boolean;
 };
+export interface MonthlyStatsResults {
+    AverageOccupancy: number;
+    DailyStats: DailyStat[];
+    ExcelLink: null;
+    PeakDays: PeakDay[];
+    TotalUnitsBooked: number;
+}
+export interface PeakDay {
+    Date: string;
+    OccupancyPercent: number;
+}
+export interface DailyStat {
+    Date: string;
+    Occupancy: number;
+    Units_booked: number;
+}
 export declare class PropertyService {
     getExposedProperty(params: {
         id: number | null;
@@ -26,5 +42,5 @@ export declare class PropertyService {
         property_id: number;
         code: string;
     }): Promise<any>;
-    getMonthlyStats(params: MonthlyStatsParams): Promise<any>;
+    getMonthlyStats(params: MonthlyStatsParams): Promise<MonthlyStatsResults>;
 }

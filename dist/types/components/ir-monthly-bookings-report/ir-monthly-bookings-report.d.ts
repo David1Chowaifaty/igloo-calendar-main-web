@@ -1,4 +1,5 @@
 import { DailyReport, DailyReportFilter } from './types';
+import { MonthlyStatsResults } from "../../services/property.service";
 export declare class IrMonthlyBookingsReport {
     language: string;
     ticket: string;
@@ -9,6 +10,9 @@ export declare class IrMonthlyBookingsReport {
     reports: DailyReport[];
     filters: DailyReportFilter;
     property_id: number;
+    stats: Omit<MonthlyStatsResults, 'DailyStats'> & {
+        OccupancyDelta: number;
+    };
     private baseFilters;
     private tokenService;
     private roomService;
@@ -18,5 +22,6 @@ export declare class IrMonthlyBookingsReport {
     handleApplyFiltersChange(e: CustomEvent<DailyReportFilter>): void;
     private init;
     private getReports;
+    private StatsCard;
     render(): any;
 }
