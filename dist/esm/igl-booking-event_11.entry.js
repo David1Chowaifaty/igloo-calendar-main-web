@@ -1510,7 +1510,7 @@ const IglCalBody = class {
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': '#999999' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: name })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, name)));
+                }, style: room.hk_status === '003' && { '--dot-color': '#ededed' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: name })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, name)));
         });
     }
     getRoomRows() {
@@ -1530,7 +1530,7 @@ const IglCalBody = class {
         e.stopPropagation();
         try {
             this.isLoading = true;
-            const newStatusCode = ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '001' ? '002' : '001';
+            const newStatusCode = ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002';
             await this.housekeepingService.setExposedUnitHKStatus({
                 property_id: this.propertyId,
                 // housekeeper: this.selectedRoom?.housekeeper ? { id: this.selectedRoom?.housekeeper?.id } : null,
@@ -1578,7 +1578,7 @@ const IglCalBody = class {
             return null;
         }
         return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
-            _a.name, " to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '001' ? 'Dirty' : 'Clean', "?"))
+            _a.name, " to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '002' ? 'Clean' : 'Dirty', "?"))
         // <ir-select
         //   LabelAvailable={false}
         //   showFirstOption={false}

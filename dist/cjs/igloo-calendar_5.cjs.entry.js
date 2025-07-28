@@ -15,9 +15,8 @@ const unassigned_dates_store = require('./unassigned_dates.store-5daabf69.js');
 const Token = require('./Token-3d0cc874.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-c883b967.js');
-const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
 const hkTasks_store = require('./hk-tasks.store-763717d5.js');
-const property_service = require('./property.service-a87f9718.js');
+const property_service = require('./property.service-0a5accdf.js');
 const user_service = require('./user.service-2707c3a9.js');
 require('./axios-6e678d52.js');
 require('./index-467172e1.js');
@@ -5254,6 +5253,7 @@ const IrHkTasks = class {
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
+        this.isCleaningLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
@@ -5404,6 +5404,7 @@ const IrHkTasks = class {
             if (hkTasks_store.hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
+            this.isCleaningLoading = true;
             await this.houseKeepingService.executeHKAction({
                 actions: hkTasks_store.hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
@@ -5414,6 +5415,7 @@ const IrHkTasks = class {
             if (this.selectedTask) {
                 this.selectedTask = null;
             }
+            this.isCleaningLoading = false;
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -5463,7 +5465,7 @@ const IrHkTasks = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 hkTasks_store.updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), index.h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: irInterceptor_store.isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+            }, class: "flex-grow-1 w-100" })))), index.h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
                 if (this.selectedTask) {
                     hkTasks_store.clearSelectedTasks();
                     this.selectedTask = null;

@@ -99,6 +99,8 @@ export class IrMonthlyBookingsReport {
                     day: report.Date,
                     units_booked: report.Units_booked,
                     occupancy_percent: report.Occupancy,
+                    adr: report.ADR,
+                    rooms_revenue: report.Rooms_Revenue,
                 };
             };
             this.isLoading = isExportToExcel ? 'export' : 'filter';
@@ -111,13 +113,6 @@ export class IrMonthlyBookingsReport {
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel) {
-                requests.push(this.propertyService.getMonthlyStats({
-                    from_date: moment(date.firstOfMonth, 'YYYY-MM-DD').subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
-                    to_date: moment(date.firstOfMonth, 'YYYY-MM-DD').subtract(1, 'month').endOf('month').format('YYYY-MM-DD'),
-                    property_id: this.property_id,
-                }));
-            }
             if (include_previous_year) {
                 requests.push(this.propertyService.getMonthlyStats({
                     from_date: moment(date.firstOfMonth, 'YYYY-MM-DD').add(-1, 'year').format('YYYY-MM-DD'),
@@ -129,11 +124,7 @@ export class IrMonthlyBookingsReport {
             const currentReports = results[0];
             let enrichedReports = [];
             const { DailyStats } = currentReports, rest = __rest(currentReports, ["DailyStats"]);
-            let occupancyDelta = -1;
-            if (!isExportToExcel && results[1]) {
-                occupancyDelta = parseFloat(rest.AverageOccupancy.toString()) - parseFloat(results[1].AverageOccupancy.toString());
-            }
-            this.stats = Object.assign(Object.assign({}, rest), { OccupancyDelta: occupancyDelta });
+            this.stats = Object.assign({}, rest);
             if (include_previous_year && results[isExportToExcel ? 1 : 2]) {
                 const previousYearReports = results[isExportToExcel ? 1 : 2];
                 let formattedReports = previousYearReports.DailyStats.map(getReportObj);
@@ -170,10 +161,10 @@ export class IrMonthlyBookingsReport {
                 e.stopPropagation();
                 await this.getReports(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, this.StatsCard({
-            icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.OccupancyDelta) < 0 ? 'arrow-trend-down' : 'arrow-trend-up',
+            icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up',
             title: 'Average Occupancy',
             value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null,
-            subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.OccupancyDelta) < 0 ? '-' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.OccupancyDelta.toFixed(2)}% from last month`,
+            subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month`,
         }), this.StatsCard({
             icon: 'hotel',
             title: 'Total Units',

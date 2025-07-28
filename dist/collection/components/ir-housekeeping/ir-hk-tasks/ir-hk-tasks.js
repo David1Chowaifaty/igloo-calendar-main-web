@@ -2,7 +2,7 @@ import Token from "../../../models/Token";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store from "../../../stores/housekeeping.store";
-import { isRequestPending } from "../../../stores/ir-interceptor.store";
+// import { isRequestPending } from '@/stores/ir-interceptor.store';
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
@@ -14,6 +14,7 @@ export class IrHkTasks {
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
+        this.isCleaningLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
@@ -164,6 +165,7 @@ export class IrHkTasks {
             if (hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
+            this.isCleaningLoading = true;
             await this.houseKeepingService.executeHKAction({
                 actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
@@ -174,6 +176,7 @@ export class IrHkTasks {
             if (this.selectedTask) {
                 this.selectedTask = null;
             }
+            this.isCleaningLoading = false;
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -223,7 +226,7 @@ export class IrHkTasks {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
                 if (this.selectedTask) {
                     clearSelectedTasks();
                     this.selectedTask = null;
@@ -354,6 +357,7 @@ export class IrHkTasks {
     static get states() {
         return {
             "isLoading": {},
+            "isCleaningLoading": {},
             "selectedDuration": {},
             "selectedHouseKeeper": {},
             "selectedRoom": {},

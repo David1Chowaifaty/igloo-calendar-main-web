@@ -10,9 +10,7 @@ export declare class IrMonthlyBookingsReport {
     reports: DailyReport[];
     filters: DailyReportFilter;
     property_id: number;
-    stats: Omit<MonthlyStatsResults, 'DailyStats'> & {
-        OccupancyDelta: number;
-    };
+    stats: Omit<MonthlyStatsResults, 'DailyStats'>;
     private baseFilters;
     private tokenService;
     private roomService;

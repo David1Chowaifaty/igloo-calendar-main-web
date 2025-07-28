@@ -60,7 +60,7 @@ class PropertyService {
         return data.My_Result;
     }
     async getMonthlyStats(params) {
-        const { data } = await axios.axios.post('https://gateway.igloorooms.com/IRBE/Get_Monthly_Stats', params);
+        const { data } = await axios.axios.post('/Get_Monthly_Stats', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -73,4 +73,4 @@ class PropertyService {
 
 exports.PropertyService = PropertyService;
 
-//# sourceMappingURL=property.service-a87f9718.js.map
+//# sourceMappingURL=property.service-0a5accdf.js.map

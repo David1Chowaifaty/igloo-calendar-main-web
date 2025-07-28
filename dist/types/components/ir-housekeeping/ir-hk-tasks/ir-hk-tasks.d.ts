@@ -9,6 +9,7 @@ export declare class IrHkTasks {
     p: string;
     baseUrl: string;
     isLoading: boolean;
+    isCleaningLoading: boolean;
     selectedDuration: string;
     selectedHouseKeeper: string;
     selectedRoom: IPendingActions | null;

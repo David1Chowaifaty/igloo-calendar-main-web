@@ -11,9 +11,8 @@ import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeU
 import { T as Token } from './Token-6c389e24.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-64b661f9.js';
-import { a as isRequestPending } from './ir-interceptor.store-e96f5930.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-497924f8.js';
-import { P as PropertyService } from './property.service-0714f0de.js';
+import { P as PropertyService } from './property.service-37a9aad7.js';
 import { U as UserService } from './user.service-f1b5fb4c.js';
 import './axios-aa1335b8.js';
 import './index-c1c77241.js';
@@ -5250,6 +5249,7 @@ const IrHkTasks = class {
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
+        this.isCleaningLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
@@ -5400,6 +5400,7 @@ const IrHkTasks = class {
             if (hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
+            this.isCleaningLoading = true;
             await this.houseKeepingService.executeHKAction({
                 actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
@@ -5410,6 +5411,7 @@ const IrHkTasks = class {
             if (this.selectedTask) {
                 this.selectedTask = null;
             }
+            this.isCleaningLoading = false;
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -5459,7 +5461,7 @@ const IrHkTasks = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
                 if (this.selectedTask) {
                     clearSelectedTasks();
                     this.selectedTask = null;

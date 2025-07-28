@@ -3,7 +3,6 @@ import { T as Token } from './Token.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
-import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { J as downloadFile } from './utils.js';
@@ -85,6 +84,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         this.language = '';
         this.ticket = '';
         this.isLoading = false;
+        this.isCleaningLoading = false;
         this.selectedDuration = '';
         this.selectedHouseKeeper = '0';
         this.selectedRoom = null;
@@ -235,6 +235,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             if (hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
+            this.isCleaningLoading = true;
             await this.houseKeepingService.executeHKAction({
                 actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
             });
@@ -245,6 +246,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             if (this.selectedTask) {
                 this.selectedTask = null;
             }
+            this.isCleaningLoading = false;
             // this.clearSelectedTasks.emit();
             this.modal.closeModal();
         }
@@ -294,7 +296,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Execute_HK_Action'), onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
                 if (this.selectedTask) {
                     clearSelectedTasks();
                     this.selectedTask = null;
@@ -321,6 +323,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         "p": [1],
         "baseUrl": [1, "base-url"],
         "isLoading": [32],
+        "isCleaningLoading": [32],
         "selectedDuration": [32],
         "selectedHouseKeeper": [32],
         "selectedRoom": [32],
