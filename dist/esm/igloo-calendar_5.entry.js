@@ -5711,6 +5711,16 @@ const IrSalesByCountry = class {
         }
     }
     async getCountrySales(isExportToExcel = false) {
+        const formatSalesData = (data) => {
+            return {
+                country: data.COUNTRY,
+                country_id: data.COUNTRY_ID,
+                nights: data.NIGHTS,
+                percentage: data.PCT,
+                revenue: data.REVENUE,
+                number_of_guests: undefined,
+            };
+        };
         try {
             const _a = this.salesFilters, { include_previous_year } = _a, filterParams = __rest(_a, ["include_previous_year"]);
             this.isLoading = isExportToExcel ? 'export' : 'filter';
@@ -5721,35 +5731,11 @@ const IrSalesByCountry = class {
                 const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
-                    return {
-                        id: v4(),
-                        country: current.COUNTRY,
-                        country_id: current.COUNTRY_ID,
-                        nights: current.NIGHTS,
-                        percentage: current.PCT,
-                        revenue: current.REVENUE,
-                        last_year: previous
-                            ? {
-                                country: previous.COUNTRY,
-                                nights: previous.NIGHTS,
-                                country_id: previous.COUNTRY_ID,
-                                percentage: previous.PCT,
-                                revenue: previous.REVENUE,
-                            }
-                            : null,
-                    };
+                    return Object.assign(Object.assign({ id: v4() }, formatSalesData(current)), { last_year: previous ? formatSalesData(previous) : null });
                 });
             }
             else {
-                enrichedSales = currentSales.map(record => ({
-                    id: v4(),
-                    country: record.COUNTRY,
-                    country_id: record.COUNTRY_ID,
-                    nights: record.NIGHTS,
-                    percentage: record.PCT,
-                    last_year: null,
-                    revenue: record.REVENUE,
-                }));
+                enrichedSales = currentSales.map(record => (Object.assign(Object.assign({ id: v4() }, formatSalesData(record)), { last_year: null })));
             }
             this.salesData = enrichedSales;
         }

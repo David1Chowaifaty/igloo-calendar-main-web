@@ -157,7 +157,7 @@ export class IrDateRange {
         });
     }
     render() {
-        return (h(Host, { key: '96a5c2e2076db67266da42c064cfafe74159e5f4' }, h("input", { key: '99aff64b13ce00c73583514459e4f96229c28688', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: '4fd780155239f3a2809043d3438ee97cf86db847' }, h("input", { key: '5ef428e67aee1b249f6ade3d9e5cf3c82dbe6a43', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "scoped"; }

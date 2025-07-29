@@ -4,19 +4,20 @@ import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { R as RoomService } from './room.service.js';
 import { P as PropertyService } from './property.service.js';
-import { d as defineCustomElement$d } from './ir-button2.js';
-import { d as defineCustomElement$c } from './ir-checkbox2.js';
-import { d as defineCustomElement$b } from './ir-icons2.js';
-import { d as defineCustomElement$a } from './ir-interceptor2.js';
-import { d as defineCustomElement$9 } from './ir-loading-screen2.js';
-import { d as defineCustomElement$8 } from './ir-monthly-bookings-report-filter2.js';
-import { d as defineCustomElement$7 } from './ir-monthly-bookings-report-table2.js';
-import { d as defineCustomElement$6 } from './ir-otp2.js';
-import { d as defineCustomElement$5 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$4 } from './ir-progress-indicator2.js';
-import { d as defineCustomElement$3 } from './ir-select2.js';
-import { d as defineCustomElement$2 } from './ir-spinner2.js';
-import { d as defineCustomElement$1 } from './ir-toast2.js';
+import { d as defineCustomElement$e } from './ir-button2.js';
+import { d as defineCustomElement$d } from './ir-checkbox2.js';
+import { d as defineCustomElement$c } from './ir-icons2.js';
+import { d as defineCustomElement$b } from './ir-interceptor2.js';
+import { d as defineCustomElement$a } from './ir-loading-screen2.js';
+import { d as defineCustomElement$9 } from './ir-monthly-bookings-report-filter2.js';
+import { d as defineCustomElement$8 } from './ir-monthly-bookings-report-table2.js';
+import { d as defineCustomElement$7 } from './ir-otp2.js';
+import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
+import { d as defineCustomElement$5 } from './ir-progress-indicator2.js';
+import { d as defineCustomElement$4 } from './ir-select2.js';
+import { d as defineCustomElement$3 } from './ir-spinner2.js';
+import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
@@ -120,6 +121,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
                     occupancy_percent: report.Occupancy,
                     adr: report.ADR,
                     rooms_revenue: report.Rooms_Revenue,
+                    total_guests: report === null || report === void 0 ? void 0 : report.Total_Guests,
                 };
             };
             this.isLoading = isExportToExcel ? 'export' : 'filter';
@@ -218,7 +220,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-toast"];
+    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-toast", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-monthly-bookings-report":
             if (!customElements.get(tagName)) {
@@ -227,65 +229,70 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-monthly-bookings-report-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-monthly-bookings-report-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-progress-indicator":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-tooltip":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

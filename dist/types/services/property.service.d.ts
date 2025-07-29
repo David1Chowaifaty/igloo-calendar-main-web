@@ -30,6 +30,7 @@ export interface DailyStat {
     Units_booked: number;
     Rooms_Revenue: number;
     ADR: number;
+    Total_Guests: number | undefined;
 }
 export declare class PropertyService {
     getExposedProperty(params: {
