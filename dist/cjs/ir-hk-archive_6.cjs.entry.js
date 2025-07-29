@@ -7,8 +7,7 @@ const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const calendarData = require('./calendar-data-b2787812.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
-const utils = require('./utils-92c1b8ab.js');
-const moment = require('./moment-1780b03a.js');
+const utils = require('./utils-b6f53f94.js');
 const v4 = require('./v4-9b297151.js');
 const hkTasks_store = require('./hk-tasks.store-763717d5.js');
 require('./index-467172e1.js');
@@ -31,7 +30,7 @@ const IrHkArchive = class {
         this.data = [];
         this.isLoading = null;
         this.fetchedData = false;
-        this.minSelectableDate = moment.hooks().subtract(90, 'days').toDate();
+        this.minSelectableDate = utils.hooks().subtract(90, 'days').toDate();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.units = [];
     }
@@ -131,7 +130,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), index.h("div", { key: 'e01499ddae26c0cc192fc10d7b3be7a7b9f5daaa', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: '24b9faeba7aa13bce3c9319bbab5ab2249b643fd', maxDate: moment.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? moment.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? moment.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: 'fc6d884bc06fbbf8eb1e35937a22202cf91560d4', title: (_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: 'bf8c9f681682dd77ab73fd34b0580aafb33dec22', title: (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: '73d4783322b5b6ccb8e1ffaa7afc89ccf8768855' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), index.h("div", { key: 'e01499ddae26c0cc192fc10d7b3be7a7b9f5daaa', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: '24b9faeba7aa13bce3c9319bbab5ab2249b643fd', maxDate: utils.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? utils.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? utils.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: 'fc6d884bc06fbbf8eb1e35937a22202cf91560d4', title: (_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: 'bf8c9f681682dd77ab73fd34b0580aafb33dec22', title: (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: '73d4783322b5b6ccb8e1ffaa7afc89ccf8768855' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -370,7 +369,7 @@ const IrTasksTable = class {
      * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
      */
     isCheckable(task) {
-        return moment.hooks(task.date, 'YYYY-MM-DD').isSameOrBefore(moment.hooks(), 'days');
+        return utils.hooks(task.date, 'YYYY-MM-DD').isSameOrBefore(utils.hooks(), 'days');
     }
     render() {
         var _a, _b;

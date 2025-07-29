@@ -7,13 +7,12 @@ const housekeeping_service = require('./housekeeping.service-c883b967.js');
 const locales_store = require('./locales.store-0cac7e5d.js');
 const calendarData = require('./calendar-data-b2787812.js');
 const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const user_service = require('./user.service-2707c3a9.js');
+const user_service = require('./user.service-c92c30ca.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-63734c32.js');
 require('./index-467172e1.js');
 require('./axios-6e678d52.js');
-require('./utils-92c1b8ab.js');
-require('./moment-1780b03a.js');
+require('./utils-b6f53f94.js');
 
 const irDeleteModalCss = ":host{font-size:1rem;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}.modal-backdrop{background-color:rgba(0, 0, 0, 0.5) !important}.ir-alert-footer{gap:10px}.exit-icon{position:absolute;right:10px;top:5px;margin:0}";
 const IrDeleteModalStyle0 = irDeleteModalCss;

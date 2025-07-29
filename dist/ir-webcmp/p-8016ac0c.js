@@ -1,0 +1,2 @@
+import{h as s}from"./p-77dba4a5.js";const a=a=>s(a).format("MMM DD, YYYY");const m=a=>s(a).format("DD/MM ddd");const o=(a,m)=>s(`${a}:${m}`,"HH:mm").format("hh:mm A");export{o as _,a,m as b};
+//# sourceMappingURL=p-8016ac0c.js.map
