@@ -20,6 +20,21 @@ export declare class IrTooltip {
         [key: string]: string;
     };
     /**
+     * CSS classes applied to the outer tooltip container.
+     */
+    containerClass: string;
+    /**
+     * Defines the horizontal alignment of the tooltip trigger content.
+     *
+     * - `'start'`: Aligns the trigger to the left within its container.
+     * - `'center'`: Centers the trigger horizontally (default).
+     * - `'end'`: Aligns the trigger to the right within its container.
+     *
+     * This alignment affects how the trigger (e.g., icon or slotted element)
+     * is positioned inside the outer tooltip container.
+     */
+    alignment: 'start' | 'end' | 'center';
+    /**
      * Internal state tracking whether the tooltip is currently visible.
      */
     open: boolean;

@@ -786,14 +786,14 @@ const IrMonthlyBookingsReportTable = class {
     }
     render() {
         // const totalUnits = this.reports?.reduce((prev, curr) => prev + curr.units_booked, 0) ?? 0;
-        return (h(Host, { key: '55f21a8424b4b337cc7273739c6aa9b2500a5ba2', class: 'card p-1  table-container table-responsive' }, h("table", { key: 'e9663469ad8b70eaeaf1734c7e54c8d6757753c7', class: "table" }, h("thead", { key: '2f82a4a6c13dc2bc4f66cc044f9ea5cf1ab78f4a', class: "table-header" }, h("tr", { key: 'b9ebfb0ffd41013de13ef3bd927bbc874db28597' }, h("th", { key: '37e5c79cf3cb4df4a3ed6c68d6db4574a5d1bf57', class: "text-center" }, "Date"), h("th", { key: '6dfd9ceb98da3e6f421f28384945e38083fa4cb4', class: "text-center" }, "Units booked"), h("th", { key: 'c155e67dcc812ce8188bb25a554651f11e2b4602', class: "text-center" }, "Total guests"), h("th", { key: 'a81095f680c8ed5302451a3959f96aef2d7c32a2', class: "text-right" }, h("ir-tooltip", { key: '5b6e8c1312c49ff8f7974de8226ada4cdeec4a2f', customSlot: true, message: "Average Daily Revenue" }, h("span", { key: 'de4d63e5dbc4f559472471686c58eabd66a24242', slot: "tooltip-trigger" }, "ADR"))), h("th", { key: '1a014d0070f2a4e8305af45fa73654579d865cf8', class: "text-right" }, "Rooms revenue"), h("th", { key: 'ad3fed704fd4ba3d4541427734b5e3c1ecd4e2e0', class: "" }, "Occupancy"))), h("tbody", { key: 'c6759347718e64ec4ef312510b9d6d1466635bb1' }, this.reports.length === 0 && (h("tr", { key: '572d6e0d51d6f50136a0b653e841e836e12a4bd4' }, h("td", { key: 'c220112df2c5ad2593f3b1430f07483d013dace0', colSpan: 3, class: 'text-center', style: { height: '30vh' } }, "No data found"))), this.reports.map(report => {
+        return (h(Host, { key: '55f21a8424b4b337cc7273739c6aa9b2500a5ba2', class: 'card p-1  table-container table-responsive' }, h("table", { key: 'e9663469ad8b70eaeaf1734c7e54c8d6757753c7', class: "table" }, h("thead", { key: '2f82a4a6c13dc2bc4f66cc044f9ea5cf1ab78f4a', class: "table-header" }, h("tr", { key: 'b9ebfb0ffd41013de13ef3bd927bbc874db28597' }, h("th", { key: '37e5c79cf3cb4df4a3ed6c68d6db4574a5d1bf57', class: "text-center" }, "Date"), h("th", { key: '6dfd9ceb98da3e6f421f28384945e38083fa4cb4', class: "text-center" }, "Units booked"), h("th", { key: 'c155e67dcc812ce8188bb25a554651f11e2b4602', class: "text-center" }, "Total guests"), h("th", { key: 'a81095f680c8ed5302451a3959f96aef2d7c32a2', class: "text-right" }, h("ir-tooltip", { key: '6c9a0353f39d7472be74f8bdf7a8db79603c1896', customSlot: true, message: "Average Daily Revenue", alignment: "end" }, h("span", { key: '77cf8d3d4f25497fe73fa03f2681ce10d93b49e7', slot: "tooltip-trigger" }, "ADR"))), h("th", { key: 'b8e01aaaf2b30837d3e51296d0a8793fbc9f16b4', class: "text-right" }, "Rooms revenue"), h("th", { key: 'd3b0c06a1db4f1424658177ac01c17fae5522ce8', class: "" }, "Occupancy"))), h("tbody", { key: 'fdcc26e225563c8f42b2d769b616bb6d66eb636d' }, this.reports.length === 0 && (h("tr", { key: '32c35a738c8aa64776ab95959340908527d549dd' }, h("td", { key: 'de491c8824db5cd6439b03115de5ccc3e44794f8', colSpan: 3, class: 'text-center', style: { height: '30vh' } }, "No data found"))), this.reports.map(report => {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
             const mainPercentage = `${parseFloat(report.occupancy_percent.toString()).toFixed(2)}%`;
             const secondaryPercentage = report.last_year ? `${parseFloat(report.last_year.occupancy_percent.toString()).toFixed(2)}%` : null;
             const reportDate = hooks(report.day, 'YYYY-MM-DD');
             const isFutureDate = hooks().isBefore(reportDate, 'dates');
             return (h("tr", { key: report.day, class: `ir-table-row ${isFutureDate ? 'future-report' : ''}` }, h("td", { class: 'text-center' }, reportDate.format('D')), h("td", { class: "text-center" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${((_a = report.last_year) === null || _a === void 0 ? void 0 : _a.units_booked) ? 'font-weight-bold' : ''}` }, report.units_booked), ((_b = report.last_year) === null || _b === void 0 ? void 0 : _b.units_booked) > 0 && h("p", { class: "p-0 m-0" }, (_c = report.last_year) === null || _c === void 0 ? void 0 : _c.units_booked))), h("td", { class: "text-center" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${((_d = report.last_year) === null || _d === void 0 ? void 0 : _d.total_guests) ? 'font-weight-bold' : ''}` }, report.total_guests), ((_e = report.last_year) === null || _e === void 0 ? void 0 : _e.total_guests) > 0 && h("p", { class: "p-0 m-0" }, (_f = report.last_year) === null || _f === void 0 ? void 0 : _f.total_guests))), h("td", { class: "text-right" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${((_g = report.last_year) === null || _g === void 0 ? void 0 : _g.adr) ? 'font-weight-bold' : ''}` }, formatAmount(calendar_data.currency.symbol, report.adr)), ((_h = report.last_year) === null || _h === void 0 ? void 0 : _h.adr) > 0 && h("p", { class: "p-0 m-0" }, formatAmount(calendar_data.currency.symbol, report.last_year.adr)))), h("td", { class: "text-right" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${((_j = report.last_year) === null || _j === void 0 ? void 0 : _j.rooms_revenue) ? 'font-weight-bold' : ''}` }, formatAmount(calendar_data.currency.symbol, report.rooms_revenue)), ((_k = report.last_year) === null || _k === void 0 ? void 0 : _k.rooms_revenue) > 0 && h("p", { class: "p-0 m-0" }, formatAmount(calendar_data.currency.symbol, report.last_year.rooms_revenue)))), h("td", null, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("ir-progress-indicator", { percentage: mainPercentage }), ((_l = report.last_year) === null || _l === void 0 ? void 0 : _l.occupancy_percent) > 0 && h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" })))));
-        })), h("tfoot", { key: 'b40e5ab6e44128f7fc9d20c15713189ca13340fe' }, h("tr", { key: '01bbf1d44bedffa7631436efa9c0ad93bde4ddb9' }, h("td", { key: 'ca38d7b969b370c7da22c6cb841cf040ee97ce38', colSpan: 5 }), h("td", { key: 'f47d7851ab38e7bbd02cfe2f12a9bdab7fbcfe52', colSpan: 1, class: "text-right", style: { whiteSpace: 'nowrap' } }, h("div", { key: '27dd258d8b30d66fcd2c4155831d348f48d24e71', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: '48608659967b777ccb0027157fb0dc47dcb8181f', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '5ad79bb3678534ac208c7a362898c66e97a3a0db', class: "legend bg-primary" }), h("p", { key: '4dcf0e24fbc26197ff982a66a09fd2d3a9d68cd1', class: "p-0 m-0" }, "Selected period ")), h("div", { key: '10eb04ad1ab50d5aa80b6042d8c0d140aa2ca207', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '93516ced98bed36e7ef0ea23638354609fefaa8a', class: "legend secondary" }), h("p", { key: '513f01ddb375d719328141800f51a3c17d9ff808', class: "p-0 m-0" }, "Previous year")))))))));
+        })), h("tfoot", { key: '8fe67e26278be88a003b4c4f15fdd26a374d63b6' }, h("tr", { key: '4032724a9fb5ab8d07e4d3a58c16bd87f6c4c33d' }, h("td", { key: '03401cc6a274a90f6a671a0e1bc8b69c83bd65e3', colSpan: 5 }), h("td", { key: '4010c5d90211b21b0003060a183cc755a31abc90', colSpan: 1, class: "text-right", style: { whiteSpace: 'nowrap' } }, h("div", { key: '0ba5ab0dcb55ebe9c935c64ca161aea44a2675b0', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: 'd2abbc89d5b6057d864684d483cf68d86f306a3c', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'b33d5cb7a56e1299bd165e36c431691bd942c556', class: "legend bg-primary" }), h("p", { key: 'd66cd055e64a31bc416b7577141de5449005c1a9', class: "p-0 m-0" }, "Selected period ")), h("div", { key: '94363e6e3b018c1ce13e53085b8a9b63a6b111fa', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '259d0df48c0ac26a51bce98e22500d8d8335fbf1', class: "legend secondary" }), h("p", { key: '013e8fff071f11c4e2f3fff5b73b5e85dc242481', class: "p-0 m-0" }, "Previous year")))))))));
     }
 };
 IrMonthlyBookingsReportTable.style = IrMonthlyBookingsReportTableStyle0 + IrMonthlyBookingsReportTableStyle1;
@@ -1450,6 +1450,17 @@ const IrTooltip = class {
          * If false, a default info icon is used.
          */
         this.customSlot = false;
+        /**
+         * Defines the horizontal alignment of the tooltip trigger content.
+         *
+         * - `'start'`: Aligns the trigger to the left within its container.
+         * - `'center'`: Centers the trigger horizontally (default).
+         * - `'end'`: Aligns the trigger to the right within its container.
+         *
+         * This alignment affects how the trigger (e.g., icon or slotted element)
+         * is positioned inside the outer tooltip container.
+         */
+        this.alignment = 'center';
     }
     /**
      * Handles showing or hiding the tooltip.
@@ -1479,14 +1490,26 @@ const IrTooltip = class {
         }
     }
     render() {
-        return (h(Host, { key: '7866491fe55dfbff8eb6c498b5afb96610ce3819', class: "m-0 p-0" }, h("span", { key: 'e776dff2ba831a74315fd3f52f1796681fa0820f', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        const alignment = (() => {
+            switch (this.alignment) {
+                case 'start':
+                    return 'justify-content-start';
+                case 'end':
+                    return 'justify-content-end';
+                case 'center':
+                    return 'justify-content-center';
+                default:
+                    return 'justify-content-center';
+            }
+        })();
+        return (h(Host, { class: "m-0 p-0" }, h("span", { style: this.containerStyle, class: `m-0 p-0 d-flex align-items-center ${alignment} ${this.containerClass}`, onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: 'a997d2e2efd13e7bbc156c8f0db28ab9e5334ab5', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '50563b42d7073d82a95ca977caf97967e6a63535', class: "tooltip-arrow" }), h("div", { key: 'ffdfa13b5a9b4da70f335a84be2542750c259747', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '807030f7e71e554767bb6328f6f6930b6862a6f7', innerHTML: this.message }))))));
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { class: "tooltip-arrow" }), h("div", { class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { innerHTML: this.message }))))));
     }
 };
 IrTooltip.style = IrTooltipStyle0;

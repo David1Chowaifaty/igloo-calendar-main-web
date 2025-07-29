@@ -17,6 +17,17 @@ const IrTooltip = /*@__PURE__*/ proxyCustomElement(class IrTooltip extends HTMLE
          * If false, a default info icon is used.
          */
         this.customSlot = false;
+        /**
+         * Defines the horizontal alignment of the tooltip trigger content.
+         *
+         * - `'start'`: Aligns the trigger to the left within its container.
+         * - `'center'`: Centers the trigger horizontally (default).
+         * - `'end'`: Aligns the trigger to the right within its container.
+         *
+         * This alignment affects how the trigger (e.g., icon or slotted element)
+         * is positioned inside the outer tooltip container.
+         */
+        this.alignment = 'center';
     }
     /**
      * Handles showing or hiding the tooltip.
@@ -46,14 +57,26 @@ const IrTooltip = /*@__PURE__*/ proxyCustomElement(class IrTooltip extends HTMLE
         }
     }
     render() {
-        return (h(Host, { key: '7866491fe55dfbff8eb6c498b5afb96610ce3819', class: "m-0 p-0" }, h("span", { key: 'e776dff2ba831a74315fd3f52f1796681fa0820f', style: this.containerStyle, class: 'm-0 p-0 d-flex align-items-center justify-content-center', onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
+        const alignment = (() => {
+            switch (this.alignment) {
+                case 'start':
+                    return 'justify-content-start';
+                case 'end':
+                    return 'justify-content-end';
+                case 'center':
+                    return 'justify-content-center';
+                default:
+                    return 'justify-content-center';
+            }
+        })();
+        return (h(Host, { class: "m-0 p-0" }, h("span", { style: this.containerStyle, class: `m-0 p-0 d-flex align-items-center ${alignment} ${this.containerClass}`, onMouseEnter: () => this.toggleOpen(true), onMouseLeave: () => this.toggleOpen(false) }, !this.customSlot ? (
         // <svg data-toggle="tooltip" data-placement="top" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="tooltip-icon" viewBox="0 0 512 512">
         //   <path
         //     fill="#6b6f82"
         //     d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
         //   />
         // </svg>
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { key: 'a997d2e2efd13e7bbc156c8f0db28ab9e5334ab5', class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { key: '50563b42d7073d82a95ca977caf97967e6a63535', class: "tooltip-arrow" }), h("div", { key: 'ffdfa13b5a9b4da70f335a84be2542750c259747', class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { key: '807030f7e71e554767bb6328f6f6930b6862a6f7', innerHTML: this.message }))))));
+        h("svg", { xmlns: "http://www.w3.org/2000/svg", class: 'm-0 p-0', height: "16", width: "16", viewBox: "0 0 512 512" }, h("path", { fill: "#6b6f82", d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))) : (h("slot", { name: "tooltip-trigger" }))), this.open && (h("div", { class: "tooltip bottom show position-absolute", role: "tooltip" }, h("div", { class: "tooltip-arrow" }), h("div", { class: `tooltip-inner fit ${this.customSlot && 'tooltip-inner-custom'}` }, h("span", { innerHTML: this.message }))))));
     }
     static get style() { return IrTooltipStyle0; }
 }, [6, "ir-tooltip", {
@@ -61,6 +84,8 @@ const IrTooltip = /*@__PURE__*/ proxyCustomElement(class IrTooltip extends HTMLE
         "withHtml": [4, "with-html"],
         "customSlot": [4, "custom-slot"],
         "containerStyle": [16],
+        "containerClass": [1, "container-class"],
+        "alignment": [1],
         "open": [32]
     }]);
 function defineCustomElement() {
