@@ -46,6 +46,7 @@ export declare class IrBookingDetails {
         message: string;
         loading: boolean;
     };
+    departureTime: IEntries[];
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
@@ -54,7 +55,7 @@ export declare class IrBookingDetails {
     private paymentService;
     private token;
     private printingBaseUrl;
-    modalRef: HTMLIrModalElement;
+    private modalRef;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;

@@ -857,6 +857,10 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
+          * Forcing css style to the input container
+         */
+        "inputContainerStyle": { [key: string]: string };
+        /**
           * Forcing css style to the input
          */
         "inputForcedStyle"?: { [key: string]: string };
@@ -1509,6 +1513,7 @@ export namespace Components {
         "booking": Booking;
         "bookingIndex": number;
         "currency": string;
+        "departureTime": IEntries[];
         "hasCheckIn": boolean;
         "hasCheckOut": boolean;
         "hasRoomAdd": boolean;
@@ -1519,6 +1524,7 @@ export namespace Components {
         "legendData": any;
         "mealCodeName": string;
         "myRoomTypeFoodCat": string;
+        "property_id": number;
         "room": Room;
         "roomsInfo": any;
     }
@@ -3680,6 +3686,7 @@ declare global {
     };
     interface HTMLIrRoomElementEventMap {
         "deleteFinished": string;
+        "toast": IToast;
         "pressCheckIn": any;
         "pressCheckOut": any;
         "editInitiated": TIglBookPropertyPayload;
@@ -5123,6 +5130,10 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
+          * Forcing css style to the input container
+         */
+        "inputContainerStyle"?: { [key: string]: string };
+        /**
           * Forcing css style to the input
          */
         "inputForcedStyle"?: { [key: string]: string };
@@ -5852,6 +5863,7 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "bookingIndex"?: number;
         "currency"?: string;
+        "departureTime"?: IEntries[];
         "hasCheckIn"?: boolean;
         "hasCheckOut"?: boolean;
         "hasRoomAdd"?: boolean;
@@ -5868,6 +5880,8 @@ declare namespace LocalJSX {
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;
         "onResetbooking"?: (event: IrRoomCustomEvent<null>) => void;
+        "onToast"?: (event: IrRoomCustomEvent<IToast>) => void;
+        "property_id"?: number;
         "room"?: Room;
         "roomsInfo"?: any;
     }

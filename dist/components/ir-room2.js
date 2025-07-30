@@ -3,12 +3,13 @@ import { b as _getDay } from './functions.js';
 import { r as formatName, f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
-import { c as colorVariants, d as defineCustomElement$4 } from './ir-icons2.js';
+import { c as colorVariants, d as defineCustomElement$5 } from './ir-icons2.js';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$6 } from './ir-button2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
-import { d as defineCustomElement$3 } from './ir-label2.js';
-import { d as defineCustomElement$2 } from './ir-modal2.js';
+import { d as defineCustomElement$7 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-date-view2.js';
+import { d as defineCustomElement$4 } from './ir-label2.js';
+import { d as defineCustomElement$3 } from './ir-modal2.js';
+import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const irRoomCss = ".light-blue-bg.sc-ir-room{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px;display:block;max-width:100px;box-sizing:border-box;display:inline-block;overflow:hidden;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room{display:block;width:100%}.room_statements.sc-ir-room span.sc-ir-room{display:inline;white-space:normal;line-height:1.5;word-break:break-word}.room_statements.sc-ir-room b.sc-ir-room{display:inline;margin-right:5px}.payment-container.sc-ir-room{position:absolute;right:1rem;height:fit-content}.sc-ir-room-h{position:relative}.sm-mr.sc-ir-room{margin-right:3px}.subtotal_row.sc-ir-room{padding-top:8px;font-weight:600}.room_actions_btns.sc-ir-room{gap:0.5rem}.night-cost.sc-ir-room{color:#7cbebe}.room_actions_btns.sc-ir-room{white-space:nowrap;width:max-content}.room_actions_btns.sc-ir-room{flex:1 1 0%;display:flex;justify-content:flex-end}.mx-0-5.sc-ir-room{margin-left:2px !important;margin-right:2px !important}.tax-width.sc-ir-room{font-size:10px}.sm-mb-1.sc-ir-room{margin-bottom:5px !important}.sm-mt-1.sc-ir-room{margin-top:5px !important}.mx-01.sc-ir-room{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
@@ -19,6 +20,7 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         super();
         this.__registerHost();
         this.deleteFinished = createEvent(this, "deleteFinished", 7);
+        this.toast = createEvent(this, "toast", 7);
         this.pressCheckIn = createEvent(this, "pressCheckIn", 7);
         this.pressCheckOut = createEvent(this, "pressCheckOut", 7);
         this.editInitiated = createEvent(this, "editInitiated", 7);
@@ -182,6 +184,24 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         await this.bookingService.doReservation(body);
         this.deleteFinished.emit(this.room.identifier);
     }
+    async updateDepartureTime(code) {
+        try {
+            await this.bookingService.setDepartureTime({
+                property_id: this.property_id,
+                code,
+                room_identifier: this.room.identifier,
+            });
+            this.toast.emit({
+                type: 'success',
+                description: '',
+                title: 'Saved Successfully',
+                position: 'top-right',
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
     formatVariation({ infant_nbr, adult_nbr, children_nbr }) {
         const adultCount = adult_nbr > 0 ? adult_nbr : 0;
         const childCount = children_nbr > 0 ? children_nbr : 0;
@@ -255,17 +275,25 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         return (_a = this.room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c, _d;
         const bed = this.getBedName();
-        return (h(Host, { key: 'e3675863ef9aa761c3dc64fab207322bc3b22862', class: "p-1 d-flex m-0" }, h("ir-button", { key: '9610a4b247568faab6bc235d7ca8bd48bd1e6dc8', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": `#roomCollapse-${(_a = this.room.identifier) === null || _a === void 0 ? void 0 : _a.split(' ').join('')}`, "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "mr-1", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (h(Host, { key: 'fec83efb2fd1a78c3d091b0df1f3c06fae17a4f6', class: "p-1 d-flex m-0" }, h("ir-button", { key: 'ff62849fb89e662ea00eef7efd6dc12adf6d7986', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": `#roomCollapse-${(_a = this.room.identifier) === null || _a === void 0 ? void 0 : _a.split(' ').join('')}`, "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "mr-1", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } }), h("div", { key: '2f70d75a0b3554acd8382fa81c06b8c499521a22', class: "flex-fill m-0 " }, h("div", { key: '69a4c7434c2852739f0c1f50ac86ca78452722da', class: "d-flex align-items-start justify-content-between sm-mb-1" }, h("p", { key: '7ee2e4fcfcc1b1367dbd734ac33428fd7cd890de', class: "m-0 p-0" }, h("span", { key: '2d26fced6c7012efe9531bcd3f5fd28b6b487f66', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: '584ebaf78a12014a7de439a0c05925eeb59cf0f7', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, h("span", { key: '2f6e322bd779df4ea1c09dbc21ddf503a0993ae3', class: "p-0 m-0 font-weight-bold" }, formatAmount(this.currency, this.room['gross_total'])), this.hasRoomEdit && this.isEditable && (h("ir-button", { key: '1e146d3c2d29dfe5f64fe1f45dd60e40fc27736f', id: `roomEdit-${this.room.identifier}`, variant: "icon", icon_name: "edit",
+            }, style: { '--icon-size': '1.6rem' } }), h("div", { key: '1e9fa93798c4ad16c35a74f5cf8e85ca36cc66cb', class: "flex-fill m-0 " }, h("div", { key: '14e7f0b4ff825f1907e4a120e3479fae05d52e29', class: "d-flex align-items-start justify-content-between sm-mb-1" }, h("p", { key: '82c12ae9e3c95fc926b27f5b592de18ed26d17e0', class: "m-0 p-0" }, h("span", { key: '7e56d6d65ade2c6e3c66d1432135282eea6a089e', class: "m-0 p-0", style: { fontWeight: '600' } }, this.myRoomTypeFoodCat || '', ' '), ' ', this.mealCodeName, " ", this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: '6928593b013954c953d2f597cdde7daf9ee14717', class: "d-flex m-0 p-0 align-items-center room_actions_btns" }, h("span", { key: 'fb53272dd33646f675112f7d512a6d3f606be72f', class: "p-0 m-0 font-weight-bold" }, formatAmount(this.currency, this.room['gross_total'])), this.hasRoomEdit && this.isEditable && (h("ir-button", { key: '4ed318a67279ae440adf57c0deb4f18df6f9ddd2', id: `roomEdit-${this.room.identifier}`, variant: "icon", icon_name: "edit",
             // class="mx-1"
-            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: '1e4c75836ef8ae5a5104e7eb0c163baca8f67379', variant: "icon", onClickHandler: this.openModal.bind(this, 'delete'), id: `roomDelete-${this.room.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: 'a761406ee93810ed3d7cbd57930bec6c3cb1c3bf', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '4ced57e7fa40b54c123d1f26b087d1e3fe087d3a', class: "mr-1  flex-grow-1", style: { width: 'fit-content' }, from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (h("div", { key: 'ef5deb54e95c8b5bf62ac73c0f007e65827362fc', class: 'd-flex justify-content-center align-items-center' }, h("ir-tooltip", { key: '84a7fbc86a8d57ae8d4b4eaace400ee932587eef', message: this.room.unit.name, customSlot: true }, h("span", { key: '334816d42a8aae3e802e18729b15219bde66125c', slot: "tooltip-trigger", class: `light-blue-bg  ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.room.unit.name)))), this.hasCheckIn && (h("ir-button", { key: '46a1358ffb38561571be8bd63ab8f8926dd59ac7', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckIn })), this.hasCheckOut && (h("ir-button", { key: '6c537f5233798316a67f78d2a7fe68c4b20c9c91', onClickHandler: this.openModal.bind(this, 'checkout'), id: "checkout", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckOut }))), h("div", { key: '0f1697632d4f926e2d55b0cb42a2d4c93d42dde3', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '85e56354d23d146aff8079b7947adaa689f249b9', class: "m-0 p-0" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
-            (this.room.unit ? (h("ir-tooltip", { message: 'View guests', class: "m-0 p-0", customSlot: true }, h("ir-button", { class: "m-0 p-0", slot: "tooltip-trigger", btn_color: "link", renderContentAsHtml: true, onClickHandler: () => this.showGuestModal(), size: "sm", btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit', textAlign: 'center', lineHeight: '1.2' }, text: this.formatVariation(this.room.occupancy) }))) : (h("span", { innerHTML: this.formatVariation(this.room.occupancy) }))), bed && h("p", { key: '44f2f6162b8eb15d250d29e5033a11b98abda627', class: "m-0 p-0" }, "(", bed, ")")), h("div", { key: '552d8396bf26c4d10ae3d566d062d6eef2ef1888', class: "collapse", id: `roomCollapse-${(_b = this.room.identifier) === null || _b === void 0 ? void 0 : _b.split(' ').join('')}` }, h("div", { key: '06f70572def00958845244bd97094885670fe0ef', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: '3607ecfbafa48d2eebde47498246e09038ab76db', class: " sm-padding-top" }, h("p", { key: '9db61733abe33873b9797d231f37caf7b47c3664', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: '2bddd9ad1b50d419a1b8087405adfaa488da04b0', class: 'flex-fill' }, h("table", { key: '6b574aec91954e90fb3aece1c6ee2da0af2673c2' }, this.room.days.length > 0 &&
+            style: colorVariants.secondary, onClickHandler: this.handleEditClick.bind(this) })), this.hasRoomDelete && this.isEditable && (h("ir-button", { key: '72c9b5d533cd5248f4633fac74e72477d4043a6d', variant: "icon", onClickHandler: this.openModal.bind(this, 'delete'), id: `roomDelete-${this.room.identifier}`, icon_name: "trash", style: colorVariants.danger })))), h("div", { key: 'df9491e27287441b8f8e3d0248c44ae388ee642f', class: "d-flex align-items-center sm-mb-1" }, h("ir-date-view", { key: '0a28dfeb77a2896dad50769fa4665ce8407bc48e', class: "mr-1  flex-grow-1", style: { width: 'fit-content' }, from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (h("div", { key: 'f99dc8bc2e6a2b14e8eab20463ec0ba5e7387a31', class: 'd-flex justify-content-center align-items-center' }, h("ir-tooltip", { key: '555b49de942ca7f56a1197d1cbf21c9139f659f6', message: this.room.unit.name, customSlot: true }, h("span", { key: 'b81fb5e2cd4e2e2644c7b2a201b0db7021ffdd94', slot: "tooltip-trigger", class: `light-blue-bg  ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} ` }, this.room.unit.name)))), this.hasCheckIn && (h("ir-button", { key: 'da27b9e3120412e7f9ed57ddb006687ec36af5a5', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckIn })), this.hasCheckOut && (h("ir-button", { key: 'b730afc32f7edc6396c687ce5fc9daa5dcbb6b2e', onClickHandler: this.openModal.bind(this, 'checkout'), id: "checkout", btn_color: "outline", size: "sm", text: locales.entries.Lcz_CheckOut }))), h("div", { key: 'ea5fd5816a22cdbc9e82d2d918a47e7b7c08be4a', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '3479d763d03129c3592e643c8e2e0028fa1feed1', class: "m-0 p-0" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
+            (this.room.unit ? (h("ir-tooltip", { message: 'View guests', class: "m-0 p-0", customSlot: true }, h("ir-button", { class: "m-0 p-0", slot: "tooltip-trigger", btn_color: "link", renderContentAsHtml: true, onClickHandler: () => this.showGuestModal(), size: "sm", btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit', textAlign: 'center', lineHeight: '1.2' }, text: this.formatVariation(this.room.occupancy) }))) : (h("span", { innerHTML: this.formatVariation(this.room.occupancy) }))), bed && h("p", { key: '83fff9ed1802095fdc259fd44485289998335ead', class: "m-0 p-0" }, "(", bed, ")")), h("div", { key: 'f2c0971d73ba5387085aaa21c5f134ccee643c5d', class: "d-flex align-items-center", style: { marginTop: '0.5rem', marginBottom: '0.875rem', gap: '0.5rem' } }, h("p", { key: '4f2ea651870fa57ccee216f4c7b37a977f7e968e', class: "m-0 p-0" }, "Expected departure time:"), h("ir-select", { key: 'e8d116c0cf9892e76d871f56b9047aadffe53a37', selectedValue: (_b = this.room.departure_time) === null || _b === void 0 ? void 0 : _b.code, LabelAvailable: false, showFirstOption: false, onSelectChange: e => {
+                this.updateDepartureTime(e.detail);
+            }, data: (_c = this.departureTime) === null || _c === void 0 ? void 0 : _c.map(d => {
+                var _a, _b;
+                return ({
+                    text: (_b = d[`CODE_VALUE_${(_a = this.language) === null || _a === void 0 ? void 0 : _a.toUpperCase()}`]) !== null && _b !== void 0 ? _b : d[`CODE_VALUE_EN`],
+                    value: d.CODE_NAME,
+                });
+            }) })), h("div", { key: '2b82ef9f305941365086045856d7f78a5dd22588', class: "collapse", id: `roomCollapse-${(_d = this.room.identifier) === null || _d === void 0 ? void 0 : _d.split(' ').join('')}` }, h("div", { key: '0de5b6fa420b8692e5acef58b2df9bc756eb5c64', class: "d-flex sm-mb-1 sm-mt-1" }, h("div", { key: '4563c348ee125b69ceed6de99ad0eef74c10e4f3', class: " sm-padding-top" }, h("p", { key: '9e385191196904f1be62af9628fb0a953102ac22', class: "sm-padding-right", style: { fontWeight: '600' } }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: '5d7917455b79229172e903201a2d595e756d0896', class: 'flex-fill' }, h("table", { key: 'c9ff581924af9f0904f70e89a7cd35f3b0f80840' }, this.room.days.length > 0 &&
             this.room.days.map(room => {
                 return (h("tr", null, h("td", { class: 'pr-2 text-right' }, _getDay(room.date)), h("td", { class: "text-right" }, formatAmount(this.currency, room.amount)), room.cost > 0 && room.cost !== null && h("td", { class: "pl-2 text-left night-cost" }, formatAmount(this.currency, room.cost))));
-            }), h("tr", { key: '6906d3a40e9bbc87571352bbe9ebf6b5daf2a05f', class: '' }, h("th", { key: '6d6d682e9f4d4b0204511e6d35b5697a9f7a2d65', class: "text-right pr-2 subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '771fe19d24c8e50073aded97375c319e7a06d97b', class: "text-right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && h("th", { key: '22221523e150dea63a64b1eeae5c7dd973145d6b', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.room.cost))), this.booking.is_direct ? (h(Fragment, null, (() => {
+            }), h("tr", { key: '491e5fd1312a0ad21ef75bf0e3d7e1b867b2df97', class: '' }, h("th", { key: '4106bc724f3444a29984467a6f5f85fc8df03587', class: "text-right pr-2 subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '827adc6df81d0eb468db9a1fea3ae7e2ee066ad8', class: "text-right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && h("th", { key: 'f6291ad1f7ee91b54c6e697fb46b5345e7686e9d', class: "pl-2 text-right night-cost" }, formatAmount(this.currency, this.room.cost))), this.booking.is_direct ? (h(Fragment, null, (() => {
             const filtered_data = calendar_data.taxes.filter(tx => tx.pct > 0);
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), h("td", { class: "text-right" }, formatAmount(this.currency, (this.room.total * d.pct) / 100)), this.room.gross_cost > 0 && this.room.gross_cost !== null && (h("td", { class: "pl-2 text-right night-cost" }, formatAmount(this.currency, (this.room.cost * d.pct) / 100)))));
@@ -275,7 +303,7 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "text-right pr-2" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name), h("td", { class: "text-right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), h("ir-label", { key: '3630f37116e3915b7eaab5aa4faa838203bb83d4', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: '80acf7229c7aa1a2c63e07a1d6b4a8a74e2a3300' }, this.room.rateplan.cancelation && (h("ir-label", { key: '9fda0c77a0ba217d38541d001cc5f7df096fbb91', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: 'db6a0f01c234cb7352f445f295e1ab3fd9c1fb2d', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: '2d5db27bba446ee05106ea94d96d828898de4293' }, h("ir-label", { key: '3a5b15ba7530f19aa533fb3c186d503bfc0380d7', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '05e5bc80e735a75ca532e9d1bc105c1a6449aeb0', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))), h("ir-modal", { key: 'f41f578d939c23446bf3569422ef9c8539e951dd', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalReason === 'delete' ? 'danger' : 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.renderModalMessage() })));
+        })()))))), h("ir-label", { key: '4666b2d860cc681dc8cf22c701151723775bed5f', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: 'df584db2443db812ad5311c77c3b79866d5cca75' }, this.room.rateplan.cancelation && (h("ir-label", { key: 'eb914f226a537350054ba04d736b89d6c70958b5', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: '517a8c0c017a09b7e8c76c568e386a5ea97a72ef', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: '5be72b5c95fb30d2b98c7d4de20c0fa28b612f52' }, h("ir-label", { key: '3017101d1fd3cd3e45d300048d01ef1402b3cd5f', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '10943650712db75b56bdf9bea95b02f6e8b863ca', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))), h("ir-modal", { key: 'dcfdc4351612102adbeffa97c73217ca9651c28b', autoClose: false, ref: el => (this.modal = el), isLoading: this.isLoading, onConfirmModal: this.handleModalConfirmation.bind(this), iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalReason === 'delete' ? 'danger' : 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.renderModalMessage() })));
     }
     showGuestModal() {
         var _a;
@@ -301,6 +329,7 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         "bookingIndex": [2, "booking-index"],
         "isEditable": [4, "is-editable"],
         "room": [16],
+        "property_id": [2],
         "mealCodeName": [1, "meal-code-name"],
         "myRoomTypeFoodCat": [1, "my-room-type-food-cat"],
         "currency": [1],
@@ -308,6 +337,7 @@ const IrRoom = /*@__PURE__*/ proxyCustomElement(class IrRoom extends HTMLElement
         "legendData": [8, "legend-data"],
         "roomsInfo": [8, "rooms-info"],
         "bedPreferences": [16],
+        "departureTime": [16],
         "hasRoomEdit": [4, "has-room-edit"],
         "hasRoomDelete": [4, "has-room-delete"],
         "hasRoomAdd": [4, "has-room-add"],
@@ -325,7 +355,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-room", "ir-button", "ir-date-view", "ir-icons", "ir-label", "ir-modal", "ir-tooltip"];
+    const components = ["ir-room", "ir-button", "ir-date-view", "ir-icons", "ir-label", "ir-modal", "ir-select", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-room":
             if (!customElements.get(tagName)) {
@@ -334,25 +364,30 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-modal":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

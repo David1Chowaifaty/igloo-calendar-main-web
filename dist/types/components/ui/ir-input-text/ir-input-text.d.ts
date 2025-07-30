@@ -65,6 +65,10 @@ export declare class IrInputText {
     errorMessage: string;
     /** Autocomplete behavior for the input (e.g., 'on', 'off', 'email', etc.) */
     autoComplete: string;
+    /** Forcing css style to the input container */
+    inputContainerStyle: {
+        [key: string]: string;
+    };
     inputFocused: boolean;
     textChange: EventEmitter<any>;
     inputBlur: EventEmitter<FocusEvent>;

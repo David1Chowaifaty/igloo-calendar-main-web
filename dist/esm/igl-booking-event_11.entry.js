@@ -1,12 +1,13 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
-import { B as BookingService } from './booking.service-37116ba1.js';
-import { u as transformNewBooking, y as isBlockUnit, h as hooks, q as calendar_dates, c as calculateDaysBetweenDates, F as compareTime, G as createDateWithOffsetAndHour, d as dateToFormattedString, H as getDaysArray, I as convertDatePrice, J as formatDate } from './utils-3b3188e6.js';
-import { E as EventsService } from './events.service-29e5a372.js';
+import { B as BookingService } from './booking.service-df05ac40.js';
+import { t as transformNewBooking, r as isBlockUnit, l as calendar_dates, a as calculateDaysBetweenDates, A as compareTime, B as createDateWithOffsetAndHour, j as dateToFormattedString, C as getDaysArray, D as convertDatePrice, E as formatDate } from './utils-bf32d8ec.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { E as EventsService } from './events.service-459de508.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-a6093df2.js';
 import { z, Z as ZodError } from './index-6ecc32cd.js';
 import { H as HouseKeepingService } from './housekeeping.service-64b661f9.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-1832808a.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-6be5ca8e.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-bb218d3e.js';
 import { c as colorVariants } from './icons-c78fdb83.js';
 import './axios-aa1335b8.js';
@@ -2191,7 +2192,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '5363bea16af4bfeff2e936c9848d60bfaded5793', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'b96bea471582731f7622f656d49ba4cd5994488e', ref: el => {
+        return (h(Host, { key: '47726ab1dfb3447b9972389f0a7f3f94042eabf1', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '8228e505f27f14d762476b3ba5684d788d3097a8', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -2203,12 +2204,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '8a054d5f4560249b237d9fef8df05837c7d45929', class: "cropped-title", style: {
+            } }, h("span", { key: '28aae0de70d988edcabbe5f7555dcecd4c747733', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: '42cb5bf0a8776512b7de6941c67e374dd934d5e6', title: "This unit is dirty", class: "hk-dot", style: { flexShrink: '0' } }, h("svg", { key: '5a17d2d076a1624b9331cd894c732b6735a35f27', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, h("path", { key: 'aedfc2e808029b008f6497222833faae00b4a341', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: '8440520a336bf1c71dd5280b60ffd11613a64a1c', title: "This unit is dirty", class: "hk-dot", style: { flexShrink: '0' } }, h("svg", { key: '58e3777c7254742c5b79540ef2e4ae8220a1c999', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, h("path", { key: '3f0b202982ef5b0b5fe89d9098b63437328fc02e', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
     get el() { return getElement(this); }
 };
@@ -2469,7 +2470,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '0788788852462d466674595354eaa3f12d349ecf', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
+        return (h(Host, { key: '071c14ce4e7491d76d9a4e7796bbd5323b839d0f', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

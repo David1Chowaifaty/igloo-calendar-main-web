@@ -173,7 +173,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
         return (h("div", { class: "card p-1 d-flex flex-column flex-fill m-0", style: { gap: '0.5rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("p", { class: "m-0 p-0" }, title), h("ir-icons", { name: icon })), h("h4", { class: "m-0 p-0" }, h("b", { class: "m-0 p-0" }, value)), subtitle && h("p", { class: "m-0 p-0 small text-muted" }, subtitle)));
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
@@ -196,6 +196,11 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
             title: 'Peak Days',
             value: ((_h = this.stats) === null || _h === void 0 ? void 0 : _h.PeakDays.length) === 0 ? null : (_k = (_j = this.stats) === null || _j === void 0 ? void 0 : _j.PeakDays) === null || _k === void 0 ? void 0 : _k.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '),
             subtitle: `${Math.max(...(((_l = this.stats.PeakDays) === null || _l === void 0 ? void 0 : _l.map(pd => pd.OccupancyPercent)) || []))}% occupancy`,
+        }), this.StatsCard({
+            icon: 'user_group',
+            title: 'Total Guests',
+            value: (_o = (_m = this.reports) === null || _m === void 0 ? void 0 : _m.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _o === void 0 ? void 0 : _o.toString(),
+            subtitle: `Stayed`,
         })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {

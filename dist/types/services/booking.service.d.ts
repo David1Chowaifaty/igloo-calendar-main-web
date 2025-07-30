@@ -29,6 +29,10 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
+export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | (string & {});
+export type GroupedTableEntries = {
+    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
+};
 export declare class BookingService {
     handleExposedRoomInOut(props: {
         booking_nbr: string;
@@ -87,9 +91,16 @@ export declare class BookingService {
         booking_nbr: number | string;
         is_remove: boolean;
     }): Promise<any>;
+    groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
+    getSetupEntriesByTableNameMulti(entries: TableEntries[]): Promise<IEntries[]>;
     getBlockedInfo(): Promise<IEntries[]>;
     getUserDefaultCountry(): Promise<any>;
     blockUnit(params: IBlockUnit): Promise<any>;
+    setDepartureTime(params: {
+        property_id: number;
+        room_identifier: string;
+        code: string;
+    }): Promise<any>;
     getUserInfo(email: string): Promise<any>;
     getExposedBooking(booking_nbr: string, language: string, withExtras?: boolean): Promise<Booking>;
     private generateDays;

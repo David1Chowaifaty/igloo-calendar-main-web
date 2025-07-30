@@ -63,3 +63,13 @@ export declare function toFloat(value: number, decimalPlaces: number): number;
 export declare function sleep(time?: number): Promise<unknown>;
 export declare function handleBodyOverflow(open: boolean): void;
 export declare function generatePassword(length?: number): string;
+/**
+ * Generates a list of time strings in military time (24-hour format) between two specified times,
+ * incremented by a given number of minutes.
+ *
+ * @param from - Start time in "HH:mm" (24-hour/military) format (e.g., "04:00").
+ * @param to - End time in "HH:mm" (24-hour/military) format (e.g., "18:00").
+ * @param stepMinutes - The interval step in minutes between time slots (default is 60).
+ * @returns An array of time strings in "HH:mm" format representing each step between the start and end times.
+ */
+export declare function generateTimeSlotsMilitary(from: string, to: string, stepMinutes?: number): string[];

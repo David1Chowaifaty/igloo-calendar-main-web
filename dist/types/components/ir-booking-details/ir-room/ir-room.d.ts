@@ -3,6 +3,7 @@ import { Booking, Room, SharedPerson } from "../../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
 import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
+import { IToast } from "../../ui/ir-toast/toast";
 export type RoomModalReason = 'delete' | 'checkin' | 'checkout' | null;
 export declare class IrRoom {
     element: HTMLIrRoomElement;
@@ -10,6 +11,7 @@ export declare class IrRoom {
     bookingIndex: number;
     isEditable: boolean;
     room: Room;
+    property_id: number;
     mealCodeName: string;
     myRoomTypeFoodCat: string;
     currency: string;
@@ -17,6 +19,7 @@ export declare class IrRoom {
     legendData: any;
     roomsInfo: any;
     bedPreferences: IEntries[];
+    departureTime: IEntries[];
     hasRoomEdit: boolean;
     hasRoomDelete: boolean;
     hasRoomAdd: boolean;
@@ -28,6 +31,7 @@ export declare class IrRoom {
     mainGuest: SharedPerson;
     isModelOpen: boolean;
     deleteFinished: EventEmitter<string>;
+    toast: EventEmitter<IToast>;
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
@@ -43,6 +47,7 @@ export declare class IrRoom {
     private openModal;
     private handleModalConfirmation;
     private deleteRoom;
+    private updateDepartureTime;
     private formatVariation;
     private getSmokingLabel;
     private getBedName;

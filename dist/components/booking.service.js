@@ -261,17 +261,12 @@ class BookingService {
     }
     async fetchSetupEntries() {
         try {
-            const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
-                TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
-            });
-            if (data.ExceptionMsg !== '') {
-                throw new Error(data.ExceptionMsg);
-            }
-            const res = data.My_Result;
+            const data = await this.getSetupEntriesByTableNameMulti(['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE']);
+            const { arrival_time, rate_pricing_mode, bed_preference_type } = this.groupEntryTablesResult(data);
             return {
-                arrivalTime: res.filter(e => e.TBL_NAME === '_ARRIVAL_TIME'),
-                ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
-                bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
+                arrivalTime: arrival_time,
+                ratePricingMode: rate_pricing_mode,
+                bedPreferenceType: bed_preference_type,
             };
         }
         catch (error) {
@@ -286,18 +281,26 @@ class BookingService {
         }
         return data.My_Result;
     }
-    async getBlockedInfo() {
-        try {
-            const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: ['_CALENDAR_BLOCKED_TILL'] });
-            if (data.ExceptionMsg !== '') {
-                throw new Error(data.ExceptionMsg);
+    groupEntryTablesResult(entries) {
+        let result = {};
+        for (const entry of entries) {
+            const key = entry.TBL_NAME.substring(1, entry.TBL_NAME.length).toLowerCase();
+            if (!result[key]) {
+                result[key] = [];
             }
-            return data.My_Result;
+            result[key] = [...result[key], entry];
         }
-        catch (error) {
-            console.error(error);
-            throw new Error(error);
+        return result;
+    }
+    async getSetupEntriesByTableNameMulti(entries) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
         }
+        return data.My_Result;
+    }
+    async getBlockedInfo() {
+        return await this.getSetupEntriesByTableNameMulti(['_CALENDAR_BLOCKED_TILL']);
     }
     async getUserDefaultCountry() {
         try {
@@ -327,6 +330,13 @@ class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async setDepartureTime(params) {
+        const { data } = await axios.post('/Set_Departure_Time', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
     }
     async getUserInfo(email) {
         try {
