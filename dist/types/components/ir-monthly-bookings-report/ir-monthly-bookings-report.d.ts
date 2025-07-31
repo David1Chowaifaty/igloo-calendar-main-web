@@ -20,6 +20,5 @@ export declare class IrMonthlyBookingsReport {
     handleApplyFiltersChange(e: CustomEvent<DailyReportFilter>): void;
     private init;
     private getReports;
-    private StatsCard;
     render(): any;
 }

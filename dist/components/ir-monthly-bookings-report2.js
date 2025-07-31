@@ -4,16 +4,17 @@ import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { R as RoomService } from './room.service.js';
 import { P as PropertyService } from './property.service.js';
-import { d as defineCustomElement$e } from './ir-button2.js';
-import { d as defineCustomElement$d } from './ir-checkbox2.js';
-import { d as defineCustomElement$c } from './ir-icons2.js';
-import { d as defineCustomElement$b } from './ir-interceptor2.js';
-import { d as defineCustomElement$a } from './ir-loading-screen2.js';
-import { d as defineCustomElement$9 } from './ir-monthly-bookings-report-filter2.js';
-import { d as defineCustomElement$8 } from './ir-monthly-bookings-report-table2.js';
-import { d as defineCustomElement$7 } from './ir-otp2.js';
-import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$5 } from './ir-progress-indicator2.js';
+import { d as defineCustomElement$f } from './ir-button2.js';
+import { d as defineCustomElement$e } from './ir-checkbox2.js';
+import { d as defineCustomElement$d } from './ir-icons2.js';
+import { d as defineCustomElement$c } from './ir-interceptor2.js';
+import { d as defineCustomElement$b } from './ir-loading-screen2.js';
+import { d as defineCustomElement$a } from './ir-monthly-bookings-report-filter2.js';
+import { d as defineCustomElement$9 } from './ir-monthly-bookings-report-table2.js';
+import { d as defineCustomElement$8 } from './ir-otp2.js';
+import { d as defineCustomElement$7 } from './ir-otp-modal2.js';
+import { d as defineCustomElement$6 } from './ir-progress-indicator2.js';
+import { d as defineCustomElement$5 } from './ir-report-stats-card2.js';
 import { d as defineCustomElement$4 } from './ir-select2.js';
 import { d as defineCustomElement$3 } from './ir-spinner2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
@@ -166,12 +167,6 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
             this.isLoading = null;
         }
     }
-    StatsCard({ icon, subtitle, title, value }) {
-        if (!value) {
-            return null;
-        }
-        return (h("div", { class: "card p-1 d-flex flex-column flex-fill m-0", style: { gap: '0.5rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("p", { class: "m-0 p-0" }, title), h("ir-icons", { name: icon })), h("h4", { class: "m-0 p-0" }, h("b", { class: "m-0 p-0" }, value)), subtitle && h("p", { class: "m-0 p-0 small text-muted" }, subtitle)));
-    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (this.isPageLoading) {
@@ -181,27 +176,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, this.StatsCard({
-            icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up',
-            title: 'Average Occupancy',
-            value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null,
-            subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month`,
-        }), this.StatsCard({
-            icon: 'hotel',
-            title: 'Total Units',
-            value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null,
-            subtitle: 'Booked',
-        }), this.StatsCard({
-            icon: 'calendar',
-            title: 'Peak Days',
-            value: ((_h = this.stats) === null || _h === void 0 ? void 0 : _h.PeakDays.length) === 0 ? null : (_k = (_j = this.stats) === null || _j === void 0 ? void 0 : _j.PeakDays) === null || _k === void 0 ? void 0 : _k.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '),
-            subtitle: `${Math.max(...(((_l = this.stats.PeakDays) === null || _l === void 0 ? void 0 : _l.map(pd => pd.OccupancyPercent)) || []))}% occupancy`,
-        }), this.StatsCard({
-            icon: 'user_group',
-            title: 'Total Guests',
-            value: (_o = (_m = this.reports) === null || _m === void 0 ? void 0 : _m.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _o === void 0 ? void 0 : _o.toString(),
-            subtitle: `Stayed`,
-        })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, h("ir-report-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), h("ir-report-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), h("ir-report-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.reports) === null || _h === void 0 ? void 0 : _h.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), h("ir-report-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -225,7 +200,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-toast", "ir-tooltip"];
+    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-report-stats-card", "ir-select", "ir-spinner", "ir-toast", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-monthly-bookings-report":
             if (!customElements.get(tagName)) {
@@ -234,50 +209,55 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-monthly-bookings-report-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-monthly-bookings-report-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-progress-indicator":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-report-stats-card":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
