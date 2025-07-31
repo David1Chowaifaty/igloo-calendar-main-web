@@ -67,7 +67,7 @@ const IrBookingWidget = class {
             this.isLoading = true;
             const token = await this.commonService.getBEToken();
             this.token.setToken(token);
-            await Promise.all([
+            const [property] = await Promise.all([
                 this.propertyService.getExposedProperty({
                     id: this.propertyId,
                     language: this.language,
@@ -83,6 +83,7 @@ const IrBookingWidget = class {
                     aname: this.p,
                 }),
             ]);
+            this.property = property;
             this.dateModifiers = this.getDateModifiers();
         }
         catch (error) {
@@ -107,14 +108,14 @@ const IrBookingWidget = class {
         if (!this.validateChildrenAges())
             return;
         let subdomainURL = `bookingmystay.com`;
-        const currentDomain = `${utils.app_store.property.perma_link}.${subdomainURL}`;
+        const currentDomain = `${this.property.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
         const fromDate = from_date ? `checkin=${utils.moment(from_date).format('YYYY-MM-DD')}` : '';
         const toDate = to_date ? `checkout=${utils.moment(to_date).format('YYYY-MM-DD')}` : '';
         const adults = adultCount > 0 ? `adults=${adultCount}` : '';
         const children = childrenCount > 0 ? `children=${childrenCount}` : '';
-        const roomTypeId = this.roomTypeId ? `rtid=${this.roomTypeId}` : '';
+        const roomTypeId = this.roomTypeId ? `u=${this.roomTypeId}` : '';
         const affiliate = this.aff ? `aff=${this.aff}` : '';
         const ages = this.guests.childrenCount > 0 && this.guests.childrenAges.length > 0 ? `ages=${this.guests.childrenAges.join('_')}` : '';
         const queryParams = [fromDate, toDate, adults, children, roomTypeId, affiliate, ages];
@@ -150,7 +151,7 @@ const IrBookingWidget = class {
     }
     renderAdultChildTrigger() {
         const { adultCount, childrenCount } = this.guests;
-        return (index.h("div", { class: "guests-trigger", slot: "trigger" }, index.h("ir-icons", { name: "user", svgClassName: "size-4" }), index.h("p", { class: 'guests' }, adultCount > 0 ? (index.h(index.Fragment, null, index.h("span", { class: "lowercase" }, adultCount, " ", adultCount === 1 ? utils.localizedWords.entries.Lcz_Adult : utils.localizedWords.entries.Lcz_Adults), utils.app_store.property.adult_child_constraints.child_max_age > 0 && (index.h("span", { class: "lowercase" }, ", ", childrenCount, " ", childrenCount === 1 ? utils.localizedWords.entries.Lcz_Child : utils.localizedWords.entries.Lcz_Children)))) : (index.h("span", null, "Guests")))));
+        return (index.h("div", { class: "guests-trigger", slot: "trigger" }, index.h("ir-icons", { name: "user", svgClassName: "size-4" }), index.h("p", { class: 'guests' }, adultCount > 0 ? (index.h(index.Fragment, null, index.h("span", { class: "lowercase" }, adultCount, " ", adultCount === 1 ? utils.localizedWords.entries.Lcz_Adult : utils.localizedWords.entries.Lcz_Adults), this.property.adult_child_constraints.child_max_age > 0 && (index.h("span", { class: "lowercase" }, ", ", childrenCount, " ", childrenCount === 1 ? utils.localizedWords.entries.Lcz_Child : utils.localizedWords.entries.Lcz_Children)))) : (index.h("span", null, "Guests")))));
     }
     disconnectedCallback() {
         if (this.elTimout) {
@@ -191,7 +192,7 @@ const IrBookingWidget = class {
                         this.dates = Object.assign(Object.assign({}, this.dates), { to_date: utils.moment(this.dates.from_date).add(1, 'days').toDate() });
                     }
                 }
-            } }, this.renderDateTrigger(), index.h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, index.h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: utils.moment().add(-1, 'days'), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: ((_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date) ? utils.moment(this.dates.from_date) : null, toDate: ((_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date) ? utils.moment(this.dates.to_date) : null, locale: utils.app_store.selectedLocale, maxSpanDays: utils.app_store.property.max_nights, onDateChange: e => {
+            } }, this.renderDateTrigger(), index.h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, index.h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: utils.moment().add(-1, 'days'), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: ((_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date) ? utils.moment(this.dates.from_date) : null, toDate: ((_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date) ? utils.moment(this.dates.to_date) : null, locale: utils.app_store.selectedLocale, maxSpanDays: this.property.max_nights, onDateChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { end, start } = e.detail;
@@ -202,7 +203,7 @@ const IrBookingWidget = class {
                     from_date: start,
                     to_date: end,
                 };
-            } }))), index.h("ir-popover", { outsideEvents: "none", autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', onOpenChange: this.handlePopoverToggle.bind(this) }, this.renderAdultChildTrigger(), index.h("ir-guest-counter", { slot: "popover-content", error: this.error, adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = utils.app_store === null || utils.app_store === void 0 ? void 0 : utils.app_store.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = utils.app_store === null || utils.app_store === void 0 ? void 0 : utils.app_store.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = utils.app_store.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = Object.assign({}, e.detail)), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.forceClose() })), index.h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
+            } }))), index.h("ir-popover", { outsideEvents: "none", autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', onOpenChange: this.handlePopoverToggle.bind(this) }, this.renderAdultChildTrigger(), index.h("ir-guest-counter", { slot: "popover-content", error: this.error, adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = this.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = this.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = this.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = Object.assign({}, e.detail)), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.forceClose() })), index.h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

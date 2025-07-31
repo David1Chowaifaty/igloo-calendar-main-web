@@ -11,7 +11,7 @@ export declare class IrBookingCard {
     private bookingListingAppService;
     componentWillLoad(): void;
     handleBookingChange(newValue: any): void;
-    getBadgeVariant(code: string): "error" | "success" | "pending";
+    getBadgeVariant(booking: Booking): "error" | "success" | "pending";
     private init;
     render(): any;
 }

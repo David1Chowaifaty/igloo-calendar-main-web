@@ -16,7 +16,7 @@ class BookingListingAppService {
     getBookingActions(booking) {
         // const canView = booking.status.code !== '003';
         const canView = true;
-        const canCancel = booking.status.code !== '003' && dateFns.isBefore(new Date(), new Date(booking.from_date));
+        const canCancel = booking.status.code !== '003' && dateFns.isBefore(new Date(), new Date(booking.from_date)) && !booking.is_requested_to_cancel;
         const canMakePayment = booking.status.code === '001' && app_store.property.allowed_payment_methods.some(paymentMethod => paymentMethod.is_payment_gateway);
         let makePaymentLabel = '';
         let formattedAmount = '';
@@ -37,4 +37,4 @@ class BookingListingAppService {
 
 export { BookingListingAppService as B };
 
-//# sourceMappingURL=booking-listing.service-a88e71b1.js.map
+//# sourceMappingURL=booking-listing.service-5b6b6828.js.map

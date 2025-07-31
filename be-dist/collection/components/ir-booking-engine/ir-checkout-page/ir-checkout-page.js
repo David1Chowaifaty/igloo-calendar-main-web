@@ -22,7 +22,11 @@ export class IrCheckoutPage {
         this.authService = new AuthService();
     }
     async componentWillLoad() {
+        var _a, _b;
         this.calculateTotalPrepaymentAmount();
+        if ((_b = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods) === null || _b === void 0 ? void 0 : _b.find(e => e.id === 13 && e.is_active)) {
+            checkout_store.agreed_to_services = false;
+        }
     }
     async calculateTotalPrepaymentAmount() {
         try {

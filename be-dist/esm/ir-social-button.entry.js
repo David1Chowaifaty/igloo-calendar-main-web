@@ -9,7 +9,7 @@ const IrSocialButton = class {
         this.socialButtonClick = createEvent(this, "socialButtonClick", 7);
     }
     render() {
-        return (h("button", { key: 'f315ca5471a77ae42a4f07407fcd8eb874962819', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: '999f6c41c8976028ee17c7e4d6244b9e6f30e23e', class: "icon" }, h("slot", { key: 'ee5e7bd58c4a04b95f7d4d923fbdf07d03bbf46c', name: "icon" })), h("span", { key: '29422dd7418f6ba51b7535e467df21d786abc3a1' }, this.label)));
+        return (h("button", { key: '85630f2f605e108922c4ec3d015463ff5ecb9d56', class: "social-button", type: "button", onClick: e => this.socialButtonClick.emit(e) }, h("div", { key: 'b645d841d48daf8e8dd8b7200986a6cc66c1ef5e', class: "icon" }, h("slot", { key: '8016665a0d887ee20866016c786ea0eb4c327542', name: "icon" })), h("span", { key: 'f8c81c1e12f7d3bdf459d51221914b3ef56bfd2f' }, this.label)));
     }
 };
 IrSocialButton.style = IrSocialButtonStyle0;

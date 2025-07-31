@@ -1,4 +1,5 @@
 import { TContainerStyle } from './types';
+import { IExposedProperty } from "../../models/property";
 export declare class IrBookingWidget {
     el: HTMLIrWidgetElement;
     position: 'fixed' | 'block';
@@ -11,6 +12,7 @@ export declare class IrBookingWidget {
     aff: string;
     delay: number;
     isPopoverOpen: boolean;
+    property: IExposedProperty;
     dateModifiers: any;
     isLoading: boolean;
     isGuestPopoverOpen: boolean;

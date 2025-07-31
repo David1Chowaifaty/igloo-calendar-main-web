@@ -1,7 +1,7 @@
 import { h } from "@stencil/core";
 export class IrSkeleton {
     render() {
-        return h("div", { key: '8aef3bc296f08c6aefa05d27d916d9683ea5468f', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
+        return h("div", { key: '7b2b210365c5fa3ce0664961c5de49eda6275f04', class: Object.assign({ 'animate block': true, [this.customClasses]: true }, this.styles) });
     }
     static get is() { return "ir-skeleton"; }
     static get encapsulation() { return "shadow"; }

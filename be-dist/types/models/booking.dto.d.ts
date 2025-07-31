@@ -9,6 +9,7 @@ export interface Booking {
         verification_mode: null;
     } | null;
     arrival: Arrival;
+    is_requested_to_cancel: boolean;
     allowed_actions: IAllowedActions[];
     system_id: number;
     booked_on: DateTime;

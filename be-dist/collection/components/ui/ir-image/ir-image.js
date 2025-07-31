@@ -29,7 +29,7 @@ export class IrImage {
         }
     }
     render() {
-        return (h("div", { key: 'b1c56eb42015b3a5f32715868a294209efe5cb38', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: '7479e68b92021799336254cf4a39292a4eafeb68', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: '236a241170b2695c249ec377d69ea95e84b0ec77', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: '28118a5347364bb43e387674055e69ef5332fadf', ref: el => {
+        return (h("div", { key: 'ef93247a670109b0b3d96a160377b3bcfe955073', class: "image-container" }, this.blurDataUrl && !this.thumbnail && h("img", { key: 'f354ba7d185b1b812f47aeb65aa451758d192e82', src: this.blurDataUrl, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), this.thumbnail !== undefined && h("img", { key: '06d424bf01ea06b032648ef1497da3a3c7daea20', src: `data:image/png;base64,${this.thumbnail}`, class: `placeholder ${this.loaded ? 'hidden' : ''}`, alt: "placeholder" }), h("img", { key: '52fc482cf25256665a0ef529749a3f40954ffbdc', ref: el => {
                 this.imageRef = el;
                 // Removed checkImageCached() from here
             }, src: this.src, class: `original  visible`,

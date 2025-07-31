@@ -34,8 +34,9 @@ export declare class IrBookingOverview {
     initializeServices(): void;
     initializeApp(): Promise<void>;
     getBookings(): Promise<any>;
-    modifyCancelBooking(booking_nbr: string): void;
-    getBadgeVariant(code: string): "error" | "success" | "pending";
+    private fetchBooking;
+    private modifyCancelBooking;
+    getBadgeVariant(booking: Booking): "error" | "success" | "pending";
     handlePageChange(e: CustomEvent<number>): Promise<void>;
     handleLinkChanged(e: CustomEvent): Promise<void>;
     handleLanguageChanged(e: CustomEvent): Promise<void>;

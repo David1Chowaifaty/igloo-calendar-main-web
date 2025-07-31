@@ -9,6 +9,7 @@ export class IrPaymentView {
     constructor() {
         this.prepaymentAmount = 0;
         this.cardType = '';
+        this.imageLoadError = false;
     }
     componentWillLoad() {
         this.setPaymentMethod();
@@ -84,6 +85,7 @@ export class IrPaymentView {
         e.stopPropagation();
         const payment_code = e.detail;
         this.selectedPaymentMethod = payment_code;
+        this.imageLoadError = false;
         checkout_store.payment.code = payment_code;
     }
     renderPaymentMethod() {
@@ -178,12 +180,22 @@ export class IrPaymentView {
         return null;
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c, _d, _e;
         const hasAgentWithCode001 = booking_store.bookingAvailabilityParams.agent && booking_store.bookingAvailabilityParams.agent.payment_mode.code === '001';
-        return (h("div", { key: '71c327f9baf36d3c6ff32bf80ec83a401cfe0279', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: '46a02116c5b93d7c923454ed90b836d043c98538' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '38621e98281b3f4324c88f7518be2c7f284444fa', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
+        const selectedPaymentMethodImage = (_c = (_b = (_a = app_store === null || app_store === void 0 ? void 0 : app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_payment_methods) === null || _b === void 0 ? void 0 : _b.find(p => p.code === this.selectedPaymentMethod)) === null || _c === void 0 ? void 0 : _c.img_url;
+        return (h("div", { key: '6bc06af738050254f5ba92822a6e62884beae228', class: "w-full space-y-4 rounded-md border border-solid bg-white  p-4" }, !hasAgentWithCode001 && this.prepaymentAmount === 0 && this.selectedPaymentMethod === '001' && h("p", { key: 'dbb22896b5beafb50325dd1c7936de72d537095a' }, localizedWords.entries.Lcz_PaymentSecurity), !hasAgentWithCode001 && this.renderPaymentOptions(), !hasAgentWithCode001 && this.renderPaymentMethod(), hasAgentWithCode001 && h("p", { key: '23302209608ad73cde038661f002fb10722a02da', class: 'text-center' }, localizedWords.entries.Lcz_OnCredit), this.cardType !== '' &&
             this.cardType === 'AMEX' &&
-            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '2aa11de22c91c8886da6d3e68d67d1fd103564d3', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards) === null || _b === void 0 ? void 0 :
-            _b.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; })))));
+            !app_store.property.allowed_cards.find(c => { var _a; return c.name.toLowerCase().includes(this.cardType === 'AMEX' ? 'american express' : (_a = this.cardType) === null || _a === void 0 ? void 0 : _a.toLowerCase()); }) && (h("p", { key: '23e4857a42e57dd12ad3e8070fd577875ee8c2b6', class: 'text-red-500' }, localizedWords.entries.Lcz_CardTypeNotSupport, ' ', (_e = (_d = app_store.property) === null || _d === void 0 ? void 0 : _d.allowed_cards) === null || _e === void 0 ? void 0 :
+            _e.map((c, i) => { var _a; return `${c.name}${i < ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.allowed_cards.length) - 1 ? ', ' : ''}`; }))), selectedPaymentMethodImage && !this.imageLoadError && (h("img", { key: '820aefa88204329c490051a706b1de76121bc8d0', style: {
+                maxWidth: '270px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                height: '24px',
+            }, src: selectedPaymentMethodImage, onError: () => {
+                this.imageLoadError = true;
+            }, onLoad: () => {
+                this.imageLoadError = false;
+            } }))));
     }
     static get is() { return "ir-payment-view"; }
     static get encapsulation() { return "shadow"; }
@@ -252,7 +264,8 @@ export class IrPaymentView {
         return {
             "selectedPaymentMethod": {},
             "cardType": {},
-            "paymentDetails": {}
+            "paymentDetails": {},
+            "imageLoadError": {}
         };
     }
     static get watchers() {

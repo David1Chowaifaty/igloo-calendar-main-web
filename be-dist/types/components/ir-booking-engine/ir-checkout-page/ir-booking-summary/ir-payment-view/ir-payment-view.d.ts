@@ -12,6 +12,7 @@ export declare class IrPaymentView {
             value: string;
         }[];
     };
+    imageLoadError: boolean;
     componentWillLoad(): void;
     handlePrePaymentAmount(newValue: number, oldValue: number): void;
     private setPaymentMethod;

@@ -39,6 +39,7 @@ export declare class IrInvoice {
     componentWillLoad(): Promise<void>;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;
     handleTicketChange(newValue: any, oldValue: any): Promise<void>;
+    private fetchBooking;
     fetchData(language?: string, resetLanguage?: boolean): Promise<void>;
     openPrivacyPolicy(e: CustomEvent): Promise<void>;
     handleLanguageChanged(e: CustomEvent): Promise<void>;
@@ -48,4 +49,5 @@ export declare class IrInvoice {
     renderPaymentText(paymentOption: AllowedPaymentMethod): any;
     private processPayment;
     render(): any;
+    private formatOccupancy;
 }
