@@ -1,159 +1,278 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { v as v4 } from './v4.js';
 
-const irMComboboxCss = ".sc-ir-m-combobox-h{display:block;font-family:'Segoe UI', SegoeUI, 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:1rem;line-height:1.4}.sc-ir-m-combobox-h *.sc-ir-m-combobox,.sc-ir-m-combobox-h *.sc-ir-m-combobox::before,.sc-ir-m-combobox-h *.sc-ir-m-combobox::after{box-sizing:border-box}.combo.sc-ir-m-combobox{display:block;margin-bottom:1.5em;max-width:400px;position:relative}.combo.sc-ir-m-combobox::after{border-bottom:2px solid rgba(0, 0, 0, 0.5);border-right:2px solid rgba(0, 0, 0, 0.5);content:'';display:block;height:12px;pointer-events:none;position:absolute;right:16px;top:50%;transform:translate(0, -65%) rotate(45deg);width:12px}.combo-input.sc-ir-m-combobox{background-color:#f5f5f5;border:2px solid rgba(0, 0, 0, 0.5);border-radius:4px;display:block;font-size:1em;min-height:calc(1.4em + 26px);padding:12px 16px 14px;text-align:left;width:100%}.open.sc-ir-m-combobox .combo-input.sc-ir-m-combobox{border-radius:4px 4px 0 0}.combo-input.sc-ir-m-combobox:focus{border-color:#e60023;box-shadow:0 0 4px 2px #e60023;outline:5px solid transparent}.combo-label.sc-ir-m-combobox{display:block;font-size:20px;font-weight:100;margin-bottom:0.25em}.combo-menu.sc-ir-m-combobox{background-color:#f5f5f5;border:1px solid rgba(0, 0, 0, 0.42);border-radius:0 0 4px 4px;display:none;max-height:300px;overflow-y:scroll;left:0;position:absolute;top:100%;width:100%;z-index:100}.open.sc-ir-m-combobox .combo-menu.sc-ir-m-combobox{display:block}.combo-option.sc-ir-m-combobox{padding:10px 12px 12px}.combo-option.option-current.sc-ir-m-combobox,.combo-option.sc-ir-m-combobox:hover{background-color:rgba(0, 0, 0, 0.1)}.combo-option.option-selected.sc-ir-m-combobox{padding-right:30px;position:relative}.combo-option.option-selected.sc-ir-m-combobox::after{border-bottom:2px solid #000;border-right:2px solid #000;content:'';height:16px;position:absolute;right:15px;top:50%;transform:translate(0, -50%) rotate(45deg);width:8px}.selected-options.sc-ir-m-combobox{list-style-type:none;margin:0;max-width:400px;padding:0}.selected-options.sc-ir-m-combobox li.sc-ir-m-combobox{display:inline-block;margin-bottom:5px}.remove-option.sc-ir-m-combobox{background-color:#ff3d3d;border:1px solid #ff3d3d;border-radius:3px;color:#fff;font-size:0.75em;font-weight:bold;margin-bottom:6px;margin-right:6px;padding:0.25em 1.75em 0.25em 0.25em;position:relative}.remove-option.sc-ir-m-combobox:focus{border-color:#baa1dd;box-shadow:0 0 3px 1px #ff3d3d;outline:3px solid transparent}.remove-option.sc-ir-m-combobox::before,.remove-option.sc-ir-m-combobox::after{border-right:2px solid #fff;content:'';height:1em;right:0.75em;position:absolute;top:50%;width:0}.remove-option.sc-ir-m-combobox::before{transform:translate(0, -50%) rotate(45deg)}.remove-option.sc-ir-m-combobox::after{transform:translate(0, -50%) rotate(-45deg)}";
+const irMComboboxCss = ".sc-ir-m-combobox-h{position:relative;display:block}.dropdown.sc-ir-m-combobox{position:absolute;top:100%;left:0;z-index:1000;width:100%}.dropdown-menu.sc-ir-m-combobox{max-height:200px;overflow-y:auto;min-width:100%;width:100% !important;scroll-behavior:smooth}.dropdown-item.loading.sc-ir-m-combobox,.dropdown-item.no-results.sc-ir-m-combobox{color:#6c757d;cursor:default;pointer-events:none}.dropdown-item.active.sc-ir-m-combobox,.dropdown-item.focused.sc-ir-m-combobox{background-color:var(--blue)}[slot=\"dropdown-content\"].sc-ir-m-combobox .dropdown-item.focused.sc-ir-m-combobox,[slot=\"dropdown-content\"].sc-ir-m-combobox .dropdown-item.active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}[slot=\"dropdown-content\"].sc-ir-m-combobox [data-option].focused.sc-ir-m-combobox,[slot=\"dropdown-content\"].sc-ir-m-combobox [data-option].active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}";
 const IrMComboboxStyle0 = irMComboboxCss;
 
 const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.irChange = createEvent(this, "irChange", 7);
-        this.irInput = createEvent(this, "irInput", 7);
-        this.irFocus = createEvent(this, "irFocus", 7);
-        this.irBlur = createEvent(this, "irBlur", 7);
-        this.type = 'select';
-        this.label = '';
-        this.placeholder = '';
+        this.optionChange = createEvent(this, "optionChange", 7);
+        this.searchQuery = createEvent(this, "searchQuery", 7);
+        /**
+         * Determines how the options are loaded into the component.
+         * - 'static': Uses the options passed through the `options` prop or the default internal list.
+         * - 'external': Emits search events for external handling, options updated via `options` prop.
+         *
+         * @default 'static'
+         */
+        this.dataMode = 'static';
+        /**
+         * List of available options for the combobox when using static data mode.
+         * If empty, falls back to a default internal option list.
+         */
         this.options = [];
-        this.value = '';
-        this.disabled = false;
-        this.readonly = false;
+        /**
+         * Debounce delay in milliseconds for search events when using external data mode.
+         * @default 300
+         */
+        this.debounceDelay = 300;
+        /**
+         * Whether to show loading state
+         */
+        this.loading = false;
+        /**
+         * Whether to use slot content for custom dropdown rendering
+         */
+        this.useSlot = false;
         this.isOpen = false;
-        this.activeOptionIndex = -1;
-        this.inputValue = '';
-        this.selectedOptions = [];
-        this.comboboxId = `combo-${Math.random().toString(36).substr(2, 9)}`;
-        this.listboxId = `listbox-${this.comboboxId}`;
-        this.labelId = `label-${this.comboboxId}`;
+        this.focusedIndex = -1;
+        this.filteredOptions = [];
+        this.slotElements = [];
+        this.id = v4();
+        this.dropdownId = `dropdown-${this.id}`;
+        this.handleDocumentClick = (event) => {
+            if (!this.el.contains(event.target)) {
+                this.closeDropdown();
+            }
+        };
+        this.handleKeyDown = (event) => {
+            const maxIndex = this.useSlot ? this.slotElements.length - 1 : this.filteredOptions.length - 1;
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    if (!this.isOpen) {
+                        this.openDropdown();
+                    }
+                    else {
+                        this.focusedIndex = Math.min(this.focusedIndex + 1, maxIndex);
+                        if (this.useSlot) {
+                            this.focusSlotElement(this.focusedIndex);
+                        }
+                        else {
+                            this.scrollToFocusedOption();
+                        }
+                    }
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    if (this.isOpen) {
+                        this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
+                        if (this.useSlot) {
+                            this.focusSlotElement(this.focusedIndex);
+                        }
+                        else {
+                            this.scrollToFocusedOption();
+                        }
+                    }
+                    break;
+                case 'Enter':
+                    event.preventDefault();
+                    if (this.isOpen && this.focusedIndex >= 0) {
+                        if (this.useSlot) {
+                            this.selectSlotElement(this.focusedIndex);
+                        }
+                        else {
+                            this.selectOption(this.filteredOptions[this.focusedIndex]);
+                        }
+                    }
+                    else if (!this.isOpen) {
+                        this.openDropdown();
+                    }
+                    break;
+                case 'Escape':
+                    event.preventDefault();
+                    this.closeDropdown();
+                    break;
+                case 'Tab':
+                    if (this.isOpen) {
+                        this.closeDropdown();
+                    }
+                    break;
+            }
+        };
+        this.handleInput = (event) => {
+            const target = event.target;
+            const value = target.value;
+            if (this.dataMode === 'external') {
+                this.emitSearchQuery(value);
+            }
+            else {
+                const allOptions = this.options.length > 0 ? this.options : [];
+                this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
+            }
+            this.focusedIndex = -1;
+            if (!this.isOpen) {
+                this.openDropdown();
+            }
+        };
+    }
+    /**
+     * Public method to select an option from external slot content
+     */
+    async selectOptionFromSlot(option) {
+        this.selectOption(option);
+    }
+    watchOptionsChanged(newOptions) {
+        this.filteredOptions = newOptions || [];
+        if (this.useSlot) {
+            this.updateSlotElements();
+        }
+    }
+    watchUseSlotChanged() {
+        if (this.useSlot) {
+            setTimeout(() => this.updateSlotElements(), 0);
+        }
     }
     componentWillLoad() {
-        this.initializeValue();
+        this.initializeOptions();
     }
-    handleDocumentClick(event) {
-        if (!this.el.contains(event.target)) {
-            this.isOpen = false;
+    componentDidLoad() {
+        document.addEventListener('click', this.handleDocumentClick.bind(this));
+        if (this.useSlot) {
+            setTimeout(() => this.updateSlotElements(), 0);
         }
     }
-    handleKeyDown(event) {
-        switch (event.key) {
-            case 'ArrowDown':
-                event.preventDefault();
-                this.navigateOptions(1);
-                break;
-            case 'ArrowUp':
-                event.preventDefault();
-                this.navigateOptions(-1);
-                break;
-            case 'Enter':
-                event.preventDefault();
-                this.selectCurrentOption();
-                break;
-            case 'Escape':
-                this.isOpen = false;
-                break;
+    disconnectedCallback() {
+        document.removeEventListener('click', this.handleDocumentClick.bind(this));
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
         }
     }
-    initializeValue() {
-        if (this.type === 'multiselect' && Array.isArray(this.value)) {
-            this.selectedOptions = this.options.filter(option => this.value.includes(option.value));
-        }
-        else if (typeof this.value === 'string') {
-            this.inputValue = this.value;
-            const selectedOption = this.options.find(option => option.value === this.value);
-            if (selectedOption && this.type === 'multiselect') {
-                this.selectedOptions = [selectedOption];
-            }
-        }
-    }
-    navigateOptions(direction) {
-        if (!this.isOpen) {
-            this.isOpen = true;
+    handleDocumentKeyDown(event) {
+        var _a;
+        if (!this.isOpen)
             return;
-        }
-        const newIndex = this.activeOptionIndex + direction;
-        if (newIndex >= 0 && newIndex < this.options.length) {
-            this.activeOptionIndex = newIndex;
+        if (event.key === 'Escape') {
+            this.closeDropdown();
+            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
         }
     }
-    selectCurrentOption() {
-        if (this.activeOptionIndex >= 0 && this.activeOptionIndex < this.options.length) {
-            this.selectOption(this.options[this.activeOptionIndex]);
+    initializeOptions() {
+        this.filteredOptions = this.options.length > 0 ? this.options : [];
+    }
+    openDropdown() {
+        this.isOpen = true;
+        if (this.useSlot) {
+            this.focusedIndex = -1;
+            setTimeout(() => this.updateSlotElements(), 0);
+        }
+        else {
+            this.focusedIndex = this.selectedOption ? this.filteredOptions.findIndex(v => v.value === this.selectedOption.value) : -1;
+        }
+    }
+    emitSearchQuery(query) {
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
+        }
+        this.debounceTimeout = setTimeout(() => {
+            this.searchQuery.emit(query);
+        }, this.debounceDelay);
+    }
+    closeDropdown() {
+        this.isOpen = false;
+        this.focusedIndex = -1;
+        this.removeSlotFocus();
+    }
+    updateSlotElements() {
+        if (!this.useSlot || !this.dropdownRef)
+            return;
+        const slotElement = this.dropdownRef.querySelector('slot[name="dropdown-content"]');
+        if (slotElement) {
+            const assignedElements = slotElement.assignedElements ?
+                slotElement.assignedElements() :
+                Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
+            this.slotElements = assignedElements.length > 0 ?
+                assignedElements :
+                Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
+            this.slotElements.forEach((element, index) => {
+                element.setAttribute('data-slot-index', index.toString());
+                element.setAttribute('role', 'option');
+                element.setAttribute('tabindex', '-1');
+            });
+        }
+    }
+    removeSlotFocus() {
+        this.slotElements.forEach(element => {
+            element.classList.remove('focused', 'active');
+            element.removeAttribute('aria-selected');
+        });
+    }
+    focusSlotElement(index) {
+        this.removeSlotFocus();
+        if (index >= 0 && index < this.slotElements.length) {
+            const element = this.slotElements[index];
+            element.classList.add('focused', 'active');
+            element.setAttribute('aria-selected', 'true');
+            element.scrollIntoView({ block: 'nearest' });
+        }
+    }
+    selectSlotElement(index) {
+        if (index >= 0 && index < this.slotElements.length) {
+            const element = this.slotElements[index];
+            element.click();
         }
     }
     selectOption(option) {
-        if (option.disabled)
+        this.selectedOption = option;
+        this.optionChange.emit(option);
+        this.closeDropdown();
+        this.inputRef.focus();
+    }
+    scrollToFocusedOption() {
+        if (this.focusedIndex < 0 || !this.dropdownRef || this.useSlot)
             return;
-        if (this.type === 'multiselect') {
-            const isSelected = this.selectedOptions.some(selected => selected.value === option.value);
-            if (isSelected) {
-                this.selectedOptions = this.selectedOptions.filter(selected => selected.value !== option.value);
-            }
-            else {
-                this.selectedOptions = [...this.selectedOptions, option];
-            }
-            this.irChange.emit(this.selectedOptions.map(opt => opt.value));
+        const focusedElement = this.dropdownRef.querySelector(`#${this.dropdownId}-option-${this.focusedIndex}`);
+        if (focusedElement) {
+            focusedElement.scrollIntoView({ block: 'nearest' });
         }
-        else {
-            this.inputValue = option.label;
-            this.isOpen = false;
-            this.irChange.emit(option.value);
-        }
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        this.inputValue = target.value;
-        this.irInput.emit(this.inputValue);
-        if (!this.isOpen) {
-            this.isOpen = true;
-        }
-    }
-    handleInputFocus() {
-        this.irFocus.emit();
-        if (this.type !== 'editable' || this.options.length > 0) {
-            this.isOpen = true;
-        }
-    }
-    handleInputBlur() {
-        this.irBlur.emit();
-    }
-    toggleCombobox() {
-        if (!this.disabled) {
-            this.isOpen = !this.isOpen;
-        }
-    }
-    removeSelectedOption(option) {
-        this.selectedOptions = this.selectedOptions.filter(selected => selected.value !== option.value);
-        this.irChange.emit(this.selectedOptions.map(opt => opt.value));
-    }
-    getFilteredOptions() {
-        if (this.type !== 'editable' || !this.inputValue) {
-            return this.options;
-        }
-        return this.options.filter(option => option.label.toLowerCase().includes(this.inputValue.toLowerCase()));
     }
     render() {
-        const filteredOptions = this.getFilteredOptions();
-        return (h(Host, { key: 'ae60fb815292975a7cc9ee6ffb19cd01e2cf4b8a' }, this.label && (h("label", { key: '945bf90e3385714e6e3489be8c73bcdaca5882c6', id: this.labelId, class: "combo-label" }, this.label)), this.type === 'multiselect' && this.selectedOptions.length > 0 && (h("ul", { key: '58d0c9cf223ec839b6cef0c96b772746cd6932ec', class: "selected-options" }, this.selectedOptions.map(option => (h("li", { key: option.value }, h("button", { type: "button", class: "remove-option", onClick: () => this.removeSelectedOption(option), "aria-label": `Remove ${option.label}` }, option.label)))))), h("div", { key: 'c02cb1f863bb61e2cde3773ada4f821d96a2c322', class: `combo ${this.isOpen ? 'open' : ''}` }, this.type === 'select' ? (h("div", { id: this.comboboxId, class: "combo-input", role: "combobox", "aria-expanded": this.isOpen.toString(), "aria-haspopup": "listbox", "aria-controls": this.listboxId, "aria-labelledby": this.label ? this.labelId : undefined, tabindex: this.disabled ? -1 : 0, onClick: () => this.toggleCombobox(), onFocus: () => this.handleInputFocus(), onBlur: () => this.handleInputBlur() }, this.inputValue || this.placeholder)) : (h("input", { id: this.comboboxId, class: "combo-input", type: "text", role: "combobox", "aria-expanded": this.isOpen.toString(), "aria-haspopup": "listbox", "aria-controls": this.listboxId, "aria-labelledby": this.label ? this.labelId : undefined, value: this.inputValue, placeholder: this.placeholder, disabled: this.disabled, readonly: this.readonly, onInput: (e) => this.handleInputChange(e), onFocus: () => this.handleInputFocus(), onBlur: () => this.handleInputBlur() })), this.isOpen && (h("div", { key: '9b18cffa2b6a546755fae64a09e61a09690e2e4f', class: "combo-menu", role: "listbox", id: this.listboxId }, filteredOptions.map((option, index) => (h("div", { key: option.value, class: `combo-option ${index === this.activeOptionIndex ? 'option-current' : ''} ${this.type === 'multiselect' && this.selectedOptions.some(selected => selected.value === option.value)
-                ? 'option-selected'
-                : ''}`, role: "option", "aria-selected": this.type === 'multiselect'
-                ? this.selectedOptions.some(selected => selected.value === option.value).toString()
-                : (this.inputValue === option.label).toString(), onClick: () => this.selectOption(option) }, option.label))), filteredOptions.length === 0 && (h("div", { key: '5245bdc7f8b4588873f1562a2c0d068b9b92c40e', class: "combo-option" }, "No options available")))))));
+        var _a;
+        return (h(Host, { key: '387e0b1b8011c12a3b8420fc4bdef78ff62da5e3' }, h("input", { key: '92200642e8e9ec31f8697a7536d735338dfcaa20', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: 'aafc956c838eed8fc28c6fc4301c74fd91d73d83', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'cccf2b6c81bfd78d4e3ab493c289b956fd661e6d', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+            this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
+            !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
+            !this.loading &&
+                this.filteredOptions.map((option, index) => {
+                    var _a;
+                    return (h("button", { id: `${this.dropdownId}-option-${index}`, class: `dropdown-item ${this.focusedIndex === index ? 'active' : ''}`, role: "option", "aria-selected": ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.value) === option.value ? 'true' : 'false', onClick: () => this.selectOption(option), onMouseEnter: () => (this.focusedIndex = index) }, option.label));
+                }),
+        ])))));
     }
     get el() { return this; }
+    static get watchers() { return {
+        "options": ["watchOptionsChanged"],
+        "useSlot": ["watchUseSlotChanged"]
+    }; }
     static get style() { return IrMComboboxStyle0; }
-}, [2, "ir-m-combobox", {
-        "type": [1],
-        "label": [1],
+}, [6, "ir-m-combobox", {
         "placeholder": [1],
+        "dataMode": [1, "data-mode"],
         "options": [16],
-        "value": [1],
-        "disabled": [4],
-        "readonly": [4],
+        "debounceDelay": [2, "debounce-delay"],
+        "loading": [4],
+        "useSlot": [4, "use-slot"],
         "isOpen": [32],
-        "activeOptionIndex": [32],
-        "inputValue": [32],
-        "selectedOptions": [32]
-    }, [[4, "click", "handleDocumentClick"], [0, "keydown", "handleKeyDown"]]]);
+        "selectedOption": [32],
+        "focusedIndex": [32],
+        "filteredOptions": [32],
+        "slotElements": [32],
+        "selectOptionFromSlot": [64]
+    }, [[4, "keydown", "handleDocumentKeyDown"]], {
+        "options": ["watchOptionsChanged"],
+        "useSlot": ["watchUseSlotChanged"]
+    }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;

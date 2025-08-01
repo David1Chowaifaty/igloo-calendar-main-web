@@ -235,7 +235,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (index.h(index.Host, { key: '469a5cf6029bfa15458d6b90faeb6d64ec15d1a7', class: "otp-input-container" }, index.h("div", { key: '92332f35f213d236524ace6384cfd5b2099e40e0', class: "otp-input-wrapper" }, Array(this.length)
+        return (index.h(index.Host, { key: '9c131911ea7c5af9628d89156d567d45512d3af6', class: "otp-input-container" }, index.h("div", { key: 'df4cfb26ccc4fd82b2c9724d1430811ee6fb2e00', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index$1) => (index.h("input", { ref: el => (this.inputRefs[index$1] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index$1], onInput: e => this.handleInput(e, index$1), onKeyDown: e => this.handleKeyDown(e, index$1), onPaste: e => this.handlePaste(e, index$1), onFocus: this.handleFocus, "aria-label": `Digit ${index$1 + 1} of ${this.length}` }))))));
     }
@@ -405,7 +405,7 @@ const IrOtpModal = class {
     }
     render() {
         var _a;
-        return (index.h(index.Host, { key: '4238ea4c283fca10c44dda6168432d10f88b9108' }, index.h("dialog", { key: 'd3ddc63d009dea09139d754cae98263aa505fa76', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, index.h("form", { key: '89e222e143c9ac94b77860ea13879a54dfb1ceec', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, index.h("p", { class: "verification-message text-truncate" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (index.h(index.Host, { key: '719447de2565a71ba230828edb93eeceaecf4949' }, index.h("dialog", { key: '291f59386abccd49aa4026fe2a71acb287527585', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, index.h("form", { key: '1fea630f4a56a53ee220867f465e62bc2fa72a18', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, index.h("p", { class: "verification-message text-truncate" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
@@ -468,7 +468,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: '7637b74fc27e44aeb95ff10394cab5a530785409' });
+        return index.h(index.Host, { key: 'e560d416f8617f172191570774c2ec8d5a575f2d' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
