@@ -2,6 +2,7 @@
   "entries": [
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
+    "components/ir-m-combobox/ir-m-combobox.js",
     "components/ir-pagination/ir-pagination.js",
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/igl-book-property-container/igl-book-property-container.js",

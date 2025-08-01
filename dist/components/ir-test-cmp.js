@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$3 } from './ir-date-picker2.js';
-import { d as defineCustomElement$2 } from './ir-range-picker2.js';
+import { d as defineCustomElement$2 } from './ir-m-combobox2.js';
 
 const irTestCmpCss = ".sc-ir-test-cmp-h{display:block}";
 const IrTestCmpStyle0 = irTestCmpCss;
@@ -11,8 +10,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
         this.__registerHost();
     }
     render() {
-        var _a, _b;
-        return (h(Host, { key: '24a67d75753271fa69160cb29e70c5707c6a3fae', class: "card p-4" }, h("ir-range-picker", { key: 'ef9041ae5bb2ff3ef26e8cbe8813df0865f09bd9', onDateRangeChanged: e => (this.dates = e.detail), fromDate: (_a = this.dates) === null || _a === void 0 ? void 0 : _a.fromDate, toDate: (_b = this.dates) === null || _b === void 0 ? void 0 : _b.toDate })));
+        return (h(Host, { key: '8ff5f8ef17ae84cd6fa7ced627aaf1612086e967', class: "card p-4" }, h("ir-m-combobox", { key: 'bf1550b4cbe3a6d5c1e9782ccbc2b21f1e27b3c1' })));
     }
     static get style() { return IrTestCmpStyle0; }
 }, [2, "ir-test-cmp", {
@@ -22,19 +20,14 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-test-cmp", "ir-date-picker", "ir-range-picker"];
+    const components = ["ir-test-cmp", "ir-m-combobox"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-test-cmp":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrTestCmp$1);
             }
             break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$3();
-            }
-            break;
-        case "ir-range-picker":
+        case "ir-m-combobox":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }
