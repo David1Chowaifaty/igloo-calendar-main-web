@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-0a4a209a.js';
+import { r as registerInstance, h, H as Host } from './index-60982d00.js';
 
 const irTooltipCss = ".sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}";
 const IrTooltipStyle0 = irTooltipCss;

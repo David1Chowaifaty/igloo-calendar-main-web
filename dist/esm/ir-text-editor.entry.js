@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, g as getElement } from './index-0a4a209a.js';
+import { r as registerInstance, c as createEvent, h, g as getElement } from './index-60982d00.js';
 import { c as commonjsGlobal, g as getDefaultExportFromCjs } from './_commonjsHelpers-1789f0cf.js';
 
 /** Detect free variable `global` from Node.js. */

@@ -20,5 +20,8 @@ export declare class IrTestCmp {
     private handleCountrySearch;
     private handleCustomSearch;
     private handleCustomOptionClick;
+    notificationCount: number;
+    isMobileMenuOpen: boolean;
+    private toggleMobileMenu;
     render(): any;
 }

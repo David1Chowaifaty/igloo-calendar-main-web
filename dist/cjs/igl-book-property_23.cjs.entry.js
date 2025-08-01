@@ -2,16 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-4fe8bc8a.js');
-const booking_service = require('./booking.service-935cacb0.js');
-const utils = require('./utils-92c1b8ab.js');
-const variation_service = require('./variation.service-791a6fad.js');
+const index = require('./index-7a66eda1.js');
+const booking_service = require('./booking.service-8a6f733f.js');
+const utils = require('./utils-9c4cabe9.js');
+const variation_service = require('./variation.service-2f7ff42e.js');
 const moment = require('./moment-1780b03a.js');
-const locales_store = require('./locales.store-0cac7e5d.js');
-const irInterceptor_store = require('./ir-interceptor.store-77ca6836.js');
-const calendarData = require('./calendar-data-b2787812.js');
+const locales_store = require('./locales.store-a1ac5174.js');
+const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
+const calendarData = require('./calendar-data-960b69ba.js');
 const axios = require('./axios-6e678d52.js');
-const room_service = require('./room.service-d097b75a.js');
+const room_service = require('./room.service-e031b11c.js');
 const payment_service = require('./payment.service-3c37bbce.js');
 const Token = require('./Token-3d0cc874.js');
 const icons = require('./icons-97a17d9e.js');
@@ -19,7 +19,7 @@ const index$1 = require('./index-63734c32.js');
 const functions = require('./functions-1d46da3c.js');
 const index$2 = require('./index-e9a28e3e.js');
 const v4 = require('./v4-9b297151.js');
-require('./index-467172e1.js');
+require('./index-7564ffa1.js');
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -1762,7 +1762,7 @@ const IrDialog = class {
         this.firstFocusableElement.focus();
     }
     render() {
-        return (index.h(index.Host, { key: 'b58fe788de40eeff618277175cec81a8629827d0' }, index.h("div", { key: 'a75d862931b836445626da5345a40c11aee270c5', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (index.h("div", { key: 'a3948afa85b2fb7474d77f1cbf5a0080e8e75e53', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, index.h("ir-icon", { key: '6803ba0cda39109cbe92ff5b92f021e33030ba5a', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, index.h("svg", { key: '6b0d7942c801d506eba00ee16b3d003b65532d4d', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, index.h("path", { key: '4ea1fd661c08417af7381d3eba449d0f05e66eea', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), index.h("div", { key: '555e7914a19157a41c29827a177127ca6c644a33', class: 'modal-title', id: "dialog1Title" }, index.h("slot", { key: 'b7bcf115a262cf2ad67b4bafe51d83c02d427e33', name: "modal-title" })), index.h("div", { key: 'df0228dda8cde92a148eef4fcbef53d2cdd6f040', class: "modal-body", id: "dialog1Desc" }, index.h("slot", { key: 'b1bb48be02f81df7ca80303ea371561f848083b1', name: "modal-body" })), index.h("div", { key: 'f2215c06ef449723df737deda1eef24e7f902dc1', class: "modal-footer" }, index.h("slot", { key: 'fe6779975630ec54457c90fb0cf894cb32c5b14b', name: "modal-footer" }))))));
+        return (index.h(index.Host, { key: 'ae5680fdebf99a1a4d4ace4e61041d13122d0e95' }, index.h("div", { key: '260bba099e7c0d0e952b5166c33b27e8a493ddc5', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (index.h("div", { key: 'df369486714f6818db4243165bf3259904406023', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, index.h("ir-icon", { key: '95012e5d07500278ea64f424ed7102b1cda25989', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, index.h("svg", { key: '468f618fb03e6e8a757128f93fc731af0a577cd8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, index.h("path", { key: '8d38099ba08b11c5e9e8c20245879890e6324d9c', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), index.h("div", { key: '6a09b967e10187b2d7f29680121421927e1b7870', class: 'modal-title', id: "dialog1Title" }, index.h("slot", { key: '6ed89019e6a3f1e514bd4a4dccb4bbb5021a04b3', name: "modal-title" })), index.h("div", { key: '6199a29b5728efe33c8dffaabfa2b4366506c26a', class: "modal-body", id: "dialog1Desc" }, index.h("slot", { key: '231527af1fe5dd2c1c1673cae94011c3fce08965', name: "modal-body" })), index.h("div", { key: '77607b00f509ce7bdc9490e9c9ef7262d33833a8', class: "modal-footer" }, index.h("slot", { key: 'a020ccfb0262bbab9320fedc7b1acb632128a3d3', name: "modal-footer" }))))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -2905,7 +2905,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '3c95a5ab517f4378adaf1b828aa3ba48f92142e4', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: '40518d1aa183875c620599e175137d4d4855d966', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

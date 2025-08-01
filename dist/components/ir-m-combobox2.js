@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { v as v4 } from './v4.js';
 
-const irMComboboxCss = ".sc-ir-m-combobox-h{position:relative;display:block}.dropdown.sc-ir-m-combobox{position:absolute;top:100%;left:0;z-index:1000;width:100%}.dropdown-menu.sc-ir-m-combobox{max-height:200px;overflow-y:auto;min-width:100%;width:100% !important;scroll-behavior:smooth}.dropdown-item.loading.sc-ir-m-combobox,.dropdown-item.no-results.sc-ir-m-combobox{color:#6c757d;cursor:default;pointer-events:none}.dropdown-item.active.sc-ir-m-combobox,.dropdown-item.focused.sc-ir-m-combobox{background-color:var(--blue)}[slot=\"dropdown-content\"].sc-ir-m-combobox .dropdown-item.focused.sc-ir-m-combobox,[slot=\"dropdown-content\"].sc-ir-m-combobox .dropdown-item.active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}[slot=\"dropdown-content\"].sc-ir-m-combobox [data-option].focused.sc-ir-m-combobox,[slot=\"dropdown-content\"].sc-ir-m-combobox [data-option].active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}";
+const irMComboboxCss = ".sc-ir-m-combobox-h{position:relative;display:block}.dropdown.sc-ir-m-combobox{position:absolute;top:100%;left:0;z-index:1000;width:100%}.dropdown-menu.sc-ir-m-combobox{max-height:var(--ir-combobox-height, 200px);overflow-y:auto;min-width:100%;width:var(--ir-combobox-width, 100%) !important;scroll-behavior:smooth}.dropdown-item.loading.sc-ir-m-combobox,.dropdown-item.no-results.sc-ir-m-combobox{color:#6c757d;cursor:default;pointer-events:none}.dropdown-item.active.sc-ir-m-combobox,.dropdown-item.focused.sc-ir-m-combobox{background-color:var(--blue)}[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}[slot='dropdown-content'].sc-ir-m-combobox [data-option].focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox [data-option].active.sc-ir-m-combobox{background-color:#0d6efd !important;color:white !important}";
 const IrMComboboxStyle0 = irMComboboxCss;
 
 const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends HTMLElement {
@@ -190,12 +190,10 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
             return;
         const slotElement = this.dropdownRef.querySelector('slot[name="dropdown-content"]');
         if (slotElement) {
-            const assignedElements = slotElement.assignedElements ?
-                slotElement.assignedElements() :
-                Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
-            this.slotElements = assignedElements.length > 0 ?
-                assignedElements :
-                Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
+            const assignedElements = slotElement.assignedElements
+                ? slotElement.assignedElements()
+                : Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
+            this.slotElements = assignedElements.length > 0 ? assignedElements : Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
             this.slotElements.forEach((element, index) => {
                 element.setAttribute('data-slot-index', index.toString());
                 element.setAttribute('role', 'option');
@@ -240,7 +238,7 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
     }
     render() {
         var _a;
-        return (h(Host, { key: '387e0b1b8011c12a3b8420fc4bdef78ff62da5e3' }, h("input", { key: '92200642e8e9ec31f8697a7536d735338dfcaa20', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: 'aafc956c838eed8fc28c6fc4301c74fd91d73d83', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'cccf2b6c81bfd78d4e3ab493c289b956fd661e6d', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '1a0dc6258a77c8979b32fccb8c6b4fe4814f9ca2' }, h("input", { key: '1d102f9abcf02a11bb65a8de89bbbfb473e81ab7', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: 'd558355677f1e269c96bfc2f3cdd9a668c196628', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '06fe4e23b37c7cc1ce3bca594ad7df6fe6928f10', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&

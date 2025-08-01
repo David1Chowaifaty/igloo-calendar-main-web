@@ -182,12 +182,10 @@ export class IrMCombobox {
             return;
         const slotElement = this.dropdownRef.querySelector('slot[name="dropdown-content"]');
         if (slotElement) {
-            const assignedElements = slotElement.assignedElements ?
-                slotElement.assignedElements() :
-                Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
-            this.slotElements = assignedElements.length > 0 ?
-                assignedElements :
-                Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
+            const assignedElements = slotElement.assignedElements
+                ? slotElement.assignedElements()
+                : Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
+            this.slotElements = assignedElements.length > 0 ? assignedElements : Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
             this.slotElements.forEach((element, index) => {
                 element.setAttribute('data-slot-index', index.toString());
                 element.setAttribute('role', 'option');
@@ -232,7 +230,7 @@ export class IrMCombobox {
     }
     render() {
         var _a;
-        return (h(Host, { key: '387e0b1b8011c12a3b8420fc4bdef78ff62da5e3' }, h("input", { key: '92200642e8e9ec31f8697a7536d735338dfcaa20', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: 'aafc956c838eed8fc28c6fc4301c74fd91d73d83', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'cccf2b6c81bfd78d4e3ab493c289b956fd661e6d', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '1a0dc6258a77c8979b32fccb8c6b4fe4814f9ca2' }, h("input", { key: '1d102f9abcf02a11bb65a8de89bbbfb473e81ab7', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: 'd558355677f1e269c96bfc2f3cdd9a668c196628', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '06fe4e23b37c7cc1ce3bca594ad7df6fe6928f10', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&

@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-0a4a209a.js';
+import { r as registerInstance, c as createEvent, h } from './index-60982d00.js';
 
 const irTextareaCss = ".prepend-textarea.sc-ir-textarea{padding:0 !important}.ta-prepend-text.sc-ir-textarea{width:100%}";
 const IrTextareaStyle0 = irTextareaCss;

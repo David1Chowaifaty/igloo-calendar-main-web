@@ -1,13 +1,13 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
-import { b as booking_store, B as BookingService, m as modifyBookingStore, c as calculateTotalRooms, r as resetReserved, a as resetBookingStore, d as reserveRooms } from './booking.service-1264d5c5.js';
-import { e as extras, H as handleBodyOverflow, x as getReleaseHoursString, i as dateToFormattedString, f as formatAmount, g as getPrivateNote, I as toFloat, J as renderTime, l as formatName } from './utils-8efeec43.js';
-import { V as VariationService } from './variation.service-6afda55f.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
+import { b as booking_store, B as BookingService, m as modifyBookingStore, c as calculateTotalRooms, r as resetReserved, a as resetBookingStore, d as reserveRooms } from './booking.service-7c726a5c.js';
+import { e as extras, H as handleBodyOverflow, x as getReleaseHoursString, i as dateToFormattedString, f as formatAmount, g as getPrivateNote, I as toFloat, J as renderTime, l as formatName } from './utils-a6344a57.js';
+import { V as VariationService } from './variation.service-bb5bcede.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { l as locales } from './locales.store-53ec3957.js';
-import { i as isRequestPending } from './ir-interceptor.store-db737948.js';
-import { c as calendar_data, i as isSingleUnit } from './calendar-data-a6093df2.js';
+import { l as locales } from './locales.store-629477c2.js';
+import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
+import { c as calendar_data, i as isSingleUnit } from './calendar-data-f4e207f9.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { R as RoomService } from './room.service-b78587f7.js';
+import { R as RoomService } from './room.service-39d12a8c.js';
 import { P as PaymentService } from './payment.service-56b6590d.js';
 import { T as Token } from './Token-6c389e24.js';
 import { c as colorVariants } from './icons-c78fdb83.js';
@@ -15,7 +15,7 @@ import { z, Z as ZodError, a as ZodIssueCode } from './index-6ecc32cd.js';
 import { a as _formatDate, _ as _formatTime, b as _getDay } from './functions-14871918.js';
 import { M as MaskedRange } from './index-e2caf943.js';
 import { v as v4 } from './v4-964634d6.js';
-import './index-c1c77241.js';
+import './index-c4cf83be.js';
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
@@ -1758,7 +1758,7 @@ const IrDialog = class {
         this.firstFocusableElement.focus();
     }
     render() {
-        return (h(Host, { key: 'b58fe788de40eeff618277175cec81a8629827d0' }, h("div", { key: 'a75d862931b836445626da5345a40c11aee270c5', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: 'a3948afa85b2fb7474d77f1cbf5a0080e8e75e53', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '6803ba0cda39109cbe92ff5b92f021e33030ba5a', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: '6b0d7942c801d506eba00ee16b3d003b65532d4d', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: '4ea1fd661c08417af7381d3eba449d0f05e66eea', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: '555e7914a19157a41c29827a177127ca6c644a33', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: 'b7bcf115a262cf2ad67b4bafe51d83c02d427e33', name: "modal-title" })), h("div", { key: 'df0228dda8cde92a148eef4fcbef53d2cdd6f040', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: 'b1bb48be02f81df7ca80303ea371561f848083b1', name: "modal-body" })), h("div", { key: 'f2215c06ef449723df737deda1eef24e7f902dc1', class: "modal-footer" }, h("slot", { key: 'fe6779975630ec54457c90fb0cf894cb32c5b14b', name: "modal-footer" }))))));
+        return (h(Host, { key: 'ae5680fdebf99a1a4d4ace4e61041d13122d0e95' }, h("div", { key: '260bba099e7c0d0e952b5166c33b27e8a493ddc5', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: 'df369486714f6818db4243165bf3259904406023', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("ir-icon", { key: '95012e5d07500278ea64f424ed7102b1cda25989', id: "close", class: "dialog-close-button", onIconClickHandler: () => this.closeModal() }, h("svg", { key: '468f618fb03e6e8a757128f93fc731af0a577cd8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18 }, h("path", { key: '8d38099ba08b11c5e9e8c20245879890e6324d9c', fill: "#104064", class: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))), h("div", { key: '6a09b967e10187b2d7f29680121421927e1b7870', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: '6ed89019e6a3f1e514bd4a4dccb4bbb5021a04b3', name: "modal-title" })), h("div", { key: '6199a29b5728efe33c8dffaabfa2b4366506c26a', class: "modal-body", id: "dialog1Desc" }, h("slot", { key: '231527af1fe5dd2c1c1673cae94011c3fce08965', name: "modal-body" })), h("div", { key: '77607b00f509ce7bdc9490e9c9ef7262d33833a8', class: "modal-footer" }, h("slot", { key: 'a020ccfb0262bbab9320fedc7b1acb632128a3d3', name: "modal-footer" }))))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -2901,7 +2901,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '3c95a5ab517f4378adaf1b828aa3ba48f92142e4', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: '40518d1aa183875c620599e175137d4d4855d966', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
