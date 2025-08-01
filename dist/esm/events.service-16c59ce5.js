@@ -1,5 +1,5 @@
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingService } from './booking.service-cdd7229f.js';
+import { B as BookingService } from './booking.service-1264d5c5.js';
 import { e as extras, x as getReleaseHoursString } from './utils-8efeec43.js';
 
 class EventsService {
@@ -55,4 +55,4 @@ class EventsService {
 
 export { EventsService as E };
 
-//# sourceMappingURL=events.service-f2e2a9f0.js.map
+//# sourceMappingURL=events.service-16c59ce5.js.map

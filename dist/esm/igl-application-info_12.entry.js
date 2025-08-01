@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-0a4a209a.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, d as reserveRooms, r as resetReserved, u as updateRoomParams, g as getVisibleInventory } from './booking.service-cdd7229f.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, d as reserveRooms, r as resetReserved, u as updateRoomParams, g as getVisibleInventory } from './booking.service-1264d5c5.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-a6093df2.js';
 import { f as formatAmount, a as calculateDaysBetweenDates, K as validateEmail } from './utils-8efeec43.js';

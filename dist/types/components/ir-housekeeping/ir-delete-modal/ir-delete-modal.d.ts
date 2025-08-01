@@ -8,9 +8,8 @@ export declare class IrDeleteModal {
     modalClosed: EventEmitter<null>;
     resetData: EventEmitter<string>;
     private housekeepingService;
-    private modalEl;
     closeModal(): Promise<void>;
     openModal(): Promise<void>;
     btnClickHandler(event: CustomEvent): Promise<void>;
-    render(): any;
+    render(): any[];
 }

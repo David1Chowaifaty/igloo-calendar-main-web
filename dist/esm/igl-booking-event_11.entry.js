@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-0a4a209a.js';
-import { B as BookingService } from './booking.service-cdd7229f.js';
+import { B as BookingService } from './booking.service-1264d5c5.js';
 import { t as transformNewBooking, q as isBlockUnit, k as calendar_dates, a as calculateDaysBetweenDates, A as compareTime, B as createDateWithOffsetAndHour, i as dateToFormattedString, C as getDaysArray, D as convertDatePrice, E as formatDate } from './utils-8efeec43.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-f2e2a9f0.js';
+import { E as EventsService } from './events.service-16c59ce5.js';
 import { l as locales } from './locales.store-53ec3957.js';
 import { c as calendar_data } from './calendar-data-a6093df2.js';
 import { z, Z as ZodError } from './index-6ecc32cd.js';
@@ -1641,7 +1641,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: '44d02bdc8ae9b0594afb54e54860b7756d3635e3', class: "footerContainer" }, h("div", { key: '25c860a857243562fd402c113d8637e3aea95bab', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '6d24f163994f4e694a2916e8c9ca2bdd10254899', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '0188a6080675fa62e782bea83e30e0e5cafe9378', class: "la la-square" }), h("u", { key: 'ccba7ed6bd0ddecfcec3958c1e94ee8e186b6119' }, locales.entries.Lcz_Legend), h("span", { key: '1fe2ac53ea8c3667cb04e73973808cba262cf8e5' }, " - v1.0124"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: '44d02bdc8ae9b0594afb54e54860b7756d3635e3', class: "footerContainer" }, h("div", { key: '25c860a857243562fd402c113d8637e3aea95bab', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '6d24f163994f4e694a2916e8c9ca2bdd10254899', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: '0188a6080675fa62e782bea83e30e0e5cafe9378', class: "la la-square" }), h("u", { key: 'ccba7ed6bd0ddecfcec3958c1e94ee8e186b6119' }, locales.entries.Lcz_Legend), h("span", { key: '1fe2ac53ea8c3667cb04e73973808cba262cf8e5' }, " - v1.0125"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;

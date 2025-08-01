@@ -54,6 +54,7 @@ class BookingService {
                 from_date,
                 to_date,
                 extras,
+                include_sales_rate_plans: true,
             });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);

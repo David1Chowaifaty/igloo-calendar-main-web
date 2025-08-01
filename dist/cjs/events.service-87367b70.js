@@ -1,7 +1,7 @@
 'use strict';
 
 const axios = require('./axios-6e678d52.js');
-const booking_service = require('./booking.service-57e72d09.js');
+const booking_service = require('./booking.service-935cacb0.js');
 const utils = require('./utils-92c1b8ab.js');
 
 class EventsService {
@@ -57,4 +57,4 @@ class EventsService {
 
 exports.EventsService = EventsService;
 
-//# sourceMappingURL=events.service-fc3273e7.js.map
+//# sourceMappingURL=events.service-87367b70.js.map
