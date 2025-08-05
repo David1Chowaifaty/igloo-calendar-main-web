@@ -13,7 +13,7 @@ const IrLoadingScreen = class {
         this.message = '';
     }
     render() {
-        return (index.h(index.Host, { key: 'ca1c781b3935f7d384385cb1db14feeee1fcbff5' }, index.h("span", { key: '1991b23cddec1861f4a482e0a5bbd2435234a956', class: "loader" })));
+        return (index.h(index.Host, { key: '9a0e66bccf749aa1fdeb6f2bd5559a67bdbfed42' }, index.h("span", { key: 'f1e744332a2e8cc4c634143739605519ac6a6167', class: "loader" })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;

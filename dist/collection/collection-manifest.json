@@ -1,5 +1,6 @@
 {
   "entries": [
+    "components/ac-pages-menu/ac-pages-menu.js",
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
     "components/ir-m-combobox/ir-m-combobox.js",

@@ -23,5 +23,6 @@ export declare class IrTestCmp {
     notificationCount: number;
     isMobileMenuOpen: boolean;
     private toggleMobileMenu;
+    private pages;
     render(): any;
 }

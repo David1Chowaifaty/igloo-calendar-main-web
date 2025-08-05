@@ -1,2 +1,0 @@
-import{r as a,h as c}from"./p-53d64953.js";const e=class{constructor(c){a(this,c)}connectedCallback(){}disconnectedCallback(){}render(){return c("span",{key:"6ec90a557aa381b2eddd5682440e2c661650065b"},this.text)}};export{e as ir_span};
-//# sourceMappingURL=p-98f3ee6c.entry.js.map

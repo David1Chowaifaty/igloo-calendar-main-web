@@ -1,0 +1,19 @@
+import { EventEmitter } from '../../stencil-public-runtime';
+interface ACPage {
+    label: string;
+    href: string;
+    id?: string;
+    isNew?: boolean;
+    className?: string;
+    icon?: string;
+}
+export interface ACPages extends ACPage {
+    subMenus?: ACPage[];
+}
+export declare class AcPagesMenu {
+    pages: ACPages[];
+    location: 'sheet' | 'nav';
+    linkClicked: EventEmitter<MouseEvent>;
+    render(): any;
+}
+export {};
