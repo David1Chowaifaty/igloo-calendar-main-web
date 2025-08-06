@@ -6,7 +6,7 @@ const index = require('./index-7a66eda1.js');
 const v4 = require('./v4-9b297151.js');
 const icons = require('./icons-97a17d9e.js');
 
-const acPagesMenuCss = ":host{display:flex}.nav-item{margin:0}.nav-items{list-style:none;margin:0;padding:1rem 0}.nav-item{margin:0;color:white !important}.nav-link{display:block;padding:0.75rem 1rem;text-decoration:none;font-weight:500;transition:all 0.2s ease;cursor:pointer}.nav-link:hover{background-color:rgba(255, 255, 255, 0.05);color:#1f2937;text-decoration:none}@media (min-width: 768px){.nav-items{display:flex;list-style:none;align-items:center;margin:0;padding:0}.nav-link{display:flex;align-items:center;padding:0.8rem 0.6rem;color:white !important;text-decoration:none;font-weight:500;transition:all 0.2s ease;cursor:pointer}}";
+const acPagesMenuCss = ":host{display:flex}.navigation-item{margin:0}.navigation-items{list-style:none;margin:0;padding:1rem 0}.navigation-item{margin:0;color:white !important}.navigation-link{display:block;padding:0.75rem 1rem;text-decoration:none;font-weight:500;transition:all 0.2s ease;cursor:pointer}.navigation-link:hover{background-color:rgba(255, 255, 255, 0.05);color:#1f2937;text-decoration:none}@media (min-width: 768px){.navigation-items{display:flex;list-style:none;align-items:center;margin:0;padding:0}.navigation-link{display:flex;align-items:center;padding:0.8rem 0.6rem;color:white !important;text-decoration:none;font-weight:500;transition:all 0.2s ease;cursor:pointer}}";
 const AcPagesMenuStyle0 = acPagesMenuCss;
 
 const AcPagesMenu = class {
@@ -18,17 +18,17 @@ const AcPagesMenu = class {
     }
     render() {
         const isSheet = this.location === 'sheet';
-        return (index.h("ul", { key: 'bf5b6a1f4443f4a4220ffa6e5fbfd84fceb6a1bf', class: "nav-items", id: "main-menu-navigation", "data-menu": "menu-navigation" }, this.pages.map(page => {
+        return (index.h("ul", { key: '12757f36510ab3ca42c9ed717f799379bcf783f2', class: "navigation-items", id: "main-menu-navigation", "data-menu": "menu-navigation" }, this.pages.map(page => {
             var _a, _b;
             const id = (_a = page.id) !== null && _a !== void 0 ? _a : v4.v4();
             if (page.subMenus) {
-                return (index.h("li", { key: id, id: id, "data-menu": "dropdown", class: `dropdown nav-item ac-menu-dropdown ${isSheet ? 'mobile-nav-item' : ''} ${page.className}` }, index.h("a", { class: "dropdown-toggle nav-link", href: "#", "data-toggle": "dropdown" }, page.icon && index.h("i", { class: page.icon }), index.h("span", null, page.label)), index.h("ul", { class: "dropdown-menu" }, page.subMenus.map(submenu => {
+                return (index.h("li", { key: id, id: id, "data-menu": "dropdown", class: `dropdown navigation-item ac-menu-dropdown ${isSheet ? 'mobile-nav-item' : ''} ${page.className}` }, index.h("a", { class: "dropdown-toggle navigation-link", href: "#", "data-toggle": "dropdown" }, page.icon && index.h("i", { class: page.icon }), index.h("span", null, page.label)), index.h("ul", { class: "dropdown-menu" }, page.subMenus.map(submenu => {
                     var _a, _b;
                     const menuId = (_a = submenu.id) !== null && _a !== void 0 ? _a : v4.v4();
-                    return (index.h("li", { key: menuId, id: menuId, class: `nav-item ${(_b = submenu.className) !== null && _b !== void 0 ? _b : ''}` }, index.h("a", { onClick: e => this.linkClicked.emit(e), class: "dropdown-item", href: submenu.href, "data-toggle": "dropdown" }, submenu.icon && index.h("i", { class: submenu.icon }), index.h("span", null, submenu.label))));
+                    return (index.h("li", { key: menuId, id: menuId, class: `navigation-item ${(_b = submenu.className) !== null && _b !== void 0 ? _b : ''}` }, index.h("a", { onClick: e => this.linkClicked.emit(e), class: "dropdown-item", href: submenu.href, "data-toggle": "dropdown" }, submenu.icon && index.h("i", { class: submenu.icon }), index.h("span", null, submenu.label))));
                 }))));
             }
-            return (index.h("li", { key: id, id: id, class: `${(_b = page.className) !== null && _b !== void 0 ? _b : ''}  nav-item` }, index.h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: `nav-link` }, page.icon && index.h("i", { class: page.icon }), index.h("span", null, page.label))));
+            return (index.h("li", { key: id, id: id, class: `${(_b = page.className) !== null && _b !== void 0 ? _b : ''}  navigation-item` }, index.h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: `navigation-link` }, page.icon && index.h("i", { class: page.icon }), index.h("span", null, page.label))));
         })));
     }
 };
