@@ -19,8 +19,6 @@ export declare class IglCalHeader {
     highlightedDate: string;
     renderAgain: boolean;
     unassignedRoomsNumber: any;
-    private searchValue;
-    private searchList;
     private roomsList;
     private toBeAssignedService;
     dateRef: HTMLIrButtonElement;
