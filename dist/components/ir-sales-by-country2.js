@@ -145,7 +145,13 @@ const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry
             else {
                 enrichedSales = currentSales.map(record => (Object.assign(Object.assign({ id: v4() }, formatSalesData(record)), { last_year: null })));
             }
-            this.salesData = enrichedSales;
+            this.salesData = enrichedSales.sort((a, b) => {
+                if (a.country_id === 0)
+                    return -1;
+                if (b.country_id === 0)
+                    return 1;
+                return 0;
+            });
         }
         catch (error) {
             console.error('Failed to fetch sales data:', error);
