@@ -223,6 +223,14 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    'angle-up': {
+        viewBox: string;
+        d: string;
+    };
+    'angle-down': {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {
