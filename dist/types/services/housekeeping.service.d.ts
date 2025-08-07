@@ -3,6 +3,14 @@ import { ArchivedTask, IExposedHouseKeepingSetup, IInspectionMode, IPropertyHous
 export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
     getExposedHKStatusCriteria(property_id: number): Promise<IExposedHouseKeepingSetup>;
+    editHkSkip(params: {
+        HK_SKIP_ID: number;
+        BOOK_NBR: string;
+        PR_ID: number;
+        DATE: string;
+        HK_SKIP_REASON_CODE: '001';
+        COMMENT: string;
+    }): Promise<any>;
     getArchivedHKTasks(params: {
         property_id: number;
         from_date: string;

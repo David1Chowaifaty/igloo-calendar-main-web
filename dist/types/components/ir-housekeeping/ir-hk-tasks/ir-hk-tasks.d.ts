@@ -18,7 +18,10 @@ export declare class IrHkTasks {
     isSidebarOpen: boolean;
     isApplyFiltersLoading: boolean;
     filters: TaskFilters;
-    selectedTask: Task;
+    modalCauses: {
+        task?: Task;
+        cause: 'skip' | 'clean';
+    };
     clearSelectedHkTasks: EventEmitter<void>;
     private hkNameCache;
     private roomService;
@@ -30,6 +33,7 @@ export declare class IrHkTasks {
     ticketChanged(newValue: string, oldValue: string): void;
     handleCloseSidebar(e: CustomEvent): void;
     handleSortingChanged(e: CustomEvent): void;
+    handleSkipSelectedTask(e: CustomEvent): void;
     private init;
     private buildHousekeeperNameCache;
     private updateTasks;

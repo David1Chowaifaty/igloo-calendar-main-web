@@ -14,6 +14,10 @@ class HouseKeepingService {
         updateHKStore('hk_tasks', data['My_Result']);
         return data['My_Result'];
     }
+    async editHkSkip(params) {
+        const { data } = await axios.post(`/Edit_Hk_skip`, params);
+        return data;
+    }
     async getArchivedHKTasks(params) {
         var _a;
         const { data } = await axios.post(`/Get_Archived_HK_Tasks`, params);

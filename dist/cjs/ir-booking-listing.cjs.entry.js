@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const booking_listing_service = require('./booking_listing.service-900d4cec.js');
+const booking_listing_service = require('./booking_listing.service-0799ddf6.js');
 const room_service = require('./room.service-e031b11c.js');
 const locales_store = require('./locales.store-a1ac5174.js');
-const utils = require('./utils-9c4cabe9.js');
-const moment = require('./moment-1780b03a.js');
-const functions = require('./functions-1d46da3c.js');
+const utils = require('./utils-12a4175d.js');
+const functions = require('./functions-2e044f2e.js');
 const Token = require('./Token-3d0cc874.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 require('./index-7564ffa1.js');
@@ -220,7 +219,7 @@ const IrBookingListing = class {
                 let confirmationBG = this.statusColors[booking.is_requested_to_cancel ? '003' : booking.status.code];
                 const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
                 const totalPersons = this.calculateTotalPersons(booking);
-                return (index.h("tr", { key: booking.booking_nbr }, index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && index.h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
+                return (index.h("tr", { key: booking.booking_nbr }, index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && index.h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
                         width: 'fit-content',
                         padding: '0',
                         margin: '0',
@@ -231,7 +230,7 @@ const IrBookingListing = class {
                     return (index.h("li", null, index.h("div", { class: 'room-service' }, index.h("p", { class: 'm-0 p-0' }, room.roomtype.name), room.unit &&
                         !calendarData.isSingleUnit(room.roomtype.id) &&
                         (((_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 4 ? (index.h("ir-tooltip", { customSlot: true, message: (_c = room.unit) === null || _c === void 0 ? void 0 : _c.name }, index.h("p", { class: 'room-name-container cursor-pointer m-0', slot: "tooltip-trigger" }, (_e = (_d = room.unit) === null || _d === void 0 ? void 0 : _d.name) === null || _e === void 0 ? void 0 : _e.substring(0, 4)))) : (index.h("p", { class: 'room-name-container  m-0' }, (_g = (_f = room.unit) === null || _f === void 0 ? void 0 : _f.name) === null || _g === void 0 ? void 0 : _g.substring(0, 4)))))));
-                }), booking.extra_services && index.h("li", null, locales_store.locales.entries.Lcz_ExtraServices))), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), index.h("td", null, index.h("p", { class: "p-0 m-0", style: { whiteSpace: 'nowrap' } }, utils.formatAmount(booking.currency.symbol, (_c = (_b = booking.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), booking.financial.due_amount > 0 && (index.h("buuton", { onClick: () => {
+                }), booking.extra_services && index.h("li", null, locales_store.locales.entries.Lcz_ExtraServices))), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 date-p" }, utils.hooks(booking.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), index.h("td", null, index.h("p", { class: "p-0 m-0", style: { whiteSpace: 'nowrap' } }, utils.formatAmount(booking.currency.symbol, (_c = (_b = booking.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), booking.financial.due_amount > 0 && (index.h("buuton", { onClick: () => {
                         this.editBookingItem = { booking, cause: 'payment' };
                         this.openModal();
                     }, style: { whiteSpace: 'nowrap' }, class: "btn p-0 m-0 due-btn" }, utils.formatAmount(booking.currency.symbol, booking.financial.due_amount)))), this.showCost && (index.h("td", null, booking.financial.gross_cost !== null && booking.financial.gross_cost === 0

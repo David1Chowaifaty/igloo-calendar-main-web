@@ -8,6 +8,7 @@ export declare class IrTasksTable {
         field: string;
         direction: 'ASC' | 'DESC';
     }>;
+    skipSelectedTask: EventEmitter<Task>;
     componentWillLoad(): void;
     /**
      * Sorts the tasks by the given key. If no direction is provided,
@@ -39,5 +40,14 @@ export declare class IrTasksTable {
      * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
      */
     private isCheckable;
+    /**
+     * Determines if a task is skippable.
+     *
+     * A task is considered skippable if its date is today and should be In house.
+     *
+     * @param {Task} task - The task to skip.
+     * @returns {boolean} - Returns `true` if the task's date is today and in house, otherwise `false`.
+     */
+    private isSkippable;
     render(): any;
 }

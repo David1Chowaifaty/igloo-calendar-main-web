@@ -126,6 +126,13 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         }
         this.table_sorting.set(field, direction);
     }
+    handleSkipSelectedTask(e) {
+        var _a;
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.modalCauses = { task: e.detail, cause: 'skip' };
+        (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+    }
     async init() {
         try {
             this.isLoading = true;
@@ -225,10 +232,11 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.selectedTask = e.detail;
+        this.modalCauses = { task: e.detail, cause: 'clean' };
         (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
     }
     async handleModalConfirmation(e) {
+        var _a;
         try {
             e.stopImmediatePropagation();
             e.stopPropagation();
@@ -236,15 +244,28 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 return;
             }
             this.isCleaningLoading = true;
-            await this.houseKeepingService.executeHKAction({
-                actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
-            });
+            if (((_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.cause) === 'skip') {
+                const { booking_nbr, date } = this.modalCauses.task;
+                await this.houseKeepingService.editHkSkip({
+                    BOOK_NBR: booking_nbr,
+                    DATE: date,
+                    COMMENT: '',
+                    HK_SKIP_ID: -1,
+                    HK_SKIP_REASON_CODE: '001',
+                    PR_ID: this.property_id,
+                });
+            }
+            else {
+                await this.houseKeepingService.executeHKAction({
+                    actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
+                });
+            }
             await this.fetchTasksWithFilters();
         }
         finally {
             clearSelectedTasks();
-            if (this.selectedTask) {
-                this.selectedTask = null;
+            if (this.modalCauses) {
+                this.modalCauses = null;
             }
             this.isCleaningLoading = false;
             // this.clearSelectedTasks.emit();
@@ -286,7 +307,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         return { tasks, url };
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c, _d;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -297,11 +318,15 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
             }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
-                if (this.selectedTask) {
+                if (this.modalCauses) {
                     clearSelectedTasks();
-                    this.selectedTask = null;
+                    this.modalCauses = null;
                 }
-            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.selectedTask ? `Update ${(_b = (_a = this.selectedTask) === null || _a === void 0 ? void 0 : _a.unit) === null || _b === void 0 ? void 0 : _b.name} to Clean` : 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalCauses
+                ? ((_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.cause) === 'clean'
+                    ? `Update ${(_d = (_c = (_b = this.modalCauses) === null || _b === void 0 ? void 0 : _b.task) === null || _c === void 0 ? void 0 : _c.unit) === null || _d === void 0 ? void 0 : _d.name} to Clean`
+                    : 'Skip cleaning and reschedule for tomorrow.'
+                : 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -332,8 +357,8 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         "isSidebarOpen": [32],
         "isApplyFiltersLoading": [32],
         "filters": [32],
-        "selectedTask": [32]
-    }, [[0, "closeSideBar", "handleCloseSidebar"], [0, "sortingChanged", "handleSortingChanged"], [0, "headerButtonPress", "handleHeaderButtonPress"], [0, "cleanSelectedTask", "handleSelectedTaskCleaningEvent"]], {
+        "modalCauses": [32]
+    }, [[0, "closeSideBar", "handleCloseSidebar"], [0, "sortingChanged", "handleSortingChanged"], [0, "skipSelectedTask", "handleSkipSelectedTask"], [0, "headerButtonPress", "handleHeaderButtonPress"], [0, "cleanSelectedTask", "handleSelectedTaskCleaningEvent"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {
