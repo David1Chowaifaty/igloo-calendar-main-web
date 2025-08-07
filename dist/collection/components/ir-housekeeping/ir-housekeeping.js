@@ -6,6 +6,7 @@ import housekeeping_store, { updateHKStore } from "../../stores/housekeeping.sto
 import { Host, h } from "@stencil/core";
 import locales from "../../stores/locales.store";
 import { PropertyService } from "../../services/property.service";
+import { isRequestPending } from "../../stores/ir-interceptor.store";
 export class IrHousekeeping {
     constructor() {
         this.language = '';
@@ -38,6 +39,7 @@ export class IrHousekeeping {
         this.initializeApp();
     }
     async initializeApp() {
+        var _a;
         try {
             this.isLoading = true;
             let propertyId = this.propertyid;
@@ -66,6 +68,7 @@ export class IrHousekeeping {
                 }));
             }
             await Promise.all(requests);
+            this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
         }
         catch (error) {
             console.error(error);
@@ -99,22 +102,23 @@ export class IrHousekeeping {
         try {
             await this.propertyService.setExposedCleaningFrequency({
                 property_id: housekeeping_store.default_properties.property_id,
-                code: e.detail,
+                code: this.selectedCleaningFrequency,
             });
-            calendar_data.cleaning_frequency = { code: e.detail, description: '' };
+            calendar_data.cleaning_frequency = { code: this.selectedCleaningFrequency, description: '' };
             this.toast.emit({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
                 type: 'success',
             });
+            this.modal.closeModal();
         }
         catch (error) {
             console.log(error);
         }
     }
     render() {
-        var _a, _b;
+        var _a;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -122,10 +126,18 @@ export class IrHousekeeping {
         return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code, onSelectChange: e => this.saveCleaningFrequency(e), data: (_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies.map(v => ({
+            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.selectedCleaningFrequency = e.detail;
+                this.modal.openModal();
+            }, data: (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_frequencies.map(v => ({
                 text: v.description,
                 value: v.code,
-            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }))));
+            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onConfirmModal: this.saveCleaningFrequency.bind(this), iconAvailable: true, onCancelModal: () => {
+                var _a;
+                this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
+            }, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'This action will reset all skipped tasks. Do you want to continue?' }))));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }

@@ -3,14 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const utils = require('./utils-12a4175d.js');
-const events_service = require('./events.service-e14d7a90.js');
+const utils = require('./utils-9c4cabe9.js');
+const events_service = require('./events.service-bc5fb58d.js');
+const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 require('./index-63734c32.js');
 require('./axios-6e678d52.js');
 require('./index-7564ffa1.js');
-require('./booking.service-991a3e98.js');
+require('./booking.service-8a6f733f.js');
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.ota-notes.sc-igl-booking-event-hover{width:450px}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
 const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
@@ -34,15 +35,15 @@ const IglBookingEventHover = class {
         if (selectedRt) {
             this.shouldHideUnassignUnit = selectedRt.physicalrooms.length === 1;
         }
-        if (utils.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isBefore(utils.hooks())) {
+        if (moment.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isBefore(moment.hooks())) {
             this.hideButtons = true;
         }
-        this.canCheckInOrCheckout = utils.hooks().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && utils.hooks().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+        this.canCheckInOrCheckout = moment.hooks().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment.hooks().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
     }
     handleBookingEventChange(newValue, oldValue) {
         if (newValue !== oldValue)
             this.canCheckInOrCheckout =
-                utils.hooks(new Date()).isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && utils.hooks(new Date()).isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+                moment.hooks(new Date()).isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment.hooks(new Date()).isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
     }
     getBookingId() {
         return this.bookingEvent.ID;
@@ -144,9 +145,9 @@ const IglBookingEventHover = class {
         if (this.isCheckedIn()) {
             return true;
         }
-        const now = utils.hooks();
+        const now = moment.hooks();
         if (((_b = (_a = this.bookingEvent.ROOM_INFO) === null || _a === void 0 ? void 0 : _a.in_out) === null || _b === void 0 ? void 0 : _b.code) === '000' &&
-            utils.hooks().isSameOrAfter(new Date(this.bookingEvent.TO_DATE), 'days') &&
+            moment.hooks().isSameOrAfter(new Date(this.bookingEvent.TO_DATE), 'days') &&
             utils.compareTime(now.toDate(), utils.createDateWithOffsetAndHour((_c = calendarData.calendar_data.checkin_checkout_hours) === null || _c === void 0 ? void 0 : _c.offset, (_d = calendarData.calendar_data.checkin_checkout_hours) === null || _d === void 0 ? void 0 : _d.hour))) {
             return true;
         }

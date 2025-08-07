@@ -12,6 +12,8 @@ export declare class IrHousekeeping {
     private houseKeepingService;
     private propertyService;
     private token;
+    modal: HTMLIrModalElement;
+    selectedCleaningFrequency: any;
     componentWillLoad(): void;
     handleResetData(e: CustomEvent): Promise<void>;
     ticketChanged(newValue: string, oldValue: string): void;

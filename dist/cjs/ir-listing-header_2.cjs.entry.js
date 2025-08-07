@@ -3,9 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const booking_listing_service = require('./booking_listing.service-0799ddf6.js');
+const booking_listing_service = require('./booking_listing.service-900d4cec.js');
 const locales_store = require('./locales.store-a1ac5174.js');
-const utils = require('./utils-12a4175d.js');
+const utils = require('./utils-9c4cabe9.js');
+const moment = require('./moment-1780b03a.js');
 const payment_service = require('./payment.service-3c37bbce.js');
 require('./index-7564ffa1.js');
 require('./axios-6e678d52.js');
@@ -93,12 +94,12 @@ const IrListingHeader = class {
                 e.stopPropagation();
                 const { fromDate, toDate } = e.detail;
                 let to_date = toDate.format('YYYY-MM-DD');
-                if (toDate.isSame(utils.hooks(booking_listing_service.booking_listing.userSelection.to, 'YYYY-MM-DD'), 'days') ||
-                    toDate.isBefore(utils.hooks(booking_listing_service.booking_listing.userSelection.from, 'YYYY-MM-DD'), 'days')) {
+                if (toDate.isSame(moment.hooks(booking_listing_service.booking_listing.userSelection.to, 'YYYY-MM-DD'), 'days') ||
+                    toDate.isBefore(moment.hooks(booking_listing_service.booking_listing.userSelection.from, 'YYYY-MM-DD'), 'days')) {
                     to_date = booking_listing_service.booking_listing.userSelection.to;
                 }
                 booking_listing_service.booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { to: to_date, from: fromDate.format('YYYY-MM-DD') });
-            }, allowNullDates: false, fromDate: utils.hooks(booking_listing_service.booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: utils.hooks(booking_listing_service.booking_listing.userSelection.to, 'YYYY-MM-DD') }), index.h("ir-select", { key: 'c136ea81af67f37578cfe9bbe2d266b5d1441aab', class: "flex-sm-wrap", selectedValue: booking_listing_service.booking_listing.userSelection.booking_status, onSelectChange: e => booking_listing_service.updateUserSelection('booking_status', e.detail), showFirstOption: false, data: booking_listing_service.booking_listing === null || booking_listing_service.booking_listing === void 0 ? void 0 : booking_listing_service.booking_listing.statuses.map(status => ({
+            }, allowNullDates: false, fromDate: moment.hooks(booking_listing_service.booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: moment.hooks(booking_listing_service.booking_listing.userSelection.to, 'YYYY-MM-DD') }), index.h("ir-select", { key: 'c136ea81af67f37578cfe9bbe2d266b5d1441aab', class: "flex-sm-wrap", selectedValue: booking_listing_service.booking_listing.userSelection.booking_status, onSelectChange: e => booking_listing_service.updateUserSelection('booking_status', e.detail), showFirstOption: false, data: booking_listing_service.booking_listing === null || booking_listing_service.booking_listing === void 0 ? void 0 : booking_listing_service.booking_listing.statuses.map(status => ({
                 value: status.code,
                 text: status.name,
             })), select_id: "booking_status", LabelAvailable: false }), index.h("ir-select", { key: 'a5b2818e9964adb8489d3fcf9e01c98baea3545f', class: "flex-sm-wrap", selectedValue: booking_listing_service.booking_listing.userSelection.channel, onSelectChange: e => booking_listing_service.updateUserSelection('channel', e.detail), LabelAvailable: false, data: booking_listing_service.booking_listing === null || booking_listing_service.booking_listing === void 0 ? void 0 : booking_listing_service.booking_listing.channels.map(channel => ({
@@ -152,7 +153,7 @@ const IrListingModal = class {
                     await this.paymentService.AddPayment({
                         amount: this.editBooking.booking.financial.due_amount,
                         currency: this.editBooking.booking.currency,
-                        date: utils.hooks().format('YYYY-MM-DD'),
+                        date: moment.hooks().format('YYYY-MM-DD'),
                         designation: this.selectedDesignation,
                         id: -1,
                         reference: '',

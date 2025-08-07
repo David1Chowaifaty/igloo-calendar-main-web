@@ -6,17 +6,19 @@ import { c as calendar_data } from './calendar-data.js';
 import { u as updateHKStore, h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
 import { P as PropertyService } from './property.service.js';
-import { d as defineCustomElement$o } from './ir-button2.js';
-import { d as defineCustomElement$n } from './ir-combobox2.js';
-import { d as defineCustomElement$m } from './ir-delete-modal2.js';
-import { d as defineCustomElement$l } from './ir-hk-team2.js';
-import { d as defineCustomElement$k } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$j } from './ir-hk-user2.js';
-import { d as defineCustomElement$i } from './ir-icon2.js';
-import { d as defineCustomElement$h } from './ir-icons2.js';
-import { d as defineCustomElement$g } from './ir-input-text2.js';
-import { d as defineCustomElement$f } from './ir-interceptor2.js';
-import { d as defineCustomElement$e } from './ir-loading-screen2.js';
+import { i as isRequestPending } from './ir-interceptor.store.js';
+import { d as defineCustomElement$p } from './ir-button2.js';
+import { d as defineCustomElement$o } from './ir-combobox2.js';
+import { d as defineCustomElement$n } from './ir-delete-modal2.js';
+import { d as defineCustomElement$m } from './ir-hk-team2.js';
+import { d as defineCustomElement$l } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$k } from './ir-hk-user2.js';
+import { d as defineCustomElement$j } from './ir-icon2.js';
+import { d as defineCustomElement$i } from './ir-icons2.js';
+import { d as defineCustomElement$h } from './ir-input-text2.js';
+import { d as defineCustomElement$g } from './ir-interceptor2.js';
+import { d as defineCustomElement$f } from './ir-loading-screen2.js';
+import { d as defineCustomElement$e } from './ir-modal2.js';
 import { d as defineCustomElement$d } from './ir-otp2.js';
 import { d as defineCustomElement$c } from './ir-otp-modal2.js';
 import { d as defineCustomElement$b } from './ir-password-validator2.js';
@@ -69,6 +71,7 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         this.initializeApp();
     }
     async initializeApp() {
+        var _a;
         try {
             this.isLoading = true;
             let propertyId = this.propertyid;
@@ -97,6 +100,7 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
                 }));
             }
             await Promise.all(requests);
+            this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
         }
         catch (error) {
             console.error(error);
@@ -130,22 +134,23 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         try {
             await this.propertyService.setExposedCleaningFrequency({
                 property_id: housekeeping_store.default_properties.property_id,
-                code: e.detail,
+                code: this.selectedCleaningFrequency,
             });
-            calendar_data.cleaning_frequency = { code: e.detail, description: '' };
+            calendar_data.cleaning_frequency = { code: this.selectedCleaningFrequency, description: '' };
             this.toast.emit({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
                 type: 'success',
             });
+            this.modal.closeModal();
         }
         catch (error) {
             console.log(error);
         }
     }
     render() {
-        var _a, _b;
+        var _a;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -153,10 +158,18 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code, onSelectChange: e => this.saveCleaningFrequency(e), data: (_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies.map(v => ({
+            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.selectedCleaningFrequency = e.detail;
+                this.modal.openModal();
+            }, data: (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_frequencies.map(v => ({
                 text: v.description,
                 value: v.code,
-            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }))));
+            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onConfirmModal: this.saveCleaningFrequency.bind(this), iconAvailable: true, onCancelModal: () => {
+                var _a;
+                this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
+            }, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'This action will reset all skipped tasks. Do you want to continue?' }))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -176,7 +189,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-textarea", "ir-title", "ir-toast", "requirement-check"];
+    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-textarea", "ir-title", "ir-toast", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -185,55 +198,60 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$p();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$o();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$n();
             }
             break;
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-hk-user":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
