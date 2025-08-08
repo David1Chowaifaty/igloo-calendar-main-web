@@ -8,7 +8,7 @@ export class AcPagesMenu {
     render() {
         const isSheet = this.location === 'sheet';
         if (isSheet) {
-            return (h("ul", { class: "mobile-nav-items accordion", "data-menu": "menu-navigation" }, this.pages.map(page => {
+            return (h("ul", { class: "mobile-nav-items accordion" }, this.pages.map(page => {
                 var _a, _b;
                 const id = (_a = page.id) !== null && _a !== void 0 ? _a : v4();
                 if (page.subMenus) {
@@ -22,7 +22,7 @@ export class AcPagesMenu {
                 return (h("li", { key: id, id: id, class: `${(_b = page.className) !== null && _b !== void 0 ? _b : ''}  mobile-nav-item` }, h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: "mobile-nav-link" }, page.icon && h("i", { class: page.icon }), h("span", null, page.label))));
             })));
         }
-        return (h("ul", { class: "navigation-items", "data-menu": "menu-navigation" }, this.pages.map(page => {
+        return (h("ul", { class: "navigation-items" }, this.pages.map(page => {
             var _a, _b;
             const id = (_a = page.id) !== null && _a !== void 0 ? _a : v4();
             if (page.subMenus) {
