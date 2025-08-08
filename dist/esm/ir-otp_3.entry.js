@@ -464,7 +464,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: '0ae4cd05963567ff06b8c61b0aebbae18cfe5e3e' });
+        return h(Host, { key: '0c3756eda1449135a47433cc2c927a68f9a657c7' });
     }
     get el() { return getElement(this); }
     static get watchers() { return {
