@@ -339,8 +339,7 @@ export class BookingService {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            console.log(data);
-            return data['My_Params_Block_Exposed_Unit'];
+            return data;
         }
         catch (error) {
             console.error(error);

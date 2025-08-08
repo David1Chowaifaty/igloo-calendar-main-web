@@ -14,7 +14,7 @@ const v4 = require('./v4-9b297151.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 const axios = require('./axios-6e678d52.js');
 const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
-const booking_service = require('./booking.service-0794274f.js');
+const booking_service = require('./booking.service-c36b88a8.js');
 const user_service = require('./user.service-af71bd09.js');
 const index$1 = require('./index-84e84862.js');
 require('./index-7564ffa1.js');
