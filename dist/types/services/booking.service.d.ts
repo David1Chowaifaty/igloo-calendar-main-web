@@ -96,6 +96,15 @@ export declare class BookingService {
     getBlockedInfo(): Promise<IEntries[]>;
     getUserDefaultCountry(): Promise<any>;
     blockUnit(params: IBlockUnit): Promise<any>;
+    blockAvailabilityForBrackets(params: {
+        unit_id: number;
+        block_status_code?: '003' | '004' | '002';
+        description?: string;
+        brackets: {
+            from_date: string;
+            to_date: string;
+        }[];
+    }): Promise<any>;
     setDepartureTime(params: {
         property_id: number;
         room_identifier: string;

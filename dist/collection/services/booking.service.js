@@ -333,6 +333,20 @@ export class BookingService {
             throw new Error(error);
         }
     }
+    async blockAvailabilityForBrackets(params) {
+        try {
+            const { data } = await axios.post(`/Block_Availability_For_Brackets`, params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            console.log(data);
+            return data['My_Params_Block_Exposed_Unit'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
     async setDepartureTime(params) {
         const { data } = await axios.post('/Set_Departure_Time', params);
         if (data.ExceptionMsg !== '') {
