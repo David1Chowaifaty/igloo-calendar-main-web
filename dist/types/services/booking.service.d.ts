@@ -34,6 +34,11 @@ export type GroupedTableEntries = {
     [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
 };
 export declare class BookingService {
+    unBlockUnitByPeriod(props: {
+        unit_id: number;
+        from_date: string;
+        to_date: string;
+    }): Promise<any>;
     handleExposedRoomInOut(props: {
         booking_nbr: string;
         room_identifier: string;

@@ -15,6 +15,13 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
     return t;
 };
 class BookingService {
+    async unBlockUnitByPeriod(props) {
+        const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async handleExposedRoomInOut(props) {
         const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
         if (data.ExceptionMsg !== '') {

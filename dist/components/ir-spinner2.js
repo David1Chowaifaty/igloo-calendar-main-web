@@ -53,7 +53,7 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: '02c73dd0aa108cb9560510303eba4d069d75cc18' });
+        return h(Host, { key: 'e5d7804096fac4efbca47dc3d30c6ad614a7fefb' });
     }
     get el() { return this; }
     static get watchers() { return {

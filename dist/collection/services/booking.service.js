@@ -16,6 +16,13 @@ import { getMyBookings } from "../utils/booking";
 import booking_store from "../stores/booking.store";
 import calendar_data from "../stores/calendar-data";
 export class BookingService {
+    async unBlockUnitByPeriod(props) {
+        const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async handleExposedRoomInOut(props) {
         const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
         if (data.ExceptionMsg !== '') {

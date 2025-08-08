@@ -10,7 +10,7 @@ import { v as v4 } from './v4-964634d6.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
-import { B as BookingService } from './booking.service-78d87c3d.js';
+import { B as BookingService } from './booking.service-3aaec27e.js';
 import { U as UserService } from './user.service-a1595bb0.js';
 import { l as lookup } from './index-7ee206df.js';
 import './index-c4cf83be.js';

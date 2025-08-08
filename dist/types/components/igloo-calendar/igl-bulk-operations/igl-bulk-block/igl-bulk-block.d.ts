@@ -16,6 +16,7 @@ export declare class IglBulkBlock {
     } | null;
     errors: 'dates' | 'rooms';
     isLoading: boolean;
+    blockState: 'block' | 'unblock';
     dates: {
         from: Moment | null;
         to: Moment | null;
