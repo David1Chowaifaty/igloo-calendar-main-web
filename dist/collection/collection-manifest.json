@@ -1,10 +1,12 @@
 {
   "entries": [
     "components/ac-pages-menu/ac-pages-menu.js",
+    "components/ui/ir-toast/ir-toast.js",
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-combobox/ir-combobox.js",
     "components/ir-m-combobox/ir-m-combobox.js",
     "components/ir-pagination/ir-pagination.js",
+    "components/ui/ir-tabs/ir-tabs.js",
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
@@ -19,7 +21,9 @@
     "components/igloo-calendar/igl-book-property/igl-booking-overview-page/igl-room-type/igl-rate-plan/igl-rate-plan.js",
     "components/igloo-calendar/igl-booking-event/igl-booking-event.js",
     "components/igloo-calendar/igl-booking-event-hover/igl-booking-event-hover.js",
-    "components/igloo-calendar/igl-bulk-stop-sale/igl-bulk-stop-sale.js",
+    "components/igloo-calendar/igl-bulk-operations/igl-bulk-operations.js",
+    "components/igloo-calendar/igl-bulk-operations/igl-bulk-block/igl-bulk-block.js",
+    "components/igloo-calendar/igl-bulk-operations/igl-bulk-stop-sale/igl-bulk-stop-sale.js",
     "components/igloo-calendar/igl-cal-body/igl-cal-body.js",
     "components/igloo-calendar/igl-cal-footer/igl-cal-footer.js",
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",
@@ -124,7 +128,6 @@
     "components/ui/ir-spinner/ir-spinner.js",
     "components/ui/ir-switch/ir-switch.js",
     "components/ui/ir-textarea/ir-textarea.js",
-    "components/ui/ir-toast/ir-toast.js",
     "components/ui/ir-tooltip/ir-tooltip.js",
     "components/ui/ir-weekday-selector/ir-weekday-selector.js",
     "components/ui/ota-label/ota-label.js"

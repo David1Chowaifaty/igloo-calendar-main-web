@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrRadio {
+    el: HTMLIrRadioElement;
     /**
      * Whether the checkbox is checked.
      */

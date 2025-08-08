@@ -418,7 +418,7 @@ const IglBookingEventHover = class {
             }, text: locales_store.locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (index.h(index.Host, { key: 'cc8276178eaaff7f866248312dc5b1e81b5e497e' }, index.h("div", { key: 'a90142412a77233df8e18a801941c6840827971a', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'f8d606226d9ade4cd7e5cdcb1092d5c8d515eb6d', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '1b4584f3e08fa8f7f4ee193df00d64a4b3b4193b' }, index.h("div", { key: '9f328ddaa13c931600c6c8e56f861c7291789201', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, index.h("div", { key: 'b4e89fd0d4404e3cb34cdb254ece10017c76158f', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return index.getElement(this); }
     static get watchers() { return {

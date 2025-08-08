@@ -31,7 +31,7 @@ export class IglTbaCategoryView {
     }
     render() {
         var _a;
-        return (h(Host, { key: '48a2c2689f4b233a84127188ab8fc07197d386e7' }, h("div", { key: '0843b560159583127082e1b0fa545817860f0991', class: "sectionContainer" }, h("div", { key: '5cd05520dd45eff19ebe094336abdb3c79e40c17', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '84c00fa056bf30a90daf6119ef20cc063d505eae' }, h("div", { key: 'e2ed1dcb320fd760576d8d1bc9846da08b05e81a', class: "sectionContainer" }, h("div", { key: 'e4cd994fdf3827f8142cce19049f2048f9e6e7d0', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get is() { return "igl-tba-category-view"; }
     static get encapsulation() { return "scoped"; }

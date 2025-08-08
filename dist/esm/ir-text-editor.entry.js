@@ -16518,7 +16518,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (h("div", { key: '57a96c89f6ad3dae85eae108ca5c79312ac619a2', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '5b09de5413b4099d589e5decee9aab537e8f3b2b', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: 'bfd0b32c221abbe67fbab1dae099c096723b631e', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '6a57a75cf3aab23819ce7918c136b7f2063e948e', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

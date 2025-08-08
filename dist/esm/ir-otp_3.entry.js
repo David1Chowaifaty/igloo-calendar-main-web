@@ -231,7 +231,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: 'af1d63d3b5c525d6b78ea1d1cdcaf1bb596e7d1e', class: "otp-input-container" }, h("div", { key: '014d73da13c297a87cf56fb0f6f775c144c6a14f', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: 'e5b0a6478b7a12ab10fc65a3a046cc013867f780', class: "otp-input-container" }, h("div", { key: '06636612b657bd6a9bac8ebfcd06be2748972acd', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
@@ -401,7 +401,7 @@ const IrOtpModal = class {
     }
     render() {
         var _a;
-        return (h(Host, { key: '01dfd1df9461077a844a0848d9babb2cad39458f' }, h("dialog", { key: '2220e2b9ff1f315a25a81d7ad69be894ea1f9351', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'a1deebc17fe98e4c00c68d27067d3d642a61ecd4', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: 'b0e7fadd832b91a11ba768fdce474385fd18213b' }, h("dialog", { key: '1a3e8757f86b3da798081c8c207859308943edc0', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'd8379e1a8423186f97cf4aa20cadf33c82755b55', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
@@ -464,7 +464,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: '0c3756eda1449135a47433cc2c927a68f9a657c7' });
+        return h(Host, { key: '02c73dd0aa108cb9560510303eba4d069d75cc18' });
     }
     get el() { return getElement(this); }
     static get watchers() { return {
