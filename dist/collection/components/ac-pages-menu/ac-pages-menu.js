@@ -8,7 +8,7 @@ export class AcPagesMenu {
     render() {
         const isSheet = this.location === 'sheet';
         if (isSheet) {
-            return (h("ul", { class: "mobile-nav-items accordion" }, this.pages.map(page => {
+            return (h("ul", { class: "mobile-nav-items accordion", id: "mainMenuNavigation" }, this.pages.map(page => {
                 var _a, _b;
                 const id = (_a = page.id) !== null && _a !== void 0 ? _a : v4();
                 if (page.subMenus) {
