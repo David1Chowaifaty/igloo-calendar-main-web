@@ -14,6 +14,7 @@ export declare class AcPagesMenu {
     pages: ACPages[];
     location: 'sheet' | 'nav';
     linkClicked: EventEmitter<MouseEvent>;
+    private Icon;
     render(): any;
 }
 export {};
