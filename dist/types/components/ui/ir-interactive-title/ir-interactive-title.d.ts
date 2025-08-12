@@ -18,6 +18,11 @@ export declare class IrInteractiveTitle {
      */
     cropSize: number;
     /**
+     * The message shown when hovering over the broom svg if provided.
+     * @requires hkStatus to be true
+     */
+    broomTooltip: string;
+    /**
      * Reference to track if we've initialized popover for current render
      */
     private lastRenderedTitle;
