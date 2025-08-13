@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { v as v4 } from './v4.js';
 
-const irMComboboxCss = ".sc-ir-m-combobox-h{position:relative;display:block}.dropdown.sc-ir-m-combobox{position:absolute;top:100%;left:0;z-index:1000;width:100%}.dropdown-menu.sc-ir-m-combobox{max-height:var(--ir-combobox-height, 200px);overflow-y:auto;min-width:100%;width:var(--ir-combobox-width, 100%) !important;scroll-behavior:smooth}.dropdown-item.loading.sc-ir-m-combobox,.dropdown-item.no-results.sc-ir-m-combobox{color:#6c757d;cursor:default;pointer-events:none}.dropdown-item.sc-ir-m-combobox{padding:0.5rem 1rem !important}.dropdown-item.active.sc-ir-m-combobox,.dropdown-item.focused.sc-ir-m-combobox{background-color:var(--blue, #1e9ff2) !important;color:white !important}[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.active.sc-ir-m-combobox{background-color:#1e9ff2 !important;color:white !important}[slot='dropdown-content'].sc-ir-m-combobox [data-option].focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox [data-option].active.sc-ir-m-combobox{background-color:#1e9ff2 !important;color:white !important}";
+const irMComboboxCss = ".sc-ir-m-combobox-h{position:relative;display:block}.input-wrapper.sc-ir-m-combobox{position:relative;width:100%}.prefix-container.sc-ir-m-combobox,.suffix-container.sc-ir-m-combobox{position:absolute;top:0;bottom:0;display:inline-flex;align-items:center;color:var(--ir-combobox-affix-color, #6c757d);pointer-events:none}.dropdown-item.sc-ir-m-combobox{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.prefix-container.sc-ir-m-combobox{left:0.5rem}.suffix-container.sc-ir-m-combobox{right:0.5rem}.sc-ir-m-combobox-s>[slot='prefix'],.sc-ir-m-combobox-s>[slot='suffix']{display:inline-flex;width:var(--ir-combobox-affix-size, 1rem);height:var(--ir-combobox-affix-size, 1rem)}.has-prefix.sc-ir-m-combobox-h input.form-control.sc-ir-m-combobox{padding-left:calc(0.75rem + var(--ir-combobox-affix-size, 1rem))}.has-suffix.sc-ir-m-combobox-h input.form-control.sc-ir-m-combobox{padding-right:calc(0.75rem + var(--ir-combobox-affix-size, 1rem))}.dropdown.sc-ir-m-combobox{position:absolute;top:100%;left:0;z-index:1000;width:100%}.dropdown-menu.sc-ir-m-combobox{max-height:var(--ir-combobox-height, 200px);overflow-y:auto;min-width:100%;width:var(--ir-combobox-width, 100%) !important;scroll-behavior:smooth}.dropdown-item.loading.sc-ir-m-combobox,.dropdown-item.no-results.sc-ir-m-combobox{color:#6c757d;cursor:default;pointer-events:none}.dropdown-item.sc-ir-m-combobox{padding:0.5rem 1rem !important}.dropdown-item.active.sc-ir-m-combobox,.dropdown-item.focused.sc-ir-m-combobox{background-color:var(--blue, #1e9ff2) !important;color:white !important}[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox .dropdown-item.active.sc-ir-m-combobox{background-color:#1e9ff2 !important;color:white !important}[slot='dropdown-content'].sc-ir-m-combobox [data-option].focused.sc-ir-m-combobox,[slot='dropdown-content'].sc-ir-m-combobox [data-option].active.sc-ir-m-combobox{background-color:#1e9ff2 !important;color:white !important}";
 const IrMComboboxStyle0 = irMComboboxCss;
 
 const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends HTMLElement {
@@ -40,11 +40,31 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
         this.focusedIndex = -1;
         this.filteredOptions = [];
         this.slotElements = [];
+        this.hasPrefix = false;
+        this.hasSuffix = false;
         this.id = v4();
         this.dropdownId = `dropdown-${this.id}`;
         this.handleDocumentClick = (event) => {
             if (!this.el.contains(event.target)) {
                 this.closeDropdown();
+            }
+        };
+        this.updateAffixPresence = () => {
+            try {
+                const prefixAssigned = this.prefixSlotRef && this.prefixSlotRef.assignedElements
+                    ? this.prefixSlotRef.assignedElements()
+                    : Array.from(this.el.querySelectorAll('[slot="prefix"]'));
+                const suffixAssigned = this.suffixSlotRef && this.suffixSlotRef.assignedElements
+                    ? this.suffixSlotRef.assignedElements()
+                    : Array.from(this.el.querySelectorAll('[slot="suffix"]'));
+                this.hasPrefix = Array.isArray(prefixAssigned) ? prefixAssigned.length > 0 : false;
+                this.hasSuffix = Array.isArray(suffixAssigned) ? suffixAssigned.length > 0 : false;
+            }
+            catch (e) {
+                const prefixFallback = this.el.querySelector('[slot="prefix"]');
+                const suffixFallback = this.el.querySelector('[slot="suffix"]');
+                this.hasPrefix = !!prefixFallback;
+                this.hasSuffix = !!suffixFallback;
             }
         };
         this.handleKeyDown = (event) => {
@@ -139,16 +159,23 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
         this.initializeOptions();
     }
     componentDidLoad() {
+        var _a, _b;
         document.addEventListener('click', this.handleDocumentClick.bind(this));
         if (this.useSlot) {
             setTimeout(() => this.updateSlotElements(), 0);
         }
+        setTimeout(() => this.updateAffixPresence(), 0);
+        (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.addEventListener('slotchange', this.updateAffixPresence);
+        (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.addEventListener('slotchange', this.updateAffixPresence);
     }
     disconnectedCallback() {
+        var _a, _b;
         document.removeEventListener('click', this.handleDocumentClick.bind(this));
         if (this.debounceTimeout) {
             clearTimeout(this.debounceTimeout);
         }
+        (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('slotchange', this.updateAffixPresence);
+        (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('slotchange', this.updateAffixPresence);
     }
     handleDocumentKeyDown(event) {
         var _a;
@@ -238,7 +265,7 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
     }
     render() {
         var _a;
-        return (h(Host, { key: '29cb183ba4efcef8aa53ebfca88330601bdb5f0c' }, h("input", { key: 'e13080674e061abaad24fcee9bee317e54d6f923', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("div", { key: '740aea94d33cf99453a0c71f60a05f784fefc850', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'ba9b88e92e5921bcc661ea1179c5e501e5f5f43c', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '60c48946df0aad588d2559c5993b2a93ddaad3f9', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '16b376c0362243bdea1d69a1e7feaa75ca01cdcf', class: "input-wrapper" }, h("span", { key: '31aa9253a7a428d45e87d38a9b3aea997f2989f5', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: 'f33764e86b96e550b90c2198c048786087b3a6f1', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: 'ceab3da257d0c8aae6defec887c31031e10fcc0d', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '632fa017e092694677edf0aa7d8337dab5651736', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: 'cf45167c4f015d98f7305adc39075b20c54936be', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: 'e9ddd9b6a9de50b1725e501b9e26a9ee339cea61', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '85fedb8ccaa2e8fca44be0d6fb882c1bf157bd75', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
@@ -266,6 +293,8 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
         "focusedIndex": [32],
         "filteredOptions": [32],
         "slotElements": [32],
+        "hasPrefix": [32],
+        "hasSuffix": [32],
         "selectOptionFromSlot": [64]
     }, [[4, "keydown", "handleDocumentKeyDown"]], {
         "options": ["watchOptionsChanged"],

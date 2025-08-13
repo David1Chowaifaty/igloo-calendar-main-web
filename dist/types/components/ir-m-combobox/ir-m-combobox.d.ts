@@ -43,6 +43,8 @@ export declare class IrMCombobox {
     focusedIndex: number;
     filteredOptions: ComboboxOption[];
     slotElements: HTMLElement[];
+    hasPrefix: boolean;
+    hasSuffix: boolean;
     /**
      * Emitted when a user selects an option from the combobox.
      * The event payload contains the selected `ComboboxOption` object.
@@ -62,6 +64,8 @@ export declare class IrMCombobox {
     private id;
     private dropdownId;
     private debounceTimeout;
+    private prefixSlotRef;
+    private suffixSlotRef;
     watchOptionsChanged(newOptions: ComboboxOption[]): void;
     watchUseSlotChanged(): void;
     componentWillLoad(): void;
@@ -74,6 +78,7 @@ export declare class IrMCombobox {
     private emitSearchQuery;
     private closeDropdown;
     private updateSlotElements;
+    private updateAffixPresence;
     private removeSlotFocus;
     private focusSlotElement;
     private selectSlotElement;
