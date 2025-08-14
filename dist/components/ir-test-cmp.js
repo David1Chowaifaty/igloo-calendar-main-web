@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$6 } from './ac-pages-menu2.js';
-import { d as defineCustomElement$5 } from './ir-button2.js';
-import { d as defineCustomElement$4 } from './ir-icons2.js';
+import { d as defineCustomElement$7 } from './ac-pages-menu2.js';
+import { d as defineCustomElement$6 } from './ir-button2.js';
+import { d as defineCustomElement$5 } from './ir-icons2.js';
+import { d as defineCustomElement$4 } from './ir-input-text2.js';
 import { d as defineCustomElement$3 } from './ir-m-combobox2.js';
 import { d as defineCustomElement$2 } from './ir-notifications2.js';
 
@@ -252,7 +253,7 @@ const IrTestCmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTestCmp extends HTM
                     if (slotIndex && this.customComboboxRef) {
                         this.customComboboxRef.focusedIndex = parseInt(slotIndex);
                     }
-                }, style: { cursor: 'pointer' } }, h("span", { class: "me-2" }, "\u2B50"), h("div", null, h("div", { class: "fw-bold" }, option.label), h("small", { class: "text-muted" }, "Custom option with ID: ", option.value))))))), this.selectedCustomOption && h("p", { key: '7fcd53e34156d20a2303c9881372b0373734030d', class: "mt-2 text-muted" }, "Selected: ", this.selectedCustomOption.label))), h("div", { key: 'a956d492e86d1d7d91606cb41966a2a4cbe6d358', class: 'd-flex align-items-center my-1', style: { gap: '1rem' } }, h("button", { key: 'd0e3402e013a663f1792574406d6f5e3ba83dd78', class: "btn btn-primary", onClick: () => (this.notificationCount += 1) }, "+"), h("button", { key: '1cf2b64a04cb1b711978170ef6fe072b3fd2b3d3', class: "btn btn-primary", onClick: () => (this.notificationCount -= 1) }, "-")))));
+                }, style: { cursor: 'pointer' } }, h("span", { class: "me-2" }, "\u2B50"), h("div", null, h("div", { class: "fw-bold" }, option.label), h("small", { class: "text-muted" }, "Custom option with ID: ", option.value))))))), this.selectedCustomOption && h("p", { key: '7fcd53e34156d20a2303c9881372b0373734030d', class: "mt-2 text-muted" }, "Selected: ", this.selectedCustomOption.label))), h("div", { key: 'a956d492e86d1d7d91606cb41966a2a4cbe6d358', class: 'd-flex align-items-center my-1', style: { gap: '1rem' } }, h("button", { key: 'd0e3402e013a663f1792574406d6f5e3ba83dd78', class: "btn btn-primary", onClick: () => (this.notificationCount += 1) }, "+"), h("button", { key: '1cf2b64a04cb1b711978170ef6fe072b3fd2b3d3', class: "btn btn-primary", onClick: () => (this.notificationCount -= 1) }, "-")), h("ir-input-text", { key: 'ab7f63b2c40d51a26bec3fa3c2d7272808788734', variant: "floating-label", class: "my-text-input", label: "First name", style: { '--ir-floating-input-height': '4rem' } }, h("svg", { key: 'feed05cd2371e4931cc34bfb43a4c1e31c479206', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", slot: "prefix" }, h("path", { key: '16e7222f1674557d243af0003cd8905b18992e3e', d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" })), h("svg", { key: 'abb156baf91308440c7114b549bea66d20df1eca', slot: "suffix", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: '2038759caa3e7bfb9d73a9b982274f0287594361', d: "M264 112L376 112C380.4 112 384 115.6 384 120L384 160L256 160L256 120C256 115.6 259.6 112 264 112zM208 120L208 544L432 544L432 120C432 89.1 406.9 64 376 64L264 64C233.1 64 208 89.1 208 120zM480 160L480 544L512 544C547.3 544 576 515.3 576 480L576 224C576 188.7 547.3 160 512 160L480 160zM160 544L160 160L128 160C92.7 160 64 188.7 64 224L64 480C64 515.3 92.7 544 128 544L160 544z" }))))));
     }
     static get style() { return IrTestCmpStyle0; }
 }, [2, "ir-test-cmp", {
@@ -272,7 +273,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-test-cmp", "ac-pages-menu", "ir-button", "ir-icons", "ir-m-combobox", "ir-notifications"];
+    const components = ["ir-test-cmp", "ac-pages-menu", "ir-button", "ir-icons", "ir-input-text", "ir-m-combobox", "ir-notifications"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-test-cmp":
             if (!customElements.get(tagName)) {
@@ -281,15 +282,20 @@ function defineCustomElement$1() {
             break;
         case "ac-pages-menu":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-input-text":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

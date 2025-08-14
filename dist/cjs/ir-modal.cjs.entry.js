@@ -1,0 +1,126 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-7a66eda1.js');
+
+const irModalCss = ".backdropModal.sc-ir-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-modal{padding:1rem;background:white;border-radius:5px}.ir-alert-header.sc-ir-modal{display:flex;font-size:1rem;font-weight:700}.modal.sc-ir-modal{z-index:1001 !important}.modal-dialog.sc-ir-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-modal{gap:10px}.ir-modal.sc-ir-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
+const IrModalStyle0 = irModalCss;
+
+const IrModal = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.confirmModal = index.createEvent(this, "confirmModal", 7);
+        this.cancelModal = index.createEvent(this, "cancelModal", 7);
+        /**
+         * The title text displayed in the modal header.
+         */
+        this.modalTitle = 'Modal Title';
+        /**
+         * The main content text shown in the modal body.
+         */
+        this.modalBody = 'Modal Body';
+        /**
+         * Whether the right (confirm) button is visible.
+         */
+        this.rightBtnActive = true;
+        /**
+         * Whether the left (cancel/close) button is visible.
+         */
+        this.leftBtnActive = true;
+        /**
+         * Text displayed on the right (confirm) button.
+         */
+        this.rightBtnText = 'Confirm';
+        /**
+         * Text displayed on the left (cancel/close) button.
+         */
+        this.leftBtnText = 'Close';
+        /**
+         * Whether the modal is in a loading state, disabling interaction.
+         */
+        this.isLoading = false;
+        /**
+         * If true, the modal automatically closes after confirm/cancel actions.
+         */
+        this.autoClose = true;
+        /**
+         * Color theme of the right button.
+         */
+        this.rightBtnColor = 'primary';
+        /**
+         * Color theme of the left button.
+         */
+        this.leftBtnColor = 'secondary';
+        /**
+         * Horizontal alignment of the footer buttons.
+         */
+        this.btnPosition = 'right';
+        /**
+         * Whether an icon should be displayed next to the title.
+         */
+        this.iconAvailable = false;
+        /**
+         * Icon name to render next to the title (if `iconAvailable` is true).
+         */
+        this.icon = '';
+        /**
+         * Controls visibility of the modal.
+         */
+        this.isOpen = false;
+        /**
+         * Payload object to pass along with confirm/cancel events.
+         */
+        this.item = {};
+    }
+    /**
+     * Opens the modal.
+     *
+     * Example:
+     * ```ts
+     * const modal = document.querySelector('ir-modal');
+     * modal.openModal();
+     * ```
+     */
+    async openModal() {
+        this.isOpen = true;
+    }
+    /**
+     * Closes the modal.
+     */
+    async closeModal() {
+        this.isOpen = false;
+    }
+    btnClickHandler(event) {
+        let target = event.target;
+        let name = target.name;
+        if (name === this.leftBtnText) {
+            this.cancelModal.emit();
+            this.item = {};
+            this.closeModal();
+        }
+        else if (name === this.rightBtnText) {
+            this.confirmModal.emit(this.item);
+            this.item = {};
+            if (this.autoClose) {
+                this.closeModal();
+            }
+        }
+    }
+    render() {
+        return [
+            index.h("div", { key: '05f6fa89bb38aa9e36ac1abc8add068f3af78de5', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+                    this.cancelModal.emit();
+                    if (this.autoClose && !this.isLoading) {
+                        this.closeModal();
+                    }
+                } }),
+            index.h("div", { key: '8e16b6c7ea7d66fe6d07d756909b998848ade1c9', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: 'ff3dcc3b4a788404075c6ea2b7a51bb2d0fc1e7c', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: '4f6e3659ae58adbc670a3f68569548625e2c066f', class: `ir-alert-header` }, index.h("p", { key: '6e07f8484505839a057a3f4762da469ef9090087' }, this.modalTitle))), index.h("div", { key: '291e5758d284ac771c3572a514626ab4795c8874', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: '9795f9a797fa2b740d2480a88cb3dedbba2e2461' }, this.modalBody)), index.h("div", { key: '15c3f92051ead35abeea7771369984ab4b51cf32', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '7f1abda072f2c3f4a476ec72486279dd2df34c70', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (index.h("ir-button", { key: 'c3f9f1b17a3caaef51553632c201c61be3460766', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+        ];
+    }
+};
+IrModal.style = IrModalStyle0;
+
+exports.ir_modal = IrModal;
+
+//# sourceMappingURL=ir-modal.cjs.entry.js.map

@@ -26,7 +26,7 @@ export declare class IrInputText {
     /** Text size inside the input field */
     textSize: 'sm' | 'md' | 'lg';
     /** Position of the label: left, right, or center */
-    labelPosition: 'left' | 'right' | 'center';
+    labelPosition: 'left' | 'right' | 'center' | 'top';
     /** Background color of the label */
     labelBackground: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
     /** Text color of the label */
@@ -35,8 +35,8 @@ export declare class IrInputText {
     labelBorder: 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
     /** Label width as a fraction of 12 columns (1-11) */
     labelWidth: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
-    /** Variant of the input: default or icon */
-    variant: 'default' | 'icon';
+    /** Variant of the input: default or icon or floating-label */
+    variant: 'default' | 'icon' | 'floating-label';
     /** Whether the input is disabled */
     disabled: boolean;
     /** Whether the input has an error */
@@ -76,14 +76,18 @@ export declare class IrInputText {
     private inputRef;
     private maskInstance;
     private id;
+    private hasPrefixSlot;
+    private hasSuffixSlot;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleMaskChange(): void;
     handleValueChange(newValue: string, oldValue: string): void;
     private initMask;
+    private haveSlotPresent;
     private validateInput;
     private handleInputChange;
     private updateErrorState;
     private handleBlur;
+    private renderFloatingLabel;
     render(): any;
 }

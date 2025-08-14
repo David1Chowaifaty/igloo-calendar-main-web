@@ -1,0 +1,107 @@
+import { r as registerInstance, c as createEvent, h } from './index-60982d00.js';
+import { v as v4 } from './v4-964634d6.js';
+
+const irSelectCss = ".border-theme.sc-ir-select{border:1px solid #cacfe7}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}.bounce-3.sc-ir-select{animation:bounce 1s 1}";
+const IrSelectStyle0 = irSelectCss;
+
+const IrSelect = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.selectChange = createEvent(this, "selectChange", 7);
+        // Text shown in the label
+        this.label = '<label>';
+        // Selected value of the select
+        this.selectedValue = null;
+        // Whether to render the label
+        this.LabelAvailable = true;
+        // Placeholder text for the first option
+        this.firstOption = 'Select';
+        // Enable/disable default form styling
+        this.selectStyle = true;
+        // Whether to show the first placeholder option
+        this.showFirstOption = true;
+        // Set to true when the form is submitted
+        this.submited = false;
+        // Size of the select: 'sm' | 'md' | 'lg'
+        this.size = 'md';
+        // Size of the text: 'sm' | 'md' | 'lg'
+        this.textSize = 'md';
+        // Position of the label
+        this.labelPosition = 'left';
+        // Background color of the label
+        this.labelBackground = null;
+        // Text color of the label
+        this.labelColor = 'dark';
+        // Border color of the label
+        this.labelBorder = 'theme';
+        // Width of the label (Bootstrap cols)
+        this.labelWidth = 3;
+        // Unique ID for the select element
+        this.select_id = v4();
+        // Whether the select has an error state
+        this.error = false;
+        // Tracks if the field has been touched
+        this.initial = true;
+        // Tracks if the field is valid
+        this.valid = false;
+        this.count = 0;
+    }
+    watchHandler(newValue) {
+        if (newValue !== null && this.required) {
+            this.valid = true;
+        }
+    }
+    watchHandler2(newValue) {
+        if (newValue && this.required) {
+            this.initial = false;
+        }
+    }
+    handleButtonAnimation(e) {
+        if (!this.selectEl || e.detail !== this.select_id) {
+            return;
+        }
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.selectEl.classList.add('border-danger');
+    }
+    // Handle select change event
+    // Example: onInput={this.handleSelectChange.bind(this)}
+    handleSelectChange(event) {
+        this.selectEl.classList.remove('border-danger');
+        if (this.required) {
+            this.initial = false;
+            this.valid = event.target.checkValidity();
+            this.selectedValue = event.target.value;
+            this.selectChange.emit(this.selectedValue);
+        }
+        else {
+            this.selectedValue = event.target.value;
+            this.selectChange.emit(this.selectedValue);
+        }
+    }
+    render() {
+        let className = 'form-control';
+        let label = (h("div", { key: '576222d511b5ba0a2d9267f9ee05f8c2c8f0527a', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: '36f8bcf08c83d96daad559d243ded701a7a29310', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
+        if (this.selectStyle === false) {
+            className = '';
+        }
+        if (this.required && !this.valid && !this.initial) {
+            className = `${className} border-danger`;
+        }
+        if (!this.LabelAvailable) {
+            label = '';
+        }
+        return (h("div", { key: 'b7483eb7213774d5cbee365e242abdbaef46069a', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'a41fc14e1d3cbcb2957aa2b59ff62e4aa2033cd9', class: "input-group row m-0" }, label, h("select", { key: 'dbb9086e6b846911e9f24ffa07801e2e7b46fd9b', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '53a90b704f805b7c3bcdd274be97f90e71446138', value: '' }, this.firstOption), this.data.map(item => {
+            return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
+        })))));
+    }
+    static get watchers() { return {
+        "selectedValue": ["watchHandler"],
+        "submited": ["watchHandler2"]
+    }; }
+};
+IrSelect.style = IrSelectStyle0;
+
+export { IrSelect as ir_select };
+
+//# sourceMappingURL=ir-select.entry.js.map
