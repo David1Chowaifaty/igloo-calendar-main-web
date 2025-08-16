@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host, g as getElement 
 import { a as axios } from './axios-aa1335b8.js';
 import { a as interceptor_requests } from './ir-interceptor.store-e5fac1de.js';
 import { I as InterceptorError } from './InterceptorError-ebd732df.js';
-import { H as handleBodyOverflow } from './utils-2291c5d5.js';
+import { H as handleBodyOverflow } from './utils-1202e3cf.js';
 import './index-c4cf83be.js';
 import './moment-ab846cee.js';
 import './index-6ecc32cd.js';
