@@ -11,7 +11,7 @@ export class RequirementCheck {
         this.text = '';
     }
     render() {
-        return (h("div", { key: '3b21a9ac6d8c7003627b3f57269351bf34e5ab55', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '51bf49facde0d62e7e9f79efefddaca2ac534b18', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '52c8b0e782d8f9afdb4037929e1850b57c1a22d4' }, this.text)));
+        return (h("div", { key: 'a3de98d2ba8c695309791dfc16080a6de3926cbc', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '88396caae616ffd8dfdfdbba01e59c4849519b94', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: 'f4cb5b103dc7a67b7d16eda2ce8c9bf131031d78' }, this.text)));
     }
     static get is() { return "requirement-check"; }
     static get encapsulation() { return "scoped"; }

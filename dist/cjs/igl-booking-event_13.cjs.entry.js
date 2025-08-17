@@ -2457,7 +2457,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (index.h(index.Host, { key: '19ef3d864aeb4f5f1bdd619d0359eea903383047', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '12ef344b4d8021696f241449926e7dd40eb73103', ref: el => {
+        return (index.h(index.Host, { key: 'c743319030db1918260de4468b0b4acac78d8485', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'ed44aad386cb30c3eb338bee3eefb4ab9f3f535c', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -2469,12 +2469,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, index.h("span", { key: 'ed5e562ca6e5723aeb282cc664d70c9151dad2f4', class: "cropped-title", style: {
+            } }, index.h("span", { key: '2a5c5bedcf395ea41fcffaca270fbdfa8cd96829', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'd0229826115ce638265df987ad3df9a886f22165', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("svg", { key: '66aa6388670528ad91d0bd374cd34bb8ca8ffc18', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, index.h("path", { key: '038ac40c7782234f6c4ac83efe31330ab06d659a', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'ccec953a611fdecd4039daf658291018119c1858', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("svg", { key: 'dec96d24bd2717d30fd28002ceeacbb4cc511a01', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, index.h("path", { key: '100835373b0b5f7a0f97ed1a1a5b8b737de374b6', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
     }
     get el() { return index.getElement(this); }
 };
