@@ -4,6 +4,7 @@ interface ACPage {
     href: string;
     id?: string;
     isNew?: boolean;
+    badgeId?: string;
     className?: string;
     icon?: string;
 }

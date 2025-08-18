@@ -9,7 +9,6 @@ const IrNotifications = /*@__PURE__*/ proxyCustomElement(class IrNotifications e
     constructor() {
         super();
         this.__registerHost();
-        this.notificationCount = 2;
     }
     handleNotificationCountChange(newValue, oldValue) {
         if (oldValue !== undefined && newValue !== oldValue) {
@@ -38,7 +37,7 @@ const IrNotifications = /*@__PURE__*/ proxyCustomElement(class IrNotifications e
         }
     }
     render() {
-        return (h(Host, { key: 'bc62271ccf97411ce344d924d380269dd5204eeb' }, h("div", { key: 'c8e4e2c0f48a6e330c919f519667776bde0aed59', class: "dropdown notifications-dropdown" }, h("ir-button", { key: '584052533fad34ad3b18e0dfab1fdca4ab04a598', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notificationCount.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "data-toggle": "dropdown", "aria-expanded": "false" }), h("div", { key: '0031a1f50e3ccab761978d428867e5f382402a64', class: "dropdown-menu dropdown-menu-right" }, h("div", { key: '55d9dd9e925dc81b73cb8ef058722400ee4b36df', class: 'dropdown-item' }, h("p", { key: '5a4922140e6be2c5fbc255c615f192f1864c7cae', class: 'p-0 m-0' }, "All caught up."))))));
+        return (h(Host, { key: '1a878d39c0910c8cae906164ed6562e9b17a8836' }, h("div", { key: '063b10fee34f469e0e46969be7832348e55302ed', class: "dropdown notifications-dropdown" }, h("ir-button", { key: 'e2deb83547d995ff5ce9cb60c97c4f53aad9be43', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notificationCount.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "data-toggle": "dropdown", "aria-expanded": "false" }), h("div", { key: '1d066e9de62e41e4938cf9fb7d97244421e999c9', class: "dropdown-menu dropdown-menu-right" }, h("div", { key: '7c73ecb0888800a1e4bdde9288feaa019b7ced04', class: 'dropdown-header m-0' }, h("p", { key: '0d2e45f34a5d4bf9e1b14d2e30bb8276d67fb2e9', class: 'p-0 m-0' }, "All caught up."))))));
     }
     get el() { return this; }
     static get watchers() { return {
