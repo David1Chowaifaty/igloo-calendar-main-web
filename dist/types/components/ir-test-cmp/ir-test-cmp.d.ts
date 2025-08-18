@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { ComboboxOption } from '../ir-m-combobox/ir-m-combobox';
+import { ComboboxOption } from '../ir-m-combobox/types';
 export declare class IrTestCmp {
     dates: {
         fromDate: Moment;

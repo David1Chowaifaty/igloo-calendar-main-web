@@ -20,15 +20,15 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.btnRef.bounce();
     }
     render() {
-        return (h(Host, { key: '75b0f5c1e34e1c3ecf97eb4377e107dd793d6b1e' }, h("div", { key: '5ed4317558e8ca1913b9c149d865b375911f4ec4', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: 'fff00d20fff2aa83112d9daf2e7e6063360fd878', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '2b05f59c6b49cb6d990b3e4881d8fdee3f5a6474', name: "search", slot: "icon" }))), h("div", { key: 'f8adce8293217685482f7c0bd24b90d5e156a8a1', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: 'e41f4cf71433bf5d7d249686ab38174cfc7907c7', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h(Host, { key: 'fd78db72359a6a7ab58937aca8292deb5a72fb00' }, h("div", { key: '2b2d7e804d223691ffeca0a7689afbf3a20f394b', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '11cd9dbeafb26b66fb1dcf533eb53db6a1d8895e', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '430132a26d8e5e618d23cfd2f18291ccc4045950', name: "search", slot: "icon" }))), h("div", { key: 'f5d98c578bc1328a6f636cd93979bdff628e918f', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: 'ca8600193ad750fe62ab631befc9346966579c3a', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'ff52fb7c0a17887029c56fa29bc90ecc223757ee', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'f405aa662a08726ebfbcc665459036e587bfea1e', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '5652a9b895b8445b5a0bf38aab3ca0d4465f06ac', class: "d-none d-md-flex", onClickHandler: e => {
+            } }), h("ir-button", { key: '5bae88e7bd0ba7b9488cca03ccb39c75546d33af', class: "d-none d-md-flex", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });

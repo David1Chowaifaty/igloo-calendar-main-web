@@ -414,7 +414,7 @@ const IglBookingEventHover = class {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: '25edd4546481998c70186a9d8b57001bee3e7965' }, h("div", { key: 'e7abc5658422b25417306f4517431ae6360190c7', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'e80e3f6b65926abb39f3d5249bf45e37adacff91', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'f23f255d4b0ada1a5a1fdf04ba81d82c433b37ca' }, h("div", { key: '9fe5368405d22279e1ae39492178af5c5c31588c', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cfe1adfcb9f6e796eaf4f2853bec6205baf5aa60', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return getElement(this); }
     static get watchers() { return {

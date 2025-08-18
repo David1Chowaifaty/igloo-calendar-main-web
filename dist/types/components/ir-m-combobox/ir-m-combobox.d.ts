@@ -1,11 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-export interface ComboboxOption {
-    value: string;
-    label: string;
-    disabled?: boolean;
-}
-export type ComboboxType = 'select' | 'editable' | 'multiselect';
-export type DataMode = 'static' | 'external';
+import { ComboboxOption, DataMode } from './types';
 export declare class IrMCombobox {
     el: HTMLElement;
     /**
@@ -45,6 +39,7 @@ export declare class IrMCombobox {
     slotElements: HTMLElement[];
     hasPrefix: boolean;
     hasSuffix: boolean;
+    itemChildren: HTMLIrMComboboxItemElement[];
     /**
      * Emitted when a user selects an option from the combobox.
      * The event payload contains the selected `ComboboxOption` object.
@@ -66,12 +61,17 @@ export declare class IrMCombobox {
     private debounceTimeout;
     private prefixSlotRef;
     private suffixSlotRef;
+    private mo;
+    private get isCompositionMode();
     watchOptionsChanged(newOptions: ComboboxOption[]): void;
     watchUseSlotChanged(): void;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     handleDocumentKeyDown(event: KeyboardEvent): void;
+    handleComboboxItemSelect(ev: CustomEvent<ComboboxOption>): void;
+    handleComboboxItemRegister(): void;
+    handleComboboxItemUnregister(): void;
     private initializeOptions;
     private handleDocumentClick;
     private openDropdown;
@@ -86,5 +86,8 @@ export declare class IrMCombobox {
     private selectOption;
     private scrollToFocusedOption;
     private handleInput;
+    private collectItemChildren;
+    private updateSlotElementsForItems;
+    private filterComposition;
     render(): any;
 }

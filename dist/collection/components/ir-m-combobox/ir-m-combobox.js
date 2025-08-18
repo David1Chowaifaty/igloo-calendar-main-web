@@ -34,8 +34,10 @@ export class IrMCombobox {
         this.slotElements = [];
         this.hasPrefix = false;
         this.hasSuffix = false;
+        this.itemChildren = [];
         this.id = v4();
         this.dropdownId = `dropdown-${this.id}`;
+        this.mo = null;
         this.handleDocumentClick = (event) => {
             if (!this.el.contains(event.target)) {
                 this.closeDropdown();
@@ -114,13 +116,32 @@ export class IrMCombobox {
                     break;
             }
         };
+        // private handleInput = (event: Event) => {
+        //   const target = event.target as HTMLInputElement;
+        //   const value = target.value;
+        //   if (this.dataMode === 'external') {
+        //     this.emitSearchQuery(value);
+        //   } else {
+        //     const allOptions = this.options.length > 0 ? this.options : [];
+        //     this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
+        //   }
+        //   this.focusedIndex = -1;
+        //   if (!this.isOpen) {
+        //     this.openDropdown();
+        //   }
+        // };
         this.handleInput = (event) => {
             const target = event.target;
             const value = target.value;
-            if (this.dataMode === 'external') {
+            if (this.dataMode === 'external' && !this.isCompositionMode) {
                 this.emitSearchQuery(value);
             }
+            else if (this.isCompositionMode) {
+                // composition mode: filter child items
+                this.filterComposition(value);
+            }
             else {
+                // static options mode (existing behavior)
                 const allOptions = this.options.length > 0 ? this.options : [];
                 this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
             }
@@ -136,6 +157,9 @@ export class IrMCombobox {
     async selectOptionFromSlot(option) {
         this.selectOption(option);
     }
+    get isCompositionMode() {
+        return this.itemChildren.length > 0;
+    }
     watchOptionsChanged(newOptions) {
         this.filteredOptions = newOptions || [];
         if (this.useSlot) {
@@ -149,10 +173,16 @@ export class IrMCombobox {
     }
     componentWillLoad() {
         this.initializeOptions();
+        // discover items on first paint
+        this.collectItemChildren();
+        // watch DOM changes to children
+        this.mo = new MutationObserver(() => this.collectItemChildren());
+        this.mo.observe(this.el, { childList: true, subtree: true });
     }
     componentDidLoad() {
         var _a, _b;
         document.addEventListener('click', this.handleDocumentClick.bind(this));
+        // existing stuff
         if (this.useSlot) {
             setTimeout(() => this.updateSlotElements(), 0);
         }
@@ -161,13 +191,13 @@ export class IrMCombobox {
         (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.addEventListener('slotchange', this.updateAffixPresence);
     }
     disconnectedCallback() {
-        var _a, _b;
+        var _a, _b, _c;
         document.removeEventListener('click', this.handleDocumentClick.bind(this));
-        if (this.debounceTimeout) {
+        if (this.debounceTimeout)
             clearTimeout(this.debounceTimeout);
-        }
         (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('slotchange', this.updateAffixPresence);
         (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('slotchange', this.updateAffixPresence);
+        (_c = this.mo) === null || _c === void 0 ? void 0 : _c.disconnect();
     }
     handleDocumentKeyDown(event) {
         var _a;
@@ -178,14 +208,34 @@ export class IrMCombobox {
             (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
         }
     }
+    handleComboboxItemSelect(ev) {
+        ev.stopPropagation();
+        console.log(ev.detail);
+        this.selectOption(ev.detail);
+    }
+    handleComboboxItemRegister() {
+        this.collectItemChildren();
+    }
+    handleComboboxItemUnregister() {
+        this.collectItemChildren();
+    }
     initializeOptions() {
         this.filteredOptions = this.options.length > 0 ? this.options : [];
     }
+    // private openDropdown() {
+    //   this.isOpen = true;
+    //   if (this.useSlot) {
+    //     this.focusedIndex = -1;
+    //     setTimeout(() => this.updateSlotElements(), 0);
+    //   } else {
+    //     this.focusedIndex = this.selectedOption ? this.filteredOptions.findIndex(v => v.value === this.selectedOption.value) : -1;
+    //   }
+    // }
     openDropdown() {
         this.isOpen = true;
-        if (this.useSlot) {
+        if (this.isCompositionMode || this.useSlot) {
             this.focusedIndex = -1;
-            setTimeout(() => this.updateSlotElements(), 0);
+            setTimeout(() => (this.isCompositionMode ? this.updateSlotElementsForItems() : this.updateSlotElements()), 0);
         }
         else {
             this.focusedIndex = this.selectedOption ? this.filteredOptions.findIndex(v => v.value === this.selectedOption.value) : -1;
@@ -255,15 +305,43 @@ export class IrMCombobox {
             focusedElement.scrollIntoView({ block: 'nearest' });
         }
     }
+    collectItemChildren() {
+        // find *direct or nested* items inside the dropdown container
+        const items = Array.from(this.el.querySelectorAll('ir-m-combobox-item'));
+        this.itemChildren = items;
+        console.log(items);
+        // when in composition mode, use slot-like navigation on the items
+        if (this.isCompositionMode) {
+            this.useSlot = true; // leverage your existing slot-based keyboard handling
+            setTimeout(() => this.updateSlotElementsForItems(), 0);
+        }
+    }
+    updateSlotElementsForItems() {
+        // Treat the child items as "slot elements" for nav
+        this.slotElements = this.itemChildren;
+        // index and decorate for ARIA & focus handling
+        this.slotElements.forEach((el, index) => {
+            el.setAttribute('data-slot-index', String(index));
+            el.setAttribute('role', 'option');
+            el.setAttribute('tabindex', '-1');
+        });
+    }
+    async filterComposition(query) {
+        // Hide/show each child according to its own matching logic
+        const results = await Promise.all(this.itemChildren.map(item => item.matchesQuery(query)));
+        await Promise.all(this.itemChildren.map((item, i) => item.setHidden(query ? !results[i] : false)));
+        // refresh slotElements (only visible items should be navigable)
+        this.updateSlotElementsForItems();
+    }
     render() {
         var _a;
-        return (h(Host, { key: '60c48946df0aad588d2559c5993b2a93ddaad3f9', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '16b376c0362243bdea1d69a1e7feaa75ca01cdcf', class: "input-wrapper" }, h("span", { key: '31aa9253a7a428d45e87d38a9b3aea997f2989f5', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: 'f33764e86b96e550b90c2198c048786087b3a6f1', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: 'ceab3da257d0c8aae6defec887c31031e10fcc0d', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '632fa017e092694677edf0aa7d8337dab5651736', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: 'cf45167c4f015d98f7305adc39075b20c54936be', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: 'e9ddd9b6a9de50b1725e501b9e26a9ee339cea61', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '85fedb8ccaa2e8fca44be0d6fb882c1bf157bd75', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: 'd5525bf3583ed0840781ad2520530e8a4a402d0d', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: 'f2e6628e14560e35eeb3c44b436d5b5926ec9a2c', class: "input-wrapper" }, h("span", { key: '09582c57637c91894e047bb91ed2a22504a6f403', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '814b6b938ad6ae96319d65fbbf82d787cd72811f', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '1bcd241fb54a2146ef1382217696186bb43d59ef', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '0f0c08e6dc54046f6774ea5fa2b05995932d8dfd', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '2ec2a27021bcd631582651514853b3c3c4a1ca23', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '39bcf3b9fd5b66be53e43cd5a8a18ebe3b1bf4f4', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '0237570e013ca84d25a5f6c0af92f711f6eb5838', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
                 this.filteredOptions.map((option, index) => {
                     var _a;
-                    return (h("button", { id: `${this.dropdownId}-option-${index}`, class: `dropdown-item ${this.focusedIndex === index ? 'active' : ''}`, role: "option", "aria-selected": ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.value) === option.value ? 'true' : 'false', onClick: () => this.selectOption(option), onMouseEnter: () => (this.focusedIndex = index) }, option.label));
+                    return (h("button", { id: `${this.dropdownId}-option-${index}`, class: `dropdown-item ${this.focusedIndex === index ? 'active' : ''}`, role: "option", "aria-selected": ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.value) === option.value ? 'true' : 'false', onClick: () => this.selectOption(option), onMouseEnter: () => (this.focusedIndex = index), innerHTML: option.html_content }, option.html_content ? null : option.label));
                 }),
         ])))));
     }
@@ -308,9 +386,9 @@ export class IrMCombobox {
                     "resolved": "\"external\" | \"static\"",
                     "references": {
                         "DataMode": {
-                            "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-m-combobox/ir-m-combobox.tsx",
-                            "id": "src/components/ir-m-combobox/ir-m-combobox.tsx::DataMode"
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-m-combobox/types.ts::DataMode"
                         }
                     }
                 },
@@ -337,9 +415,9 @@ export class IrMCombobox {
                     "resolved": "ComboboxOption[]",
                     "references": {
                         "ComboboxOption": {
-                            "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-m-combobox/ir-m-combobox.tsx",
-                            "id": "src/components/ir-m-combobox/ir-m-combobox.tsx::ComboboxOption"
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
                         }
                     }
                 },
@@ -398,7 +476,7 @@ export class IrMCombobox {
             },
             "useSlot": {
                 "type": "boolean",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
                     "original": "boolean",
                     "resolved": "boolean",
@@ -426,7 +504,8 @@ export class IrMCombobox {
             "filteredOptions": {},
             "slotElements": {},
             "hasPrefix": {},
-            "hasSuffix": {}
+            "hasSuffix": {},
+            "itemChildren": {}
         };
     }
     static get events() {
@@ -445,9 +524,9 @@ export class IrMCombobox {
                     "resolved": "ComboboxOption",
                     "references": {
                         "ComboboxOption": {
-                            "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-m-combobox/ir-m-combobox.tsx",
-                            "id": "src/components/ir-m-combobox/ir-m-combobox.tsx::ComboboxOption"
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
                         }
                     }
                 }
@@ -484,9 +563,9 @@ export class IrMCombobox {
                             "id": "global::Promise"
                         },
                         "ComboboxOption": {
-                            "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-m-combobox/ir-m-combobox.tsx",
-                            "id": "src/components/ir-m-combobox/ir-m-combobox.tsx::ComboboxOption"
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
                         }
                     },
                     "return": "Promise<void>"
@@ -513,6 +592,24 @@ export class IrMCombobox {
                 "name": "keydown",
                 "method": "handleDocumentKeyDown",
                 "target": "document",
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "comboboxItemSelect",
+                "method": "handleComboboxItemSelect",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "comboboxItemRegister",
+                "method": "handleComboboxItemRegister",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "comboboxItemUnregister",
+                "method": "handleComboboxItemUnregister",
+                "target": undefined,
                 "capture": false,
                 "passive": false
             }];
