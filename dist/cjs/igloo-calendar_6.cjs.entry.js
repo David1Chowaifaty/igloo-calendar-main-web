@@ -5852,8 +5852,8 @@ const IrMonthlyBookingsReport = class {
             let enrichedReports = [];
             const { DailyStats } = currentReports, rest = __rest$1(currentReports, ["DailyStats"]);
             this.stats = Object.assign({}, rest);
-            if (include_previous_year && results[isExportToExcel ? 1 : 2]) {
-                const previousYearReports = results[isExportToExcel ? 1 : 2];
+            if (include_previous_year && results[isExportToExcel ? 0 : 1]) {
+                const previousYearReports = results[isExportToExcel ? 0 : 1];
                 let formattedReports = previousYearReports.DailyStats.map(getReportObj);
                 enrichedReports = DailyStats.map(getReportObj).map(current => {
                     const previous = formattedReports.find(prev => prev.day === moment.hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
@@ -6011,13 +6011,12 @@ const IrSalesByCountry = class {
             else {
                 enrichedSales = currentSales.map(record => (Object.assign(Object.assign({ id: v4.v4() }, formatSalesData(record)), { last_year: null })));
             }
-            this.salesData = enrichedSales.sort((a, b) => {
-                if (a.country_id === 0)
-                    return -1;
-                if (b.country_id === 0)
-                    return 1;
-                return 0;
-            });
+            // this.salesData = enrichedSales.sort((a, b) => {
+            //   if (a.country_id === 0) return -1;
+            //   if (b.country_id === 0) return 1;
+            //   return 0;
+            // });
+            this.salesData = [...enrichedSales];
         }
         catch (error) {
             console.error('Failed to fetch sales data:', error);
