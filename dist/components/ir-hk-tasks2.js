@@ -135,7 +135,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
     }
     async init() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         try {
             this.isLoading = true;
             setLoading(true);
@@ -171,10 +171,10 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 property_id: this.property_id,
                 from_date: hooks().format('YYYY-MM-DD'),
                 to_date: hooks().format('YYYY-MM-DD'),
-                housekeepers: (_a = housekeeping_store.hk_criteria.housekeepers) === null || _a === void 0 ? void 0 : _a.map(h => ({ id: h.id })),
-                cleaning_frequency: (_d = ((_b = calendar_data.cleaning_frequency) !== null && _b !== void 0 ? _b : (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_frequencies[0])) === null || _d === void 0 ? void 0 : _d.code,
-                dusty_window: (_f = (_e = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _e === void 0 ? void 0 : _e.dusty_periods[0]) === null || _f === void 0 ? void 0 : _f.code,
-                highlight_window: (_h = (_g = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _g === void 0 ? void 0 : _g.highlight_checkin_options[0]) === null || _h === void 0 ? void 0 : _h.code,
+                housekeepers: [],
+                cleaning_frequency: (_c = ((_a = calendar_data.cleaning_frequency) !== null && _a !== void 0 ? _a : (_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies[0])) === null || _c === void 0 ? void 0 : _c.code,
+                dusty_window: (_e = (_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.dusty_periods[0]) === null || _e === void 0 ? void 0 : _e.code,
+                highlight_window: (_g = (_f = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.highlight_checkin_options[0]) === null || _g === void 0 ? void 0 : _g.code,
             });
             // updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {

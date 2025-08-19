@@ -1,6 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-60982d00.js';
-import { J as sleep } from './utils-4f97ee3e.js';
-import './moment-ab846cee.js';
+import { s as sleep } from './utils-bdc99acb.js';
 import './index-6ecc32cd.js';
 import './calendar-data-f4e207f9.js';
 import './index-c4cf83be.js';
