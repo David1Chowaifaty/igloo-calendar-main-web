@@ -7,6 +7,7 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { J as downloadFile } from './utils.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store.js';
+import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$10 } from './igl-application-info2.js';
 import { d as defineCustomElement$$ } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$_ } from './igl-book-property2.js';
@@ -134,6 +135,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
     }
     async init() {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         try {
             this.isLoading = true;
             setLoading(true);
@@ -155,11 +157,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.houseKeepingService.getHkTasks({ property_id: this.property_id, from_date: hooks().format('YYYY-MM-DD'), to_date: hooks().format('YYYY-MM-DD') }),
-                this.houseKeepingService.getExposedHKSetup(this.property_id),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), this.roomService.fetchLanguage(this.language)];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -168,8 +166,16 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
                     include_units_hk_status: true,
                 }));
             }
-            const results = await Promise.all(requests);
-            const tasksResult = results[0];
+            await Promise.all(requests);
+            const tasksResult = await this.houseKeepingService.getHkTasks({
+                property_id: this.property_id,
+                from_date: hooks().format('YYYY-MM-DD'),
+                to_date: hooks().format('YYYY-MM-DD'),
+                housekeepers: (_a = housekeeping_store.hk_criteria.housekeepers) === null || _a === void 0 ? void 0 : _a.map(h => ({ id: h.id })),
+                cleaning_frequency: (_d = ((_b = calendar_data.cleaning_frequency) !== null && _b !== void 0 ? _b : (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_frequencies[0])) === null || _d === void 0 ? void 0 : _d.code,
+                dusty_window: (_f = (_e = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _e === void 0 ? void 0 : _e.dusty_periods[0]) === null || _f === void 0 ? void 0 : _f.code,
+                highlight_window: (_h = (_g = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _g === void 0 ? void 0 : _g.highlight_checkin_options[0]) === null || _h === void 0 ? void 0 : _h.code,
+            });
             // updateTaskList();
             if (tasksResult === null || tasksResult === void 0 ? void 0 : tasksResult.tasks) {
                 this.updateTasks(tasksResult.tasks);
