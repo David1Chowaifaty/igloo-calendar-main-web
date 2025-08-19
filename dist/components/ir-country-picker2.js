@@ -80,7 +80,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: '334f303bb05063dfd725f90754798a33457ffe80', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '977d22cf0584eb0fca69d8f07f58f2e602b0f3c6', onTextChange: e => {
+        return (h("form", { key: 'fed270cf1599071aeb2585b1ad047366d36784c7', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'ef9844cd9319636636370fca3847c7baae8a9d63', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -91,15 +91,15 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), h("div", { key: '6bf245d6f4682917cd404b535b4e615d1536c55a', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '37299ec1e47c09ac9d5ace07060d6a7f0badd0ba' }, h("button", { key: '34e33e57c80fe6d6301304dd61e0f682d320e7c8', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), h("div", { key: '56ca5cdd7cb9f469e4c4209bfaaac15bde1bc3fe', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'c14de6ea25b1bd5320bcefa1416e75c0f52a418b' }, h("button", { key: '1d973513b415e96329dbd84ab1090d2b6aee2243', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: '5cad2ce93ba9d845b11edcc7f14d14daf5257a20', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'efb60a10928b1fd9fc7582dadbaf18d662ffa9e1', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '5e66354bb1e72ac2f919e5f35cda747d37bf8234', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: 'd462fc5e75f011638a4855f8d439098ab097b091', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'c561b4c9c2d42d255163fc16b2a4ea3dda6d7ec1', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: 'b911590d879ddb9b7c7586012b712e86f217ae0c', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '75a4daab6c253eb2d6a89978eaad3d2b66a2a2a2', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: 'c8d1e5a4ca772f9d03428a61742538280d8d79ec', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get watchers() { return {
         "country": ["handleCountryChange"]

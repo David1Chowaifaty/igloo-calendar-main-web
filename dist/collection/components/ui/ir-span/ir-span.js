@@ -3,7 +3,7 @@ export class IrSpan {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("span", { key: 'da0afb28b6f4318025480f583184e2410df8f5b9' }, this.text));
+        return (h("span", { key: '0cb050a9354eafafbc88b0deb751ac5b384d5484' }, this.text));
     }
     static get is() { return "ir-span"; }
     static get properties() {

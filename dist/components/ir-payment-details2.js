@@ -5,7 +5,7 @@ import { h as hooks } from './moment.js';
 import { P as PaymentService } from './payment.service.js';
 import { c as colorVariants, d as defineCustomElement$5 } from './ir-icons2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { f as formatAmount, C as toFloat } from './utils.js';
+import { f as formatAmount, D as toFloat } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';

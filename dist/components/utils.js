@@ -14,6 +14,16 @@ const initialState = {
     cleaningTasks: new Map(),
 };
 const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
+function addCleaningTasks(tasks) {
+    var _a;
+    const tasksMap = new Map(calendar_dates.cleaningTasks);
+    for (const task of tasks) {
+        const taskMap = new Map((_a = tasksMap.get(task.unit.id)) !== null && _a !== void 0 ? _a : new Map());
+        taskMap.set(task.date, task);
+        tasksMap.set(task.unit.id, taskMap);
+    }
+    calendar_dates.cleaningTasks = new Map(tasksMap);
+}
 
 async function getMyBookings(months) {
     const myBookings = [];
@@ -661,6 +671,6 @@ function handleBodyOverflow(open) {
     }
 }
 
-export { convertDMYToISO as A, computeEndDate as B, toFloat as C, renderTime as D, getDaysArray as E, convertDatePrice as F, formatDate as G, checkUserAuthState as H, manageAnchorSession as I, downloadFile as J, sleep as K, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, formatName as r, getRoomStatus as s, transformNewBooking as t, transformNewBLockedRooms as u, validateEmail as v, bookingStatus as w, getPrivateNote as x, getNextDay as y, addTwoMonthToDate as z };
+export { addTwoMonthToDate as A, convertDMYToISO as B, computeEndDate as C, toFloat as D, renderTime as E, getDaysArray as F, convertDatePrice as G, formatDate as H, checkUserAuthState as I, manageAnchorSession as J, downloadFile as K, sleep as L, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, addCleaningTasks as r, formatName as s, transformNewBooking as t, getRoomStatus as u, validateEmail as v, transformNewBLockedRooms as w, bookingStatus as x, getPrivateNote as y, getNextDay as z };
 
 //# sourceMappingURL=utils.js.map

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, i as initializeUserSelection } from './booking_listing.service.js';
 import { l as locales } from './locales.store.js';
-import { J as downloadFile } from './utils.js';
+import { K as downloadFile } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$w } from './igl-application-info2.js';
 import { d as defineCustomElement$v } from './igl-block-dates-view2.js';

@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { b as _getDay } from './functions.js';
-import { r as formatName, f as formatAmount } from './utils.js';
+import { s as formatName, f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
 import { c as colorVariants, d as defineCustomElement$5 } from './ir-icons2.js';

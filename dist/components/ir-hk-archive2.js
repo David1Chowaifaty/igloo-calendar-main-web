@@ -4,7 +4,7 @@ import { c as calendar_data } from './calendar-data.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
-import { J as downloadFile } from './utils.js';
+import { K as downloadFile } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$T } from './igl-application-info2.js';
 import { d as defineCustomElement$S } from './igl-block-dates-view2.js';
