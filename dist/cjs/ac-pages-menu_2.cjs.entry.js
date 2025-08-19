@@ -75,6 +75,7 @@ const IrNotificationsStyle0 = irNotificationsCss;
 const IrNotifications = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.notificationCount = 0;
     }
     handleNotificationCountChange(newValue, oldValue) {
         if (oldValue !== undefined && newValue !== oldValue) {
@@ -103,7 +104,7 @@ const IrNotifications = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'f513a2065f2b1161ac058f96dd302a7cb1e93f36' }, index.h("div", { key: 'cd90d204cab289acd242e542b0a7cc31323ee348', class: "dropdown notifications-dropdown" }, index.h("ir-button", { key: 'be4663fe793a830734be0990194a321d7dfc0634', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notificationCount.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "data-toggle": "dropdown", "aria-expanded": "false" }), index.h("div", { key: 'c4206ef20425ce2e1063ca6c4a3c07cecae6405c', class: "dropdown-menu dropdown-menu-right" }, index.h("div", { key: 'b7876c75175bc4d4b6e18d4f073d0697768383b0', class: 'dropdown-header m-0' }, index.h("p", { key: 'ca081b7464a5e581fb71eba92707b2ee56f4b1e4', class: 'p-0 m-0' }, "All caught up."))))));
+        return (index.h(index.Host, { key: 'ebebcac62b6f2abac9b0932e77494c2ecffd35e4' }, index.h("div", { key: 'd57ac0a3d8012262bdfcbbe5fc59b26e192c8764', class: "dropdown notifications-dropdown" }, index.h("ir-button", { key: '1fe9216bebbd5f9afc7d655915ae089230069275', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notificationCount.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "data-toggle": "dropdown", "aria-expanded": "false" }), index.h("div", { key: '75f4df6ec5cca7a0fe233757f9d9ddcd3534f677', class: "dropdown-menu dropdown-menu-right" }, index.h("div", { key: '455e648a54c291826ff7ba27b23f6e1c15a2927e', class: 'dropdown-header m-0' }, index.h("p", { key: '45bae8b2120ee31470a057f5436ab53844cea331', class: 'p-0 m-0' }, "All caught up."))))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
