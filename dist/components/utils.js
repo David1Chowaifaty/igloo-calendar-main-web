@@ -11,6 +11,7 @@ const initialState = {
     fromDate: '',
     toDate: '',
     disabled_cells: new Map(),
+    cleaningTasks: new Map(),
 };
 const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
 

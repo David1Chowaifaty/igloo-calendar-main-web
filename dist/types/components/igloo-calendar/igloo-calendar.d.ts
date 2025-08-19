@@ -82,6 +82,7 @@ export declare class IglooCalendar {
     private roomService;
     private eventsService;
     private toBeAssignedService;
+    private housekeepingService;
     private countries;
     private visibleCalendarCells;
     private scrollContainer;
@@ -110,6 +111,7 @@ export declare class IglooCalendar {
     private renderModalBody;
     private setUpCalendarData;
     initializeApp(): Promise<void>;
+    private getHousekeepingTasks;
     private handleSocketMessage;
     private handleSharingPersonsUpdated;
     private handleRoomStatusChanged;

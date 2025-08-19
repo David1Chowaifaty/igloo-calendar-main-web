@@ -1,4 +1,5 @@
 import { DayData } from "../models/DayType";
+import { Task } from "../models/housekeeping";
 export interface ICalendarDates {
     days: DayData[];
     disabled_cells: Map<string, {
@@ -11,6 +12,7 @@ export interface ICalendarDates {
     }[];
     fromDate: string;
     toDate: string;
+    cleaningTasks: Map<number, Map<string, Task>>;
 }
 export declare const calendar_dates: ICalendarDates, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<ICalendarDates>;
 export default calendar_dates;
