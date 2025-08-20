@@ -3,12 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const utils = require('./utils-a78b3679.js');
+const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-a1ac5174.js');
+const utils = require('./utils-bf9b1b25.js');
 const calendarData = require('./calendar-data-960b69ba.js');
+require('./index-7564ffa1.js');
 require('./index-63734c32.js');
 require('./axios-6e678d52.js');
-require('./index-7564ffa1.js');
 
 const irMonthlyBookingsReportFilterCss = ".sc-ir-monthly-bookings-report-filter-h{display:flex;height:100%;flex:1 1 0%}.sales-filters-card.sc-ir-monthly-bookings-report-filter{min-width:max-content;flex:1 1 0%}#salesFiltersCollapse.collapse.sc-ir-monthly-bookings-report-filter:not(.show){display:block}";
 const IrMonthlyBookingsReportFilterStyle0 = irMonthlyBookingsReportFilterCss;
@@ -39,8 +40,8 @@ const IrMonthlyBookingsReportFilter = class {
         this.applyFilters.emit(this.filters);
     }
     generateMonths() {
-        const firstOfThisMonth = utils.hooks().startOf('month');
-        const startDate = utils.hooks().subtract(1, 'year').startOf('month');
+        const firstOfThisMonth = moment.hooks().startOf('month');
+        const startDate = moment.hooks().subtract(1, 'year').startOf('month');
         const dates = [];
         const format = 'YYYY-MM-DD';
         let cursor = startDate.clone();
@@ -92,8 +93,8 @@ const IrMonthlyBookingsReportTable = class {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
             const mainPercentage = `${parseFloat(report.occupancy_percent.toString()).toFixed(2)}%`;
             const secondaryPercentage = report.last_year ? `${parseFloat(report.last_year.occupancy_percent.toString()).toFixed(2)}%` : null;
-            const reportDate = utils.hooks(report.day, 'YYYY-MM-DD');
-            const isFutureDate = utils.hooks().isBefore(reportDate, 'dates');
+            const reportDate = moment.hooks(report.day, 'YYYY-MM-DD');
+            const isFutureDate = moment.hooks().isBefore(reportDate, 'dates');
             return (index.h("tr", { key: report.day, class: `ir-table-row ${isFutureDate ? 'future-report' : ''}` }, index.h("td", { class: 'text-center' }, reportDate.format('D')), index.h("td", { class: "text-center" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_a = report.last_year) === null || _a === void 0 ? void 0 : _a.units_booked) ? 'font-weight-bold' : ''}` }, report.units_booked), ((_b = report.last_year) === null || _b === void 0 ? void 0 : _b.units_booked) > 0 && index.h("p", { class: "p-0 m-0" }, (_c = report.last_year) === null || _c === void 0 ? void 0 : _c.units_booked))), index.h("td", { class: "text-center" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_d = report.last_year) === null || _d === void 0 ? void 0 : _d.total_guests) ? 'font-weight-bold' : ''}` }, report.total_guests), ((_e = report.last_year) === null || _e === void 0 ? void 0 : _e.total_guests) > 0 && index.h("p", { class: "p-0 m-0" }, (_f = report.last_year) === null || _f === void 0 ? void 0 : _f.total_guests))), index.h("td", { class: "text-right" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_g = report.last_year) === null || _g === void 0 ? void 0 : _g.adr) ? 'font-weight-bold' : ''}` }, utils.formatAmount(calendarData.calendar_data.currency.symbol, report.adr)), ((_h = report.last_year) === null || _h === void 0 ? void 0 : _h.adr) > 0 && index.h("p", { class: "p-0 m-0" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, report.last_year.adr)))), index.h("td", { class: "text-right" }, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("p", { class: `p-0 m-0 ${((_j = report.last_year) === null || _j === void 0 ? void 0 : _j.rooms_revenue) ? 'font-weight-bold' : ''}` }, utils.formatAmount(calendarData.calendar_data.currency.symbol, report.rooms_revenue)), ((_k = report.last_year) === null || _k === void 0 ? void 0 : _k.rooms_revenue) > 0 && index.h("p", { class: "p-0 m-0" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, report.last_year.rooms_revenue)))), index.h("td", null, index.h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, index.h("ir-progress-indicator", { percentage: mainPercentage }), ((_l = report.last_year) === null || _l === void 0 ? void 0 : _l.occupancy_percent) > 0 && index.h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" })))));
         })), index.h("tfoot", { key: 'f9660ff25d32e2cbd8fbd46559080838c068d321' }, index.h("tr", { key: '3633471e1ab7c32fa68cb3a09161bce2818080cd' }, index.h("td", { key: 'b61b01b3002cd9918ab6166e2af5239b7c8498bb', colSpan: 5 }), index.h("td", { key: '734f5fb1c8a24531a52fa446684ae1a8b24f0159', colSpan: 1, class: "text-right", style: { whiteSpace: 'nowrap' } }, index.h("div", { key: '4f8dfc6a949be95d6371a514e9ab9f88805135c9', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, index.h("div", { key: 'bf3a7047a86fb8c1691252262fef255839fcaebf', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("div", { key: '9ebe7194c4cb599b781ba5b3ff83dc6306ee5f63', class: "legend bg-primary" }), index.h("p", { key: 'f1bab015eb19a1f0be8073073175d500bef0c8cc', class: "p-0 m-0" }, "Selected period ")), index.h("div", { key: '7957ffc7be161bd3b3b95575fed62dfcf1bfad0d', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("div", { key: '5ba33fb9ad777e6a80f8f67c65002e5d690b3170', class: "legend secondary" }), index.h("p", { key: 'e874047d03c3838fd1e0e5e18544ac9ed892d8d2', class: "p-0 m-0" }, "Previous year")))))))));
     }
