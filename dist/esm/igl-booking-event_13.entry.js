@@ -1809,7 +1809,7 @@ const IglCalBody = class {
                             hkm_id: ((_c = (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.housekeeper) === null || _c === void 0 ? void 0 : _c.id) || null,
                             unit_id: (_d = this.selectedRoom) === null || _d === void 0 ? void 0 : _d.id,
                             booking_nbr: (_f = this.bookingMap.get((_e = this.selectedRoom) === null || _e === void 0 ? void 0 : _e.id)) !== null && _f !== void 0 ? _f : null,
-                            action: status,
+                            status: status,
                         },
                     ],
                 });

@@ -201,7 +201,7 @@ export class IrHkTasks {
                             hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
                             unit_id: t.unit.id,
                             booking_nbr: t.booking_nbr,
-                            action: (_b = (_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : '001',
+                            status: (_b = (_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : '001',
                         });
                     }),
                 });
