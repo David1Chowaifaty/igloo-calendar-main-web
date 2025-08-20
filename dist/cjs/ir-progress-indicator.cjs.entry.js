@@ -19,7 +19,7 @@ const IrProgressIndicator = class {
         this.color = 'primary';
     }
     render() {
-        return (index.h(index.Host, { key: '3488058c5f108feca19dc283456ca890e9c011d7', class: "progress-main" }, index.h("span", { key: '792b40018a04825aeba0f8d2892adfdc3ea00868', class: "progress-totle" }, this.percentage), index.h("div", { key: '705dbafd7da6e906dce87d591bd8dda03cef7f14', class: "progress-line" }, index.h("div", { key: 'c7e81490f33d761cd0668694e1d86243214e607a', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (index.h(index.Host, { key: '9482b062b17a3ec5df462bcdeedc1ad5f9e969af', class: "progress-main" }, index.h("span", { key: '4da09fe7fd9424cc0a226a65b84b67d2883c0d77', class: "progress-totle" }, this.percentage), index.h("div", { key: '7ae0ed86c2dd74c06f0fd5b3891eae918f005028', class: "progress-line" }, index.h("div", { key: '5bb0250f37fe4869cf3deb86c7e6d7eae2cae37d', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
 };
 IrProgressIndicator.style = IrProgressIndicatorStyle0;

@@ -4,7 +4,7 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { a as axios } from './axios.js';
 import { z, Z as ZodError } from './index3.js';
-import { E as renderTime } from './utils.js';
+import { G as renderTime } from './utils.js';
 import { M as MaskedRange } from './index4.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-date-picker2.js';

@@ -17,5 +17,12 @@ export interface ICalendarDates {
 export declare const calendar_dates: ICalendarDates, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<ICalendarDates>;
 export default calendar_dates;
 export declare function addCleaningTasks(tasks: Task[]): void;
-export declare function cleanRoom(task: Task): void;
-export declare function addRoomForCleaning(task: Task): void;
+export declare function cleanRoom({ unitId, date }: {
+    unitId: Task['unit']['id'];
+    date: Task['date'];
+}): void;
+export declare function addRoomForCleaning({ unitId, date, task }: {
+    unitId: Task['unit']['id'];
+    date: Task['date'];
+    task?: Task;
+}): void;

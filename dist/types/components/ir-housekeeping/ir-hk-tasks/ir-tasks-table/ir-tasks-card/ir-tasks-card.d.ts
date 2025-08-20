@@ -1,10 +1,10 @@
 import { EventEmitter } from '../../../../../stencil-public-runtime';
-import { Task } from "../../../../../models/housekeeping";
+import { CleanTaskEvent, Task } from "../../../../../models/housekeeping";
 export declare class IrTasksCard {
     task: Task;
     isCheckable: boolean;
     isSkippable: boolean;
-    cleanSelectedTask: EventEmitter<Task>;
+    cleanSelectedTask: EventEmitter<CleanTaskEvent>;
     skipSelectedTask: EventEmitter<Task>;
     render(): any;
 }

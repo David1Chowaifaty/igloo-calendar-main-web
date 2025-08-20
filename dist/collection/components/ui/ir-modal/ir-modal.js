@@ -17,6 +17,8 @@ export class IrModal {
          * Whether the left (cancel/close) button is visible.
          */
         this.leftBtnActive = true;
+        /** Whether the middle (tertiary) button is visible. */
+        this.middleBtnActive = false;
         /**
          * Text displayed on the right (confirm) button.
          */
@@ -25,10 +27,17 @@ export class IrModal {
          * Text displayed on the left (cancel/close) button.
          */
         this.leftBtnText = 'Close';
+        /**Text displayed on the middle (tertiary) button. */
+        this.middleBtnText = 'More';
         /**
          * Whether the modal is in a loading state, disabling interaction.
          */
         this.isLoading = false;
+        /**
+         * Whether the modal middle button is in a loading state, disabling interaction.
+         * @requires middleBtnActive to be true
+         */
+        this.isMiddleButtonLoading = false;
         /**
          * If true, the modal automatically closes after confirm/cancel actions.
          */
@@ -41,6 +50,8 @@ export class IrModal {
          * Color theme of the left button.
          */
         this.leftBtnColor = 'secondary';
+        /** Color theme of the middle (tertiary) button. */
+        this.middleBtnColor = 'info';
         /**
          * Horizontal alignment of the footer buttons.
          */
@@ -88,6 +99,12 @@ export class IrModal {
             this.item = {};
             this.closeModal();
         }
+        else if (name === this.middleBtnText) {
+            this.middleModal.emit(this.item);
+            this.item = {};
+            if (this.autoClose)
+                this.closeModal();
+        }
         else if (name === this.rightBtnText) {
             this.confirmModal.emit(this.item);
             this.item = {};
@@ -98,13 +115,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: '9f3f9f109de14959d8a31b2a9949cbc348ee7ce8', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: 'b7bc79faf1f3ca4aea853892efecc41166831c21', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '372c5758aa2a08926f0a1f4602bb49479203e951', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'ea66b22d2f0a498c77bbdef5514c4470c77f7d82', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '2f5f15194481395d1bd4a418224bde8b0cea6248', class: `ir-alert-header` }, h("p", { key: '69bd499a9101439991f026a7f1619ab9b6a13321' }, this.modalTitle))), h("div", { key: 'b6fdb80d020fba24ecd743dc7cf2c6e59a8f4519', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '1e6cb68289b3ddd3e721a08bde0189ca67f684da' }, this.modalBody)), h("div", { key: '11742e173d13fa22708e46ea70f74d1cad967856', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '4f103713c681ade2e2c42e5a99cad1a3fc5663d5', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.rightBtnActive && (h("ir-button", { key: 'b24ac02e97916bf41e835df046f19829bbf165ef', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: 'a75c8cb1e92b815c1c06ca236726fb335dc6655b', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '738c5d808c3f1319ddb5b6e4ee10e2fd975dca63', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'a764e71883f838203f7e800937c200634d3bfbe5', class: `ir-alert-header` }, h("p", { key: '6dfbd41a18daf70e12113e624f279774aad5ff7f' }, this.modalTitle))), h("div", { key: '663fc8cce85897f50b3106023445b12bc7c7789d', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '44e5418df52a7839902102be84146152c7894a30' }, this.modalBody)), h("div", { key: '65af8b71e9b7b4d683442ddb76bf6f8b8ed4c5ea', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '100350ca2e1fd4d761ba4167ba4fad34f2dbc9de', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '02fbda5af49df1e5c49ffaf9723319cdf6becf53', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '91c135b925a7b90e1a46786e1c29d6d8e36f2d8c', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -220,6 +237,26 @@ export class IrModal {
                 "reflect": false,
                 "defaultValue": "true"
             },
+            "middleBtnActive": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the middle (tertiary) button is visible."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "middle-btn-active",
+                "reflect": false,
+                "defaultValue": "false"
+            },
             "rightBtnText": {
                 "type": "string",
                 "mutable": false,
@@ -260,6 +297,26 @@ export class IrModal {
                 "reflect": false,
                 "defaultValue": "'Close'"
             },
+            "middleBtnText": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Text displayed on the middle (tertiary) button."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "middle-btn-text",
+                "reflect": false,
+                "defaultValue": "'More'"
+            },
             "isLoading": {
                 "type": "boolean",
                 "mutable": false,
@@ -277,6 +334,29 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "attribute": "is-loading",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "isMiddleButtonLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [{
+                            "name": "requires",
+                            "text": "middleBtnActive to be true"
+                        }],
+                    "text": "Whether the modal middle button is in a loading state, disabling interaction."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-middle-button-loading",
                 "reflect": false,
                 "defaultValue": "false"
             },
@@ -339,6 +419,26 @@ export class IrModal {
                 "attribute": "left-btn-color",
                 "reflect": false,
                 "defaultValue": "'secondary'"
+            },
+            "middleBtnColor": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'",
+                    "resolved": "\"danger\" | \"dark\" | \"info\" | \"light\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Color theme of the middle (tertiary) button."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "middle-btn-color",
+                "reflect": false,
+                "defaultValue": "'info'"
             },
             "btnPosition": {
                 "type": "string",
@@ -452,6 +552,21 @@ export class IrModal {
                 "docs": {
                     "tags": [],
                     "text": "Fired when the cancel (left) button or backdrop is clicked."
+                },
+                "complexType": {
+                    "original": "any",
+                    "resolved": "any",
+                    "references": {}
+                }
+            }, {
+                "method": "middleModal",
+                "name": "middleModal",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Fired when the middle (tertiary) button is clicked. Emits the current `item` value."
                 },
                 "complexType": {
                     "original": "any",

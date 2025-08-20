@@ -18,7 +18,7 @@ export declare class IglCalBody {
     dragOverElement: string;
     renderAgain: boolean;
     selectedRoom: PhysicalRoom;
-    isLoading: boolean;
+    isLoading: 'middle' | 'right' | null;
     addBookingDatasEvent: EventEmitter<any[]>;
     showBookingPopup: EventEmitter;
     scrollPageToRoom: EventEmitter;
@@ -74,6 +74,8 @@ export declare class IglCalBody {
     private confirmHousekeepingUpdate;
     render(): any;
     private renderModalBody;
+    private renderModalMiddleButtonText;
+    private renderModalRightButtonText;
     private updateDisabledCellsCache;
     private getCellKey;
     private isCellDisabled;

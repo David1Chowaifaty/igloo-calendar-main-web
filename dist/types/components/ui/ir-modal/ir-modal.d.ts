@@ -20,6 +20,8 @@ export declare class IrModal {
      * Whether the left (cancel/close) button is visible.
      */
     leftBtnActive: boolean;
+    /** Whether the middle (tertiary) button is visible. */
+    middleBtnActive: boolean;
     /**
      * Text displayed on the right (confirm) button.
      */
@@ -28,10 +30,17 @@ export declare class IrModal {
      * Text displayed on the left (cancel/close) button.
      */
     leftBtnText: string;
+    /**Text displayed on the middle (tertiary) button. */
+    middleBtnText: string;
     /**
      * Whether the modal is in a loading state, disabling interaction.
      */
     isLoading: boolean;
+    /**
+     * Whether the modal middle button is in a loading state, disabling interaction.
+     * @requires middleBtnActive to be true
+     */
+    isMiddleButtonLoading: boolean;
     /**
      * If true, the modal automatically closes after confirm/cancel actions.
      */
@@ -44,6 +53,8 @@ export declare class IrModal {
      * Color theme of the left button.
      */
     leftBtnColor: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+    /** Color theme of the middle (tertiary) button. */
+    middleBtnColor: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
     /**
      * Horizontal alignment of the footer buttons.
      */
@@ -87,6 +98,8 @@ export declare class IrModal {
      * Fired when the cancel (left) button or backdrop is clicked.
      */
     cancelModal: EventEmitter<any>;
+    /** Fired when the middle (tertiary) button is clicked. Emits the current `item` value. */
+    middleModal: EventEmitter<any>;
     btnClickHandler(event: CustomEvent): void;
     render(): any[];
 }

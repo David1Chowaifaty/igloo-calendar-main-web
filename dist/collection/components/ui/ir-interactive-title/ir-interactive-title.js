@@ -78,7 +78,7 @@ export class IrInteractiveTitle {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: 'b42fdb6c75e6ac6465e78dde9a6e6cc4ae1c945f', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '523efb3543ebc585474879f5831e1b6bf6dd1012', ref: el => {
+        return (h(Host, { key: 'c08ba827626cc50472e51311dfc0a668b82323e5', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'a047a76d4f8740cbc8eb1fbb0fd6fb05dac65411', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -90,12 +90,12 @@ export class IrInteractiveTitle {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: 'c906eec33571d1ae671c98f05e4b459352aab343', class: "cropped-title", style: {
+            } }, h("span", { key: '23cd48b8444d6196570b22f8ee6802b4da7b8534', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: '1754137ca1e383659ff91357d971bf6330d3f141', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("svg", { key: '0bbbf41cbe50245a63c669b892b85e904b3d0038', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, h("path", { key: 'b494e3af5aacb0ef10cc1d77efb2217b3ce51fdd', fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" })))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: 'a45b9d262a8069f1790e7acfb867d933afbcf392', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '4ec94ddf00d71c95011fd67cf92c485006970891', name: "end" }))))));
     }
     static get is() { return "ir-interactive-title"; }
     static get encapsulation() { return "scoped"; }

@@ -148,6 +148,7 @@ export class IrHkTasks {
         const { name } = e.detail;
         switch (name) {
             case 'cleaned':
+            case 'clean-inspect':
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
                 break;
             case 'export':
@@ -168,7 +169,7 @@ export class IrHkTasks {
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.modalCauses = { task: e.detail, cause: 'clean' };
+        this.modalCauses = Object.assign(Object.assign({}, e.detail), { cause: 'clean' });
         (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
     }
     async handleModalConfirmation(e) {
@@ -193,7 +194,16 @@ export class IrHkTasks {
             }
             else {
                 await this.houseKeepingService.executeHKAction({
-                    actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
+                    actions: hkTasksStore.selectedTasks.map(t => {
+                        var _a, _b;
+                        return ({
+                            description: 'Cleaned',
+                            hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
+                            unit_id: t.unit.id,
+                            booking_nbr: t.booking_nbr,
+                            action: (_b = (_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : '001',
+                        });
+                    }),
                 });
             }
             await this.fetchTasksWithFilters();

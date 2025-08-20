@@ -115,6 +115,7 @@ export declare class IglooCalendar {
     private handleSocketMessage;
     private handleSharingPersonsUpdated;
     private handleRoomStatusChanged;
+    private handleHkSkip;
     private handleUnitHKStatusChanged;
     private handleDoReservation;
     private handleBlockExposedUnit;

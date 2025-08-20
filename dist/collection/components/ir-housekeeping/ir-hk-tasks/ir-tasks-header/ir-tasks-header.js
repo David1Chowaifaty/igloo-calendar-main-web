@@ -8,19 +8,23 @@ export class IrTasksHeader {
         this.btnRef.bounce();
     }
     render() {
-        return (h(Host, { key: 'fd78db72359a6a7ab58937aca8292deb5a72fb00' }, h("div", { key: '2b2d7e804d223691ffeca0a7689afbf3a20f394b', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '11cd9dbeafb26b66fb1dcf533eb53db6a1d8895e', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '430132a26d8e5e618d23cfd2f18291ccc4045950', name: "search", slot: "icon" }))), h("div", { key: 'f5d98c578bc1328a6f636cd93979bdff628e918f', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: 'ca8600193ad750fe62ab631befc9346966579c3a', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h(Host, { key: '967cae9bcfa6a23763610443aed1b85caa8b464d' }, h("div", { key: '98c4a4a4ac3d23d1ea344a4fe20fb1284300cfc9', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: 'e65ce5a620b0f996c48ffcba75fa4a8e2d1f9fb4', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '2064bbba1a2860f66a89ede45d686858092880bb', name: "search", slot: "icon" }))), h("div", { key: '9100dbae16183a60981c728a20bbcdbe76a9c21f', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '0586ab6112a1125816ae4ae3716f19330acb8be5', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'f405aa662a08726ebfbcc665459036e587bfea1e', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '93d0108f6fee377fcc7c8152bdece18ce772402c', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '5bae88e7bd0ba7b9488cca03ccb39c75546d33af', class: "d-none d-md-flex", onClickHandler: e => {
+            } }), h("ir-button", { key: '1837d2fed9f669620801bcdf02c0c5cae920a2d1', class: "clean-button", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
-            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }))));
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }), h("ir-button", { key: '45665461dcffdfb15725d56cee0ee241a8564d8a', class: "clean-button", onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.headerButtonPress.emit({ name: 'clean-inspect' });
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Clean & Inspect', ref: el => (this.btnRef = el) }))));
     }
     static get is() { return "ir-tasks-header"; }
     static get encapsulation() { return "scoped"; }
@@ -46,8 +50,8 @@ export class IrTasksHeader {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ name: 'cleaned' | 'export' | 'archive' }",
-                    "resolved": "{ name: \"cleaned\" | \"export\" | \"archive\"; }",
+                    "original": "{ name: 'cleaned' | 'export' | 'archive' | 'clean-inspect' }",
+                    "resolved": "{ name: \"cleaned\" | \"export\" | \"archive\" | \"clean-inspect\"; }",
                     "references": {}
                 }
             }];

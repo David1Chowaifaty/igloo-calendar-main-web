@@ -126,3 +126,7 @@ export type TaskStatus = {
     description: string;
 };
 export type TaskStatusCode = 'IH' | 'CI' | 'CO' | 'VA';
+export type CleanTaskEvent = {
+    task: Task;
+    status?: '001' | '004';
+};

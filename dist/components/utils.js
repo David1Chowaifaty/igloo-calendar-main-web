@@ -16,12 +16,30 @@ const initialState = {
 const { state: calendar_dates, onChange: onCalendarDatesChange } = createStore(initialState);
 function addCleaningTasks(tasks) {
     var _a;
-    const tasksMap = new Map(calendar_dates.cleaningTasks);
+    const tasksMap = new Map();
     for (const task of tasks) {
         const taskMap = new Map((_a = tasksMap.get(task.unit.id)) !== null && _a !== void 0 ? _a : new Map());
         taskMap.set(task.date, task);
         tasksMap.set(task.unit.id, taskMap);
     }
+    calendar_dates.cleaningTasks = new Map(tasksMap);
+}
+function cleanRoom({ unitId, date }) {
+    const tasksMap = new Map(calendar_dates.cleaningTasks);
+    if (!tasksMap.has(unitId)) {
+        return;
+    }
+    const taskMap = new Map(tasksMap.get(unitId));
+    taskMap.delete(date);
+    tasksMap.set(unitId, taskMap);
+    calendar_dates.cleaningTasks = new Map(tasksMap);
+}
+function addRoomForCleaning({ unitId, date, task }) {
+    var _a;
+    const tasksMap = new Map(calendar_dates.cleaningTasks);
+    const taskMap = new Map((_a = tasksMap.get(unitId)) !== null && _a !== void 0 ? _a : new Map());
+    taskMap.set(date, task !== null && task !== void 0 ? task : date);
+    tasksMap.set(unitId, taskMap);
     calendar_dates.cleaningTasks = new Map(tasksMap);
 }
 
@@ -671,6 +689,6 @@ function handleBodyOverflow(open) {
     }
 }
 
-export { addTwoMonthToDate as A, convertDMYToISO as B, computeEndDate as C, toFloat as D, renderTime as E, getDaysArray as F, convertDatePrice as G, formatDate as H, checkUserAuthState as I, manageAnchorSession as J, downloadFile as K, sleep as L, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, addCleaningTasks as r, formatName as s, transformNewBooking as t, getRoomStatus as u, validateEmail as v, transformNewBLockedRooms as w, bookingStatus as x, getPrivateNote as y, getNextDay as z };
+export { getPrivateNote as A, getNextDay as B, addTwoMonthToDate as C, convertDMYToISO as D, computeEndDate as E, toFloat as F, renderTime as G, getDaysArray as H, convertDatePrice as I, formatDate as J, checkUserAuthState as K, manageAnchorSession as L, downloadFile as M, sleep as N, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, addCleaningTasks as r, formatName as s, transformNewBooking as t, getRoomStatus as u, validateEmail as v, addRoomForCleaning as w, cleanRoom as x, transformNewBLockedRooms as y, bookingStatus as z };
 
 //# sourceMappingURL=utils.js.map

@@ -9,6 +9,7 @@ export class IglCalBody {
     constructor() {
         this.dragOverElement = '';
         this.renderAgain = false;
+        this.isLoading = null;
         this.selectedRooms = {};
         this.fromRoomId = -1;
         this.currentDate = new Date();
@@ -351,7 +352,7 @@ export class IglCalBody {
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': '#ededed' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', broomTooltip: room.hk_status === '002' ? 'This unit is dirty' : undefined, popoverTitle: name })), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, name)));
+                }, style: room.hk_status === '003' && { '--dot-color': '#ededed' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: name }, room.hk_status !== '001' && (h("div", { slot: "end", class: "d-flex align-items-center", style: { gap: '0.5rem' } }, room.hk_status === '004' ? (h("svg", { height: 14, width: 14, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("title", null, "Inspected"), h("path", { fill: "green", d: "M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, room.hk_status === '002' && h("title", null, "This unit is dirty"), h("path", { fill: "currentColor", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" }))))))), this.getGeneralRoomDayColumns(this.getRoomId(room), roomCategory, name)));
         });
     }
     getRoomRows() {
@@ -365,48 +366,48 @@ export class IglCalBody {
             }
         });
     }
-    async confirmHousekeepingUpdate(e) {
+    async confirmHousekeepingUpdate(e, status) {
         var _a, _b, _c, _d, _e, _f;
         e.stopImmediatePropagation();
         e.stopPropagation();
         try {
-            this.isLoading = true;
-            const newStatusCode = ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002';
+            this.isLoading = status === '004' ? 'right' : 'middle';
             await this.housekeepingService.setExposedUnitHKStatus({
                 property_id: this.propertyId,
                 // housekeeper: this.selectedRoom?.housekeeper ? { id: this.selectedRoom?.housekeeper?.id } : null,
                 status: {
-                    code: newStatusCode,
+                    code: status,
                 },
                 unit: {
-                    id: (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.id,
+                    id: (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.id,
                 },
             });
-            if (newStatusCode === '001') {
+            if (['001', '004'].includes(status)) {
                 await this.housekeepingService.executeHKAction({
                     actions: [
                         {
                             description: 'Cleaned',
-                            hkm_id: ((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.housekeeper.id) || null,
+                            hkm_id: ((_c = (_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.housekeeper) === null || _c === void 0 ? void 0 : _c.id) || null,
                             unit_id: (_d = this.selectedRoom) === null || _d === void 0 ? void 0 : _d.id,
                             booking_nbr: (_f = this.bookingMap.get((_e = this.selectedRoom) === null || _e === void 0 ? void 0 : _e.id)) !== null && _f !== void 0 ? _f : null,
+                            action: status,
                         },
                     ],
                 });
             }
         }
         finally {
-            this.isLoading = false;
+            this.isLoading = null;
             this.selectedRoom = null;
             this.hkModal.closeModal();
         }
     }
     render() {
-        var _a, _b, _c;
-        return (h(Host, { key: '5c6ae813cc690ce8fb89dc8f16c54488acd4af94' }, h("div", { key: '15a10e3ea21a196da83a92fba1b3f7b8130442c1', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '84db06233f929faeca21c3863316ed577b54d81c', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        var _a, _b;
+        return (h(Host, { key: '4e07f4dc7632fa977bc5e8e247a1397372f53ba8' }, h("div", { key: '1d7e527d2b5f7b2732fcca5c85ed96f4cd774d53', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '9e3a777dc15d4b4e8069ab52d520847fd62b5c30', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: 'a73ad369bb0c9f804f1956e606b233a7e527cc51', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, rightBtnText: (_c = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Update, modalBody: this.renderModalBody(), onConfirmModal: this.confirmHousekeepingUpdate.bind(this), autoClose: false, isLoading: this.isLoading, onCancelModal: e => {
+        }))), h("ir-modal", { key: '582256f4df7de003144fe6193dcdd3cf7d7fe9d0', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => { var _a; return this.confirmHousekeepingUpdate(e, ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002'); }, autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -414,12 +415,12 @@ export class IglCalBody {
             } })));
     }
     renderModalBody() {
-        var _a, _b;
+        var _a;
         if (!this.selectedRoom) {
             return null;
         }
         return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
-            _a.name, " to ", h("b", null, ((_b = this.selectedRoom) === null || _b === void 0 ? void 0 : _b.hk_status) === '002' ? 'Clean' : 'Dirty', "?"))
+            _a.name, " to ...")
         // <ir-select
         //   LabelAvailable={false}
         //   showFirstOption={false}
@@ -431,6 +432,18 @@ export class IglCalBody {
         //   onSelectChange={e => (this.selectedHKStatus = e.detail)}
         // ></ir-select>
         );
+    }
+    renderModalMiddleButtonText() {
+        if (!this.selectedRoom) {
+            return null;
+        }
+        return this.selectedRoom.hk_status === '002' ? 'Clean' : 'Dirty';
+    }
+    renderModalRightButtonText() {
+        if (!this.selectedRoom) {
+            return null;
+        }
+        return this.selectedRoom.hk_status !== '004' ? 'Clean & Inspected' : 'Clean';
     }
     updateDisabledCellsCache() {
         var _a;

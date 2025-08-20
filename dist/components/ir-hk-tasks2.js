@@ -5,7 +5,7 @@ import { R as RoomService } from './room.service.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { K as downloadFile } from './utils.js';
+import { M as downloadFile } from './utils.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$10 } from './igl-application-info2.js';
@@ -218,6 +218,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         const { name } = e.detail;
         switch (name) {
             case 'cleaned':
+            case 'clean-inspect':
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
                 break;
             case 'export':
@@ -238,7 +239,7 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
         var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.modalCauses = { task: e.detail, cause: 'clean' };
+        this.modalCauses = Object.assign(Object.assign({}, e.detail), { cause: 'clean' });
         (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
     }
     async handleModalConfirmation(e) {
@@ -263,7 +264,16 @@ const IrHkTasks = /*@__PURE__*/ proxyCustomElement(class IrHkTasks extends HTMLE
             }
             else {
                 await this.houseKeepingService.executeHKAction({
-                    actions: hkTasksStore.selectedTasks.map(t => ({ description: 'Cleaned', hkm_id: t.hkm_id === 0 ? null : t.hkm_id, unit_id: t.unit.id, booking_nbr: t.booking_nbr })),
+                    actions: hkTasksStore.selectedTasks.map(t => {
+                        var _a, _b;
+                        return ({
+                            description: 'Cleaned',
+                            hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
+                            unit_id: t.unit.id,
+                            booking_nbr: t.booking_nbr,
+                            action: (_b = (_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : '001',
+                        });
+                    }),
                 });
             }
             await this.fetchTasksWithFilters();

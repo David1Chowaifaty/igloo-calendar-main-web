@@ -19,7 +19,7 @@ import { EventsService } from "../../services/events.service";
 import moment from "moment";
 import { ToBeAssignedService } from "../../services/toBeAssigned.service";
 import { bookingStatus, calculateDaysBetweenDates, formatName, getPrivateNote, getRoomStatus, transformNewBLockedRooms, transformNewBooking } from "../../utils/booking";
-import calendar_dates, { addCleaningTasks } from "../../stores/calendar-dates.store";
+import calendar_dates, { addCleaningTasks, addRoomForCleaning, cleanRoom } from "../../stores/calendar-dates.store";
 import locales from "../../stores/locales.store";
 import calendar_data from "../../stores/calendar-data";
 import { addUnassignedDates, handleUnAssignedDatesChange, removeUnassignedDates } from "../../stores/unassigned_dates.store";
@@ -394,6 +394,7 @@ export class IglooCalendar {
             SHARING_PERSONS_UPDATED: this.handleSharingPersonsUpdated,
             ROOM_TYPE_CLOSE: r => this.salesQueue.offer(Object.assign(Object.assign({}, r), { is_available_to_book: false })),
             ROOM_TYPE_OPEN: r => this.salesQueue.offer(Object.assign(Object.assign({}, r), { is_available_to_book: true })),
+            HK_SKIP: this.handleHkSkip,
         };
         const handler = reasonHandlers[REASON];
         if (handler) {
@@ -432,6 +433,9 @@ export class IglooCalendar {
                 }),
             ] });
     }
+    handleHkSkip(result) {
+        console.log('skip', result);
+    }
     handleUnitHKStatusChanged(result) {
         console.log('hk unit change', result);
         const updatedRooms = [...this.calendarData.roomsInfo];
@@ -448,6 +452,13 @@ export class IglooCalendar {
                 updatedRooms[changedRoomTypeIdx] = changedRoomType;
                 this.calendarData = Object.assign(Object.assign({}, this.calendarData), { roomsInfo: updatedRooms });
             }
+        }
+        const roomPayload = { date: moment().format('YYYY-MM-DD'), unitId: result.PR_ID };
+        if (result.HKS_CODE === '002') {
+            addRoomForCleaning(roomPayload);
+        }
+        else {
+            cleanRoom(roomPayload);
         }
     }
     async handleDoReservation(result) {
@@ -712,6 +723,7 @@ export class IglooCalendar {
         }
     }
     AddOrUpdateRoomBookings(data, pool = undefined) {
+        var _a, _b;
         let bookings = [...this.calendarData.bookingEvents];
         data.forEach(d => {
             if (!this.checkBookingAvailability(d)) {
@@ -728,6 +740,17 @@ export class IglooCalendar {
             }
         });
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
+        const isDateInBetweenTheLastPeriodDate = (d) => {
+            var _a, _b;
+            const endDate = moment((_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_periods[((_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_periods.length) - 1].code, 'YYYY-MM-DD');
+            return moment(d.FROM_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate) || moment(d.TO_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate);
+        };
+        if (data.some(isDateInBetweenTheLastPeriodDate)) {
+            this.getHousekeepingTasks({
+                from_date: moment().format('YYYY-MM-DD'),
+                to_date: (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_periods[((_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_periods.length) - 1].code,
+            });
+        }
     }
     transformDateForScroll(date) {
         return moment(date).format('D_M_YYYY');
@@ -1088,12 +1111,12 @@ export class IglooCalendar {
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: '3e3cc5ebb46dbe93ecdc99559c80af2394db0f7f' }, h("ir-toast", { key: 'b4d64f5117023bb57345b49537486644813b5864' }), h("ir-interceptor", { key: '9e39186d8a7637227ed6f936fcd32f01ca5514da' }), h("div", { key: '0e60849a0377ac68942c60470fafa5b9af0616a8', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: 'bbebc67d3a693d0e6a79ae569c966404604fb15d', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '1f306cf288e0435cb6b7525b9f49de63efe307e4', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: '94c0dd5f0f1eb373dc3542473614e1f59550b99e' }, h("ir-toast", { key: '59306c6c9f9fa08971c39a1100bfe9c0681ab94c' }), h("ir-interceptor", { key: '75a7b4bedc1da78ad2c3bb04402fd9264369e981' }), h("div", { key: 'c0c76972fb9700904ed7f5cdf9d41a6bcb4e22a0', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: 'f55086118a6217f9bdbc91b15ec0413c2ee927e9', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'ed1db67d19b9549c83f2c39a3c53f6ce0d25659d', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.calendarSidebarState || this.roomNightsData !== null || (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING'), showCloseButton: false, sidebarStyles: {
                 width: ((_a = this.calendarSidebarState) === null || _a === void 0 ? void 0 : _a.type) === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? '#F2F3F8' : 'white',
-            } }, this.roomNightsData && (h("ir-room-nights", { key: '8e9188baeef81e3462000833093a781b8fff99a4', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '118c516950212d889a8000f05aee34ad4a95e34d', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: '9114f219687a666586051ab61c44cdf7aa218504', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) })), ((_p = this.calendarSidebarState) === null || _p === void 0 ? void 0 : _p.type) === 'bulk-blocks' && (h("igl-bulk-operations", { key: 'ae851ede49f971acbc97e452eeaa0d624a276b84', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
+            } }, this.roomNightsData && (h("ir-room-nights", { key: '87a014394afcab78e2ba1edb95f568a2e9f851b9', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: 'bf6ee8327dc323c74a23f7623ce5d55791c5eb31', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_b = this.calendarSidebarState) === null || _b === void 0 ? void 0 : _b.type) === 'room-guests' && (h("ir-room-guests", { key: 'ce64b7fba1ae64b5c00eb904a01755abc8733793', countries: this.countries, language: this.language, identifier: (_d = (_c = this.calendarSidebarState) === null || _c === void 0 ? void 0 : _c.payload) === null || _d === void 0 ? void 0 : _d.identifier, bookingNumber: (_e = this.calendarSidebarState) === null || _e === void 0 ? void 0 : _e.payload.bookingNumber, roomName: (_g = (_f = this.calendarSidebarState) === null || _f === void 0 ? void 0 : _f.payload) === null || _g === void 0 ? void 0 : _g.roomName, totalGuests: (_j = (_h = this.calendarSidebarState) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.totalGuests, sharedPersons: (_l = (_k = this.calendarSidebarState) === null || _k === void 0 ? void 0 : _k.payload) === null || _l === void 0 ? void 0 : _l.sharing_persons, slot: "sidebar-body", checkIn: (_o = (_m = this.calendarSidebarState) === null || _m === void 0 ? void 0 : _m.payload) === null || _o === void 0 ? void 0 : _o.checkin, onCloseModal: () => (this.calendarSidebarState = null) })), ((_p = this.calendarSidebarState) === null || _p === void 0 ? void 0 : _p.type) === 'bulk-blocks' && (h("igl-bulk-operations", { key: 'ff3013a1e8275e5661d2ed1cff82f57ce8787194', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
         // <igl-bulk-stop-sale slot="sidebar-body" property_id={this.property_id} onCloseModal={() => (this.calendarSidebarState = null)}></igl-bulk-stop-sale>
-        )), h("ir-modal", { key: 'b41fc3baa6132d9dd5e0bb9c2cfb45d9e76c82b8', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_q = this.dialogData) === null || _q === void 0 ? void 0 : _q.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Cancel, rightBtnText: (_s = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _s === void 0 ? void 0 : _s.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        )), h("ir-modal", { key: '409607406249910d7779c79257bd36325b18ee6b', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: ((_q = this.dialogData) === null || _q === void 0 ? void 0 : _q.reason) === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: (_r = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _r === void 0 ? void 0 : _r.Lcz_Cancel, rightBtnText: (_s = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _s === void 0 ? void 0 : _s.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     static get is() { return "igloo-calendar"; }
     static get encapsulation() { return "scoped"; }
