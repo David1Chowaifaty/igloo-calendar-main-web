@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
-import { B as BookingService } from './booking.service-877b9937.js';
-import { z as transformNewBooking, C as isBlockUnit, h as hooks, q as calendar_dates, c as calculateDaysBetweenDates, I as compareTime, J as createDateWithOffsetAndHour, d as dateToFormattedString, K as getDaysArray, L as convertDatePrice, M as formatDate } from './utils-a91ab911.js';
-import { E as EventsService } from './events.service-2ed9ae62.js';
+import { B as BookingService } from './booking.service-f82f4ce3.js';
+import { z as transformNewBooking, C as isBlockUnit, h as hooks, q as calendar_dates, c as calculateDaysBetweenDates, I as compareTime, J as createDateWithOffsetAndHour, d as dateToFormattedString, K as getDaysArray, L as convertDatePrice, M as formatDate } from './utils-b77baf9f.js';
+import { E as EventsService } from './events.service-65bc2fce.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { z, Z as ZodError } from './index-6ecc32cd.js';
 import { H as HouseKeepingService } from './housekeeping.service-e63a6d61.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-09d9d657.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-924d6c4c.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-5083e678.js';
 import { c as colorVariants } from './icons-f8664e4a.js';
 import './axios-aa1335b8.js';
@@ -1914,7 +1914,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: 'd7eb6ae36c5af34c1569e927663cc7bb67dcd38a', class: "footerContainer" }, h("div", { key: 'a8c110feb45a7c26b9caa24113a5d096333b6f7e', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '05a5aa353575e536b413c6f61cfeaba0eebc9730', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: 'bdc6a71c0182f38ac046b73b086a6f6316b7fcba', class: "la la-square" }), h("u", { key: '2aa75973e72f5d4da1559f8d932b05664a155a1c' }, locales.entries.Lcz_Legend), h("span", { key: '3591a84b45aaf89be6e664843d7362d28e5d531f' }, " - v1.0128"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
+        return (h(Host, { key: 'd7eb6ae36c5af34c1569e927663cc7bb67dcd38a', class: "footerContainer" }, h("div", { key: 'a8c110feb45a7c26b9caa24113a5d096333b6f7e', class: "footerCell bottomLeftCell align-items-center preventPageScroll" }, h("div", { key: '05a5aa353575e536b413c6f61cfeaba0eebc9730', class: "legendBtn", onClick: () => this.handleOptionEvent('showLegend') }, h("i", { key: 'bdc6a71c0182f38ac046b73b086a6f6316b7fcba', class: "la la-square" }), h("u", { key: '2aa75973e72f5d4da1559f8d932b05664a155a1c' }, locales.entries.Lcz_Legend), h("span", { key: '3591a84b45aaf89be6e664843d7362d28e5d531f' }, " - v1.0129"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: `dayTitle full-height align-items-center ${dayInfo.day === this.today || this.highlightedDate === dayInfo.day ? 'currentDay' : ''}` }, dayInfo.dayDisplayName))))));
     }
 };
 IglCalFooter.style = IglCalFooterStyle0;
