@@ -6844,6 +6844,11 @@ const IrHkTasks = class {
             case 'cleaned':
             case 'clean-inspect':
                 (_a = this.modal) === null || _a === void 0 ? void 0 : _a.openModal();
+                this.modalCauses = {
+                    task: null,
+                    cause: 'clean',
+                    status: name === 'clean-inspect' ? '004' : '001',
+                };
                 break;
             case 'export':
                 const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
@@ -6964,7 +6969,9 @@ const IrHkTasks = class {
                 }
             }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales_store.locales.entries.Lcz_Confirmation, modalBody: this.modalCauses
                 ? ((_a = this.modalCauses) === null || _a === void 0 ? void 0 : _a.cause) === 'clean'
-                    ? `Update ${(_d = (_c = (_b = this.modalCauses) === null || _b === void 0 ? void 0 : _b.task) === null || _c === void 0 ? void 0 : _c.unit) === null || _d === void 0 ? void 0 : _d.name} to Clean`
+                    ? this.modalCauses.task
+                        ? `Update ${(_d = (_c = (_b = this.modalCauses) === null || _b === void 0 ? void 0 : _b.task) === null || _c === void 0 ? void 0 : _c.unit) === null || _d === void 0 ? void 0 : _d.name} to Clean`
+                        : 'Update selected unit(s) to Clean'
                     : 'Skip cleaning and reschedule for tomorrow.'
                 : 'Update selected unit(s) to Clean' }), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
