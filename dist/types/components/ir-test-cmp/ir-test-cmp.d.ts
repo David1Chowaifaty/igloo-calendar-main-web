@@ -24,6 +24,7 @@ export declare class IrTestCmp {
     isMobileMenuOpen: boolean;
     private toggleMobileMenu;
     private pages;
+    private notifications;
     showMegaMenu: boolean;
     render(): any;
 }

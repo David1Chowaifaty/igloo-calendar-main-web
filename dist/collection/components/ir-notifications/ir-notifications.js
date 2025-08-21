@@ -1,36 +1,63 @@
 import { Host, h } from "@stencil/core";
 export class IrNotifications {
     constructor() {
-        this.notificationCount = 0;
-    }
-    handleNotificationCountChange(newValue, oldValue) {
-        if (oldValue !== undefined && newValue !== oldValue) {
-            this.animateNotificationChange();
-        }
+        // Make notifications reactive;
+        this.notifications = [];
+        this.isOpen = false;
+        this.onDocumentClick = (ev) => {
+            if (!this.isOpen)
+                return;
+            const target = ev.target;
+            if (target && !this.el.contains(target)) {
+                this.isOpen = false;
+            }
+        };
+        this.onDocumentKeydown = (ev) => {
+            var _a, _b;
+            if (!this.isOpen)
+                return;
+            if (ev.key === 'Escape' || ev.key === 'Esc') {
+                this.isOpen = false;
+                (_b = (_a = this.buttonRef) === null || _a === void 0 ? void 0 : _a.focus) === null || _b === void 0 ? void 0 : _b.call(_a);
+            }
+        };
     }
     componentDidLoad() {
         this.updateNotificationBadge();
+        document.addEventListener('click', this.onDocumentClick, true);
+        document.addEventListener('keydown', this.onDocumentKeydown, true);
     }
     componentDidUpdate() {
         this.updateNotificationBadge();
     }
+    disconnectedCallback() {
+        document.removeEventListener('click', this.onDocumentClick, true);
+        document.removeEventListener('keydown', this.onDocumentKeydown, true);
+    }
+    handleNotificationCountChange(newValue, oldValue) {
+        if (oldValue && newValue.length !== oldValue.length) {
+            this.animateNotificationChange();
+        }
+    }
     updateNotificationBadge() {
         if (this.buttonRef) {
-            this.buttonRef.setAttribute('data-notifications', this.notificationCount.toString());
+            this.buttonRef.setAttribute('data-notifications', this.notifications.length.toString());
         }
     }
     animateNotificationChange() {
         if (this.buttonRef) {
-            // Add bounce animation class
             this.buttonRef.classList.add('badge-animate');
-            // Remove the animation class after animation completes
             setTimeout(() => {
                 this.buttonRef.classList.remove('badge-animate');
             }, 600);
         }
     }
+    dismissNotification(notification) {
+        this.notificationCleared.emit(notification);
+        this.notifications = this.notifications.filter(n => n.id !== notification.id);
+    }
     render() {
-        return (h(Host, { key: 'c64ee2e220c1db1123b63eb04b16841f29c52597' }, h("div", { key: '91705f2e4e5c7615de0e73882869b4ee1e3735cb', class: "dropdown notifications-dropdown" }, h("ir-button", { key: '4429d5fc46699ef0b0acec85bc7d8518f94a4492', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notificationCount.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "data-toggle": "dropdown", "aria-expanded": "false" }), h("div", { key: '510bba019a93de1004e5c1a53a5403b86c3a160f', class: "dropdown-menu dropdown-menu-right" }, h("div", { key: '89bfde70ae445b00b7d547b7d269dcf839e7deca', class: 'dropdown-header m-0' }, h("p", { key: 'e1dfa22647ae34e3174e1081f8b0629d9fb087dd', class: 'p-0 m-0' }, "All caught up."))))));
+        return (h(Host, { key: 'd6fb18bba3ab7c80fd754d23b0b79b0a46c92caf' }, h("div", { key: '0c86e8d9461078a42694dad31dbe5f2c643ccde3', class: `dropdown notifications-dropdown ${this.isOpen ? 'show' : ''}` }, h("ir-button", { key: '2d37d5c6d4c30ffffd81662e56dbfe52b501042d', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notifications.length.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "aria-expanded": String(this.isOpen), onClickHandler: () => (this.isOpen = !this.isOpen) }), h("div", { key: '8d4af0a6f0eddf8c2670d9da119a3b0f3e135a21', class: `dropdown-menu dropdown-menu-right ` }, this.notifications.length === 0 ? (h("p", { class: "m-0 dropdown-header" }, "All caught up.")) : (this.notifications.map(notification => (h("div", { class: `notification-item dropdown-item ${notification.type}`, key: notification.id }, h("div", { class: "notification-content" }, h("strong", null, notification.title), h("p", null, notification.message), notification.link && (h("a", { href: notification.link.href, target: notification.link.target || '_self' }, notification.link.text || 'View more'))), notification.dismissible && (h("ir-button", { onClickHandler: () => this.dismissNotification(notification), variant: "icon", btn_color: "light", icon_name: "xmark" }))))))))));
     }
     static get is() { return "ir-notifications"; }
     static get encapsulation() { return "scoped"; }
@@ -46,13 +73,19 @@ export class IrNotifications {
     }
     static get properties() {
         return {
-            "notificationCount": {
-                "type": "number",
+            "notifications": {
+                "type": "unknown",
                 "mutable": true,
                 "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
+                    "original": "Notification[]",
+                    "resolved": "Notification[]",
+                    "references": {
+                        "Notification": {
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-notifications/types.ts::Notification"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
@@ -62,16 +95,43 @@ export class IrNotifications {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "notification-count",
-                "reflect": false,
-                "defaultValue": "0"
+                "defaultValue": "[]"
             }
         };
+    }
+    static get states() {
+        return {
+            "isOpen": {}
+        };
+    }
+    static get events() {
+        return [{
+                "method": "notificationCleared",
+                "name": "notificationCleared",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "Notification",
+                    "resolved": "Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"alert\" | \"warning\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"info\" | \"success\"; ariaRole?: \"status\"; }",
+                    "references": {
+                        "Notification": {
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-notifications/types.ts::Notification"
+                        }
+                    }
+                }
+            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
-                "propName": "notificationCount",
+                "propName": "notifications",
                 "methodName": "handleNotificationCountChange"
             }];
     }
