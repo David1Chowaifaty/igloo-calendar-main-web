@@ -94,6 +94,7 @@ export declare class IglooCalendar {
     private salesQueue;
     private availabilityQueue;
     private roomTypeIdsCache;
+    private tasksEndDate;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
