@@ -97,7 +97,6 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
     }
     haveSlotPresent(name) {
         const slot = this.el.querySelector(`[slot="${name}"]`);
-        console.log(slot);
         return slot !== null;
     }
     async validateInput(value, forceValidation = false) {

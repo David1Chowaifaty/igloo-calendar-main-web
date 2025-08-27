@@ -155,10 +155,10 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
             return h("ir-loading-screen", null);
         }
         console.log(calendar_data.cleaning_frequency);
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
+            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedCleaningFrequency = e.detail;

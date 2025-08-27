@@ -3,7 +3,7 @@ import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$1 } from './ir-combobox2.js';
 
-const irPhoneInputCss = ".sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-right:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;left:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}";
+const irPhoneInputCss = ".sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-right:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;left:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}.sc-ir-phone-input-h{--ir-floating-label-fg:#6c757d;--ir-floating-label-fg-focus:#495057;--ir-floating-label-bg:#fff;--ir-floating-label-scale:0.88;--ir-floating-label-float-translateY:-70%;--ir-floating-label-resting-offset-inline:0.9rem;--ir-floating-phone-input-radius:0.21rem;--ir-floating-phone-input-height:2rem;--ir-danger:#dc3545;--ir-disabled-fg:#9aa0a6}.sc-ir-phone-input-h .input-container.has-floating.sc-ir-phone-input{position:relative;padding-top:0.9rem}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none;position:absolute;padding:0 0.4rem;z-index:10;color:var(--ir-floating-label-fg);background:white;transition:transform 120ms ease, color 120ms ease, top 120ms ease, background-color 120ms ease, opacity 120ms ease;opacity:0.95;line-height:1;white-space:nowrap}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input:dir(rtl){right:95px}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input:dir(ltr){left:95px}.sc-ir-phone-input-h .floating-label.active.sc-ir-phone-input{top:0;transform:translateY(var(--ir-floating-label-float-translateY)) scale(var(--ir-floating-label-scale));background:var(--ir-floating-label-bg);color:var(--ir-floating-label-fg-focus);font-size:12px;padding:0;opacity:0.95}";
 const IrPhoneInputStyle0 = irPhoneInputCss;
 
 const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends HTMLElement {
@@ -44,8 +44,13 @@ const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends
          * Tracks visibility of the country dropdown.
          */
         this.isDropdownVisible = false;
+        /** Internal: input focus state for floating label. */
+        this.hasFocus = false;
         // private cmp_countries: ICountry[] = [];
         this.bookingService = new BookingService();
+        /** Internal: ids for label/input pairing (a11y). */
+        this.inputId = `ir-phone-input-${Math.random().toString(36).slice(2)}`;
+        this.labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;
     }
     async componentWillLoad() {
         if (this.countries.length === 0) {
@@ -123,7 +128,14 @@ const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: 'c3335de7881535cf1b2b6832e95b4b864cdd0892' }, h("div", { key: '4c7069028ba997b440be57bfbe61f2f01a925016', class: "form-group mr-0" }, h("div", { key: 'cb0fa61bd57f873fc3625f05f69313160b472a76', class: "input-group row m-0 p-0 position-relative" }, this.label && (h("div", { key: '827c5337539ec83d297739a55b40e0727eb9750c', class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { key: 'd5eb11033f61526cadd7ff9ad52fb57dd094bce6', class: `input-group-text  border-theme flex-grow-1 text-dark  ` }, this.label))), h("div", { key: 'ba12816d8b6ba41ed76e7289fad340ef797849e1', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { key: '9dbe37f41d70d268ec288d69973169c871246527', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), h("svg", { key: '4b22c062026962378941d737283070503f329bb0', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '39431bead349de3461608d4e7eff1cf9433194e4', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { key: '481bcb8138059f1f2b16e37e8af838f2d1069b22', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), h("input", { key: '7106c99b423b31b65081122c5c9d969a72a1534a', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e) })), this.isDropdownVisible && (h("div", { key: 'a946703070c5123dd9fbbf172269297b788f4a8a', class: "ir-dropdown-container" }, h("ir-combobox", { key: 'b4292fc560d86c0588bab916ca13d383d28fdb71', onComboboxValueChange: e => {
+        const useFloating = this.floatingLabel && this.label;
+        const showSideLabel = !!this.label && !useFloating;
+        const isActive = this.hasFocus || !!this.inputValue; // float when focused or has value
+        return (h(Host, { key: '23c1c8676f912872e014736d2b04db40a88dbb81' }, h("div", { key: '18bbeffc9a488360f80833ef5ad90bccd92e6aad', class: "form-group mr-0" }, h("div", { key: '8cddb1902e580d64b86794678e651821f92f745b', class: "input-group row m-0 p-0 position-relative" }, showSideLabel && (h("div", { key: 'a5fd3c54eaa39c5478e749ef86ca53596d260d66', class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { key: '59393d09f3cacca8a67da75d72882b2e4b589f54', class: `input-group-text border-theme flex-grow-1 text-dark` }, this.label))), h("div", { key: '940ee15a4427b4e1c594b45538835c03144ad3e7', class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { key: '9448e249e084595291bb9c8b8c07b19d4cd5a78f', type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: (_a = this.currentCountry) === null || _a === void 0 ? void 0 : _a.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), h("svg", { key: '875b806a36d42b558e67f76dac95648098b8eaed', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { key: '55b76c299cdd2ef4eda62ada403e5bfcc0e1dda4', d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { key: 'f1e3c2b17da3eff245f9899368c057bbcebed9bb', class: 'phone_prefix_label' }, (_b = this.currentCountry) === null || _b === void 0 ? void 0 : _b.phone_prefix), useFloating && (h("label", { key: '6f9503a871f47b5fa8aa4755ebedb52e8c2ed5df', id: this.labelId, class: `floating-label ${isActive ? 'active' : ''}`, htmlFor: this.inputId }, this.label)), h("input", { key: 'aa398b3e31c50d769242f642814c803fc88a7320', "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e), onFocus: () => {
+                this.hasFocus = true;
+            }, onBlur: () => {
+                this.hasFocus = false;
+            } })), this.isDropdownVisible && (h("div", { key: '3d21446e9f783657eda35de317d12cb24703db21', class: "ir-dropdown-container" }, h("ir-combobox", { key: '473a0d6d5946acd9418c8055dd9cff0352343038', onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
             }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
@@ -150,9 +162,11 @@ const IrPhoneInput = /*@__PURE__*/ proxyCustomElement(class IrPhoneInput extends
         "placeholder": [1],
         "countries": [1040],
         "testId": [1, "test-id"],
+        "floatingLabel": [516, "floating-label"],
         "inputValue": [32],
         "isDropdownVisible": [32],
-        "currentCountry": [32]
+        "currentCountry": [32],
+        "hasFocus": [32]
     }, [[4, "click", "handleDocumentClick"]], {
         "value": ["handleValueChange"],
         "phone_prefix": ["handlePhoneChange"]

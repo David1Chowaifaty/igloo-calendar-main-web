@@ -2,20 +2,12 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrSelect {
     constructor() {
-        // Text shown in the label
-        this.label = '<label>';
         // Selected value of the select
         this.selectedValue = null;
-        // Whether to render the label
-        this.LabelAvailable = true;
         // Placeholder text for the first option
         this.firstOption = 'Select';
-        // Enable/disable default form styling
-        this.selectStyle = true;
         // Whether to show the first placeholder option
         this.showFirstOption = true;
-        // Set to true when the form is submitted
-        this.submited = false;
         // Size of the select: 'sm' | 'md' | 'lg'
         this.size = 'md';
         // Size of the text: 'sm' | 'md' | 'lg'
@@ -31,13 +23,15 @@ export class IrSelect {
         // Width of the label (Bootstrap cols)
         this.labelWidth = 3;
         // Unique ID for the select element
-        this.select_id = v4();
+        this.selectId = v4();
         // Whether the select has an error state
         this.error = false;
         // Tracks if the field has been touched
         this.initial = true;
         // Tracks if the field is valid
         this.valid = false;
+        /** Internal: id used by aria-labelledby for the floating label. */
+        this.labelId = `ir-select-label-${v4()}`;
         this.count = 0;
     }
     watchHandler(newValue) {
@@ -45,13 +39,8 @@ export class IrSelect {
             this.valid = true;
         }
     }
-    watchHandler2(newValue) {
-        if (newValue && this.required) {
-            this.initial = false;
-        }
-    }
     handleButtonAnimation(e) {
-        if (!this.selectEl || e.detail !== this.select_id) {
+        if (!this.selectEl || e.detail !== this.selectId) {
             return;
         }
         e.stopImmediatePropagation();
@@ -74,18 +63,18 @@ export class IrSelect {
         }
     }
     render() {
-        let className = 'form-control';
-        let label = (h("div", { key: '08cccad01b896c272731da05361a29f85d59f77f', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'b3382995761dc6ecabf3384bfbbb7af5277c617b', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
-        if (this.selectStyle === false) {
-            className = '';
+        let className = ['form-control'];
+        if (this.floatingLabel) {
+            className.push('floating-select');
+        }
+        else {
+            className.push(`col-${this.label ? 12 - this.labelWidth : 12}`);
         }
         if (this.required && !this.valid && !this.initial) {
-            className = `${className} border-danger`;
+            className.push('border-danger');
         }
-        if (!this.LabelAvailable) {
-            label = '';
-        }
-        return (h("div", { key: '0f9b7840a096fab07eeeef33750c196a1bb3f264', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'eaa2228f2cf836c4a0c4aef36750b8261fffc89d', class: "input-group row m-0" }, label, h("select", { key: '78cdf9f4a1404a916241f66acf17e406887066d8', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '2cc3f239024d90202f4a1d8217c8b847c64ce9a2', value: '' }, this.firstOption), this.data.map(item => {
+        let label = this.label ? (this.floatingLabel ? (h("label", { id: this.labelId, class: `floating-label active`, htmlFor: this.selectId }, this.label, this.required ? '*' : '')) : (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.selectId, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')))) : null;
+        return (h("div", { key: 'b34f90ba80d6aa2f6f6e6982193ebf66f0c6ae76', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '0088d044be458a5939b848bcb9ce104cb59add03', class: "input-group row m-0" }, label, h("select", { key: 'ff91e917d440e790ca40199dfe4bdf6065bb70b9', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '256a6f980231d805fc7f8b88bc487ff556389463', value: '' }, this.firstOption), this.data.map(item => {
             return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
         })))));
     }
@@ -162,8 +151,7 @@ export class IrSelect {
                 "getter": false,
                 "setter": false,
                 "attribute": "label",
-                "reflect": false,
-                "defaultValue": "'<label>'"
+                "reflect": false
             },
             "selectStyles": {
                 "type": "string",
@@ -259,26 +247,6 @@ export class IrSelect {
                 "attribute": "required",
                 "reflect": false
             },
-            "LabelAvailable": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "label-available",
-                "reflect": false,
-                "defaultValue": "true"
-            },
             "firstOption": {
                 "type": "string",
                 "mutable": false,
@@ -299,26 +267,6 @@ export class IrSelect {
                 "reflect": false,
                 "defaultValue": "'Select'"
             },
-            "selectStyle": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "select-style",
-                "reflect": false,
-                "defaultValue": "true"
-            },
             "showFirstOption": {
                 "type": "boolean",
                 "mutable": false,
@@ -338,26 +286,6 @@ export class IrSelect {
                 "attribute": "show-first-option",
                 "reflect": false,
                 "defaultValue": "true"
-            },
-            "submited": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "submited",
-                "reflect": false,
-                "defaultValue": "false"
             },
             "size": {
                 "type": "string",
@@ -499,7 +427,7 @@ export class IrSelect {
                 "reflect": false,
                 "defaultValue": "3"
             },
-            "select_id": {
+            "selectId": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -515,7 +443,7 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select_id",
+                "attribute": "select-id",
                 "reflect": false,
                 "defaultValue": "v4()"
             },
@@ -576,6 +504,25 @@ export class IrSelect {
                 "attribute": "error",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "floatingLabel": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Floating label text that appears inside the input and \u201Cfloats\u201D above\nwhen the field is focused or has a value.\n\n- If provided, a floating label will be rendered inside the input container.\n- If you omit this prop but set `label`, the old left-side static label is used.\n- If you provide both `label` and `floatingLabel`, only the floating label is shown.\n\n\nExamples:\n```tsx\n<ir-select floating-label label=\"Phone\" />\n```"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "floating-label",
+                "reflect": true
             }
         };
     }
@@ -607,9 +554,6 @@ export class IrSelect {
         return [{
                 "propName": "selectedValue",
                 "methodName": "watchHandler"
-            }, {
-                "propName": "submited",
-                "methodName": "watchHandler2"
             }];
     }
     static get listeners() {

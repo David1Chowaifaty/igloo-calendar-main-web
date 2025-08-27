@@ -1,10 +1,10 @@
 import { r as registerInstance, h, H as Host, g as getElement } from './index-60982d00.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange, a as updateUserSelections } from './booking_listing.service-3172a319.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange, a as updateUserSelections } from './booking_listing.service-83cd627e.js';
 import { R as RoomService } from './room.service-39d12a8c.js';
 import { l as locales } from './locales.store-629477c2.js';
-import { g as getPrivateNote, f as formatAmount } from './utils-84f9df07.js';
+import { a as getPrivateNote, f as formatAmount } from './utils-6775b2fb.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { _ as _formatTime } from './functions-14871918.js';
+import { a as _formatTime } from './functions-7c8c67af.js';
 import { T as Token } from './Token-6c389e24.js';
 import { i as isSingleUnit } from './calendar-data-f4e207f9.js';
 import './index-c4cf83be.js';
@@ -242,7 +242,7 @@ const IrBookingListing = class {
             }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
                 this.currentPage = this.currentPage - 1;
                 await this.updateData();
-            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), h("ir-select", { selectedValue: this.currentPage.toString(), LabelAvailable: false, showFirstOption: false, onSelectChange: async (e) => {
+            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), h("ir-select", { selectedValue: this.currentPage.toString(), showFirstOption: false, onSelectChange: async (e) => {
                 this.currentPage = +e.detail;
                 await this.updateData();
             }, data: Array.from(Array(this.totalPages), (_, i) => i + 1).map(i => ({

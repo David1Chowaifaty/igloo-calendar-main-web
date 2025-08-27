@@ -1,5 +1,5 @@
-import { SharedPerson } from './../../models/booking.dto';
-export type BookingDetailsSidebarEvents = 'guest' | 'pickup' | 'extra_note' | 'extra_service' | 'room-guest';
+import { IPayment, SharedPerson } from './../../models/booking.dto';
+export type BookingDetailsSidebarEvents = 'guest' | 'pickup' | 'extra_note' | 'extra_service' | 'room-guest' | 'payment-folio';
 export type OpenSidebarEvent<T> = {
     type: BookingDetailsSidebarEvents;
     payload?: T;
@@ -8,6 +8,10 @@ export type BookingDetailsDialogEvents = 'pms' | 'events-log';
 export type OpenDialogEvent = {
     type: BookingDetailsDialogEvents;
     payload?: unknown;
+};
+export type PaymentSidebarEvent = {
+    type: 'payment-folio';
+    payload: IPayment;
 };
 export type RoomGuestsPayload = {
     roomName: string;

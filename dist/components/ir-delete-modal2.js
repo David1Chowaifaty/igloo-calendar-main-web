@@ -78,7 +78,7 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
             h("div", { class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.closeModal();
                 } }),
-            h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { class: `ir-alert-content p-2` }, h("div", { class: `r-alert-header mb-1 d-flex align-items-center justify-content-between border-0 py-0 m-0 ` }, h("p", { class: 'm-0 p-0' }, this.user.assigned_units.length > 0 ? locales.entries.Lcz_AssignUnitsTo : locales.entries.Lcz_ConfirmDeletion), h("ir-button", { class: "exit-icon", variant: "icon", icon_name: "xmark", onClickHandler: () => this.closeModal() })), h("div", { class: "modal-body text-left p-0 mb-2" }, this.user.assigned_units.length > 0 && (h("div", { class: "modal-body text-left p-0 mb-2" }, h("ir-select", { firstOption: locales.entries.Lcz_nobody, selectedValue: this.selectedId, onSelectChange: e => (this.selectedId = e.detail), LabelAvailable: false, data: housekeeping_store.hk_criteria.housekeepers
+            h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { class: `ir-alert-content p-2` }, h("div", { class: `r-alert-header mb-1 d-flex align-items-center justify-content-between border-0 py-0 m-0 ` }, h("p", { class: 'm-0 p-0' }, this.user.assigned_units.length > 0 ? locales.entries.Lcz_AssignUnitsTo : locales.entries.Lcz_ConfirmDeletion), h("ir-button", { class: "exit-icon", variant: "icon", icon_name: "xmark", onClickHandler: () => this.closeModal() })), h("div", { class: "modal-body text-left p-0 mb-2" }, this.user.assigned_units.length > 0 && (h("div", { class: "modal-body text-left p-0 mb-2" }, h("ir-select", { firstOption: locales.entries.Lcz_nobody, selectedValue: this.selectedId, onSelectChange: e => (this.selectedId = e.detail), data: housekeeping_store.hk_criteria.housekeepers
                     .filter(hk => hk.id !== this.user.id)
                     .map(m => ({
                     value: m.id.toString(),
@@ -100,7 +100,7 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
         //               firstOption={locales.entries.Lcz_nobody}
         //               selectedValue={this.selectedId}
         //               onSelectChange={e => (this.selectedId = e.detail)}
-        //               LabelAvailable={false}
+        //
         //               data={housekeeping_store.hk_criteria.housekeepers
         //                 .filter(hk => hk.id !== this.user.id)
         //                 .map(m => ({

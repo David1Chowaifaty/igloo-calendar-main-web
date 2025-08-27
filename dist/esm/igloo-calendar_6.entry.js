@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
 import { R as RoomService } from './room.service-39d12a8c.js';
-import { B as BookingService } from './booking.service-40ff259c.js';
-import { j as formatLegendColors, k as calendar_dates, l as addCleaningTasks, n as formatName, o as getRoomStatus, p as cleanRoom, q as addRoomForCleaning, t as transformNewBooking, r as transformNewBLockedRooms, i as dateToFormattedString, u as bookingStatus, g as getPrivateNote, v as isBlockUnit, a as calculateDaysBetweenDates, w as getNextDay, x as addTwoMonthToDate, y as convertDMYToISO, z as computeEndDate, A as downloadFile } from './utils-84f9df07.js';
-import { E as EventsService } from './events.service-4d1e513f.js';
+import { B as BookingService } from './booking.service-10c56ebe.js';
+import { n as formatLegendColors, o as calendar_dates, p as addCleaningTasks, b as formatName, q as getRoomStatus, u as cleanRoom, w as addRoomForCleaning, x as transformNewBooking, y as transformNewBLockedRooms, d as dateToFormattedString, z as bookingStatus, a as getPrivateNote, A as isBlockUnit, c as calculateDaysBetweenDates, B as getNextDay, C as addTwoMonthToDate, D as convertDMYToISO, E as computeEndDate, F as downloadFile } from './utils-6775b2fb.js';
+import { E as EventsService } from './events.service-bdc9e685.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-e0f6e6b4.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-d478a73b.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-5083e678.js';
@@ -14,7 +14,7 @@ import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore }
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-73b92191.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
-import { U as UserService } from './user.service-cc7dfb50.js';
+import { U as UserService } from './user.service-563c8f35.js';
 import './index-c4cf83be.js';
 import './index-6ecc32cd.js';
 
@@ -5765,10 +5765,10 @@ const IrHousekeeping = class {
             return h("ir-loading-screen", null);
         }
         console.log(calendar_data.cleaning_frequency);
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
                 { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
                 { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { LabelAvailable: false, showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
+            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedCleaningFrequency = e.detail;

@@ -127,10 +127,10 @@ const IrTabs = /*@__PURE__*/ proxyCustomElement(class IrTabs extends HTMLElement
         }
     }
     render() {
-        return (h(Host, { key: '488cb5f6f4c416774a418f7034b498a6ca814e76', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => {
+        return (h(Host, { key: 'd7b3df6ee6fa37b4929b853f8eb2f72595ac592f', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => {
             var _a, _b, _c;
             return (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: ((_a = this._selectedTab) === null || _a === void 0 ? void 0 : _a.id) === tab.id ? 0 : -1, "aria-selected": ((_b = this._selectedTab) === null || _b === void 0 ? void 0 : _b.id) === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": ((_c = this._selectedTab) === null || _c === void 0 ? void 0 : _c.id) === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label));
-        }), h("span", { key: '11a26dd4424cda4cd0024ee616231d91c2462d64', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        }), h("span", { key: 'c2e532e4c0905f409006be402d5082ed450412fb', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     get el() { return this; }
     static get style() { return IrTabsStyle0; }

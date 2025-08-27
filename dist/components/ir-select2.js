@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { v as v4 } from './v4.js';
 
-const irSelectCss = ".border-theme.sc-ir-select{border:1px solid #cacfe7}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}.bounce-3.sc-ir-select{animation:bounce 1s 1}";
+const irSelectCss = ".border-theme.sc-ir-select{border:1px solid #cacfe7}@keyframes bounce{0%,100%{transform:scale(1);animation-timing-function:cubic-bezier(0.8, 0, 1, 1)}50%{transform:scale(1.2);animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}}.bounce-3.sc-ir-select{animation:bounce 1s 1}.sc-ir-select-h{--ir-floating-label-fg:#6c757d;--ir-floating-label-fg-focus:#495057;--ir-floating-label-bg:#fff;--ir-floating-label-scale:0.88;--ir-floating-label-float-translateY:-70%;--ir-floating-label-resting-offset-inline:0.9rem;--ir-floating-select-radius:0.21rem;--ir-floating-select-height:2rem;--ir-danger:#dc3545;--ir-disabled-fg:#9aa0a6}.floating-select.sc-ir-select{height:var(--ir-floating-select-height);border-radius:var(--ir-floating-select-radius) !important}.sc-ir-select-h .ir-floating-group.sc-ir-select,.sc-ir-select-h .ir-select-wrapper.sc-ir-select{position:relative}.sc-ir-select-h .ir-floating-group.has-floating.sc-ir-select,.sc-ir-select-h .ir-select-wrapper.has-floating.sc-ir-select{padding-top:0.9rem}.sc-ir-select-h .ir-floating-label.sc-ir-select,.sc-ir-select-h .floating-label.sc-ir-select{position:absolute;top:0;transform:translateY(-50%);pointer-events:none;padding:0 0.4rem;z-index:10;color:var(--ir-floating-label-fg);background:white;transition:transform 120ms ease, color 120ms ease, top 120ms ease, background-color 120ms ease, opacity 120ms ease;opacity:0.95;line-height:1;white-space:nowrap}.sc-ir-select-h .ir-floating-label.sc-ir-select:dir(rtl),.sc-ir-select-h .floating-label.sc-ir-select:dir(rtl){right:var(--ir-floating-label-resting-offset-inline)}.sc-ir-select-h .ir-floating-label.sc-ir-select:dir(ltr),.sc-ir-select-h .floating-label.sc-ir-select:dir(ltr){left:var(--ir-floating-label-resting-offset-inline)}.sc-ir-select-h .ir-floating-group.sc-ir-select:focus-within .ir-floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-input.sc-ir-select:not(:placeholder-shown)+.ir-floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-group[data-has-value='true'].sc-ir-select .ir-floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-group.sc-ir-select:focus-within .floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-input.sc-ir-select:not(:placeholder-shown)+.floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-group[data-has-value='true'].sc-ir-select .floating-label.sc-ir-select,.sc-ir-select-h .floating-label.active.sc-ir-select{top:0;transform:translateY(var(--ir-floating-label-float-translateY)) scale(var(--ir-floating-label-scale));background:var(--ir-floating-label-bg);color:var(--ir-floating-label-fg-focus);font-size:12px;padding:0;opacity:0.95}.sc-ir-select-h .ir-floating-group.has-floating.sc-ir-select select.sc-ir-select,.sc-ir-select-h .ir-select-wrapper.has-floating.sc-ir-select select.sc-ir-select,.sc-ir-select-h .ir-floating-group.has-floating.sc-ir-select .ir-floating-input.sc-ir-select{padding-top:0.9rem}.sc-ir-select-h .ir-floating-group.has-error.sc-ir-select .ir-floating-label.sc-ir-select,.sc-ir-select-h .has-error.sc-ir-select .ir-floating-group.sc-ir-select .ir-floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-group.has-error.sc-ir-select .floating-label.sc-ir-select,.sc-ir-select-h .has-error.sc-ir-select .ir-floating-group.sc-ir-select .floating-label.sc-ir-select{color:var(--ir-danger)}.sc-ir-select-h .ir-floating-group.is-disabled.sc-ir-select .ir-floating-label.sc-ir-select,.sc-ir-select-h .ir-floating-group.is-disabled.sc-ir-select .floating-label.sc-ir-select{color:var(--ir-disabled-fg)}@supports (-webkit-touch-callout: none){.sc-ir-select-h .ir-floating-input.sc-ir-select{border-radius:var(--ir-floating-input-border-radius)}}";
 const IrSelectStyle0 = irSelectCss;
 
 const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLElement {
@@ -9,20 +9,12 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         super();
         this.__registerHost();
         this.selectChange = createEvent(this, "selectChange", 7);
-        // Text shown in the label
-        this.label = '<label>';
         // Selected value of the select
         this.selectedValue = null;
-        // Whether to render the label
-        this.LabelAvailable = true;
         // Placeholder text for the first option
         this.firstOption = 'Select';
-        // Enable/disable default form styling
-        this.selectStyle = true;
         // Whether to show the first placeholder option
         this.showFirstOption = true;
-        // Set to true when the form is submitted
-        this.submited = false;
         // Size of the select: 'sm' | 'md' | 'lg'
         this.size = 'md';
         // Size of the text: 'sm' | 'md' | 'lg'
@@ -38,13 +30,15 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         // Width of the label (Bootstrap cols)
         this.labelWidth = 3;
         // Unique ID for the select element
-        this.select_id = v4();
+        this.selectId = v4();
         // Whether the select has an error state
         this.error = false;
         // Tracks if the field has been touched
         this.initial = true;
         // Tracks if the field is valid
         this.valid = false;
+        /** Internal: id used by aria-labelledby for the floating label. */
+        this.labelId = `ir-select-label-${v4()}`;
         this.count = 0;
     }
     watchHandler(newValue) {
@@ -52,13 +46,8 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
             this.valid = true;
         }
     }
-    watchHandler2(newValue) {
-        if (newValue && this.required) {
-            this.initial = false;
-        }
-    }
     handleButtonAnimation(e) {
-        if (!this.selectEl || e.detail !== this.select_id) {
+        if (!this.selectEl || e.detail !== this.selectId) {
             return;
         }
         e.stopImmediatePropagation();
@@ -81,24 +70,23 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         }
     }
     render() {
-        let className = 'form-control';
-        let label = (h("div", { key: '08cccad01b896c272731da05361a29f85d59f77f', class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { key: 'b3382995761dc6ecabf3384bfbbb7af5277c617b', htmlFor: this.select_id, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')));
-        if (this.selectStyle === false) {
-            className = '';
+        let className = ['form-control'];
+        if (this.floatingLabel) {
+            className.push('floating-select');
+        }
+        else {
+            className.push(`col-${this.label ? 12 - this.labelWidth : 12}`);
         }
         if (this.required && !this.valid && !this.initial) {
-            className = `${className} border-danger`;
+            className.push('border-danger');
         }
-        if (!this.LabelAvailable) {
-            label = '';
-        }
-        return (h("div", { key: '0f9b7840a096fab07eeeef33750c196a1bb3f264', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'eaa2228f2cf836c4a0c4aef36750b8261fffc89d', class: "input-group row m-0" }, label, h("select", { key: '78cdf9f4a1404a916241f66acf17e406887066d8', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.select_id, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className} form-control-${this.size} text-${this.textSize} col-${this.LabelAvailable ? 12 - this.labelWidth : 12}`, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '2cc3f239024d90202f4a1d8217c8b847c64ce9a2', value: '' }, this.firstOption), this.data.map(item => {
+        let label = this.label ? (this.floatingLabel ? (h("label", { id: this.labelId, class: `floating-label active`, htmlFor: this.selectId }, this.label, this.required ? '*' : '')) : (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.selectId, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')))) : null;
+        return (h("div", { key: 'b34f90ba80d6aa2f6f6e6982193ebf66f0c6ae76', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '0088d044be458a5939b848bcb9ce104cb59add03', class: "input-group row m-0" }, label, h("select", { key: 'ff91e917d440e790ca40199dfe4bdf6065bb70b9', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '256a6f980231d805fc7f8b88bc487ff556389463', value: '' }, this.firstOption), this.data.map(item => {
             return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
         })))));
     }
     static get watchers() { return {
-        "selectedValue": ["watchHandler"],
-        "submited": ["watchHandler2"]
+        "selectedValue": ["watchHandler"]
     }; }
     static get style() { return IrSelectStyle0; }
 }, [2, "ir-select", {
@@ -110,11 +98,8 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         "selectContainerStyle": [1, "select-container-style"],
         "selectedValue": [1032, "selected-value"],
         "required": [4],
-        "LabelAvailable": [4, "label-available"],
         "firstOption": [1, "first-option"],
-        "selectStyle": [4, "select-style"],
         "showFirstOption": [4, "show-first-option"],
-        "submited": [4],
         "size": [1],
         "textSize": [1, "text-size"],
         "labelPosition": [1, "label-position"],
@@ -122,15 +107,15 @@ const IrSelect = /*@__PURE__*/ proxyCustomElement(class IrSelect extends HTMLEle
         "labelColor": [1, "label-color"],
         "labelBorder": [1, "label-border"],
         "labelWidth": [2, "label-width"],
-        "select_id": [1],
+        "selectId": [1, "select-id"],
         "testId": [1, "test-id"],
         "disabled": [4],
         "error": [1028],
+        "floatingLabel": [516, "floating-label"],
         "initial": [32],
         "valid": [32]
     }, [[16, "animateIrSelect", "handleButtonAnimation"]], {
-        "selectedValue": ["watchHandler"],
-        "submited": ["watchHandler2"]
+        "selectedValue": ["watchHandler"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

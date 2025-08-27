@@ -1,13 +1,13 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
-import { I as findCountry, J as canCheckIn, D as compareTime, E as createDateWithOffsetAndHour, f as formatAmount } from './utils-84f9df07.js';
-import { E as EventsService } from './events.service-4d1e513f.js';
+import { M as findCountry, N as canCheckIn, H as compareTime, I as createDateWithOffsetAndHour, f as formatAmount } from './utils-6775b2fb.js';
+import { E as EventsService } from './events.service-bdc9e685.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import './index-6ecc32cd.js';
 import './axios-aa1335b8.js';
 import './index-c4cf83be.js';
-import './booking.service-40ff259c.js';
+import './booking.service-10c56ebe.js';
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:#ff4961;font-size:0.75rem}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.pointerContainerTop.sc-igl-booking-event-hover{top:-26px}.pointerContainer.sc-igl-booking-event-hover{position:absolute;height:10px;width:350px;left:var(--el-left, 50%);transform:translateX(-50%)}.ota-notes.sc-igl-booking-event-hover{width:450px}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:#fff;padding:10px;border:1px solid #656ee7;border-radius:6px;left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2)}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:0;height:0;left:50%;border-left:10px solid transparent;border-right:10px solid transparent;transform:translate(-50%, 0px)}.bubblePointTop.sc-igl-booking-event-hover{border-top:10px solid #656ee7}.bubblePointBottom.sc-igl-booking-event-hover{border-bottom:10px solid #656ee7}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:1.5rem;width:1.5rem;margin-right:5px}";
 const IglBookingEventHoverStyle0 = iglBookingEventHoverCss;
@@ -94,7 +94,21 @@ const IglBookingEventHover = class {
         return this.bookingEvent.ARRIVAL_TIME;
     }
     getRatePlan() {
-        return this.bookingEvent.RATE_PLAN;
+        var _a, _b, _c;
+        if (!this.bookingEvent) {
+            return;
+        }
+        const currentRoom = (_c = (_b = (_a = this.bookingEvent) === null || _a === void 0 ? void 0 : _a.booking) === null || _b === void 0 ? void 0 : _b.rooms) === null || _c === void 0 ? void 0 : _c.find(room => room.assigned_units_pool === this.bookingEvent.ID);
+        if (!currentRoom) {
+            console.warn(`Couldn't find room with pool ${this.bookingEvent.ID}`);
+            return null;
+        }
+        let str = '';
+        str += currentRoom.rateplan['short_name'];
+        if (currentRoom.rateplan['is_non_refundable']) {
+            str += ` - ${locales.entries.Lcz_NonRefundable}`;
+        }
+        return str;
     }
     getEntryDate() {
         return this.bookingEvent.ENTRY_DATE;
@@ -414,7 +428,7 @@ const IglBookingEventHover = class {
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'f23f255d4b0ada1a5a1fdf04ba81d82c433b37ca' }, h("div", { key: '9fe5368405d22279e1ae39492178af5c5c31588c', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cfe1adfcb9f6e796eaf4f2853bec6205baf5aa60', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '71a3d2f8acaeca1e72096858f8993fce8fe594df' }, h("div", { key: 'ee2926fcf097b29de15739565af99cc7e355123d', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '0cfe5ab88e99881959815276ba9afa23e5b5df6c', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return getElement(this); }
     static get watchers() { return {

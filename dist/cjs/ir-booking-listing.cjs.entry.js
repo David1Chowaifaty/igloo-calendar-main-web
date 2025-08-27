@@ -246,7 +246,7 @@ const IrBookingListing = class {
             }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
                 this.currentPage = this.currentPage - 1;
                 await this.updateData();
-            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-select", { selectedValue: this.currentPage.toString(), LabelAvailable: false, showFirstOption: false, onSelectChange: async (e) => {
+            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-select", { selectedValue: this.currentPage.toString(), showFirstOption: false, onSelectChange: async (e) => {
                 this.currentPage = +e.detail;
                 await this.updateData();
             }, data: Array.from(Array(this.totalPages), (_, i) => i + 1).map(i => ({

@@ -47,6 +47,7 @@ export declare class IrBookingDetails {
         loading: boolean;
     };
     departureTime: IEntries[];
+    paymentTypes: IEntries[];
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;

@@ -148,7 +148,21 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return this.bookingEvent.ARRIVAL_TIME;
     }
     getRatePlan() {
-        return this.bookingEvent.RATE_PLAN;
+        var _a, _b, _c;
+        if (!this.bookingEvent) {
+            return;
+        }
+        const currentRoom = (_c = (_b = (_a = this.bookingEvent) === null || _a === void 0 ? void 0 : _a.booking) === null || _b === void 0 ? void 0 : _b.rooms) === null || _c === void 0 ? void 0 : _c.find(room => room.assigned_units_pool === this.bookingEvent.ID);
+        if (!currentRoom) {
+            console.warn(`Couldn't find room with pool ${this.bookingEvent.ID}`);
+            return null;
+        }
+        let str = '';
+        str += currentRoom.rateplan['short_name'];
+        if (currentRoom.rateplan['is_non_refundable']) {
+            str += ` - ${locales.entries.Lcz_NonRefundable}`;
+        }
+        return str;
     }
     getEntryDate() {
         return this.bookingEvent.ENTRY_DATE;
@@ -468,7 +482,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
             }, text: locales.entries.Lcz_Delete })))));
     }
     render() {
-        return (h(Host, { key: 'f23f255d4b0ada1a5a1fdf04ba81d82c433b37ca' }, h("div", { key: '9fe5368405d22279e1ae39492178af5c5c31588c', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: 'cfe1adfcb9f6e796eaf4f2853bec6205baf5aa60', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '71a3d2f8acaeca1e72096858f8993fce8fe594df' }, h("div", { key: 'ee2926fcf097b29de15739565af99cc7e355123d', class: `pointerContainer ${this.bubbleInfoTop ? 'pointerContainerTop' : ''}` }, h("div", { key: '0cfe5ab88e99881959815276ba9afa23e5b5df6c', class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` })), this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     get element() { return this; }
     static get watchers() { return {

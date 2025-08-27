@@ -66,6 +66,7 @@ export declare class IglBookProperty {
     private MAX_HISTORY_LENGTH;
     private didReservation;
     private wasBlockedUnit;
+    private _sourceOptions;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     disconnectedCallback(): void;
@@ -96,6 +97,7 @@ export declare class IglBookProperty {
     private isGuestDataIncomplete;
     private isButtonDisabled;
     private setSourceOptions;
+    private getFilteredSourceOptions;
     private setOtherProperties;
     private checkBookingAvailability;
     private updateBooking;

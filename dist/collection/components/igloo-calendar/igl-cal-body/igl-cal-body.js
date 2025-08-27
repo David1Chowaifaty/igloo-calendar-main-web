@@ -301,7 +301,7 @@ export class IglCalBody {
             const isSelected = this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo));
             const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
             const cleaningDates = calendar_dates.cleaningTasks.has(+roomId) ? calendar_dates.cleaningTasks.get(+roomId) : null;
-            const shouldBeCleaned = ((_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code) === '001' ? false : cleaningDates === null || cleaningDates === void 0 ? void 0 : cleaningDates.has(dayInfo.value);
+            const shouldBeCleaned = ['001', '003'].includes((_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code) ? false : cleaningDates === null || cleaningDates === void 0 ? void 0 : cleaningDates.has(dayInfo.value);
             return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''}`, style: !isDisabled && { '--cell-cursor': 'default' }, onClick: () => {
                     if (isDisabled) {
                         return;
@@ -404,10 +404,10 @@ export class IglCalBody {
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '4e07f4dc7632fa977bc5e8e247a1397372f53ba8' }, h("div", { key: '1d7e527d2b5f7b2732fcca5c85ed96f4cd774d53', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '9e3a777dc15d4b4e8069ab52d520847fd62b5c30', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (h(Host, { key: '2b4b9938e2c02e385a82f9ae6f852da5a52b51ba' }, h("div", { key: '8aef92cd74745bcac839593f403067816888dfb7', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1c235ad8b1a4c2c53a2c6333e400f7be9b13ee35', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '582256f4df7de003144fe6193dcdd3cf7d7fe9d0', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => { var _a; return this.confirmHousekeepingUpdate(e, ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002'); }, autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: '9d4f9a8fe82ecdaea09d035cebf8952340a25998', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => { var _a; return this.confirmHousekeepingUpdate(e, ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002'); }, autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -422,7 +422,6 @@ export class IglCalBody {
         return (h("p", null, "Update unit ", (_a = this.selectedRoom) === null || _a === void 0 ? void 0 :
             _a.name, " to ...")
         // <ir-select
-        //   LabelAvailable={false}
         //   showFirstOption={false}
         //   selectedValue={this.selectedRoom?.hk_status === '001' ? '001' : '002'}
         //   data={[

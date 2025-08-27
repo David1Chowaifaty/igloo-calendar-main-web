@@ -6,43 +6,51 @@ import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { M as downloadFile } from './utils.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$T } from './igl-application-info2.js';
-import { d as defineCustomElement$S } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$R } from './igl-book-property2.js';
-import { d as defineCustomElement$Q } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$P } from './igl-book-property-header2.js';
-import { d as defineCustomElement$O } from './igl-booking-form2.js';
-import { d as defineCustomElement$N } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$M } from './igl-date-range2.js';
-import { d as defineCustomElement$L } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$K } from './igl-rate-plan2.js';
-import { d as defineCustomElement$J } from './igl-room-type2.js';
-import { d as defineCustomElement$I } from './ir-autocomplete2.js';
-import { d as defineCustomElement$H } from './ir-booking-details2.js';
-import { d as defineCustomElement$G } from './ir-booking-extra-note2.js';
-import { d as defineCustomElement$F } from './ir-booking-header2.js';
-import { d as defineCustomElement$E } from './ir-button2.js';
-import { d as defineCustomElement$D } from './ir-combobox2.js';
-import { d as defineCustomElement$C } from './ir-country-picker2.js';
-import { d as defineCustomElement$B } from './ir-date-picker2.js';
-import { d as defineCustomElement$A } from './ir-date-range2.js';
-import { d as defineCustomElement$z } from './ir-date-view2.js';
-import { d as defineCustomElement$y } from './ir-dialog2.js';
-import { d as defineCustomElement$x } from './ir-events-log2.js';
-import { d as defineCustomElement$w } from './ir-extra-service2.js';
-import { d as defineCustomElement$v } from './ir-extra-service-config2.js';
-import { d as defineCustomElement$u } from './ir-extra-services2.js';
-import { d as defineCustomElement$t } from './ir-guest-info2.js';
-import { d as defineCustomElement$s } from './ir-icon2.js';
-import { d as defineCustomElement$r } from './ir-icons2.js';
-import { d as defineCustomElement$q } from './ir-input-text2.js';
-import { d as defineCustomElement$p } from './ir-interceptor2.js';
-import { d as defineCustomElement$o } from './ir-label2.js';
-import { d as defineCustomElement$n } from './ir-modal2.js';
-import { d as defineCustomElement$m } from './ir-otp2.js';
-import { d as defineCustomElement$l } from './ir-otp-modal2.js';
-import { d as defineCustomElement$k } from './ir-payment-actions2.js';
-import { d as defineCustomElement$j } from './ir-payment-details2.js';
+import { d as defineCustomElement$$ } from './igl-application-info2.js';
+import { d as defineCustomElement$_ } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$Z } from './igl-book-property2.js';
+import { d as defineCustomElement$Y } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$X } from './igl-book-property-header2.js';
+import { d as defineCustomElement$W } from './igl-booking-form2.js';
+import { d as defineCustomElement$V } from './igl-booking-overview-page2.js';
+import { d as defineCustomElement$U } from './igl-date-range2.js';
+import { d as defineCustomElement$T } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$S } from './igl-rate-plan2.js';
+import { d as defineCustomElement$R } from './igl-room-type2.js';
+import { d as defineCustomElement$Q } from './ir-autocomplete2.js';
+import { d as defineCustomElement$P } from './ir-booking-details2.js';
+import { d as defineCustomElement$O } from './ir-booking-extra-note2.js';
+import { d as defineCustomElement$N } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$M } from './ir-booking-header2.js';
+import { d as defineCustomElement$L } from './ir-button2.js';
+import { d as defineCustomElement$K } from './ir-combobox2.js';
+import { d as defineCustomElement$J } from './ir-country-picker2.js';
+import { d as defineCustomElement$I } from './ir-date-picker2.js';
+import { d as defineCustomElement$H } from './ir-date-range2.js';
+import { d as defineCustomElement$G } from './ir-date-view2.js';
+import { d as defineCustomElement$F } from './ir-dialog2.js';
+import { d as defineCustomElement$E } from './ir-dropdown2.js';
+import { d as defineCustomElement$D } from './ir-dropdown-item2.js';
+import { d as defineCustomElement$C } from './ir-events-log2.js';
+import { d as defineCustomElement$B } from './ir-extra-service2.js';
+import { d as defineCustomElement$A } from './ir-extra-service-config2.js';
+import { d as defineCustomElement$z } from './ir-extra-services2.js';
+import { d as defineCustomElement$y } from './ir-guest-info2.js';
+import { d as defineCustomElement$x } from './ir-icon2.js';
+import { d as defineCustomElement$w } from './ir-icons2.js';
+import { d as defineCustomElement$v } from './ir-input-text2.js';
+import { d as defineCustomElement$u } from './ir-interceptor2.js';
+import { d as defineCustomElement$t } from './ir-label2.js';
+import { d as defineCustomElement$s } from './ir-modal2.js';
+import { d as defineCustomElement$r } from './ir-otp2.js';
+import { d as defineCustomElement$q } from './ir-otp-modal2.js';
+import { d as defineCustomElement$p } from './ir-payment-action2.js';
+import { d as defineCustomElement$o } from './ir-payment-actions2.js';
+import { d as defineCustomElement$n } from './ir-payment-details2.js';
+import { d as defineCustomElement$m } from './ir-payment-folio2.js';
+import { d as defineCustomElement$l } from './ir-payment-item2.js';
+import { d as defineCustomElement$k } from './ir-payment-summary2.js';
+import { d as defineCustomElement$j } from './ir-payments-folio2.js';
 import { d as defineCustomElement$i } from './ir-phone-input2.js';
 import { d as defineCustomElement$h } from './ir-pickup2.js';
 import { d as defineCustomElement$g } from './ir-pickup-view2.js';
@@ -151,7 +159,7 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
-        return (h(Host, { key: 'efe9fe8ce47f744143e3afe2fc36d6bdf925f866' }, h("ir-title", { key: 'd04e181a819a5baff0f25aa7cd195f53c43fe70b', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: 'bd6e4b41a1e835f039ccc0b232407344a03780a2', class: "px-1" }, h("div", { key: 'f8dd7ff22ea8a11d623d55498a81601f5cf2c07c', class: "d-flex" }, h("ir-select", { key: 'ab5f6ed7ab830e76ef7e4612a609787f8e1cce9f', class: "w-100", showFirstOption: false, LabelAvailable: false, data: [
+        return (h(Host, { key: 'cbfd37b7b74c342ab7ae228d198e41479f7923cd' }, h("ir-title", { key: '954e891fbf15eafb824cf04b6ee0bfb50a1356c5', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '96b2374da38b3d96220ab70d73476fbbc2dbd1c0', class: "px-1" }, h("div", { key: 'abfe97def8ed4d13bc2360a623f5450ab4dbb776', class: "d-flex" }, h("ir-select", { key: '51367d905b794df118b589295a9b9b67b0896a30', class: "w-100", showFirstOption: false, data: [
                 { text: 'All units', value: '000' },
                 ,
                 ...(_a = this.units) === null || _a === void 0 ? void 0 : _a.map(v => ({
@@ -167,7 +175,7 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), ((_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.housekeepers.length) > 1 && (h("ir-select", { key: 'aabdffb646684ab147fc634fc5451b489585f231', class: "ml-1 w-100", selectedValue: ((_d = (_c = this.filters) === null || _c === void 0 ? void 0 : _c.filtered_by_hkm) === null || _d === void 0 ? void 0 : _d.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_f = (_e = this.filters) === null || _e === void 0 ? void 0 : _e.filtered_by_hkm[0]) === null || _f === void 0 ? void 0 : _f.toString(), LabelAvailable: false, showFirstOption: false, data: [
+            } }), ((_b = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.housekeepers.length) > 1 && (h("ir-select", { key: 'c1c5a4ba7e647a01dea84555305132194a968abd', class: "ml-1 w-100", selectedValue: ((_d = (_c = this.filters) === null || _c === void 0 ? void 0 : _c.filtered_by_hkm) === null || _d === void 0 ? void 0 : _d.length) === housekeeping_store.hk_criteria.housekeepers.length ? '000' : (_f = (_e = this.filters) === null || _e === void 0 ? void 0 : _e.filtered_by_hkm[0]) === null || _f === void 0 ? void 0 : _f.toString(), showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
                 ...(_g = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _g === void 0 ? void 0 : _g.housekeepers.map(v => ({
                     text: v.name,
@@ -180,7 +188,7 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), h("div", { key: 'ba6de6798a132756c33fd0d5789aa3d5e1c2411f', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: 'd1ae54e2375bd04da967664098f4eb6055d6c5c4', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'aedf669bbc13de656c1c8ab8e75acc30c09e0650', title: (_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '4f67a7e9caff6c6a10c4cc7ddc553bcdbbf0b95f', title: (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: 'b8da9b3e36030572a0e67f6e18d89e43ba6d002f' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "pl-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (h("tr", { key: d.id }, h("td", { class: "pl-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), h("div", { key: 'a869f20f74f4cae3a9526e447cfe070ca37b6175', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: 'b4500ebb33e887267acbf384473baf9b993abd9f', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: '81293d784e1973f3cb00fe15616960e654bf6bb3', title: (_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '7e91c36215b3513416536b34694426d0c6fddd25', title: (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: 'd03ae4be71c2d608bba4c0a420c4bfc769e3f540' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "pl-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (h("tr", { key: d.id }, h("td", { class: "pl-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -189,10 +197,10 @@ const IrHkArchive = /*@__PURE__*/ proxyCustomElement(class IrHkArchive extends H
             }, text: d.booking_nbr.toString(), onClick: () => {
                 this.selectedBooking = d.booking_nbr;
                 // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: '6488b67405e158341621a60317163c9229074c27', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: '2e569e4655d86b7375931b8b9fe57938ab804205', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
                 width: '80rem',
                 background: '#F2F3F8',
-            } }, this.selectedBooking && (h("ir-booking-details", { key: '3336413588db462474200116eee4927b1b49f680', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: (_m = this.selectedBooking) === null || _m === void 0 ? void 0 : _m.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
+            } }, this.selectedBooking && (h("ir-booking-details", { key: 'ff5b5d7de78d545326212a337f70ced6e5d0dc28', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: (_m = this.selectedBooking) === null || _m === void 0 ? void 0 : _m.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
     static get style() { return IrHkArchiveStyle0; }
 }, [2, "ir-hk-archive", {
@@ -209,7 +217,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-archive", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-autocomplete", "ir-booking-details", "ir-booking-extra-note", "ir-booking-header", "ir-button", "ir-combobox", "ir-country-picker", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-dialog", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-services", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-modal", "ir-otp", "ir-otp-modal", "ir-payment-actions", "ir-payment-details", "ir-phone-input", "ir-pickup", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-price-input", "ir-range-picker", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-select", "ir-sidebar", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
+    const components = ["ir-hk-archive", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-autocomplete", "ir-booking-details", "ir-booking-extra-note", "ir-booking-guarantee", "ir-booking-header", "ir-button", "ir-combobox", "ir-country-picker", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-dialog", "ir-dropdown", "ir-dropdown-item", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-services", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-modal", "ir-otp", "ir-otp-modal", "ir-payment-action", "ir-payment-actions", "ir-payment-details", "ir-payment-folio", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-phone-input", "ir-pickup", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-price-input", "ir-range-picker", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-select", "ir-sidebar", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-archive":
             if (!customElements.get(tagName)) {
@@ -218,185 +226,225 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$T();
+                defineCustomElement$$();
             }
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$S();
+                defineCustomElement$_();
             }
             break;
         case "igl-book-property":
             if (!customElements.get(tagName)) {
-                defineCustomElement$R();
+                defineCustomElement$Z();
             }
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Q();
+                defineCustomElement$Y();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$P();
+                defineCustomElement$X();
             }
             break;
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$O();
+                defineCustomElement$W();
             }
             break;
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$N();
+                defineCustomElement$V();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$M();
+                defineCustomElement$U();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$L();
+                defineCustomElement$T();
             }
             break;
         case "igl-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$K();
+                defineCustomElement$S();
             }
             break;
         case "igl-room-type":
             if (!customElements.get(tagName)) {
-                defineCustomElement$J();
+                defineCustomElement$R();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$Q();
             }
             break;
         case "ir-booking-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$P();
             }
             break;
         case "ir-booking-extra-note":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$O();
+            }
+            break;
+        case "ir-booking-guarantee":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$N();
             }
             break;
         case "ir-booking-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
+                defineCustomElement$M();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$L();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$K();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$J();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$I();
             }
             break;
         case "ir-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$H();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$G();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$F();
+            }
+            break;
+        case "ir-dropdown":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$E();
+            }
+            break;
+        case "ir-dropdown-item":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$D();
             }
             break;
         case "ir-events-log":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$C();
             }
             break;
         case "ir-extra-service":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$B();
             }
             break;
         case "ir-extra-service-config":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$A();
             }
             break;
         case "ir-extra-services":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$z();
             }
             break;
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$y();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$x();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$w();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$v();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$u();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$t();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$s();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$r();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$q();
+            }
+            break;
+        case "ir-payment-action":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$p();
             }
             break;
         case "ir-payment-actions":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$o();
             }
             break;
         case "ir-payment-details":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$n();
+            }
+            break;
+        case "ir-payment-folio":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$m();
+            }
+            break;
+        case "ir-payment-item":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$l();
+            }
+            break;
+        case "ir-payment-summary":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$k();
+            }
+            break;
+        case "ir-payments-folio":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }

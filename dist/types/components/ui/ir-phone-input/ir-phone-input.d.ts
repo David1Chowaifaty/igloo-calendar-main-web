@@ -48,6 +48,24 @@ export declare class IrPhoneInput {
      */
     testId: string;
     /**
+     * Floating label text that appears inside the input and “floats” above
+     * when the field is focused or has a value.
+     *
+     * - If provided, a floating label will be rendered inside the input container.
+     * - If you omit this prop but set `label`, the old left-side static label is used.
+     * - If you provide both `label` and `floatingLabel`, only the floating label is shown.
+     *
+     * Accessibility:
+     * - The floating label is tied to the input via `aria-labelledby`.
+     * - You can still set `placeholder`; the label will not be replaced by it.
+     *
+     * Examples:
+     * ```tsx
+     * <ir-phone-input floating-label label="Phone" />
+     * ```
+     */
+    floatingLabel: boolean;
+    /**
      * Emits when the user changes the phone number.
      * Emits `{ phone_prefix, mobile }` object.
      *
@@ -72,7 +90,12 @@ export declare class IrPhoneInput {
      * Currently selected country (based on prefix or ID).
      */
     currentCountry: ICountry;
+    /** Internal: input focus state for floating label. */
+    hasFocus: boolean;
     private bookingService;
+    /** Internal: ids for label/input pairing (a11y). */
+    private inputId;
+    private labelId;
     componentWillLoad(): Promise<void>;
     handleValueChange(newValue: any, oldValue: any): void;
     handlePhoneChange(newValue: any, oldValue: any): void;

@@ -152,7 +152,7 @@ export class IrTextEditor {
         }
     }
     render() {
-        return (h("div", { key: '4a55fbf5b16618f16f52614fc0f002eb43f0458e', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '58d6e5cd4b7aa15a44c23ee264a2f9aa980f32e5', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: '76907003e437118e81556158bd7fda6ba2fe2f58', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '0c21c958c4b5bf0de07a4623cc4a5d4579ba3941', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {
