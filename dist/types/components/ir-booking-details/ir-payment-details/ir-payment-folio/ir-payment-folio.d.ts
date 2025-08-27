@@ -17,5 +17,6 @@ export declare class IrPaymentFolio {
     handlePaymentChange(newValue: IPayment, oldValue: IPayment): void;
     private updateFolioData;
     private savePayment;
+    private handleDropdownChange;
     render(): any;
 }
