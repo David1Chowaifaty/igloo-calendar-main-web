@@ -6197,7 +6197,7 @@ const IrDropdown = class {
         this.removeItemFocus();
         if (index >= 0 && index < this.itemChildren.length) {
             const element = this.itemChildren[index];
-            element.classList.add('focused', 'active');
+            element.classList.add('focused');
             element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
     }
@@ -6226,14 +6226,14 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (index.h(index.Host, { key: '121387184000c1b80418fce48c1a6b93eb08e9a5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: 'f8c1ecda08b868c161a25bd4b22b9a701519a584', onClick: () => {
+        return (index.h(index.Host, { key: '1a33b040ad6134a70040e10c7b05ab94d304607d', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '0ced1d6c34523c365fe798303b75942a574cfe52', onClick: () => {
                 if (this.isOpen) {
                     this.closeDropdown();
                 }
                 else {
                     this.openDropdown();
                 }
-            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '59919ec6ca9b82423220dc1270532dcdadd6795d', name: "trigger" }), index.h("div", { key: '060356bf5232e4c3ce1a25aa55980d1d7854feee', class: "caret-icon" }, index.h("ir-icons", { key: 'd0ecf6c59cde376b12a450426594325396927663', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: '8e0f8f41af7ac763e6eda07ea389d4e953ae1391', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '0cfc8c9d73f386bf53084dcb41edd0230297acaa' }))));
+            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '20cf8533b916d8681f4c4af811f4015c9fe086e0', name: "trigger" }), index.h("div", { key: 'e5a1523f72bc1ef04988767af797aa29c8f5a3b2', class: "caret-icon" }, index.h("ir-icons", { key: 'eb6b61ebf4f74bb5dd116f6781ddf9aa2a80c680', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: '3565626baba126c3d7c557e7b5ecc8aa39e9b112', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '1837c4c9afc827ca9b962729912a769631e4e812' }))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -6242,7 +6242,7 @@ const IrDropdown = class {
 };
 IrDropdown.style = IrDropdownStyle0;
 
-const irDropdownItemCss = ".sc-ir-dropdown-item-h{display:block;cursor:pointer}[hidden].sc-ir-dropdown-item-h{display:none !important}.active.sc-ir-dropdown-item-h,.focused.sc-ir-dropdown-item-h,[aria-selected='true'].sc-ir-dropdown-item-h,.sc-ir-dropdown-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-dropdown-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
+const irDropdownItemCss = ".sc-ir-dropdown-item-h{display:block;cursor:pointer}[hidden].sc-ir-dropdown-item-h{display:none !important}.focused.sc-ir-dropdown-item-h{background:#f4f5fa !important}.active.sc-ir-dropdown-item-h,[aria-selected='true'].sc-ir-dropdown-item-h,.sc-ir-dropdown-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-dropdown-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
 const IrDropdownItemStyle0 = irDropdownItemCss;
 
 const IrDropdownItem = class {
