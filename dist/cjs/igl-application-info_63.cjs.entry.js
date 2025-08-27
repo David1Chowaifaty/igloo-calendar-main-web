@@ -6055,7 +6055,12 @@ const IrDropdown = class {
                     }
                     break;
                 case 'Escape':
+                    if (!this.isOpen) {
+                        return;
+                    }
                     event.preventDefault();
+                    event.stopImmediatePropagation();
+                    event.stopPropagation();
                     this.closeDropdown();
                     break;
                 case 'Tab':
@@ -6203,12 +6208,12 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (index.h(index.Host, { key: '6c35b16f6d5314a05b196e190869ce95665c590a', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '97807dbc37fd98cc42b1f24c5d4d3acadbf02b2d', onClick: () => {
+        return (index.h(index.Host, { key: '7b78cff4e2f1b615940551c398e366e20cb39acd', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '46d4fc46d735e7541e4b0426a334cbcb9abd911c', onClick: () => {
                 this.isOpen = !this.isOpen;
                 if (this.isOpen) {
                     this.updateItemElements();
                 }
-            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: 'a079f0ab0a07175d88649d297229af8cc7a2b436', name: "trigger" }), index.h("div", { key: '7e5114844c851b390b0c725146e8a9da678e8356', class: "caret-icon" }, index.h("ir-icons", { key: '5f438886e6c8cf639421af4985e449d61e9df02f', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: '3d2986a71639d4cb292422b06be31b74049481b2', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: 'a3d1d0a6a0659976183e9d5b4122a231893dcd5d' }))));
+            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: 'fc9532c7ca485d1e282d5bc9eb43bd6e05e0dbf3', name: "trigger" }), index.h("div", { key: '134c7bf99406548d959216076c88b2612a3e7690', class: "caret-icon" }, index.h("ir-icons", { key: 'e89959dab1c32620f1fd6d22da3e323226e551f0', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: 'c12aa40f5b3fbb322011b01dbaa3736294683585', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '3d1aa5140b86d405c6ef8ff5de21f7222c527002' }))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
