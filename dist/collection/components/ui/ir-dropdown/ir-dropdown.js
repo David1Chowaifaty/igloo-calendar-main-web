@@ -3,41 +3,74 @@ export class IrDropdown {
     constructor() {
         this.isOpen = false;
         this.focusedIndex = -1;
-        this.slotElements = [];
         this.itemChildren = [];
         this.mo = null;
+        this.isComponentConnected = true;
+        this.updateQueued = false;
         this.handleDocumentClick = (event) => {
-            if (!this.el.contains(event.target)) {
+            if (!this.isComponentConnected || !this.el.contains(event.target)) {
                 this.closeDropdown();
             }
         };
         this.handleKeyDown = (event) => {
-            const maxIndex = this.slotElements.length - 1;
+            if (!this.isComponentConnected)
+                return;
+            const maxIndex = this.itemChildren.length - 1;
             switch (event.key) {
                 case 'ArrowDown':
                     event.preventDefault();
                     if (!this.isOpen) {
                         this.openDropdown();
+                        // After opening, if we have a selection, start from next item
+                        if (this.focusedIndex >= 0 && this.focusedIndex < maxIndex) {
+                            this.focusedIndex++;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === -1) {
+                            // No selection, start from first item
+                            this.focusedIndex = 0;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === maxIndex) {
+                            // At last item, wrap to first
+                            this.focusedIndex = 0;
+                            this.focusItemElement(this.focusedIndex);
+                        }
                     }
-                    else {
-                        this.focusedIndex = Math.min(this.focusedIndex + 1, maxIndex);
-                        this.focusSlotElement(this.focusedIndex);
+                    else if (maxIndex >= 0) {
+                        this.focusedIndex = this.focusedIndex < maxIndex ? this.focusedIndex + 1 : 0;
+                        this.focusItemElement(this.focusedIndex);
                     }
                     break;
                 case 'ArrowUp':
                     event.preventDefault();
-                    if (this.isOpen) {
-                        this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
-                        this.focusSlotElement(this.focusedIndex);
-                    }
-                    else {
+                    if (!this.isOpen) {
                         this.openDropdown();
+                        // After opening, if we have a selection, start from previous item
+                        if (this.focusedIndex > 0) {
+                            this.focusedIndex--;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === -1) {
+                            // No selection, start from last item
+                            this.focusedIndex = maxIndex;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === 0) {
+                            // At first item, wrap to last
+                            this.focusedIndex = maxIndex;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                    }
+                    else if (maxIndex >= 0) {
+                        this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : maxIndex;
+                        this.focusItemElement(this.focusedIndex);
                     }
                     break;
                 case 'Enter':
                     event.preventDefault();
                     if (this.isOpen && this.focusedIndex >= 0) {
-                        this.selectSlotElement(this.focusedIndex);
+                        this.selectItemElement(this.focusedIndex);
                     }
                     else if (!this.isOpen) {
                         this.openDropdown();
@@ -56,104 +89,132 @@ export class IrDropdown {
         };
     }
     componentWillLoad() {
-        this.collectItemChildren();
         this.selectedOption = this.value;
-        // watch DOM changes to children
-        this.mo = new MutationObserver(() => this.collectItemChildren());
+        this.documentClickHandler = this.handleDocumentClick.bind(this);
+        this.collectItemChildren();
+        // Optimized mutation observer with debouncing
+        this.mo = new MutationObserver(() => {
+            if (!this.updateQueued) {
+                this.updateQueued = true;
+                requestAnimationFrame(() => {
+                    if (this.isComponentConnected) {
+                        this.collectItemChildren();
+                        this.updateQueued = false;
+                    }
+                });
+            }
+        });
         this.mo.observe(this.el, { childList: true, subtree: true });
     }
     componentDidLoad() {
-        document.addEventListener('click', this.handleDocumentClick.bind(this));
-        setTimeout(() => this.updateSlotElements(), 0);
-        if (this.value) {
-            setTimeout(() => this.updateDropdownItemValue(this.value), 100);
-        }
+        document.addEventListener('click', this.documentClickHandler, { passive: true });
+        // Single RAF call instead of multiple setTimeouts
+        requestAnimationFrame(() => {
+            if (this.isComponentConnected) {
+                this.updateItemElements();
+                if (this.value) {
+                    this.updateDropdownItemValue(this.value);
+                }
+            }
+        });
     }
     disconnectedCallback() {
         var _a;
-        document.removeEventListener('click', this.handleDocumentClick.bind(this));
+        this.isComponentConnected = false;
+        document.removeEventListener('click', this.documentClickHandler);
         (_a = this.mo) === null || _a === void 0 ? void 0 : _a.disconnect();
+        this.mo = null;
     }
     handleDocumentKeyDown(event) {
-        if (!this.isOpen)
+        if (!this.isOpen || !this.isComponentConnected)
             return;
         if (event.key === 'Escape') {
             this.closeDropdown();
         }
     }
     handleDropdownItemSelect(ev) {
+        if (!this.isComponentConnected)
+            return;
         ev.stopPropagation();
         this.selectOption(ev.detail);
         ev.target.setAttribute('aria-selected', 'true');
     }
     handleDropdownItemRegister() {
+        if (!this.isComponentConnected)
+            return;
         this.collectItemChildren();
     }
     handleDropdownItemUnregister() {
+        if (!this.isComponentConnected)
+            return;
         this.collectItemChildren();
     }
     handleValueChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
+        if (newValue !== oldValue && this.isComponentConnected) {
             this.updateDropdownItemValue(newValue);
         }
     }
     updateDropdownItemValue(value) {
-        var _a;
-        const el = (_a = this.slotElements) === null || _a === void 0 ? void 0 : _a.find(el => el.value === value);
+        // Clear previous selections immediately
+        this.itemChildren.forEach(el => el.removeAttribute('aria-selected'));
+        // Set new selection
+        const el = this.itemChildren.find(el => el.value === value);
         if (el) {
             el.setAttribute('aria-selected', 'true');
         }
     }
+    getSelectedItemIndex() {
+        if (!this.value)
+            return -1;
+        return this.itemChildren.findIndex(item => item.value === this.value);
+    }
     openDropdown() {
         this.isOpen = true;
-        this.focusedIndex = -1;
-        setTimeout(() => this.updateSlotElements());
+        // Initialize focus to the currently selected item
+        this.focusedIndex = this.getSelectedItemIndex();
+        // Immediate update instead of setTimeout
+        this.updateItemElements();
     }
     closeDropdown() {
         this.isOpen = false;
         this.focusedIndex = -1;
-        this.removeSlotFocus();
+        this.removeItemFocus();
     }
     collectItemChildren() {
-        // find *direct or nested* items inside the dropdown container
+        if (!this.isComponentConnected)
+            return;
         const items = Array.from(this.el.querySelectorAll('ir-dropdown-item'));
         this.itemChildren = items;
-        setTimeout(() => this.updateSlotElementsForItems(), 0);
+        // Immediate update instead of setTimeout
+        this.updateItemElements();
     }
-    updateSlotElements() {
-        if (!this.dropdownRef)
+    updateItemElements() {
+        if (!this.isComponentConnected)
             return;
-        const slotElement = this.dropdownRef.querySelector('slot[name="dropdown-content"]');
-        if (slotElement) {
-            const assignedElements = slotElement.assignedElements
-                ? slotElement.assignedElements()
-                : Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
-            this.slotElements = assignedElements.length > 0 ? assignedElements : Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
-            this.slotElements.forEach((element, index) => {
-                element.setAttribute('data-slot-index', index.toString());
-                element.setAttribute('role', 'option');
-                element.setAttribute('tabindex', '-1');
-            });
-        }
-    }
-    removeSlotFocus() {
-        this.slotElements.forEach(element => {
-            element.classList.remove('focused', 'active');
-            element.removeAttribute('aria-selected');
+        // Use the collected item children directly
+        this.itemChildren.forEach((el, index) => {
+            el.setAttribute('data-slot-index', String(index));
+            el.setAttribute('role', 'option');
+            el.setAttribute('tabindex', '-1');
         });
     }
-    focusSlotElement(index) {
-        this.removeSlotFocus();
-        if (index >= 0 && index < this.slotElements.length) {
-            const element = this.slotElements[index];
+    removeItemFocus() {
+        this.itemChildren.forEach(element => {
+            element.classList.remove('focused', 'active');
+            // Don't remove aria-selected as it indicates selection, not focus
+        });
+    }
+    focusItemElement(index) {
+        this.removeItemFocus();
+        if (index >= 0 && index < this.itemChildren.length) {
+            const element = this.itemChildren[index];
             element.classList.add('focused', 'active');
-            element.setAttribute('aria-selected', 'true');
-            element.scrollIntoView({ block: 'nearest' });
+            element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
     }
-    selectSlotElement(index) {
-        if (index >= 0 && index < this.slotElements.length) {
-            const element = this.slotElements[index];
+    selectItemElement(index) {
+        if (index >= 0 && index < this.itemChildren.length) {
+            const element = this.itemChildren[index];
             element.click();
         }
     }
@@ -163,20 +224,13 @@ export class IrDropdown {
         this.optionChange.emit(option);
         this.closeDropdown();
     }
-    updateSlotElementsForItems() {
-        // Treat the child items as "slot elements" for nav
-        this.slotElements = this.itemChildren;
-        // index and decorate for ARIA & focus handling
-        this.slotElements.forEach((el, index) => {
-            el.setAttribute('data-slot-index', String(index));
-            el.setAttribute('role', 'option');
-            el.setAttribute('tabindex', '-1');
-        });
-    }
     render() {
-        return (h(Host, { key: 'bbdc5a9dfcf4ab2f38a5e8232fc57f7db92c8ec5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'a961cfe175d0bf879859f919b880ba73feb07757', onClick: () => {
+        return (h(Host, { key: '6c35b16f6d5314a05b196e190869ce95665c590a', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '97807dbc37fd98cc42b1f24c5d4d3acadbf02b2d', onClick: () => {
                 this.isOpen = !this.isOpen;
-            }, class: "position-relative", onKeyDown: this.handleKeyDown }, h("slot", { key: '0bbb8a695f15daee3224e9ee2007bfcd16b8de75', name: "trigger" }), h("div", { key: '8ee8c6cac635d983a2adfa6b7c48591aa2fac7fd', class: "caret-icon" }, h("ir-icons", { key: 'c1bd87914dd22041b86624c155489dcf7ecbc2d6', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '039a93750a8aa2ff1e6b3150c0c427d884d694d2', ref: el => (this.dropdownRef = el), class: "dropdown-menu" }, h("slot", { key: '809d03941b6bdf44f9e75d9e2643d85d3c5542d1' }))));
+                if (this.isOpen) {
+                    this.updateItemElements();
+                }
+            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'a079f0ab0a07175d88649d297229af8cc7a2b436', name: "trigger" }), h("div", { key: '7e5114844c851b390b0c725146e8a9da678e8356', class: "caret-icon" }, h("ir-icons", { key: '5f438886e6c8cf639421af4985e449d61e9df02f', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '3d2986a71639d4cb292422b06be31b74049481b2', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'a3d1d0a6a0659976183e9d5b4122a231893dcd5d' }))));
     }
     static get is() { return "ir-dropdown"; }
     static get encapsulation() { return "scoped"; }
@@ -224,7 +278,6 @@ export class IrDropdown {
             "isOpen": {},
             "selectedOption": {},
             "focusedIndex": {},
-            "slotElements": {},
             "itemChildren": {}
         };
     }
@@ -237,7 +290,7 @@ export class IrDropdown {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when a user selects an option from the combobox.\nThe event payload contains the selected `ComboboxOption` object."
+                    "text": "Emitted when a user selects an option from the combobox.\nThe event payload contains the selected `DropdownItem` object."
                 },
                 "complexType": {
                     "original": "DropdownItem['value']",

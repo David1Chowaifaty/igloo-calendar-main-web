@@ -5977,41 +5977,74 @@ const IrDropdown = class {
         this.optionChange = createEvent(this, "optionChange", 7);
         this.isOpen = false;
         this.focusedIndex = -1;
-        this.slotElements = [];
         this.itemChildren = [];
         this.mo = null;
+        this.isComponentConnected = true;
+        this.updateQueued = false;
         this.handleDocumentClick = (event) => {
-            if (!this.el.contains(event.target)) {
+            if (!this.isComponentConnected || !this.el.contains(event.target)) {
                 this.closeDropdown();
             }
         };
         this.handleKeyDown = (event) => {
-            const maxIndex = this.slotElements.length - 1;
+            if (!this.isComponentConnected)
+                return;
+            const maxIndex = this.itemChildren.length - 1;
             switch (event.key) {
                 case 'ArrowDown':
                     event.preventDefault();
                     if (!this.isOpen) {
                         this.openDropdown();
+                        // After opening, if we have a selection, start from next item
+                        if (this.focusedIndex >= 0 && this.focusedIndex < maxIndex) {
+                            this.focusedIndex++;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === -1) {
+                            // No selection, start from first item
+                            this.focusedIndex = 0;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === maxIndex) {
+                            // At last item, wrap to first
+                            this.focusedIndex = 0;
+                            this.focusItemElement(this.focusedIndex);
+                        }
                     }
-                    else {
-                        this.focusedIndex = Math.min(this.focusedIndex + 1, maxIndex);
-                        this.focusSlotElement(this.focusedIndex);
+                    else if (maxIndex >= 0) {
+                        this.focusedIndex = this.focusedIndex < maxIndex ? this.focusedIndex + 1 : 0;
+                        this.focusItemElement(this.focusedIndex);
                     }
                     break;
                 case 'ArrowUp':
                     event.preventDefault();
-                    if (this.isOpen) {
-                        this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
-                        this.focusSlotElement(this.focusedIndex);
-                    }
-                    else {
+                    if (!this.isOpen) {
                         this.openDropdown();
+                        // After opening, if we have a selection, start from previous item
+                        if (this.focusedIndex > 0) {
+                            this.focusedIndex--;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === -1) {
+                            // No selection, start from last item
+                            this.focusedIndex = maxIndex;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                        else if (this.focusedIndex === 0) {
+                            // At first item, wrap to last
+                            this.focusedIndex = maxIndex;
+                            this.focusItemElement(this.focusedIndex);
+                        }
+                    }
+                    else if (maxIndex >= 0) {
+                        this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : maxIndex;
+                        this.focusItemElement(this.focusedIndex);
                     }
                     break;
                 case 'Enter':
                     event.preventDefault();
                     if (this.isOpen && this.focusedIndex >= 0) {
-                        this.selectSlotElement(this.focusedIndex);
+                        this.selectItemElement(this.focusedIndex);
                     }
                     else if (!this.isOpen) {
                         this.openDropdown();
@@ -6030,104 +6063,132 @@ const IrDropdown = class {
         };
     }
     componentWillLoad() {
-        this.collectItemChildren();
         this.selectedOption = this.value;
-        // watch DOM changes to children
-        this.mo = new MutationObserver(() => this.collectItemChildren());
+        this.documentClickHandler = this.handleDocumentClick.bind(this);
+        this.collectItemChildren();
+        // Optimized mutation observer with debouncing
+        this.mo = new MutationObserver(() => {
+            if (!this.updateQueued) {
+                this.updateQueued = true;
+                requestAnimationFrame(() => {
+                    if (this.isComponentConnected) {
+                        this.collectItemChildren();
+                        this.updateQueued = false;
+                    }
+                });
+            }
+        });
         this.mo.observe(this.el, { childList: true, subtree: true });
     }
     componentDidLoad() {
-        document.addEventListener('click', this.handleDocumentClick.bind(this));
-        setTimeout(() => this.updateSlotElements(), 0);
-        if (this.value) {
-            setTimeout(() => this.updateDropdownItemValue(this.value), 100);
-        }
+        document.addEventListener('click', this.documentClickHandler, { passive: true });
+        // Single RAF call instead of multiple setTimeouts
+        requestAnimationFrame(() => {
+            if (this.isComponentConnected) {
+                this.updateItemElements();
+                if (this.value) {
+                    this.updateDropdownItemValue(this.value);
+                }
+            }
+        });
     }
     disconnectedCallback() {
         var _a;
-        document.removeEventListener('click', this.handleDocumentClick.bind(this));
+        this.isComponentConnected = false;
+        document.removeEventListener('click', this.documentClickHandler);
         (_a = this.mo) === null || _a === void 0 ? void 0 : _a.disconnect();
+        this.mo = null;
     }
     handleDocumentKeyDown(event) {
-        if (!this.isOpen)
+        if (!this.isOpen || !this.isComponentConnected)
             return;
         if (event.key === 'Escape') {
             this.closeDropdown();
         }
     }
     handleDropdownItemSelect(ev) {
+        if (!this.isComponentConnected)
+            return;
         ev.stopPropagation();
         this.selectOption(ev.detail);
         ev.target.setAttribute('aria-selected', 'true');
     }
     handleDropdownItemRegister() {
+        if (!this.isComponentConnected)
+            return;
         this.collectItemChildren();
     }
     handleDropdownItemUnregister() {
+        if (!this.isComponentConnected)
+            return;
         this.collectItemChildren();
     }
     handleValueChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
+        if (newValue !== oldValue && this.isComponentConnected) {
             this.updateDropdownItemValue(newValue);
         }
     }
     updateDropdownItemValue(value) {
-        var _a;
-        const el = (_a = this.slotElements) === null || _a === void 0 ? void 0 : _a.find(el => el.value === value);
+        // Clear previous selections immediately
+        this.itemChildren.forEach(el => el.removeAttribute('aria-selected'));
+        // Set new selection
+        const el = this.itemChildren.find(el => el.value === value);
         if (el) {
             el.setAttribute('aria-selected', 'true');
         }
     }
+    getSelectedItemIndex() {
+        if (!this.value)
+            return -1;
+        return this.itemChildren.findIndex(item => item.value === this.value);
+    }
     openDropdown() {
         this.isOpen = true;
-        this.focusedIndex = -1;
-        setTimeout(() => this.updateSlotElements());
+        // Initialize focus to the currently selected item
+        this.focusedIndex = this.getSelectedItemIndex();
+        // Immediate update instead of setTimeout
+        this.updateItemElements();
     }
     closeDropdown() {
         this.isOpen = false;
         this.focusedIndex = -1;
-        this.removeSlotFocus();
+        this.removeItemFocus();
     }
     collectItemChildren() {
-        // find *direct or nested* items inside the dropdown container
+        if (!this.isComponentConnected)
+            return;
         const items = Array.from(this.el.querySelectorAll('ir-dropdown-item'));
         this.itemChildren = items;
-        setTimeout(() => this.updateSlotElementsForItems(), 0);
+        // Immediate update instead of setTimeout
+        this.updateItemElements();
     }
-    updateSlotElements() {
-        if (!this.dropdownRef)
+    updateItemElements() {
+        if (!this.isComponentConnected)
             return;
-        const slotElement = this.dropdownRef.querySelector('slot[name="dropdown-content"]');
-        if (slotElement) {
-            const assignedElements = slotElement.assignedElements
-                ? slotElement.assignedElements()
-                : Array.from(this.el.querySelectorAll('[slot="dropdown-content"] [data-option]'));
-            this.slotElements = assignedElements.length > 0 ? assignedElements : Array.from(this.dropdownRef.querySelectorAll('[data-option], .dropdown-item[style*="cursor"]'));
-            this.slotElements.forEach((element, index) => {
-                element.setAttribute('data-slot-index', index.toString());
-                element.setAttribute('role', 'option');
-                element.setAttribute('tabindex', '-1');
-            });
-        }
-    }
-    removeSlotFocus() {
-        this.slotElements.forEach(element => {
-            element.classList.remove('focused', 'active');
-            element.removeAttribute('aria-selected');
+        // Use the collected item children directly
+        this.itemChildren.forEach((el, index) => {
+            el.setAttribute('data-slot-index', String(index));
+            el.setAttribute('role', 'option');
+            el.setAttribute('tabindex', '-1');
         });
     }
-    focusSlotElement(index) {
-        this.removeSlotFocus();
-        if (index >= 0 && index < this.slotElements.length) {
-            const element = this.slotElements[index];
+    removeItemFocus() {
+        this.itemChildren.forEach(element => {
+            element.classList.remove('focused', 'active');
+            // Don't remove aria-selected as it indicates selection, not focus
+        });
+    }
+    focusItemElement(index) {
+        this.removeItemFocus();
+        if (index >= 0 && index < this.itemChildren.length) {
+            const element = this.itemChildren[index];
             element.classList.add('focused', 'active');
-            element.setAttribute('aria-selected', 'true');
-            element.scrollIntoView({ block: 'nearest' });
+            element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
     }
-    selectSlotElement(index) {
-        if (index >= 0 && index < this.slotElements.length) {
-            const element = this.slotElements[index];
+    selectItemElement(index) {
+        if (index >= 0 && index < this.itemChildren.length) {
+            const element = this.itemChildren[index];
             element.click();
         }
     }
@@ -6137,20 +6198,13 @@ const IrDropdown = class {
         this.optionChange.emit(option);
         this.closeDropdown();
     }
-    updateSlotElementsForItems() {
-        // Treat the child items as "slot elements" for nav
-        this.slotElements = this.itemChildren;
-        // index and decorate for ARIA & focus handling
-        this.slotElements.forEach((el, index) => {
-            el.setAttribute('data-slot-index', String(index));
-            el.setAttribute('role', 'option');
-            el.setAttribute('tabindex', '-1');
-        });
-    }
     render() {
-        return (h(Host, { key: 'bbdc5a9dfcf4ab2f38a5e8232fc57f7db92c8ec5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'a961cfe175d0bf879859f919b880ba73feb07757', onClick: () => {
+        return (h(Host, { key: '6c35b16f6d5314a05b196e190869ce95665c590a', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '97807dbc37fd98cc42b1f24c5d4d3acadbf02b2d', onClick: () => {
                 this.isOpen = !this.isOpen;
-            }, class: "position-relative", onKeyDown: this.handleKeyDown }, h("slot", { key: '0bbb8a695f15daee3224e9ee2007bfcd16b8de75', name: "trigger" }), h("div", { key: '8ee8c6cac635d983a2adfa6b7c48591aa2fac7fd', class: "caret-icon" }, h("ir-icons", { key: 'c1bd87914dd22041b86624c155489dcf7ecbc2d6', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '039a93750a8aa2ff1e6b3150c0c427d884d694d2', ref: el => (this.dropdownRef = el), class: "dropdown-menu" }, h("slot", { key: '809d03941b6bdf44f9e75d9e2643d85d3c5542d1' }))));
+                if (this.isOpen) {
+                    this.updateItemElements();
+                }
+            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'a079f0ab0a07175d88649d297229af8cc7a2b436', name: "trigger" }), h("div", { key: '7e5114844c851b390b0c725146e8a9da678e8356', class: "caret-icon" }, h("ir-icons", { key: '5f438886e6c8cf639421af4985e449d61e9df02f', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '3d2986a71639d4cb292422b06be31b74049481b2', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'a3d1d0a6a0659976183e9d5b4122a231893dcd5d' }))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -6168,31 +6222,57 @@ const IrDropdownItem = class {
         this.dropdownItemSelect = createEvent(this, "dropdownItemSelect", 7);
         this.dropdownItemRegister = createEvent(this, "dropdownItemRegister", 7);
         this.dropdownItemUnregister = createEvent(this, "dropdownItemUnregister", 7);
+        this.isComponentConnected = true;
+        this.hasRegistered = false;
         /**
          * When true, visually hide the item (used for filtering).
          */
         this.hidden = false;
-        this.handleClick = () => {
+        this.handleClick = (event) => {
+            event.stopPropagation();
+            if (!this.isComponentConnected)
+                return;
             this.dropdownItemSelect.emit(this.value);
         };
     }
     componentDidLoad() {
-        this.dropdownItemRegister.emit();
+        if (this.isComponentConnected && !this.hasRegistered) {
+            this.hasRegistered = true;
+            // Use RAF to ensure parent is ready
+            requestAnimationFrame(() => {
+                if (this.isComponentConnected) {
+                    this.dropdownItemRegister.emit();
+                }
+            });
+        }
     }
     disconnectedCallback() {
-        this.dropdownItemUnregister.emit();
+        this.isComponentConnected = false;
+        // Only emit unregister if we previously registered and parent might still be connected
+        if (this.hasRegistered && this.el.parentElement) {
+            // Check if parent dropdown still exists in DOM
+            const parentDropdown = this.el.closest('ir-dropdown');
+            if (parentDropdown && document.contains(parentDropdown)) {
+                this.dropdownItemUnregister.emit();
+            }
+        }
+        this.hasRegistered = false;
     }
     async matchesQuery(query) {
         var _a, _b;
+        if (!this.isComponentConnected)
+            return false;
         const q = query.toLowerCase();
         const hay = ((_b = (_a = this.label) !== null && _a !== void 0 ? _a : this.el.textContent) !== null && _b !== void 0 ? _b : '').toLowerCase();
         return hay.includes(q);
     }
     async setHidden(next) {
-        this.hidden = next;
+        if (this.isComponentConnected) {
+            this.hidden = next;
+        }
     }
     render() {
-        return (h(Host, { key: '8d2177f48f88c595f81060e7046ca05e6b04adb3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: 'ddc4e49651187296a424b2762cb357ca3a37595b', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     get el() { return getElement(this); }
 };
@@ -11508,7 +11588,7 @@ const IrPaymentFolio = class {
         }
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
         return (h("form", { key: 'f5cd46af1ee8ffaea3ede8497bc30b8c858b188b', class: 'sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 this.savePayment();
@@ -11518,9 +11598,9 @@ const IrPaymentFolio = class {
                 this.updateFolioData({ date: (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
             } }, h("input", { key: 'be39f926a3a46acc0b0dd0f1fa203d8c773f7530', type: "text", slot: "trigger", value: ((_d = this.folioData) === null || _d === void 0 ? void 0 : _d.date) ? hooks((_e = this.folioData) === null || _e === void 0 ? void 0 : _e.date).format('MMM DD, YYYY') : null, class: `form-control w-100 input-sm ${((_f = this.errors) === null || _f === void 0 ? void 0 : _f.date) && !((_g = this.folioData) === null || _g === void 0 ? void 0 : _g.date) ? 'border-danger' : ''} text-left`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } })))))), h("div", { key: '1871b49659acb49925663d508ceed6c63efadeb5' }, h("style", { key: '1b05578375e074cde09c3d86c8fcce074e161716' }, `.price-label{
               width:133px !important;
-              }`), h("ir-price-input", { key: 'ba7665f4f0e4d172c57bedc9f3e44ac055f5dd59', autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'price-label', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), h("div", { key: 'dc5c00b266bdf93346ac8d945ade8fa273c1e3fc' }, h("ir-dropdown", { key: 'afa41f25a6cc21879fdb498534da1f9f3d03765d', value: (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.designation, onOptionChange: this.handleDropdownChange.bind(this) }, h("div", { key: '0963d5e072c1e47f7ed5d2cc765b53b547c0dd50', slot: "trigger", class: 'input-group row m-0 ' }, h("div", { key: '5ca9d8c99aaa4c14583e9647fa41db278c52345b', class: `input-group-prepend col-3 p-0 text-dark border-0` }, h("label", { key: '1e7c1417fec8f8cd214f3934f7feda25281473b1', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), h("button", { key: 'f310fc1529aab91fc9f85750eea12a231c883b8a', type: "button", class: `form-control  d-flex align-items-center cursor-pointer ${((_o = this.errors) === null || _o === void 0 ? void 0 : _o.designation) && !((_p = this.folioData) === null || _p === void 0 ? void 0 : _p.designation) ? 'border-danger' : ''}` }, ((_q = this.folioData) === null || _q === void 0 ? void 0 : _q.payment_type) ? h("span", null, (_r = this.folioData.payment_type) === null || _r === void 0 ? void 0 : _r.description) : h("span", null, "Select..."))), h("ir-dropdown-item", { key: '64e3cee03932f016c5aa6e0f6e07c52b2acc91b8', value: "" }, "Select..."), this.paymentTypes.map(pt => (h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, h("span", null, pt.CODE_VALUE_EN), h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')))))), h("div", { key: '984d0b60ddc32979d7026cb9a30b214b12d68627' }, h("ir-input-text", { key: 'c0816ae76222d884cee2bf38dad26f9a60c926ca', value: (_s = this.folioData) === null || _s === void 0 ? void 0 : _s.reference, error: (_t = this.errors) === null || _t === void 0 ? void 0 : _t.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", inputContainerStyle: {
+              }`), h("ir-price-input", { key: 'ba7665f4f0e4d172c57bedc9f3e44ac055f5dd59', autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'price-label', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), h("div", { key: 'dc5c00b266bdf93346ac8d945ade8fa273c1e3fc' }, h("ir-dropdown", { key: 'd0204c3da89825678fce665bb533da63c858d6fa', value: (_o = (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.payment_type) === null || _o === void 0 ? void 0 : _o.code, onOptionChange: this.handleDropdownChange.bind(this) }, h("div", { key: '19770b94271d0a48775db1ad88cd99e2f5747797', slot: "trigger", class: 'input-group row m-0 ' }, h("div", { key: '2471a8cfe1037b0a617d8a1c6d5b84ab8ee1cb8b', class: `input-group-prepend col-3 p-0 text-dark border-0` }, h("label", { key: '83984694896dd3473aa90f21fa324e826a9ee05a', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), h("button", { key: '1d70c7242000b866f982c50b9d4be0bfae3ea60e', type: "button", class: `form-control  d-flex align-items-center cursor-pointer ${((_p = this.errors) === null || _p === void 0 ? void 0 : _p.designation) && !((_q = this.folioData) === null || _q === void 0 ? void 0 : _q.designation) ? 'border-danger' : ''}` }, ((_r = this.folioData) === null || _r === void 0 ? void 0 : _r.payment_type) ? h("span", null, (_s = this.folioData.payment_type) === null || _s === void 0 ? void 0 : _s.description) : h("span", null, "Select..."))), h("ir-dropdown-item", { key: 'b960917c9e023abb2d669bff594836655b594ccb', value: "" }, "Select..."), this.paymentTypes.map(pt => (h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, h("span", null, pt.CODE_VALUE_EN), h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')))))), h("div", { key: '66e86ac7fd5d3c0e2debbf89769cf5905c652c6b' }, h("ir-input-text", { key: '0ed53ae8c109ca87c1a726102c116da7eb001706', value: (_t = this.folioData) === null || _t === void 0 ? void 0 : _t.reference, error: (_u = this.errors) === null || _u === void 0 ? void 0 : _u.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", inputContainerStyle: {
                 margin: '0',
-            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3 }))), h("div", { key: 'e7909bbdc39c93fe940f4a0706766c2a7bf0d909', class: 'sheet-footer' }, h("ir-button", { key: '616b218c926ea047b14d3f92e54cce1013718648', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), h("ir-button", { key: 'aa3f274d025b783701ac979a6ab97466ed228913', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
+            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3 }))), h("div", { key: '8d0fa94a07b3fc019aa05662db5f2169107a00d3', class: 'sheet-footer' }, h("ir-button", { key: 'd718c264842fa00c49da6be284462283a6da1dee', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), h("ir-button", { key: 'e2a6a29066a16c42f41145f760caf13ed52f8214', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
     }
     static get watchers() { return {
         "payment": ["handlePaymentChange"]

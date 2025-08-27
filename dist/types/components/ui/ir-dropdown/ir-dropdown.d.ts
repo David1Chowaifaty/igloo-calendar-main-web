@@ -8,13 +8,14 @@ export declare class IrDropdown {
     isOpen: boolean;
     selectedOption: DropdownItem['value'];
     focusedIndex: number;
-    slotElements: HTMLIrDropdownItemElement[];
     itemChildren: HTMLIrDropdownItemElement[];
     private mo;
-    private dropdownRef;
+    private documentClickHandler;
+    private isComponentConnected;
+    private updateQueued;
     /**
      * Emitted when a user selects an option from the combobox.
-     * The event payload contains the selected `ComboboxOption` object.
+     * The event payload contains the selected `DropdownItem` object.
      */
     optionChange: EventEmitter<DropdownItem['value']>;
     componentWillLoad(): void;
@@ -26,16 +27,16 @@ export declare class IrDropdown {
     handleDropdownItemUnregister(): void;
     handleValueChange(newValue: DropdownItem['value'], oldValue: DropdownItem['value']): void;
     private updateDropdownItemValue;
+    private getSelectedItemIndex;
     private openDropdown;
     private closeDropdown;
     private handleDocumentClick;
     private collectItemChildren;
-    private updateSlotElements;
-    private removeSlotFocus;
-    private focusSlotElement;
-    private selectSlotElement;
+    private updateItemElements;
+    private removeItemFocus;
+    private focusItemElement;
+    private selectItemElement;
     private handleKeyDown;
     private selectOption;
-    private updateSlotElementsForItems;
     render(): any;
 }

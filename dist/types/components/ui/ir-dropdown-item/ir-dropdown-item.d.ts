@@ -2,6 +2,8 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { DropdownItem } from '../ir-dropdown/ir-dropdown';
 export declare class IrDropdownItem {
     el: HTMLIrDropdownItemElement;
+    private isComponentConnected;
+    private hasRegistered;
     /**
      * Required value for the option
      */

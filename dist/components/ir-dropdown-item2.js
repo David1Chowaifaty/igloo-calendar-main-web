@@ -10,31 +10,57 @@ const IrDropdownItem = /*@__PURE__*/ proxyCustomElement(class IrDropdownItem ext
         this.dropdownItemSelect = createEvent(this, "dropdownItemSelect", 7);
         this.dropdownItemRegister = createEvent(this, "dropdownItemRegister", 7);
         this.dropdownItemUnregister = createEvent(this, "dropdownItemUnregister", 7);
+        this.isComponentConnected = true;
+        this.hasRegistered = false;
         /**
          * When true, visually hide the item (used for filtering).
          */
         this.hidden = false;
-        this.handleClick = () => {
+        this.handleClick = (event) => {
+            event.stopPropagation();
+            if (!this.isComponentConnected)
+                return;
             this.dropdownItemSelect.emit(this.value);
         };
     }
     componentDidLoad() {
-        this.dropdownItemRegister.emit();
+        if (this.isComponentConnected && !this.hasRegistered) {
+            this.hasRegistered = true;
+            // Use RAF to ensure parent is ready
+            requestAnimationFrame(() => {
+                if (this.isComponentConnected) {
+                    this.dropdownItemRegister.emit();
+                }
+            });
+        }
     }
     disconnectedCallback() {
-        this.dropdownItemUnregister.emit();
+        this.isComponentConnected = false;
+        // Only emit unregister if we previously registered and parent might still be connected
+        if (this.hasRegistered && this.el.parentElement) {
+            // Check if parent dropdown still exists in DOM
+            const parentDropdown = this.el.closest('ir-dropdown');
+            if (parentDropdown && document.contains(parentDropdown)) {
+                this.dropdownItemUnregister.emit();
+            }
+        }
+        this.hasRegistered = false;
     }
     async matchesQuery(query) {
         var _a, _b;
+        if (!this.isComponentConnected)
+            return false;
         const q = query.toLowerCase();
         const hay = ((_b = (_a = this.label) !== null && _a !== void 0 ? _a : this.el.textContent) !== null && _b !== void 0 ? _b : '').toLowerCase();
         return hay.includes(q);
     }
     async setHidden(next) {
-        this.hidden = next;
+        if (this.isComponentConnected) {
+            this.hidden = next;
+        }
     }
     render() {
-        return (h(Host, { key: '8d2177f48f88c595f81060e7046ca05e6b04adb3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: 'ddc4e49651187296a424b2762cb357ca3a37595b', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     get el() { return this; }
     static get style() { return IrDropdownItemStyle0; }
