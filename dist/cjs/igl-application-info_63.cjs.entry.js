@@ -5972,7 +5972,7 @@ const IrDialog = class {
 };
 IrDialog.style = IrDialogStyle0;
 
-const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem}";
+const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem;z-index:99999}";
 const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown = class {
@@ -6055,12 +6055,7 @@ const IrDropdown = class {
                     }
                     break;
                 case 'Escape':
-                    if (!this.isOpen) {
-                        return;
-                    }
                     event.preventDefault();
-                    event.stopImmediatePropagation();
-                    event.stopPropagation();
                     this.closeDropdown();
                     break;
                 case 'Tab':
@@ -6152,11 +6147,22 @@ const IrDropdown = class {
         return this.itemChildren.findIndex(item => item.value === this.value);
     }
     openDropdown() {
-        this.isOpen = true;
-        // Initialize focus to the currently selected item
-        this.focusedIndex = this.getSelectedItemIndex();
-        // Immediate update instead of setTimeout
-        this.updateItemElements();
+        try {
+            this.isOpen = true;
+            // Initialize focus to the currently selected item
+            this.focusedIndex = this.getSelectedItemIndex();
+            // Immediate update instead of setTimeout
+            this.updateItemElements();
+            // Auto-scroll to selected item if it exists
+            if (this.focusedIndex >= 0) {
+                requestAnimationFrame(() => {
+                    this.scrollToSelectedItem();
+                });
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     closeDropdown() {
         this.isOpen = false;
@@ -6201,6 +6207,18 @@ const IrDropdown = class {
             element.click();
         }
     }
+    scrollToSelectedItem() {
+        if (this.focusedIndex >= 0 && this.focusedIndex < this.itemChildren.length) {
+            const selectedElement = this.itemChildren[this.focusedIndex];
+            if (selectedElement) {
+                selectedElement.scrollIntoView({
+                    block: 'nearest',
+                    behavior: 'smooth',
+                    inline: 'nearest',
+                });
+            }
+        }
+    }
     selectOption(option) {
         this.selectedOption = option;
         this.value = option;
@@ -6208,12 +6226,14 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (index.h(index.Host, { key: '7b78cff4e2f1b615940551c398e366e20cb39acd', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '46d4fc46d735e7541e4b0426a334cbcb9abd911c', onClick: () => {
-                this.isOpen = !this.isOpen;
+        return (index.h(index.Host, { key: '121387184000c1b80418fce48c1a6b93eb08e9a5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: 'f8c1ecda08b868c161a25bd4b22b9a701519a584', onClick: () => {
                 if (this.isOpen) {
-                    this.updateItemElements();
+                    this.closeDropdown();
                 }
-            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: 'fc9532c7ca485d1e282d5bc9eb43bd6e05e0dbf3', name: "trigger" }), index.h("div", { key: '134c7bf99406548d959216076c88b2612a3e7690', class: "caret-icon" }, index.h("ir-icons", { key: 'e89959dab1c32620f1fd6d22da3e323226e551f0', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: 'c12aa40f5b3fbb322011b01dbaa3736294683585', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '3d1aa5140b86d405c6ef8ff5de21f7222c527002' }))));
+                else {
+                    this.openDropdown();
+                }
+            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '59919ec6ca9b82423220dc1270532dcdadd6795d', name: "trigger" }), index.h("div", { key: '060356bf5232e4c3ce1a25aa55980d1d7854feee', class: "caret-icon" }, index.h("ir-icons", { key: 'd0ecf6c59cde376b12a450426594325396927663', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), index.h("div", { key: '8e0f8f41af7ac763e6eda07ea389d4e953ae1391', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '0cfc8c9d73f386bf53084dcb41edd0230297acaa' }))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

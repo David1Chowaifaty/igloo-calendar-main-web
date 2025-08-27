@@ -36,6 +36,7 @@ export declare class IrDropdown {
     private removeItemFocus;
     private focusItemElement;
     private selectItemElement;
+    private scrollToSelectedItem;
     private handleKeyDown;
     private selectOption;
     render(): any;
