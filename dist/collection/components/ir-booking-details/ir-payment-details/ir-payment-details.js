@@ -24,6 +24,7 @@ export class IrPaymentDetails {
             });
         };
         this.handleEditPayment = (payment) => {
+            console.log(payment);
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: Object.assign({}, payment),
@@ -50,6 +51,7 @@ export class IrPaymentDetails {
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
+        console.log({ value });
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }),

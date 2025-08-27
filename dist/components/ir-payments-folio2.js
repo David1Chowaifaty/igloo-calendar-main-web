@@ -29,7 +29,15 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
     }
     renderPaymentItem(payment, index) {
         return [
-            h("ir-payment-item", { key: payment.id, payment: payment, onDeletePayment: e => this.handleDeletePayment(e.detail), onEditPayment: e => this.handleEditPayment(e.detail) }),
+            h("ir-payment-item", { key: payment.id, payment: payment, onDeletePayment: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.handleDeletePayment(e.detail);
+                }, onEditPayment: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.handleEditPayment(e.detail);
+                } }),
             index < this.payments.length - 1 && h("hr", { class: "p-0 m-0" }),
         ];
     }
@@ -37,7 +45,7 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
         return (h("div", { class: "text-center p-3" }, h("p", { class: "text-muted" }, "No payments recorded yet")));
     }
     render() {
-        return (h("div", { key: 'abf79b3b39b6e5da0b77c1cf85aed93a8767e71c', class: "mt-1" }, h("div", { key: 'a2070d9cdf4502cdfe720dc915470b9099ea2d7a', class: "d-flex flex-column rounded payment-container" }, h("div", { key: 'efc17c70da5f8be4c6cb3c30152451fe714b38d7', class: "d-flex align-items-center justify-content-between" }, h("p", { key: '0a85ac79b23ea6513ba9a2ab388e3e7504f18d13', class: "font-size-large p-0 m-0" }, "Payment folio"), h("ir-button", { key: 'edc098d24289840fcb3b0084da57f7ee0451da11', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '905e4441b9df5385ab6f55f619f6be91c547487c', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
+        return (h("div", { key: '621d2bf00f54f9b61f82a07aa753ecbeec8aa5f1', class: "mt-1" }, h("div", { key: '55dcaccae0fd3cb56790aa0899e33e11d56e737e', class: "d-flex flex-column rounded payment-container" }, h("div", { key: '8c975bca26b83da4341c399b51ea66bfd3929ec0', class: "d-flex align-items-center justify-content-between" }, h("p", { key: '7c49458388d7b18e667608d5e5c640627e130939', class: "font-size-large p-0 m-0" }, "Payment folio"), h("ir-button", { key: 'b9d814a95ee9f8579a5f8689851312792693f17b', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '25e5c0e8ba9264c7b44966311d16a47bd5c2f436', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
     }
     static get style() { return IrPaymentsFolioStyle0; }
 }, [2, "ir-payments-folio", {
