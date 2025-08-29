@@ -37,6 +37,20 @@ export declare class IrPriceInput {
     testId?: string;
     /** Error*/
     error: boolean;
+    /**
+     * Extra class names applied to the outer <fieldset> wrapper.
+     * Useful for spacing (e.g., margins/padding), width/layout utilities,
+     * or theming the whole input group from the outside.
+     * Example: "w-100 mb-2 d-flex align-items-center"
+     */
+    containerClassname: string;
+    /**
+     * Extra class names applied to the label container (<div class="input-group-prepend">)
+     * that wraps the <label>. Use this to control label width, alignment,
+     * spacing, or visibility at different breakpoints.
+     * Example: "min-w-120 text-nowrap pe-2"
+     */
+    labelContainerClassname: string;
     /** Emits the current value on change */
     textChange: EventEmitter<string>;
     /** Emits the current value on blur */

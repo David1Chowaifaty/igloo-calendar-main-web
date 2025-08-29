@@ -54,7 +54,7 @@ const IrPopover = /*@__PURE__*/ proxyCustomElement(class IrPopover extends HTMLE
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'd042f02d76765a3221fcece86475131490ab4bbc', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: '6a251ce2b05af1a4f729d50dc579d7e29d4715e2', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
