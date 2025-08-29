@@ -34,12 +34,15 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: {
-                    id: -1,
-                    date: hooks().format('YYYY-MM-DD'),
-                    amount: null,
-                    currency: undefined,
-                    designation: null,
-                    reference: null,
+                    payment: {
+                        id: -1,
+                        date: hooks().format('YYYY-MM-DD'),
+                        amount: null,
+                        currency: undefined,
+                        designation: null,
+                        reference: null,
+                    },
+                    mode: 'new',
                 },
             });
         };
@@ -47,7 +50,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
             console.log(payment);
             this.openSidebar.emit({
                 type: 'payment-folio',
-                payload: Object.assign({}, payment),
+                payload: { payment, mode: 'edit' },
             });
         };
         this.handleDeletePayment = (payment) => {
@@ -71,10 +74,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
-        console.log({ value });
         this.openSidebar.emit({
             type: 'payment-folio',
-            payload: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }),
+            payload: { payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }), mode: 'payment-action' },
         });
     }
     async cancelPayment() {

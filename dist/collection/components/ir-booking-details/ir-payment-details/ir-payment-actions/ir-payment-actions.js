@@ -5,7 +5,7 @@ export class IrPaymentActions {
         if (((_a = this.paymentAction) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) == 0) {
             return null;
         }
-        return (h(Host, null, h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { class: 'font-size-large p-0 m-0 ' }, "Payment actions"), h("span", { class: "beta" }, "Beta")), h("div", { class: "payment-actions-container" }, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map((pa, index) => (h("ir-payment-action", { key: pa.due_on + index, paymentAction: pa }))))));
+        return (h(Host, null, h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { class: 'font-size-large p-0 m-0 ' }, "Payment Actions"), h("span", { class: "beta" }, "Beta")), h("div", { class: "payment-actions-container" }, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map((pa, index) => (h("ir-payment-action", { key: pa.due_on + index, paymentAction: pa }))))));
     }
     static get is() { return "ir-payment-actions"; }
     static get encapsulation() { return "scoped"; }

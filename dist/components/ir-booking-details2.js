@@ -362,7 +362,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             case 'room-guest':
                 return (h("ir-room-guests", { countries: this.countries, language: this.language, identifier: (_b = this.sidebarPayload) === null || _b === void 0 ? void 0 : _b.identifier, bookingNumber: this.booking.booking_nbr, roomName: (_c = this.sidebarPayload) === null || _c === void 0 ? void 0 : _c.roomName, totalGuests: (_d = this.sidebarPayload) === null || _d === void 0 ? void 0 : _d.totalGuests, sharedPersons: (_e = this.sidebarPayload) === null || _e === void 0 ? void 0 : _e.sharing_persons, slot: "sidebar-body", checkIn: (_f = this.sidebarPayload) === null || _f === void 0 ? void 0 : _f.checkin, onCloseModal: handleClose }));
             case 'payment-folio':
-                return (h("ir-payment-folio", { bookingNumber: this.booking.booking_nbr, paymentTypes: this.paymentTypes, slot: "sidebar-body", payment: this.sidebarPayload, onCloseModal: handleClose }));
+                return (h("ir-payment-folio", { bookingNumber: this.booking.booking_nbr, paymentTypes: this.paymentTypes, slot: "sidebar-body", payment: this.sidebarPayload.payment, mode: this.sidebarPayload.mode, onCloseModal: handleClose }));
             default:
                 return null;
         }

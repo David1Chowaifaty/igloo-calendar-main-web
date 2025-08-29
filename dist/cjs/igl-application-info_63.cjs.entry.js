@@ -2638,7 +2638,7 @@ const IrBookingDetails = class {
             case 'room-guest':
                 return (index.h("ir-room-guests", { countries: this.countries, language: this.language, identifier: (_b = this.sidebarPayload) === null || _b === void 0 ? void 0 : _b.identifier, bookingNumber: this.booking.booking_nbr, roomName: (_c = this.sidebarPayload) === null || _c === void 0 ? void 0 : _c.roomName, totalGuests: (_d = this.sidebarPayload) === null || _d === void 0 ? void 0 : _d.totalGuests, sharedPersons: (_e = this.sidebarPayload) === null || _e === void 0 ? void 0 : _e.sharing_persons, slot: "sidebar-body", checkIn: (_f = this.sidebarPayload) === null || _f === void 0 ? void 0 : _f.checkin, onCloseModal: handleClose }));
             case 'payment-folio':
-                return (index.h("ir-payment-folio", { bookingNumber: this.booking.booking_nbr, paymentTypes: this.paymentTypes, slot: "sidebar-body", payment: this.sidebarPayload, onCloseModal: handleClose }));
+                return (index.h("ir-payment-folio", { bookingNumber: this.booking.booking_nbr, paymentTypes: this.paymentTypes, slot: "sidebar-body", payment: this.sidebarPayload.payment, mode: this.sidebarPayload.mode, onCloseModal: handleClose }));
             default:
                 return null;
         }
@@ -11393,7 +11393,7 @@ const IrPaymentActions = class {
         if (((_a = this.paymentAction) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) == 0) {
             return null;
         }
-        return (index.h(index.Host, null, index.h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, "Payment actions"), index.h("span", { class: "beta" }, "Beta")), index.h("div", { class: "payment-actions-container" }, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map((pa, index$1) => (index.h("ir-payment-action", { key: pa.due_on + index$1, paymentAction: pa }))))));
+        return (index.h(index.Host, null, index.h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, "Payment Actions"), index.h("span", { class: "beta" }, "Beta")), index.h("div", { class: "payment-actions-container" }, (_b = this.paymentAction) === null || _b === void 0 ? void 0 : _b.map((pa, index$1) => (index.h("ir-payment-action", { key: pa.due_on + index$1, paymentAction: pa }))))));
     }
 };
 IrPaymentActions.style = IrPaymentActionsStyle0;
@@ -11417,12 +11417,15 @@ const IrPaymentDetails = class {
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: {
-                    id: -1,
-                    date: moment.hooks().format('YYYY-MM-DD'),
-                    amount: null,
-                    currency: undefined,
-                    designation: null,
-                    reference: null,
+                    payment: {
+                        id: -1,
+                        date: moment.hooks().format('YYYY-MM-DD'),
+                        amount: null,
+                        currency: undefined,
+                        designation: null,
+                        reference: null,
+                    },
+                    mode: 'new',
                 },
             });
         };
@@ -11430,7 +11433,7 @@ const IrPaymentDetails = class {
             console.log(payment);
             this.openSidebar.emit({
                 type: 'payment-folio',
-                payload: Object.assign({}, payment),
+                payload: { payment, mode: 'edit' },
             });
         };
         this.handleDeletePayment = (payment) => {
@@ -11454,10 +11457,9 @@ const IrPaymentDetails = class {
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
-        console.log({ value });
         this.openSidebar.emit({
             type: 'payment-folio',
-            payload: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }),
+            payload: { payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }), mode: 'payment-action' },
         });
     }
     async cancelPayment() {
@@ -11536,11 +11538,16 @@ const IrPaymentFolio = class {
                 .regex(/^\d{4}-\d{2}-\d{2}$/)
                 .refine(dateStr => {
                 const date = moment.hooks(dateStr, 'YYYY-MM-DD', true);
-                return date.isValid();
+                return date.isValid() && !date.isAfter(moment.hooks(), 'dates');
             }, { message: `Invalid date` }),
             amount: index$1.z.coerce.number().refine(a => a !== 0),
             reference: index$1.z.string().optional().nullable(),
             designation: index$1.z.string().min(1),
+            payment_type: index$1.z.object({
+                code: index$1.z.string().min(3).max(4),
+                description: index$1.z.string().min(1),
+                operation: index$1.z.union([index$1.z.literal('CR'), index$1.z.literal('DB')]),
+            }),
         });
         if (this.payment) {
             this.folioData = Object.assign({}, this.payment);
@@ -11555,7 +11562,7 @@ const IrPaymentFolio = class {
         this.folioData = Object.assign(Object.assign({}, this.folioData), params);
     }
     async savePayment() {
-        var _a, _b;
+        var _a, _b, _c;
         try {
             this.isLoading = true;
             this.autoValidate = true;
@@ -11563,23 +11570,18 @@ const IrPaymentFolio = class {
                 this.errors = null;
             }
             this.folioSchema.parse((_a = this.folioData) !== null && _a !== void 0 ? _a : {});
-            const payment_type = this.paymentTypes.find(p => p.CODE_NAME === this.folioData.designation);
-            await this.paymentService.AddPayment(Object.assign(Object.assign({}, this.folioData), { currency: calendarData.calendar_data.currency, reference: (_b = this.folioData.reference) !== null && _b !== void 0 ? _b : '', designation: payment_type.CODE_VALUE_EN, payment_type: {
-                    code: payment_type.CODE_NAME,
-                    description: payment_type.CODE_VALUE_EN,
-                    operation: payment_type.NOTES,
-                } }), this.bookingNumber);
+            await this.paymentService.AddPayment(Object.assign(Object.assign({}, this.folioData), { currency: calendarData.calendar_data.currency, reference: (_b = this.folioData.reference) !== null && _b !== void 0 ? _b : '', designation: (_c = this.folioData.payment_type) === null || _c === void 0 ? void 0 : _c.description }), this.bookingNumber);
             this.resetBookingEvt.emit(null);
             this.closeModal.emit(null);
         }
         catch (error) {
             const err = {};
             if (error instanceof index$1.ZodError) {
-                console.log(error.issues);
                 error.issues.forEach(e => {
                     err[e.path[0]] = true;
                 });
             }
+            console.error(error);
             this.errors = err;
         }
         finally {
@@ -11606,7 +11608,6 @@ const IrPaymentFolio = class {
                 });
                 return;
             }
-            console.log(payment_type);
             this.updateFolioData({
                 payment_type: {
                     code: payment_type.CODE_NAME,
@@ -11616,20 +11617,31 @@ const IrPaymentFolio = class {
             });
         }
     }
+    renderDropdownItems() {
+        const dividerArray = ['011'];
+        if (this.mode !== 'payment-action') {
+            dividerArray.push('008');
+        }
+        let items = [...this.paymentTypes];
+        if (this.mode === 'payment-action') {
+            items = items.slice(0, 8);
+        }
+        return items.map(pt => (index.h(index.Fragment, null, index.h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, index.h("span", null, pt.CODE_VALUE_EN), index.h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')), dividerArray.includes(pt.CODE_NAME) && index.h("div", { class: "dropdown-divider" }))));
+    }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
-        return (index.h("form", { key: 'f5cd46af1ee8ffaea3ede8497bc30b8c858b188b', class: 'sheet-container', onSubmit: async (e) => {
+        return (index.h("form", { key: 'cddebc99f75eaa88978b46ed6e46acff4f53b987', class: 'sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 this.savePayment();
-            } }, index.h("ir-title", { key: 'a4fc981427bab52aef4018ae9e776f4c13b8102c', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: 'Payment Folio', displayContext: "sidebar" }), index.h("section", { key: '3f2da46578401dc202e4f4ff656a12e9f3709be2', class: 'px-1 sheet-body d-flex flex-column', style: { gap: '1rem' } }, index.h("div", { key: '37e414e651d6226b4df55e1f3a36ec6e661e35cd', class: 'd-flex w-fill', style: { gap: '0.5rem' } }, index.h("div", { key: '4f69bf947e25ca9c0c94a84101313ce228f718bb', class: "form-group  mb-0 flex-grow-1" }, index.h("div", { key: 'af4eeb9f9bbf5e9f5915700695ea09301a9dbae4', class: "input-group row m-0 flex-grow-1" }, index.h("div", { key: '783d5b0041b1988d712cb1d75ef4c2f9067e4455', class: `input-group-prepend col-3 p-0 text-dark border-0` }, index.h("label", { key: 'f146394f9efc72609b1dfba6240fbf35bd3ab9ad', class: `input-group-text flex-grow-1 text-dark border-theme ` }, "Date")), index.h("div", { key: '2374ad306a147c962a7cfd4448a77e5979fb1623', class: "form-control  form-control-md col-10 flex-grow-1 d-flex align-items-center px-0 mx-0", style: { border: '0' } }, index.h("style", { key: '9bd383ae26f1670d750efec0e8dc830b4029f492' }, `.ir-date-picker-trigger{
-                    width:100%;}`), index.h("ir-date-picker", { key: 'c025ebcddde145f7c21063d579cb1309f3e1ff44', "data-testid": "pickup_date", date: (_a = this.folioData) === null || _a === void 0 ? void 0 : _a.date, class: "w-100", emitEmptyDate: true, "aria-invalid": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.date) && !((_c = this.folioData) === null || _c === void 0 ? void 0 : _c.date) ? 'true' : 'false', onDateChanged: evt => {
+            } }, index.h("ir-title", { key: 'c68011576d06d59f4b1c127b83424a7cc42b7169', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: this.mode === 'edit' ? 'Edit Folio Entry' : 'New Folio Entry', displayContext: "sidebar" }), index.h("section", { key: '3e2809073eb77709ca0c86784f15c736cf3e35a2', class: 'px-1 sheet-body d-flex flex-column', style: { gap: '1rem' } }, index.h("div", { key: 'c729caf80da683285c3fc412edb5fe6b9fa130ee', class: 'd-flex w-fill', style: { gap: '0.5rem' } }, index.h("div", { key: '5f8249ea60102abeb073dcca4ca8450e89f3cb2a', class: "form-group  mb-0 flex-grow-1" }, index.h("div", { key: 'e667ee091158c039e66a0b89e6564e2b4e050836', class: "input-group row m-0 flex-grow-1" }, index.h("div", { key: '7cf63550b9753fc87840bbe8f237cb602b9e7e0f', class: `input-group-prepend col-3 p-0 text-dark border-0` }, index.h("label", { key: '6302e10f3164881f9b81aef43e5cc4da3afffde8', class: `input-group-text flex-grow-1 text-dark border-theme ` }, "Date")), index.h("div", { key: '0352d9f28dcac31efd4bb092964fd84f8a798859', class: "form-control  form-control-md col-10 flex-grow-1 d-flex align-items-center px-0 mx-0", style: { border: '0' } }, index.h("style", { key: '5c9b5c7eaed89bdf8bff81c73d3452001c25da4d' }, `.ir-date-picker-trigger{
+                    width:100%;}`), index.h("ir-date-picker", { key: '5c22589d608442d7828430fee1456fe1850ae7fb', "data-testid": "pickup_date", date: (_a = this.folioData) === null || _a === void 0 ? void 0 : _a.date, class: "w-100", emitEmptyDate: true, maxDate: moment.hooks().format('YYYY-MM-DD'), "aria-invalid": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.date) && !((_c = this.folioData) === null || _c === void 0 ? void 0 : _c.date) ? 'true' : 'false', onDateChanged: evt => {
                 var _a;
                 this.updateFolioData({ date: (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
-            } }, index.h("input", { key: 'be39f926a3a46acc0b0dd0f1fa203d8c773f7530', type: "text", slot: "trigger", value: ((_d = this.folioData) === null || _d === void 0 ? void 0 : _d.date) ? moment.hooks((_e = this.folioData) === null || _e === void 0 ? void 0 : _e.date).format('MMM DD, YYYY') : null, class: `form-control w-100 input-sm ${((_f = this.errors) === null || _f === void 0 ? void 0 : _f.date) && !((_g = this.folioData) === null || _g === void 0 ? void 0 : _g.date) ? 'border-danger' : ''} text-left`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } })))))), index.h("div", { key: '1871b49659acb49925663d508ceed6c63efadeb5' }, index.h("style", { key: '1b05578375e074cde09c3d86c8fcce074e161716' }, `.price-label{
+            } }, index.h("input", { key: '0d7b12fb8a5a52737846d4a69d58f328b2b379e5', type: "text", slot: "trigger", value: ((_d = this.folioData) === null || _d === void 0 ? void 0 : _d.date) ? moment.hooks((_e = this.folioData) === null || _e === void 0 ? void 0 : _e.date).format('MMM DD, YYYY') : null, class: `form-control w-100 input-sm ${((_f = this.errors) === null || _f === void 0 ? void 0 : _f.date) && !((_g = this.folioData) === null || _g === void 0 ? void 0 : _g.date) ? 'border-danger' : ''} text-left`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } })))))), index.h("div", { key: '5132d5362c57f6db65fd737bba10ec86d22c3254' }, index.h("style", { key: '5b8c86215be582f70b36f9fc609bc7e3bc640f3e' }, `.price-label{
               width:133px !important;
-              }`), index.h("ir-price-input", { key: 'ba7665f4f0e4d172c57bedc9f3e44ac055f5dd59', autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'price-label', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendarData.calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), index.h("div", { key: 'dc5c00b266bdf93346ac8d945ade8fa273c1e3fc' }, index.h("ir-dropdown", { key: 'd0204c3da89825678fce665bb533da63c858d6fa', value: (_o = (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.payment_type) === null || _o === void 0 ? void 0 : _o.code, onOptionChange: this.handleDropdownChange.bind(this) }, index.h("div", { key: '19770b94271d0a48775db1ad88cd99e2f5747797', slot: "trigger", class: 'input-group row m-0 ' }, index.h("div", { key: '2471a8cfe1037b0a617d8a1c6d5b84ab8ee1cb8b', class: `input-group-prepend col-3 p-0 text-dark border-0` }, index.h("label", { key: '83984694896dd3473aa90f21fa324e826a9ee05a', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), index.h("button", { key: '1d70c7242000b866f982c50b9d4be0bfae3ea60e', type: "button", class: `form-control  d-flex align-items-center cursor-pointer ${((_p = this.errors) === null || _p === void 0 ? void 0 : _p.designation) && !((_q = this.folioData) === null || _q === void 0 ? void 0 : _q.designation) ? 'border-danger' : ''}` }, ((_r = this.folioData) === null || _r === void 0 ? void 0 : _r.payment_type) ? index.h("span", null, (_s = this.folioData.payment_type) === null || _s === void 0 ? void 0 : _s.description) : index.h("span", null, "Select..."))), index.h("ir-dropdown-item", { key: 'b960917c9e023abb2d669bff594836655b594ccb', value: "" }, "Select..."), this.paymentTypes.map(pt => (index.h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, index.h("span", null, pt.CODE_VALUE_EN), index.h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')))))), index.h("div", { key: '66e86ac7fd5d3c0e2debbf89769cf5905c652c6b' }, index.h("ir-input-text", { key: '0ed53ae8c109ca87c1a726102c116da7eb001706', value: (_t = this.folioData) === null || _t === void 0 ? void 0 : _t.reference, error: (_u = this.errors) === null || _u === void 0 ? void 0 : _u.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", inputContainerStyle: {
+              }`), index.h("ir-price-input", { key: 'a6a47a5a6b8648469f32708e03ec071ee0c6721e', minValue: 0, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'price-label', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendarData.calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), index.h("div", { key: 'fa96608c9e17e1e21251deebda067771de03b2be' }, index.h("ir-dropdown", { key: '489a15faa40786bf587046259246cd11770907fa', value: (_o = (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.payment_type) === null || _o === void 0 ? void 0 : _o.code, onOptionChange: this.handleDropdownChange.bind(this) }, index.h("div", { key: '0013cc33d650dd0c15dc8fab7edac53383317e58', slot: "trigger", class: 'input-group row m-0 ' }, index.h("div", { key: 'e1dff7b93c1fc1dd6431028f500bb9a26afdd514', class: `input-group-prepend col-3 p-0 text-dark border-0` }, index.h("label", { key: '231321614bba80d7997dba7052f2179a574762b0', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), index.h("button", { key: 'c644e8c5383492e48a25752712453dfe69aefe2b', type: "button", class: `form-control  d-flex align-items-center cursor-pointer ${((_p = this.errors) === null || _p === void 0 ? void 0 : _p.designation) && !((_q = this.folioData) === null || _q === void 0 ? void 0 : _q.designation) ? 'border-danger' : ''}` }, ((_r = this.folioData) === null || _r === void 0 ? void 0 : _r.payment_type) ? index.h("span", null, (_s = this.folioData.payment_type) === null || _s === void 0 ? void 0 : _s.description) : index.h("span", null, "Select..."))), index.h("ir-dropdown-item", { key: '7ba99a864f8c9816a86ffea281070e4f56667eef', value: "" }, "Select..."), this.renderDropdownItems())), index.h("div", { key: '18698c5e5f106971a3b95806cb00d35c2c68c6f5' }, index.h("ir-input-text", { key: 'b35e1d558de598454da04dc932446e19b52c9f8f', value: (_t = this.folioData) === null || _t === void 0 ? void 0 : _t.reference, error: (_u = this.errors) === null || _u === void 0 ? void 0 : _u.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", inputContainerStyle: {
                 margin: '0',
-            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3 }))), index.h("div", { key: '8d0fa94a07b3fc019aa05662db5f2169107a00d3', class: 'sheet-footer' }, index.h("ir-button", { key: 'd718c264842fa00c49da6be284462283a6da1dee', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), index.h("ir-button", { key: 'e2a6a29066a16c42f41145f760caf13ed52f8214', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
+            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3 }))), index.h("div", { key: '85d0ebb210bbd3418d64a156af55e5d31d76f425', class: 'sheet-footer' }, index.h("ir-button", { key: 'accb363e8564f1ea8ef5b7d79b8a5700d3f14790', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), index.h("ir-button", { key: '7674fd4a23b155754d443fe5562b7cc1617406db', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
     }
     static get watchers() { return {
         "payment": ["handlePaymentChange"]
@@ -11649,9 +11661,9 @@ const IrPaymentItem = class {
     render() {
         var _a, _b;
         const isCredit = this.payment.payment_type.operation === 'CR';
-        return (index.h("div", { key: '4f072da6791a8cc8cad97ef599a20d2632fad0fa', class: "payment-item", part: "base" }, index.h("div", { key: 'ad394493e2bd87169bed846d6dd9c34273977214', class: "payment-body", part: "payment-body" }, index.h("div", { key: '4e82bbfbc32c9413043439754af040eb62c7f9dc', class: "payment-fields", part: "payment-fields" }, index.h("p", { key: '97158df97eb3cf7897ea654472d5a884f03a5fd4', class: "text-muted" }, this.payment.date), index.h("p", { key: '22060ff41b222a29573103f79e32625e1c4557e1' }, index.h("b", { key: 'dcbfcd689adb0bb7573b17380d608b290ccb83f5' }, (_a = this.payment.payment_type.description) !== null && _a !== void 0 ? _a : this.payment.designation))), this.payment.reference && index.h("p", { key: '7e2bd5d050fcfc3485141a3d746070bd96dede4d', class: "payment-reference text-muted" }, (_b = this.payment) === null || _b === void 0 ? void 0 : _b.reference)), index.h("div", { key: '0cbbcf1b78d8839e90bf685cf2e1c00362f51138', class: "payment-toolbar", part: "payment-toolbar" }, index.h("p", { key: '6cfd89697ab2bd838c32ea9ee3e65f870bbf8351', class: `payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, isCredit ? '+' : '-', this.payment.currency.symbol, " ", this.payment.amount), index.h("div", { key: 'a29a1b948a20b6393afb6c4ce344dbecb53d0fb0', class: "payment-actions" }, index.h("ir-button", { key: 'ad4a52ce325f794ad5f5d6c179e7c60d9688a893', class: "action-button", variant: "icon", onClickHandler: () => {
+        return (index.h("div", { key: 'ee98488eadd5b44d57a3112d22698dd125ec96a1', class: "payment-item", part: "base" }, index.h("div", { key: '1a1ca120a0f1cdd9f1932c7c3967c85c51120ba6', class: "payment-body", part: "payment-body" }, index.h("div", { key: '8a2e828294f926826e01b6993d464f7cbea00e70', class: "payment-fields", part: "payment-fields" }, index.h("p", { key: '153d91c2bd5865747cb6d4c9d70a67140a0f98be', class: "text-muted" }, this.payment.date), index.h("p", { key: 'a439a3092cadc35e6b89a546ccb3b837786d62d2' }, index.h("b", { key: 'e020bac3967784993d60c167729ff43fe1ade52f' }, (_a = this.payment.payment_type.description) !== null && _a !== void 0 ? _a : this.payment.designation))), this.payment.reference && index.h("p", { key: '8a3a180f0a08c4b9bc5b7c48d983b4f238bfd4b4', class: "payment-reference text-muted" }, (_b = this.payment) === null || _b === void 0 ? void 0 : _b.reference)), index.h("div", { key: '566ac324886f65f2c8096b59dd7347eb5925f7fa', class: "payment-toolbar", part: "payment-toolbar" }, index.h("p", { key: '508430c3c97d7ba3277813916b0ee8472a7bbe0a', class: `payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, utils.formatAmount(this.payment.currency.symbol, this.payment.payment_type.code === '012' ? this.payment.amount * -1 : this.payment.amount)), index.h("div", { key: '05ff19b4f403ee0a315db9ef2d59aff65af2a4a2', class: "payment-actions" }, index.h("ir-button", { key: '78e20f5a1ce5d984de2d259a1bdbc2035c76eab1', class: "action-button", variant: "icon", onClickHandler: () => {
                 this.editPayment.emit(this.payment);
-            }, icon_name: "edit", style: icons.colorVariants.secondary }), index.h("ir-button", { key: 'bc450f131eeb62e44287b0a7fc55a83c558fe3f7', class: "action-button", onClickHandler: () => {
+            }, icon_name: "edit", style: icons.colorVariants.secondary }), index.h("ir-button", { key: '4664daafc6a5999968562f469d3c4b71331bc824', class: "action-button", onClickHandler: () => {
                 this.deletePayment.emit(this.payment);
             }, variant: "icon", style: icons.colorVariants.danger, icon_name: "trash" })))));
     }
@@ -11715,7 +11727,7 @@ const IrPaymentsFolio = class {
         return (index.h("div", { class: "text-center p-3" }, index.h("p", { class: "text-muted" }, "No payments recorded yet")));
     }
     render() {
-        return (index.h("div", { key: '621d2bf00f54f9b61f82a07aa753ecbeec8aa5f1', class: "mt-1" }, index.h("div", { key: '55dcaccae0fd3cb56790aa0899e33e11d56e737e', class: "d-flex flex-column rounded payment-container" }, index.h("div", { key: '8c975bca26b83da4341c399b51ea66bfd3929ec0', class: "d-flex align-items-center justify-content-between" }, index.h("p", { key: '7c49458388d7b18e667608d5e5c640627e130939', class: "font-size-large p-0 m-0" }, "Payment folio"), index.h("ir-button", { key: 'b9d814a95ee9f8579a5f8689851312792693f17b', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), index.h("div", { key: '25e5c0e8ba9264c7b44966311d16a47bd5c2f436', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
+        return (index.h("div", { key: '621d2bf00f54f9b61f82a07aa753ecbeec8aa5f1', class: "mt-1" }, index.h("div", { key: '55dcaccae0fd3cb56790aa0899e33e11d56e737e', class: "d-flex flex-column rounded payment-container" }, index.h("div", { key: '8c975bca26b83da4341c399b51ea66bfd3929ec0', class: "d-flex align-items-center justify-content-between" }, index.h("p", { key: '7c49458388d7b18e667608d5e5c640627e130939', class: "font-size-large p-0 m-0" }, "Payment Folio"), index.h("ir-button", { key: 'b9d814a95ee9f8579a5f8689851312792693f17b', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), index.h("div", { key: '25e5c0e8ba9264c7b44966311d16a47bd5c2f436', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
     }
 };
 IrPaymentsFolio.style = IrPaymentsFolioStyle0;

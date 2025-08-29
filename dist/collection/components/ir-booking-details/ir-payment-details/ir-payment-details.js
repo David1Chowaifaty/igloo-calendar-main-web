@@ -14,12 +14,15 @@ export class IrPaymentDetails {
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: {
-                    id: -1,
-                    date: moment().format('YYYY-MM-DD'),
-                    amount: null,
-                    currency: undefined,
-                    designation: null,
-                    reference: null,
+                    payment: {
+                        id: -1,
+                        date: moment().format('YYYY-MM-DD'),
+                        amount: null,
+                        currency: undefined,
+                        designation: null,
+                        reference: null,
+                    },
+                    mode: 'new',
                 },
             });
         };
@@ -27,7 +30,7 @@ export class IrPaymentDetails {
             console.log(payment);
             this.openSidebar.emit({
                 type: 'payment-folio',
-                payload: Object.assign({}, payment),
+                payload: { payment, mode: 'edit' },
             });
         };
         this.handleDeletePayment = (payment) => {
@@ -51,10 +54,9 @@ export class IrPaymentDetails {
     }
     handlePaymentGeneration(e) {
         const value = e.detail;
-        console.log({ value });
         this.openSidebar.emit({
             type: 'payment-folio',
-            payload: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }),
+            payload: { payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }), mode: 'payment-action' },
         });
     }
     async cancelPayment() {
@@ -257,7 +259,7 @@ export class IrPaymentDetails {
                 },
                 "complexType": {
                     "original": "PaymentSidebarEvent",
-                    "resolved": "{ type: \"payment-folio\"; payload: IPayment; }",
+                    "resolved": "{ type: \"payment-folio\"; payload: { payment: IPayment; mode: FolioEntryMode; }; }",
                     "references": {
                         "PaymentSidebarEvent": {
                             "location": "import",
