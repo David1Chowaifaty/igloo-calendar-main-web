@@ -69,6 +69,13 @@ export declare class IrInputText {
     inputContainerStyle: {
         [key: string]: string;
     };
+    /**
+     * Extra class names applied to the label container (<div class="input-group-prepend">)
+     * that wraps the <label>. Use this to control label width, alignment,
+     * spacing, or visibility at different breakpoints.
+     * Example: "min-w-120 text-nowrap pe-2"
+     */
+    labelContainerClassname: string;
     inputFocused: boolean;
     textChange: EventEmitter<any>;
     inputBlur: EventEmitter<FocusEvent>;
