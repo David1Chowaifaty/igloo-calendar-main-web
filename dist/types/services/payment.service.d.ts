@@ -7,7 +7,9 @@ export interface IPaymentAction {
         symbol: string;
     };
     due_on: string;
-    type: 'overdue' | 'future';
+    reason: string;
+    pay_type_code: string;
+    type: 'OVERDUE' | 'FUTURE';
 }
 export declare class PaymentService {
     AddPayment(payment: IPayment, book_nbr: string): Promise<any>;

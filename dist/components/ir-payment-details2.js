@@ -73,10 +73,21 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         };
     }
     handlePaymentGeneration(e) {
+        var _a;
         const value = e.detail;
+        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === value.pay_type_code);
         this.openSidebar.emit({
             type: 'payment-folio',
-            payload: { payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount }), mode: 'payment-action' },
+            payload: {
+                payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount, payment_type: paymentType
+                        ? {
+                            code: paymentType.CODE_NAME,
+                            description: paymentType.CODE_VALUE_EN,
+                            operation: paymentType.NOTES,
+                        }
+                        : null }),
+                mode: 'payment-action',
+            },
         });
     }
     async cancelPayment() {
