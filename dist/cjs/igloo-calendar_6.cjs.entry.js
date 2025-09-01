@@ -4,11 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const room_service = require('./room.service-e031b11c.js');
-const booking_service = require('./booking.service-76a39dba.js');
-const utils = require('./utils-bf9b1b25.js');
-const events_service = require('./events.service-99cb06ef.js');
-const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-f03eb33c.js');
+const booking_service = require('./booking.service-e3e00724.js');
+const utils = require('./utils-a78b3679.js');
+const events_service = require('./events.service-930d38d2.js');
+const toBeAssigned_service = require('./toBeAssigned.service-1f9817df.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 const unassigned_dates_store = require('./unassigned_dates.store-0f9ac3e2.js');
@@ -18,7 +17,7 @@ const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
 const hkTasks_store = require('./hk-tasks.store-f07341ca.js');
 const axios = require('./axios-6e678d52.js');
 const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
-const user_service = require('./user.service-d3687d92.js');
+const user_service = require('./user.service-92c4124b.js');
 require('./index-7564ffa1.js');
 require('./index-63734c32.js');
 
@@ -4429,8 +4428,8 @@ const IglooCalendar = class {
         this.calendarData.formattedLegendData = utils.formatLegendColors(this.calendarData.legendData);
         let bookings = bookingResp.myBookings || [];
         bookings = bookings.filter(bookingEvent => {
-            const toDate = moment.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
-            const fromDate = moment.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            const toDate = utils.hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = utils.hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
             return !toDate.isSame(fromDate);
         });
         this.calendarData.bookingEvents = bookings;
@@ -4474,9 +4473,9 @@ const IglooCalendar = class {
             }
             const results = await Promise.all(requests);
             // this.tasksEndDate=housekeeping_store?.hk_criteria?.cleaning_periods[housekeeping_store?.hk_criteria?.cleaning_periods.length - 1].code
-            this.tasksEndDate = moment.hooks().add(30, 'days').format('YYYY-MM-DD');
+            this.tasksEndDate = utils.hooks().add(30, 'days').format('YYYY-MM-DD');
             this.getHousekeepingTasks({
-                from_date: moment.hooks().format('YYYY-MM-DD'),
+                from_date: utils.hooks().format('YYYY-MM-DD'),
                 to_date: this.tasksEndDate,
             });
             if (!roomResp) {
@@ -4623,7 +4622,7 @@ const IglooCalendar = class {
                 this.calendarData = Object.assign(Object.assign({}, this.calendarData), { roomsInfo: updatedRooms });
             }
         }
-        const roomPayload = { date: moment.hooks().format('YYYY-MM-DD'), unitId: result.PR_ID };
+        const roomPayload = { date: utils.hooks().format('YYYY-MM-DD'), unitId: result.PR_ID };
         if (result.HKS_CODE === '002') {
             utils.addRoomForCleaning(roomPayload);
         }
@@ -4910,19 +4909,19 @@ const IglooCalendar = class {
         });
         this.calendarData = Object.assign(Object.assign({}, this.calendarData), { bookingEvents: bookings });
         const isDateInBetweenTheLastPeriodDate = (d) => {
-            const endDate = moment.hooks(this.tasksEndDate, 'YYYY-MM-DD');
+            const endDate = utils.hooks(this.tasksEndDate, 'YYYY-MM-DD');
             // return moment(d.FROM_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate) || moment(d.TO_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate);
-            return moment.hooks(d.FROM_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date') || moment.hooks(d.TO_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date');
+            return utils.hooks(d.FROM_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date') || utils.hooks(d.TO_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date');
         };
         if (data.some(isDateInBetweenTheLastPeriodDate)) {
             this.getHousekeepingTasks({
-                from_date: moment.hooks().format('YYYY-MM-DD'),
+                from_date: utils.hooks().format('YYYY-MM-DD'),
                 to_date: this.tasksEndDate,
             });
         }
     }
     transformDateForScroll(date) {
-        return moment.hooks(date).format('D_M_YYYY');
+        return utils.hooks(date).format('D_M_YYYY');
     }
     shouldRenderCalendarView() {
         // console.log("rendering...")
@@ -5015,7 +5014,7 @@ const IglooCalendar = class {
             });
             utils.calendar_dates.days = this.days;
             this.calendarData = Object.assign(Object.assign({}, this.calendarData), { days: this.days, monthsInfo: [...newMonths, ...this.calendarData.monthsInfo], bookingEvents: [...this.calendarData.bookingEvents, ...bookings] });
-            if (Math.abs(moment.hooks().diff(moment.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
+            if (Math.abs(utils.hooks().diff(utils.hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
                 const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
                 this.calendarData.unassignedDates = Object.assign(Object.assign({}, this.calendarData.unassignedDates), data);
                 this.unassignedDates = {
@@ -5061,12 +5060,12 @@ const IglooCalendar = class {
         }
     }
     async handleDateSearch(dates) {
-        const startDate = moment.hooks(dates.start).toDate();
-        const defaultFromDate = moment.hooks(this.calDates.from).toDate();
+        const startDate = utils.hooks(dates.start).toDate();
+        const defaultFromDate = utils.hooks(this.calDates.from).toDate();
         const endDate = dates.end.toDate();
         const defaultToDate = this.calendarData.endingDate;
         if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
-            await this.addDatesToCalendar(moment.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), moment.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(utils.hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), utils.hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
             this.calDates = Object.assign(Object.assign({}, this.calDates), { from: dates.start.add(-1, 'days').format('YYYY-MM-DD') });
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
@@ -5075,7 +5074,7 @@ const IglooCalendar = class {
         }
         else if (startDate.getTime() > defaultToDate) {
             const nextDay = utils.getNextDay(new Date(this.calendarData.endingDate));
-            await this.addDatesToCalendar(nextDay, moment.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            await this.addDatesToCalendar(nextDay, utils.hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
             this.scrollToElement(this.transformDateForScroll(startDate));
         }
     }
@@ -5384,8 +5383,8 @@ const IrHkTasks = class {
             await Promise.all(requests);
             const tasksResult = await this.houseKeepingService.getHkTasks({
                 property_id: this.property_id,
-                from_date: moment.hooks().format('YYYY-MM-DD'),
-                to_date: moment.hooks().format('YYYY-MM-DD'),
+                from_date: utils.hooks().format('YYYY-MM-DD'),
+                to_date: utils.hooks().format('YYYY-MM-DD'),
                 housekeepers: [],
                 cleaning_frequency: (_c = ((_a = calendarData.calendar_data.cleaning_frequency) !== null && _a !== void 0 ? _a : (_b = housekeeping_service.housekeeping_store === null || housekeeping_service.housekeeping_store === void 0 ? void 0 : housekeeping_service.housekeeping_store.hk_criteria) === null || _b === void 0 ? void 0 : _b.cleaning_frequencies[0])) === null || _c === void 0 ? void 0 : _c.code,
                 dusty_window: (_e = (_d = housekeeping_service.housekeeping_store === null || housekeeping_service.housekeeping_store === void 0 ? void 0 : housekeeping_service.housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.dusty_periods[0]) === null || _e === void 0 ? void 0 : _e.code,
@@ -5532,8 +5531,8 @@ const IrHkTasks = class {
             dusty_window: dusty_units === null || dusty_units === void 0 ? void 0 : dusty_units.code,
             highlight_window: highlight_check_ins === null || highlight_check_ins === void 0 ? void 0 : highlight_check_ins.code,
             property_id: this.property_id,
-            from_date: moment.hooks().format('YYYY-MM-DD'),
-            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || moment.hooks().format('YYYY-MM-DD'),
+            from_date: utils.hooks().format('YYYY-MM-DD'),
+            to_date: (cleaning_periods === null || cleaning_periods === void 0 ? void 0 : cleaning_periods.code) || utils.hooks().format('YYYY-MM-DD'),
             is_export_to_excel: export_to_excel,
         });
         console.log(tasks);
@@ -5821,9 +5820,9 @@ const IrMonthlyBookingsReport = class {
     componentWillLoad() {
         this.baseFilters = {
             date: {
-                description: moment.hooks().format('MMMM YYYY'),
-                firstOfMonth: moment.hooks().startOf('month').format('YYYY-MM-DD'),
-                lastOfMonth: moment.hooks().endOf('month').format('YYYY-MM-DD'),
+                description: utils.hooks().format('MMMM YYYY'),
+                firstOfMonth: utils.hooks().startOf('month').format('YYYY-MM-DD'),
+                lastOfMonth: utils.hooks().endOf('month').format('YYYY-MM-DD'),
             },
             include_previous_year: false,
         };
@@ -5907,8 +5906,8 @@ const IrMonthlyBookingsReport = class {
             ];
             if (include_previous_year) {
                 requests.push(this.propertyService.getMonthlyStats({
-                    from_date: moment.hooks(date.firstOfMonth, 'YYYY-MM-DD').add(-1, 'year').format('YYYY-MM-DD'),
-                    to_date: moment.hooks(date.lastOfMonth, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'),
+                    from_date: utils.hooks(date.firstOfMonth, 'YYYY-MM-DD').add(-1, 'year').format('YYYY-MM-DD'),
+                    to_date: utils.hooks(date.lastOfMonth, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'),
                     property_id: this.property_id,
                 }));
             }
@@ -5921,7 +5920,7 @@ const IrMonthlyBookingsReport = class {
                 const previousYearReports = results[isExportToExcel ? 0 : 1];
                 let formattedReports = previousYearReports.DailyStats.map(getReportObj);
                 enrichedReports = DailyStats.map(getReportObj).map(current => {
-                    const previous = formattedReports.find(prev => prev.day === moment.hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
+                    const previous = formattedReports.find(prev => prev.day === utils.hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
                     return Object.assign(Object.assign({}, current), { last_year: previous !== null && previous !== void 0 ? previous : null });
                 });
             }
@@ -5946,7 +5945,7 @@ const IrMonthlyBookingsReport = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("section", null, index.h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, index.h("ir-report-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), index.h("ir-report-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), index.h("ir-report-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.reports) === null || _h === void 0 ? void 0 : _h.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), index.h("ir-report-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => moment.hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), index.h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), index.h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("section", null, index.h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, index.h("ir-report-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), index.h("ir-report-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), index.h("ir-report-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.reports) === null || _h === void 0 ? void 0 : _h.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), index.h("ir-report-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => utils.hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), index.h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), index.h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -5982,8 +5981,8 @@ const IrSalesByCountry = class {
         this.propertyService = new PropertyService();
         this.bookingService = new booking_service.BookingService();
         this.baseFilters = {
-            FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
-            TO_DATE: moment.hooks().format('YYYY-MM-DD'),
+            FROM_DATE: utils.hooks().add(-7, 'days').format('YYYY-MM-DD'),
+            TO_DATE: utils.hooks().format('YYYY-MM-DD'),
             BOOK_CASE: '001',
             WINDOW: 7,
             include_previous_year: false,
@@ -6067,7 +6066,7 @@ const IrSalesByCountry = class {
             const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: moment.hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: moment.hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: utils.hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: utils.hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
                     return Object.assign(Object.assign({ id: v4.v4() }, formatSalesData(current)), { last_year: previous ? formatSalesData(previous) : null });

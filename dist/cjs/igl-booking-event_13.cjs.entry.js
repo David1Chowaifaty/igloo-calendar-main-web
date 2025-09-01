@@ -3,15 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const booking_service = require('./booking.service-76a39dba.js');
-const utils = require('./utils-bf9b1b25.js');
-const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-99cb06ef.js');
+const booking_service = require('./booking.service-e3e00724.js');
+const utils = require('./utils-a78b3679.js');
+const events_service = require('./events.service-930d38d2.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 const index$1 = require('./index-63734c32.js');
 const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
-const toBeAssigned_service = require('./toBeAssigned.service-f03eb33c.js');
+const toBeAssigned_service = require('./toBeAssigned.service-1f9817df.js');
 const unassigned_dates_store = require('./unassigned_dates.store-0f9ac3e2.js');
 const icons = require('./icons-751623e9.js');
 require('./axios-6e678d52.js');
@@ -177,9 +176,9 @@ const IglBookingEvent = class {
                 }
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
-                    const previousToDate = moment.hooks(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
+                    const previousToDate = utils.hooks(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
                     console.log(this.findRoomType(Number(this.bookingEvent.PR_ID)), this.findRoomType(Number(toRoomId)));
-                    if ((!moment.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isSame(moment.hooks(to_date, 'YYYY-MM-DD'), 'dates') ||
+                    if ((!utils.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isSame(utils.hooks(to_date, 'YYYY-MM-DD'), 'dates') ||
                         this.findRoomType(Number(this.bookingEvent.PR_ID)) !== this.findRoomType(Number(toRoomId))) &&
                         (((_a = utils.calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)) === null || _a === void 0 ? void 0 : _a.disabled) ||
                             (((_b = utils.calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)) === null || _b === void 0 ? void 0 : _b.disabled) && ((_c = utils.calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)) === null || _c === void 0 ? void 0 : _c.disabled))) &&
@@ -222,14 +221,14 @@ const IglBookingEvent = class {
                                 let fromDate = oldFromDate;
                                 let toDate = oldToDate;
                                 if (this.isShrinking) {
-                                    if (moment.hooks(from_date, 'YYYY-MM-DD').isAfter(moment.hooks(oldFromDate, 'YYYY-MM-DD')) && moment.hooks(to_date, 'YYYY-MM-DD').isBefore(moment.hooks(oldToDate, 'YYYY-MM-DD'))) {
+                                    if (utils.hooks(from_date, 'YYYY-MM-DD').isAfter(utils.hooks(oldFromDate, 'YYYY-MM-DD')) && utils.hooks(to_date, 'YYYY-MM-DD').isBefore(utils.hooks(oldToDate, 'YYYY-MM-DD'))) {
                                         fromDate = oldFromDate;
                                         toDate = to_date;
                                     }
                                     else {
-                                        shrinkingDirection = moment.hooks(from_date, 'YYYY-MM-DD').isAfter(moment.hooks(oldFromDate, 'YYYY-MM-DD'))
+                                        shrinkingDirection = utils.hooks(from_date, 'YYYY-MM-DD').isAfter(utils.hooks(oldFromDate, 'YYYY-MM-DD'))
                                             ? 'left'
-                                            : moment.hooks(to_date, 'YYYY-MM-DD').isBefore(moment.hooks(oldToDate, 'YYYY-MM-DD'))
+                                            : utils.hooks(to_date, 'YYYY-MM-DD').isBefore(utils.hooks(oldToDate, 'YYYY-MM-DD'))
                                                 ? 'right'
                                                 : null;
                                         if (shrinkingDirection === 'left') {
@@ -242,14 +241,14 @@ const IglBookingEvent = class {
                                 }
                                 else {
                                     console.log('stretching');
-                                    if (moment.hooks(from_date, 'YYYY-MM-DD').isBefore(moment.hooks(oldFromDate, 'YYYY-MM-DD'))) {
+                                    if (utils.hooks(from_date, 'YYYY-MM-DD').isBefore(utils.hooks(oldFromDate, 'YYYY-MM-DD'))) {
                                         fromDate = from_date;
-                                        const newToDate = moment.hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
-                                        toDate = newToDate.isBefore(moment.hooks(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
+                                        const newToDate = utils.hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
+                                        toDate = newToDate.isBefore(utils.hooks(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
                                     }
-                                    else if (moment.hooks(to_date, 'YYYY-MM-DD').isAfter(moment.hooks(oldToDate, 'YYYY-MM-DD'))) {
+                                    else if (utils.hooks(to_date, 'YYYY-MM-DD').isAfter(utils.hooks(oldToDate, 'YYYY-MM-DD'))) {
                                         toDate = to_date;
-                                        fromDate = moment.hooks(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
+                                        fromDate = utils.hooks(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
                                     }
                                 }
                                 console.warn({ fromDate, toDate });
@@ -283,16 +282,16 @@ const IglBookingEvent = class {
                                         if ((_a = utils.calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)) === null || _a === void 0 ? void 0 : _a.disabled) {
                                             counter++;
                                         }
-                                        cursor = moment.hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+                                        cursor = utils.hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
                                     }
                                     if (counter >= 1) {
                                         this.reset(locales_store.locales.entries.Lcz_ThisUnitIsNotAvailable);
                                     }
                                 };
-                                if (moment.hooks(oldToDate, 'YYYY-MM-DD').isBefore(moment.hooks(to_date), 'dates')) {
+                                if (utils.hooks(oldToDate, 'YYYY-MM-DD').isBefore(utils.hooks(to_date), 'dates')) {
                                     validateDates(oldToDate, to_date);
                                 }
-                                else if (moment.hooks(oldFromDate, 'YYYY-MM-DD').isAfter(moment.hooks(from_date, 'YYYY-MM-DD'), 'dates')) {
+                                else if (utils.hooks(oldFromDate, 'YYYY-MM-DD').isAfter(utils.hooks(from_date, 'YYYY-MM-DD'), 'dates')) {
                                     validateDates(from_date, oldFromDate);
                                 }
                                 const payload = {
@@ -347,8 +346,8 @@ const IglBookingEvent = class {
                 // };
             }
             else {
-                if (moment.hooks(from_date, 'YYYY-MM-DD').isSame(moment.hooks(this.bookingEvent.FROM_DATE, 'YYYY-MM-DD')) &&
-                    moment.hooks(to_date, 'YYYY-MM-DD').isSame(moment.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD'))) {
+                if (utils.hooks(from_date, 'YYYY-MM-DD').isSame(utils.hooks(this.bookingEvent.FROM_DATE, 'YYYY-MM-DD')) &&
+                    utils.hooks(to_date, 'YYYY-MM-DD').isSame(utils.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD'))) {
                     const initialRT = this.findRoomType(this.bookingEvent.PR_ID);
                     const targetRT = this.findRoomType(toRoomId);
                     if (initialRT === targetRT) {
@@ -411,14 +410,14 @@ const IglBookingEvent = class {
         }
     }
     checkIfSlotOccupied(toRoomId, from_date, to_date) {
-        const fromTime = moment.hooks(from_date, 'YYYY-MM-DD');
-        const toTime = moment.hooks(to_date, 'YYYY-MM-DD');
+        const fromTime = utils.hooks(from_date, 'YYYY-MM-DD');
+        const toTime = utils.hooks(to_date, 'YYYY-MM-DD');
         const isOccupied = this.allBookingEvents.some(event => {
             if (event.POOL === this.bookingEvent.POOL) {
                 return false;
             }
-            const eventFromTime = moment.hooks(event.FROM_DATE, 'YYYY-MM-DD').add(1, 'days');
-            const eventToTime = moment.hooks(event.TO_DATE, 'YYYY-MM-DD');
+            const eventFromTime = utils.hooks(event.FROM_DATE, 'YYYY-MM-DD').add(1, 'days');
+            const eventToTime = utils.hooks(event.TO_DATE, 'YYYY-MM-DD');
             return event.PR_ID === +toRoomId && toTime.isSameOrAfter(eventFromTime) && fromTime.isBefore(eventToTime);
         });
         return isOccupied;
@@ -507,12 +506,12 @@ const IglBookingEvent = class {
             // pos.width = this.getStayDays() * this.dayWidth - this.eventSpace + 'px';
             pos.left =
                 boundingRect.left +
-                    (!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0 : this.dayWidth / 2) +
+                    (!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0 : this.dayWidth / 2) +
                     this.eventSpace / 2 -
                     bodyContainerRect.left +
                     'px';
             pos.width =
-                (this.getStayDays() + (!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0.5 : 0)) *
+                (this.getStayDays() + (!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 0.5 : 0)) *
                     this.dayWidth -
                     this.eventSpace +
                     'px';
@@ -654,7 +653,7 @@ const IglBookingEvent = class {
             }
             else {
                 const finalWidth = this.finalWidth -
-                    (!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? this.dayWidth / 2 : 0);
+                    (!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? this.dayWidth / 2 : 0);
                 const numberOfDays = Math.round(finalWidth / this.dayWidth);
                 console.log(finalWidth, this.dayWidth, numberOfDays);
                 let initialStayDays = this.getStayDays();
@@ -683,7 +682,7 @@ const IglBookingEvent = class {
                             nbOfDays: numberOfDays,
                         },
                     });
-                    const offset = !this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? +this.dayWidth / 2 : 0;
+                    const offset = !this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? +this.dayWidth / 2 : 0;
                     this.element.style.width = `${numberOfDays * this.dayWidth - this.eventSpace + offset}px`;
                 }
                 else {
@@ -794,15 +793,15 @@ const IglBookingEvent = class {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (index.h(index.Host, { key: '1917b9f430088f87b02780deb9a06e3673272544', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: 'b7f352d7c356d294f0d8ed4b4d92e0497a4bb1de', class: `bookingEventBase  ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-          ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
+        return (index.h(index.Host, { key: '1917b9f430088f87b02780deb9a06e3673272544', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, index.h("div", { key: 'b7f352d7c356d294f0d8ed4b4d92e0497a4bb1de', class: `bookingEventBase  ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+          ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
           ${!this.bookingEvent.is_direct &&
                 !utils.isBlockUnit(this.bookingEvent.STATUS_CODE) &&
                 this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
                 this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: 'dc090887c4e4b7a21230b78692bdbe990087ce64', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), index.h(index.Fragment, { key: 'a85f7fb23cf32599e45620d8b1683b51ca4862a3' }, index.h("div", { key: '84633b6b5a85a222afa44897253d4cfa96878b33', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '83bc8d39152296880b26dc5e9533da0b24a43e48', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-              ${!this.isNewEvent() && moment.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (index.h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
+                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? index.h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? index.h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, index.h("div", { key: 'dc090887c4e4b7a21230b78692bdbe990087ce64', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), index.h(index.Fragment, { key: 'a85f7fb23cf32599e45620d8b1683b51ca4862a3' }, index.h("div", { key: '84633b6b5a85a222afa44897253d4cfa96878b33', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), index.h("div", { key: '83bc8d39152296880b26dc5e9533da0b24a43e48', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+              ${!this.isNewEvent() && utils.hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (index.h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     get element() { return index.getElement(this); }
 };
@@ -862,18 +861,18 @@ const IglBulkBlock = class {
         this.blockState = 'block';
         this.dates = [{ from: null, to: null }];
         this.dateRefs = [];
-        this.minDate = moment.hooks().format('YYYY-MM-DD');
+        this.minDate = utils.hooks().format('YYYY-MM-DD');
         this.bookingService = new booking_service.BookingService();
         this.datesSchema = index$1.z.array(index$1.z.object({
             from: index$1.z
                 .any()
-                .refine((val) => moment.hooks.isMoment(val), {
+                .refine((val) => utils.hooks.isMoment(val), {
                 message: "Invalid 'from' date; expected a Moment object.",
             })
                 .transform((val) => val.format('YYYY-MM-DD')),
             to: index$1.z
                 .any()
-                .refine((val) => moment.hooks.isMoment(val), {
+                .refine((val) => utils.hooks.isMoment(val), {
                 message: "Invalid 'to' date; expected a Moment object.",
             })
                 .transform((val) => val.format('YYYY-MM-DD')),
@@ -1045,7 +1044,7 @@ const IglBulkBlock = class {
                     evt.stopImmediatePropagation();
                     evt.stopPropagation();
                     this.handleDateChange({ index: i, date: evt.detail.start, key: 'to' });
-                }, maxDate: d.from ? moment.hooks(d.from).add(3, 'months').format('YYYY-MM-DD') : undefined, onDatePickerFocus: e => {
+                }, maxDate: d.from ? utils.hooks(d.from).add(3, 'months').format('YYYY-MM-DD') : undefined, onDatePickerFocus: e => {
                     var _a, _b, _c, _d;
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -1128,25 +1127,25 @@ const IglBulkStopSale = class {
             .fill(null)
             .map((_, i) => i));
         this.dateRefs = [];
-        this.minDate = moment.hooks().format('YYYY-MM-DD');
+        this.minDate = utils.hooks().format('YYYY-MM-DD');
         this.bookingService = new booking_service.BookingService();
         this.datesSchema = index$1.z.array(index$1.z.object({
             from: index$1.z
                 .any()
-                .refine((val) => moment.hooks.isMoment(val), {
+                .refine((val) => utils.hooks.isMoment(val), {
                 message: "Invalid 'from' date; expected a Moment object.",
             })
                 .transform((val) => val.format('YYYY-MM-DD')),
             to: index$1.z
                 .any()
-                .refine((val) => moment.hooks.isMoment(val), {
+                .refine((val) => utils.hooks.isMoment(val), {
                 message: "Invalid 'to' date; expected a Moment object.",
             })
                 .transform((val) => val.format('YYYY-MM-DD')),
         }));
     }
     getDayIndex(dateStr) {
-        return moment.hooks(dateStr, 'YYYY-MM-DD').day();
+        return utils.hooks(dateStr, 'YYYY-MM-DD').day();
     }
     componentDidLoad() {
         this.reloadInterceptor = new ReloadInterceptor({ autoActivate: false });
@@ -1169,9 +1168,9 @@ const IglBulkStopSale = class {
             const p = [];
             for (const period of periods) {
                 let current = period.from;
-                const lastDay = moment.hooks(period.to, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+                const lastDay = utils.hooks(period.to, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
                 while (current !== lastDay) {
-                    const nextDay = moment.hooks(current, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+                    const nextDay = utils.hooks(current, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
                     if (!this.selectedWeekdays.has(this.getDayIndex(current))) {
                         current = nextDay;
                         continue;
@@ -1658,8 +1657,8 @@ const IglCalBody = class {
             }
             else {
                 const keys = Object.keys(this.selectedRooms);
-                const startDate = moment.hooks(this.selectedRooms[keys[0]].value, 'YYYY-MM-DD');
-                const endDate = moment.hooks(selectedDay.value, 'YYYY-MM-DD');
+                const startDate = utils.hooks(this.selectedRooms[keys[0]].value, 'YYYY-MM-DD');
+                const endDate = utils.hooks(selectedDay.value, 'YYYY-MM-DD');
                 let cursor = startDate.clone().add(1, 'days');
                 let disabledCount = 0;
                 while (cursor.isBefore(endDate, 'day')) {
@@ -1693,17 +1692,17 @@ const IglCalBody = class {
     getBookingMap(bookings) {
         var _a, _b;
         const bookingMap = new Map();
-        const today = moment.hooks().startOf('day');
+        const today = utils.hooks().startOf('day');
         for (const booking of bookings) {
-            const fromDate = moment.hooks(booking.FROM_DATE, 'YYYY-MM-DD').startOf('day');
-            const toDate = moment.hooks(booking.TO_DATE, 'YYYY-MM-DD').startOf('day');
+            const fromDate = utils.hooks(booking.FROM_DATE, 'YYYY-MM-DD').startOf('day');
+            const toDate = utils.hooks(booking.TO_DATE, 'YYYY-MM-DD').startOf('day');
             // Check if today is between fromDate and toDate, inclusive.
             if (today.isSameOrAfter(fromDate) && today.isSameOrBefore(toDate)) {
                 if (!bookingMap.has(booking.PR_ID)) {
                     bookingMap.set(booking.PR_ID, booking.BOOKING_NUMBER);
                 }
                 else {
-                    if (utils.compareTime(moment.hooks().toDate(), utils.createDateWithOffsetAndHour((_a = calendarData.calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendarData.calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour))) {
+                    if (utils.compareTime(utils.hooks().toDate(), utils.createDateWithOffsetAndHour((_a = calendarData.calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendarData.calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour))) {
                         bookingMap.set(booking.PR_ID, booking.BOOKING_NUMBER);
                     }
                 }
@@ -1721,7 +1720,7 @@ const IglCalBody = class {
         return this.calendarData.days.map(dayInfo => {
             var _a;
             const isCellDisabled = this.isCellDisabled(Number(roomId), dayInfo.value);
-            const prevDate = moment.hooks(dayInfo.value, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
+            const prevDate = utils.hooks(dayInfo.value, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
             const isDisabled = (isCellDisabled && Object.keys(this.selectedRooms).length === 0) || (isCellDisabled && this.isCellDisabled(Number(roomId), prevDate));
             const isSelected = this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo));
             const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
@@ -1974,7 +1973,7 @@ const IglCalHeader = class {
             dt.setHours(0, 0, 0, 0);
             let endDate = dt.getTime();
             while (endDate <= new Date(toDate).getTime()) {
-                const selectedDate = moment.hooks(endDate).format('D_M_YYYY');
+                const selectedDate = utils.hooks(endDate).format('D_M_YYYY');
                 if (data[endDate]) {
                     const result = await this.toBeAssignedService.getUnassignedRooms({ from_date: this.calendarData.from_date, to_date: this.calendarData.to_date }, this.propertyid, utils.dateToFormattedString(new Date(endDate)), this.calendarData.roomsInfo, this.calendarData.formattedLegendData);
                     this.unassignedRoomsNumber[selectedDate] = result.length;
@@ -1983,7 +1982,7 @@ const IglCalHeader = class {
                     const res = this.unassignedRoomsNumber[selectedDate] - 1;
                     this.unassignedRoomsNumber[selectedDate] = res < 0 ? 0 : res;
                 }
-                const newEndDate = moment.hooks(endDate).add(1, 'days').toDate();
+                const newEndDate = utils.hooks(endDate).add(1, 'days').toDate();
                 newEndDate.setHours(0, 0, 0, 0);
                 endDate = newEndDate.getTime();
                 this.renderView();
@@ -1999,9 +1998,9 @@ const IglCalHeader = class {
         const { fromDate, toDate } = event.detail;
         let endDate = new Date(fromDate).getTime();
         while (endDate < new Date(toDate).getTime()) {
-            const selectedDate = moment.hooks(endDate).format('D_M_YYYY');
+            const selectedDate = utils.hooks(endDate).format('D_M_YYYY');
             this.unassignedRoomsNumber[selectedDate] = this.unassignedRoomsNumber[selectedDate] - 1;
-            endDate = moment.hooks(endDate).add(1, 'days').toDate().getTime();
+            endDate = utils.hooks(endDate).add(1, 'days').toDate().getTime();
         }
         this.renderView();
     }
@@ -2080,7 +2079,7 @@ const IglCalHeader = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (index.h(index.Host, { key: 'b9ecdf7ffb246abd4fa44d18783a9ed998f8c010' }, index.h("div", { key: '3d4ee8c6f764eca682d949a96f1846d0d532e04a', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: '6eb29e0db8037acba88c67819b4ca7da0509cf2c', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("ir-button", { key: '124f7677ff604432e34732e8ced141755ff5757d', variant: "icon", icon_name: "server", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), index.h("ir-date-picker", { key: '949be502e387a2c26b8db0626fbf4f0fc6bf6f8f', minDate: moment.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
+        return (index.h(index.Host, { key: 'b9ecdf7ffb246abd4fa44d18783a9ed998f8c010' }, index.h("div", { key: '3d4ee8c6f764eca682d949a96f1846d0d532e04a', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, index.h("div", { key: '6eb29e0db8037acba88c67819b4ca7da0509cf2c', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (index.h("ir-button", { key: '124f7677ff604432e34732e8ced141755ff5757d', variant: "icon", icon_name: "server", style: Object.assign(Object.assign({}, icons.colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales_store.locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), index.h("ir-date-picker", { key: '949be502e387a2c26b8db0626fbf4f0fc6bf6f8f', minDate: utils.hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
             // autoApply
             // singleDatePicker
             onDateChanged: evt => {
@@ -2204,7 +2203,7 @@ const IglToBeAssigned = class {
             else if (data && data[endDate]) {
                 this.unassignedDates[endDate] = data[endDate];
             }
-            endDate = moment.hooks(endDate).add(1, 'days').toDate().getTime();
+            endDate = utils.hooks(endDate).add(1, 'days').toDate().getTime();
         }
         this.data = Object.assign({}, this.unassignedDates);
         this.orderedDatesList = Object.keys(this.data).sort((a, b) => parseInt(a) - parseInt(b));
@@ -2526,7 +2525,7 @@ const IrRoomNights = class {
         var _a;
         try {
             const { from_date } = this.defaultDates;
-            if (moment.hooks(from_date, 'YYYY-MM-DD').isBefore(moment.hooks(this.fromDate, 'YYYY-MM-DD'))) {
+            if (utils.hooks(from_date, 'YYYY-MM-DD').isBefore(utils.hooks(this.fromDate, 'YYYY-MM-DD'))) {
                 this.dates.from_date = new Date(from_date);
             }
             else {
@@ -2539,7 +2538,7 @@ const IrRoomNights = class {
                 this.selectedRoom = filteredRooms[0];
                 const lastDay = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.days[this.selectedRoom.days.length - 1];
                 //let first_rate = this.selectedRoom.days[0].amount;
-                if (moment.hooks(this.toDate).add(-1, 'days').isSame(moment.hooks(lastDay.date))) {
+                if (utils.hooks(this.toDate).add(-1, 'days').isSame(utils.hooks(lastDay.date))) {
                     console.log('here1');
                     const amount = await this.fetchBookingAvailability(this.fromDate, this.selectedRoom.days[0].date, this.selectedRoom.rateplan.id);
                     const newDatesArr = utils.getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
@@ -2557,7 +2556,7 @@ const IrRoomNights = class {
                 else {
                     console.log('here2');
                     console.log(lastDay);
-                    const amount = await this.fetchBookingAvailability(this.bookingEvent.to_date, moment.hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
+                    const amount = await this.fetchBookingAvailability(this.bookingEvent.to_date, utils.hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
                     const newDatesArr = utils.getDaysArray(lastDay.date, this.toDate);
                     this.rates = [
                         ...this.selectedRoom.days,
@@ -2658,7 +2657,7 @@ const IrRoomNights = class {
             if (selectedRoomIndex === -1) {
                 throw new Error('Invalid Pool');
             }
-            oldRooms[selectedRoomIndex] = Object.assign(Object.assign({}, oldRooms[selectedRoomIndex]), { days: this.rates, to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD') });
+            oldRooms[selectedRoomIndex] = Object.assign(Object.assign({}, oldRooms[selectedRoomIndex]), { days: this.rates, to_date: utils.hooks(this.dates.to_date).format('YYYY-MM-DD'), from_date: utils.hooks(this.dates.from_date).format('YYYY-MM-DD') });
             const body = {
                 assign_units: true,
                 check_in: true,
@@ -2668,8 +2667,8 @@ const IrRoomNights = class {
                 extra_services: this.bookingEvent.extra_services,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: utils.hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                    to_date: utils.hooks(this.dates.to_date).format('YYYY-MM-DD'),
                     remark: this.bookingEvent.remark,
                     property: this.bookingEvent.property,
                     source: this.bookingEvent.source,
@@ -2693,7 +2692,7 @@ const IrRoomNights = class {
         if (!this.bookingEvent) {
             return (index.h("div", { class: "loading-container" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales_store.locales.entries.Lcz_AddingRoomNightsTo} ${(_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 : _b.name} ${((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'text-left px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales_store.locales.entries.Lcz_AddingRoomNightsTo} ${(_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 : _b.name} ${((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'text-left px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(utils.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(utils.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
 IrRoomNights.style = IrRoomNightsStyle0 + IrRoomNightsStyle1;

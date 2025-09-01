@@ -4,8 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const locales_store = require('./locales.store-a1ac5174.js');
-const moment = require('./moment-1780b03a.js');
-const utils = require('./utils-bf9b1b25.js');
+const utils = require('./utils-a78b3679.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 require('./index-7564ffa1.js');
 require('./index-63734c32.js');
@@ -49,7 +48,7 @@ const IrSalesFilters = class {
                 { text: 'Stayed', value: '002' },
             ] })), index.h("fieldset", { key: 'e846d1b45070aaf9f1786e112784c5826faadd93', class: "pt-1 filter-group" }, index.h("label", { key: '0de969e6115c50ec57aadefc4a5bd55447bf2244', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), index.h("div", { key: '80e976c824f018591838cb418036093e76c00a1c', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, index.h("ir-select", { key: '77d3332f8aa760855f53a21ed30933e37932cf9c', selectedValue: this.window, onSelectChange: e => {
                 const dateDiff = Number(e.detail);
-                const today = moment.hooks();
+                const today = utils.hooks();
                 this.updateFilter({
                     WINDOW: dateDiff,
                     TO_DATE: today.format('YYYY-MM-DD'),
@@ -76,7 +75,7 @@ const IrSalesFilters = class {
                 if (wasFocused)
                     this.window = '';
                 // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: moment.hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: moment.hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: moment.hooks().format('YYYY-MM-DD'), withOverlay: false }))), index.h("div", { key: '3e294a49daed4401e454a4a312db649243d618d4', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, index.h("label", { key: '78a3b468a7751ccf222e33bad803a3e13a9c9d6d', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), index.h("ir-checkbox", { key: '71f6fa80641489bbe0217c4a8ea802fa3e000e9e', checked: (_b = this.filters) === null || _b === void 0 ? void 0 : _b.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            }, fromDate: utils.hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: utils.hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: utils.hooks().format('YYYY-MM-DD'), withOverlay: false }))), index.h("div", { key: '3e294a49daed4401e454a4a312db649243d618d4', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, index.h("label", { key: '78a3b468a7751ccf222e33bad803a3e13a9c9d6d', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), index.h("ir-checkbox", { key: '71f6fa80641489bbe0217c4a8ea802fa3e000e9e', checked: (_b = this.filters) === null || _b === void 0 ? void 0 : _b.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });

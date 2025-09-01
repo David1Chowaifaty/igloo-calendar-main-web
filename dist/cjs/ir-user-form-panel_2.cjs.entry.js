@@ -7,10 +7,10 @@ const locales_store = require('./locales.store-a1ac5174.js');
 const index$1 = require('./index-63734c32.js');
 const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
 const constants = require('./constants-abd1d7db.js');
-const user_service = require('./user.service-d3687d92.js');
+const user_service = require('./user.service-92c4124b.js');
 const calendarData = require('./calendar-data-960b69ba.js');
-const functions = require('./functions-1d46da3c.js');
-const moment = require('./moment-1780b03a.js');
+const functions = require('./functions-59438af0.js');
+const utils = require('./utils-a78b3679.js');
 const _commonjsHelpers = require('./_commonjsHelpers-b3309d7b.js');
 const InterceptorError = require('./InterceptorError-f629aa1a.js');
 const Token = require('./Token-3d0cc874.js');
@@ -18,7 +18,6 @@ const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
 const system_service = require('./system.service-bd8ed6a9.js');
 require('./index-7564ffa1.js');
 require('./axios-6e678d52.js');
-require('./utils-bf9b1b25.js');
 
 var uaParser_pack = {exports: {}};
 
@@ -188,7 +187,7 @@ const IrUserFormPanel = class {
             (((_o = this.user) === null || _o === void 0 ? void 0 : _o.type.toString()) === '17' && ((_p = this.userTypeCode) === null || _p === void 0 ? void 0 : _p.toString()) === '17' ? null : (index.h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, index.h("h4", { class: "m-0 p-0 logins-history-title" }, locales_store.locales.entries.Lcz_Password), index.h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: locales_store.locales.entries.Lcz_ChangePassword, btn_color: "link" }))))), ((_r = (_q = this.user) === null || _q === void 0 ? void 0 : _q.sign_ins) === null || _r === void 0 ? void 0 : _r.length) > 0 && (index.h("section", { key: 'f869ed8aad6ca8c390701b03d8e325b5b42241bf', class: "logins-history-section mt-2" }, index.h("div", { key: '1de4c56fa69d59641e7a63622acc46d42fed0bf4', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, index.h("h4", { key: '487c098ea7c3f725d4d198fb6a8dfe3fea11274f', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (index.h("ir-button", { key: 'cad1ce5cb46c608117379ffc9c70d21ca9a29bd0', btn_styles: 'pr-0', text: !this.showFullHistory ? locales_store.locales.entries.Lcz_ViewAll : locales_store.locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), index.h("ul", { key: '1dd38b941d75d61aa057df1d090d60bdae642722', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             var _a, _b, _c;
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
-            return (index.h("li", { class: "login-entry", key: s.date + '_' + i }, index.h("div", { class: "login-meta" }, index.h("p", { class: "login-datetime" }, moment.hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", functions._formatTime((_a = s.hour) === null || _a === void 0 ? void 0 : _a.toString(), (_b = s.minute) === null || _b === void 0 ? void 0 : _b.toString()), " |"), index.h("p", { class: "login-location" }, index.h("span", { class: "login-ip" }, locales_store.locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", index.h("span", { class: "login-country" }, locales_store.locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", index.h("span", { class: "login-os" }, "OS: ", (_c = ua.os.name) !== null && _c !== void 0 ? _c : 'N/A', " ", ua.os.version)))));
+            return (index.h("li", { class: "login-entry", key: s.date + '_' + i }, index.h("div", { class: "login-meta" }, index.h("p", { class: "login-datetime" }, utils.hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", functions._formatTime((_a = s.hour) === null || _a === void 0 ? void 0 : _a.toString(), (_b = s.minute) === null || _b === void 0 ? void 0 : _b.toString()), " |"), index.h("p", { class: "login-location" }, index.h("span", { class: "login-ip" }, locales_store.locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", index.h("span", { class: "login-country" }, locales_store.locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", index.h("span", { class: "login-os" }, "OS: ", (_c = ua.os.name) !== null && _c !== void 0 ? _c : 'N/A', " ", ua.os.version)))));
         })))), index.h("ir-sidebar", { key: 'aa378104d4743e9890033691768da1f245450273', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
@@ -362,10 +361,10 @@ const IrUserManagementTable = class {
             var _a;
             const isUserSuperAdmin = user.type.toString() === this.superAdminId;
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
-            const latestSignInDate = latestSignIn ? moment.hooks(latestSignIn.date, 'YYYY-MM-DD') : null;
-            const isLastSignInOld = latestSignInDate ? moment.hooks().diff(latestSignInDate, 'days') > 30 : false;
-            return (index.h("tr", { key: user.id, class: "ir-table-row" }, index.h("td", null, user.username), index.h("td", null, user.email, this.haveAdminPrivileges && (index.h("span", { style: { marginLeft: '0.5rem' }, class: `small ${user.is_email_verified ? 'text-success' : 'text-danger'}` }, user.is_email_verified ? locales_store.locales.entries.Lcz_Verified : locales_store.locales.entries.Lcz_NotVerified))), index.h("td", null, (_a = user.mobile) !== null && _a !== void 0 ? _a : 'N/A'), index.h("td", null, user.type.toString() === this.superAdminId ? locales_store.locales.entries.Lcz_SuperAdmin : this.userTypes.get(user.type.toString())), index.h("td", { class: "small" }, index.h("p", { class: "m-0 p-0" }, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : moment.hooks(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: `m-0 p-0 ${isLastSignInOld ? 'text-danger' : ''}` }, latestSignIn && new Date(latestSignIn.date).getFullYear() > 1900
-                ? moment.hooks(latestSignIn.date, 'YYYY-MM-DD').format('DD-MMM-YYYY') + ' ' + functions._formatTime(latestSignIn.hour.toString(), latestSignIn.minute.toString())
+            const latestSignInDate = latestSignIn ? utils.hooks(latestSignIn.date, 'YYYY-MM-DD') : null;
+            const isLastSignInOld = latestSignInDate ? utils.hooks().diff(latestSignInDate, 'days') > 30 : false;
+            return (index.h("tr", { key: user.id, class: "ir-table-row" }, index.h("td", null, user.username), index.h("td", null, user.email, this.haveAdminPrivileges && (index.h("span", { style: { marginLeft: '0.5rem' }, class: `small ${user.is_email_verified ? 'text-success' : 'text-danger'}` }, user.is_email_verified ? locales_store.locales.entries.Lcz_Verified : locales_store.locales.entries.Lcz_NotVerified))), index.h("td", null, (_a = user.mobile) !== null && _a !== void 0 ? _a : 'N/A'), index.h("td", null, user.type.toString() === this.superAdminId ? locales_store.locales.entries.Lcz_SuperAdmin : this.userTypes.get(user.type.toString())), index.h("td", { class: "small" }, index.h("p", { class: "m-0 p-0" }, new Date(user.created_on).getFullYear() === 1900 || !user.created_on ? 'N/A' : utils.hooks(user.created_on, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: `m-0 p-0 ${isLastSignInOld ? 'text-danger' : ''}` }, latestSignIn && new Date(latestSignIn.date).getFullYear() > 1900
+                ? utils.hooks(latestSignIn.date, 'YYYY-MM-DD').format('DD-MMM-YYYY') + ' ' + functions._formatTime(latestSignIn.hour.toString(), latestSignIn.minute.toString())
                 : 'N/A')), this.haveAdminPrivileges && (index.h("td", null, this.haveAdminPrivileges && !this.isSuperAdmin && user.type.toString() === '17'
                 ? null
                 : !isUserSuperAdmin && index.h("ir-switch", { onCheckChange: e => this.handleUserActiveChange(e, user), checked: user.is_active }))), index.h("td", { class: 'action-row' }, (this.canEdit || this.canDelete) && ((!this.isSuperAdmin && !isUserSuperAdmin) || this.isSuperAdmin) && (index.h("div", { class: "icons-container  d-flex align-items-center", style: { gap: '0.5rem' } }, this.canEdit && (index.h("ir-icon", { "data-testid": "edit", title: locales_store.locales.entries.Lcz_EditUser, onIconClickHandler: () => {

@@ -11,7 +11,7 @@ export declare class IrPaymentFolio {
     errors: any;
     autoValidate: boolean;
     folioData: IPayment;
-    _paymentTypes: IEntries[];
+    _paymentTypes: Record<string, IEntries[]>;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     resetExposedCancellationDueAmount: EventEmitter<null>;

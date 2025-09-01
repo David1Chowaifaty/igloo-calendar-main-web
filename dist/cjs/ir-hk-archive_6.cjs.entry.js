@@ -7,8 +7,7 @@ const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
 const locales_store = require('./locales.store-a1ac5174.js');
-const utils = require('./utils-bf9b1b25.js');
-const moment = require('./moment-1780b03a.js');
+const utils = require('./utils-a78b3679.js');
 const v4 = require('./v4-9b297151.js');
 const hkTasks_store = require('./hk-tasks.store-f07341ca.js');
 require('./index-7564ffa1.js');
@@ -31,7 +30,7 @@ const IrHkArchive = class {
         this.data = [];
         this.isLoading = null;
         this.fetchedData = false;
-        this.minSelectableDate = moment.hooks().subtract(90, 'days').toDate();
+        this.minSelectableDate = utils.hooks().subtract(90, 'days').toDate();
         this.houseKeepingService = new housekeeping_service.HouseKeepingService();
         this.units = [];
     }
@@ -131,7 +130,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), index.h("div", { key: 'a869f20f74f4cae3a9526e447cfe070ca37b6175', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: 'b4500ebb33e887267acbf384473baf9b993abd9f', maxDate: moment.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? moment.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? moment.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: '81293d784e1973f3cb00fe15616960e654bf6bb3', title: (_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: '7e91c36215b3513416536b34694426d0c6fddd25', title: (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: 'd03ae4be71c2d608bba4c0a420c4bfc769e3f540' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), index.h("div", { key: 'a869f20f74f4cae3a9526e447cfe070ca37b6175', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: 'b4500ebb33e887267acbf384473baf9b993abd9f', maxDate: utils.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? utils.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? utils.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: '81293d784e1973f3cb00fe15616960e654bf6bb3', title: (_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: '7e91c36215b3513416536b34694426d0c6fddd25', title: (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: 'd03ae4be71c2d608bba4c0a420c4bfc769e3f540' }, ((_k = this.data) === null || _k === void 0 ? void 0 : _k.length) === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, (_l = this.data) === null || _l === void 0 ? void 0 : _l.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -378,7 +377,7 @@ const IrTasksTable = class {
      * @returns {boolean} - Returns `true` if the task's date is today or earlier, otherwise `false`.
      */
     isCheckable(task) {
-        return moment.hooks(task.date, 'YYYY-MM-DD').isSameOrBefore(moment.hooks(), 'days');
+        return utils.hooks(task.date, 'YYYY-MM-DD').isSameOrBefore(utils.hooks(), 'days');
     }
     /**
      * Determines if a task is skippable.
@@ -389,7 +388,7 @@ const IrTasksTable = class {
      * @returns {boolean} - Returns `true` if the task's date is today and in house, otherwise `false`.
      */
     isSkippable(task) {
-        const isTodayTask = moment.hooks().isSame(moment.hooks(task.date, 'YYYY-MM-DD'), 'date');
+        const isTodayTask = utils.hooks().isSame(utils.hooks(task.date, 'YYYY-MM-DD'), 'date');
         return isTodayTask && task.status.code === 'IH';
     }
     render() {

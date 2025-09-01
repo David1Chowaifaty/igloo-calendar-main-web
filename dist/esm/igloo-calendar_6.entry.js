@@ -1,10 +1,9 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
 import { R as RoomService } from './room.service-39d12a8c.js';
-import { B as BookingService } from './booking.service-10c56ebe.js';
-import { n as formatLegendColors, o as calendar_dates, p as addCleaningTasks, b as formatName, q as getRoomStatus, u as cleanRoom, w as addRoomForCleaning, x as transformNewBooking, y as transformNewBLockedRooms, d as dateToFormattedString, z as bookingStatus, a as getPrivateNote, A as isBlockUnit, c as calculateDaysBetweenDates, B as getNextDay, C as addTwoMonthToDate, D as convertDMYToISO, E as computeEndDate, F as downloadFile } from './utils-6775b2fb.js';
-import { E as EventsService } from './events.service-bdc9e685.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-d478a73b.js';
+import { B as BookingService } from './booking.service-f82f4ce3.js';
+import { p as formatLegendColors, h as hooks, q as calendar_dates, u as addCleaningTasks, j as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, b as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, i as downloadFile } from './utils-b77baf9f.js';
+import { E as EventsService } from './events.service-65bc2fce.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-924d6c4c.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-5083e678.js';
@@ -14,7 +13,7 @@ import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore }
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-73b92191.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
-import { U as UserService } from './user.service-563c8f35.js';
+import { U as UserService } from './user.service-86815ff0.js';
 import './index-c4cf83be.js';
 import './index-6ecc32cd.js';
 
