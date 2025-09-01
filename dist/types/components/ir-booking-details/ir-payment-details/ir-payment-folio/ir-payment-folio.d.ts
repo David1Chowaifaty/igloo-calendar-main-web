@@ -11,15 +11,19 @@ export declare class IrPaymentFolio {
     errors: any;
     autoValidate: boolean;
     folioData: IPayment;
+    _paymentTypes: IEntries[];
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
+    resetExposedCancellationDueAmount: EventEmitter<null>;
     private folioSchema;
     private paymentService;
     componentWillLoad(): void;
     handlePaymentChange(newValue: IPayment, oldValue: IPayment): void;
+    handlePaymentTypesChange(newValue: IEntries[], oldValue: IEntries[]): void;
     private updateFolioData;
     private savePayment;
     private handleDropdownChange;
+    private getPaymentTypes;
     private renderDropdownItems;
     render(): any;
 }

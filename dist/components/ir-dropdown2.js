@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
-const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem;z-index:99999}";
+const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem;z-index:99999}.dropdown-trigger.sc-ir-dropdown{position:relative}.caret-icon.disabled.sc-ir-dropdown{opacity:0.5 !important;pointer-events:none !important;cursor:not-allowed !important}";
 const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTMLElement {
@@ -9,6 +9,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         super();
         this.__registerHost();
         this.optionChange = createEvent(this, "optionChange", 7);
+        this.disabled = false;
         this.isOpen = false;
         this.focusedIndex = -1;
         this.itemChildren = [];
@@ -21,7 +22,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
             }
         };
         this.handleKeyDown = (event) => {
-            if (!this.isComponentConnected)
+            if (!this.isComponentConnected || this.disabled)
                 return;
             const maxIndex = this.itemChildren.length - 1;
             switch (event.key) {
@@ -256,14 +257,16 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '1a33b040ad6134a70040e10c7b05ab94d304607d', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '0ced1d6c34523c365fe798303b75942a574cfe52', onClick: () => {
+        return (h(Host, { key: '2dc85a1a0c3e18e5d7ad95d73b65191ab4d6517f', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '27ea00249469c1b2b87549a14335488a388a93e3', onClick: () => {
+                if (this.disabled)
+                    return;
                 if (this.isOpen) {
                     this.closeDropdown();
                 }
                 else {
                     this.openDropdown();
                 }
-            }, class: "position-relative", onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '20cf8533b916d8681f4c4af811f4015c9fe086e0', name: "trigger" }), h("div", { key: 'e5a1523f72bc1ef04988767af797aa29c8f5a3b2', class: "caret-icon" }, h("ir-icons", { key: 'eb6b61ebf4f74bb5dd116f6781ddf9aa2a80c680', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '3565626baba126c3d7c557e7b5ecc8aa39e9b112', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '1837c4c9afc827ca9b962729912a769631e4e812' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1da437861821b8d6ce88268074964c7769848992', name: "trigger" }), h("div", { key: '180d0d26598c5892fb6422c4f145e5f03601f8e7', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '768ff0d27e0dd698f700b17fb823ebbcf8ae7362', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '72c5479acbc9a3f6163e30c0634ae52e19816433', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '87327ce54ba63e3ee7fa304e7a7566bfef14447f' }))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -272,6 +275,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
     static get style() { return IrDropdownStyle0; }
 }, [6, "ir-dropdown", {
         "value": [1544],
+        "disabled": [1540],
         "isOpen": [32],
         "selectedOption": [32],
         "focusedIndex": [32],

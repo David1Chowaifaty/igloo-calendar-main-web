@@ -25,6 +25,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.resetExposedCancellationDueAmount = createEvent(this, "resetExposedCancellationDueAmount", 7);
         this.payment = {
             date: hooks().format('YYYY-MM-DD'),
             amount: 0,
@@ -34,6 +35,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
             id: -1,
         };
         this.autoValidate = false;
+        this._paymentTypes = [];
         this.paymentService = new PaymentService();
     }
     componentWillLoad() {
@@ -57,10 +59,17 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
         if (this.payment) {
             this.folioData = Object.assign({}, this.payment);
         }
+        this.getPaymentTypes();
     }
     handlePaymentChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
             this.folioData = Object.assign({}, newValue);
+            this.getPaymentTypes();
+        }
+    }
+    handlePaymentTypesChange(newValue, oldValue) {
+        if (newValue !== oldValue && newValue) {
+            this.getPaymentTypes();
         }
     }
     updateFolioData(params) {
@@ -77,6 +86,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
             this.folioSchema.parse((_a = this.folioData) !== null && _a !== void 0 ? _a : {});
             await this.paymentService.AddPayment(Object.assign(Object.assign({}, this.folioData), { currency: calendar_data.currency, reference: (_b = this.folioData.reference) !== null && _b !== void 0 ? _b : '', designation: (_c = this.folioData.payment_type) === null || _c === void 0 ? void 0 : _c.description }), this.bookingNumber);
             this.resetBookingEvt.emit(null);
+            this.resetExposedCancellationDueAmount.emit(null);
             this.closeModal.emit(null);
         }
         catch (error) {
@@ -122,32 +132,36 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
             });
         }
     }
+    async getPaymentTypes() {
+        let items = [...this.paymentTypes];
+        if (this.mode === 'payment-action') {
+            items = items.slice(0, 8);
+        }
+        this._paymentTypes = items;
+    }
     renderDropdownItems() {
         const dividerArray = ['011'];
         if (this.mode !== 'payment-action') {
             dividerArray.push('008');
         }
-        let items = [...this.paymentTypes];
-        if (this.mode === 'payment-action') {
-            items = items.slice(0, 8);
-        }
-        return items.map(pt => (h(Fragment, null, h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, h("span", null, pt.CODE_VALUE_EN), h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')), dividerArray.includes(pt.CODE_NAME) && h("div", { class: "dropdown-divider" }))));
+        return this._paymentTypes.map(pt => (h(Fragment, null, h("ir-dropdown-item", { value: pt.CODE_NAME, class: "dropdown-item-payment" }, h("span", null, pt.CODE_VALUE_EN), h("span", { class: `payment-type-badge ${pt.NOTES === 'CR' ? 'credit-badge' : 'debit-badge'}` }, pt.NOTES === 'CR' ? 'credit' : 'debit')), dividerArray.includes(pt.CODE_NAME) && h("div", { class: "dropdown-divider" }))));
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
-        return (h("form", { key: 'f97423441045bc2ce39a8a004a2a637cd3f49ae1', class: 'sheet-container', onSubmit: async (e) => {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+        return (h("form", { key: '1e06e6f84117370e2d66368ceebd06183084ee5f', class: 'sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 this.savePayment();
-            } }, h("ir-title", { key: '53ae8c96681de60ad0b7b3c6b47d375d96ba0ab8', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: this.mode === 'edit' ? 'Edit Folio Entry' : 'New Folio Entry', displayContext: "sidebar" }), h("section", { key: 'a1f62c8390f216cde36e26b11d64e49fc459eb51', class: 'px-1 sheet-body d-flex flex-column', style: { gap: '1rem' } }, h("div", { key: 'dfade5d1d7348b48fce1140c51ea3644d75d5956', class: 'd-flex w-fill', style: { gap: '0.5rem' } }, h("div", { key: 'd9369d5e9a415f1629197fa85ac5374e4c9fc99d', class: "form-group  mb-0 flex-grow-1" }, h("div", { key: 'd490122ca6bbd37f0513e9939531929289a9807b', class: "input-group row m-0 flex-grow-1" }, h("div", { key: '2c046bc528b97f254bd26670b157287a27626719', class: `input-group-prepend col-4 col-md-3 p-0 text-dark border-0` }, h("label", { key: 'c7d16459e6219c6144ac93c654935c7c8fabc045', class: `input-group-text flex-grow-1 text-dark border-theme ` }, "Date")), h("div", { key: '41099cc4f54d0b508694e51b3a1c224fcfc3b2ac', class: "form-control  form-control-md col-10 flex-grow-1 d-flex align-items-center px-0 mx-0", style: { border: '0' } }, h("style", { key: 'b1a673bd4a07fed03dc0a588332fa44c825a4e79' }, `.ir-date-picker-trigger{
-                    width:100%;}`), h("ir-date-picker", { key: 'ce0746705923120942e5e4065e3604d2bc4868d9', "data-testid": "pickup_date", date: (_a = this.folioData) === null || _a === void 0 ? void 0 : _a.date, class: "w-100", emitEmptyDate: true, maxDate: hooks().format('YYYY-MM-DD'), "aria-invalid": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.date) && !((_c = this.folioData) === null || _c === void 0 ? void 0 : _c.date) ? 'true' : 'false', onDateChanged: evt => {
+            } }, h("ir-title", { key: '3d318ffbd5c8f095da2a8a50386575edb02eca71', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: this.mode === 'edit' ? 'Edit Folio Entry' : 'New Folio Entry', displayContext: "sidebar" }), h("section", { key: '2ba09e52fb8229e76e7a2527bbab4978d4d26742', class: 'px-1 sheet-body d-flex flex-column', style: { gap: '1rem' } }, h("div", { key: 'c334124f94d844d9785ddead7ee917cf808e6af7', class: 'd-flex w-fill', style: { gap: '0.5rem' } }, h("div", { key: '5a4a513dc22e8af5aa7bd7affc659fd1a683beef', class: "form-group  mb-0 flex-grow-1" }, h("div", { key: 'd9d69626a065d378479d8abd4e2402683e41b6d8', class: "input-group row m-0 flex-grow-1" }, h("div", { key: '437730c4a2bfbe782ca29807d265d0a06126fe23', class: `input-group-prepend col-4 col-md-3 p-0 text-dark border-0` }, h("label", { key: 'a3f21fba1e7562dd812edd123311436bef255d33', class: `input-group-text flex-grow-1 text-dark border-theme ` }, "Date")), h("div", { key: 'd069ac0a001445973302d7e414582bc243305789', class: "form-control  form-control-md col-10 flex-grow-1 d-flex align-items-center px-0 mx-0", style: { border: '0' } }, h("style", { key: '660319ed149c8af83eb3f9c8e48187f338984c6f' }, `.ir-date-picker-trigger{
+                    width:100%;}`), h("ir-date-picker", { key: '910f51459b52ee158dc3970b006eabdd0f0637b3', "data-testid": "pickup_date", date: (_a = this.folioData) === null || _a === void 0 ? void 0 : _a.date, class: "w-100", emitEmptyDate: true, maxDate: hooks().format('YYYY-MM-DD'), "aria-invalid": ((_b = this.errors) === null || _b === void 0 ? void 0 : _b.date) && !((_c = this.folioData) === null || _c === void 0 ? void 0 : _c.date) ? 'true' : 'false', onDateChanged: evt => {
                 var _a;
                 this.updateFolioData({ date: (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
-            } }, h("input", { key: '7ac497648ed9c410854c19dba8e30149125f3acb', type: "text", slot: "trigger", value: ((_d = this.folioData) === null || _d === void 0 ? void 0 : _d.date) ? hooks((_e = this.folioData) === null || _e === void 0 ? void 0 : _e.date).format('MMM DD, YYYY') : null, class: `form-control w-100 input-sm ${((_f = this.errors) === null || _f === void 0 ? void 0 : _f.date) && !((_g = this.folioData) === null || _g === void 0 ? void 0 : _g.date) ? 'border-danger' : ''} text-left`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } })))))), h("div", { key: '72c16610f12a8b2bfbd2bf673d1647fa32ca5355' }, h("ir-price-input", { key: '7ed1e58c316a5007c7b26ea912daf5268be8ccfb', containerClassname: "row", labelContainerClassname: "col-4 col-md-3 p-0 text-dark border-0", minValue: 0, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'flex-grow-1 text-dark  border-theme', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), h("div", { key: '0a554af0bf0b8b45f72fbd20ecf0d0ec77990584' }, h("ir-dropdown", { key: 'b16857ca635222878e9759a950d04eb809b67323', value: (_o = (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.payment_type) === null || _o === void 0 ? void 0 : _o.code, onOptionChange: this.handleDropdownChange.bind(this) }, h("div", { key: '175df6ac1e089d737370fdf7abf83fbd4eab00ac', slot: "trigger", class: 'input-group row m-0 ' }, h("div", { key: '83bfb60e77aaeb73139d38808370a0204ada7eec', class: `input-group-prepend col-4 col-md-3 p-0 text-dark border-0` }, h("label", { key: 'c81e3afd696d6f211bcd93b145ebead436ebca26', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), h("button", { key: '83c9919c38e4b59ad22a6331c94d4c6964773895', type: "button", class: `form-control  d-flex align-items-center cursor-pointer ${((_p = this.errors) === null || _p === void 0 ? void 0 : _p.designation) && !((_q = this.folioData) === null || _q === void 0 ? void 0 : _q.designation) ? 'border-danger' : ''}` }, ((_r = this.folioData) === null || _r === void 0 ? void 0 : _r.payment_type) ? h("span", null, (_s = this.folioData.payment_type) === null || _s === void 0 ? void 0 : _s.description) : h("span", null, "Select..."))), h("ir-dropdown-item", { key: '95e1a5e8ab63e3663699ec350f1748eede17b84a', value: "" }, "Select..."), this.renderDropdownItems())), h("div", { key: '972afbe0d64a119263f691a2ea2594cc423da443' }, h("ir-input-text", { key: 'd5b2adc9b445ccdec76454361048f5a5c98e0c7e', value: (_t = this.folioData) === null || _t === void 0 ? void 0 : _t.reference, error: (_u = this.errors) === null || _u === void 0 ? void 0 : _u.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", maxLength: 50, inputContainerStyle: {
+            } }, h("input", { key: 'd1e0cd25f71f83211b788a5ddc9d3c982d5e65f4', type: "text", slot: "trigger", value: ((_d = this.folioData) === null || _d === void 0 ? void 0 : _d.date) ? hooks((_e = this.folioData) === null || _e === void 0 ? void 0 : _e.date).format('MMM DD, YYYY') : null, class: `form-control w-100 input-sm ${((_f = this.errors) === null || _f === void 0 ? void 0 : _f.date) && !((_g = this.folioData) === null || _g === void 0 ? void 0 : _g.date) ? 'border-danger' : ''} text-left`, style: { borderTopLeftRadius: '0', borderBottomLeftRadius: '0', width: '100%' } })))))), h("div", { key: 'b100ee22810c9f9ec527bfb1ddffb992d105499a' }, h("ir-price-input", { key: 'df5a85647f4c17b5db7b7c9b25abfb6eced5d93e', containerClassname: "row", labelContainerClassname: "col-4 col-md-3 p-0 text-dark border-0", minValue: 0, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ amount: true }), wrapKey: "amount", label: "Amount", labelStyle: 'flex-grow-1 text-dark  border-theme', error: ((_h = this.errors) === null || _h === void 0 ? void 0 : _h.amount) && !((_j = this.folioData) === null || _j === void 0 ? void 0 : _j.amount), value: (_l = (_k = this.folioData) === null || _k === void 0 ? void 0 : _k.amount) === null || _l === void 0 ? void 0 : _l.toString(), currency: calendar_data.currency.symbol, onTextChange: e => this.updateFolioData({ amount: Number(e.detail) }) })), h("div", { key: 'e1c446970f662e38a385b24b3386704184143dc3' }, h("ir-dropdown", { key: '5dd576441eac63d7265dcfe23551e6102ad86f74', value: (_o = (_m = this.folioData) === null || _m === void 0 ? void 0 : _m.payment_type) === null || _o === void 0 ? void 0 : _o.code, disabled: ((_p = this.payment.payment_type) === null || _p === void 0 ? void 0 : _p.code) !== '001' && this.mode === 'payment-action', onOptionChange: this.handleDropdownChange.bind(this) }, h("div", { key: '12ffac85802e41a59e8abe20ea089e56ef912ff5', slot: "trigger", class: 'input-group row m-0 ' }, h("div", { key: '22e5c2c21090d04ea9d52661029e9dcba489fb84', class: `input-group-prepend col-4 col-md-3 p-0 text-dark border-0` }, h("label", { key: '7693b00d48216675fefd0e95325f772e8fa203d6', class: `input-group-text flex-grow-1 text-dark  border-theme` }, "Transaction type")), h("button", { key: '3cd828c3aa433a7af20804844e13bfde78b8f6e8', type: "button", disabled: ((_q = this.payment.payment_type) === null || _q === void 0 ? void 0 : _q.code) !== '001' && this.mode === 'payment-action', class: `form-control  d-flex align-items-center cursor-pointer ${((_r = this.errors) === null || _r === void 0 ? void 0 : _r.designation) && !((_s = this.folioData) === null || _s === void 0 ? void 0 : _s.designation) ? 'border-danger' : ''}` }, ((_t = this.folioData) === null || _t === void 0 ? void 0 : _t.payment_type) ? h("span", null, (_u = this.folioData.payment_type) === null || _u === void 0 ? void 0 : _u.description) : h("span", null, "Select..."))), h("ir-dropdown-item", { key: 'ea6810a7b932b0661dded692e2562e5fc0c6be18', value: "" }, "Select..."), this.renderDropdownItems())), h("div", { key: '23ae79b03338ab9171d0bc07ac12cac3739d56aa' }, h("ir-input-text", { key: '96abd722c0292720946282491db3c59c339526fa', value: (_v = this.folioData) === null || _v === void 0 ? void 0 : _v.reference, error: (_w = this.errors) === null || _w === void 0 ? void 0 : _w.reference_number, autoValidate: this.autoValidate, zod: this.folioSchema.pick({ reference: true }), label: "Reference", maxLength: 50, inputContainerStyle: {
                 margin: '0',
-            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3, labelContainerClassname: 'col-4 col-md-3' }))), h("div", { key: '3db5720078995b35742a2e8fdc48c4934a385972', class: 'sheet-footer' }, h("ir-button", { key: '04b22287490be2323323ac8106aa3a59ebff17fb', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), h("ir-button", { key: '05a11e0de0311b22e217bf157fa6075b69bdcd09', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
+            }, onTextChange: e => this.updateFolioData({ reference: e.detail }), labelWidth: 3, labelContainerClassname: 'col-4 col-md-3' }))), h("div", { key: '608a9d787d2c571e107e1e06966b256fd4ae4a7a', class: 'sheet-footer' }, h("ir-button", { key: '02105767634bc02d65d1a245aba2d41792a22d9c', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: 'Cancel', btn_color: "secondary" }), h("ir-button", { key: '0f8e605279fbdc2f41490a4cadcbb7271622e4d6', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: this.isLoading, text: 'Save', btn_color: "primary", btn_type: "submit" }))));
     }
     static get watchers() { return {
-        "payment": ["handlePaymentChange"]
+        "payment": ["handlePaymentChange"],
+        "paymentTypes": ["handlePaymentTypesChange"]
     }; }
     static get style() { return IrPaymentFolioStyle0 + IrPaymentFolioStyle1; }
 }, [2, "ir-payment-folio", {
@@ -158,9 +172,11 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
         "isLoading": [32],
         "errors": [32],
         "autoValidate": [32],
-        "folioData": [32]
+        "folioData": [32],
+        "_paymentTypes": [32]
     }, undefined, {
-        "payment": ["handlePaymentChange"]
+        "payment": ["handlePaymentChange"],
+        "paymentTypes": ["handlePaymentTypesChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
