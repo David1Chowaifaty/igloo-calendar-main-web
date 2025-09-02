@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
-import { B as BookingService } from './booking.service-f82f4ce3.js';
+import { B as BookingService } from './booking.service-4146b685.js';
 import { z as transformNewBooking, C as isBlockUnit, h as hooks, q as calendar_dates, c as calculateDaysBetweenDates, I as compareTime, J as createDateWithOffsetAndHour, d as dateToFormattedString, K as getDaysArray, L as convertDatePrice, M as formatDate } from './utils-b77baf9f.js';
-import { E as EventsService } from './events.service-65bc2fce.js';
+import { E as EventsService } from './events.service-1f2137a6.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { z, Z as ZodError } from './index-6ecc32cd.js';

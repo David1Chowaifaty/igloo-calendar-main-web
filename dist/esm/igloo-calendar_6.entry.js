@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
 import { R as RoomService } from './room.service-39d12a8c.js';
-import { B as BookingService } from './booking.service-f82f4ce3.js';
+import { B as BookingService } from './booking.service-4146b685.js';
 import { p as formatLegendColors, h as hooks, q as calendar_dates, u as addCleaningTasks, j as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, b as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, i as downloadFile } from './utils-b77baf9f.js';
-import { E as EventsService } from './events.service-65bc2fce.js';
+import { E as EventsService } from './events.service-1f2137a6.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service-924d6c4c.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';

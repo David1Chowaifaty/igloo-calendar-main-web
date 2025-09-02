@@ -14,6 +14,38 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
         }
     return t;
 };
+/**
+ * Builds a grouped payment types record from raw entries and groups.
+ *
+ * @param paymentTypes - The flat list of all available payment type entries.
+ * @param paymentTypesGroups - The list of groups that define how payment types should be organized.
+ * @returns A record where each key is a group CODE_NAME and the value is the
+ *          ordered array of payment type entries belonging to that group.
+ *
+ * @example
+ * const result = buildPaymentTypes(paymentTypes, paymentTypesGroups);
+ * // {
+ * //   PAYMENTS: [ { CODE_NAME: "001", CODE_VALUE_EN: "Cash", ... }, ... ],
+ * //   ADJUSTMENTS: [ ... ],
+ * //   ...
+ * // }
+ */
+function buildPaymentTypes(paymentTypes, paymentTypesGroups) {
+    if (!Array.isArray(paymentTypes) || paymentTypes.length === 0 || !Array.isArray(paymentTypesGroups) || paymentTypesGroups.length === 0) {
+        return {};
+    }
+    const items = [...paymentTypes];
+    const byCodes = (codes) => codes.map(code => items.find(i => i.CODE_NAME === code)).filter((x) => Boolean(x));
+    const extractGroupCodes = (code) => {
+        const paymentGroup = paymentTypesGroups.find(pt => pt.CODE_NAME === code);
+        return paymentGroup ? paymentGroup.CODE_VALUE_EN.split(',') : [];
+    };
+    let rec = {};
+    paymentTypesGroups.forEach(group => {
+        rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
+    });
+    return rec;
+}
 class BookingService {
     async unBlockUnitByPeriod(props) {
         const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
@@ -576,6 +608,6 @@ class BookingService {
     }
 }
 
-export { BookingService as B };
+export { BookingService as B, buildPaymentTypes as b };
 
 //# sourceMappingURL=booking.service.js.map

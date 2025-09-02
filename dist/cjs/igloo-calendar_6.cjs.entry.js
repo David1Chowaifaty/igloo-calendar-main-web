@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const room_service = require('./room.service-e031b11c.js');
-const booking_service = require('./booking.service-e3e00724.js');
+const booking_service = require('./booking.service-d24883dd.js');
 const utils = require('./utils-a78b3679.js');
-const events_service = require('./events.service-930d38d2.js');
+const events_service = require('./events.service-c3f7afa5.js');
 const toBeAssigned_service = require('./toBeAssigned.service-1f9817df.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-960b69ba.js');

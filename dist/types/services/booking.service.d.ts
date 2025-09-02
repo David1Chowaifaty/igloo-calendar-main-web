@@ -29,10 +29,27 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
-export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | (string & {});
+export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | (string & {});
 export type GroupedTableEntries = {
     [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
 };
+/**
+ * Builds a grouped payment types record from raw entries and groups.
+ *
+ * @param paymentTypes - The flat list of all available payment type entries.
+ * @param paymentTypesGroups - The list of groups that define how payment types should be organized.
+ * @returns A record where each key is a group CODE_NAME and the value is the
+ *          ordered array of payment type entries belonging to that group.
+ *
+ * @example
+ * const result = buildPaymentTypes(paymentTypes, paymentTypesGroups);
+ * // {
+ * //   PAYMENTS: [ { CODE_NAME: "001", CODE_VALUE_EN: "Cash", ... }, ... ],
+ * //   ADJUSTMENTS: [ ... ],
+ * //   ...
+ * // }
+ */
+export declare function buildPaymentTypes(paymentTypes: IEntries[], paymentTypesGroups: IEntries[]): Record<string, IEntries[]>;
 export declare class BookingService {
     unBlockUnitByPeriod(props: {
         unit_id: number;

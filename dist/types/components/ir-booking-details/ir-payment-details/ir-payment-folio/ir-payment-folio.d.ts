@@ -4,6 +4,7 @@ import { IEntries } from "../../../../models/IBooking";
 import { FolioEntryMode } from '../../types';
 export declare class IrPaymentFolio {
     paymentTypes: IEntries[];
+    paymentTypesGroups: IEntries[];
     bookingNumber: string;
     payment: IPayment;
     mode: FolioEntryMode;
