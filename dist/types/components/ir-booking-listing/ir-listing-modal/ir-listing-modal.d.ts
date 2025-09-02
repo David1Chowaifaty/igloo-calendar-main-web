@@ -1,14 +1,16 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking } from "../../../models/booking.dto";
+import { IEntries } from "../../../models/property";
 export declare class IrListingModal {
     modalTitle: string;
     editBooking: {
         booking: Booking;
         cause: 'edit' | 'payment' | 'delete' | 'guest';
     };
+    paymentEntries: IEntries[];
     isOpen: boolean;
     deletionStage: number;
-    selectedDesignation: string;
+    selectedDesignation: IEntries;
     loadingBtn: 'confirm' | 'just_delete' | 'recover_and_delete' | null;
     private bookingListingsService;
     private paymentService;
@@ -22,5 +24,6 @@ export declare class IrListingModal {
     renderTitle(): string;
     renderConfirmationTitle(): string;
     renderCancellationTitle(): string;
+    private handleDropdownChange;
     render(): any[];
 }

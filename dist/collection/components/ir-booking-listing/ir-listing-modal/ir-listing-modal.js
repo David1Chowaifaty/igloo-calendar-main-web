@@ -14,12 +14,12 @@ export class IrListingModal {
         this.paymentService = new PaymentService();
     }
     componentWillLoad() {
-        this.selectedDesignation = booking_listing.settlement_methods[0].name;
+        this.selectedDesignation = this.paymentEntries[0];
     }
     async closeModal() {
         this.isOpen = false;
         // this.deletionStage = 1;
-        this.selectedDesignation = booking_listing.settlement_methods[0].name;
+        this.selectedDesignation = this.paymentEntries[0];
         this.modalClosed.emit(null);
     }
     async openModal() {
@@ -39,7 +39,12 @@ export class IrListingModal {
                         amount: this.editBooking.booking.financial.due_amount,
                         currency: this.editBooking.booking.currency,
                         date: moment().format('YYYY-MM-DD'),
-                        designation: this.selectedDesignation,
+                        designation: this.selectedDesignation.CODE_VALUE_EN,
+                        payment_type: {
+                            code: this.selectedDesignation.CODE_NAME,
+                            description: this.selectedDesignation.CODE_VALUE_EN,
+                            operation: this.selectedDesignation.NOTES,
+                        },
                         id: -1,
                         reference: '',
                     }, this.editBooking.booking.booking_nbr);
@@ -103,7 +108,20 @@ export class IrListingModal {
         // }
         return locales.entries.Lcz_Cancel;
     }
+    handleDropdownChange(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const value = e.detail.toString();
+        console.log(value);
+        const payment_type = this.paymentEntries.find(pt => pt.CODE_NAME === value);
+        if (!payment_type) {
+            console.warn(`Invalid payment type ${e.detail}`);
+            return;
+        }
+        this.selectedDesignation = payment_type;
+    }
     render() {
+        var _a;
         if (!this.editBooking) {
             return null;
         }
@@ -116,9 +134,9 @@ export class IrListingModal {
                 } }),
             h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, this.isOpen && (h("div", { class: `ir-alert-content p-2` }, h("div", { class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }, h("p", { class: "p-0 my-0 mb-1" }, this.renderTitle()), h("ir-icon", { class: "exit-icon", style: { cursor: 'pointer' }, onClick: () => {
                     this.closeModal();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body text-left p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation, onSelectChange: e => (this.selectedDesignation = e.detail), showFirstOption: false, data: booking_listing.settlement_methods.map(m => ({
-                    value: m.name,
-                    text: m.name,
+                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body text-left p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: (_a = this.selectedDesignation) === null || _a === void 0 ? void 0 : _a.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.map(m => ({
+                    value: m.CODE_NAME,
+                    text: m.CODE_VALUE_EN,
                 })) })) : null), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { isLoading: this.loadingBtn === 'just_delete', btn_color: 'secondary', btn_block: true, text: this.renderCancellationTitle(), name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm',
                 // isLoading={this.loadingBtn === 'recover_and_delete'}
                 btn_color: 'primary', btn_block: true, text: this.renderConfirmationTitle(), name: 'confirm' }))))),
@@ -169,6 +187,29 @@ export class IrListingModal {
                             "location": "import",
                             "path": "@/models/booking.dto",
                             "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "paymentEntries": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
+                    "references": {
+                        "IEntries": {
+                            "location": "import",
+                            "path": "@/models/property",
+                            "id": "src/models/property.ts::IEntries"
                         }
                     }
                 },

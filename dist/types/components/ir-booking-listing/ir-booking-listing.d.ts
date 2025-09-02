@@ -1,4 +1,5 @@
 import { Booking } from "../../models/booking.dto";
+import { IEntries } from "../../models/property";
 export declare class IrBookingListing {
     el: HTMLElement;
     language: string;
@@ -16,7 +17,9 @@ export declare class IrBookingListing {
         cause: 'edit' | 'payment' | 'delete' | 'guest';
     } | null;
     showCost: boolean;
+    paymentEntries: IEntries[];
     private bookingListingService;
+    private bookingService;
     private roomService;
     private token;
     private listingModal;

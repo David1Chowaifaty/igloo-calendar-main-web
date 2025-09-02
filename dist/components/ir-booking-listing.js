@@ -7,6 +7,7 @@ import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
 import { T as Token } from './Token.js';
 import { i as isSingleUnit } from './calendar-data.js';
+import { B as BookingService, b as buildPaymentTypes } from './booking.service.js';
 import { d as defineCustomElement$14 } from './igl-application-info2.js';
 import { d as defineCustomElement$13 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$12 } from './igl-book-property2.js';
@@ -105,6 +106,7 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
         this.editBookingItem = null;
         this.showCost = false;
         this.bookingListingService = new BookingListingService();
+        this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
         this.statusColors = {
@@ -157,15 +159,22 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            const requests = [this.bookingListingService.getExposedBookingsCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT'])];
+            const requests = [
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP']),
+                this.bookingListingService.getExposedBookingsCriteria(propertyId),
+                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
+            ];
             if (this.propertyid) {
-                requests.unshift(this.roomService.getExposedProperty({
+                requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
                     language: this.language,
                     is_backend: true,
                 }));
             }
-            await Promise.all(requests);
+            const [setupEntries] = await Promise.all(requests);
+            const { pay_type, pay_type_group } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const groupedEntries = buildPaymentTypes(pay_type, pay_type_group);
+            this.paymentEntries = groupedEntries['PAYMENTS'];
             updateUserSelection('property_id', propertyId);
             // this.geSearchFiltersFromParams();
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
@@ -320,7 +329,7 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { paymentEntries: this.paymentEntries, onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -339,7 +348,8 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
         "totalPages": [32],
         "oldStartValue": [32],
         "editBookingItem": [32],
-        "showCost": [32]
+        "showCost": [32],
+        "paymentEntries": [32]
     }, [[0, "resetData", "handleResetData"], [0, "resetBookingData", "handleResetStoreData"], [0, "bookingChanged", "handleBookingChanged"]], {
         "ticket": ["ticketChanged"]
     }]);

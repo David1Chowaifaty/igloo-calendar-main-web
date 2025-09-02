@@ -10,6 +10,7 @@ import { getPrivateNote } from "../../utils/booking";
 import Token from "../../models/Token";
 import { isSingleUnit } from "../../stores/calendar-data";
 import { getAllParams } from "../../utils/browserHistory";
+import { BookingService, buildPaymentTypes } from "../../services/booking.service";
 export class IrBookingListing {
     constructor() {
         this.language = '';
@@ -22,6 +23,7 @@ export class IrBookingListing {
         this.editBookingItem = null;
         this.showCost = false;
         this.bookingListingService = new BookingListingService();
+        this.bookingService = new BookingService();
         this.roomService = new RoomService();
         this.token = new Token();
         this.statusColors = {
@@ -74,15 +76,22 @@ export class IrBookingListing {
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            const requests = [this.bookingListingService.getExposedBookingsCriteria(propertyId), this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT'])];
+            const requests = [
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP']),
+                this.bookingListingService.getExposedBookingsCriteria(propertyId),
+                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
+            ];
             if (this.propertyid) {
-                requests.unshift(this.roomService.getExposedProperty({
+                requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
                     language: this.language,
                     is_backend: true,
                 }));
             }
-            await Promise.all(requests);
+            const [setupEntries] = await Promise.all(requests);
+            const { pay_type, pay_type_group } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const groupedEntries = buildPaymentTypes(pay_type, pay_type_group);
+            this.paymentEntries = groupedEntries['PAYMENTS'];
             updateUserSelection('property_id', propertyId);
             // this.geSearchFiltersFromParams();
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
@@ -237,7 +246,7 @@ export class IrBookingListing {
                 this.currentPage = this.totalPages;
                 console.log(this.currentPage);
                 await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { paymentEntries: this.paymentEntries, onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_t = (_s = this.editBookingItem) === null || _s === void 0 ? void 0 : _s.booking) === null || _t === void 0 ? void 0 : _t.booking_nbr, email: (_v = (_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.booking) === null || _v === void 0 ? void 0 : _v.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
     }
     static get is() { return "ir-booking-listing"; }
     static get encapsulation() { return "scoped"; }
@@ -379,7 +388,8 @@ export class IrBookingListing {
             "totalPages": {},
             "oldStartValue": {},
             "editBookingItem": {},
-            "showCost": {}
+            "showCost": {},
+            "paymentEntries": {}
         };
     }
     static get elementRef() { return "el"; }
