@@ -12199,7 +12199,7 @@ const IrPaymentDetails = class {
         };
     }
     handlePaymentGeneration(e) {
-        var _a;
+        var _a, _b;
         const value = e.detail;
         const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === value.pay_type_code);
         this.openSidebar.emit({
@@ -12211,7 +12211,7 @@ const IrPaymentDetails = class {
                             description: paymentType.CODE_VALUE_EN,
                             operation: paymentType.NOTES,
                         }
-                        : null }),
+                        : null, designation: (_b = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _b !== void 0 ? _b : null }),
                 mode: 'payment-action',
             },
         });
