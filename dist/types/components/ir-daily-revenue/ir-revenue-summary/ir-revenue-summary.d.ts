@@ -5,7 +5,6 @@ export declare class IrRevenueSummary {
     previousDateGroupedPayments: GroupedFolioPayment;
     payTypesGroup: IEntries[];
     private calculateTotalPayments;
-    private calculateTotalAmount;
     private calculateTotalRefunds;
     private calculateTotalValue;
     private getTrendIcon;

@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-import { GroupedFolioPayment, SidebarOpenEvent } from './types';
+import { DailyPaymentFilter, GroupedFolioPayment, SidebarOpenEvent } from './types';
 export declare class IrDailyRevenue {
     language: string;
     ticket: string;
@@ -10,7 +10,7 @@ export declare class IrDailyRevenue {
     groupedPayment: GroupedFolioPayment;
     previousDateGroupedPayments: GroupedFolioPayment;
     isLoading: string;
-    date: string;
+    filters: DailyPaymentFilter;
     sideBarEvent: SidebarOpenEvent | null;
     private tokenService;
     private roomService;
@@ -22,7 +22,7 @@ export declare class IrDailyRevenue {
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleOpenSidebar(e: CustomEvent<SidebarOpenEvent>): void;
-    handleFetchNewReports(e: CustomEvent<string>): void;
+    handleFetchNewReports(e: CustomEvent<DailyPaymentFilter>): void;
     private handleSidebarClose;
     private renderSidebarBody;
     private initializeApp;

@@ -10,7 +10,7 @@ export class IrDailyRevenue {
     constructor() {
         this.language = '';
         this.ticket = '';
-        this.date = moment().format('YYYY-MM-DD');
+        this.filters = { date: moment().format('YYYY-MM-DD'), users: null };
         this.tokenService = new Token();
         this.roomService = new RoomService();
         this.propertyService = new PropertyService();
@@ -42,7 +42,7 @@ export class IrDailyRevenue {
     handleFetchNewReports(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.date = e.detail;
+        this.filters = Object.assign({}, e.detail);
         this.getPaymentReports();
     }
     renderSidebarBody() {
@@ -128,14 +128,14 @@ export class IrDailyRevenue {
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const requests = [
                 this.propertyService.getDailyRevenueReport({
-                    date: this.date,
+                    date: this.filters.date,
                     property_id: (_a = this.property_id) === null || _a === void 0 ? void 0 : _a.toString(),
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
             if (!isExportToExcel) {
                 requests.push(this.propertyService.getDailyRevenueReport({
-                    date: moment(this.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: (_b = this.property_id) === null || _b === void 0 ? void 0 : _b.toString(),
                     is_export_to_excel: isExportToExcel,
                 }));
@@ -164,11 +164,11 @@ export class IrDailyRevenue {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Daily_Revenue_Report'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Revenue"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Revenue"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, payTypesGroup: this.payTypeGroup }), h("ir-revenue-table", { date: this.date, payTypes: this.payTypes, payments: this.groupedPayment })), h("ir-sidebar", { sidebarStyles: {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, payTypesGroup: this.payTypeGroup }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', payTypes: this.payTypes, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
                 width: ((_b = this.sideBarEvent) === null || _b === void 0 ? void 0 : _b.type) === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: ((_c = this.sideBarEvent) === null || _c === void 0 ? void 0 : _c.type) === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
@@ -274,7 +274,7 @@ export class IrDailyRevenue {
             "groupedPayment": {},
             "previousDateGroupedPayments": {},
             "isLoading": {},
-            "date": {},
+            "filters": {},
             "sideBarEvent": {}
         };
     }

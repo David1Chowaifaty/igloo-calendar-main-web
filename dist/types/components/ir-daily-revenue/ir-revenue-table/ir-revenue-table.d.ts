@@ -1,12 +1,10 @@
-import { EventEmitter } from '../../../stencil-public-runtime';
-import { GroupedFolioPayment } from '../types';
+import { DailyPaymentFilter, GroupedFolioPayment } from '../types';
 import { IEntries } from "../../../models/IBooking";
 export declare class IrRevenueTable {
     payments: GroupedFolioPayment;
     payTypes: IEntries[];
-    date: string;
+    filters: DailyPaymentFilter;
     private payTypesObj;
-    fetchNewReports: EventEmitter<string>;
     componentWillLoad(): void;
     render(): any;
 }

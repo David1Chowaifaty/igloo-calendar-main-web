@@ -68,6 +68,7 @@
     "components/ir-channel/ir-channel-mapping/ir-channel-mapping.js",
     "components/ir-common/ir-common.js",
     "components/ir-daily-revenue/ir-daily-revenue.js",
+    "components/ir-daily-revenue/ir-daily-revenue-filters/ir-daily-revenue-filters.js",
     "components/ir-daily-revenue/ir-revenue-summary/ir-revenue-summary.js",
     "components/ir-daily-revenue/ir-revenue-table/ir-revenue-table.js",
     "components/ir-daily-revenue/ir-revenue-table/ir-revenue-row/ir-revenue-row.js",
