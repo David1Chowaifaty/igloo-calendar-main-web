@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Fragment } from '@stencil/core/internal/client';
+import { d as defineCustomElement$5 } from './ir-accordion2.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-revenue-row2.js';
@@ -35,11 +36,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-revenue-table", "ir-button", "ir-icons", "ir-revenue-row", "ir-revenue-row-details"];
+    const components = ["ir-revenue-table", "ir-accordion", "ir-button", "ir-icons", "ir-revenue-row", "ir-revenue-row-details"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-revenue-table":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrRevenueTable);
+            }
+            break;
+        case "ir-accordion":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
             }
             break;
         case "ir-button":

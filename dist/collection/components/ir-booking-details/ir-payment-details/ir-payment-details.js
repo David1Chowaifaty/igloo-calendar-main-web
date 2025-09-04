@@ -27,7 +27,6 @@ export class IrPaymentDetails {
             });
         };
         this.handleEditPayment = (payment) => {
-            console.log(payment);
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: { payment, mode: 'edit' },
@@ -59,7 +58,7 @@ export class IrPaymentDetails {
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: {
-                payment: Object.assign(Object.assign({}, value), { date: value.due_on, id: -1, amount: value.amount, payment_type: paymentType
+                payment: Object.assign(Object.assign({}, value), { date: moment(value.due_on, 'M/D/YYYY h:mm:ss A').format('YYYY-MM-DD'), id: -1, amount: value.amount, payment_type: paymentType
                         ? {
                             code: paymentType.CODE_NAME,
                             description: paymentType.CODE_VALUE_EN,

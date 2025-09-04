@@ -5,7 +5,7 @@ export class IrAccordion {
         /** Start expanded */
         this.defaultExpanded = false;
         /** Show caret icon */
-        this.showCaret = true;
+        this.caret = true;
         /** Caret icon name */
         this.caretIcon = 'angle-down';
         this._expanded = false;
@@ -18,14 +18,8 @@ export class IrAccordion {
                 return;
             }
             const nextExpanded = !this._expanded;
-            // For controlled components, just emit the event
-            if (this.expanded !== undefined) {
-                this.irToggle.emit({ expanded: nextExpanded });
-            }
-            else {
-                // For uncontrolled components, update state and emit
-                this.updateExpansion(nextExpanded, true);
-            }
+            this.irToggle.emit({ expanded: nextExpanded });
+            this.updateExpansion(nextExpanded, true);
         };
         this.onTriggerKeyDown = (ev) => {
             // Allow keyboard toggle with Enter/Space
@@ -60,43 +54,34 @@ export class IrAccordion {
         // Only animate if the state actually changed
         if (wasExpanded !== expanded) {
             if (expanded) {
-                this.openWithAnimation();
+                this.show();
             }
             else {
-                this.closeWithAnimation();
+                this.hide();
             }
             if (shouldEmit) {
                 this.irToggle.emit({ expanded });
             }
         }
     }
-    openWithAnimation() {
-        console.log('openWithAnimation called', { detailsEl: !!this.detailsEl, contentEl: !!this.contentEl, isAnimating: this.isAnimating });
-        if (!this.detailsEl || !this.contentEl || this.isAnimating) {
-            console.log('openWithAnimation aborted - missing elements or already animating');
+    async show() {
+        if (!this.detailsEl || !this.contentEl || this.isAnimating)
             return;
-        }
         this.isAnimating = true;
         this.cleanupPreviousAnimation();
         // Set initial state
         const startHeight = this.detailsEl.offsetHeight;
-        console.log('Start height:', startHeight);
         this.detailsEl.style.height = `${startHeight}px`;
         this.detailsEl.style.overflow = 'hidden';
         // Make content visible and measure target height
         this.detailsEl.setAttribute('data-expanded', 'true');
         const targetHeight = this.contentEl.scrollHeight;
-        console.log('Target height:', targetHeight);
         // Use requestAnimationFrame to ensure the browser has processed the initial state
         requestAnimationFrame(() => {
-            if (!this.detailsEl || !this.isAnimating) {
-                console.log('requestAnimationFrame aborted');
+            if (!this.detailsEl)
                 return;
-            }
-            console.log('Setting height to:', targetHeight);
             this.detailsEl.style.height = `${targetHeight}px`;
             const handleTransitionEnd = (event) => {
-                console.log('Transition end event:', event.propertyName, event.target === this.detailsEl);
                 // Make sure this is the height transition and not a child element
                 if (event.target === this.detailsEl && event.propertyName === 'height') {
                     this.finishOpenAnimation();
@@ -106,18 +91,18 @@ export class IrAccordion {
                 if (this.detailsEl) {
                     this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
                 }
+                this.isAnimating = false;
             };
             this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
             // Fallback timeout in case transitionend doesn't fire
             setTimeout(() => {
                 if (this.isAnimating) {
-                    console.log('Fallback timeout triggered for open animation');
                     this.finishOpenAnimation();
                 }
-            }, 250);
+            }, 300); // Should match your CSS transition duration
         });
     }
-    closeWithAnimation() {
+    async hide() {
         if (!this.detailsEl || !this.contentEl || this.isAnimating)
             return;
         this.isAnimating = true;
@@ -128,7 +113,7 @@ export class IrAccordion {
         this.detailsEl.style.overflow = 'hidden';
         // Force reflow then animate to 0
         requestAnimationFrame(() => {
-            if (!this.detailsEl || !this.isAnimating)
+            if (!this.detailsEl)
                 return;
             this.detailsEl.style.height = '0px';
             const handleTransitionEnd = (event) => {
@@ -141,6 +126,7 @@ export class IrAccordion {
                 if (this.detailsEl) {
                     this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
                 }
+                this.isAnimating = false;
             };
             this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
             // Fallback timeout
@@ -148,7 +134,7 @@ export class IrAccordion {
                 if (this.isAnimating) {
                     this.finishCloseAnimation();
                 }
-            }, 250);
+            }, 300);
         });
     }
     finishOpenAnimation() {
@@ -160,6 +146,7 @@ export class IrAccordion {
             this.detailsEl.style.height = '';
             this.detailsEl.style.overflow = '';
         }
+        this.expanded = true;
         this.isAnimating = false;
     }
     finishCloseAnimation() {
@@ -172,6 +159,7 @@ export class IrAccordion {
             this.detailsEl.style.overflow = '';
             this.detailsEl.removeAttribute('data-expanded');
         }
+        this.expanded = false;
         this.isAnimating = false;
     }
     cleanupPreviousAnimation() {
@@ -184,10 +172,7 @@ export class IrAccordion {
     }
     render() {
         const isOpen = this._expanded;
-        console.log(isOpen);
-        return (h(Host, { key: '512315a15a1a6690aadf6402bdf1eef37a8640b6' }, h("div", { key: 'ca5a5b9cd233dfbd7e6cd86442caa0da5c77970f', class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: '9bcee8c400d9c082d79a3ad6029e61708b417fdb', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown,
-            // ref={el => (this.triggerBtn = el as HTMLButtonElement)}
-            disabled: this.isAnimating }, this.showCaret && h("ir-icons", { key: '8164064d5fb12f9ce1bfed89971e01efde21dfc3', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: '41ef0077b8cc670b5af31aa5862c256ab59e9649', class: "ir-accordion__trigger-content" }, h("slot", { key: 'd0dd6b41b8177b0b57d0685c889776ffe4cdbb7e', name: "trigger" }))), h("div", { key: '2389aa0047f5b5442d30615239837b87e49bf042', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: '564cbe3611396dcaffc4a3e63c6b9405e0910d73', class: "ir-accordion__content-inner", ref: el => (this.contentEl = el) }, h("slot", { key: 'fe762287c9ce74b9d7101b3ce6688dbf5b9bc4c9', name: "body" }))))));
+        return (h(Host, { key: '5d41d5298d79c2ea1138eca2ea572061e0da79bd' }, h("div", { key: '5d397d8f08fb96b7afeae3218516fab6dba3aec2', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: '94df1283082529c8a9f819267a4717bde51c8ae4', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: '99ddb3ce0f7cc84010d4b42829860dec626638d1', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: '600f4f64aab5d1f8ad0f5a59a759824816fb0813', class: "ir-accordion__trigger-content" }, h("slot", { key: '0599a8f54e3e086ba1881718ba954493ee00c577', name: "trigger" }))), h("div", { key: '2ea9a8861c4be163b76a6c06d07282bba2db6c55', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: 'cd6b8e312a068b6fa36b242c44ada80d251c05c8', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'fa4da67c0a9abd7acd9013da338541d9876de300' }))))));
     }
     static get is() { return "ir-accordion"; }
     static get encapsulation() { return "shadow"; }
@@ -225,7 +210,7 @@ export class IrAccordion {
             },
             "expanded": {
                 "type": "boolean",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
                     "original": "boolean",
                     "resolved": "boolean",
@@ -240,9 +225,9 @@ export class IrAccordion {
                 "getter": false,
                 "setter": false,
                 "attribute": "expanded",
-                "reflect": false
+                "reflect": true
             },
-            "showCaret": {
+            "caret": {
                 "type": "boolean",
                 "mutable": false,
                 "complexType": {
@@ -258,7 +243,7 @@ export class IrAccordion {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-caret",
+                "attribute": "caret",
                 "reflect": false,
                 "defaultValue": "true"
             },
@@ -292,7 +277,7 @@ export class IrAccordion {
     static get events() {
         return [{
                 "method": "irToggle",
-                "name": "irToggle",
+                "name": "ir-toggle",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
@@ -306,6 +291,52 @@ export class IrAccordion {
                     "references": {}
                 }
             }];
+    }
+    static get methods() {
+        return {
+            "show": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        },
+                        "TransitionEvent": {
+                            "location": "global",
+                            "id": "global::TransitionEvent"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            },
+            "hide": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        },
+                        "TransitionEvent": {
+                            "location": "global",
+                            "id": "global::TransitionEvent"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            }
+        };
     }
     static get elementRef() { return "host"; }
     static get watchers() {

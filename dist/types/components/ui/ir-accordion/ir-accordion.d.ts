@@ -6,7 +6,7 @@ export declare class IrAccordion {
     /** Optional controlled prop: when provided, component follows this value */
     expanded?: boolean;
     /** Show caret icon */
-    showCaret: boolean;
+    caret: boolean;
     /** Caret icon name */
     caretIcon: string;
     /** Fired after expansion state changes */
@@ -23,8 +23,8 @@ export declare class IrAccordion {
     disconnectedCallback(): void;
     watchExpanded(newValue: boolean | undefined): void;
     private updateExpansion;
-    private openWithAnimation;
-    private closeWithAnimation;
+    show(): Promise<void>;
+    hide(): Promise<void>;
     private finishOpenAnimation;
     private finishCloseAnimation;
     private cleanupPreviousAnimation;

@@ -1,11 +1,12 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
+import { d as defineCustomElement$4 } from './ir-accordion2.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-revenue-row-details2.js';
 
-const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-acc-duration:220ms;--ir-acc-ease:cubic-bezier(0.2, 0.8, 0.2, 1)}.ir-revenue-row.sc-ir-revenue-row{border-bottom:1px solid var(--ir-border, #e5e7eb);background:var(--ir-bg, #fff);padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:var(--ir-space-2, 0.5rem);background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:black}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:var(--ir-space-2, 0.5rem)}.ir-revenue-row__title.sc-ir-revenue-row:disabled{opacity:0.6;cursor:not-allowed}.ir-revenue-row__title.sc-ir-revenue-row:hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0;font-weight:600}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__toggle.sc-ir-revenue-row{transition:transform var(--ir-acc-duration) var(--ir-acc-ease);transform:rotate(-90deg)}.ir-revenue-row[data-open='true'].sc-ir-revenue-row .ir-revenue-row__toggle.sc-ir-revenue-row,.ir-revenue-row__toggle.is-open.sc-ir-revenue-row{transform:rotate(0deg)}.ir-revenue-row__details.sc-ir-revenue-row{transition:height var(--ir-acc-duration) var(--ir-acc-ease);will-change:height}.ir-revenue-row__details.sc-ir-revenue-row:not([data-expanded='true']){height:0 !important;overflow:hidden !important;visibility:hidden}.ir-revenue-row__details[data-expanded='true'].sc-ir-revenue-row{visibility:visible}.ir-revenue-row__details-inner.sc-ir-revenue-row{padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (prefers-reduced-motion: reduce){.ir-revenue-row__toggle.sc-ir-revenue-row{transition:none}.ir-revenue-row__details.sc-ir-revenue-row{transition:none}}";
+const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:black}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0;font-weight:600}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content){padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}";
 const IrRevenueRowStyle0 = irRevenueRowCss;
 
 let accId = 0;
@@ -13,204 +14,34 @@ const IrRevenueRow = /*@__PURE__*/ proxyCustomElement(class IrRevenueRow extends
     constructor() {
         super();
         this.__registerHost();
-        this.irToggle = createEvent(this, "irToggle", 7);
         /** Array of payments for this method group */
         this.payments = [];
-        /** Start expanded */
-        this.defaultExpanded = false;
-        this._expanded = false;
         this.contentId = `ir-rr-content-${++accId}`;
-        this.isAnimating = false;
-        this.onHeaderClick = () => {
-            // Don't allow clicks during animation
-            if (this.isAnimating) {
-                return;
-            }
-            const nextExpanded = !this._expanded;
-            // For controlled components, just emit the event
-            if (this.expanded !== undefined) {
-                this.irToggle.emit({ expanded: nextExpanded });
-            }
-            else {
-                // For uncontrolled components, update state and emit
-                this.updateExpansion(nextExpanded, true);
-            }
-        };
-        this.onHeaderKeyDown = (ev) => {
-            // Allow keyboard toggle with Enter/Space
-            if ((ev.key === 'Enter' || ev.key === ' ') && !this.isAnimating) {
-                ev.preventDefault();
-                this.onHeaderClick();
-            }
-        };
-    }
-    componentWillLoad() {
-        var _a;
-        this._expanded = (_a = this.expanded) !== null && _a !== void 0 ? _a : this.defaultExpanded;
-    }
-    disconnectedCallback() {
-        // Clean up any ongoing animation
-        if (this.cleanupAnimation) {
-            this.cleanupAnimation();
-        }
-    }
-    watchExpanded(newValue) {
-        if (newValue !== undefined && newValue !== this._expanded) {
-            this.updateExpansion(newValue, false); // Don't emit event for external changes
-        }
-    }
-    updateExpansion(expanded, shouldEmit = true) {
-        // Prevent multiple simultaneous animations
-        if (this.isAnimating) {
-            return;
-        }
-        const wasExpanded = this._expanded;
-        this._expanded = expanded;
-        // Only animate if the state actually changed
-        if (wasExpanded !== expanded) {
-            if (expanded) {
-                this.openWithAnimation();
-            }
-            else {
-                this.closeWithAnimation();
-            }
-            if (shouldEmit) {
-                this.irToggle.emit({ expanded });
-            }
-        }
-    }
-    openWithAnimation() {
-        if (!this.detailsEl || !this.contentEl || this.isAnimating)
-            return;
-        this.isAnimating = true;
-        this.cleanupPreviousAnimation();
-        // Set initial state
-        const startHeight = this.detailsEl.offsetHeight;
-        this.detailsEl.style.height = `${startHeight}px`;
-        this.detailsEl.style.overflow = 'hidden';
-        // Make content visible and measure target height
-        this.detailsEl.setAttribute('data-expanded', 'true');
-        const targetHeight = this.contentEl.scrollHeight;
-        // Use requestAnimationFrame to ensure the browser has processed the initial state
-        requestAnimationFrame(() => {
-            if (!this.detailsEl)
-                return;
-            this.detailsEl.style.height = `${targetHeight}px`;
-            const handleTransitionEnd = (event) => {
-                // Make sure this is the height transition and not a child element
-                if (event.target === this.detailsEl && event.propertyName === 'height') {
-                    this.finishOpenAnimation();
-                }
-            };
-            this.cleanupAnimation = () => {
-                if (this.detailsEl) {
-                    this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
-                }
-                this.isAnimating = false;
-            };
-            this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
-            // Fallback timeout in case transitionend doesn't fire
-            setTimeout(() => {
-                if (this.isAnimating) {
-                    this.finishOpenAnimation();
-                }
-            }, 300); // Should match your CSS transition duration
-        });
-    }
-    closeWithAnimation() {
-        if (!this.detailsEl || !this.contentEl || this.isAnimating)
-            return;
-        this.isAnimating = true;
-        this.cleanupPreviousAnimation();
-        // Set initial height to current scrollHeight
-        const startHeight = this.detailsEl.scrollHeight;
-        this.detailsEl.style.height = `${startHeight}px`;
-        this.detailsEl.style.overflow = 'hidden';
-        // Force reflow then animate to 0
-        requestAnimationFrame(() => {
-            if (!this.detailsEl)
-                return;
-            this.detailsEl.style.height = '0px';
-            const handleTransitionEnd = (event) => {
-                // Make sure this is the height transition and not a child element
-                if (event.target === this.detailsEl && event.propertyName === 'height') {
-                    this.finishCloseAnimation();
-                }
-            };
-            this.cleanupAnimation = () => {
-                if (this.detailsEl) {
-                    this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
-                }
-                this.isAnimating = false;
-            };
-            this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
-            // Fallback timeout
-            setTimeout(() => {
-                if (this.isAnimating) {
-                    this.finishCloseAnimation();
-                }
-            }, 300);
-        });
-    }
-    finishOpenAnimation() {
-        if (this.cleanupAnimation) {
-            this.cleanupAnimation();
-            this.cleanupAnimation = undefined;
-        }
-        if (this.detailsEl) {
-            this.detailsEl.style.height = '';
-            this.detailsEl.style.overflow = '';
-        }
-        this.isAnimating = false;
-    }
-    finishCloseAnimation() {
-        if (this.cleanupAnimation) {
-            this.cleanupAnimation();
-            this.cleanupAnimation = undefined;
-        }
-        if (this.detailsEl) {
-            this.detailsEl.style.height = '';
-            this.detailsEl.style.overflow = '';
-            this.detailsEl.removeAttribute('data-expanded');
-        }
-        this.isAnimating = false;
-    }
-    cleanupPreviousAnimation() {
-        if (this.cleanupAnimation) {
-            this.cleanupAnimation();
-            this.cleanupAnimation = undefined;
-        }
-        // Always reset isAnimating when cleaning up
-        this.isAnimating = false;
     }
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        const isOpen = this._expanded;
-        return (h(Host, { key: '0f2e81546d89d53929ec5022330a2fc9a6399d12' }, h("div", { key: 'c434ab8e7f179a134178e1fa64e9303788e01aff', class: "ir-revenue-row", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: 'be8f697bd07ee9f3a14c02a306935f1f9e084698', type: "button", class: "ir-revenue-row__title", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onHeaderClick, onKeyDown: this.onHeaderKeyDown, disabled: this.isAnimating }, h("div", { key: '7fc0daf6f214e433d3a1e13e61c83e8c6b8950e3', class: "ir-revenue-row__header-left" }, h("ir-icons", { key: 'e55c630016de646f0984807a0728870a3ac52cf4', name: "angle-down", class: `ir-revenue-row__toggle ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("p", { key: 'd3614e26dffdfbc2285d6207c1dc5e7a0aedf27c', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: '9a14e3dca5ae0c48ce42d421c7845ea0b6da4f74', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: 'ef42ffd527f44f94a3c210f86009cd11fb46d687', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '22387cb47973ad1345ec6c2bb1873faf6cfab607', class: "ir-revenue-row__details", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-label": `${this.groupName} transactions`, "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: '203407a3b1b8b3154544f99054df3354ee1c5223', class: "ir-revenue-row__details-inner", ref: el => (this.contentEl = el) }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: 'c49fd08907a81fc429426bdb20af1b30f6b7a16a' }, h("ir-accordion", { key: '4ad5f072dc8dd10c2e49e17e9448eae9308201dc', class: "ir-revenue-row__accordion" }, h("div", { key: 'f3d757d271b635b6ee284615049a5d5b198d2dc8', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '49254aa0d09926ee3556132cfee6704bc3989a79', class: "ir-revenue-row__header-left" }, h("p", { key: '9c34bb843fcd6fafd76c756f91f261e135449a1e', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: 'ed16ab8b6c3cd74ea1088887ac07d8973ec50e75', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '0e481797d4b36db1c2bd8741ef16f24392c14cb9', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'b85b39c7a6ebde56503c9c90cf58b38595a45c92', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'fc0846eb25555ca17b7813e919e6339f3da760be', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
     get host() { return this; }
-    static get watchers() { return {
-        "expanded": ["watchExpanded"]
-    }; }
     static get style() { return IrRevenueRowStyle0; }
 }, [2, "ir-revenue-row", {
         "payments": [16],
-        "groupName": [1, "group-name"],
-        "defaultExpanded": [4, "default-expanded"],
-        "expanded": [4],
-        "_expanded": [32]
-    }, undefined, {
-        "expanded": ["watchExpanded"]
+        "groupName": [1, "group-name"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-revenue-row", "ir-button", "ir-icons", "ir-revenue-row-details"];
+    const components = ["ir-revenue-row", "ir-accordion", "ir-button", "ir-icons", "ir-revenue-row-details"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-revenue-row":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrRevenueRow);
+            }
+            break;
+        case "ir-accordion":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
             }
             break;
         case "ir-button":

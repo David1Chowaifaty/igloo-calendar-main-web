@@ -20,7 +20,7 @@ const IrTasksTablePagination = /*@__PURE__*/ proxyCustomElement(class IrTasksTab
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
         const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
-        return (h(Host, { key: '762bcf27398a09707a5c678dec55e392676dcd75' }, shouldLoadMore() && h("ir-button", { key: '82808458316c36dcd72be95c6b08ca05efdae8c4', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '08fbb6bd776e0faeef3c17eaeb71ff89192b3b8e', showing: {
+        return (h(Host, { key: 'cb64e86f6e7347c12915eeabd9d1a38261a4eee1' }, shouldLoadMore() && h("ir-button", { key: 'beb0d89edfd483db2278a85a1c2ff64f37fdd476', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '477ddf43fc8cb14858343e1090a5f1eced80890a', showing: {
                 from: start,
                 to: end,
             }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: pageSizes, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));

@@ -106,7 +106,14 @@ export class IrDailyRevenue {
             const p = (_a = groupedPayment.get(payment.payTypeCode)) !== null && _a !== void 0 ? _a : [];
             groupedPayment.set(payment.payTypeCode, [...p, payment]);
         }
-        return groupedPayment;
+        return new Map([...groupedPayment.entries()].sort(([a], [b]) => {
+            const aNum = Number(a);
+            const bNum = Number(b);
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+                return aNum - bNum;
+            }
+            return a.localeCompare(b);
+        }));
     }
     async getPaymentReports(isExportToExcel = false) {
         var _a, _b, _c, _d;
