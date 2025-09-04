@@ -1,9 +1,10 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
 import { R as RoomService } from './room.service-39d12a8c.js';
-import { B as BookingService } from './booking.service-4146b685.js';
-import { p as formatLegendColors, h as hooks, q as calendar_dates, u as addCleaningTasks, j as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, b as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, i as downloadFile } from './utils-b77baf9f.js';
-import { E as EventsService } from './events.service-1f2137a6.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-924d6c4c.js';
+import { B as BookingService } from './booking.service-f6cd4294.js';
+import { o as formatLegendColors, p as calendar_dates, q as addCleaningTasks, b as formatName, u as getRoomStatus, w as cleanRoom, x as addRoomForCleaning, y as transformNewBooking, z as transformNewBLockedRooms, d as dateToFormattedString, A as bookingStatus, a as getPrivateNote, B as isBlockUnit, c as calculateDaysBetweenDates, C as getNextDay, D as addTwoMonthToDate, E as convertDMYToISO, F as computeEndDate, l as downloadFile } from './utils-89f2d39e.js';
+import { E as EventsService } from './events.service-71bef063.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-2dae4404.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-5083e678.js';
@@ -11,9 +12,10 @@ import { T as Token } from './Token-6c389e24.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-e63a6d61.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-73b92191.js';
-import { a as axios } from './axios-aa1335b8.js';
+import { P as PropertyService } from './property.service-370f0806.js';
 import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
-import { U as UserService } from './user.service-86815ff0.js';
+import { U as UserService } from './user.service-d5e8b81e.js';
+import './axios-aa1335b8.js';
 import './index-c4cf83be.js';
 import './index-6ecc32cd.js';
 
@@ -5575,73 +5577,6 @@ const IrHkTasks = class {
     }; }
 };
 IrHkTasks.style = IrHkTasksStyle0;
-
-class PropertyService {
-    async getExposedProperty(params) {
-        var _a, _b;
-        try {
-            const { data } = await axios.post(`/Get_Exposed_Property`, params);
-            if (data.ExceptionMsg !== '') {
-                throw new Error(data.ExceptionMsg);
-            }
-            const results = data.My_Result;
-            calendar_data.adultChildConstraints = results.adult_child_constraints;
-            calendar_data.allowedBookingSources = results.allowed_booking_sources;
-            calendar_data.allowed_payment_methods = results.allowed_payment_methods;
-            calendar_data.currency = results.currency;
-            calendar_data.is_vacation_rental = results.is_vacation_rental;
-            calendar_data.pickup_service = results.pickup_service;
-            calendar_data.max_nights = results.max_nights;
-            calendar_data.roomsInfo = results.roomtypes;
-            calendar_data.taxes = results.taxes;
-            calendar_data.id = results.id;
-            calendar_data.country = results.country;
-            calendar_data.name = results.name;
-            calendar_data.is_automatic_check_in_out = results.is_automatic_check_in_out;
-            calendar_data.tax_statement = results.tax_statement;
-            calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
-            calendar_data.is_pms_enabled = results.is_pms_enabled;
-            const spitTime = (_b = (_a = results === null || results === void 0 ? void 0 : results.time_constraints) === null || _a === void 0 ? void 0 : _a.check_out_till) === null || _b === void 0 ? void 0 : _b.split(':');
-            calendar_data.checkin_checkout_hours = {
-                offset: results.city.gmt_offset,
-                hour: Number(spitTime[0] || 0),
-                minute: Number(spitTime[1] || 0),
-            };
-            return data;
-        }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-    async getCountrySales(params) {
-        const { data } = await axios.post('/Get_Country_Sales', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        if (params.is_export_to_excel) {
-            downloadFile(data.My_Params_Get_Country_Sales.Link_excel);
-        }
-        return data.My_Result;
-    }
-    async setExposedCleaningFrequency(params) {
-        const { data } = await axios.post('/Set_Exposed_Cleaning_Frequency', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
-    async getMonthlyStats(params) {
-        const { data } = await axios.post('/Get_Monthly_Stats', params);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        if (params.is_export_to_excel) {
-            downloadFile(data.My_Params_Get_Monthly_Stats.Link_excel);
-        }
-        return data.My_Result;
-    }
-}
 
 const irHousekeepingCss = ".sc-ir-housekeeping-h{display:block}";
 const IrHousekeepingStyle0 = irHousekeepingCss;

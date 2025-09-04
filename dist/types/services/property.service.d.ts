@@ -6,6 +6,11 @@ export type CountrySalesParams = {
     BOOK_CASE: string;
     is_export_to_excel: boolean;
 };
+export type DailyRevenueReportParams = {
+    date: string;
+    property_id: string;
+    is_export_to_excel: boolean;
+};
 export type MonthlyStatsParams = {
     property_id: number;
     from_date: string;
@@ -42,6 +47,7 @@ export declare class PropertyService {
         include_sales_rate_plans?: boolean;
     }): Promise<any>;
     getCountrySales(params: CountrySalesParams): Promise<any>;
+    getDailyRevenueReport(params: DailyRevenueReportParams): Promise<any>;
     setExposedCleaningFrequency(params: {
         property_id: number;
         code: string;

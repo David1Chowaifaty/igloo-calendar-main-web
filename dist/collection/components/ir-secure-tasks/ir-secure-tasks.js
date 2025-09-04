@@ -13,6 +13,7 @@ export class IrSecureTasks {
             { name: 'Users', value: 'users' },
             { name: 'Sales By Country', value: 'country-sales' },
             { name: 'Daily Occupancy', value: 'daily-occupancy' },
+            { name: 'Daily Revenue', value: 'daily-revenue' },
         ];
     }
     componentWillLoad() {
@@ -91,6 +92,8 @@ export class IrSecureTasks {
                 return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'daily-occupancy':
                 return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'daily-revenue':
+                return h("ir-ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

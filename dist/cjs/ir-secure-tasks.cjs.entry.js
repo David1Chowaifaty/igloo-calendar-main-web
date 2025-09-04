@@ -4,8 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const Token = require('./Token-3d0cc874.js');
-const utils = require('./utils-a78b3679.js');
+const utils = require('./utils-bf9b1b25.js');
 require('./axios-6e678d52.js');
+require('./moment-1780b03a.js');
 require('./index-63734c32.js');
 require('./calendar-data-960b69ba.js');
 require('./index-7564ffa1.js');
@@ -27,6 +28,7 @@ const IrSecureTasks = class {
             { name: 'Users', value: 'users' },
             { name: 'Sales By Country', value: 'country-sales' },
             { name: 'Daily Occupancy', value: 'daily-occupancy' },
+            { name: 'Daily Revenue', value: 'daily-revenue' },
         ];
     }
     componentWillLoad() {
@@ -105,6 +107,8 @@ const IrSecureTasks = class {
                 return index.h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'daily-occupancy':
                 return index.h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'daily-revenue':
+                return index.h("ir-ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

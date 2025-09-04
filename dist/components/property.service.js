@@ -50,6 +50,16 @@ class PropertyService {
         }
         return data.My_Result;
     }
+    async getDailyRevenueReport(params) {
+        const { data } = await axios.post('/Get_Daily_Revenue_Report', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        if (params.is_export_to_excel) {
+            downloadFile(data.My_Params_Get_Daily_Revenue_Report.Link_excel);
+        }
+        return data.My_Result;
+    }
     async setExposedCleaningFrequency(params) {
         const { data } = await axios.post('/Set_Exposed_Cleaning_Frequency', params);
         if (data.ExceptionMsg !== '') {
