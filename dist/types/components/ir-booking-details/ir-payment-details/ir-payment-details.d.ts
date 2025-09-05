@@ -5,7 +5,7 @@ import { IToast } from "../../ui/ir-toast/toast";
 import { PaymentSidebarEvent } from '../types';
 import { IEntries } from "../../../models/IBooking";
 export declare class IrPaymentDetails {
-    bookingDetails: Booking;
+    booking: Booking;
     paymentActions: IPaymentAction[];
     paymentTypes: IEntries[];
     confirmModal: boolean;

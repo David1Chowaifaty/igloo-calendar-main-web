@@ -74,11 +74,11 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     handlePaymentGeneration(e) {
         var _a, _b;
         const value = e.detail;
-        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === value.pay_type_code);
+        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === (value.pay_type_code === '013' && this.booking.status.code === '003' ? value.pay_type_code : '001'));
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: {
-                payment: Object.assign(Object.assign({}, value), { date: hooks(value.due_on, 'M/D/YYYY h:mm:ss A').format('YYYY-MM-DD'), id: -1, amount: value.amount, payment_type: paymentType
+                payment: Object.assign(Object.assign({}, value), { date: hooks().format('YYYY-MM-DD'), id: -1, amount: value.amount, payment_type: paymentType
                         ? {
                             code: paymentType.CODE_NAME,
                             description: paymentType.CODE_VALUE_EN,
@@ -92,8 +92,8 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     async cancelPayment() {
         try {
             await this.paymentService.CancelPayment(this.toBeDeletedItem.id);
-            const newPaymentArray = this.bookingDetails.financial.payments.filter((item) => item.id !== this.toBeDeletedItem.id);
-            this.bookingDetails = Object.assign(Object.assign({}, this.bookingDetails), { financial: Object.assign(Object.assign({}, this.bookingDetails.financial), { payments: newPaymentArray }) });
+            const newPaymentArray = this.booking.financial.payments.filter((item) => item.id !== this.toBeDeletedItem.id);
+            this.booking = Object.assign(Object.assign({}, this.booking), { financial: Object.assign(Object.assign({}, this.booking.financial), { payments: newPaymentArray }) });
             this.confirmModal = false;
             this.resetBookingEvt.emit(null);
             this.resetExposedCancellationDueAmount.emit(null);
@@ -116,26 +116,26 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     }
     hasValidFinancialData() {
         var _a;
-        return Boolean((_a = this.bookingDetails) === null || _a === void 0 ? void 0 : _a.financial);
+        return Boolean((_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial);
     }
     shouldShowPaymentActions() {
         var _a;
-        return Boolean(((_a = this.paymentActions) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) > 0 && this.bookingDetails.is_direct);
+        return Boolean(((_a = this.paymentActions) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) > 0 && this.booking.is_direct);
     }
     render() {
         if (!this.hasValidFinancialData()) {
             return null;
         }
-        const { financial, currency } = this.bookingDetails;
+        const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.bookingDetails.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.bookingDetails, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.bookingDetails })),
+            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking })),
             h("ir-payments-folio", { paymentTypes: this.paymentTypes, payments: financial.payments || [], onAddPayment: this.handleAddPayment, onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
         ];
     }
     static get style() { return IrPaymentDetailsStyle0; }
 }, [2, "ir-payment-details", {
-        "bookingDetails": [1040],
+        "booking": [1040],
         "paymentActions": [16],
         "paymentTypes": [16],
         "confirmModal": [32],
