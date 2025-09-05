@@ -77,7 +77,7 @@ import { d as defineCustomElement$3 } from './ir-tooltip2.js';
 import { d as defineCustomElement$2 } from './ota-label2.js';
 import { v as v4 } from './v4.js';
 
-const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 640px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
+const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
 
 const IrDailyRevenue$1 = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue extends HTMLElement {
