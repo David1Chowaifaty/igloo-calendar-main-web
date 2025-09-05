@@ -5,20 +5,22 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$f } from './ir-button2.js';
-import { d as defineCustomElement$e } from './ir-checkbox2.js';
-import { d as defineCustomElement$d } from './ir-date-picker2.js';
-import { d as defineCustomElement$c } from './ir-icons2.js';
-import { d as defineCustomElement$b } from './ir-interceptor2.js';
-import { d as defineCustomElement$a } from './ir-loading-screen2.js';
-import { d as defineCustomElement$9 } from './ir-otp2.js';
-import { d as defineCustomElement$8 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$7 } from './ir-progress-indicator2.js';
-import { d as defineCustomElement$6 } from './ir-range-picker2.js';
-import { d as defineCustomElement$5 } from './ir-sales-filters2.js';
-import { d as defineCustomElement$4 } from './ir-sales-table2.js';
-import { d as defineCustomElement$3 } from './ir-select2.js';
-import { d as defineCustomElement$2 } from './ir-spinner2.js';
+import { d as defineCustomElement$h } from './ir-button2.js';
+import { d as defineCustomElement$g } from './ir-checkbox2.js';
+import { d as defineCustomElement$f } from './ir-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-icons2.js';
+import { d as defineCustomElement$d } from './ir-interceptor2.js';
+import { d as defineCustomElement$c } from './ir-loading-screen2.js';
+import { d as defineCustomElement$b } from './ir-otp2.js';
+import { d as defineCustomElement$a } from './ir-otp-modal2.js';
+import { d as defineCustomElement$9 } from './ir-progress-indicator2.js';
+import { d as defineCustomElement$8 } from './ir-range-picker2.js';
+import { d as defineCustomElement$7 } from './ir-sales-by-country-summary2.js';
+import { d as defineCustomElement$6 } from './ir-sales-filters2.js';
+import { d as defineCustomElement$5 } from './ir-sales-table2.js';
+import { d as defineCustomElement$4 } from './ir-select2.js';
+import { d as defineCustomElement$3 } from './ir-spinner2.js';
+import { d as defineCustomElement$2 } from './ir-stats-card2.js';
 import { d as defineCustomElement$1 } from './ir-toast2.js';
 import { v as v4 } from './v4.js';
 
@@ -167,7 +169,7 @@ const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
@@ -196,7 +198,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-spinner", "ir-toast"];
+    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-country-summary", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-country":
             if (!customElements.get(tagName)) {
@@ -205,70 +207,80 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-progress-indicator":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-range-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-sales-by-country-summary":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
             }
             break;
         case "ir-sales-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-sales-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-spinner":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-stats-card":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

@@ -109,6 +109,7 @@
     "components/ir-payment-option/ir-option-details/ir-option-details.js",
     "components/ir-reset-password/ir-reset-password.js",
     "components/ir-sales-by-country/ir-sales-by-country.js",
+    "components/ir-sales-by-country/ir-sales-by-country-summary/ir-sales-by-country-summary.js",
     "components/ir-sales-by-country/ir-sales-filters/ir-sales-filters.js",
     "components/ir-sales-by-country/ir-sales-table/ir-sales-table.js",
     "components/ir-secure-tasks/ir-secure-tasks.js",

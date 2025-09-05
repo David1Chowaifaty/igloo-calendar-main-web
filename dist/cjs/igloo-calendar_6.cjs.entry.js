@@ -6032,7 +6032,7 @@ const IrSalesByCountry = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("ir-sales-by-country-summary", { salesReports: this.salesData }), index.h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
