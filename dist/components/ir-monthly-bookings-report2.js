@@ -14,9 +14,9 @@ import { d as defineCustomElement$9 } from './ir-monthly-bookings-report-table2.
 import { d as defineCustomElement$8 } from './ir-otp2.js';
 import { d as defineCustomElement$7 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$6 } from './ir-progress-indicator2.js';
-import { d as defineCustomElement$5 } from './ir-report-stats-card2.js';
-import { d as defineCustomElement$4 } from './ir-select2.js';
-import { d as defineCustomElement$3 } from './ir-spinner2.js';
+import { d as defineCustomElement$5 } from './ir-select2.js';
+import { d as defineCustomElement$4 } from './ir-spinner2.js';
+import { d as defineCustomElement$3 } from './ir-stats-card2.js';
 import { d as defineCustomElement$2 } from './ir-toast2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
@@ -176,7 +176,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, h("ir-report-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), h("ir-report-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), h("ir-report-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.reports) === null || _h === void 0 ? void 0 : _h.reduce((prev, curr) => prev + curr.total_guests, 0)) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), h("ir-report-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, h("ir-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), h("ir-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), h("ir-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.stats) === null || _h === void 0 ? void 0 : _h.Total_Guests) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), h("ir-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -200,7 +200,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-report-stats-card", "ir-select", "ir-spinner", "ir-toast", "ir-tooltip"];
+    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-monthly-bookings-report":
             if (!customElements.get(tagName)) {
@@ -257,17 +257,17 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-report-stats-card":
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-select":
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-spinner":
+        case "ir-stats-card":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

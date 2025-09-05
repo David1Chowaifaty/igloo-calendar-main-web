@@ -24,6 +24,7 @@ export interface MonthlyStatsResults {
     PeakDays: PeakDay[];
     Occupancy_Difference_From_Previous_Month: number;
     TotalUnitsBooked: number;
+    Total_Guests: number;
 }
 export interface PeakDay {
     Date: string;
