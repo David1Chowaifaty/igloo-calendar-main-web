@@ -11,7 +11,7 @@ export class IrRevenueTable {
         this.payTypesObj = pt;
     }
     render() {
-        return (h("div", { key: '63cfcf4c699ff6b4668b43153795abb8147e9e9a', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
+        return (h("div", { key: '378fd079b312db4e1fe17f9df9c48066b0c2e3db', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
             return h("ir-revenue-row", { key: key, payments: p, groupName: this.payTypesObj[key] });
         }))) : (h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));
     }

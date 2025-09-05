@@ -3,7 +3,7 @@ import { c as colorVariants, d as defineCustomElement$1 } from './ir-icons2.js';
 import { f as formatAmount } from './utils.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 
-const irPaymentItemCss = ".payment-item{position:relative;width:100%;display:flex;padding:0.5rem;align-items:center;min-height:3rem;gap:1rem;box-sizing:border-box}.payment-item:hover{background:#f4f5fa}.payment-item:hover .payment-actions{display:flex}.payment-item p{padding:0;margin:0;box-sizing:border-box}.payment-item .payment-actions{display:none;background:#f4f5fa;gap:0.5rem;justify-content:flex-end;align-items:center}.payment-body{display:flex;flex-direction:column;gap:0.25rem;flex:1 1 0%}.payment-fields{display:flex;flex-direction:column}.payment-amount{font-weight:700;white-space:nowrap}.payment-amount.is-credit{color:#629a4c}.payment-amount.is-debit{color:#ff4961}.payment-reference{font-size:12px}.payment-toolbar{display:flex;align-items:center;gap:0.5rem}.action-button{cursor:pointer}@media (min-width: 768px){.payment-fields{flex-direction:row;align-items:center;gap:1rem}}";
+const irPaymentItemCss = ".payment-item__payment-item{display:flex;flex-direction:column;padding:0.5rem;min-height:3rem}.payment-item__payment-item p{padding:0;margin:0;box-sizing:border-box}.payment-item__payment-body{display:flex;flex-direction:column}.payment-item__payment-fields{display:flex;align-items:center;justify-content:space-between}.payment-item__payment-body .payment-item__payment-reference,.payment-item__payment-body .payment-item__payment-description{display:none}.payment-item__payment-toolbar{display:flex;align-items:center;justify-content:space-between}.payment-item__payment-toolbar .payment-item__payment-amount{display:none}.payment-item__action-button{cursor:pointer}.payment-item__payment-amount{font-weight:700;white-space:nowrap}.payment-item__payment-amount.is-credit{color:#629a4c}.payment-item__payment-amount.is-debit{color:#ff4961}.payment-item__payment-reference{font-size:12px}@media (min-width: 640px){.payment-item__payment-item{flex-direction:row;align-items:center;gap:1rem}.payment-item__payment-item:hover{background:#f4f5fa}.payment-item__payment-item:hover .payment-item__payment-actions{display:inline-flex}.payment-item__payment-body .payment-item__payment-reference,.payment-item__payment-body .payment-item__payment-description,.payment-item__payment-item .payment-item__payment-amount{display:inline-flex}.payment-item__payment-fields .payment-item__payment-amount,.payment-item__payment-toolbar .payment-item__payment-description,.payment-item__payment-item .payment-item__payment-reference,.payment-item__payment-actions{display:none}.payment-item__payment-body .payment-item__payment-reference{display:inline-flex;align-items:center}.payment-item__payment-body{flex:1 1 0%;justify-content:flex-start;gap:0.5rem}.payment-item__payment-fields{justify-content:flex-start;gap:0.5rem}.payment-item__payment-toolbar{gap:0.5rem;align-items:center}}";
 const IrPaymentItemStyle0 = irPaymentItemCss;
 
 const IrPaymentItem = /*@__PURE__*/ proxyCustomElement(class IrPaymentItem extends HTMLElement {
@@ -15,13 +15,50 @@ const IrPaymentItem = /*@__PURE__*/ proxyCustomElement(class IrPaymentItem exten
         this.deletePayment = createEvent(this, "deletePayment", 7);
     }
     render() {
-        var _a, _b;
+        var _a, _b, _c, _d;
         const isCredit = this.payment.payment_type.operation === 'CR';
-        return (h("div", { key: 'ee98488eadd5b44d57a3112d22698dd125ec96a1', class: "payment-item", part: "base" }, h("div", { key: '1a1ca120a0f1cdd9f1932c7c3967c85c51120ba6', class: "payment-body", part: "payment-body" }, h("div", { key: '8a2e828294f926826e01b6993d464f7cbea00e70', class: "payment-fields", part: "payment-fields" }, h("p", { key: '153d91c2bd5865747cb6d4c9d70a67140a0f98be', class: "text-muted" }, this.payment.date), h("p", { key: 'a439a3092cadc35e6b89a546ccb3b837786d62d2' }, h("b", { key: 'e020bac3967784993d60c167729ff43fe1ade52f' }, (_a = this.payment.payment_type.description) !== null && _a !== void 0 ? _a : this.payment.designation))), this.payment.reference && h("p", { key: '8a3a180f0a08c4b9bc5b7c48d983b4f238bfd4b4', class: "payment-reference text-muted" }, (_b = this.payment) === null || _b === void 0 ? void 0 : _b.reference)), h("div", { key: '566ac324886f65f2c8096b59dd7347eb5925f7fa', class: "payment-toolbar", part: "payment-toolbar" }, h("p", { key: '508430c3c97d7ba3277813916b0ee8472a7bbe0a', class: `payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.payment_type.code === '012' ? this.payment.amount * -1 : this.payment.amount)), h("div", { key: '05ff19b4f403ee0a315db9ef2d59aff65af2a4a2', class: "payment-actions" }, h("ir-button", { key: '78e20f5a1ce5d984de2d259a1bdbc2035c76eab1', class: "action-button", variant: "icon", onClickHandler: () => {
+        return (
+        // <div class="payment-item" part="base">
+        //   <div class="payment-body" part="payment-body">
+        //     <div class="payment-fields" part="payment-fields">
+        //       <p class="text-muted">{this.payment.date}</p>
+        //       <p>
+        //         <b>{this.payment.payment_type.description ?? this.payment.designation}</b>
+        //       </p>
+        //     </div>
+        //     {this.payment.reference && <p class="payment-reference text-muted">{this.payment?.reference}</p>}
+        //   </div>
+        //   <div class="payment-toolbar" part="payment-toolbar">
+        //     <p class={`payment-amount ${isCredit ? 'is-credit' : 'is-debit'}`}>
+        //       {formatAmount(this.payment.currency.symbol, this.payment.payment_type.code === '012' ? this.payment.amount * -1 : this.payment.amount)}
+        //     </p>
+        //     <div class="payment-actions">
+        //       <ir-button
+        //         class="action-button"
+        //         variant="icon"
+        //         onClickHandler={() => {
+        //           this.editPayment.emit(this.payment);
+        //         }}
+        //         icon_name="edit"
+        //         style={colorVariants.secondary}
+        //       ></ir-button>
+        //       <ir-button
+        //         class="action-button"
+        //         onClickHandler={() => {
+        //           this.deletePayment.emit(this.payment);
+        //         }}
+        //         variant="icon"
+        //         style={colorVariants.danger}
+        //         icon_name="trash"
+        //       ></ir-button>
+        //     </div>
+        //   </div>
+        // </div>
+        h("div", { key: 'ef49ef3ec25ab7fe065dd4272859a28c687699de', class: "payment-item__payment-item" }, h("div", { key: 'e0a50f803e04c59fdc2bcc6e722393ed434b883e', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: '3213807247c5cddf3eb69023ce83b0a492cbc905', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '4d8e2f771c3a6ee5304be94068ef67a7646deced', class: "payment-item__payment-date" }, this.payment.date), h("p", { key: '5c1a76e1b88321dadd737acff9e94977486cd778', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.payment_type.code === '012' ? this.payment.amount * -1 : this.payment.amount)), h("p", { key: '11eb2c639ac121cdca9b8a8b1583436ed994baf5', class: "payment-item__payment-description" }, h("b", { key: 'f3e473c054eb9459bef9eb6b22eab3b05ab135d8' }, (_a = this.payment.payment_type.description) !== null && _a !== void 0 ? _a : this.payment.designation))), this.payment.reference && h("p", { key: '5b7afd273cd84e8d5e192c7d3449d58805fc7723', class: "payment-item__payment-reference" }, (_b = this.payment) === null || _b === void 0 ? void 0 : _b.reference)), h("div", { key: '40d7e9601d0f3e269dede735d6f63a5baa3b4d75', class: "payment-item__payment-toolbar" }, h("p", { key: '987c3d003417d1c8785296ce41f8ff524f879a88', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.payment_type.code === '012' ? this.payment.amount * -1 : this.payment.amount)), h("p", { key: '02393758d4d52fac8555b5cd188b03fcca1995bb', class: "payment-item__payment-description" }, h("b", { key: '5f95d873aeff278d1d13b8d12ea8a54b29e353f5' }, (_c = this.payment.payment_type.description) !== null && _c !== void 0 ? _c : this.payment.designation)), h("div", { key: '33defcba94fd34966174fb3daca9bc50378e153e', class: "payment-item__payment-actions" }, h("ir-button", { key: 'f5d6338c97b4c7dc9a8f7135d16dd29d259ded6c', class: "payment-item__action-button", variant: "icon", onClickHandler: () => {
                 this.editPayment.emit(this.payment);
-            }, icon_name: "edit", style: colorVariants.secondary }), h("ir-button", { key: '4664daafc6a5999968562f469d3c4b71331bc824', class: "action-button", onClickHandler: () => {
+            }, icon_name: "edit", style: colorVariants.secondary }), h("ir-button", { key: 'b28b7b7a44e426f8253cca811e5ed86e02e4c5c7', class: "payment-item__action-button", onClickHandler: () => {
                 this.deletePayment.emit(this.payment);
-            }, variant: "icon", style: colorVariants.danger, icon_name: "trash" })))));
+            }, variant: "icon", style: colorVariants.danger, icon_name: "trash" }))), this.payment.reference && h("p", { key: 'bd5102ec0f21239c45c93da7cc0715381c05df12', class: "payment-item__payment-reference" }, (_d = this.payment) === null || _d === void 0 ? void 0 : _d.reference)));
     }
     static get style() { return IrPaymentItemStyle0; }
 }, [1, "ir-payment-item", {

@@ -60,7 +60,7 @@ const IrDropdownItem = /*@__PURE__*/ proxyCustomElement(class IrDropdownItem ext
         }
     }
     render() {
-        return (h(Host, { key: '92187eb984f9489becad6215de2cbaf87aeb001e', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: 'e032f0d4c008641117fcbb37d9a8f6809fd0a92d', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     get el() { return this; }
     static get style() { return IrDropdownItemStyle0; }
