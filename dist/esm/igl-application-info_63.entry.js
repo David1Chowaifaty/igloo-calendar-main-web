@@ -11459,7 +11459,7 @@ const IrPaymentDetails = class {
     handlePaymentGeneration(e) {
         var _a, _b;
         const value = e.detail;
-        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === (value.pay_type_code === '013' && this.booking.status.code === '003' ? value.pay_type_code : '001'));
+        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: {
