@@ -11,7 +11,7 @@ import './index-c4cf83be.js';
 const irAccordionCss = ":host{--ir-acc-duration:220ms;--ir-acc-ease:cubic-bezier(0.2, 0.8, 0.2, 1);--ir-acc-border:#e5e7eb;--ir-acc-radius:6px;--ir-acc-bg:#fff;--ir-acc-focus:#3b82f6;--ir-acc-space-2:0.5rem;--ir-acc-space-3:0.75rem;--ir-acc-space-4:1rem;display:block}.ir-accordion{border:1px solid var(--ir-acc-border);border-radius:var(--ir-acc-radius);background:var(--ir-acc-bg);overflow:hidden}.ir-accordion__trigger{display:flex;align-items:center;justify-content:flex-start;gap:var(--ir-acc-space-2);width:100%;padding:var(--ir-acc-space-4);background:transparent;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:background-color 0.15s ease}.ir-accordion__trigger:hover:not(:disabled){background:rgba(0, 0, 0, 0.02)}.ir-accordion__trigger:disabled{opacity:0.6;cursor:not-allowed}.ir-accordion__trigger:focus,.ir-accordion__trigger:focus-visible{outline:2px solid var(--ir-acc-focus);outline-offset:-2px}.ir-accordion__trigger:focus:not(:focus-visible){outline:none}.ir-accordion__caret{flex-shrink:0;transition:transform var(--ir-acc-duration) var(--ir-acc-ease);transform:rotate(-90deg)}.ir-accordion[data-open='true'] .ir-accordion__caret,.ir-accordion__caret.is-open{transform:rotate(0deg)}.ir-accordion__trigger-content{flex:1;min-width:0;}.ir-accordion__content{transition:height var(--ir-acc-duration) var(--ir-acc-ease);will-change:height}.ir-accordion__content:not([data-expanded='true']){height:0 !important;overflow:hidden !important;visibility:hidden}.ir-accordion__content[data-expanded='true']{visibility:visible}.ir-accordion__content-inner{padding:var(--ir-acc-space-3) var(--ir-acc-space-4)}@media (prefers-reduced-motion: reduce){.ir-accordion__caret{transition:none}.ir-accordion__content{transition:none}}";
 const IrAccordionStyle0 = irAccordionCss;
 
-let accId$1 = 0;
+let accId = 0;
 const IrAccordion = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -24,7 +24,7 @@ const IrAccordion = class {
         this.caretIcon = 'angle-down';
         this._expanded = false;
         // private triggerBtn?: HTMLButtonElement;
-        this.contentId = `ir-accordion-content-${++accId$1}`;
+        this.contentId = `ir-accordion-content-${++accId}`;
         this.isAnimating = false;
         this.onTriggerClick = () => {
             // Don't allow clicks during animation
@@ -195,25 +195,6 @@ const IrAccordion = class {
 };
 IrAccordion.style = IrAccordionStyle0;
 
-const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:black}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0;font-weight:600}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content){padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}";
-const IrRevenueRowStyle0 = irRevenueRowCss;
-
-let accId = 0;
-const IrRevenueRow = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        /** Array of payments for this method group */
-        this.payments = [];
-        this.contentId = `ir-rr-content-${++accId}`;
-    }
-    render() {
-        const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '99c48e69fcde6d6c3e21ad12609eec0ca991251f' }, h("ir-accordion", { key: '7e1f3d4160be0f3981a8e04acbf1735d6bf0212d', class: "ir-revenue-row__accordion" }, h("div", { key: '61bf001065e2d112b7cc472b12db508ee8ab3371', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'd7f648de5aed63e75c7b3ef336aea72204da9b38', class: "ir-revenue-row__header-left" }, h("p", { key: '41a0518f728fb9a64e10391a66bcbdf114c5453c', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: '0eb11f845998a8768b08c87153f26107647947f2', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: 'cda9daf94034585aa849ca611eabbbbcffc75ee2', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '7ab2aa2c5bb03b12568bd35658dfd0a69db0e4f0', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '43706ad899a686492db6ba5051470864de716e40', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
-    }
-    get host() { return getElement(this); }
-};
-IrRevenueRow.style = IrRevenueRowStyle0;
-
 const irRevenueRowDetailsCss = ".sc-ir-revenue-row-details-h{border-bottom:1px solid var(--ir-border, #e5e7eb);font-size:0.875rem}.ir-revenue-row-detail.sc-ir-revenue-row-details{display:flex;gap:0.5rem;padding:0.5rem 0;flex-direction:column}.ir-revenue-row-detail.sc-ir-revenue-row-details:hover{background:#f4f5fa}.ir-revenue-row-detail__booking.sc-ir-revenue-row-details{display:inline-flex}.ir-revenue-row-detail__booking-btn.sc-ir-revenue-row-details{display:inline-flex}.ir-revenue-row-detail.sc-ir-revenue-row-details:last-child{border-bottom:none}.ir-revenue-row-detail__label.sc-ir-revenue-row-details{font-weight:500;color:var(--ir-muted, #6b7280);margin-right:0.25rem}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{font-weight:600;text-align:right;white-space:nowrap;flex:1 1 0%}.ir-revenue-row-detail__amount.negative.sc-ir-revenue-row-details{color:var(--ir-danger, #dc2626)}.ir-revenue-row-detail__meta.sc-ir-revenue-row-details{display:flex;align-items:center}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:none}.ir-revenue-row-detail__time.sc-ir-revenue-row-details{display:flex;gap:0.5rem}.ir-revenue-row-detail__time.sc-ir-revenue-row-details .ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:flex;flex:1 1 0%;justify-content:end}@media (min-width: 640px){.ir-revenue-row-detail.sc-ir-revenue-row-details{flex-direction:row;align-items:center;gap:1rem}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:inline-flex;justify-content:flex-end}.ir-revenue-row-detail__time.sc-ir-revenue-row-details .ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:none}}";
 const IrRevenueRowDetailsStyle0 = irRevenueRowDetailsCss;
 
@@ -237,6 +218,6 @@ const IrRevenueRowDetails = class {
 };
 IrRevenueRowDetails.style = IrRevenueRowDetailsStyle0;
 
-export { IrAccordion as ir_accordion, IrRevenueRow as ir_revenue_row, IrRevenueRowDetails as ir_revenue_row_details };
+export { IrAccordion as ir_accordion, IrRevenueRowDetails as ir_revenue_row_details };
 
-//# sourceMappingURL=ir-accordion_3.entry.js.map
+//# sourceMappingURL=ir-accordion_2.entry.js.map
