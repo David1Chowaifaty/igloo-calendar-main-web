@@ -48,7 +48,7 @@ export class IrPopover {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '770be229890bbfed67593497444dfe43f065d9d8', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: 'fa9fb3188673d8b4af134d9dab37b01314d36bf4', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

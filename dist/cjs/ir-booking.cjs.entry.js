@@ -4,13 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const Token = require('./Token-3d0cc874.js');
-const utils = require('./utils-bf9b1b25.js');
+const utils = require('./utils-c0edc3a4.js');
 require('./axios-6e678d52.js');
-require('./moment-1780b03a.js');
-require('./index-63734c32.js');
-require('./calendar-data-960b69ba.js');
-require('./index-7564ffa1.js');
-require('./locales.store-a1ac5174.js');
+require('./calendar-data-72cad915.js');
+require('./locales.store-e17228d2.js');
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 const IrBookingStyle0 = irBookingCss;

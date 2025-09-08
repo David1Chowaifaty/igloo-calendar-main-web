@@ -57,6 +57,7 @@
     "components/ir-booking-details/ir-reservation-information/ir-reservation-information.js",
     "components/ir-booking-details/ir-room/ir-room.js",
     "components/ir-booking-details/ir-room-guests/ir-room-guests.js",
+    "components/ir-booking-email-logs/ir-booking-email-logs.js",
     "components/ir-booking-listing/ir-booking-listing.js",
     "components/ir-booking-listing/ir-listing-header/ir-listing-header.js",
     "components/ir-booking-listing/ir-listing-modal/ir-listing-modal.js",
