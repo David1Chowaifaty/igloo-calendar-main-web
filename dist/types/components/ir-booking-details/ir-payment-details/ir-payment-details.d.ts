@@ -2,12 +2,11 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IPayment } from "../../../models/booking.dto";
 import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
-import { PaymentSidebarEvent } from '../types';
-import { IEntries } from "../../../models/IBooking";
+import { PaymentEntries, PaymentSidebarEvent } from '../types';
 export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
-    paymentTypes: IEntries[];
+    paymentEntries: PaymentEntries;
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;

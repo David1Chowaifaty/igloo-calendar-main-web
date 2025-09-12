@@ -84,7 +84,7 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: 'f6377f65cc47d6998e8ad1ee180624cb482d0412', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '2c207d8fc2301f4d02f80b6d317d1cce9ad63f27', ref: el => {
+        return (h(Host, { key: '6155bab2211b603652929a360b55d1c776c5c6ae', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '9c3a9fb32738d315e2e21dc719637d9438879b97', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -96,12 +96,12 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '47d49e2f0383688991fbdb58aeda24757c4260f7', class: "cropped-title", style: {
+            } }, h("span", { key: '99f7b4b110034ef83af3e0231661084cebb2dbe6', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'fde89a114850b20450abeca31074075c128cbf9d', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: 'c12224ba560513d20c67673b4fcefb0d8b97b2bc', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: '2116f77bd3e45f0f999eb78b45c8897aea3ad8c4', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '6b2404ddb39fecad0c9ef31d8707869f59e634cf', name: "end" }))))));
     }
     get el() { return this; }
     static get style() { return IrInteractiveTitleStyle0; }

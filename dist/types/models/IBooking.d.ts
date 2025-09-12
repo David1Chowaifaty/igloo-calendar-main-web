@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { Booking, IFormat, Room, Origin, Arrival, IOtaNotes } from './booking.dto';
 import { TAdultChildConstraints } from './igl-book-property';
 import { Currency, RoomType } from './property';
@@ -50,7 +51,77 @@ export interface ICountry {
     phone_prefix: string;
     flag: string;
 }
-export interface IEntries {
+export declare const ZIEntrySchema: z.ZodObject<{
+    CODE_NAME: z.ZodString;
+    CODE_VALUE_AR: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_DE: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_EL: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_EN: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_FR: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_HE: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_PL: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_RU: z.ZodNullable<z.ZodString>;
+    CODE_VALUE_UA: z.ZodNullable<z.ZodString>;
+    DISPLAY_ORDER: z.ZodNullable<z.ZodNumber>;
+    ENTRY_DATE: z.ZodNullable<z.ZodString>;
+    ENTRY_USER_ID: z.ZodNullable<z.ZodNumber>;
+    INVARIANT_VALUE: z.ZodNullable<z.ZodString>;
+    ISDELETEABLE: z.ZodBoolean;
+    ISDELETED: z.ZodBoolean;
+    ISSYSTEM: z.ZodBoolean;
+    ISUPDATEABLE: z.ZodBoolean;
+    ISVISIBLE: z.ZodBoolean;
+    NOTES: z.ZodNullable<z.ZodString>;
+    OWNER_ID: z.ZodNullable<z.ZodNumber>;
+    TBL_NAME: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    NOTES?: string;
+    CODE_NAME?: string;
+    CODE_VALUE_AR?: string;
+    CODE_VALUE_DE?: string;
+    CODE_VALUE_EL?: string;
+    CODE_VALUE_EN?: string;
+    CODE_VALUE_FR?: string;
+    CODE_VALUE_HE?: string;
+    CODE_VALUE_PL?: string;
+    CODE_VALUE_RU?: string;
+    CODE_VALUE_UA?: string;
+    DISPLAY_ORDER?: number;
+    ENTRY_DATE?: string;
+    ENTRY_USER_ID?: number;
+    INVARIANT_VALUE?: string;
+    ISDELETEABLE?: boolean;
+    ISDELETED?: boolean;
+    ISSYSTEM?: boolean;
+    ISUPDATEABLE?: boolean;
+    ISVISIBLE?: boolean;
+    OWNER_ID?: number;
+    TBL_NAME?: string;
+}, {
+    NOTES?: string;
+    CODE_NAME?: string;
+    CODE_VALUE_AR?: string;
+    CODE_VALUE_DE?: string;
+    CODE_VALUE_EL?: string;
+    CODE_VALUE_EN?: string;
+    CODE_VALUE_FR?: string;
+    CODE_VALUE_HE?: string;
+    CODE_VALUE_PL?: string;
+    CODE_VALUE_RU?: string;
+    CODE_VALUE_UA?: string;
+    DISPLAY_ORDER?: number;
+    ENTRY_DATE?: string;
+    ENTRY_USER_ID?: number;
+    INVARIANT_VALUE?: string;
+    ISDELETEABLE?: boolean;
+    ISDELETED?: boolean;
+    ISSYSTEM?: boolean;
+    ISUPDATEABLE?: boolean;
+    ISVISIBLE?: boolean;
+    OWNER_ID?: number;
+    TBL_NAME?: string;
+}>;
+export type IEntries = {
     CODE_NAME: string;
     CODE_VALUE_AR: string;
     CODE_VALUE_DE: string;
@@ -73,7 +144,7 @@ export interface IEntries {
     NOTES: string;
     OWNER_ID: number;
     TBL_NAME: string;
-}
+};
 export interface ISetupEntries {
     arrivalTime: IEntries[];
     ratePricingMode: IEntries[];

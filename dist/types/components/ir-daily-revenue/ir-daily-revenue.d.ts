@@ -16,8 +16,7 @@ export declare class IrDailyRevenue {
     private roomService;
     private propertyService;
     private bookingService;
-    private payTypes;
-    private payTypeGroup;
+    private paymentEntries;
     preventPageLoad: EventEmitter<null>;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;

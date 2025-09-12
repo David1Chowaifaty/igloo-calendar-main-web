@@ -8,19 +8,19 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
 import { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 import { ICurrency } from "./models/calendarData";
-import { ICountry, IEntries as IEntries1, RoomBlockDetails } from "./models/IBooking";
+import { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 import { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 import { IToast } from "./components/ui/ir-toast/toast";
 import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
 import { CalendarModalEvent, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
-import { Currency, IEntries, RatePlan, RoomType } from "./models/property";
+import { Currency, RatePlan, RoomType } from "./models/property";
 import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
 import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
 import { BookingService } from "./services/booking.service";
-import { FolioEntryMode, OpenSidebarEvent, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
+import { FolioEntryMode, OpenSidebarEvent, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
@@ -31,6 +31,7 @@ import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { FactoryArg } from "imask";
 import { ZodType } from "zod";
+import { PaymentEntries } from "./components/ir-booking-details/types";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 import { Notification } from "./components/ir-notifications/types";
@@ -49,19 +50,19 @@ import { AllowedUser } from "./components/ir-user-management/types";
 export { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
 export { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 export { ICurrency } from "./models/calendarData";
-export { ICountry, IEntries as IEntries1, RoomBlockDetails } from "./models/IBooking";
+export { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 export { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 export { IToast } from "./components/ui/ir-toast/toast";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
 export { CalendarModalEvent, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
-export { Currency, IEntries, RatePlan, RoomType } from "./models/property";
+export { Currency, RatePlan, RoomType } from "./models/property";
 export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
 export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
 export { BookingService } from "./services/booking.service";
-export { FolioEntryMode, OpenSidebarEvent, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
+export { FolioEntryMode, OpenSidebarEvent, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
@@ -72,6 +73,7 @@ export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { FactoryArg } from "imask";
 export { ZodType } from "zod";
+export { PaymentEntries } from "./components/ir-booking-details/types";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 export { Notification } from "./components/ir-notifications/types";
@@ -1146,7 +1148,7 @@ export namespace Components {
         "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
         "modalTitle": string;
         "openModal": () => Promise<void>;
-        "paymentEntries": IEntries[];
+        "paymentEntries": PaymentEntries;
     }
     interface IrLoadingScreen {
         "message": string;
@@ -1452,14 +1454,13 @@ export namespace Components {
     interface IrPaymentDetails {
         "booking": Booking;
         "paymentActions": IPaymentAction[];
-        "paymentTypes": IEntries[];
+        "paymentEntries": PaymentEntries1;
     }
     interface IrPaymentFolio {
         "bookingNumber": string;
         "mode": FolioEntryMode;
         "payment": IPayment;
-        "paymentTypes": IEntries[];
-        "paymentTypesGroups": IEntries[];
+        "paymentEntries": PaymentEntries1;
     }
     interface IrPaymentItem {
         "payment": IPayment;
@@ -1479,7 +1480,6 @@ export namespace Components {
         "totalCost": number;
     }
     interface IrPaymentsFolio {
-        "paymentTypes": IEntries[];
         "payments": IPayment[];
     }
     interface IrPhoneInput {
@@ -1732,12 +1732,12 @@ export namespace Components {
     }
     interface IrRevenueSummary {
         "groupedPayments": GroupedFolioPayment;
-        "payTypesGroup": IEntries[];
+        "paymentEntries": PaymentEntries;
         "previousDateGroupedPayments": GroupedFolioPayment;
     }
     interface IrRevenueTable {
         "filters": DailyPaymentFilter;
-        "payTypes": IEntries[];
+        "paymentEntries": PaymentEntries;
         "payments": GroupedFolioPayment;
     }
     interface IrRoom {
@@ -6114,7 +6114,7 @@ declare namespace LocalJSX {
         "modalTitle"?: string;
         "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
         "onResetData"?: (event: IrListingModalCustomEvent<string>) => void;
-        "paymentEntries"?: IEntries[];
+        "paymentEntries"?: PaymentEntries;
     }
     interface IrLoadingScreen {
         "message"?: string;
@@ -6483,7 +6483,7 @@ declare namespace LocalJSX {
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onToast"?: (event: IrPaymentDetailsCustomEvent<IToast>) => void;
         "paymentActions"?: IPaymentAction[];
-        "paymentTypes"?: IEntries[];
+        "paymentEntries"?: PaymentEntries1;
     }
     interface IrPaymentFolio {
         "bookingNumber"?: string;
@@ -6492,8 +6492,7 @@ declare namespace LocalJSX {
         "onResetBookingEvt"?: (event: IrPaymentFolioCustomEvent<null>) => void;
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentFolioCustomEvent<null>) => void;
         "payment"?: IPayment;
-        "paymentTypes"?: IEntries[];
-        "paymentTypesGroups"?: IEntries[];
+        "paymentEntries"?: PaymentEntries1;
     }
     interface IrPaymentItem {
         "onDeletePayment"?: (event: IrPaymentItemCustomEvent<IPayment>) => void;
@@ -6519,7 +6518,6 @@ declare namespace LocalJSX {
         "onAddPayment"?: (event: IrPaymentsFolioCustomEvent<void>) => void;
         "onDeletePayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onEditPayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
-        "paymentTypes"?: IEntries[];
         "payments"?: IPayment[];
     }
     interface IrPhoneInput {
@@ -6798,12 +6796,12 @@ declare namespace LocalJSX {
     }
     interface IrRevenueSummary {
         "groupedPayments"?: GroupedFolioPayment;
-        "payTypesGroup"?: IEntries[];
+        "paymentEntries"?: PaymentEntries;
         "previousDateGroupedPayments"?: GroupedFolioPayment;
     }
     interface IrRevenueTable {
         "filters"?: DailyPaymentFilter;
-        "payTypes"?: IEntries[];
+        "paymentEntries"?: PaymentEntries;
         "payments"?: GroupedFolioPayment;
     }
     interface IrRoom {

@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Fragment } from '@stencil/core/internal/client';
+import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables.js';
 import { d as defineCustomElement$5 } from './ir-accordion2.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
@@ -15,21 +16,29 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
         this.payments = new Map();
     }
     componentWillLoad() {
-        let pt = {};
-        this.payTypes.forEach(p => {
-            pt = Object.assign(Object.assign({}, pt), { [p.CODE_NAME]: p.CODE_VALUE_EN });
-        });
-        this.payTypesObj = pt;
+        const buildPaymentLookup = (key) => {
+            let pt = {};
+            this.paymentEntries[key].forEach(p => {
+                pt = Object.assign(Object.assign({}, pt), { [p.CODE_NAME]: p.CODE_VALUE_EN });
+            });
+            return pt;
+        };
+        this.payTypesObj = buildPaymentLookup('types');
+        this.payMethodObj = buildPaymentLookup('methods');
     }
     render() {
-        return (h("div", { key: '77e2b826bca40872cb917a1a5388d37bdd140bea', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
-            return h("ir-revenue-row", { key: key, payments: p, groupName: this.payTypesObj[key] });
+        return (h("div", { key: '6e7e0ae34be1418d4b330987300f4dce908f2d8a', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
+            const [paymentType, paymentMethod] = key.split('_');
+            const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
+                ? `${this.payTypesObj[paymentType]}: ${this.payMethodObj[paymentMethod]}`
+                : this.payTypesObj[paymentType];
+            return h("ir-revenue-row", { key: key, payments: p, groupName: groupName });
         }))) : (h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));
     }
     static get style() { return IrRevenueTableStyle0; }
 }, [2, "ir-revenue-table", {
         "payments": [16],
-        "payTypes": [16],
+        "paymentEntries": [16],
         "filters": [16]
     }]);
 function defineCustomElement() {

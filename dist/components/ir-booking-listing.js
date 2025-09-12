@@ -7,7 +7,7 @@ import { h as hooks } from './moment.js';
 import { a as _formatTime } from './functions.js';
 import { T as Token } from './Token.js';
 import { i as isSingleUnit } from './calendar-data.js';
-import { B as BookingService, b as buildPaymentTypes } from './booking.service.js';
+import { B as BookingService } from './booking.service.js';
 import { d as defineCustomElement$14 } from './igl-application-info2.js';
 import { d as defineCustomElement$13 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$12 } from './igl-book-property2.js';
@@ -160,7 +160,7 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP']),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.bookingListingService.getExposedBookingsCriteria(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
             ];
@@ -172,9 +172,12 @@ const IrBookingListing$1 = /*@__PURE__*/ proxyCustomElement(class IrBookingListi
                 }));
             }
             const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group } = this.bookingService.groupEntryTablesResult(setupEntries);
-            const groupedEntries = buildPaymentTypes(pay_type, pay_type_group);
-            this.paymentEntries = groupedEntries['PAYMENTS'];
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
             updateUserSelection('property_id', propertyId);
             // this.geSearchFiltersFromParams();
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));

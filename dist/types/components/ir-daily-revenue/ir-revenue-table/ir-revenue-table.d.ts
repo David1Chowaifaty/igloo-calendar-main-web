@@ -1,10 +1,11 @@
 import { DailyPaymentFilter, GroupedFolioPayment } from '../types';
-import { IEntries } from "../../../models/IBooking";
+import { PaymentEntries } from "../../ir-booking-details/types";
 export declare class IrRevenueTable {
     payments: GroupedFolioPayment;
-    payTypes: IEntries[];
+    paymentEntries: PaymentEntries;
     filters: DailyPaymentFilter;
     private payTypesObj;
+    private payMethodObj;
     componentWillLoad(): void;
     render(): any;
 }

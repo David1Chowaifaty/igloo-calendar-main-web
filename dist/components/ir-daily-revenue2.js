@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { B as BookingService, b as buildPaymentTypes } from './booking.service.js';
+import { B as BookingService } from './booking.service.js';
 import { P as PropertyService } from './property.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
@@ -152,7 +152,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
             }
             this.property_id = propertyId;
             const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP']),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.getPaymentReports(),
                 this.roomService.fetchLanguage(this.language),
             ];
@@ -165,9 +165,12 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
                 }));
             }
             const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.payTypes = pay_type;
-            this.payTypeGroup = buildPaymentTypes(pay_type, pay_type_group)['PAYMENTS'];
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
         }
         catch (error) {
             console.log(error);
@@ -180,8 +183,9 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
         var _a;
         const groupedPayment = new Map();
         for (const payment of payments) {
-            const p = (_a = groupedPayment.get(payment.payTypeCode)) !== null && _a !== void 0 ? _a : [];
-            groupedPayment.set(payment.payTypeCode, [...p, payment]);
+            const key = `${payment.payTypeCode}_${payment.payMethodCode}`;
+            const p = (_a = groupedPayment.get(key)) !== null && _a !== void 0 ? _a : [];
+            groupedPayment.set(key, [...p, payment]);
         }
         return new Map([...groupedPayment.entries()].sort(([a], [b]) => {
             const aNum = Number(a);
@@ -199,6 +203,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
                 return {
                     method: report.METHOD,
                     payTypeCode: report.PAY_TYPE_CODE,
+                    payMethodCode: report.PAY_METHOD_CODE,
                     amount: report.AMOUNT,
                     date: report.DATE,
                     hour: report.HOUR,
@@ -252,7 +257,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, payTypesGroup: this.payTypeGroup }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', payTypes: this.payTypes, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
                 width: ((_b = this.sideBarEvent) === null || _b === void 0 ? void 0 : _b.type) === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: ((_c = this.sideBarEvent) === null || _c === void 0 ? void 0 : _c.type) === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));

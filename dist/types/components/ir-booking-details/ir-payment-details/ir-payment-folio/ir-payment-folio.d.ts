@@ -1,10 +1,9 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { IPayment } from "../../../../models/booking.dto";
 import { IEntries } from "../../../../models/IBooking";
-import { FolioEntryMode } from '../../types';
+import { FolioEntryMode, PaymentEntries } from '../../types';
 export declare class IrPaymentFolio {
-    paymentTypes: IEntries[];
-    paymentTypesGroups: IEntries[];
+    paymentEntries: PaymentEntries;
     bookingNumber: string;
     payment: IPayment;
     mode: FolioEntryMode;
@@ -24,6 +23,7 @@ export declare class IrPaymentFolio {
     private updateFolioData;
     private savePayment;
     private handleDropdownChange;
+    private handlePaymentMethodDropdownChange;
     private getPaymentTypes;
     private renderDropdownItems;
     render(): any;

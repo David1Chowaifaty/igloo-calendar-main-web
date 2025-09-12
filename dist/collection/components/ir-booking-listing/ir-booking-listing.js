@@ -10,7 +10,7 @@ import { getPrivateNote } from "../../utils/booking";
 import Token from "../../models/Token";
 import { isSingleUnit } from "../../stores/calendar-data";
 import { getAllParams } from "../../utils/browserHistory";
-import { BookingService, buildPaymentTypes } from "../../services/booking.service";
+import { BookingService } from "../../services/booking.service";
 export class IrBookingListing {
     constructor() {
         this.language = '';
@@ -77,7 +77,7 @@ export class IrBookingListing {
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP']),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.bookingListingService.getExposedBookingsCriteria(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
             ];
@@ -89,9 +89,12 @@ export class IrBookingListing {
                 }));
             }
             const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group } = this.bookingService.groupEntryTablesResult(setupEntries);
-            const groupedEntries = buildPaymentTypes(pay_type, pay_type_group);
-            this.paymentEntries = groupedEntries['PAYMENTS'];
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
             updateUserSelection('property_id', propertyId);
             // this.geSearchFiltersFromParams();
             await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));

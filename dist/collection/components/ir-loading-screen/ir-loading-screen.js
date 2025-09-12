@@ -4,7 +4,7 @@ export class IrLoadingScreen {
         this.message = '';
     }
     render() {
-        return (h(Host, { key: '80a44ee85405b2632ccce87f31ace7b3b765dd03' }, h("span", { key: 'b490e27a60e80505c5cb1dc8797e6d3af0607cbc', class: "loader" })));
+        return (h(Host, { key: 'ed4a037086232421257227c6657b317211de4f6b' }, h("span", { key: 'de0608a19794b075a38351305bbb518e3f5dbf8d', class: "loader" })));
     }
     static get is() { return "ir-loading-screen"; }
     static get encapsulation() { return "scoped"; }

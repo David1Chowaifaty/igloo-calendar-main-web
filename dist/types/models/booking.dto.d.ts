@@ -299,6 +299,7 @@ export interface IPayment {
     book_nbr?: string;
     payment_gateway_code?: number;
     payment_type?: PaymentType;
+    payment_method?: PaymentType;
 }
 interface PaymentType {
     code: string;

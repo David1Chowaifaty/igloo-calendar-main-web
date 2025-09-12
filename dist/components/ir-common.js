@@ -108,7 +108,7 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
         });
     }
     render() {
-        return (h(Host, { key: 'c3c576c1f37fc52017d86932cfa5ce08c59d5e90' }, h("slot", { key: '37a29df62c26b1913b38a95e66add2b0187e5b6d' })));
+        return (h(Host, { key: '762cc60e66362293b5b9a6366095351ca9e9e668' }, h("slot", { key: '397d995cde59e7a38911896ba3d88f3f731aabf1' })));
     }
     static get watchers() { return {
         "extraResources": ["hrefsChanged"]

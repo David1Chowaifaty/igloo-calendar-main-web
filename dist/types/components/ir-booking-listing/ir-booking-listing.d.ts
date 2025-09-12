@@ -1,5 +1,5 @@
 import { Booking } from "../../models/booking.dto";
-import { IEntries } from "../../models/property";
+import { PaymentEntries } from '../ir-booking-details/types';
 export declare class IrBookingListing {
     el: HTMLElement;
     language: string;
@@ -17,7 +17,7 @@ export declare class IrBookingListing {
         cause: 'edit' | 'payment' | 'delete' | 'guest';
     } | null;
     showCost: boolean;
-    paymentEntries: IEntries[];
+    paymentEntries: PaymentEntries;
     private bookingListingService;
     private bookingService;
     private roomService;

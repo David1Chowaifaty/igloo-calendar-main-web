@@ -9,7 +9,7 @@ export class IrRevenueSummary {
     calculateTotalPayments(groupedPayments) {
         let total = 0;
         groupedPayments.forEach((value, key) => {
-            if (this.payTypesGroup.find(p => p.CODE_NAME === key)) {
+            if (key.split('_')[0] === '001') {
                 total += this.calculateTotalValue(value);
             }
         });
@@ -20,10 +20,13 @@ export class IrRevenueSummary {
     // }
     calculateTotalRefunds(groupedPayments) {
         const refundKeyCode = '010';
-        if (!groupedPayments.has(refundKeyCode)) {
-            return 0;
-        }
-        return this.calculateTotalValue(groupedPayments.get(refundKeyCode));
+        const payments = [];
+        groupedPayments.forEach((value, key) => {
+            if (key.split('_')[0] === refundKeyCode) {
+                payments.push(...value);
+            }
+        });
+        return this.calculateTotalValue(payments);
     }
     calculateTotalValue(payments) {
         return payments.reduce((p, c) => p + c.amount, 0);
@@ -41,7 +44,7 @@ export class IrRevenueSummary {
         const previousDatePaymentsTotal = this.calculateTotalPayments(this.previousDateGroupedPayments);
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal - previousDateRefundAmount;
-        return (h(Host, { key: 'ba627454b314f449d9b19530bd6faa2f2bb5f618' }, h("div", { key: 'dfd49a9d1329d1815a0b8e2da9743f9f7c0e031f', class: "ir-revenue-summary__mobile" }, h("ir-stats-card", { key: 'b3f8664138026ff35ec99957cea7f327ab6952c9', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, h("p", { key: '3cc9f63bf06d2488bc2114f51819313136d15aaa', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: 'dbbb9fab48a8df7ca70b0706e077ad747ef3d756', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, h("p", { key: '2efb4b133286c535b9d932fc567aea71f62d971b', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount)))), h("div", { key: '60e770d5418c27286f4946dc009eea17cca118cb', class: "ir-revenue-summary__tablet" }, h("ir-stats-card", { key: '73f3e34f107558387cdcab95e1478f3994bf1e73', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, h("p", { key: 'b104bf2041d0683e70808a99522227ef9988f82d', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: '3df088ff3d20fb7a7ef548592b6b794a255b4d74', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` }, h("p", { key: 'b00958da7c60636d88d4f11955016a3096721b99', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount))), h("ir-stats-card", { key: '6be72a75ad72c7e5c00b7bba9e763d31bacc4abb', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: formatAmount(calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
+        return (h(Host, { key: '206be2ddc008555e9ef25623d9a9d09280c86a94' }, h("div", { key: '498c459ced457e9e1ad5883c088d7d85619ae0a0', class: "ir-revenue-summary__mobile" }, h("ir-stats-card", { key: 'd55e95b3bbf6eb13e3ef24d928d0b86b54ea576e', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, h("p", { key: '1ad2460bb6bf8e50c1c0c1a12ac50b1840c25702', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: '8442750d1d9cb250e08091fe11b383413c14057b', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, h("p", { key: 'a01be0029b5e9455928277ed8c92d3c3f3d29e34', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount)))), h("div", { key: '3dd3352e24f7a43277cf152df80411bfd56f9130', class: "ir-revenue-summary__tablet" }, h("ir-stats-card", { key: '87ce0589b3aa966ea42940d6749525d95d4f7ced', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, h("p", { key: '625bb9ea6f2f7d544112d45f49c33b9f46dbeca5', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: 'fc0b66dccd849f78812e5560c84306735ea386f0', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` }, h("p", { key: '3367e94c3c47bc6a0610251029487448a8577dec', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount))), h("ir-stats-card", { key: '294b70ff022cce8d3368170365a2209a32c01971', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: formatAmount(calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
     }
     static get is() { return "ir-revenue-summary"; }
     static get encapsulation() { return "scoped"; }
@@ -105,17 +108,17 @@ export class IrRevenueSummary {
                 "setter": false,
                 "defaultValue": "new Map()"
             },
-            "payTypesGroup": {
+            "paymentEntries": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "PaymentEntries",
+                    "resolved": "{ types: IEntries[]; groups: IEntries[]; methods: IEntries[]; }",
                     "references": {
-                        "IEntries": {
+                        "PaymentEntries": {
                             "location": "import",
-                            "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "path": "@/components/ir-booking-details/types",
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
                         }
                     }
                 },

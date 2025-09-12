@@ -4,7 +4,7 @@ import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
-import { BookingDetailsSidebarEvents, OpenSidebarEvent } from './types';
+import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries } from './types';
 export declare class IrBookingDetails {
     element: HTMLElement;
     language: string;
@@ -47,8 +47,7 @@ export declare class IrBookingDetails {
         loading: boolean;
     };
     departureTime: IEntries[];
-    paymentTypes: IEntries[];
-    paymentTypesGroups: IEntries[];
+    paymentEntries: PaymentEntries;
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;

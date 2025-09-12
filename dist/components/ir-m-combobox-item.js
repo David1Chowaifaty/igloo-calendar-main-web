@@ -44,7 +44,7 @@ const IrMComboboxItem$1 = /*@__PURE__*/ proxyCustomElement(class IrMComboboxItem
     }
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: 'b95cdcf88ff25594b37a8ae6d067190351a2d570', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '7d7ffd7bb4a0394ceb598d2aa5cc95bdad678eec', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     get el() { return this; }
     static get style() { return IrMComboboxItemStyle0; }

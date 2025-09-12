@@ -33,7 +33,7 @@ export class IrPaymentsFolio {
         return (h("div", { class: "text-center p-3" }, h("p", { class: "text-muted" }, "No payments recorded yet")));
     }
     render() {
-        return (h("div", { key: '5de39847ba10b5f6f71c3c878422a753e27e7bc6', class: "mt-1" }, h("div", { key: 'cead0e15b39c3fdcb70cc5f340b3a56a227b087f', class: "d-flex flex-column rounded payment-container" }, h("div", { key: 'dd8582187346cb63f7081406c8a9f859ded1fbb0', class: "d-flex align-items-center justify-content-between" }, h("p", { key: '06aa5207487feeea895b23a7adddaa5397fae06e', class: "font-size-large p-0 m-0" }, "Guest Folio"), h("ir-button", { key: '09c0edb8b81ab526461ebd8254775e91a342659c', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: 'd264f7bb0d68be53a551b3554cd60122ae458349', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
+        return (h("div", { key: '4a3f5682943b46e6bfcea1c8960d428057f91c7c', class: "mt-1" }, h("div", { key: 'c3d1b40d1faff294083d5fe8b383242c1c97c60f', class: "d-flex flex-column rounded payment-container" }, h("div", { key: 'b37776e93537628c7e2f9a664cdd39d0767d17f6', class: "d-flex align-items-center justify-content-between" }, h("p", { key: '00c8a0ff769864dc9665e0ef50f81e0bdefbc943', class: "font-size-large p-0 m-0" }, "Guest Folio"), h("ir-button", { key: '7d8ff18d170035365d31ad3538959736754ebd89', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: 'cd46ecbfa1945649859008331e576e347d431d9c', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
     }
     static get is() { return "ir-payments-folio"; }
     static get encapsulation() { return "scoped"; }
@@ -72,29 +72,6 @@ export class IrPaymentsFolio {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
-            },
-            "paymentTypes": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
-                    "references": {
-                        "IEntries": {
-                            "location": "import",
-                            "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false
             }
         };
     }

@@ -1,9 +1,9 @@
-import { IEntries } from "../../../models/IBooking";
 import { GroupedFolioPayment } from '../types';
+import { PaymentEntries } from "../../ir-booking-details/types";
 export declare class IrRevenueSummary {
     groupedPayments: GroupedFolioPayment;
     previousDateGroupedPayments: GroupedFolioPayment;
-    payTypesGroup: IEntries[];
+    paymentEntries: PaymentEntries;
     private calculateTotalPayments;
     private calculateTotalRefunds;
     private calculateTotalValue;

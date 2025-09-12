@@ -1,3 +1,4 @@
+import { IEntries } from "../../models/IBooking";
 import { IPayment, SharedPerson } from './../../models/booking.dto';
 export type BookingDetailsSidebarEvents = 'guest' | 'pickup' | 'extra_note' | 'extra_service' | 'room-guest' | 'payment-folio';
 export type OpenSidebarEvent<T> = {
@@ -23,4 +24,9 @@ export type RoomGuestsPayload = {
     totalGuests: number;
     checkin: boolean;
     identifier: string;
+};
+export type PaymentEntries = {
+    types: IEntries[];
+    groups: IEntries[];
+    methods: IEntries[];
 };

@@ -72,9 +72,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         };
     }
     handlePaymentGeneration(e) {
-        var _a, _b;
+        var _a, _b, _c;
         const value = e.detail;
-        const paymentType = (_a = this.paymentTypes) === null || _a === void 0 ? void 0 : _a.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
+        const paymentType = (_b = (_a = this.paymentEntries) === null || _a === void 0 ? void 0 : _a.types) === null || _b === void 0 ? void 0 : _b.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: {
@@ -84,7 +84,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                             description: paymentType.CODE_VALUE_EN,
                             operation: paymentType.NOTES,
                         }
-                        : null, designation: (_b = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _b !== void 0 ? _b : null }),
+                        : null, designation: (_c = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _c !== void 0 ? _c : null }),
                 mode: 'payment-action',
             },
         });
@@ -129,7 +129,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         const { financial, currency } = this.booking;
         return [
             h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking })),
-            h("ir-payments-folio", { paymentTypes: this.paymentTypes, payments: financial.payments || [], onAddPayment: this.handleAddPayment, onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
+            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: this.handleAddPayment, onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
         ];
     }
@@ -137,7 +137,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
 }, [2, "ir-payment-details", {
         "booking": [1040],
         "paymentActions": [16],
-        "paymentTypes": [16],
+        "paymentEntries": [16],
         "confirmModal": [32],
         "toBeDeletedItem": [32],
         "modalMode": [32]
