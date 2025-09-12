@@ -122,6 +122,11 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
         this.filters = Object.assign({}, e.detail);
         this.getPaymentReports();
     }
+    async handleResetBooking(e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        this.getPaymentReports(false, true);
+    }
     renderSidebarBody() {
         if (!this.sideBarEvent) {
             return;
@@ -196,7 +201,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
             return a.localeCompare(b);
         }));
     }
-    async getPaymentReports(isExportToExcel = false) {
+    async getPaymentReports(isExportToExcel = false, excludeYesterday = false) {
         var _a, _b, _c, _d;
         try {
             const getReportObj = (report) => {
@@ -222,7 +227,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel) {
+            if (!isExportToExcel && !excludeYesterday) {
                 requests.push(this.propertyService.getDailyRevenueReport({
                     date: hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: (_b = this.property_id) === null || _b === void 0 ? void 0 : _b.toString(),
@@ -278,7 +283,7 @@ const IrDailyRevenue = /*@__PURE__*/ proxyCustomElement(class IrDailyRevenue ext
         "isLoading": [32],
         "filters": [32],
         "sideBarEvent": [32]
-    }, [[0, "revenueOpenSidebar", "handleOpenSidebar"], [0, "fetchNewReports", "handleFetchNewReports"]], {
+    }, [[0, "revenueOpenSidebar", "handleOpenSidebar"], [0, "fetchNewReports", "handleFetchNewReports"], [0, "resetBookingEvt", "handleResetBooking"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {

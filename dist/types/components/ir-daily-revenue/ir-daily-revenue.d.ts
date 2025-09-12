@@ -22,6 +22,7 @@ export declare class IrDailyRevenue {
     ticketChanged(newValue: string, oldValue: string): void;
     handleOpenSidebar(e: CustomEvent<SidebarOpenEvent>): void;
     handleFetchNewReports(e: CustomEvent<DailyPaymentFilter>): void;
+    handleResetBooking(e: CustomEvent): Promise<void>;
     private handleSidebarClose;
     private renderSidebarBody;
     private initializeApp;

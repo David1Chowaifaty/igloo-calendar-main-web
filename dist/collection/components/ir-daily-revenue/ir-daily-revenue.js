@@ -45,6 +45,11 @@ export class IrDailyRevenue {
         this.filters = Object.assign({}, e.detail);
         this.getPaymentReports();
     }
+    async handleResetBooking(e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        this.getPaymentReports(false, true);
+    }
     renderSidebarBody() {
         if (!this.sideBarEvent) {
             return;
@@ -119,7 +124,7 @@ export class IrDailyRevenue {
             return a.localeCompare(b);
         }));
     }
-    async getPaymentReports(isExportToExcel = false) {
+    async getPaymentReports(isExportToExcel = false, excludeYesterday = false) {
         var _a, _b, _c, _d;
         try {
             const getReportObj = (report) => {
@@ -145,7 +150,7 @@ export class IrDailyRevenue {
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel) {
+            if (!isExportToExcel && !excludeYesterday) {
                 requests.push(this.propertyService.getDailyRevenueReport({
                     date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: (_b = this.property_id) === null || _b === void 0 ? void 0 : _b.toString(),
@@ -324,6 +329,12 @@ export class IrDailyRevenue {
             }, {
                 "name": "fetchNewReports",
                 "method": "handleFetchNewReports",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetBookingEvt",
+                "method": "handleResetBooking",
                 "target": undefined,
                 "capture": false,
                 "passive": false
