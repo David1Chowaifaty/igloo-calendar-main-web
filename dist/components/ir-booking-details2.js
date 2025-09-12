@@ -218,8 +218,8 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         this.booking = Object.assign(Object.assign({}, this.booking), { rooms: [...rooms] });
     }
     async handleResetBooking(e) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
+        // e.stopPropagation();
+        // e.stopImmediatePropagation();
         if (e.detail) {
             return (this.booking = e.detail);
         }

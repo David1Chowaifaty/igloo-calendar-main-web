@@ -15,6 +15,7 @@ export class IrSecureTasks {
             { name: 'Daily Occupancy', value: 'daily-occupancy' },
             { name: 'Daily Revenue', value: 'daily-revenue' },
             { name: 'Email logs', value: 'email-logs' },
+            { name: 'Booking Listing', value: 'booking-listing' },
         ];
     }
     componentWillLoad() {
@@ -97,6 +98,8 @@ export class IrSecureTasks {
                 return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'email-logs':
                 return h("ir-booking-email-logs", { ticket: this.token.getToken() });
+            case 'booking-listing':
+                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             default:
                 return null;
         }
