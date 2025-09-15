@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const Token = require('./Token-3d0cc874.js');
-const booking_service = require('./booking.service-cf0be230.js');
+const booking_service = require('./booking.service-6e9e4975.js');
 const room_service = require('./room.service-e031b11c.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const booking_listing_service = require('./booking_listing.service-b9d19b48.js');

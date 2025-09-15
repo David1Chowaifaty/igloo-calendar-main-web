@@ -170,6 +170,9 @@ export class IrBookingDetails {
         }
         this.calendarData.roomsInfo = roomsData;
     }
+    // private shouldFetchCancellationPenalty(): boolean {
+    //   return this.booking.is_requested_to_cancel || this.booking.status.code === '003';
+    // }
     async initializeApp() {
         var _a, _b;
         try {

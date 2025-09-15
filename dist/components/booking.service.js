@@ -106,6 +106,13 @@ class BookingService {
         }
         return data;
     }
+    async GetPenaltyStatement(params) {
+        const { data } = await axios.post('/Get_Penalty_Statement', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
     async setExposedRestrictionPerRoomType(params) {
         var _a;
         const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));

@@ -7,6 +7,7 @@ export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
     paymentEntries: PaymentEntries;
+    cancellationAmount: number;
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;
@@ -26,5 +27,6 @@ export declare class IrPaymentDetails {
     private openModal;
     private hasValidFinancialData;
     private shouldShowPaymentActions;
+    private shouldShowRefundButton;
     render(): any[];
 }

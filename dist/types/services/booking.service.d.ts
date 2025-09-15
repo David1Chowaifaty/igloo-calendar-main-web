@@ -61,6 +61,11 @@ export declare class BookingService {
         room_identifier: string;
         status: RoomInOut['code'];
     }): Promise<any>;
+    GetPenaltyStatement(params: {
+        booking_nbr: string;
+        currency_id: number;
+        language: string;
+    }): Promise<any>;
     setExposedRestrictionPerRoomType(params: {
         is_closed: boolean;
         restrictions: {

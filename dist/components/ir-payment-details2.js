@@ -3,6 +3,8 @@ import { B as BookingService } from './booking.service.js';
 import { P as PaymentService } from './payment.service.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
+import { f as formatAmount } from './utils.js';
+import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$a } from './ir-booking-guarantee2.js';
 import { d as defineCustomElement$9 } from './ir-button2.js';
 import { d as defineCustomElement$8 } from './ir-icons2.js';
@@ -25,23 +27,40 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.resetExposedCancellationDueAmount = createEvent(this, "resetExposedCancellationDueAmount", 7);
         this.toast = createEvent(this, "toast", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
+        this.cancellationAmount = 0;
         this.confirmModal = false;
         this.toBeDeletedItem = null;
         this.modalMode = null;
         this.paymentService = new PaymentService();
         this.bookingService = new BookingService();
-        this.handleAddPayment = () => {
+        this.handleAddPayment = (props) => {
+            let payment = {
+                id: -1,
+                date: hooks().format('YYYY-MM-DD'),
+                amount: null,
+                currency: calendar_data.currency,
+                designation: null,
+                reference: null,
+            };
+            if (props) {
+                const { amount, type } = props;
+                const cashMethod = this.paymentEntries.methods.find(pt => pt.CODE_NAME === '001');
+                const payment_method = {
+                    code: cashMethod.CODE_NAME,
+                    description: cashMethod.CODE_VALUE_EN,
+                    operation: cashMethod.NOTES,
+                };
+                const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (type === 'cancellation-penalty' ? '013' : '010'));
+                payment = Object.assign(Object.assign({}, payment), { amount: amount, designation: paymentType.CODE_VALUE_EN, payment_type: {
+                        code: paymentType.CODE_NAME,
+                        description: paymentType.CODE_VALUE_EN,
+                        operation: paymentType.NOTES,
+                    }, payment_method: type === 'refund' ? undefined : payment_method });
+            }
             this.openSidebar.emit({
                 type: 'payment-folio',
                 payload: {
-                    payment: {
-                        id: -1,
-                        date: hooks().format('YYYY-MM-DD'),
-                        amount: null,
-                        currency: undefined,
-                        designation: null,
-                        reference: null,
-                    },
+                    payment,
                     mode: 'new',
                 },
             });
@@ -122,14 +141,24 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         var _a;
         return Boolean(((_a = this.paymentActions) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) > 0 && this.booking.is_direct);
     }
+    shouldShowRefundButton() {
+        if (this.booking.is_requested_to_cancel || this.booking.status.code === '003') {
+            return this.booking.financial.due_amount < 0;
+        }
+        return false;
+    }
     render() {
         if (!this.hasValidFinancialData()) {
             return null;
         }
         const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking })),
-            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: this.handleAddPayment, onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
+            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, financial.due_amount * -1)}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'refund', amount: financial.due_amount * -1 });
+                } }))), this.cancellationAmount > 0 && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.cancellationAmount)}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'cancellation-penalty', amount: this.cancellationAmount });
+                } })))),
+            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
         ];
     }
@@ -138,6 +167,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         "booking": [1040],
         "paymentActions": [16],
         "paymentEntries": [16],
+        "cancellationAmount": [2, "cancellation-amount"],
         "confirmModal": [32],
         "toBeDeletedItem": [32],
         "modalMode": [32]
