@@ -78,9 +78,9 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
                 rightLabel = hooks((_a = brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
             }
             else if (index === brackets.length - 1) {
-                const leftDate = hooks(bracket.due_on, 'YYYY-MM-DD');
-                leftLabel = this.formatPreviousBracketDueOn(leftDate, MCheckInDate);
-                rightLabel = MCheckInDate.format('MMM DD, YYYY');
+                leftLabel = hooks(bracket.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
+                showArrow = false;
+                rightLabel = null;
             }
             else {
                 const d1 = hooks(bracket.due_on, 'YYYY-MM-DD');

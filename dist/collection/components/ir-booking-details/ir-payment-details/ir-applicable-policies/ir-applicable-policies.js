@@ -69,9 +69,9 @@ export class IrApplicablePolicies {
                 rightLabel = moment((_a = brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
             }
             else if (index === brackets.length - 1) {
-                const leftDate = moment(bracket.due_on, 'YYYY-MM-DD');
-                leftLabel = this.formatPreviousBracketDueOn(leftDate, MCheckInDate);
-                rightLabel = MCheckInDate.format('MMM DD, YYYY');
+                leftLabel = moment(bracket.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
+                showArrow = false;
+                rightLabel = null;
             }
             else {
                 const d1 = moment(bracket.due_on, 'YYYY-MM-DD');
