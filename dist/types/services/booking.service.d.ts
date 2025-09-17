@@ -1,4 +1,4 @@
-import { ExposedBookingEvent, HandleExposedRoomGuestsRequest } from './../models/booking.dto';
+import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from './../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../models/booking.dto';
 import { PaymentEntries } from "../components/ir-booking-details/types";
@@ -56,6 +56,14 @@ export declare class BookingService {
         from_date: string;
         to_date: string;
     }): Promise<any>;
+    getExposedApplicablePolicies(props: {
+        booking_nbr: string;
+        currency_id: number;
+        language?: string;
+        rate_plan_id: number;
+        room_type_id: number;
+        property_id: number;
+    }): Promise<ExposedApplicablePolicy[] | null>;
     handleExposedRoomInOut(props: {
         booking_nbr: string;
         room_identifier: string;

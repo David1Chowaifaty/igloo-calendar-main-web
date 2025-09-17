@@ -5,13 +5,12 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$a } from './ir-booking-guarantee2.js';
-import { d as defineCustomElement$9 } from './ir-button2.js';
-import { d as defineCustomElement$8 } from './ir-icons2.js';
-import { d as defineCustomElement$7 } from './ir-label2.js';
-import { d as defineCustomElement$6 } from './ir-modal2.js';
-import { d as defineCustomElement$5 } from './ir-payment-action2.js';
-import { d as defineCustomElement$4 } from './ir-payment-actions2.js';
+import { d as defineCustomElement$9 } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$8 } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$7 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-icons2.js';
+import { d as defineCustomElement$5 } from './ir-label2.js';
+import { d as defineCustomElement$4 } from './ir-modal2.js';
 import { d as defineCustomElement$3 } from './ir-payment-item2.js';
 import { d as defineCustomElement$2 } from './ir-payment-summary2.js';
 import { d as defineCustomElement$1 } from './ir-payments-folio2.js';
@@ -27,7 +26,6 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.resetExposedCancellationDueAmount = createEvent(this, "resetExposedCancellationDueAmount", 7);
         this.toast = createEvent(this, "toast", 7);
         this.openSidebar = createEvent(this, "openSidebar", 7);
-        this.cancellationAmount = 0;
         this.confirmModal = false;
         this.toBeDeletedItem = null;
         this.modalMode = null;
@@ -104,7 +102,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                             operation: paymentType.NOTES,
                         }
                         : null, designation: (_c = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _c !== void 0 ? _c : null }),
-                mode: 'payment-action',
+                mode: 'new',
             },
         });
     }
@@ -137,13 +135,12 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         var _a;
         return Boolean((_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial);
     }
-    shouldShowPaymentActions() {
-        var _a;
-        return Boolean(((_a = this.paymentActions) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) > 0 && this.booking.is_direct);
-    }
+    // private shouldShowPaymentActions(): boolean {
+    //   return Boolean(this.paymentActions?.filter(pa => pa.amount !== 0).length > 0 && this.booking.is_direct);
+    // }
     shouldShowRefundButton() {
         if (this.booking.is_requested_to_cancel || this.booking.status.code === '003') {
-            return this.booking.financial.due_amount < 0;
+            return this.booking.financial.cancelation_penality_as_if_today < 0;
         }
         return false;
     }
@@ -153,10 +150,10 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         }
         const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, financial.due_amount * -1)}`, size: "sm", onClickHandler: () => {
-                    this.handleAddPayment({ type: 'refund', amount: financial.due_amount * -1 });
-                } }))), this.cancellationAmount > 0 && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.cancellationAmount)}`, size: "sm", onClickHandler: () => {
-                    this.handleAddPayment({ type: 'cancellation-penalty', amount: this.cancellationAmount });
+            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
+                } }))), this.booking.status.code === '003' && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } })))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
@@ -166,8 +163,8 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
 }, [2, "ir-payment-details", {
         "booking": [1040],
         "paymentActions": [16],
+        "propertyId": [2, "property-id"],
         "paymentEntries": [16],
-        "cancellationAmount": [2, "cancellation-amount"],
         "confirmModal": [32],
         "toBeDeletedItem": [32],
         "modalMode": [32]
@@ -176,44 +173,39 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-booking-guarantee", "ir-button", "ir-icons", "ir-label", "ir-modal", "ir-payment-action", "ir-payment-actions", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
+    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-guarantee", "ir-button", "ir-icons", "ir-label", "ir-modal", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrPaymentDetails);
             }
             break;
-        case "ir-booking-guarantee":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$a();
-            }
-            break;
-        case "ir-button":
+        case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-icons":
+        case "ir-booking-guarantee":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-label":
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-modal":
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-payment-action":
+        case "ir-label":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-payment-actions":
+        case "ir-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

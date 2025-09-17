@@ -7,7 +7,6 @@ import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 export class IrPaymentDetails {
     constructor() {
-        this.cancellationAmount = 0;
         this.confirmModal = false;
         this.toBeDeletedItem = null;
         this.modalMode = null;
@@ -84,7 +83,7 @@ export class IrPaymentDetails {
                             operation: paymentType.NOTES,
                         }
                         : null, designation: (_c = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _c !== void 0 ? _c : null }),
-                mode: 'payment-action',
+                mode: 'new',
             },
         });
     }
@@ -117,13 +116,12 @@ export class IrPaymentDetails {
         var _a;
         return Boolean((_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial);
     }
-    shouldShowPaymentActions() {
-        var _a;
-        return Boolean(((_a = this.paymentActions) === null || _a === void 0 ? void 0 : _a.filter(pa => pa.amount !== 0).length) > 0 && this.booking.is_direct);
-    }
+    // private shouldShowPaymentActions(): boolean {
+    //   return Boolean(this.paymentActions?.filter(pa => pa.amount !== 0).length > 0 && this.booking.is_direct);
+    // }
     shouldShowRefundButton() {
         if (this.booking.is_requested_to_cancel || this.booking.status.code === '003') {
-            return this.booking.financial.due_amount < 0;
+            return this.booking.financial.cancelation_penality_as_if_today < 0;
         }
         return false;
     }
@@ -133,10 +131,10 @@ export class IrPaymentDetails {
         }
         const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), this.shouldShowPaymentActions() && h("ir-payment-actions", { paymentAction: this.paymentActions, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, financial.due_amount * -1)}`, size: "sm", onClickHandler: () => {
-                    this.handleAddPayment({ type: 'refund', amount: financial.due_amount * -1 });
-                } }))), this.cancellationAmount > 0 && (h("div", { class: "d-flex" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.cancellationAmount)}`, size: "sm", onClickHandler: () => {
-                    this.handleAddPayment({ type: 'cancellation-penalty', amount: this.cancellationAmount });
+            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
+                } }))), this.booking.status.code === '003' && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
+                    this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } })))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
@@ -202,6 +200,25 @@ export class IrPaymentDetails {
                 "getter": false,
                 "setter": false
             },
+            "propertyId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "property-id",
+                "reflect": false
+            },
             "paymentEntries": {
                 "type": "unknown",
                 "mutable": false,
@@ -224,26 +241,6 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false
-            },
-            "cancellationAmount": {
-                "type": "number",
-                "mutable": false,
-                "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "cancellation-amount",
-                "reflect": false,
-                "defaultValue": "0"
             }
         };
     }

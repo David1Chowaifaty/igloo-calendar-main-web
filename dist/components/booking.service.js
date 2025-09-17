@@ -99,6 +99,14 @@ class BookingService {
         }
         return data;
     }
+    async getExposedApplicablePolicies(props) {
+        var _a;
+        const { data } = await axios.post(`/Get_Exposed_Applicable_Policies`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return (_a = data.My_Result) !== null && _a !== void 0 ? _a : [];
+    }
     async handleExposedRoomInOut(props) {
         const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
         if (data.ExceptionMsg !== '') {

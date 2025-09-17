@@ -17,8 +17,9 @@ import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { Currency, RatePlan, RoomType } from "./models/property";
 import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
-import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
+import { IPaymentAction } from "./services/payment.service";
+import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 import { BookingService } from "./services/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
@@ -29,6 +30,7 @@ import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./compone
 import { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
+import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 import { FactoryArg } from "imask";
 import { ZodType } from "zod";
 import { PaymentEntries } from "./components/ir-booking-details/types";
@@ -37,9 +39,8 @@ import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 import { Notification } from "./components/ir-notifications/types";
 import { PaymentOption } from "./models/payment-options";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
-import { IPaymentAction } from "./services/payment.service";
 import { Moment } from "moment";
-import { SidebarOpenEvent } from "./components/ir-daily-revenue/types";
+import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
 import { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 import { Tab } from "./components/ui/ir-tabs/ir-tabs";
@@ -59,8 +60,9 @@ export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { Currency, RatePlan, RoomType } from "./models/property";
 export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
-export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
+export { IPaymentAction } from "./services/payment.service";
+export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 export { BookingService } from "./services/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
@@ -71,6 +73,7 @@ export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./compone
 export { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
+export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 export { FactoryArg } from "imask";
 export { ZodType } from "zod";
 export { PaymentEntries } from "./components/ir-booking-details/types";
@@ -79,9 +82,8 @@ export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 export { Notification } from "./components/ir-notifications/types";
 export { PaymentOption } from "./models/payment-options";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
-export { IPaymentAction } from "./services/payment.service";
 export { Moment } from "moment";
-export { SidebarOpenEvent } from "./components/ir-daily-revenue/types";
+export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
 export { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 export { Tab } from "./components/ui/ir-tabs/ir-tabs";
@@ -335,6 +337,11 @@ export namespace Components {
         "expanded"?: boolean;
         "hide": () => Promise<void>;
         "show": () => Promise<void>;
+    }
+    interface IrApplicablePolicies {
+        "booking": Booking;
+        "language": string;
+        "propertyId": number;
     }
     interface IrAutocomplete {
         "danger_border": boolean;
@@ -858,6 +865,19 @@ export namespace Components {
     }
     interface IrExtraServices {
         "booking": Pick<Booking, 'currency' | 'extra_services' | 'booking_nbr'>;
+    }
+    interface IrFinancialActions {
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrFinancialFilters {
+        "isLoading": boolean;
+    }
+    interface IrFinancialSummary {
+    }
+    interface IrFinancialTable {
     }
     interface IrGuestInfo {
         "booking_nbr": string;
@@ -1453,9 +1473,9 @@ export namespace Components {
     }
     interface IrPaymentDetails {
         "booking": Booking;
-        "cancellationAmount": number;
         "paymentActions": IPaymentAction[];
         "paymentEntries": PaymentEntries1;
+        "propertyId": number;
     }
     interface IrPaymentFolio {
         "bookingNumber": string;
@@ -2270,6 +2290,10 @@ export interface IrAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAccordionElement;
 }
+export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrApplicablePoliciesElement;
+}
 export interface IrAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAutocompleteElement;
@@ -2361,6 +2385,14 @@ export interface IrExtraServiceCustomEvent<T> extends CustomEvent<T> {
 export interface IrExtraServiceConfigCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrExtraServiceConfigElement;
+}
+export interface IrFinancialFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFinancialFiltersElement;
+}
+export interface IrFinancialTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFinancialTableElement;
 }
 export interface IrGuestInfoCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -3081,6 +3113,23 @@ declare global {
         prototype: HTMLIrAccordionElement;
         new (): HTMLIrAccordionElement;
     };
+    interface HTMLIrApplicablePoliciesElementEventMap {
+        "generatePayment": IPaymentAction;
+    }
+    interface HTMLIrApplicablePoliciesElement extends Components.IrApplicablePolicies, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrApplicablePoliciesElementEventMap>(type: K, listener: (this: HTMLIrApplicablePoliciesElement, ev: IrApplicablePoliciesCustomEvent<HTMLIrApplicablePoliciesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrApplicablePoliciesElementEventMap>(type: K, listener: (this: HTMLIrApplicablePoliciesElement, ev: IrApplicablePoliciesCustomEvent<HTMLIrApplicablePoliciesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrApplicablePoliciesElement: {
+        prototype: HTMLIrApplicablePoliciesElement;
+        new (): HTMLIrApplicablePoliciesElement;
+    };
     interface HTMLIrAutocompleteElementEventMap {
         "comboboxValue": { key: string; data: unknown };
         "inputCleared": null;
@@ -3563,6 +3612,52 @@ declare global {
     var HTMLIrExtraServicesElement: {
         prototype: HTMLIrExtraServicesElement;
         new (): HTMLIrExtraServicesElement;
+    };
+    interface HTMLIrFinancialActionsElement extends Components.IrFinancialActions, HTMLStencilElement {
+    }
+    var HTMLIrFinancialActionsElement: {
+        prototype: HTMLIrFinancialActionsElement;
+        new (): HTMLIrFinancialActionsElement;
+    };
+    interface HTMLIrFinancialFiltersElementEventMap {
+        "fetchNewReports": DailyFinancialActionsFilter;
+    }
+    interface HTMLIrFinancialFiltersElement extends Components.IrFinancialFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFinancialFiltersElementEventMap>(type: K, listener: (this: HTMLIrFinancialFiltersElement, ev: IrFinancialFiltersCustomEvent<HTMLIrFinancialFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFinancialFiltersElementEventMap>(type: K, listener: (this: HTMLIrFinancialFiltersElement, ev: IrFinancialFiltersCustomEvent<HTMLIrFinancialFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFinancialFiltersElement: {
+        prototype: HTMLIrFinancialFiltersElement;
+        new (): HTMLIrFinancialFiltersElement;
+    };
+    interface HTMLIrFinancialSummaryElement extends Components.IrFinancialSummary, HTMLStencilElement {
+    }
+    var HTMLIrFinancialSummaryElement: {
+        prototype: HTMLIrFinancialSummaryElement;
+        new (): HTMLIrFinancialSummaryElement;
+    };
+    interface HTMLIrFinancialTableElementEventMap {
+        "financialActionsOpenSidebar": SidebarOpenEvent;
+    }
+    interface HTMLIrFinancialTableElement extends Components.IrFinancialTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFinancialTableElementEventMap>(type: K, listener: (this: HTMLIrFinancialTableElement, ev: IrFinancialTableCustomEvent<HTMLIrFinancialTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFinancialTableElementEventMap>(type: K, listener: (this: HTMLIrFinancialTableElement, ev: IrFinancialTableCustomEvent<HTMLIrFinancialTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFinancialTableElement: {
+        prototype: HTMLIrFinancialTableElement;
+        new (): HTMLIrFinancialTableElement;
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
@@ -4765,6 +4860,7 @@ declare global {
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-accordion": HTMLIrAccordionElement;
+        "ir-applicable-policies": HTMLIrApplicablePoliciesElement;
         "ir-autocomplete": HTMLIrAutocompleteElement;
         "ir-booking": HTMLIrBookingElement;
         "ir-booking-details": HTMLIrBookingDetailsElement;
@@ -4799,6 +4895,10 @@ declare global {
         "ir-extra-service": HTMLIrExtraServiceElement;
         "ir-extra-service-config": HTMLIrExtraServiceConfigElement;
         "ir-extra-services": HTMLIrExtraServicesElement;
+        "ir-financial-actions": HTMLIrFinancialActionsElement;
+        "ir-financial-filters": HTMLIrFinancialFiltersElement;
+        "ir-financial-summary": HTMLIrFinancialSummaryElement;
+        "ir-financial-table": HTMLIrFinancialTableElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
         "ir-hk-archive": HTMLIrHkArchiveElement;
         "ir-hk-tasks": HTMLIrHkTasksElement;
@@ -5216,6 +5316,12 @@ declare namespace LocalJSX {
           * Fired after expansion state changes
          */
         "onIr-toggle"?: (event: IrAccordionCustomEvent<{ expanded: boolean }>) => void;
+    }
+    interface IrApplicablePolicies {
+        "booking"?: Booking;
+        "language"?: string;
+        "onGeneratePayment"?: (event: IrApplicablePoliciesCustomEvent<IPaymentAction>) => void;
+        "propertyId"?: number;
     }
     interface IrAutocomplete {
         "danger_border"?: boolean;
@@ -5807,6 +5913,21 @@ declare namespace LocalJSX {
     }
     interface IrExtraServices {
         "booking"?: Pick<Booking, 'currency' | 'extra_services' | 'booking_nbr'>;
+    }
+    interface IrFinancialActions {
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrFinancialFilters {
+        "isLoading"?: boolean;
+        "onFetchNewReports"?: (event: IrFinancialFiltersCustomEvent<DailyFinancialActionsFilter>) => void;
+    }
+    interface IrFinancialSummary {
+    }
+    interface IrFinancialTable {
+        "onFinancialActionsOpenSidebar"?: (event: IrFinancialTableCustomEvent<SidebarOpenEvent>) => void;
     }
     interface IrGuestInfo {
         "booking_nbr"?: string;
@@ -6479,13 +6600,13 @@ declare namespace LocalJSX {
     }
     interface IrPaymentDetails {
         "booking"?: Booking;
-        "cancellationAmount"?: number;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
         "onResetBookingEvt"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onToast"?: (event: IrPaymentDetailsCustomEvent<IToast>) => void;
         "paymentActions"?: IPaymentAction[];
         "paymentEntries"?: PaymentEntries1;
+        "propertyId"?: number;
     }
     interface IrPaymentFolio {
         "bookingNumber"?: string;
@@ -7311,6 +7432,7 @@ declare namespace LocalJSX {
         "igl-to-be-assigned": IglToBeAssigned;
         "igloo-calendar": IglooCalendar;
         "ir-accordion": IrAccordion;
+        "ir-applicable-policies": IrApplicablePolicies;
         "ir-autocomplete": IrAutocomplete;
         "ir-booking": IrBooking;
         "ir-booking-details": IrBookingDetails;
@@ -7345,6 +7467,10 @@ declare namespace LocalJSX {
         "ir-extra-service": IrExtraService;
         "ir-extra-service-config": IrExtraServiceConfig;
         "ir-extra-services": IrExtraServices;
+        "ir-financial-actions": IrFinancialActions;
+        "ir-financial-filters": IrFinancialFilters;
+        "ir-financial-summary": IrFinancialSummary;
+        "ir-financial-table": IrFinancialTable;
         "ir-guest-info": IrGuestInfo;
         "ir-hk-archive": IrHkArchive;
         "ir-hk-tasks": IrHkTasks;
@@ -7466,6 +7592,7 @@ declare module "@stencil/core" {
             "igl-to-be-assigned": LocalJSX.IglToBeAssigned & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
             "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-accordion": LocalJSX.IrAccordion & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
+            "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
             "ir-autocomplete": LocalJSX.IrAutocomplete & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
             "ir-booking": LocalJSX.IrBooking & JSXBase.HTMLAttributes<HTMLIrBookingElement>;
             "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
@@ -7500,6 +7627,10 @@ declare module "@stencil/core" {
             "ir-extra-service": LocalJSX.IrExtraService & JSXBase.HTMLAttributes<HTMLIrExtraServiceElement>;
             "ir-extra-service-config": LocalJSX.IrExtraServiceConfig & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigElement>;
             "ir-extra-services": LocalJSX.IrExtraServices & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
+            "ir-financial-actions": LocalJSX.IrFinancialActions & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
+            "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
+            "ir-financial-summary": LocalJSX.IrFinancialSummary & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
+            "ir-financial-table": LocalJSX.IrFinancialTable & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
             "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
             "ir-hk-archive": LocalJSX.IrHkArchive & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
             "ir-hk-tasks": LocalJSX.IrHkTasks & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;

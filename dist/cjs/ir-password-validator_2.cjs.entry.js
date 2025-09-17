@@ -52,7 +52,7 @@ const IrPasswordValidator = class {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (index.h("div", { key: '793c991a4b0305a694aeca249f4ea52d5fba3af3', class: "m-0 p-0" }, index.h("requirement-check", { key: '0b38dfebb83d34a15ae019092a82aa5d44044717', isValid: this.validLength, text: "Minimum 8 characters" }), index.h("requirement-check", { key: 'f85aa68cfe094452d1fbb166feff2f699c07a479', isValid: this.hasUppercase, text: "At least one uppercase letter" }), index.h("requirement-check", { key: '5b69bbfc3758477ff7e70a6234daab98e00d843f', isValid: this.hasLowercase, text: "At least one lowercase letter" }), index.h("requirement-check", { key: 'd08190acd163fc420d126e46f2e26e1159ce81e0', isValid: this.hasDigit, text: "At least one digit" }), index.h("requirement-check", { key: 'ca1c85a00057b21d822c00df1839b249bb843f08', isValid: this.hasSpecialChar, text: "At least one special character" })));
+        return (index.h("div", { key: '323c5cdca6ad567f622bc277d5542188d83352f7', class: "m-0 p-0" }, index.h("requirement-check", { key: 'e1f7a587d7d717adb18440877adc438b4998025b', isValid: this.validLength, text: "Minimum 8 characters" }), index.h("requirement-check", { key: '55289514b91d1d6bdde827b468b07a7d99c91715', isValid: this.hasUppercase, text: "At least one uppercase letter" }), index.h("requirement-check", { key: 'c4aad8d0f9188a579b26a0c2853e651b156143ff', isValid: this.hasLowercase, text: "At least one lowercase letter" }), index.h("requirement-check", { key: 'c594c6fd1df154ac0115d6312e24b93c49c0fb9b', isValid: this.hasDigit, text: "At least one digit" }), index.h("requirement-check", { key: '6ba863b04aa16671bb9375107dfced7a21aa3828', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get watchers() { return {
         "password": ["handlePasswordChange"]
@@ -76,7 +76,7 @@ const RequirementCheck = class {
         this.text = '';
     }
     render() {
-        return (index.h("div", { key: '6633248c929185f78dea4cffc9aeb57e5be37c24', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: '81b78768b8860c76dc06cf5677102d6b33138314', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: '5d431e5f66a212ca57a086b3fd34b3644ec6ee1e' }, this.text)));
+        return (index.h("div", { key: '3e10d64e2bbfbfae432eae0da0a7a9248d392c3c', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: '512e63c5925d6d00ac8e6de6754a2c9204bd790d', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: 'fb665127cb39d6d08ec63fcf5a7a2b7840f69b62' }, this.text)));
     }
 };
 RequirementCheck.style = RequirementCheckStyle0;

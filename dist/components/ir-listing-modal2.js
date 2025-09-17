@@ -46,9 +46,11 @@ const IrListingModal = /*@__PURE__*/ proxyCustomElement(class IrListingModal ext
             if (name === 'confirm') {
                 this.loadingBtn = 'confirm';
                 if (this.editBooking.cause === 'payment') {
-                    const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === '001');
+                    const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (this.editBooking.booking.financial.due_amount < 0 ? '010' : '001'));
                     await this.paymentService.AddPayment({
-                        amount: this.editBooking.booking.financial.due_amount,
+                        amount: this.editBooking.booking.status.code === '003'
+                            ? Math.abs(this.editBooking.booking.financial.cancelation_penality_as_if_today)
+                            : this.editBooking.booking.financial.due_amount,
                         currency: this.editBooking.booking.currency,
                         date: hooks().format('YYYY-MM-DD'),
                         designation: this.selectedDesignation.CODE_VALUE_EN,
