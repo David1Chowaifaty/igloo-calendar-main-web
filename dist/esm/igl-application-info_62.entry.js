@@ -2161,38 +2161,130 @@ const IrApplicablePolicies = class {
         }
         return d1.format('MMM DD, YYYY');
     }
+    // private getBracketLabelsAndArrowState({ bracket, index, brackets }: { index: number; bracket: Bracket; brackets: Bracket[]; }): {
+    //   leftLabel: string;
+    //   showArrow: boolean;
+    //   rightLabel: string;
+    // } {
+    //   let leftLabel = '';
+    //   let showArrow = true;
+    //   let rightLabel = '';
+    //   const MCheckInDate = moment(this.booking.booked_on.date, 'YYYY-MM-DD');
+    //   if (brackets.length === 1) {
+    //     const d1 = moment(bracket.due_on, 'YYYY-MM-DD');
+    //     const isSameDay = d1.isSame(MCheckInDate, 'dates');
+    //     const isDueAfterBookedOn = d1.isAfter(MCheckInDate, 'dates');
+    //     leftLabel = isSameDay ? null : this.formatPreviousBracketDueOn(d1, MCheckInDate);
+    //     showArrow = !isSameDay && !isDueAfterBookedOn;
+    //     rightLabel = isDueAfterBookedOn ? null : MCheckInDate.format('MMM DD, YYYY');
+    //   } else if (brackets.length > 1) {
+    //     if (index === 0) {
+    //       leftLabel = 'Until';
+    //       showArrow = false;
+    //       rightLabel = moment(brackets[index + 1]?.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
+    //     } else if (index === brackets.length - 1) {
+    //       leftLabel = moment(bracket.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
+    //       showArrow = false;
+    //       rightLabel = null;
+    //     } else {
+    //       const d1 = moment(bracket.due_on, 'YYYY-MM-DD');
+    //       const d2 = moment(brackets[index + 1].due_on, 'YYYY-MM-DD').add(-1, 'days');
+    //       leftLabel = this.formatPreviousBracketDueOn(d1, d2);
+    //       rightLabel = d2.format('MMM DD, YYYY');
+    //     }
+    //   }
+    //   return { leftLabel, rightLabel, showArrow };
+    // }
     getBracketLabelsAndArrowState({ bracket, index, brackets }) {
-        var _a;
-        let leftLabel = '';
-        let showArrow = true;
-        let rightLabel = '';
-        const MCheckInDate = hooks(this.booking.booked_on.date, 'YYYY-MM-DD');
+        // Validate inputs
+        if (!bracket || !brackets || index < 0 || index >= brackets.length) {
+            return { leftLabel: null, rightLabel: null, showArrow: false };
+        }
+        // Parse dates with validation
+        const checkInDate = hooks(this.booking.booked_on.date, 'YYYY-MM-DD');
+        const bracketDueDate = hooks(bracket.due_on, 'YYYY-MM-DD');
+        if (!checkInDate.isValid() || !bracketDueDate.isValid()) {
+            console.warn('Invalid date encountered in getBracketLabelsAndArrowState');
+            return { leftLabel: null, rightLabel: null, showArrow: false };
+        }
+        // Single bracket case
         if (brackets.length === 1) {
-            const d1 = hooks(bracket.due_on, 'YYYY-MM-DD');
-            const isSameDay = d1.isSame(MCheckInDate, 'dates');
-            leftLabel = isSameDay ? null : this.formatPreviousBracketDueOn(d1, MCheckInDate);
-            showArrow = !isSameDay;
-            rightLabel = MCheckInDate.format('MMM DD, YYYY');
+            return this.handleSingleBracket(bracketDueDate, checkInDate);
         }
-        else if (brackets.length > 1) {
-            if (index === 0) {
-                leftLabel = 'Until';
-                showArrow = false;
-                rightLabel = hooks((_a = brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
-            }
-            else if (index === brackets.length - 1) {
-                leftLabel = hooks(bracket.due_on, 'YYYY-MM-DD').format('MMM DD, YYYY');
-                showArrow = false;
-                rightLabel = null;
-            }
-            else {
-                const d1 = hooks(bracket.due_on, 'YYYY-MM-DD');
-                const d2 = hooks(brackets[index + 1].due_on, 'YYYY-MM-DD').add(-1, 'days');
-                leftLabel = this.formatPreviousBracketDueOn(d1, d2);
-                rightLabel = d2.format('MMM DD, YYYY');
-            }
+        // Multiple brackets case
+        return this.handleMultipleBrackets(bracket, index, brackets);
+    }
+    handleSingleBracket(bracketDueDate, checkInDate) {
+        const isSameDay = bracketDueDate.isSame(checkInDate, 'day');
+        const isDueBeforeCheckIn = bracketDueDate.isBefore(checkInDate, 'day');
+        // const isDueAfterCheckIn = bracketDueDate.isAfter(checkInDate, 'day');
+        if (isSameDay) {
+            // Due date is same as check-in date
+            return {
+                leftLabel: null,
+                showArrow: false,
+                rightLabel: checkInDate.format('MMM DD, YYYY'),
+            };
         }
-        return { leftLabel, rightLabel, showArrow };
+        else if (isDueBeforeCheckIn) {
+            // Due date is before check-in (overdue scenario)
+            return {
+                leftLabel: this.formatPreviousBracketDueOn(bracketDueDate, checkInDate),
+                showArrow: true,
+                rightLabel: checkInDate.format('MMM DD, YYYY'),
+            };
+        }
+        else {
+            // Due date is after check-in (future due date)
+            return {
+                leftLabel: checkInDate.format('MMM DD, YYYY'),
+                showArrow: true,
+                rightLabel: bracketDueDate.format('MMM DD, YYYY'),
+            };
+        }
+    }
+    handleMultipleBrackets(bracket, index, brackets) {
+        const bracketDueDate = hooks(bracket.due_on, 'YYYY-MM-DD');
+        // First bracket
+        if (index === 0) {
+            const nextBracket = brackets[index + 1];
+            if (!nextBracket) {
+                return { leftLabel: null, rightLabel: null, showArrow: false };
+            }
+            const nextBracketDueDate = hooks(nextBracket.due_on, 'YYYY-MM-DD');
+            if (!nextBracketDueDate.isValid()) {
+                return { leftLabel: null, rightLabel: null, showArrow: false };
+            }
+            return {
+                leftLabel: 'Until',
+                showArrow: false,
+                rightLabel: nextBracketDueDate.format('MMM DD, YYYY'),
+            };
+        }
+        // Last bracket
+        if (index === brackets.length - 1) {
+            return {
+                leftLabel: bracketDueDate.format('MMM DD, YYYY'),
+                showArrow: false,
+                rightLabel: 'onwards',
+            };
+        }
+        // Middle brackets
+        const nextBracket = brackets[index + 1];
+        if (!nextBracket) {
+            return { leftLabel: null, rightLabel: null, showArrow: false };
+        }
+        const nextBracketDueDate = hooks(nextBracket.due_on, 'YYYY-MM-DD');
+        if (!nextBracketDueDate.isValid()) {
+            return { leftLabel: null, rightLabel: null, showArrow: false };
+        }
+        // Calculate the end of current bracket period (day before next bracket starts)
+        const periodEndDate = nextBracketDueDate.clone().subtract(1, 'day');
+        return {
+            leftLabel: this.formatPreviousBracketDueOn(bracketDueDate, periodEndDate),
+            showArrow: true,
+            rightLabel: periodEndDate.format('MMM DD, YYYY'),
+        };
     }
     getCurrentBracket(brackets) {
         const today = hooks();
@@ -2217,7 +2309,7 @@ const IrApplicablePolicies = class {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
-        return (h(Host, null, this.guaranteeAmount && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, formatAmount(calendar_data.currency.symbol, this.guaranteeAmount)), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee")), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
+        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, formatAmount(calendar_data.currency.symbol, this.guaranteeAmount)), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee")), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
                     currency: calendar_data.currency,
@@ -2231,6 +2323,7 @@ const IrApplicablePolicies = class {
                 index: idx,
                 bracket,
                 brackets: statement.brackets,
+                // checkIn: statement.checkInDate,
             });
             return (h("div", { class: "applicable-policies__bracket" }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), " ", rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.statement)));
         })), h("div", { class: "applicable-policies__brackets-table" }, h("table", null, h("tbody", null, statement.brackets.map((bracket, idx) => {
@@ -2238,6 +2331,7 @@ const IrApplicablePolicies = class {
                 index: idx,
                 bracket,
                 brackets: statement.brackets,
+                // checkIn: statement.checkInDate,
             });
             return (h("tr", null, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.statement)));
         })))))))))));

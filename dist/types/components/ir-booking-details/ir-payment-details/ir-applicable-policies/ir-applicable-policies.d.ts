@@ -15,6 +15,8 @@ export declare class IrApplicablePolicies {
     private loadApplicablePolicies;
     private formatPreviousBracketDueOn;
     private getBracketLabelsAndArrowState;
+    private handleSingleBracket;
+    private handleMultipleBrackets;
     private getCurrentBracket;
     private generateCancellationStatement;
     render(): any;
