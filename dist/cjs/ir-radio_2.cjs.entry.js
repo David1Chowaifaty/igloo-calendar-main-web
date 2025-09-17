@@ -53,9 +53,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h("div", { key: '8b4456d83218644bfc00a5eae0478171af3b5ed1', class: "input-group" }, index.h("label", { key: '942c38bfd4641823d7149409d4bfd4fd4e668230', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '94c94a6fc50dc38fd2a110fb7d6cfe52888f8b52' }, this.label), index.h("input", { key: '1ca8cc3d30a513c862f47148a04cc47a80c222f2', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (index.h("div", { key: 'c2172239c019eee6736a2a50869618bf33a4ba26', class: "input-group" }, index.h("label", { key: 'bcf187978024cd138711112048f0a82c3ffc87c0', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '7c246cf4ad3d97df8a65fad9cbf80ebaf0c441ca' }, this.label), index.h("input", { key: 'ce5efc6ceb82b9944b607797b7606658e06c3571', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '757a995bbf3ce3d8429cfe34984056c1cffc0d86', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '6ca4f0bc9d10cc4a4abe3bf8c11bd7728baed25e', class: "checkmark" }))));
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {
@@ -116,7 +116,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '30d3e62ed233a1a5b409d15e0e945c9bb1de2f7a', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
+        return (index.h(index.Host, { key: '9c22e5523c1f56eb188130f336bcf7be65c07edb', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

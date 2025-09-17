@@ -120,7 +120,7 @@ export class IrPaymentDetails {
     //   return Boolean(this.paymentActions?.filter(pa => pa.amount !== 0).length > 0 && this.booking.is_direct);
     // }
     shouldShowRefundButton() {
-        if (this.booking.is_requested_to_cancel || this.booking.status.code === '003') {
+        if (this.booking.is_requested_to_cancel || ['003', '004'].includes(this.booking.status.code)) {
             return this.booking.financial.cancelation_penality_as_if_today < 0;
         }
         return false;
@@ -131,9 +131,9 @@ export class IrPaymentDetails {
         }
         const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
+            h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
-                } }))), this.booking.status.code === '003' && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
+                } }))), ['003', '004'].includes(this.booking.status.code) && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } })))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),

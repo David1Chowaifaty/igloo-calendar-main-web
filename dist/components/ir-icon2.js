@@ -12,7 +12,7 @@ const IrIcon = /*@__PURE__*/ proxyCustomElement(class IrIcon extends HTMLElement
         this.type = 'button';
     }
     render() {
-        return (h("button", { key: 'cb6128d6043bd41c6bdaa45fcdcabc39c6fbd0b9', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'f056e91892411d5c3c0aa559bef3b6627bdcb94f', name: "icon" })));
+        return (h("button", { key: 'fa899dfb356f623738e8839670d8846296886d96', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'f518dfa3f9cca90a35f9e07521693475c4d353ca', name: "icon" })));
     }
     static get style() { return IrIconStyle0; }
 }, [6, "ir-icon", {

@@ -27,7 +27,7 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
         this.payMethodObj = buildPaymentLookup('methods');
     }
     render() {
-        return (h("div", { key: '6e7e0ae34be1418d4b330987300f4dce908f2d8a', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
+        return (h("div", { key: 'd1c9b767706382187380484cddf01444433676aa', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
             const [paymentType, paymentMethod] = key.split('_');
             const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
                 ? `${this.payTypesObj[paymentType]}: ${this.payMethodObj[paymentMethod]}`
