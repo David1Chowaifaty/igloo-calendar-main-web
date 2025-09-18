@@ -300,13 +300,14 @@ export class IrBookingDetails {
         }
     }
     render() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
+        console.log((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial) === null || _b === void 0 ? void 0 : _b.gross_total_with_extras);
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         return [
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", null), h("ir-interceptor", null)))),
-            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.status) === null || _b === void 0 ? void 0 : _b.code) }),
+            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_d = (_c = this.booking) === null || _c === void 0 ? void 0 : _c.status) === null || _d === void 0 ? void 0 : _d.code) }),
             h("div", { class: "fluid-container p-1 text-left mx-0" }, h("div", { class: "row m-0" }, h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), 
             // this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (
             this.hasRoomAdd && this.booking.is_editable && h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index) => {
@@ -317,7 +318,7 @@ export class IrBookingDetails {
                     index !== this.booking.rooms.length - 1 && h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
                 ];
             })), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })))),
-            h("ir-modal", { modalBody: (_c = this.modalState) === null || _c === void 0 ? void 0 : _c.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+            h("ir-modal", { modalBody: (_e = this.modalState) === null || _e === void 0 ? void 0 : _e.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
                     this.handleModalConfirm(e);
                 }, onCancelModal: () => {
                     this.modalRef.closeModal();

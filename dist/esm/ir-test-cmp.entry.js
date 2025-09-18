@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-60982d00.js';
-import { s as sleep } from './utils-82b40e97.js';
+import { M as sleep } from './utils-d58b6644.js';
 import { c as colorVariants } from './icons-f8664e4a.js';
 import './moment-ab846cee.js';
 import './index-6ecc32cd.js';
