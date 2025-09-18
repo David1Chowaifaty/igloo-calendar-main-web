@@ -45,7 +45,7 @@ const IrBookingGuarantee = /*@__PURE__*/ proxyCustomElement(class IrBookingGuara
             }
         }
         else if (payment_code) {
-            paymentMethod = this.checkPaymentCode(payment_code.value);
+            paymentMethod = payment_code.value === '000' ? 'No card info required upon booking' : this.checkPaymentCode(payment_code.value);
         }
         return paymentMethod;
     }

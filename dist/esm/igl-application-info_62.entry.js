@@ -2171,15 +2171,15 @@ const IrApplicablePolicies = class {
         }
         return d1.format('MMM DD, YYYY');
     }
-    getBracketLabelsAndArrowState({ bracket, index, brackets }) {
+    getBracketLabelsAndArrowState({ bracket, index, brackets, checkInDate }) {
         // Validate inputs
         if (!bracket || !brackets || index < 0 || index >= brackets.length) {
             return { leftLabel: null, rightLabel: null, showArrow: false };
         }
         // Parse dates with validation
-        const checkInDate = hooks(this.booking.booked_on.date, 'YYYY-MM-DD');
+        const bookedOnDate = hooks(this.booking.booked_on.date, 'YYYY-MM-DD');
         const bracketDueDate = hooks(bracket.due_on, 'YYYY-MM-DD');
-        if (!checkInDate.isValid() || !bracketDueDate.isValid()) {
+        if (!bookedOnDate.isValid() || !bracketDueDate.isValid()) {
             console.warn('Invalid date encountered in getBracketLabelsAndArrowState');
             return { leftLabel: null, rightLabel: null, showArrow: false };
         }
@@ -2188,7 +2188,7 @@ const IrApplicablePolicies = class {
             return this.handleSingleBracket(bracketDueDate);
         }
         // Multiple brackets case
-        return this.handleMultipleBrackets(bracket, index, brackets);
+        return this.handleMultipleBrackets(bracket, index, brackets, checkInDate);
     }
     handleSingleBracket(bracketDueDate) {
         return {
@@ -2197,7 +2197,7 @@ const IrApplicablePolicies = class {
             rightLabel: bracketDueDate.format('MMM DD, YYYY'),
         };
     }
-    handleMultipleBrackets(bracket, index, brackets) {
+    handleMultipleBrackets(bracket, index, brackets, checkInDate) {
         const bracketDueDate = hooks(bracket.due_on, 'YYYY-MM-DD');
         // First bracket
         if (index === 0) {
@@ -2215,15 +2215,15 @@ const IrApplicablePolicies = class {
             return {
                 leftLabel: 'Until',
                 showArrow: false,
-                rightLabel: nextBracketDueDate.format('MMM DD, YYYY'),
+                rightLabel: nextBracketDueDate.format('MMM DD'),
             };
         }
         // Last bracket
         if (index === brackets.length - 1) {
             return {
-                leftLabel: bracketDueDate.format('MMM DD, YYYY'),
-                showArrow: false,
-                rightLabel: '',
+                leftLabel: bracketDueDate.format('MMM DD'),
+                showArrow: true,
+                rightLabel: hooks(checkInDate).format('MMM DD, YYYY'),
             };
         }
         // Middle brackets
@@ -2267,7 +2267,7 @@ const IrApplicablePolicies = class {
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
         console.log(this.cancellationStatements);
-        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount)), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
+        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
                     currency: calendar_data.currency,
@@ -2281,7 +2281,7 @@ const IrApplicablePolicies = class {
                 index: idx,
                 bracket,
                 brackets: statement.brackets,
-                // checkIn: statement.checkInDate,
+                checkInDate: statement.checkInDate,
             });
             return (h("div", { class: "applicable-policies__bracket" }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), " ", rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
         })), h("div", { class: "applicable-policies__brackets-table" }, h("table", null, h("tbody", null, statement.brackets.map((bracket, idx) => {
@@ -2289,7 +2289,7 @@ const IrApplicablePolicies = class {
                 index: idx,
                 bracket,
                 brackets: statement.brackets,
-                // checkIn: statement.checkInDate,
+                checkInDate: statement.checkInDate,
             });
             return (h("tr", null, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
         })))))))))));
@@ -2999,7 +2999,7 @@ const IrBookingGuarantee = class {
             }
         }
         else if (payment_code) {
-            paymentMethod = this.checkPaymentCode(payment_code.value);
+            paymentMethod = payment_code.value === '000' ? 'No card info required upon booking' : this.checkPaymentCode(payment_code.value);
         }
         return paymentMethod;
     }
@@ -11696,7 +11696,7 @@ const IrPaymentDetails = class {
         return [
             h("div", { class: "card p-1" }, h("ir-payment-summary", { totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking }), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
-                } }))), ['003', '004'].includes(this.booking.status.code) && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
+                } }))), ['003', '004'].includes(this.booking.status.code) && this.booking.financial.cancelation_penality_as_if_today > 0 && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } })))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
@@ -11910,11 +11910,11 @@ const IrPaymentItem = class {
         const paymentDescription = (_c = (PAYMENT_TYPES_WITH_METHOD.includes((_a = this.payment.payment_type) === null || _a === void 0 ? void 0 : _a.code)
             ? `${(_b = this.payment.payment_type) === null || _b === void 0 ? void 0 : _b.description}: ${this.payment.payment_method.description}`
             : this.payment.payment_type.description)) !== null && _c !== void 0 ? _c : this.payment.designation;
-        return (h("div", { key: 'ebd62636645ee1b6f767e920c3c92fe58827b256', class: "payment-item__payment-item" }, h("div", { key: 'e4fe640e5d4a597a70f64b108e3991cfa0caa3a0', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: 'c179ef1d3dd2390a149736dfb09137064b2eb9c3', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '7549620e582097311155f545459ab2c7ca3af1db', class: "payment-item__payment-date" }, this.payment.date), h("p", { key: 'd58b019df78913eacd295294cf6d4b204af781f0', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '7d1ad9d05327bad728b605ac1ad68bca6e01531d', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '304f44674faffaa71c1bf06c32e1975d9c489758', class: "payment-item__payment-reference" }, (_d = this.payment) === null || _d === void 0 ? void 0 : _d.reference)), h("div", { key: '1ef3ffbe8f82a29f5289c3308b49bb3d2253b41b', class: "payment-item__payment-toolbar" }, h("p", { key: '64647392a6987c65221685ee5826f7dd56d1b1dc', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '2f4623dc3461820f155b32afb1ec3b4db927b16d', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: 'f8376d98b30db1c94ad2e6c99acca4c9abca82e5', class: "payment-item__payment-actions" }, h("ir-button", { key: '0068b4bf1eda7dd30096d615030483d3ce9f2869', class: "payment-item__action-button", variant: "icon", onClickHandler: () => {
+        return (h("div", { key: '3fa8b9f9462eae6c5cd3522bfc6b2320c4f4f5f2', class: "payment-item__payment-item" }, h("div", { key: '59e7d25771ba722d1f6997af154ca498401b9de4', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: 'e9230a12d70881835bff61f2428a509bc83e497b', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '1e746beb1d705d141c59e4de1b6065b6a188e048', class: "payment-item__payment-date" }, hooks(this.payment.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { key: 'b4c9f060114d621a798cc1205b9578321316959d', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '81ffc241735a33450a82413fb48db35daa8c6120', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '2417f0ca7f3f32466266f2a744028975477b7d0a', class: "payment-item__payment-reference" }, (_d = this.payment) === null || _d === void 0 ? void 0 : _d.reference)), h("div", { key: 'a73b3d75c910e415413176ac3f59dbf4f6a93006', class: "payment-item__payment-toolbar" }, h("p", { key: '9531b141ea6d8a581391beea59266b889a618577', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '7c440177ceeaba5420398c8acd76140b9830e95c', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: '50034694da6108ecd9249db3f8f3d303a5ff0d86', class: "payment-item__payment-actions" }, h("ir-button", { key: 'b36ade0572be1253b0c4160e7b00d4184073d252', class: "payment-item__action-button", variant: "icon", onClickHandler: () => {
                 this.editPayment.emit(this.payment);
-            }, icon_name: "edit", style: colorVariants.secondary }), h("ir-button", { key: '3a757a269b8f01b81012ce2cd1cfb94c7872fc41', class: "payment-item__action-button", onClickHandler: () => {
+            }, icon_name: "edit", style: colorVariants.secondary }), h("ir-button", { key: '12f6a88444f88b1ebaed80302c408083838684fd', class: "payment-item__action-button", onClickHandler: () => {
                 this.deletePayment.emit(this.payment);
-            }, variant: "icon", style: colorVariants.danger, icon_name: "trash" }))), this.payment.reference && h("p", { key: 'd4662a98d5ca9a307fd4cfa481fabd538d61489c', class: "payment-item__payment-reference" }, (_e = this.payment) === null || _e === void 0 ? void 0 : _e.reference)));
+            }, variant: "icon", style: colorVariants.danger, icon_name: "trash" }))), this.payment.reference && h("p", { key: '930148da1eb0ff1c1dbb1f121b696a42093f1fc3', class: "payment-item__payment-reference" }, (_e = this.payment) === null || _e === void 0 ? void 0 : _e.reference)));
     }
 };
 IrPaymentItem.style = IrPaymentItemStyle0;
