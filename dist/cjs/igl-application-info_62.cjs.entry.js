@@ -2143,9 +2143,17 @@ const IrApplicablePolicies = class {
                 const cancellationPolicy = getPoliciesByType(room.applicable_policies, 'cancelation');
                 const guaranteePolicy = getPoliciesByType(room.applicable_policies, 'guarantee');
                 if (cancellationPolicy) {
-                    statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan,
-                        // brackets: cancellationPolicy.brackets.filter(b => b.amount > 0),
-                        checkInDate: room.from_date }));
+                    statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan, brackets: cancellationPolicy.brackets
+                            .map((bracket, index) => {
+                            var _a;
+                            if (bracket.amount > 0) {
+                                return bracket;
+                            }
+                            if (index < (cancellationPolicy === null || cancellationPolicy === void 0 ? void 0 : cancellationPolicy.brackets.length) - 1 && ((_a = cancellationPolicy.brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.amount) > 0) {
+                                return bracket;
+                            }
+                        })
+                            .filter(Boolean), checkInDate: room.from_date }));
                 }
                 if (guaranteePolicy) {
                     total += (_b = (_a = this.getCurrentBracket(guaranteePolicy.brackets)) === null || _a === void 0 ? void 0 : _a.amount) !== null && _b !== void 0 ? _b : 0;
@@ -2201,9 +2209,12 @@ const IrApplicablePolicies = class {
             if (!nextBracket) {
                 return { leftLabel: null, rightLabel: null, showArrow: false };
             }
-            const nextBracketDueDate = moment.hooks(nextBracket.due_on, 'YYYY-MM-DD');
+            let nextBracketDueDate = moment.hooks(nextBracket.due_on, 'YYYY-MM-DD');
             if (!nextBracketDueDate.isValid()) {
                 return { leftLabel: null, rightLabel: null, showArrow: false };
+            }
+            if (bracket.amount === 0) {
+                nextBracketDueDate = nextBracketDueDate.clone().add(-1, 'days');
             }
             return {
                 leftLabel: 'Until',
@@ -2259,6 +2270,7 @@ const IrApplicablePolicies = class {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
+        console.log(this.cancellationStatements);
         return (index.h(index.Host, null, this.guaranteeAmount !== 0 && (index.h("section", null, index.h("div", { class: "applicable-policies__guarantee" }, index.h("div", { class: "applicable-policies__guarantee-info" }, index.h("p", { class: "applicable-policies__guarantee-date" }, moment.hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), index.h("p", { class: "applicable-policies__guarantee-amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount)), index.h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (index.h("div", { class: "applicable-policies__guarantee-action" }, index.h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
