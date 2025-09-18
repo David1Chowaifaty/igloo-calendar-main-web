@@ -41,7 +41,7 @@ export class IrApplicablePolicies {
                             .filter(Boolean), checkInDate: room.from_date }));
                 }
                 if (guaranteePolicy) {
-                    total += (_b = (_a = this.getCurrentBracket(guaranteePolicy.brackets)) === null || _a === void 0 ? void 0 : _a.amount) !== null && _b !== void 0 ? _b : 0;
+                    total += (_b = (_a = this.getCurrentBracket(guaranteePolicy.brackets)) === null || _a === void 0 ? void 0 : _a.gross_amount) !== null && _b !== void 0 ? _b : 0;
                 }
             });
             this.guaranteeAmount = total;
