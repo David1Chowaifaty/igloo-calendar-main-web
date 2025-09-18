@@ -6,7 +6,7 @@ export class IrPaymentSummary {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     render() {
-        return (h("div", { key: 'b8d205676eb9f281d6ffa2e4d684567bcc976142', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: '10cc3eb19f1f06c0946a406d60a2039a1532e69f', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: 'a650468664c3565bd41ce2e1d19f65c477626d4a' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: 'cc9633f9329feac8593f6589e48709be2fda6562', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: 'c513853e36ac35052fd7dbb5c49954ee173860ab' }, locales.entries.Lcz_Balance, ": "), h("span", { key: '36faf9e88343ad3c58cdf726cbd53a97a4799cf8', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), h("div", { key: 'ee49d78ca66c34e9620ac7cdb9053fa896e61217', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: '29c4f9699de77db97e1d67e92743cff880db5b5f' }, locales.entries.Lcz_Collected, ": "), h("span", { key: '74f7a3387ef05d47e5612dc692e6c9b3f7f113b9' }, formatAmount(this.currency.symbol, this.collected)))));
+        return (h("div", { key: 'd55d1bbe439a85d60f4d06ba2afb125a28749a8b', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: '59eb2e3cb4d1cd7f5710548f9387411142f991f3', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: 'c063b41055f5c2803e13ce59b9d5ab0f914a752c' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: '934f7440170576ea57ece36bdd153f8284d66b3d', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: '9c99a9c2162a1322c69f17c0582eb42c6799f7ce' }, locales.entries.Lcz_Balance, ": "), h("span", { key: '2ac569872da9971d39bb8d6e234c35b758f592e6', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), this.isBookingCancelled && (h("div", { key: 'c8b1e46d269cce9936f9ca3c83c175fede0caba3', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: 'da2c114c429ae3c86d271de813f7b78c47a0bf12' }, locales.entries.Lcz_Collected, ": "), h("span", { key: 'e15e1d1a9ab74465da09fe706e24f46ee8b7b292' }, formatAmount(this.currency.symbol, this.collected))))));
     }
     static get is() { return "ir-payment-summary"; }
     static get encapsulation() { return "scoped"; }
@@ -101,6 +101,25 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "isBookingCancelled": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-booking-cancelled",
+                "reflect": false
             }
         };
     }

@@ -4,6 +4,7 @@ export declare class IrPaymentSummary {
     balance: number;
     collected: number;
     currency: Currency;
+    isBookingCancelled: boolean;
     private shouldShowTotalCost;
     render(): any;
 }

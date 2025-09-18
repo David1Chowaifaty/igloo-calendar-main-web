@@ -27,5 +27,6 @@ export declare class IrPaymentDetails {
     private openModal;
     private hasValidFinancialData;
     private shouldShowRefundButton;
+    private shouldCancellationButton;
     render(): any[];
 }
