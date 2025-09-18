@@ -74,16 +74,16 @@ export class IrApplicablePolicies {
         }
         // Single bracket case
         if (brackets.length === 1) {
-            return this.handleSingleBracket(bracketDueDate);
+            return this.handleSingleBracket(bracketDueDate, checkInDate);
         }
         // Multiple brackets case
         return this.handleMultipleBrackets(bracket, index, brackets, checkInDate);
     }
-    handleSingleBracket(bracketDueDate) {
+    handleSingleBracket(bracketDueDate, checkInDate) {
         return {
-            leftLabel: null,
-            showArrow: false,
-            rightLabel: bracketDueDate.format('MMM DD, YYYY'),
+            leftLabel: bracketDueDate.format('MMM DD'),
+            showArrow: true,
+            rightLabel: moment(checkInDate, 'YYYY-MM-DD').format('MMM DD, YYYY'),
         };
     }
     handleMultipleBrackets(bracket, index, brackets, checkInDate) {
