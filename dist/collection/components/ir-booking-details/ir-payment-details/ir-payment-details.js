@@ -29,12 +29,20 @@ export class IrPaymentDetails {
                     description: cashMethod.CODE_VALUE_EN,
                     operation: cashMethod.NOTES,
                 };
-                const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (type === 'cancellation-penalty' ? '013' : '010'));
+                const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (type === 'cancellation-penalty' ? '001' : '010'));
                 payment = Object.assign(Object.assign({}, payment), { amount: amount, designation: paymentType.CODE_VALUE_EN, payment_type: {
                         code: paymentType.CODE_NAME,
                         description: paymentType.CODE_VALUE_EN,
                         operation: paymentType.NOTES,
                     }, payment_method: type === 'refund' ? undefined : payment_method });
+                this.openSidebar.emit({
+                    type: 'payment-folio',
+                    payload: {
+                        payment,
+                        mode: 'payment-action',
+                    },
+                });
+                return;
             }
             this.openSidebar.emit({
                 type: 'payment-folio',
@@ -83,7 +91,7 @@ export class IrPaymentDetails {
                             operation: paymentType.NOTES,
                         }
                         : null, designation: (_c = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _c !== void 0 ? _c : null }),
-                mode: 'new',
+                mode: 'payment-action',
             },
         });
     }
