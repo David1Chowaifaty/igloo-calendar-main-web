@@ -2219,7 +2219,7 @@ const IrApplicablePolicies = class {
             return {
                 leftLabel: 'Until',
                 showArrow: false,
-                rightLabel: nextBracketDueDate.format('MMM DD'),
+                rightLabel: nextBracketDueDate.format('MMM DD, YYYY'),
             };
         }
         // Last bracket

@@ -113,7 +113,7 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
             return {
                 leftLabel: 'Until',
                 showArrow: false,
-                rightLabel: nextBracketDueDate.format('MMM DD'),
+                rightLabel: nextBracketDueDate.format('MMM DD, YYYY'),
             };
         }
         // Last bracket
