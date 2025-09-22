@@ -1,9 +1,10 @@
+import { Payment } from "../components/ir-booking-details/types";
 import { IPayment } from "../models/booking.dto";
 export declare class PaymentUtilsService {
     /**
      * Creates a new payment item with default values
      */
-    static createDefaultPayment(currency: any): IPayment;
+    static createDefaultPayment(currency: any): Payment;
     /**
      * Calculates total amount from payments array
      */

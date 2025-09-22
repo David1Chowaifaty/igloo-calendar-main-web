@@ -127,7 +127,7 @@ export class IrExtraServiceConfig {
                 "mutable": false,
                 "complexType": {
                     "original": "Pick<Booking, 'from_date' | 'to_date' | 'currency' | 'booking_nbr'>",
-                    "resolved": "{ from_date: string; to_date: string; currency: Currency; booking_nbr: string; }",
+                    "resolved": "{ currency: Currency; from_date: string; to_date: string; booking_nbr: string; }",
                     "references": {
                         "Pick": {
                             "location": "global",

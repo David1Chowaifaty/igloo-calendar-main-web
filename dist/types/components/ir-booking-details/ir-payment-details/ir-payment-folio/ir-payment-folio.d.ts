@@ -1,16 +1,15 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { IPayment } from "../../../../models/booking.dto";
 import { IEntries } from "../../../../models/IBooking";
-import { FolioEntryMode, PaymentEntries } from '../../types';
+import { FolioEntryMode, Payment, PaymentEntries } from '../../types';
 export declare class IrPaymentFolio {
     paymentEntries: PaymentEntries;
     bookingNumber: string;
-    payment: IPayment;
+    payment: Payment;
     mode: FolioEntryMode;
     isLoading: boolean;
     errors: any;
     autoValidate: boolean;
-    folioData: IPayment;
+    folioData: Payment;
     _paymentTypes: Record<string, IEntries[]>;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
@@ -18,7 +17,7 @@ export declare class IrPaymentFolio {
     private folioSchema;
     private paymentService;
     componentWillLoad(): void;
-    handlePaymentChange(newValue: IPayment, oldValue: IPayment): void;
+    handlePaymentChange(newValue: Payment, oldValue: Payment): void;
     handlePaymentTypesChange(newValue: IEntries[], oldValue: IEntries[]): void;
     private updateFolioData;
     private savePayment;

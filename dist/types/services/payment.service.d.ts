@@ -1,4 +1,4 @@
-import { IPayment } from "../models/booking.dto";
+import { Payment } from "../components/ir-booking-details/types";
 export interface IPaymentAction {
     amount: number;
     currency: {
@@ -12,7 +12,7 @@ export interface IPaymentAction {
     type: 'OVERDUE' | 'FUTURE';
 }
 export declare class PaymentService {
-    AddPayment(payment: IPayment, book_nbr: string): Promise<any>;
+    AddPayment(payment: Payment, book_nbr: string): Promise<any>;
     CancelPayment(id: number): Promise<any>;
     GetExposedCancellationDueAmount(params: {
         booking_nbr: string;

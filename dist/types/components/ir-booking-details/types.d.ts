@@ -14,7 +14,7 @@ export type OpenDialogEvent = {
 export type PaymentSidebarEvent = {
     type: 'payment-folio';
     payload: {
-        payment: IPayment;
+        payment: Payment;
         mode: FolioEntryMode;
     };
 };
@@ -36,3 +36,4 @@ export type CancellationStatement = {
     ratePlan: RatePlan;
     checkInDate: string;
 } & ExposedApplicablePolicy;
+export type Payment = Omit<IPayment, 'time_stamp'>;

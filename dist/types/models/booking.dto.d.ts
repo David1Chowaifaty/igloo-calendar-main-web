@@ -302,6 +302,13 @@ export interface IPayment {
     payment_gateway_code?: number;
     payment_type?: PaymentType;
     payment_method?: PaymentType;
+    time_stamp: {
+        date: string;
+        hour: number;
+        minute: number;
+        second: number;
+        user: string;
+    };
 }
 interface PaymentType {
     code: string;

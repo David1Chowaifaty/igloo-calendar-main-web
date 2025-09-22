@@ -3,14 +3,14 @@ import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 export class IrFinancialTable {
     render() {
-        return (h("div", { key: '7279954327f25704f43335b60ddc5352aad6f0d4', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: 'c70dcda091ed81efe64d0669c8f460129d2a9b3b', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '27cf7827495e93ec2c7943dc2e3dc6018e490508', class: "table-header" }, h("tr", { key: '047ebbe627c8e68358a7aacafb583e9df7f5814f' }, h("th", { key: '1eeb63031f06db8bf8d5e0a23573ed071cf7eb05', class: "text-center" }, "Date"), h("th", { key: '6750db269906518f18d37555850a0739c03c9d1e', class: "text-center" }, "Booking"), h("th", { key: '12799bcff598eb4cac0150f2505db35e6995a8e9', class: "text-center" }, "By direct"), h("th", { key: '4fd1dd0bd0a8d0c482f7d9783f01ee6669b6e9df', class: "text-right" }, "Amount"), h("th", { key: 'd8f7210dd4d92b0339ec489c3991c2f39c2a039f', class: "text-center" }))), h("tbody", { key: 'ed3417a2550fa756442ad5862d68e633098f3570' }, h("tr", { key: 'f116fbb64253fbd133f741226ca40383613a2ced', class: "ir-table-row" }, h("td", { key: '28a25466372e52f911069df7464d6f5ba5335cc8', class: "text-center" }, "1"), h("td", { key: '784a5a541384ead7c996f054dde65517f6315a7f', class: "text-center" }, h("ir-button", { key: 'a92819256bfd771974cab364ae856fed9a11e63c', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
+        return (h("div", { key: '86fc1931ec67a29b3b73049cc7821e695689e2e7', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: 'f2a3c49f0c0334036ebf225bf746aff4c5bad6a8', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: 'ed8aab3b14e391f629bc49411031ee6f7921ce84', class: "table-header" }, h("tr", { key: '60df683f0127e101e2a5fc4407c6f7288b22ee58' }, h("th", { key: 'e9de64ead7cefbf25494ca47f74da6df4b726275', class: "text-center" }, "Date"), h("th", { key: '6b1dd3af28f034ec35f51bc68734eb522b99149b', class: "text-center" }, "Booking"), h("th", { key: '7bf4abb7ac30740a7ece8829a5b003b8e2864cf3', class: "text-center" }, "By direct"), h("th", { key: 'f21f9700253d4acb01f40376921c2c3be5463ab0', class: "text-right" }, "Amount"), h("th", { key: 'f1dbac4edcb628a485555e6da5266a6db2b98906', class: "text-center" }))), h("tbody", { key: '40481afd7a0e55064a82c9d1992217d929f60b48' }, h("tr", { key: '8900d30d620efbadf93ef7da0e7e7b5eb959808f', class: "ir-table-row" }, h("td", { key: 'c0e288d16c00cd79044069108cbadf57ca02556b', class: "text-center" }, "1"), h("td", { key: 'd2ae47b96d31da8d13cff3124c938b7f70b961d4', class: "text-center" }, h("ir-button", { key: '5637be213340c6f60184944560f775bc44b8bb1f', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'booking',
                     payload: {
                         bookingNumber: 31203720277,
                     },
                 });
-            } })), h("td", { key: 'b8b3facd676f13f755efe1db602ec40fa2c3632c', class: "text-center" }, "1"), h("td", { key: '08bb16b5e4a25e755eea9fcac355e0d621d68dee', class: "text-right" }, "1"), h("td", { key: '7b9e43f61e10fa288246432db4bc0a469c323297' }, h("ir-button", { key: '92d84ff8360748f2b15a9c0551b4e1545dafb570', size: "sm", text: "Pay", onClickHandler: () => {
+            } })), h("td", { key: '9c97200989090949046d43725380dc234fb6a6c0', class: "text-center" }, "1"), h("td", { key: '426b1d2f97172b65559f7b7bfb480f9953a855fb', class: "text-right" }, "1"), h("td", { key: '1c6d024cc03e652cf093b3f18288f91536ce1086' }, h("ir-button", { key: 'f21bbee3cb6d477e51ed41f7c28522098e7297b7', size: "sm", text: "Pay", onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'payment',
                     payload: {
@@ -52,7 +52,7 @@ export class IrFinancialTable {
                 },
                 "complexType": {
                     "original": "SidebarOpenEvent",
-                    "resolved": "{ type: \"booking\"; payload: { bookingNumber: number; }; } | { type: \"payment\"; payload: { payment: IPayment; bookingNumber: number; }; }",
+                    "resolved": "{ type: \"booking\"; payload: { bookingNumber: number; }; } | { type: \"payment\"; payload: { payment: Payment; bookingNumber: number; }; }",
                     "references": {
                         "SidebarOpenEvent": {
                             "location": "import",

@@ -1,7 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$3 } from './ir-button2.js';
-import { d as defineCustomElement$2 } from './ir-icons2.js';
-import { d as defineCustomElement$1 } from './ir-payment-item2.js';
+import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
+import { d as defineCustomElement$3 } from './ir-payment-item2.js';
+import { d as defineCustomElement$2 } from './ir-popover2.js';
+import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
 const irPaymentsFolioCss = ".sc-ir-payments-folio-h{display:block}";
 const IrPaymentsFolioStyle0 = irPaymentsFolioCss;
@@ -45,7 +47,22 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
         return (h("div", { class: "text-center p-3" }, h("p", { class: "text-muted" }, "No payments recorded yet")));
     }
     render() {
-        return (h("div", { key: '9e7aef89c52fd4d8061abcbfad9e7384bd2b03a6', class: "mt-1" }, h("div", { key: '68e5425f99add400cd37ad23f4a973750b7a2a1a', class: "d-flex flex-column rounded payment-container" }, h("div", { key: '4891fe4e5e636aeee38f6680c015db9e54e170ad', class: "d-flex align-items-center justify-content-between" }, h("p", { key: 'ab01415c5388291f148b5777593f49314a7c97bf', class: "font-size-large p-0 m-0" }, "Guest Folio"), h("ir-button", { key: 'bbe393244bba66436ad00de91895418c9ca91f63', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '7a79db1fde71e2567b6b16ee623b555c628fcf22', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
+        return (h("div", { key: 'add6c05b9e229c97e6adf4ca10380ad54f390e37', class: "mt-1" }, h("div", { key: 'f3b11ba4aff593a424f2d605ee4d55106d3998e8', class: "d-flex flex-column rounded payment-container" }, h("div", { key: '76a668a6badcdb30f26dd5e2c597c529a24c9bc8', class: "d-flex align-items-center justify-content-between" }, h("div", { key: 'ad132609c334bcd2adb47eddd21b50e7c892772f', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '6bbfc4bd980b0428496c155a764113781bd08333', class: "font-size-large p-0 m-0" }, "Guest Folio"), h("style", { key: '98364956f0f5101365b37f1f6e132f49bb5f5f41' }, `.documentation-btn{
+                    display:flex;
+                    align-items:center;
+                    justify-content-center;
+                    height:1rem;
+                    width:1rem;
+                    background:#6b6f82;
+                    color:white;
+                    padding:0.2rem;
+                    border-radius:0.5rem;
+                  }
+                  .documentation-btn:hover{
+                    background:#104064;
+                    color:white !important;
+                  }
+                `), h("ir-tooltip", { key: 'e262178b773afc729f1ae178207e32ed64b3f15d', customSlot: true, message: "Help" }, h("a", { key: 'd1531fb465163a5f63d1725f9d3c058dfe382f3d', slot: "tooltip-trigger", class: "documentation-btn", target: "_blank", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" }, h("svg", { key: '630fe4697c4ffbd9558f1d64e8862d0685b9aafd', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: '70689e0a54a38c6cec15c5ca0e1b75051946eb7d', fill: "currentColor", d: "M224 224C224 171 267 128 320 128C373 128 416 171 416 224C416 266.7 388.1 302.9 349.5 315.4C321.1 324.6 288 350.7 288 392L288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416L352 392C352 390.3 352.6 387.9 355.5 384.7C358.5 381.4 363.4 378.2 369.2 376.3C433.5 355.6 480 295.3 480 224C480 135.6 408.4 64 320 64C231.6 64 160 135.6 160 224C160 241.7 174.3 256 192 256C209.7 256 224 241.7 224 224zM320 576C342.1 576 360 558.1 360 536C360 513.9 342.1 496 320 496C297.9 496 280 513.9 280 536C280 558.1 297.9 576 320 576z" }))))), h("ir-button", { key: '97aeff004e35c863213561b7a8113df81a5ea156', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '1fbe9c6e496f46cda22a862f9821798e0bf02c2e', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
     }
     static get style() { return IrPaymentsFolioStyle0; }
 }, [2, "ir-payments-folio", {
@@ -55,7 +72,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payments-folio", "ir-button", "ir-icons", "ir-payment-item"];
+    const components = ["ir-payments-folio", "ir-button", "ir-icons", "ir-payment-item", "ir-popover", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payments-folio":
             if (!customElements.get(tagName)) {
@@ -64,15 +81,25 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$4();
             }
             break;
         case "ir-payment-item":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-popover":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-tooltip":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

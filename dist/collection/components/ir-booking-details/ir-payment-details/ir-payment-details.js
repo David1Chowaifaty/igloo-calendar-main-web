@@ -335,7 +335,7 @@ export class IrPaymentDetails {
                 },
                 "complexType": {
                     "original": "PaymentSidebarEvent",
-                    "resolved": "{ type: \"payment-folio\"; payload: { payment: IPayment; mode: FolioEntryMode; }; }",
+                    "resolved": "{ type: \"payment-folio\"; payload: { payment: Payment; mode: FolioEntryMode; }; }",
                     "references": {
                         "PaymentSidebarEvent": {
                             "location": "import",
