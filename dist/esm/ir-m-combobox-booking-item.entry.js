@@ -8,7 +8,7 @@ const IrMComboboxBookingItem = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '0fcd6a6d7aa2c62d648a03902fc95ea186d07372', class: "pe-1" }, h("img", { key: 'f7dbe87c0d6c6502d1da3f75982e15db028b72ab', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: '9f6d64f13d7189c696ab6cdd0e8716455a225d38' }, h("p", { key: '8655e7c794750a60319fff4129aa3a0829de1df2', class: "p-0 m-0" }, this.booking.booking_nbr), !this.booking.is_direct && h("p", { key: 'feadb3c815483b1a8b3bbbfe596dc07b4ddd0890', class: "small p-0 m-0" }, this.booking.channel_booking_nbr)), h("p", { key: '71f175c40aadc2dcfc0f27ead616854c54e3a6ad', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
+        return (h(Host, { key: '0b0eeaff56e509fc8f3a6cdcf7711cff552d7256', class: "pe-1" }, h("img", { key: '2992243fc097fb8a8391aa2be36631814a362341', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: 'e0f521245b6a908734df67831a4d26fbc65cbc4c' }, h("p", { key: '1abad0dbca3faa53861d0e0715cdb33d339194ed', class: "p-0 m-0" }, this.booking.booking_nbr), !this.booking.is_direct && h("p", { key: 'a61c463217ae8852f76ea0fdd186ecc112796c57', class: "small p-0 m-0" }, this.booking.channel_booking_nbr)), h("p", { key: '8c43b849c4127605c90b0e7110fb2de970b5fb52', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
     }
 };
 IrMComboboxBookingItem.style = IrMComboboxBookingItemStyle0;

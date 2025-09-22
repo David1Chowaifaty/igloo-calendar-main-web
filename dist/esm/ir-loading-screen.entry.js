@@ -9,7 +9,7 @@ const IrLoadingScreen = class {
         this.message = '';
     }
     render() {
-        return (h(Host, { key: '81a465784877ee4b5b781549cf81175f37369ee5' }, h("span", { key: '96372100962bf2fa35be9bfb0a0cd87288e23919', class: "loader" })));
+        return (h(Host, { key: '41292f0c417c96dce7e85298b4ceb7d67d10002c' }, h("span", { key: 'd9b3a46402a684baf833b1c3c6c43fa5b7f952f7', class: "loader" })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;

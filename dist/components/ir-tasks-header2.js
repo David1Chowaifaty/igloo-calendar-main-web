@@ -20,19 +20,19 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.btnRef.bounce();
     }
     render() {
-        return (h(Host, { key: 'b7e8b05d79989e7d0e27dd3cb708f7b74a0daec2' }, h("div", { key: '2ff8fa8f6f7e747fc044feffdb01b92049bc515c', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '5eb10f8d6e95f725e6c2672ee147ea3061ec7ef5', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: 'edb004d2dc43a0d1f55b8764a4f736ed36be5f66', name: "search", slot: "icon" }))), h("div", { key: '2bd693375f8b9fd8d5c62030e50d3f36e75f71f9', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '276332ad4b40c9fdb5502b0ee0a7006130a6dac2', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h(Host, { key: '4fd5ba7feb5f0bfe6053acd3875babc961a288f8' }, h("div", { key: '1419c7b17cd81b6400729814cb93157ed1774a74', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: 'f7c0f2e384fecebbe8d39393101f71a35a75212c', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '8e32007a413160b356a96073927fc7e25418763d', name: "search", slot: "icon" }))), h("div", { key: '0a419fcabf064fb014c592ebdc6dc5db2ea30f24', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '25e80093601264f6d4042273354108f1879a9b6f', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '1ce4c1487477de6b1deddfe16b0e6c99d028d6bc', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: '3b01db28b53fe8a3da8c7b49068e6b42cbfa7641', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: 'c1f7cef7396ca03f25f48b457de8fc93c638e38a', class: "clean-button", onClickHandler: e => {
+            } }), h("ir-button", { key: 'e5d93102918e5b1b2e8d6629a8533598de3c490b', class: "clean-button", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
-            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }), h("ir-button", { key: 'aecdc01febd1cf36055be7f6a822d12cabc98f7d', class: "clean-button", onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }), h("ir-button", { key: 'fd9b57dfba100c3cd1b39c019d96abe6cad706e4', class: "clean-button", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'clean-inspect' });

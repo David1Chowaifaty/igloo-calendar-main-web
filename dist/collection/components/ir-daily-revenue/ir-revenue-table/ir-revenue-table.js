@@ -16,7 +16,7 @@ export class IrRevenueTable {
         this.payMethodObj = buildPaymentLookup('methods');
     }
     render() {
-        return (h("div", { key: 'fa6c36ac61c43704d5f848a2611a0a49b1b72e99', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
+        return (h("div", { key: '4ac5ccf1dab6170a4683a7e636a2aa1ff3857519', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
             const [paymentType, paymentMethod] = key.split('_');
             const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
                 ? `${this.payTypesObj[paymentType]}: ${this.payMethodObj[paymentMethod]}`
