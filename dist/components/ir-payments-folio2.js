@@ -53,16 +53,18 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
                     justify-content-center;
                     height:1rem;
                     width:1rem;
-                    background:#6b6f82;
-                    color:white;
-                    padding:0.2rem;
+                    border:1px solid #6b6f82;
+                    color:#6b6f82;
+                    padding:0.1rem;
                     border-radius:0.5rem;
+                    background:transparent;
                   }
                   .documentation-btn:hover{
-                    background:#104064;
-                    color:white !important;
+                    border-color:#104064;
+                    background:transparent;
+                    color:#104064 !important;
                   }
-                `), h("ir-tooltip", { key: 'e262178b773afc729f1ae178207e32ed64b3f15d', customSlot: true, message: "Help" }, h("a", { key: 'd1531fb465163a5f63d1725f9d3c058dfe382f3d', slot: "tooltip-trigger", class: "documentation-btn", target: "_blank", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" }, h("svg", { key: '630fe4697c4ffbd9558f1d64e8862d0685b9aafd', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: '70689e0a54a38c6cec15c5ca0e1b75051946eb7d', fill: "currentColor", d: "M224 224C224 171 267 128 320 128C373 128 416 171 416 224C416 266.7 388.1 302.9 349.5 315.4C321.1 324.6 288 350.7 288 392L288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416L352 392C352 390.3 352.6 387.9 355.5 384.7C358.5 381.4 363.4 378.2 369.2 376.3C433.5 355.6 480 295.3 480 224C480 135.6 408.4 64 320 64C231.6 64 160 135.6 160 224C160 241.7 174.3 256 192 256C209.7 256 224 241.7 224 224zM320 576C342.1 576 360 558.1 360 536C360 513.9 342.1 496 320 496C297.9 496 280 513.9 280 536C280 558.1 297.9 576 320 576z" }))))), h("ir-button", { key: '97aeff004e35c863213561b7a8113df81a5ea156', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '1fbe9c6e496f46cda22a862f9821798e0bf02c2e', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
+                `), h("ir-tooltip", { key: '139b5d31e964624278a4393553691727a109b2f3', customSlot: true, message: "Help" }, h("a", { key: '2b892d0deffc85eb47f67d1309ac85e0ee008a82', slot: "tooltip-trigger", class: "documentation-btn", target: "_blank", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" }, h("svg", { key: '9b2909c2f4585e46afec5587cacbb3370a79101e', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: 'b231f87af0c759edacebc1128168becbb4e4ab0b', fill: "currentColor", d: "M224 224C224 171 267 128 320 128C373 128 416 171 416 224C416 266.7 388.1 302.9 349.5 315.4C321.1 324.6 288 350.7 288 392L288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416L352 392C352 390.3 352.6 387.9 355.5 384.7C358.5 381.4 363.4 378.2 369.2 376.3C433.5 355.6 480 295.3 480 224C480 135.6 408.4 64 320 64C231.6 64 160 135.6 160 224C160 241.7 174.3 256 192 256C209.7 256 224 241.7 224 224zM320 576C342.1 576 360 558.1 360 536C360 513.9 342.1 496 320 496C297.9 496 280 513.9 280 536C280 558.1 297.9 576 320 576z" }))))), h("ir-button", { key: '675183166fe58472981dd7ec4d7e81b6aaa2fe3e', id: "add-payment", variant: "icon", icon_name: "square_plus", style: { '--icon-size': '1.5rem' }, onClickHandler: this.handleAddPayment })), h("div", { key: '9f16d4617b93de5c4b2ea558faf77bb1a7420415', class: "mt-1 card p-1 payments-container" }, this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()))));
     }
     static get style() { return IrPaymentsFolioStyle0; }
 }, [2, "ir-payments-folio", {
