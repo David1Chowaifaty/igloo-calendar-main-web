@@ -128,6 +128,7 @@
     "components/ui/ir-button/ir-button.js",
     "components/ui/ir-checkbox/ir-checkbox.js",
     "components/ui/ir-checkboxes/ir-checkboxes.js",
+    "components/ui/ir-copy-button/ir-copy-button.js",
     "components/ui/ir-country-picker/ir-country-picker.js",
     "components/ui/ir-date-picker/ir-date-picker.js",
     "components/ui/ir-date-range/ir-date-range.js",

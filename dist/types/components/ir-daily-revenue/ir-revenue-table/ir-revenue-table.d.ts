@@ -6,6 +6,13 @@ export declare class IrRevenueTable {
     filters: DailyPaymentFilter;
     private payTypesObj;
     private payMethodObj;
+    private groupType;
     componentWillLoad(): void;
+    /**
+     * Groups payments by method, then by type.
+     * - Never throws on bad input (null/undefined, non-Map, malformed keys, non-array values).
+     * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
+     */
+    private regroupPaymentsByMethod;
     render(): any;
 }

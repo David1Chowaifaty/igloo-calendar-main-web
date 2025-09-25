@@ -7,7 +7,7 @@ import { H as HelpDocButton } from './HelpButton.js';
 import { d as defineCustomElement$2 } from './ir-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
-const irApplicablePoliciesCss = ".sc-ir-applicable-policies-h{display:flex;flex-direction:column;gap:1rem}.applicable-policies__container.sc-ir-applicable-policies{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.applicable-policies__title.sc-ir-applicable-policies{font-size:1rem;font-weight:700;padding:0;margin:0}.applicable-policies__no-penalty.sc-ir-applicable-policies{padding:0;margin:0;font-size:0.875rem}.applicable-policies__statements.sc-ir-applicable-policies{display:flex;flex-direction:column;gap:0.5rem;background:rgb(30, 159, 242, 5%);padding:0.5rem 1rem;border:1px solid rgba(30, 159, 242, 40%);border-radius:0.25rem;max-height:200px;overflow-y:auto}.applicable-policies__statement.sc-ir-applicable-policies{display:flex;flex-direction:column;border-bottom:1px solid #e5e7eb;padding-bottom:0.5rem}.applicable-policies__statement.sc-ir-applicable-policies:last-child{border-bottom:0;padding-bottom:0}.applicable-policies__room.sc-ir-applicable-policies{padding:0;margin:0;padding-bottom:0.5rem}.applicable-policies__bracket.sc-ir-applicable-policies{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.25rem;font-size:0.875rem;padding-bottom:0.5rem}.applicable-policies__bracket-dates.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem;padding:0;margin:0}.applicable-policies__amount.sc-ir-applicable-policies{text-align:right;padding:0;margin:0;font-weight:600}.applicable-policies__statement-text.sc-ir-applicable-policies{padding:0;margin:0}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:none}.applicable-policies__guarantee.sc-ir-applicable-policies{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border:1px solid rgba(255, 73, 97, 40%);border-radius:6px;background-color:rgba(255, 73, 97, 10%);margin-bottom:0.5rem;font-size:0.875rem}.applicable-policies__guarantee-info.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem}.applicable-policies__guarantee-date.sc-ir-applicable-policies{color:var(--text-muted, #666);padding:0;margin:0}.applicable-policies__guarantee-amount.sc-ir-applicable-policies{font-weight:600;color:var(--text-strong, #222);padding:0;margin:0}.applicable-policies__guarantee-label.sc-ir-applicable-policies{color:red;font-weight:700;padding:0;margin:0}.applicable-policies__guarantee-action.sc-ir-applicable-policies{width:fit-content}@media (min-width: 768px){.applicable-policies__brackets.sc-ir-applicable-policies{display:none}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:block;width:100%;font-size:0.875rem}.applicable-policies__brackets-table.sc-ir-applicable-policies table.sc-ir-applicable-policies{width:100%}.applicable-policies__amount.sc-ir-applicable-policies,.applicable-policies__bracket-dates.sc-ir-applicable-policies{white-space:nowrap}.applicable-policies__statement-text.sc-ir-applicable-policies{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}";
+const irApplicablePoliciesCss = ".sc-ir-applicable-policies-h{display:flex;flex-direction:column;gap:1rem}.applicable-policies__container.sc-ir-applicable-policies{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.applicable-policies__title.sc-ir-applicable-policies{font-size:1rem;font-weight:700;padding:0;margin:0}.applicable-policies__no-penalty.sc-ir-applicable-policies{padding:0;margin:0;font-size:0.875rem}.applicable-policies__statements.sc-ir-applicable-policies{display:flex;flex-direction:column;gap:0.5rem;background:rgb(30, 159, 242, 5%);padding:0.5rem 1rem;border:1px solid rgba(30, 159, 242, 40%);border-radius:0.25rem;max-height:200px;overflow-y:auto}.applicable-policies__highlighted-bracket.sc-ir-applicable-policies{color:rgba(30, 159, 242, 100%)}.applicable-policies__statement.sc-ir-applicable-policies{display:flex;flex-direction:column;border-bottom:1px solid #e5e7eb;padding-bottom:0.5rem}.applicable-policies__statement.sc-ir-applicable-policies:last-child{border-bottom:0;padding-bottom:0}.applicable-policies__room.sc-ir-applicable-policies{padding:0;margin:0;padding-bottom:0.5rem}.applicable-policies__bracket.sc-ir-applicable-policies{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.25rem;font-size:0.875rem;padding-bottom:0.5rem}.applicable-policies__bracket-dates.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem;padding:0;margin:0}.applicable-policies__amount.sc-ir-applicable-policies{text-align:right;padding:0;margin:0;font-weight:600}.applicable-policies__statement-text.sc-ir-applicable-policies{padding:0;margin:0}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:none}.applicable-policies__guarantee.sc-ir-applicable-policies{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border:1px solid rgba(255, 73, 97, 40%);border-radius:6px;background-color:rgba(255, 73, 97, 10%);margin-bottom:0.5rem;font-size:0.875rem}.applicable-policies__guarantee-info.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem}.applicable-policies__guarantee-date.sc-ir-applicable-policies{color:var(--text-muted, #666);padding:0;margin:0}.applicable-policies__guarantee-amount.sc-ir-applicable-policies{font-weight:600;color:var(--text-strong, #222);padding:0;margin:0}.applicable-policies__guarantee-label.sc-ir-applicable-policies{color:red;font-weight:700;padding:0;margin:0}.applicable-policies__guarantee-action.sc-ir-applicable-policies{width:fit-content}@media (min-width: 768px){.applicable-policies__brackets.sc-ir-applicable-policies{display:none}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:block;width:100%;font-size:0.875rem}.applicable-policies__brackets-table.sc-ir-applicable-policies table.sc-ir-applicable-policies{width:100%}.applicable-policies__amount.sc-ir-applicable-policies,.applicable-policies__bracket-dates.sc-ir-applicable-policies{white-space:nowrap}.applicable-policies__statement-text.sc-ir-applicable-policies{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}";
 const IrApplicablePoliciesStyle0 = irApplicablePoliciesCss;
 
 const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicablePolicies extends HTMLElement {
@@ -155,12 +155,33 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
         const label = 'if cancelled today';
         const { cancelation_penality_as_if_today } = this.booking.financial;
         if (cancelation_penality_as_if_today === 0) {
-            return `No penalty ${label}`;
+            if (this.booking.financial.collected > 0) {
+                return `No refund ${label}`;
+            }
+            return `No payment required ${label}`;
         }
         return `${cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge'} ${formatAmount(calendar_data.currency.symbol, Math.abs(cancelation_penality_as_if_today))} ${label}`;
     }
+    checkCurrentBracket(bracket, nextBracket) {
+        if (!(bracket === null || bracket === void 0 ? void 0 : bracket.due_on))
+            return false;
+        const today = hooks().startOf('day');
+        const start = hooks(bracket.due_on, 'YYYY-MM-DD', true).startOf('day');
+        if (!start.isValid())
+            return false;
+        // If there's no next bracket, this one applies from its start onward.
+        if (!(nextBracket === null || nextBracket === void 0 ? void 0 : nextBracket.due_on)) {
+            return today.isSameOrAfter(start, 'day');
+        }
+        const end = hooks(nextBracket.due_on, 'YYYY-MM-DD', true).startOf('day');
+        if (!end.isValid()) {
+            return today.isSameOrAfter(start, 'day');
+        }
+        // Active if today ∈ [start, end)
+        return today.isSameOrAfter(start, 'day') && today.isBefore(end, 'day');
+    }
     render() {
-        var _a;
+        var _a, _b;
         if (this.isLoading) {
             return null;
         }
@@ -175,14 +196,15 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
                     reason: '',
                     type: 'OVERDUE',
                 });
-            } })))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), h("div", { class: "applicable-policies__statements" }, (_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.map(statement => (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales.entries.Lcz_NonRefundable}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
+            } })))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), ((_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.length) > 0 && (h("div", { class: "applicable-policies__statements" }, (_b = this.cancellationStatements) === null || _b === void 0 ? void 0 : _b.map(statement => (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales.entries.Lcz_NonRefundable}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
             const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                 index: idx,
                 bracket,
                 brackets: statement.brackets,
                 checkInDate: statement.checkInDate,
             });
-            return (h("div", { class: "applicable-policies__bracket" }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), " ", rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+            const isInCurrentBracket = this.checkCurrentBracket(bracket, idx < statement.brackets.length - 1 ? statement.brackets[idx + 1] : null);
+            return (h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), " ", rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
         })), h("div", { class: "applicable-policies__brackets-table" }, h("table", null, h("tbody", null, statement.brackets.map((bracket, idx) => {
             const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                 index: idx,
@@ -190,8 +212,9 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
                 brackets: statement.brackets,
                 checkInDate: statement.checkInDate,
             });
-            return (h("tr", null, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
-        })))))))))));
+            const isInCurrentBracket = this.checkCurrentBracket(bracket, idx < statement.brackets.length - 1 ? statement.brackets[idx + 1] : null);
+            return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+        }))))))))))));
     }
     static get watchers() { return {
         "booking": ["handleBookingChange"]

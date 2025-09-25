@@ -118,30 +118,98 @@ class IrMappingService {
         channel_store.channels_data.mappedChannels = selectedChannels.filter(c => c.ir_id !== ir_id);
     }
     checkMappingExists(id, isRoomType, roomTypeId) {
-        const mapped_id = channel_store.channels_data.mappedChannels.find(m => m.channel_id === id);
-        if (!mapped_id) {
-            if (!isRoomType) {
-                const matchingRoomType = channel_store.channels_data.mappedChannels.find(m => m.channel_id.toString() === roomTypeId);
-                if (!matchingRoomType) {
-                    return { hide: true, result: undefined, occupancy: undefined };
-                }
-            }
-            return { hide: false, result: undefined, occupancy: undefined };
-        }
+        const channelId = id.toString();
+        const parentChannelId = roomTypeId === null || roomTypeId === void 0 ? void 0 : roomTypeId.toString();
         if (isRoomType) {
-            const room_type = calendarData.calendar_data.roomsInfo.find(room => room.id.toString() === mapped_id.ir_id);
-            return { hide: false, occupancy: room_type.occupancy_default.adult_nbr, result: room_type };
+            const mappedRoomType = channel_store.channels_data.mappedChannels.find(mapping => mapping.type === 'room_type' && mapping.channel_id.toString() === channelId);
+            if (!mappedRoomType) {
+                return { hide: false, result: undefined, occupancy: undefined };
+            }
+            const room = calendarData.calendar_data.roomsInfo.find(roomInfo => roomInfo.id.toString() === mappedRoomType.ir_id);
+            if (!room) {
+                throw new Error('Invalid Room type');
+            }
+            return { hide: false, occupancy: room.occupancy_default.adult_nbr, result: room };
         }
-        if (!roomTypeId) {
+        if (!parentChannelId) {
             throw new Error('Missing room type id');
         }
-        const matchingRoomType = channel_store.channels_data.mappedChannels.find(m => m.channel_id.toString() === roomTypeId);
-        const room_type = calendarData.calendar_data.roomsInfo.find(room => room.id.toString() === matchingRoomType.ir_id);
-        if (!room_type) {
+        const parentMapping = channel_store.channels_data.mappedChannels.find(mapping => mapping.type === 'room_type' && mapping.channel_id.toString() === parentChannelId);
+        if (!parentMapping) {
+            return { hide: true, result: undefined, occupancy: undefined };
+        }
+        const parentRoom = calendarData.calendar_data.roomsInfo.find(roomInfo => roomInfo.id.toString() === parentMapping.ir_id);
+        if (!parentRoom) {
             throw new Error('Invalid Room type');
         }
-        return { hide: false, occupancy: room_type.occupancy_default.adult_nbr, result: room_type.rateplans.find(r => r.id.toString() === mapped_id.ir_id) };
+        let matchedContext;
+        for (const mapping of channel_store.channels_data.mappedChannels) {
+            if (mapping.type !== 'rate_plan' || mapping.channel_id.toString() !== channelId) {
+                continue;
+            }
+            const context = this.resolveRatePlanContext(mapping);
+            if (context && context.parentChannelId === parentChannelId) {
+                matchedContext = context;
+                break;
+            }
+        }
+        if (!matchedContext) {
+            return { hide: false, result: undefined, occupancy: undefined };
+        }
+        if (matchedContext.room.id.toString() !== parentRoom.id.toString()) {
+            return { hide: false, result: undefined, occupancy: undefined };
+        }
+        return {
+            hide: false,
+            occupancy: parentRoom.occupancy_default.adult_nbr,
+            result: matchedContext.ratePlan,
+        };
     }
+    resolveRatePlanContext(ratePlanMapping) {
+        var _a;
+        if (ratePlanMapping.type !== 'rate_plan') {
+            return undefined;
+        }
+        const room = calendarData.calendar_data.roomsInfo.find(roomInfo => roomInfo.rateplans.some(ratePlan => ratePlan.id.toString() === ratePlanMapping.ir_id));
+        if (!room) {
+            return undefined;
+        }
+        const ratePlan = room.rateplans.find(rp => rp.id.toString() === ratePlanMapping.ir_id);
+        if (!ratePlan) {
+            return undefined;
+        }
+        const parentMapping = channel_store.channels_data.mappedChannels.find(mapping => mapping.type === 'room_type' && mapping.ir_id === room.id.toString());
+        return {
+            room,
+            ratePlan,
+            parentChannelId: (_a = parentMapping === null || parentMapping === void 0 ? void 0 : parentMapping.channel_id) === null || _a === void 0 ? void 0 : _a.toString(),
+        };
+    }
+    // public checkMappingExists(id: string, isRoomType: boolean, roomTypeId?: string) {
+    //   const mapped_id = channels_data.mappedChannels.find(m => m.channel_id === id);
+    //   if (!mapped_id) {
+    //     if (!isRoomType) {
+    //       const matchingRoomType = channels_data.mappedChannels.find(m => m.channel_id.toString() === roomTypeId);
+    //       if (!matchingRoomType) {
+    //         return { hide: true, result: undefined, occupancy: undefined };
+    //       }
+    //     }
+    //     return { hide: false, result: undefined, occupancy: undefined };
+    //   }
+    //   if (isRoomType) {
+    //     const room_type = calendar_data.roomsInfo.find(room => room.id.toString() === mapped_id.ir_id);
+    //     return { hide: false, occupancy: room_type.occupancy_default.adult_nbr, result: room_type };
+    //   }
+    //   if (!roomTypeId) {
+    //     throw new Error('Missing room type id');
+    //   }
+    //   const matchingRoomType = channels_data.mappedChannels.find(m => m.channel_id.toString() === roomTypeId);
+    //   const room_type = calendar_data.roomsInfo.find(room => room.id.toString() === matchingRoomType.ir_id);
+    //   if (!room_type) {
+    //     throw new Error('Invalid Room type');
+    //   }
+    //   return { hide: false, occupancy: room_type.occupancy_default.adult_nbr, result: room_type.rateplans.find(r => r.id.toString() === mapped_id.ir_id) };
+    // }
     getAppropriateRooms(isRoomType, roomTypeId) {
         if (isRoomType) {
             const filteredRoomTypes = calendarData.calendar_data.roomsInfo.filter(room => channel_store.channels_data.mappedChannels.find(m => m.ir_id.toString() === room.id.toString()) === undefined && room.is_active);
@@ -176,11 +244,12 @@ const IrChannelMapping = class {
         this.mappingService = new IrMappingService();
     }
     setActiveField(id, isRoomType, roomTypeId) {
-        const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, roomTypeId);
+        const parentChannelId = roomTypeId === null || roomTypeId === void 0 ? void 0 : roomTypeId.toString();
+        const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, parentChannelId);
         if (availableRooms) {
             this.availableRooms = availableRooms;
         }
-        this.activeMapField = id;
+        this.activeMapField = id.toString();
     }
     renderMappingStatus(mappedField, id, isRoomType, roomTypeId) {
         var _a;
@@ -197,12 +266,12 @@ const IrChannelMapping = class {
     }
     render() {
         var _a, _b, _c, _d, _e;
-        return (index.h(index.Host, { key: '15dae654f38c029b32dfc557adb88478d3255701', class: "py-md-2 px-md-2" }, index.h("div", { key: 'f77cc2b0e1449790c9af39a3e54f489a5815707d', class: "d-flex p-0 m-0 w-100 justify-content-end" }, index.h("button", { key: 'e57d731f9b861b30a221b985686070b074c1134f', onClick: () => {
+        return (index.h(index.Host, { key: '140f4943ccaf8282c29a8bc8befaa55a3b57b0cb', class: "py-md-2 px-md-2" }, index.h("div", { key: '6f8da200aee531dd618363a79438ad1609ec831e', class: "d-flex p-0 m-0 w-100 justify-content-end" }, index.h("button", { key: 'df67c7fd9354c52470e4c3d5d549d0b1340ce559', onClick: () => {
                 channel_store.setMappedChannel();
-            }, class: "btn refresh-btn" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Refresh)), index.h("section", { key: '6ef18576e2a51237c83c44d3c13ca6811c29a7fa', class: "w-100" }, index.h("div", { key: '6f11882a7804686e47cda375489d89d89efd4b75', class: "pt-1 mapped_row" }, index.h("p", { key: '3d5b2eedceef009f44a6deb70428614a50442757', class: "mapped_item channel_name" }, (_b = channel_store.channels_data.selectedChannel) === null || _b === void 0 ? void 0 : _b.name), index.h("svg", { key: 'e396bdecedada20417513000b09ecd471addefea', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '527294e6b6d671082a78ed5cbcb3197a7e7c7dce', d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), index.h("p", { key: '2c7d9a990bbe80ce864391283dca7c43f4ad2c3d', class: "pl-2 mapped_item channel_name" }, "igloorooms")), index.h("div", { key: 'bde0290e68ab55bd2f9cbc434e4b3c7068f5b421' }, (_e = (_d = (_c = channel_store.channels_data.selectedChannel) === null || _c === void 0 ? void 0 : _c.property) === null || _d === void 0 ? void 0 : _d.room_types) === null || _e === void 0 ? void 0 : _e.map(room_type => {
-            const mappedRoomType = this.mappingService.checkMappingExists(room_type.id, true);
+            }, class: "btn refresh-btn" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Refresh)), index.h("section", { key: '231d219ab40396b7c30695df119b6190e3a563b0', class: "w-100" }, index.h("div", { key: 'eb15d386c934abf1c3bec1ebcc73d83cdbdc3cc2', class: "pt-1 mapped_row" }, index.h("p", { key: '4159890e9bc3d8a462494fbaf9fcc09f579f5738', class: "mapped_item channel_name" }, (_b = channel_store.channels_data.selectedChannel) === null || _b === void 0 ? void 0 : _b.name), index.h("svg", { key: '7bf49ce96145b14153068cb8b8deabe0bced3e39', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: '2de1ff74f679d1ffea7a9007d00f3d6f9acc0b18', d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), index.h("p", { key: '15f2f6ed7edd3e2a2f3491c7831698af84a8b0d7', class: "pl-2 mapped_item channel_name" }, "igloorooms")), index.h("div", { key: 'a7bba933ecc1ddb873924cc97774fb37bacfe3e8' }, (_e = (_d = (_c = channel_store.channels_data.selectedChannel) === null || _c === void 0 ? void 0 : _c.property) === null || _d === void 0 ? void 0 : _d.room_types) === null || _e === void 0 ? void 0 : _e.map(room_type => {
+            const mappedRoomType = this.mappingService.checkMappingExists(room_type.id.toString(), true);
             return (index.h(index.Fragment, null, index.h("div", { key: room_type.id, class: "mapped_row room_type pt-1" }, index.h("p", { class: "mapped_item" }, room_type.name), index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), this.renderMappingStatus(mappedRoomType, room_type.id, true)), room_type.rate_plans.map(rate_plan => {
-                const mappedRatePlan = this.mappingService.checkMappingExists(rate_plan.id, false, room_type.id);
+                const mappedRatePlan = this.mappingService.checkMappingExists(rate_plan.id.toString(), false, room_type.id.toString());
                 // console.log(mappedRatePlan);
                 return (index.h("div", { key: rate_plan.id, class: " mapped_row rate_plan" }, index.h("p", { class: "pl-1 submap-text mapped_item" }, rate_plan.name), !mappedRatePlan.hide && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { fill: "currentColor", d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" }))), this.renderMappingStatus(mappedRatePlan, rate_plan.id, false, room_type.id)));
             })));

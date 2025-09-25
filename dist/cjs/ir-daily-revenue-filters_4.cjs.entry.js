@@ -77,7 +77,7 @@ const IrDailyRevenueFilters = class {
 };
 IrDailyRevenueFilters.style = IrDailyRevenueFiltersStyle0;
 
-const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:black}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0;font-weight:600}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content){padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}";
+const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:rgb(83, 83, 83)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content){padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}";
 const IrRevenueRowStyle0 = irRevenueRowCss;
 
 let accId = 0;
@@ -139,22 +139,23 @@ const IrRevenueSummary = class {
     render() {
         const paymentsTotal = this.calculateTotalPayments(this.groupedPayments);
         const refundAmount = this.calculateTotalRefunds(this.groupedPayments);
-        const totalAmount = paymentsTotal - refundAmount;
+        const totalAmount = paymentsTotal + refundAmount;
         const previousDatePaymentsTotal = this.calculateTotalPayments(this.previousDateGroupedPayments);
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
-        const previousDateTotalAmount = previousDatePaymentsTotal - previousDateRefundAmount;
+        const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
         return (index.h(index.Host, { key: '4e58f6b08b8d0eb43ead6b28a7bedf68da9fda2a' }, index.h("div", { key: '044b832695b1eeeb0916a9c02a39df2bf0475c6c', class: "ir-revenue-summary__mobile" }, index.h("ir-stats-card", { key: 'a4fc716e2075fb40b2da6891f2e8b804f7ec7452', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, index.h("p", { key: '6035232039ec9b79b9c6816876a405b73afd374c', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: 'a7dd9dbc883e0cab858921c3429251f48ddae9ba', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, index.h("p", { key: '2735fb45812a79a1e60b3e8d30dac4a496c28ad0', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount)))), index.h("div", { key: '32f4853ae404991d830a51c4b6c6b5dbc6c5791d', class: "ir-revenue-summary__tablet" }, index.h("ir-stats-card", { key: '05798a658f365690ed8b8bb4e8e628f4275bdcd8', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, index.h("p", { key: '9f411fe8cd05d9abf49ae89b4b053a7a0394c785', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: 'c301f95871904184fbacdb0b0192fc61011b1e1d', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateRefundAmount)}` }, index.h("p", { key: 'ddfceb2f4b19b4aa64091b358920880194d7da9a', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount))), index.h("ir-stats-card", { key: '6506733289278f46da84ff19637ad6a531c74c6f', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: utils.formatAmount(calendarData.calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
     }
 };
 IrRevenueSummary.style = IrRevenueSummaryStyle0;
 
-const irRevenueTableCss = ".sc-ir-revenue-table-h{overflow-x:hidden;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-revenue-table-h *.sc-ir-revenue-table{font-family:inherit !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.revenue-table__header.sc-ir-revenue-table{box-sizing:border-box;background:#ececec;color:#374151;display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table{padding:0;margin:0;font-size:1rem;font-weight:700}.revenue-table__title-section.sc-ir-revenue-table{display:flex;align-items:center;justify-content:center;padding-bottom:0.875rem}.revenue-table__table.sc-ir-revenue-table{min-height:50vh}@media (min-width: 1024px){.revenue-table__header.sc-ir-revenue-table{width:100%;justify-content:flex-start}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child{width:calc(40vw + 1.375rem + 0.5rem)}}";
+const irRevenueTableCss = ".sc-ir-revenue-table-h{overflow-x:hidden;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-revenue-table-h *.sc-ir-revenue-table{font-family:inherit !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem}.revenue-table__header.sc-ir-revenue-table{background:#ececec;color:#374151}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table{padding:0;margin:0;font-size:1rem;font-weight:700}.revenue-table__method_header.sc-ir-revenue-table{color:black}.revenue-table__title-section.sc-ir-revenue-table{display:flex;align-items:center;justify-content:center;padding-bottom:0.875rem}.revenue-table__table.sc-ir-revenue-table{min-height:50vh}@media (min-width: 1024px){.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{width:100%;justify-content:flex-start}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child{width:calc(40vw + 1.375rem + 0.5rem + 1rem)}}";
 const IrRevenueTableStyle0 = irRevenueTableCss;
 
 const IrRevenueTable = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.payments = new Map();
+        this.groupType = 'method';
     }
     componentWillLoad() {
         const buildPaymentLookup = (key) => {
@@ -167,14 +168,70 @@ const IrRevenueTable = class {
         this.payTypesObj = buildPaymentLookup('types');
         this.payMethodObj = buildPaymentLookup('methods');
     }
+    /**
+     * Groups payments by method, then by type.
+     * - Never throws on bad input (null/undefined, non-Map, malformed keys, non-array values).
+     * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
+     */
+    regroupPaymentsByMethod() {
+        var _a, _b;
+        const result = new Map();
+        // Early return on empty/invalid source
+        const src = this.payments;
+        if (!(src instanceof Map) || src.size === 0)
+            return result;
+        // Helper: parse "TYPE_METHOD" into [type, method] safely
+        const parseKey = (key) => {
+            if (typeof key !== 'string')
+                return ['UNKNOWN', 'UNKNOWN'];
+            // Allow extra underscores on the method side: TYPE_METHOD_WITH_UNDERSCORES
+            const [type, ...rest] = key.split('_');
+            const method = rest.join('_');
+            const safeType = (type && type.trim()) || 'UNKNOWN';
+            const safeMethod = (method && method.trim()) || 'UNKNOWN';
+            return [safeType, safeMethod];
+        };
+        for (const [rawKey, rawList] of src.entries()) {
+            const [paymentType, paymentMethod] = parseKey(rawKey);
+            // Normalize value to a clean array of FolioPayment
+            const list = Array.isArray(rawList) ? rawList.filter(Boolean) : [];
+            // Skip silently if nothing to add
+            if (list.length === 0) {
+                // Still ensure the buckets exist so consumers can rely on them if needed
+                if (!result.has(paymentMethod))
+                    result.set(paymentMethod, new Map());
+                if (!result.get(paymentMethod).has(paymentType)) {
+                    result.get(paymentMethod).set(paymentType, []);
+                }
+                continue;
+            }
+            const typeMap = (_a = result.get(paymentMethod)) !== null && _a !== void 0 ? _a : new Map();
+            const existing = (_b = typeMap.get(paymentType)) !== null && _b !== void 0 ? _b : [];
+            typeMap.set(paymentType, existing.concat(list));
+            result.set(paymentMethod, typeMap);
+        }
+        return result;
+    }
     render() {
-        return (index.h("div", { key: '4ac5ccf1dab6170a4683a7e636a2aa1ff3857519', class: "card p-1 revenue-table__table" }, this.payments.size > 0 ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, "Method"), index.h("p", null, "Amount")), Array.from(this.payments.entries()).map(([key, p]) => {
-            const [paymentType, paymentMethod] = key.split('_');
-            const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
-                ? `${this.payTypesObj[paymentType]}: ${this.payMethodObj[paymentMethod]}`
-                : this.payTypesObj[paymentType];
-            return index.h("ir-revenue-row", { key: key, payments: p, groupName: groupName });
-        }))) : (index.h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));
+        const hasPayments = this.payments instanceof Map && this.payments.size > 0;
+        return (index.h("div", { key: 'a8e5abdc940cb4dca967b11224123ee9647ba8d6', class: "card p-1 revenue-table__table" }, hasPayments ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, "Method"), index.h("p", null, "Amount")), this.groupType === 'type' &&
+            Array.from(this.payments.entries()).map(([key, list]) => {
+                var _a, _b, _c;
+                const [paymentType, paymentMethod] = key.split('_');
+                const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
+                    ? `${(_a = this.payTypesObj[paymentType]) !== null && _a !== void 0 ? _a : paymentType}: ${(_b = this.payMethodObj[paymentMethod]) !== null && _b !== void 0 ? _b : paymentMethod}`
+                    : (_c = this.payTypesObj[paymentType]) !== null && _c !== void 0 ? _c : paymentType;
+                return index.h("ir-revenue-row", { key: key, payments: list, groupName: groupName });
+            }), this.groupType === 'method' &&
+            Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
+                var _a;
+                const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
+                return (index.h("div", { key: `method_${methodKey}` }, index.h("div", { class: "revenue-table__method_header" }, index.h("p", null, (_a = this.payMethodObj[methodKey]) !== null && _a !== void 0 ? _a : methodKey), index.h("p", null, utils.formatAmount(calendarData.calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
+                    var _a, _b;
+                    const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${(_a = this.payTypesObj[typeKey]) !== null && _a !== void 0 ? _a : typeKey}` : (_b = this.payTypesObj[typeKey]) !== null && _b !== void 0 ? _b : typeKey;
+                    return (index.h("div", { key: `type_${typeKey}`, class: "px-1" }, index.h("ir-revenue-row", { payments: list, groupName: groupName })));
+                })));
+            }))) : (index.h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));
     }
 };
 IrRevenueTable.style = IrRevenueTableStyle0;
