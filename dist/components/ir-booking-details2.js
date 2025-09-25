@@ -392,7 +392,12 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                 }, onCancelModal: () => {
                     this.modalRef.closeModal();
                 } }),
-            h("ir-sidebar", { open: this.sidebarState !== null, side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
+            h("ir-sidebar", { open: this.sidebarState !== null && this.sidebarState !== 'payment-folio', side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.sidebarState = null;
+                }, showCloseButton: false }, this.renderSidebarContent()),
+            h("ir-sidebar", { open: this.sidebarState === 'payment-folio', side: 'left', id: "folioSidebar", onIrSidebarToggle: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.sidebarState = null;
