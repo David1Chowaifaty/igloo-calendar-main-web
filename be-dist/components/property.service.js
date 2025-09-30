@@ -66,6 +66,10 @@ class PropertyHelpers {
         return result;
     }
     sortRoomTypes(roomTypes, userCriteria) {
+        const getRatePlanPrices = (rateplan) => {
+            var _a;
+            return (_a = rateplan.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); })) === null || _a === void 0 ? void 0 : _a.filter(Boolean);
+        };
         return roomTypes.sort((a, b) => {
             var _a, _b;
             // Priority to available rooms
@@ -81,8 +85,8 @@ class PropertyHelpers {
             if (!matchA && matchB)
                 return 1;
             // Sort by the highest variation amount
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            const maxVariationA = Math.max(...getRatePlanPrices(a.rateplans));
+            const maxVariationB = Math.max(...getRatePlanPrices(b.rateplans));
             if (maxVariationA < maxVariationB)
                 return -1;
             if (maxVariationA > maxVariationB)
@@ -299,7 +303,9 @@ class PropertyService {
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data);
+        if (props.update_store) {
+            this.propertyHelpers.updateBookingStore(data);
+        }
         return data;
     }
     async getExposedBooking(params, withExtras = true) {

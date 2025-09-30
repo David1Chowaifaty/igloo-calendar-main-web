@@ -66,6 +66,7 @@ export declare function updateRoomParams({ ratePlanId, roomTypeId, params }: {
     ratePlanId: number;
     params: Partial<IRatePlanSelection>;
 }): void;
+export declare function getPrepaymentAmount(): number;
 export declare function reserveRooms(roomTypeId: number, ratePlanId: number, rooms: number): void;
 export declare function getVisibleInventory(roomTypeId: number, ratePlanId: number): IRatePlanSelection | {
     reserved: number;

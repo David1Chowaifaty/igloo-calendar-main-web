@@ -157,8 +157,7 @@ export class IrPickup {
     }
     render() {
         var _a, _b, _c, _d;
-        console.log(this.calculateTotalPersons());
-        if (!app_store.property.pickup_service.allowed_options) {
+        if (!app_store.property.pickup_service.allowed_options || !app_store.property.pickup_service.is_enabled) {
             return null;
         }
         return (h("section", { class: "space-y-5" }, h("div", { class: "flex flex-wrap items-center gap-2 rounded-md bg-gray-100 px-4 py-2" }, h("ir-icons", { name: "car" }), h("p", null, localizedWords.entries.Lcz_NeedPickup), h("ir-select", { value: (_a = checkout_store.pickup) === null || _a === void 0 ? void 0 : _a.location, onValueChange: this.handleLocationChange.bind(this), data: [{ id: -1, value: localizedWords.entries.Lcz_NoThankYou }, ...this.pickupService.getAvailableLocations(localizedWords.entries.Lcz_YesFrom)] })), checkout_store.pickup.location && (h("div", { class: 'flex items-center  justify-between' }, h("div", { class: "flex-1 space-y-5" }, h("div", { class: 'pickup-header-container' }, h("ir-popover", { ref: el => (this.popover = el), class: "w-fit sm:w-full lg:w-fit" }, this.dateTrigger(), h("div", { slot: "popover-content", class: "date-range-container w-full border-0 p-2 shadow-none sm:w-auto sm:border sm:shadow-sm md:p-4 " }, h("ir-calendar", { locale: localization_store.selectedLocale, date: checkout_store.pickup.arrival_date, fromDate: (_b = booking_store.bookingAvailabilityParams) === null || _b === void 0 ? void 0 : _b.from_date }))), h("ir-input", { class: 'w-full', onTextChanged: e => updatePickupFormData('arrival_time', e.detail), label: localizedWords.entries.Lcz_ArrivalHour, placeholder: "HH:MM", mask: this.time_mask, type: "text", id: "time-input", "data-state": this.errors && this.errors.arrival_time ? 'error' : '', "aria-invalid": this.errors && this.errors.arrival_time ? 'true' : 'false', onInputBlur: e => {

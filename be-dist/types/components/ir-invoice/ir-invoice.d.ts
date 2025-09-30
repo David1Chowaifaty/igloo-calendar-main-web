@@ -1,5 +1,4 @@
 import { Booking } from "../../models/booking.dto";
-import { TBookingInfo } from "../../services/api/payment.service";
 import { AllowedPaymentMethod } from "../../models/property";
 export declare class IrInvoice {
     email: string;
@@ -7,7 +6,6 @@ export declare class IrInvoice {
     baseUrl: string;
     language: string;
     bookingNbr: string;
-    isConfermation: boolean;
     status: 0 | 1;
     perma_link: string;
     aName: string;
@@ -21,11 +19,8 @@ export declare class IrInvoice {
     booking: Booking;
     isAuthenticated: boolean;
     isLoading: boolean;
-    cancelation_message: string;
+    cancellation_message: string;
     guarantee_message: string;
-    cancelationMessage: string;
-    amountToBePayed: number;
-    cancelation_policies: TBookingInfo[];
     private token;
     private propertyService;
     private commonService;
@@ -34,7 +29,7 @@ export declare class IrInvoice {
     private bookingListingAppService;
     private payment_option;
     private amount;
-    private bookingCancelation;
+    private bookingCancellation;
     private privacyPolicyRef;
     componentWillLoad(): Promise<void>;
     handleBookingNumberChange(newValue: any, oldValue: any): Promise<void>;

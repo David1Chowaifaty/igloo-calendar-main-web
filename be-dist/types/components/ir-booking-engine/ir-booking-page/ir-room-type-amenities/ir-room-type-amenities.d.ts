@@ -1,6 +1,6 @@
 import { Amenity, RoomType } from "../../../../models/property";
 export declare class IrRoomTypeAmenities {
-    aminities: Amenity[];
+    amenities: Amenity[];
     roomType: RoomType;
     _amenities: any[];
     componentWillLoad(): void;

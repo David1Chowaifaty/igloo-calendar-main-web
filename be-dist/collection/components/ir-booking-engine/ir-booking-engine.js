@@ -24,7 +24,7 @@ export class IrBookingEngine {
         this.isLoading = false;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
-        this.version = '2.732';
+        this.version = '2.734';
         this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
         this.commonService = new CommonService();
         this.propertyService = new PropertyService();
@@ -240,6 +240,7 @@ export class IrBookingEngine {
             agent_id: ((_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.id) || 0,
             is_in_affiliate_mode: !!app_store.app_data.affiliate,
             affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
+            update_store: true,
         });
     }
     renderScreens() {

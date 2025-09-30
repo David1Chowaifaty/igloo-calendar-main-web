@@ -1,7 +1,5 @@
-'use strict';
-
-const utils$2 = require('./utils-fa74e114.js');
-const moment = require('./moment-1780b03a.js');
+import { e as booking_store, d as dateFns, a as createStore, b as app_store, P as injectHTML, V as VariationService, l as localizedWords } from './utils-6f73deb0.js';
+import { h as hooks } from './moment-ab846cee.js';
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3746,8 +3744,8 @@ class PropertyHelpers {
             const newRoomtypes = data.My_Result;
             const { adult_nbr, child_nbr } = data.My_Params_Check_Availability;
             const sortedRoomTypes = this.sortRoomTypes(newRoomtypes, { adult_nbr, child_nbr });
-            utils$2.booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
-            utils$2.booking_store.enableBooking = true;
+            booking_store.roomTypes = [...sortedRoomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); })];
+            booking_store.enableBooking = true;
         }
         catch (error) {
             console.error(error);
@@ -3765,11 +3763,11 @@ class PropertyHelpers {
         const days = [];
         while (currentDate < endDate) {
             days.push({
-                date: utils$2.dateFns.format(currentDate, 'yyyy-MM-dd'),
+                date: dateFns.format(currentDate, 'yyyy-MM-dd'),
                 amount: amount,
                 cost: null,
             });
-            currentDate = utils$2.dateFns.addDays(currentDate, 1);
+            currentDate = dateFns.addDays(currentDate, 1);
         }
         return days;
     }
@@ -3786,6 +3784,10 @@ class PropertyHelpers {
         return result;
     }
     sortRoomTypes(roomTypes, userCriteria) {
+        const getRatePlanPrices = (rateplan) => {
+            var _a;
+            return (_a = rateplan.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); })) === null || _a === void 0 ? void 0 : _a.filter(Boolean);
+        };
         return roomTypes.sort((a, b) => {
             var _a, _b;
             // Priority to available rooms
@@ -3801,8 +3803,8 @@ class PropertyHelpers {
             if (!matchA && matchB)
                 return 1;
             // Sort by the highest variation amount
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            const maxVariationA = Math.max(...getRatePlanPrices(a.rateplans));
+            const maxVariationB = Math.max(...getRatePlanPrices(b.rateplans));
             if (maxVariationA < maxVariationB)
                 return -1;
             if (maxVariationA > maxVariationB)
@@ -3864,19 +3866,19 @@ const initialState = {
     prepaymentAmount: 0,
     modifiedGuestName: false,
     pickup: {
-        arrival_date: moment.hooks(utils$2.booking_store.bookingAvailabilityParams.from_date),
+        arrival_date: hooks(booking_store.bookingAvailabilityParams.from_date),
     },
     payment: null,
     agreed_to_services: true,
 };
-const { state: checkout_store, onChange: onCheckoutDataChange } = utils$2.createStore(initialState);
+const { state: checkout_store, onChange: onCheckoutDataChange } = createStore(initialState);
 function updateUserFormData(key, value) {
     checkout_store.userFormData = Object.assign(Object.assign({}, checkout_store.userFormData), { [key]: value });
 }
 function updatePickupFormData(key, value) {
     if (key === 'location' && value === null) {
         checkout_store.pickup = {
-            arrival_date: moment.hooks(utils$2.booking_store.bookingAvailabilityParams.from_date),
+            arrival_date: hooks(booking_store.bookingAvailabilityParams.from_date),
             location: null,
         };
     }
@@ -3970,7 +3972,7 @@ class PropertyService {
     }
     async getExposedProperty(params, initTheme = true) {
         var _a, _b, _c, _d;
-        const { data } = await axios$1.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: utils$2.app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
+        const { data } = await axios$1.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -3983,16 +3985,16 @@ class PropertyService {
                 }
                 switch (key) {
                     case 'header':
-                        return utils$2.injectHTML(value, 'head', 'first');
+                        return injectHTML(value, 'head', 'first');
                     case 'body':
-                        return utils$2.injectHTML(value, 'body', 'first');
+                        return injectHTML(value, 'body', 'first');
                     case 'footer':
-                        return utils$2.injectHTML(value, 'body', 'last');
+                        return injectHTML(value, 'body', 'last');
                 }
             });
         }
-        if (!utils$2.app_store.fetchedBooking) {
-            utils$2.booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
         }
         // } else {
         //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
@@ -4010,11 +4012,11 @@ class PropertyService {
         //     };
         //   });
         // }
-        if (!utils$2.app_store.fetchedBooking) {
-            utils$2.booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
+        if (!app_store.fetchedBooking) {
+            booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
         }
         if (params.aname || params.perma_link) {
-            utils$2.app_store.app_data = Object.assign(Object.assign({}, utils$2.app_store.app_data), { property_id: result.My_Result.id });
+            app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
         }
         // if (!app_store.app_data.geoTimezone) {
         //   const { data } = await axios.get(
@@ -4022,10 +4024,10 @@ class PropertyService {
         //   );
         //   app_store.app_data.geoTimezone = data;
         // }
-        utils$2.app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
-        utils$2.app_store.property = Object.assign({}, result.My_Result);
-        utils$2.app_store.app_data.property_id = result.My_Result.id;
-        utils$2.booking_store.tax_statement = { message: data.My_Result.tax_statement };
+        app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
+        app_store.property = Object.assign({}, result.My_Result);
+        app_store.app_data.property_id = result.My_Result.id;
+        booking_store.tax_statement = { message: data.My_Result.tax_statement };
         if (initTheme) {
             this.colors.initTheme(result.My_Result);
         }
@@ -4041,14 +4043,16 @@ class PropertyService {
         (_a = data.My_Result) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
             nights[nbn.night] = true;
         });
-        utils$2.app_store.nonBookableNights = nights;
+        app_store.nonBookableNights = nights;
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
         const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
         const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
-        this.propertyHelpers.updateBookingStore(data);
+        if (props.update_store) {
+            this.propertyHelpers.updateBookingStore(data);
+        }
         return data;
     }
     async getExposedBooking(params, withExtras = true) {
@@ -4070,8 +4074,8 @@ class PropertyService {
         return result.My_Result;
     }
     async fetchSetupEntries() {
-        if (utils$2.app_store.setup_entries) {
-            return utils$2.app_store.setup_entries;
+        if (app_store.setup_entries) {
+            return app_store.setup_entries;
         }
         const { data } = await axios$1.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, {
             TBL_NAMES: ['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE'],
@@ -4085,14 +4089,14 @@ class PropertyService {
             ratePricingMode: res.filter(e => e.TBL_NAME === '_RATE_PRICING_MODE'),
             bedPreferenceType: res.filter(e => e.TBL_NAME === '_BED_PREFERENCE_TYPE'),
         };
-        utils$2.app_store.setup_entries = setupEntries;
+        app_store.setup_entries = setupEntries;
         updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
         return setupEntries;
     }
     filterRooms() {
         let rooms = [];
-        const variationService = new utils$2.VariationService();
-        Object.values(utils$2.booking_store.ratePlanSelections).map(rt => {
+        const variationService = new VariationService();
+        Object.values(booking_store.ratePlanSelections).map(rt => {
             Object.values(rt).map((rp) => {
                 if (rp.reserved > 0) {
                     [...new Array(rp.reserved)].map((_, index) => {
@@ -4116,8 +4120,8 @@ class PropertyService {
                                 infant_nbr: rp.infant_nbr[index],
                             },
                             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
-                            from_date: utils$2.booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
-                            to_date: utils$2.booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
+                            from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+                            to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
                             notes: null,
                             // days: this.propertyHelpers.generateDays(
                             //   booking_store.bookingAvailabilityParams.from_date,
@@ -4170,7 +4174,7 @@ class PropertyService {
                 country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
-                cci: utils$2.booking_store.bookingAvailabilityParams.agent && ((_b = (_a = utils$2.booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.payment_mode) === null || _b === void 0 ? void 0 : _b.code) === '001'
+                cci: booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.payment_mode) === null || _b === void 0 ? void 0 : _b.code) === '001'
                     ? null
                     : ((_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.code) === '001'
                         ? {
@@ -4188,26 +4192,26 @@ class PropertyService {
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_k = (_j = utils$2.app_store === null || utils$2.app_store === void 0 ? void 0 : utils$2.app_store.userPreferences) === null || _j === void 0 ? void 0 : _j.language_id) !== null && _k !== void 0 ? _k : 'en',
-                agent: utils$2.booking_store.bookingAvailabilityParams.agent ? { id: (_l = utils$2.booking_store.bookingAvailabilityParams.agent) === null || _l === void 0 ? void 0 : _l.id } : null,
-                is_in_loyalty_mode: utils$2.booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_m = utils$2.booking_store.bookingAvailabilityParams.coupon) !== null && _m !== void 0 ? _m : null,
+                language: (_k = (_j = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _j === void 0 ? void 0 : _j.language_id) !== null && _k !== void 0 ? _k : 'en',
+                agent: booking_store.bookingAvailabilityParams.agent ? { id: (_l = booking_store.bookingAvailabilityParams.agent) === null || _l === void 0 ? void 0 : _l.id } : null,
+                is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
+                promo_key: (_m = booking_store.bookingAvailabilityParams.coupon) !== null && _m !== void 0 ? _m : null,
                 booking: {
                     booking_nbr: '',
-                    from_date: utils$2.booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
-                    to_date: utils$2.booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
+                    from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+                    to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
                     remark: checkout_store.userFormData.message || null,
                     property: {
-                        id: utils$2.app_store.app_data.property_id,
+                        id: app_store.app_data.property_id,
                     },
                     // booked_on: {
                     //   date: now.format('YYYY-MM-DD'),
                     //   hour: now.hour(),
                     //   minute: now.minute(),
                     // },
-                    source: { code: utils$2.app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: utils$2.app_store.app_data.stag, description: '' },
-                    referrer_site: utils$2.app_store.app_data.affiliate ? `https://${utils$2.app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
-                    currency: utils$2.app_store.currencies.find(currency => currency.code.toString().toLowerCase() === utils$2.app_store.userPreferences.currency_id.toLowerCase()),
+                    source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
+                    referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
+                    currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
                     rooms: this.filterRooms(),
@@ -4223,15 +4227,15 @@ class PropertyService {
                             value: prePaymentAmount,
                         }
                         : null,
-                    utils$2.booking_store.bookingAvailabilityParams.agent
+                    booking_store.bookingAvailabilityParams.agent
                         ? {
                             key: 'agent_payment_mode',
-                            value: utils$2.booking_store.bookingAvailabilityParams.agent.payment_mode.code,
+                            value: booking_store.bookingAvailabilityParams.agent.payment_mode.code,
                         }
                         : null,
                     {
                         key: 'selected_currency',
-                        value: utils$2.app_store.userPreferences.currency_id,
+                        value: app_store.userPreferences.currency_id,
                     },
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
@@ -4256,7 +4260,7 @@ class PropertyService {
         }
         const res = data.My_Result;
         if (res === null) {
-            utils$2.app_store.is_signed_in = false;
+            app_store.is_signed_in = false;
             return;
         }
         // app_store.is_signed_in = true;
@@ -4268,12 +4272,12 @@ PropertyService.initialized = false;
 class CommonService {
     async getCurrencies() {
         const { data } = await axios$1.post(`/Get_Exposed_Currencies`, {});
-        utils$2.app_store.currencies = [...data['My_Result']];
+        app_store.currencies = [...data['My_Result']];
         return data['My_Result'];
     }
     async getExposedLanguages() {
         const { data } = await axios$1.post(`/Get_Exposed_Languages`, {});
-        utils$2.app_store.languages = [...data.My_Result];
+        app_store.languages = [...data.My_Result];
         return data['My_Result'];
     }
     async getCountries(language) {
@@ -4304,7 +4308,7 @@ class CommonService {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            utils$2.app_store.userDefaultCountry = data['My_Result'];
+            app_store.userDefaultCountry = data['My_Result'];
             return data['My_Result'];
         }
         catch (error) {
@@ -4327,13 +4331,13 @@ class CommonService {
     }
     async getExposedLanguage() {
         try {
-            const { data } = await axios$1.post(`/Get_Exposed_Language`, { code: utils$2.app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
+            const { data } = await axios$1.post(`/Get_Exposed_Language`, { code: app_store.userPreferences.language_id, sections: ['_BE_FRONT'] });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
             let entries = this.transformArrayToObject(data.My_Result.entries);
-            utils$2.localizedWords.entries = Object.assign(Object.assign({}, utils$2.localizedWords.entries), entries);
-            utils$2.localizedWords.direction = data.My_Result.direction;
+            localizedWords.entries = Object.assign(Object.assign({}, localizedWords.entries), entries);
+            localizedWords.direction = data.My_Result.direction;
             return { entries, direction: data.My_Result.direction };
         }
         catch (error) {
@@ -4345,7 +4349,7 @@ class CommonService {
         const anchor = JSON.parse(sessionStorage.getItem('anchor'));
         if (anchor) {
             if (anchor.login) {
-                utils$2.app_store.is_signed_in = true;
+                app_store.is_signed_in = true;
             }
             return anchor.login || null;
         }
@@ -4400,14 +4404,6 @@ class MissingTokenError extends Error {
     }
 }
 
-exports.CommonService = CommonService;
-exports.PropertyService = PropertyService;
-exports.Token = Token;
-exports.axios = axios$1;
-exports.checkout_store = checkout_store;
-exports.onCheckoutDataChange = onCheckoutDataChange;
-exports.updatePartialPickupFormData = updatePartialPickupFormData;
-exports.updatePickupFormData = updatePickupFormData;
-exports.updateUserFormData = updateUserFormData;
+export { CommonService as C, PropertyService as P, Token as T, axios$1 as a, updatePickupFormData as b, checkout_store as c, updatePartialPickupFormData as d, onCheckoutDataChange as o, updateUserFormData as u };
 
-//# sourceMappingURL=Token-c6704e60.js.map
+//# sourceMappingURL=Token-3d630cc9.js.map

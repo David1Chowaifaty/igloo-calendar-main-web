@@ -49,4 +49,6 @@ export declare const ExposedBookingAvailability: z.ZodObject<{
     is_in_affiliate_mode?: boolean;
     affiliate_id?: number;
 }>;
-export type TExposedBookingAvailability = z.infer<typeof ExposedBookingAvailability>;
+export type TExposedBookingAvailability = z.infer<typeof ExposedBookingAvailability> & {
+    update_store?: boolean;
+};

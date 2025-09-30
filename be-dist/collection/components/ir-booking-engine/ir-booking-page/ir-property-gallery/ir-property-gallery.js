@@ -74,7 +74,7 @@ export class IrPropertyGallery {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }))), this.property_state === 'carousel' && (h("section", { key: 'dc17efff1dddd4a665d99c6068e9fbdc25722fe5', class: 'z-0 py-4 text-sm', dir: app_store.dir }, h("ir-room-type-amenities", { key: '0ba7bd5c91c791f3ed1b7576471e9088cf82d1a4', aminities: (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.amenities, roomType: this.roomType }))))))));
+            } }))), this.property_state === 'carousel' && (h("section", { key: 'dc17efff1dddd4a665d99c6068e9fbdc25722fe5', class: 'z-0 py-4 text-sm', dir: app_store.dir }, h("ir-room-type-amenities", { key: '0ba7bd5c91c791f3ed1b7576471e9088cf82d1a4', amenities: (_f = app_store.property) === null || _f === void 0 ? void 0 : _f.amenities, roomType: this.roomType }))))))));
     }
     static get is() { return "ir-property-gallery"; }
     static get encapsulation() { return "shadow"; }

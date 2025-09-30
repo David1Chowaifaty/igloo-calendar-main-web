@@ -7,7 +7,7 @@ export class IrGoogleMaps {
         if (this.map) {
             return;
         }
-        const loader = new Loader('AIzaSyCJ5P4SraJdZzcBi9Ue16hyg_iWJv-aHpk', {});
+        const loader = new Loader('AIzaSyBNvKTcZZ9Mf3JQg_qkMAutFT1tP4BpGtc', {});
         const google = await loader.load();
         this.map = new google.maps.Map(this.el.shadowRoot.getElementById('map'), {
             center: { lat: ((_a = app_store.property) === null || _a === void 0 ? void 0 : _a.location.latitude) || 34.022, lng: ((_b = app_store.property) === null || _b === void 0 ? void 0 : _b.location.longitude) || 35.628 },
@@ -20,7 +20,7 @@ export class IrGoogleMaps {
         });
     }
     render() {
-        return (h(Host, { key: '212074afd4c5b6ea6509bcc3335dd24cbdd7c54a' }, h("div", { key: '57372647d274003879ceedd713fea0988c2e6a93', id: "map", class: "h-full w-full" })));
+        return (h(Host, { key: 'c8e605289880cd3aa6d193524912cf7e7632837d' }, h("div", { key: 'cd714e9c122887ba6e5f7ee7b839a0b2a5e6be38', id: "map", class: "h-full w-full" })));
     }
     static get is() { return "ir-google-maps"; }
     static get encapsulation() { return "shadow"; }

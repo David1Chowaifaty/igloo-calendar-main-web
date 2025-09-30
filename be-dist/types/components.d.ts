@@ -358,7 +358,6 @@ export namespace Components {
         "footerShown": boolean;
         "headerMessageShown": boolean;
         "headerShown": boolean;
-        "isConfermation": boolean;
         "language": string;
         "locationShown": boolean;
         "perma_link": string;
@@ -460,7 +459,7 @@ export namespace Components {
       };
     }
     interface IrRoomTypeAmenities {
-        "aminities": Amenity[];
+        "amenities": Amenity[];
         "roomType": RoomType;
     }
     interface IrRoomtype {
@@ -2215,7 +2214,6 @@ declare namespace LocalJSX {
         "footerShown"?: boolean;
         "headerMessageShown"?: boolean;
         "headerShown"?: boolean;
-        "isConfermation"?: boolean;
         "language"?: string;
         "locationShown"?: boolean;
         "perma_link"?: string;
@@ -2335,7 +2333,7 @@ declare namespace LocalJSX {
       };
     }
     interface IrRoomTypeAmenities {
-        "aminities"?: Amenity[];
+        "amenities"?: Amenity[];
         "roomType"?: RoomType;
     }
     interface IrRoomtype {
