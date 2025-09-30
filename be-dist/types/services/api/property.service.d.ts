@@ -30,6 +30,6 @@ export declare class PropertyService {
     fetchSetupEntries(): Promise<ISetupEntries>;
     private filterRooms;
     editExposedGuest(guest: TGuest, book_nbr: string): Promise<any>;
-    bookUser(): Promise<any>;
+    bookUser(prePaymentAmount: number): Promise<any>;
     getExposedGuest(): Promise<void>;
 }

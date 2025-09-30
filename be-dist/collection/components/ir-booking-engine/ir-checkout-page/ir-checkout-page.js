@@ -276,7 +276,7 @@ export class IrCheckoutPage {
                     paymentAmount = total;
                 }
             }
-            const result = await this.propertyService.bookUser();
+            const result = await this.propertyService.bookUser(paymentAmount);
             this.isBookingConfirmed = true;
             booking_store.booking = result;
             // if (app_store.app_data.isFromGhs) {

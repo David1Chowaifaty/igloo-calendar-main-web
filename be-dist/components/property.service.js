@@ -412,9 +412,9 @@ class PropertyService {
         }
         return data.My_Result;
     }
-    async bookUser() {
+    async bookUser(prePaymentAmount) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
-        const prePaymentAmount = checkout_store.prepaymentAmount;
+        // const prePaymentAmount = checkout_store.prepaymentAmount;
         try {
             let guest = {
                 email: checkout_store.userFormData.email,
