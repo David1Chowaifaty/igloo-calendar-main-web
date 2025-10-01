@@ -48104,7 +48104,21 @@ function passedBookingCutoff() {
     const cutoffToday = nowInOffset.clone().hour(cutoffHour).minute(cutoffMinute).second(0).millisecond(0);
     return nowInOffset.isSameOrAfter(cutoffToday);
 }
+/**
+ * Normalizes a string by trimming whitespace and converting it to lowercase.
+ *
+ * @param {string} [s] - The input string to normalize.
+ * @returns {string} The normalized string (empty string if input is null/undefined).
+ */
+const normalize = (s) => (s || '').trim().toLowerCase();
+/**
+ * Retrieves a currency object from the app store by its currency code.
+ *
+ * @param {string} code - The currency code to search for (case-insensitive).
+ * @returns {ICurrency | null} The matching currency object if found, otherwise null.
+ */
+const getCurrencyByCode = (code) => app_store.currencies.find(c => normalize(c.code) === normalize(code)) || null;
 
-export { getDateDifference as A, runScriptAndRemove as B, cn as C, calculateTotalCost as D, clearCheckoutRooms as E, getAbbreviatedWeekdays as F, detectCardType as G, validateBooking as H, injectHTMLAndRunScript as I, renderPropertyLocation as J, renderTime as K, formatImageAlt as L, updateRoomParams as M, reserveRooms as N, getVisibleInventory as O, injectHTML as P, VariationService as V, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, moment$1 as f, modifyQueryParam as g, getUserPreference as h, validateAgentCode as i, changeLocale as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, onAppDataChange as o, passedBookingCutoff as p, checkAffiliate as q, modifyBookingStore as r, setDefaultLocale as s, generateCheckoutUrl as t, updateUserPreference as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, calculateTotalRooms as y, getPrepaymentAmount as z };
+export { getDateDifference as A, runScriptAndRemove as B, cn as C, calculateTotalCost as D, clearCheckoutRooms as E, getAbbreviatedWeekdays as F, detectCardType as G, validateBooking as H, getCurrencyByCode as I, normalize as J, injectHTMLAndRunScript as K, renderPropertyLocation as L, renderTime as M, formatImageAlt as N, updateRoomParams as O, reserveRooms as P, getVisibleInventory as Q, injectHTML as R, VariationService as V, createStore as a, app_store as b, calculateInfantNumber as c, dateFns as d, booking_store as e, moment$1 as f, modifyQueryParam as g, getUserPreference as h, validateAgentCode as i, changeLocale as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, onAppDataChange as o, passedBookingCutoff as p, checkAffiliate as q, modifyBookingStore as r, setDefaultLocale as s, generateCheckoutUrl as t, updateUserPreference as u, validateCoupon as v, formatAmount as w, formatFullLocation as x, calculateTotalRooms as y, getPrepaymentAmount as z };
 
-//# sourceMappingURL=utils-6f73deb0.js.map
+//# sourceMappingURL=utils-f5a1ea53.js.map

@@ -2,7 +2,7 @@ import { PropertyHelpers } from "./../app/property-helpers.service";
 import app_store from "../../stores/app.store";
 import booking_store from "../../stores/booking";
 import { checkout_store, updateUserFormData } from "../../stores/checkout.store";
-import { injectHTML } from "../../utils/utils";
+import { getCurrencyByCode, injectHTML, normalize } from "../../utils/utils";
 import axios from "axios";
 import { Colors } from "../app/colors.service";
 import VariationService from "../app/variation.service";
@@ -10,6 +10,43 @@ export class PropertyService {
     constructor() {
         this.propertyHelpers = new PropertyHelpers();
         this.colors = new Colors();
+        // Returns a Currency object from app_store.currencies or null if no change is needed.
+        // Priority: user's currency (if allowed) → hotel's currency (if allowed) → first allowed currency.
+        // If the chosen currency equals the user's currency, returns null to indicate no switch is needed.
+        this.getMostEffectiveCurrency = (paymentMethod) => {
+            var _a, _b, _c;
+            const allowed = normalize((paymentMethod === null || paymentMethod === void 0 ? void 0 : paymentMethod.allowed_currencies) || '');
+            if (!allowed)
+                return null;
+            const allowedList = allowed
+                .split(',')
+                .map(c => normalize(c))
+                .filter(Boolean);
+            if (allowedList.length === 0)
+                return null;
+            // Resolve user + hotel currency objects (fall back to 'usd' only if needed)
+            const userCode = normalize((_a = app_store.userPreferences) === null || _a === void 0 ? void 0 : _a.currency_id) || 'usd';
+            const hotelCode = normalize((_c = (_b = app_store.property) === null || _b === void 0 ? void 0 : _b.currency) === null || _c === void 0 ? void 0 : _c.code);
+            const hotelCurrency = hotelCode ? getCurrencyByCode(hotelCode) : null;
+            // 1) If the user's currency is allowed → no change.
+            if (allowedList.includes(userCode))
+                return null;
+            // 2) If the hotel's currency is allowed → switch to hotel currency.
+            if (hotelCode && allowedList.includes(hotelCode) && hotelCurrency)
+                return hotelCurrency;
+            // 3) Otherwise, pick the first allowed currency we can resolve from the store.
+            for (const code of allowedList) {
+                const cur = getCurrencyByCode(code);
+                if (cur) {
+                    // If this equals user currency (rare: user not in allowedList but store normalization mismatch), treat as no change.
+                    if (normalize(cur.code) === userCode)
+                        return null;
+                    return cur;
+                }
+            }
+            // If none of the allowed codes exist in app_store.currencies, don't switch.
+            return null;
+        };
     }
     async getExposedProperty(params, initTheme = true) {
         var _a, _b, _c, _d;
@@ -88,8 +125,8 @@ export class PropertyService {
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
-        const roomtypeIds = this.propertyHelpers.collectRoomTypeIds(props);
-        const rateplanIds = this.propertyHelpers.collectRatePlanIds(props);
+        const roomtypeIds = props.room_type_ids || this.propertyHelpers.collectRoomTypeIds(props);
+        const rateplanIds = props.rate_plan_ids || this.propertyHelpers.collectRatePlanIds(props);
         const data = await this.propertyHelpers.fetchAvailabilityData(props, roomtypeIds, rateplanIds);
         if (props.update_store) {
             this.propertyHelpers.updateBookingStore(data);
@@ -134,59 +171,164 @@ export class PropertyService {
         updateUserFormData('arrival_time', setupEntries.arrivalTime[0].CODE_NAME);
         return setupEntries;
     }
-    filterRooms() {
-        let rooms = [];
+    // private async filterRooms(roomTypes: RoomType[] | null) {
+    //   let rooms = [];
+    //   const hasDifferentCurrency = app_store.userPreferences.currency_id.toLocaleLowerCase() !== app_store.property?.currency?.code.toLocaleLowerCase();
+    //   if (app_store.userPreferences.currency_id.toLocaleLowerCase() !== app_store.property?.currency?.code.toLocaleLowerCase()) {
+    //     // const data = await this.getExposedBookingAvailability({ ...checkAvailabilityPayload, currency_ref: app_store.property.currency.code });
+    //     // roomTypes = data.My_Result as RoomType[];
+    //   }
+    //   const variationService = new VariationService();
+    //   Object.values(booking_store.ratePlanSelections).map(rt => {
+    //     Object.values(rt).map((rp: IRatePlanSelection) => {
+    //       if (rp.reserved > 0) {
+    //         const roomType = roomTypes?.find(rt => rt === rp.roomtype);
+    //         const ratePlan = roomType?.rateplans.find(r => rp.ratePlan.id === r.id);
+    //         [...new Array(rp.reserved)].map((_, index) => {
+    //           const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
+    //           const variation = variationService.getVariationBasedOnInfants({
+    //             baseVariation: hasDifferentCurrency
+    //               ? ratePlan?.variations.find(
+    //                   v =>
+    //                     v.adult_nbr === rp.checkoutVariations[index].adult_nbr &&
+    //                     v.child_nbr === rp.checkoutVariations[index].child_nbr &&
+    //                     v.infant_nbr === rp.checkoutVariations[index].infant_nbr,
+    //                 )
+    //               : rp.checkoutVariations[index],
+    //             variations: hasDifferentCurrency ? ratePlan?.variations : rp.ratePlan.variations,
+    //             infants: rp.infant_nbr[index],
+    //           });
+    //           rooms.push({
+    //             identifier: null,
+    //             roomtype: rp.roomtype,
+    //             rateplan: rp.ratePlan,
+    //             prepayment_amount_gross: hasDifferentCurrency ? variation?.prepayment_amount_gross : rp?.selected_variation?.prepayment_amount_gross,
+    //             unit: null,
+    //             smoking_option: rp.checkoutSmokingSelection[index],
+    //             occupancy: {
+    //               adult_nbr: rp.checkoutVariations[index].adult_nbr,
+    //               children_nbr: rp.checkoutVariations[index].child_nbr - rp.infant_nbr[index],
+    //               infant_nbr: rp.infant_nbr[index],
+    //             },
+    //             bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
+    //             from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+    //             to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
+    //             notes: null,
+    //             days: variation.nights.map(n => ({
+    //               date: n.night,
+    //               amount: n.discounted_amount,
+    //               cost: null,
+    //             })),
+    //             guest: {
+    //               email: null,
+    //               first_name,
+    //               last_name,
+    //               country_id: null,
+    //               city: null,
+    //               mobile: null,
+    //               address: null,
+    //               dob: null,
+    //               subscribe_to_news_letter: null,
+    //               cci: null,
+    //             },
+    //           });
+    //         });
+    //       }
+    //     });
+    //   });
+    //   return rooms;
+    // }
+    /**
+     * Builds the array of room payloads for reservation based on the user's current selections.
+     *
+     * For each reserved entry in `booking_store.ratePlanSelections`, this method:
+     *  1) Resolves the effective `RoomType` and `RatePlan` (preferring the provided `roomTypes`
+     *     argument if available, otherwise falling back to `booking_store.roomTypes`).
+     *  2) Detects currency context differences between the user's currency and the property's currency.
+     *  3) Locates a base variation for each reserved unit (matching adult/child/infant counts). When
+     *     in a different-currency context, variations are taken from the effective rate plan instead of
+     *     the selection object. If no exact variation is found, the checkout variation is used.
+     *  4) Adjusts the variation with infants via `VariationService.getVariationBasedOnInfants`.
+     *  5) Produces a normalized "room" object used by the booking API.
+     *
+     * @private
+     * @param {RoomType[] | null} roomTypes - Room types in the effective currency context; falls back to `booking_store.roomTypes` if `null`.
+     * @returns {Room[]} Array of normalized `Room` payloads ready for `/DoReservation`.
+     *
+     * @example
+     * // Use effective availability (e.g., after currency switch) to build reservation rooms:
+     * const rooms = this.filterRooms(freshAvailabilityRoomTypes);
+     * // Send in booking body: { booking: { rooms }, ... }
+     */
+    filterRooms(roomTypes) {
+        var _a, _b, _c;
+        const rooms = [];
         const variationService = new VariationService();
-        Object.values(booking_store.ratePlanSelections).map(rt => {
-            Object.values(rt).map((rp) => {
-                if (rp.reserved > 0) {
-                    [...new Array(rp.reserved)].map((_, index) => {
-                        var _a;
-                        const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
-                        const variation = variationService.getVariationBasedOnInfants({
-                            baseVariation: rp.checkoutVariations[index],
-                            variations: rp.ratePlan.variations,
-                            infants: rp.infant_nbr[index],
-                        });
-                        rooms.push({
-                            identifier: null,
-                            roomtype: rp.roomtype,
-                            rateplan: rp.ratePlan,
-                            prepayment_amount_gross: (_a = rp === null || rp === void 0 ? void 0 : rp.selected_variation) === null || _a === void 0 ? void 0 : _a.prepayment_amount_gross,
-                            unit: null,
-                            smoking_option: rp.checkoutSmokingSelection[index],
-                            occupancy: {
-                                adult_nbr: rp.checkoutVariations[index].adult_nbr,
-                                children_nbr: rp.checkoutVariations[index].child_nbr - rp.infant_nbr[index],
-                                infant_nbr: rp.infant_nbr[index],
-                            },
-                            bed_preference: rp.is_bed_configuration_enabled ? rp.checkoutBedSelection[index] : null,
-                            from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
-                            to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
-                            notes: null,
-                            // days: this.propertyHelpers.generateDays(
-                            //   booking_store.bookingAvailabilityParams.from_date,
-                            //   booking_store.bookingAvailabilityParams.to_date,
-                            //   Number(variation.discounted_amount) / getDateDifference(booking_store.bookingAvailabilityParams.from_date, booking_store.bookingAvailabilityParams.to_date),
-                            // ),
-                            days: variation.nights.map(n => ({
-                                date: n.night,
-                                amount: n.discounted_amount,
-                                cost: null,
-                            })),
-                            guest: {
-                                email: null,
-                                first_name,
-                                last_name,
-                                country_id: null,
-                                city: null,
-                                mobile: null,
-                                address: null,
-                                dob: null,
-                                subscribe_to_news_letter: null,
-                                cci: null,
-                            },
-                        });
+        const hasDifferentCurrency = normalize(app_store.userPreferences.currency_id) !== normalize((_b = (_a = app_store.property) === null || _a === void 0 ? void 0 : _a.currency) === null || _b === void 0 ? void 0 : _b.code);
+        const effectiveRoomTypes = (_c = roomTypes !== null && roomTypes !== void 0 ? roomTypes : booking_store.roomTypes) !== null && _c !== void 0 ? _c : [];
+        const roomTypeLookup = new Map();
+        effectiveRoomTypes.forEach(rt => {
+            if (rt)
+                roomTypeLookup.set(rt.id, rt);
+        });
+        Object.values(booking_store.ratePlanSelections).forEach(ratePlanSelections => {
+            Object.values(ratePlanSelections).forEach((rp) => {
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+                if (!(rp === null || rp === void 0 ? void 0 : rp.reserved))
+                    return;
+                const selectedRoomType = (_a = roomTypeLookup.get(rp.roomtype.id)) !== null && _a !== void 0 ? _a : null;
+                const selectedRatePlan = (_c = (_b = selectedRoomType === null || selectedRoomType === void 0 ? void 0 : selectedRoomType.rateplans) === null || _b === void 0 ? void 0 : _b.find(plan => plan.id === rp.ratePlan.id)) !== null && _c !== void 0 ? _c : rp.ratePlan;
+                const currencyVariations = hasDifferentCurrency ? ((_d = selectedRatePlan === null || selectedRatePlan === void 0 ? void 0 : selectedRatePlan.variations) !== null && _d !== void 0 ? _d : []) : ((_e = rp.ratePlan.variations) !== null && _e !== void 0 ? _e : []);
+                for (let index = 0; index < rp.reserved; index += 1) {
+                    const checkoutVariation = (_f = rp.checkoutVariations) === null || _f === void 0 ? void 0 : _f[index];
+                    if (!checkoutVariation)
+                        continue;
+                    const infants = (_h = (_g = rp.infant_nbr) === null || _g === void 0 ? void 0 : _g[index]) !== null && _h !== void 0 ? _h : 0;
+                    const baseVariation = hasDifferentCurrency
+                        ? ((_j = currencyVariations.find(v => { var _a, _b; return v.adult_nbr === checkoutVariation.adult_nbr && v.child_nbr === checkoutVariation.child_nbr && ((_a = v.infant_nbr) !== null && _a !== void 0 ? _a : 0) === ((_b = checkoutVariation.infant_nbr) !== null && _b !== void 0 ? _b : 0); })) !== null && _j !== void 0 ? _j : checkoutVariation)
+                        : checkoutVariation;
+                    const resolvedVariation = (_l = variationService.getVariationBasedOnInfants({
+                        baseVariation,
+                        variations: currencyVariations.length ? currencyVariations : ((_k = rp.ratePlan.variations) !== null && _k !== void 0 ? _k : []),
+                        infants,
+                    })) !== null && _l !== void 0 ? _l : baseVariation;
+                    const { first_name, last_name } = this.propertyHelpers.extractFirstNameAndLastName(index, rp.guestName);
+                    const nights = (_o = (_m = resolvedVariation === null || resolvedVariation === void 0 ? void 0 : resolvedVariation.nights) !== null && _m !== void 0 ? _m : checkoutVariation === null || checkoutVariation === void 0 ? void 0 : checkoutVariation.nights) !== null && _o !== void 0 ? _o : [];
+                    rooms.push({
+                        identifier: null,
+                        roomtype: selectedRoomType !== null && selectedRoomType !== void 0 ? selectedRoomType : rp.roomtype,
+                        rateplan: selectedRatePlan,
+                        prepayment_amount_gross: hasDifferentCurrency
+                            ? ((_p = resolvedVariation === null || resolvedVariation === void 0 ? void 0 : resolvedVariation.prepayment_amount_gross) !== null && _p !== void 0 ? _p : 0)
+                            : ((_s = (_r = (_q = rp.selected_variation) === null || _q === void 0 ? void 0 : _q.prepayment_amount_gross) !== null && _r !== void 0 ? _r : resolvedVariation === null || resolvedVariation === void 0 ? void 0 : resolvedVariation.prepayment_amount_gross) !== null && _s !== void 0 ? _s : 0),
+                        unit: null,
+                        smoking_option: (_u = (_t = rp.checkoutSmokingSelection) === null || _t === void 0 ? void 0 : _t[index]) !== null && _u !== void 0 ? _u : null,
+                        occupancy: {
+                            adult_nbr: checkoutVariation.adult_nbr,
+                            children_nbr: Math.max(0, ((_v = checkoutVariation.child_nbr) !== null && _v !== void 0 ? _v : 0) - infants),
+                            infant_nbr: infants,
+                        },
+                        bed_preference: rp.is_bed_configuration_enabled ? ((_x = (_w = rp.checkoutBedSelection) === null || _w === void 0 ? void 0 : _w[index]) !== null && _x !== void 0 ? _x : null) : null,
+                        from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
+                        to_date: booking_store.bookingAvailabilityParams.to_date.locale('en').format('YYYY-MM-DD'),
+                        notes: null,
+                        days: nights.map(n => ({
+                            date: n.night,
+                            amount: n.discounted_amount,
+                            cost: null,
+                        })),
+                        guest: {
+                            email: null,
+                            first_name,
+                            last_name,
+                            country_id: null,
+                            city: null,
+                            mobile: null,
+                            address: null,
+                            dob: null,
+                            subscribe_to_news_letter: null,
+                            cci: null,
+                        },
                     });
                 }
             });
@@ -200,9 +342,140 @@ export class PropertyService {
         }
         return data.My_Result;
     }
-    async bookUser(prePaymentAmount) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
-        // const prePaymentAmount = checkout_store.prepaymentAmount;
+    /**
+     * Collects the IDs of room types and rate plans that have at least one room reserved
+     * in the current `booking_store.ratePlanSelections`.
+     *
+     * Iterates over the nested selection map and includes only entries where
+     * `reserved > 0`.
+     *
+     * @private
+     * @returns {{ roomTypeIds: number[]; ratePlanIds: number[] }}
+     * An object containing:
+     *  - `roomTypeIds`: unique room type IDs with reservations.
+     *  - `ratePlanIds`: unique rate plan IDs with reservations.
+     *
+     * @example
+     * const { roomTypeIds, ratePlanIds } = this.collectBookedRoomsId();
+     * // Use these arrays to build availability or pricing payloads.
+     */
+    collectBookedRoomsId() {
+        const roomTypeIds = new Set();
+        const ratePlanIds = new Set();
+        for (const roomtypeId in booking_store.ratePlanSelections) {
+            for (const rateplanId in booking_store.ratePlanSelections[roomtypeId]) {
+                const rateplan = booking_store.ratePlanSelections[roomtypeId][rateplanId];
+                if (rateplan.reserved > 0) {
+                    roomTypeIds.add(Number(roomtypeId));
+                    ratePlanIds.add(Number(rateplanId));
+                }
+            }
+        }
+        return { ratePlanIds: Array.from(ratePlanIds), roomTypeIds: Array.from(roomTypeIds) };
+    }
+    /**
+     * Recalculates the total prepayment amount for the currently selected rooms.
+     *
+     * Walks through the provided `roomTypes`, finds the matching user-selected
+     * rate plans/variations from `booking_store.ratePlanSelections`, and sums
+     * each stay’s `prepayment_amount_gross`. If an exact base variation is not
+     * found (by adult/child/infant counts), the checkout variation is used as a fallback.
+     * Infant counts are applied via `VariationService.getVariationBasedOnInfants`.
+     *
+     * @private
+     * @param {RoomType[]} roomTypes - The room types returned from availability (in the currency context used for recalculation).
+     * @returns {number} Total prepayment amount (sum of `prepayment_amount_gross`) for all reserved rooms.
+     *
+     * @example
+     * // After fetching availability in a different currency:
+     * const total = this.recalculatePrepaymentAmount(data.My_Result);
+     * console.log('New prepayment amount:', total);
+     */
+    recalculatePrepaymentAmount(roomTypes) {
+        let total = 0;
+        const variationService = new VariationService();
+        for (const roomType of roomTypes) {
+            const selectedRoomType = booking_store.ratePlanSelections[roomType.id];
+            if (!selectedRoomType)
+                continue;
+            for (const ratePlan of roomType.rateplans) {
+                const selectedRatePlan = selectedRoomType[ratePlan.id];
+                if (!selectedRatePlan)
+                    continue;
+                const { checkoutVariations, infant_nbr } = selectedRatePlan;
+                checkoutVariations.forEach((checkoutVariation, index) => {
+                    var _a, _b, _c;
+                    const baseVariation = (_a = ratePlan.variations.find(v => v.adult_nbr === checkoutVariation.adult_nbr && v.child_nbr === checkoutVariation.child_nbr && v.infant_nbr === checkoutVariation.infant_nbr)) !== null && _a !== void 0 ? _a : checkoutVariation;
+                    if (!baseVariation)
+                        return;
+                    const variation = variationService.getVariationBasedOnInfants({
+                        baseVariation,
+                        variations: ratePlan.variations,
+                        infants: (_b = infant_nbr === null || infant_nbr === void 0 ? void 0 : infant_nbr[index]) !== null && _b !== void 0 ? _b : 0,
+                    });
+                    total += (_c = variation === null || variation === void 0 ? void 0 : variation.prepayment_amount_gross) !== null && _c !== void 0 ? _c : 0;
+                });
+            }
+        }
+        return total;
+    }
+    async bookUser(paymentMethod) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+        let prePaymentAmount = checkout_store.prepaymentAmount;
+        const mostEffectiveCurrency = this.getMostEffectiveCurrency(paymentMethod);
+        const { ratePlanIds, roomTypeIds } = this.collectBookedRoomsId();
+        let checkAvailabilityPayload = {
+            propertyid: app_store.app_data.property_id,
+            from_date: booking_store.bookingAvailabilityParams.from_date,
+            to_date: booking_store.bookingAvailabilityParams.to_date,
+            room_type_ids: roomTypeIds,
+            rate_plan_ids: ratePlanIds,
+            adult_nbr: booking_store.bookingAvailabilityParams.adult_nbr,
+            child_nbr: booking_store.bookingAvailabilityParams.child_nbr,
+            language: app_store.userPreferences.language_id,
+            is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty ? true : !!booking_store.bookingAvailabilityParams.coupon,
+            promo_key: booking_store.bookingAvailabilityParams.coupon || '',
+            is_in_agent_mode: !!booking_store.bookingAvailabilityParams.agent || false,
+            agent_id: ((_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.id) || 0,
+            is_in_affiliate_mode: !!app_store.app_data.affiliate,
+            affiliate_id: app_store.app_data.affiliate ? app_store.app_data.affiliate.id : null,
+            update_store: false,
+        };
+        let roomTypes = null;
+        const normalizedUserCurrency = normalize((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.currency_id) || 'usd';
+        const normalizedMethodCurrency = mostEffectiveCurrency ? normalize(mostEffectiveCurrency.code) : null;
+        const normalizedPropertyCurrency = normalize((_d = (_c = app_store.property) === null || _c === void 0 ? void 0 : _c.currency) === null || _d === void 0 ? void 0 : _d.code);
+        const hasDifferentCurrency = normalizedUserCurrency !== normalizedPropertyCurrency;
+        const wantsMethodCurrency = prePaymentAmount > 0 && normalizedMethodCurrency && normalizedMethodCurrency !== normalizedUserCurrency;
+        const needsPropertyAvailability = hasDifferentCurrency && (!wantsMethodCurrency || normalizedMethodCurrency !== normalizedPropertyCurrency);
+        let methodAvailability = null;
+        let propertyAvailability = null;
+        const availabilityCalls = [];
+        if (wantsMethodCurrency && mostEffectiveCurrency) {
+            availabilityCalls.push(this.getExposedBookingAvailability(Object.assign(Object.assign({}, checkAvailabilityPayload), { currency_ref: mostEffectiveCurrency.code })).then(data => {
+                methodAvailability = data;
+                if (normalizedMethodCurrency === normalizedPropertyCurrency) {
+                    roomTypes = [...data.My_Result];
+                }
+            }));
+        }
+        if (needsPropertyAvailability) {
+            availabilityCalls.push(this.getExposedBookingAvailability(Object.assign(Object.assign({}, checkAvailabilityPayload), { currency_ref: '' })).then(data => {
+                propertyAvailability = data;
+                if (!roomTypes) {
+                    roomTypes = [...data.My_Result];
+                }
+            }));
+        }
+        if (availabilityCalls.length) {
+            await Promise.all(availabilityCalls);
+        }
+        if (methodAvailability && wantsMethodCurrency && mostEffectiveCurrency) {
+            prePaymentAmount = this.recalculatePrepaymentAmount(methodAvailability.My_Result);
+        }
+        if (!roomTypes && propertyAvailability) {
+            roomTypes = [...propertyAvailability.My_Result];
+        }
         try {
             let guest = {
                 email: checkout_store.userFormData.email,
@@ -215,28 +488,29 @@ export class PropertyService {
                 country_phone_prefix: checkout_store.userFormData.country_phone_prefix,
                 dob: null,
                 subscribe_to_news_letter: true,
-                cci: booking_store.bookingAvailabilityParams.agent && ((_b = (_a = booking_store.bookingAvailabilityParams.agent) === null || _a === void 0 ? void 0 : _a.payment_mode) === null || _b === void 0 ? void 0 : _b.code) === '001'
+                cci: booking_store.bookingAvailabilityParams.agent && ((_f = (_e = booking_store.bookingAvailabilityParams.agent) === null || _e === void 0 ? void 0 : _e.payment_mode) === null || _f === void 0 ? void 0 : _f.code) === '001'
                     ? null
-                    : ((_c = checkout_store.payment) === null || _c === void 0 ? void 0 : _c.code) === '001'
+                    : ((_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.code) === '001'
                         ? {
-                            nbr: (_e = (_d = checkout_store.payment) === null || _d === void 0 ? void 0 : _d.cardNumber) === null || _e === void 0 ? void 0 : _e.replace(/ /g, ''),
-                            holder_name: (_f = checkout_store.payment) === null || _f === void 0 ? void 0 : _f.cardHolderName,
-                            expiry_month: (_g = checkout_store.payment) === null || _g === void 0 ? void 0 : _g.expiry_month.split('/')[0],
-                            expiry_year: (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.expiry_year.split('/')[1],
+                            nbr: (_j = (_h = checkout_store.payment) === null || _h === void 0 ? void 0 : _h.cardNumber) === null || _j === void 0 ? void 0 : _j.replace(/ /g, ''),
+                            holder_name: (_k = checkout_store.payment) === null || _k === void 0 ? void 0 : _k.cardHolderName,
+                            expiry_month: (_l = checkout_store.payment) === null || _l === void 0 ? void 0 : _l.expiry_month.split('/')[0],
+                            expiry_year: (_m = checkout_store.payment) === null || _m === void 0 ? void 0 : _m.expiry_year.split('/')[1],
                             cvc: checkout_store.payment.cvc,
                         }
                         : null,
             };
             // const now = moment();
+            const rooms = this.filterRooms(roomTypes);
             const body = {
                 assign_units: false,
                 check_in: false,
                 is_pms: false,
                 is_direct: true,
-                language: (_k = (_j = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _j === void 0 ? void 0 : _j.language_id) !== null && _k !== void 0 ? _k : 'en',
-                agent: booking_store.bookingAvailabilityParams.agent ? { id: (_l = booking_store.bookingAvailabilityParams.agent) === null || _l === void 0 ? void 0 : _l.id } : null,
+                language: (_p = (_o = app_store === null || app_store === void 0 ? void 0 : app_store.userPreferences) === null || _o === void 0 ? void 0 : _o.language_id) !== null && _p !== void 0 ? _p : 'en',
+                agent: booking_store.bookingAvailabilityParams.agent ? { id: (_q = booking_store.bookingAvailabilityParams.agent) === null || _q === void 0 ? void 0 : _q.id } : null,
                 is_in_loyalty_mode: booking_store.bookingAvailabilityParams.loyalty,
-                promo_key: (_m = booking_store.bookingAvailabilityParams.coupon) !== null && _m !== void 0 ? _m : null,
+                promo_key: (_r = booking_store.bookingAvailabilityParams.coupon) !== null && _r !== void 0 ? _r : null,
                 booking: {
                     booking_nbr: '',
                     from_date: booking_store.bookingAvailabilityParams.from_date.locale('en').format('YYYY-MM-DD'),
@@ -252,10 +526,11 @@ export class PropertyService {
                     // },
                     source: { code: app_store.app_data.isFromGhs ? 'ghs' : new URL(window.location.href).origin, tag: app_store.app_data.stag, description: '' },
                     referrer_site: app_store.app_data.affiliate ? `https://${app_store.app_data.affiliate.sites[0].url}` : 'www.igloorooms.com',
-                    currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
+                    // currency: app_store.currencies.find(currency => currency.code.toString().toLowerCase() === app_store.userPreferences.currency_id.toLowerCase()),
+                    currency: app_store.property.currency,
                     arrival: { code: checkout_store.userFormData.arrival_time },
                     guest,
-                    rooms: this.filterRooms(),
+                    rooms,
                 },
                 extras: [
                     {
@@ -276,16 +551,19 @@ export class PropertyService {
                         : null,
                     {
                         key: 'selected_currency',
-                        value: app_store.userPreferences.currency_id,
+                        value: app_store.property.currency.code,
                     },
                 ].filter(f => f !== null),
                 pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
             };
+            // if (f) {
+            //   throw new Error('');
+            // }
             const { data } = await axios.post(`/DoReservation`, body);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            return data['My_Result'];
+            return { booking: data['My_Result'], prepaymentAmount: prePaymentAmount, mostEffectiveCurrency: mostEffectiveCurrency };
         }
         catch (error) {
             console.error(error);

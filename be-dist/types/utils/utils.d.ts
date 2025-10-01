@@ -55,4 +55,23 @@ export declare function modifyQueryParam(param: string, value: string | null, op
 export declare function calculateInfantNumber(ages: string[]): number;
 export declare function generateCheckoutUrl(perma_link: string, queryString?: Record<string, string> | null): string;
 export declare function passedBookingCutoff(): boolean;
+/**
+ * Normalizes a string by trimming whitespace and converting it to lowercase.
+ *
+ * @param {string} [s] - The input string to normalize.
+ * @returns {string} The normalized string (empty string if input is null/undefined).
+ */
+export declare const normalize: (s?: string) => string;
+/**
+ * Retrieves a currency object from the app store by its currency code.
+ *
+ * @param {string} code - The currency code to search for (case-insensitive).
+ * @returns {ICurrency | null} The matching currency object if found, otherwise null.
+ */
+export declare const getCurrencyByCode: (code: string) => {
+    symbol?: string;
+    code?: string;
+    name?: string;
+    id?: number;
+};
 export {};

@@ -29381,7 +29381,21 @@ function passedBookingCutoff() {
     const cutoffToday = nowInOffset.clone().hour(cutoffHour).minute(cutoffMinute).second(0).millisecond(0);
     return nowInOffset.isSameOrAfter(cutoffToday);
 }
+/**
+ * Normalizes a string by trimming whitespace and converting it to lowercase.
+ *
+ * @param {string} [s] - The input string to normalize.
+ * @returns {string} The normalized string (empty string if input is null/undefined).
+ */
+const normalize = (s) => (s || '').trim().toLowerCase();
+/**
+ * Retrieves a currency object from the app store by its currency code.
+ *
+ * @param {string} code - The currency code to search for (case-insensitive).
+ * @returns {ICurrency | null} The matching currency object if found, otherwise null.
+ */
+const getCurrencyByCode = (code) => app_store.currencies.find(c => normalize(c.code) === normalize(code)) || null;
 
-export { detectCardType as A, validateBooking as B, generateCheckoutUrl as C, injectHTMLAndRunScript as D, renderPropertyLocation as E, renderTime as F, formatImageAlt as G, updateRoomParams as H, reserveRooms as I, getVisibleInventory as J, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getAbbreviatedWeekdays as g, getUserPreference as h, injectHTML as i, validateAgentCode as j, matchLocale as k, localizedWords as l, manageAnchorSession as m, checkGhs as n, checkAffiliate as o, passedBookingCutoff as p, formatFullLocation as q, formatAmount as r, setDefaultLocale as s, calculateTotalRooms as t, getPrepaymentAmount as u, validateCoupon as v, getDateDifference as w, runScriptAndRemove as x, calculateTotalCost as y, clearCheckoutRooms as z };
+export { calculateTotalCost as A, clearCheckoutRooms as B, detectCardType as C, validateBooking as D, generateCheckoutUrl as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getCurrencyByCode as g, getAbbreviatedWeekdays as h, injectHTML as i, getUserPreference as j, validateAgentCode as k, localizedWords as l, manageAnchorSession as m, normalize as n, matchLocale as o, passedBookingCutoff as p, checkGhs as q, checkAffiliate as r, setDefaultLocale as s, formatFullLocation as t, formatAmount as u, validateCoupon as v, calculateTotalRooms as w, getPrepaymentAmount as x, getDateDifference as y, runScriptAndRemove as z };
 
 //# sourceMappingURL=utils.js.map

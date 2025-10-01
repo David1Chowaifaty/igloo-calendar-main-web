@@ -48106,6 +48106,20 @@ function passedBookingCutoff() {
     const cutoffToday = nowInOffset.clone().hour(cutoffHour).minute(cutoffMinute).second(0).millisecond(0);
     return nowInOffset.isSameOrAfter(cutoffToday);
 }
+/**
+ * Normalizes a string by trimming whitespace and converting it to lowercase.
+ *
+ * @param {string} [s] - The input string to normalize.
+ * @returns {string} The normalized string (empty string if input is null/undefined).
+ */
+const normalize = (s) => (s || '').trim().toLowerCase();
+/**
+ * Retrieves a currency object from the app store by its currency code.
+ *
+ * @param {string} code - The currency code to search for (case-insensitive).
+ * @returns {ICurrency | null} The matching currency object if found, otherwise null.
+ */
+const getCurrencyByCode = (code) => app_store.currencies.find(c => normalize(c.code) === normalize(code)) || null;
 
 exports.VariationService = VariationService;
 exports.app_store = app_store;
@@ -48126,6 +48140,7 @@ exports.formatFullLocation = formatFullLocation;
 exports.formatImageAlt = formatImageAlt;
 exports.generateCheckoutUrl = generateCheckoutUrl;
 exports.getAbbreviatedWeekdays = getAbbreviatedWeekdays;
+exports.getCurrencyByCode = getCurrencyByCode;
 exports.getDateDifference = getDateDifference;
 exports.getPrepaymentAmount = getPrepaymentAmount;
 exports.getUserPreference = getUserPreference;
@@ -48138,6 +48153,7 @@ exports.matchLocale = matchLocale;
 exports.modifyBookingStore = modifyBookingStore;
 exports.modifyQueryParam = modifyQueryParam;
 exports.moment = moment$1;
+exports.normalize = normalize;
 exports.onAppDataChange = onAppDataChange;
 exports.passedBookingCutoff = passedBookingCutoff;
 exports.renderPropertyLocation = renderPropertyLocation;
@@ -48151,4 +48167,4 @@ exports.validateAgentCode = validateAgentCode;
 exports.validateBooking = validateBooking;
 exports.validateCoupon = validateCoupon;
 
-//# sourceMappingURL=utils-dde66ce0.js.map
+//# sourceMappingURL=utils-3edc8bad.js.map
