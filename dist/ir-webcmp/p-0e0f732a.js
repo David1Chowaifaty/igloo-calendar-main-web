@@ -1,2 +1,0 @@
-import{a}from"./p-bf44a732.js";class e{async validateOTP(e){const{data:t}=await a.post("/Validate_Exposed_OTP",e);if(t.ExceptionMsg!==""){throw new Error(t.ExceptionMsg)}return t}async resendOTP(e){const{data:t}=await a.post("/Resend_Exposed_OTP",e);if(t.ExceptionMsg!==""){throw new Error(t.ExceptionMsg)}return t}async checkOTPNecessity(e){const{data:t}=await a.post("/Check_OTP_Necessity",e);return t}}export{e as S};
-//# sourceMappingURL=p-0e0f732a.js.map

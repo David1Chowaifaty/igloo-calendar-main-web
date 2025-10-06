@@ -10,6 +10,7 @@ export declare class IrApplicablePolicies {
     isLoading: boolean;
     guaranteeAmount: number;
     generatePayment: EventEmitter<IPaymentAction>;
+    private shouldShowCancellationBrackets;
     componentWillLoad(): void;
     handleBookingChange(): void;
     private loadApplicablePolicies;
