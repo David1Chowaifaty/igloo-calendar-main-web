@@ -1,10 +1,11 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement, F as Fragment } from './index-60982d00.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { l as locales } from './locales.store-629477c2.js';
-import { i as formatAmount } from './utils-1892bfa5.js';
+import { f as formatAmount } from './utils-8b3fe79b.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-caf00b1d.js';
 import './index-c4cf83be.js';
+import './index-6ecc32cd.js';
 import './axios-aa1335b8.js';
 
 const irDailyRevenueFiltersCss = ".sc-ir-daily-revenue-filters-h{display:block}.revenue-filter__date-picker-icon.sc-ir-daily-revenue-filters{position:absolute;inset:0;left:0.75rem;display:flex;align-items:center;width:fit-content;transform:translateY(-0.15rem)}.sc-ir-daily-revenue-filters-h{display:block;height:100%}@media (min-width: 768px){.sc-ir-daily-revenue-filters-h{width:300px}.collapse-btn.sc-ir-daily-revenue-filters{display:none}#dailyRevenueFiltersCollapse.collapse.sc-ir-daily-revenue-filters:not(.show){display:block}}";

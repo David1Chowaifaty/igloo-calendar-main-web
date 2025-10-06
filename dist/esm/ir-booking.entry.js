@@ -1,8 +1,9 @@
 import { r as registerInstance, h, H as Host } from './index-60982d00.js';
 import { T as Token } from './Token-6c389e24.js';
-import { b as checkUserAuthState, m as manageAnchorSession } from './utils-1892bfa5.js';
+import { m as checkUserAuthState, n as manageAnchorSession } from './utils-8b3fe79b.js';
 import './axios-aa1335b8.js';
 import './moment-ab846cee.js';
+import './index-6ecc32cd.js';
 import './calendar-data-f4e207f9.js';
 import './index-c4cf83be.js';
 import './locales.store-629477c2.js';

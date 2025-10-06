@@ -9,7 +9,7 @@ export class IrApplicablePolicies {
         this.language = 'en';
         this.cancellationStatements = [];
         this.isLoading = false;
-        this.shouldShowCancellationBrackets = false;
+        this.shouldShowCancellationBrackets = true;
     }
     componentWillLoad() {
         this.loadApplicablePolicies();
@@ -43,19 +43,6 @@ export class IrApplicablePolicies {
                         })
                             .filter(Boolean),
                     ];
-                    // if (moment(room.from_date, 'YYYY-MM-DD').add(1, 'days').isSameOrBefore(moment())) {
-                    //   brackets.push({
-                    //     amount: room['gross_total'],
-                    //     amount_formatted: '',
-                    //     code: '',
-                    //     currency_id: 0,
-                    //     due_on: moment().add(1, 'days').format('YYYY-MM-DD'),
-                    //     due_on_formatted: '',
-                    //     gross_amount: room['gross_total'],
-                    //     gross_amount_formatted: '',
-                    //     statement: '100% of the total price',
-                    //   });
-                    // }
                     statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan, brackets, checkInDate: room.from_date, grossTotal: room.gross_total }));
                 }
                 if (guaranteePolicy) {
