@@ -19,6 +19,6 @@ export declare class IrApplicablePolicies {
     private handleMultipleBrackets;
     private getCurrentBracket;
     private generateCancellationStatement;
-    private checkCurrentBracket;
+    private _getCurrentBracket;
     render(): any;
 }

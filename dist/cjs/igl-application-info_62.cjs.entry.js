@@ -2167,7 +2167,8 @@ const IrApplicablePolicies = class {
                 const cancellationPolicy = getPoliciesByType(room.applicable_policies, 'cancelation');
                 const guaranteePolicy = getPoliciesByType(room.applicable_policies, 'guarantee');
                 if (cancellationPolicy) {
-                    statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan, brackets: cancellationPolicy.brackets
+                    let brackets = [
+                        ...cancellationPolicy.brackets
                             .map((bracket, index) => {
                             var _a;
                             if (bracket.amount > 0) {
@@ -2177,7 +2178,22 @@ const IrApplicablePolicies = class {
                                 return bracket;
                             }
                         })
-                            .filter(Boolean), checkInDate: room.from_date }));
+                            .filter(Boolean),
+                    ];
+                    // if (moment(room.from_date, 'YYYY-MM-DD').add(1, 'days').isSameOrBefore(moment())) {
+                    //   brackets.push({
+                    //     amount: room['gross_total'],
+                    //     amount_formatted: '',
+                    //     code: '',
+                    //     currency_id: 0,
+                    //     due_on: moment().add(1, 'days').format('YYYY-MM-DD'),
+                    //     due_on_formatted: '',
+                    //     gross_amount: room['gross_total'],
+                    //     gross_amount_formatted: '',
+                    //     statement: '100% of the total price',
+                    //   });
+                    // }
+                    statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan, brackets, checkInDate: room.from_date, grossTotal: room.gross_total }));
                 }
                 if (guaranteePolicy) {
                     total += (_b = (_a = this.getCurrentBracket(guaranteePolicy.brackets)) === null || _a === void 0 ? void 0 : _a.gross_amount) !== null && _b !== void 0 ? _b : 0;
@@ -2249,7 +2265,7 @@ const IrApplicablePolicies = class {
         // Last bracket
         if (index === brackets.length - 1) {
             return {
-                leftLabel: bracketDueDate.clone().add(1, 'days').format('MMM DD'),
+                leftLabel: bracketDueDate.clone().format('MMM DD'),
                 showArrow: true,
                 rightLabel: moment.hooks(checkInDate).format('MMM DD, YYYY'),
             };
@@ -2291,23 +2307,31 @@ const IrApplicablePolicies = class {
         }
         return `${cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge'} ${utils.formatAmount(calendarData.calendar_data.currency.symbol, Math.abs(cancelation_penality_as_if_today))} ${label}`;
     }
-    checkCurrentBracket(bracket, nextBracket) {
-        if (!(bracket === null || bracket === void 0 ? void 0 : bracket.due_on))
-            return false;
+    _getCurrentBracket(brackets) {
+        if (!Array.isArray(brackets) || brackets.length === 0)
+            return null;
         const today = moment.hooks().startOf('day');
-        const start = moment.hooks(bracket.due_on, 'YYYY-MM-DD', true).startOf('day');
-        if (!start.isValid())
-            return false;
-        // If there's no next bracket, this one applies from its start onward.
-        if (!(nextBracket === null || nextBracket === void 0 ? void 0 : nextBracket.due_on)) {
-            return today.isSameOrAfter(start, 'day');
+        // Parse + validate + sort ascending by due_on
+        const parsed = brackets
+            .map(b => ({ b, date: moment.hooks(b.due_on, 'YYYY-MM-DD', true).startOf('day') }))
+            .filter(x => x.date.isValid())
+            .sort((a, b) => a.date.valueOf() - b.date.valueOf());
+        if (parsed.length === 0)
+            return null;
+        // If today is before the first due date → return first bracket (closest upcoming)
+        if (today.isBefore(parsed[0].date, 'day')) {
+            return parsed[0].date;
         }
-        const end = moment.hooks(nextBracket.due_on, 'YYYY-MM-DD', true).startOf('day');
-        if (!end.isValid()) {
-            return today.isSameOrAfter(start, 'day');
+        // Find i such that date[i] <= today < date[i+1] → return date[i]
+        for (let i = 0; i < parsed.length - 1; i++) {
+            const cur = parsed[i].date;
+            const next = parsed[i + 1].date;
+            if (today.isSameOrAfter(cur, 'day') && today.isBefore(next, 'day')) {
+                return cur;
+            }
         }
-        // Active if today ∈ [start, end)
-        return today.isSameOrAfter(start, 'day') && today.isBefore(end, 'day');
+        // If today is on/after the last due date → return last bracket
+        return parsed[parsed.length - 1].date;
     }
     render() {
         var _a, _b;
@@ -2315,7 +2339,6 @@ const IrApplicablePolicies = class {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
-        console.log(this.cancellationStatements);
         return (index.h(index.Host, null, this.guaranteeAmount !== 0 && (index.h("section", null, index.h("div", { class: "applicable-policies__guarantee" }, index.h("div", { class: "applicable-policies__guarantee-info" }, index.h("p", { class: "applicable-policies__guarantee-date" }, moment.hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), index.h("p", { class: "applicable-policies__guarantee-amount" }, index.h("span", { class: "px-1" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), index.h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (index.h("div", { class: "applicable-policies__guarantee-action" }, index.h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
@@ -2325,25 +2348,29 @@ const IrApplicablePolicies = class {
                     reason: '',
                     type: 'OVERDUE',
                 });
-            } })))))), index.h("section", null, index.h("div", { class: "applicable-policies__container" }, index.h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), index.h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), index.h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), ((_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.length) > 0 && (index.h("div", { class: "applicable-policies__statements" }, (_b = this.cancellationStatements) === null || _b === void 0 ? void 0 : _b.map(statement => (index.h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (index.h("p", { class: "applicable-policies__room" }, index.h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales_store.locales.entries.Lcz_NonRefundable}` : '')), index.h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
-            const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
-                index: idx,
-                bracket,
-                brackets: statement.brackets,
-                checkInDate: statement.checkInDate,
-            });
-            const isInCurrentBracket = this.checkCurrentBracket(bracket, idx < statement.brackets.length - 1 ? statement.brackets[idx + 1] : null);
-            return (index.h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, index.h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && index.h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), " ", rightLabel), index.h("p", { class: "applicable-policies__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, bracket.gross_amount)), index.h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
-        })), index.h("div", { class: "applicable-policies__brackets-table" }, index.h("table", null, index.h("tbody", null, statement.brackets.map((bracket, idx) => {
-            const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
-                index: idx,
-                bracket,
-                brackets: statement.brackets,
-                checkInDate: statement.checkInDate,
-            });
-            const isInCurrentBracket = this.checkCurrentBracket(bracket, idx < statement.brackets.length - 1 ? statement.brackets[idx + 1] : null);
-            return (index.h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, index.h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && index.h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), index.h("td", { class: "applicable-policies__amount px-1" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, bracket.gross_amount)), index.h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
-        }))))))))))));
+            } })))))), index.h("section", null, index.h("div", { class: "applicable-policies__container" }, index.h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), index.h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), index.h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), ((_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.length) > 0 && (index.h("div", { class: "applicable-policies__statements" }, (_b = this.cancellationStatements) === null || _b === void 0 ? void 0 : _b.map(statement => {
+            const currentBracket = this._getCurrentBracket(statement.brackets);
+            const isTodaySameOrAfterCheckInDate = moment.hooks().isSameOrAfter(moment.hooks(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days'));
+            return (index.h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (index.h("p", { class: "applicable-policies__room" }, index.h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales_store.locales.entries.Lcz_NonRefundable}` : '')), index.h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
+                const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
+                    index: idx,
+                    bracket,
+                    brackets: statement.brackets,
+                    checkInDate: statement.checkInDate,
+                });
+                const isInCurrentBracket = moment.hooks(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
+                return (index.h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, index.h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && index.h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), index.h("p", { class: "applicable-policies__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, bracket.gross_amount)), index.h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+            })), index.h("div", { class: "applicable-policies__brackets-table" }, index.h("table", null, index.h("tbody", null, statement.brackets.map((bracket, idx) => {
+                const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
+                    index: idx,
+                    bracket,
+                    brackets: statement.brackets,
+                    checkInDate: statement.checkInDate,
+                });
+                const isInCurrentBracket = isTodaySameOrAfterCheckInDate ? false : moment.hooks(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
+                return (index.h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, index.h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && index.h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), index.h("td", { class: "applicable-policies__amount px-1" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, bracket.gross_amount)), index.h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+            }), isTodaySameOrAfterCheckInDate && (index.h("tr", { class: { 'applicable-policies__highlighted-bracket': true } }, index.h("td", { class: "applicable-policies__bracket-dates" }, moment.hooks(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days').format('MMM DD'), " onwards"), index.h("td", { class: "applicable-policies__amount px-1" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, statement.grossTotal)), index.h("td", { class: "applicable-policies__statement-text" }, "100% of the total price"))))))));
+        }))))));
     }
     static get watchers() { return {
         "booking": ["handleBookingChange"]
