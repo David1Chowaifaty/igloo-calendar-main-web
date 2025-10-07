@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const booking_service = require('./booking.service-5970bdb9.js');
+const booking_service = require('./booking.service-13cab367.js');
 const utils = require('./utils-bf9b1b25.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-c81ab713.js');
+const events_service = require('./events.service-dfff96d8.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-960b69ba.js');
 const index$1 = require('./index-63734c32.js');
@@ -2473,7 +2473,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (index.h(index.Host, { key: '306a033f437ca0f099645fec494ae42734d4d18f', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'ddfa547bc58ed6e497e96af27886ca7d9ef0c23b', ref: el => {
+        return (index.h(index.Host, { key: 'b66dfc6b946e105e849ca9d54c4bddbffaa2dd46', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '8d30d0220d92fd83873fbf67c880c629306898a5', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -2485,12 +2485,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, index.h("span", { key: '106594d0b5a60dddaf47bd46c9f57680827d0c83', class: "cropped-title", style: {
+            } }, index.h("span", { key: '69be0e72ff1f25ea74b4ca1059b662ffc61b5fa0', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (index.h("div", { key: '86282e97e2e968c9bc06eb8e3a9b894d2dd8f699', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '46b43fb55204904843cba5cbe159f3eed3ef3b22', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'f4e451f777cc7c0177ace2164154f6a0190a2d8e', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '771381ff4ea5577e7398e8e2891c6fb51bd8c0da', name: "end" }))))));
     }
     get el() { return index.getElement(this); }
 };

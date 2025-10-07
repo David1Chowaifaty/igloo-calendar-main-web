@@ -1,7 +1,51 @@
+import { z } from './index3.js';
 import { c as calendar_data } from './calendar-data.js';
 import { M as downloadFile } from './utils.js';
 import { a as axios } from './axios.js';
 
+// src/components/ir-sales-by-channel/types.ts
+/* ---------- Report (input) ---------- */
+const CurrencySchema = z.object({
+    code: z.string(),
+    id: z.number(),
+    symbol: z.string(),
+});
+const ChannelReportBaseSchema = z.object({
+    NIGHTS: z.number(),
+    PCT: z.number(),
+    REVENUE: z.number(),
+    SOURCE: z.string(),
+    PROPERTY_ID: z.number(),
+    PROPERTY_NAME: z.string(),
+    currency: CurrencySchema,
+});
+/**
+ * Transforms UPPER_SNAKE_CASE keys to lowercase at parse time.
+ * Output type is exactly the lowercased version of the base schema.
+ */
+const ExtendedChanelReportBaseSchema = ChannelReportBaseSchema.extend({
+    last_year: ChannelReportBaseSchema.optional(),
+});
+const ChannelReportResultSchema = z.array(ExtendedChanelReportBaseSchema).nullable();
+/* ---------- Params ---------- */
+const ChannelSalesParamsSchema = z.object({
+    AC_ID: z.string().optional(),
+    BOOK_CASE: z.string().min(1),
+    FROM_DATE: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD format'),
+    TO_DATE: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD format'),
+    WINDOW: z.coerce.number().int().nonnegative(),
+    // Accepts true/false, "true"/"false", 1/0; defaults to false
+    is_export_to_excel: z.coerce.boolean().optional().default(false),
+    LIST_AC_ID: z.array(z.number()).optional(),
+});
+/* ---------- Filters ---------- */
+ChannelSalesParamsSchema.extend({
+    include_previous_year: z.boolean(),
+});
+const parseChannelReportResult = (data) => ChannelReportResultSchema.parse(data);
+const parseChannelSalesParams = (data) => ChannelSalesParamsSchema.parse(data);
+
+const AllowedPropertiesSchema = z.array(z.object({ id: z.number(), name: z.string() })).nullable();
 class PropertyService {
     async getExposedProperty(params) {
         var _a, _b;
@@ -39,6 +83,24 @@ class PropertyService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async getChannelSales(params) {
+        const _params = parseChannelSalesParams(params);
+        const { data } = await axios.post('/Get_Channel_Sales', _params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        if (params.is_export_to_excel) {
+            downloadFile(data.My_Params_Get_Channel_Sales.Link_excel);
+        }
+        return parseChannelReportResult(data.My_Result);
+    }
+    async getExposedAllowedProperties() {
+        const { data } = await axios.post('/Get_Exposed_Allowed_Properties', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return AllowedPropertiesSchema.parse(data.My_Result);
     }
     async getCountrySales(params) {
         const { data } = await axios.post('/Get_Country_Sales', params);

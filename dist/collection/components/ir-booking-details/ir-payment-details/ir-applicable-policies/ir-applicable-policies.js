@@ -30,35 +30,19 @@ export class IrApplicablePolicies {
                 const cancellationPolicy = getPoliciesByType(room.applicable_policies, 'cancelation');
                 const guaranteePolicy = getPoliciesByType(room.applicable_policies, 'guarantee');
                 if (cancellationPolicy) {
-                    //check if every bracket have 0 in amount;
-                    const isEveryBracketEmpty = cancellationPolicy.brackets.every(b => b.amount === 0);
-                    let brackets = isEveryBracketEmpty
-                        ? [cancellationPolicy.brackets[cancellationPolicy.brackets.length - 1]]
-                        : [
-                            ...cancellationPolicy.brackets
-                                .map((bracket, index) => {
-                                var _a;
-                                if (bracket.amount > 0) {
-                                    return bracket;
-                                }
-                                if (index < (cancellationPolicy === null || cancellationPolicy === void 0 ? void 0 : cancellationPolicy.brackets.length) - 1 && ((_a = cancellationPolicy.brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.amount) > 0) {
-                                    return bracket;
-                                }
-                            })
-                                .filter(Boolean),
-                        ];
-                    brackets.push({
-                        amount: room.total,
-                        amount_formatted: '',
-                        code: '',
-                        currency_id: 0,
-                        due_on: moment(room.from_date, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD'),
-                        due_on_formatted: '',
-                        gross_amount: room.gross_total,
-                        gross_amount_formatted: '',
-                        statement: '100% of total price',
-                        is_check_in_date: true,
-                    });
+                    let brackets = [
+                        ...cancellationPolicy.brackets
+                            .map((bracket, index) => {
+                            var _a;
+                            if (bracket.amount > 0) {
+                                return bracket;
+                            }
+                            if (index < (cancellationPolicy === null || cancellationPolicy === void 0 ? void 0 : cancellationPolicy.brackets.length) - 1 && ((_a = cancellationPolicy.brackets[index + 1]) === null || _a === void 0 ? void 0 : _a.amount) > 0) {
+                                return bracket;
+                            }
+                        })
+                            .filter(Boolean),
+                    ];
                     statements.push(Object.assign(Object.assign({}, cancellationPolicy), { roomType: room.roomtype, ratePlan: room.rateplan, brackets, checkInDate: room.from_date, grossTotal: room.gross_total }));
                 }
                 if (guaranteePolicy) {
@@ -129,19 +113,11 @@ export class IrApplicablePolicies {
             };
         }
         // Last bracket
-        // if (index === brackets.length - 1) {
-        //   return {
-        //     leftLabel: bracketDueDate.clone().format('MMM DD'),
-        //     showArrow: true,
-        //     rightLabel: moment(checkInDate).format('MMM DD, YYYY'),
-        //   };
-        // }
-        console.log(checkInDate);
         if (index === brackets.length - 1) {
             return {
-                leftLabel: `${bracketDueDate.clone().format('MMM DD')} onwards`,
-                showArrow: false,
-                rightLabel: '',
+                leftLabel: bracketDueDate.clone().format('MMM DD'),
+                showArrow: true,
+                rightLabel: moment(checkInDate).format('MMM DD, YYYY'),
             };
         }
         // Middle brackets
@@ -224,6 +200,7 @@ export class IrApplicablePolicies {
                 });
             } })))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), ((_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.length) > 0 && this.shouldShowCancellationBrackets && (h("div", { class: "applicable-policies__statements" }, (_b = this.cancellationStatements) === null || _b === void 0 ? void 0 : _b.map(statement => {
             const currentBracket = this._getCurrentBracket(statement.brackets);
+            const isTodaySameOrAfterCheckInDate = moment().isSameOrAfter(moment(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days'));
             return (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales.entries.Lcz_NonRefundable}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
                 const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                     index: idx,
@@ -240,10 +217,9 @@ export class IrApplicablePolicies {
                     brackets: statement.brackets,
                     checkInDate: statement.checkInDate,
                 });
-                const isInCurrentBracket = moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
-                console.log({ isInCurrentBracket });
+                const isInCurrentBracket = isTodaySameOrAfterCheckInDate ? false : moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
                 return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
-            }))))));
+            }), isTodaySameOrAfterCheckInDate && (h("tr", { class: { 'applicable-policies__highlighted-bracket': true } }, h("td", { class: "applicable-policies__bracket-dates" }, moment(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days').format('MMM DD'), " onwards"), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, statement.grossTotal)), h("td", { class: "applicable-policies__statement-text" }, "100% of the total price"))))))));
         }))))));
     }
     static get is() { return "ir-applicable-policies"; }

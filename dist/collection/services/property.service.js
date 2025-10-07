@@ -1,6 +1,9 @@
+import { parseChannelReportResult, parseChannelSalesParams } from "../components/ir-sales-by-channel/types";
 import calendar_data from "../stores/calendar-data";
 import { downloadFile } from "../utils/utils";
 import axios from "axios";
+import { z } from "zod";
+export const AllowedPropertiesSchema = z.array(z.object({ id: z.number(), name: z.string() })).nullable();
 export class PropertyService {
     async getExposedProperty(params) {
         var _a, _b;
@@ -38,6 +41,24 @@ export class PropertyService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async getChannelSales(params) {
+        const _params = parseChannelSalesParams(params);
+        const { data } = await axios.post('/Get_Channel_Sales', _params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        if (params.is_export_to_excel) {
+            downloadFile(data.My_Params_Get_Channel_Sales.Link_excel);
+        }
+        return parseChannelReportResult(data.My_Result);
+    }
+    async getExposedAllowedProperties() {
+        const { data } = await axios.post('/Get_Exposed_Allowed_Properties', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return AllowedPropertiesSchema.parse(data.My_Result);
     }
     async getCountrySales(params) {
         const { data } = await axios.post('/Get_Country_Sales', params);

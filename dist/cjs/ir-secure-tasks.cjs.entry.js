@@ -31,6 +31,7 @@ const IrSecureTasks = class {
             { name: 'Daily Revenue', value: 'daily-revenue' },
             { name: 'Email logs', value: 'email-logs' },
             { name: 'Booking Listing', value: 'booking-listing' },
+            { name: 'Sales by Channel', value: 'channel-sales' },
         ];
     }
     componentWillLoad() {
@@ -115,6 +116,8 @@ const IrSecureTasks = class {
                 return index.h("ir-booking-email-logs", { ticket: this.token.getToken() });
             case 'booking-listing':
                 return index.h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'channel-sales':
+                return index.h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
             default:
                 return null;
         }

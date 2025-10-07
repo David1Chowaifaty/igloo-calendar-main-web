@@ -1,13 +1,13 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
-import { B as BookingService } from './booking.service-4e35c6e5.js';
-import { y as transformNewBooking, B as isBlockUnit, p as calendar_dates, c as calculateDaysBetweenDates, H as compareTime, I as createDateWithOffsetAndHour, d as dateToFormattedString, J as getDaysArray, K as convertDatePrice, L as formatDate } from './utils-8b3fe79b.js';
+import { B as BookingService } from './booking.service-35ef2d7a.js';
+import { t as transformNewBooking, w as isBlockUnit, k as calendar_dates, a as calculateDaysBetweenDates, D as compareTime, E as createDateWithOffsetAndHour, i as dateToFormattedString, F as getDaysArray, G as convertDatePrice, H as formatDate } from './utils-30ce039e.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-46d0d3f3.js';
+import { E as EventsService } from './events.service-b269246d.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { c as calendar_data } from './calendar-data-f4e207f9.js';
 import { z, Z as ZodError } from './index-6ecc32cd.js';
 import { H as HouseKeepingService } from './housekeeping.service-e63a6d61.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-391a7f65.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-248cad0a.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-5083e678.js';
 import { c as colorVariants } from './icons-f8664e4a.js';
 import './axios-aa1335b8.js';
@@ -2469,7 +2469,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '306a033f437ca0f099645fec494ae42734d4d18f', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ddfa547bc58ed6e497e96af27886ca7d9ef0c23b', ref: el => {
+        return (h(Host, { key: 'b66dfc6b946e105e849ca9d54c4bddbffaa2dd46', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '8d30d0220d92fd83873fbf67c880c629306898a5', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -2481,12 +2481,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '106594d0b5a60dddaf47bd46c9f57680827d0c83', class: "cropped-title", style: {
+            } }, h("span", { key: '69be0e72ff1f25ea74b4ca1059b662ffc61b5fa0', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: '86282e97e2e968c9bc06eb8e3a9b894d2dd8f699', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '46b43fb55204904843cba5cbe159f3eed3ef3b22', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: 'f4e451f777cc7c0177ace2164154f6a0190a2d8e', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '771381ff4ea5577e7398e8e2891c6fb51bd8c0da', name: "end" }))))));
     }
     get el() { return getElement(this); }
 };

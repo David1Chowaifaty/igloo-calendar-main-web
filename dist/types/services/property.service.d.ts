@@ -1,3 +1,5 @@
+import { type ChannelReportResult, type ChannelSalesParams } from "../components/ir-sales-by-channel/types";
+import { z } from 'zod';
 export type CountrySalesParams = {
     AC_ID: number;
     WINDOW: number;
@@ -38,6 +40,17 @@ export interface DailyStat {
     ADR: number;
     Total_Guests: number | undefined;
 }
+export declare const AllowedPropertiesSchema: z.ZodNullable<z.ZodArray<z.ZodObject<{
+    id: z.ZodNumber;
+    name: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    name?: string;
+    id?: number;
+}, {
+    name?: string;
+    id?: number;
+}>, "many">>;
+export type AllowedProperties = z.infer<typeof AllowedPropertiesSchema>;
 export declare class PropertyService {
     getExposedProperty(params: {
         id: number | null;
@@ -47,6 +60,11 @@ export declare class PropertyService {
         include_units_hk_status?: boolean;
         include_sales_rate_plans?: boolean;
     }): Promise<any>;
+    getChannelSales(params: ChannelSalesParams): Promise<ChannelReportResult>;
+    getExposedAllowedProperties(): Promise<{
+        name?: string;
+        id?: number;
+    }[]>;
     getCountrySales(params: CountrySalesParams): Promise<any>;
     getDailyRevenueReport(params: DailyRevenueReportParams): Promise<any>;
     setExposedCleaningFrequency(params: {
