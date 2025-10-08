@@ -7,6 +7,10 @@ export declare class IrMCombobox {
      */
     placeholder: string;
     /**
+     * default selected option for the combobox.
+     */
+    defaultOption: ComboboxOption['value'];
+    /**
      * Determines how the options are loaded into the component.
      * - 'static': Uses the options passed through the `options` prop or the default internal list.
      * - 'external': Emits search events for external handling, options updated via `options` prop.

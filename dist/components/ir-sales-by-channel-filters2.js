@@ -1,10 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$7 } from './ir-button2.js';
-import { d as defineCustomElement$6 } from './ir-checkbox2.js';
-import { d as defineCustomElement$5 } from './ir-date-picker2.js';
-import { d as defineCustomElement$4 } from './ir-filters-panel2.js';
-import { d as defineCustomElement$3 } from './ir-icons2.js';
+import { d as defineCustomElement$8 } from './ir-button2.js';
+import { d as defineCustomElement$7 } from './ir-checkbox2.js';
+import { d as defineCustomElement$6 } from './ir-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-filters-panel2.js';
+import { d as defineCustomElement$4 } from './ir-icons2.js';
+import { d as defineCustomElement$3 } from './ir-m-combobox2.js';
 import { d as defineCustomElement$2 } from './ir-range-picker2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
 
@@ -25,7 +26,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
         this.filters = Object.assign(Object.assign({}, this.filters), params);
     }
     render() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e, _f, _g;
         console.log(this.filters);
         return (h("ir-filters-panel", { key: '58aeea7f41bf6de9653fafc1f0b5de13f98ce0a0', isApplyLoading: this.isLoading, onIrFilterApply: () => {
                 this.applyFilters.emit(this.filters);
@@ -37,8 +38,8 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
             }), data: [
                 { text: 'Booked', value: '001' },
                 { text: 'Stayed', value: '002' },
-            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '9a442d0d6cf506577fdcf24b92623f249df28d0a', class: "filter-group" }, h("label", { key: '06691f7b9b14e19b8457927efb21628e3a97e876', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-select", { key: '64bbe2cabbb587997f88a62a05ea778af0d049d4', selectedValue: (_b = this.filters) === null || _b === void 0 ? void 0 : _b.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => {
-                const value = e.detail;
+            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '9a442d0d6cf506577fdcf24b92623f249df28d0a', class: "filter-group" }, h("label", { key: '06691f7b9b14e19b8457927efb21628e3a97e876', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-m-combobox", { key: '75d7767aae830ebd3432b66e05e08e0644b51dbc', defaultOption: ((_c = (_b = this.filters) === null || _b === void 0 ? void 0 : _b.LIST_AC_ID) === null || _c === void 0 ? void 0 : _c.length) === ((_d = this.allowedProperties) === null || _d === void 0 ? void 0 : _d.length) ? 'all' : (_f = (_e = this.filters) === null || _e === void 0 ? void 0 : _e.LIST_AC_ID[0]) === null || _f === void 0 ? void 0 : _f.toString(), onOptionChange: e => {
+                const value = e.detail.value;
                 if (value === 'all') {
                     this.updateFilter({
                         LIST_AC_ID: this.allowedProperties.map(p => p.id),
@@ -48,13 +49,13 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                     this.updateFilter({
                         LIST_AC_ID: this.allowedProperties.filter(e => e.id === Number(value)).map(p => p.id),
                     });
-            }, data: [
-                { text: 'All', value: 'all' },
+            }, options: [
+                { label: 'All', value: 'all' },
                 ...this.allowedProperties.map(p => ({
-                    text: p.name,
+                    label: p.name,
                     value: p.id.toString(),
                 })),
-            ] }))), h("fieldset", { key: '682dbf6b381f6d8fd7de9af66b52e3f9586f37f9', class: "filter-group" }, h("label", { key: 'c462a4377c2c51f9b1eb5a03de0b618d54ac0cf9', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: 'c648d14a87128b324085a1425fb3155f0c056718', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'dba8fd319752a23218156ed23cdc5825f98bb57d', selectedValue: this.window, onSelectChange: e => {
+            ] }))), h("fieldset", { key: 'b81fcfb6d5167d07bff1d209acac249d32280340', class: "filter-group" }, h("label", { key: '05dcce13aec45da3cfb0a8170bbd0dc3a6c84bf4', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: '4c960cc66b807ca4ac85ef87258d326234516645', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'e9d6f89c941f4d272fc3fb07be8f178f482beb1e', selectedValue: this.window, onSelectChange: e => {
                 const dateDiff = Number(e.detail);
                 const today = hooks();
                 this.updateFilter({
@@ -72,7 +73,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                 { text: 'For the past 60 days', value: '60' },
                 { text: 'For the past 90 days', value: '90' },
                 { text: 'For the past 365 days', value: '365' },
-            ] }), h("p", { key: '2dfcd9733368948ca746c3a94b0a4610e0224eba', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: '51beaa4b024d301011ae144577f103baba63dbc9', onDateRangeChanged: e => {
+            ] }), h("p", { key: '05b80535609df3c060e37880a8d1b35290db3a4a', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: '7c86d346b2c0ecd3861619eae079da05ace58dce', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate, wasFocused } = e.detail;
@@ -83,7 +84,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                 if (wasFocused)
                     this.window = null;
                 // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '5bf6bcc86e88aca5db77d585ed91230d7f1bf022', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '299c0b416a69d8d20b173452732c67d46979bd1d', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '32a3b32d86c3d862016d6bc7e392886fc047db82', checked: (_c = this.filters) === null || _c === void 0 ? void 0 : _c.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '590a2041fdb834093e6a8b4e61025d86ed8f9d01', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '649e1652f1c431da18a1001a2855264d4a4b5a39', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: 'bd79c883430c7e6cda81c6962b07baeb97f642b5', checked: (_g = this.filters) === null || _g === void 0 ? void 0 : _g.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });
@@ -101,7 +102,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-channel-filters", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-range-picker", "ir-select"];
+    const components = ["ir-sales-by-channel-filters", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-m-combobox", "ir-range-picker", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-channel-filters":
             if (!customElements.get(tagName)) {
@@ -110,25 +111,30 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-filters-panel":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-m-combobox":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

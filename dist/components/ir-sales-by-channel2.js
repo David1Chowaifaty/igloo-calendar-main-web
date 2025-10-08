@@ -4,13 +4,14 @@ import { P as PropertyService } from './property.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-checkbox2.js';
-import { d as defineCustomElement$e } from './ir-date-picker2.js';
-import { d as defineCustomElement$d } from './ir-filters-panel2.js';
-import { d as defineCustomElement$c } from './ir-icons2.js';
-import { d as defineCustomElement$b } from './ir-interceptor2.js';
-import { d as defineCustomElement$a } from './ir-loading-screen2.js';
+import { d as defineCustomElement$h } from './ir-button2.js';
+import { d as defineCustomElement$g } from './ir-checkbox2.js';
+import { d as defineCustomElement$f } from './ir-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-filters-panel2.js';
+import { d as defineCustomElement$d } from './ir-icons2.js';
+import { d as defineCustomElement$c } from './ir-interceptor2.js';
+import { d as defineCustomElement$b } from './ir-loading-screen2.js';
+import { d as defineCustomElement$a } from './ir-m-combobox2.js';
 import { d as defineCustomElement$9 } from './ir-otp2.js';
 import { d as defineCustomElement$8 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$7 } from './ir-progress-indicator2.js';
@@ -108,31 +109,78 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
             else {
                 enrichedSales = currentSales.map(record => (Object.assign(Object.assign({}, record), { last_year: null })));
             }
-            // --- Group by PROPERTY_ID and sort so that hotels with most revenue are on top ---
-            const totalsByProperty = enrichedSales.reduce((acc, r) => {
-                var _a;
-                acc[r.PROPERTY_ID] = ((_a = acc[r.PROPERTY_ID]) !== null && _a !== void 0 ? _a : 0) + r.REVENUE;
-                return acc;
-            }, {});
-            enrichedSales.sort((a, b) => {
-                var _a, _b;
-                const tA = (_a = totalsByProperty[a.PROPERTY_ID]) !== null && _a !== void 0 ? _a : 0;
-                const tB = (_b = totalsByProperty[b.PROPERTY_ID]) !== null && _b !== void 0 ? _b : 0;
-                // 1) Sort groups by total revenue (desc)
-                if (tB !== tA)
-                    return tB - tA;
-                // 2) Within the same property, sort each channel row by REVENUE (desc),
-                //    then by SOURCE for a stable, readable order
-                if (a.PROPERTY_ID === b.PROPERTY_ID) {
-                    if (b.REVENUE !== a.REVENUE)
-                        return b.REVENUE - a.REVENUE;
-                    return a.SOURCE.localeCompare(b.SOURCE);
+            /**
+             * Groups sales records by SOURCE and currency.id, summing numeric fields
+             * and recalculating PCT based on the total REVENUE.
+             */
+            const groupSalesRecordsBySource = (records) => {
+                if (!records || records.length === 0)
+                    return records;
+                // Helper to extract currency ID from various possible formats
+                const getCurrencyId = (r) => {
+                    var _a, _b;
+                    return (_b = (_a = r === null || r === void 0 ? void 0 : r.currency) === null || _a === void 0 ? void 0 : _a.id) !== null && _b !== void 0 ? _b : null;
+                };
+                // Create unique key for grouping
+                const createKey = (r) => {
+                    const source = r.SOURCE.toString().toLowerCase().trim();
+                    const currencyId = getCurrencyId(r);
+                    return `${source}__${currencyId !== null && currencyId !== void 0 ? currencyId : 'null'}`;
+                };
+                // Sum two values safely
+                const sumValues = (a, b) => {
+                    return (a !== null && a !== void 0 ? a : 0) + (b !== null && b !== void 0 ? b : 0);
+                };
+                // Merge numeric fields from last_year objects
+                const mergeLastYear = (base, incoming) => {
+                    if (!incoming)
+                        return base;
+                    if (!base)
+                        return Object.assign({}, incoming);
+                    return {
+                        NIGHTS: sumValues(base.NIGHTS, incoming.NIGHTS),
+                        PCT: sumValues(base.PCT, incoming.PCT), // Will recalculate later
+                        REVENUE: sumValues(base.REVENUE, incoming.REVENUE),
+                        SOURCE: base.SOURCE,
+                        PROPERTY_ID: base.PROPERTY_ID,
+                        PROPERTY_NAME: base.PROPERTY_NAME,
+                        currency: base.currency,
+                    };
+                };
+                // Group records by key
+                const grouped = new Map();
+                for (const record of records) {
+                    const key = createKey(record);
+                    const existing = grouped.get(key);
+                    if (!existing) {
+                        // First record for this key - clone it
+                        grouped.set(key, Object.assign({}, record));
+                    }
+                    else {
+                        // Merge with existing record
+                        const merged = Object.assign(Object.assign({}, existing), { NIGHTS: sumValues(existing.NIGHTS, record.NIGHTS), PCT: 0, REVENUE: sumValues(existing.REVENUE, record.REVENUE), last_year: mergeLastYear(existing.last_year, record.last_year) });
+                        grouped.set(key, merged);
+                    }
                 }
-                // 3) Tie-breaker when two different properties have identical totals
-                return String(a.PROPERTY_NAME).localeCompare(String(b.PROPERTY_NAME));
-            });
-            // -------------------------------------------------------------------------------
-            this.salesData = [...enrichedSales];
+                // Convert to array
+                const result = Array.from(grouped.values());
+                // Recalculate PCT based on total REVENUE
+                const totalRevenue = result.reduce((sum, r) => { var _a; return sum + ((_a = r.REVENUE) !== null && _a !== void 0 ? _a : 0); }, 0);
+                if (totalRevenue > 0) {
+                    for (const record of result) {
+                        record.PCT = (record.REVENUE / totalRevenue) * 100;
+                        // Also recalculate last_year PCT if it exists
+                        if (record.last_year) {
+                            const lastYearTotal = result.reduce((sum, r) => { var _a, _b; return sum + ((_b = (_a = r.last_year) === null || _a === void 0 ? void 0 : _a.REVENUE) !== null && _b !== void 0 ? _b : 0); }, 0);
+                            if (lastYearTotal > 0) {
+                                record.last_year.PCT = (record.last_year.REVENUE / lastYearTotal) * 100;
+                            }
+                        }
+                    }
+                }
+                return result;
+            };
+            this.salesData = [...groupSalesRecordsBySource(enrichedSales)];
         }
         catch (error) {
             console.error('Failed to fetch sales data:', error);
@@ -176,7 +224,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-channel", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-channel-filters", "ir-sales-by-channel-table", "ir-select", "ir-spinner", "ir-toast"];
+    const components = ["ir-sales-by-channel", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-m-combobox", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-channel-filters", "ir-sales-by-channel-table", "ir-select", "ir-spinner", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-channel":
             if (!customElements.get(tagName)) {
@@ -185,35 +233,40 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-checkbox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-filters-panel":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$b();
+            }
+            break;
+        case "ir-m-combobox":
             if (!customElements.get(tagName)) {
                 defineCustomElement$a();
             }

@@ -183,6 +183,13 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
         this.initializeOptions();
         // discover items on first paint
         this.collectItemChildren();
+        //set selected option
+        if (this.defaultOption) {
+            const opt = this.options.find(o => o.value === this.defaultOption);
+            if (opt) {
+                this.selectOption(opt);
+            }
+        }
         // watch DOM changes to children
         this.mo = new MutationObserver(() => this.collectItemChildren());
         this.mo.observe(this.el, { childList: true, subtree: true });
@@ -343,7 +350,7 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
     }
     render() {
         var _a;
-        return (h(Host, { key: '62b2427eb7095965d13ea4388d1b87182355095a', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '90c9fbc684f1adc37527da183e5c26216fe3fdb5', class: "input-wrapper" }, h("span", { key: '8f00e4adf352f50b63af1d3ad06c18892d79ed6a', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '7f07f5b963e03735694d88f93b7c2870f5419777', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '782c13570aa11a0cd7f24c666b971b0d0a08f6bf', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '060c45a0628192c987423e6aec92bc1362dc1d98', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '64ae37e109ede9b4928291d23613231deb996a72', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '59254c25e33f096d516069e8f34c7b198fa630bd', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'aa984248908b242cbef975db869ada33ad72cb45', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '9381d326d858e2376d4e1f8b8b6bd4f1440716f8', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '3a33c1e498b728f7a9468c9c6f6e00d9fde9baea', class: "input-wrapper" }, h("span", { key: 'd15f06dd9a2499fa9af231154047dd1c7d6c8e8f', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '4c44b8f174e2248a2340326bffdfcd8483d0f249', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: 'ae0d63b13889583103d57a4379da6196e4ea2092', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '77c7fc0c52abf77764d80e60fad25ad127ed4086', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '466ff0d36d4a6c7d9593a6438d45755734fc4c16', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '66ed524fdc5ced9b5e2f811a53d9bd8c0414e955', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '479c776492ef970f0e99d93ff7bc85d16fa27b6c', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
@@ -361,6 +368,7 @@ const IrMCombobox = /*@__PURE__*/ proxyCustomElement(class IrMCombobox extends H
     static get style() { return IrMComboboxStyle0; }
 }, [6, "ir-m-combobox", {
         "placeholder": [1],
+        "defaultOption": [1, "default-option"],
         "dataMode": [1, "data-mode"],
         "options": [16],
         "debounceDelay": [2, "debounce-delay"],
