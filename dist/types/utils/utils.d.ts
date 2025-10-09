@@ -24,6 +24,27 @@ export declare function getDaysArray(date1: string, date2: string): any[];
 export declare function renderTime(time: number): string;
 export declare function validateEmail(email: string): boolean;
 export declare function formatAmount(currency: string, amount: number): string;
+/**
+ * Determines whether the given user has privileged (global or elevated) access.
+ *
+ * Privileged users are typically system administrators or MPO users
+ * who can access data across all properties rather than being restricted
+ * to a specific property.
+ *
+ * @param userTypeCode - Numeric code representing the user's role.
+ *   - `1` → Super Admin
+ *   - `4` → MPO (Multi-Property Operator)
+ *
+ * @returns `true` if the user has elevated/global access, otherwise `false`.
+ *
+ * @example
+ * ```ts
+ * isPrivilegedUser(1); // true (Super Admin)
+ * isPrivilegedUser(4); // true (MPO)
+ * isPrivilegedUser(2); // false
+ * ```
+ */
+export declare const isPrivilegedUser: (userTypeCode: number) => boolean;
 export declare const extras: ({
     key: string;
     value: string;

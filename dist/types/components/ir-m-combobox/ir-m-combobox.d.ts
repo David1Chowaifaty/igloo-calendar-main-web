@@ -68,6 +68,7 @@ export declare class IrMCombobox {
     private mo;
     private get isCompositionMode();
     watchOptionsChanged(newOptions: ComboboxOption[]): void;
+    watchDefaultValueChanged(newOption: string): void;
     watchUseSlotChanged(): void;
     componentWillLoad(): void;
     componentDidLoad(): void;
@@ -76,6 +77,7 @@ export declare class IrMCombobox {
     handleComboboxItemSelect(ev: CustomEvent<ComboboxOption>): void;
     handleComboboxItemRegister(): void;
     handleComboboxItemUnregister(): void;
+    private applyDefaultOption;
     private initializeOptions;
     private handleDocumentClick;
     private openDropdown;

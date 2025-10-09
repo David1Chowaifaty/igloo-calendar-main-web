@@ -118,8 +118,8 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
                     return records;
                 // Helper to extract currency ID from various possible formats
                 const getCurrencyId = (r) => {
-                    var _a, _b;
-                    return (_b = (_a = r === null || r === void 0 ? void 0 : r.currency) === null || _a === void 0 ? void 0 : _a.id) !== null && _b !== void 0 ? _b : null;
+                    var _a;
+                    return (_a = r === null || r === void 0 ? void 0 : r.currency) !== null && _a !== void 0 ? _a : null;
                 };
                 // Create unique key for grouping
                 const createKey = (r) => {

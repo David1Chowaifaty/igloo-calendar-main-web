@@ -1,8 +1,34 @@
 import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
-import { e as extras } from './utils.js';
+import { z } from './index3.js';
+import { e as extras, M as isPrivilegedUser } from './utils.js';
 import { a as axios } from './axios.js';
 
+const ymdDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected date in YYYY-MM-DD format');
+z.object({
+    channel: z.string(),
+    // These are null in your initialState, so allow nulls
+    property_id: z.number().int().nullable(),
+    balance_filter: z.string().nullable(),
+    filter_type: z.union([z.number(), z.string()]).nullable(),
+    from: ymdDate,
+    to: ymdDate,
+    name: z.string(),
+    book_nbr: z.string(),
+    booking_status: z.string(),
+    userTypeCode: z.number().optional(),
+    // In the interface these were literal 0/false, but you treat them like values.
+    affiliate_id: z.number().int().default(0),
+    is_mpo_managed: z.boolean().default(false),
+    is_mpo_used: z.boolean().default(false),
+    is_for_mobile: z.boolean().default(false),
+    is_combined_view: z.boolean().default(false),
+    start_row: z.number().int(),
+    end_row: z.number().int(),
+    total_count: z.number().int(),
+    is_to_export: z.boolean(),
+    property_ids: z.array(z.number().int()).optional(),
+});
 const initialState = {
     channels: [],
     settlement_methods: [],
@@ -46,6 +72,17 @@ function updateUserSelection(key, value) {
     booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { [key]: value });
 }
 
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 class BookingListingService {
     async getExposedBookingsCriteria(property_id) {
         const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, {
@@ -60,7 +97,9 @@ class BookingListingService {
         initializeUserSelection();
     }
     async getExposedBookings(params) {
-        const { data } = await axios.post(`/Get_Exposed_Bookings`, Object.assign(Object.assign({}, params), { extras }));
+        const { property_id, userTypeCode, channel, property_ids } = params, rest = __rest(params, ["property_id", "userTypeCode", "channel", "property_ids"]);
+        const havePrivilege = isPrivilegedUser(userTypeCode);
+        const { data } = await axios.post(`/Get_Exposed_Bookings`, Object.assign(Object.assign({}, rest), { extras, property_id: havePrivilege ? undefined : property_id, property_ids: havePrivilege ? property_ids : null, channel: havePrivilege ? '' : channel }));
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];

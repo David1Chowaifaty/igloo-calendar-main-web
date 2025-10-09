@@ -1,11 +1,11 @@
 import { z } from './index3.js';
 import { c as calendar_data } from './calendar-data.js';
-import { M as downloadFile } from './utils.js';
+import { N as downloadFile } from './utils.js';
 import { a as axios } from './axios.js';
 
 // src/components/ir-sales-by-channel/types.ts
 /* ---------- Report (input) ---------- */
-const CurrencySchema = z.object({
+z.object({
     code: z.string(),
     id: z.number(),
     symbol: z.string(),
@@ -17,7 +17,7 @@ const ChannelReportBaseSchema = z.object({
     SOURCE: z.string(),
     PROPERTY_ID: z.number(),
     PROPERTY_NAME: z.string(),
-    currency: CurrencySchema,
+    currency: z.string(),
 });
 /**
  * Transforms UPPER_SNAKE_CASE keys to lowercase at parse time.

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { N as sleep } from './utils.js';
+import { O as sleep } from './utils.js';
 import { c as colorVariants, d as defineCustomElement$6 } from './ir-icons2.js';
 import { d as defineCustomElement$8 } from './ac-pages-menu2.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';

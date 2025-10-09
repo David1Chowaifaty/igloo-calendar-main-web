@@ -1,5 +1,31 @@
 import { createStore } from "@stencil/store";
 import moment from "moment";
+import { z } from "zod";
+const ymdDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected date in YYYY-MM-DD format');
+export const ExposedBookingsParamsSchema = z.object({
+    channel: z.string(),
+    // These are null in your initialState, so allow nulls
+    property_id: z.number().int().nullable(),
+    balance_filter: z.string().nullable(),
+    filter_type: z.union([z.number(), z.string()]).nullable(),
+    from: ymdDate,
+    to: ymdDate,
+    name: z.string(),
+    book_nbr: z.string(),
+    booking_status: z.string(),
+    userTypeCode: z.number().optional(),
+    // In the interface these were literal 0/false, but you treat them like values.
+    affiliate_id: z.number().int().default(0),
+    is_mpo_managed: z.boolean().default(false),
+    is_mpo_used: z.boolean().default(false),
+    is_for_mobile: z.boolean().default(false),
+    is_combined_view: z.boolean().default(false),
+    start_row: z.number().int(),
+    end_row: z.number().int(),
+    total_count: z.number().int(),
+    is_to_export: z.boolean(),
+    property_ids: z.array(z.number().int()).optional(),
+});
 const initialState = {
     channels: [],
     settlement_methods: [],

@@ -166,6 +166,11 @@ export class IrMCombobox {
             this.updateSlotElements();
         }
     }
+    watchDefaultValueChanged(newOption) {
+        if (newOption !== this.selectedOption.value) {
+            this.applyDefaultOption();
+        }
+    }
     watchUseSlotChanged() {
         if (this.useSlot) {
             setTimeout(() => this.updateSlotElements(), 0);
@@ -175,13 +180,6 @@ export class IrMCombobox {
         this.initializeOptions();
         // discover items on first paint
         this.collectItemChildren();
-        //set selected option
-        if (this.defaultOption) {
-            const opt = this.options.find(o => o.value === this.defaultOption);
-            if (opt) {
-                this.selectOption(opt);
-            }
-        }
         // watch DOM changes to children
         this.mo = new MutationObserver(() => this.collectItemChildren());
         this.mo.observe(this.el, { childList: true, subtree: true });
@@ -194,6 +192,9 @@ export class IrMCombobox {
             setTimeout(() => this.updateSlotElements(), 0);
         }
         setTimeout(() => this.updateAffixPresence(), 0);
+        setTimeout(() => {
+            this.applyDefaultOption();
+        }, 0);
         (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.addEventListener('slotchange', this.updateAffixPresence);
         (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.addEventListener('slotchange', this.updateAffixPresence);
     }
@@ -225,6 +226,13 @@ export class IrMCombobox {
     }
     handleComboboxItemUnregister() {
         this.collectItemChildren();
+    }
+    applyDefaultOption() {
+        if (!this.defaultOption || !Array.isArray(this.options))
+            return;
+        const opt = this.options.find(o => o.value === this.defaultOption);
+        if (opt)
+            this.selectedOption = Object.assign({}, opt);
     }
     initializeOptions() {
         this.filteredOptions = this.options.length > 0 ? this.options : [];
@@ -299,10 +307,11 @@ export class IrMCombobox {
         }
     }
     selectOption(option) {
+        var _a;
         this.selectedOption = option;
         this.optionChange.emit(option);
         this.closeDropdown();
-        this.inputRef.focus();
+        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
     }
     scrollToFocusedOption() {
         if (this.focusedIndex < 0 || !this.dropdownRef || this.useSlot)
@@ -342,7 +351,7 @@ export class IrMCombobox {
     }
     render() {
         var _a;
-        return (h(Host, { key: '9381d326d858e2376d4e1f8b8b6bd4f1440716f8', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '3a33c1e498b728f7a9468c9c6f6e00d9fde9baea', class: "input-wrapper" }, h("span", { key: 'd15f06dd9a2499fa9af231154047dd1c7d6c8e8f', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '4c44b8f174e2248a2340326bffdfcd8483d0f249', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: 'ae0d63b13889583103d57a4379da6196e4ea2092', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '77c7fc0c52abf77764d80e60fad25ad127ed4086', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '466ff0d36d4a6c7d9593a6438d45755734fc4c16', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '66ed524fdc5ced9b5e2f811a53d9bd8c0414e955', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '479c776492ef970f0e99d93ff7bc85d16fa27b6c', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '4dfff33f6e560dc1e5e9532a2206687eb8b4b52e', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '71e390fff67ca990fd5dfb2adaf5a3b837fe0b55', class: "input-wrapper" }, h("span", { key: '9efd8f030ee332b444605ca3d80cbc01243e9d6b', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '0fdddd814cc0dfae24507fc7aea81a99e0d95c74', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '19ba65e0d9dd33d308d8bd93a40f116bec5bf42c', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '4a86185bb34cf82e9f972be88d026da3632223a8', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '5316aa92a75067613e8b0b7f13af513ff25f1d3d', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '4293f5e06ae866e0b3838af01d68b1f853da03fc', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '39d5e71335abf9ca0e6603b1e729f034cee8d410', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
@@ -614,6 +623,9 @@ export class IrMCombobox {
         return [{
                 "propName": "options",
                 "methodName": "watchOptionsChanged"
+            }, {
+                "propName": "defaultOption",
+                "methodName": "watchDefaultValueChanged"
             }, {
                 "propName": "useSlot",
                 "methodName": "watchUseSlotChanged"

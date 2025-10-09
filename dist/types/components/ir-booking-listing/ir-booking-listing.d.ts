@@ -8,6 +8,7 @@ export declare class IrBookingListing {
     rowCount: number;
     p: string;
     baseUrl: string;
+    userType: number;
     isLoading: boolean;
     currentPage: number;
     totalPages: number;
@@ -21,13 +22,16 @@ export declare class IrBookingListing {
     private bookingListingService;
     private bookingService;
     private roomService;
+    private propertyService;
     private token;
     private listingModal;
     private listingModalTimeout;
     private statusColors;
+    private allowedProperties;
+    private havePrivilege;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
-    initializeApp(): Promise<void>;
+    private initializeApp;
     handleSideBarToggle(e: CustomEvent<boolean>): void;
     geSearchFiltersFromParams(): void;
     getPaginationBounds(): {

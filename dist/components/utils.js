@@ -547,6 +547,31 @@ function validateEmail(email) {
 function formatAmount(currency, amount) {
     return currency + ' ' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+/**
+ * Determines whether the given user has privileged (global or elevated) access.
+ *
+ * Privileged users are typically system administrators or MPO users
+ * who can access data across all properties rather than being restricted
+ * to a specific property.
+ *
+ * @param userTypeCode - Numeric code representing the user's role.
+ *   - `1` → Super Admin
+ *   - `4` → MPO (Multi-Property Operator)
+ *
+ * @returns `true` if the user has elevated/global access, otherwise `false`.
+ *
+ * @example
+ * ```ts
+ * isPrivilegedUser(1); // true (Super Admin)
+ * isPrivilegedUser(4); // true (MPO)
+ * isPrivilegedUser(2); // false
+ * ```
+ */
+const isPrivilegedUser = (userTypeCode) => {
+    // User type codes that have global or elevated access
+    const privilegedUserTypes = [1, 4]; // 4 = MPO, 1 = Super Admin
+    return privilegedUserTypes.includes(userTypeCode);
+};
 const extras = [
     {
         key: 'private_note',
@@ -689,6 +714,6 @@ function handleBodyOverflow(open) {
     }
 }
 
-export { getPrivateNote as A, getNextDay as B, addTwoMonthToDate as C, convertDMYToISO as D, computeEndDate as E, toFloat as F, renderTime as G, getDaysArray as H, convertDatePrice as I, formatDate as J, checkUserAuthState as K, manageAnchorSession as L, downloadFile as M, sleep as N, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, addCleaningTasks as r, formatName as s, transformNewBooking as t, getRoomStatus as u, validateEmail as v, cleanRoom as w, addRoomForCleaning as x, transformNewBLockedRooms as y, bookingStatus as z };
+export { getPrivateNote as A, getNextDay as B, addTwoMonthToDate as C, convertDMYToISO as D, computeEndDate as E, toFloat as F, renderTime as G, getDaysArray as H, convertDatePrice as I, formatDate as J, checkUserAuthState as K, manageAnchorSession as L, isPrivilegedUser as M, downloadFile as N, sleep as O, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, findCountry as l, canCheckIn as m, compareTime as n, createDateWithOffsetAndHour as o, dateDifference as p, formatLegendColors as q, addCleaningTasks as r, formatName as s, transformNewBooking as t, getRoomStatus as u, validateEmail as v, cleanRoom as w, addRoomForCleaning as x, transformNewBLockedRooms as y, bookingStatus as z };
 
 //# sourceMappingURL=utils.js.map

@@ -13,7 +13,7 @@ const ChannelReportBaseSchema = z.object({
     SOURCE: z.string(),
     PROPERTY_ID: z.number(),
     PROPERTY_NAME: z.string(),
-    currency: CurrencySchema,
+    currency: z.string(),
 });
 /**
  * Transforms UPPER_SNAKE_CASE keys to lowercase at parse time.
