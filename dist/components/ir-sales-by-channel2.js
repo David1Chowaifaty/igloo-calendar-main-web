@@ -45,6 +45,7 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
         this.ticket = '';
         this.isLoading = null;
         this.isPageLoading = true;
+        this.allowedProperties = [];
         this.token = new Token();
         this.roomService = new RoomService();
         this.propertyService = new PropertyService();
@@ -71,11 +72,30 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
         this.initializeApp();
     }
     async initializeApp() {
+        var _a, _b;
         try {
-            const requests = [this.propertyService.getExposedAllowedProperties(), this.roomService.fetchLanguage(this.language)];
-            const [properties] = await Promise.all(requests);
-            this.allowedProperties = [...properties];
-            this.baseFilters = Object.assign(Object.assign({}, this.baseFilters), { LIST_AC_ID: this.allowedProperties.map(p => p.id) });
+            if (!this.mode) {
+                throw new Error("Missing required 'mode'. Please set it to either 'property' or 'mpo'.");
+            }
+            if (!this.propertyid && this.mode === 'property' && !this.p) {
+                throw new Error('Missing Property ID or aname');
+            }
+            if (this.mode === 'property') {
+                const property = await this.propertyService.getExposedProperty({
+                    id: Number((_a = this.propertyid) !== null && _a !== void 0 ? _a : 0),
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+                this.propertyID = property.My_Result.id;
+            }
+            const requests = [, this.roomService.fetchLanguage(this.language)];
+            if (this.mode === 'mpo') {
+                requests.unshift(this.propertyService.getExposedAllowedProperties());
+                const [properties] = await Promise.all(requests);
+                this.allowedProperties = [...properties];
+            }
+            this.baseFilters = Object.assign(Object.assign({}, this.baseFilters), { LIST_AC_ID: (_b = this.allowedProperties) === null || _b === void 0 ? void 0 : _b.map(p => p.id) });
             this.channelSalesFilters = Object.assign({}, this.baseFilters);
             await this.getChannelSales();
         }
@@ -88,19 +108,13 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
     }
     async getChannelSales(isExportToExcel = false) {
         try {
-            const _a = this.channelSalesFilters, { include_previous_year } = _a, filterParams = __rest(_a, ["include_previous_year"]);
+            const _a = this.channelSalesFilters, { include_previous_year, LIST_AC_ID } = _a, filterParams = __rest(_a, ["include_previous_year", "LIST_AC_ID"]);
             this.isLoading = isExportToExcel ? 'export' : 'filter';
-            const currentSales = await this.propertyService.getChannelSales(Object.assign({
-                // AC_ID: this.propertyid,
-                is_export_to_excel: isExportToExcel
-            }, filterParams));
+            const currentSales = await this.propertyService.getChannelSales(Object.assign(Object.assign(Object.assign(Object.assign({ is_export_to_excel: isExportToExcel }, filterParams), { AC_ID: this.propertyID ? this.propertyID.toString() : undefined }), filterParams), { LIST_AC_ID: this.propertyID ? null : LIST_AC_ID }));
             const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getChannelSales(Object.assign(Object.assign({
-                    // AC_ID: this.propertyid.toString(),
-                    is_export_to_excel: isExportToExcel
-                }, filterParams), { FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                const previousYearSales = await this.propertyService.getChannelSales(Object.assign(Object.assign({ AC_ID: this.propertyID ? this.propertyID.toString() : undefined }, filterParams), { LIST_AC_ID: this.propertyID ? null : LIST_AC_ID, FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.SOURCE.toLowerCase() === current.SOURCE.toLowerCase());
                     return Object.assign(Object.assign({}, current), { last_year: previous ? previous : null });
@@ -202,7 +216,7 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
                 e.stopPropagation();
                 this.channelSalesFilters = Object.assign({}, e.detail);
                 this.getChannelSales();
-            }, allowedProperties: this.allowedProperties, baseFilters: this.baseFilters }), h("ir-sales-by-channel-table", { allowedProperties: this.allowedProperties, class: "card mb-0", records: this.salesData })))));
+            }, allowedProperties: this.allowedProperties, baseFilters: this.baseFilters }), h("ir-sales-by-channel-table", { mode: this.mode, allowedProperties: this.allowedProperties, class: "card mb-0", records: this.salesData })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -212,11 +226,14 @@ const IrSalesByChannel = /*@__PURE__*/ proxyCustomElement(class IrSalesByChannel
         "language": [1],
         "ticket": [1],
         "propertyid": [1],
+        "p": [1],
+        "mode": [1],
         "isLoading": [32],
         "isPageLoading": [32],
         "salesData": [32],
         "channelSalesFilters": [32],
-        "allowedProperties": [32]
+        "allowedProperties": [32],
+        "propertyID": [32]
     }, undefined, {
         "ticket": ["ticketChanged"]
     }]);

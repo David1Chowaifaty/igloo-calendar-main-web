@@ -12,6 +12,7 @@ export declare const CurrencySchema: z.ZodObject<{
     code?: string;
     id?: number;
 }>;
+export type SalesByChannelMode = 'property' | 'mpo';
 /**
  * Transforms UPPER_SNAKE_CASE keys to lowercase at parse time.
  * Output type is exactly the lowercased version of the base schema.
@@ -232,7 +233,7 @@ export declare const ChannelSalesParamsSchema: z.ZodObject<{
     TO_DATE: z.ZodString;
     WINDOW: z.ZodNumber;
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-    LIST_AC_ID: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
+    LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
     FROM_DATE?: string;
     TO_DATE?: string;
@@ -258,7 +259,7 @@ export declare const ChannelSalesFilterSchema: z.ZodObject<z.objectUtil.extendSh
     TO_DATE: z.ZodString;
     WINDOW: z.ZodNumber;
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-    LIST_AC_ID: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
+    LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
 }, {
     include_previous_year: z.ZodBoolean;
 }>, "strip", z.ZodTypeAny, {

@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
 const room_service = require('./room.service-e031b11c.js');
-const booking_service = require('./booking.service-d621d05b.js');
+const booking_service = require('./booking.service-21fb9b1d.js');
 const utils = require('./utils-283eacbf.js');
-const events_service = require('./events.service-c75f8de7.js');
+const events_service = require('./events.service-e8825914.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-5941ea06.js');
 const locales_store = require('./locales.store-a1ac5174.js');
@@ -16,7 +16,9 @@ const Token = require('./Token-3d0cc874.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
 const axios = require('./axios-6e678d52.js');
-const property_service = require('./property.service-5a2a3653.js');
+const booking_listing_service = require('./booking_listing.service-30d8bdc9.js');
+const functions = require('./functions-1d46da3c.js');
+const property_service = require('./property.service-28f8f5a8.js');
 const hkTasks_store = require('./hk-tasks.store-f07341ca.js');
 const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
 const user_service = require('./user.service-b740294e.js');
@@ -4177,7 +4179,7 @@ class BatchingQueue {
 const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap;border-left:2px solid grey}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:330px 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
 const IglooCalendarStyle0 = iglooCalendarCss;
 
-var __rest$3 = (undefined && undefined.__rest) || function (s, e) {
+var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
     for (var p in s)
         if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -5209,7 +5211,7 @@ const IglooCalendar = class {
                     break;
                 }
                 case 'stretch':
-                    const _b = this.dialogData, rest = __rest$3(_b, ["reason"]);
+                    const _b = this.dialogData, rest = __rest$2(_b, ["reason"]);
                     this.showRoomNightsDialog.emit(rest);
                     break;
                 case 'reallocate': {
@@ -5325,6 +5327,292 @@ const IrBookingEmailLogs = class {
     }; }
 };
 IrBookingEmailLogs.style = IrBookingEmailLogsStyle0;
+
+// src/utils/browserHistory.ts
+/**
+ * Read all current search params into a Record<string, string>
+ */
+function getAllParams() {
+    const params = new URLSearchParams(window.location.search);
+    const out = {};
+    for (const [key, value] of params.entries()) {
+        out[key] = value;
+    }
+    return out;
+}
+
+const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.room-service.sc-ir-booking-listing{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%;padding:0.25rem 0}.room-name-container.sc-ir-booking-listing{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.booking_guest_name.sc-ir-booking-listing{width:fit-content;padding:0 !important;margin:0}.booking_guest_name.sc-ir-booking-listing .button-text.sc-ir-booking-listing{padding:0 !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
+const IrBookingListingStyle0 = irBookingListingCss;
+
+const IrBookingListing = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.language = '';
+        this.ticket = '';
+        this.rowCount = 10;
+        this.isLoading = false;
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.oldStartValue = 0;
+        this.editBookingItem = null;
+        this.showCost = false;
+        this.bookingListingService = new booking_listing_service.BookingListingService();
+        this.bookingService = new booking_service.BookingService();
+        this.roomService = new room_service.RoomService();
+        this.propertyService = new property_service.PropertyService();
+        this.token = new Token.Token();
+        this.statusColors = {
+            '001': 'badge-warning',
+            '002': 'badge-success',
+            '003': 'badge-danger',
+            '004': 'badge-danger',
+        };
+    }
+    componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
+        booking_listing_service.updateUserSelection('end_row', this.rowCount);
+        booking_listing_service.booking_listing.rowCount = this.rowCount;
+        if (this.ticket !== '') {
+            booking_listing_service.booking_listing.token = this.ticket;
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+        booking_listing_service.onBookingListingChange('userSelection', async (newValue) => {
+            const newTotal = newValue.total_count;
+            this.totalPages = Math.ceil(newTotal / this.rowCount);
+        });
+        booking_listing_service.onBookingListingChange('bookings', async (newValue) => {
+            this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
+        });
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        booking_listing_service.booking_listing.token = this.ticket;
+        this.initializeApp();
+    }
+    async initializeApp() {
+        var _a;
+        try {
+            this.isLoading = true;
+            this.havePrivilege = utils.isPrivilegedUser(this.userType);
+            let propertyId = this.propertyid;
+            if (!this.havePrivilege) {
+                if (!this.propertyid && !this.p) {
+                    throw new Error('Property ID or username is required');
+                }
+                if (!propertyId) {
+                    const propertyData = await this.roomService.getExposedProperty({
+                        id: 0,
+                        aname: this.p,
+                        language: this.language,
+                        is_backend: true,
+                    });
+                    propertyId = propertyData.My_Result.id;
+                }
+            }
+            const parallelRequests = [
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
+                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
+            ];
+            // let propertyDataIndex: number | null = null;
+            let allowedPropertiesIndex = null;
+            if (this.propertyid && !this.havePrivilege) {
+                // propertyDataIndex = parallelRequests.length;
+                parallelRequests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            if (this.havePrivilege) {
+                allowedPropertiesIndex = parallelRequests.length;
+                parallelRequests.push(this.propertyService.getExposedAllowedProperties());
+            }
+            const results = await Promise.all(parallelRequests);
+            const [setupEntries] = results;
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
+            this.allowedProperties = allowedPropertiesIndex !== null ? (_a = results[allowedPropertiesIndex]) === null || _a === void 0 ? void 0 : _a.map(p => p.id) : null;
+            booking_listing_service.updateUserSelection('property_id', propertyId);
+            booking_listing_service.updateUserSelections({
+                property_ids: this.allowedProperties,
+                userTypeCode: this.userType,
+            });
+            await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false }));
+        }
+        catch (error) {
+            console.error('Error initializing app:', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    handleSideBarToggle(e) {
+        if (e.detail) {
+            this.editBookingItem = null;
+        }
+    }
+    geSearchFiltersFromParams() {
+        //e=10&status=002&from=2025-04-15&to=2025-04-22&filter=2&c=Alitalia+Cabin+Crew
+        const params = getAllParams();
+        if (params) {
+            console.log('update params');
+            let obj = {};
+            if (params.e) {
+                obj['end_row'] = Number(params.e);
+            }
+            if (params.s) {
+                obj['start_row'] = Number(params.s);
+            }
+            if (params.status) {
+                obj['booking_status'] = params.status;
+            }
+            if (params.filter) {
+                obj['filter_type'] = params.filter;
+            }
+            if (params.from) {
+                obj['from'] = params.from;
+            }
+            if (params.to) {
+                obj['to'] = params.to;
+            }
+            booking_listing_service.updateUserSelections(obj);
+        }
+        console.log('params=>', params);
+    }
+    getPaginationBounds() {
+        const totalCount = booking_listing_service.booking_listing.userSelection.total_count;
+        const startItem = (this.currentPage - 1) * this.rowCount;
+        let endItem = this.currentPage * this.rowCount;
+        endItem = endItem > totalCount ? totalCount : endItem;
+        return { startItem, endItem, totalCount };
+    }
+    openModal() {
+        this.listingModalTimeout = setTimeout(() => {
+            this.listingModal = this.el.querySelector('ir-listing-modal');
+            this.listingModal.editBooking = this.editBookingItem;
+            this.listingModal.openModal();
+        }, 100);
+    }
+    disconnectedCallback() {
+        clearTimeout(this.listingModalTimeout);
+    }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false }));
+    }
+    async handleResetStoreData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false }));
+    }
+    handleBookingChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        booking_listing_service.booking_listing.bookings = [
+            ...booking_listing_service.booking_listing.bookings.map(b => {
+                if (b.booking_nbr === e.detail.booking_nbr) {
+                    return e.detail;
+                }
+                return b;
+            }),
+        ];
+    }
+    renderItemRange() {
+        const { endItem, startItem, totalCount } = this.getPaginationBounds();
+        return `${locales_store.locales.entries.Lcz_View} ${startItem + 1} - ${endItem} ${locales_store.locales.entries.Lcz_Of} ${totalCount}`;
+    }
+    async updateData() {
+        const { endItem, startItem } = this.getPaginationBounds();
+        // setParams({
+        //   s: startItem,
+        //   e: endItem,
+        // });
+        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing_service.booking_listing.userSelection), { is_to_export: false, start_row: startItem, end_row: endItem }));
+    }
+    calculateTotalPersons(booking) {
+        const sumOfOccupancy = ({ adult_nbr, children_nbr, infant_nbr }) => {
+            return (adult_nbr !== null && adult_nbr !== void 0 ? adult_nbr : 0) + (children_nbr !== null && children_nbr !== void 0 ? children_nbr : 0) + (infant_nbr !== null && infant_nbr !== void 0 ? infant_nbr : 0);
+        };
+        return booking.rooms.reduce((prev, cur) => {
+            return sumOfOccupancy(cur.occupancy) + prev;
+        }, 0);
+    }
+    render() {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+        if (this.isLoading || this.ticket === '') {
+            return index.h("ir-loading-screen", null);
+        }
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "p-1 main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", null, index.h("div", { class: "card p-1 flex-fill m-0 mt-2" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, this.havePrivilege && index.h("th", null, "Property"), index.h("th", { scope: "col", class: "text-center" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 :
+            _a.Lcz_Booking, "#"), index.h("th", { scope: "col" }, (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_BookedOn), index.h("th", { scope: "col" }, (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_GuestSource), index.h("th", { scope: "col", class: "text-left services-cell" }, (_d = locales_store.locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Services), index.h("th", { scope: "col", class: "in-out" }, (_e = locales_store.locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_Dates), index.h("th", { scope: "col" }, index.h("span", { class: "price-span" }, (_f = locales_store.locales.entries) === null || _f === void 0 ? void 0 : _f.Lcz_Amount), index.h("ir-tooltip", { customSlot: true, message: `<span style="width:100%;display:block;">${(_g = locales_store.locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_BookingBalance}</span><span>${(_h = locales_store.locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_ClickToSettle}</span>` }, index.h("span", { slot: "tooltip-trigger", class: 'm-0 btn due-btn' }, (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_Balance))), this.showCost && (index.h("th", { scope: "col", class: "services-cell" }, (_k = locales_store.locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Cost)), index.h("th", { scope: "col" }, (_l = locales_store.locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Status), index.h("th", { scope: "col" }, index.h("p", { class: "sr-only" }, "actions")))), index.h("tbody", { class: "" }, booking_listing_service.booking_listing.bookings.length === 0 && (index.h("tr", null, index.h("td", { colSpan: this.havePrivilege ? 9 : 8 }, (_m = locales_store.locales.entries) === null || _m === void 0 ? void 0 : _m.Lcz_NoDataAvailable))), (_o = booking_listing_service.booking_listing.bookings) === null || _o === void 0 ? void 0 :
+            _o.map(booking => {
+                var _a, _b, _c, _d, _e;
+                let confirmationBG = this.statusColors[booking.is_requested_to_cancel ? '003' : booking.status.code];
+                const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
+                const totalPersons = this.calculateTotalPersons(booking);
+                return (index.h("tr", { key: booking.booking_nbr }, this.havePrivilege && index.h("td", null, booking.property.name), index.h("td", { class: "text-left" }, index.h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && index.h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 secondary-p" }, functions._formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), index.h("td", null, index.h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, index.h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), index.h("div", { class: "text-left" }, index.h("div", { class: "d-flex align-items-center" }, index.h("div", { class: "booking_name m-0 p-0" }, index.h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
+                        width: 'fit-content',
+                        padding: '0',
+                        margin: '0',
+                    }, labelStyle: {
+                        padding: '0',
+                    } }), booking.guest.nbr_confirmed_bookings > 1 && !booking.agent && (index.h("div", { class: "m-0 p-0" }, index.h("ir-tooltip", { message: `${locales_store.locales.entries.Lcz_BookingsNbr}`.replace('%1', booking.guest.nbr_confirmed_bookings.toString()), customSlot: true }, index.h("div", { class: "d-flex align-items-center my-0 p-0", slot: "tooltip-trigger" }, index.h("ir-icons", { style: { '--icon-size': '0.875rem' }, color: "#FB0AAD", name: "heart-fill" }))))), index.h("span", { class: 'p-0 m-0' }, totalPersons, locales_store.locales.entries.Lcz_P), utils.getPrivateNote(booking.extras) && index.h("span", { class: "yellow_dot" }))), index.h("div", { class: 'd-flex align-items-center booking-label-gap' }, index.h("p", { class: "p-0 m-0 secondary-p" }, booking.origin.Label), booking.is_in_loyalty_mode && !booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_LoyaltyDiscountApplied), index.h("path", { fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" }))), booking.promo_key && (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor", height: 18, width: 18 }, index.h("title", null, locales_store.locales.entries.Lcz_Coupon + ':' + booking.promo_key), index.h("path", { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" }))))))), index.h("td", null, index.h("ul", null, booking.rooms.map(room => {
+                    var _a, _b, _c, _d, _e, _f, _g;
+                    return (index.h("li", null, index.h("div", { class: 'room-service' }, index.h("p", { class: 'm-0 p-0' }, room.roomtype.name), room.unit &&
+                        !calendarData.isSingleUnit(room.roomtype.id) &&
+                        (((_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 4 ? (index.h("ir-tooltip", { customSlot: true, message: (_c = room.unit) === null || _c === void 0 ? void 0 : _c.name }, index.h("p", { class: 'room-name-container cursor-pointer m-0', slot: "tooltip-trigger" }, (_e = (_d = room.unit) === null || _d === void 0 ? void 0 : _d.name) === null || _e === void 0 ? void 0 : _e.substring(0, 4)))) : (index.h("p", { class: 'room-name-container  m-0' }, (_g = (_f = room.unit) === null || _f === void 0 ? void 0 : _f.name) === null || _g === void 0 ? void 0 : _g.substring(0, 4)))))));
+                }), booking.extra_services && index.h("li", null, locales_store.locales.entries.Lcz_ExtraServices))), index.h("td", null, index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), index.h("p", { class: "p-0 m-0 date-p" }, moment.hooks(booking.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), index.h("td", null, index.h("p", { class: "p-0 m-0", style: { whiteSpace: 'nowrap' } }, utils.formatAmount(booking.currency.symbol, (_c = (_b = booking.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), index.h(index.Fragment, null, ['003', '004'].includes(booking.status.code)
+                    ? booking.financial.cancelation_penality_as_if_today !== 0 && (index.h("button", { onClick: () => {
+                            this.editBookingItem = { booking, cause: 'payment' };
+                            this.openModal();
+                        }, style: { whiteSpace: 'nowrap' }, class: "btn p-0 m-0 due-btn" }, index.h("span", null, booking.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), utils.formatAmount(booking.currency.symbol, Math.abs(booking.financial.cancelation_penality_as_if_today))))
+                    : booking.financial.due_amount !== 0 && (index.h("button", { onClick: () => {
+                            this.editBookingItem = { booking, cause: 'payment' };
+                            this.openModal();
+                        }, style: { whiteSpace: 'nowrap' }, class: "btn p-0 m-0 due-btn" }, utils.formatAmount(booking.currency.symbol, booking.financial.due_amount))))), this.showCost && (index.h("td", null, booking.financial.gross_cost !== null && booking.financial.gross_cost === 0
+                    ? '_'
+                    : utils.formatAmount(booking.currency.symbol, booking.financial.gross_cost))), index.h("td", null, index.h("p", { class: `m-0 badge ${confirmationBG} ct_ir_badge` }, booking.is_requested_to_cancel ? (_d = locales_store.locales === null || locales_store.locales === void 0 ? void 0 : locales_store.locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_CancellationRequested : booking.status.description), !lastManipulation && ((_e = booking.events) === null || _e === void 0 ? void 0 : _e.length) > 0 && booking.events[0].type.toLowerCase() === 'modified' && (index.h("p", { class: "mx-0 p-0 small", style: { marginTop: '0.25rem', marginBottom: '0' } }, "Modified")), lastManipulation && (index.h("ir-popover", { trigger: "hover", content: `Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}` }, index.h("p", { class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, index.h("b", null, "Modified"))))), index.h("td", null, index.h("div", { class: "d-flex justify-content-center align-items-center", style: { gap: '8px' } }, index.h("ir-button", { title: "Edit booking", variant: "icon", icon_name: "edit", onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }) }), index.h("ir-button", { title: "Delete booking", style: { '--icon-button-color': '#ff4961', '--icon-button-hover-color': '#FF1635' }, variant: "icon", icon_name: "trash", onClickHandler: () => {
+                        this.editBookingItem = { booking, cause: 'delete' };
+                        this.openModal();
+                    } })))));
+            }))), this.totalPages > 1 && (index.h("section", { class: 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container' }, index.h("p", { class: "m-0 mb-1 mb-md-0" }, this.renderItemRange()), index.h("div", { class: 'd-flex align-items-center buttons-container' }, index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
+                this.currentPage = 1;
+                await this.updateData();
+            }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
+                this.currentPage = this.currentPage - 1;
+                await this.updateData();
+            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), index.h("ir-select", { selectedValue: this.currentPage.toString(), showFirstOption: false, onSelectChange: async (e) => {
+                this.currentPage = +e.detail;
+                await this.updateData();
+            }, data: Array.from(Array(this.totalPages), (_, i) => i + 1).map(i => ({
+                text: i.toString(),
+                value: i.toString(),
+            })) }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
+                this.currentPage = this.currentPage + 1;
+                await this.updateData();
+            }, icon_name: "angle_right", style: { '--icon-size': '0.875rem' } }), index.h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
+                this.currentPage = this.totalPages;
+                console.log(this.currentPage);
+                await this.updateData();
+            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && index.h("ir-listing-modal", { paymentEntries: this.paymentEntries, onModalClosed: () => (this.editBookingItem = null) }), index.h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (index.h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: (_t = (_s = (_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.booking) === null || _s === void 0 ? void 0 : _s.property) === null || _t === void 0 ? void 0 : _t.id, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.cause) === 'guest' && (index.h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_w = (_v = this.editBookingItem) === null || _v === void 0 ? void 0 : _v.booking) === null || _w === void 0 ? void 0 : _w.booking_nbr, email: (_y = (_x = this.editBookingItem) === null || _x === void 0 ? void 0 : _x.booking) === null || _y === void 0 ? void 0 : _y.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+    }
+    get el() { return index.getElement(this); }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
+};
+IrBookingListing.style = IrBookingListingStyle0;
 
 const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
@@ -5958,7 +6246,7 @@ IrHousekeeping.style = IrHousekeepingStyle0;
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
 
-var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
+var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
     for (var p in s)
         if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -6079,7 +6367,7 @@ const IrMonthlyBookingsReport = class {
             const results = await Promise.all(requests);
             const currentReports = results[0];
             let enrichedReports = [];
-            const { DailyStats } = currentReports, rest = __rest$2(currentReports, ["DailyStats"]);
+            const { DailyStats } = currentReports, rest = __rest$1(currentReports, ["DailyStats"]);
             this.stats = Object.assign({}, rest);
             if (include_previous_year && results[isExportToExcel ? 0 : 1]) {
                 const previousYearReports = results[isExportToExcel ? 0 : 1];
@@ -6117,193 +6405,6 @@ const IrMonthlyBookingsReport = class {
     }; }
 };
 IrMonthlyBookingsReport.style = IrMonthlyBookingsReportStyle0;
-
-const irSalesByChannelCss = ".sc-ir-sales-by-channel-h{display:block}";
-const IrSalesByChannelStyle0 = irSalesByChannelCss;
-
-var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-const IrSalesByChannel = class {
-    constructor(hostRef) {
-        index.registerInstance(this, hostRef);
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = null;
-        this.isPageLoading = true;
-        this.token = new Token.Token();
-        this.roomService = new room_service.RoomService();
-        this.propertyService = new property_service.PropertyService();
-        this.baseFilters = {
-            FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
-            TO_DATE: moment.hooks().format('YYYY-MM-DD'),
-            BOOK_CASE: '001',
-            WINDOW: 7,
-            include_previous_year: false,
-        };
-    }
-    componentWillLoad() {
-        this.channelSalesFilters = this.baseFilters;
-        if (this.ticket) {
-            this.token.setToken(this.ticket);
-            this.initializeApp();
-        }
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        this.initializeApp();
-    }
-    async initializeApp() {
-        try {
-            const requests = [this.propertyService.getExposedAllowedProperties(), this.roomService.fetchLanguage(this.language)];
-            const [properties] = await Promise.all(requests);
-            this.allowedProperties = [...properties];
-            this.baseFilters = Object.assign(Object.assign({}, this.baseFilters), { LIST_AC_ID: this.allowedProperties.map(p => p.id) });
-            this.channelSalesFilters = Object.assign({}, this.baseFilters);
-            await this.getChannelSales();
-        }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            this.isPageLoading = false;
-        }
-    }
-    async getChannelSales(isExportToExcel = false) {
-        try {
-            const _a = this.channelSalesFilters, { include_previous_year } = _a, filterParams = __rest$1(_a, ["include_previous_year"]);
-            this.isLoading = isExportToExcel ? 'export' : 'filter';
-            const currentSales = await this.propertyService.getChannelSales(Object.assign({
-                // AC_ID: this.propertyid,
-                is_export_to_excel: isExportToExcel
-            }, filterParams));
-            const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
-            let enrichedSales = [];
-            if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getChannelSales(Object.assign(Object.assign({
-                    // AC_ID: this.propertyid.toString(),
-                    is_export_to_excel: isExportToExcel
-                }, filterParams), { FROM_DATE: moment.hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: moment.hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
-                enrichedSales = currentSales.map(current => {
-                    const previous = previousYearSales.find(prev => prev.SOURCE.toLowerCase() === current.SOURCE.toLowerCase());
-                    return Object.assign(Object.assign({}, current), { last_year: previous ? previous : null });
-                });
-            }
-            else {
-                enrichedSales = currentSales.map(record => (Object.assign(Object.assign({}, record), { last_year: null })));
-            }
-            /**
-             * Groups sales records by SOURCE and currency.id, summing numeric fields
-             * and recalculating PCT based on the total REVENUE.
-             */
-            const groupSalesRecordsBySource = (records) => {
-                if (!records || records.length === 0)
-                    return records;
-                // Helper to extract currency ID from various possible formats
-                const getCurrencyId = (r) => {
-                    var _a;
-                    return (_a = r === null || r === void 0 ? void 0 : r.currency) !== null && _a !== void 0 ? _a : null;
-                };
-                // Create unique key for grouping
-                const createKey = (r) => {
-                    const source = r.SOURCE.toString().toLowerCase().trim();
-                    const currencyId = getCurrencyId(r);
-                    return `${source}__${currencyId !== null && currencyId !== void 0 ? currencyId : 'null'}`;
-                };
-                // Sum two values safely
-                const sumValues = (a, b) => {
-                    return (a !== null && a !== void 0 ? a : 0) + (b !== null && b !== void 0 ? b : 0);
-                };
-                // Merge numeric fields from last_year objects
-                const mergeLastYear = (base, incoming) => {
-                    if (!incoming)
-                        return base;
-                    if (!base)
-                        return Object.assign({}, incoming);
-                    return {
-                        NIGHTS: sumValues(base.NIGHTS, incoming.NIGHTS),
-                        PCT: sumValues(base.PCT, incoming.PCT), // Will recalculate later
-                        REVENUE: sumValues(base.REVENUE, incoming.REVENUE),
-                        SOURCE: base.SOURCE,
-                        PROPERTY_ID: base.PROPERTY_ID,
-                        PROPERTY_NAME: base.PROPERTY_NAME,
-                        currency: base.currency,
-                    };
-                };
-                // Group records by key
-                const grouped = new Map();
-                for (const record of records) {
-                    const key = createKey(record);
-                    const existing = grouped.get(key);
-                    if (!existing) {
-                        // First record for this key - clone it
-                        grouped.set(key, Object.assign({}, record));
-                    }
-                    else {
-                        // Merge with existing record
-                        const merged = Object.assign(Object.assign({}, existing), { NIGHTS: sumValues(existing.NIGHTS, record.NIGHTS), PCT: 0, REVENUE: sumValues(existing.REVENUE, record.REVENUE), last_year: mergeLastYear(existing.last_year, record.last_year) });
-                        grouped.set(key, merged);
-                    }
-                }
-                // Convert to array
-                const result = Array.from(grouped.values());
-                // Recalculate PCT based on total REVENUE
-                const totalRevenue = result.reduce((sum, r) => { var _a; return sum + ((_a = r.REVENUE) !== null && _a !== void 0 ? _a : 0); }, 0);
-                if (totalRevenue > 0) {
-                    for (const record of result) {
-                        record.PCT = (record.REVENUE / totalRevenue) * 100;
-                        // Also recalculate last_year PCT if it exists
-                        if (record.last_year) {
-                            const lastYearTotal = result.reduce((sum, r) => { var _a, _b; return sum + ((_b = (_a = r.last_year) === null || _a === void 0 ? void 0 : _a.REVENUE) !== null && _b !== void 0 ? _b : 0); }, 0);
-                            if (lastYearTotal > 0) {
-                                record.last_year.PCT = (record.last_year.REVENUE / lastYearTotal) * 100;
-                            }
-                        }
-                    }
-                }
-                return result;
-            };
-            this.salesData = [...groupSalesRecordsBySource(enrichedSales)];
-        }
-        catch (error) {
-            console.error('Failed to fetch sales data:', error);
-        }
-        finally {
-            this.isLoading = null;
-        }
-    }
-    render() {
-        if (this.isPageLoading) {
-            return index.h("ir-loading-screen", null);
-        }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("div", { class: "d-flex align-items-center justify-content-between" }, index.h("h3", { class: "mb-1 mb-md-0" }, "Sales by Channel"), index.h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales_store.locales.entries.Lcz_Export, onClickHandler: async (e) => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                await this.getChannelSales(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, index.h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.channelSalesFilters = Object.assign({}, e.detail);
-                this.getChannelSales();
-            }, allowedProperties: this.allowedProperties, baseFilters: this.baseFilters }), index.h("ir-sales-by-channel-table", { allowedProperties: this.allowedProperties, class: "card mb-0", records: this.salesData })))));
-    }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"]
-    }; }
-};
-IrSalesByChannel.style = IrSalesByChannelStyle0;
 
 const irSalesByCountryCss = ".sc-ir-sales-by-country-h{display:block}";
 const IrSalesByCountryStyle0 = irSalesByCountryCss;
@@ -6640,11 +6741,11 @@ IrUserManagement.style = IrUserManagementStyle0;
 
 exports.igloo_calendar = IglooCalendar;
 exports.ir_booking_email_logs = IrBookingEmailLogs;
+exports.ir_booking_listing = IrBookingListing;
 exports.ir_daily_revenue = IrDailyRevenue;
 exports.ir_hk_tasks = IrHkTasks;
 exports.ir_housekeeping = IrHousekeeping;
 exports.ir_monthly_bookings_report = IrMonthlyBookingsReport;
-exports.ir_sales_by_channel = IrSalesByChannel;
 exports.ir_sales_by_country = IrSalesByCountry;
 exports.ir_user_management = IrUserManagement;
 

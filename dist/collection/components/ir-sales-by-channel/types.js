@@ -33,7 +33,7 @@ export const ChannelSalesParamsSchema = z.object({
     WINDOW: z.coerce.number().int().nonnegative(),
     // Accepts true/false, "true"/"false", 1/0; defaults to false
     is_export_to_excel: z.coerce.boolean().optional().default(false),
-    LIST_AC_ID: z.array(z.number()).optional(),
+    LIST_AC_ID: z.array(z.number()).nullable(),
 });
 /* ---------- Filters ---------- */
 export const ChannelSalesFilterSchema = ChannelSalesParamsSchema.extend({
