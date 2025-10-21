@@ -1831,6 +1831,7 @@ export namespace Components {
         "countries": ICountry[];
     }
     interface IrResetPassword {
+        "baseUrl": string;
         "language": string;
         "old_pwd": string;
         "skip2Fa": boolean;
@@ -7186,6 +7187,7 @@ declare namespace LocalJSX {
         "onOpenSidebar"?: (event: IrReservationInformationCustomEvent<OpenSidebarEvent<any>>) => void;
     }
     interface IrResetPassword {
+        "baseUrl"?: string;
         "language"?: string;
         "old_pwd"?: string;
         "onCloseSideBar"?: (event: IrResetPasswordCustomEvent<null>) => void;
