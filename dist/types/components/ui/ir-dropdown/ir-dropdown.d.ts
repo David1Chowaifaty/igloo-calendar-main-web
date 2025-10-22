@@ -6,6 +6,7 @@ export declare class IrDropdown {
     el: HTMLIrDropdownElement;
     value: DropdownItem['value'];
     disabled: boolean;
+    caret: boolean;
     isOpen: boolean;
     selectedOption: DropdownItem['value'];
     focusedIndex: number;

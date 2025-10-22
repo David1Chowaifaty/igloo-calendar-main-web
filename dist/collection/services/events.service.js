@@ -5,10 +5,10 @@ export class EventsService {
     constructor() {
         this.bookingService = new BookingService();
     }
-    async reallocateEvent(pool, destination_pr_id, from_date, to_date) {
+    async reallocateEvent(pool, destination_pr_id, from_date, to_date, rateplan_id) {
         try {
             console.log(pool, destination_pr_id, from_date, to_date);
-            const { data } = await axios.post(`/ReAllocate_Exposed_Room`, { pool, destination_pr_id, from_date, to_date, extras });
+            const { data } = await axios.post(`/ReAllocate_Exposed_Room`, { pool, destination_pr_id, from_date, to_date, extras, rateplan_id });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

@@ -28,6 +28,22 @@ const ZIEntrySchema = z.object({
     OWNER_ID: z.number().nullable(),
     TBL_NAME: z.string(),
 });
+var AmenityType;
+(function (AmenityType) {
+    AmenityType["Room"] = "room";
+})(AmenityType || (AmenityType = {}));
+var Name;
+(function (Name) {
+    Name["Penthouse"] = "Penthouse";
+    Name["PremiumSuites"] = "Premium Suites";
+    Name["StandardRooms"] = "Standard Rooms";
+})(Name || (Name = {}));
+var Code;
+(function (Code) {
+    Code["Empty"] = "";
+    Code["The001"] = "001";
+    Code["The002"] = "002";
+})(Code || (Code = {}));
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};

@@ -12,12 +12,13 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { Fragment, Host, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking.service";
-import { calculateDaysBetweenDates, transformNewBooking } from "../../../utils/booking";
-import { isBlockUnit } from "../../../utils/utils";
+import { buildSplitIndex, calculateDaysBetweenDates, getSplitRole, transformNewBooking } from "../../../utils/booking";
+import { checkMealPlan, isBlockUnit } from "../../../utils/utils";
 import moment from "moment";
 import { EventsService } from "../../../services/events.service";
 import locales from "../../../stores/locales.store";
 import calendar_dates from "../../../stores/calendar-dates.store";
+import calendar_data from "../../../stores/calendar-data";
 export class IglBookingEvent {
     constructor() {
         this.is_vacation_rental = false;
@@ -41,6 +42,7 @@ export class IglBookingEvent {
         this.handleMouseMoveBind = this.handleMouseMove.bind(this);
         this.handleMouseUpBind = this.handleMouseUp.bind(this);
         this.handleClickOutsideBind = this.handleClickOutside.bind(this);
+        this.role = '';
         this.findRoomType = (roomId) => {
             let roomType = this.bookingEvent.roomsInfo.filter(room => room.physicalrooms.some(r => r.id === +roomId));
             if (roomType.length) {
@@ -50,34 +52,11 @@ export class IglBookingEvent {
         };
     }
     componentWillLoad() {
+        var _a;
         window.addEventListener('click', this.handleClickOutsideBind);
-    }
-    async fetchAndAssignBookingData() {
-        try {
-            console.log('clicked on book#', this.bookingEvent.BOOKING_NUMBER);
-            const validStatuses = ['IN-HOUSE', 'CONFIRMED', 'PENDING-CONFIRMATION', 'CHECKED-OUT'];
-            if (!validStatuses.includes(this.bookingEvent.STATUS)) {
-                return;
-            }
-            const data = await this.bookingService.getExposedBooking(this.bookingEvent.BOOKING_NUMBER, 'en');
-            const filteredRooms = data.rooms.filter(room => room['assigned_units_pool'] === this.bookingEvent.ID);
-            if (filteredRooms.length === 0) {
-                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty array`);
-            }
-            if (filteredRooms.some(room => room['assigned_units_pool'] === null)) {
-                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty pool`);
-            }
-            data.rooms = filteredRooms;
-            const transformedBooking = transformNewBooking(data)[0];
-            const { ID, TO_DATE, FROM_DATE, NO_OF_DAYS, STATUS, NAME, IDENTIFIER, origin, TOTAL_PRICE, PR_ID, POOL, BOOKING_NUMBER, NOTES, is_direct, BALANCE, channel_booking_nbr } = transformedBooking, otherBookingData = __rest(transformedBooking, ["ID", "TO_DATE", "FROM_DATE", "NO_OF_DAYS", "STATUS", "NAME", "IDENTIFIER", "origin", "TOTAL_PRICE", "PR_ID", "POOL", "BOOKING_NUMBER", "NOTES", "is_direct", "BALANCE", "channel_booking_nbr"]);
-            this.bookingEvent = Object.assign(Object.assign(Object.assign({}, otherBookingData), this.bookingEvent), { channel_booking_nbr, booking: data, DEPARTURE_TIME: otherBookingData.DEPARTURE_TIME, PHONE: otherBookingData.PHONE, PHONE_PREFIX: otherBookingData.PHONE_PREFIX, PRIVATE_NOTE: otherBookingData.PRIVATE_NOTE, origin,
-                BALANCE,
-                TOTAL_PRICE });
-            this.updateBookingEvent.emit(this.bookingEvent);
-            this.showEventInfo(true);
-        }
-        catch (error) {
-            console.error(error.message);
+        this.bookingEvent.SPLIT_INDEX = buildSplitIndex(this.bookingEvent.ROOMS);
+        if (this.bookingEvent.SPLIT_INDEX) {
+            this.role = (_a = getSplitRole(this.bookingEvent.SPLIT_INDEX, this.bookingEvent.IDENTIFIER)) !== null && _a !== void 0 ? _a : '';
         }
     }
     componentDidLoad() {
@@ -188,7 +167,7 @@ export class IglBookingEvent {
                                 //   this.resetBookingToInitialPosition();
                                 //   return;
                                 // }
-                                const { description, status } = this.getModalDescription(toRoomId, from_date, to_date);
+                                const { description, status, newRatePlans } = this.getModalDescription(toRoomId, from_date, to_date);
                                 let hideConfirmButton = false;
                                 if (status === '400') {
                                     hideConfirmButton = true;
@@ -231,7 +210,7 @@ export class IglBookingEvent {
                                     }
                                 }
                                 console.warn({ fromDate, toDate });
-                                this.showDialog.emit(Object.assign(Object.assign({ reason: 'reallocate' }, event.detail), { description, title: '', hideConfirmButton, from_date: fromDate, to_date: toDate }));
+                                this.showDialog.emit(Object.assign(Object.assign({ reason: 'reallocate' }, event.detail), { description, title: '', rateplans: newRatePlans, hideConfirmButton, from_date: fromDate, to_date: toDate }));
                             }
                             else {
                                 // if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
@@ -306,6 +285,35 @@ export class IglBookingEvent {
             console.log('something went wrong');
         }
     }
+    async fetchAndAssignBookingData() {
+        try {
+            console.log('clicked on book#', this.bookingEvent.BOOKING_NUMBER);
+            const validStatuses = ['IN-HOUSE', 'CONFIRMED', 'PENDING-CONFIRMATION', 'CHECKED-OUT'];
+            if (!validStatuses.includes(this.bookingEvent.STATUS)) {
+                return;
+            }
+            const data = await this.bookingService.getExposedBooking(this.bookingEvent.BOOKING_NUMBER, 'en');
+            const base_booking = Object.assign({}, data);
+            const filteredRooms = data.rooms.filter(room => room['assigned_units_pool'] === this.bookingEvent.ID);
+            if (filteredRooms.length === 0) {
+                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty array`);
+            }
+            if (filteredRooms.some(room => room['assigned_units_pool'] === null)) {
+                throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty pool`);
+            }
+            data.rooms = filteredRooms;
+            const transformedBooking = transformNewBooking(data)[0];
+            const { ID, TO_DATE, FROM_DATE, NO_OF_DAYS, STATUS, NAME, IDENTIFIER, origin, TOTAL_PRICE, PR_ID, POOL, BOOKING_NUMBER, NOTES, is_direct, BALANCE, channel_booking_nbr } = transformedBooking, otherBookingData = __rest(transformedBooking, ["ID", "TO_DATE", "FROM_DATE", "NO_OF_DAYS", "STATUS", "NAME", "IDENTIFIER", "origin", "TOTAL_PRICE", "PR_ID", "POOL", "BOOKING_NUMBER", "NOTES", "is_direct", "BALANCE", "channel_booking_nbr"]);
+            this.bookingEvent = Object.assign(Object.assign(Object.assign({}, otherBookingData), this.bookingEvent), { channel_booking_nbr, booking: data, base_booking, DEPARTURE_TIME: otherBookingData.DEPARTURE_TIME, PHONE: otherBookingData.PHONE, PHONE_PREFIX: otherBookingData.PHONE_PREFIX, PRIVATE_NOTE: otherBookingData.PRIVATE_NOTE, origin,
+                BALANCE,
+                TOTAL_PRICE });
+            this.updateBookingEvent.emit(this.bookingEvent);
+            this.showEventInfo(true);
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
     reset(message) {
         this.animationFrameId = requestAnimationFrame(() => {
             this.resetBookingToInitialPosition();
@@ -313,6 +321,7 @@ export class IglBookingEvent {
         throw new Error(message);
     }
     getModalDescription(toRoomId, from_date, to_date) {
+        var _a, _b;
         if (!this.bookingEvent.is_direct) {
             if (this.isShrinking) {
                 return {
@@ -333,9 +342,15 @@ export class IglBookingEvent {
                         return { description: `${locales.entries.Lcz_AreYouSureWantToMoveAnotherUnit}?`, status: '200' };
                     }
                     else {
+                        const mealPlans = checkMealPlan({
+                            rateplan_id: this.bookingEvent.RATE_PLAN_ID,
+                            roomTypeId: targetRT,
+                            roomTypes: (_a = calendar_data === null || calendar_data === void 0 ? void 0 : calendar_data.property) === null || _a === void 0 ? void 0 : _a.roomtypes,
+                        });
                         return {
                             description: locales.entries.Lcz_OTA_Modification_Alter,
                             status: '200',
+                            newRatePlans: Array.isArray(mealPlans) ? mealPlans : undefined,
                         };
                         // return {
                         //   description: `${locales.entries.Lcz_YouWillLoseFutureUpdates} ${this.bookingEvent.origin ? this.bookingEvent.origin.Label : ''}. ${
@@ -361,9 +376,15 @@ export class IglBookingEvent {
                     return { description: `${locales.entries.Lcz_AreYouSureWantToMoveAnotherUnit}?`, status: '200' };
                 }
                 else {
+                    const mealPlans = checkMealPlan({
+                        rateplan_id: this.bookingEvent.RATE_PLAN_ID,
+                        roomTypeId: targetRT,
+                        roomTypes: (_b = calendar_data === null || calendar_data === void 0 ? void 0 : calendar_data.property) === null || _b === void 0 ? void 0 : _b.roomtypes,
+                    });
                     return {
-                        description: locales.entries.Lcz_SameRatesWillBeKept + '.',
+                        description: locales.entries.Lcz_SameRatesWillBeKept,
                         status: '200',
+                        newRatePlans: Array.isArray(mealPlans) ? mealPlans : undefined,
                     };
                 }
             }
@@ -767,19 +788,44 @@ export class IglBookingEvent {
         this.renderAgain();
     }
     render() {
+        var _a, _b, _c, _d, _e, _f;
         // onMouseLeave={()=>this.showEventInfo(false)}
         let legend = this.getEventLegend();
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
+        const backgroundColor = ((_a = this.bookingEvent.ROOM_INFO) === null || _a === void 0 ? void 0 : _a.calendar_extra) ? (_d = (_c = (_b = this.bookingEvent.ROOM_INFO.calendar_extra) === null || _b === void 0 ? void 0 : _b.booking_color) === null || _c === void 0 ? void 0 : _c.color) !== null && _d !== void 0 ? _d : legend.color : legend.color;
+        const { foreground, stripe } = (_f = (_e = calendar_data.colorsForegrounds) === null || _e === void 0 ? void 0 : _e[backgroundColor]) !== null && _f !== void 0 ? _f : {
+            foreground: '',
+        };
         // console.log(this.bookingEvent.BOOKING_NUMBER === '46231881' ? this.bookingEvent : '');
-        return (h(Host, { key: '09bbbb8c073c50b2c947be0393ef938aa0a44d74', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '91405d88fa22bb5c88df4e65cca26618169ba861', class: `bookingEventBase  ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-          ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
-          ${!this.bookingEvent.is_direct &&
-                !isBlockUnit(this.bookingEvent.STATUS_CODE) &&
-                this.bookingEvent.STATUS !== 'TEMP-EVENT' &&
-                this.bookingEvent.ID !== 'NEW_TEMP_EVENT' &&
-                'border border-dark ota-booking-event'}  ${this.isSplitBooking() ? 'splitBooking' : ''}`, style: { 'backgroundColor': legend.color, '--ir-event-bg': legend.color }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '885c94c53acb7eee31a7f9b377e4ec9d46e299e4', class: "bookingEventTitle", onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'b1e9e8c9f35e355a774c1c7b9e9c3dc790ac429f' }, h("div", { key: 'e42b309a35eeebf56b00bb2eec1d8c82130b91a1', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'f00ff15c52644cd2193cc5f9fcf468daa5be8614', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+        return (h(Host, { key: '98c7cdee5f20fc9fcf67d83ad0f1ae64a01b1839', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: 'event_' + this.getBookingId() }, h("div", { key: '5e7a77102e3de91472e2cd9237cb8acb9322b1f5',
+            //     class={`bookingEventBase  ${
+            //       !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''
+            //     }
+            //     ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}
+            //  ${this.bookingEvent.STATUS === 'IN-HOUSE' ? 'striped-bar vertical' : ''}
+            //  ${isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS_CODE === '003' ? 'striped-bar animated' : ''}
+            //  ${
+            //    !this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS !== 'TEMP-EVENT' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT'
+            //      ? 'border border-dark ota-booking-event'
+            //      : ''
+            //  }  ${this.isSplitBooking() ? 'splitBooking' : ''}
+            //       fullSplit
+            //       `}
+            class: {
+                'bookingEventBase': true,
+                'skewedLeft': !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)),
+                'skewedRight': !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)),
+                'striped-bar vertical': this.bookingEvent.STATUS === 'IN-HOUSE',
+                'striped-bar animated': isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS_CODE === '003',
+                'border border-dark ota-booking-event': !this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS !== 'TEMP-EVENT' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT',
+                [this.role]: true,
+            }, style: {
+                'backgroundColor': isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS_CODE === '003' ? 'rgb(243, 71, 82)' : backgroundColor,
+                '--ir-event-bg': isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS_CODE === '003' ? 'rgb(243, 71, 82)' : backgroundColor,
+                '--ir-event-bg-stripe-color': stripe,
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, balanceNode ? h("div", { class: "legend_circle balanceIcon", style: { backgroundColor: balanceNode.color } }) : null, h("div", { key: '3526d4a0398ad87186f8804b598bd49fec660d4b', class: "bookingEventTitle", style: { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '5ac3898e1f753852e571956244f69d6bd61b4c5f' }, h("div", { key: '4af41046e147dd1b19fc6d6cf7ed8b8f0053dd0b', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '2a782b9ac8d8b651cf49ae5d654e36fa06ae2dbc', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }

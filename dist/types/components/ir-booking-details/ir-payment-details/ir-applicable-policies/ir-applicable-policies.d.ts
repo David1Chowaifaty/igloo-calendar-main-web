@@ -11,6 +11,7 @@ export declare class IrApplicablePolicies {
     guaranteeAmount: number;
     generatePayment: EventEmitter<IPaymentAction>;
     private shouldShowCancellationBrackets;
+    private applicablePoliciesService;
     componentWillLoad(): void;
     handleBookingChange(): void;
     private loadApplicablePolicies;
@@ -18,7 +19,6 @@ export declare class IrApplicablePolicies {
     private getBracketLabelsAndArrowState;
     private handleSingleBracket;
     private handleMultipleBrackets;
-    private getCurrentBracket;
     private generateCancellationStatement;
     private _getCurrentBracket;
     render(): any;

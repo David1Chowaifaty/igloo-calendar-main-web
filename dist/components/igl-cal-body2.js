@@ -1,14 +1,16 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
-import { k as calendar_dates, n as compareTime, o as createDateWithOffsetAndHour } from './utils.js';
+import { m as calendar_dates, q as compareTime, r as createDateWithOffsetAndHour } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$9 } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$8 } from './igl-booking-event2.js';
-import { d as defineCustomElement$7 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$6 } from './ir-button2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
+import { d as defineCustomElement$b } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$a } from './igl-booking-event2.js';
+import { d as defineCustomElement$9 } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$8 } from './ir-button2.js';
+import { d as defineCustomElement$7 } from './ir-date-view2.js';
+import { d as defineCustomElement$6 } from './ir-dropdown2.js';
+import { d as defineCustomElement$5 } from './ir-dropdown-item2.js';
 import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-interactive-title2.js';
 import { d as defineCustomElement$2 } from './ir-label2.js';
@@ -421,10 +423,10 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     }
     render() {
         var _a, _b;
-        return (h(Host, { key: '2b4b9938e2c02e385a82f9ae6f852da5a52b51ba' }, h("div", { key: '8aef92cd74745bcac839593f403067816888dfb7', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1c235ad8b1a4c2c53a2c6333e400f7be9b13ee35', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
+        return (h(Host, { key: 'eaa507b2ec0b62e5fa67ee2592eabade0399533d' }, h("div", { key: '3bf249f1adf46b929e9023027e35e3c12a4c028b', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'e08db42e50505811ff3589f8dff9a2e0a12ce58e', class: "bookingEventsContainer preventPageScroll" }, (_a = this.getBookingData()) === null || _a === void 0 ? void 0 : _a.map(bookingEvent => {
             var _a, _b, _c;
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": (_c = (_b = (_a = bookingEvent.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(r => r.id === bookingEvent.RATE_TYPE)) === null || _b === void 0 ? void 0 : _b.physicalrooms.find(r => r.id === bookingEvent.PR_ID)) === null || _c === void 0 ? void 0 : _c.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '9d4f9a8fe82ecdaea09d035cebf8952340a25998', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => { var _a; return this.confirmHousekeepingUpdate(e, ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002'); }, autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: 'c60dd39c4099353f77c29aa997c76908a7b24267', ref: el => (this.hkModal = el), leftBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => { var _a; return this.confirmHousekeepingUpdate(e, ((_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.hk_status) === '002' ? '001' : '002'); }, autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -517,7 +519,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -526,25 +528,35 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-date-view":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-dropdown":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-dropdown-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

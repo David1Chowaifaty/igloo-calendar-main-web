@@ -2,6 +2,7 @@ import { h, Host } from "@stencil/core";
 export class IrDropdown {
     constructor() {
         this.disabled = false;
+        this.caret = true;
         this.isOpen = false;
         this.focusedIndex = -1;
         this.itemChildren = [];
@@ -249,7 +250,7 @@ export class IrDropdown {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '2dc85a1a0c3e18e5d7ad95d73b65191ab4d6517f', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '27ea00249469c1b2b87549a14335488a388a93e3', onClick: () => {
+        return (h(Host, { key: '03285e9e15d52a363a41e6efd7566b68dfeb4669', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '411b295e64da8bcce3ed3ee1fb8693bbaf91b353', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -258,7 +259,7 @@ export class IrDropdown {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1da437861821b8d6ce88268074964c7769848992', name: "trigger" }), h("div", { key: '180d0d26598c5892fb6422c4f145e5f03601f8e7', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '768ff0d27e0dd698f700b17fb823ebbcf8ae7362', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '72c5479acbc9a3f6163e30c0634ae52e19816433', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '87327ce54ba63e3ee7fa304e7a7566bfef14447f' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1b38a5ebc724742ecc9d96bc02c4b4489b9ca013', name: "trigger" }), this.caret && (h("div", { key: '7cb10236d632742c013136f83ec2dd120626d7cb', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '26786fd483b561f37b48bf1eb7b1875605669228', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '579d921048bb242540690af17c55a03e404ac7f4', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '3d64b2c0ccc3fd9eb90a66882fdec8b256363e24' }))));
     }
     static get is() { return "ir-dropdown"; }
     static get encapsulation() { return "scoped"; }
@@ -318,6 +319,26 @@ export class IrDropdown {
                 "attribute": "disabled",
                 "reflect": true,
                 "defaultValue": "false"
+            },
+            "caret": {
+                "type": "boolean",
+                "mutable": true,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "caret",
+                "reflect": true,
+                "defaultValue": "true"
             }
         };
     }

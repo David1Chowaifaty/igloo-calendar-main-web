@@ -63,6 +63,8 @@ export declare class BookingService {
         rate_plan_id: number;
         room_type_id: number;
         property_id: number;
+        is_preserve_history?: boolean;
+        room_identifier?: string;
     }): Promise<ExposedApplicablePolicy[] | null>;
     handleExposedRoomInOut(props: {
         booking_nbr: string;

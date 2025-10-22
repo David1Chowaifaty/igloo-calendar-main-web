@@ -6,7 +6,6 @@ export declare class IrResetPassword {
     ticket: string;
     skip2Fa: boolean;
     language: string;
-    baseUrl: string;
     confirmPassword: string;
     password: string;
     showValidator: boolean;

@@ -4,6 +4,120 @@ import axios from "axios";
 import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
+/**
+ * Builds an index of split chains for a booking's rooms.
+ * @param rooms - The booking's rooms array.
+ * @returns A {@link SplitIndex} with constant-time lookups, or `null` if no rooms are provided.
+ */
+export function buildSplitIndex(rooms) {
+    var _a;
+    if (!rooms) {
+        return;
+    }
+    const parentOf = new Map();
+    const childrenOf = new Map();
+    // 1) index parents/children
+    for (const r of rooms) {
+        if (!(r === null || r === void 0 ? void 0 : r.identifier))
+            continue;
+        const id = r.identifier;
+        const parent = (_a = r.parent_room_identifier) !== null && _a !== void 0 ? _a : null;
+        parentOf.set(id, parent);
+        if (parent) {
+            if (!childrenOf.has(parent))
+                childrenOf.set(parent, []);
+            childrenOf.get(parent).push(id);
+        }
+        else {
+            if (!childrenOf.has(id))
+                childrenOf.set(id, []); // ensure every head exists in map
+        }
+    }
+    // 2) deterministic child order
+    const byId = new Map(rooms.map(r => [r.identifier, r]));
+    for (const [_, kids] of childrenOf) {
+        kids.sort((a, b) => {
+            var _a, _b, _c, _d;
+            const ad = (_b = (_a = byId.get(a)) === null || _a === void 0 ? void 0 : _a.from_date) !== null && _b !== void 0 ? _b : '';
+            const bd = (_d = (_c = byId.get(b)) === null || _c === void 0 ? void 0 : _c.from_date) !== null && _d !== void 0 ? _d : '';
+            if (ad < bd)
+                return -1;
+            if (ad > bd)
+                return 1;
+            return a.localeCompare(b);
+        });
+    }
+    // 3) find heads (nodes with no parent in map or parent missing)
+    const heads = [];
+    for (const id of parentOf.keys()) {
+        const parent = parentOf.get(id);
+        if (!parent || !parentOf.has(parent))
+            heads.push(id);
+    }
+    // 4) build chains, roles, and guard against cycles
+    const roleOf = new Map();
+    const chainOf = new Map();
+    const visitChain = (head) => {
+        var _a;
+        const chain = [];
+        const seen = new Set();
+        let cur = head;
+        while (cur && !seen.has(cur)) {
+            seen.add(cur);
+            chain.push(cur);
+            const kids = (_a = childrenOf.get(cur)) !== null && _a !== void 0 ? _a : [];
+            // if data branches, we follow the earliest child and treat the rest as separate heads
+            cur = kids[0];
+        }
+        // assign roles
+        for (let i = 0; i < chain.length; i++) {
+            const id = chain[i];
+            const hasParent = i > 0;
+            const hasChild = i < chain.length - 1;
+            const role = hasParent && hasChild ? 'fullSplit' : hasParent ? 'leftSplit' : hasChild ? 'rightSplit' : null;
+            roleOf.set(id, role);
+            chainOf.set(id, chain);
+        }
+    };
+    // visit each head
+    for (const h of heads)
+        visitChain(h);
+    // handle orphans/cycles that weren’t reachable from heads
+    for (const id of parentOf.keys()) {
+        if (!chainOf.has(id))
+            visitChain(id);
+    }
+    return { parentOf, childrenOf, roleOf, chainOf, heads };
+}
+/**
+ * Returns the split role of a given room identifier.
+ *
+ * Roles:
+ * - `"fullSplit"`: node has a parent and a child (middle of a chain)
+ * - `"leftSplit"`: node has a parent only (tail)
+ * - `"rightSplit"`: node has a child only (head that splits)
+ * - `null`: singleton (no parent & no child) or not part of any chain in the index
+ *
+ * @param index - A previously built {@link SplitIndex}.
+ * @param identifier - The room identifier to query.
+ * @returns The role of the identifier, or `null` if not present.
+ */
+export function getSplitRole(index, identifier) {
+    var _a;
+    return (_a = index.roleOf.get(identifier)) !== null && _a !== void 0 ? _a : null;
+}
+/**
+ * Returns the full ordered chain (head → … → tail) containing the identifier.
+ * If the identifier is unknown to the index, returns a single-element array with the identifier.
+ *
+ * @param index - A previously built {@link SplitIndex}.
+ * @param identifier - The room identifier to query.
+ * @returns An array of identifiers representing the chain.
+ */
+export function getSplitChain(index, identifier) {
+    var _a;
+    return (_a = index.chainOf.get(identifier)) !== null && _a !== void 0 ? _a : [identifier];
+}
 export async function getMyBookings(months) {
     const myBookings = [];
     const stayStatus = await getStayStatus();
@@ -104,70 +218,79 @@ function getDefaultData(cell, stayStatus) {
     //   console.log(moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE);
     //   console.log(cell);
     // }
-    if (cell.booking.booking_nbr.toString() === '00553011358') {
-        console.log(cell);
+    // if (cell.booking.booking_nbr.toString() === '00553011358') {
+    //   console.log(cell);
+    // }
+    try {
+        const bookingFromDate = moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE;
+        const bookingToDate = moment(cell.room.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.to_date : cell.DATE;
+        const mainGuest = (_a = cell.room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
+        return {
+            ID: cell.POOL,
+            FROM_DATE: bookingFromDate,
+            TO_DATE: bookingToDate,
+            NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
+            STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
+            // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name),
+            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name) || formatName((_c = cell === null || cell === void 0 ? void 0 : cell.booking.guest) === null || _c === void 0 ? void 0 : _c.first_name, (_e = (_d = cell === null || cell === void 0 ? void 0 : cell.booking) === null || _d === void 0 ? void 0 : _d.guest) === null || _e === void 0 ? void 0 : _e.last_name),
+            IDENTIFIER: cell.room.identifier,
+            PR_ID: cell.pr_id,
+            POOL: cell.POOL,
+            BOOKING_NUMBER: cell.booking.booking_nbr,
+            NOTES: cell.booking.is_direct ? cell.booking.remark : null,
+            PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
+            is_direct: cell.booking.is_direct,
+            BALANCE: (_f = cell.booking.financial) === null || _f === void 0 ? void 0 : _f.due_amount,
+            channel_booking_nbr: cell.booking.channel_booking_nbr,
+            ARRIVAL_TIME: cell.booking.arrival.description,
+            defaultDates: {
+                from_date: cell.room.from_date,
+                to_date: cell.room.to_date,
+            },
+            DEPARTURE_TIME: cell.room.departure_time,
+            ///from here
+            ENTRY_DATE: cell.booking.booked_on.date,
+            PHONE_PREFIX: cell.booking.guest.country_phone_prefix,
+            IS_EDITABLE: cell.booking.is_editable,
+            ARRIVAL: cell.booking.arrival,
+            PHONE: (_g = cell.booking.guest.mobile_without_prefix) !== null && _g !== void 0 ? _g : '',
+            RATE: cell.room.total,
+            RATE_PLAN: cell.room.rateplan.name,
+            SPLIT_BOOKING: false,
+            RATE_PLAN_ID: cell.room.rateplan.id,
+            RATE_TYPE: (_j = (_h = cell.room) === null || _h === void 0 ? void 0 : _h.roomtype) === null || _j === void 0 ? void 0 : _j.id,
+            ADULTS_COUNT: cell.room.occupancy.adult_nbr,
+            CHILDREN_COUNT: cell.room.occupancy.children_nbr,
+            origin: cell.booking.origin,
+            GUEST: cell.booking.guest,
+            ROOMS: cell.booking.rooms,
+            cancelation: cell.room.rateplan.cancelation,
+            guarantee: cell.room.rateplan.guarantee,
+            TOTAL_PRICE: (_k = cell.booking.financial) === null || _k === void 0 ? void 0 : _k.gross_total,
+            COUNTRY: cell.booking.guest.country_id,
+            FROM_DATE_STR: cell.booking.format.from_date,
+            TO_DATE_STR: cell.booking.format.to_date,
+            adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
+            SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
+            //TODO:Implement checkin-checkout
+            CHECKIN: ((_l = cell.room.in_out) === null || _l === void 0 ? void 0 : _l.code) === '001',
+            CHECKOUT: ((_m = cell.room.in_out) === null || _m === void 0 ? void 0 : _m.code) === '002',
+            ROOM_INFO: {
+                occupancy: cell.room.occupancy,
+                sharing_persons: cell.room.sharing_persons,
+                unit: cell.room.unit,
+                in_out: cell.room.in_out,
+                calendar_extra: cell.room.calendar_extra ? JSON.parse(cell.room.calendar_extra) : null,
+                parent_room_identifier: cell.room.parent_room_identifier,
+            },
+            BASE_STATUS_CODE: (_o = cell.booking.status) === null || _o === void 0 ? void 0 : _o.code,
+        };
     }
-    const bookingFromDate = moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE;
-    const bookingToDate = moment(cell.room.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.to_date : cell.DATE;
-    const mainGuest = (_a = cell.room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
-    return {
-        ID: cell.POOL,
-        FROM_DATE: bookingFromDate,
-        TO_DATE: bookingToDate,
-        NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
-        STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
-        // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name),
-        NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name) || formatName((_c = cell === null || cell === void 0 ? void 0 : cell.booking.guest) === null || _c === void 0 ? void 0 : _c.first_name, (_e = (_d = cell === null || cell === void 0 ? void 0 : cell.booking) === null || _d === void 0 ? void 0 : _d.guest) === null || _e === void 0 ? void 0 : _e.last_name),
-        IDENTIFIER: cell.room.identifier,
-        PR_ID: cell.pr_id,
-        POOL: cell.POOL,
-        BOOKING_NUMBER: cell.booking.booking_nbr,
-        NOTES: cell.booking.is_direct ? cell.booking.remark : null,
-        PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
-        is_direct: cell.booking.is_direct,
-        BALANCE: (_f = cell.booking.financial) === null || _f === void 0 ? void 0 : _f.due_amount,
-        channel_booking_nbr: cell.booking.channel_booking_nbr,
-        ARRIVAL_TIME: cell.booking.arrival.description,
-        defaultDates: {
-            from_date: cell.room.from_date,
-            to_date: cell.room.to_date,
-        },
-        DEPARTURE_TIME: cell.room.departure_time,
-        ///from here
-        ENTRY_DATE: cell.booking.booked_on.date,
-        PHONE_PREFIX: cell.booking.guest.country_phone_prefix,
-        IS_EDITABLE: cell.booking.is_editable,
-        ARRIVAL: cell.booking.arrival,
-        PHONE: (_g = cell.booking.guest.mobile_without_prefix) !== null && _g !== void 0 ? _g : '',
-        RATE: cell.room.total,
-        RATE_PLAN: cell.room.rateplan.name,
-        SPLIT_BOOKING: false,
-        RATE_PLAN_ID: cell.room.rateplan.id,
-        RATE_TYPE: (_j = (_h = cell.room) === null || _h === void 0 ? void 0 : _h.roomtype) === null || _j === void 0 ? void 0 : _j.id,
-        ADULTS_COUNT: cell.room.occupancy.adult_nbr,
-        CHILDREN_COUNT: cell.room.occupancy.children_nbr,
-        origin: cell.booking.origin,
-        GUEST: cell.booking.guest,
-        ROOMS: cell.booking.rooms,
-        cancelation: cell.room.rateplan.cancelation,
-        guarantee: cell.room.rateplan.guarantee,
-        TOTAL_PRICE: (_k = cell.booking.financial) === null || _k === void 0 ? void 0 : _k.gross_total,
-        COUNTRY: cell.booking.guest.country_id,
-        FROM_DATE_STR: cell.booking.format.from_date,
-        TO_DATE_STR: cell.booking.format.to_date,
-        adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
-        SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
-        //TODO:Implement checkin-checkout
-        CHECKIN: ((_l = cell.room.in_out) === null || _l === void 0 ? void 0 : _l.code) === '001',
-        CHECKOUT: ((_m = cell.room.in_out) === null || _m === void 0 ? void 0 : _m.code) === '002',
-        ROOM_INFO: {
-            occupancy: cell.room.occupancy,
-            sharing_persons: cell.room.sharing_persons,
-            unit: cell.room.unit,
-            in_out: cell.room.in_out,
-        },
-        BASE_STATUS_CODE: (_o = cell.booking.status) === null || _o === void 0 ? void 0 : _o.code,
-    };
+    catch (error) {
+        console.error(`Something went wrong in cell`);
+        console.log(cell);
+        console.error(error);
+    }
 }
 // function updateBookingWithStayData(data: any, cell: CellType): any {
 //   data.NO_OF_DAYS = dateDifference(data.FROM_DATE, cell.DATE);
@@ -335,6 +458,8 @@ export function transformNewBooking(data) {
                 sharing_persons: room.sharing_persons,
                 unit: room.unit,
                 in_out: room.in_out,
+                parent_room_identifier: room.parent_room_identifier,
+                calendar_extra: room.calendar_extra ? JSON.parse(room.calendar_extra) : null,
             },
             BASE_STATUS_CODE: (_f = data.status) === null || _f === void 0 ? void 0 : _f.code,
         });

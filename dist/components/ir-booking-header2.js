@@ -4,10 +4,9 @@ import { c as calendar_data } from './calendar-data.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$a } from './ir-button2.js';
-import { d as defineCustomElement$9 } from './ir-dialog2.js';
-import { d as defineCustomElement$8 } from './ir-events-log2.js';
-import { d as defineCustomElement$7 } from './ir-icon2.js';
+import { d as defineCustomElement$9 } from './ir-button2.js';
+import { d as defineCustomElement$8 } from './ir-dialog2.js';
+import { d as defineCustomElement$7 } from './ir-events-log2.js';
 import { d as defineCustomElement$5 } from './ir-modal2.js';
 import { d as defineCustomElement$4 } from './ir-pms-logs2.js';
 import { d as defineCustomElement$3 } from './ir-popover2.js';
@@ -86,30 +85,30 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
     render() {
         var _a, _b;
         const lastManipulation = this.booking.ota_manipulations ? this.booking.ota_manipulations[this.booking.ota_manipulations.length - 1] : null;
-        return (h("div", { key: '30ddd492ce59575592f5d80d997679acde455740', class: "fluid-container px-1" }, h("div", { key: '5a7a4812b37736ae388f559827423a3ea29acf0a', class: "d-flex flex-column p-0 mx-0 flex-lg-row align-items-md-center justify-content-between mt-1" }, h("div", { key: '53b1f01da142328fd4082af388ce7d88e057f5e2', class: "m-0 p-0 mb-1 mb-lg-0 mt-md-0" }, h("p", { key: '6873463ecb14a3e222aeb0a6f8e4bea4462900cc', class: "font-size-large m-0 p-0" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("p", { key: '768be3c66846fd5565687a5bda398e6f48fccb58', class: "m-0 p-0" }, !this.booking.is_direct && h("span", { key: 'c60255b5394ccf51a9603d2dc92693eeec9f3c4f', class: "mr-1 m-0" }, this.booking.channel_booking_nbr))), h("div", { key: '8814531a2bb9e4bec62a3f01a7a14942b2bf8a06', class: "d-flex justify-content-end align-items-center", style: { gap: '1rem', flexWrap: 'wrap' } }, h("div", { key: 'fa66f51ca5ae1c4c81b975e14ba74aaf7b16dce7', class: "d-flex flex-column align-items-center" }, h("span", { key: '6ecac89fb523d42123a2d6b92462335fa0380dd4', class: `confirmed btn-sm m-0  ${this.confirmationBG[this.booking.is_requested_to_cancel ? '003' : this.booking.status.code]}` }, this.booking.is_requested_to_cancel ? locales.entries.Lcz_CancellationRequested : this.booking.status.description), lastManipulation && (h("ir-popover", { key: '19fb0cba89b0b5c0eec81db45cf35e9e8940520b', trigger: "hover", renderContentAsHtml: true, content: `<div><p>Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}.</p>
-                <p>${this.alertMessage}</p></div>` }, h("p", { key: 'ee5811df2c03cdcf38a01488a6e8f6be883849bb', class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", { key: 'ca4fdf0e7f33573eedc856f946a4279dfc13367c' }, "Modified"))))), this.booking.allowed_actions.length > 0 && this.booking.is_editable && (h("div", { key: '9020e7a7ef42b83f6323d00d91526456880fb2ab', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.25rem' } }, h("ir-select", { key: '30b857194f2a2885060fa990de9d4b0ea793473a', selectContainerStyle: "h-28", selectStyles: "d-flex status-select align-items-center h-28", firstOption: locales.entries.Lcz_Select, id: "update-status", size: "sm", "label-available": "false", data: this.booking.allowed_actions.map(b => ({ text: b.description, value: b.code })), textSize: "sm", class: "sm-padding-right m-0 ", selectedValue: this.bookingStatus }), h("ir-button", { key: '8ccb7d2ff690c6a05e1f629994c0bc6109836295', onClickHandler: () => {
+        return (h("div", { key: '96cd103e4593ed1483fed74f20e960f93d6714ca', class: "fluid-container px-1" }, h("div", { key: 'b078f58bb8014070d22f8c5c96e9f2e83b523c63', class: "d-flex flex-column p-0 mx-0 flex-lg-row align-items-md-center justify-content-between mt-1" }, h("div", { key: '973ad6a93236b1975f0f83a916243f6839f58d90', class: "m-0 p-0 mb-1 mb-lg-0 mt-md-0" }, h("p", { key: 'a0284b485c3544eaeaa3bbc879dfc11166adcd87', class: "font-size-large m-0 p-0" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("p", { key: 'a02883b80fff0babb81ec275a6a607d0088942e2', class: "m-0 p-0" }, !this.booking.is_direct && h("span", { key: '3c59efe7a1d282653274348c5ce3d2a1f6a7d1aa', class: "mr-1 m-0" }, this.booking.channel_booking_nbr))), h("div", { key: 'bd79722691a0e1971f343f5c60a8a74b40f78381', class: "d-flex justify-content-end align-items-center", style: { gap: '1rem', flexWrap: 'wrap' } }, h("div", { key: '5aedbd73c786c394a556becc117c93c0f4735d79', class: "d-flex flex-column align-items-center" }, h("span", { key: '3c6200d9d96ee2084b3db01a0b9e35717a9f7c0f', class: `confirmed btn-sm m-0  ${this.confirmationBG[this.booking.is_requested_to_cancel ? '003' : this.booking.status.code]}` }, this.booking.is_requested_to_cancel ? locales.entries.Lcz_CancellationRequested : this.booking.status.description), lastManipulation && (h("ir-popover", { key: '260246c66c67d023c357e44262dc6d0672910d49', trigger: "hover", renderContentAsHtml: true, content: `<div><p>Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}.</p>
+                <p>${this.alertMessage}</p></div>` }, h("p", { key: '92d46f88060b40c85f7ccddae553cf9783f3329f', class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", { key: '6afddefa6539f486e20e9c3265985261fedaf4b4' }, "Modified"))))), this.booking.allowed_actions.length > 0 && this.booking.is_editable && (h("div", { key: '7e7a16c018b1febf1ccc340637f3a68698646c12', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.25rem' } }, h("ir-select", { key: 'ccd9498327823e938825d6410c4de80a1b9e7904', selectContainerStyle: "h-28", selectStyles: "d-flex status-select align-items-center h-28", firstOption: locales.entries.Lcz_Select, id: "update-status", size: "sm", "label-available": "false", data: this.booking.allowed_actions.map(b => ({ text: b.description, value: b.code })), textSize: "sm", class: "sm-padding-right m-0 ", selectedValue: this.bookingStatus }), h("ir-button", { key: '7336ef927eab94561e12a3de1c1385911a48e38c', onClickHandler: () => {
                 if (!this.booking.is_direct) {
                     this.modalEl.openModal();
                     return;
                 }
                 this.updateStatus();
-            }, btn_styles: "h-28", isLoading: isRequestPending('/Change_Exposed_Booking_Status'), btn_disabled: isRequestPending('/Change_Exposed_Booking_Status'), id: "update-status-btn", size: "sm", text: "Update" }))), h("ir-button", { key: '9505dbdf5da862241afa8eff254c6e4f31c2a3a0', size: "sm", btn_color: "outline", text: locales.entries.Lcz_EventsLog, onClickHandler: e => {
+            }, btn_styles: "h-28", isLoading: isRequestPending('/Change_Exposed_Booking_Status'), btn_disabled: isRequestPending('/Change_Exposed_Booking_Status'), id: "update-status-btn", size: "sm", text: "Update" }))), h("ir-button", { key: '283ff763b6dca7c0a683a625b04484a60f8beb62', size: "sm", btn_color: "outline", text: locales.entries.Lcz_EventsLog, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'events-log' });
-            } }), calendar_data.is_pms_enabled && (h("ir-button", { key: '59072d6b196a98625a1f824e42fa192f88dcff25', size: "sm", btn_color: "outline", text: locales.entries.Lcz_pms, onClick: e => {
+            } }), calendar_data.is_pms_enabled && (h("ir-button", { key: 'f5f4e2b1df7514181bd30224c77144921b7ebc52', size: "sm", btn_color: "outline", text: locales.entries.Lcz_pms, onClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'pms' });
-            } })), this.hasReceipt && h("ir-button", { key: 'bd433e96319b59153bdc7934e0b6b67d2813a247', variant: "icon", id: "receipt", icon_name: "reciept", class: "", style: { '--icon-size': '1.65rem' } }), this.hasPrint && h("ir-button", { key: '0b529fc81cd818d0c75d9fe069e323c3a95078e8', variant: "icon", id: "print", icon_name: "print", class: "", style: { '--icon-size': '1.65rem' } }), this.hasEmail && h("ir-button", { key: 'a9c3853c979b295cf0c000ffae1bea8da368fd18', variant: "icon", id: "email", title: "Email this booking", icon_name: "email", class: "", style: { '--icon-size': '1.65rem' } }), this.hasDelete && h("ir-button", { key: '4f8976307db16e480ba6d78897a4d811f818efb2', variant: "icon", id: "book-delete", icon_name: "trash", class: "", style: Object.assign(Object.assign({}, colorVariants.danger), { '--icon-size': '1.65rem' }) }), this.hasMenu && h("ir-button", { key: '48a67eedd8ac9c0491bb1cbb04fb3fdc515bb1b6', variant: "icon", class: "mr-1", id: "menu", icon_name: "menu_list", style: { '--icon-size': '1.65rem' } }), this.hasCloseButton && (h("ir-button", { key: 'be1a63dcdcc3d1f9dc7e57e1c0075be46dabf933', id: "close", variant: "icon", style: { '--icon-size': '1.65rem' }, icon_name: "xmark", class: "ml-2", onClickHandler: e => {
+            } })), this.hasReceipt && h("ir-button", { key: '32b517540b550dcf8efa0ab65a27995e7dd61188', variant: "icon", id: "receipt", icon_name: "reciept", class: "", style: { '--icon-size': '1.65rem' } }), this.hasPrint && h("ir-button", { key: '41fb42595a53f857e342139016a7ec4f01e2dd94', variant: "icon", id: "print", icon_name: "print", class: "", style: { '--icon-size': '1.65rem' } }), this.hasEmail && h("ir-button", { key: 'b97e686395a7c7015c941949c68b2f0b628e023d', variant: "icon", id: "email", title: "Email this booking", icon_name: "email", class: "", style: { '--icon-size': '1.65rem' } }), this.hasDelete && h("ir-button", { key: '41ba2c3086f31b10266fa214b3c25a1048efe4a1', variant: "icon", id: "book-delete", icon_name: "trash", class: "", style: Object.assign(Object.assign({}, colorVariants.danger), { '--icon-size': '1.65rem' }) }), this.hasMenu && h("ir-button", { key: '660c54b7f703564b2119a3192b318c6dbfda64ff', variant: "icon", class: "mr-1", id: "menu", icon_name: "menu_list", style: { '--icon-size': '1.65rem' } }), this.hasCloseButton && (h("ir-button", { key: 'e171b1e9acb0da11a8cfa4d6a9b8a4bc0d8d4eaa', id: "close", variant: "icon", style: { '--icon-size': '1.65rem' }, icon_name: "xmark", class: "ml-2", onClickHandler: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeSidebar.emit(null);
-            } })))), h("ir-dialog", { key: '51e552d046ff5d0675b066b0432b18efc3968522', onOpenChange: e => {
+            } })))), h("ir-dialog", { key: 'eda2d16181f08d69ae8b739db12555ade6f31f63', onOpenChange: e => {
                 if (!e.detail) {
                     this.currentDialogStatus = null;
                 }
-            }, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-modal", { key: '7c9681b34b38c0cf261c5c2e20f00728f54219ff', ref: el => (this.modalEl = el), modalTitle: '', leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: locales.entries.Lcz_OTA_Modification_Alter, isLoading: isRequestPending('/Change_Exposed_Booking_Status'), onConfirmModal: this.updateStatus.bind(this) })));
+            }, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-modal", { key: '942e957e78acfdbcd5d840db9a748cc8f207d671', ref: el => (this.modalEl = el), modalTitle: '', leftBtnText: (_a = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Cancel, rightBtnText: (_b = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_Confirm, modalBody: locales.entries.Lcz_OTA_Modification_Alter, isLoading: isRequestPending('/Change_Exposed_Booking_Status'), onConfirmModal: this.updateStatus.bind(this) })));
     }
     static get style() { return IrBookingHeaderStyle0; }
 }, [2, "ir-booking-header", {
@@ -127,7 +126,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-header", "ir-button", "ir-dialog", "ir-events-log", "ir-icon", "ir-icons", "ir-modal", "ir-pms-logs", "ir-popover", "ir-select", "ir-spinner"];
+    const components = ["ir-booking-header", "ir-button", "ir-dialog", "ir-events-log", "ir-icons", "ir-modal", "ir-pms-logs", "ir-popover", "ir-select", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-header":
             if (!customElements.get(tagName)) {
@@ -136,20 +135,15 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$9();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
-            }
-            break;
-        case "ir-events-log":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-icon":
+        case "ir-events-log":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

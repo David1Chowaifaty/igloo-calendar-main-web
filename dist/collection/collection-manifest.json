@@ -1,8 +1,8 @@
 {
   "entries": [
     "components/ac-pages-menu/ac-pages-menu.js",
-    "components/ui/ir-toast/ir-toast.js",
     "components/igloo-calendar/igloo-calendar.js",
+    "components/ui/ir-toast/ir-toast.js",
     "components/ui/ir-combobox/ir-combobox.js",
     "components/ui/ir-dropdown/ir-dropdown.js",
     "components/ir-pagination/ir-pagination.js",
@@ -29,6 +29,8 @@
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",
     "components/igloo-calendar/igl-date-range/igl-date-range.js",
     "components/igloo-calendar/igl-legends/igl-legends.js",
+    "components/igloo-calendar/igl-reallocation-dialog/igl-reallocation-dialog.js",
+    "components/igloo-calendar/igl-split-booking/igl-split-booking.js",
     "components/igloo-calendar/igl-to-be-assigned/igl-to-be-assigned.js",
     "components/igloo-calendar/igl-to-be-assigned/igl-tba-booking-view/igl-tba-booking-view.js",
     "components/igloo-calendar/igl-to-be-assigned/igl-tba-category-view/igl-tba-category-view.js",
@@ -155,6 +157,7 @@
     "components/ui/ir-span/ir-span.js",
     "components/ui/ir-spinner/ir-spinner.js",
     "components/ui/ir-stats-card/ir-stats-card.js",
+    "components/ui/ir-success-loader/ir-success-loader.js",
     "components/ui/ir-switch/ir-switch.js",
     "components/ui/ir-textarea/ir-textarea.js",
     "components/ui/ir-tooltip/ir-tooltip.js",

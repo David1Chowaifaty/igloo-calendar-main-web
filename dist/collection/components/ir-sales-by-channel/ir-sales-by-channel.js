@@ -32,6 +32,7 @@ export class IrSalesByChannel {
             BOOK_CASE: '001',
             WINDOW: 7,
             include_previous_year: false,
+            is_export_to_excel: false,
         };
     }
     componentWillLoad() {

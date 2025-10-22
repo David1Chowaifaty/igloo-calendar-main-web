@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
-const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem;z-index:99999}.dropdown-trigger.sc-ir-dropdown{position:relative}.caret-icon.disabled.sc-ir-dropdown{opacity:0.5 !important;pointer-events:none !important;cursor:not-allowed !important}";
+const irDropdownCss = ".dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;min-width:var(--ir-dropdown-menu-min-width, 11rem) !important;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);right:0.25rem;z-index:99999}.dropdown-trigger.sc-ir-dropdown{position:relative}.caret-icon.disabled.sc-ir-dropdown{opacity:0.5 !important;pointer-events:none !important;cursor:not-allowed !important}";
 const IrDropdownStyle0 = irDropdownCss;
 
 const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTMLElement {
@@ -10,6 +10,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.__registerHost();
         this.optionChange = createEvent(this, "optionChange", 7);
         this.disabled = false;
+        this.caret = true;
         this.isOpen = false;
         this.focusedIndex = -1;
         this.itemChildren = [];
@@ -257,7 +258,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '2dc85a1a0c3e18e5d7ad95d73b65191ab4d6517f', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '27ea00249469c1b2b87549a14335488a388a93e3', onClick: () => {
+        return (h(Host, { key: '03285e9e15d52a363a41e6efd7566b68dfeb4669', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '411b295e64da8bcce3ed3ee1fb8693bbaf91b353', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -266,7 +267,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1da437861821b8d6ce88268074964c7769848992', name: "trigger" }), h("div", { key: '180d0d26598c5892fb6422c4f145e5f03601f8e7', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '768ff0d27e0dd698f700b17fb823ebbcf8ae7362', name: !this.isOpen ? 'angle-down' : 'angle-up' }))), h("div", { key: '72c5479acbc9a3f6163e30c0634ae52e19816433', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '87327ce54ba63e3ee7fa304e7a7566bfef14447f' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1b38a5ebc724742ecc9d96bc02c4b4489b9ca013', name: "trigger" }), this.caret && (h("div", { key: '7cb10236d632742c013136f83ec2dd120626d7cb', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '26786fd483b561f37b48bf1eb7b1875605669228', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '579d921048bb242540690af17c55a03e404ac7f4', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '3d64b2c0ccc3fd9eb90a66882fdec8b256363e24' }))));
     }
     get el() { return this; }
     static get watchers() { return {
@@ -276,6 +277,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
 }, [6, "ir-dropdown", {
         "value": [1544],
         "disabled": [1540],
+        "caret": [1540],
         "isOpen": [32],
         "selectedOption": [32],
         "focusedIndex": [32],

@@ -422,12 +422,21 @@ export interface Origin {
     Icon: string;
     Label: string;
 }
+export interface BookingColor {
+    color: string | null;
+    design: 'skew';
+    name: string | null;
+}
+export interface CalendarExtra {
+    booking_colors: BookingColor[] | null;
+}
 export interface Property {
-    calendar_legends: null;
+    calendar_legends: any;
     currency: null;
     id: number;
     name: string;
     roomtypes: null;
+    calendar_extra: CalendarExtra | null;
 }
 export type DepartureTime = {
     code: string;
@@ -457,6 +466,9 @@ export interface Room {
     days: Day[];
     applicable_policies: ExposedApplicablePolicy[];
     from_date: string;
+    calendar_extra: string;
+    parent_room_identifier: string | null;
+    is_split: boolean;
     guest: Guest;
     occupancy_default: number;
     notes: string | null;
@@ -521,6 +533,10 @@ export interface RatePlan {
     custom_text: string | null;
     is_active: boolean;
     short_name: string;
+    meal_plan: {
+        code: string;
+        description: string | null;
+    } | null;
 }
 export interface IVariations {
     adult_child_offering: string;

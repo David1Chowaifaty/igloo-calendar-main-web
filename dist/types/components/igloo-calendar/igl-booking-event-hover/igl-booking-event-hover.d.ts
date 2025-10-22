@@ -1,6 +1,8 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ICountry } from "../../../models/IBooking";
 import { CalendarModalEvent } from "../../../models/property-types";
+import { BookingColor } from "../../../models/booking.dto";
+import { CalendarSidebarState } from '../igloo-calendar';
 export declare class IglBookingEventHover {
     element: HTMLIglBookingEventHoverElement;
     bookingEvent: {
@@ -13,6 +15,7 @@ export declare class IglBookingEventHover {
     isLoading: string;
     shouldHideUnassignUnit: boolean;
     canCheckInOrCheckout: boolean;
+    bookingColor: BookingColor | null;
     showBookingPopup: EventEmitter;
     hideBubbleInfo: EventEmitter;
     deleteButton: EventEmitter<string>;
@@ -21,9 +24,13 @@ export declare class IglBookingEventHover {
         data: any[];
     }>;
     showDialog: EventEmitter<CalendarModalEvent>;
+    openCalendarSidebar: EventEmitter<CalendarSidebarState>;
     private eventService;
     private hideButtons;
+    private propertyService;
+    private baseColor;
     componentWillLoad(): void;
+    private getEventLegend;
     handleBookingEventChange(newValue: any, oldValue: any): void;
     private getBookingId;
     private hideBubble;
@@ -57,7 +64,25 @@ export declare class IglBookingEventHover {
     private renderTitle;
     private handleBookingOption;
     private getOTANotes;
+    /**
+     * Determines whether the current booking is eligible to be split.
+     *
+     * Rules enforced:
+     *  1) Minimum stay — there must be at least 2 nights between `from_date` (check-in) and `to_date` (check-out).
+     *     (Checkout is treated as exclusive; nights = `to_date - from_date` in whole days.)
+     *  2) Proximity to checkout — disallow splitting when checkout is tomorrow or earlier
+     *     (i.e., `to_date - today < 1 day` when all are normalized to start of day).
+     *
+     * @returns {boolean} `true` if the booking can be split under the rules above; otherwise `false`.
+     *
+     * @example
+     * // Given defaultDates: { from_date: '2025-10-10', to_date: '2025-10-13' }
+     * // nights = 3, and if checkout is more than a day away, returns true.
+     * const canSplit = this.canSplitBooking(); // -> true
+     */
+    private canSplitBooking;
     private getInfoElement;
+    private handleSplitBooking;
     private getNewBookingOptions;
     private getBlockedView;
     render(): any;

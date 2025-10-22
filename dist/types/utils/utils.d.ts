@@ -1,6 +1,49 @@
-import IBooking, { ICountry, PhysicalRoomType } from '../models/IBooking';
+import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string, format?: string): string;
 export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
+export interface SelectOption {
+    text: string;
+    value: string;
+    custom_text: string | null;
+}
+interface CheckMealPlanParams {
+    rateplan_id: string;
+    roomTypes?: PropertyRoomType[] | null;
+    roomTypeId?: number | null;
+}
+/**
+ * Determines whether the currently selected room's rateplan is valid for the
+ * chosen room type. If it is **not** valid, this returns the list of
+ * alternative (active) rateplans that the user can switch to.
+ *
+ * #### Return contract
+ * - **`null`** → No UI action required. Either:
+ *   - no `roomTypeId`/`roomTypes`/room type found, or
+ *   - the room already has a compatible active rateplan for this room type.
+ * - **`SelectOption[]`** → The current rateplan doesn't exist (or isn't active)
+ *   for the chosen room type. Render these options so the user can pick one.
+ *
+ * #### Matching rules
+ * A rateplan is considered compatible if **all** of the following match:
+ * - `meal_plan.code`
+ * - `custom_text`
+ * - `is_active === true`
+ * - `is_non_refundable` (boolean equality)
+ *
+ * #### Edge cases handled
+ * - Missing/invalid `roomTypeId` or `roomTypes`
+ * - rateplan_id type not found or has no `rateplans`
+ * - Partial/undefined fields on `rateplan` (safe optional access)
+ * - Localized "Non-Refundable" label missing (falls back to literal)
+ * - Filters out inactive rateplans and guarantees unique options by `id`
+ *
+ * @param params.rateplan_id       The room currently being edited/validated.
+ * @param params.roomTypes  All property room types (may be null/undefined).
+ * @param params.roomTypeId The selected room type id (may be null/undefined).
+ *
+ * @returns `null` if no choices are needed; otherwise a list of choices.
+ */
+export declare function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }: CheckMealPlanParams): SelectOption | SelectOption[] | null;
 export declare function dateDifference(FROM_DATE: string, TO_DATE: string): number;
 export declare const getBrowserLanguage: () => string;
 export declare const transformBooking: (physicalRoom: PhysicalRoomType[]) => IBooking[];
@@ -94,3 +137,4 @@ export declare function generatePassword(length?: number): string;
  * @returns An array of time strings in "HH:mm" format representing each step between the start and end times.
  */
 export declare function generateTimeSlotsMilitary(from: string, to: string, stepMinutes?: number): string[];
+export {};

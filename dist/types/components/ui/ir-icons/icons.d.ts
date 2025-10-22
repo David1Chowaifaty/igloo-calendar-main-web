@@ -231,6 +231,10 @@ declare const icons: {
         viewBox: string;
         d: string;
     };
+    ban: {
+        viewBox: string;
+        d: string;
+    };
 };
 export declare const colorVariants: {
     secondary: {

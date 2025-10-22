@@ -2,6 +2,7 @@ import moment from "moment";
 import { z } from "zod";
 import { compareTime, createDateWithOffsetAndHour } from "./booking";
 import calendarData from "../stores/calendar-data";
+import locales from "../stores/locales.store";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');
@@ -14,6 +15,93 @@ export function convertDateToTime(dayWithWeekday, monthWithYear) {
     const date = moment(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY').toDate();
     date.setHours(0, 0, 0, 0);
     return date.getTime();
+}
+/**
+ * Determines whether the currently selected room's rateplan is valid for the
+ * chosen room type. If it is **not** valid, this returns the list of
+ * alternative (active) rateplans that the user can switch to.
+ *
+ * #### Return contract
+ * - **`null`** → No UI action required. Either:
+ *   - no `roomTypeId`/`roomTypes`/room type found, or
+ *   - the room already has a compatible active rateplan for this room type.
+ * - **`SelectOption[]`** → The current rateplan doesn't exist (or isn't active)
+ *   for the chosen room type. Render these options so the user can pick one.
+ *
+ * #### Matching rules
+ * A rateplan is considered compatible if **all** of the following match:
+ * - `meal_plan.code`
+ * - `custom_text`
+ * - `is_active === true`
+ * - `is_non_refundable` (boolean equality)
+ *
+ * #### Edge cases handled
+ * - Missing/invalid `roomTypeId` or `roomTypes`
+ * - rateplan_id type not found or has no `rateplans`
+ * - Partial/undefined fields on `rateplan` (safe optional access)
+ * - Localized "Non-Refundable" label missing (falls back to literal)
+ * - Filters out inactive rateplans and guarantees unique options by `id`
+ *
+ * @param params.rateplan_id       The room currently being edited/validated.
+ * @param params.roomTypes  All property room types (may be null/undefined).
+ * @param params.roomTypeId The selected room type id (may be null/undefined).
+ *
+ * @returns `null` if no choices are needed; otherwise a list of choices.
+ */
+export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
+    var _a, _b, _c, _d, _e, _f;
+    if (!roomTypeId || !Array.isArray(roomTypes) || roomTypes.length === 0) {
+        return null;
+    }
+    const roomtype = roomTypes.find(rt => (rt === null || rt === void 0 ? void 0 : rt.id) === roomTypeId);
+    if (!roomtype || !Array.isArray(roomtype.rateplans) || roomtype.rateplans.length === 0) {
+        return null;
+    }
+    const rateplan = roomtype.rateplans.find(rp => rp.id.toString() === rateplan_id.toString());
+    const current = {
+        mealPlanCode: (_b = (_a = rateplan === null || rateplan === void 0 ? void 0 : rateplan.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null,
+        customText: (_c = rateplan === null || rateplan === void 0 ? void 0 : rateplan.custom_text) !== null && _c !== void 0 ? _c : null,
+        isNonRefundable: Boolean(rateplan === null || rateplan === void 0 ? void 0 : rateplan.is_non_refundable),
+    };
+    const hasCompatibleActiveRateplan = roomtype.rateplans.some(rp => {
+        var _a, _b, _c;
+        return Boolean(rp === null || rp === void 0 ? void 0 : rp.is_active) &&
+            ((_b = (_a = rp === null || rp === void 0 ? void 0 : rp.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null) === current.mealPlanCode &&
+            ((_c = rp === null || rp === void 0 ? void 0 : rp.custom_text) !== null && _c !== void 0 ? _c : null) === current.customText &&
+            Boolean(rp === null || rp === void 0 ? void 0 : rp.is_non_refundable) === current.isNonRefundable;
+    });
+    if (hasCompatibleActiveRateplan) {
+        const rp = roomtype.rateplans.find(rp => {
+            var _a, _b, _c;
+            return Boolean(rp === null || rp === void 0 ? void 0 : rp.is_active) &&
+                ((_b = (_a = rp === null || rp === void 0 ? void 0 : rp.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null) === current.mealPlanCode &&
+                ((_c = rp === null || rp === void 0 ? void 0 : rp.custom_text) !== null && _c !== void 0 ? _c : null) === current.customText &&
+                Boolean(rp === null || rp === void 0 ? void 0 : rp.is_non_refundable) === current.isNonRefundable;
+        });
+        return {
+            custom_text: rp.custom_text,
+            text: rp.short_name,
+            value: rp.id.toString(),
+        };
+    }
+    const nonRefundableLabel = (_e = (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_NonRefundable) !== null && _e !== void 0 ? _e : 'Non-Refundable';
+    const seen = new Set();
+    const options = [];
+    for (const rp of roomtype.rateplans) {
+        if (!rp || !rp.is_active || seen.has(rp.id))
+            continue;
+        seen.add(rp.id);
+        const suffix = rp.is_non_refundable ? ` ${nonRefundableLabel}` : '';
+        const text = `${(_f = rp.short_name) !== null && _f !== void 0 ? _f : ''}${suffix}`.trim();
+        if (!text)
+            continue;
+        options.push({
+            text,
+            custom_text: rp.custom_text,
+            value: String(rp.id),
+        });
+    }
+    return options;
 }
 export function dateDifference(FROM_DATE, TO_DATE) {
     const startDate = new Date(FROM_DATE);

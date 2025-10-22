@@ -1,50 +1,41 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrDialog {
-    el: HTMLElement;
+    private static dialogIds;
+    hostEl: HTMLElement;
     /**
-     * Controls whether the dialog should be opened.
-     * Can be updated externally and watched internally.
+     * Controls whether the dialog is open. Reflects to the host attribute for CSS hooks.
      */
     open: boolean;
     /**
-     * Internal open state, driven by `open` prop or internal logic.
-     */
-    isOpen: boolean;
-    /**
-     * Emits the open/close state of the modal.
-     *
-     * Example:
-     * ```tsx
-     * <ir-dialog onOpenChange={(e) => console.log(e.detail)} />
-     * ```
+     * Emits when the open state changes due to user interaction or programmatic control.
      */
     openChange: EventEmitter<boolean>;
-    private firstFocusableElement;
-    private lastFocusableElement;
-    componentWillLoad(): void;
+    private hasTitleSlot;
+    private hasBodySlot;
+    private dialogEl?;
+    private previouslyFocused;
+    private readonly instanceId;
+    private get titleId();
+    private get descriptionId();
     componentDidLoad(): void;
+    disconnectedCallback(): void;
+    protected handleOpenChange(open: boolean): void;
     /**
-     * Opens the modal dialog programmatically.
-     * Applies `overflow: hidden` to the `body`.
-     *
-     * Example:
-     * ```ts
-     * const dialog = document.querySelector('ir-dialog');
-     * await dialog.openModal();
-     * ```
+     * Opens the dialog programmatically using the native `showModal` API.
      */
     openModal(): Promise<void>;
     /**
-     * Closes the modal dialog programmatically.
-     * Reverts body scroll and emits `openChange`.
+     * Closes the dialog programmatically and restores focus to the previously active element.
      */
     closeModal(): Promise<void>;
-    handleOpenChange(): void;
-    handleKeyDown(ev: KeyboardEvent): void;
-    disconnectedCallback(): void;
-    /**
-     * Finds and traps focus within modal content for accessibility.
-     */
-    private prepareFocusTrap;
+    private showDialog;
+    private hideDialog;
+    private handleCancel;
+    private handleNativeClose;
+    private restoreFocus;
+    private onTitleSlotChange;
+    private onBodySlotChange;
+    private onCloseButtonClick;
+    private syncSlotState;
     render(): any;
 }

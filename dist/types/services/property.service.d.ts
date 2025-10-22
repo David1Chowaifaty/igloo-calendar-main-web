@@ -28,6 +28,17 @@ export interface MonthlyStatsResults {
     TotalUnitsBooked: number;
     Total_Guests: number;
 }
+export declare const SetPropertyCalendarExtraParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    value: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    value?: string;
+    property_id?: number;
+}, {
+    value?: string;
+    property_id?: number;
+}>;
+export type SetPropertyCalendarExtraParams = z.infer<typeof SetPropertyCalendarExtraParamsSchema>;
 export interface PeakDay {
     Date: string;
     OccupancyPercent: number;
@@ -51,6 +62,20 @@ export declare const AllowedPropertiesSchema: z.ZodNullable<z.ZodArray<z.ZodObje
     id?: number;
 }>, "many">>;
 export type AllowedProperties = z.infer<typeof AllowedPropertiesSchema>;
+export declare const SetRoomCalendarExtraParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    room_identifier: z.ZodString;
+    value: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    value?: string;
+    property_id?: number;
+    room_identifier?: string;
+}, {
+    value?: string;
+    property_id?: number;
+    room_identifier?: string;
+}>;
+export type SetRoomCalendarExtraParams = z.infer<typeof SetRoomCalendarExtraParamsSchema>;
 export declare class PropertyService {
     getExposedProperty(params: {
         id: number | null;
@@ -60,6 +85,8 @@ export declare class PropertyService {
         include_units_hk_status?: boolean;
         include_sales_rate_plans?: boolean;
     }): Promise<any>;
+    setPropertyCalendarExtra(params: SetPropertyCalendarExtraParams): Promise<any>;
+    setRoomCalendarExtra(params: SetRoomCalendarExtraParams): Promise<any>;
     getChannelSales(params: ChannelSalesParams): Promise<ChannelReportResult>;
     getExposedAllowedProperties(): Promise<{
         name?: string;

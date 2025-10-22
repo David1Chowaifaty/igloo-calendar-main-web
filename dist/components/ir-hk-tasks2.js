@@ -5,7 +5,7 @@ import { R as RoomService } from './room.service.js';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { N as downloadFile } from './utils.js';
+import { s as downloadFile } from './utils.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$17 } from './igl-application-info2.js';

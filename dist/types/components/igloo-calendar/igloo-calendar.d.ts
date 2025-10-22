@@ -29,7 +29,7 @@ export type AvailabilityBatchPayload = {
     availability: number;
 };
 export type CalendarSidebarState = {
-    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks';
+    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split';
     payload: any;
 };
 export declare class IglooCalendar {
@@ -95,6 +95,7 @@ export declare class IglooCalendar {
     private availabilityQueue;
     private roomTypeIdsCache;
     private tasksEndDate;
+    dialogEl: HTMLIrDialogElement;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
@@ -114,6 +115,7 @@ export declare class IglooCalendar {
     initializeApp(): Promise<void>;
     private getHousekeepingTasks;
     private handleSocketMessage;
+    private handleRoomCalendarExtra;
     private handleSharingPersonsUpdated;
     private handleRoomStatusChanged;
     private handleHkSkip;

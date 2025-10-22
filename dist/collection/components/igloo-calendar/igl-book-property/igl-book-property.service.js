@@ -223,6 +223,7 @@ export class IglBookPropertyService {
                 };
             };
             let newBooking = null;
+            console.log({ event_type: context.defaultData.event_type, defaultData: context.defaultData });
             switch (context.defaultData.event_type) {
                 case 'EDIT_BOOKING': {
                     const { booking, currentRoomType } = context.defaultData;
@@ -234,13 +235,14 @@ export class IglBookPropertyService {
                 }
                 case 'ADD_ROOM':
                 case 'SPLIT_BOOKING': {
-                    const { booking, ROOMS } = context.defaultData;
+                    const { booking } = context.defaultData;
                     // console.log(booking);
                     if (!booking) {
                         throw new Error('Missing booking');
                     }
                     const newRooms = generateNewRooms();
-                    const previousRooms = context.defaultData.event_type === 'ADD_ROOM' ? ROOMS !== null && ROOMS !== void 0 ? ROOMS : [] : booking === null || booking === void 0 ? void 0 : booking.rooms;
+                    // const previousRooms = context.defaultData.event_type === 'ADD_ROOM' ? ROOMS ?? [] : booking?.rooms;
+                    const previousRooms = booking.rooms;
                     newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
                     break;
                 }

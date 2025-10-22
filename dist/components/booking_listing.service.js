@@ -1,7 +1,7 @@
 import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
 import { z } from './index3.js';
-import { e as extras, M as isPrivilegedUser } from './utils.js';
+import { e as extras, Q as isPrivilegedUser } from './utils.js';
 import { a as axios } from './axios.js';
 
 const ymdDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected date in YYYY-MM-DD format');

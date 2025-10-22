@@ -11,6 +11,10 @@ export declare class RoomService {
         include_units_hk_status?: boolean;
         include_sales_rate_plans?: boolean;
     }): Promise<any>;
+    private generateColorForegrounds;
+    private initializeBookingColors;
+    private normalizeBookingColor;
+    private syncCalendarExtra;
     fetchLanguage(code: string, sections?: string[]): Promise<{
         entries: any;
         direction: any;

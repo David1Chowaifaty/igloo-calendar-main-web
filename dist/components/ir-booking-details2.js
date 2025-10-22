@@ -243,7 +243,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     //   return this.booking.is_requested_to_cancel || this.booking.status.code === '003';
     // }
     async initializeApp() {
-        var _a, _b;
+        var _a;
         try {
             const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
@@ -257,16 +257,16 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             this.bedPreference = bed_preference_type;
             this.departureTime = departure_time;
             this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
-            if ((bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.booking_nbr) && ((_b = bookingDetails === null || bookingDetails === void 0 ? void 0 : bookingDetails.currency) === null || _b === void 0 ? void 0 : _b.id) && bookingDetails.is_direct) {
-                this.paymentService
-                    .GetExposedCancellationDueAmount({
-                    booking_nbr: bookingDetails.booking_nbr,
-                    currency_id: bookingDetails.currency.id,
-                })
-                    .then(res => {
-                    this.paymentActions = res;
-                });
-            }
+            // if (bookingDetails?.booking_nbr && bookingDetails?.currency?.id && bookingDetails.is_direct) {
+            //   this.paymentService
+            //     .GetExposedCancellationDueAmount({
+            //       booking_nbr: bookingDetails.booking_nbr,
+            //       currency_id: bookingDetails.currency.id,
+            //     })
+            //     .then(res => {
+            //       this.paymentActions = res;
+            //     });
+            // }
             if (!(locales === null || locales === void 0 ? void 0 : locales.entries)) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;

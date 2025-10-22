@@ -10,6 +10,8 @@ const initialState = {
     checkin_checkout_hours: null,
     allowedBookingSources: [],
     currency: undefined,
+    property: null,
+    colorsForegrounds: null,
     endingDate: 0,
     housekeeping_enabled: true, //TODO: revert to true
     formattedLegendData: undefined,

@@ -1,6 +1,6 @@
 export declare class EventsService {
     private readonly bookingService;
-    reallocateEvent(pool: string, destination_pr_id: number, from_date: string, to_date: string): Promise<any>;
+    reallocateEvent(pool: string, destination_pr_id: number, from_date: string, to_date: string, rateplan_id?: number): Promise<any>;
     deleteEvent(POOL: string): Promise<any>;
     updateBlockedEvent(bookingEvent: any): Promise<any>;
     private formatDate;
