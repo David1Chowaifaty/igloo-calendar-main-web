@@ -405,10 +405,13 @@ export class IrBookingDetails {
                 return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : idx), idx < groupRooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
             })));
         }
-        return (h(Fragment, null, groups.map((group, groupIdx) => (h("div", { class: "card p-0 mx-0", key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => {
-            var _a;
-            return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx), roomIdx < group.rooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
-        }))))));
+        return (h(Fragment, null, groups.map((group, groupIdx) => {
+            const isLastGroup = groupIdx === groups.length - 1;
+            return (h("div", { class: `card p-0 mx-0 ${isLastGroup ? '' : 'room-group'}`, key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => {
+                var _a;
+                return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx), roomIdx < group.rooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
+            })));
+        })));
     }
     render() {
         var _a, _b, _c;
