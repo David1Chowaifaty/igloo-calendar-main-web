@@ -5,6 +5,7 @@ import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries } from './types';
+import { SplitIndex } from "../../utils/booking";
 export declare class IrBookingDetails {
     element: HTMLElement;
     language: string;
@@ -48,6 +49,7 @@ export declare class IrBookingDetails {
     };
     departureTime: IEntries[];
     paymentEntries: PaymentEntries;
+    splitIndex: SplitIndex;
     toast: EventEmitter<IToast>;
     bookingChanged: EventEmitter<Booking>;
     closeSidebar: EventEmitter<null>;
@@ -67,7 +69,7 @@ export declare class IrBookingDetails {
         identifier: string;
         guests: SharedPerson[];
     }>): void;
-    handleResetBooking(e: CustomEvent<Booking | null>): Promise<Booking>;
+    handleResetBooking(e: CustomEvent<Booking | null>): Promise<void>;
     handleEditExtraService(e: CustomEvent): void;
     private setRoomsData;
     private initializeApp;
@@ -77,6 +79,9 @@ export declare class IrBookingDetails {
     private resetBooking;
     private handleModalConfirm;
     private renderSidebarContent;
+    private computeRoomGroups;
+    private renderRoomItem;
+    private renderRooms;
     render(): any;
     private handleRoomCheckout;
     private handleRoomCheckin;

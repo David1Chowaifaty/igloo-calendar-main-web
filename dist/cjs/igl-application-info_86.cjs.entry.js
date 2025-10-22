@@ -3,15 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-7a66eda1.js');
-const booking_service = require('./booking.service-29f0a03d.js');
+const booking_service = require('./booking.service-d40a7a31.js');
 const locales_store = require('./locales.store-a1ac5174.js');
 const calendarData = require('./calendar-data-d2bec4fe.js');
-const utils = require('./utils-8b80d485.js');
+const utils = require('./utils-ee4f3fbf.js');
 const v4 = require('./v4-9b297151.js');
 const moment = require('./moment-1780b03a.js');
 const irInterceptor_store = require('./ir-interceptor.store-33c3ba11.js');
 const axios = require('./axios-6e678d52.js');
-const index$1 = require('./index-a6687a06.js');
+const index$1 = require('./index-c2bba41d.js');
 const index$2 = require('./index-63734c32.js');
 const housekeeping_service = require('./housekeeping.service-6bb565b8.js');
 const index$3 = require('./index-7564ffa1.js');
@@ -7922,6 +7922,10 @@ const IrBookingDetails = class {
         this.paymentService = new payment_service.PaymentService();
         this.token = new Token.Token();
         this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+        this.handleDeleteFinish = (e) => {
+            this.booking = Object.assign(Object.assign({}, this.booking), { rooms: this.booking.rooms.filter(room => room.identifier !== e.detail) });
+            this.splitIndex = utils.buildSplitIndex(this.booking.rooms);
+        };
     }
     componentWillLoad() {
         if (this.ticket !== '') {
@@ -8025,12 +8029,15 @@ const IrBookingDetails = class {
         const updatedRoom = Object.assign(Object.assign({}, currentRoom), { sharing_persons: guests });
         rooms[currentRoomIndex] = updatedRoom;
         this.booking = Object.assign(Object.assign({}, this.booking), { rooms: [...rooms] });
+        this.splitIndex = utils.buildSplitIndex(this.booking.rooms);
     }
     async handleResetBooking(e) {
         // e.stopPropagation();
         // e.stopImmediatePropagation();
         if (e.detail) {
-            return (this.booking = e.detail);
+            this.booking = e.detail;
+            this.splitIndex = utils.buildSplitIndex(this.booking.rooms);
+            return;
         }
         await this.resetBooking();
     }
@@ -8102,6 +8109,7 @@ const IrBookingDetails = class {
             // Set guest and booking data
             this.guestData = bookingDetails.guest;
             this.booking = bookingDetails;
+            this.splitIndex = utils.buildSplitIndex(this.booking.rooms);
         }
         catch (error) {
             console.error('Error initializing app:', error);
@@ -8127,13 +8135,11 @@ const IrBookingDetails = class {
     handleCloseBookingWindow() {
         this.bookingItem = null;
     }
-    handleDeleteFinish(e) {
-        this.booking = Object.assign(Object.assign({}, this.booking), { rooms: this.booking.rooms.filter(room => room.identifier !== e.detail) });
-    }
     async resetBooking() {
         try {
             const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
             this.booking = Object.assign({}, booking);
+            this.splitIndex = utils.buildSplitIndex(this.booking.rooms);
             this.bookingChanged.emit(this.booking);
         }
         catch (error) {
@@ -8178,26 +8184,123 @@ const IrBookingDetails = class {
                 return null;
         }
     }
+    computeRoomGroups(rooms) {
+        var _a, _b, _c;
+        const indexById = new Map();
+        rooms.forEach((room, idx) => indexById.set(room.identifier, idx));
+        if (!rooms.length) {
+            return { groups: [], indexById, hasSplitGroups: false };
+        }
+        const groupSortKey = (groupRooms) => {
+            var _a;
+            let min = Number.MAX_SAFE_INTEGER;
+            for (const r of groupRooms) {
+                const ts = Date.parse((_a = r === null || r === void 0 ? void 0 : r.from_date) !== null && _a !== void 0 ? _a : '');
+                if (!Number.isNaN(ts)) {
+                    min = Math.min(min, ts);
+                }
+            }
+            return min;
+        };
+        const splitIndex = (_a = this.splitIndex) !== null && _a !== void 0 ? _a : utils.buildSplitIndex(rooms);
+        if (!splitIndex) {
+            const sortedRooms = [...rooms].sort((a, b) => {
+                var _a, _b, _c, _d;
+                const diff = Date.parse((_a = a === null || a === void 0 ? void 0 : a.from_date) !== null && _a !== void 0 ? _a : '') - Date.parse((_b = b === null || b === void 0 ? void 0 : b.from_date) !== null && _b !== void 0 ? _b : '');
+                if (!Number.isNaN(diff) && diff !== 0) {
+                    return diff;
+                }
+                return ((_c = indexById.get(a.identifier)) !== null && _c !== void 0 ? _c : 0) - ((_d = indexById.get(b.identifier)) !== null && _d !== void 0 ? _d : 0);
+            });
+            return { groups: [{ rooms: sortedRooms, order: 0, isSplit: false, sortKey: groupSortKey(sortedRooms) }], indexById, hasSplitGroups: false };
+        }
+        const roomsById = new Map(rooms.map(room => [room.identifier, room]));
+        const grouped = [];
+        const visited = new Set();
+        for (const head of splitIndex.heads) {
+            const chain = (_b = splitIndex.chainOf.get(head)) !== null && _b !== void 0 ? _b : [head];
+            const chainRooms = chain.map(id => roomsById.get(id)).filter((room) => Boolean(room));
+            if (!chainRooms.length)
+                continue;
+            const chainHasSplitLink = chain.some(id => {
+                var _a;
+                const parent = splitIndex.parentOf.get(id);
+                const children = (_a = splitIndex.childrenOf.get(id)) !== null && _a !== void 0 ? _a : [];
+                return Boolean(parent) || children.length > 0;
+            }) || chainRooms.some(room => Boolean(room === null || room === void 0 ? void 0 : room.is_split));
+            if (chainHasSplitLink) {
+                chainRooms.forEach(room => visited.add(room.identifier));
+                const order = Math.min(...chainRooms.map(room => { var _a; return (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : Number.MAX_SAFE_INTEGER; }));
+                grouped.push({ rooms: chainRooms, order, sortKey: groupSortKey(chainRooms), isSplit: true });
+            }
+        }
+        for (const room of rooms) {
+            if (!visited.has(room.identifier)) {
+                const order = (_c = indexById.get(room.identifier)) !== null && _c !== void 0 ? _c : Number.MAX_SAFE_INTEGER;
+                const singleGroup = [room];
+                grouped.push({ rooms: singleGroup, order, sortKey: groupSortKey(singleGroup), isSplit: false });
+            }
+        }
+        grouped.sort((a, b) => {
+            if (a.sortKey !== b.sortKey) {
+                return a.sortKey - b.sortKey;
+            }
+            return a.order - b.order;
+        });
+        const hasSplitGroups = grouped.some(group => group.isSplit);
+        if (!hasSplitGroups) {
+            const merged = grouped
+                .map(group => group.rooms)
+                .reduce((acc, curr) => acc.concat(curr), [])
+                .sort((a, b) => {
+                var _a, _b, _c, _d;
+                const diff = Date.parse((_a = a === null || a === void 0 ? void 0 : a.from_date) !== null && _a !== void 0 ? _a : '') - Date.parse((_b = b === null || b === void 0 ? void 0 : b.from_date) !== null && _b !== void 0 ? _b : '');
+                if (!Number.isNaN(diff) && diff !== 0) {
+                    return diff;
+                }
+                return ((_c = indexById.get(a.identifier)) !== null && _c !== void 0 ? _c : 0) - ((_d = indexById.get(b.identifier)) !== null && _d !== void 0 ? _d : 0);
+            });
+            return { groups: [{ rooms: merged, order: 0, sortKey: groupSortKey(merged), isSplit: false }], indexById, hasSplitGroups: false };
+        }
+        return { groups: grouped, indexById, hasSplitGroups: true };
+    }
+    renderRoomItem(room, bookingIndex) {
+        const showCheckin = this.handleRoomCheckin(room);
+        const showCheckout = this.handleRoomCheckout(room);
+        return (index.h("ir-room", { key: room.identifier, room: room, property_id: this.property_id, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: bookingIndex, onDeleteFinished: this.handleDeleteFinish }));
+    }
+    renderRooms() {
+        var _a, _b;
+        const rooms = (_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.rooms) !== null && _b !== void 0 ? _b : [];
+        if (!rooms.length) {
+            return null;
+        }
+        const { groups, indexById, hasSplitGroups } = this.computeRoomGroups(rooms);
+        if (!hasSplitGroups) {
+            const groupRooms = groups[0].rooms;
+            return (index.h("div", { class: "card p-0 mx-0" }, groupRooms.map((room, idx) => {
+                var _a;
+                return (index.h(index.Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : idx), idx < groupRooms.length - 1 ? index.h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
+            })));
+        }
+        return (index.h(index.Fragment, null, groups.map((group, groupIdx) => (index.h("div", { class: "card p-0 mx-0", key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => {
+            var _a;
+            return (index.h(index.Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx), roomIdx < group.rooms.length - 1 ? index.h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
+        }))))));
+    }
     render() {
-        var _a, _b, _c, _d, _e;
-        console.log((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial) === null || _b === void 0 ? void 0 : _b.gross_total_with_extras);
+        var _a, _b, _c;
         if (!this.booking) {
             return (index.h("div", { class: 'loading-container' }, index.h("ir-spinner", null)));
         }
+        const roomsSection = this.renderRooms();
         return [
             index.h(index.Fragment, null, !this.is_from_front_desk && (index.h(index.Fragment, null, index.h("ir-toast", null), index.h("ir-interceptor", null)))),
-            index.h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_d = (_c = this.booking) === null || _c === void 0 ? void 0 : _c.status) === null || _d === void 0 ? void 0 : _d.code) }),
+            index.h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.status) === null || _b === void 0 ? void 0 : _b.code) }),
             index.h("div", { class: "fluid-container p-1 text-left mx-0" }, index.h("div", { class: "row m-0" }, index.h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, index.h("ir-reservation-information", { countries: this.countries, booking: this.booking }), index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), 
             // this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (
-            this.hasRoomAdd && this.booking.is_editable && index.h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), index.h("div", { class: "card p-0 mx-0" }, this.booking.rooms.map((room, index$1) => {
-                const showCheckin = this.handleRoomCheckin(room);
-                const showCheckout = this.handleRoomCheckout(room);
-                return [
-                    index.h("ir-room", { room: room, property_id: this.property_id, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: index$1, onDeleteFinished: this.handleDeleteFinish.bind(this) }),
-                    index$1 !== this.booking.rooms.length - 1 && index.h("hr", { class: "mr-2 ml-2 my-0 p-0" }),
-                ];
-            })), index.h("ir-pickup-view", { booking: this.booking }), index.h("section", null, index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, locales_store.locales.entries.Lcz_ExtraServices), index.h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), index.h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), index.h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, index.h("ir-payment-details", { propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })))),
-            index.h("ir-modal", { modalBody: (_e = this.modalState) === null || _e === void 0 ? void 0 : _e.message, leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, autoClose: false, isLoading: irInterceptor_store.isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+            this.hasRoomAdd && this.booking.is_editable && index.h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), roomsSection, index.h("ir-pickup-view", { booking: this.booking }), index.h("section", null, index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, locales_store.locales.entries.Lcz_ExtraServices), index.h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), index.h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), index.h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, index.h("ir-payment-details", { propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })))),
+            index.h("ir-modal", { modalBody: (_c = this.modalState) === null || _c === void 0 ? void 0 : _c.message, leftBtnText: locales_store.locales.entries.Lcz_Cancel, rightBtnText: locales_store.locales.entries.Lcz_Confirm, autoClose: false, isLoading: irInterceptor_store.isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
                     this.handleModalConfirm(e);
                 }, onCancelModal: () => {
                     this.modalRef.closeModal();
