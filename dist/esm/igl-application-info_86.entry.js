@@ -5415,7 +5415,7 @@ const IglSplitBooking = class {
                         this.updateSelectedUnit({
                             rateplan_id: value,
                         });
-                    }, data: this.mealPlanOptions.map(e => (Object.assign(Object.assign({}, e), { text: e.text + ' | ' + e.value }))) })
+                    }, data: this.mealPlanOptions.map(e => (Object.assign(Object.assign({}, e), { text: e.text + `${e.custom_text ? ' | ' : ''}${e.custom_text}` }))) })
                 // <ir-dropdown
                 //   onOptionChange={e => {
                 //     this.updateSelectedUnit({
@@ -5437,7 +5437,7 @@ const IglSplitBooking = class {
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: '965ca69b7b4a3c4405a33ba122d5f53cf1ea6480', class: 'sheet-footer' }, h("ir-button", { key: 'f78c315d07e7e151c5d3f5369ad426dd3b7d4407', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '00ab69d32d1372567b543be269408b9c3a9ecece', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: '409f46b38a0d45b67bbc1b28472b479e91d5e58a', class: 'sheet-footer' }, h("ir-button", { key: '2caa0f5705870efef49b3de503aa8ddfe8acc76c', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '0171420f1f9188ffa623e9bfcaca85ec0a2609bd', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
 };
 IglSplitBooking.style = IglSplitBookingStyle0 + IglSplitBookingStyle1;
