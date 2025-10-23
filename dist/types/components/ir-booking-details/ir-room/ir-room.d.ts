@@ -12,6 +12,7 @@ export declare class IrRoom {
     isEditable: boolean;
     room: Room;
     property_id: number;
+    includeDepartureTime: boolean;
     mealCodeName: string;
     myRoomTypeFoodCat: string;
     currency: string;

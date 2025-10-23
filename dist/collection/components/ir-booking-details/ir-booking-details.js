@@ -386,10 +386,10 @@ export class IrBookingDetails {
         }
         return { groups: grouped, indexById, hasSplitGroups: true };
     }
-    renderRoomItem(room, bookingIndex) {
+    renderRoomItem(room, bookingIndex, includeDepartureTime = true) {
         const showCheckin = this.handleRoomCheckin(room);
         const showCheckout = this.handleRoomCheckout(room);
-        return (h("ir-room", { key: room.identifier, room: room, property_id: this.property_id, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: bookingIndex, onDeleteFinished: this.handleDeleteFinish }));
+        return (h("ir-room", { key: room.identifier, room: room, property_id: this.property_id, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: bookingIndex, onDeleteFinished: this.handleDeleteFinish }));
     }
     renderRooms() {
         var _a, _b;
@@ -409,7 +409,7 @@ export class IrBookingDetails {
             const isLastGroup = groupIdx === groups.length - 1;
             return (h("div", { class: `card p-0 mx-0 ${isLastGroup ? '' : 'room-group'}`, key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => {
                 var _a;
-                return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx), roomIdx < group.rooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
+                return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx, roomIdx === group.rooms.length - 1), roomIdx < group.rooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
             })));
         })));
     }

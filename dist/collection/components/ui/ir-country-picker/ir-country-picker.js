@@ -72,7 +72,7 @@ export class IrCountryPicker {
     render() {
         var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: 'd8d4a7c4258781d0cea9868bafd355e7ef950992', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'aab658522688a2dc49bfe864ef05326bf83f4d61', onTextChange: e => {
+        return (h("form", { key: 'ae0fdf2d018766a06a09836246e825d2afea26c3', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: '2b0af4e41351732168a0092ba5c44d6578a3ce66', onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -83,15 +83,15 @@ export class IrCountryPicker {
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), h("div", { key: 'd149548e9c0a11de74b40a6223632edeb48845fa', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: '4f576d64b3e759a46591e8f26766f332a56ffc83' }, h("button", { key: '69f9d98276adf02e2da33c6273230d06e92d7eca', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), h("div", { key: 'ae34f060ef83dec3d6ba378401bd156511643a94', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'e5f261b3d34d17361de42bee0b1316c0f8c53a04' }, h("button", { key: 'ebde7ef0e1193e6065d7a11245b69af1d31a03c2', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: 'cd78ae63b55774ae6bd57db7cda19acacdc99c30', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: '4d90be6f7d150c789f5681562cc1f154294308bb', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '5340ae5a2a27bb33206080587574420232294247', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
+            } }, h("img", { key: '9de29e7e666db73fd79bc8a71bb4fa5afd2fc258', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: 'f4b73bc8f15ead0c87b2eb396f8c9449c9db42e2', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '72e8a424d241d1122ffa2218748ef61e439af70f', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
             _b.map(c => {
                 var _a;
                 return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
                         this.selectCountry(c);
                     } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: '2bfef75bb073a71110674e604981b5e28fbc7627', class: "dropdown-item-text" }, "Invalid Country"))));
+            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: 'cb214edf8f3c25923071be1371f29040bf69d322', class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get is() { return "ir-country-picker"; }
     static get encapsulation() { return "scoped"; }

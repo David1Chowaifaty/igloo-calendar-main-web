@@ -107,6 +107,7 @@
     "components/ir-monthly-bookings-report/ir-monthly-bookings-report.js",
     "components/ir-monthly-bookings-report/ir-monthly-bookings-report-filter/ir-monthly-bookings-report-filter.js",
     "components/ir-monthly-bookings-report/ir-monthly-bookings-report-table/ir-monthly-bookings-report-table.js",
+    "components/ir-new-badge/ir-new-badge.js",
     "components/ir-notifications/ir-notifications.js",
     "components/ir-otp-modal/ir-otp-modal.js",
     "components/ir-otp-modal/ir-otp/ir-otp.js",
