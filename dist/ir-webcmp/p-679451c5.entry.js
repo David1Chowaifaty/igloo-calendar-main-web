@@ -1,2 +1,0 @@
-import{r as e,h as s,H as a}from"./p-53d64953.js";const c=":host{display:block}";const o=c;const r=class{constructor(s){e(this,s)}render(){return s(a,{key:"8efb7762bb0f28a1c481ab48822087ad43f09161"},s("slot",{key:"57686c142da979a21ec6e74e653e7f58fdf30ec0"}))}};r.style=o;export{r as ir_new_badge};
-//# sourceMappingURL=p-679451c5.entry.js.map
