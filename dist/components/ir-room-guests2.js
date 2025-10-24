@@ -205,7 +205,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                 e.preventDefault();
                 this.saveGuests();
             } }, h("ir-title", { class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), h("section", { class: 'sheet-body px-1' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
-            var _a, _b;
+            var _a, _b, _c, _d, _e;
             let isRowValid = true;
             try {
                 validateSharedPerson(guest);
@@ -227,7 +227,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                                 description: '',
                             } }),
                     });
-                }, selectedValue: guest.id_info.type.code, showFirstOption: false, data: (_b = this.idTypes) === null || _b === void 0 ? void 0 : _b.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: guest.id_info.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'] && !isRowValid, wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
+                }, selectedValue: (_c = (_b = guest.id_info) === null || _b === void 0 ? void 0 : _b.type) === null || _c === void 0 ? void 0 : _c.code, showFirstOption: false, data: (_d = this.idTypes) === null || _d === void 0 ? void 0 : _d.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: (_e = guest === null || guest === void 0 ? void 0 : guest.id_info) === null || _e === void 0 ? void 0 : _e.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'] && !isRowValid, wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
                     id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { number: e.detail }),
                 }) }))))));
         }))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_type: "submit", class: 'flex-fill', isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary" }))));
