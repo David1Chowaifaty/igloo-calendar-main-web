@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { Fragment, Host, h } from "@stencil/core";
 export class IrMenuBarItem {
     constructor() {
         /**
@@ -7,7 +7,7 @@ export class IrMenuBarItem {
         this.newBadge = false;
     }
     render() {
-        return (h(Host, { key: '9b846f2544dcb5c0dc1bb3b417c64c583602de91', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
+        return (h(Host, { key: 'fcf374f93531f756cb44afd26cfeececbe2dddbc', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
                 if (!this.href)
                     this.menuBarItemClick.emit(e);
             } }, this.href ? (h("a", { target: this.target, onClick: e => {
@@ -15,7 +15,7 @@ export class IrMenuBarItem {
                 if (ce.defaultPrevented) {
                     e.preventDefault();
                 }
-            }, class: "menu-bar-item__link", href: this.href }, h("slot", null))) : (h("slot", null)), this.newBadge && h("ir-new-badge", { key: '5b9450dd9e04efb063d845add44ba9a4f3019f0c' })));
+            }, class: "menu-bar-item__link", href: this.href }, h("slot", null), this.newBadge && h("ir-new-badge", null))) : (h(Fragment, null, h("slot", null), this.newBadge && h("ir-new-badge", null)))));
     }
     static get is() { return "ir-menu-bar-item"; }
     static get encapsulation() { return "shadow"; }
