@@ -2085,7 +2085,7 @@ const IrDatePicker = class {
         (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
     }
     render() {
-        return (h("div", { key: 'cf9bd7b6a3e52b77a1f559d093fa8ee010eb8665', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'f738028a72f3b0e03bed337a210654af74e59c98', name: "trigger" }), h("input", { key: '372820d313fb03585ab14c5a6f2f8b6120ebccb2', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '6bf16b7c1c91b1ddebdaa864d261d82454438407', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '9464caa7ff8f6e2b76c4358fe31f8223047db05d', name: "trigger" }), h("input", { key: '4175b11b94a02039dfe03b154b8d04447353ef5b', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

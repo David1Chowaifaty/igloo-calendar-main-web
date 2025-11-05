@@ -6,6 +6,7 @@ export declare class IglCalFooter {
     calendarData: {
         [key: string]: any;
     };
+    isLegendOpen: boolean;
     today: String;
     highlightedDate: string;
     handleOptionEvent(key: any, data?: string): void;

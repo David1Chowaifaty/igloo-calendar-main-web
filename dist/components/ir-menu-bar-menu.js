@@ -2315,12 +2315,12 @@ const IrMenuBarMenu$1 = /*@__PURE__*/ proxyCustomElement(class IrMenuBarMenu ext
             'is-dropdown': this.hasDropdown && !this.isAccordionLayout,
         };
         const supportsDropdownHover = this.hasDropdown && !this.isAccordionLayout;
-        return (h(Host, { key: '048c50f3fdd3d9d27d849f5850ae3e209959036e', class: hostClass, role: "none", onPointerEnter: supportsDropdownHover
+        return (h(Host, { key: '605e1c36d72a9ecac637dbb0d7d71dc7bfe7fb39', class: hostClass, role: "none", onPointerEnter: supportsDropdownHover
                 ? () => {
                     this.cancelDropdownClose();
                     this.open = true;
                 }
-                : undefined, onPointerLeave: supportsDropdownHover ? () => this.scheduleDropdownClose() : undefined }, h("div", { key: 'bfd443f425c0ab865241b666d5ff0b4b339f3f1a', class: "menu-trigger-wrapper", part: "trigger", role: "menuitem", onClick: () => {
+                : undefined, onPointerLeave: supportsDropdownHover ? () => this.scheduleDropdownClose() : undefined }, h("div", { key: 'd7cc8005d17b9900ad81382e52f245abbac204d9', class: "menu-trigger-wrapper", part: "trigger", role: "menuitem", onClick: () => {
                 if (this.hasDropdown) {
                     this.open = !this.open;
                 }
@@ -2330,8 +2330,8 @@ const IrMenuBarMenu$1 = /*@__PURE__*/ proxyCustomElement(class IrMenuBarMenu ext
                         window.open(item.href, item.target);
                     }
                 }
-            }, ref: el => (this.menuTriggerRef = el), tabindex: this.hasDropdown ? '0' : undefined, "aria-haspopup": this.hasDropdown ? 'menu' : undefined, "aria-expanded": this.hasDropdown ? String(this.open) : undefined }, h("slot", { key: '6551e340ee5c6367709818e92362ed9549d99217', name: "trigger" }), this.hasDropdown &&
-            (!this.open ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m6 9 6 6 6-6" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m18 15-6-6-6 6" })))), this.newBadge && h("ir-new-badge", { key: '9fcd526d245c73002a5553e1d3bfc00af75ddd50', class: "menu-new-badge", part: "new-indicator" })), h("div", { key: 'c1f2fcd2badbc28326e1f7da788bb50bf684cc2c', class: "dropdown-menu", ref: el => (this.dropdownContainerRef = el), part: "dropdown", role: this.hasDropdown ? 'menu' : undefined, "data-state": !this.hasDropdown || !this.open ? 'open' : 'closed', onTransitionEnd: this.handleAccordionTransitionEnd }, h("div", { key: 'c0b9719cb800b729f7149594cc08a9d7b34de573', id: "arrow" }), h("slot", { key: 'd8f337e36cc4294ce349f1fd210f2f36dfdef7d4', onSlotchange: this.handleItemsSlotChange }))));
+            }, ref: el => (this.menuTriggerRef = el), tabindex: this.hasDropdown ? '0' : undefined, "aria-haspopup": this.hasDropdown ? 'menu' : undefined, "aria-expanded": this.hasDropdown ? String(this.open) : undefined }, h("slot", { key: 'a7c81ace22eba3fc63286fbddf3688fd9a13a6a2', name: "trigger" }), this.hasDropdown &&
+            (!this.open ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m6 9 6 6 6-6" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m18 15-6-6-6 6" })))), this.newBadge && h("ir-new-badge", { key: '32bc70467aecb38953acce9ed8af86b10165e053', class: "menu-new-badge", part: "new-indicator" })), h("div", { key: 'e0b73fc017ad5373aced0a1af7e39b06a36eba53', class: "dropdown-menu", ref: el => (this.dropdownContainerRef = el), part: "dropdown", role: this.hasDropdown ? 'menu' : undefined, "data-state": !this.hasDropdown || !this.open ? 'open' : 'closed', onTransitionEnd: this.handleAccordionTransitionEnd }, h("div", { key: '2c1d117f4d208ab58c9ba3c533f98c7ec2668bde', id: "arrow" }), h("slot", { key: '0b8795c854d1bee6535d2020e08bfe6799bd02bf', onSlotchange: this.handleItemsSlotChange }))));
     }
     get hostEl() { return this; }
     static get watchers() { return {

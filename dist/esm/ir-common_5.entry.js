@@ -108,7 +108,7 @@ const IrCommon = class {
         });
     }
     render() {
-        return (h(Host, { key: '30b17425927964b92669001974f8c54e3d0efc37' }, h("slot", { key: '858fc6af85172306888ec4b47596d396c916aca4' })));
+        return (h(Host, { key: '45debc9e17a6e118cc4e1785a14df1a51af4c9e0' }, h("slot", { key: '81a506b7013add9a13dad8132ac76566fe92371c' })));
     }
     static get watchers() { return {
         "extraResources": ["hrefsChanged"]
@@ -472,7 +472,7 @@ const IrMenuBar = class {
             'is-mobile': this.isMobileLayout,
             'sheet-open': this.isSheetOpen,
         };
-        return (h(Host, { key: '90185f7f4f261aba279176e8b49d96a757d601d3', role: "menubar", class: hostClass }, h("nav", { key: 'f7375e7158b4bebc918a5530ae4ac94e2f3bf1b1', class: "menu-bar", part: "container" }, this.isMobileLayout && (h("button", { key: 'fde3a3d2e4030bdaf4ff67a6133271a2a5dbec7d', class: "menu-toggle", part: "toggle", type: "button", "aria-label": this.isSheetOpen ? 'Close menu' : 'Open menu', "aria-expanded": String(this.isSheetOpen), "aria-controls": this.sheetId, tabIndex: this.isSheetOpen ? -1 : 0, onClick: () => (this.isSheetOpen ? this.closeSheet() : this.openSheet()), ref: el => (this.toggleButtonRef = el) }, h("svg", { key: '2db878b9b989800ed98ace5a1b5aa2df30912e40', xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-menu-icon lucide-menu" }, h("path", { key: '0a134c2ae2894dccfda4b60c8efb73827f66c0c4', d: "M4 5h16" }), h("path", { key: '332ebcdafe3f9d1571c267714101e22d35033730', d: "M4 12h16" }), h("path", { key: 'c09e11c846d9eab08cbd1bc9b7b9626bb90a37d8', d: "M4 19h16" })))), this.isMobileLayout ? (h("div", { id: this.sheetId, class: { 'menu-sheet': true, 'menu-sheet--open': this.isSheetOpen }, "aria-hidden": this.isSheetOpen ? 'false' : 'true' }, h("div", { class: "menu-sheet__panel", role: "dialog", "aria-modal": "true", "aria-labelledby": this.sheetTitleId, tabIndex: -1, ref: el => {
+        return (h(Host, { key: '71c95aa06a7e93547928befc1e2019bdc8a4e344', role: "menubar", class: hostClass }, h("nav", { key: '21e31cf9fd190639b4a7fc9f8fa7fdd22a384acf', class: "menu-bar", part: "container" }, this.isMobileLayout && (h("button", { key: 'b3f0df7e2e80589e47c5f4b3b833272a461b1cef', class: "menu-toggle", part: "toggle", type: "button", "aria-label": this.isSheetOpen ? 'Close menu' : 'Open menu', "aria-expanded": String(this.isSheetOpen), "aria-controls": this.sheetId, tabIndex: this.isSheetOpen ? -1 : 0, onClick: () => (this.isSheetOpen ? this.closeSheet() : this.openSheet()), ref: el => (this.toggleButtonRef = el) }, h("svg", { key: '7547d33ef0faddd02c665e97b18269834424da40', xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-menu-icon lucide-menu" }, h("path", { key: '34d0687b84998a66fea64028b01342862bba55f8', d: "M4 5h16" }), h("path", { key: '1b7f1ec28e438a1a0f3b821b843c3706d088ebe6', d: "M4 12h16" }), h("path", { key: '125dd0eb222fc29a3af02323a3e4ac759d03e474', d: "M4 19h16" })))), this.isMobileLayout ? (h("div", { id: this.sheetId, class: { 'menu-sheet': true, 'menu-sheet--open': this.isSheetOpen }, "aria-hidden": this.isSheetOpen ? 'false' : 'true' }, h("div", { class: "menu-sheet__panel", role: "dialog", "aria-modal": "true", "aria-labelledby": this.sheetTitleId, tabIndex: -1, ref: el => {
                 this.sheetPanelRef = el;
                 if (el) {
                     el.toggleAttribute('inert', !this.isSheetOpen);
@@ -505,7 +505,7 @@ const IrMenuBarItem = class {
         this.newBadge = false;
     }
     render() {
-        return (h(Host, { key: 'bf80cf6aa8959020c23d88645d7e268087f102d0', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
+        return (h(Host, { key: '9b846f2544dcb5c0dc1bb3b417c64c583602de91', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
                 if (!this.href)
                     this.menuBarItemClick.emit(e);
             } }, this.href ? (h("a", { target: this.target, onClick: e => {
@@ -513,7 +513,7 @@ const IrMenuBarItem = class {
                 if (ce.defaultPrevented) {
                     e.preventDefault();
                 }
-            }, class: "menu-bar-item__link", href: this.href }, h("slot", null))) : (h("slot", null)), this.newBadge && h("ir-new-badge", { key: '856d5aef2c06a05ba9e7983631af995e94a6312c' })));
+            }, class: "menu-bar-item__link", href: this.href }, h("slot", null))) : (h("slot", null)), this.newBadge && h("ir-new-badge", { key: '5b9450dd9e04efb063d845add44ba9a4f3019f0c' })));
     }
 };
 IrMenuBarItem.style = IrMenuBarItemStyle0;
@@ -2829,12 +2829,12 @@ const IrMenuBarMenu = class {
             'is-dropdown': this.hasDropdown && !this.isAccordionLayout,
         };
         const supportsDropdownHover = this.hasDropdown && !this.isAccordionLayout;
-        return (h(Host, { key: '048c50f3fdd3d9d27d849f5850ae3e209959036e', class: hostClass, role: "none", onPointerEnter: supportsDropdownHover
+        return (h(Host, { key: '605e1c36d72a9ecac637dbb0d7d71dc7bfe7fb39', class: hostClass, role: "none", onPointerEnter: supportsDropdownHover
                 ? () => {
                     this.cancelDropdownClose();
                     this.open = true;
                 }
-                : undefined, onPointerLeave: supportsDropdownHover ? () => this.scheduleDropdownClose() : undefined }, h("div", { key: 'bfd443f425c0ab865241b666d5ff0b4b339f3f1a', class: "menu-trigger-wrapper", part: "trigger", role: "menuitem", onClick: () => {
+                : undefined, onPointerLeave: supportsDropdownHover ? () => this.scheduleDropdownClose() : undefined }, h("div", { key: 'd7cc8005d17b9900ad81382e52f245abbac204d9', class: "menu-trigger-wrapper", part: "trigger", role: "menuitem", onClick: () => {
                 if (this.hasDropdown) {
                     this.open = !this.open;
                 }
@@ -2844,8 +2844,8 @@ const IrMenuBarMenu = class {
                         window.open(item.href, item.target);
                     }
                 }
-            }, ref: el => (this.menuTriggerRef = el), tabindex: this.hasDropdown ? '0' : undefined, "aria-haspopup": this.hasDropdown ? 'menu' : undefined, "aria-expanded": this.hasDropdown ? String(this.open) : undefined }, h("slot", { key: '6551e340ee5c6367709818e92362ed9549d99217', name: "trigger" }), this.hasDropdown &&
-            (!this.open ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m6 9 6 6 6-6" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m18 15-6-6-6 6" })))), this.newBadge && h("ir-new-badge", { key: '9fcd526d245c73002a5553e1d3bfc00af75ddd50', class: "menu-new-badge", part: "new-indicator" })), h("div", { key: 'c1f2fcd2badbc28326e1f7da788bb50bf684cc2c', class: "dropdown-menu", ref: el => (this.dropdownContainerRef = el), part: "dropdown", role: this.hasDropdown ? 'menu' : undefined, "data-state": !this.hasDropdown || !this.open ? 'open' : 'closed', onTransitionEnd: this.handleAccordionTransitionEnd }, h("div", { key: 'c0b9719cb800b729f7149594cc08a9d7b34de573', id: "arrow" }), h("slot", { key: 'd8f337e36cc4294ce349f1fd210f2f36dfdef7d4', onSlotchange: this.handleItemsSlotChange }))));
+            }, ref: el => (this.menuTriggerRef = el), tabindex: this.hasDropdown ? '0' : undefined, "aria-haspopup": this.hasDropdown ? 'menu' : undefined, "aria-expanded": this.hasDropdown ? String(this.open) : undefined }, h("slot", { key: 'a7c81ace22eba3fc63286fbddf3688fd9a13a6a2', name: "trigger" }), this.hasDropdown &&
+            (!this.open ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m6 9 6 6 6-6" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "menu-bar-menu__accordion_indicator" }, h("path", { d: "m18 15-6-6-6 6" })))), this.newBadge && h("ir-new-badge", { key: '32bc70467aecb38953acce9ed8af86b10165e053', class: "menu-new-badge", part: "new-indicator" })), h("div", { key: 'e0b73fc017ad5373aced0a1af7e39b06a36eba53', class: "dropdown-menu", ref: el => (this.dropdownContainerRef = el), part: "dropdown", role: this.hasDropdown ? 'menu' : undefined, "data-state": !this.hasDropdown || !this.open ? 'open' : 'closed', onTransitionEnd: this.handleAccordionTransitionEnd }, h("div", { key: '2c1d117f4d208ab58c9ba3c533f98c7ec2668bde', id: "arrow" }), h("slot", { key: '0b8795c854d1bee6535d2020e08bfe6799bd02bf', onSlotchange: this.handleItemsSlotChange }))));
     }
     get hostEl() { return getElement(this); }
     static get watchers() { return {
@@ -2862,7 +2862,7 @@ const IrNewBadge = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: 'a1b409e11c7f232065befd30fdf6681d66af73f4' }, h("span", { key: '5e16c293b6dbee1fdeeeaa04eb4fea1c74101a87', class: "new-badge" }, "new")));
+        return (h(Host, { key: '4be2faa5cfa6c685600bfe156493e6f3aafa13a9' }, h("span", { key: '2a9c0f275c55cbc6afe1ead4e0280d33754f2819', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = IrNewBadgeStyle0;

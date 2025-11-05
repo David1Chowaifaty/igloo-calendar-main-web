@@ -71,7 +71,7 @@ export class IrCopyButton {
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '475920fd9e43f3d282472bc942a7baca9eff15c0', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: '92428e0e103f4e4d698136bbe0e431488f64375e', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
     static get is() { return "ir-copy-button"; }
     static get encapsulation() { return "scoped"; }

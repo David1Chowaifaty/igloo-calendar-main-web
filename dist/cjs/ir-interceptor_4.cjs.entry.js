@@ -233,7 +233,7 @@ const IrInterceptor = class {
         this.baseOTPUrl = null;
     }
     render() {
-        return (index.h(index.Host, { key: 'af6e09d4301878f300576dbef4fa39d9937a215e' }, this.isLoading && !this.isPageLoadingStopped && (index.h("div", { key: 'e48ee56a273e33f4d691b38e335da7492d742083', class: "loadingScreenContainer" }, index.h("div", { key: '540afe46a391a703f1eabd735c2aafab30adc541', class: "loaderContainer" }, index.h("span", { key: '606ec2ab7d7771495bdfd80d8b00fdddb5d911b1', class: "page-loader" })))), this.showModal && (index.h("ir-otp-modal", { key: '73781adc5727c9211c98ec0b785602e110dc5cf0', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (index.h(index.Host, { key: '678f4db6e30faa3d46032cb5812a97e069f59931' }, this.isLoading && !this.isPageLoadingStopped && (index.h("div", { key: 'd9095a8231cb2ef40e4ec7ca69628097ada99602', class: "loadingScreenContainer" }, index.h("div", { key: '5df01ce51fd0b94eef224e43083010507d573482', class: "loaderContainer" }, index.h("span", { key: '56bd853ae009dcfb9b2837c068f08b657e9023f8', class: "page-loader" })))), this.showModal && (index.h("ir-otp-modal", { key: '0cd4c5b14ef47f88b1b0e3ad5cd73aac528991a0', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -461,7 +461,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (index.h(index.Host, { key: 'b96396af7e84458a51dc709ffac2e599b62f0de4', class: "otp-input-container" }, index.h("div", { key: '5d9d50444825a80024ee78909b59e0af5c9cc916', class: "otp-input-wrapper" }, Array(this.length)
+        return (index.h(index.Host, { key: '4693a0e65661f005faab8a05d6ad1191cbbb3e53', class: "otp-input-container" }, index.h("div", { key: '23c1564d6ed9305d8fcdc95e54f22dd7ccb31f0a', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index$1) => (index.h("input", { ref: el => (this.inputRefs[index$1] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index$1], onInput: e => this.handleInput(e, index$1), onKeyDown: e => this.handleKeyDown(e, index$1), onPaste: e => this.handlePaste(e, index$1), onFocus: this.handleFocus, "aria-label": `Digit ${index$1 + 1} of ${this.length}` }))))));
     }
@@ -631,7 +631,7 @@ const IrOtpModal = class {
     }
     render() {
         var _a;
-        return (index.h(index.Host, { key: '92bceb4183b19ef511867530f18dddb41f6f32fa' }, index.h("dialog", { key: 'b4e7f085026c07ccd7ced8c3ec6412fef6412cf8', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, index.h("form", { key: '2e0c0e52eb7983e94562c15ee77c69581847c623', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, index.h("p", { class: "verification-message text-truncate" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (index.h(index.Host, { key: '6c20ed1ab55092db448559810a72c6fcc1c9ee4a' }, index.h("dialog", { key: 'b9a3d61435472c8e760cdff4c742a8454bcf762f', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, index.h("form", { key: 'b9ba7388f621095d0dffb57125f76a1d9240a2e2', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, index.h("p", { class: "verification-message text-truncate" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "small mt-1" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
@@ -694,7 +694,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return index.h(index.Host, { key: 'c8d69ca05f8f5bc25b80b466ee2098618b8316d3' });
+        return index.h(index.Host, { key: '6594f582d1687389165a6914ca20202d166f5ae5' });
     }
     get el() { return index.getElement(this); }
     static get watchers() { return {

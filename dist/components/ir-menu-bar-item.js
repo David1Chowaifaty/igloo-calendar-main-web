@@ -16,7 +16,7 @@ const IrMenuBarItem$1 = /*@__PURE__*/ proxyCustomElement(class IrMenuBarItem ext
         this.newBadge = false;
     }
     render() {
-        return (h(Host, { key: 'bf80cf6aa8959020c23d88645d7e268087f102d0', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
+        return (h(Host, { key: '9b846f2544dcb5c0dc1bb3b417c64c583602de91', role: "menuitem", tabindex: "-1", part: "item", onClick: e => {
                 if (!this.href)
                     this.menuBarItemClick.emit(e);
             } }, this.href ? (h("a", { target: this.target, onClick: e => {
@@ -24,7 +24,7 @@ const IrMenuBarItem$1 = /*@__PURE__*/ proxyCustomElement(class IrMenuBarItem ext
                 if (ce.defaultPrevented) {
                     e.preventDefault();
                 }
-            }, class: "menu-bar-item__link", href: this.href }, h("slot", null))) : (h("slot", null)), this.newBadge && h("ir-new-badge", { key: '856d5aef2c06a05ba9e7983631af995e94a6312c' })));
+            }, class: "menu-bar-item__link", href: this.href }, h("slot", null))) : (h("slot", null)), this.newBadge && h("ir-new-badge", { key: '5b9450dd9e04efb063d845add44ba9a4f3019f0c' })));
     }
     static get style() { return IrMenuBarItemStyle0; }
 }, [1, "ir-menu-bar-item", {
