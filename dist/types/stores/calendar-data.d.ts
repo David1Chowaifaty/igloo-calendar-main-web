@@ -13,6 +13,7 @@ type CalendarStore = CalendarDataDetails & {
     colorsForegrounds: Record<string, {
         foreground: string;
         stripe: string;
+        checkout: string;
     }>;
 };
 export declare const calendar_data: CalendarStore, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<CalendarStore>;

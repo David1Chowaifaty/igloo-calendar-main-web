@@ -30,7 +30,7 @@ const IrBookingEmailLogs = /*@__PURE__*/ proxyCustomElement(class IrBookingEmail
         }
     }
     render() {
-        return (h(Host, { key: 'd5299ca2b37a115dfa040d0e7c08f50625d47a80', class: "p-1" }, h("ir-interceptor", { key: '00347f6f83c3ea2e3ae227b749aeab4197105985', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '78a2e5819980ba5c6986a0e0075a8b487c240357' }), h("div", { key: '94ec453aefe21860626386d99f3974746968190d', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'fda7b1edb4e88e3e27a5edeaa68b38ca10a101b0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'a079badd2f8989b96498185275e5bdbfdeb832d1', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'd0ebf48ba9a28c587e59c82535a0793031778a74', class: "p-1" }, h("ir-interceptor", { key: '3e5a0274b0107e5304c2e1dee5c33e02b496bffc', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '43df4b7914348e8e2da64284e389c1496cfe010f' }), h("div", { key: 'ce19c39110b2225fb37a9fca215812bb5c747c48', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '2636b4120527458919a36d6bc119bbdfa524b51d', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'b3e2a7ca9156c6513b178a91c1fd0a684d6bb3f0', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -38,7 +38,7 @@ const IrBookingEmailLogs = /*@__PURE__*/ proxyCustomElement(class IrBookingEmail
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: 'beacd9d66be6b414ffaeed278cec4c3326a4fc9c' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '4edd430a8bf82d466ee1986c677f7a411b8a2ecf' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

@@ -1,5 +1,5 @@
 import { h, r as registerInstance, F as Fragment, H as Host, g as getElement } from './index-60982d00.js';
-import { R as RoomService } from './room.service-8fdb89c0.js';
+import { R as RoomService } from './room.service-7036d847.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-7a69a511.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { C as ChannelService } from './channel.service-d074a736.js';

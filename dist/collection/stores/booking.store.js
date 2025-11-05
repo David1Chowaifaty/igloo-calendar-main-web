@@ -7,6 +7,7 @@ const initialState = {
     enableBooking: false,
     resetBooking: false,
     ratePlanSelections: {},
+    selectedPaymentMethod: null,
     isInFreeCancelationZone: false,
     bookingAvailabilityParams: {
         from_date: null,

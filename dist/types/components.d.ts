@@ -1338,6 +1338,33 @@ export namespace Components {
          */
         "value": string;
     }
+    interface IrMenuBar {
+        "focusFirstMenu": () => Promise<void>;
+    }
+    interface IrMenuBarItem {
+        /**
+          * The URL that the menu item should link to. When provided, the component renders as an `<a>` element.
+         */
+        "href"?: string;
+        /**
+          * Displays an `ir-new-badge` next to the trigger when set.
+         */
+        "newBadge": boolean;
+        /**
+          * Specifies where to open the linked document. Mirrors the native HTML `target` attribute.  Possible values: - `_self` — Opens the link in the same browsing context (default) - `_blank` — Opens the link in a new tab or window - `_parent` — Opens the link in the parent frame - `_top` — Opens the link in the full body of the window
+         */
+        "target"?: '_self' | '_blank' | '_parent' | '_top';
+    }
+    interface IrMenuBarMenu {
+        /**
+          * Displays an `ir-new-badge` next to the trigger when set.
+         */
+        "newBadge": boolean;
+        /**
+          * Controls the open state of the dropdown menu. Can be toggled programmatically or via user interaction.
+         */
+        "open": boolean;
+    }
     interface IrModal {
         /**
           * If true, the modal automatically closes after confirm/cancel actions.
@@ -2606,6 +2633,14 @@ export interface IrMComboboxCustomEvent<T> extends CustomEvent<T> {
 export interface IrMComboboxItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMComboboxItemElement;
+}
+export interface IrMenuBarItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrMenuBarItemElement;
+}
+export interface IrMenuBarMenuCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrMenuBarMenuElement;
 }
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4166,6 +4201,46 @@ declare global {
         prototype: HTMLIrMComboboxItemElement;
         new (): HTMLIrMComboboxItemElement;
     };
+    interface HTMLIrMenuBarElement extends Components.IrMenuBar, HTMLStencilElement {
+    }
+    var HTMLIrMenuBarElement: {
+        prototype: HTMLIrMenuBarElement;
+        new (): HTMLIrMenuBarElement;
+    };
+    interface HTMLIrMenuBarItemElementEventMap {
+        "menu-bar-item-click": MouseEvent;
+    }
+    interface HTMLIrMenuBarItemElement extends Components.IrMenuBarItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMenuBarItemElementEventMap>(type: K, listener: (this: HTMLIrMenuBarItemElement, ev: IrMenuBarItemCustomEvent<HTMLIrMenuBarItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMenuBarItemElementEventMap>(type: K, listener: (this: HTMLIrMenuBarItemElement, ev: IrMenuBarItemCustomEvent<HTMLIrMenuBarItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrMenuBarItemElement: {
+        prototype: HTMLIrMenuBarItemElement;
+        new (): HTMLIrMenuBarItemElement;
+    };
+    interface HTMLIrMenuBarMenuElementEventMap {
+        "menuBarOpenChange": boolean;
+    }
+    interface HTMLIrMenuBarMenuElement extends Components.IrMenuBarMenu, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMenuBarMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuBarMenuElement, ev: IrMenuBarMenuCustomEvent<HTMLIrMenuBarMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMenuBarMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuBarMenuElement, ev: IrMenuBarMenuCustomEvent<HTMLIrMenuBarMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrMenuBarMenuElement: {
+        prototype: HTMLIrMenuBarMenuElement;
+        new (): HTMLIrMenuBarMenuElement;
+    };
     interface HTMLIrModalElementEventMap {
         "confirmModal": any;
         "cancelModal": any;
@@ -5212,6 +5287,9 @@ declare global {
         "ir-m-combobox": HTMLIrMComboboxElement;
         "ir-m-combobox-booking-item": HTMLIrMComboboxBookingItemElement;
         "ir-m-combobox-item": HTMLIrMComboboxItemElement;
+        "ir-menu-bar": HTMLIrMenuBarElement;
+        "ir-menu-bar-item": HTMLIrMenuBarItemElement;
+        "ir-menu-bar-menu": HTMLIrMenuBarMenuElement;
         "ir-modal": HTMLIrModalElement;
         "ir-monthly-bookings-report": HTMLIrMonthlyBookingsReportElement;
         "ir-monthly-bookings-report-filter": HTMLIrMonthlyBookingsReportFilterElement;
@@ -6725,6 +6803,40 @@ declare namespace LocalJSX {
          */
         "value": string;
     }
+    interface IrMenuBar {
+    }
+    interface IrMenuBarItem {
+        /**
+          * The URL that the menu item should link to. When provided, the component renders as an `<a>` element.
+         */
+        "href"?: string;
+        /**
+          * Displays an `ir-new-badge` next to the trigger when set.
+         */
+        "newBadge"?: boolean;
+        /**
+          * Emitted when the menu bar item is clicked.  This event bubbles up from both linked (`<a>`) and non-linked (`<button>`-like) items. You can call `event.preventDefault()` on the listener to stop the default navigation when the item has an `href`.  Example: ```js document.querySelector('ir-menu-bar-item').addEventListener('menu-bar-item-click', e => {   e.preventDefault(); // prevents navigation if the item has an href   console.log('Menu item clicked:', e); }); ```
+         */
+        "onMenu-bar-item-click"?: (event: IrMenuBarItemCustomEvent<MouseEvent>) => void;
+        /**
+          * Specifies where to open the linked document. Mirrors the native HTML `target` attribute.  Possible values: - `_self` — Opens the link in the same browsing context (default) - `_blank` — Opens the link in a new tab or window - `_parent` — Opens the link in the parent frame - `_top` — Opens the link in the full body of the window
+         */
+        "target"?: '_self' | '_blank' | '_parent' | '_top';
+    }
+    interface IrMenuBarMenu {
+        /**
+          * Displays an `ir-new-badge` next to the trigger when set.
+         */
+        "newBadge"?: boolean;
+        /**
+          * Fires whenever the menu's `open` state changes.
+         */
+        "onMenuBarOpenChange"?: (event: IrMenuBarMenuCustomEvent<boolean>) => void;
+        /**
+          * Controls the open state of the dropdown menu. Can be toggled programmatically or via user interaction.
+         */
+        "open"?: boolean;
+    }
     interface IrModal {
         /**
           * If true, the modal automatically closes after confirm/cancel actions.
@@ -7950,6 +8062,9 @@ declare namespace LocalJSX {
         "ir-m-combobox": IrMCombobox;
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
         "ir-m-combobox-item": IrMComboboxItem;
+        "ir-menu-bar": IrMenuBar;
+        "ir-menu-bar-item": IrMenuBarItem;
+        "ir-menu-bar-menu": IrMenuBarMenu;
         "ir-modal": IrModal;
         "ir-monthly-bookings-report": IrMonthlyBookingsReport;
         "ir-monthly-bookings-report-filter": IrMonthlyBookingsReportFilter;
@@ -8120,6 +8235,9 @@ declare module "@stencil/core" {
             "ir-m-combobox": LocalJSX.IrMCombobox & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
             "ir-m-combobox-booking-item": LocalJSX.IrMComboboxBookingItem & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;
             "ir-m-combobox-item": LocalJSX.IrMComboboxItem & JSXBase.HTMLAttributes<HTMLIrMComboboxItemElement>;
+            "ir-menu-bar": LocalJSX.IrMenuBar & JSXBase.HTMLAttributes<HTMLIrMenuBarElement>;
+            "ir-menu-bar-item": LocalJSX.IrMenuBarItem & JSXBase.HTMLAttributes<HTMLIrMenuBarItemElement>;
+            "ir-menu-bar-menu": LocalJSX.IrMenuBarMenu & JSXBase.HTMLAttributes<HTMLIrMenuBarMenuElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-monthly-bookings-report": LocalJSX.IrMonthlyBookingsReport & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportElement>;
             "ir-monthly-bookings-report-filter": LocalJSX.IrMonthlyBookingsReportFilter & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportFilterElement>;

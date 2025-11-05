@@ -188,7 +188,7 @@ export class IglBookPropertyService {
         return rooms;
     }
     async prepareBookUserServiceParams({ context, sourceOption, check_in }) {
-        var _a, _b;
+        var _a, _b, _c;
         try {
             // Validate context structure
             if (!context || !context.dateRangeData) {
@@ -257,7 +257,7 @@ export class IglBookPropertyService {
                         is_backend: true,
                         is_in_loyalty_mode: false,
                         promo_key: null,
-                        extras,
+                        extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: (_b = booking_store.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.code }],
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
@@ -283,7 +283,7 @@ export class IglBookPropertyService {
                                 country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
                                 city: null,
                                 mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
-                                country_phone_prefix: (_b = bookedByInfoData === null || bookedByInfoData === void 0 ? void 0 : bookedByInfoData.isdCode) !== null && _b !== void 0 ? _b : null,
+                                country_phone_prefix: (_c = bookedByInfoData === null || bookedByInfoData === void 0 ? void 0 : bookedByInfoData.isdCode) !== null && _c !== void 0 ? _c : null,
                                 address: '',
                                 dob: null,
                                 subscribe_to_news_letter: bookedByInfoData.emailGuest || false,

@@ -47,7 +47,7 @@ const dateMask = {
     mask: Date,
     pattern: 'DD/MM/YYYY',
     lazy: false,
-    min: new Date(1900, 0, 1),
+    min: hooks('1900-01-01', 'YYYY-MM-DD').toDate(),
     max: new Date(),
     format: date => hooks(date).format('DD/MM/YYYY'),
     parse: str => hooks(str, 'DD/MM/YYYY').toDate(),
@@ -56,7 +56,7 @@ const dateMask = {
     blocks: {
         YYYY: {
             mask: MaskedRange,
-            from: 1970,
+            from: 1900,
             to: new Date().getFullYear(),
             placeholderChar: 'Y',
         },
@@ -159,6 +159,10 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         try {
             this.error = {};
             this.autoValidate = true;
+            console.log({
+                sharedPersons: this.sharedPersons,
+                guests: this.guests,
+            });
             // ZSharedPersons.parse(this.guests);
             for (const guest of this.guests) {
                 validateSharedPerson(guest);
@@ -213,7 +217,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
             catch (error) {
                 isRowValid = false;
             }
-            console.log(`row ${idx}=>${isRowValid}`);
+            // console.log(`row ${idx}=>${isRowValid}`);
             return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "First name"), h("ir-input-text", { class: "flex-grow-1 h-100", id: `first_name_${idx}`, zod: ZSharedPerson.pick({ first_name: true }), error: !!this.error['first_name'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "first_name", placeholder: "First name", onTextChange: e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxLength: 40 })), h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "Last name"), h("ir-input-text", { maxLength: 40, class: "flex-grow-1 h-100", id: `last_name_${idx}`, zod: ZSharedPerson.pick({ last_name: true }), error: !!this.error['last_name'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "last_name", placeholder: "Last name", onTextChange: e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name })), h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "dob", mask: dateMask, placeholder: "", onTextChange: e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
                 }, value: guest.dob })), h("div", { class: " m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "mx-0 flex-grow-1  h-100" }, h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: (_a = this.countries) === null || _a === void 0 ? void 0 : _a.find(c => { var _a, _b, _c; return ((_a = c.id) === null || _a === void 0 ? void 0 : _a.toString()) === ((_c = (_b = guest.country) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString()); }), onCountryChange: e => { var _a, _b, _c; return this.updateGuestInfo(idx, { country_id: (_c = (_b = (_a = e.detail) === null || _a === void 0 ? void 0 : _a.id) === null || _b === void 0 ? void 0 : _b.toString()) !== null && _c !== void 0 ? _c : null, country: e.detail }); }, countries: this.countries }))), h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, h("ir-select", { selectForcedStyles: {

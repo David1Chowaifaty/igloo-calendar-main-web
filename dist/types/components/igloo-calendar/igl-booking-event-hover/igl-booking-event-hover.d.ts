@@ -30,11 +30,11 @@ export declare class IglBookingEventHover {
     private propertyService;
     private baseColor;
     componentWillLoad(): void;
-    private getEventLegend;
     handleBookingEventChange(newValue: any, oldValue: any): void;
+    handleListenKeyDown(e: KeyboardEvent): void;
+    private getEventLegend;
     private getBookingId;
     private hideBubble;
-    handleListenKeyDown(e: KeyboardEvent): void;
     private getTotalOccupants;
     private getPhoneNumber;
     private getCountry;

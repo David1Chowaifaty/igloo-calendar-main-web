@@ -7,22 +7,27 @@ export declare class IglPropertyBookedBy {
     defaultData: {
         [key: string]: any;
     };
-    dataUpdateEvent: EventEmitter<{
-        [key: string]: any;
-    }>;
     countries: ICountry[];
     propertyId: number;
     isButtonPressed: boolean;
+    bookedByData: {
+        [key: string]: any;
+    };
+    dataUpdateEvent: EventEmitter<{
+        [key: string]: any;
+    }>;
     private bookingService;
     private arrivalTimeList;
     private expiryMonths;
     private expiryYears;
     private currentMonth;
     private country;
-    bookedByData: {
-        [key: string]: any;
-    };
-    componentWillLoad(): Promise<void>;
+    private paymentMethods;
+    componentWillLoad(): void;
+    handleButtonClicked(event: CustomEvent<{
+        key: TPropertyButtonsTypes;
+        data?: CustomEvent;
+    }>): void;
     private initializeExpiryYears;
     private assignCountryCode;
     private initializeDateData;
@@ -30,13 +35,9 @@ export declare class IglPropertyBookedBy {
     private handleDataChange;
     private handleCountryChange;
     private handleNumberInput;
-    checkUser(): Promise<void>;
+    private checkUser;
     private updateGuest;
-    handleComboboxChange(e: CustomEvent): void;
-    clearEvent(): void;
-    handleButtonClicked(event: CustomEvent<{
-        key: TPropertyButtonsTypes;
-        data?: CustomEvent;
-    }>): void;
+    private handleComboboxChange;
+    private clearEvent;
     render(): any;
 }

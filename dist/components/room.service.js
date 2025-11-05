@@ -24,6 +24,20 @@ const FRONT_DESK_STRIPE_COLORS = {
     '#C28D6B': '#e5b08f',
     '#9B84D6': '#beadf0',
 };
+const FRONT_DESK_CHECKOUT_COLORS = {
+    '#31bef1': '#76b0cd',
+    '#45b16d': '#7ba989',
+    '#FF9149': '#d5997c',
+    '#a0a0a0': '#a0a0a0',
+    '#f34752': '#ce7c7f',
+    '#f88c91': '#d19699',
+    '#F9A9FE': '#d1a5d4',
+    '#ffe502': '#d5c671',
+    '#6FF1EF': '#8acdcb',
+    '#9BF091': '#9ecc99',
+    '#C28D6B': '#b29788',
+    '#9B84D6': '#9e93bd',
+};
 class RoomService {
     async SetAutomaticCheckInOut(props) {
         const { data } = await axios.post(`/Set_Automatic_Check_In_Out`, props);
@@ -80,19 +94,21 @@ class RoomService {
             return;
         }
         calendar_data.property.calendar_legends.forEach(legend => {
-            var _a;
+            var _a, _b;
             if (legend.design === 'skew') {
                 data[legend.color] = {
                     foreground: 'white',
                     stripe: (_a = FRONT_DESK_STRIPE_COLORS[legend.color]) !== null && _a !== void 0 ? _a : '',
+                    checkout: (_b = FRONT_DESK_CHECKOUT_COLORS[legend.color]) !== null && _b !== void 0 ? _b : '',
                 };
             }
         });
         DEFAULT_BOOKING_COLORS.forEach(d => {
-            var _a;
+            var _a, _b;
             data[d.color] = {
                 foreground: ['#C28D6B', '#9B84D6'].includes(d.color) ? 'white' : 'black',
                 stripe: (_a = FRONT_DESK_STRIPE_COLORS[d.color]) !== null && _a !== void 0 ? _a : '',
+                checkout: (_b = FRONT_DESK_CHECKOUT_COLORS[d.color]) !== null && _b !== void 0 ? _b : '',
             };
         });
         calendar_data.colorsForegrounds = Object.assign({}, data);

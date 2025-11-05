@@ -59,6 +59,9 @@ export interface BookingStore {
         message: string;
     } | null;
     checkout_guest: Guest | null;
+    selectedPaymentMethod: {
+        code: string;
+    };
     roomTypes: RoomType[];
     enableBooking: boolean;
     ratePlanSelections: {
