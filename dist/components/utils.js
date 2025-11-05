@@ -617,7 +617,15 @@ function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
     if (!roomtype || !Array.isArray(roomtype.rateplans) || roomtype.rateplans.length === 0) {
         return null;
     }
-    const rateplan = roomtype.rateplans.find(rp => rp.id.toString() === rateplan_id.toString());
+    const rateplan = (() => {
+        for (const rt of roomTypes) {
+            const ratePlan = rt.rateplans.find(rp => rp.id.toString() === rateplan_id.toString());
+            if (ratePlan) {
+                return ratePlan;
+            }
+        }
+        return null;
+    })();
     const current = {
         mealPlanCode: (_b = (_a = rateplan === null || rateplan === void 0 ? void 0 : rateplan.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null,
         customText: (_c = rateplan === null || rateplan === void 0 ? void 0 : rateplan.custom_text) !== null && _c !== void 0 ? _c : null,

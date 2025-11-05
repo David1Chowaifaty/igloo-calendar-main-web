@@ -1,8 +1,8 @@
 import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-60982d00.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, a as resetReserved, r as resetBookingStore, d as reserveRooms, g as getVisibleInventory, e as buildPaymentTypes } from './booking.service-0e9d5525.js';
+import { b as booking_store, m as modifyBookingStore, B as BookingService, c as calculateTotalRooms, a as resetReserved, r as resetBookingStore, d as reserveRooms, g as getVisibleInventory, e as buildPaymentTypes } from './booking.service-a4ae8041.js';
 import { l as locales } from './locales.store-629477c2.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-462ba979.js';
-import { f as formatAmount, e as extras, O as handleBodyOverflow, C as getReleaseHoursString, h as dateToFormattedString, P as validateEmail, E as buildSplitIndex, u as getPrivateNote, Q as toFloat, R as renderTime, l as formatName } from './utils-763db862.js';
+import { f as formatAmount, e as extras, O as handleBodyOverflow, C as getReleaseHoursString, h as dateToFormattedString, P as validateEmail, E as buildSplitIndex, u as getPrivateNote, Q as toFloat, R as renderTime, l as formatName } from './utils-b2bf980e.js';
 import { v as v4 } from './v4-964634d6.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { i as isRequestPending } from './ir-interceptor.store-e5fac1de.js';
